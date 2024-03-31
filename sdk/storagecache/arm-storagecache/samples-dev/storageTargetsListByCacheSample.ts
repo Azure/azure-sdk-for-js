@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns a list of Storage Targets for the specified cache.
  *
  * @summary Returns a list of Storage Targets for the specified cache.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-03-01-preview/examples/StorageTargets_ListByCache.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-11-01-preview/examples/StorageTargets_ListByCache.json
  */
 async function storageTargetsList() {
   const subscriptionId =

@@ -19,7 +19,7 @@ import { tracingClient } from "../utils/tracing.js";
 export function listRegistrationsByChannel(
   context: NotificationHubsClientContext,
   channel: RegistrationChannel,
-  options: RegistrationQueryLimitOptions = {}
+  options: RegistrationQueryLimitOptions = {},
 ): PagedAsyncIterableIterator<RegistrationDescription> {
   const newOptions = {
     ...options,
@@ -27,7 +27,7 @@ export function listRegistrationsByChannel(
   };
   const { span, updatedOptions } = tracingClient.startSpan(
     "NotificationHubsClientContext.listRegistrationsByDevice",
-    newOptions
+    newOptions,
   );
   try {
     const iter = listRegistrationsAll(context, updatedOptions);

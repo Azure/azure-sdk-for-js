@@ -11,6 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   LinkConnectionOperationsImpl,
+  RunNotebookImpl,
   KqlScriptsImpl,
   KqlScriptOperationsImpl,
   MetastoreImpl,
@@ -36,6 +37,7 @@ import {
 } from "./operations";
 import {
   LinkConnectionOperations,
+  RunNotebook,
   KqlScripts,
   KqlScriptOperations,
   Metastore,
@@ -68,7 +70,7 @@ export class ArtifactsClient extends coreClient.ServiceClient {
    * Initializes a new instance of the ArtifactsClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param endpoint The workspace development endpoint, for example
-   *                 https://myworkspace.dev.azuresynapse.net.
+   *                 `https://myworkspace.dev.azuresynapse.net`.
    * @param options The parameter options
    */
   constructor(
@@ -92,7 +94,7 @@ export class ArtifactsClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-synapse-artifacts/1.0.0-beta.13`;
+    const packageDetails = `azsdk-js-synapse-artifacts/1.0.0-beta.15`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -145,6 +147,7 @@ export class ArtifactsClient extends coreClient.ServiceClient {
     // Parameter assignments
     this.endpoint = endpoint;
     this.linkConnectionOperations = new LinkConnectionOperationsImpl(this);
+    this.runNotebook = new RunNotebookImpl(this);
     this.kqlScripts = new KqlScriptsImpl(this);
     this.kqlScriptOperations = new KqlScriptOperationsImpl(this);
     this.metastore = new MetastoreImpl(this);
@@ -174,6 +177,7 @@ export class ArtifactsClient extends coreClient.ServiceClient {
   }
 
   linkConnectionOperations: LinkConnectionOperations;
+  runNotebook: RunNotebook;
   kqlScripts: KqlScripts;
   kqlScriptOperations: KqlScriptOperations;
   metastore: Metastore;

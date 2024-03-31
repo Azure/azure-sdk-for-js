@@ -6,7 +6,7 @@ import {
   isUnexpected,
   LedgerEntry,
 } from "../../src";
-import { createClient, createRecorder } from "./utils/recordedClient";
+import { createClient, createRecorder, getRecorderUniqueVariable } from "./utils/recordedClient";
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
@@ -17,27 +17,27 @@ describe("Get Collections", function () {
   let client: ConfidentialLedgerClient;
 
   beforeEach(async function (this: Context) {
-    recorder = createRecorder(this);
-    client = await createClient();
+    recorder = await createRecorder(this);
+    client = await createClient(recorder);
   });
 
   afterEach(async function () {
     await recorder.stop();
   });
 
-  it("should list all available document formats", async function () {
-    const modulus = 5;
-
-    // we want to send 2001 messages total
-    for (let i = 0; i < modulus; i++) {
+  it("should list collections created by entries", async function () {
+    const knownCollections: string[] = [];
+    for (let i = 0; i < 5; i++) {
+      const collectionId = getRecorderUniqueVariable(recorder, `collection${i}`);
+      knownCollections.push(collectionId);
       const entry: LedgerEntry = {
-        contents: "add collection number " + i,
+        contents: `entry for collection ${i}`,
       };
 
       const ledgerEntry: CreateLedgerEntryParameters = {
         contentType: "application/json",
         body: entry,
-        queryParameters: { collectionId: "" + i },
+        queryParameters: { collectionId },
       };
 
       const postResult = await client.path("/app/transactions").post(ledgerEntry);
@@ -55,13 +55,8 @@ describe("Get Collections", function () {
       throw result.body;
     }
 
-    let collections = result.body.collections;
+    const collections = result.body.collections.map((item) => item.collectionId);
 
-    // the range query adds collections [0..4]
-    const collectionVals = ["0", "1", "2", "3", "4"];
-
-    collections = collections.filter((col: any) => collectionVals.includes(col.collectionId));
-
-    assert.equal(collections.length, 5);
+    assert.includeMembers(collections, knownCollections);
   });
 });

@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpClient, HttpOperationResponse } from "@azure/core-http";
-import { DefaultHttpClient, WebResourceLike } from "@azure/core-http";
 import {
   PipelinePolicy,
   PipelineRequest,
@@ -10,7 +8,6 @@ import {
   SendRequest,
 } from "@azure/core-rest-pipeline";
 import { RequestOptions } from "http";
-import { Agent as HttpsAgent } from "https";
 import { getCachedHttpsAgent, makeRequest } from "./utils/utils";
 
 const paths = {
@@ -45,7 +42,7 @@ export class RecordingStateManager {
       | "starting-recording"
       | "stopping-recording"
       | "starting-playback"
-      | "stopping-playback"
+      | "stopping-playback",
   ): void {
     if (currentFlow === "starting-recording") {
       if (this.state === "started-recording") {
@@ -76,7 +73,7 @@ export class RecordingStateManager {
    * setState
    */
   public setState(
-    state: "started-recording" | "stopped-recording" | "started-playback" | "stopped-playback"
+    state: "started-recording" | "stopped-recording" | "started-playback" | "stopped-playback",
   ): void {
     this.state = state;
   }
@@ -92,11 +89,8 @@ export class TestProxyHttpClient {
     this._uri = uri;
     this.insecure = insecure;
   }
-  // For core-v1
-  redirectRequest(request: WebResourceLike, recordingId: string): WebResourceLike;
   // For core-v2
-  redirectRequest(request: PipelineRequest, recordingId: string): PipelineRequest;
-  redirectRequest<T extends WebResourceLike | PipelineRequest>(request: T, recordingId: string): T {
+  redirectRequest(request: PipelineRequest, recordingId: string): PipelineRequest {
     request.headers.set("x-recording-id", recordingId);
     request.headers.set("x-recording-mode", this._mode);
     request.headers.set("x-recording-remove", "false");
@@ -216,7 +210,7 @@ export class TestProxyHttpClient {
 export function testProxyHttpPolicy(
   testProxyHttpClient: TestProxyHttpClient,
   isHttps: boolean,
-  insecure: boolean
+  insecure: boolean,
 ): PipelinePolicy {
   return {
     name: "recording policy",
@@ -228,38 +222,4 @@ export function testProxyHttpPolicy(
       return next(modifiedRequest);
     },
   };
-}
-
-export class TestProxyHttpClientV1 extends TestProxyHttpClient {
-  public _httpClient: HttpClient;
-  constructor(uri: string, insecure: boolean) {
-    super(uri, insecure);
-    this._httpClient = new DefaultHttpClientCoreV1(uri.startsWith("https"), insecure);
-  }
-
-  async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
-    if (this._recordingId && (this._mode === "record" || this._mode === "playback")) {
-      request = this.redirectRequest(request, this._recordingId);
-    }
-    return this._httpClient.sendRequest(request);
-  }
-}
-
-class DefaultHttpClientCoreV1 extends DefaultHttpClient {
-  constructor(private isHttps: boolean, private insecure: boolean) {
-    super();
-  }
-
-  async prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>> {
-    const req: Partial<
-      RequestInit & {
-        agent?: HttpsAgent;
-        compress?: boolean;
-      }
-    > = await super.prepareRequest(httpRequest);
-    if (this.isHttps) {
-      req.agent = getCachedHttpsAgent(this.insecure);
-    }
-    return req;
-  }
 }

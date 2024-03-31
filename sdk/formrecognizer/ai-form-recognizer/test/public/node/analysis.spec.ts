@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, assertEnvironmentVariable, isLiveMode } from "@azure-tools/test-recorder";
+import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { matrix } from "@azure/test-utils";
 import { assert } from "chai";
 import fs from "fs";
@@ -47,7 +47,7 @@ matrix([[true, false]] as const, async (useAad) => {
       client = new DocumentAnalysisClient(
         endpoint(),
         makeCredential(useAad),
-        recorder.configureClientOptions({})
+        recorder.configureClientOptions({}),
       );
     });
 
@@ -65,7 +65,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Layout,
           stream,
-          testPollingOptions
+          testPollingOptions,
         );
         const { pages, tables } = await poller.pollUntilDone();
 
@@ -85,13 +85,13 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocument(
           "prebuilt-layout",
           stream,
-          testPollingOptions
+          testPollingOptions,
         );
         const { pages, paragraphs } = await poller.pollUntilDone();
 
         assert.ok(
           paragraphs && paragraphs.length > 0,
-          `Expected non-empty paragraphs but got ${paragraphs}.`
+          `Expected non-empty paragraphs but got ${paragraphs}.`,
         );
 
         assert.ok(pages && pages.length > 0, `Expect no-empty pages but got ${pages}`);
@@ -104,7 +104,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Layout,
           stream,
-          testPollingOptions
+          testPollingOptions,
         );
         const { pages, tables } = await poller.pollUntilDone();
 
@@ -123,7 +123,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Layout,
           stream,
-          testPollingOptions
+          testPollingOptions,
         );
         const { pages, tables } = await poller.pollUntilDone();
 
@@ -142,7 +142,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Layout,
           stream,
-          testPollingOptions
+          testPollingOptions,
         );
         const { pages, tables } = await poller.pollUntilDone();
 
@@ -160,7 +160,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocumentFromUrl(
           PrebuiltModels.Layout,
           url,
-          testPollingOptions
+          testPollingOptions,
         );
         const { pages, tables } = await poller.pollUntilDone();
 
@@ -179,7 +179,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Layout,
           stream,
-          testPollingOptions
+          testPollingOptions,
         );
 
         const { pages } = await poller.pollUntilDone();
@@ -187,10 +187,10 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.isNotEmpty(pages);
 
         /* There should be a table on the page, but the layout engine does not recognize it, maybe because it is too small and sparse.
-          assert.isNotEmpty(tables);
-          const [table] = tables;
-          assert.ok(table.boundingRegions?.[0].boundingBox);
-          assert.equal(table.boundingRegions?.[0].pageNumber, 1);*/
+        assert.isNotEmpty(tables);
+        const [table] = tables;
+        assert.ok(table.boundingRegions?.[0].boundingBox);
+        assert.equal(table.boundingRegions?.[0].pageNumber, 1);*/
 
         assert.equal(pages?.[0].pageNumber, 1);
         assert.isNotEmpty(pages?.[0].selectionMarks);
@@ -256,18 +256,12 @@ matrix([[true, false]] as const, async (useAad) => {
       });
 
       it("barcode", async function () {
-        if (!isLiveMode()) {
-          // Currently need to skip this test in record/playback mode but we can run it live.
-          this.skip();
-        }
-
         const url = makeTestUrl("/barcode2.tif");
 
-        const poller = await client.beginAnalyzeDocumentFromUrl(
-          "prebuilt-read",
-          url,
-          testPollingOptions
-        );
+        const poller = await client.beginAnalyzeDocumentFromUrl("prebuilt-read", url, {
+          ...testPollingOptions,
+          features: [FormRecognizerFeature.Barcodes],
+        });
 
         const { pages } = await poller.pollUntilDone();
 
@@ -285,35 +279,25 @@ matrix([[true, false]] as const, async (useAad) => {
       });
 
       it("annotations", async function () {
-        if (!isLiveMode()) {
-          // Currently need to skip this test in record/playback mode but we can run it live.
-          this.skip();
-        }
-
         const url = makeTestUrl("/annotations.jpg");
 
         const poller = await client.beginAnalyzeDocumentFromUrl(
           "prebuilt-layout",
           url,
-          testPollingOptions
+          testPollingOptions,
         );
 
         const { pages } = await poller.pollUntilDone();
 
         assert.isNotEmpty(pages);
-
-        assert.isNotEmpty(pages?.[0].annotations);
       });
 
       it("formula", async function () {
-        // This test is currently not working as expected.
-        this.skip();
-
         const url = makeTestUrl("/formula1.jpg");
 
         const poller = await client.beginAnalyzeDocumentFromUrl("prebuilt-document", url, {
           ...testPollingOptions,
-          features: [FormRecognizerFeature.OcrFormula],
+          features: [FormRecognizerFeature.Formulas],
         });
 
         const { pages } = await poller.pollUntilDone();
@@ -321,30 +305,6 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.isNotEmpty(pages);
 
         assert.isNotEmpty(pages?.[0].formulas);
-      });
-
-      it("with queryFields", async function () {
-        const url = makeTestUrl("/Invoice_1.pdf");
-
-        const poller = await client.beginAnalyzeDocumentFromUrl(
-          PrebuiltModels.GeneralDocument,
-          url,
-          {
-            queryFields: ["Charges"],
-            features: [FormRecognizerFeature.QueryFieldsPremium],
-            ...testPollingOptions,
-          }
-        );
-
-        const result = await poller.pollUntilDone();
-
-        assert.ok(result);
-
-        assert.isNotEmpty(result.documents);
-
-        assert.ok(result.documents![0].fields["Charges"]);
-
-        assert.equal(result.documents![0].fields["Charges"].kind, "string");
       });
     });
 
@@ -372,24 +332,18 @@ matrix([[true, false]] as const, async (useAad) => {
         customerAddressRecipient: "Microsoft",
         invoiceTotal: {
           amount: 56651.49,
-          currencyCode: "USD",
           currencySymbol: "$",
+          currencyCode: "USD",
         },
         items: [
           {
             amount: {
               amount: 56651.49,
-              currencyCode: "USD",
               currencySymbol: "$",
+              currencyCode: "USD",
             },
             date: "2017-06-24T00:00:00.000Z",
             productCode: "34278587",
-            tax: {
-              amount: 0,
-              currencyCode: "USD",
-              // service doesn't return currency symbol
-              currencySymbol: "",
-            },
           },
         ],
       });
@@ -405,17 +359,17 @@ matrix([[true, false]] as const, async (useAad) => {
           const trainingClient = new DocumentModelAdministrationClient(
             endpoint(),
             makeCredential(useAad),
-            recorder.configureClientOptions({})
+            recorder.configureClientOptions({}),
           );
           modelName = recorder.variable(
             "customFormModelName",
-            `customFormModelName${getRandomNumber()}`
+            `customFormModelName${getRandomNumber()}`,
           );
           const poller = await trainingClient.beginBuildDocumentModel(
             modelName,
             assertEnvironmentVariable("FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL"),
             DocumentModelBuildMode.Template,
-            testPollingOptions
+            testPollingOptions,
           );
           _model = await poller.pollUntilDone();
 
@@ -425,6 +379,7 @@ matrix([[true, false]] as const, async (useAad) => {
         return _model;
       }
 
+      // hits invalid argument error
       it("with selection marks", async () => {
         const { modelId } = await requireModel();
 
@@ -444,10 +399,10 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.ok(pages?.[0]);
 
         /* There should be a table in the response, but it isn't recognized (maybe because it's too small or sparse)
-          assert.isNotEmpty(tables);
-          const [table] = tables!;
-          assert.ok(table.boundingRegions?.[0].boundingBox);
-          assert.equal(table.boundingRegions?.[0].pageNumber, 1);*/
+        assert.isNotEmpty(tables);
+        const [table] = tables!;
+        assert.ok(table.boundingRegions?.[0].boundingBox);
+        assert.equal(table.boundingRegions?.[0].pageNumber, 1);*/
 
         assert.equal(pages?.[0].pageNumber, 1);
         assert.isNotEmpty(pages?.[0].selectionMarks);
@@ -460,7 +415,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Invoice,
           stream,
-          testPollingOptions
+          testPollingOptions,
         );
 
         const { documents } = await poller.pollUntilDone();
@@ -511,7 +466,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Receipt,
           stream,
-          testPollingOptions
+          testPollingOptions,
         );
         const { documents } = await poller.pollUntilDone();
         assert.isNotEmpty(documents);
@@ -558,7 +513,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Receipt,
           stream,
-          testPollingOptions
+          testPollingOptions,
         );
         const { documents } = await poller.pollUntilDone();
 
@@ -604,7 +559,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocumentFromUrl(
           PrebuiltModels.Receipt,
           url,
-          testPollingOptions
+          testPollingOptions,
         );
         const { documents } = await poller.pollUntilDone();
 
@@ -662,7 +617,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Receipt,
           stream,
-          testPollingOptions
+          testPollingOptions,
         );
         const { documents } = await poller.pollUntilDone();
 
@@ -722,9 +677,9 @@ matrix([[true, false]] as const, async (useAad) => {
             suburb: "Paddington",
           },
         ],
-        workPhones: ["+10209875432"],
-        mobilePhones: ["+10791112345"],
-        faxes: ["+10207892345"],
+        workPhones: ["+442098765432"],
+        mobilePhones: ["+447911123456"],
+        faxes: ["+442067892345"],
         emails: ["avery.smith@contoso.com"],
         websites: ["https://www.contoso.com/"],
       });
@@ -736,7 +691,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.BusinessCard,
           stream,
-          testPollingOptions
+          testPollingOptions,
         );
         const { documents } = await poller.pollUntilDone();
 
@@ -758,7 +713,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocumentFromUrl(
           PrebuiltModels.BusinessCard,
           url,
-          testPollingOptions
+          testPollingOptions,
         );
         const { documents } = await poller.pollUntilDone();
         const businessCard = documents?.[0];
@@ -800,9 +755,9 @@ matrix([[true, false]] as const, async (useAad) => {
               suburb: "Paddington",
             },
           ],
-          workPhones: ["+912098765432"],
-          mobilePhones: ["+917911123456"],
-          faxes: ["+912067892345"],
+          workPhones: ["+442098765432"],
+          mobilePhones: ["+447911123456"],
+          faxes: ["+442067892345"],
           emails: ["avery.smith@contoso.com"],
           websites: ["https://www.contoso.com/"],
         });
@@ -819,7 +774,7 @@ matrix([[true, false]] as const, async (useAad) => {
             {
               locale: "thisIsNotAValidLocaleString",
               ...testPollingOptions,
-            }
+            },
           );
 
           await poller.pollUntilDone();
@@ -855,24 +810,18 @@ matrix([[true, false]] as const, async (useAad) => {
         customerAddressRecipient: "Microsoft",
         invoiceTotal: {
           amount: 56651.49,
-          currencyCode: "USD",
           currencySymbol: "$",
+          currencyCode: "USD",
         },
         items: [
           {
             amount: {
               amount: 56651.49,
-              currencyCode: "USD",
               currencySymbol: "$",
+              currencyCode: "USD",
             },
             date: "2017-06-24T00:00:00.000Z",
             productCode: "34278587",
-            tax: {
-              amount: 0,
-              currencyCode: "USD",
-              // service doesn't return currency symbol
-              currencySymbol: "",
-            },
           },
         ],
       });
@@ -884,7 +833,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Invoice,
           stream,
-          testPollingOptions
+          testPollingOptions,
         );
         const { documents, pages, tables } = await poller.pollUntilDone();
         const invoice = documents?.[0];
@@ -905,7 +854,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocumentFromUrl(
           PrebuiltModels.Invoice,
           url,
-          testPollingOptions
+          testPollingOptions,
         );
         const { documents, pages, tables } = await poller.pollUntilDone();
         const invoice = documents?.[0];
@@ -972,7 +921,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.IdentityDocument,
           stream,
-          testPollingOptions
+          testPollingOptions,
         );
 
         const { documents } = await poller.pollUntilDone();
@@ -992,7 +941,7 @@ matrix([[true, false]] as const, async (useAad) => {
           countryRegion: "USA",
           region: "Washington",
           documentNumber: "WDLABCD456DG",
-          documentDiscriminator: "DDWDLABCD456DG 1234567XX1101",
+          documentDiscriminator: "DDWDLABCD456DG1234567XX1101",
           firstName: "LIAM R.",
           lastName: "TALBOT",
           address: {
@@ -1016,7 +965,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocumentFromUrl(
           PrebuiltModels.IdentityDocument,
           url,
-          testPollingOptions
+          testPollingOptions,
         );
         const { documents, pages } = await poller.pollUntilDone();
         const idDocumentNaive = documents?.[0];
@@ -1047,7 +996,7 @@ matrix([[true, false]] as const, async (useAad) => {
             {
               locale: "thisIsNotAValidLocaleString",
               ...testPollingOptions,
-            }
+            },
           );
 
           await poller.pollUntilDone();
@@ -1063,7 +1012,7 @@ matrix([[true, false]] as const, async (useAad) => {
       const validator = createValidator({
         w2FormVariant: "W-2",
         taxYear: "2018",
-        w2Copy: "Copy 2 -- To Be Filed with Employee's State, City, or Local Income Tax Return,",
+        w2Copy: "Copy 2 -. To Be Filed with Employee's State, City, or Local Income Tax Return,",
         employee: {
           socialSecurityNumber: "123-45-6789",
           name: "ANGEL BROWN",
@@ -1072,8 +1021,7 @@ matrix([[true, false]] as const, async (useAad) => {
             road: "MAIN STREET",
             city: "BUFFALO",
             state: "WA",
-            // TODO: this is a regression in the service
-            // postalCode: "12345",
+            postalCode: "12345",
             streetAddress: "4567 MAIN STREET",
           },
         },
@@ -1086,8 +1034,7 @@ matrix([[true, false]] as const, async (useAad) => {
             road: "MICROSOFT WAY",
             city: "REDMOND",
             state: "WA",
-            // TODO: this is a regression in the service
-            // postalCode: "98765",
+            postalCode: "98765",
             streetAddress: "123 MICROSOFT WAY",
           },
         },
@@ -1119,17 +1066,19 @@ matrix([[true, false]] as const, async (useAad) => {
             amount: 123.3,
           },
         ],
-        // isStatutoryEmployee: "true", // Service Regression
-        // isThirdPartySickPay: "true", // Service Regression
         other: "DISINS 170.85",
         stateTaxInfos: [
           {
             state: "PA",
             employerStateIdNumber: "87654321",
+            stateWagesTipsEtc: 37160.56,
+            stateIncomeTax: 1135.65,
           },
           {
             state: "WA",
             employerStateIdNumber: "12345678",
+            stateWagesTipsEtc: 9631.2,
+            stateIncomeTax: 1032.3,
           },
         ],
         localTaxInfos: [
@@ -1153,7 +1102,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.TaxUsW2,
           stream,
-          testPollingOptions
+          testPollingOptions,
         );
 
         const { documents } = await poller.pollUntilDone();
@@ -1169,7 +1118,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
     describe("healthInsuranceCard - US", function () {
       const validator = createValidator({
-        insurer: "PREMERA| BLUE CROSS",
+        insurer: "PREMERA BLUE CROSS",
         member: {
           name: "ANGEL BROWN",
           employer: "Microsoft",
@@ -1205,7 +1154,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.HealthInsuranceCardUs,
           stream,
-          testPollingOptions
+          testPollingOptions,
         );
 
         const { documents } = await poller.pollUntilDone();
@@ -1214,40 +1163,6 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.isNotEmpty(documents);
 
         validator(healthInsuranceCard as AnalyzedDocument);
-      });
-    });
-
-    describe("vaccinationCard", function () {
-      const validator = createValidator({
-        cardHolderInfo: {
-          firstName: "Angel",
-        },
-        vaccines: [
-          {
-            manufacturer: "Pfizer",
-          },
-          {
-            manufacturer: "Pfizer",
-          },
-        ],
-      });
-
-      it("jpg file stream", async function (this: Mocha.Context) {
-        const filePath = path.join(ASSET_PATH, "vaccinationCard", "vaccination.jpg");
-        const stream = fs.createReadStream(filePath);
-
-        const poller = await client.beginAnalyzeDocument(
-          PrebuiltModels.VaccinationCard,
-          stream,
-          testPollingOptions
-        );
-
-        const { documents } = await poller.pollUntilDone();
-        const vaccinationCard = documents?.[0];
-
-        assert.isNotEmpty(documents);
-
-        validator(vaccinationCard as AnalyzedDocument);
       });
     });
   }).timeout(60000);

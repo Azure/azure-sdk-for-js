@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { assert } from "vitest";
 import {
   FullOperationResponse,
   OperationRequest,
@@ -9,7 +10,7 @@ import {
   ServiceClient,
   createSerializer,
   deserializationPolicy,
-} from "../../src";
+} from "../../src/index.js";
 import {
   HttpClient,
   HttpHeaders,
@@ -17,7 +18,6 @@ import {
   createEmptyPipeline,
   createHttpHeaders,
 } from "@azure/core-rest-pipeline";
-import { assert } from "chai";
 
 /**
  * Representation of a Service Client test case where the response status is 200.
@@ -39,7 +39,7 @@ export interface ServiceClientTestSpec {
 
 export async function assertServiceClientResponse(
   testSpec: ServiceClientTestSpec,
-  expectedResponse: unknown
+  expectedResponse: unknown,
 ): Promise<void> {
   let request: OperationRequest;
   const httpClient: HttpClient = {
@@ -77,7 +77,7 @@ export async function assertServiceClientResponse(
       responses: {
         200: testSpec.responseMapper,
       },
-    }
+    },
   );
 
   assert.strictEqual(rawResponse?.status, 200);

@@ -3,7 +3,7 @@
 /**
  * @summary Exception policy crud
  */
-import { RouterAdministrationClient } from "@azure/communication-job-router";
+import { JobRouterAdministrationClient } from "@azure/communication-job-router";
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
@@ -15,14 +15,14 @@ const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
 async function getExceptionPolicy(): Promise<void> {
   // Create the Router Client
-  const routerAdministrationClient: RouterAdministrationClient = new RouterAdministrationClient(connectionString);
+  const routerAdministrationClient: JobRouterAdministrationClient =
+    new JobRouterAdministrationClient(connectionString);
 
-  const policyId = "exception-policy-123"
+  const policyId = "exception-policy-123";
 
   const result = await routerAdministrationClient.getExceptionPolicy(policyId);
 
   console.log("exception policy: " + result);
-
-};
+}
 
 getExceptionPolicy().catch(console.error);

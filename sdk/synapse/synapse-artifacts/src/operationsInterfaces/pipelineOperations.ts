@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PipelineResource,
   PipelineGetPipelinesByWorkspaceOptionalParams,
@@ -43,8 +43,8 @@ export interface PipelineOperations {
     pipeline: PipelineResource,
     options?: PipelineCreateOrUpdatePipelineOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PipelineCreateOrUpdatePipelineResponse>,
+    SimplePollerLike<
+      OperationState<PipelineCreateOrUpdatePipelineResponse>,
       PipelineCreateOrUpdatePipelineResponse
     >
   >;
@@ -76,7 +76,7 @@ export interface PipelineOperations {
   beginDeletePipeline(
     pipelineName: string,
     options?: PipelineDeletePipelineOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a pipeline.
    * @param pipelineName The pipeline name.
@@ -96,7 +96,7 @@ export interface PipelineOperations {
     pipelineName: string,
     request: ArtifactRenameRequest,
     options?: PipelineRenamePipelineOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Renames a pipeline.
    * @param pipelineName The pipeline name.

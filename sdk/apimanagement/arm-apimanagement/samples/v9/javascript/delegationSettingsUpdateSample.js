@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update Delegation settings.
  *
  * @summary Update Delegation settings.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementPortalSettingsUpdateDelegation.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementPortalSettingsUpdateDelegation.json
  */
 async function apiManagementPortalSettingsUpdateDelegation() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

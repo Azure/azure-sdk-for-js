@@ -172,7 +172,7 @@ export const ConnectionContextBase = {
     if (userAgent.length > Constants.maxUserAgentLength) {
       throw new Error(
         `The user-agent string cannot be more than ${Constants.maxUserAgentLength} characters in length.` +
-          `The given user-agent string is: ${userAgent} with length: ${userAgent.length}`
+          `The given user-agent string is: ${userAgent} with length: ${userAgent.length}`,
       );
     }
 

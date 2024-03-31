@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists the versions of the specified key in the specified key vault.
  *
  * @summary Lists the versions of the specified key in the specified key vault.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-02-01/examples/listKeyVersions.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/listKeyVersions.json
  */
 async function listKeyVersionsInTheVault() {
   const subscriptionId =

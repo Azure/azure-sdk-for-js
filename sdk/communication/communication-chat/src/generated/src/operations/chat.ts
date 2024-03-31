@@ -239,11 +239,6 @@ const listChatThreadsNextOperationSpec: coreClient.OperationSpec = {
       isError: true
     }
   },
-  queryParameters: [
-    Parameters.maxPageSize,
-    Parameters.apiVersion,
-    Parameters.startTime
-  ],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

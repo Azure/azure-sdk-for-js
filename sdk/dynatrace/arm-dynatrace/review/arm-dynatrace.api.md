@@ -6,21 +6,14 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AccountInfo {
     accountId?: string;
     regionId?: string;
-}
-
-// @public
-export interface AccountInfoSecure {
-    readonly accountId?: string;
-    readonly apiKey?: string;
-    readonly regionId?: string;
 }
 
 // @public
@@ -323,9 +316,9 @@ export interface LinkableEnvironmentListResponse {
 
 // @public
 export interface LinkableEnvironmentRequest {
-    region?: string;
-    tenantId?: string;
-    userPrincipal?: string;
+    region: string;
+    tenantId: string;
+    userPrincipal: string;
 }
 
 // @public
@@ -350,11 +343,29 @@ export interface LogRules {
 export type ManagedIdentityType = string;
 
 // @public
+export interface MarketplaceSaaSResourceDetailsRequest {
+    tenantId: string;
+}
+
+// @public
+export interface MarketplaceSaaSResourceDetailsResponse {
+    marketplaceSaaSResourceId?: string;
+    marketplaceSubscriptionStatus?: MarketplaceSubscriptionStatus;
+    planId?: string;
+}
+
+// @public
 export type MarketplaceSubscriptionStatus = string;
 
 // @public
 export interface MetricRules {
     filteringTags?: FilteringTag[];
+    sendingMetrics?: SendingMetricsStatus;
+}
+
+// @public
+export interface MetricsStatusResponse {
+    azureResourceIds?: string[];
 }
 
 // @public
@@ -400,24 +411,20 @@ export interface MonitorResourceListResult {
 
 // @public
 export interface MonitorResourceUpdate {
-    dynatraceEnvironmentProperties?: DynatraceEnvironmentProperties;
-    marketplaceSubscriptionStatus?: MarketplaceSubscriptionStatus;
-    monitoringStatus?: MonitoringStatus;
-    planData?: PlanData;
     tags?: {
         [propertyName: string]: string;
     };
-    userInfo?: UserInfo;
 }
 
 // @public
 export interface Monitors {
-    beginCreateOrUpdate(resourceGroupName: string, monitorName: string, resource: MonitorResource, options?: MonitorsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<MonitorsCreateOrUpdateResponse>, MonitorsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, monitorName: string, resource: MonitorResource, options?: MonitorsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MonitorsCreateOrUpdateResponse>, MonitorsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, monitorName: string, resource: MonitorResource, options?: MonitorsCreateOrUpdateOptionalParams): Promise<MonitorsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, monitorName: string, options?: MonitorsGetOptionalParams): Promise<MonitorsGetResponse>;
-    getAccountCredentials(resourceGroupName: string, monitorName: string, options?: MonitorsGetAccountCredentialsOptionalParams): Promise<MonitorsGetAccountCredentialsResponse>;
+    getMarketplaceSaaSResourceDetails(request: MarketplaceSaaSResourceDetailsRequest, options?: MonitorsGetMarketplaceSaaSResourceDetailsOptionalParams): Promise<MonitorsGetMarketplaceSaaSResourceDetailsResponse>;
+    getMetricStatus(resourceGroupName: string, monitorName: string, options?: MonitorsGetMetricStatusOptionalParams): Promise<MonitorsGetMetricStatusResponse>;
     getSSODetails(resourceGroupName: string, monitorName: string, options?: MonitorsGetSSODetailsOptionalParams): Promise<MonitorsGetSSODetailsResponse>;
     getVMHostPayload(resourceGroupName: string, monitorName: string, options?: MonitorsGetVMHostPayloadOptionalParams): Promise<MonitorsGetVMHostPayloadResponse>;
     listAppServices(resourceGroupName: string, monitorName: string, options?: MonitorsListAppServicesOptionalParams): PagedAsyncIterableIterator<AppServiceInfo>;
@@ -445,11 +452,18 @@ export interface MonitorsDeleteOptionalParams extends coreClient.OperationOption
 }
 
 // @public
-export interface MonitorsGetAccountCredentialsOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsGetMarketplaceSaaSResourceDetailsOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type MonitorsGetAccountCredentialsResponse = AccountInfoSecure;
+export type MonitorsGetMarketplaceSaaSResourceDetailsResponse = MarketplaceSaaSResourceDetailsResponse;
+
+// @public
+export interface MonitorsGetMetricStatusOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MonitorsGetMetricStatusResponse = MetricsStatusResponse;
 
 // @public
 export interface MonitorsGetOptionalParams extends coreClient.OperationOptions {
@@ -648,7 +662,7 @@ export type SendSubscriptionLogsStatus = string;
 
 // @public
 export interface SingleSignOn {
-    beginCreateOrUpdate(resourceGroupName: string, monitorName: string, configurationName: string, resource: DynatraceSingleSignOnResource, options?: SingleSignOnCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<SingleSignOnCreateOrUpdateResponse>, SingleSignOnCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, monitorName: string, configurationName: string, resource: DynatraceSingleSignOnResource, options?: SingleSignOnCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SingleSignOnCreateOrUpdateResponse>, SingleSignOnCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, monitorName: string, configurationName: string, resource: DynatraceSingleSignOnResource, options?: SingleSignOnCreateOrUpdateOptionalParams): Promise<SingleSignOnCreateOrUpdateResponse>;
     get(resourceGroupName: string, monitorName: string, configurationName: string, options?: SingleSignOnGetOptionalParams): Promise<SingleSignOnGetResponse>;
     list(resourceGroupName: string, monitorName: string, options?: SingleSignOnListOptionalParams): PagedAsyncIterableIterator<DynatraceSingleSignOnResource>;
@@ -689,7 +703,7 @@ export type SingleSignOnStates = string;
 
 // @public
 export interface SSODetailsRequest {
-    userPrincipal?: string;
+    userPrincipal: string;
 }
 
 // @public
@@ -733,13 +747,12 @@ export interface TagRuleListResult {
 
 // @public
 export interface TagRules {
-    beginCreateOrUpdate(resourceGroupName: string, monitorName: string, ruleSetName: string, resource: TagRule, options?: TagRulesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<TagRulesCreateOrUpdateResponse>, TagRulesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, monitorName: string, ruleSetName: string, resource: TagRule, options?: TagRulesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<TagRulesCreateOrUpdateResponse>, TagRulesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, monitorName: string, ruleSetName: string, resource: TagRule, options?: TagRulesCreateOrUpdateOptionalParams): Promise<TagRulesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesGetOptionalParams): Promise<TagRulesGetResponse>;
     list(resourceGroupName: string, monitorName: string, options?: TagRulesListOptionalParams): PagedAsyncIterableIterator<TagRule>;
-    update(resourceGroupName: string, monitorName: string, ruleSetName: string, resource: TagRuleUpdate, options?: TagRulesUpdateOptionalParams): Promise<TagRulesUpdateResponse>;
 }
 
 // @public
@@ -777,19 +790,6 @@ export interface TagRulesListOptionalParams extends coreClient.OperationOptions 
 
 // @public
 export type TagRulesListResponse = TagRuleListResult;
-
-// @public
-export interface TagRulesUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type TagRulesUpdateResponse = TagRule;
-
-// @public
-export interface TagRuleUpdate {
-    logRules?: LogRules;
-    metricRules?: MetricRules;
-}
 
 // @public
 export interface TrackedResource extends Resource {

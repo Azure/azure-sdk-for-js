@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the schema configuration at the API level.
  *
  * @summary Get the schema configuration at the API level.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListApiSchemas.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListApiSchemas.json
  */
 async function apiManagementListApiSchemas() {
   const subscriptionId =

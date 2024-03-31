@@ -22,7 +22,9 @@ import {
   FailoverGroupsFailoverOptionalParams,
   FailoverGroupsFailoverResponse,
   FailoverGroupsForceFailoverAllowDataLossOptionalParams,
-  FailoverGroupsForceFailoverAllowDataLossResponse
+  FailoverGroupsForceFailoverAllowDataLossResponse,
+  FailoverGroupsTryPlannedBeforeForcedFailoverOptionalParams,
+  FailoverGroupsTryPlannedBeforeForcedFailoverResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -222,4 +224,39 @@ export interface FailoverGroups {
     failoverGroupName: string,
     options?: FailoverGroupsForceFailoverAllowDataLossOptionalParams
   ): Promise<FailoverGroupsForceFailoverAllowDataLossResponse>;
+  /**
+   * Fails over from the current primary server to this server. This operation tries planned before
+   * forced failover but might still result in data loss.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param failoverGroupName The name of the failover group.
+   * @param options The options parameters.
+   */
+  beginTryPlannedBeforeForcedFailover(
+    resourceGroupName: string,
+    serverName: string,
+    failoverGroupName: string,
+    options?: FailoverGroupsTryPlannedBeforeForcedFailoverOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<FailoverGroupsTryPlannedBeforeForcedFailoverResponse>,
+      FailoverGroupsTryPlannedBeforeForcedFailoverResponse
+    >
+  >;
+  /**
+   * Fails over from the current primary server to this server. This operation tries planned before
+   * forced failover but might still result in data loss.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param failoverGroupName The name of the failover group.
+   * @param options The options parameters.
+   */
+  beginTryPlannedBeforeForcedFailoverAndWait(
+    resourceGroupName: string,
+    serverName: string,
+    failoverGroupName: string,
+    options?: FailoverGroupsTryPlannedBeforeForcedFailoverOptionalParams
+  ): Promise<FailoverGroupsTryPlannedBeforeForcedFailoverResponse>;
 }

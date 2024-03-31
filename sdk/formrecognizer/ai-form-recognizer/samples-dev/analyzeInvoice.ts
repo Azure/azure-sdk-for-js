@@ -28,8 +28,8 @@ async function main() {
 
   const poller = await client.beginAnalyzeDocumentFromUrl(
     PrebuiltInvoiceModel,
-    // The form recognizer service will access the following URL to an invoice image and extract data from it
-    "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/invoice/sample_invoice.jpg"
+    // The Document Intelligence service will access the following URL to an invoice image and extract data from it
+    "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/invoice/sample_invoice.jpg",
   );
 
   const {

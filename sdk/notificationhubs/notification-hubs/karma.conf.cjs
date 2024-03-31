@@ -4,6 +4,9 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config();
+const { relativeRecordingsPath } = require("@azure-tools/test-recorder");
+
+process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
 
 module.exports = function (config) {
   config.set({
@@ -46,8 +49,14 @@ module.exports = function (config) {
     // inject following environment values into browser testing with window.__env__
     // environment values MUST be exported or set with same console running "karma start"
     // https://www.npmjs.com/package/karma-env-preprocessor
-    envPreprocessor: ["TEST_MODE", "NOTIFICATIONHUBS_CONNECTION_STRING", "NOTIFICATION_HUB_NAME"],
-
+    envPreprocessor: [
+      "TEST_MODE",
+      "WIDGET_SERVICE_ENDPOINT",
+      "AZURE_CLIENT_ID",
+      "AZURE_CLIENT_SECRET",
+      "AZURE_TENANT_ID",
+      "RECORDINGS_RELATIVE_PATH",
+    ],
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
@@ -90,12 +99,19 @@ module.exports = function (config) {
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     // 'ChromeHeadless', 'Chrome', 'Firefox', 'Edge', 'IE'
-    browsers: ["ChromeHeadless"],
+    browsers: ['ChromeHeadlessNoSandbox'],
+
+    customLaunchers: {
+      ChromeHeadlessNoSandbox: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox', "--disable-web-security"]
+      }
+    },
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
     singleRun: true,
-
+    
     // Concurrency level
     // how many browser should be started simultaneous
     concurrency: 1,

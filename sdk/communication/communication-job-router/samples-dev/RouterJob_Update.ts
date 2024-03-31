@@ -3,7 +3,12 @@
 /**
  * @summary router job crud
  */
-import { RouterAdministrationClient, RouterClient, JobQueueResponse, RouterJobResponse } from "@azure/communication-job-router";
+import {
+  CreateQueueOptions,
+  JobRouterAdministrationClient,
+  JobRouterClient,
+  UpdateJobOptions,
+} from "@azure/communication-job-router";
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
@@ -11,33 +16,30 @@ dotenv.config();
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
-
 // Update a router job
 async function updateRouterJob(): Promise<void> {
-  // Create the Router Client
-  const routerClient: RouterClient = new RouterClient(connectionString);
-  const routerAdministrationClient: RouterAdministrationClient = new RouterAdministrationClient(connectionString);
+  // Create the JobRouter Client
+  const jobRouterClient: JobRouterClient = new JobRouterClient(connectionString);
+  const jobRouterAdministrationClient: JobRouterAdministrationClient = new JobRouterAdministrationClient(connectionString);
 
-  const queueRequest: JobQueueResponse = {
-    id: "queue-2",
+  const queueId = "queue-2";
+  const createOptions: CreateQueueOptions = {
     distributionPolicyId: "distribution-policy-123",
     name: "Main",
-    labels: {}
+    labels: {},
   };
-  await routerAdministrationClient.createQueue(queueRequest.id, queueRequest);
+  await jobRouterAdministrationClient.createQueue(queueId, createOptions);
 
-
-  const request: RouterJobResponse = {
-    id: "router-job-123",
+  const jobId = "router-job-123"
+  const updateOptions: UpdateJobOptions = {
     channelId: "general",
-    queueId: queueRequest.id,
-    labels: {}
+    queueId: queueId,
+    labels: {},
   };
 
-  const result = await routerClient.updateJob(request.id, request);
+  const result = await jobRouterClient.updateJob(jobId, updateOptions);
 
   console.log("router job: " + result);
-
-};
+}
 
 updateRouterJob().catch(console.error);

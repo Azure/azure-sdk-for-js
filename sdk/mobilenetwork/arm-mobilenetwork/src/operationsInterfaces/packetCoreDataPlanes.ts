@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PacketCoreDataPlane,
   PacketCoreDataPlanesListByPacketCoreControlPlaneOptionalParams,
@@ -18,7 +18,7 @@ import {
   PacketCoreDataPlanesCreateOrUpdateResponse,
   TagsObject,
   PacketCoreDataPlanesUpdateTagsOptionalParams,
-  PacketCoreDataPlanesUpdateTagsResponse
+  PacketCoreDataPlanesUpdateTagsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface PacketCoreDataPlanes {
   listByPacketCoreControlPlane(
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
-    options?: PacketCoreDataPlanesListByPacketCoreControlPlaneOptionalParams
+    options?: PacketCoreDataPlanesListByPacketCoreControlPlaneOptionalParams,
   ): PagedAsyncIterableIterator<PacketCoreDataPlane>;
   /**
    * Deletes the specified packet core data plane.
@@ -46,8 +46,8 @@ export interface PacketCoreDataPlanes {
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
-    options?: PacketCoreDataPlanesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: PacketCoreDataPlanesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified packet core data plane.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -59,7 +59,7 @@ export interface PacketCoreDataPlanes {
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
-    options?: PacketCoreDataPlanesDeleteOptionalParams
+    options?: PacketCoreDataPlanesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets information about the specified packet core data plane.
@@ -72,7 +72,7 @@ export interface PacketCoreDataPlanes {
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
-    options?: PacketCoreDataPlanesGetOptionalParams
+    options?: PacketCoreDataPlanesGetOptionalParams,
   ): Promise<PacketCoreDataPlanesGetResponse>;
   /**
    * Creates or updates a packet core data plane. Must be created in the same location as its parent
@@ -88,10 +88,10 @@ export interface PacketCoreDataPlanes {
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
     parameters: PacketCoreDataPlane,
-    options?: PacketCoreDataPlanesCreateOrUpdateOptionalParams
+    options?: PacketCoreDataPlanesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<PacketCoreDataPlanesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PacketCoreDataPlanesCreateOrUpdateResponse>,
       PacketCoreDataPlanesCreateOrUpdateResponse
     >
   >;
@@ -109,7 +109,7 @@ export interface PacketCoreDataPlanes {
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
     parameters: PacketCoreDataPlane,
-    options?: PacketCoreDataPlanesCreateOrUpdateOptionalParams
+    options?: PacketCoreDataPlanesCreateOrUpdateOptionalParams,
   ): Promise<PacketCoreDataPlanesCreateOrUpdateResponse>;
   /**
    * Updates packet core data planes tags.
@@ -124,6 +124,6 @@ export interface PacketCoreDataPlanes {
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
     parameters: TagsObject,
-    options?: PacketCoreDataPlanesUpdateTagsOptionalParams
+    options?: PacketCoreDataPlanesUpdateTagsOptionalParams,
   ): Promise<PacketCoreDataPlanesUpdateTagsResponse>;
 }

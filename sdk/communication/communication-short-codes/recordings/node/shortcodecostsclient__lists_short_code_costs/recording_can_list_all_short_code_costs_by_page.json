@@ -8,30 +8,41 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.4 Node/v16.17.1 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 23 May 2023 23:09:34 GMT"
+        "x-ms-date": "Tue, 01 Aug 2023 17:55:08 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Accept-Ranges": "bytes",
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Content-Length": "170",
+        "Connection": "keep-alive",
+        "Content-Length": "265",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 23 May 2023 23:09:37 GMT",
-        "MS-CV": "\u002Bx7w7Y8Izky4nzNgx8CrfA.0",
+        "Date": "Tue, 01 Aug 2023 17:55:10 GMT",
+        "MS-CV": "iBYRUiMGEEuirhIIeTZ/Ng.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0r0dtZAAAAAC\u002B66HdxVS2R7hUPOaEB7IcTUVYMzFFREdFMDMxMQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "x-azure-ref": "20230801T175509Z-kh5ha5dd1113md7p89rn9fmq1n000000062000000001y38d",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1662ms"
+        "X-Processing-Time": "742ms"
       },
       "ResponseBody": {
         "shortCodeCosts": [
           {
-            "amount": 650.0,
+            "amount": 3000.0,
             "currencyCode": "USD",
-            "countryCode": "US",
+            "countryCode": "CA",
+            "billingFrequency": "once"
+          }
+        ],
+        "costs": [
+          {
+            "amount": 3000.0,
+            "currencyCode": "USD",
+            "countryCode": "CA",
             "billingFrequency": "once"
           }
         ],
@@ -46,31 +57,43 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.4 Node/v16.17.1 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 23 May 2023 23:09:36 GMT"
+        "x-ms-date": "Tue, 01 Aug 2023 17:55:09 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Accept-Ranges": "bytes",
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Content-Length": "199",
+        "Connection": "keep-alive",
+        "Content-Length": "323",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 23 May 2023 23:09:38 GMT",
-        "MS-CV": "ZEhTDbVJ5E6zol1gn/elbA.0",
+        "Date": "Tue, 01 Aug 2023 17:55:10 GMT",
+        "MS-CV": "hW9a53rFL0qxqBydyEbhMw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0sUdtZAAAAACUlhvD2xQlQ4J2KIZpdWLOTUVYMzFFREdFMDMxMQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "x-azure-ref": "20230801T175510Z-kh5ha5dd1113md7p89rn9fmq1n000000062000000001y3b6",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1044ms"
+        "X-Processing-Time": "620ms"
       },
       "ResponseBody": {
         "shortCodeCosts": [
           {
-            "amount": 1500.0,
+            "amount": 1000.0,
             "currencyCode": "USD",
-            "countryCode": "US",
-            "isVanityShortCode": true,
+            "countryCode": "CA",
+            "isVanityShortCode": false,
+            "billingFrequency": "monthly"
+          }
+        ],
+        "costs": [
+          {
+            "amount": 1000.0,
+            "currencyCode": "USD",
+            "countryCode": "CA",
+            "isVanityShortCode": false,
             "billingFrequency": "monthly"
           }
         ],
@@ -85,32 +108,42 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.4 Node/v16.17.1 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 23 May 2023 23:09:37 GMT"
+        "x-ms-date": "Tue, 01 Aug 2023 17:55:10 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Accept-Ranges": "bytes",
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Content-Length": "200",
+        "Connection": "keep-alive",
+        "Content-Length": "259",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 23 May 2023 23:09:39 GMT",
-        "MS-CV": "\u002BY9suSRtaUCHBhroZLkoHw.0",
+        "Date": "Tue, 01 Aug 2023 17:55:11 GMT",
+        "MS-CV": "5tTY7K2XYkGU/vEeCDtjrw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0skdtZAAAAAAotRjg/y03QItVBosmgJg8TUVYMzFFREdFMDMxMQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "x-azure-ref": "20230801T175510Z-kh5ha5dd1113md7p89rn9fmq1n000000062000000001y3eu",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1015ms"
+        "X-Processing-Time": "679ms"
       },
       "ResponseBody": {
         "shortCodeCosts": [
           {
-            "amount": 1000.0,
+            "amount": 0.0,
             "currencyCode": "USD",
-            "countryCode": "US",
-            "isVanityShortCode": false,
-            "billingFrequency": "monthly"
+            "countryCode": "GB",
+            "billingFrequency": "once"
+          }
+        ],
+        "costs": [
+          {
+            "amount": 0.0,
+            "currencyCode": "USD",
+            "countryCode": "GB",
+            "billingFrequency": "once"
           }
         ],
         "nextLink": "/shortCodes/costs?skip=3\u0026top=1\u0026api-version=2022-09-06"
@@ -124,27 +157,232 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.10.4 Node/v16.17.1 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "Sanitized",
         "x-ms-content-sha256": "Sanitized",
-        "x-ms-date": "Tue, 23 May 2023 23:09:38 GMT"
+        "x-ms-date": "Tue, 01 Aug 2023 17:55:11 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Accept-Ranges": "bytes",
         "api-supported-versions": "2021-10-25-preview, 2022-09-06",
-        "Content-Length": "88",
+        "Connection": "keep-alive",
+        "Content-Length": "323",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 23 May 2023 23:09:40 GMT",
-        "MS-CV": "ejiaTcHFJkaQWtfRlsFNNg.0",
+        "Date": "Tue, 01 Aug 2023 17:55:12 GMT",
+        "MS-CV": "AU0gjF5n90qu/zLVpHkBtA.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0s0dtZAAAAAC1zhfF922zTrUHHVjjkPs6TUVYMzFFREdFMDMxMQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "x-azure-ref": "20230801T175511Z-kh5ha5dd1113md7p89rn9fmq1n000000062000000001y3k7",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "950ms"
+        "X-Processing-Time": "686ms"
+      },
+      "ResponseBody": {
+        "shortCodeCosts": [
+          {
+            "amount": 1600.0,
+            "currencyCode": "USD",
+            "countryCode": "GB",
+            "isVanityShortCode": false,
+            "billingFrequency": "monthly"
+          }
+        ],
+        "costs": [
+          {
+            "amount": 1600.0,
+            "currencyCode": "USD",
+            "countryCode": "GB",
+            "isVanityShortCode": false,
+            "billingFrequency": "monthly"
+          }
+        ],
+        "nextLink": "/shortCodes/costs?skip=4\u0026top=1\u0026api-version=2022-09-06"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/shortCodes/costs?skip=4\u0026top=1\u0026api-version=2022-09-06",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Tue, 01 Aug 2023 17:55:11 GMT",
+        "x-ms-useragent": "fake-useragent"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Accept-Ranges": "bytes",
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Connection": "keep-alive",
+        "Content-Length": "263",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 01 Aug 2023 17:55:13 GMT",
+        "MS-CV": "m1s9qwjLkUC8XFTQxyDK3w.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "x-azure-ref": "20230801T175512Z-kh5ha5dd1113md7p89rn9fmq1n000000062000000001y3pu",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "1037ms"
+      },
+      "ResponseBody": {
+        "shortCodeCosts": [
+          {
+            "amount": 650.0,
+            "currencyCode": "USD",
+            "countryCode": "US",
+            "billingFrequency": "once"
+          }
+        ],
+        "costs": [
+          {
+            "amount": 650.0,
+            "currencyCode": "USD",
+            "countryCode": "US",
+            "billingFrequency": "once"
+          }
+        ],
+        "nextLink": "/shortCodes/costs?skip=5\u0026top=1\u0026api-version=2022-09-06"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/shortCodes/costs?skip=5\u0026top=1\u0026api-version=2022-09-06",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Tue, 01 Aug 2023 17:55:12 GMT",
+        "x-ms-useragent": "fake-useragent"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Accept-Ranges": "bytes",
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Connection": "keep-alive",
+        "Content-Length": "321",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 01 Aug 2023 17:55:14 GMT",
+        "MS-CV": "RUiMeF/CbEe6/Cncv4wL5A.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "x-azure-ref": "20230801T175513Z-kh5ha5dd1113md7p89rn9fmq1n000000062000000001y3us",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "676ms"
+      },
+      "ResponseBody": {
+        "shortCodeCosts": [
+          {
+            "amount": 1500.0,
+            "currencyCode": "USD",
+            "countryCode": "US",
+            "isVanityShortCode": true,
+            "billingFrequency": "monthly"
+          }
+        ],
+        "costs": [
+          {
+            "amount": 1500.0,
+            "currencyCode": "USD",
+            "countryCode": "US",
+            "isVanityShortCode": true,
+            "billingFrequency": "monthly"
+          }
+        ],
+        "nextLink": "/shortCodes/costs?skip=6\u0026top=1\u0026api-version=2022-09-06"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/shortCodes/costs?skip=6\u0026top=1\u0026api-version=2022-09-06",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Tue, 01 Aug 2023 17:55:13 GMT",
+        "x-ms-useragent": "fake-useragent"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Accept-Ranges": "bytes",
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Connection": "keep-alive",
+        "Content-Length": "323",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 01 Aug 2023 17:55:15 GMT",
+        "MS-CV": "4QZ/Vt6SCEu3OFmmkPLacA.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "x-azure-ref": "20230801T175514Z-kh5ha5dd1113md7p89rn9fmq1n000000062000000001y3yn",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "704ms"
+      },
+      "ResponseBody": {
+        "shortCodeCosts": [
+          {
+            "amount": 1000.0,
+            "currencyCode": "USD",
+            "countryCode": "US",
+            "isVanityShortCode": false,
+            "billingFrequency": "monthly"
+          }
+        ],
+        "costs": [
+          {
+            "amount": 1000.0,
+            "currencyCode": "USD",
+            "countryCode": "US",
+            "isVanityShortCode": false,
+            "billingFrequency": "monthly"
+          }
+        ],
+        "nextLink": "/shortCodes/costs?skip=7\u0026top=1\u0026api-version=2022-09-06"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/shortCodes/costs?skip=7\u0026top=1\u0026api-version=2022-09-06",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-short-codes/1.0.0-beta.5 core-rest-pipeline/1.11.1 Node/v18.13.0 OS/(x64-Linux-5.15.90.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-content-sha256": "Sanitized",
+        "x-ms-date": "Tue, 01 Aug 2023 17:55:14 GMT",
+        "x-ms-useragent": "fake-useragent"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Accept-Ranges": "bytes",
+        "api-supported-versions": "2021-10-25-preview, 2022-09-06",
+        "Connection": "keep-alive",
+        "Content-Length": "32",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 01 Aug 2023 17:55:15 GMT",
+        "MS-CV": "I8qOGNloq0a6hp/43QeHbQ.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "x-azure-ref": "20230801T175515Z-kh5ha5dd1113md7p89rn9fmq1n000000062000000001y422",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "713ms"
       },
       "ResponseBody": {
         "shortCodeCosts": [],
-        "nextLink": "/shortCodes/costs?skip=4\u0026top=1\u0026api-version=2022-09-06"
+        "costs": []
       }
     }
   ],

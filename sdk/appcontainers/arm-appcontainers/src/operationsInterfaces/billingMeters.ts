@@ -8,7 +8,7 @@
 
 import {
   BillingMetersGetOptionalParams,
-  BillingMetersGetResponse
+  BillingMetersGetResponse,
 } from "../models";
 
 /** Interface representing a BillingMeters. */
@@ -20,6 +20,6 @@ export interface BillingMeters {
    */
   get(
     location: string,
-    options?: BillingMetersGetOptionalParams
+    options?: BillingMetersGetOptionalParams,
   ): Promise<BillingMetersGetResponse>;
 }

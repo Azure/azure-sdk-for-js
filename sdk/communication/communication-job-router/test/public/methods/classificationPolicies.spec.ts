@@ -4,7 +4,7 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
-import { ClassificationPolicy, RouterAdministrationClient } from "../../../src";
+import { ClassificationPolicy, JobRouterAdministrationClient } from "../../../src";
 import {
   getClassificationPolicyRequest,
   getDistributionPolicyRequest,
@@ -14,8 +14,8 @@ import {
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { timeoutMs } from "../utils/constants";
 
-describe("RouterClient", function () {
-  let administrationClient: RouterAdministrationClient;
+describe("JobRouterClient", function () {
+  let administrationClient: JobRouterAdministrationClient;
   let recorder: Recorder;
 
   const testRunId = "recorded-c-policies";
@@ -29,19 +29,18 @@ describe("RouterClient", function () {
 
   describe("Classification Policy Operations", function () {
     this.beforeEach(async function (this: Context) {
-      ({ administrationClient, recorder } = await createRecordedRouterClientWithConnectionString(
-        this
-      ));
+      ({ administrationClient, recorder } =
+        await createRecordedRouterClientWithConnectionString(this));
 
       await administrationClient.createDistributionPolicy(
         distributionPolicyId,
-        distributionPolicyRequest
+        distributionPolicyRequest,
       );
       await administrationClient.createExceptionPolicy(exceptionPolicyId, exceptionPolicyRequest);
       await administrationClient.createQueue(queueId, queueRequest);
       await administrationClient.createClassificationPolicy(
         classificationPolicyId,
-        classificationPolicyRequest
+        classificationPolicyRequest,
       );
     });
 
@@ -59,7 +58,7 @@ describe("RouterClient", function () {
     it("should create a classification policy", async function () {
       const result = await administrationClient.createClassificationPolicy(
         classificationPolicyId,
-        classificationPolicyRequest
+        classificationPolicyRequest,
       );
 
       assert.isDefined(result);
@@ -75,15 +74,24 @@ describe("RouterClient", function () {
     }).timeout(timeoutMs);
 
     it("should update a classification policy", async function () {
-      const patch: ClassificationPolicy = { ...classificationPolicyRequest, name: "new name" };
-      const result = await administrationClient.updateClassificationPolicy(
+      const updatePatch = { ...classificationPolicyRequest, name: "new name" };
+      const updateResult = await administrationClient.updateClassificationPolicy(
         classificationPolicyId,
-        patch
+        updatePatch,
       );
 
-      assert.isDefined(result);
-      assert.isDefined(result.id);
-      assert.equal(result.name, patch.name);
+      const removePatch = { ...classificationPolicyRequest, name: null! };
+      const removeResult = await administrationClient.updateClassificationPolicy(
+        classificationPolicyId,
+        removePatch,
+      );
+
+      assert.isDefined(updateResult);
+      assert.isDefined(updateResult.id);
+      assert.isDefined(removeResult);
+      assert.isDefined(removeResult.id);
+      assert.equal(updatePatch.name, updateResult.name);
+      assert.isUndefined(removeResult.name);
     }).timeout(timeoutMs);
 
     it("should list classification policies", async function () {

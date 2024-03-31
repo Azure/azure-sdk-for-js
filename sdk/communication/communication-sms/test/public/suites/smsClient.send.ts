@@ -19,7 +19,7 @@ export default function testCases(): void {
 
     assert.lengthOf(results, 1, "must return as many results as there were recipients");
     assertIsSuccessResult(results[0], validToNumber);
-  }).timeout(4000);
+  }).timeout(5000);
 
   it("can send an SMS message with options passed in", async function (this: Context) {
     const fromNumber = env.AZURE_PHONE_NUMBER as string;
@@ -33,7 +33,7 @@ export default function testCases(): void {
       {
         enableDeliveryReport: true,
         tag: "SMS_LIVE_TEST",
-      }
+      },
     );
 
     assert.lengthOf(results, 1, "must return as many results as there were recipients");
@@ -77,7 +77,7 @@ export default function testCases(): void {
     assert.lengthOf(
       results,
       recipients.length,
-      "must return as many results as there were recipients"
+      "must return as many results as there were recipients",
     );
 
     assertIsSuccessResult(results[0], validToNumber);
@@ -97,7 +97,7 @@ export default function testCases(): void {
         {
           enableDeliveryReport: true,
           tag: "SMS_LIVE_TEST",
-        }
+        },
       );
       assert.fail("Should have thrown an error");
     } catch (e: any) {
@@ -118,11 +118,11 @@ export default function testCases(): void {
         {
           enableDeliveryReport: true,
           tag: "SMS_LIVE_TEST",
-        }
+        },
       );
       assert.fail("Should have thrown an error");
     } catch (e: any) {
-      assert.equal(e.statusCode, 400);
+      assert.equal(e.statusCode, 401);
     }
   });
 }

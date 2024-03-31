@@ -56,7 +56,7 @@ export interface GetTokenOptions extends OperationOptions {
 }
 
 // @public
-export type TokenScope = "chat" | "voip";
+export type TokenScope = "chat" | "voip" | "chat.join" | "chat.join.limited" | "voip.join";
 
 // (No @packageDocumentation comment for this package)
 

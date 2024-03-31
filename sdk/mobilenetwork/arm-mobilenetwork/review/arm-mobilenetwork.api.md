@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface Ambr {
@@ -64,9 +64,9 @@ export interface AttachedDataNetworkResourceId {
 
 // @public
 export interface AttachedDataNetworks {
-    beginCreateOrUpdate(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, attachedDataNetworkName: string, parameters: AttachedDataNetwork, options?: AttachedDataNetworksCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<AttachedDataNetworksCreateOrUpdateResponse>, AttachedDataNetworksCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, attachedDataNetworkName: string, parameters: AttachedDataNetwork, options?: AttachedDataNetworksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AttachedDataNetworksCreateOrUpdateResponse>, AttachedDataNetworksCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, attachedDataNetworkName: string, parameters: AttachedDataNetwork, options?: AttachedDataNetworksCreateOrUpdateOptionalParams): Promise<AttachedDataNetworksCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, attachedDataNetworkName: string, options?: AttachedDataNetworksDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, attachedDataNetworkName: string, options?: AttachedDataNetworksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, attachedDataNetworkName: string, options?: AttachedDataNetworksDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, attachedDataNetworkName: string, options?: AttachedDataNetworksGetOptionalParams): Promise<AttachedDataNetworksGetResponse>;
     listByPacketCoreDataPlane(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, options?: AttachedDataNetworksListByPacketCoreDataPlaneOptionalParams): PagedAsyncIterableIterator<AttachedDataNetwork>;
@@ -163,7 +163,7 @@ export interface ConnectedClusterResourceId {
 }
 
 // @public
-export type CoreNetworkType = "5GC" | "EPC";
+export type CoreNetworkType = "5GC" | "EPC" | "EPC + 5GC";
 
 // @public
 export type CreatedByType = string;
@@ -206,9 +206,9 @@ export interface DataNetworkResourceId {
 
 // @public
 export interface DataNetworks {
-    beginCreateOrUpdate(resourceGroupName: string, mobileNetworkName: string, dataNetworkName: string, parameters: DataNetwork, options?: DataNetworksCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DataNetworksCreateOrUpdateResponse>, DataNetworksCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, mobileNetworkName: string, dataNetworkName: string, parameters: DataNetwork, options?: DataNetworksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DataNetworksCreateOrUpdateResponse>, DataNetworksCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, mobileNetworkName: string, dataNetworkName: string, parameters: DataNetwork, options?: DataNetworksCreateOrUpdateOptionalParams): Promise<DataNetworksCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, mobileNetworkName: string, dataNetworkName: string, options?: DataNetworksDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, mobileNetworkName: string, dataNetworkName: string, options?: DataNetworksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, mobileNetworkName: string, dataNetworkName: string, options?: DataNetworksDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, mobileNetworkName: string, dataNetworkName: string, options?: DataNetworksGetOptionalParams): Promise<DataNetworksGetResponse>;
     listByMobileNetwork(resourceGroupName: string, mobileNetworkName: string, options?: DataNetworksListByMobileNetworkOptionalParams): PagedAsyncIterableIterator<DataNetwork>;
@@ -259,6 +259,82 @@ export interface DataNetworksUpdateTagsOptionalParams extends coreClient.Operati
 export type DataNetworksUpdateTagsResponse = DataNetwork;
 
 // @public
+export type DesiredInstallationState = string;
+
+// @public
+export interface DiagnosticsPackage extends ProxyResource {
+    readonly provisioningState?: ProvisioningState;
+    readonly reason?: string;
+    readonly status?: DiagnosticsPackageStatus;
+}
+
+// @public
+export interface DiagnosticsPackageListResult {
+    readonly nextLink?: string;
+    value?: DiagnosticsPackage[];
+}
+
+// @public
+export interface DiagnosticsPackages {
+    beginCreateOrUpdate(resourceGroupName: string, packetCoreControlPlaneName: string, diagnosticsPackageName: string, options?: DiagnosticsPackagesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DiagnosticsPackagesCreateOrUpdateResponse>, DiagnosticsPackagesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, diagnosticsPackageName: string, options?: DiagnosticsPackagesCreateOrUpdateOptionalParams): Promise<DiagnosticsPackagesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, packetCoreControlPlaneName: string, diagnosticsPackageName: string, options?: DiagnosticsPackagesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, diagnosticsPackageName: string, options?: DiagnosticsPackagesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, packetCoreControlPlaneName: string, diagnosticsPackageName: string, options?: DiagnosticsPackagesGetOptionalParams): Promise<DiagnosticsPackagesGetResponse>;
+    listByPacketCoreControlPlane(resourceGroupName: string, packetCoreControlPlaneName: string, options?: DiagnosticsPackagesListByPacketCoreControlPlaneOptionalParams): PagedAsyncIterableIterator<DiagnosticsPackage>;
+}
+
+// @public
+export interface DiagnosticsPackagesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DiagnosticsPackagesCreateOrUpdateResponse = DiagnosticsPackage;
+
+// @public
+export interface DiagnosticsPackagesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DiagnosticsPackagesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DiagnosticsPackagesGetResponse = DiagnosticsPackage;
+
+// @public
+export interface DiagnosticsPackagesListByPacketCoreControlPlaneNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DiagnosticsPackagesListByPacketCoreControlPlaneNextResponse = DiagnosticsPackageListResult;
+
+// @public
+export interface DiagnosticsPackagesListByPacketCoreControlPlaneOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DiagnosticsPackagesListByPacketCoreControlPlaneResponse = DiagnosticsPackageListResult;
+
+// @public
+export type DiagnosticsPackageStatus = string;
+
+// @public
+export interface DiagnosticsUploadConfiguration {
+    storageAccountContainerUrl: string;
+}
+
+// @public
+export interface DnnIpPair {
+    dnn?: string;
+    ipV4Addr?: string;
+}
+
+// @public
 export interface EncryptedSimPropertiesFormat extends CommonSimPropertiesFormat {
     encryptedCredentials?: string;
 }
@@ -294,7 +370,53 @@ export interface ErrorResponse {
 }
 
 // @public
+export interface EventHubConfiguration {
+    id: string;
+    reportingInterval?: number;
+}
+
+// @public
+export interface ExtendedUeInfo extends ProxyResource {
+    properties: ExtendedUeInfoPropertiesUnion;
+}
+
+// @public
+export interface ExtendedUeInfoProperties {
+    lastReadAt?: Date;
+    ratType: "5G" | "4G";
+}
+
+// @public (undocumented)
+export type ExtendedUeInfoPropertiesUnion = ExtendedUeInfoProperties | UeInfo5G | UeInfo4G;
+
+// @public
+export interface ExtendedUeInformation {
+    get(resourceGroupName: string, packetCoreControlPlaneName: string, ueId: string, options?: ExtendedUeInformationGetOptionalParams): Promise<ExtendedUeInformationGetResponse>;
+}
+
+// @public
+export interface ExtendedUeInformationGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExtendedUeInformationGetResponse = ExtendedUeInfo;
+
+// @public
 export function getContinuationToken(page: unknown): string | undefined;
+
+// @public (undocumented)
+export interface HomeNetworkPrivateKeysProvisioning {
+    readonly state: HomeNetworkPrivateKeysProvisioningState;
+}
+
+// @public
+export type HomeNetworkPrivateKeysProvisioningState = string;
+
+// @public
+export interface HomeNetworkPublicKey {
+    id: number;
+    url?: string;
+}
 
 // @public
 export interface HttpsServerCertificate {
@@ -303,10 +425,24 @@ export interface HttpsServerCertificate {
 }
 
 // @public
-export interface Installation {
-    operation?: AsyncOperationId;
-    state?: InstallationState;
+export interface IdentityAndTagsObject {
+    identity?: ManagedServiceIdentity;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
+
+// @public
+export interface Installation {
+    desiredState?: DesiredInstallationState;
+    readonly operation?: AsyncOperationId;
+    readonly reasons?: InstallationReason[];
+    readonly reinstallRequired?: ReinstallRequired;
+    readonly state?: InstallationState;
+}
+
+// @public
+export type InstallationReason = string;
 
 // @public
 export type InstallationState = string;
@@ -336,8 +472,6 @@ export enum KnownBillingSku {
     G1 = "G1",
     G10 = "G10",
     G2 = "G2",
-    G3 = "G3",
-    G4 = "G4",
     G5 = "G5"
 }
 
@@ -357,6 +491,40 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownDesiredInstallationState {
+    Installed = "Installed",
+    Uninstalled = "Uninstalled"
+}
+
+// @public
+export enum KnownDiagnosticsPackageStatus {
+    Collected = "Collected",
+    Collecting = "Collecting",
+    Error = "Error",
+    NotStarted = "NotStarted"
+}
+
+// @public
+export enum KnownHomeNetworkPrivateKeysProvisioningState {
+    Failed = "Failed",
+    NotProvisioned = "NotProvisioned",
+    Provisioned = "Provisioned"
+}
+
+// @public
+export enum KnownInstallationReason {
+    ControlPlaneAccessInterfaceHasChanged = "ControlPlaneAccessInterfaceHasChanged",
+    ControlPlaneAccessVirtualIpv4AddressesHasChanged = "ControlPlaneAccessVirtualIpv4AddressesHasChanged",
+    NoAttachedDataNetworks = "NoAttachedDataNetworks",
+    NoPacketCoreDataPlane = "NoPacketCoreDataPlane",
+    NoSlices = "NoSlices",
+    PublicLandMobileNetworkIdentifierHasChanged = "PublicLandMobileNetworkIdentifierHasChanged",
+    UserPlaneAccessInterfaceHasChanged = "UserPlaneAccessInterfaceHasChanged",
+    UserPlaneAccessVirtualIpv4AddressesHasChanged = "UserPlaneAccessVirtualIpv4AddressesHasChanged",
+    UserPlaneDataInterfaceHasChanged = "UserPlaneDataInterfaceHasChanged"
+}
+
+// @public
 export enum KnownInstallationState {
     Failed = "Failed",
     Installed = "Installed",
@@ -372,8 +540,6 @@ export enum KnownInstallationState {
 // @public
 export enum KnownManagedServiceIdentityType {
     None = "None",
-    SystemAssigned = "SystemAssigned",
-    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
 }
 
@@ -387,6 +553,19 @@ export enum KnownNaptEnabled {
 export enum KnownObsoleteVersion {
     NotObsolete = "NotObsolete",
     Obsolete = "Obsolete"
+}
+
+// @public
+export enum KnownPacketCaptureStatus {
+    Error = "Error",
+    NotStarted = "NotStarted",
+    Running = "Running",
+    Stopped = "Stopped"
+}
+
+// @public
+export enum KnownPdnType {
+    IPV4 = "IPV4"
 }
 
 // @public
@@ -425,9 +604,31 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownRatType {
+    FiveG = "5G",
+    FourG = "4G"
+}
+
+// @public
 export enum KnownRecommendedVersion {
     NotRecommended = "NotRecommended",
     Recommended = "Recommended"
+}
+
+// @public
+export enum KnownReinstallRequired {
+    NotRequired = "NotRequired",
+    Required = "Required"
+}
+
+// @public
+export enum KnownRrcEstablishmentCause {
+    Emergency = "Emergency",
+    MobileOriginatedData = "MobileOriginatedData",
+    MobileOriginatedSignaling = "MobileOriginatedSignaling",
+    MobileTerminatedData = "MobileTerminatedData",
+    MobileTerminatedSignaling = "MobileTerminatedSignaling",
+    SMS = "SMS"
 }
 
 // @public
@@ -461,6 +662,21 @@ export enum KnownTrafficControlPermission {
 }
 
 // @public
+export enum KnownUeState {
+    Connected = "Connected",
+    Deregistered = "Deregistered",
+    Detached = "Detached",
+    Idle = "Idle",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownUeUsageSetting {
+    DataCentric = "DataCentric",
+    VoiceCentric = "VoiceCentric"
+}
+
+// @public
 export enum KnownVersionState {
     Active = "Active",
     Deprecated = "Deprecated",
@@ -478,8 +694,6 @@ export interface LocalDiagnosticsAccessConfiguration {
 
 // @public
 export interface ManagedServiceIdentity {
-    readonly principalId?: string;
-    readonly tenantId?: string;
     type: ManagedServiceIdentityType;
     userAssignedIdentities?: {
         [propertyName: string]: UserAssignedIdentity;
@@ -491,8 +705,10 @@ export type ManagedServiceIdentityType = string;
 
 // @public
 export interface MobileNetwork extends TrackedResource {
+    identity?: ManagedServiceIdentity;
     readonly provisioningState?: ProvisioningState;
     publicLandMobileNetworkIdentifier: PlmnId;
+    publicLandMobileNetworks?: PublicLandMobileNetwork[];
     readonly serviceKey?: string;
 }
 
@@ -507,6 +723,7 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: MobileNetworkManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: MobileNetworkManagementClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -514,9 +731,15 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     dataNetworks: DataNetworks;
     // (undocumented)
+    diagnosticsPackages: DiagnosticsPackages;
+    // (undocumented)
+    extendedUeInformation: ExtendedUeInformation;
+    // (undocumented)
     mobileNetworks: MobileNetworks;
     // (undocumented)
     operations: Operations;
+    // (undocumented)
+    packetCaptures: PacketCaptures;
     // (undocumented)
     packetCoreControlPlanes: PacketCoreControlPlanes;
     // (undocumented)
@@ -536,7 +759,9 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     slices: Slices;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
+    // (undocumented)
+    ueInformation: UeInformation;
 }
 
 // @public
@@ -553,14 +778,14 @@ export interface MobileNetworkResourceId {
 
 // @public
 export interface MobileNetworks {
-    beginCreateOrUpdate(resourceGroupName: string, mobileNetworkName: string, parameters: MobileNetwork, options?: MobileNetworksCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<MobileNetworksCreateOrUpdateResponse>, MobileNetworksCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, mobileNetworkName: string, parameters: MobileNetwork, options?: MobileNetworksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MobileNetworksCreateOrUpdateResponse>, MobileNetworksCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, mobileNetworkName: string, parameters: MobileNetwork, options?: MobileNetworksCreateOrUpdateOptionalParams): Promise<MobileNetworksCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, mobileNetworkName: string, options?: MobileNetworksDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, mobileNetworkName: string, options?: MobileNetworksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, mobileNetworkName: string, options?: MobileNetworksDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, mobileNetworkName: string, options?: MobileNetworksGetOptionalParams): Promise<MobileNetworksGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: MobileNetworksListByResourceGroupOptionalParams): PagedAsyncIterableIterator<MobileNetwork>;
     listBySubscription(options?: MobileNetworksListBySubscriptionOptionalParams): PagedAsyncIterableIterator<MobileNetwork>;
-    updateTags(resourceGroupName: string, mobileNetworkName: string, parameters: TagsObject, options?: MobileNetworksUpdateTagsOptionalParams): Promise<MobileNetworksUpdateTagsResponse>;
+    updateTags(resourceGroupName: string, mobileNetworkName: string, parameters: IdentityAndTagsObject, options?: MobileNetworksUpdateTagsOptionalParams): Promise<MobileNetworksUpdateTagsResponse>;
 }
 
 // @public
@@ -633,6 +858,11 @@ export interface NaptConfiguration {
 export type NaptEnabled = string;
 
 // @public
+export interface NASRerouteConfiguration {
+    macroMmeGroupId: number;
+}
+
+// @public
 export type ObsoleteVersion = string;
 
 // @public
@@ -676,16 +906,101 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationList;
 
 // @public
+export interface PacketCapture extends ProxyResource {
+    bytesToCapturePerPacket?: number;
+    readonly captureStartTime?: Date;
+    networkInterfaces?: string[];
+    readonly outputFiles?: string[];
+    readonly provisioningState?: ProvisioningState;
+    readonly reason?: string;
+    readonly status?: PacketCaptureStatus;
+    timeLimitInSeconds?: number;
+    totalBytesPerSession?: number;
+}
+
+// @public
+export interface PacketCaptureListResult {
+    readonly nextLink?: string;
+    value?: PacketCapture[];
+}
+
+// @public
+export interface PacketCaptures {
+    beginCreateOrUpdate(resourceGroupName: string, packetCoreControlPlaneName: string, packetCaptureName: string, parameters: PacketCapture, options?: PacketCapturesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PacketCapturesCreateOrUpdateResponse>, PacketCapturesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, packetCaptureName: string, parameters: PacketCapture, options?: PacketCapturesCreateOrUpdateOptionalParams): Promise<PacketCapturesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, packetCoreControlPlaneName: string, packetCaptureName: string, options?: PacketCapturesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, packetCaptureName: string, options?: PacketCapturesDeleteOptionalParams): Promise<void>;
+    beginStop(resourceGroupName: string, packetCoreControlPlaneName: string, packetCaptureName: string, options?: PacketCapturesStopOptionalParams): Promise<SimplePollerLike<OperationState<PacketCapturesStopResponse>, PacketCapturesStopResponse>>;
+    beginStopAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, packetCaptureName: string, options?: PacketCapturesStopOptionalParams): Promise<PacketCapturesStopResponse>;
+    get(resourceGroupName: string, packetCoreControlPlaneName: string, packetCaptureName: string, options?: PacketCapturesGetOptionalParams): Promise<PacketCapturesGetResponse>;
+    listByPacketCoreControlPlane(resourceGroupName: string, packetCoreControlPlaneName: string, options?: PacketCapturesListByPacketCoreControlPlaneOptionalParams): PagedAsyncIterableIterator<PacketCapture>;
+}
+
+// @public
+export interface PacketCapturesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PacketCapturesCreateOrUpdateResponse = PacketCapture;
+
+// @public
+export interface PacketCapturesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PacketCapturesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PacketCapturesGetResponse = PacketCapture;
+
+// @public
+export interface PacketCapturesListByPacketCoreControlPlaneNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PacketCapturesListByPacketCoreControlPlaneNextResponse = PacketCaptureListResult;
+
+// @public
+export interface PacketCapturesListByPacketCoreControlPlaneOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PacketCapturesListByPacketCoreControlPlaneResponse = PacketCaptureListResult;
+
+// @public
+export interface PacketCapturesStopOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PacketCapturesStopResponse = AsyncOperationStatus;
+
+// @public
+export type PacketCaptureStatus = string;
+
+// @public
 export interface PacketCoreControlPlane extends TrackedResource {
     controlPlaneAccessInterface: InterfaceProperties;
+    controlPlaneAccessVirtualIpv4Addresses?: string[];
     coreNetworkTechnology?: CoreNetworkType;
+    diagnosticsUpload?: DiagnosticsUploadConfiguration;
+    eventHub?: EventHubConfiguration;
+    readonly homeNetworkPrivateKeysProvisioning?: HomeNetworkPrivateKeysProvisioning;
     identity?: ManagedServiceIdentity;
-    readonly installation?: Installation;
+    installation?: Installation;
+    readonly installedVersion?: string;
     interopSettings?: Record<string, unknown>;
     localDiagnosticsAccess: LocalDiagnosticsAccessConfiguration;
     platform: PlatformConfiguration;
     readonly provisioningState?: ProvisioningState;
     readonly rollbackVersion?: string;
+    signaling?: SignalingConfiguration;
     sites: SiteResourceId[];
     sku: BillingSku;
     ueMtu?: number;
@@ -704,21 +1019,26 @@ export interface PacketCoreControlPlaneListResult {
 }
 
 // @public
+export interface PacketCoreControlPlaneResourceId {
+    id: string;
+}
+
+// @public
 export interface PacketCoreControlPlanes {
-    beginCollectDiagnosticsPackage(resourceGroupName: string, packetCoreControlPlaneName: string, parameters: PacketCoreControlPlaneCollectDiagnosticsPackage, options?: PacketCoreControlPlanesCollectDiagnosticsPackageOptionalParams): Promise<PollerLike<PollOperationState<PacketCoreControlPlanesCollectDiagnosticsPackageResponse>, PacketCoreControlPlanesCollectDiagnosticsPackageResponse>>;
+    beginCollectDiagnosticsPackage(resourceGroupName: string, packetCoreControlPlaneName: string, parameters: PacketCoreControlPlaneCollectDiagnosticsPackage, options?: PacketCoreControlPlanesCollectDiagnosticsPackageOptionalParams): Promise<SimplePollerLike<OperationState<PacketCoreControlPlanesCollectDiagnosticsPackageResponse>, PacketCoreControlPlanesCollectDiagnosticsPackageResponse>>;
     beginCollectDiagnosticsPackageAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, parameters: PacketCoreControlPlaneCollectDiagnosticsPackage, options?: PacketCoreControlPlanesCollectDiagnosticsPackageOptionalParams): Promise<PacketCoreControlPlanesCollectDiagnosticsPackageResponse>;
-    beginCreateOrUpdate(resourceGroupName: string, packetCoreControlPlaneName: string, parameters: PacketCoreControlPlane, options?: PacketCoreControlPlanesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<PacketCoreControlPlanesCreateOrUpdateResponse>, PacketCoreControlPlanesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, packetCoreControlPlaneName: string, parameters: PacketCoreControlPlane, options?: PacketCoreControlPlanesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PacketCoreControlPlanesCreateOrUpdateResponse>, PacketCoreControlPlanesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, parameters: PacketCoreControlPlane, options?: PacketCoreControlPlanesCreateOrUpdateOptionalParams): Promise<PacketCoreControlPlanesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, packetCoreControlPlaneName: string, options?: PacketCoreControlPlanesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, packetCoreControlPlaneName: string, options?: PacketCoreControlPlanesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, options?: PacketCoreControlPlanesDeleteOptionalParams): Promise<void>;
-    beginReinstall(resourceGroupName: string, packetCoreControlPlaneName: string, options?: PacketCoreControlPlanesReinstallOptionalParams): Promise<PollerLike<PollOperationState<PacketCoreControlPlanesReinstallResponse>, PacketCoreControlPlanesReinstallResponse>>;
+    beginReinstall(resourceGroupName: string, packetCoreControlPlaneName: string, options?: PacketCoreControlPlanesReinstallOptionalParams): Promise<SimplePollerLike<OperationState<PacketCoreControlPlanesReinstallResponse>, PacketCoreControlPlanesReinstallResponse>>;
     beginReinstallAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, options?: PacketCoreControlPlanesReinstallOptionalParams): Promise<PacketCoreControlPlanesReinstallResponse>;
-    beginRollback(resourceGroupName: string, packetCoreControlPlaneName: string, options?: PacketCoreControlPlanesRollbackOptionalParams): Promise<PollerLike<PollOperationState<PacketCoreControlPlanesRollbackResponse>, PacketCoreControlPlanesRollbackResponse>>;
+    beginRollback(resourceGroupName: string, packetCoreControlPlaneName: string, options?: PacketCoreControlPlanesRollbackOptionalParams): Promise<SimplePollerLike<OperationState<PacketCoreControlPlanesRollbackResponse>, PacketCoreControlPlanesRollbackResponse>>;
     beginRollbackAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, options?: PacketCoreControlPlanesRollbackOptionalParams): Promise<PacketCoreControlPlanesRollbackResponse>;
     get(resourceGroupName: string, packetCoreControlPlaneName: string, options?: PacketCoreControlPlanesGetOptionalParams): Promise<PacketCoreControlPlanesGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: PacketCoreControlPlanesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<PacketCoreControlPlane>;
     listBySubscription(options?: PacketCoreControlPlanesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<PacketCoreControlPlane>;
-    updateTags(resourceGroupName: string, packetCoreControlPlaneName: string, parameters: TagsObject, options?: PacketCoreControlPlanesUpdateTagsOptionalParams): Promise<PacketCoreControlPlanesUpdateTagsResponse>;
+    updateTags(resourceGroupName: string, packetCoreControlPlaneName: string, parameters: IdentityAndTagsObject, options?: PacketCoreControlPlanesUpdateTagsOptionalParams): Promise<PacketCoreControlPlanesUpdateTagsResponse>;
 }
 
 // @public
@@ -820,8 +1140,17 @@ export interface PacketCoreControlPlaneVersionListResult {
 // @public
 export interface PacketCoreControlPlaneVersions {
     get(versionName: string, options?: PacketCoreControlPlaneVersionsGetOptionalParams): Promise<PacketCoreControlPlaneVersionsGetResponse>;
+    getBySubscription(versionName: string, options?: PacketCoreControlPlaneVersionsGetBySubscriptionOptionalParams): Promise<PacketCoreControlPlaneVersionsGetBySubscriptionResponse>;
     list(options?: PacketCoreControlPlaneVersionsListOptionalParams): PagedAsyncIterableIterator<PacketCoreControlPlaneVersion>;
+    listBySubscription(options?: PacketCoreControlPlaneVersionsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<PacketCoreControlPlaneVersion>;
 }
+
+// @public
+export interface PacketCoreControlPlaneVersionsGetBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PacketCoreControlPlaneVersionsGetBySubscriptionResponse = PacketCoreControlPlaneVersion;
 
 // @public
 export interface PacketCoreControlPlaneVersionsGetOptionalParams extends coreClient.OperationOptions {
@@ -829,6 +1158,20 @@ export interface PacketCoreControlPlaneVersionsGetOptionalParams extends coreCli
 
 // @public
 export type PacketCoreControlPlaneVersionsGetResponse = PacketCoreControlPlaneVersion;
+
+// @public
+export interface PacketCoreControlPlaneVersionsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PacketCoreControlPlaneVersionsListBySubscriptionNextResponse = PacketCoreControlPlaneVersionListResult;
+
+// @public
+export interface PacketCoreControlPlaneVersionsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PacketCoreControlPlaneVersionsListBySubscriptionResponse = PacketCoreControlPlaneVersionListResult;
 
 // @public
 export interface PacketCoreControlPlaneVersionsListNextOptionalParams extends coreClient.OperationOptions {
@@ -848,6 +1191,7 @@ export type PacketCoreControlPlaneVersionsListResponse = PacketCoreControlPlaneV
 export interface PacketCoreDataPlane extends TrackedResource {
     readonly provisioningState?: ProvisioningState;
     userPlaneAccessInterface: InterfaceProperties;
+    userPlaneAccessVirtualIpv4Addresses?: string[];
 }
 
 // @public
@@ -858,9 +1202,9 @@ export interface PacketCoreDataPlaneListResult {
 
 // @public
 export interface PacketCoreDataPlanes {
-    beginCreateOrUpdate(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, parameters: PacketCoreDataPlane, options?: PacketCoreDataPlanesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<PacketCoreDataPlanesCreateOrUpdateResponse>, PacketCoreDataPlanesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, parameters: PacketCoreDataPlane, options?: PacketCoreDataPlanesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PacketCoreDataPlanesCreateOrUpdateResponse>, PacketCoreDataPlanesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, parameters: PacketCoreDataPlane, options?: PacketCoreDataPlanesCreateOrUpdateOptionalParams): Promise<PacketCoreDataPlanesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, options?: PacketCoreDataPlanesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, options?: PacketCoreDataPlanesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, options?: PacketCoreDataPlanesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, options?: PacketCoreDataPlanesGetOptionalParams): Promise<PacketCoreDataPlanesGetResponse>;
     listByPacketCoreControlPlane(resourceGroupName: string, packetCoreControlPlaneName: string, options?: PacketCoreDataPlanesListByPacketCoreControlPlaneOptionalParams): PagedAsyncIterableIterator<PacketCoreDataPlane>;
@@ -923,6 +1267,9 @@ export interface PccRuleConfiguration {
 export interface PccRuleQosPolicy extends QosPolicy {
     guaranteedBitRate?: Ambr;
 }
+
+// @public
+export type PdnType = string;
 
 // @public
 export type PduSessionType = string;
@@ -989,6 +1336,17 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
+export interface PublicLandMobileNetwork extends PlmnId {
+    homeNetworkPublicKeys?: PublicLandMobileNetworkHomeNetworkPublicKeys;
+}
+
+// @public
+export interface PublicLandMobileNetworkHomeNetworkPublicKeys {
+    profileA?: HomeNetworkPublicKey[];
+    profileB?: HomeNetworkPublicKey[];
+}
+
+// @public
 export interface QosPolicy {
     allocationAndRetentionPriorityLevel?: number;
     fiveQi?: number;
@@ -998,7 +1356,13 @@ export interface QosPolicy {
 }
 
 // @public
+export type RatType = string;
+
+// @public
 export type RecommendedVersion = string;
+
+// @public
+export type ReinstallRequired = string;
 
 // @public
 export interface Resource {
@@ -1007,6 +1371,9 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+// @public
+export type RrcEstablishmentCause = string;
 
 // @public
 export type SdfDirection = string;
@@ -1041,9 +1408,9 @@ export interface ServiceResourceId {
 
 // @public
 export interface Services {
-    beginCreateOrUpdate(resourceGroupName: string, mobileNetworkName: string, serviceName: string, parameters: Service, options?: ServicesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ServicesCreateOrUpdateResponse>, ServicesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, mobileNetworkName: string, serviceName: string, parameters: Service, options?: ServicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ServicesCreateOrUpdateResponse>, ServicesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, mobileNetworkName: string, serviceName: string, parameters: Service, options?: ServicesCreateOrUpdateOptionalParams): Promise<ServicesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, mobileNetworkName: string, serviceName: string, options?: ServicesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, mobileNetworkName: string, serviceName: string, options?: ServicesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, mobileNetworkName: string, serviceName: string, options?: ServicesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, mobileNetworkName: string, serviceName: string, options?: ServicesGetOptionalParams): Promise<ServicesGetResponse>;
     listByMobileNetwork(resourceGroupName: string, mobileNetworkName: string, options?: ServicesListByMobileNetworkOptionalParams): PagedAsyncIterableIterator<Service>;
@@ -1094,6 +1461,11 @@ export interface ServicesUpdateTagsOptionalParams extends coreClient.OperationOp
 export type ServicesUpdateTagsResponse = Service;
 
 // @public
+export interface SignalingConfiguration {
+    nasReroute?: NASRerouteConfiguration;
+}
+
+// @public
 export interface Sim extends ProxyResource {
     authenticationKey?: string;
     deviceType?: string;
@@ -1137,14 +1509,14 @@ export interface SimGroupResourceId {
 
 // @public
 export interface SimGroups {
-    beginCreateOrUpdate(resourceGroupName: string, simGroupName: string, parameters: SimGroup, options?: SimGroupsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<SimGroupsCreateOrUpdateResponse>, SimGroupsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, simGroupName: string, parameters: SimGroup, options?: SimGroupsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SimGroupsCreateOrUpdateResponse>, SimGroupsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, simGroupName: string, parameters: SimGroup, options?: SimGroupsCreateOrUpdateOptionalParams): Promise<SimGroupsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, simGroupName: string, options?: SimGroupsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, simGroupName: string, options?: SimGroupsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, simGroupName: string, options?: SimGroupsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, simGroupName: string, options?: SimGroupsGetOptionalParams): Promise<SimGroupsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: SimGroupsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<SimGroup>;
     listBySubscription(options?: SimGroupsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<SimGroup>;
-    updateTags(resourceGroupName: string, simGroupName: string, parameters: TagsObject, options?: SimGroupsUpdateTagsOptionalParams): Promise<SimGroupsUpdateTagsResponse>;
+    updateTags(resourceGroupName: string, simGroupName: string, parameters: IdentityAndTagsObject, options?: SimGroupsUpdateTagsOptionalParams): Promise<SimGroupsUpdateTagsResponse>;
 }
 
 // @public
@@ -1249,9 +1621,9 @@ export interface SimNameAndProperties {
 
 // @public
 export interface SimPolicies {
-    beginCreateOrUpdate(resourceGroupName: string, mobileNetworkName: string, simPolicyName: string, parameters: SimPolicy, options?: SimPoliciesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<SimPoliciesCreateOrUpdateResponse>, SimPoliciesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, mobileNetworkName: string, simPolicyName: string, parameters: SimPolicy, options?: SimPoliciesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SimPoliciesCreateOrUpdateResponse>, SimPoliciesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, mobileNetworkName: string, simPolicyName: string, parameters: SimPolicy, options?: SimPoliciesCreateOrUpdateOptionalParams): Promise<SimPoliciesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, mobileNetworkName: string, simPolicyName: string, options?: SimPoliciesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, mobileNetworkName: string, simPolicyName: string, options?: SimPoliciesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, mobileNetworkName: string, simPolicyName: string, options?: SimPoliciesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, mobileNetworkName: string, simPolicyName: string, options?: SimPoliciesGetOptionalParams): Promise<SimPoliciesGetResponse>;
     listByMobileNetwork(resourceGroupName: string, mobileNetworkName: string, options?: SimPoliciesListByMobileNetworkOptionalParams): PagedAsyncIterableIterator<SimPolicy>;
@@ -1333,15 +1705,15 @@ export interface SimPropertiesFormat extends CommonSimPropertiesFormat {
 
 // @public
 export interface Sims {
-    beginBulkDelete(resourceGroupName: string, simGroupName: string, parameters: SimDeleteList, options?: SimsBulkDeleteOptionalParams): Promise<PollerLike<PollOperationState<SimsBulkDeleteResponse>, SimsBulkDeleteResponse>>;
+    beginBulkDelete(resourceGroupName: string, simGroupName: string, parameters: SimDeleteList, options?: SimsBulkDeleteOptionalParams): Promise<SimplePollerLike<OperationState<SimsBulkDeleteResponse>, SimsBulkDeleteResponse>>;
     beginBulkDeleteAndWait(resourceGroupName: string, simGroupName: string, parameters: SimDeleteList, options?: SimsBulkDeleteOptionalParams): Promise<SimsBulkDeleteResponse>;
-    beginBulkUpload(resourceGroupName: string, simGroupName: string, parameters: SimUploadList, options?: SimsBulkUploadOptionalParams): Promise<PollerLike<PollOperationState<SimsBulkUploadResponse>, SimsBulkUploadResponse>>;
+    beginBulkUpload(resourceGroupName: string, simGroupName: string, parameters: SimUploadList, options?: SimsBulkUploadOptionalParams): Promise<SimplePollerLike<OperationState<SimsBulkUploadResponse>, SimsBulkUploadResponse>>;
     beginBulkUploadAndWait(resourceGroupName: string, simGroupName: string, parameters: SimUploadList, options?: SimsBulkUploadOptionalParams): Promise<SimsBulkUploadResponse>;
-    beginBulkUploadEncrypted(resourceGroupName: string, simGroupName: string, parameters: EncryptedSimUploadList, options?: SimsBulkUploadEncryptedOptionalParams): Promise<PollerLike<PollOperationState<SimsBulkUploadEncryptedResponse>, SimsBulkUploadEncryptedResponse>>;
+    beginBulkUploadEncrypted(resourceGroupName: string, simGroupName: string, parameters: EncryptedSimUploadList, options?: SimsBulkUploadEncryptedOptionalParams): Promise<SimplePollerLike<OperationState<SimsBulkUploadEncryptedResponse>, SimsBulkUploadEncryptedResponse>>;
     beginBulkUploadEncryptedAndWait(resourceGroupName: string, simGroupName: string, parameters: EncryptedSimUploadList, options?: SimsBulkUploadEncryptedOptionalParams): Promise<SimsBulkUploadEncryptedResponse>;
-    beginCreateOrUpdate(resourceGroupName: string, simGroupName: string, simName: string, parameters: Sim, options?: SimsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<SimsCreateOrUpdateResponse>, SimsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, simGroupName: string, simName: string, parameters: Sim, options?: SimsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SimsCreateOrUpdateResponse>, SimsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, simGroupName: string, simName: string, parameters: Sim, options?: SimsCreateOrUpdateOptionalParams): Promise<SimsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, simGroupName: string, simName: string, options?: SimsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, simGroupName: string, simName: string, options?: SimsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, simGroupName: string, simName: string, options?: SimsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, simGroupName: string, simName: string, options?: SimsGetOptionalParams): Promise<SimsGetResponse>;
     listByGroup(resourceGroupName: string, simGroupName: string, options?: SimsListByGroupOptionalParams): PagedAsyncIterableIterator<Sim>;
@@ -1437,6 +1809,11 @@ export interface Site extends TrackedResource {
 }
 
 // @public
+export interface SiteDeletePacketCore {
+    packetCore?: PacketCoreControlPlaneResourceId;
+}
+
+// @public
 export interface SiteListResult {
     readonly nextLink?: string;
     value?: Site[];
@@ -1452,10 +1829,12 @@ export interface SiteResourceId {
 
 // @public
 export interface Sites {
-    beginCreateOrUpdate(resourceGroupName: string, mobileNetworkName: string, siteName: string, parameters: Site, options?: SitesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<SitesCreateOrUpdateResponse>, SitesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, mobileNetworkName: string, siteName: string, parameters: Site, options?: SitesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SitesCreateOrUpdateResponse>, SitesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, mobileNetworkName: string, siteName: string, parameters: Site, options?: SitesCreateOrUpdateOptionalParams): Promise<SitesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, mobileNetworkName: string, siteName: string, options?: SitesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, mobileNetworkName: string, siteName: string, options?: SitesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, mobileNetworkName: string, siteName: string, options?: SitesDeleteOptionalParams): Promise<void>;
+    beginDeletePacketCore(resourceGroupName: string, mobileNetworkName: string, siteName: string, parameters: SiteDeletePacketCore, options?: SitesDeletePacketCoreOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeletePacketCoreAndWait(resourceGroupName: string, mobileNetworkName: string, siteName: string, parameters: SiteDeletePacketCore, options?: SitesDeletePacketCoreOptionalParams): Promise<void>;
     get(resourceGroupName: string, mobileNetworkName: string, siteName: string, options?: SitesGetOptionalParams): Promise<SitesGetResponse>;
     listByMobileNetwork(resourceGroupName: string, mobileNetworkName: string, options?: SitesListByMobileNetworkOptionalParams): PagedAsyncIterableIterator<Site>;
     updateTags(resourceGroupName: string, mobileNetworkName: string, siteName: string, parameters: TagsObject, options?: SitesUpdateTagsOptionalParams): Promise<SitesUpdateTagsResponse>;
@@ -1472,6 +1851,12 @@ export type SitesCreateOrUpdateResponse = Site;
 
 // @public
 export interface SitesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SitesDeletePacketCoreOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -1531,9 +1916,9 @@ export interface SliceResourceId {
 
 // @public
 export interface Slices {
-    beginCreateOrUpdate(resourceGroupName: string, mobileNetworkName: string, sliceName: string, parameters: Slice, options?: SlicesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<SlicesCreateOrUpdateResponse>, SlicesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, mobileNetworkName: string, sliceName: string, parameters: Slice, options?: SlicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SlicesCreateOrUpdateResponse>, SlicesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, mobileNetworkName: string, sliceName: string, parameters: Slice, options?: SlicesCreateOrUpdateOptionalParams): Promise<SlicesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, mobileNetworkName: string, sliceName: string, options?: SlicesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, mobileNetworkName: string, sliceName: string, options?: SlicesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, mobileNetworkName: string, sliceName: string, options?: SlicesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, mobileNetworkName: string, sliceName: string, options?: SlicesGetOptionalParams): Promise<SlicesGetResponse>;
     listByMobileNetwork(resourceGroupName: string, mobileNetworkName: string, options?: SlicesListByMobileNetworkOptionalParams): PagedAsyncIterableIterator<Slice>;
@@ -1621,6 +2006,157 @@ export interface TrackedResource extends Resource {
 
 // @public
 export type TrafficControlPermission = string;
+
+// @public
+export interface UeInfo extends ProxyResource {
+    lastReadAt?: Date;
+    ratType: RatType;
+    // (undocumented)
+    ueIpAddresses?: DnnIpPair[];
+    ueState: UeState;
+}
+
+// @public
+export interface UeInfo4G extends ExtendedUeInfoProperties {
+    // (undocumented)
+    bitLength?: number;
+    code: number;
+    eNbId?: string;
+    enbS1ApId?: number;
+    // (undocumented)
+    gNBValue?: string;
+    groupId: number;
+    imei?: string;
+    imeisv?: string;
+    imsi: string;
+    lastActivityTime?: Date;
+    lastVisitedTai?: string;
+    locationType?: string;
+    mccInfoConnectionInfoGlobalRanNodeIdPlmnIdMcc?: string;
+    mccInfoConnectionInfoLocationInfoPlmnMcc?: string;
+    mccInfoGutiPlmnMcc: string;
+    mmeS1ApId?: number;
+    mncInfoConnectionInfoGlobalRanNodeIdPlmnIdMnc?: string;
+    mncInfoConnectionInfoLocationInfoPlmnMnc?: string;
+    mncInfoGutiPlmnMnc: string;
+    mTmsi: number;
+    n3IwfId?: string;
+    ngeNbId?: string;
+    nid?: string;
+    perUeTnla?: string;
+    ratType: "4G";
+    rrcEstablishmentCause?: RrcEstablishmentCause;
+    // (undocumented)
+    sessionInfo?: UeSessionInfo4G[];
+    tac?: string;
+    tngfId?: string;
+    ueState?: UeState;
+    ueUsageSetting?: UeUsageSetting;
+    wagfId?: string;
+}
+
+// @public
+export interface UeInfo5G extends ExtendedUeInfoProperties {
+    allowedNssai?: Snssai[];
+    amfUeNgapId?: number;
+    // (undocumented)
+    bitLength?: number;
+    eNbId?: string;
+    fivegTmsi: number;
+    // (undocumented)
+    gNBValue?: string;
+    lastActivityTime?: Date;
+    lastVisitedTai?: string;
+    locationType?: string;
+    mccInfoConnectionInfoGlobalRanNodeIdPlmnIdMcc?: string;
+    mccInfoConnectionInfoLocationInfoPlmnMcc?: string;
+    mccInfoFivegGutiPlmnMcc: string;
+    mncInfoConnectionInfoGlobalRanNodeIdPlmnIdMnc?: string;
+    mncInfoConnectionInfoLocationInfoPlmnMnc?: string;
+    mncInfoFivegGutiPlmnMnc: string;
+    n3IwfId?: string;
+    ngeNbId?: string;
+    nid?: string;
+    pei?: string;
+    perUeTnla?: string;
+    pointer: number;
+    ranUeNgapId?: number;
+    ratType: "5G";
+    regionId: number;
+    rrcEstablishmentCause?: RrcEstablishmentCause;
+    // (undocumented)
+    sessionInfo?: UeSessionInfo5G[];
+    setId: number;
+    supi: string;
+    tac?: string;
+    tngfId?: string;
+    ueState?: UeState;
+    ueUsageSetting?: UeUsageSetting;
+    wagfId?: string;
+}
+
+// @public
+export interface UeInfoList {
+    readonly nextLink?: string;
+    value?: UeInfo[];
+}
+
+// @public
+export interface UeInformation {
+    list(resourceGroupName: string, packetCoreControlPlaneName: string, options?: UeInformationListOptionalParams): PagedAsyncIterableIterator<UeInfo>;
+}
+
+// @public
+export interface UeInformationListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type UeInformationListNextResponse = UeInfoList;
+
+// @public
+export interface UeInformationListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type UeInformationListResponse = UeInfoList;
+
+// @public
+export interface UeQOSFlow {
+    downlinkGbrDownlink?: string;
+    downlinkMbrDownlink?: string;
+    fiveqi: number;
+    qfi: number;
+    uplinkGbrUplink?: string;
+    uplinkMbrUplink?: string;
+}
+
+// @public
+export interface UeSessionInfo4G {
+    apn: string;
+    ebi: number;
+    ipV4Addr?: string;
+    pdnType: PdnType;
+}
+
+// @public
+export interface UeSessionInfo5G {
+    dnn: string;
+    downlink: string;
+    ipV4Addr?: string;
+    pdnType: PdnType;
+    pduSessionId: number;
+    // (undocumented)
+    qosFlow: UeQOSFlow[];
+    sd?: string;
+    sst: number;
+    uplink: string;
+}
+
+// @public
+export type UeState = string;
+
+// @public
+export type UeUsageSetting = string;
 
 // @public
 export interface UserAssignedIdentity {

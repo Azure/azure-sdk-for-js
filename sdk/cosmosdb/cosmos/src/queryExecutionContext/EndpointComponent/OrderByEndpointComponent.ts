@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { Response } from "../../request";
 import { ExecutionContext } from "../ExecutionContext";
 
@@ -16,8 +17,8 @@ export class OrderByEndpointComponent implements ExecutionContext {
   /**
    * Execute a provided function on the next element in the OrderByEndpointComponent.
    */
-  public async nextItem(): Promise<Response<any>> {
-    const { result: item, headers } = await this.executionContext.nextItem();
+  public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+    const { result: item, headers } = await this.executionContext.nextItem(diagnosticNode);
     return {
       result: item !== undefined ? item.payload : undefined,
       headers,

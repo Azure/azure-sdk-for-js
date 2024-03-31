@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the entity state (Etag) version of the API operation specified by its identifier.
  *
  * @summary Gets the entity state (Etag) version of the API operation specified by its identifier.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementHeadApiOperation.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementHeadApiOperation.json
  */
 async function apiManagementHeadApiOperation() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

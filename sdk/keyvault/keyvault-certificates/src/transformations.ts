@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { uint8ArrayToString } from "@azure/core-util";
 import {
   ArrayOneOrMore,
   CertificateContentType,
@@ -46,7 +47,7 @@ export function toCoreAttributes(properties: CertificateProperties): Certificate
 export function toCorePolicy(
   id: string | undefined,
   policy: CertificatePolicy,
-  attributes: CertificateAttributes = {}
+  attributes: CertificateAttributes = {},
 ): CoreCertificatePolicy {
   let subjectAlternativeNames: CoreSubjectAlternativeNames = {};
   if (policy.subjectAlternativeNames) {
@@ -192,7 +193,7 @@ export function toPublicIssuer(issuer: IssuerBundle = {}): CertificateIssuer {
 }
 
 export function getCertificateFromCertificateBundle(
-  certificateBundle: CertificateBundle
+  certificateBundle: CertificateBundle,
 ): KeyVaultCertificate {
   const parsedId = parseKeyVaultCertificateIdentifier(certificateBundle.id!);
 
@@ -211,6 +212,9 @@ export function getCertificateFromCertificateBundle(
     version: parsedId.version,
     tags: certificateBundle.tags,
     x509Thumbprint: certificateBundle.x509Thumbprint,
+    x509ThumbprintString:
+      certificateBundle.x509Thumbprint &&
+      uint8ArrayToString(certificateBundle.x509Thumbprint, "hex"),
     recoverableDays: attributes.recoverableDays,
   };
 
@@ -224,7 +228,7 @@ export function getCertificateFromCertificateBundle(
 }
 
 export function getCertificateWithPolicyFromCertificateBundle(
-  certificateBundle: CertificateBundle
+  certificateBundle: CertificateBundle,
 ): KeyVaultCertificateWithPolicy {
   const parsedId = parseKeyVaultCertificateIdentifier(certificateBundle.id!);
 
@@ -244,6 +248,9 @@ export function getCertificateWithPolicyFromCertificateBundle(
     version: parsedId.version,
     tags: certificateBundle.tags,
     x509Thumbprint: certificateBundle.x509Thumbprint,
+    x509ThumbprintString:
+      certificateBundle.x509Thumbprint &&
+      uint8ArrayToString(certificateBundle.x509Thumbprint, "hex"),
     recoverableDays: attributes.recoverableDays,
   };
 
@@ -258,7 +265,7 @@ export function getCertificateWithPolicyFromCertificateBundle(
 }
 
 export function getDeletedCertificateFromDeletedCertificateBundle(
-  certificateBundle: DeletedCertificateBundle
+  certificateBundle: DeletedCertificateBundle,
 ): DeletedCertificate {
   const certificate: KeyVaultCertificateWithPolicy =
     getCertificateWithPolicyFromCertificateBundle(certificateBundle);
@@ -294,6 +301,7 @@ export function getDeletedCertificateFromItem(item: DeletedCertificateItem): Del
     id: item.id,
     tags: item.tags,
     x509Thumbprint: item.x509Thumbprint,
+    x509ThumbprintString: item.x509Thumbprint && uint8ArrayToString(item.x509Thumbprint, "hex"),
 
     recoverableDays: item.attributes?.recoverableDays,
     recoveryLevel: item.attributes?.recoveryLevel,
@@ -309,7 +317,7 @@ export function getDeletedCertificateFromItem(item: DeletedCertificateItem): Del
 }
 
 function getCertificateOperationErrorFromErrorModel(
-  error?: ErrorModel | null
+  error?: ErrorModel | null,
 ): CertificateOperationError | undefined {
   if (error) {
     return {
@@ -324,7 +332,7 @@ function getCertificateOperationErrorFromErrorModel(
 export function getCertificateOperationFromCoreOperation(
   certificateName: string,
   vaultUrl: string,
-  operation: CoreCertificateOperation
+  operation: CoreCertificateOperation,
 ): CertificateOperation {
   return {
     cancellationRequested: operation.cancellationRequested,
@@ -350,13 +358,13 @@ export function getCertificateOperationFromCoreOperation(
 export function coreContactsToCertificateContacts(contacts: CoreContacts): CertificateContact[] {
   return contacts.contactList
     ? contacts.contactList.map(
-        (x) => ({ email: x.emailAddress, phone: x.phone, name: x.name } as CertificateContact)
+        (x) => ({ email: x.emailAddress, phone: x.phone, name: x.name }) as CertificateContact,
       )
     : [];
 }
 
 export function getPropertiesFromCertificateBundle(
-  certificateBundle: CertificateBundle
+  certificateBundle: CertificateBundle,
 ): CertificateProperties {
   const parsedId = parseKeyVaultCertificateIdentifier(certificateBundle.id!);
   const attributes: CertificateAttributes = certificateBundle.attributes || {};
@@ -374,6 +382,9 @@ export function getPropertiesFromCertificateBundle(
     version: parsedId.version,
     tags: certificateBundle.tags,
     x509Thumbprint: certificateBundle.x509Thumbprint,
+    x509ThumbprintString:
+      certificateBundle.x509Thumbprint &&
+      uint8ArrayToString(certificateBundle.x509Thumbprint, "hex"),
     recoverableDays: attributes.recoverableDays,
   };
 

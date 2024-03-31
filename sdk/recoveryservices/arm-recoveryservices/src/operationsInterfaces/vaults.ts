@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Vault,
   VaultsListBySubscriptionIdOptionalParams,
@@ -65,8 +65,8 @@ export interface Vaults {
     vault: Vault,
     options?: VaultsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VaultsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VaultsCreateOrUpdateResponse>,
       VaultsCreateOrUpdateResponse
     >
   >;
@@ -107,7 +107,7 @@ export interface Vaults {
     vault: PatchVault,
     options?: VaultsUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<VaultsUpdateResponse>, VaultsUpdateResponse>
+    SimplePollerLike<OperationState<VaultsUpdateResponse>, VaultsUpdateResponse>
   >;
   /**
    * Updates the vault.

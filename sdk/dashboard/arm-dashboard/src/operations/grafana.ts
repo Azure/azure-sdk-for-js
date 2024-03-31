@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DashboardManagementClient } from "../dashboardManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ManagedGrafana,
   GrafanaListNextOptionalParams,
@@ -31,6 +35,10 @@ import {
   GrafanaUpdateOptionalParams,
   GrafanaUpdateResponse,
   GrafanaDeleteOptionalParams,
+  GrafanaCheckEnterpriseDetailsOptionalParams,
+  GrafanaCheckEnterpriseDetailsResponse,
+  GrafanaFetchAvailablePluginsOptionalParams,
+  GrafanaFetchAvailablePluginsResponse,
   GrafanaListNextResponse,
   GrafanaListByResourceGroupNextResponse
 } from "../models";
@@ -227,7 +235,10 @@ export class GrafanaImpl implements Grafana {
     requestBodyParameters: ManagedGrafana,
     options?: GrafanaCreateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<GrafanaCreateResponse>, GrafanaCreateResponse>
+    SimplePollerLike<
+      OperationState<GrafanaCreateResponse>,
+      GrafanaCreateResponse
+    >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -235,7 +246,7 @@ export class GrafanaImpl implements Grafana {
     ): Promise<GrafanaCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -268,15 +279,23 @@ export class GrafanaImpl implements Grafana {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, requestBodyParameters, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        workspaceName,
+        requestBodyParameters,
+        options
+      },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      GrafanaCreateResponse,
+      OperationState<GrafanaCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -334,14 +353,14 @@ export class GrafanaImpl implements Grafana {
     resourceGroupName: string,
     workspaceName: string,
     options?: GrafanaDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -374,15 +393,15 @@ export class GrafanaImpl implements Grafana {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -405,6 +424,39 @@ export class GrafanaImpl implements Grafana {
       options
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * Retrieve enterprise add-on details information
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The workspace name of Azure Managed Grafana.
+   * @param options The options parameters.
+   */
+  checkEnterpriseDetails(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: GrafanaCheckEnterpriseDetailsOptionalParams
+  ): Promise<GrafanaCheckEnterpriseDetailsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, options },
+      checkEnterpriseDetailsOperationSpec
+    );
+  }
+
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The workspace name of Azure Managed Grafana.
+   * @param options The options parameters.
+   */
+  fetchAvailablePlugins(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: GrafanaFetchAvailablePluginsOptionalParams
+  ): Promise<GrafanaFetchAvailablePluginsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, options },
+      fetchAvailablePluginsOperationSpec
+    );
   }
 
   /**
@@ -543,7 +595,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ManagedGrafana
     },
     202: {
-      bodyMapper: Mappers.ManagedGrafana
+      bodyMapper: Mappers.ManagedGrafana,
+      headersMapper: Mappers.GrafanaUpdateHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -570,6 +623,50 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     201: {},
     202: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const checkEnterpriseDetailsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/checkEnterpriseDetails",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.EnterpriseDetails
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const fetchAvailablePluginsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/fetchAvailablePlugins",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GrafanaAvailablePluginListResponse
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

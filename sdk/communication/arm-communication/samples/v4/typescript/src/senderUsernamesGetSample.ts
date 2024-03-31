@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a valid sender username for a domains resource.
  *
  * @summary Get a valid sender username for a domains resource.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/senderUsernames/get.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/senderUsernames/get.json
  */
 async function getSenderUsernamesResource() {
   const subscriptionId =
@@ -32,13 +32,13 @@ async function getSenderUsernamesResource() {
   const credential = new DefaultAzureCredential();
   const client = new CommunicationServiceManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.senderUsernames.get(
     resourceGroupName,
     emailServiceName,
     domainName,
-    senderUsername
+    senderUsername,
   );
   console.log(result);
 }

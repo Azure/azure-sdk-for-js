@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Returns an AML file system.
  *
  * @summary Returns an AML file system.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-03-01-preview/examples/amlFilesystems_Get.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-11-01-preview/examples/amlFilesystems_Get.json
  */
 async function amlFilesystemsGet() {
   const subscriptionId =

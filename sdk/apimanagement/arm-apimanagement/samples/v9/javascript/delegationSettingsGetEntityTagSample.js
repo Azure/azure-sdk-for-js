@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the entity state (Etag) version of the DelegationSettings.
  *
  * @summary Gets the entity state (Etag) version of the DelegationSettings.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementHeadDelegationSettings.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementHeadDelegationSettings.json
  */
 async function apiManagementHeadDelegationSettings() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

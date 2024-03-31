@@ -13,16 +13,20 @@ import {
   StorageManagementClient
 } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Sets the properties of a storage account’s Table service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary Sets the properties of a storage account’s Table service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/TableServicesPut.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/TableServicesPut.json
  */
 async function tableServicesPut() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res4410";
+  const subscriptionId =
+    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res4410";
   const accountName = "sto8607";
   const parameters: TableServiceProperties = {
     cors: {
@@ -72,4 +76,8 @@ async function tableServicesPut() {
   console.log(result);
 }
 
-tableServicesPut().catch(console.error);
+async function main() {
+  tableServicesPut();
+}
+
+main().catch(console.error);

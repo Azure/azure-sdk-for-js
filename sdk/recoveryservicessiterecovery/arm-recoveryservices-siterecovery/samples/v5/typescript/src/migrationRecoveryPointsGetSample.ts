@@ -10,17 +10,24 @@
 // Licensed under the MIT License.
 import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets a recovery point for a migration item.
  *
  * @summary Gets a recovery point for a migration item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2022-10-01/examples/MigrationRecoveryPoints_Get.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/MigrationRecoveryPoints_Get.json
  */
 async function getsARecoveryPointForAMigrationItem() {
-  const subscriptionId = "cb53d0c3-bd59-4721-89bc-06916a9147ef";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
+    "cb53d0c3-bd59-4721-89bc-06916a9147ef";
   const resourceName = "migrationvault";
-  const resourceGroupName = "resourcegroup1";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] ||
+    "resourcegroup1";
   const fabricName = "vmwarefabric1";
   const protectionContainerName = "vmwareContainer1";
   const migrationItemName = "virtualmachine1";
@@ -33,9 +40,13 @@ async function getsARecoveryPointForAMigrationItem() {
     fabricName,
     protectionContainerName,
     migrationItemName,
-    migrationRecoveryPointName
+    migrationRecoveryPointName,
   );
   console.log(result);
 }
 
-getsARecoveryPointForAMigrationItem().catch(console.error);
+async function main() {
+  getsARecoveryPointForAMigrationItem();
+}
+
+main().catch(console.error);

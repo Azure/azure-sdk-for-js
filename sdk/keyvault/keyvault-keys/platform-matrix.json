@@ -3,23 +3,23 @@
     {
       "Agent": {
         "ubuntu-20.04_ManagedHSM": {
-          "OSVmImage": "MMSUbuntu20.04",
-          "Pool": "azsdk-pool-mms-ubuntu-2004-general",
+          "OSVmImage": "env:LINUXVMIMAGE",
+          "Pool": "env:LINUXPOOL",
           "ArmTemplateParameters": "@{ enableHsm = $true }"
         }
       },
       "TestType": "node",
-      "NodeTestVersion": "14.x"
+      "NodeTestVersion": "18.x"
     },
     {
       "Agent": {
         "ubuntu-20.04": {
-          "OSVmImage": "MMSUbuntu20.04",
-          "Pool": "azsdk-pool-mms-ubuntu-2004-general"
+          "OSVmImage": "env:LINUXVMIMAGE",
+          "Pool": "env:LINUXPOOL"
         }
       },
       "TestType": "node",
-      "NodeTestVersion": "16.x",
+      "NodeTestVersion": "18.x",
       "ServiceVersion": ["7.0", "7.1", "7.2"]
     }
   ],

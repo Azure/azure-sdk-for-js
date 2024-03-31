@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CognitiveServicesManagementClient } from "../cognitiveServicesManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   CommitmentPlan,
   CommitmentPlansListNextOptionalParams,
@@ -435,14 +439,14 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     accountName: string,
     commitmentPlanName: string,
     options?: CommitmentPlansDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -475,13 +479,13 @@ export class CommitmentPlansImpl implements CommitmentPlans {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, commitmentPlanName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, commitmentPlanName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -525,8 +529,8 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     commitmentPlan: CommitmentPlan,
     options?: CommitmentPlansCreateOrUpdatePlanOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CommitmentPlansCreateOrUpdatePlanResponse>,
+    SimplePollerLike<
+      OperationState<CommitmentPlansCreateOrUpdatePlanResponse>,
       CommitmentPlansCreateOrUpdatePlanResponse
     >
   > {
@@ -536,7 +540,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     ): Promise<CommitmentPlansCreateOrUpdatePlanResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -569,15 +573,18 @@ export class CommitmentPlansImpl implements CommitmentPlans {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, commitmentPlanName, commitmentPlan, options },
-      createOrUpdatePlanOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, commitmentPlanName, commitmentPlan, options },
+      spec: createOrUpdatePlanOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CommitmentPlansCreateOrUpdatePlanResponse,
+      OperationState<CommitmentPlansCreateOrUpdatePlanResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -620,8 +627,8 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     commitmentPlan: PatchResourceTagsAndSku,
     options?: CommitmentPlansUpdatePlanOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CommitmentPlansUpdatePlanResponse>,
+    SimplePollerLike<
+      OperationState<CommitmentPlansUpdatePlanResponse>,
       CommitmentPlansUpdatePlanResponse
     >
   > {
@@ -631,7 +638,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     ): Promise<CommitmentPlansUpdatePlanResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -664,15 +671,18 @@ export class CommitmentPlansImpl implements CommitmentPlans {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, commitmentPlanName, commitmentPlan, options },
-      updatePlanOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, commitmentPlanName, commitmentPlan, options },
+      spec: updatePlanOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CommitmentPlansUpdatePlanResponse,
+      OperationState<CommitmentPlansUpdatePlanResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -712,14 +722,14 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     resourceGroupName: string,
     commitmentPlanName: string,
     options?: CommitmentPlansDeletePlanOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -752,15 +762,15 @@ export class CommitmentPlansImpl implements CommitmentPlans {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, commitmentPlanName, options },
-      deletePlanOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, commitmentPlanName, options },
+      spec: deletePlanOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -893,8 +903,8 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     association: CommitmentPlanAccountAssociation,
     options?: CommitmentPlansCreateOrUpdateAssociationOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CommitmentPlansCreateOrUpdateAssociationResponse>,
+    SimplePollerLike<
+      OperationState<CommitmentPlansCreateOrUpdateAssociationResponse>,
       CommitmentPlansCreateOrUpdateAssociationResponse
     >
   > {
@@ -904,7 +914,7 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     ): Promise<CommitmentPlansCreateOrUpdateAssociationResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -937,21 +947,24 @@ export class CommitmentPlansImpl implements CommitmentPlans {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         commitmentPlanName,
         commitmentPlanAssociationName,
         association,
         options
       },
-      createOrUpdateAssociationOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateAssociationOperationSpec
+    });
+    const poller = await createHttpPoller<
+      CommitmentPlansCreateOrUpdateAssociationResponse,
+      OperationState<CommitmentPlansCreateOrUpdateAssociationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -998,14 +1011,14 @@ export class CommitmentPlansImpl implements CommitmentPlans {
     commitmentPlanName: string,
     commitmentPlanAssociationName: string,
     options?: CommitmentPlansDeleteAssociationOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1038,20 +1051,20 @@ export class CommitmentPlansImpl implements CommitmentPlans {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         commitmentPlanName,
         commitmentPlanAssociationName,
         options
       },
-      deleteAssociationOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteAssociationOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;

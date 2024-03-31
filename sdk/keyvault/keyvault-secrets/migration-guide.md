@@ -1,22 +1,25 @@
 # Guide for migrating to @azure/keyvault-secrets from azure-keyvault
 
-This guide is intended to assist in the migration to `@azure/keyvault-secrets` from `azure-keyvault`. It will focus on side-by-side comparisons for similar operations between the two packages.
+This guide is intended to assist in the migration to `@azure/keyvault-secrets` from the [deprecated] `azure-keyvault` package. It will focus on side-by-side comparisons for similar operations between the two packages.
 
 Familiarity with the `azure-keyvault` package is assumed. For those new to the Key Vault client libraries for JavaScript, please refer to the [README for @azure/keyvault-secrets][kvs-npm] rather than this guide.
 
 ## Table of contents
 
-* [Migration benefits](#migration-benefits)
-* [Important changes](#important-changes)
-    - [Separate packages and clients](#separate-packages-and-clients)
-    - [Client constructors](#client-constructors)
-    - [Create a secret](#create-a-secret)
-    - [Retrieve a secret](#retrieve-a-secret)
-    - [List properties of secrets](#list-properties-of-secrets)
-    - [Delete a secret](#delete-a-secret)
-* [Additional samples](#additional-samples)
+- [Migration benefits](#migration-benefits)
+- [Important changes](#important-changes)
+  - [Separate packages and clients](#separate-packages-and-clients)
+  - [Client constructors](#client-constructors)
+  - [Create a secret](#create-a-secret)
+  - [Retrieve a secret](#retrieve-a-secret)
+  - [List properties of secrets](#list-properties-of-secrets)
+  - [Delete a secret](#delete-a-secret)
+- [Additional samples](#additional-samples)
+- [Support](#support)
 
 ## Migration benefits
+
+> Note: `azure-keyvault` has been [deprecated]. Please migrate to `@azure/keyvault-secrets` for continued support.
 
 A natural question to ask when considering whether or not to adopt a new version or library is what the benefits of doing so would be. As Azure has matured and been embraced by a more diverse group of developers, we have been focused on learning the patterns and practices to best support developer productivity and to understand the gaps that the JavaScript client libraries have.
 
@@ -27,6 +30,7 @@ To try and improve the development experience across Azure services, a set of un
 ### Cross Service SDK improvements
 
 The modern Key Vault client libraries also share some of the cross-service improvements made to the Azure development experience, such as:
+
 - Using the new `@azure/identity` library to share a single authentication approach between clients.
 - A unified logging and diagnostics pipeline that offers a common view of the activities across each of the client libraries.
 - The use of promises rather than callbacks for a simplified programming experience.
@@ -36,7 +40,7 @@ The modern Key Vault client libraries also share some of the cross-service impro
 
 ### Separate packages and clients
 
-In the interest of simplifying the API for working with Key Vault keys, secrets and certificates, the `azure-keyvault`  package is split into separate packages.
+In the interest of simplifying the API for working with Key Vault keys, secrets and certificates, the `azure-keyvault` package is split into separate packages.
 
 - [`@azure/keyvault-keys`][kvk-npm] contains `KeyClient` for working with Key Vault keys, and `CryptographyClient` for performing cryptographic operations.
 - [`@azure/keyvault-secrets`][kvs-npm] contains `SecretClient` for working with Key Vault secrets.
@@ -51,8 +55,8 @@ Across all of the new Azure client libraries, clients consistently take an endpo
 Previously in `azure-keyvault` you could create a `KeyVaultClient` by using credentials from `ms-rest-azure` (up to the version `^2.6.0`. Higher versions are not supported).
 
 ```js
-var KeyVault = require('azure-keyvault');
-var msRestAzure = require('ms-rest-azure');
+var KeyVault = require("azure-keyvault");
+var msRestAzure = require("ms-rest-azure");
 
 const clientId = "client id";
 const secret = "client secret";
@@ -60,11 +64,7 @@ const domain = "tenant id";
 const vaultUrl = `https://my-vault.vault.azure.net/`;
 
 async function main() {
-  const credentials = await msRestAzure.loginWithServicePrincipalSecret(
-    clientId,
-    secret,
-    domain
-  );
+  const credentials = await msRestAzure.loginWithServicePrincipalSecret(clientId, secret, domain);
   const client = new KeyVault.KeyVaultClient(credentials);
   const keyVaultSecret = await client.getSecret(vaultUrl, "MySecret", "");
   console.log(keyVaultSecret);
@@ -143,7 +143,9 @@ console.log(keyVaultSecret.properties.version);
 
 for await (let versionProperties of client.listPropertiesOfSecretVersions("MySecret")) {
   console.log("Name:", versionProperties.name, "Version:", versionProperties.version);
-  const keyVaultSecret = await client.getSecret(versionProperties.name, { version: versionProperties.version });
+  const keyVaultSecret = await client.getSecret(versionProperties.name, {
+    version: versionProperties.version,
+  });
   console.log(keyVaultSecret.properties.version);
 }
 ```
@@ -193,6 +195,11 @@ await client.purgeDeletedSecret(deletedSecret.name);
 - [Key Vault Secrets samples for TypeScript](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-secrets/samples/v4/typescript)
 - [General Key Vault samples for TypeScript](https://docs.microsoft.com/samples/browse/?products=azure-key-vault&languages=typescript)
 
+## Support
+
+If you have migrated your code base and are experiencing errors, see our [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/TROUBLESHOOTING.md). For additional support, please search our [existing issues](https://github.com/Azure/azure-sdk-for-js/issues) or [open a new issue](https://github.com/Azure/azure-sdk-for-net/issues/new/choose). You may also find existing answers on community sites like [Stack Overflow](https://stackoverflow.com/questions/tagged/azure-keyvault+node.js).
+
+[deprecated]: https://aka.ms/azsdk/deprecated
 [kvk-npm]: https://www.npmjs.com/package/@azure/keyvault-keys
 [kvs-npm]: https://www.npmjs.com/package/@azure/keyvault-secrets
 [kvc-npm]: https://www.npmjs.com/package/@azure/keyvault-certificates

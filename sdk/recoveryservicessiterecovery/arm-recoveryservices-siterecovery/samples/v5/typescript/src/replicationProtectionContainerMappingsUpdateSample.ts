@@ -10,20 +10,27 @@
 // Licensed under the MIT License.
 import {
   UpdateProtectionContainerMappingInput,
-  SiteRecoveryManagementClient
+  SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to The operation to update protection container mapping.
  *
  * @summary The operation to update protection container mapping.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2022-10-01/examples/ReplicationProtectionContainerMappings_Update.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectionContainerMappings_Update.json
  */
 async function updateProtectionContainerMapping() {
-  const subscriptionId = "c183865e-6077-46f2-a3b1-deb0f4f4650a";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
+    "c183865e-6077-46f2-a3b1-deb0f4f4650a";
   const resourceName = "vault1";
-  const resourceGroupName = "resourceGroupPS1";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] ||
+    "resourceGroupPS1";
   const fabricName = "cloud1";
   const protectionContainerName = "cloud_6d224fc6-f326-5d35-96de-fbf51efb3179";
   const mappingName = "cloud1protectionprofile1";
@@ -33,21 +40,26 @@ async function updateProtectionContainerMapping() {
         agentAutoUpdateStatus: "Enabled",
         automationAccountArmId:
           "/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/automationrg1/providers/Microsoft.Automation/automationAccounts/automationaccount1",
-        instanceType: "A2A"
-      }
-    }
+        instanceType: "A2A",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
-  const result = await client.replicationProtectionContainerMappings.beginUpdateAndWait(
-    resourceName,
-    resourceGroupName,
-    fabricName,
-    protectionContainerName,
-    mappingName,
-    updateInput
-  );
+  const result =
+    await client.replicationProtectionContainerMappings.beginUpdateAndWait(
+      resourceName,
+      resourceGroupName,
+      fabricName,
+      protectionContainerName,
+      mappingName,
+      updateInput,
+    );
   console.log(result);
 }
 
-updateProtectionContainerMapping().catch(console.error);
+async function main() {
+  updateProtectionContainerMapping();
+}
+
+main().catch(console.error);

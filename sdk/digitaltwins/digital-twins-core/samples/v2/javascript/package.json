@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Azure Digital Twins client library samples for JavaScript",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "repository": {
     "type": "git",
@@ -31,7 +31,7 @@
   "dependencies": {
     "@azure/digital-twins-core": "latest",
     "dotenv": "latest",
-    "@azure/identity": "^2.0.1",
+    "@azure/identity": "^4.0.1",
     "uuid": "^8.3.0"
   }
 }

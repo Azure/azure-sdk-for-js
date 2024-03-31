@@ -5,7 +5,7 @@ import { createRequest, parseNotificationResponse, sendRequest } from "./interna
 import { JsonPatch } from "../models/installation.js";
 import { NotificationHubsClientContext } from "./index.js";
 import { NotificationHubsResponse } from "../models/notificationDetails.js";
-import { OperationOptions } from "@azure/core-client";
+import { OperationOptions } from "@azure-rest/core-client";
 import { tracingClient } from "../utils/tracing.js";
 
 const OPERATION_NAME = "updateInstallation";
@@ -22,7 +22,7 @@ export function updateInstallation(
   context: NotificationHubsClientContext,
   installationId: string,
   installationPatches: JsonPatch[],
-  options: OperationOptions = {}
+  options: OperationOptions = {},
 ): Promise<NotificationHubsResponse> {
   return tracingClient.withSpan(
     `NotificationHubsClientContext.${OPERATION_NAME}`,
@@ -39,6 +39,6 @@ export function updateInstallation(
       const response = await sendRequest(context, request, 200);
 
       return parseNotificationResponse(response);
-    }
+    },
   );
 }

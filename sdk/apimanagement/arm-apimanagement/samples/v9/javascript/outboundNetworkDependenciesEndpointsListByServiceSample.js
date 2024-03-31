@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the network endpoints of all outbound dependencies of a ApiManagement service.
  *
  * @summary Gets the network endpoints of all outbound dependencies of a ApiManagement service.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementServiceGetOutboundNetworkDependenciesEndpoints.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementServiceGetOutboundNetworkDependenciesEndpoints.json
  */
 async function apiManagementServiceGetOutboundNetworkDependenciesEndpoints() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

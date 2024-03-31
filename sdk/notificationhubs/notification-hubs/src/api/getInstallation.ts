@@ -4,7 +4,7 @@
 import { createRequest, sendRequest } from "./internal/_client.js";
 import { Installation } from "../models/installation.js";
 import { NotificationHubsClientContext } from "./index.js";
-import { OperationOptions } from "@azure/core-client";
+import { OperationOptions } from "@azure-rest/core-client";
 import { tracingClient } from "../utils/tracing.js";
 
 const OPERATION_NAME = "getInstallation";
@@ -19,7 +19,7 @@ const OPERATION_NAME = "getInstallation";
 export function getInstallation(
   context: NotificationHubsClientContext,
   installationId: string,
-  options: OperationOptions = {}
+  options: OperationOptions = {},
 ): Promise<Installation> {
   return tracingClient.withSpan(
     `NotificationHubsClientContext.${OPERATION_NAME}`,
@@ -35,6 +35,6 @@ export function getInstallation(
       const response = await sendRequest(context, request, 200);
 
       return JSON.parse(response.bodyAsText!) as Installation;
-    }
+    },
   );
 }

@@ -3,7 +3,7 @@
 
 import { createRequest, sendRequest } from "./internal/_client.js";
 import { NotificationHubsClientContext } from "./index.js";
-import { OperationOptions } from "@azure/core-client";
+import { OperationOptions } from "@azure-rest/core-client";
 import { RegistrationDescription } from "../models/registration.js";
 import { registrationDescriptionParser } from "../serializers/registrationSerializer.js";
 import { tracingClient } from "../utils/tracing.js";
@@ -20,7 +20,7 @@ const OPERATION_NAME = "getRegistration";
 export function getRegistration(
   context: NotificationHubsClientContext,
   registrationId: string,
-  options: OperationOptions = {}
+  options: OperationOptions = {},
 ): Promise<RegistrationDescription> {
   return tracingClient.withSpan(
     `NotificationHubsClientContext.${OPERATION_NAME}`,
@@ -36,6 +36,6 @@ export function getRegistration(
       const response = await sendRequest(context, request, 200);
 
       return registrationDescriptionParser.parseRegistrationEntry(response.bodyAsText!);
-    }
+    },
   );
 }

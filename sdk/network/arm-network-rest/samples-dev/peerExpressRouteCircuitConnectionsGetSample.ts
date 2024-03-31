@@ -35,7 +35,7 @@ async function peerExpressRouteCircuitConnectionGet() {
       resourceGroupName,
       circuitName,
       peeringName,
-      connectionName
+      connectionName,
     )
     .get(options);
   console.log(result);

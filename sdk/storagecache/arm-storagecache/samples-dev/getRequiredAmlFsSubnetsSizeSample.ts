@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the number of available IP addresses needed for the AML file system information provided.
  *
  * @summary Get the number of available IP addresses needed for the AML file system information provided.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-03-01-preview/examples/getRequiredAmlFSSubnetsSize.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-11-01-preview/examples/getRequiredAmlFSSubnetsSize.json
  */
 async function getRequiredAmlFilesystemSubnetsSize() {
   const subscriptionId =

@@ -2,13 +2,70 @@
 // Licensed under the MIT license.
 
 import { RequestParameters } from "@azure-rest/core-client";
-import { EmbeddingsOptions, CompletionsOptions, ChatCompletionsOptions } from "./models.js";
+import {
+  AudioTranscriptionOptions,
+  AudioTranslationOptions,
+  CompletionsOptions,
+  ChatCompletionsOptions,
+  ImageGenerationOptions,
+  EmbeddingsOptions,
+} from "./models.js";
 
-export interface GetEmbeddingsBodyParam {
-  body?: EmbeddingsOptions;
+export interface GetAudioTranscriptionAsPlainTextBodyParam {
+  body?: AudioTranscriptionOptions;
 }
 
-export type GetEmbeddingsParameters = GetEmbeddingsBodyParam & RequestParameters;
+export interface GetAudioTranscriptionAsPlainTextMediaTypesParam {
+  /** The content type for the operation. Always multipart/form-data for this operation. */
+  contentType: "multipart/form-data";
+}
+
+export type GetAudioTranscriptionAsPlainTextParameters =
+  GetAudioTranscriptionAsPlainTextMediaTypesParam &
+    GetAudioTranscriptionAsPlainTextBodyParam &
+    RequestParameters;
+
+export interface GetAudioTranscriptionAsResponseObjectBodyParam {
+  body?: AudioTranscriptionOptions;
+}
+
+export interface GetAudioTranscriptionAsResponseObjectMediaTypesParam {
+  /** The content type for the operation. Always multipart/form-data for this operation. */
+  contentType: "multipart/form-data";
+}
+
+export type GetAudioTranscriptionAsResponseObjectParameters =
+  GetAudioTranscriptionAsResponseObjectMediaTypesParam &
+    GetAudioTranscriptionAsResponseObjectBodyParam &
+    RequestParameters;
+
+export interface GetAudioTranslationAsPlainTextBodyParam {
+  body?: AudioTranslationOptions;
+}
+
+export interface GetAudioTranslationAsPlainTextMediaTypesParam {
+  /** The content type for the operation. Always multipart/form-data for this operation. */
+  contentType: "multipart/form-data";
+}
+
+export type GetAudioTranslationAsPlainTextParameters =
+  GetAudioTranslationAsPlainTextMediaTypesParam &
+    GetAudioTranslationAsPlainTextBodyParam &
+    RequestParameters;
+
+export interface GetAudioTranslationAsResponseObjectBodyParam {
+  body?: AudioTranslationOptions;
+}
+
+export interface GetAudioTranslationAsResponseObjectMediaTypesParam {
+  /** The content type for the operation. Always multipart/form-data for this operation. */
+  contentType: "multipart/form-data";
+}
+
+export type GetAudioTranslationAsResponseObjectParameters =
+  GetAudioTranslationAsResponseObjectMediaTypesParam &
+    GetAudioTranslationAsResponseObjectBodyParam &
+    RequestParameters;
 
 export interface GetCompletionsBodyParam {
   body?: CompletionsOptions;
@@ -21,3 +78,15 @@ export interface GetChatCompletionsBodyParam {
 }
 
 export type GetChatCompletionsParameters = GetChatCompletionsBodyParam & RequestParameters;
+
+export interface GetImageGenerationsBodyParam {
+  body?: ImageGenerationOptions;
+}
+
+export type GetImageGenerationsParameters = GetImageGenerationsBodyParam & RequestParameters;
+
+export interface GetEmbeddingsBodyParam {
+  body?: EmbeddingsOptions;
+}
+
+export type GetEmbeddingsParameters = GetEmbeddingsBodyParam & RequestParameters;

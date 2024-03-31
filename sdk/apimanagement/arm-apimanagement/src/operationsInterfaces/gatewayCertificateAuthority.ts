@@ -24,7 +24,7 @@ import {
 export interface GatewayCertificateAuthority {
   /**
    * Lists the collection of Certificate Authorities for the specified Gateway entity.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
    *                  instance. Must not have value 'managed'
@@ -38,7 +38,7 @@ export interface GatewayCertificateAuthority {
   ): PagedAsyncIterableIterator<GatewayCertificateAuthorityContract>;
   /**
    * Checks if Certificate entity is assigned to Gateway entity as Certificate Authority.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
    *                  instance. Must not have value 'managed'
@@ -55,7 +55,7 @@ export interface GatewayCertificateAuthority {
   ): Promise<GatewayCertificateAuthorityGetEntityTagResponse>;
   /**
    * Get assigned Gateway Certificate Authority details.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
    *                  instance. Must not have value 'managed'
@@ -72,7 +72,7 @@ export interface GatewayCertificateAuthority {
   ): Promise<GatewayCertificateAuthorityGetResponse>;
   /**
    * Assign Certificate entity to Gateway entity as Certificate Authority.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
    *                  instance. Must not have value 'managed'
@@ -91,7 +91,7 @@ export interface GatewayCertificateAuthority {
   ): Promise<GatewayCertificateAuthorityCreateOrUpdateResponse>;
   /**
    * Remove relationship between Certificate Authority and Gateway entity.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
    *                  instance. Must not have value 'managed'

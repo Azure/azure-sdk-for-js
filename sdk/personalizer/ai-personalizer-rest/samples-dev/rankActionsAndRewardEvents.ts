@@ -65,7 +65,7 @@ async function main() {
   const rankOutput = rankResponse.body;
   const eventId = rankOutput.eventId as string;
   log(
-    `Rank returned response with event id ${eventId} and recommended ${rankOutput.rewardActionId} as the best action`
+    `Rank returned response with event id ${eventId} and recommended ${rankOutput.rewardActionId} as the best action`,
   );
 
   // The event response will be determined by how the user interacted with the action that was presented to them.
@@ -87,6 +87,6 @@ function log(message: string) {
 
 main().catch((err: PersonalizerErrorOutput) => {
   console.error(
-    `The sample encountered an error with code: ${err.code} and message: ${err.message}`
+    `The sample encountered an error with code: ${err.code} and message: ${err.message}`,
   );
 });

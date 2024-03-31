@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AttachedDatabaseConfiguration,
   AttachedDatabaseConfigurationsListByClusterOptionalParams,
@@ -26,7 +26,7 @@ import {
 export interface AttachedDatabaseConfigurations {
   /**
    * Returns the list of attached database configurations of the given Kusto cluster.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param options The options parameters.
    */
@@ -37,7 +37,7 @@ export interface AttachedDatabaseConfigurations {
   ): PagedAsyncIterableIterator<AttachedDatabaseConfiguration>;
   /**
    * Checks that the attached database configuration resource name is valid and is not already in use.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
@@ -50,7 +50,7 @@ export interface AttachedDatabaseConfigurations {
   ): Promise<AttachedDatabaseConfigurationsCheckNameAvailabilityResponse>;
   /**
    * Returns an attached database configuration.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param attachedDatabaseConfigurationName The name of the attached database configuration.
    * @param options The options parameters.
@@ -63,7 +63,7 @@ export interface AttachedDatabaseConfigurations {
   ): Promise<AttachedDatabaseConfigurationsGetResponse>;
   /**
    * Creates or updates an attached database configuration.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param attachedDatabaseConfigurationName The name of the attached database configuration.
    * @param parameters The database parameters supplied to the CreateOrUpdate operation.
@@ -76,14 +76,14 @@ export interface AttachedDatabaseConfigurations {
     parameters: AttachedDatabaseConfiguration,
     options?: AttachedDatabaseConfigurationsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AttachedDatabaseConfigurationsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AttachedDatabaseConfigurationsCreateOrUpdateResponse>,
       AttachedDatabaseConfigurationsCreateOrUpdateResponse
     >
   >;
   /**
    * Creates or updates an attached database configuration.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param attachedDatabaseConfigurationName The name of the attached database configuration.
    * @param parameters The database parameters supplied to the CreateOrUpdate operation.
@@ -98,7 +98,7 @@ export interface AttachedDatabaseConfigurations {
   ): Promise<AttachedDatabaseConfigurationsCreateOrUpdateResponse>;
   /**
    * Deletes the attached database configuration with the given name.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param attachedDatabaseConfigurationName The name of the attached database configuration.
    * @param options The options parameters.
@@ -108,10 +108,10 @@ export interface AttachedDatabaseConfigurations {
     clusterName: string,
     attachedDatabaseConfigurationName: string,
     options?: AttachedDatabaseConfigurationsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the attached database configuration with the given name.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param attachedDatabaseConfigurationName The name of the attached database configuration.
    * @param options The options parameters.

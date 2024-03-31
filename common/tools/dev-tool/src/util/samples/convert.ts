@@ -1,20 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EOL } from "os";
-
-import * as prettier from "prettier";
+import { EOL } from "node:os";
 import ts from "typescript";
-
 import { createPrinter } from "../printer";
+import { format } from "../prettier";
 
 const log = createPrinter("ts-to-js");
-
-const prettierOptions: prettier.Options = {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  ...(require("../../../../eslint-plugin-azure-sdk/prettier.json") as prettier.Options),
-  parser: "typescript",
-};
 
 const compilerOptions: ts.CompilerOptions = {
   target: ts.ScriptTarget.ESNext,
@@ -47,13 +39,13 @@ const REGEX_STACK: Array<[RegExp | (() => RegExp), string]> = [
 /**
  * Handles the formatting of the resulting JS text.
  */
-function postTransform(outText: string): string {
+async function postTransform(outText: string): Promise<string> {
   // Replace the sigils that we inserted
   let text = outText.split(NEWLINE_SIGIL_SEARCH).join("\n\n");
 
   // Format first so that we can write matching regexps
   // that are humanly comprehensible
-  text = prettier.format(text, prettierOptions);
+  text = await format(text, "babel");
 
   for (const [rx, replacement] of REGEX_STACK) {
     const match = typeof rx === "function" ? rx() : rx;
@@ -61,7 +53,7 @@ function postTransform(outText: string): string {
   }
 
   // Format once more for the final output.
-  return prettier.format(text, prettierOptions);
+  return await format(text, "babel");
 }
 
 /**
@@ -72,7 +64,10 @@ function postTransform(outText: string): string {
  * @param transpileOptions - optiona transpileOptions overrides (compilerOptions will be merged)
  * @returns - an equivalent JavaScript module source
  */
-export function convert(srcText: string, transpileOptions?: ts.TranspileOptions): string {
+export async function convert(
+  srcText: string,
+  transpileOptions?: ts.TranspileOptions,
+): Promise<string> {
   // TypeScript doesn't preserve newlines in compiled JS output,
   // but we can pre-process each blank line by replacing it with a special
   // sigil (in a comment, since TS preserves comments

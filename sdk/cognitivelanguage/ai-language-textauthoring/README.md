@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-textauthoring)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/ai-language-textauthoring)
-- [API reference documentation](https://learn.microsoft.com/rest/api/language/2022-05-01/text-analysis-authoring)
+- [API reference documentation](https://learn.microsoft.com/rest/api/language/2023-04-01/text-analysis-authoring)
 
 ## Getting started
 

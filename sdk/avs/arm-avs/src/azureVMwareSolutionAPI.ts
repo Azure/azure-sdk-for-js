@@ -84,7 +84,7 @@ export class AzureVMwareSolutionAPI extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-avs/3.2.1`;
+    const packageDetails = `azsdk-js-arm-avs/4.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -137,7 +137,7 @@ export class AzureVMwareSolutionAPI extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-05-01";
+    this.apiVersion = options.apiVersion || "2023-03-01";
     this.operations = new OperationsImpl(this);
     this.locations = new LocationsImpl(this);
     this.privateClouds = new PrivateCloudsImpl(this);

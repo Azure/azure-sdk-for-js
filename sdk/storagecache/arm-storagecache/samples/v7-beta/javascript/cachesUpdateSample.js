@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update a cache instance.
  *
  * @summary Update a cache instance.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-03-01-preview/examples/Caches_Update.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-11-01-preview/examples/Caches_Update.json
  */
 async function cachesUpdate() {
   const subscriptionId =
@@ -42,7 +42,6 @@ async function cachesUpdate() {
       mtu: 1500,
       ntpServer: "time.contoso.com",
     },
-    scalingFactor: 2,
     securitySettings: {
       accessPolicies: [
         {
@@ -89,7 +88,7 @@ async function cachesUpdate() {
         },
       ],
     },
-    sku: { name: "Standard_Scalable" },
+    sku: { name: "Standard_2G" },
     subnet:
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub1",
     tags: { dept: "Contoso" },
@@ -109,7 +108,7 @@ async function cachesUpdate() {
  * This sample demonstrates how to Update a cache instance.
  *
  * @summary Update a cache instance.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-03-01-preview/examples/Caches_Update_ldap_only.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-11-01-preview/examples/Caches_Update_ldap_only.json
  */
 async function cachesUpdateLdapOnly() {
   const subscriptionId =
@@ -137,7 +136,6 @@ async function cachesUpdateLdapOnly() {
       mtu: 1500,
       ntpServer: "time.contoso.com",
     },
-    scalingFactor: 1,
     securitySettings: {
       accessPolicies: [
         {

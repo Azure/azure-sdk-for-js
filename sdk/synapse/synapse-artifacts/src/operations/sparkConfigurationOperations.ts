@@ -14,8 +14,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   SparkConfigurationResource,
   SparkConfigurationGetSparkConfigurationsByWorkspaceNextOptionalParams,
@@ -139,8 +143,8 @@ export class SparkConfigurationOperationsImpl
     sparkConfiguration: SparkConfigurationResource,
     options?: SparkConfigurationCreateOrUpdateSparkConfigurationOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         SparkConfigurationCreateOrUpdateSparkConfigurationResponse
       >,
       SparkConfigurationCreateOrUpdateSparkConfigurationResponse
@@ -160,7 +164,7 @@ export class SparkConfigurationOperationsImpl
         }
       );
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -193,13 +197,16 @@ export class SparkConfigurationOperationsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { sparkConfigurationName, sparkConfiguration, options },
-      createOrUpdateSparkConfigurationOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { sparkConfigurationName, sparkConfiguration, options },
+      spec: createOrUpdateSparkConfigurationOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SparkConfigurationCreateOrUpdateSparkConfigurationResponse,
+      OperationState<SparkConfigurationCreateOrUpdateSparkConfigurationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -254,7 +261,7 @@ export class SparkConfigurationOperationsImpl
   async beginDeleteSparkConfiguration(
     sparkConfigurationName: string,
     options?: SparkConfigurationDeleteSparkConfigurationOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -267,7 +274,7 @@ export class SparkConfigurationOperationsImpl
         }
       );
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -300,13 +307,13 @@ export class SparkConfigurationOperationsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { sparkConfigurationName, options },
-      deleteSparkConfigurationOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { sparkConfigurationName, options },
+      spec: deleteSparkConfigurationOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -339,7 +346,7 @@ export class SparkConfigurationOperationsImpl
     sparkConfigurationName: string,
     request: ArtifactRenameRequest,
     options?: SparkConfigurationRenameSparkConfigurationOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -352,7 +359,7 @@ export class SparkConfigurationOperationsImpl
         }
       );
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -385,13 +392,13 @@ export class SparkConfigurationOperationsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { sparkConfigurationName, request, options },
-      renameSparkConfigurationOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { sparkConfigurationName, request, options },
+      spec: renameSparkConfigurationOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -455,7 +462,7 @@ const getSparkConfigurationsByWorkspaceOperationSpec: coreClient.OperationSpec =
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
@@ -481,7 +488,7 @@ const createOrUpdateSparkConfigurationOperationSpec: coreClient.OperationSpec = 
     }
   },
   requestBody: Parameters.sparkConfiguration,
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.sparkConfigurationName],
   headerParameters: [
     Parameters.accept,
@@ -503,7 +510,7 @@ const getSparkConfigurationOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.sparkConfigurationName],
   headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
   serializer
@@ -520,7 +527,7 @@ const deleteSparkConfigurationOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.sparkConfigurationName],
   headerParameters: [Parameters.accept],
   serializer
@@ -538,7 +545,7 @@ const renameSparkConfigurationOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.request,
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.sparkConfigurationName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",

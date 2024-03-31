@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   VaultSetting,
   ReplicationVaultSettingListNextOptionalParams,
@@ -25,7 +29,7 @@ import {
   VaultSettingCreationInput,
   ReplicationVaultSettingCreateOptionalParams,
   ReplicationVaultSettingCreateResponse,
-  ReplicationVaultSettingListNextResponse
+  ReplicationVaultSettingListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -51,7 +55,7 @@ export class ReplicationVaultSettingImpl implements ReplicationVaultSetting {
   public list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationVaultSettingListOptionalParams
+    options?: ReplicationVaultSettingListOptionalParams,
   ): PagedAsyncIterableIterator<VaultSetting> {
     const iter = this.listPagingAll(resourceName, resourceGroupName, options);
     return {
@@ -69,9 +73,9 @@ export class ReplicationVaultSettingImpl implements ReplicationVaultSetting {
           resourceName,
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -79,7 +83,7 @@ export class ReplicationVaultSettingImpl implements ReplicationVaultSetting {
     resourceName: string,
     resourceGroupName: string,
     options?: ReplicationVaultSettingListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<VaultSetting[]> {
     let result: ReplicationVaultSettingListResponse;
     let continuationToken = settings?.continuationToken;
@@ -95,7 +99,7 @@ export class ReplicationVaultSettingImpl implements ReplicationVaultSetting {
         resourceName,
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -107,12 +111,12 @@ export class ReplicationVaultSettingImpl implements ReplicationVaultSetting {
   private async *listPagingAll(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationVaultSettingListOptionalParams
+    options?: ReplicationVaultSettingListOptionalParams,
   ): AsyncIterableIterator<VaultSetting> {
     for await (const page of this.listPagingPage(
       resourceName,
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -128,11 +132,11 @@ export class ReplicationVaultSettingImpl implements ReplicationVaultSetting {
   private _list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationVaultSettingListOptionalParams
+    options?: ReplicationVaultSettingListOptionalParams,
   ): Promise<ReplicationVaultSettingListResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -148,11 +152,11 @@ export class ReplicationVaultSettingImpl implements ReplicationVaultSetting {
     resourceName: string,
     resourceGroupName: string,
     vaultSettingName: string,
-    options?: ReplicationVaultSettingGetOptionalParams
+    options?: ReplicationVaultSettingGetOptionalParams,
   ): Promise<ReplicationVaultSettingGetResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, vaultSettingName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -170,30 +174,29 @@ export class ReplicationVaultSettingImpl implements ReplicationVaultSetting {
     resourceGroupName: string,
     vaultSettingName: string,
     input: VaultSettingCreationInput,
-    options?: ReplicationVaultSettingCreateOptionalParams
+    options?: ReplicationVaultSettingCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationVaultSettingCreateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationVaultSettingCreateResponse>,
       ReplicationVaultSettingCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReplicationVaultSettingCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -202,8 +205,8 @@ export class ReplicationVaultSettingImpl implements ReplicationVaultSetting {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -211,19 +214,28 @@ export class ReplicationVaultSettingImpl implements ReplicationVaultSetting {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceName, resourceGroupName, vaultSettingName, input, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceName,
+        resourceGroupName,
+        vaultSettingName,
+        input,
+        options,
+      },
+      spec: createOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ReplicationVaultSettingCreateResponse,
+      OperationState<ReplicationVaultSettingCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -243,14 +255,14 @@ export class ReplicationVaultSettingImpl implements ReplicationVaultSetting {
     resourceGroupName: string,
     vaultSettingName: string,
     input: VaultSettingCreationInput,
-    options?: ReplicationVaultSettingCreateOptionalParams
+    options?: ReplicationVaultSettingCreateOptionalParams,
   ): Promise<ReplicationVaultSettingCreateResponse> {
     const poller = await this.beginCreate(
       resourceName,
       resourceGroupName,
       vaultSettingName,
       input,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -267,11 +279,11 @@ export class ReplicationVaultSettingImpl implements ReplicationVaultSetting {
     resourceName: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: ReplicationVaultSettingListNextOptionalParams
+    options?: ReplicationVaultSettingListNextOptionalParams,
   ): Promise<ReplicationVaultSettingListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -279,32 +291,12 @@ export class ReplicationVaultSettingImpl implements ReplicationVaultSetting {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationVaultSettings",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationVaultSettings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VaultSettingCollection
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationVaultSettings/{vaultSettingName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VaultSetting
-    }
+      bodyMapper: Mappers.VaultSettingCollection,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -312,28 +304,45 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
-    Parameters.vaultSettingName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationVaultSettings/{vaultSettingName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VaultSetting,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.resourceName,
+    Parameters.vaultSettingName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationVaultSettings/{vaultSettingName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationVaultSettings/{vaultSettingName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.VaultSetting
+      bodyMapper: Mappers.VaultSetting,
     },
     201: {
-      bodyMapper: Mappers.VaultSetting
+      bodyMapper: Mappers.VaultSetting,
     },
     202: {
-      bodyMapper: Mappers.VaultSetting
+      bodyMapper: Mappers.VaultSetting,
     },
     204: {
-      bodyMapper: Mappers.VaultSetting
-    }
+      bodyMapper: Mappers.VaultSetting,
+    },
   },
   requestBody: Parameters.input16,
   queryParameters: [Parameters.apiVersion],
@@ -342,27 +351,27 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
-    Parameters.vaultSettingName
+    Parameters.vaultSettingName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VaultSettingCollection
-    }
+      bodyMapper: Mappers.VaultSettingCollection,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

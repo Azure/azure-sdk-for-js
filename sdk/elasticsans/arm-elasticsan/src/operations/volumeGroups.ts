@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ElasticSanManagement } from "../elasticSanManagement";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   VolumeGroup,
   VolumeGroupsListByElasticSanNextOptionalParams,
@@ -160,8 +164,8 @@ export class VolumeGroupsImpl implements VolumeGroups {
     parameters: VolumeGroup,
     options?: VolumeGroupsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VolumeGroupsCreateResponse>,
+    SimplePollerLike<
+      OperationState<VolumeGroupsCreateResponse>,
       VolumeGroupsCreateResponse
     >
   > {
@@ -171,7 +175,7 @@ export class VolumeGroupsImpl implements VolumeGroups {
     ): Promise<VolumeGroupsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -204,21 +208,24 @@ export class VolumeGroupsImpl implements VolumeGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         elasticSanName,
         volumeGroupName,
         parameters,
         options
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VolumeGroupsCreateResponse,
+      OperationState<VolumeGroupsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -264,8 +271,8 @@ export class VolumeGroupsImpl implements VolumeGroups {
     parameters: VolumeGroupUpdate,
     options?: VolumeGroupsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VolumeGroupsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VolumeGroupsUpdateResponse>,
       VolumeGroupsUpdateResponse
     >
   > {
@@ -275,7 +282,7 @@ export class VolumeGroupsImpl implements VolumeGroups {
     ): Promise<VolumeGroupsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -308,21 +315,24 @@ export class VolumeGroupsImpl implements VolumeGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         elasticSanName,
         volumeGroupName,
         parameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VolumeGroupsUpdateResponse,
+      OperationState<VolumeGroupsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -365,14 +375,14 @@ export class VolumeGroupsImpl implements VolumeGroups {
     elasticSanName: string,
     volumeGroupName: string,
     options?: VolumeGroupsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -405,15 +415,15 @@ export class VolumeGroupsImpl implements VolumeGroups {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, elasticSanName, volumeGroupName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, elasticSanName, volumeGroupName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -491,7 +501,7 @@ const listByElasticSanOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.VolumeGroupList
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -522,7 +532,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.VolumeGroup
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.parameters2,
@@ -556,7 +566,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.VolumeGroup
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.parameters3,
@@ -582,7 +592,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -605,7 +615,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.VolumeGroup
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -627,7 +637,7 @@ const listByElasticSanNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.VolumeGroupList
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [

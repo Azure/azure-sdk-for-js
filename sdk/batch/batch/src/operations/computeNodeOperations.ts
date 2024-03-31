@@ -502,13 +502,13 @@ const addUserOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout64
+    Parameters.timeout62
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId77,
-    Parameters.returnClientRequestId77,
-    Parameters.ocpDate77
+    Parameters.clientRequestId75,
+    Parameters.returnClientRequestId75,
+    Parameters.ocpDate75
   ],
   requestBody: {
     parameterPath: "user",
@@ -541,13 +541,13 @@ const deleteUserOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout65
+    Parameters.timeout63
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId78,
-    Parameters.returnClientRequestId78,
-    Parameters.ocpDate78
+    Parameters.clientRequestId76,
+    Parameters.returnClientRequestId76,
+    Parameters.ocpDate76
   ],
   responses: {
     200: {
@@ -572,13 +572,13 @@ const updateUserOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout66
+    Parameters.timeout64
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId79,
-    Parameters.returnClientRequestId79,
-    Parameters.ocpDate79
+    Parameters.clientRequestId77,
+    Parameters.returnClientRequestId77,
+    Parameters.ocpDate77
   ],
   requestBody: {
     parameterPath: "nodeUpdateUserParameter",
@@ -611,13 +611,13 @@ const getOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion,
     Parameters.select13,
-    Parameters.timeout67
+    Parameters.timeout65
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId80,
-    Parameters.returnClientRequestId80,
-    Parameters.ocpDate80
+    Parameters.clientRequestId78,
+    Parameters.returnClientRequestId78,
+    Parameters.ocpDate78
   ],
   responses: {
     200: {
@@ -642,13 +642,13 @@ const rebootOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout68
+    Parameters.timeout66
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId81,
-    Parameters.returnClientRequestId81,
-    Parameters.ocpDate81
+    Parameters.clientRequestId79,
+    Parameters.returnClientRequestId79,
+    Parameters.ocpDate79
   ],
   requestBody: {
     parameterPath: {
@@ -682,13 +682,13 @@ const reimageOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout69
+    Parameters.timeout67
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId82,
-    Parameters.returnClientRequestId82,
-    Parameters.ocpDate82
+    Parameters.clientRequestId80,
+    Parameters.returnClientRequestId80,
+    Parameters.ocpDate80
   ],
   requestBody: {
     parameterPath: {
@@ -722,13 +722,13 @@ const disableSchedulingOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout70
+    Parameters.timeout68
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId83,
-    Parameters.returnClientRequestId83,
-    Parameters.ocpDate83
+    Parameters.clientRequestId81,
+    Parameters.returnClientRequestId81,
+    Parameters.ocpDate81
   ],
   requestBody: {
     parameterPath: {
@@ -762,13 +762,13 @@ const enableSchedulingOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout71
+    Parameters.timeout69
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId84,
-    Parameters.returnClientRequestId84,
-    Parameters.ocpDate84
+    Parameters.clientRequestId82,
+    Parameters.returnClientRequestId82,
+    Parameters.ocpDate82
   ],
   responses: {
     200: {
@@ -792,13 +792,13 @@ const getRemoteLoginSettingsOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout72
+    Parameters.timeout70
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId85,
-    Parameters.returnClientRequestId85,
-    Parameters.ocpDate85
+    Parameters.clientRequestId83,
+    Parameters.returnClientRequestId83,
+    Parameters.ocpDate83
   ],
   responses: {
     200: {
@@ -823,13 +823,13 @@ const getRemoteDesktopOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout73
+    Parameters.timeout71
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId86,
-    Parameters.returnClientRequestId86,
-    Parameters.ocpDate86
+    Parameters.clientRequestId84,
+    Parameters.returnClientRequestId84,
+    Parameters.ocpDate84
   ],
   responses: {
     200: {
@@ -859,13 +859,13 @@ const uploadBatchServiceLogsOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout74
+    Parameters.timeout72
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId87,
-    Parameters.returnClientRequestId87,
-    Parameters.ocpDate87
+    Parameters.clientRequestId85,
+    Parameters.returnClientRequestId85,
+    Parameters.ocpDate85
   ],
   requestBody: {
     parameterPath: "uploadBatchServiceLogsConfiguration",
@@ -900,13 +900,13 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.filter12,
     Parameters.select14,
     Parameters.maxResults13,
-    Parameters.timeout75
+    Parameters.timeout73
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId88,
-    Parameters.returnClientRequestId88,
-    Parameters.ocpDate88
+    Parameters.clientRequestId86,
+    Parameters.returnClientRequestId86,
+    Parameters.ocpDate86
   ],
   responses: {
     200: {
@@ -933,9 +933,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId89,
-    Parameters.returnClientRequestId89,
-    Parameters.ocpDate89
+    Parameters.clientRequestId87,
+    Parameters.returnClientRequestId87,
+    Parameters.ocpDate87
   ],
   responses: {
     200: {

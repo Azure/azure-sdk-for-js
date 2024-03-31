@@ -9,16 +9,12 @@
       "path": "sdk/purview/purview-catalog-rest"
     },
     {
-      "name": "anomaly-detector",
-      "path": "sdk/anomalydetector/ai-anomaly-detector"
+      "name": "anomaly-detector-rest",
+      "path": "sdk/anomalydetector/ai-anomaly-detector-rest"
     },
     {
       "name": "app-configuration",
       "path": "sdk/appconfiguration/app-configuration"
-    },
-    {
-      "name": "communication-admin",
-      "path": "sdk/communication/communication-administration"
     },
     {
       "name": "communication-chat",
@@ -70,10 +66,6 @@
     {
       "name": "agrifood-farming",
       "path": "sdk/agrifood/agrifood-farming-rest"
-    },
-    {
-      "name": "core-http",
-      "path": "sdk/core/core-http"
     },
     {
       "name": "core-rest-pipeline",
@@ -288,6 +280,9 @@
     },
     {
       "path": "sdk/core/core-http-compat"
+    },
+    {
+      "path": "sdk/openai/openai"
     }
   ],
   "settings": {
@@ -318,6 +313,9 @@
     "typescript.tsdk": "core-http/node_modules/typescript/lib",
     "files.exclude": {
       "**/node_modules": true
+    },
+    "eslint.options": {
+      "resolvePluginsRelativeTo": "../../../common/tools/eslint-plugin-azure-sdk-helper"
     }
   },
   "extensions": {

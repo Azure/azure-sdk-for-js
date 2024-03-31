@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Checks that Group entity specified by identifier is associated with the Product entity.
  *
  * @summary Checks that Group entity specified by identifier is associated with the Product entity.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementHeadProductGroup.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementHeadProductGroup.json
  */
 async function apiManagementHeadProductGroup() {
   const subscriptionId =

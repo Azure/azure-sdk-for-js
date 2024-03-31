@@ -3,11 +3,11 @@
 
 import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
-import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { PollerStoppedError } from "@azure/core-lro";
 
 import { DeletedSecret, SecretClient } from "../../src";
-import { assertThrowsAbortError, getServiceVersion } from "./utils/common";
+import { getServiceVersion } from "./utils/common";
 import { testPollerProperties } from "./utils/recorderUtils";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -35,7 +35,7 @@ describe("Secrets client - Long Running Operations - delete", () => {
 
   it("can wait until a secret is deleted", async function (this: Context) {
     const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
     );
     await client.setSecret(secretName, "value");
     const poller = await client.beginDeleteSecret(secretName, testPollerProperties);
@@ -54,7 +54,7 @@ describe("Secrets client - Long Running Operations - delete", () => {
 
   it("can resume from a stopped poller", async function (this: Context) {
     const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
     );
     await client.setSecret(secretName, "value");
     const poller = await client.beginDeleteSecret(secretName, testPollerProperties);
@@ -81,20 +81,5 @@ describe("Secrets client - Long Running Operations - delete", () => {
     const deletedSecret: DeletedSecret = await resumePoller.pollUntilDone();
     assert.equal(deletedSecret.name, secretName);
     assert.ok(resumePoller.getOperationState().isCompleted);
-  });
-
-  // On playback mode, the tests happen too fast for the timeout to work
-  it("can attempt to delete a secret with requestOptions timeout", async function (this: Context) {
-    if (!isLiveMode()) {
-      this.skip();
-    }
-
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
-    );
-    await client.setSecret(secretName, "value");
-    await assertThrowsAbortError(async () => {
-      await client.beginDeleteSecret(secretName, { requestOptions: { timeout: 1 } });
-    });
   });
 });

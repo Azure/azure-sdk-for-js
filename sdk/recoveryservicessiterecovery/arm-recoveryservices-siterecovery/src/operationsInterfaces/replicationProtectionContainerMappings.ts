@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ProtectionContainerMapping,
   ReplicationProtectionContainerMappingsListByReplicationProtectionContainersOptionalParams,
@@ -22,7 +22,7 @@ import {
   ReplicationProtectionContainerMappingsUpdateOptionalParams,
   ReplicationProtectionContainerMappingsUpdateResponse,
   RemoveProtectionContainerMappingInput,
-  ReplicationProtectionContainerMappingsDeleteOptionalParams
+  ReplicationProtectionContainerMappingsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -42,7 +42,7 @@ export interface ReplicationProtectionContainerMappings {
     resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
-    options?: ReplicationProtectionContainerMappingsListByReplicationProtectionContainersOptionalParams
+    options?: ReplicationProtectionContainerMappingsListByReplicationProtectionContainersOptionalParams,
   ): PagedAsyncIterableIterator<ProtectionContainerMapping>;
   /**
    * Lists the protection container mappings in the vault.
@@ -54,7 +54,7 @@ export interface ReplicationProtectionContainerMappings {
   list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationProtectionContainerMappingsListOptionalParams
+    options?: ReplicationProtectionContainerMappingsListOptionalParams,
   ): PagedAsyncIterableIterator<ProtectionContainerMapping>;
   /**
    * Gets the details of a protection container mapping.
@@ -72,7 +72,7 @@ export interface ReplicationProtectionContainerMappings {
     fabricName: string,
     protectionContainerName: string,
     mappingName: string,
-    options?: ReplicationProtectionContainerMappingsGetOptionalParams
+    options?: ReplicationProtectionContainerMappingsGetOptionalParams,
   ): Promise<ReplicationProtectionContainerMappingsGetResponse>;
   /**
    * The operation to create a protection container mapping.
@@ -92,10 +92,10 @@ export interface ReplicationProtectionContainerMappings {
     protectionContainerName: string,
     mappingName: string,
     creationInput: CreateProtectionContainerMappingInput,
-    options?: ReplicationProtectionContainerMappingsCreateOptionalParams
+    options?: ReplicationProtectionContainerMappingsCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationProtectionContainerMappingsCreateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationProtectionContainerMappingsCreateResponse>,
       ReplicationProtectionContainerMappingsCreateResponse
     >
   >;
@@ -117,7 +117,7 @@ export interface ReplicationProtectionContainerMappings {
     protectionContainerName: string,
     mappingName: string,
     creationInput: CreateProtectionContainerMappingInput,
-    options?: ReplicationProtectionContainerMappingsCreateOptionalParams
+    options?: ReplicationProtectionContainerMappingsCreateOptionalParams,
   ): Promise<ReplicationProtectionContainerMappingsCreateResponse>;
   /**
    * The operation to purge(force delete) a protection container mapping.
@@ -135,8 +135,8 @@ export interface ReplicationProtectionContainerMappings {
     fabricName: string,
     protectionContainerName: string,
     mappingName: string,
-    options?: ReplicationProtectionContainerMappingsPurgeOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ReplicationProtectionContainerMappingsPurgeOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to purge(force delete) a protection container mapping.
    * @param resourceName The name of the recovery services vault.
@@ -153,7 +153,7 @@ export interface ReplicationProtectionContainerMappings {
     fabricName: string,
     protectionContainerName: string,
     mappingName: string,
-    options?: ReplicationProtectionContainerMappingsPurgeOptionalParams
+    options?: ReplicationProtectionContainerMappingsPurgeOptionalParams,
   ): Promise<void>;
   /**
    * The operation to update protection container mapping.
@@ -173,10 +173,10 @@ export interface ReplicationProtectionContainerMappings {
     protectionContainerName: string,
     mappingName: string,
     updateInput: UpdateProtectionContainerMappingInput,
-    options?: ReplicationProtectionContainerMappingsUpdateOptionalParams
+    options?: ReplicationProtectionContainerMappingsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationProtectionContainerMappingsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationProtectionContainerMappingsUpdateResponse>,
       ReplicationProtectionContainerMappingsUpdateResponse
     >
   >;
@@ -198,7 +198,7 @@ export interface ReplicationProtectionContainerMappings {
     protectionContainerName: string,
     mappingName: string,
     updateInput: UpdateProtectionContainerMappingInput,
-    options?: ReplicationProtectionContainerMappingsUpdateOptionalParams
+    options?: ReplicationProtectionContainerMappingsUpdateOptionalParams,
   ): Promise<ReplicationProtectionContainerMappingsUpdateResponse>;
   /**
    * The operation to delete or remove a protection container mapping.
@@ -218,8 +218,8 @@ export interface ReplicationProtectionContainerMappings {
     protectionContainerName: string,
     mappingName: string,
     removalInput: RemoveProtectionContainerMappingInput,
-    options?: ReplicationProtectionContainerMappingsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ReplicationProtectionContainerMappingsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete or remove a protection container mapping.
    * @param resourceName The name of the recovery services vault.
@@ -238,6 +238,6 @@ export interface ReplicationProtectionContainerMappings {
     protectionContainerName: string,
     mappingName: string,
     removalInput: RemoveProtectionContainerMappingInput,
-    options?: ReplicationProtectionContainerMappingsDeleteOptionalParams
+    options?: ReplicationProtectionContainerMappingsDeleteOptionalParams,
   ): Promise<void>;
 }

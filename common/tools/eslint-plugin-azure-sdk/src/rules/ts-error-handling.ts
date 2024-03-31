@@ -18,10 +18,10 @@ import { getRuleMetaData } from "../utils";
 export = {
   meta: getRuleMetaData(
     "ts-error-handling",
-    "limit thrown errors to ECMAScript built-in error types (TypeError, RangeError, Error)"
+    "limit thrown errors to ECMAScript built-in error types (TypeError, RangeError, Error)",
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener =>
-    /src/.test(context.getFilename())
+    /src/.test(context.filename)
       ? ({
           // callback functions
 
@@ -36,7 +36,7 @@ export = {
           // if throwing an identifier
           "ThrowStatement[argument.type='Identifier']": (node: ThrowStatement): void => {
             const thrown = node.argument as Identifier;
-            const parserServices = context.parserServices as ParserServices;
+            const parserServices = context.sourceCode.parserServices as ParserServices;
             if (
               parserServices.program === undefined ||
               parserServices.esTreeNodeToTSNodeMap === undefined

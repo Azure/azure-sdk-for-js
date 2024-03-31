@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   NotebookResource,
   NotebookGetNotebooksByWorkspaceOptionalParams,
@@ -49,8 +49,8 @@ export interface NotebookOperations {
     notebook: NotebookResource,
     options?: NotebookCreateOrUpdateNotebookOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<NotebookCreateOrUpdateNotebookResponse>,
+    SimplePollerLike<
+      OperationState<NotebookCreateOrUpdateNotebookResponse>,
       NotebookCreateOrUpdateNotebookResponse
     >
   >;
@@ -82,7 +82,7 @@ export interface NotebookOperations {
   beginDeleteNotebook(
     notebookName: string,
     options?: NotebookDeleteNotebookOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Note book.
    * @param notebookName The notebook name.
@@ -102,7 +102,7 @@ export interface NotebookOperations {
     notebookName: string,
     request: ArtifactRenameRequest,
     options?: NotebookRenameNotebookOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Renames a notebook.
    * @param notebookName The notebook name.

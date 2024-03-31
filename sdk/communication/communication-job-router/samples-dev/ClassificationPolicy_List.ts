@@ -4,7 +4,10 @@
 /**
  * @summary Classification policy crud
  */
-import { ClassificationPolicyItem, RouterAdministrationClient } from "@azure/communication-job-router";
+import {
+  ClassificationPolicyItem,
+  JobRouterAdministrationClient,
+} from "@azure/communication-job-router";
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
@@ -13,17 +16,19 @@ dotenv.config();
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
-
 // List classification policies
 async function listClassificationPolicies(): Promise<void> {
   // Create the Router Client
-  const routerAdministrationClient: RouterAdministrationClient = new RouterAdministrationClient(connectionString);
+  const routerAdministrationClient: JobRouterAdministrationClient =
+    new JobRouterAdministrationClient(connectionString);
 
   let pagesCount = 1;
   const maxPageSize = 3;
   const receivedPagedItems: ClassificationPolicyItem[] = [];
 
-  for await (const page of routerAdministrationClient.listClassificationPolicies({ maxPageSize: maxPageSize }).byPage()) {
+  for await (const page of routerAdministrationClient
+    .listClassificationPolicies({ maxPageSize })
+    .byPage()) {
     ++pagesCount;
 
     console.log("page: " + pagesCount);
@@ -36,8 +41,6 @@ async function listClassificationPolicies(): Promise<void> {
     let pageSize = receivedPagedItems.length;
     assert.isAtMost(pageSize, maxPageSize);
   }
-
-};
+}
 
 listClassificationPolicies().catch(console.error);
-

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified API of the API Management service instance.
  *
  * @summary Deletes the specified API of the API Management service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementDeleteApi.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteApi.json
  */
 async function apiManagementDeleteApi() {
   const subscriptionId =

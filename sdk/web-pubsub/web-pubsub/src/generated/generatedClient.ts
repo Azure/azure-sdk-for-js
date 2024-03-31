@@ -39,7 +39,7 @@ export class GeneratedClient extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-web-pubsub/1.1.0`;
+    const packageDetails = `azsdk-js-web-pubsub/1.1.3`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -51,14 +51,14 @@ export class GeneratedClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri: options.endpoint ?? options.baseUri ?? "{Endpoint}"
+      endpoint: options.endpoint ?? options.baseUri ?? "{endpoint}"
     };
     super(optionsWithDefaults);
     // Parameter assignments
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2022-11-01";
+    this.apiVersion = options.apiVersion || "2023-07-01";
     this.healthApi = new HealthApiImpl(this);
     this.webPubSub = new WebPubSubImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);

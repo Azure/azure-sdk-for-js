@@ -61,7 +61,11 @@ export class RequestResponseLink implements ReqResLink {
    * @param sender - The amqp sender link.
    * @param receiver - The amqp receiver link.
    */
-  constructor(public session: Session, public sender: Sender, public receiver: Receiver) {
+  constructor(
+    public session: Session,
+    public sender: Sender,
+    public receiver: Receiver,
+  ) {
     this.session = session;
     this.sender = sender;
     this.receiver = receiver;
@@ -185,7 +189,7 @@ export class RequestResponseLink implements ReqResLink {
         "[%s] %s request sent: %O",
         this.connection.id,
         request.to || "$management",
-        request
+        request,
       );
       this.sender.send(request);
     });
@@ -225,7 +229,7 @@ export class RequestResponseLink implements ReqResLink {
     connection: Connection,
     senderOptions: SenderOptions,
     receiverOptions: ReceiverOptions,
-    createOptions: { abortSignal?: AbortSignalLike } = {}
+    createOptions: { abortSignal?: AbortSignalLike } = {},
   ): Promise<RequestResponseLink> {
     const { abortSignal } = createOptions;
     const session = await connection.createSession({ abortSignal });
@@ -233,7 +237,7 @@ export class RequestResponseLink implements ReqResLink {
     const receiver = await session.createReceiver({ ...receiverOptions, abortSignal });
     logger.verbose(
       "[%s] Successfully created the sender and receiver links on the same session.",
-      connection.id
+      connection.id,
     );
     return new RequestResponseLink(session, sender, receiver);
   }
@@ -255,7 +259,7 @@ type NormalizedInfo = {
  * Handle different variations of property names in responses emitted by EventHubs and ServiceBus.
  */
 export const getCodeDescriptionAndError = (
-  props: { [key: string]: string | number | undefined } = {}
+  props: { [key: string]: string | number | undefined } = {},
 ): NormalizedInfo => {
   return {
     statusCode: (props[Constants.statusCode] || props.statusCode) as number,
@@ -281,14 +285,14 @@ export const getCodeDescriptionAndError = (
 export function onMessageReceived(
   context: Pick<EventContext, "message">,
   connectionId: string,
-  responsesMap: Map<string, DeferredPromiseWithCallback>
+  responsesMap: Map<string, DeferredPromiseWithCallback>,
 ): void {
   const message = context.message;
   if (!message) {
     logger.verbose(
       `[${connectionId}] "message" property on the EventContext is "undefined" which is unexpected, ` +
         `returning from the "onMessageReceived" handler without resolving or rejecting the promise ` +
-        `upon encountering the message event.`
+        `upon encountering the message event.`,
     );
     return;
   }
@@ -298,7 +302,7 @@ export function onMessageReceived(
     logger.verbose(
       `[${connectionId}] correlationId "${responseCorrelationId}" property on the response does not match with ` +
         `any of the "request-id"s in the map, returning from the "onMessageReceived" handler without resolving ` +
-        `or rejecting the promise upon encountering the message event.`
+        `or rejecting the promise upon encountering the message event.`,
     );
     return;
   }
@@ -309,19 +313,19 @@ export function onMessageReceived(
   const deleteResult = responsesMap.delete(responseCorrelationId as string);
   logger.verbose(
     `[${connectionId}] Successfully deleted the response with id ${responseCorrelationId} from the map. ` +
-      `Delete result - ${deleteResult}`
+      `Delete result - ${deleteResult}`,
   );
 
   const info = getCodeDescriptionAndError(message.application_properties);
   let error;
   if (!info.statusCode) {
     error = new Error(
-      `[${connectionId}] No statusCode in the "application_properties" in the returned response with correlation-id: ${responseCorrelationId}`
+      `[${connectionId}] No statusCode in the "application_properties" in the returned response with correlation-id: ${responseCorrelationId}`,
     );
   }
   if (info.statusCode > 199 && info.statusCode < 300) {
     logger.verbose(
-      `[${connectionId}] Resolving the response with correlation-id: ${responseCorrelationId}`
+      `[${connectionId}] Resolving the response with correlation-id: ${responseCorrelationId}`,
     );
     return promise.resolve(message);
   }
@@ -341,12 +345,12 @@ export function onMessageReceived(
 function onSenderError(
   context: Pick<EventContext, "sender">,
   connectionId: string,
-  responsesMap: Map<string, DeferredPromiseWithCallback>
+  responsesMap: Map<string, DeferredPromiseWithCallback>,
 ): void {
   if (context.sender) {
     for (const [key, promise] of responsesMap.entries()) {
       logger.verbose(
-        `[${connectionId}] Sender closed due to error when sending request with message_id "${key}"`
+        `[${connectionId}] Sender closed due to error when sending request with message_id "${key}"`,
       );
       promise.cleanupBeforeResolveOrReject();
       promise.reject(context.sender.error);

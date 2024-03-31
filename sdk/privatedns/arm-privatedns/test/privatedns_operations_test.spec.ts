@@ -86,7 +86,7 @@ describe("PrivateDns test", () => {
 
   it("privateZones delete test", async function () {
     const resArray = new Array();
-    const res = await client.privateZones.beginDeleteAndWait(resourceGroup, resourcename
+    const res = await client.privateZones.beginDeleteAndWait(resourceGroup, resourcename, testPollingOptions
     )
     for await (let item of client.privateZones.listByResourceGroup(resourceGroup)) {
       resArray.push(item);

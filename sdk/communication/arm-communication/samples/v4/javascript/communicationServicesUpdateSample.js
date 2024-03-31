@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Operation to update an existing CommunicationService.
  *
  * @summary Operation to update an existing CommunicationService.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/communicationServices/update.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/update.json
  */
 async function updateResource() {
   const subscriptionId =
@@ -31,13 +31,123 @@ async function updateResource() {
   const result = await client.communicationServices.update(
     resourceGroupName,
     communicationServiceName,
-    parameters
+    parameters,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Operation to update an existing CommunicationService.
+ *
+ * @summary Operation to update an existing CommunicationService.
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/updateWithSystemAndUserIdentity.json
+ */
+async function updateResourceToAddSystemAndUserManagedIdentities() {
+  const subscriptionId =
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "11112222-3333-4444-5555-666677778888";
+  const resourceGroupName = process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
+  const communicationServiceName = "MyCommunicationResource";
+  const parameters = {
+    identity: {
+      type: "SystemAssigned,UserAssigned",
+      userAssignedIdentities: { "/user/assigned/resource/id": {} },
+    },
+    tags: { newTag: "newVal" },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new CommunicationServiceManagementClient(credential, subscriptionId);
+  const result = await client.communicationServices.update(
+    resourceGroupName,
+    communicationServiceName,
+    parameters,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Operation to update an existing CommunicationService.
+ *
+ * @summary Operation to update an existing CommunicationService.
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/updateWithSystemAssignedIdentity.json
+ */
+async function updateResourceToAddASystemAssignedManagedIdentity() {
+  const subscriptionId =
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "11112222-3333-4444-5555-666677778888";
+  const resourceGroupName = process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
+  const communicationServiceName = "MyCommunicationResource";
+  const parameters = {
+    identity: { type: "SystemAssigned" },
+    tags: { newTag: "newVal" },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new CommunicationServiceManagementClient(credential, subscriptionId);
+  const result = await client.communicationServices.update(
+    resourceGroupName,
+    communicationServiceName,
+    parameters,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Operation to update an existing CommunicationService.
+ *
+ * @summary Operation to update an existing CommunicationService.
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/updateWithUserAssignedIdentity.json
+ */
+async function updateResourceToAddAUserAssignedManagedIdentity() {
+  const subscriptionId =
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "11112222-3333-4444-5555-666677778888";
+  const resourceGroupName = process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
+  const communicationServiceName = "MyCommunicationResource";
+  const parameters = {
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: { "/user/assigned/resource/id": {} },
+    },
+    tags: { newTag: "newVal" },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new CommunicationServiceManagementClient(credential, subscriptionId);
+  const result = await client.communicationServices.update(
+    resourceGroupName,
+    communicationServiceName,
+    parameters,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Operation to update an existing CommunicationService.
+ *
+ * @summary Operation to update an existing CommunicationService.
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/updateRemoveSystemIdentity.json
+ */
+async function updateResourceToRemoveIdentity() {
+  const subscriptionId =
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "11112222-3333-4444-5555-666677778888";
+  const resourceGroupName = process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
+  const communicationServiceName = "MyCommunicationResource";
+  const parameters = {
+    identity: { type: "None" },
+    tags: { newTag: "newVal" },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new CommunicationServiceManagementClient(credential, subscriptionId);
+  const result = await client.communicationServices.update(
+    resourceGroupName,
+    communicationServiceName,
+    parameters,
   );
   console.log(result);
 }
 
 async function main() {
   updateResource();
+  updateResourceToAddSystemAndUserManagedIdentities();
+  updateResourceToAddASystemAssignedManagedIdentity();
+  updateResourceToAddAUserAssignedManagedIdentity();
+  updateResourceToRemoveIdentity();
 }
 
 main().catch(console.error);

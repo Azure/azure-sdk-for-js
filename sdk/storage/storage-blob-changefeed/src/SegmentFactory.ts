@@ -43,7 +43,7 @@ export class SegmentFactory {
     containerClient: ContainerClient,
     manifestPath: string,
     cursor?: SegmentCursor,
-    options: CreateSegmentOptions = {}
+    options: CreateSegmentOptions = {},
   ): Promise<Segment> {
     return tracingClient.withSpan("SegmentFactory-create", options, async (updatedOptions) => {
       const shards: Shard[] = [];
@@ -62,7 +62,7 @@ export class SegmentFactory {
       for (const shardPath of segmentManifest.chunkFilePaths) {
         const shardPathSubStr = shardPath.substring(containerPrefixLength);
         const shardCursor = cursor?.ShardCursors.find((x) =>
-          x.CurrentChunkPath.startsWith(shardPathSubStr)
+          x.CurrentChunkPath.startsWith(shardPathSubStr),
         );
         const shard: Shard = await this.shardFactory.create(
           containerClient,
@@ -71,7 +71,7 @@ export class SegmentFactory {
           {
             abortSignal: options.abortSignal,
             tracingOptions: updatedOptions.tracingOptions,
-          }
+          },
         );
         if (shard.hasNext()) {
           shards.push(shard);

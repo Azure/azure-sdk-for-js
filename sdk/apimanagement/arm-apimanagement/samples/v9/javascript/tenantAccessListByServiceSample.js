@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Returns list of access infos - for Git and Management endpoints.
  *
  * @summary Returns list of access infos - for Git and Management endpoints.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListTenantAccess.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListTenantAccess.json
  */
 async function apiManagementListTenantAccess() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

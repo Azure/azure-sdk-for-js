@@ -62,7 +62,7 @@ export class TrafficManagerManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-trafficmanager/6.1.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-trafficmanager/6.1.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -115,7 +115,7 @@ export class TrafficManagerManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-04-01-preview";
+    this.apiVersion = options.apiVersion || "2022-04-01";
     this.endpoints = new EndpointsImpl(this);
     this.profiles = new ProfilesImpl(this);
     this.geographicHierarchies = new GeographicHierarchiesImpl(this);

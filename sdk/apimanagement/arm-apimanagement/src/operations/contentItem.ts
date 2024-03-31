@@ -43,7 +43,7 @@ export class ContentItemImpl implements ContentItem {
 
   /**
    * Lists developer portal's content items specified by the provided content type.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param contentTypeId Content type identifier.
    * @param options The options parameters.
@@ -136,7 +136,7 @@ export class ContentItemImpl implements ContentItem {
 
   /**
    * Lists developer portal's content items specified by the provided content type.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param contentTypeId Content type identifier.
    * @param options The options parameters.
@@ -156,7 +156,7 @@ export class ContentItemImpl implements ContentItem {
   /**
    * Returns the entity state (ETag) version of the developer portal's content item specified by its
    * identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param contentTypeId Content type identifier.
    * @param contentItemId Content item identifier.
@@ -177,7 +177,7 @@ export class ContentItemImpl implements ContentItem {
 
   /**
    * Returns the developer portal's content item specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param contentTypeId Content type identifier.
    * @param contentItemId Content item identifier.
@@ -198,7 +198,7 @@ export class ContentItemImpl implements ContentItem {
 
   /**
    * Creates a new developer portal's content item specified by the provided content type.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param contentTypeId Content type identifier.
    * @param contentItemId Content item identifier.
@@ -228,7 +228,7 @@ export class ContentItemImpl implements ContentItem {
 
   /**
    * Removes the specified developer portal's content item.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param contentTypeId Content type identifier.
    * @param contentItemId Content item identifier.
@@ -259,7 +259,7 @@ export class ContentItemImpl implements ContentItem {
 
   /**
    * ListByServiceNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param contentTypeId Content type identifier.
    * @param nextLink The nextLink from the previous successful call to the ListByService method.
@@ -370,7 +370,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters25,
+  requestBody: Parameters.parameters34,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

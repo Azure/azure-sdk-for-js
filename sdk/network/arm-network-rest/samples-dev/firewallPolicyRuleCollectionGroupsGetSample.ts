@@ -33,7 +33,7 @@ async function getFirewallPolicyNatRuleCollectionGroup() {
       subscriptionId,
       resourceGroupName,
       firewallPolicyName,
-      ruleCollectionGroupName
+      ruleCollectionGroupName,
     )
     .get(options);
   console.log(result);
@@ -62,7 +62,7 @@ async function getFirewallPolicyRuleCollectionGroup() {
       subscriptionId,
       resourceGroupName,
       firewallPolicyName,
-      ruleCollectionGroupName
+      ruleCollectionGroupName,
     )
     .get(options);
   console.log(result);
@@ -91,7 +91,7 @@ async function getFirewallPolicyRuleCollectionGroupWithIPGroups() {
       subscriptionId,
       resourceGroupName,
       firewallPolicyName,
-      ruleCollectionGroupName
+      ruleCollectionGroupName,
     )
     .get(options);
   console.log(result);
@@ -120,7 +120,7 @@ async function getFirewallPolicyRuleCollectionGroupWithWebCategories() {
       subscriptionId,
       resourceGroupName,
       firewallPolicyName,
-      ruleCollectionGroupName
+      ruleCollectionGroupName,
     )
     .get(options);
   console.log(result);

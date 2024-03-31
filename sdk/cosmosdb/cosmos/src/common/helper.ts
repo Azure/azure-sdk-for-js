@@ -106,6 +106,13 @@ export function getContainerLink(link: string): string {
 /**
  * @hidden
  */
+export function prepareURL(endpoint: string, path: string): string {
+  return trimSlashes(endpoint) + path;
+}
+
+/**
+ * @hidden
+ */
 export function trimSlashes(source: string): string {
   return source.replace(trimLeftSlashes, "").replace(trimRightSlashes, "");
 }
@@ -343,7 +350,7 @@ export function parseConnectionString(connectionString: string): CosmosClientOpt
       (connectionObject as any)[key] = value.join("=");
       return connectionObject;
     },
-    {} as ConnectionObject
+    {} as ConnectionObject,
   );
   if (!AccountEndpoint || !AccountKey) {
     throw new Error("Could not parse the provided connection string");

@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Job,
   ReplicationJobsListNextOptionalParams,
@@ -32,7 +36,7 @@ import {
   JobQueryParameter,
   ReplicationJobsExportOptionalParams,
   ReplicationJobsExportResponse,
-  ReplicationJobsListNextResponse
+  ReplicationJobsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -58,7 +62,7 @@ export class ReplicationJobsImpl implements ReplicationJobs {
   public list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationJobsListOptionalParams
+    options?: ReplicationJobsListOptionalParams,
   ): PagedAsyncIterableIterator<Job> {
     const iter = this.listPagingAll(resourceName, resourceGroupName, options);
     return {
@@ -76,9 +80,9 @@ export class ReplicationJobsImpl implements ReplicationJobs {
           resourceName,
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -86,7 +90,7 @@ export class ReplicationJobsImpl implements ReplicationJobs {
     resourceName: string,
     resourceGroupName: string,
     options?: ReplicationJobsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Job[]> {
     let result: ReplicationJobsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -102,7 +106,7 @@ export class ReplicationJobsImpl implements ReplicationJobs {
         resourceName,
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -114,12 +118,12 @@ export class ReplicationJobsImpl implements ReplicationJobs {
   private async *listPagingAll(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationJobsListOptionalParams
+    options?: ReplicationJobsListOptionalParams,
   ): AsyncIterableIterator<Job> {
     for await (const page of this.listPagingPage(
       resourceName,
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -135,11 +139,11 @@ export class ReplicationJobsImpl implements ReplicationJobs {
   private _list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationJobsListOptionalParams
+    options?: ReplicationJobsListOptionalParams,
   ): Promise<ReplicationJobsListResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -155,11 +159,11 @@ export class ReplicationJobsImpl implements ReplicationJobs {
     resourceName: string,
     resourceGroupName: string,
     jobName: string,
-    options?: ReplicationJobsGetOptionalParams
+    options?: ReplicationJobsGetOptionalParams,
   ): Promise<ReplicationJobsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, jobName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -175,30 +179,29 @@ export class ReplicationJobsImpl implements ReplicationJobs {
     resourceName: string,
     resourceGroupName: string,
     jobName: string,
-    options?: ReplicationJobsCancelOptionalParams
+    options?: ReplicationJobsCancelOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationJobsCancelResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationJobsCancelResponse>,
       ReplicationJobsCancelResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReplicationJobsCancelResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -207,8 +210,8 @@ export class ReplicationJobsImpl implements ReplicationJobs {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -216,19 +219,22 @@ export class ReplicationJobsImpl implements ReplicationJobs {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceName, resourceGroupName, jobName, options },
-      cancelOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceName, resourceGroupName, jobName, options },
+      spec: cancelOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ReplicationJobsCancelResponse,
+      OperationState<ReplicationJobsCancelResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -246,13 +252,13 @@ export class ReplicationJobsImpl implements ReplicationJobs {
     resourceName: string,
     resourceGroupName: string,
     jobName: string,
-    options?: ReplicationJobsCancelOptionalParams
+    options?: ReplicationJobsCancelOptionalParams,
   ): Promise<ReplicationJobsCancelResponse> {
     const poller = await this.beginCancel(
       resourceName,
       resourceGroupName,
       jobName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -269,30 +275,29 @@ export class ReplicationJobsImpl implements ReplicationJobs {
     resourceName: string,
     resourceGroupName: string,
     jobName: string,
-    options?: ReplicationJobsRestartOptionalParams
+    options?: ReplicationJobsRestartOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationJobsRestartResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationJobsRestartResponse>,
       ReplicationJobsRestartResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReplicationJobsRestartResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -301,8 +306,8 @@ export class ReplicationJobsImpl implements ReplicationJobs {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -310,19 +315,22 @@ export class ReplicationJobsImpl implements ReplicationJobs {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceName, resourceGroupName, jobName, options },
-      restartOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceName, resourceGroupName, jobName, options },
+      spec: restartOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ReplicationJobsRestartResponse,
+      OperationState<ReplicationJobsRestartResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -340,13 +348,13 @@ export class ReplicationJobsImpl implements ReplicationJobs {
     resourceName: string,
     resourceGroupName: string,
     jobName: string,
-    options?: ReplicationJobsRestartOptionalParams
+    options?: ReplicationJobsRestartOptionalParams,
   ): Promise<ReplicationJobsRestartResponse> {
     const poller = await this.beginRestart(
       resourceName,
       resourceGroupName,
       jobName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -365,30 +373,29 @@ export class ReplicationJobsImpl implements ReplicationJobs {
     resourceGroupName: string,
     jobName: string,
     resumeJobParams: ResumeJobParams,
-    options?: ReplicationJobsResumeOptionalParams
+    options?: ReplicationJobsResumeOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationJobsResumeResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationJobsResumeResponse>,
       ReplicationJobsResumeResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReplicationJobsResumeResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -397,8 +404,8 @@ export class ReplicationJobsImpl implements ReplicationJobs {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -406,19 +413,28 @@ export class ReplicationJobsImpl implements ReplicationJobs {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceName, resourceGroupName, jobName, resumeJobParams, options },
-      resumeOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceName,
+        resourceGroupName,
+        jobName,
+        resumeJobParams,
+        options,
+      },
+      spec: resumeOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ReplicationJobsResumeResponse,
+      OperationState<ReplicationJobsResumeResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -438,14 +454,14 @@ export class ReplicationJobsImpl implements ReplicationJobs {
     resourceGroupName: string,
     jobName: string,
     resumeJobParams: ResumeJobParams,
-    options?: ReplicationJobsResumeOptionalParams
+    options?: ReplicationJobsResumeOptionalParams,
   ): Promise<ReplicationJobsResumeResponse> {
     const poller = await this.beginResume(
       resourceName,
       resourceGroupName,
       jobName,
       resumeJobParams,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -462,30 +478,29 @@ export class ReplicationJobsImpl implements ReplicationJobs {
     resourceName: string,
     resourceGroupName: string,
     jobQueryParameter: JobQueryParameter,
-    options?: ReplicationJobsExportOptionalParams
+    options?: ReplicationJobsExportOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationJobsExportResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationJobsExportResponse>,
       ReplicationJobsExportResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReplicationJobsExportResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -494,8 +509,8 @@ export class ReplicationJobsImpl implements ReplicationJobs {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -503,19 +518,22 @@ export class ReplicationJobsImpl implements ReplicationJobs {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceName, resourceGroupName, jobQueryParameter, options },
-      exportOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceName, resourceGroupName, jobQueryParameter, options },
+      spec: exportOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ReplicationJobsExportResponse,
+      OperationState<ReplicationJobsExportResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -533,13 +551,13 @@ export class ReplicationJobsImpl implements ReplicationJobs {
     resourceName: string,
     resourceGroupName: string,
     jobQueryParameter: JobQueryParameter,
-    options?: ReplicationJobsExportOptionalParams
+    options?: ReplicationJobsExportOptionalParams,
   ): Promise<ReplicationJobsExportResponse> {
     const poller = await this.beginExport(
       resourceName,
       resourceGroupName,
       jobQueryParameter,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -556,11 +574,11 @@ export class ReplicationJobsImpl implements ReplicationJobs {
     resourceName: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: ReplicationJobsListNextOptionalParams
+    options?: ReplicationJobsListNextOptionalParams,
   ): Promise<ReplicationJobsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -568,32 +586,30 @@ export class ReplicationJobsImpl implements ReplicationJobs {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobCollection
-    }
+      bodyMapper: Mappers.JobCollection,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs/{jobName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs/{jobName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Job
-    }
+      bodyMapper: Mappers.Job,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -601,28 +617,27 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
-    Parameters.jobName
+    Parameters.jobName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const cancelOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs/{jobName}/cancel",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs/{jobName}/cancel",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.Job
+      bodyMapper: Mappers.Job,
     },
     201: {
-      bodyMapper: Mappers.Job
+      bodyMapper: Mappers.Job,
     },
     202: {
-      bodyMapper: Mappers.Job
+      bodyMapper: Mappers.Job,
     },
     204: {
-      bodyMapper: Mappers.Job
-    }
+      bodyMapper: Mappers.Job,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -630,28 +645,27 @@ const cancelOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
-    Parameters.jobName
+    Parameters.jobName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const restartOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs/{jobName}/restart",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs/{jobName}/restart",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.Job
+      bodyMapper: Mappers.Job,
     },
     201: {
-      bodyMapper: Mappers.Job
+      bodyMapper: Mappers.Job,
     },
     202: {
-      bodyMapper: Mappers.Job
+      bodyMapper: Mappers.Job,
     },
     204: {
-      bodyMapper: Mappers.Job
-    }
+      bodyMapper: Mappers.Job,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -659,28 +673,27 @@ const restartOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
-    Parameters.jobName
+    Parameters.jobName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const resumeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs/{jobName}/resume",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs/{jobName}/resume",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.Job
+      bodyMapper: Mappers.Job,
     },
     201: {
-      bodyMapper: Mappers.Job
+      bodyMapper: Mappers.Job,
     },
     202: {
-      bodyMapper: Mappers.Job
+      bodyMapper: Mappers.Job,
     },
     204: {
-      bodyMapper: Mappers.Job
-    }
+      bodyMapper: Mappers.Job,
+    },
   },
   requestBody: Parameters.resumeJobParams,
   queryParameters: [Parameters.apiVersion],
@@ -689,29 +702,28 @@ const resumeOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
-    Parameters.jobName
+    Parameters.jobName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const exportOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs/export",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs/export",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.Job
+      bodyMapper: Mappers.Job,
     },
     201: {
-      bodyMapper: Mappers.Job
+      bodyMapper: Mappers.Job,
     },
     202: {
-      bodyMapper: Mappers.Job
+      bodyMapper: Mappers.Job,
     },
     204: {
-      bodyMapper: Mappers.Job
-    }
+      bodyMapper: Mappers.Job,
+    },
   },
   requestBody: Parameters.jobQueryParameter,
   queryParameters: [Parameters.apiVersion],
@@ -719,27 +731,27 @@ const exportOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobCollection
-    }
+      bodyMapper: Mappers.JobCollection,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -3,17 +3,24 @@
 
 import {
   ConfigurationSetting,
-  ConfigurationSettingId,
   ConfigurationSettingParam,
   HttpOnlyIfChangedField,
   HttpOnlyIfUnchangedField,
   HttpResponseField,
   HttpResponseFields,
-  ListConfigurationSettingsOptions,
   ListRevisionsOptions,
+  ListSettingsOptions,
+  ListSnapshotsOptions,
+  ConfigurationSnapshot,
+  SnapshotResponse,
+  EtagEntity,
 } from "../models";
 import { FeatureFlagHelper, FeatureFlagValue, featureFlagContentType } from "../featureFlag";
-import { GetKeyValuesOptionalParams, KeyValue } from "../generated/src/models";
+import {
+  GetKeyValuesOptionalParams,
+  GetSnapshotsOptionalParams,
+  KeyValue,
+} from "../generated/src/models";
 import {
   SecretReferenceHelper,
   SecretReferenceValue,
@@ -21,6 +28,22 @@ import {
 } from "../secretReference";
 import { isDefined } from "@azure/core-util";
 import { logger } from "../logger";
+import { OperationOptions } from "@azure/core-client";
+
+/**
+ * Options for listConfigurationSettings that allow for filtering based on keys, labels and other fields.
+ * Also provides `fields` which allows you to selectively choose which fields are populated in the
+ * result.
+ */
+export interface SendConfigurationSettingsOptions
+  extends OperationOptions,
+    ListSettingsOptions,
+    EtagEntity {
+  /**
+   * A filter used get configuration setting for a snapshot. Not valid when used with 'key' and 'label' filters
+   */
+  snapshotName?: string;
+}
 
 /**
  * Formats the etag so it can be used with a If-Match/If-None-Match header
@@ -50,14 +73,14 @@ export function quoteETag(etag: string | undefined): string | undefined {
  * @internal
  */
 export function checkAndFormatIfAndIfNoneMatch(
-  configurationSetting: ConfigurationSettingId,
-  options: HttpOnlyIfChangedField & HttpOnlyIfUnchangedField
+  objectWithEtag: EtagEntity,
+  options: HttpOnlyIfChangedField & HttpOnlyIfUnchangedField,
 ): { ifMatch: string | undefined; ifNoneMatch: string | undefined } {
   if (options.onlyIfChanged && options.onlyIfUnchanged) {
     logger.error(
       "onlyIfChanged and onlyIfUnchanged are both specified",
       options.onlyIfChanged,
-      options.onlyIfUnchanged
+      options.onlyIfUnchanged,
     );
     throw new Error("onlyIfChanged and onlyIfUnchanged are mutually-exclusive");
   }
@@ -66,11 +89,11 @@ export function checkAndFormatIfAndIfNoneMatch(
   let ifNoneMatch;
 
   if (options.onlyIfUnchanged) {
-    ifMatch = quoteETag(configurationSetting.etag);
+    ifMatch = quoteETag(objectWithEtag.etag);
   }
 
   if (options.onlyIfChanged) {
-    ifNoneMatch = quoteETag(configurationSetting.etag);
+    ifNoneMatch = quoteETag(objectWithEtag.etag);
   }
 
   return {
@@ -80,7 +103,7 @@ export function checkAndFormatIfAndIfNoneMatch(
 }
 
 /**
- * Transforms some of the key fields in ListConfigurationSettingsOptions and ListRevisionsOptions
+ * Transforms some of the key fields in SendConfigurationSettingsOptions and ListRevisionsOptions
  * so they can be added to a request using AppConfigurationGetKeyValuesOptionalParams.
  * - `options.acceptDateTime` is converted into an ISO string
  * - `select` is populated with the proper field names from `options.fields`
@@ -89,14 +112,13 @@ export function checkAndFormatIfAndIfNoneMatch(
  * @internal
  */
 export function formatFiltersAndSelect(
-  listConfigOptions: ListConfigurationSettingsOptions | ListRevisionsOptions
+  listConfigOptions: ListRevisionsOptions,
 ): Pick<GetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime"> {
   let acceptDatetime: string | undefined = undefined;
 
   if (listConfigOptions.acceptDateTime) {
     acceptDatetime = listConfigOptions.acceptDateTime.toISOString();
   }
-
   return {
     key: listConfigOptions.keyFilter,
     label: listConfigOptions.labelFilter,
@@ -105,6 +127,41 @@ export function formatFiltersAndSelect(
   };
 }
 
+/**
+ * Transforms some of the key fields in SendConfigurationSettingsOptions
+ * so they can be added to a request using AppConfigurationGetKeyValuesOptionalParams.
+ * - `options.acceptDateTime` is converted into an ISO string
+ * - `select` is populated with the proper field names from `options.fields`
+ * - keyFilter, labelFilter, snapshotName are moved to key, label, and snapshot respectively.
+ *
+ * @internal
+ */
+export function formatConfigurationSettingsFiltersAndSelect(
+  listConfigOptions: SendConfigurationSettingsOptions,
+): Pick<GetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime" | "snapshot"> {
+  const { snapshotName: snapshot, ...options } = listConfigOptions;
+  return {
+    ...formatFiltersAndSelect(options),
+    snapshot,
+  };
+}
+/**
+ * Transforms some of the key fields in ListSnapshotsOptions
+ * so they can be added to a request using AppConfigurationGetSnapshotsOptionalParams.
+ * - `select` is populated with the proper field names from `options.fields`
+ * - keyFilter and labelFilter are moved to key and label, respectively.
+ *
+ * @internal
+ */
+export function formatSnapshotFiltersAndSelect(
+  listSnapshotOptions: ListSnapshotsOptions,
+): Pick<GetSnapshotsOptionalParams, "name" | "select" | "status"> {
+  return {
+    name: listSnapshotOptions.nameFilter,
+    status: listSnapshotOptions.statusFilter,
+    select: listSnapshotOptions.fields,
+  };
+}
 /**
  * Handles translating a Date acceptDateTime into a string as needed by the API
  * @param newOptions - A newer style options with acceptDateTime as a date (and with proper casing!)
@@ -136,6 +193,27 @@ export function extractAfterTokenFromNextLink(nextLink: string): string {
 }
 
 /**
+ * Take the header link that gets returned from 304 response and extract the 'after' token needed
+ * to get the next page of results.
+ *
+ * @internal
+ */
+export function extractAfterTokenFromLinkHeader(link: string): string {
+  // Example transformation of the link header
+  // link:
+  // '</kv?api-version=2023-10-01&key=listResults714&after=bGlzdE4>; rel="next"'
+  //
+  // linkValue:
+  // </kv?api-version=2023-10-01&key=listResults714&after=bGlzdE4>
+  //
+  // nextLink:
+  // /kv?api-version=2023-10-01&key=listResults714&after=bGlzdE4
+  const linkValue = link.split(";")[0];
+  const nextLink = linkValue.substring(1, linkValue.length - 1);
+  return extractAfterTokenFromNextLink(nextLink);
+}
+
+/**
  * Makes a ConfigurationSetting-based response throw for all of the data members. Used primarily
  * to prevent possible errors by the user in accessing a model that is uninitialized. This can happen
  * in cases like HTTP status code 204 or 304, which return an empty response body.
@@ -143,7 +221,7 @@ export function extractAfterTokenFromNextLink(nextLink: string): string {
  * @param configurationSetting - The configuration setting to alter
  */
 export function makeConfigurationSettingEmpty(
-  configurationSetting: Partial<Record<Exclude<keyof ConfigurationSetting, "key">, any>>
+  configurationSetting: Partial<Record<Exclude<keyof ConfigurationSetting, "key">, any>>,
 ): void {
   const names: Exclude<keyof ConfigurationSetting, "key">[] = [
     "contentType",
@@ -169,9 +247,13 @@ export function transformKeyValue<T>(kvp: T & KeyValue): T & ConfigurationSettin
     ...kvp,
     isReadOnly: !!kvp.locked,
   };
-
   delete setting.locked;
-
+  if (!setting.label) {
+    delete setting.label;
+  }
+  if (!setting.contentType) {
+    delete setting.contentType;
+  }
   return setting;
 }
 
@@ -179,7 +261,7 @@ export function transformKeyValue<T>(kvp: T & KeyValue): T & ConfigurationSettin
  * @internal
  */
 function isConfigSettingWithSecretReferenceValue(
-  setting: any
+  setting: any,
 ): setting is ConfigurationSetting<SecretReferenceValue> {
   return (
     setting.contentType === secretReferenceContentType &&
@@ -192,7 +274,7 @@ function isConfigSettingWithSecretReferenceValue(
  * @internal
  */
 function isConfigSettingWithFeatureFlagValue(
-  setting: any
+  setting: any,
 ): setting is ConfigurationSetting<FeatureFlagValue> {
   return (
     setting.contentType === featureFlagContentType &&
@@ -215,7 +297,7 @@ export function serializeAsConfigurationSettingParam(
   setting:
     | ConfigurationSettingParam
     | ConfigurationSettingParam<FeatureFlagValue>
-    | ConfigurationSettingParam<SecretReferenceValue>
+    | ConfigurationSettingParam<SecretReferenceValue>,
 ): ConfigurationSettingParam {
   if (isSimpleConfigSetting(setting)) {
     return setting as ConfigurationSettingParam;
@@ -232,7 +314,7 @@ export function serializeAsConfigurationSettingParam(
   }
   logger.error("Unable to serialize to a configuration setting", setting);
   throw new TypeError(
-    `Unable to serialize the setting with key "${setting.key}" as a configuration setting`
+    `Unable to serialize the setting with key "${setting.key}" as a configuration setting`,
   );
 }
 
@@ -241,7 +323,7 @@ export function serializeAsConfigurationSettingParam(
  */
 export function transformKeyValueResponseWithStatusCode<T extends KeyValue>(
   kvp: T,
-  status: number | undefined
+  status: number | undefined,
 ): ConfigurationSetting & { eTag?: string } & HttpResponseFields {
   const response = {
     ...transformKeyValue(kvp),
@@ -261,7 +343,7 @@ export function transformKeyValueResponseWithStatusCode<T extends KeyValue>(
  * @internal
  */
 export function transformKeyValueResponse<T extends KeyValue & { eTag?: string }>(
-  kvp: T
+  kvp: T,
 ): ConfigurationSetting {
   const setting = transformKeyValue(kvp);
   if (hasUnderscoreResponse(kvp)) {
@@ -276,6 +358,21 @@ export function transformKeyValueResponse<T extends KeyValue & { eTag?: string }
 }
 
 /**
+ * @internal
+ */
+export function transformSnapshotResponse<T extends ConfigurationSnapshot>(
+  snapshot: T,
+): SnapshotResponse {
+  if (hasUnderscoreResponse(snapshot)) {
+    Object.defineProperty(snapshot, "_response", {
+      enumerable: false,
+      value: snapshot._response,
+    });
+  }
+  return snapshot as any;
+}
+
+/**
  * Translates user-facing field names into their `select` equivalents (these can be
  * seen in the `KnownEnum5`)
  *
@@ -285,7 +382,7 @@ export function transformKeyValueResponse<T extends KeyValue & { eTag?: string }
  * @internal
  */
 export function formatFieldsForSelect(
-  fieldNames: (keyof ConfigurationSetting)[] | undefined
+  fieldNames: (keyof ConfigurationSetting)[] | undefined,
 ): string[] | undefined {
   if (fieldNames == null) {
     return undefined;
@@ -312,14 +409,14 @@ export function formatFieldsForSelect(
  */
 export function errorMessageForUnexpectedSetting(
   key: string,
-  expectedType: "FeatureFlag" | "SecretReference"
+  expectedType: "FeatureFlag" | "SecretReference",
 ): string {
   return `Setting with key ${key} is not a valid ${expectedType}, make sure to have the correct content-type and a valid non-null value.`;
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export function assertResponse<T extends object>(
-  result: T
+  result: T,
 ): asserts result is T & HttpResponseField<any> {
   if (!hasUnderscoreResponse(result)) {
     Object.defineProperty(result, "_response", {
@@ -332,7 +429,7 @@ export function assertResponse<T extends object>(
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export function hasUnderscoreResponse<T extends object>(
-  result: T
+  result: T,
 ): result is T & HttpResponseField<any> {
   return Object.prototype.hasOwnProperty.call(result, "_response");
 }

@@ -849,11 +849,6 @@ const listChatReadReceiptsNextOperationSpec: coreClient.OperationSpec = {
       isError: true
     }
   },
-  queryParameters: [
-    Parameters.maxPageSize,
-    Parameters.skip,
-    Parameters.apiVersion
-  ],
   urlParameters: [
     Parameters.endpoint,
     Parameters.chatThreadId,
@@ -886,11 +881,6 @@ const listChatMessagesNextOperationSpec: coreClient.OperationSpec = {
       isError: true
     }
   },
-  queryParameters: [
-    Parameters.maxPageSize,
-    Parameters.apiVersion,
-    Parameters.startTime
-  ],
   urlParameters: [
     Parameters.endpoint,
     Parameters.chatThreadId,
@@ -923,11 +913,6 @@ const listChatParticipantsNextOperationSpec: coreClient.OperationSpec = {
       isError: true
     }
   },
-  queryParameters: [
-    Parameters.maxPageSize,
-    Parameters.skip,
-    Parameters.apiVersion
-  ],
   urlParameters: [
     Parameters.endpoint,
     Parameters.chatThreadId,

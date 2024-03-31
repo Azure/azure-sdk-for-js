@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MobileNetworkManagementClient } from "../mobileNetworkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   SimGroup,
   SimGroupsListBySubscriptionNextOptionalParams,
@@ -28,11 +32,11 @@ import {
   SimGroupsGetResponse,
   SimGroupsCreateOrUpdateOptionalParams,
   SimGroupsCreateOrUpdateResponse,
-  TagsObject,
+  IdentityAndTagsObject,
   SimGroupsUpdateTagsOptionalParams,
   SimGroupsUpdateTagsResponse,
   SimGroupsListBySubscriptionNextResponse,
-  SimGroupsListByResourceGroupNextResponse
+  SimGroupsListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -53,7 +57,7 @@ export class SimGroupsImpl implements SimGroups {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: SimGroupsListBySubscriptionOptionalParams
+    options?: SimGroupsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<SimGroup> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -68,13 +72,13 @@ export class SimGroupsImpl implements SimGroups {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: SimGroupsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SimGroup[]> {
     let result: SimGroupsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -95,7 +99,7 @@ export class SimGroupsImpl implements SimGroups {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: SimGroupsListBySubscriptionOptionalParams
+    options?: SimGroupsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<SimGroup> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -109,7 +113,7 @@ export class SimGroupsImpl implements SimGroups {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: SimGroupsListByResourceGroupOptionalParams
+    options?: SimGroupsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<SimGroup> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -126,16 +130,16 @@ export class SimGroupsImpl implements SimGroups {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: SimGroupsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SimGroup[]> {
     let result: SimGroupsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -150,7 +154,7 @@ export class SimGroupsImpl implements SimGroups {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -161,11 +165,11 @@ export class SimGroupsImpl implements SimGroups {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: SimGroupsListByResourceGroupOptionalParams
+    options?: SimGroupsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<SimGroup> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -180,25 +184,24 @@ export class SimGroupsImpl implements SimGroups {
   async beginDelete(
     resourceGroupName: string,
     simGroupName: string,
-    options?: SimGroupsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: SimGroupsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -207,8 +210,8 @@ export class SimGroupsImpl implements SimGroups {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -216,20 +219,20 @@ export class SimGroupsImpl implements SimGroups {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, simGroupName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, simGroupName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -244,12 +247,12 @@ export class SimGroupsImpl implements SimGroups {
   async beginDeleteAndWait(
     resourceGroupName: string,
     simGroupName: string,
-    options?: SimGroupsDeleteOptionalParams
+    options?: SimGroupsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       simGroupName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -263,11 +266,11 @@ export class SimGroupsImpl implements SimGroups {
   get(
     resourceGroupName: string,
     simGroupName: string,
-    options?: SimGroupsGetOptionalParams
+    options?: SimGroupsGetOptionalParams,
   ): Promise<SimGroupsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, simGroupName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -282,30 +285,29 @@ export class SimGroupsImpl implements SimGroups {
     resourceGroupName: string,
     simGroupName: string,
     parameters: SimGroup,
-    options?: SimGroupsCreateOrUpdateOptionalParams
+    options?: SimGroupsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SimGroupsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SimGroupsCreateOrUpdateResponse>,
       SimGroupsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SimGroupsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -314,8 +316,8 @@ export class SimGroupsImpl implements SimGroups {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -323,20 +325,23 @@ export class SimGroupsImpl implements SimGroups {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, simGroupName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, simGroupName, parameters, options },
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      SimGroupsCreateOrUpdateResponse,
+      OperationState<SimGroupsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -353,33 +358,33 @@ export class SimGroupsImpl implements SimGroups {
     resourceGroupName: string,
     simGroupName: string,
     parameters: SimGroup,
-    options?: SimGroupsCreateOrUpdateOptionalParams
+    options?: SimGroupsCreateOrUpdateOptionalParams,
   ): Promise<SimGroupsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       simGroupName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Updates SIM group tags.
+   * Patch SIM group resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param simGroupName The name of the SIM Group.
-   * @param parameters Parameters supplied to update SIM group tags.
+   * @param parameters Parameters supplied to patch SIM group resource.
    * @param options The options parameters.
    */
   updateTags(
     resourceGroupName: string,
     simGroupName: string,
-    parameters: TagsObject,
-    options?: SimGroupsUpdateTagsOptionalParams
+    parameters: IdentityAndTagsObject,
+    options?: SimGroupsUpdateTagsOptionalParams,
   ): Promise<SimGroupsUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, simGroupName, parameters, options },
-      updateTagsOperationSpec
+      updateTagsOperationSpec,
     );
   }
 
@@ -388,11 +393,11 @@ export class SimGroupsImpl implements SimGroups {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: SimGroupsListBySubscriptionOptionalParams
+    options?: SimGroupsListBySubscriptionOptionalParams,
   ): Promise<SimGroupsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -403,11 +408,11 @@ export class SimGroupsImpl implements SimGroups {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: SimGroupsListByResourceGroupOptionalParams
+    options?: SimGroupsListByResourceGroupOptionalParams,
   ): Promise<SimGroupsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -418,11 +423,11 @@ export class SimGroupsImpl implements SimGroups {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: SimGroupsListBySubscriptionNextOptionalParams
+    options?: SimGroupsListBySubscriptionNextOptionalParams,
   ): Promise<SimGroupsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -435,11 +440,11 @@ export class SimGroupsImpl implements SimGroups {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: SimGroupsListByResourceGroupNextOptionalParams
+    options?: SimGroupsListByResourceGroupNextOptionalParams,
   ): Promise<SimGroupsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -447,8 +452,7 @@ export class SimGroupsImpl implements SimGroups {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -456,172 +460,167 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.simGroupName
+    Parameters.simGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SimGroup
+      bodyMapper: Mappers.SimGroup,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.simGroupName
+    Parameters.simGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SimGroup
+      bodyMapper: Mappers.SimGroup,
     },
     201: {
-      bodyMapper: Mappers.SimGroup
+      bodyMapper: Mappers.SimGroup,
     },
     202: {
-      bodyMapper: Mappers.SimGroup
+      bodyMapper: Mappers.SimGroup,
     },
     204: {
-      bodyMapper: Mappers.SimGroup
+      bodyMapper: Mappers.SimGroup,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters12,
+  requestBody: Parameters.parameters14,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.simGroupName
+    Parameters.simGroupName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.SimGroup
+      bodyMapper: Mappers.SimGroup,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters1,
+  requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.simGroupName
+    Parameters.simGroupName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.MobileNetwork/simGroups",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.MobileNetwork/simGroups",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SimGroupListResult
+      bodyMapper: Mappers.SimGroupListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SimGroupListResult
+      bodyMapper: Mappers.SimGroupListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SimGroupListResult
+      bodyMapper: Mappers.SimGroupListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SimGroupListResult
+      bodyMapper: Mappers.SimGroupListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

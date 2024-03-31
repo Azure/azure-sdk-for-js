@@ -22,7 +22,7 @@ const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -108,7 +108,7 @@ describe("webPubSub test", () => {
 
   it("webPubSub delete test", async function () {
     const resArray = new Array();
-    const res = await client.webPubSub.beginDeleteAndWait(resourceGroup, resourceName)
+    const res = await client.webPubSub.beginDeleteAndWait(resourceGroup, resourceName, testPollingOptions)
     for await (let item of client.webPubSub.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

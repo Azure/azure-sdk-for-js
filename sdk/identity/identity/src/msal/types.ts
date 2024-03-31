@@ -2,6 +2,11 @@
 // Licensed under the MIT license.
 
 /**
+ * @internal
+ */
+export type AppType = "public" | "confidential" | "publicFirst" | "confidentialFirst";
+
+/**
  * The shape we use return the token (and the expiration date).
  * @internal
  */
@@ -9,6 +14,11 @@ export interface MsalToken {
   accessToken?: string;
   expiresOn: Date | null;
 }
+
+/**
+ * Represents a valid (i.e. complete) MSAL token.
+ */
+export type ValidMsalToken = { [P in keyof MsalToken]-?: NonNullable<MsalToken[P]> };
 
 /**
  * Internal representation of MSAL's Account information.

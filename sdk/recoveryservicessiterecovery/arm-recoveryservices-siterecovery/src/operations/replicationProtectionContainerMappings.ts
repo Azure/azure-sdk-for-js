@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ProtectionContainerMapping,
   ReplicationProtectionContainerMappingsListByReplicationProtectionContainersNextOptionalParams,
@@ -35,13 +39,14 @@ import {
   RemoveProtectionContainerMappingInput,
   ReplicationProtectionContainerMappingsDeleteOptionalParams,
   ReplicationProtectionContainerMappingsListByReplicationProtectionContainersNextResponse,
-  ReplicationProtectionContainerMappingsListNextResponse
+  ReplicationProtectionContainerMappingsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ReplicationProtectionContainerMappings operations. */
 export class ReplicationProtectionContainerMappingsImpl
-  implements ReplicationProtectionContainerMappings {
+  implements ReplicationProtectionContainerMappings
+{
   private readonly client: SiteRecoveryManagementClient;
 
   /**
@@ -66,14 +71,14 @@ export class ReplicationProtectionContainerMappingsImpl
     resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
-    options?: ReplicationProtectionContainerMappingsListByReplicationProtectionContainersOptionalParams
+    options?: ReplicationProtectionContainerMappingsListByReplicationProtectionContainersOptionalParams,
   ): PagedAsyncIterableIterator<ProtectionContainerMapping> {
     const iter = this.listByReplicationProtectionContainersPagingAll(
       resourceName,
       resourceGroupName,
       fabricName,
       protectionContainerName,
-      options
+      options,
     );
     return {
       next() {
@@ -92,9 +97,9 @@ export class ReplicationProtectionContainerMappingsImpl
           fabricName,
           protectionContainerName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -104,7 +109,7 @@ export class ReplicationProtectionContainerMappingsImpl
     fabricName: string,
     protectionContainerName: string,
     options?: ReplicationProtectionContainerMappingsListByReplicationProtectionContainersOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ProtectionContainerMapping[]> {
     let result: ReplicationProtectionContainerMappingsListByReplicationProtectionContainersResponse;
     let continuationToken = settings?.continuationToken;
@@ -114,7 +119,7 @@ export class ReplicationProtectionContainerMappingsImpl
         resourceGroupName,
         fabricName,
         protectionContainerName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -128,7 +133,7 @@ export class ReplicationProtectionContainerMappingsImpl
         fabricName,
         protectionContainerName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -142,14 +147,14 @@ export class ReplicationProtectionContainerMappingsImpl
     resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
-    options?: ReplicationProtectionContainerMappingsListByReplicationProtectionContainersOptionalParams
+    options?: ReplicationProtectionContainerMappingsListByReplicationProtectionContainersOptionalParams,
   ): AsyncIterableIterator<ProtectionContainerMapping> {
     for await (const page of this.listByReplicationProtectionContainersPagingPage(
       resourceName,
       resourceGroupName,
       fabricName,
       protectionContainerName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -165,7 +170,7 @@ export class ReplicationProtectionContainerMappingsImpl
   public list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationProtectionContainerMappingsListOptionalParams
+    options?: ReplicationProtectionContainerMappingsListOptionalParams,
   ): PagedAsyncIterableIterator<ProtectionContainerMapping> {
     const iter = this.listPagingAll(resourceName, resourceGroupName, options);
     return {
@@ -183,9 +188,9 @@ export class ReplicationProtectionContainerMappingsImpl
           resourceName,
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -193,7 +198,7 @@ export class ReplicationProtectionContainerMappingsImpl
     resourceName: string,
     resourceGroupName: string,
     options?: ReplicationProtectionContainerMappingsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ProtectionContainerMapping[]> {
     let result: ReplicationProtectionContainerMappingsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -209,7 +214,7 @@ export class ReplicationProtectionContainerMappingsImpl
         resourceName,
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -221,12 +226,12 @@ export class ReplicationProtectionContainerMappingsImpl
   private async *listPagingAll(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationProtectionContainerMappingsListOptionalParams
+    options?: ReplicationProtectionContainerMappingsListOptionalParams,
   ): AsyncIterableIterator<ProtectionContainerMapping> {
     for await (const page of this.listPagingPage(
       resourceName,
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -246,19 +251,17 @@ export class ReplicationProtectionContainerMappingsImpl
     resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
-    options?: ReplicationProtectionContainerMappingsListByReplicationProtectionContainersOptionalParams
-  ): Promise<
-    ReplicationProtectionContainerMappingsListByReplicationProtectionContainersResponse
-  > {
+    options?: ReplicationProtectionContainerMappingsListByReplicationProtectionContainersOptionalParams,
+  ): Promise<ReplicationProtectionContainerMappingsListByReplicationProtectionContainersResponse> {
     return this.client.sendOperationRequest(
       {
         resourceName,
         resourceGroupName,
         fabricName,
         protectionContainerName,
-        options
+        options,
       },
-      listByReplicationProtectionContainersOperationSpec
+      listByReplicationProtectionContainersOperationSpec,
     );
   }
 
@@ -278,7 +281,7 @@ export class ReplicationProtectionContainerMappingsImpl
     fabricName: string,
     protectionContainerName: string,
     mappingName: string,
-    options?: ReplicationProtectionContainerMappingsGetOptionalParams
+    options?: ReplicationProtectionContainerMappingsGetOptionalParams,
   ): Promise<ReplicationProtectionContainerMappingsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -287,9 +290,9 @@ export class ReplicationProtectionContainerMappingsImpl
         fabricName,
         protectionContainerName,
         mappingName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -311,30 +314,29 @@ export class ReplicationProtectionContainerMappingsImpl
     protectionContainerName: string,
     mappingName: string,
     creationInput: CreateProtectionContainerMappingInput,
-    options?: ReplicationProtectionContainerMappingsCreateOptionalParams
+    options?: ReplicationProtectionContainerMappingsCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationProtectionContainerMappingsCreateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationProtectionContainerMappingsCreateResponse>,
       ReplicationProtectionContainerMappingsCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReplicationProtectionContainerMappingsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -343,8 +345,8 @@ export class ReplicationProtectionContainerMappingsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -352,27 +354,30 @@ export class ReplicationProtectionContainerMappingsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceName,
         resourceGroupName,
         fabricName,
         protectionContainerName,
         mappingName,
         creationInput,
-        options
+        options,
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ReplicationProtectionContainerMappingsCreateResponse,
+      OperationState<ReplicationProtectionContainerMappingsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -396,7 +401,7 @@ export class ReplicationProtectionContainerMappingsImpl
     protectionContainerName: string,
     mappingName: string,
     creationInput: CreateProtectionContainerMappingInput,
-    options?: ReplicationProtectionContainerMappingsCreateOptionalParams
+    options?: ReplicationProtectionContainerMappingsCreateOptionalParams,
   ): Promise<ReplicationProtectionContainerMappingsCreateResponse> {
     const poller = await this.beginCreate(
       resourceName,
@@ -405,7 +410,7 @@ export class ReplicationProtectionContainerMappingsImpl
       protectionContainerName,
       mappingName,
       creationInput,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -426,25 +431,24 @@ export class ReplicationProtectionContainerMappingsImpl
     fabricName: string,
     protectionContainerName: string,
     mappingName: string,
-    options?: ReplicationProtectionContainerMappingsPurgeOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: ReplicationProtectionContainerMappingsPurgeOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -453,8 +457,8 @@ export class ReplicationProtectionContainerMappingsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -462,26 +466,26 @@ export class ReplicationProtectionContainerMappingsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceName,
         resourceGroupName,
         fabricName,
         protectionContainerName,
         mappingName,
-        options
+        options,
       },
-      purgeOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: purgeOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -503,7 +507,7 @@ export class ReplicationProtectionContainerMappingsImpl
     fabricName: string,
     protectionContainerName: string,
     mappingName: string,
-    options?: ReplicationProtectionContainerMappingsPurgeOptionalParams
+    options?: ReplicationProtectionContainerMappingsPurgeOptionalParams,
   ): Promise<void> {
     const poller = await this.beginPurge(
       resourceName,
@@ -511,7 +515,7 @@ export class ReplicationProtectionContainerMappingsImpl
       fabricName,
       protectionContainerName,
       mappingName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -534,30 +538,29 @@ export class ReplicationProtectionContainerMappingsImpl
     protectionContainerName: string,
     mappingName: string,
     updateInput: UpdateProtectionContainerMappingInput,
-    options?: ReplicationProtectionContainerMappingsUpdateOptionalParams
+    options?: ReplicationProtectionContainerMappingsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationProtectionContainerMappingsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationProtectionContainerMappingsUpdateResponse>,
       ReplicationProtectionContainerMappingsUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReplicationProtectionContainerMappingsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -566,8 +569,8 @@ export class ReplicationProtectionContainerMappingsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -575,27 +578,30 @@ export class ReplicationProtectionContainerMappingsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceName,
         resourceGroupName,
         fabricName,
         protectionContainerName,
         mappingName,
         updateInput,
-        options
+        options,
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ReplicationProtectionContainerMappingsUpdateResponse,
+      OperationState<ReplicationProtectionContainerMappingsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -619,7 +625,7 @@ export class ReplicationProtectionContainerMappingsImpl
     protectionContainerName: string,
     mappingName: string,
     updateInput: UpdateProtectionContainerMappingInput,
-    options?: ReplicationProtectionContainerMappingsUpdateOptionalParams
+    options?: ReplicationProtectionContainerMappingsUpdateOptionalParams,
   ): Promise<ReplicationProtectionContainerMappingsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceName,
@@ -628,7 +634,7 @@ export class ReplicationProtectionContainerMappingsImpl
       protectionContainerName,
       mappingName,
       updateInput,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -651,25 +657,24 @@ export class ReplicationProtectionContainerMappingsImpl
     protectionContainerName: string,
     mappingName: string,
     removalInput: RemoveProtectionContainerMappingInput,
-    options?: ReplicationProtectionContainerMappingsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: ReplicationProtectionContainerMappingsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -678,8 +683,8 @@ export class ReplicationProtectionContainerMappingsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -687,27 +692,27 @@ export class ReplicationProtectionContainerMappingsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceName,
         resourceGroupName,
         fabricName,
         protectionContainerName,
         mappingName,
         removalInput,
-        options
+        options,
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -731,7 +736,7 @@ export class ReplicationProtectionContainerMappingsImpl
     protectionContainerName: string,
     mappingName: string,
     removalInput: RemoveProtectionContainerMappingInput,
-    options?: ReplicationProtectionContainerMappingsDeleteOptionalParams
+    options?: ReplicationProtectionContainerMappingsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceName,
@@ -740,7 +745,7 @@ export class ReplicationProtectionContainerMappingsImpl
       protectionContainerName,
       mappingName,
       removalInput,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -755,11 +760,11 @@ export class ReplicationProtectionContainerMappingsImpl
   private _list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationProtectionContainerMappingsListOptionalParams
+    options?: ReplicationProtectionContainerMappingsListOptionalParams,
   ): Promise<ReplicationProtectionContainerMappingsListResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -780,10 +785,8 @@ export class ReplicationProtectionContainerMappingsImpl
     fabricName: string,
     protectionContainerName: string,
     nextLink: string,
-    options?: ReplicationProtectionContainerMappingsListByReplicationProtectionContainersNextOptionalParams
-  ): Promise<
-    ReplicationProtectionContainerMappingsListByReplicationProtectionContainersNextResponse
-  > {
+    options?: ReplicationProtectionContainerMappingsListByReplicationProtectionContainersNextOptionalParams,
+  ): Promise<ReplicationProtectionContainerMappingsListByReplicationProtectionContainersNextResponse> {
     return this.client.sendOperationRequest(
       {
         resourceName,
@@ -791,9 +794,9 @@ export class ReplicationProtectionContainerMappingsImpl
         fabricName,
         protectionContainerName,
         nextLink,
-        options
+        options,
       },
-      listByReplicationProtectionContainersNextOperationSpec
+      listByReplicationProtectionContainersNextOperationSpec,
     );
   }
 
@@ -809,46 +812,45 @@ export class ReplicationProtectionContainerMappingsImpl
     resourceName: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: ReplicationProtectionContainerMappingsListNextOptionalParams
+    options?: ReplicationProtectionContainerMappingsListNextOptionalParams,
   ): Promise<ReplicationProtectionContainerMappingsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByReplicationProtectionContainersOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionContainerMappings",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ProtectionContainerMappingCollection
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName,
-    Parameters.fabricName,
-    Parameters.protectionContainerName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+const listByReplicationProtectionContainersOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionContainerMappings",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.ProtectionContainerMappingCollection,
+      },
+    },
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.subscriptionId,
+      Parameters.resourceName,
+      Parameters.fabricName,
+      Parameters.protectionContainerName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionContainerMappings/{mappingName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionContainerMappings/{mappingName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectionContainerMapping
-    }
+      bodyMapper: Mappers.ProtectionContainerMapping,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -858,28 +860,27 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceName,
     Parameters.fabricName,
     Parameters.protectionContainerName,
-    Parameters.mappingName
+    Parameters.mappingName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionContainerMappings/{mappingName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionContainerMappings/{mappingName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectionContainerMapping
+      bodyMapper: Mappers.ProtectionContainerMapping,
     },
     201: {
-      bodyMapper: Mappers.ProtectionContainerMapping
+      bodyMapper: Mappers.ProtectionContainerMapping,
     },
     202: {
-      bodyMapper: Mappers.ProtectionContainerMapping
+      bodyMapper: Mappers.ProtectionContainerMapping,
     },
     204: {
-      bodyMapper: Mappers.ProtectionContainerMapping
-    }
+      bodyMapper: Mappers.ProtectionContainerMapping,
+    },
   },
   requestBody: Parameters.creationInput1,
   queryParameters: [Parameters.apiVersion],
@@ -890,15 +891,14 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceName,
     Parameters.fabricName,
     Parameters.protectionContainerName,
-    Parameters.mappingName
+    Parameters.mappingName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const purgeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionContainerMappings/{mappingName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionContainerMappings/{mappingName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {} },
   queryParameters: [Parameters.apiVersion],
@@ -909,27 +909,26 @@ const purgeOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceName,
     Parameters.fabricName,
     Parameters.protectionContainerName,
-    Parameters.mappingName
+    Parameters.mappingName,
   ],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionContainerMappings/{mappingName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionContainerMappings/{mappingName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectionContainerMapping
+      bodyMapper: Mappers.ProtectionContainerMapping,
     },
     201: {
-      bodyMapper: Mappers.ProtectionContainerMapping
+      bodyMapper: Mappers.ProtectionContainerMapping,
     },
     202: {
-      bodyMapper: Mappers.ProtectionContainerMapping
+      bodyMapper: Mappers.ProtectionContainerMapping,
     },
     204: {
-      bodyMapper: Mappers.ProtectionContainerMapping
-    }
+      bodyMapper: Mappers.ProtectionContainerMapping,
+    },
   },
   requestBody: Parameters.updateInput,
   queryParameters: [Parameters.apiVersion],
@@ -940,15 +939,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceName,
     Parameters.fabricName,
     Parameters.protectionContainerName,
-    Parameters.mappingName
+    Parameters.mappingName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionContainerMappings/{mappingName}/remove",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionContainerMappings/{mappingName}/remove",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {} },
   requestBody: Parameters.removalInput,
@@ -960,38 +958,58 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceName,
     Parameters.fabricName,
     Parameters.protectionContainerName,
-    Parameters.mappingName
+    Parameters.mappingName,
   ],
   headerParameters: [Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationProtectionContainerMappings",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationProtectionContainerMappings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectionContainerMappingCollection
-    }
+      bodyMapper: Mappers.ProtectionContainerMappingCollection,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listByReplicationProtectionContainersNextOperationSpec: coreClient.OperationSpec = {
+const listByReplicationProtectionContainersNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.ProtectionContainerMappingCollection,
+      },
+    },
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.subscriptionId,
+      Parameters.nextLink,
+      Parameters.resourceName,
+      Parameters.fabricName,
+      Parameters.protectionContainerName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectionContainerMappingCollection
-    }
+      bodyMapper: Mappers.ProtectionContainerMappingCollection,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -999,27 +1017,7 @@ const listByReplicationProtectionContainersNextOperationSpec: coreClient.Operati
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.resourceName,
-    Parameters.fabricName,
-    Parameters.protectionContainerName
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ProtectionContainerMappingCollection
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

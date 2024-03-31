@@ -9,7 +9,7 @@ var spawnSync = require("child_process").spawnSync,
 // as well
 async function updatePackageConstants(packagePath, packageJson, newVersion) {
   // No constant metadata, skip
-  if (!("//metadata" in packageJson)) {
+  if (!("//metadata" in packageJson) || !packageJson["//metadata"].constantPaths) {
     return;
   }
 

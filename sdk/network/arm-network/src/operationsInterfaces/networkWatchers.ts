@@ -55,7 +55,7 @@ import {
   NetworkWatchersListAvailableProvidersResponse,
   NetworkConfigurationDiagnosticParameters,
   NetworkWatchersGetNetworkConfigurationDiagnosticOptionalParams,
-  NetworkWatchersGetNetworkConfigurationDiagnosticResponse
+  NetworkWatchersGetNetworkConfigurationDiagnosticResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -68,14 +68,14 @@ export interface NetworkWatchers {
    */
   list(
     resourceGroupName: string,
-    options?: NetworkWatchersListOptionalParams
+    options?: NetworkWatchersListOptionalParams,
   ): PagedAsyncIterableIterator<NetworkWatcher>;
   /**
    * Gets all network watchers by subscription.
    * @param options The options parameters.
    */
   listAll(
-    options?: NetworkWatchersListAllOptionalParams
+    options?: NetworkWatchersListAllOptionalParams,
   ): PagedAsyncIterableIterator<NetworkWatcher>;
   /**
    * Creates or updates a network watcher in the specified resource group.
@@ -88,7 +88,7 @@ export interface NetworkWatchers {
     resourceGroupName: string,
     networkWatcherName: string,
     parameters: NetworkWatcher,
-    options?: NetworkWatchersCreateOrUpdateOptionalParams
+    options?: NetworkWatchersCreateOrUpdateOptionalParams,
   ): Promise<NetworkWatchersCreateOrUpdateResponse>;
   /**
    * Gets the specified network watcher by resource group.
@@ -99,7 +99,7 @@ export interface NetworkWatchers {
   get(
     resourceGroupName: string,
     networkWatcherName: string,
-    options?: NetworkWatchersGetOptionalParams
+    options?: NetworkWatchersGetOptionalParams,
   ): Promise<NetworkWatchersGetResponse>;
   /**
    * Deletes the specified network watcher resource.
@@ -110,7 +110,7 @@ export interface NetworkWatchers {
   beginDelete(
     resourceGroupName: string,
     networkWatcherName: string,
-    options?: NetworkWatchersDeleteOptionalParams
+    options?: NetworkWatchersDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified network watcher resource.
@@ -121,7 +121,7 @@ export interface NetworkWatchers {
   beginDeleteAndWait(
     resourceGroupName: string,
     networkWatcherName: string,
-    options?: NetworkWatchersDeleteOptionalParams
+    options?: NetworkWatchersDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates a network watcher tags.
@@ -134,7 +134,7 @@ export interface NetworkWatchers {
     resourceGroupName: string,
     networkWatcherName: string,
     parameters: TagsObject,
-    options?: NetworkWatchersUpdateTagsOptionalParams
+    options?: NetworkWatchersUpdateTagsOptionalParams,
   ): Promise<NetworkWatchersUpdateTagsResponse>;
   /**
    * Gets the current network topology by resource group.
@@ -147,7 +147,7 @@ export interface NetworkWatchers {
     resourceGroupName: string,
     networkWatcherName: string,
     parameters: TopologyParameters,
-    options?: NetworkWatchersGetTopologyOptionalParams
+    options?: NetworkWatchersGetTopologyOptionalParams,
   ): Promise<NetworkWatchersGetTopologyResponse>;
   /**
    * Verify IP flow from the specified VM to a location given the currently configured NSG rules.
@@ -160,7 +160,7 @@ export interface NetworkWatchers {
     resourceGroupName: string,
     networkWatcherName: string,
     parameters: VerificationIPFlowParameters,
-    options?: NetworkWatchersVerifyIPFlowOptionalParams
+    options?: NetworkWatchersVerifyIPFlowOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkWatchersVerifyIPFlowResponse>,
@@ -178,7 +178,7 @@ export interface NetworkWatchers {
     resourceGroupName: string,
     networkWatcherName: string,
     parameters: VerificationIPFlowParameters,
-    options?: NetworkWatchersVerifyIPFlowOptionalParams
+    options?: NetworkWatchersVerifyIPFlowOptionalParams,
   ): Promise<NetworkWatchersVerifyIPFlowResponse>;
   /**
    * Gets the next hop from the specified VM.
@@ -191,7 +191,7 @@ export interface NetworkWatchers {
     resourceGroupName: string,
     networkWatcherName: string,
     parameters: NextHopParameters,
-    options?: NetworkWatchersGetNextHopOptionalParams
+    options?: NetworkWatchersGetNextHopOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkWatchersGetNextHopResponse>,
@@ -209,7 +209,7 @@ export interface NetworkWatchers {
     resourceGroupName: string,
     networkWatcherName: string,
     parameters: NextHopParameters,
-    options?: NetworkWatchersGetNextHopOptionalParams
+    options?: NetworkWatchersGetNextHopOptionalParams,
   ): Promise<NetworkWatchersGetNextHopResponse>;
   /**
    * Gets the configured and effective security group rules on the specified VM.
@@ -222,7 +222,7 @@ export interface NetworkWatchers {
     resourceGroupName: string,
     networkWatcherName: string,
     parameters: SecurityGroupViewParameters,
-    options?: NetworkWatchersGetVMSecurityRulesOptionalParams
+    options?: NetworkWatchersGetVMSecurityRulesOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkWatchersGetVMSecurityRulesResponse>,
@@ -240,7 +240,7 @@ export interface NetworkWatchers {
     resourceGroupName: string,
     networkWatcherName: string,
     parameters: SecurityGroupViewParameters,
-    options?: NetworkWatchersGetVMSecurityRulesOptionalParams
+    options?: NetworkWatchersGetVMSecurityRulesOptionalParams,
   ): Promise<NetworkWatchersGetVMSecurityRulesResponse>;
   /**
    * Initiate troubleshooting on a specified resource.
@@ -253,7 +253,7 @@ export interface NetworkWatchers {
     resourceGroupName: string,
     networkWatcherName: string,
     parameters: TroubleshootingParameters,
-    options?: NetworkWatchersGetTroubleshootingOptionalParams
+    options?: NetworkWatchersGetTroubleshootingOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkWatchersGetTroubleshootingResponse>,
@@ -271,7 +271,7 @@ export interface NetworkWatchers {
     resourceGroupName: string,
     networkWatcherName: string,
     parameters: TroubleshootingParameters,
-    options?: NetworkWatchersGetTroubleshootingOptionalParams
+    options?: NetworkWatchersGetTroubleshootingOptionalParams,
   ): Promise<NetworkWatchersGetTroubleshootingResponse>;
   /**
    * Get the last completed troubleshooting result on a specified resource.
@@ -284,7 +284,7 @@ export interface NetworkWatchers {
     resourceGroupName: string,
     networkWatcherName: string,
     parameters: QueryTroubleshootingParameters,
-    options?: NetworkWatchersGetTroubleshootingResultOptionalParams
+    options?: NetworkWatchersGetTroubleshootingResultOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkWatchersGetTroubleshootingResultResponse>,
@@ -302,7 +302,7 @@ export interface NetworkWatchers {
     resourceGroupName: string,
     networkWatcherName: string,
     parameters: QueryTroubleshootingParameters,
-    options?: NetworkWatchersGetTroubleshootingResultOptionalParams
+    options?: NetworkWatchersGetTroubleshootingResultOptionalParams,
   ): Promise<NetworkWatchersGetTroubleshootingResultResponse>;
   /**
    * Configures flow log and traffic analytics (optional) on a specified resource.
@@ -315,7 +315,7 @@ export interface NetworkWatchers {
     resourceGroupName: string,
     networkWatcherName: string,
     parameters: FlowLogInformation,
-    options?: NetworkWatchersSetFlowLogConfigurationOptionalParams
+    options?: NetworkWatchersSetFlowLogConfigurationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkWatchersSetFlowLogConfigurationResponse>,
@@ -333,7 +333,7 @@ export interface NetworkWatchers {
     resourceGroupName: string,
     networkWatcherName: string,
     parameters: FlowLogInformation,
-    options?: NetworkWatchersSetFlowLogConfigurationOptionalParams
+    options?: NetworkWatchersSetFlowLogConfigurationOptionalParams,
   ): Promise<NetworkWatchersSetFlowLogConfigurationResponse>;
   /**
    * Queries status of flow log and traffic analytics (optional) on a specified resource.
@@ -347,7 +347,7 @@ export interface NetworkWatchers {
     resourceGroupName: string,
     networkWatcherName: string,
     parameters: FlowLogStatusParameters,
-    options?: NetworkWatchersGetFlowLogStatusOptionalParams
+    options?: NetworkWatchersGetFlowLogStatusOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkWatchersGetFlowLogStatusResponse>,
@@ -366,7 +366,7 @@ export interface NetworkWatchers {
     resourceGroupName: string,
     networkWatcherName: string,
     parameters: FlowLogStatusParameters,
-    options?: NetworkWatchersGetFlowLogStatusOptionalParams
+    options?: NetworkWatchersGetFlowLogStatusOptionalParams,
   ): Promise<NetworkWatchersGetFlowLogStatusResponse>;
   /**
    * Verifies the possibility of establishing a direct TCP connection from a virtual machine to a given
@@ -380,7 +380,7 @@ export interface NetworkWatchers {
     resourceGroupName: string,
     networkWatcherName: string,
     parameters: ConnectivityParameters,
-    options?: NetworkWatchersCheckConnectivityOptionalParams
+    options?: NetworkWatchersCheckConnectivityOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkWatchersCheckConnectivityResponse>,
@@ -399,7 +399,7 @@ export interface NetworkWatchers {
     resourceGroupName: string,
     networkWatcherName: string,
     parameters: ConnectivityParameters,
-    options?: NetworkWatchersCheckConnectivityOptionalParams
+    options?: NetworkWatchersCheckConnectivityOptionalParams,
   ): Promise<NetworkWatchersCheckConnectivityResponse>;
   /**
    * NOTE: This feature is currently in preview and still being tested for stability. Gets the relative
@@ -413,7 +413,7 @@ export interface NetworkWatchers {
     resourceGroupName: string,
     networkWatcherName: string,
     parameters: AzureReachabilityReportParameters,
-    options?: NetworkWatchersGetAzureReachabilityReportOptionalParams
+    options?: NetworkWatchersGetAzureReachabilityReportOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkWatchersGetAzureReachabilityReportResponse>,
@@ -432,7 +432,7 @@ export interface NetworkWatchers {
     resourceGroupName: string,
     networkWatcherName: string,
     parameters: AzureReachabilityReportParameters,
-    options?: NetworkWatchersGetAzureReachabilityReportOptionalParams
+    options?: NetworkWatchersGetAzureReachabilityReportOptionalParams,
   ): Promise<NetworkWatchersGetAzureReachabilityReportResponse>;
   /**
    * NOTE: This feature is currently in preview and still being tested for stability. Lists all available
@@ -446,7 +446,7 @@ export interface NetworkWatchers {
     resourceGroupName: string,
     networkWatcherName: string,
     parameters: AvailableProvidersListParameters,
-    options?: NetworkWatchersListAvailableProvidersOptionalParams
+    options?: NetworkWatchersListAvailableProvidersOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkWatchersListAvailableProvidersResponse>,
@@ -465,7 +465,7 @@ export interface NetworkWatchers {
     resourceGroupName: string,
     networkWatcherName: string,
     parameters: AvailableProvidersListParameters,
-    options?: NetworkWatchersListAvailableProvidersOptionalParams
+    options?: NetworkWatchersListAvailableProvidersOptionalParams,
   ): Promise<NetworkWatchersListAvailableProvidersResponse>;
   /**
    * Gets Network Configuration Diagnostic data to help customers understand and debug network behavior.
@@ -482,7 +482,7 @@ export interface NetworkWatchers {
     resourceGroupName: string,
     networkWatcherName: string,
     parameters: NetworkConfigurationDiagnosticParameters,
-    options?: NetworkWatchersGetNetworkConfigurationDiagnosticOptionalParams
+    options?: NetworkWatchersGetNetworkConfigurationDiagnosticOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkWatchersGetNetworkConfigurationDiagnosticResponse>,
@@ -504,6 +504,6 @@ export interface NetworkWatchers {
     resourceGroupName: string,
     networkWatcherName: string,
     parameters: NetworkConfigurationDiagnosticParameters,
-    options?: NetworkWatchersGetNetworkConfigurationDiagnosticOptionalParams
+    options?: NetworkWatchersGetNetworkConfigurationDiagnosticOptionalParams,
   ): Promise<NetworkWatchersGetNetworkConfigurationDiagnosticResponse>;
 }

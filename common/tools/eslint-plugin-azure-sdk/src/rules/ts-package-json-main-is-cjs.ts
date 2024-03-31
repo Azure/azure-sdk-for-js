@@ -18,13 +18,13 @@ export = {
   meta: getRuleMetaData(
     "ts-package-json-main-is-cjs",
     "force package.json's main value to point to a CommonJS or UMD module",
-    "code"
+    "code",
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const verifiers = getVerifiers(context, {
       outer: "main",
     });
-    return stripPath(context.getFilename()) === "package.json"
+    return stripPath(context.filename) === "package.json"
       ? ({
           // callback functions
 
@@ -33,7 +33,7 @@ export = {
 
           // check the node corresponding to main to see if its value is dist/index.js
           "ExpressionStatement > ObjectExpression > Property[key.value='main']": (
-            node: Property
+            node: Property,
           ): void => {
             if (node.value.type !== "Literal") {
               context.report({
@@ -45,10 +45,10 @@ export = {
             const nodeValue = node.value as Literal;
             const main = nodeValue.value as string;
 
-            if (!/^(\.\/)?dist\/index\.js$/.test(main)) {
+            if (!/^(\.\/)?dist\/index\.(c)?js$/.test(main)) {
               context.report({
                 node: nodeValue,
-                message: `main is set to ${main} when it should be set to dist/index.js`,
+                message: `main is set to ${main} when it should be set to dist/index.js or dist/index.cjs`,
                 fix: (fixer: Rule.RuleFixer): Rule.Fix =>
                   fixer.replaceText(nodeValue, `"dist/index.js"`),
               });

@@ -9,9 +9,8 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter,
-  QueryCollectionFormat
-} from "@azure/core-http";
+  OperationQueryParameter
+} from "@azure/core-client";
 import {
   FileServiceProperties as FileServicePropertiesMapper,
   SharePermission as SharePermissionMapper
@@ -100,7 +99,7 @@ export const timeoutInSeconds: OperationQueryParameter = {
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2021-10-04",
+    defaultValue: "2023-01-03",
     isConstant: true,
     serializedName: "x-ms-version",
     type: {
@@ -185,7 +184,7 @@ export const include: OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: QueryCollectionFormat.Csv
+  collectionFormat: "CSV"
 };
 
 export const restype1: OperationQueryParameter = {
@@ -205,11 +204,11 @@ export const metadata: OperationParameter = {
   mapper: {
     serializedName: "x-ms-meta",
     xmlName: "x-ms-meta",
+    headerCollectionPrefix: "x-ms-meta-",
     type: {
       name: "Dictionary",
       value: { type: { name: "String" } }
-    },
-    headerCollectionPrefix: "x-ms-meta-"
+    }
   }
 };
 
@@ -436,6 +435,18 @@ export const comp3: OperationQueryParameter = {
   }
 };
 
+export const contentType1: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const sharePermission: OperationParameter = {
   parameterPath: "sharePermission",
   mapper: SharePermissionMapper
@@ -447,6 +458,17 @@ export const comp4: OperationQueryParameter = {
     defaultValue: "filepermission",
     isConstant: true,
     serializedName: "comp",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const fileRequestIntent: OperationParameter = {
+  parameterPath: ["options", "fileRequestIntent"],
+  mapper: {
+    serializedName: "x-ms-file-request-intent",
+    xmlName: "x-ms-file-request-intent",
     type: {
       name: "String"
     }
@@ -578,6 +600,17 @@ export const restype2: OperationQueryParameter = {
   }
 };
 
+export const allowTrailingDot: OperationParameter = {
+  parameterPath: ["options", "allowTrailingDot"],
+  mapper: {
+    serializedName: "x-ms-allow-trailing-dot",
+    xmlName: "x-ms-allow-trailing-dot",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
 export const filePermission: OperationParameter = {
   parameterPath: ["options", "filePermission"],
   mapper: {
@@ -661,7 +694,7 @@ export const include1: OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: QueryCollectionFormat.Csv
+  collectionFormat: "CSV"
 };
 
 export const includeExtendedInfo: OperationParameter = {
@@ -838,6 +871,17 @@ export const fileChangeTime: OperationParameter = {
   }
 };
 
+export const allowSourceTrailingDot: OperationParameter = {
+  parameterPath: ["options", "allowSourceTrailingDot"],
+  mapper: {
+    serializedName: "x-ms-source-allow-trailing-dot",
+    xmlName: "x-ms-source-allow-trailing-dot",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
 export const fileContentLength: OperationParameter = {
   parameterPath: "fileContentLength",
   mapper: {
@@ -961,7 +1005,7 @@ export const fileContentLength1: OperationParameter = {
   }
 };
 
-export const contentType1: OperationParameter = {
+export const contentType2: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
     defaultValue: "application/octet-stream",

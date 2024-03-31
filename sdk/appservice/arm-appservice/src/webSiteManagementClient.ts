@@ -35,6 +35,7 @@ import {
   ProviderImpl,
   RecommendationsImpl,
   ResourceHealthMetadataOperationsImpl,
+  GetUsagesInLocationImpl,
   StaticSitesImpl,
   WebAppsImpl,
   WorkflowsImpl,
@@ -66,6 +67,7 @@ import {
   Provider,
   Recommendations,
   ResourceHealthMetadataOperations,
+  GetUsagesInLocation,
   StaticSites,
   WebApps,
   Workflows,
@@ -94,6 +96,10 @@ import {
   ListCustomHostNameSitesNextOptionalParams,
   ListCustomHostNameSitesOptionalParams,
   ListCustomHostNameSitesResponse,
+  AseRegion,
+  ListAseRegionsNextOptionalParams,
+  ListAseRegionsOptionalParams,
+  ListAseRegionsResponse,
   GeoRegion,
   ListGeoRegionsNextOptionalParams,
   ListGeoRegionsOptionalParams,
@@ -135,6 +141,7 @@ import {
   ListSourceControlsNextResponse,
   ListBillingMetersNextResponse,
   ListCustomHostNameSitesNextResponse,
+  ListAseRegionsNextResponse,
   ListGeoRegionsNextResponse,
   ListSiteIdentifiersAssignedToHostNameNextResponse,
   ListPremierAddOnOffersNextResponse
@@ -143,7 +150,7 @@ import {
 /// <reference lib="esnext.asynciterable" />
 export class WebSiteManagementClient extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId: string;
+  subscriptionId?: string;
   apiVersion: string;
 
   /**
@@ -157,12 +164,26 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: WebSiteManagementClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: WebSiteManagementClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: WebSiteManagementClientOptionalParams | string,
+    options?: WebSiteManagementClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -174,7 +195,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-appservice/14.0.1`;
+    const packageDetails = `azsdk-js-arm-appservice/14.1.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -227,7 +248,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-09-01";
+    this.apiVersion = options.apiVersion || "2023-01-01";
     this.appServiceCertificateOrders = new AppServiceCertificateOrdersImpl(
       this
     );
@@ -254,6 +275,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     this.resourceHealthMetadataOperations = new ResourceHealthMetadataOperationsImpl(
       this
     );
+    this.getUsagesInLocation = new GetUsagesInLocationImpl(this);
     this.staticSites = new StaticSitesImpl(this);
     this.webApps = new WebAppsImpl(this);
     this.workflows = new WorkflowsImpl(this);
@@ -463,6 +485,60 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     options?: ListCustomHostNameSitesOptionalParams
   ): AsyncIterableIterator<CustomHostnameSites> {
     for await (const page of this.listCustomHostNameSitesPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Description for get a list of available ASE regions and its supported Skus.
+   * @param options The options parameters.
+   */
+  public listAseRegions(
+    options?: ListAseRegionsOptionalParams
+  ): PagedAsyncIterableIterator<AseRegion> {
+    const iter = this.listAseRegionsPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listAseRegionsPagingPage(options, settings);
+      }
+    };
+  }
+
+  private async *listAseRegionsPagingPage(
+    options?: ListAseRegionsOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<AseRegion[]> {
+    let result: ListAseRegionsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAseRegions(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listAseRegionsNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listAseRegionsPagingAll(
+    options?: ListAseRegionsOptionalParams
+  ): AsyncIterableIterator<AseRegion> {
+    for await (const page of this.listAseRegionsPagingPage(options)) {
       yield* page;
     }
   }
@@ -783,6 +859,16 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   /**
+   * Description for get a list of available ASE regions and its supported Skus.
+   * @param options The options parameters.
+   */
+  private _listAseRegions(
+    options?: ListAseRegionsOptionalParams
+  ): Promise<ListAseRegionsResponse> {
+    return this.sendOperationRequest({ options }, listAseRegionsOperationSpec);
+  }
+
+  /**
    * Description for Get a list of available geographical regions.
    * @param options The options parameters.
    */
@@ -942,6 +1028,21 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   /**
+   * ListAseRegionsNext
+   * @param nextLink The nextLink from the previous successful call to the ListAseRegions method.
+   * @param options The options parameters.
+   */
+  private _listAseRegionsNext(
+    nextLink: string,
+    options?: ListAseRegionsNextOptionalParams
+  ): Promise<ListAseRegionsNextResponse> {
+    return this.sendOperationRequest(
+      { nextLink, options },
+      listAseRegionsNextOperationSpec
+    );
+  }
+
+  /**
    * ListGeoRegionsNext
    * @param nextLink The nextLink from the previous successful call to the ListGeoRegions method.
    * @param options The options parameters.
@@ -1007,6 +1108,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   provider: Provider;
   recommendations: Recommendations;
   resourceHealthMetadataOperations: ResourceHealthMetadataOperations;
+  getUsagesInLocation: GetUsagesInLocation;
   staticSites: StaticSites;
   webApps: WebApps;
   workflows: Workflows;
@@ -1142,7 +1244,8 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     parameterPath: {
       name: ["name"],
       typeParam: ["typeParam"],
-      isFqdn: ["options", "isFqdn"]
+      isFqdn: ["options", "isFqdn"],
+      environmentId: ["options", "environmentId"]
     },
     mapper: { ...Mappers.ResourceNameAvailabilityRequest, required: true }
   },
@@ -1176,6 +1279,22 @@ const getSubscriptionDeploymentLocationsOperationSpec: coreClient.OperationSpec 
   responses: {
     200: {
       bodyMapper: Mappers.DeploymentLocations
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listAseRegionsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/aseRegions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AseRegionCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -1384,6 +1503,25 @@ const listCustomHostNameSitesNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.CustomHostnameSitesCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listAseRegionsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AseRegionCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse

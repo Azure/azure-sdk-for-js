@@ -12,7 +12,7 @@ export function formatPreferHeader(
         LogsQueryOptions,
         "serverTimeoutInSeconds" | "includeQueryStatistics" | "includeVisualization"
       >
-    | undefined
+    | undefined,
 ): { Prefer: string } | undefined {
   if (!args) {
     return undefined;

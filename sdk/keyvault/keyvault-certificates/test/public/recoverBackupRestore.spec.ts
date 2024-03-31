@@ -4,11 +4,9 @@
 import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
 import { env, isPlaybackMode, Recorder, isRecordMode } from "@azure-tools/test-recorder";
-import { isNode } from "@azure/core-util";
 
 import { CertificateClient } from "../../src";
 import { testPollerProperties } from "./utils/recorderUtils";
-import { assertThrowsAbortError } from "./utils/common";
 import { authenticate } from "./utils/testAuthentication";
 import { getServiceVersion } from "./utils/common";
 import TestClient from "./utils/testClient";
@@ -44,7 +42,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
     const createPoller = await client.beginCreateCertificate(
       certificateName,
       basicCertificatePolicy,
-      testPollerProperties
+      testPollerProperties,
     );
     await createPoller.pollUntilDone();
     const deletePoller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
@@ -52,17 +50,17 @@ describe("Certificates client - restore certificates and recover backups", () =>
     assert.equal(
       getDeletedResult.properties.name,
       certificateName,
-      "Unexpected certificate name in result from getCertificate()."
+      "Unexpected certificate name in result from getCertificate().",
     );
     const recoverPoller = await client.beginRecoverDeletedCertificate(
       certificateName,
-      testPollerProperties
+      testPollerProperties,
     );
     const getResult = await recoverPoller.pollUntilDone();
     assert.equal(
       getResult.properties.name,
       certificateName,
-      "Unexpected certificate name in result from getCertificate()."
+      "Unexpected certificate name in result from getCertificate().",
     );
   });
 
@@ -87,13 +85,13 @@ describe("Certificates client - restore certificates and recover backups", () =>
       const createPoller = await client.beginCreateCertificate(
         certificateName,
         basicCertificatePolicy,
-        testPollerProperties
+        testPollerProperties,
       );
       await createPoller.pollUntilDone();
       const backup = await client.backupCertificate(certificateName);
       const deletePoller = await client.beginDeleteCertificate(
         certificateName,
-        testPollerProperties
+        testPollerProperties,
       );
       await deletePoller.pollUntilDone();
       await client.purgeDeletedCertificate(certificateName);
@@ -106,20 +104,11 @@ describe("Certificates client - restore certificates and recover backups", () =>
       // If this is useful to you, please open an issue at: https://github.com/Azure/azure-sdk-for-js/issues
       const restorePoller = await testClient.beginRestoreCertificateBackup(
         backup as Uint8Array,
-        testPollerProperties
+        testPollerProperties,
       );
       const restoredCertificate = await restorePoller.pollUntilDone();
 
       assert.equal(restoredCertificate.name, certificateName);
-    });
-  }
-
-  if (isNode && !isPlaybackMode()) {
-    // On playback mode, the tests happen too fast for the timeout to work
-    it("can generate a backup of a certificate with requestOptions timeout", async function () {
-      await assertThrowsAbortError(async () => {
-        await client.backupCertificate("doesn't matter", { requestOptions: { timeout: 1 } });
-      });
     });
   }
 
@@ -135,25 +124,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
     assert.equal(
       error.message,
       "Backup blob contains invalid or corrupt version.",
-      "Unexpected error from restoreCertificate()"
+      "Unexpected error from restoreCertificate()",
     );
   });
-
-  if (isNode && !isPlaybackMode()) {
-    // On playback mode, the tests happen too fast for the timeout to work
-    it("can restore a key with requestOptions timeout", async function (this: Context) {
-      const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-      const createPoller = await client.beginCreateCertificate(
-        certificateName,
-        basicCertificatePolicy,
-        testPollerProperties
-      );
-      await createPoller.pollUntilDone();
-      const backup = await client.backupCertificate(certificateName);
-
-      await assertThrowsAbortError(async () => {
-        await client.restoreCertificateBackup(backup!, { requestOptions: { timeout: 1 } });
-      });
-    });
-  }
 });

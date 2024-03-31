@@ -117,6 +117,37 @@ export interface AzurePowerShellCredentialOptions extends MultiTenantTokenCreden
 }
 
 // @public
+export interface BrokerAuthOptions {
+    brokerOptions?: BrokerOptions;
+}
+
+// @public
+export interface BrokerDisabledOptions {
+    enabled: false;
+    legacyEnableMsaPassthrough?: undefined;
+    parentWindowHandle: undefined;
+}
+
+// @public
+export interface BrokerEnabledOptions {
+    enabled: true;
+    legacyEnableMsaPassthrough?: boolean;
+    parentWindowHandle: Uint8Array;
+    useDefaultBrokerAccount?: boolean;
+}
+
+// @public
+export type BrokerOptions = BrokerEnabledOptions | BrokerDisabledOptions;
+
+// @public
+export interface BrowserCustomizationOptions {
+    browserCustomizationOptions?: {
+        errorMessage?: string;
+        successMessage?: string;
+    };
+}
+
+// @public
 export type BrowserLoginStyle = "redirect" | "popup";
 
 // @public
@@ -267,7 +298,7 @@ export type IdentityPlugin = (context: unknown) => void;
 
 // @public
 export class InteractiveBrowserCredential implements TokenCredential {
-    constructor(options?: InteractiveBrowserCredentialNodeOptions | InteractiveBrowserCredentialInBrowserOptions);
+    constructor(options: InteractiveBrowserCredentialNodeOptions | InteractiveBrowserCredentialInBrowserOptions);
     authenticate(scopes: string | string[], options?: GetTokenOptions): Promise<AuthenticationRecord | undefined>;
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
@@ -282,7 +313,7 @@ export interface InteractiveBrowserCredentialInBrowserOptions extends Interactiv
 }
 
 // @public
-export interface InteractiveBrowserCredentialNodeOptions extends InteractiveCredentialOptions, CredentialPersistenceOptions {
+export interface InteractiveBrowserCredentialNodeOptions extends InteractiveCredentialOptions, CredentialPersistenceOptions, BrowserCustomizationOptions, BrokerAuthOptions {
     clientId?: string;
     loginHint?: string;
     redirectUri?: string | (() => string);
@@ -365,6 +396,7 @@ export interface TokenCredentialOptions extends CommonClientOptions {
     authorityHost?: string;
     loggingOptions?: LogPolicyOptions & {
         allowLoggingAccountIdentifiers?: boolean;
+        enableUnsafeSupportLogging?: boolean;
     };
 }
 

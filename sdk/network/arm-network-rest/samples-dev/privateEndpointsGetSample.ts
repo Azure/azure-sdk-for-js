@@ -31,7 +31,7 @@ async function getPrivateEndpoint() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}",
       subscriptionId,
       resourceGroupName,
-      privateEndpointName
+      privateEndpointName,
     )
     .get(options);
   console.log(result);
@@ -58,7 +58,7 @@ async function getPrivateEndpointWithApplicationSecurityGroups() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}",
       subscriptionId,
       resourceGroupName,
-      privateEndpointName
+      privateEndpointName,
     )
     .get(options);
   console.log(result);
@@ -85,7 +85,7 @@ async function getPrivateEndpointWithManualApprovalConnection() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}",
       subscriptionId,
       resourceGroupName,
-      privateEndpointName
+      privateEndpointName,
     )
     .get(options);
   console.log(result);

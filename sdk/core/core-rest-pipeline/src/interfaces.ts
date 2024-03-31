@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { OperationTracingOptions } from "@azure/core-tracing";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { OperationTracingOptions } from "@azure/core-tracing";
 
 /**
  * A HttpHeaders collection represented as a simple JSON object.
@@ -45,6 +45,44 @@ export interface HttpHeaders extends Iterable<[string, string]> {
    * of header names to values.
    */
   toJSON(options?: { preserveCase?: boolean }): RawHttpHeaders;
+}
+
+/**
+ * A part of the request body in a multipart request.
+ */
+export interface BodyPart {
+  /**
+   * The headers for this part of the multipart request.
+   */
+  headers: HttpHeaders;
+
+  /**
+   * The body of this part of the multipart request.
+   */
+  body:
+    | ((() => ReadableStream<Uint8Array>) | (() => NodeJS.ReadableStream))
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream
+    | Uint8Array
+    | Blob;
+}
+
+/**
+ * A request body consisting of multiple parts.
+ */
+export interface MultipartRequestBody {
+  /**
+   * The parts of the request body.
+   */
+  parts: BodyPart[];
+
+  /**
+   * The boundary separating each part of the request body.
+   * If not specified, a random boundary will be generated.
+   *
+   * When specified, '--' will be prepended to the boundary in the request to ensure the boundary follows the specification.
+   */
+  boundary?: string;
 }
 
 /**
@@ -133,6 +171,11 @@ export interface PipelineRequest {
    * The HTTP body content (if any)
    */
   body?: RequestBodyType;
+
+  /**
+   * Body for a multipart request.
+   */
+  multipartBody?: MultipartRequestBody;
 
   /**
    * To simulate a browser form post
@@ -310,9 +353,10 @@ export interface ProxySettings {
 }
 
 /**
- * Each form data entry can be a string or (in the browser) a Blob.
+ * Each form data entry can be a string, Blob, or a File. If you wish to pass a file with a name but do not have
+ * access to the File class, you can use the createFile helper to create one.
  */
-export type FormDataValue = string | Blob;
+export type FormDataValue = string | Blob | File;
 
 /**
  * A simple object that provides form data, as if from a browser form.

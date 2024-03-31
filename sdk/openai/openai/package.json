@@ -1,12 +1,13 @@
 {
   "name": "@azure/openai",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.12",
   "description": "An isomorphic client library for Azure OpenAI.",
   "sdk-type": "client",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "./dist-esm/src/api/getStream.js": "./dist-esm/src/api/getStream.browser.js"
+    "./dist-esm/src/api/getSSEs.js": "./dist-esm/src/api/getSSEs.browser.js",
+    "./dist-esm/test/public/utils/images.js": "./dist-esm/test/public/utils/images.browser.js"
   },
   "type": "module",
   "exports": {
@@ -18,6 +19,10 @@
     "./api": {
       "types": "./types/src/api/index.d.ts",
       "import": "./dist-esm/src/api/index.js"
+    },
+    "./models": {
+      "types": "./types/src/models/index.d.ts",
+      "import": "./dist-esm/src/models/index.js"
     },
     "./rest": {
       "types": "./types/src/rest/index.d.ts",
@@ -32,20 +37,22 @@
       }
     ]
   },
-  "types": "types/openai.d.ts",
+  "types": "openai.shims.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",
-    "build:output": "node scripts/renameOutput.mjs",
-    "build": "tsc -p . && dev-tool run bundle && api-extractor run --local && npm run build:output",
-    "build:test": "npm run build",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-* temp types *.tgz *.log",
+    "generate": "tsp-client update",
+    "customize": "rimraf src && dev-tool customization apply -s sources/generated/src && npm run format",
+    "bundle": "tsc -p . && dev-tool run bundle",
+    "build": "npm run clean && npm run bundle && api-extractor run --local",
+    "build:test": "npm run bundle",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"sources/customizations/**/*.ts\" \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"generated/**/*.ts\" \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "npm run unit-test:browser",
-    "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 \"dist-esm/test/**/*.spec.js\"",
+    "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 \"dist-esm/test/public/{,!(browser)/**/}/*.spec.js\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint README.md package.json api-extractor.json src test --ext .ts,.javascript,.js --fix --fix-type [problem,suggestion]",
     "lint": "eslint README.md package.json api-extractor.json src test --ext .ts,.javascript,.js",
@@ -54,19 +61,22 @@
     "test:node": "npm run clean && tsc -p . && npm run integration-test:node",
     "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
     "unit-test:browser": "dev-tool run test:browser -- karma.conf.cjs",
-    "unit-test:node": "dev-tool run test:node-ts-input -- \"test/internal/unit/{,!(browser)/**/}*.spec.ts\" \"test/public/{,!(browser)/**/}*.spec.ts\"",
+    "unit-test:node": "dev-tool run test:node-ts-input -- \"test/internal/{,!(browser)/**/}*.spec.ts\" \"test/public/{,!(browser)/**/}*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types",
+    "types/openai.d.ts",
+    "openai.shims.d.ts",
+    "types/src",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "repository": "github:Azure/azure-sdk-for-js",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "keywords": [
     "node",
@@ -87,18 +97,22 @@
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "devDependencies": {
+    "@azure/arm-cognitiveservices": "^7.5.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/identity": "^4.0.1",
+    "@azure/abort-controller": "^1.1.0",
     "@azure-tools/test-recorder": "^3.0.0",
     "@azure-tools/test-credential": "^1.0.0",
     "@azure/test-utils": "^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",
-    "@types/mocha": "^7.0.2",
-    "@types/node": "^14.0.0",
+    "@types/mocha": "^10.0.0",
+    "@types/node": "^18.0.0",
+    "builtin-modules": "^3.3.0",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.0",
     "eslint": "^8.16.0",
-    "esm": "^3.2.25",
+    "esm": "^3.2.18",
     "karma": "^6.4.0",
     "karma-chrome-launcher": "^3.1.1",
     "karma-coverage": "^2.2.0",
@@ -111,19 +125,19 @@
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
-    "mocha": "^7.1.1",
-    "mocha-junit-reporter": "^2.0.2",
-    "nyc": "^15.1.0",
-    "prettier": "^2.5.1",
-    "puppeteer": "^19.2.2",
+    "mocha": "^10.0.0",
+    "c8": "^9.1.0",
+    "puppeteer": "^22.2.0",
     "rimraf": "^3.0.2",
-    "ts-node": "^10.8.1",
-    "typescript": "~5.0.0"
+    "ts-node": "^10.0.0",
+    "typescript": "~5.3.3"
   },
   "dependencies": {
-    "@azure-rest/core-client": "^1.1.3",
+    "@azure-rest/core-client": "^1.1.7",
+    "@azure/core-util": "^1.4.0",
     "@azure/core-auth": "^1.4.0",
-    "@azure/core-rest-pipeline": "^1.10.2",
+    "@azure/core-sse": "^2.0.0",
+    "@azure/core-rest-pipeline": "^1.13.0",
     "@azure/logger": "^1.0.3",
     "tslib": "^2.4.0"
   },

@@ -217,7 +217,7 @@ export interface StorageAccountCreateParameters {
   largeFileSharesState?: LargeFileSharesState;
   /** Maintains information about the network routing choice opted by the user for data transfer */
   routingPreference?: RoutingPreference;
-  /** Allow or disallow public access to all blobs or containers in the storage account. The default interpretation is true for this property. */
+  /** Allow or disallow public access to all blobs or containers in the storage account. The default interpretation is false for this property. */
   allowBlobPublicAccess?: boolean;
   /** Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS 1.0 for this property. */
   minimumTlsVersion?: MinimumTlsVersion;
@@ -225,7 +225,7 @@ export interface StorageAccountCreateParameters {
   allowSharedKeyAccess?: boolean;
   /** NFS 3.0 protocol support enabled if set to true. */
   enableNfsV3?: boolean;
-  /** Allow or disallow cross AAD tenant object replication. The default interpretation is true for this property. */
+  /** Allow or disallow cross AAD tenant object replication. Set this property to true for new or existing accounts only if object replication policies will involve storage accounts in different AAD tenants. The default interpretation is false for new accounts to follow best security practices by default. */
   allowCrossTenantReplication?: boolean;
   /** A boolean flag which indicates whether the default authentication is OAuth or not. The default interpretation is false for this property. */
   defaultToOAuthAuthentication?: boolean;
@@ -597,6 +597,21 @@ export interface GeoReplicationStats {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly canFailover?: boolean;
+  /**
+   * A boolean flag which indicates whether or not planned account failover is supported for the account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly canPlannedFailover?: boolean;
+  /**
+   * The redundancy type of the account after an account failover is performed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly postFailoverRedundancy?: PostFailoverRedundancy;
+  /**
+   * The redundancy type of the account after a planned account failover is performed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly postPlannedFailoverRedundancy?: PostPlannedFailoverRedundancy;
 }
 
 /** The Private Endpoint resource. */
@@ -732,13 +747,13 @@ export interface StorageAccountUpdateParameters {
   largeFileSharesState?: LargeFileSharesState;
   /** Maintains information about the network routing choice opted by the user for data transfer */
   routingPreference?: RoutingPreference;
-  /** Allow or disallow public access to all blobs or containers in the storage account. The default interpretation is true for this property. */
+  /** Allow or disallow public access to all blobs or containers in the storage account. The default interpretation is false for this property. */
   allowBlobPublicAccess?: boolean;
   /** Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS 1.0 for this property. */
   minimumTlsVersion?: MinimumTlsVersion;
   /** Indicates whether the storage account permits requests to be authorized with the account access key via Shared Key. If false, then all requests, including shared access signatures, must be authorized with Azure Active Directory (Azure AD). The default value is null, which is equivalent to true. */
   allowSharedKeyAccess?: boolean;
-  /** Allow or disallow cross AAD tenant object replication. The default interpretation is true for this property. */
+  /** Allow or disallow cross AAD tenant object replication. Set this property to true for new or existing accounts only if object replication policies will involve storage accounts in different AAD tenants. The default interpretation is false for new accounts to follow best security practices by default. */
   allowCrossTenantReplication?: boolean;
   /** A boolean flag which indicates whether the default authentication is OAuth or not. The default interpretation is false for this property. */
   defaultToOAuthAuthentication?: boolean;
@@ -955,6 +970,85 @@ export interface ListServiceSasResponse {
   readonly serviceSasToken?: string;
 }
 
+/** The parameters or status associated with an ongoing or enqueued storage account migration in order to update its current SKU or region. */
+export interface StorageAccountMigration {
+  /**
+   * Migration Resource Id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /** current value is 'default' for customer initiated migration */
+  name?: string;
+  /** SrpAccountMigrationType in ARM contract which is 'accountMigrations' */
+  type?: string;
+  /** Target sku name for the account */
+  targetSkuName: SkuName;
+  /**
+   * Current status of migration
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly migrationStatus?: MigrationStatus;
+  /**
+   * Error code for migration failure
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly migrationFailedReason?: string;
+  /**
+   * Reason for migration failure
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly migrationFailedDetailedReason?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponseAutoGenerated {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
 /** The Storage Account ManagementPolicies Rules. See more details in: https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts. */
 export interface ManagementPolicySchema {
   /** The Storage Account ManagementPolicies Rules. See more details in: https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts. */
@@ -1130,6 +1224,14 @@ export interface BlobInventoryPolicyFilter {
   includeSnapshots?: boolean;
   /** For 'Container' definition.objectType the definition.schemaFields must include 'Deleted, Version, DeletedTime and RemainingRetentionDays'. For 'Blob' definition.objectType and HNS enabled storage accounts the definition.schemaFields must include 'DeletionId, Deleted, DeletedTime and RemainingRetentionDays' and for Hns disabled accounts the definition.schemaFields must include 'Deleted and RemainingRetentionDays', else it must be excluded. */
   includeDeleted?: boolean;
+  /** This property is used to filter objects based on the object creation time */
+  creationTime?: BlobInventoryCreationTime;
+}
+
+/** This property defines the creation time based filtering condition. Blob Inventory schema parameter 'Creation-Time' is mandatory with this filter. */
+export interface BlobInventoryCreationTime {
+  /** When set the policy filters the objects that are created in the last N days. Where N is an integer value between 1 to 36500. */
+  lastNDays?: number;
 }
 
 /** Metadata pertaining to creation and last modification of the resource. */
@@ -2052,7 +2154,7 @@ export interface StorageAccount extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly blobRestoreStatus?: BlobRestoreStatus;
-  /** Allow or disallow public access to all blobs or containers in the storage account. The default interpretation is true for this property. */
+  /** Allow or disallow public access to all blobs or containers in the storage account. The default interpretation is false for this property. */
   allowBlobPublicAccess?: boolean;
   /** Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS 1.0 for this property. */
   minimumTlsVersion?: MinimumTlsVersion;
@@ -2060,7 +2162,7 @@ export interface StorageAccount extends TrackedResource {
   allowSharedKeyAccess?: boolean;
   /** NFS 3.0 protocol support enabled if set to true. */
   enableNfsV3?: boolean;
-  /** Allow or disallow cross AAD tenant object replication. The default interpretation is true for this property. */
+  /** Allow or disallow cross AAD tenant object replication. Set this property to true for new or existing accounts only if object replication policies will involve storage accounts in different AAD tenants. The default interpretation is false for new accounts to follow best security practices by default. */
   allowCrossTenantReplication?: boolean;
   /** A boolean flag which indicates whether the default authentication is OAuth or not. The default interpretation is false for this property. */
   defaultToOAuthAuthentication?: boolean;
@@ -2074,6 +2176,16 @@ export interface StorageAccount extends TrackedResource {
   storageAccountSkuConversionStatus?: StorageAccountSkuConversionStatus;
   /** Allows you to specify the type of endpoint. Set this to AzureDNSZone to create a large number of accounts in a single subscription, which creates accounts in an Azure DNS Zone and the endpoint URL will have an alphanumeric DNS Zone identifier. */
   dnsEndpointType?: DnsEndpointType;
+  /**
+   * This property will be set to true or false on an event of ongoing migration. Default value is null.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isSkuConversionBlocked?: boolean;
+  /**
+   * If customer initiated account migration is in progress, the value will be true else it will be null.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accountMigrationInProgress?: boolean;
 }
 
 /** Deleted storage account */
@@ -2426,6 +2538,11 @@ export interface FileShare extends AzureEntityResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly snapshotTime?: Date;
+}
+
+/** Defines headers for StorageAccounts_customerInitiatedMigration operation. */
+export interface StorageAccountsCustomerInitiatedMigrationHeaders {
+  location?: string;
 }
 
 /** Defines headers for BlobContainers_createOrUpdateImmutabilityPolicy operation. */
@@ -2905,6 +3022,48 @@ export enum KnownGeoReplicationStatus {
  */
 export type GeoReplicationStatus = string;
 
+/** Known values of {@link PostFailoverRedundancy} that the service accepts. */
+export enum KnownPostFailoverRedundancy {
+  /** StandardLRS */
+  StandardLRS = "Standard_LRS",
+  /** StandardZRS */
+  StandardZRS = "Standard_ZRS"
+}
+
+/**
+ * Defines values for PostFailoverRedundancy. \
+ * {@link KnownPostFailoverRedundancy} can be used interchangeably with PostFailoverRedundancy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Standard_LRS** \
+ * **Standard_ZRS**
+ */
+export type PostFailoverRedundancy = string;
+
+/** Known values of {@link PostPlannedFailoverRedundancy} that the service accepts. */
+export enum KnownPostPlannedFailoverRedundancy {
+  /** StandardGRS */
+  StandardGRS = "Standard_GRS",
+  /** StandardGzrs */
+  StandardGzrs = "Standard_GZRS",
+  /** StandardRagrs */
+  StandardRagrs = "Standard_RAGRS",
+  /** StandardRagzrs */
+  StandardRagzrs = "Standard_RAGZRS"
+}
+
+/**
+ * Defines values for PostPlannedFailoverRedundancy. \
+ * {@link KnownPostPlannedFailoverRedundancy} can be used interchangeably with PostPlannedFailoverRedundancy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Standard_GRS** \
+ * **Standard_GZRS** \
+ * **Standard_RAGRS** \
+ * **Standard_RAGZRS**
+ */
+export type PostPlannedFailoverRedundancy = string;
+
 /** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
 export enum KnownPrivateEndpointServiceConnectionStatus {
   /** Pending */
@@ -3096,6 +3255,48 @@ export enum KnownSignedResource {
  * **s**
  */
 export type SignedResource = string;
+
+/** Known values of {@link MigrationStatus} that the service accepts. */
+export enum KnownMigrationStatus {
+  /** Invalid */
+  Invalid = "Invalid",
+  /** SubmittedForConversion */
+  SubmittedForConversion = "SubmittedForConversion",
+  /** InProgress */
+  InProgress = "InProgress",
+  /** Complete */
+  Complete = "Complete",
+  /** Failed */
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for MigrationStatus. \
+ * {@link KnownMigrationStatus} can be used interchangeably with MigrationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **SubmittedForConversion** \
+ * **InProgress** \
+ * **Complete** \
+ * **Failed**
+ */
+export type MigrationStatus = string;
+
+/** Known values of {@link MigrationName} that the service accepts. */
+export enum KnownMigrationName {
+  /** Default */
+  Default = "default"
+}
+
+/**
+ * Defines values for MigrationName. \
+ * {@link KnownMigrationName} can be used interchangeably with MigrationName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **default**
+ */
+export type MigrationName = string;
 
 /** Known values of {@link ManagementPolicyName} that the service accepts. */
 export enum KnownManagementPolicyName {
@@ -3309,7 +3510,11 @@ export enum KnownAllowedMethods {
   /** PUT */
   PUT = "PUT",
   /** Patch */
-  Patch = "PATCH"
+  Patch = "PATCH",
+  /** Connect */
+  Connect = "CONNECT",
+  /** Trace */
+  Trace = "TRACE"
 }
 
 /**
@@ -3324,7 +3529,9 @@ export enum KnownAllowedMethods {
  * **POST** \
  * **OPTIONS** \
  * **PUT** \
- * **PATCH**
+ * **PATCH** \
+ * **CONNECT** \
+ * **TRACE**
  */
 export type AllowedMethods = string;
 
@@ -3746,6 +3953,22 @@ export interface StorageAccountsAbortHierarchicalNamespaceMigrationOptionalParam
 }
 
 /** Optional parameters. */
+export interface StorageAccountsCustomerInitiatedMigrationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface StorageAccountsGetCustomerInitiatedMigrationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getCustomerInitiatedMigration operation. */
+export type StorageAccountsGetCustomerInitiatedMigrationResponse = StorageAccountMigration;
+
+/** Optional parameters. */
 export interface StorageAccountsRestoreBlobRangesOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -3979,14 +4202,7 @@ export type EncryptionScopesListResponse = EncryptionScopeListResult;
 
 /** Optional parameters. */
 export interface EncryptionScopesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Optional, specifies the maximum number of encryption scopes that will be included in the list response. */
-  maxpagesize?: number;
-  /** Optional. When specified, only encryption scope names starting with the filter will be listed. */
-  filter?: string;
-  /** Optional, when specified, will list encryption scopes with the specific state. Defaults to All */
-  include?: ListEncryptionScopesInclude;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type EncryptionScopesListNextResponse = EncryptionScopeListResult;
@@ -4137,14 +4353,7 @@ export interface BlobContainersObjectLevelWormOptionalParams
 
 /** Optional parameters. */
 export interface BlobContainersListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Optional. When specified, only container names starting with the filter will be listed. */
-  filter?: string;
-  /** Optional. Specified maximum number of containers that can be included in the list. */
-  maxpagesize?: string;
-  /** Optional, used to include the properties for soft deleted blob containers. */
-  include?: ListContainersInclude;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type BlobContainersListNextResponse = ListContainerItems;
@@ -4241,14 +4450,7 @@ export type FileSharesLeaseResponse = FileSharesLeaseHeaders &
 
 /** Optional parameters. */
 export interface FileSharesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Optional. When specified, only share names starting with the filter will be listed. */
-  filter?: string;
-  /** Optional. Specified maximum number of shares that can be included in the list. */
-  maxpagesize?: string;
-  /** Optional, used to expand the properties within share's properties. Valid values are: deleted, snapshots. Should be passed as a string with delimiter ',' */
-  expand?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type FileSharesListNextResponse = FileShareItems;
@@ -4311,12 +4513,7 @@ export type QueueListResponse = ListQueueResource;
 
 /** Optional parameters. */
 export interface QueueListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Optional, When specified, only the queues with a name starting with the given filter will be listed. */
-  filter?: string;
-  /** Optional, a maximum number of queues that should be included in a list queue response */
-  maxpagesize?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type QueueListNextResponse = ListQueueResource;

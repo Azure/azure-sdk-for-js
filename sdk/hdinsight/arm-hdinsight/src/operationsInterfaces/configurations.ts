@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ConfigurationsListOptionalParams,
   ConfigurationsListResponse,
@@ -43,7 +43,7 @@ export interface Configurations {
     configurationName: string,
     parameters: { [propertyName: string]: string },
     options?: ConfigurationsUpdateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Configures the HTTP settings on the specified cluster. This API is deprecated, please use
    * UpdateGatewaySettings in cluster endpoint instead.

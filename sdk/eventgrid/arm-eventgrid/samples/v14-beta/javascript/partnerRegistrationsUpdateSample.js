@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates a partner registration with the specified parameters.
  *
  * @summary Updates a partner registration with the specified parameters.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-06-01-preview/examples/PartnerRegistrations_Update.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/PartnerRegistrations_Update.json
  */
 async function partnerRegistrationsUpdate() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function partnerRegistrationsUpdate() {
   const result = await client.partnerRegistrations.beginUpdateAndWait(
     resourceGroupName,
     partnerRegistrationName,
-    partnerRegistrationUpdateParameters
+    partnerRegistrationUpdateParameters,
   );
   console.log(result);
 }

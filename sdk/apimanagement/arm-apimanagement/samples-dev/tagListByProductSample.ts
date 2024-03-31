@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all Tags associated with the Product.
  *
  * @summary Lists all Tags associated with the Product.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListProductTags.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListProductTags.json
  */
 async function apiManagementListProductTags() {
   const subscriptionId =

@@ -22,11 +22,11 @@ import {
   SenderOptions,
 } from "rhea-promise";
 import {
-  createLogPrefix,
   logErrorStackTrace,
   createSimpleLogger,
   logger,
   SimpleLogger,
+  createManagementLogPrefix,
 } from "./logger";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -120,10 +120,6 @@ export class ManagementClient {
    */
   private _mgmtReqResLink?: RequestResponseLink;
   /**
-   * The unique name for the entity (mostly a guid).
-   */
-  private readonly name: string;
-  /**
    * The address in the following form:
    * `"$management"`.
    */
@@ -152,10 +148,9 @@ export class ManagementClient {
    */
   constructor(context: ConnectionContext, { address, audience }: ManagementClientOptions = {}) {
     this.address = address ?? Constants.management;
-    this.name = this.address;
     this.audience = audience ?? context.config.getManagementAudience();
     this._context = context;
-    const logPrefix = createLogPrefix(this._context.connectionId, "Management", this.name);
+    const logPrefix = createManagementLogPrefix(this._context.connectionId);
     this.logger = createSimpleLogger(logger, logPrefix);
     this.entityPath = context.config.entityPath as string;
   }
@@ -185,7 +180,7 @@ export class ManagementClient {
    * Provides the eventhub runtime information.
    */
   async getEventHubProperties(
-    options: OperationOptions & { retryOptions?: RetryOptions } = {}
+    options: OperationOptions & { retryOptions?: RetryOptions } = {},
   ): Promise<EventHubProperties> {
     throwErrorIfConnectionClosed(this._context);
     return tracingClient.withSpan(
@@ -221,13 +216,13 @@ export class ManagementClient {
           return runtimeInfo;
         } catch (error: any) {
           logger.warning(
-            `an error occurred while getting the hub runtime information: ${error?.name}: ${error?.message}`
+            `an error occurred while getting the hub runtime information: ${error?.name}: ${error?.message}`,
           );
           logErrorStackTrace(error);
           throw error;
         }
       },
-      toSpanOptions(this._context.config)
+      toSpanOptions(this._context.config),
     );
   }
 
@@ -237,14 +232,14 @@ export class ManagementClient {
    */
   async getPartitionProperties(
     partitionId: string,
-    options: OperationOptions & { retryOptions?: RetryOptions } = {}
+    options: OperationOptions & { retryOptions?: RetryOptions } = {},
   ): Promise<PartitionProperties> {
     throwErrorIfConnectionClosed(this._context);
     throwTypeErrorIfParameterMissing(
       this._context.connectionId,
       "getPartitionProperties",
       "partitionId",
-      partitionId
+      partitionId,
     );
     partitionId = String(partitionId);
 
@@ -285,13 +280,13 @@ export class ManagementClient {
           return partitionInfo;
         } catch (error: any) {
           logger.warning(
-            `an error occurred while getting the partition information: ${error?.name}: ${error?.message}`
+            `an error occurred while getting the partition information: ${error?.name}: ${error?.message}`,
           );
           logErrorStackTrace(error);
           throw error;
         }
       },
-      toSpanOptions(this._context.config)
+      toSpanOptions(this._context.config),
     );
   }
 
@@ -333,7 +328,7 @@ export class ManagementClient {
           const ehError = translate(context.session!.error!);
           logger.verbose(
             "an error occurred on the session for request/response links for " + "$management: %O",
-            ehError
+            ehError,
           );
         },
       };
@@ -343,13 +338,13 @@ export class ManagementClient {
       logger.verbose(
         "creating sender/receiver links with " + "srOpts: %o, receiverOpts: %O.",
         sropt,
-        rxopt
+        rxopt,
       );
       this._mgmtReqResLink = await RequestResponseLink.create(
         this._context.connection,
         sropt,
         rxopt,
-        { abortSignal }
+        { abortSignal },
       );
       this._mgmtReqResLink.sender.on(SenderEvents.senderError, (context: EventContext) => {
         const ehError = translate(context.sender!.error!);
@@ -362,7 +357,7 @@ export class ManagementClient {
       logger.verbose(
         "created sender '%s' and receiver '%s' links",
         this._mgmtReqResLink.sender.name,
-        this._mgmtReqResLink.receiver.name
+        this._mgmtReqResLink.receiver.name,
       );
     };
     try {
@@ -375,13 +370,13 @@ export class ManagementClient {
           this.audience,
           timeoutInMs,
           this.logger,
-          { abortSignal }
+          { abortSignal },
         );
       }
     } catch (err) {
       const translatedError = translate(err);
       logger.warning(
-        `an error occurred while establishing the links: ${translatedError?.name}: ${translatedError?.message}`
+        `an error occurred while establishing the links: ${translatedError?.name}: ${translatedError?.message}`,
       );
       logErrorStackTrace(translatedError);
       throw translatedError;
@@ -399,7 +394,7 @@ export class ManagementClient {
       retryOptions?: RetryOptions;
       abortSignal?: AbortSignalLike;
       requestName?: string;
-    } = {}
+    } = {},
   ): Promise<any> {
     const retryOptions = options.retryOptions || {};
     try {
@@ -424,13 +419,13 @@ export class ManagementClient {
                   retryTimeoutInMs - (acquireLockEndTime - initOperationStartTime);
                 return this._init({ abortSignal, timeoutInMs });
               },
-              { abortSignal, timeoutInMs: retryTimeoutInMs }
+              { abortSignal, timeoutInMs: retryTimeoutInMs },
             );
           } catch (err) {
             const translatedError = translate(err);
             logger.warning(
               "an error occurred while creating the link: %s",
-              `${translatedError?.name}: ${translatedError?.message}`
+              `${translatedError?.name}: ${translatedError?.message}`,
             );
             logErrorStackTrace(translatedError);
             throw translatedError;
@@ -472,14 +467,14 @@ export class ManagementClient {
               return this._context.connectionId;
             },
           },
-        }
+        },
       ) as RetryConfig<Message>;
       return (await retry<Message>(config)).body;
     } catch (err) {
       const translatedError = translate(err);
       logger.warning(
         "an error occurred during send on management request-response link with address: %s",
-        `${translatedError?.name}: ${translatedError?.message}`
+        `${translatedError?.name}: ${translatedError?.message}`,
       );
       logErrorStackTrace(translatedError);
       throw translatedError;

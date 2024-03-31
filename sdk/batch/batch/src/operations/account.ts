@@ -144,13 +144,13 @@ const listSupportedImagesOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion,
     Parameters.filter2,
     Parameters.maxResults3,
-    Parameters.timeout17
+    Parameters.timeout16
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId20,
-    Parameters.returnClientRequestId20,
-    Parameters.ocpDate20
+    Parameters.clientRequestId19,
+    Parameters.returnClientRequestId19,
+    Parameters.ocpDate19
   ],
   responses: {
     200: {
@@ -175,13 +175,13 @@ const listPoolNodeCountsOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion,
     Parameters.filter3,
     Parameters.maxResults4,
-    Parameters.timeout18
+    Parameters.timeout17
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId21,
-    Parameters.returnClientRequestId21,
-    Parameters.ocpDate21
+    Parameters.clientRequestId20,
+    Parameters.returnClientRequestId20,
+    Parameters.ocpDate20
   ],
   responses: {
     200: {
@@ -208,9 +208,9 @@ const listSupportedImagesNextOperationSpec: msRest.OperationSpec = {
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId22,
-    Parameters.returnClientRequestId22,
-    Parameters.ocpDate22
+    Parameters.clientRequestId21,
+    Parameters.returnClientRequestId21,
+    Parameters.ocpDate21
   ],
   responses: {
     200: {
@@ -237,9 +237,9 @@ const listPoolNodeCountsNextOperationSpec: msRest.OperationSpec = {
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId23,
-    Parameters.returnClientRequestId23,
-    Parameters.ocpDate23
+    Parameters.clientRequestId22,
+    Parameters.returnClientRequestId22,
+    Parameters.ocpDate22
   ],
   responses: {
     200: {

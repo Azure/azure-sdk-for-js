@@ -99,7 +99,7 @@ export const ErrorDetails: coreClient.CompositeMapper = {
         serializedName: "code",
         readOnly: true,
         type: {
-          name: "String"
+          name: "Number"
         }
       },
       httpStatusCode: {
@@ -383,6 +383,12 @@ export const IotDpsPropertiesDescription: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      portalOperationsHostName: {
+        serializedName: "portalOperationsHostName",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -646,6 +652,68 @@ export const IotDpsSkuInfo: coreClient.CompositeMapper = {
   }
 };
 
+export const ManagedServiceIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedServiceIdentity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      },
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "UserAssignedIdentity" }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const UserAssignedIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserAssignedIdentity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      },
+      clientId: {
+        serializedName: "clientId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      }
+    }
+  }
+};
+
 export const Resource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -678,6 +746,18 @@ export const Resource: coreClient.CompositeMapper = {
       location: {
         serializedName: "location",
         required: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourcegroup: {
+        serializedName: "resourcegroup",
+        type: {
+          name: "String"
+        }
+      },
+      subscriptionid: {
+        serializedName: "subscriptionid",
         type: {
           name: "String"
         }
@@ -1188,6 +1268,13 @@ export const ProvisioningServiceDescription: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SystemData"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedServiceIdentity"
         }
       }
     }

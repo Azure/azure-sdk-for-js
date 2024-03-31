@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Operation to delete a Domains resource.
  *
  * @summary Operation to delete a Domains resource.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/domains/delete.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/domains/delete.json
  */
 async function deleteDomainsResource() {
   const subscriptionId =
@@ -31,12 +31,12 @@ async function deleteDomainsResource() {
   const credential = new DefaultAzureCredential();
   const client = new CommunicationServiceManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.domains.beginDeleteAndWait(
     resourceGroupName,
     emailServiceName,
-    domainName
+    domainName,
   );
   console.log(result);
 }

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   DiskEncryptionSetUpdate,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates (patches) a disk encryption set.
  *
  * @summary Updates (patches) a disk encryption set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Update_WithRotationToLatestKeyVersionEnabled.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Update_WithRotationToLatestKeyVersionEnabled.json
  */
 async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueSucceeded() {
   const subscriptionId =
@@ -32,18 +32,18 @@ async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetT
   const diskEncryptionSet: DiskEncryptionSetUpdate = {
     activeKey: {
       keyUrl:
-        "https://myvaultdifferentsub.vault-int.azure-int.net/keys/keyName/keyVersion1"
+        "https://myvaultdifferentsub.vault-int.azure-int.net/keys/keyName/keyVersion1",
     },
     encryptionType: "EncryptionAtRestWithCustomerKey",
     identity: { type: "SystemAssigned" },
-    rotationToLatestKeyVersionEnabled: true
+    rotationToLatestKeyVersionEnabled: true,
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.diskEncryptionSets.beginUpdateAndWait(
     resourceGroupName,
     diskEncryptionSetName,
-    diskEncryptionSet
+    diskEncryptionSet,
   );
   console.log(result);
 }
@@ -52,7 +52,7 @@ async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetT
  * This sample demonstrates how to Updates (patches) a disk encryption set.
  *
  * @summary Updates (patches) a disk encryption set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Update_WithRotationToLatestKeyVersionEnabledInProgress.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Update_WithRotationToLatestKeyVersionEnabledInProgress.json
  */
 async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueUpdating() {
   const subscriptionId =
@@ -63,18 +63,18 @@ async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetT
   const diskEncryptionSet: DiskEncryptionSetUpdate = {
     activeKey: {
       keyUrl:
-        "https://myvaultdifferentsub.vault-int.azure-int.net/keys/keyName/keyVersion1"
+        "https://myvaultdifferentsub.vault-int.azure-int.net/keys/keyName/keyVersion1",
     },
     encryptionType: "EncryptionAtRestWithCustomerKey",
     identity: { type: "SystemAssigned" },
-    rotationToLatestKeyVersionEnabled: true
+    rotationToLatestKeyVersionEnabled: true,
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.diskEncryptionSets.beginUpdateAndWait(
     resourceGroupName,
     diskEncryptionSetName,
-    diskEncryptionSet
+    diskEncryptionSet,
   );
   console.log(result);
 }
@@ -83,7 +83,7 @@ async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetT
  * This sample demonstrates how to Updates (patches) a disk encryption set.
  *
  * @summary Updates (patches) a disk encryption set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Update.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Update.json
  */
 async function updateADiskEncryptionSet() {
   const subscriptionId =
@@ -96,19 +96,18 @@ async function updateADiskEncryptionSet() {
       keyUrl:
         "https://myvmvault.vault-int.azure-int.net/keys/keyName/keyVersion",
       sourceVault: {
-        id:
-          "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/myVMVault"
-      }
+        id: "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/myVMVault",
+      },
     },
     encryptionType: "EncryptionAtRestWithCustomerKey",
-    tags: { department: "Development", project: "Encryption" }
+    tags: { department: "Development", project: "Encryption" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.diskEncryptionSets.beginUpdateAndWait(
     resourceGroupName,
     diskEncryptionSetName,
-    diskEncryptionSet
+    diskEncryptionSet,
   );
   console.log(result);
 }

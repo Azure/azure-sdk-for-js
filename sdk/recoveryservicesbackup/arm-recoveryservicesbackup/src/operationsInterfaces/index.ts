@@ -55,3 +55,6 @@ export * from "./securityPINs";
 export * from "./recoveryPointsRecommendedForMove";
 export * from "./resourceGuardProxies";
 export * from "./resourceGuardProxy";
+export * from "./fetchTieringCost";
+export * from "./getTieringCostOperationResult";
+export * from "./tieringCostOperationStatus";

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AvailabilityGroupListener,
   AvailabilityGroupListenersListByGroupOptionalParams,
@@ -63,8 +63,8 @@ export interface AvailabilityGroupListeners {
     parameters: AvailabilityGroupListener,
     options?: AvailabilityGroupListenersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AvailabilityGroupListenersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AvailabilityGroupListenersCreateOrUpdateResponse>,
       AvailabilityGroupListenersCreateOrUpdateResponse
     >
   >;
@@ -97,7 +97,7 @@ export interface AvailabilityGroupListeners {
     sqlVirtualMachineGroupName: string,
     availabilityGroupListenerName: string,
     options?: AvailabilityGroupListenersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an availability group listener.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this

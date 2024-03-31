@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists a workflow run expression trace.
  *
  * @summary Lists a workflow run expression trace.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/WorkflowRunActions_ListExpressionTraces.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/WorkflowRunActions_ListExpressionTraces.json
  */
 async function listExpressionTraces() {
   const subscriptionId =

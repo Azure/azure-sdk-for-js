@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
+import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
 import { FileSASPermissions } from "./FileSASPermissions";
 import { SasIPRange, ipRangeToString } from "./SasIPRange";
 import { SASProtocol, SASQueryParameters } from "./SASQueryParameters";
@@ -109,14 +109,14 @@ export interface FileSASSignatureValues {
  */
 export function generateFileSASQueryParameters(
   fileSASSignatureValues: FileSASSignatureValues,
-  sharedKeyCredential: StorageSharedKeyCredential
+  sharedKeyCredential: StorageSharedKeyCredential,
 ): SASQueryParameters {
   if (
     !fileSASSignatureValues.identifier &&
     !(fileSASSignatureValues.permissions && fileSASSignatureValues.expiresOn)
   ) {
     throw new RangeError(
-      "Must provide 'permissions' and 'expiresOn' for File SAS generation when 'identifier' is not provided."
+      "Must provide 'permissions' and 'expiresOn' for File SAS generation when 'identifier' is not provided.",
     );
   }
 
@@ -131,11 +131,11 @@ export function generateFileSASQueryParameters(
   if (fileSASSignatureValues.permissions) {
     if (fileSASSignatureValues.filePath) {
       verifiedPermissions = FileSASPermissions.parse(
-        fileSASSignatureValues.permissions.toString()
+        fileSASSignatureValues.permissions.toString(),
       ).toString();
     } else {
       verifiedPermissions = ShareSASPermissions.parse(
-        fileSASSignatureValues.permissions.toString()
+        fileSASSignatureValues.permissions.toString(),
       ).toString();
     }
   }
@@ -152,7 +152,7 @@ export function generateFileSASQueryParameters(
     getCanonicalName(
       sharedKeyCredential.accountName,
       fileSASSignatureValues.shareName,
-      fileSASSignatureValues.filePath
+      fileSASSignatureValues.filePath,
     ),
     fileSASSignatureValues.identifier,
     fileSASSignatureValues.ipRange ? ipRangeToString(fileSASSignatureValues.ipRange) : "",
@@ -183,7 +183,7 @@ export function generateFileSASQueryParameters(
     fileSASSignatureValues.contentDisposition,
     fileSASSignatureValues.contentEncoding,
     fileSASSignatureValues.contentLanguage,
-    fileSASSignatureValues.contentType
+    fileSASSignatureValues.contentType,
   );
 }
 

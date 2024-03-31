@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates a SQL virtual machine.
  *
  * @summary Updates a SQL virtual machine.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-07-01-preview/examples/UpdateSqlVirtualMachine.json
+ * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/UpdateSqlVirtualMachine.json
  */
 async function updatesASqlVirtualMachineTags() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function updatesASqlVirtualMachineTags() {
   const result = await client.sqlVirtualMachines.beginUpdateAndWait(
     resourceGroupName,
     sqlVirtualMachineName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

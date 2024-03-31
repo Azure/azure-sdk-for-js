@@ -4,7 +4,7 @@
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
-import { DEFAULT_COGNITIVE_SCOPE } from "./constants";
+import { DEFAULT_COGNITIVE_SCOPE, FORM_RECOGNIZER_API_VERSION } from "./constants";
 import { GeneratedClient, GeneratedClientOptionalParams } from "./generated";
 import { DEFAULT_GENERATED_CLIENT_OPTIONS } from "./options/FormRecognizerClientOptions";
 
@@ -14,9 +14,6 @@ export { Mappers };
 
 // This is used for URL request processing.
 export const SERIALIZER = createSerializer(Mappers, false);
-
-/** @internal */
-export const identity = <T>(x: T): T => x;
 
 /**
  * Type-strong uncapitalization.
@@ -54,11 +51,12 @@ export const maybemap = <T1, T2>(value: T1 | undefined, f: (v: T1) => T2): T2 | 
 export function makeServiceClient(
   endpoint: string,
   credential: KeyCredential | TokenCredential,
-  options: GeneratedClientOptionalParams
+  options: GeneratedClientOptionalParams,
 ): GeneratedClient {
   const client = new GeneratedClient(endpoint?.replace(/\/$/, ""), {
     ...DEFAULT_GENERATED_CLIENT_OPTIONS,
     ...options,
+    apiVersion: FORM_RECOGNIZER_API_VERSION,
   });
 
   const authPolicy = isTokenCredential(credential)

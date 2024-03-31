@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { describe, it, assert, beforeAll } from "vitest";
 import { spawn } from "child_process";
 import { StrictAllowMultiple } from "../src/framework/command";
 import { CommandOptions } from "../src/framework/CommandInfo";
@@ -48,8 +48,8 @@ function shellSplit(args: string): Promise<string[]> {
   });
 }
 
-describe("argument parsing", async function () {
-  before(silenceLogger);
+describe("argument parsing", function () {
+  beforeAll(silenceLogger);
 
   it("simple option", async () => {
     const parsed = parseOptions(
@@ -59,7 +59,7 @@ describe("argument parsing", async function () {
           kind: "string",
           description: "",
         },
-      })
+      }),
     );
 
     // Assert type
@@ -78,7 +78,7 @@ describe("argument parsing", async function () {
           description: "",
           default: false,
         },
-      })
+      }),
     );
 
     // Assert type
@@ -96,7 +96,7 @@ describe("argument parsing", async function () {
           description: "",
           kind: "boolean",
         },
-      })
+      }),
     );
 
     assert.isTrue(parsed.test);

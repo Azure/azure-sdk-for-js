@@ -51,7 +51,7 @@ export async function main() {
 
   poller.onProgress(() => {
     console.log(
-      `Last time the operation was updated was on: ${poller.getOperationState().modifiedOn}`
+      `Last time the operation was updated was on: ${poller.getOperationState().modifiedOn}`,
     );
   });
   console.log(`The operation was created on ${poller.getOperationState().createdOn}`);

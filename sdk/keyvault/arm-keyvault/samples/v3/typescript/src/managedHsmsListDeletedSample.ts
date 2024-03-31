@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to The List operation gets information about the deleted managed HSMs associated with the subscription.
  *
  * @summary The List operation gets information about the deleted managed HSMs associated with the subscription.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-02-01/examples/DeletedManagedHsm_List.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/DeletedManagedHsm_List.json
  */
 async function listDeletedManagedHsMSInTheSpecifiedSubscription() {
   const subscriptionId =

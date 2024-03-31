@@ -110,7 +110,7 @@ export interface SchemaRegistry {
    */
   registerSchema(
     schema: SchemaDescription,
-    options?: RegisterSchemaOptions
+    options?: RegisterSchemaOptions,
   ): Promise<SchemaProperties>;
 
   /**
@@ -122,7 +122,7 @@ export interface SchemaRegistry {
    */
   getSchemaProperties(
     schema: SchemaDescription,
-    options?: GetSchemaPropertiesOptions
+    options?: GetSchemaPropertiesOptions,
   ): Promise<SchemaProperties>;
 
   /**

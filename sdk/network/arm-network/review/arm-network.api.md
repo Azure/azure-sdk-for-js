@@ -74,6 +74,7 @@ export interface ActiveDefaultSecurityAdminRule extends ActiveBaseSecurityAdminR
     readonly priority?: number;
     readonly protocol?: SecurityConfigurationRuleProtocol;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
     readonly sourcePortRanges?: string[];
     readonly sources?: AddressPrefixItem[];
 }
@@ -89,6 +90,7 @@ export interface ActiveSecurityAdminRule extends ActiveBaseSecurityAdminRule {
     priority?: number;
     protocol?: SecurityConfigurationRuleProtocol;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
     sourcePortRanges?: string[];
     sources?: AddressPrefixItem[];
 }
@@ -124,6 +126,7 @@ export interface AdminRule extends BaseAdminRule {
     priority?: number;
     protocol?: SecurityConfigurationRuleProtocol;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
     sourcePortRanges?: string[];
     sources?: AddressPrefixItem[];
 }
@@ -133,6 +136,7 @@ export interface AdminRuleCollection extends ChildResource {
     appliesToGroups?: NetworkManagerSecurityGroupItem[];
     description?: string;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
     readonly systemData?: SystemData;
 }
 
@@ -254,6 +258,9 @@ export interface AdminRulesListOptionalParams extends coreClient.OperationOption
 export type AdminRulesListResponse = AdminRuleListResult;
 
 // @public
+export type AdminState = string;
+
+// @public
 export interface ApplicationGateway extends Resource {
     authenticationCertificates?: ApplicationGatewayAuthenticationCertificate[];
     autoscaleConfiguration?: ApplicationGatewayAutoscaleConfiguration;
@@ -261,6 +268,7 @@ export interface ApplicationGateway extends Resource {
     backendHttpSettingsCollection?: ApplicationGatewayBackendHttpSettings[];
     backendSettingsCollection?: ApplicationGatewayBackendSettings[];
     customErrorConfigurations?: ApplicationGatewayCustomError[];
+    readonly defaultPredefinedSslPolicy?: ApplicationGatewaySslPolicyName;
     enableFips?: boolean;
     enableHttp2?: boolean;
     readonly etag?: string;
@@ -564,6 +572,7 @@ export interface ApplicationGatewayListener extends SubResource {
     readonly etag?: string;
     frontendIPConfiguration?: SubResource;
     frontendPort?: SubResource;
+    hostNames?: string[];
     name?: string;
     protocol?: ApplicationGatewayProtocol;
     readonly provisioningState?: ProvisioningState;
@@ -1933,6 +1942,7 @@ export interface BackendAddressPool extends SubResource {
     readonly outboundRule?: SubResource;
     readonly outboundRules?: SubResource[];
     readonly provisioningState?: ProvisioningState;
+    syncMode?: SyncMode;
     tunnelInterfaces?: GatewayLoadBalancerTunnelInterface[];
     readonly type?: string;
     virtualNetwork?: SubResource;
@@ -1982,9 +1992,13 @@ export interface BastionHost extends Resource {
     enableTunneling?: boolean;
     readonly etag?: string;
     ipConfigurations?: BastionHostIPConfiguration[];
+    // (undocumented)
+    networkAcls?: BastionHostPropertiesFormatNetworkAcls;
     readonly provisioningState?: ProvisioningState;
     scaleUnits?: number;
     sku?: Sku;
+    virtualNetwork?: SubResource;
+    zones?: string[];
 }
 
 // @public
@@ -2002,6 +2016,11 @@ export interface BastionHostIPConfiguration extends SubResource {
 export interface BastionHostListResult {
     nextLink?: string;
     value?: BastionHost[];
+}
+
+// @public (undocumented)
+export interface BastionHostPropertiesFormatNetworkAcls {
+    ipRules?: IPRule[];
 }
 
 // @public
@@ -2109,6 +2128,11 @@ export interface BastionShareableLinkListRequest {
 export interface BastionShareableLinkListResult {
     nextLink?: string;
     value?: BastionShareableLink[];
+}
+
+// @public
+export interface BastionShareableLinkTokenListRequest {
+    tokens?: string[];
 }
 
 // @public
@@ -2249,6 +2273,7 @@ export interface ConfigurationGroup {
     description?: string;
     id?: string;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
 }
 
 // @public
@@ -2610,6 +2635,7 @@ export interface ConnectivityConfiguration extends ChildResource {
     hubs?: Hub[];
     isGlobal?: IsGlobal;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
     readonly systemData?: SystemData;
 }
 
@@ -2918,6 +2944,11 @@ export interface DdosCustomPoliciesCreateOrUpdateOptionalParams extends coreClie
 export type DdosCustomPoliciesCreateOrUpdateResponse = DdosCustomPolicy;
 
 // @public
+export interface DdosCustomPoliciesDeleteHeaders {
+    location?: string;
+}
+
+// @public
 export interface DdosCustomPoliciesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -3061,6 +3092,7 @@ export interface DefaultAdminRule extends BaseAdminRule {
     readonly priority?: number;
     readonly protocol?: SecurityConfigurationRuleProtocol;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
     readonly sourcePortRanges?: string[];
     readonly sources?: AddressPrefixItem[];
 }
@@ -3107,6 +3139,15 @@ export interface DelegationProperties {
     readonly provisioningState?: ProvisioningState;
     serviceName?: string;
 }
+
+// @public
+export interface DeleteBastionShareableLinkByTokenOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DeleteBastionShareableLinkByTokenResponse = NetworkManagementClientDeleteBastionShareableLinkByTokenHeaders;
 
 // @public
 export interface DeleteBastionShareableLinkOptionalParams extends coreClient.OperationOptions {
@@ -3287,6 +3328,7 @@ export interface EffectiveConnectivityConfiguration {
     id?: string;
     isGlobal?: IsGlobal;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
 }
 
 // @public
@@ -3301,6 +3343,7 @@ export interface EffectiveDefaultSecurityAdminRule extends EffectiveBaseSecurity
     readonly priority?: number;
     readonly protocol?: SecurityConfigurationRuleProtocol;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
     readonly sourcePortRanges?: string[];
     readonly sources?: AddressPrefixItem[];
 }
@@ -3397,6 +3440,7 @@ export interface EffectiveSecurityAdminRule extends EffectiveBaseSecurityAdminRu
     priority?: number;
     protocol?: SecurityConfigurationRuleProtocol;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
     sourcePortRanges?: string[];
     sources?: AddressPrefixItem[];
 }
@@ -4752,6 +4796,7 @@ export interface FirewallPolicy extends Resource {
     intrusionDetection?: FirewallPolicyIntrusionDetection;
     readonly provisioningState?: ProvisioningState;
     readonly ruleCollectionGroups?: SubResource[];
+    readonly size?: string;
     sku?: FirewallPolicySku;
     snat?: FirewallPolicySnat;
     sql?: FirewallPolicySQL;
@@ -4791,7 +4836,7 @@ export interface FirewallPolicyHttpHeaderToInsert {
 export type FirewallPolicyIdpsQuerySortOrder = string;
 
 // @public
-export type FirewallPolicyIdpsSignatureDirection = 0 | 1 | 2;
+export type FirewallPolicyIdpsSignatureDirection = 0 | 1 | 2 | 3 | 4;
 
 // @public
 export type FirewallPolicyIdpsSignatureMode = 0 | 1 | 2;
@@ -4870,6 +4915,7 @@ export interface FirewallPolicyInsights {
 export interface FirewallPolicyIntrusionDetection {
     configuration?: FirewallPolicyIntrusionDetectionConfiguration;
     mode?: FirewallPolicyIntrusionDetectionStateType;
+    profile?: FirewallPolicyIntrusionDetectionProfileType;
 }
 
 // @public
@@ -4890,6 +4936,9 @@ export interface FirewallPolicyIntrusionDetectionConfiguration {
     privateRanges?: string[];
     signatureOverrides?: FirewallPolicyIntrusionDetectionSignatureSpecification[];
 }
+
+// @public
+export type FirewallPolicyIntrusionDetectionProfileType = string;
 
 // @public
 export type FirewallPolicyIntrusionDetectionProtocol = string;
@@ -4966,6 +5015,7 @@ export interface FirewallPolicyRuleCollectionGroup extends SubResource {
     priority?: number;
     readonly provisioningState?: ProvisioningState;
     ruleCollections?: FirewallPolicyRuleCollectionUnion[];
+    readonly size?: string;
     readonly type?: string;
 }
 
@@ -5648,6 +5698,11 @@ export interface InboundSecurityRules {
 export type InboundSecurityRulesProtocol = string;
 
 // @public
+export interface InternetIngressPublicIpsProperties {
+    id?: string;
+}
+
+// @public
 export interface IPAddressAvailabilityResult {
     available?: boolean;
     availableIPAddresses?: string[];
@@ -5872,6 +5927,11 @@ export interface IPPrefixesList {
     ipPrefixes?: string[];
 }
 
+// @public (undocumented)
+export interface IPRule {
+    addressPrefix?: string;
+}
+
 // @public
 export type IpsecEncryption = string;
 
@@ -5934,6 +5994,7 @@ export enum KnownActionType {
     Allow = "Allow",
     AnomalyScoring = "AnomalyScoring",
     Block = "Block",
+    JSChallenge = "JSChallenge",
     Log = "Log"
 }
 
@@ -5947,6 +6008,12 @@ export enum KnownAddressPrefixType {
 export enum KnownAdminRuleKind {
     Custom = "Custom",
     Default = "Default"
+}
+
+// @public
+export enum KnownAdminState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -5977,7 +6044,6 @@ export enum KnownApplicationGatewayCustomErrorStatusCode {
     HttpStatus404 = "HttpStatus404",
     HttpStatus405 = "HttpStatus405",
     HttpStatus408 = "HttpStatus408",
-    HttpStatus499 = "HttpStatus499",
     HttpStatus500 = "HttpStatus500",
     HttpStatus502 = "HttpStatus502",
     HttpStatus503 = "HttpStatus503",
@@ -6050,6 +6116,7 @@ export enum KnownApplicationGatewayRuleSetStatusOptions {
 
 // @public
 export enum KnownApplicationGatewaySkuName {
+    Basic = "Basic",
     StandardLarge = "Standard_Large",
     StandardMedium = "Standard_Medium",
     StandardSmall = "Standard_Small",
@@ -6117,6 +6184,7 @@ export enum KnownApplicationGatewaySslProtocol {
 
 // @public
 export enum KnownApplicationGatewayTier {
+    Basic = "Basic",
     Standard = "Standard",
     StandardV2 = "Standard_v2",
     WAF = "WAF",
@@ -6236,6 +6304,7 @@ export enum KnownBastionConnectProtocol {
 // @public
 export enum KnownBastionHostSkuName {
     Basic = "Basic",
+    Developer = "Developer",
     Standard = "Standard"
 }
 
@@ -6546,6 +6615,14 @@ export enum KnownFirewallPolicyFilterRuleCollectionActionType {
 export enum KnownFirewallPolicyIdpsQuerySortOrder {
     Ascending = "Ascending",
     Descending = "Descending"
+}
+
+// @public
+export enum KnownFirewallPolicyIntrusionDetectionProfileType {
+    Advanced = "Advanced",
+    Basic = "Basic",
+    Extended = "Extended",
+    Standard = "Standard"
 }
 
 // @public
@@ -7194,6 +7271,12 @@ export enum KnownSeverity {
 }
 
 // @public
+export enum KnownSyncMode {
+    Automatic = "Automatic",
+    Manual = "Manual"
+}
+
+// @public
 export enum KnownSyncRemoteAddressSpace {
     True = "true"
 }
@@ -7272,6 +7355,7 @@ export enum KnownVirtualNetworkGatewaySkuName {
     ErGw1AZ = "ErGw1AZ",
     ErGw2AZ = "ErGw2AZ",
     ErGw3AZ = "ErGw3AZ",
+    ErGwScale = "ErGwScale",
     HighPerformance = "HighPerformance",
     Standard = "Standard",
     UltraPerformance = "UltraPerformance",
@@ -7293,6 +7377,7 @@ export enum KnownVirtualNetworkGatewaySkuTier {
     ErGw1AZ = "ErGw1AZ",
     ErGw2AZ = "ErGw2AZ",
     ErGw3AZ = "ErGw3AZ",
+    ErGwScale = "ErGwScale",
     HighPerformance = "HighPerformance",
     Standard = "Standard",
     UltraPerformance = "UltraPerformance",
@@ -7333,7 +7418,9 @@ export enum KnownVirtualNetworkPeeringState {
 // @public
 export enum KnownVirtualNetworkPrivateEndpointNetworkPolicies {
     Disabled = "Disabled",
-    Enabled = "Enabled"
+    Enabled = "Enabled",
+    NetworkSecurityGroupEnabled = "NetworkSecurityGroupEnabled",
+    RouteTableEnabled = "RouteTableEnabled"
 }
 
 // @public
@@ -7425,6 +7512,7 @@ export enum KnownVpnType {
 export enum KnownWebApplicationFirewallAction {
     Allow = "Allow",
     Block = "Block",
+    JSChallenge = "JSChallenge",
     Log = "Log"
 }
 
@@ -7910,6 +7998,7 @@ export interface LoadBalancers {
     get(resourceGroupName: string, loadBalancerName: string, options?: LoadBalancersGetOptionalParams): Promise<LoadBalancersGetResponse>;
     list(resourceGroupName: string, options?: LoadBalancersListOptionalParams): PagedAsyncIterableIterator<LoadBalancer>;
     listAll(options?: LoadBalancersListAllOptionalParams): PagedAsyncIterableIterator<LoadBalancer>;
+    migrateToIpBased(groupName: string, loadBalancerName: string, options?: LoadBalancersMigrateToIpBasedOptionalParams): Promise<LoadBalancersMigrateToIpBasedResponse>;
     updateTags(resourceGroupName: string, loadBalancerName: string, parameters: TagsObject, options?: LoadBalancersUpdateTagsOptionalParams): Promise<LoadBalancersUpdateTagsResponse>;
 }
 
@@ -7984,6 +8073,14 @@ export interface LoadBalancersListOptionalParams extends coreClient.OperationOpt
 
 // @public
 export type LoadBalancersListResponse = LoadBalancerListResult;
+
+// @public
+export interface LoadBalancersMigrateToIpBasedOptionalParams extends coreClient.OperationOptions {
+    parameters?: MigrateLoadBalancerToIpBasedRequest;
+}
+
+// @public
+export type LoadBalancersMigrateToIpBasedResponse = MigratedPools;
 
 // @public
 export interface LoadBalancersSwapPublicIpAddressesOptionalParams extends coreClient.OperationOptions {
@@ -8231,6 +8328,16 @@ export interface MetricSpecification {
 }
 
 // @public
+export interface MigratedPools {
+    migratedPools?: string[];
+}
+
+// @public
+export interface MigrateLoadBalancerToIpBasedRequest {
+    pools?: string[];
+}
+
+// @public
 export interface NatGateway extends Resource {
     readonly etag?: string;
     idleTimeoutInMinutes?: number;
@@ -8424,6 +8531,7 @@ export interface NetworkConfigurationDiagnosticResult {
 export interface NetworkGroup extends ChildResource {
     description?: string;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
     readonly systemData?: SystemData;
 }
 
@@ -8912,6 +9020,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: NetworkManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: NetworkManagementClientOptionalParams);
     // (undocumented)
     adminRuleCollections: AdminRuleCollections;
     // (undocumented)
@@ -8946,6 +9055,8 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     bastionHosts: BastionHosts;
     beginDeleteBastionShareableLink(resourceGroupName: string, bastionHostName: string, bslRequest: BastionShareableLinkListRequest, options?: DeleteBastionShareableLinkOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteBastionShareableLinkAndWait(resourceGroupName: string, bastionHostName: string, bslRequest: BastionShareableLinkListRequest, options?: DeleteBastionShareableLinkOptionalParams): Promise<void>;
+    beginDeleteBastionShareableLinkByToken(resourceGroupName: string, bastionHostName: string, bslTokenRequest: BastionShareableLinkTokenListRequest, options?: DeleteBastionShareableLinkByTokenOptionalParams): Promise<SimplePollerLike<OperationState<DeleteBastionShareableLinkByTokenResponse>, DeleteBastionShareableLinkByTokenResponse>>;
+    beginDeleteBastionShareableLinkByTokenAndWait(resourceGroupName: string, bastionHostName: string, bslTokenRequest: BastionShareableLinkTokenListRequest, options?: DeleteBastionShareableLinkByTokenOptionalParams): Promise<DeleteBastionShareableLinkByTokenResponse>;
     beginGeneratevirtualwanvpnserverconfigurationvpnprofile(resourceGroupName: string, virtualWANName: string, vpnClientParams: VirtualWanVpnProfileParameters, options?: GeneratevirtualwanvpnserverconfigurationvpnprofileOptionalParams): Promise<SimplePollerLike<OperationState<GeneratevirtualwanvpnserverconfigurationvpnprofileResponse>, GeneratevirtualwanvpnserverconfigurationvpnprofileResponse>>;
     beginGeneratevirtualwanvpnserverconfigurationvpnprofileAndWait(resourceGroupName: string, virtualWANName: string, vpnClientParams: VirtualWanVpnProfileParameters, options?: GeneratevirtualwanvpnserverconfigurationvpnprofileOptionalParams): Promise<GeneratevirtualwanvpnserverconfigurationvpnprofileResponse>;
     beginListActiveSessionsAndWait(resourceGroupName: string, bastionHostName: string, options?: GetActiveSessionsOptionalParams): PagedAsyncIterableIterator<BastionActiveSession>;
@@ -9131,7 +9242,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     subnets: Subnets;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
     // (undocumented)
     subscriptionNetworkManagerConnections: SubscriptionNetworkManagerConnections;
     supportedSecurityProviders(resourceGroupName: string, virtualWANName: string, options?: SupportedSecurityProvidersOptionalParams): Promise<SupportedSecurityProvidersResponse>;
@@ -9196,6 +9307,12 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
 }
 
 // @public
+export interface NetworkManagementClientDeleteBastionShareableLinkByTokenHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface NetworkManagementClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
     endpoint?: string;
@@ -9208,6 +9325,7 @@ export interface NetworkManager extends Resource {
     networkManagerScopeAccesses?: ConfigurationType[];
     networkManagerScopes?: NetworkManagerPropertiesNetworkManagerScopes;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
     readonly systemData?: SystemData;
 }
 
@@ -9609,6 +9727,7 @@ export interface NetworkVirtualAppliance extends Resource {
     readonly etag?: string;
     identity?: ManagedServiceIdentity;
     readonly inboundSecurityRules?: SubResource[];
+    internetIngressPublicIps?: InternetIngressPublicIpsProperties[];
     nvaSku?: VirtualApplianceSkuProperties;
     partnerManagedResource?: PartnerManagedResourceProperties;
     readonly provisioningState?: ProvisioningState;
@@ -9628,7 +9747,7 @@ export interface NetworkVirtualApplianceConnection extends SubResource {
     name?: string;
     namePropertiesName?: string;
     readonly provisioningState?: ProvisioningState;
-    routingConfiguration?: RoutingConfigurationNfv;
+    routingConfiguration?: RoutingConfiguration;
     tunnelIdentifier?: number;
 }
 
@@ -11009,12 +11128,6 @@ export interface PropagatedRouteTable {
 }
 
 // @public
-export interface PropagatedRouteTableNfv {
-    ids?: RoutingConfigurationNfvSubResource[];
-    labels?: string[];
-}
-
-// @public
 export type Protocol = string;
 
 // @public
@@ -11887,19 +12000,6 @@ export interface RoutingConfiguration {
 }
 
 // @public
-export interface RoutingConfigurationNfv {
-    associatedRouteTable?: RoutingConfigurationNfvSubResource;
-    inboundRouteMap?: RoutingConfigurationNfvSubResource;
-    outboundRouteMap?: RoutingConfigurationNfvSubResource;
-    propagatedRouteTables?: PropagatedRouteTableNfv;
-}
-
-// @public
-export interface RoutingConfigurationNfvSubResource {
-    resourceUri?: string;
-}
-
-// @public
 export interface RoutingIntent extends SubResource {
     readonly etag?: string;
     name?: string;
@@ -12038,6 +12138,7 @@ export interface SecurityAdminConfiguration extends ChildResource {
     applyOnNetworkIntentPolicyBasedServices?: NetworkIntentPolicyBasedService[];
     description?: string;
     readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
     readonly systemData?: SystemData;
 }
 
@@ -12698,6 +12799,7 @@ export interface Subnet extends SubResource {
     addressPrefix?: string;
     addressPrefixes?: string[];
     applicationGatewayIPConfigurations?: ApplicationGatewayIPConfiguration[];
+    defaultOutboundAccess?: boolean;
     delegations?: Delegation[];
     readonly etag?: string;
     ipAllocations?: SubResource[];
@@ -12866,6 +12968,9 @@ export interface SwapResourceListResult {
 export interface SwapResourceProperties {
     slotType?: SlotType;
 }
+
+// @public
+export type SyncMode = string;
 
 // @public
 export type SyncRemoteAddressSpace = string;
@@ -13583,8 +13688,10 @@ export type VirtualNetworkEncryptionEnforcement = string;
 // @public
 export interface VirtualNetworkGateway extends Resource {
     active?: boolean;
+    adminState?: AdminState;
     allowRemoteVnetTraffic?: boolean;
     allowVirtualWanTraffic?: boolean;
+    autoScaleConfiguration?: VirtualNetworkGatewayAutoScaleConfiguration;
     bgpSettings?: BgpSettings;
     customRoutes?: AddressSpace;
     disableIPSecReplayProtection?: boolean;
@@ -13607,6 +13714,17 @@ export interface VirtualNetworkGateway extends Resource {
     vpnClientConfiguration?: VpnClientConfiguration;
     vpnGatewayGeneration?: VpnGatewayGeneration;
     vpnType?: VpnType;
+}
+
+// @public (undocumented)
+export interface VirtualNetworkGatewayAutoScaleBounds {
+    max?: number;
+    min?: number;
+}
+
+// @public
+export interface VirtualNetworkGatewayAutoScaleConfiguration {
+    bounds?: VirtualNetworkGatewayAutoScaleBounds;
 }
 
 // @public

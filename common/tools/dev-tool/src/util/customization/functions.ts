@@ -7,7 +7,7 @@ import { isOverload } from "./helpers/overloads";
 export function augmentFunctions(
   customFunctions: FunctionDeclaration[],
   originalFunctions: Map<string, FunctionDeclaration>,
-  originalFile: SourceFile
+  originalFile: SourceFile,
 ) {
   for (const customFunction of customFunctions) {
     const customFunctionName = customFunction.getName();
@@ -19,7 +19,7 @@ export function augmentFunctions(
 export function augmentFunction(
   customFunction: FunctionDeclaration,
   originalFunction: FunctionDeclaration | undefined,
-  originalFile: SourceFile
+  originalFile: SourceFile,
 ) {
   // If the custom function doesn't exist in the original file, we just need to add it
 
@@ -43,8 +43,8 @@ export function augmentFunction(
 
 function isAugmentingFunction(fn: FunctionDeclaration): boolean {
   const customFunctionContent = fn.getBody()?.getFullText();
-
-  if (customFunctionContent?.includes(`_${fn.getName()}`)) {
+  const fnRegex = new RegExp(`_${fn.getName()}\\s*\\(`);
+  if (customFunctionContent?.match(fnRegex)) {
     return true;
   }
 
@@ -53,7 +53,7 @@ function isAugmentingFunction(fn: FunctionDeclaration): boolean {
 
 export function convertToPrivateFunction(
   originalFunction: FunctionDeclaration,
-  originalFile: SourceFile
+  originalFile: SourceFile,
 ) {
   const functionStructure = originalFunction.getStructure();
 

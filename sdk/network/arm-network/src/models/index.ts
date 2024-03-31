@@ -496,7 +496,9 @@ export interface ManagedServiceIdentity {
   type?: ResourceIdentityType;
   /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
   userAssignedIdentities?: {
-    [propertyName: string]: Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties;
+    [
+      propertyName: string
+    ]: Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties;
   };
 }
 
@@ -970,6 +972,16 @@ export interface AzureWebCategoryListResult {
   nextLink?: string;
 }
 
+export interface BastionHostPropertiesFormatNetworkAcls {
+  /** Sets the IP ACL rules for Developer Bastion Host. */
+  ipRules?: IPRule[];
+}
+
+export interface IPRule {
+  /** Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed. */
+  addressPrefix?: string;
+}
+
 /** The sku of this Bastion Host. */
 export interface Sku {
   /** The name of this Bastion Host. */
@@ -984,7 +996,7 @@ export interface BastionHostListResult {
   nextLink?: string;
 }
 
-/** Post request for all the Bastion Shareable Link endpoints. */
+/** Post request for Create/Delete/Get Bastion Shareable Link endpoints. */
 export interface BastionShareableLinkListRequest {
   /** List of VM references. */
   vms?: BastionShareableLink[];
@@ -1017,6 +1029,12 @@ export interface BastionShareableLinkListResult {
   value?: BastionShareableLink[];
   /** The URL to get the next set of results. */
   nextLink?: string;
+}
+
+/** Post request for Delete Bastion Shareable Link By Token endpoint. */
+export interface BastionShareableLinkTokenListRequest {
+  /** List of Bastion Shareable Link Token. */
+  tokens?: string[];
 }
 
 /** Response for GetActiveSessions. */
@@ -1707,8 +1725,10 @@ export interface ExplicitProxy {
 
 /** Configuration for intrusion detection mode and rules. */
 export interface FirewallPolicyIntrusionDetection {
-  /** Intrusion detection general state. */
+  /** Intrusion detection general state. When attached to a parent policy, the firewall's effective IDPS mode is the stricter mode of the two. */
   mode?: FirewallPolicyIntrusionDetectionStateType;
+  /** IDPS profile name. When attached to a parent policy, the firewall's effective profile is the profile name of the parent policy. */
+  profile?: FirewallPolicyIntrusionDetectionProfileType;
   /** Intrusion detection configuration properties. */
   configuration?: FirewallPolicyIntrusionDetectionConfiguration;
 }
@@ -1842,9 +1862,9 @@ export interface SingleQueryResult {
   signatureId?: number;
   /** The current mode enforced, 0 - Disabled, 1 - Alert, 2 -Deny */
   mode?: FirewallPolicyIdpsSignatureMode;
-  /** Describes the severity of signature: 1 - Low, 2 - Medium, 3 - High */
+  /** Describes the severity of signature: 1 - High, 2 - Medium, 3 - Low */
   severity?: FirewallPolicyIdpsSignatureSeverity;
-  /** Describes in which direction signature is being enforced: 0 - Inbound, 1 - OutBound, 2 - Bidirectional */
+  /** Describes in which direction signature is being enforced: 0 - OutBound, 1 - InBound, 2 - Any, 3 - Internal, 4 - InternalOutbound */
   direction?: FirewallPolicyIdpsSignatureDirection;
   /** Describes the groups the signature belongs to */
   group?: string;
@@ -2049,6 +2069,18 @@ export interface InboundNatRulePortMapping {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly backendPort?: number;
+}
+
+/** The request for a migrateToIpBased API. */
+export interface MigrateLoadBalancerToIpBasedRequest {
+  /** A list of pool names that should be migrated from Nic based to IP based pool */
+  pools?: string[];
+}
+
+/** The response for a migrateToIpBased API. */
+export interface MigratedPools {
+  /** A list of pools migrated from Nic based to IP based pool */
+  migratedPools?: string[];
 }
 
 /** Response for ListNatGateways API service call. */
@@ -2338,6 +2370,11 @@ export interface EffectiveConnectivityConfiguration {
   readonly provisioningState?: ProvisioningState;
   /** Flag if need to remove current existing peerings. */
   deleteExistingPeering?: DeleteExistingPeering;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** Hub Item. */
@@ -2371,6 +2408,11 @@ export interface ConfigurationGroup {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** Result of the request to list active security admin rules. It contains a list of active security admin rules and a skiptoken to get the next set of results. */
@@ -2614,10 +2656,16 @@ export interface VirtualApplianceNicProperties {
 
 /** Network Virtual Appliance Additional NIC properties. */
 export interface VirtualApplianceAdditionalNicProperties {
-  /** Customer Name for additional nic */
+  /** Name of additional nic */
   name?: string;
-  /** Customer Intent for Public Ip on additional nic */
+  /** Flag (true or false) for Intent for Public Ip on additional nic */
   hasPublicIp?: boolean;
+}
+
+/** Resource Uri of Public Ip for Standard Load Balancer Frontend End. */
+export interface InternetIngressPublicIpsProperties {
+  /** Resource Uri of Public Ip */
+  id?: string;
 }
 
 /** Properties of the delegation. */
@@ -4470,6 +4518,19 @@ export interface VirtualNetworkDdosProtectionStatusResult {
   nextLink?: string;
 }
 
+/** Virtual Network Gateway Autoscale Configuration details */
+export interface VirtualNetworkGatewayAutoScaleConfiguration {
+  /** The bounds of the autoscale configuration */
+  bounds?: VirtualNetworkGatewayAutoScaleBounds;
+}
+
+export interface VirtualNetworkGatewayAutoScaleBounds {
+  /** Minimum scale Units for Autoscale configuration */
+  min?: number;
+  /** Maximum Scale Units for Autoscale configuration */
+  max?: number;
+}
+
 /** VirtualNetworkGatewaySku details. */
 export interface VirtualNetworkGatewaySku {
   /** Gateway SKU name. */
@@ -5446,32 +5507,6 @@ export interface ExpressRouteConnectionList {
   value?: ExpressRouteConnection[];
 }
 
-/** NFV version of Routing Configuration indicating the associated and propagated route tables for this connection. */
-export interface RoutingConfigurationNfv {
-  /** The resource id RouteTable associated with this RoutingConfiguration. */
-  associatedRouteTable?: RoutingConfigurationNfvSubResource;
-  /** The list of RouteTables to advertise the routes to. */
-  propagatedRouteTables?: PropagatedRouteTableNfv;
-  /** The resource id of the RouteMap associated with this RoutingConfiguration for inbound learned routes. */
-  inboundRouteMap?: RoutingConfigurationNfvSubResource;
-  /** The resource id of the RouteMap associated with this RoutingConfiguration for outbound advertised routes. */
-  outboundRouteMap?: RoutingConfigurationNfvSubResource;
-}
-
-/** Reference to RouteTableV3 associated with the connection. */
-export interface RoutingConfigurationNfvSubResource {
-  /** Resource ID. */
-  resourceUri?: string;
-}
-
-/** Nfv version of the list of RouteTables to advertise the routes to. */
-export interface PropagatedRouteTableNfv {
-  /** The list of labels. */
-  labels?: string[];
-  /** The list of resource ids of all the RouteTables. */
-  ids?: RoutingConfigurationNfvSubResource[];
-}
-
 /** NetworkVirtualApplianceConnection list. */
 export interface NetworkVirtualApplianceConnectionList {
   /** The list of NetworkVirtualAppliance connections. */
@@ -6122,7 +6157,7 @@ export interface ApplicationGatewayProbe extends SubResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-  /** Custom port which will be used for probing the backend servers. The valid value ranges from 1 to 65535. In case not set, port from http settings will be used. This property is valid for Standard_v2 and WAF_v2 only. */
+  /** Custom port which will be used for probing the backend servers. The valid value ranges from 1 to 65535. In case not set, port from http settings will be used. This property is valid for Basic, Standard_v2 and WAF_v2 only. */
   port?: number;
 }
 
@@ -6541,6 +6576,8 @@ export interface Subnet extends SubResource {
   privateLinkServiceNetworkPolicies?: VirtualNetworkPrivateLinkServiceNetworkPolicies;
   /** Application gateway IP configurations of virtual network resource. */
   applicationGatewayIPConfigurations?: ApplicationGatewayIPConfiguration[];
+  /** Set this property to false to disable default outbound connectivity for all VMs in the subnet. This property can only be set at the time of subnet creation and cannot be updated for an existing subnet. */
+  defaultOutboundAccess?: boolean;
 }
 
 /** Frontend IP address of the load balancer. */
@@ -6654,6 +6691,8 @@ export interface BackendAddressPool extends SubResource {
   drainPeriodInSeconds?: number;
   /** A reference to a virtual network. */
   virtualNetwork?: SubResource;
+  /** Backend address synchronous mode for the backend pool */
+  syncMode?: SyncMode;
 }
 
 /** Inbound NAT rule of the load balancer. */
@@ -6929,6 +6968,8 @@ export interface ApplicationGatewayListener extends SubResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /** List of Server Name Indications(SNI) for TLS Multi-site Listener that allows special wildcard characters as well. */
+  hostNames?: string[];
 }
 
 /** SSL profile of an application gateway. */
@@ -7790,6 +7831,11 @@ export interface FirewallPolicyRuleCollectionGroup extends SubResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /**
+   * A read-only string that represents the size of the FirewallPolicyRuleCollectionGroupProperties in MB. (ex 1.2MB)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly size?: string;
   /** Priority of the Firewall Policy Rule Collection Group resource. */
   priority?: number;
   /** Group of Firewall Policy rule collections. */
@@ -8707,7 +8753,7 @@ export interface NetworkVirtualApplianceConnection extends SubResource {
   /** Enable internet security. */
   enableInternetSecurity?: boolean;
   /** The Routing Configuration indicating the associated and propagated route tables on this connection. */
-  routingConfiguration?: RoutingConfigurationNfv;
+  routingConfiguration?: RoutingConfiguration;
 }
 
 /** Virtual Appliance Site resource. */
@@ -9424,6 +9470,11 @@ export interface ApplicationGateway extends Resource {
   loadDistributionPolicies?: ApplicationGatewayLoadDistributionPolicy[];
   /** Global Configuration. */
   globalConfiguration?: ApplicationGatewayGlobalConfiguration;
+  /**
+   * The default predefined SSL Policy applied on the application gateway resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly defaultPredefinedSslPolicy?: ApplicationGatewaySslPolicyName;
 }
 
 /** A web application firewall rule set. */
@@ -9519,6 +9570,8 @@ export interface AzureFirewallFqdnTag extends Resource {
 
 /** Bastion Host resource. */
 export interface BastionHost extends Resource {
+  /** A list of availability zones denoting where the resource needs to come from. */
+  zones?: string[];
   /**
    * A unique read-only string that changes whenever the resource is updated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -9530,6 +9583,9 @@ export interface BastionHost extends Resource {
   ipConfigurations?: BastionHostIPConfiguration[];
   /** FQDN for the endpoint on which bastion host is accessible. */
   dnsName?: string;
+  /** Reference to an existing virtual network required for Developer Bastion Host only. */
+  virtualNetwork?: SubResource;
+  networkAcls?: BastionHostPropertiesFormatNetworkAcls;
   /**
    * The provisioning state of the bastion host resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -9907,6 +9963,11 @@ export interface FirewallPolicy extends Resource {
   /** The identity of the firewall policy. */
   identity?: ManagedServiceIdentity;
   /**
+   * A read-only string that represents the size of the FirewallPolicyPropertiesFormat in MB. (ex 0.5MB)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly size?: string;
+  /**
    * List of references to FirewallPolicyRuleCollectionGroups.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -10067,6 +10128,11 @@ export interface NetworkManager extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** Network profile resource. */
@@ -10130,6 +10196,8 @@ export interface NetworkVirtualAppliance extends Resource {
   readonly virtualApplianceNics?: VirtualApplianceNicProperties[];
   /** Details required for Additional Network Interface. */
   additionalNics?: VirtualApplianceAdditionalNicProperties[];
+  /** List of Resource Uri of Public IPs for Internet Ingress Scenario. */
+  internetIngressPublicIps?: InternetIngressPublicIpsProperties[];
   /**
    * List of references to VirtualApplianceSite.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -10369,6 +10437,8 @@ export interface VirtualNetworkGateway extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly etag?: string;
+  /** Autoscale configuration for virutal network gateway */
+  autoScaleConfiguration?: VirtualNetworkGatewayAutoScaleConfiguration;
   /** IP configurations for virtual network gateway. */
   ipConfigurations?: VirtualNetworkGatewayIPConfiguration[];
   /** The type of this virtual network gateway. */
@@ -10424,6 +10494,8 @@ export interface VirtualNetworkGateway extends Resource {
   allowVirtualWanTraffic?: boolean;
   /** Configure this gateway to accept traffic from other Azure Virtual Networks. This configuration does not support connectivity to Azure Virtual WAN. */
   allowRemoteVnetTraffic?: boolean;
+  /** Property to indicate if the Express Route Gateway serves traffic when there are multiple Express Route Gateways in the vnet */
+  adminState?: AdminState;
 }
 
 /** A common class for general resource information. */
@@ -11016,6 +11088,11 @@ export interface ActiveSecurityAdminRule extends ActiveBaseSecurityAdminRule {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** Network default admin rule. */
@@ -11075,6 +11152,11 @@ export interface ActiveDefaultSecurityAdminRule
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** The Network Manager Connection resource */
@@ -11119,6 +11201,11 @@ export interface ConnectivityConfiguration extends ChildResource {
   readonly provisioningState?: ProvisioningState;
   /** Flag if need to remove current existing peerings. */
   deleteExistingPeering?: DeleteExistingPeering;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** The network group resource */
@@ -11135,6 +11222,11 @@ export interface NetworkGroup extends ChildResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** StaticMember Item. */
@@ -11194,6 +11286,11 @@ export interface SecurityAdminConfiguration extends ChildResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** Defines the admin rule collection. */
@@ -11212,6 +11309,11 @@ export interface AdminRuleCollection extends ChildResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** Network base admin rule. */
@@ -11253,6 +11355,11 @@ export interface EffectiveSecurityAdminRule
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** Network default admin rule. */
@@ -11312,6 +11419,11 @@ export interface EffectiveDefaultSecurityAdminRule
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** The properties of a packet capture session. */
@@ -11443,6 +11555,11 @@ export interface AdminRule extends BaseAdminRule {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** Network default admin rule. */
@@ -11501,10 +11618,20 @@ export interface DefaultAdminRule extends BaseAdminRule {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
 }
 
 /** Defines headers for AzureFirewalls_packetCapture operation. */
 export interface AzureFirewallsPacketCaptureHeaders {
+  location?: string;
+}
+
+/** Defines headers for NetworkManagementClient_deleteBastionShareableLinkByToken operation. */
+export interface NetworkManagementClientDeleteBastionShareableLinkByTokenHeaders {
   location?: string;
 }
 
@@ -11516,6 +11643,12 @@ export interface PublicIPAddressesDeleteHeaders {
 
 /** Defines headers for PublicIPAddresses_ddosProtectionStatus operation. */
 export interface PublicIPAddressesDdosProtectionStatusHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for DdosCustomPolicies_delete operation. */
+export interface DdosCustomPoliciesDeleteHeaders {
   /** The URL of the resource used to check the status of the asynchronous operation. */
   location?: string;
 }
@@ -11607,7 +11740,9 @@ export enum KnownApplicationGatewaySkuName {
   /** StandardV2 */
   StandardV2 = "Standard_v2",
   /** WAFV2 */
-  WAFV2 = "WAF_v2"
+  WAFV2 = "WAF_v2",
+  /** Basic */
+  Basic = "Basic",
 }
 
 /**
@@ -11621,7 +11756,8 @@ export enum KnownApplicationGatewaySkuName {
  * **WAF_Medium** \
  * **WAF_Large** \
  * **Standard_v2** \
- * **WAF_v2**
+ * **WAF_v2** \
+ * **Basic**
  */
 export type ApplicationGatewaySkuName = string;
 
@@ -11634,7 +11770,9 @@ export enum KnownApplicationGatewayTier {
   /** StandardV2 */
   StandardV2 = "Standard_v2",
   /** WAFV2 */
-  WAFV2 = "WAF_v2"
+  WAFV2 = "WAF_v2",
+  /** Basic */
+  Basic = "Basic",
 }
 
 /**
@@ -11645,7 +11783,8 @@ export enum KnownApplicationGatewayTier {
  * **Standard** \
  * **WAF** \
  * **Standard_v2** \
- * **WAF_v2**
+ * **WAF_v2** \
+ * **Basic**
  */
 export type ApplicationGatewayTier = string;
 
@@ -11658,7 +11797,7 @@ export enum KnownApplicationGatewaySslProtocol {
   /** TLSv12 */
   TLSv12 = "TLSv1_2",
   /** TLSv13 */
-  TLSv13 = "TLSv1_3"
+  TLSv13 = "TLSv1_3",
 }
 
 /**
@@ -11680,7 +11819,7 @@ export enum KnownApplicationGatewaySslPolicyType {
   /** Custom */
   Custom = "Custom",
   /** CustomV2 */
-  CustomV2 = "CustomV2"
+  CustomV2 = "CustomV2",
 }
 
 /**
@@ -11705,7 +11844,7 @@ export enum KnownApplicationGatewaySslPolicyName {
   /** AppGwSslPolicy20220101 */
   AppGwSslPolicy20220101 = "AppGwSslPolicy20220101",
   /** AppGwSslPolicy20220101S */
-  AppGwSslPolicy20220101S = "AppGwSslPolicy20220101S"
+  AppGwSslPolicy20220101S = "AppGwSslPolicy20220101S",
 }
 
 /**
@@ -11778,7 +11917,7 @@ export enum KnownApplicationGatewaySslCipherSuite {
   /** TLSEcdheRSAWithAES128GCMSHA256 */
   TLSEcdheRSAWithAES128GCMSHA256 = "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
   /** TLSEcdheRSAWithAES256GCMSHA384 */
-  TLSEcdheRSAWithAES256GCMSHA384 = "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384"
+  TLSEcdheRSAWithAES256GCMSHA384 = "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384",
 }
 
 /**
@@ -11826,7 +11965,7 @@ export enum KnownApplicationGatewayOperationalState {
   /** Running */
   Running = "Running",
   /** Stopping */
-  Stopping = "Stopping"
+  Stopping = "Stopping",
 }
 
 /**
@@ -11850,7 +11989,7 @@ export enum KnownProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -11870,7 +12009,7 @@ export enum KnownIPAllocationMethod {
   /** Static */
   Static = "Static",
   /** Dynamic */
-  Dynamic = "Dynamic"
+  Dynamic = "Dynamic",
 }
 
 /**
@@ -11885,14 +12024,14 @@ export type IPAllocationMethod = string;
 
 /** Known values of {@link ApplicationGatewayProtocol} that the service accepts. */
 export enum KnownApplicationGatewayProtocol {
-  /** Http */
+  /** Supported for httpListeners and  backendHttpSettingsCollection properties. */
   Http = "Http",
-  /** Https */
+  /** Supported for httpListeners and  backendHttpSettingsCollection properties. */
   Https = "Https",
-  /** Tcp */
+  /** Supported for listeners and backendSettingsCollection properties. */
   Tcp = "Tcp",
-  /** Tls */
-  Tls = "Tls"
+  /** Supported for listeners and backendSettingsCollection properties. */
+  Tls = "Tls",
 }
 
 /**
@@ -11900,10 +12039,10 @@ export enum KnownApplicationGatewayProtocol {
  * {@link KnownApplicationGatewayProtocol} can be used interchangeably with ApplicationGatewayProtocol,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Http** \
- * **Https** \
- * **Tcp** \
- * **Tls**
+ * **Http**: Supported for httpListeners and  backendHttpSettingsCollection properties. \
+ * **Https**: Supported for httpListeners and  backendHttpSettingsCollection properties. \
+ * **Tcp**: Supported for listeners and backendSettingsCollection properties. \
+ * **Tls**: Supported for listeners and backendSettingsCollection properties.
  */
 export type ApplicationGatewayProtocol = string;
 
@@ -11912,7 +12051,7 @@ export enum KnownIPVersion {
   /** IPv4 */
   IPv4 = "IPv4",
   /** IPv6 */
-  IPv6 = "IPv6"
+  IPv6 = "IPv6",
 }
 
 /**
@@ -11938,7 +12077,7 @@ export enum KnownSecurityRuleProtocol {
   /** Asterisk */
   Asterisk = "*",
   /** Ah */
-  Ah = "Ah"
+  Ah = "Ah",
 }
 
 /**
@@ -11960,7 +12099,7 @@ export enum KnownSecurityRuleAccess {
   /** Allow */
   Allow = "Allow",
   /** Deny */
-  Deny = "Deny"
+  Deny = "Deny",
 }
 
 /**
@@ -11978,7 +12117,7 @@ export enum KnownSecurityRuleDirection {
   /** Inbound */
   Inbound = "Inbound",
   /** Outbound */
-  Outbound = "Outbound"
+  Outbound = "Outbound",
 }
 
 /**
@@ -11994,7 +12133,7 @@ export type SecurityRuleDirection = string;
 /** Known values of {@link ExtendedLocationTypes} that the service accepts. */
 export enum KnownExtendedLocationTypes {
   /** EdgeZone */
-  EdgeZone = "EdgeZone"
+  EdgeZone = "EdgeZone",
 }
 
 /**
@@ -12011,7 +12150,7 @@ export enum KnownNetworkInterfaceNicType {
   /** Standard */
   Standard = "Standard",
   /** Elastic */
-  Elastic = "Elastic"
+  Elastic = "Elastic",
 }
 
 /**
@@ -12035,7 +12174,7 @@ export enum KnownNetworkInterfaceMigrationPhase {
   /** Abort */
   Abort = "Abort",
   /** Committed */
-  Committed = "Committed"
+  Committed = "Committed",
 }
 
 /**
@@ -12060,7 +12199,7 @@ export enum KnownNetworkInterfaceAuxiliaryMode {
   /** Floating */
   Floating = "Floating",
   /** AcceleratedConnections */
-  AcceleratedConnections = "AcceleratedConnections"
+  AcceleratedConnections = "AcceleratedConnections",
 }
 
 /**
@@ -12086,7 +12225,7 @@ export enum KnownNetworkInterfaceAuxiliarySku {
   /** A4 */
   A4 = "A4",
   /** A8 */
-  A8 = "A8"
+  A8 = "A8",
 }
 
 /**
@@ -12105,7 +12244,7 @@ export type NetworkInterfaceAuxiliarySku = string;
 /** Known values of {@link FlowLogFormatType} that the service accepts. */
 export enum KnownFlowLogFormatType {
   /** Json */
-  Json = "JSON"
+  Json = "JSON",
 }
 
 /**
@@ -12128,7 +12267,7 @@ export enum KnownRouteNextHopType {
   /** VirtualAppliance */
   VirtualAppliance = "VirtualAppliance",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -12149,7 +12288,7 @@ export enum KnownPublicIPAddressSkuName {
   /** Basic */
   Basic = "Basic",
   /** Standard */
-  Standard = "Standard"
+  Standard = "Standard",
 }
 
 /**
@@ -12167,7 +12306,7 @@ export enum KnownPublicIPAddressSkuTier {
   /** Regional */
   Regional = "Regional",
   /** Global */
-  Global = "Global"
+  Global = "Global",
 }
 
 /**
@@ -12187,7 +12326,7 @@ export enum KnownDdosSettingsProtectionMode {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -12204,7 +12343,7 @@ export type DdosSettingsProtectionMode = string;
 /** Known values of {@link NatGatewaySkuName} that the service accepts. */
 export enum KnownNatGatewaySkuName {
   /** Standard */
-  Standard = "Standard"
+  Standard = "Standard",
 }
 
 /**
@@ -12227,7 +12366,7 @@ export enum KnownPublicIPAddressMigrationPhase {
   /** Abort */
   Abort = "Abort",
   /** Committed */
-  Committed = "Committed"
+  Committed = "Committed",
 }
 
 /**
@@ -12248,7 +12387,7 @@ export enum KnownDeleteOptions {
   /** Delete */
   Delete = "Delete",
   /** Detach */
-  Detach = "Detach"
+  Detach = "Detach",
 }
 
 /**
@@ -12266,7 +12405,11 @@ export enum KnownVirtualNetworkPrivateEndpointNetworkPolicies {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
+  /** NetworkSecurityGroupEnabled */
+  NetworkSecurityGroupEnabled = "NetworkSecurityGroupEnabled",
+  /** RouteTableEnabled */
+  RouteTableEnabled = "RouteTableEnabled",
 }
 
 /**
@@ -12275,7 +12418,9 @@ export enum KnownVirtualNetworkPrivateEndpointNetworkPolicies {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Enabled** \
- * **Disabled**
+ * **Disabled** \
+ * **NetworkSecurityGroupEnabled** \
+ * **RouteTableEnabled**
  */
 export type VirtualNetworkPrivateEndpointNetworkPolicies = string;
 
@@ -12284,7 +12429,7 @@ export enum KnownVirtualNetworkPrivateLinkServiceNetworkPolicies {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -12304,7 +12449,7 @@ export enum KnownGatewayLoadBalancerTunnelProtocol {
   /** Native */
   Native = "Native",
   /** Vxlan */
-  Vxlan = "VXLAN"
+  Vxlan = "VXLAN",
 }
 
 /**
@@ -12325,7 +12470,7 @@ export enum KnownGatewayLoadBalancerTunnelInterfaceType {
   /** Internal */
   Internal = "Internal",
   /** External */
-  External = "External"
+  External = "External",
 }
 
 /**
@@ -12346,7 +12491,7 @@ export enum KnownLoadBalancerBackendAddressAdminState {
   /** Up */
   Up = "Up",
   /** Down */
-  Down = "Down"
+  Down = "Down",
 }
 
 /**
@@ -12360,6 +12505,24 @@ export enum KnownLoadBalancerBackendAddressAdminState {
  */
 export type LoadBalancerBackendAddressAdminState = string;
 
+/** Known values of {@link SyncMode} that the service accepts. */
+export enum KnownSyncMode {
+  /** Automatic */
+  Automatic = "Automatic",
+  /** Manual */
+  Manual = "Manual",
+}
+
+/**
+ * Defines values for SyncMode. \
+ * {@link KnownSyncMode} can be used interchangeably with SyncMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Automatic** \
+ * **Manual**
+ */
+export type SyncMode = string;
+
 /** Known values of {@link TransportProtocol} that the service accepts. */
 export enum KnownTransportProtocol {
   /** Udp */
@@ -12367,7 +12530,7 @@ export enum KnownTransportProtocol {
   /** Tcp */
   Tcp = "Tcp",
   /** All */
-  All = "All"
+  All = "All",
 }
 
 /**
@@ -12386,7 +12549,7 @@ export enum KnownApplicationGatewayCookieBasedAffinity {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -12411,8 +12574,6 @@ export enum KnownApplicationGatewayCustomErrorStatusCode {
   HttpStatus405 = "HttpStatus405",
   /** HttpStatus408 */
   HttpStatus408 = "HttpStatus408",
-  /** HttpStatus499 */
-  HttpStatus499 = "HttpStatus499",
   /** HttpStatus500 */
   HttpStatus500 = "HttpStatus500",
   /** HttpStatus502 */
@@ -12420,7 +12581,7 @@ export enum KnownApplicationGatewayCustomErrorStatusCode {
   /** HttpStatus503 */
   HttpStatus503 = "HttpStatus503",
   /** HttpStatus504 */
-  HttpStatus504 = "HttpStatus504"
+  HttpStatus504 = "HttpStatus504",
 }
 
 /**
@@ -12433,7 +12594,6 @@ export enum KnownApplicationGatewayCustomErrorStatusCode {
  * **HttpStatus404** \
  * **HttpStatus405** \
  * **HttpStatus408** \
- * **HttpStatus499** \
  * **HttpStatus500** \
  * **HttpStatus502** \
  * **HttpStatus503** \
@@ -12446,7 +12606,7 @@ export enum KnownApplicationGatewayClientRevocationOptions {
   /** None */
   None = "None",
   /** Ocsp */
-  Ocsp = "OCSP"
+  Ocsp = "OCSP",
 }
 
 /**
@@ -12464,7 +12624,7 @@ export enum KnownApplicationGatewayRequestRoutingRuleType {
   /** Basic */
   Basic = "Basic",
   /** PathBasedRouting */
-  PathBasedRouting = "PathBasedRouting"
+  PathBasedRouting = "PathBasedRouting",
 }
 
 /**
@@ -12486,7 +12646,7 @@ export enum KnownApplicationGatewayRedirectType {
   /** SeeOther */
   SeeOther = "SeeOther",
   /** Temporary */
-  Temporary = "Temporary"
+  Temporary = "Temporary",
 }
 
 /**
@@ -12506,7 +12666,7 @@ export enum KnownApplicationGatewayFirewallMode {
   /** Detection */
   Detection = "Detection",
   /** Prevention */
-  Prevention = "Prevention"
+  Prevention = "Prevention",
 }
 
 /**
@@ -12526,7 +12686,7 @@ export enum KnownApplicationGatewayLoadDistributionAlgorithm {
   /** LeastConnections */
   LeastConnections = "LeastConnections",
   /** IpHash */
-  IpHash = "IpHash"
+  IpHash = "IpHash",
 }
 
 /**
@@ -12551,7 +12711,7 @@ export enum KnownApplicationGatewayBackendHealthServerHealth {
   /** Partial */
   Partial = "Partial",
   /** Draining */
-  Draining = "Draining"
+  Draining = "Draining",
 }
 
 /**
@@ -12572,7 +12732,7 @@ export enum KnownApplicationGatewayWafRuleStateTypes {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -12596,7 +12756,7 @@ export enum KnownApplicationGatewayWafRuleActionTypes {
   /** Block */
   Block = "Block",
   /** Log */
-  Log = "Log"
+  Log = "Log",
 }
 
 /**
@@ -12621,7 +12781,7 @@ export enum KnownApplicationGatewayTierTypes {
   /** StandardV2 */
   StandardV2 = "Standard_v2",
   /** WAFV2 */
-  WAFV2 = "WAF_v2"
+  WAFV2 = "WAF_v2",
 }
 
 /**
@@ -12645,7 +12805,7 @@ export enum KnownApplicationGatewayRuleSetStatusOptions {
   /** Supported */
   Supported = "Supported",
   /** Deprecated */
-  Deprecated = "Deprecated"
+  Deprecated = "Deprecated",
 }
 
 /**
@@ -12665,7 +12825,7 @@ export enum KnownAzureFirewallRCActionType {
   /** Allow */
   Allow = "Allow",
   /** Deny */
-  Deny = "Deny"
+  Deny = "Deny",
 }
 
 /**
@@ -12685,7 +12845,7 @@ export enum KnownAzureFirewallApplicationRuleProtocolType {
   /** Https */
   Https = "Https",
   /** Mssql */
-  Mssql = "Mssql"
+  Mssql = "Mssql",
 }
 
 /**
@@ -12704,7 +12864,7 @@ export enum KnownAzureFirewallNatRCActionType {
   /** Snat */
   Snat = "Snat",
   /** Dnat */
-  Dnat = "Dnat"
+  Dnat = "Dnat",
 }
 
 /**
@@ -12726,7 +12886,7 @@ export enum KnownAzureFirewallNetworkRuleProtocol {
   /** Any */
   Any = "Any",
   /** Icmp */
-  Icmp = "ICMP"
+  Icmp = "ICMP",
 }
 
 /**
@@ -12748,7 +12908,7 @@ export enum KnownAzureFirewallThreatIntelMode {
   /** Deny */
   Deny = "Deny",
   /** Off */
-  Off = "Off"
+  Off = "Off",
 }
 
 /**
@@ -12767,7 +12927,7 @@ export enum KnownAzureFirewallSkuName {
   /** AzfwVnet */
   AzfwVnet = "AZFW_VNet",
   /** AzfwHub */
-  AzfwHub = "AZFW_Hub"
+  AzfwHub = "AZFW_Hub",
 }
 
 /**
@@ -12787,7 +12947,7 @@ export enum KnownAzureFirewallSkuTier {
   /** Premium */
   Premium = "Premium",
   /** Basic */
-  Basic = "Basic"
+  Basic = "Basic",
 }
 
 /**
@@ -12814,7 +12974,7 @@ export enum KnownAzureFirewallPacketCaptureFlagsType {
   /** Ack */
   Ack = "ack",
   /** Urg */
-  Urg = "urg"
+  Urg = "urg",
 }
 
 /**
@@ -12836,7 +12996,9 @@ export enum KnownBastionHostSkuName {
   /** Basic */
   Basic = "Basic",
   /** Standard */
-  Standard = "Standard"
+  Standard = "Standard",
+  /** Developer */
+  Developer = "Developer",
 }
 
 /**
@@ -12845,7 +13007,8 @@ export enum KnownBastionHostSkuName {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Basic** \
- * **Standard**
+ * **Standard** \
+ * **Developer**
  */
 export type BastionHostSkuName = string;
 
@@ -12854,7 +13017,7 @@ export enum KnownBastionConnectProtocol {
   /** SSH */
   SSH = "SSH",
   /** RDP */
-  RDP = "RDP"
+  RDP = "RDP",
 }
 
 /**
@@ -12884,7 +13047,7 @@ export enum KnownCommissionedState {
   /** Deprovisioning */
   Deprovisioning = "Deprovisioning",
   /** Deprovisioned */
-  Deprovisioned = "Deprovisioned"
+  Deprovisioned = "Deprovisioned",
 }
 
 /**
@@ -12922,7 +13085,7 @@ export enum KnownGeo {
   /** Oceania */
   Oceania = "OCEANIA",
   /** AQ */
-  AQ = "AQ"
+  AQ = "AQ",
 }
 
 /**
@@ -12949,7 +13112,7 @@ export enum KnownCustomIpPrefixType {
   /** Parent */
   Parent = "Parent",
   /** Child */
-  Child = "Child"
+  Child = "Child",
 }
 
 /**
@@ -12982,7 +13145,7 @@ export enum KnownProtocolType {
   /** Vxlan */
   Vxlan = "Vxlan",
   /** All */
-  All = "All"
+  All = "All",
 }
 
 /**
@@ -13007,7 +13170,7 @@ export enum KnownAuthorizationUseStatus {
   /** Available */
   Available = "Available",
   /** InUse */
-  InUse = "InUse"
+  InUse = "InUse",
 }
 
 /**
@@ -13027,7 +13190,7 @@ export enum KnownExpressRoutePeeringType {
   /** AzurePrivatePeering */
   AzurePrivatePeering = "AzurePrivatePeering",
   /** MicrosoftPeering */
-  MicrosoftPeering = "MicrosoftPeering"
+  MicrosoftPeering = "MicrosoftPeering",
 }
 
 /**
@@ -13046,7 +13209,7 @@ export enum KnownExpressRoutePeeringState {
   /** Disabled */
   Disabled = "Disabled",
   /** Enabled */
-  Enabled = "Enabled"
+  Enabled = "Enabled",
 }
 
 /**
@@ -13068,7 +13231,7 @@ export enum KnownExpressRouteCircuitPeeringAdvertisedPublicPrefixState {
   /** Configured */
   Configured = "Configured",
   /** ValidationNeeded */
-  ValidationNeeded = "ValidationNeeded"
+  ValidationNeeded = "ValidationNeeded",
 }
 
 /**
@@ -13088,7 +13251,7 @@ export enum KnownExpressRouteCircuitPeeringState {
   /** Disabled */
   Disabled = "Disabled",
   /** Enabled */
-  Enabled = "Enabled"
+  Enabled = "Enabled",
 }
 
 /**
@@ -13108,7 +13271,7 @@ export enum KnownCircuitConnectionStatus {
   /** Connecting */
   Connecting = "Connecting",
   /** Disconnected */
-  Disconnected = "Disconnected"
+  Disconnected = "Disconnected",
 }
 
 /**
@@ -13131,7 +13294,7 @@ export enum KnownExpressRouteCircuitSkuTier {
   /** Basic */
   Basic = "Basic",
   /** Local */
-  Local = "Local"
+  Local = "Local",
 }
 
 /**
@@ -13151,7 +13314,7 @@ export enum KnownExpressRouteCircuitSkuFamily {
   /** UnlimitedData */
   UnlimitedData = "UnlimitedData",
   /** MeteredData */
-  MeteredData = "MeteredData"
+  MeteredData = "MeteredData",
 }
 
 /**
@@ -13173,7 +13336,7 @@ export enum KnownServiceProviderProvisioningState {
   /** Provisioned */
   Provisioned = "Provisioned",
   /** Deprovisioning */
-  Deprovisioning = "Deprovisioning"
+  Deprovisioning = "Deprovisioning",
 }
 
 /**
@@ -13193,7 +13356,7 @@ export enum KnownExpressRoutePortsEncapsulation {
   /** Dot1Q */
   Dot1Q = "Dot1Q",
   /** QinQ */
-  QinQ = "QinQ"
+  QinQ = "QinQ",
 }
 
 /**
@@ -13211,7 +13374,7 @@ export enum KnownExpressRouteLinkConnectorType {
   /** LC */
   LC = "LC",
   /** SC */
-  SC = "SC"
+  SC = "SC",
 }
 
 /**
@@ -13229,7 +13392,7 @@ export enum KnownExpressRouteLinkAdminState {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -13251,7 +13414,7 @@ export enum KnownExpressRouteLinkMacSecCipher {
   /** GcmAesXpn128 */
   GcmAesXpn128 = "GcmAesXpn128",
   /** GcmAesXpn256 */
-  GcmAesXpn256 = "GcmAesXpn256"
+  GcmAesXpn256 = "GcmAesXpn256",
 }
 
 /**
@@ -13271,7 +13434,7 @@ export enum KnownExpressRouteLinkMacSecSciState {
   /** Disabled */
   Disabled = "Disabled",
   /** Enabled */
-  Enabled = "Enabled"
+  Enabled = "Enabled",
 }
 
 /**
@@ -13289,7 +13452,7 @@ export enum KnownExpressRoutePortsBillingType {
   /** MeteredData */
   MeteredData = "MeteredData",
   /** UnlimitedData */
-  UnlimitedData = "UnlimitedData"
+  UnlimitedData = "UnlimitedData",
 }
 
 /**
@@ -13307,7 +13470,7 @@ export enum KnownExpressRoutePortAuthorizationUseStatus {
   /** Available */
   Available = "Available",
   /** InUse */
-  InUse = "InUse"
+  InUse = "InUse",
 }
 
 /**
@@ -13325,7 +13488,7 @@ export enum KnownAutoLearnPrivateRangesMode {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -13345,7 +13508,7 @@ export enum KnownFirewallPolicyIntrusionDetectionStateType {
   /** Alert */
   Alert = "Alert",
   /** Deny */
-  Deny = "Deny"
+  Deny = "Deny",
 }
 
 /**
@@ -13359,6 +13522,30 @@ export enum KnownFirewallPolicyIntrusionDetectionStateType {
  */
 export type FirewallPolicyIntrusionDetectionStateType = string;
 
+/** Known values of {@link FirewallPolicyIntrusionDetectionProfileType} that the service accepts. */
+export enum KnownFirewallPolicyIntrusionDetectionProfileType {
+  /** Basic */
+  Basic = "Basic",
+  /** Standard */
+  Standard = "Standard",
+  /** Advanced */
+  Advanced = "Advanced",
+  /** Extended */
+  Extended = "Extended",
+}
+
+/**
+ * Defines values for FirewallPolicyIntrusionDetectionProfileType. \
+ * {@link KnownFirewallPolicyIntrusionDetectionProfileType} can be used interchangeably with FirewallPolicyIntrusionDetectionProfileType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Basic** \
+ * **Standard** \
+ * **Advanced** \
+ * **Extended**
+ */
+export type FirewallPolicyIntrusionDetectionProfileType = string;
+
 /** Known values of {@link FirewallPolicyIntrusionDetectionProtocol} that the service accepts. */
 export enum KnownFirewallPolicyIntrusionDetectionProtocol {
   /** TCP */
@@ -13368,7 +13555,7 @@ export enum KnownFirewallPolicyIntrusionDetectionProtocol {
   /** Icmp */
   Icmp = "ICMP",
   /** ANY */
-  ANY = "ANY"
+  ANY = "ANY",
 }
 
 /**
@@ -13390,7 +13577,7 @@ export enum KnownFirewallPolicySkuTier {
   /** Premium */
   Premium = "Premium",
   /** Basic */
-  Basic = "Basic"
+  Basic = "Basic",
 }
 
 /**
@@ -13409,7 +13596,7 @@ export enum KnownFirewallPolicyRuleCollectionType {
   /** FirewallPolicyNatRuleCollection */
   FirewallPolicyNatRuleCollection = "FirewallPolicyNatRuleCollection",
   /** FirewallPolicyFilterRuleCollection */
-  FirewallPolicyFilterRuleCollection = "FirewallPolicyFilterRuleCollection"
+  FirewallPolicyFilterRuleCollection = "FirewallPolicyFilterRuleCollection",
 }
 
 /**
@@ -13427,7 +13614,7 @@ export enum KnownFirewallPolicyIdpsQuerySortOrder {
   /** Ascending */
   Ascending = "Ascending",
   /** Descending */
-  Descending = "Descending"
+  Descending = "Descending",
 }
 
 /**
@@ -13445,7 +13632,7 @@ export enum KnownIpAllocationType {
   /** Undefined */
   Undefined = "Undefined",
   /** Hypernet */
-  Hypernet = "Hypernet"
+  Hypernet = "Hypernet",
 }
 
 /**
@@ -13465,7 +13652,7 @@ export enum KnownLoadBalancerSkuName {
   /** Standard */
   Standard = "Standard",
   /** Gateway */
-  Gateway = "Gateway"
+  Gateway = "Gateway",
 }
 
 /**
@@ -13484,7 +13671,7 @@ export enum KnownLoadBalancerSkuTier {
   /** Regional */
   Regional = "Regional",
   /** Global */
-  Global = "Global"
+  Global = "Global",
 }
 
 /**
@@ -13504,7 +13691,7 @@ export enum KnownLoadDistribution {
   /** SourceIP */
   SourceIP = "SourceIP",
   /** SourceIPProtocol */
-  SourceIPProtocol = "SourceIPProtocol"
+  SourceIPProtocol = "SourceIPProtocol",
 }
 
 /**
@@ -13525,7 +13712,7 @@ export enum KnownProbeProtocol {
   /** Tcp */
   Tcp = "Tcp",
   /** Https */
-  Https = "Https"
+  Https = "Https",
 }
 
 /**
@@ -13546,7 +13733,7 @@ export enum KnownLoadBalancerOutboundRuleProtocol {
   /** Udp */
   Udp = "Udp",
   /** All */
-  All = "All"
+  All = "All",
 }
 
 /**
@@ -13569,7 +13756,7 @@ export enum KnownEffectiveRouteSource {
   /** VirtualNetworkGateway */
   VirtualNetworkGateway = "VirtualNetworkGateway",
   /** Default */
-  Default = "Default"
+  Default = "Default",
 }
 
 /**
@@ -13589,7 +13776,7 @@ export enum KnownEffectiveRouteState {
   /** Active */
   Active = "Active",
   /** Invalid */
-  Invalid = "Invalid"
+  Invalid = "Invalid",
 }
 
 /**
@@ -13609,7 +13796,7 @@ export enum KnownEffectiveSecurityRuleProtocol {
   /** Udp */
   Udp = "Udp",
   /** All */
-  All = "All"
+  All = "All",
 }
 
 /**
@@ -13628,7 +13815,7 @@ export enum KnownConfigurationType {
   /** SecurityAdmin */
   SecurityAdmin = "SecurityAdmin",
   /** Connectivity */
-  Connectivity = "Connectivity"
+  Connectivity = "Connectivity",
 }
 
 /**
@@ -13650,7 +13837,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -13674,7 +13861,7 @@ export enum KnownDeploymentStatus {
   /** Deployed */
   Deployed = "Deployed",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -13694,7 +13881,7 @@ export enum KnownConnectivityTopology {
   /** HubAndSpoke */
   HubAndSpoke = "HubAndSpoke",
   /** Mesh */
-  Mesh = "Mesh"
+  Mesh = "Mesh",
 }
 
 /**
@@ -13712,7 +13899,7 @@ export enum KnownIsGlobal {
   /** False */
   False = "False",
   /** True */
-  True = "True"
+  True = "True",
 }
 
 /**
@@ -13730,7 +13917,7 @@ export enum KnownUseHubGateway {
   /** False */
   False = "False",
   /** True */
-  True = "True"
+  True = "True",
 }
 
 /**
@@ -13748,7 +13935,7 @@ export enum KnownGroupConnectivity {
   /** None */
   None = "None",
   /** DirectlyConnected */
-  DirectlyConnected = "DirectlyConnected"
+  DirectlyConnected = "DirectlyConnected",
 }
 
 /**
@@ -13766,7 +13953,7 @@ export enum KnownDeleteExistingPeering {
   /** False */
   False = "False",
   /** True */
-  True = "True"
+  True = "True",
 }
 
 /**
@@ -13784,7 +13971,7 @@ export enum KnownEffectiveAdminRuleKind {
   /** Custom */
   Custom = "Custom",
   /** Default */
-  Default = "Default"
+  Default = "Default",
 }
 
 /**
@@ -13808,7 +13995,7 @@ export enum KnownScopeConnectionState {
   /** Revoked */
   Revoked = "Revoked",
   /** Rejected */
-  Rejected = "Rejected"
+  Rejected = "Rejected",
 }
 
 /**
@@ -13831,7 +14018,7 @@ export enum KnownNetworkIntentPolicyBasedService {
   /** All */
   All = "All",
   /** AllowRulesOnly */
-  AllowRulesOnly = "AllowRulesOnly"
+  AllowRulesOnly = "AllowRulesOnly",
 }
 
 /**
@@ -13850,7 +14037,7 @@ export enum KnownAdminRuleKind {
   /** Custom */
   Custom = "Custom",
   /** Default */
-  Default = "Default"
+  Default = "Default",
 }
 
 /**
@@ -13868,7 +14055,7 @@ export enum KnownInboundSecurityRulesProtocol {
   /** TCP */
   TCP = "TCP",
   /** UDP */
-  UDP = "UDP"
+  UDP = "UDP",
 }
 
 /**
@@ -13886,7 +14073,7 @@ export enum KnownAssociationType {
   /** Associated */
   Associated = "Associated",
   /** Contains */
-  Contains = "Contains"
+  Contains = "Contains",
 }
 
 /**
@@ -13904,7 +14091,7 @@ export enum KnownDirection {
   /** Inbound */
   Inbound = "Inbound",
   /** Outbound */
-  Outbound = "Outbound"
+  Outbound = "Outbound",
 }
 
 /**
@@ -13922,7 +14109,7 @@ export enum KnownIpFlowProtocol {
   /** TCP */
   TCP = "TCP",
   /** UDP */
-  UDP = "UDP"
+  UDP = "UDP",
 }
 
 /**
@@ -13940,7 +14127,7 @@ export enum KnownAccess {
   /** Allow */
   Allow = "Allow",
   /** Deny */
-  Deny = "Deny"
+  Deny = "Deny",
 }
 
 /**
@@ -13966,7 +14153,7 @@ export enum KnownNextHopType {
   /** HyperNetGateway */
   HyperNetGateway = "HyperNetGateway",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -13990,7 +14177,7 @@ export enum KnownPcProtocol {
   /** UDP */
   UDP = "UDP",
   /** Any */
-  Any = "Any"
+  Any = "Any",
 }
 
 /**
@@ -14015,7 +14202,7 @@ export enum KnownPcStatus {
   /** Error */
   Error = "Error",
   /** Unknown */
-  Unknown = "Unknown"
+  Unknown = "Unknown",
 }
 
 /**
@@ -14042,7 +14229,7 @@ export enum KnownPcError {
   /** LocalFileFailed */
   LocalFileFailed = "LocalFileFailed",
   /** StorageFailed */
-  StorageFailed = "StorageFailed"
+  StorageFailed = "StorageFailed",
 }
 
 /**
@@ -14067,7 +14254,7 @@ export enum KnownProtocol {
   /** Https */
   Https = "Https",
   /** Icmp */
-  Icmp = "Icmp"
+  Icmp = "Icmp",
 }
 
 /**
@@ -14085,7 +14272,7 @@ export type Protocol = string;
 /** Known values of {@link HttpMethod} that the service accepts. */
 export enum KnownHttpMethod {
   /** Get */
-  Get = "Get"
+  Get = "Get",
 }
 
 /**
@@ -14104,7 +14291,7 @@ export enum KnownOrigin {
   /** Inbound */
   Inbound = "Inbound",
   /** Outbound */
-  Outbound = "Outbound"
+  Outbound = "Outbound",
 }
 
 /**
@@ -14123,7 +14310,7 @@ export enum KnownSeverity {
   /** Error */
   Error = "Error",
   /** Warning */
-  Warning = "Warning"
+  Warning = "Warning",
 }
 
 /**
@@ -14155,7 +14342,7 @@ export enum KnownIssueType {
   /** PortThrottled */
   PortThrottled = "PortThrottled",
   /** Platform */
-  Platform = "Platform"
+  Platform = "Platform",
 }
 
 /**
@@ -14184,7 +14371,7 @@ export enum KnownConnectionStatus {
   /** Disconnected */
   Disconnected = "Disconnected",
   /** Degraded */
-  Degraded = "Degraded"
+  Degraded = "Degraded",
 }
 
 /**
@@ -14206,7 +14393,7 @@ export enum KnownVerbosityLevel {
   /** Minimum */
   Minimum = "Minimum",
   /** Full */
-  Full = "Full"
+  Full = "Full",
 }
 
 /**
@@ -14237,7 +14424,7 @@ export enum KnownEndpointType {
   /** AzureArcVM */
   AzureArcVM = "AzureArcVM",
   /** AzureVmss */
-  AzureVmss = "AzureVMSS"
+  AzureVmss = "AzureVMSS",
 }
 
 /**
@@ -14259,7 +14446,7 @@ export type EndpointType = string;
 /** Known values of {@link ConnectionMonitorEndpointFilterType} that the service accepts. */
 export enum KnownConnectionMonitorEndpointFilterType {
   /** Include */
-  Include = "Include"
+  Include = "Include",
 }
 
 /**
@@ -14274,7 +14461,7 @@ export type ConnectionMonitorEndpointFilterType = string;
 /** Known values of {@link ConnectionMonitorEndpointFilterItemType} that the service accepts. */
 export enum KnownConnectionMonitorEndpointFilterItemType {
   /** AgentAddress */
-  AgentAddress = "AgentAddress"
+  AgentAddress = "AgentAddress",
 }
 
 /**
@@ -14299,7 +14486,7 @@ export enum KnownCoverageLevel {
   /** AboveAverage */
   AboveAverage = "AboveAverage",
   /** Full */
-  Full = "Full"
+  Full = "Full",
 }
 
 /**
@@ -14323,7 +14510,7 @@ export enum KnownConnectionMonitorTestConfigurationProtocol {
   /** Http */
   Http = "Http",
   /** Icmp */
-  Icmp = "Icmp"
+  Icmp = "Icmp",
 }
 
 /**
@@ -14342,7 +14529,7 @@ export enum KnownPreferredIPVersion {
   /** IPv4 */
   IPv4 = "IPv4",
   /** IPv6 */
-  IPv6 = "IPv6"
+  IPv6 = "IPv6",
 }
 
 /**
@@ -14360,7 +14547,7 @@ export enum KnownHttpConfigurationMethod {
   /** Get */
   Get = "Get",
   /** Post */
-  Post = "Post"
+  Post = "Post",
 }
 
 /**
@@ -14378,7 +14565,7 @@ export enum KnownDestinationPortBehavior {
   /** None */
   None = "None",
   /** ListenIfAvailable */
-  ListenIfAvailable = "ListenIfAvailable"
+  ListenIfAvailable = "ListenIfAvailable",
 }
 
 /**
@@ -14394,7 +14581,7 @@ export type DestinationPortBehavior = string;
 /** Known values of {@link OutputType} that the service accepts. */
 export enum KnownOutputType {
   /** Workspace */
-  Workspace = "Workspace"
+  Workspace = "Workspace",
 }
 
 /**
@@ -14411,7 +14598,7 @@ export enum KnownConnectionMonitorType {
   /** MultiEndpoint */
   MultiEndpoint = "MultiEndpoint",
   /** SingleSourceDestination */
-  SingleSourceDestination = "SingleSourceDestination"
+  SingleSourceDestination = "SingleSourceDestination",
 }
 
 /**
@@ -14431,7 +14618,7 @@ export enum KnownConnectionMonitorSourceStatus {
   /** Active */
   Active = "Active",
   /** Inactive */
-  Inactive = "Inactive"
+  Inactive = "Inactive",
 }
 
 /**
@@ -14452,7 +14639,7 @@ export enum KnownConnectionState {
   /** Unreachable */
   Unreachable = "Unreachable",
   /** Unknown */
-  Unknown = "Unknown"
+  Unknown = "Unknown",
 }
 
 /**
@@ -14473,7 +14660,7 @@ export enum KnownEvaluationState {
   /** InProgress */
   InProgress = "InProgress",
   /** Completed */
-  Completed = "Completed"
+  Completed = "Completed",
 }
 
 /**
@@ -14492,7 +14679,7 @@ export enum KnownIsWorkloadProtected {
   /** False */
   False = "False",
   /** True */
-  True = "True"
+  True = "True",
 }
 
 /**
@@ -14508,7 +14695,7 @@ export type IsWorkloadProtected = string;
 /** Known values of {@link PublicIPPrefixSkuName} that the service accepts. */
 export enum KnownPublicIPPrefixSkuName {
   /** Standard */
-  Standard = "Standard"
+  Standard = "Standard",
 }
 
 /**
@@ -14525,7 +14712,7 @@ export enum KnownPublicIPPrefixSkuTier {
   /** Regional */
   Regional = "Regional",
   /** Global */
-  Global = "Global"
+  Global = "Global",
 }
 
 /**
@@ -14541,7 +14728,7 @@ export type PublicIPPrefixSkuTier = string;
 /** Known values of {@link RouteFilterRuleType} that the service accepts. */
 export enum KnownRouteFilterRuleType {
   /** Community */
-  Community = "Community"
+  Community = "Community",
 }
 
 /**
@@ -14560,7 +14747,7 @@ export enum KnownSecurityProviderName {
   /** IBoss */
   IBoss = "IBoss",
   /** Checkpoint */
-  Checkpoint = "Checkpoint"
+  Checkpoint = "Checkpoint",
 }
 
 /**
@@ -14583,7 +14770,7 @@ export enum KnownSecurityPartnerProviderConnectionStatus {
   /** Connected */
   Connected = "Connected",
   /** NotConnected */
-  NotConnected = "NotConnected"
+  NotConnected = "NotConnected",
 }
 
 /**
@@ -14601,7 +14788,7 @@ export type SecurityPartnerProviderConnectionStatus = string;
 /** Known values of {@link UsageUnit} that the service accepts. */
 export enum KnownUsageUnit {
   /** Count */
-  Count = "Count"
+  Count = "Count",
 }
 
 /**
@@ -14618,7 +14805,7 @@ export enum KnownVirtualNetworkEncryptionEnforcement {
   /** DropUnencrypted */
   DropUnencrypted = "DropUnencrypted",
   /** AllowUnencrypted */
-  AllowUnencrypted = "AllowUnencrypted"
+  AllowUnencrypted = "AllowUnencrypted",
 }
 
 /**
@@ -14638,7 +14825,7 @@ export enum KnownVirtualNetworkPeeringState {
   /** Connected */
   Connected = "Connected",
   /** Disconnected */
-  Disconnected = "Disconnected"
+  Disconnected = "Disconnected",
 }
 
 /**
@@ -14661,7 +14848,7 @@ export enum KnownVirtualNetworkPeeringLevel {
   /** LocalNotInSync */
   LocalNotInSync = "LocalNotInSync",
   /** LocalAndRemoteNotInSync */
-  LocalAndRemoteNotInSync = "LocalAndRemoteNotInSync"
+  LocalAndRemoteNotInSync = "LocalAndRemoteNotInSync",
 }
 
 /**
@@ -14679,7 +14866,7 @@ export type VirtualNetworkPeeringLevel = string;
 /** Known values of {@link SyncRemoteAddressSpace} that the service accepts. */
 export enum KnownSyncRemoteAddressSpace {
   /** True */
-  True = "true"
+  True = "true",
 }
 
 /**
@@ -14698,7 +14885,7 @@ export enum KnownVirtualNetworkGatewayType {
   /** ExpressRoute */
   ExpressRoute = "ExpressRoute",
   /** LocalGateway */
-  LocalGateway = "LocalGateway"
+  LocalGateway = "LocalGateway",
 }
 
 /**
@@ -14717,7 +14904,7 @@ export enum KnownVpnType {
   /** PolicyBased */
   PolicyBased = "PolicyBased",
   /** RouteBased */
-  RouteBased = "RouteBased"
+  RouteBased = "RouteBased",
 }
 
 /**
@@ -14737,7 +14924,7 @@ export enum KnownVpnGatewayGeneration {
   /** Generation1 */
   Generation1 = "Generation1",
   /** Generation2 */
-  Generation2 = "Generation2"
+  Generation2 = "Generation2",
 }
 
 /**
@@ -14786,7 +14973,9 @@ export enum KnownVirtualNetworkGatewaySkuName {
   /** ErGw2AZ */
   ErGw2AZ = "ErGw2AZ",
   /** ErGw3AZ */
-  ErGw3AZ = "ErGw3AZ"
+  ErGw3AZ = "ErGw3AZ",
+  /** ErGwScale */
+  ErGwScale = "ErGwScale",
 }
 
 /**
@@ -14810,7 +14999,8 @@ export enum KnownVirtualNetworkGatewaySkuName {
  * **VpnGw5AZ** \
  * **ErGw1AZ** \
  * **ErGw2AZ** \
- * **ErGw3AZ**
+ * **ErGw3AZ** \
+ * **ErGwScale**
  */
 export type VirtualNetworkGatewaySkuName = string;
 
@@ -14849,7 +15039,9 @@ export enum KnownVirtualNetworkGatewaySkuTier {
   /** ErGw2AZ */
   ErGw2AZ = "ErGw2AZ",
   /** ErGw3AZ */
-  ErGw3AZ = "ErGw3AZ"
+  ErGw3AZ = "ErGw3AZ",
+  /** ErGwScale */
+  ErGwScale = "ErGwScale",
 }
 
 /**
@@ -14873,7 +15065,8 @@ export enum KnownVirtualNetworkGatewaySkuTier {
  * **VpnGw5AZ** \
  * **ErGw1AZ** \
  * **ErGw2AZ** \
- * **ErGw3AZ**
+ * **ErGw3AZ** \
+ * **ErGwScale**
  */
 export type VirtualNetworkGatewaySkuTier = string;
 
@@ -14884,7 +15077,7 @@ export enum KnownVpnClientProtocol {
   /** Sstp */
   Sstp = "SSTP",
   /** OpenVPN */
-  OpenVPN = "OpenVPN"
+  OpenVPN = "OpenVPN",
 }
 
 /**
@@ -14905,7 +15098,7 @@ export enum KnownVpnAuthenticationType {
   /** Radius */
   Radius = "Radius",
   /** AAD */
-  AAD = "AAD"
+  AAD = "AAD",
 }
 
 /**
@@ -14938,7 +15131,7 @@ export enum KnownIpsecEncryption {
   /** Gcmaes192 */
   Gcmaes192 = "GCMAES192",
   /** Gcmaes256 */
-  Gcmaes256 = "GCMAES256"
+  Gcmaes256 = "GCMAES256",
 }
 
 /**
@@ -14971,7 +15164,7 @@ export enum KnownIpsecIntegrity {
   /** Gcmaes192 */
   Gcmaes192 = "GCMAES192",
   /** Gcmaes256 */
-  Gcmaes256 = "GCMAES256"
+  Gcmaes256 = "GCMAES256",
 }
 
 /**
@@ -15003,7 +15196,7 @@ export enum KnownIkeEncryption {
   /** Gcmaes256 */
   Gcmaes256 = "GCMAES256",
   /** Gcmaes128 */
-  Gcmaes128 = "GCMAES128"
+  Gcmaes128 = "GCMAES128",
 }
 
 /**
@@ -15034,7 +15227,7 @@ export enum KnownIkeIntegrity {
   /** Gcmaes256 */
   Gcmaes256 = "GCMAES256",
   /** Gcmaes128 */
-  Gcmaes128 = "GCMAES128"
+  Gcmaes128 = "GCMAES128",
 }
 
 /**
@@ -15068,7 +15261,7 @@ export enum KnownDhGroup {
   /** ECP384 */
   ECP384 = "ECP384",
   /** DHGroup24 */
-  DHGroup24 = "DHGroup24"
+  DHGroup24 = "DHGroup24",
 }
 
 /**
@@ -15106,7 +15299,7 @@ export enum KnownPfsGroup {
   /** PFS14 */
   PFS14 = "PFS14",
   /** Pfsmm */
-  Pfsmm = "PFSMM"
+  Pfsmm = "PFSMM",
 }
 
 /**
@@ -15133,7 +15326,7 @@ export enum KnownVpnPolicyMemberAttributeType {
   /** AADGroupId */
   AADGroupId = "AADGroupId",
   /** RadiusAzureGroupId */
-  RadiusAzureGroupId = "RadiusAzureGroupId"
+  RadiusAzureGroupId = "RadiusAzureGroupId",
 }
 
 /**
@@ -15152,7 +15345,7 @@ export enum KnownVpnNatRuleType {
   /** Static */
   Static = "Static",
   /** Dynamic */
-  Dynamic = "Dynamic"
+  Dynamic = "Dynamic",
 }
 
 /**
@@ -15170,7 +15363,7 @@ export enum KnownVpnNatRuleMode {
   /** EgressSnat */
   EgressSnat = "EgressSnat",
   /** IngressSnat */
-  IngressSnat = "IngressSnat"
+  IngressSnat = "IngressSnat",
 }
 
 /**
@@ -15183,6 +15376,24 @@ export enum KnownVpnNatRuleMode {
  */
 export type VpnNatRuleMode = string;
 
+/** Known values of {@link AdminState} that the service accepts. */
+export enum KnownAdminState {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for AdminState. \
+ * {@link KnownAdminState} can be used interchangeably with AdminState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type AdminState = string;
+
 /** Known values of {@link VirtualNetworkGatewayConnectionType} that the service accepts. */
 export enum KnownVirtualNetworkGatewayConnectionType {
   /** IPsec */
@@ -15192,7 +15403,7 @@ export enum KnownVirtualNetworkGatewayConnectionType {
   /** ExpressRoute */
   ExpressRoute = "ExpressRoute",
   /** VPNClient */
-  VPNClient = "VPNClient"
+  VPNClient = "VPNClient",
 }
 
 /**
@@ -15212,7 +15423,7 @@ export enum KnownVirtualNetworkGatewayConnectionProtocol {
   /** IKEv2 */
   IKEv2 = "IKEv2",
   /** IKEv1 */
-  IKEv1 = "IKEv1"
+  IKEv1 = "IKEv1",
 }
 
 /**
@@ -15232,7 +15443,7 @@ export enum KnownVirtualNetworkGatewayConnectionMode {
   /** ResponderOnly */
   ResponderOnly = "ResponderOnly",
   /** InitiatorOnly */
-  InitiatorOnly = "InitiatorOnly"
+  InitiatorOnly = "InitiatorOnly",
 }
 
 /**
@@ -15255,7 +15466,7 @@ export enum KnownVirtualNetworkGatewayConnectionStatus {
   /** Connected */
   Connected = "Connected",
   /** NotConnected */
-  NotConnected = "NotConnected"
+  NotConnected = "NotConnected",
 }
 
 /**
@@ -15275,7 +15486,7 @@ export enum KnownProcessorArchitecture {
   /** Amd64 */
   Amd64 = "Amd64",
   /** X86 */
-  X86 = "X86"
+  X86 = "X86",
 }
 
 /**
@@ -15293,7 +15504,7 @@ export enum KnownAuthenticationMethod {
   /** Eaptls */
   Eaptls = "EAPTLS",
   /** EapmschaPv2 */
-  EapmschaPv2 = "EAPMSCHAPv2"
+  EapmschaPv2 = "EAPMSCHAPv2",
 }
 
 /**
@@ -15317,7 +15528,7 @@ export enum KnownBgpPeerState {
   /** Connecting */
   Connecting = "Connecting",
   /** Connected */
-  Connected = "Connected"
+  Connected = "Connected",
 }
 
 /**
@@ -15342,7 +15553,7 @@ export enum KnownOfficeTrafficCategory {
   /** All */
   All = "All",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -15362,7 +15573,7 @@ export enum KnownVirtualWanSecurityProviderType {
   /** External */
   External = "External",
   /** Native */
-  Native = "Native"
+  Native = "Native",
 }
 
 /**
@@ -15380,7 +15591,7 @@ export enum KnownVpnGatewayTunnelingProtocol {
   /** IkeV2 */
   IkeV2 = "IkeV2",
   /** OpenVPN */
-  OpenVPN = "OpenVPN"
+  OpenVPN = "OpenVPN",
 }
 
 /**
@@ -15398,7 +15609,7 @@ export enum KnownVnetLocalRouteOverrideCriteria {
   /** Contains */
   Contains = "Contains",
   /** Equal */
-  Equal = "Equal"
+  Equal = "Equal",
 }
 
 /**
@@ -15420,7 +15631,7 @@ export enum KnownRoutingState {
   /** Provisioning */
   Provisioning = "Provisioning",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -15442,7 +15653,7 @@ export enum KnownPreferredRoutingGateway {
   /** VpnGateway */
   VpnGateway = "VpnGateway",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -15463,7 +15674,7 @@ export enum KnownHubRoutingPreference {
   /** VpnGateway */
   VpnGateway = "VpnGateway",
   /** ASPath */
-  ASPath = "ASPath"
+  ASPath = "ASPath",
 }
 
 /**
@@ -15488,7 +15699,7 @@ export enum KnownRouteMapMatchCondition {
   /** NotContains */
   NotContains = "NotContains",
   /** NotEquals */
-  NotEquals = "NotEquals"
+  NotEquals = "NotEquals",
 }
 
 /**
@@ -15515,7 +15726,7 @@ export enum KnownRouteMapActionType {
   /** Replace */
   Replace = "Replace",
   /** Drop */
-  Drop = "Drop"
+  Drop = "Drop",
 }
 
 /**
@@ -15538,7 +15749,7 @@ export enum KnownNextStep {
   /** Continue */
   Continue = "Continue",
   /** Terminate */
-  Terminate = "Terminate"
+  Terminate = "Terminate",
 }
 
 /**
@@ -15561,7 +15772,7 @@ export enum KnownVpnConnectionStatus {
   /** Connected */
   Connected = "Connected",
   /** NotConnected */
-  NotConnected = "NotConnected"
+  NotConnected = "NotConnected",
 }
 
 /**
@@ -15583,7 +15794,7 @@ export enum KnownVpnLinkConnectionMode {
   /** ResponderOnly */
   ResponderOnly = "ResponderOnly",
   /** InitiatorOnly */
-  InitiatorOnly = "InitiatorOnly"
+  InitiatorOnly = "InitiatorOnly",
 }
 
 /**
@@ -15606,7 +15817,7 @@ export enum KnownHubBgpConnectionStatus {
   /** Connected */
   Connected = "Connected",
   /** NotConnected */
-  NotConnected = "NotConnected"
+  NotConnected = "NotConnected",
 }
 
 /**
@@ -15626,7 +15837,7 @@ export enum KnownWebApplicationFirewallEnabledState {
   /** Disabled */
   Disabled = "Disabled",
   /** Enabled */
-  Enabled = "Enabled"
+  Enabled = "Enabled",
 }
 
 /**
@@ -15644,7 +15855,7 @@ export enum KnownWebApplicationFirewallMode {
   /** Prevention */
   Prevention = "Prevention",
   /** Detection */
-  Detection = "Detection"
+  Detection = "Detection",
 }
 
 /**
@@ -15662,7 +15873,7 @@ export enum KnownWebApplicationFirewallScrubbingState {
   /** Disabled */
   Disabled = "Disabled",
   /** Enabled */
-  Enabled = "Enabled"
+  Enabled = "Enabled",
 }
 
 /**
@@ -15688,7 +15899,7 @@ export enum KnownScrubbingRuleEntryMatchVariable {
   /** RequestJsonArgNames */
   RequestJsonArgNames = "RequestJSONArgNames",
   /** RequestIPAddress */
-  RequestIPAddress = "RequestIPAddress"
+  RequestIPAddress = "RequestIPAddress",
 }
 
 /**
@@ -15710,7 +15921,7 @@ export enum KnownScrubbingRuleEntryMatchOperator {
   /** Equals */
   Equals = "Equals",
   /** EqualsAny */
-  EqualsAny = "EqualsAny"
+  EqualsAny = "EqualsAny",
 }
 
 /**
@@ -15728,7 +15939,7 @@ export enum KnownScrubbingRuleEntryState {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -15746,7 +15957,7 @@ export enum KnownWebApplicationFirewallState {
   /** Disabled */
   Disabled = "Disabled",
   /** Enabled */
-  Enabled = "Enabled"
+  Enabled = "Enabled",
 }
 
 /**
@@ -15764,7 +15975,7 @@ export enum KnownApplicationGatewayFirewallRateLimitDuration {
   /** OneMin */
   OneMin = "OneMin",
   /** FiveMins */
-  FiveMins = "FiveMins"
+  FiveMins = "FiveMins",
 }
 
 /**
@@ -15784,7 +15995,7 @@ export enum KnownWebApplicationFirewallRuleType {
   /** RateLimitRule */
   RateLimitRule = "RateLimitRule",
   /** Invalid */
-  Invalid = "Invalid"
+  Invalid = "Invalid",
 }
 
 /**
@@ -15815,7 +16026,7 @@ export enum KnownWebApplicationFirewallMatchVariable {
   /** RequestBody */
   RequestBody = "RequestBody",
   /** RequestCookies */
-  RequestCookies = "RequestCookies"
+  RequestCookies = "RequestCookies",
 }
 
 /**
@@ -15859,7 +16070,7 @@ export enum KnownWebApplicationFirewallOperator {
   /** GeoMatch */
   GeoMatch = "GeoMatch",
   /** Any */
-  Any = "Any"
+  Any = "Any",
 }
 
 /**
@@ -15897,7 +16108,7 @@ export enum KnownWebApplicationFirewallTransform {
   /** RemoveNulls */
   RemoveNulls = "RemoveNulls",
   /** HtmlEntityDecode */
-  HtmlEntityDecode = "HtmlEntityDecode"
+  HtmlEntityDecode = "HtmlEntityDecode",
 }
 
 /**
@@ -15922,7 +16133,7 @@ export enum KnownApplicationGatewayFirewallUserSessionVariable {
   /** GeoLocation */
   GeoLocation = "GeoLocation",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -15943,7 +16154,9 @@ export enum KnownWebApplicationFirewallAction {
   /** Block */
   Block = "Block",
   /** Log */
-  Log = "Log"
+  Log = "Log",
+  /** JSChallenge */
+  JSChallenge = "JSChallenge",
 }
 
 /**
@@ -15953,7 +16166,8 @@ export enum KnownWebApplicationFirewallAction {
  * ### Known values supported by the service
  * **Allow** \
  * **Block** \
- * **Log**
+ * **Log** \
+ * **JSChallenge**
  */
 export type WebApplicationFirewallAction = string;
 
@@ -15970,7 +16184,7 @@ export enum KnownWebApplicationFirewallPolicyResourceState {
   /** Disabled */
   Disabled = "Disabled",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -16006,7 +16220,7 @@ export enum KnownOwaspCrsExclusionEntryMatchVariable {
   /** RequestArgKeys */
   RequestArgKeys = "RequestArgKeys",
   /** RequestArgValues */
-  RequestArgValues = "RequestArgValues"
+  RequestArgValues = "RequestArgValues",
 }
 
 /**
@@ -16037,7 +16251,7 @@ export enum KnownOwaspCrsExclusionEntrySelectorMatchOperator {
   /** EndsWith */
   EndsWith = "EndsWith",
   /** EqualsAny */
-  EqualsAny = "EqualsAny"
+  EqualsAny = "EqualsAny",
 }
 
 /**
@@ -16058,7 +16272,7 @@ export enum KnownManagedRuleEnabledState {
   /** Disabled */
   Disabled = "Disabled",
   /** Enabled */
-  Enabled = "Enabled"
+  Enabled = "Enabled",
 }
 
 /**
@@ -16080,7 +16294,9 @@ export enum KnownActionType {
   /** Block */
   Block = "Block",
   /** Log */
-  Log = "Log"
+  Log = "Log",
+  /** JSChallenge */
+  JSChallenge = "JSChallenge",
 }
 
 /**
@@ -16091,14 +16307,15 @@ export enum KnownActionType {
  * **AnomalyScoring** \
  * **Allow** \
  * **Block** \
- * **Log**
+ * **Log** \
+ * **JSChallenge**
  */
 export type ActionType = string;
 
 /** Known values of {@link FirewallPolicyNatRuleCollectionActionType} that the service accepts. */
 export enum KnownFirewallPolicyNatRuleCollectionActionType {
   /** Dnat */
-  Dnat = "DNAT"
+  Dnat = "DNAT",
 }
 
 /**
@@ -16117,7 +16334,7 @@ export enum KnownFirewallPolicyRuleType {
   /** NetworkRule */
   NetworkRule = "NetworkRule",
   /** NatRule */
-  NatRule = "NatRule"
+  NatRule = "NatRule",
 }
 
 /**
@@ -16136,7 +16353,7 @@ export enum KnownFirewallPolicyFilterRuleCollectionActionType {
   /** Allow */
   Allow = "Allow",
   /** Deny */
-  Deny = "Deny"
+  Deny = "Deny",
 }
 
 /**
@@ -16154,7 +16371,7 @@ export enum KnownFirewallPolicyRuleApplicationProtocolType {
   /** Http */
   Http = "Http",
   /** Https */
-  Https = "Https"
+  Https = "Https",
 }
 
 /**
@@ -16176,7 +16393,7 @@ export enum KnownFirewallPolicyRuleNetworkProtocol {
   /** Any */
   Any = "Any",
   /** Icmp */
-  Icmp = "ICMP"
+  Icmp = "ICMP",
 }
 
 /**
@@ -16198,7 +16415,7 @@ export enum KnownNetworkOperationStatus {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -16225,7 +16442,7 @@ export enum KnownSecurityConfigurationRuleProtocol {
   /** Any */
   Any = "Any",
   /** Ah */
-  Ah = "Ah"
+  Ah = "Ah",
 }
 
 /**
@@ -16247,7 +16464,7 @@ export enum KnownAddressPrefixType {
   /** IPPrefix */
   IPPrefix = "IPPrefix",
   /** ServiceTag */
-  ServiceTag = "ServiceTag"
+  ServiceTag = "ServiceTag",
 }
 
 /**
@@ -16267,7 +16484,7 @@ export enum KnownSecurityConfigurationRuleAccess {
   /** Deny */
   Deny = "Deny",
   /** AlwaysAllow */
-  AlwaysAllow = "AlwaysAllow"
+  AlwaysAllow = "AlwaysAllow",
 }
 
 /**
@@ -16286,7 +16503,7 @@ export enum KnownSecurityConfigurationRuleDirection {
   /** Inbound */
   Inbound = "Inbound",
   /** Outbound */
-  Outbound = "Outbound"
+  Outbound = "Outbound",
 }
 
 /**
@@ -16308,7 +16525,7 @@ export enum KnownTunnelConnectionStatus {
   /** Connected */
   Connected = "Connected",
   /** NotConnected */
-  NotConnected = "NotConnected"
+  NotConnected = "NotConnected",
 }
 
 /**
@@ -16332,7 +16549,7 @@ export enum KnownHubVirtualNetworkConnectionStatus {
   /** Connected */
   Connected = "Connected",
   /** NotConnected */
-  NotConnected = "NotConnected"
+  NotConnected = "NotConnected",
 }
 
 /**
@@ -16365,7 +16582,7 @@ export type FirewallPolicyIdpsSignatureMode = 0 | 1 | 2;
 /** Defines values for FirewallPolicyIdpsSignatureSeverity. */
 export type FirewallPolicyIdpsSignatureSeverity = 1 | 2 | 3;
 /** Defines values for FirewallPolicyIdpsSignatureDirection. */
-export type FirewallPolicyIdpsSignatureDirection = 0 | 1 | 2;
+export type FirewallPolicyIdpsSignatureDirection = 0 | 1 | 2 | 3 | 4;
 /** Defines values for PacketCaptureTargetType. */
 export type PacketCaptureTargetType = "AzureVM" | "AzureVMSS";
 
@@ -16448,7 +16665,8 @@ export interface ApplicationGatewaysBackendHealthOptionalParams
 }
 
 /** Contains response data for the backendHealth operation. */
-export type ApplicationGatewaysBackendHealthResponse = ApplicationGatewayBackendHealth;
+export type ApplicationGatewaysBackendHealthResponse =
+  ApplicationGatewayBackendHealth;
 
 /** Optional parameters. */
 export interface ApplicationGatewaysBackendHealthOnDemandOptionalParams
@@ -16462,7 +16680,8 @@ export interface ApplicationGatewaysBackendHealthOnDemandOptionalParams
 }
 
 /** Contains response data for the backendHealthOnDemand operation. */
-export type ApplicationGatewaysBackendHealthOnDemandResponse = ApplicationGatewayBackendHealthOnDemand;
+export type ApplicationGatewaysBackendHealthOnDemandResponse =
+  ApplicationGatewayBackendHealthOnDemand;
 
 /** Optional parameters. */
 export interface ApplicationGatewaysListAvailableServerVariablesOptionalParams
@@ -16499,28 +16718,32 @@ export interface ApplicationGatewaysListAvailableWafRuleSetsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAvailableWafRuleSets operation. */
-export type ApplicationGatewaysListAvailableWafRuleSetsResponse = ApplicationGatewayAvailableWafRuleSetsResult;
+export type ApplicationGatewaysListAvailableWafRuleSetsResponse =
+  ApplicationGatewayAvailableWafRuleSetsResult;
 
 /** Optional parameters. */
 export interface ApplicationGatewaysListAvailableSslOptionsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAvailableSslOptions operation. */
-export type ApplicationGatewaysListAvailableSslOptionsResponse = ApplicationGatewayAvailableSslOptions;
+export type ApplicationGatewaysListAvailableSslOptionsResponse =
+  ApplicationGatewayAvailableSslOptions;
 
 /** Optional parameters. */
 export interface ApplicationGatewaysListAvailableSslPredefinedPoliciesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAvailableSslPredefinedPolicies operation. */
-export type ApplicationGatewaysListAvailableSslPredefinedPoliciesResponse = ApplicationGatewayAvailableSslPredefinedPolicies;
+export type ApplicationGatewaysListAvailableSslPredefinedPoliciesResponse =
+  ApplicationGatewayAvailableSslPredefinedPolicies;
 
 /** Optional parameters. */
 export interface ApplicationGatewaysGetSslPredefinedPolicyOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSslPredefinedPolicy operation. */
-export type ApplicationGatewaysGetSslPredefinedPolicyResponse = ApplicationGatewaySslPredefinedPolicy;
+export type ApplicationGatewaysGetSslPredefinedPolicyResponse =
+  ApplicationGatewaySslPredefinedPolicy;
 
 /** Optional parameters. */
 export interface ApplicationGatewaysListNextOptionalParams
@@ -16534,28 +16757,32 @@ export interface ApplicationGatewaysListAllNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAllNext operation. */
-export type ApplicationGatewaysListAllNextResponse = ApplicationGatewayListResult;
+export type ApplicationGatewaysListAllNextResponse =
+  ApplicationGatewayListResult;
 
 /** Optional parameters. */
 export interface ApplicationGatewaysListAvailableSslPredefinedPoliciesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAvailableSslPredefinedPoliciesNext operation. */
-export type ApplicationGatewaysListAvailableSslPredefinedPoliciesNextResponse = ApplicationGatewayAvailableSslPredefinedPolicies;
+export type ApplicationGatewaysListAvailableSslPredefinedPoliciesNextResponse =
+  ApplicationGatewayAvailableSslPredefinedPolicies;
 
 /** Optional parameters. */
 export interface ApplicationGatewayPrivateLinkResourcesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ApplicationGatewayPrivateLinkResourcesListResponse = ApplicationGatewayPrivateLinkResourceListResult;
+export type ApplicationGatewayPrivateLinkResourcesListResponse =
+  ApplicationGatewayPrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface ApplicationGatewayPrivateLinkResourcesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ApplicationGatewayPrivateLinkResourcesListNextResponse = ApplicationGatewayPrivateLinkResourceListResult;
+export type ApplicationGatewayPrivateLinkResourcesListNextResponse =
+  ApplicationGatewayPrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface ApplicationGatewayPrivateEndpointConnectionsDeleteOptionalParams
@@ -16576,49 +16803,56 @@ export interface ApplicationGatewayPrivateEndpointConnectionsUpdateOptionalParam
 }
 
 /** Contains response data for the update operation. */
-export type ApplicationGatewayPrivateEndpointConnectionsUpdateResponse = ApplicationGatewayPrivateEndpointConnection;
+export type ApplicationGatewayPrivateEndpointConnectionsUpdateResponse =
+  ApplicationGatewayPrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface ApplicationGatewayPrivateEndpointConnectionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ApplicationGatewayPrivateEndpointConnectionsGetResponse = ApplicationGatewayPrivateEndpointConnection;
+export type ApplicationGatewayPrivateEndpointConnectionsGetResponse =
+  ApplicationGatewayPrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface ApplicationGatewayPrivateEndpointConnectionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ApplicationGatewayPrivateEndpointConnectionsListResponse = ApplicationGatewayPrivateEndpointConnectionListResult;
+export type ApplicationGatewayPrivateEndpointConnectionsListResponse =
+  ApplicationGatewayPrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface ApplicationGatewayPrivateEndpointConnectionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ApplicationGatewayPrivateEndpointConnectionsListNextResponse = ApplicationGatewayPrivateEndpointConnectionListResult;
+export type ApplicationGatewayPrivateEndpointConnectionsListNextResponse =
+  ApplicationGatewayPrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface ApplicationGatewayWafDynamicManifestsDefaultGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ApplicationGatewayWafDynamicManifestsDefaultGetResponse = ApplicationGatewayWafDynamicManifestResult;
+export type ApplicationGatewayWafDynamicManifestsDefaultGetResponse =
+  ApplicationGatewayWafDynamicManifestResult;
 
 /** Optional parameters. */
 export interface ApplicationGatewayWafDynamicManifestsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ApplicationGatewayWafDynamicManifestsGetResponse = ApplicationGatewayWafDynamicManifestResultList;
+export type ApplicationGatewayWafDynamicManifestsGetResponse =
+  ApplicationGatewayWafDynamicManifestResultList;
 
 /** Optional parameters. */
 export interface ApplicationGatewayWafDynamicManifestsGetNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getNext operation. */
-export type ApplicationGatewayWafDynamicManifestsGetNextResponse = ApplicationGatewayWafDynamicManifestResultList;
+export type ApplicationGatewayWafDynamicManifestsGetNextResponse =
+  ApplicationGatewayWafDynamicManifestResultList;
 
 /** Optional parameters. */
 export interface ApplicationSecurityGroupsDeleteOptionalParams
@@ -16646,42 +16880,48 @@ export interface ApplicationSecurityGroupsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ApplicationSecurityGroupsCreateOrUpdateResponse = ApplicationSecurityGroup;
+export type ApplicationSecurityGroupsCreateOrUpdateResponse =
+  ApplicationSecurityGroup;
 
 /** Optional parameters. */
 export interface ApplicationSecurityGroupsUpdateTagsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateTags operation. */
-export type ApplicationSecurityGroupsUpdateTagsResponse = ApplicationSecurityGroup;
+export type ApplicationSecurityGroupsUpdateTagsResponse =
+  ApplicationSecurityGroup;
 
 /** Optional parameters. */
 export interface ApplicationSecurityGroupsListAllOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAll operation. */
-export type ApplicationSecurityGroupsListAllResponse = ApplicationSecurityGroupListResult;
+export type ApplicationSecurityGroupsListAllResponse =
+  ApplicationSecurityGroupListResult;
 
 /** Optional parameters. */
 export interface ApplicationSecurityGroupsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ApplicationSecurityGroupsListResponse = ApplicationSecurityGroupListResult;
+export type ApplicationSecurityGroupsListResponse =
+  ApplicationSecurityGroupListResult;
 
 /** Optional parameters. */
 export interface ApplicationSecurityGroupsListAllNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAllNext operation. */
-export type ApplicationSecurityGroupsListAllNextResponse = ApplicationSecurityGroupListResult;
+export type ApplicationSecurityGroupsListAllNextResponse =
+  ApplicationSecurityGroupListResult;
 
 /** Optional parameters. */
 export interface ApplicationSecurityGroupsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ApplicationSecurityGroupsListNextResponse = ApplicationSecurityGroupListResult;
+export type ApplicationSecurityGroupsListNextResponse =
+  ApplicationSecurityGroupListResult;
 
 /** Optional parameters. */
 export interface AvailableDelegationsListOptionalParams
@@ -16702,14 +16942,16 @@ export interface AvailableResourceGroupDelegationsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type AvailableResourceGroupDelegationsListResponse = AvailableDelegationsResult;
+export type AvailableResourceGroupDelegationsListResponse =
+  AvailableDelegationsResult;
 
 /** Optional parameters. */
 export interface AvailableResourceGroupDelegationsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type AvailableResourceGroupDelegationsListNextResponse = AvailableDelegationsResult;
+export type AvailableResourceGroupDelegationsListNextResponse =
+  AvailableDelegationsResult;
 
 /** Optional parameters. */
 export interface AvailableServiceAliasesListOptionalParams
@@ -16723,21 +16965,24 @@ export interface AvailableServiceAliasesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type AvailableServiceAliasesListByResourceGroupResponse = AvailableServiceAliasesResult;
+export type AvailableServiceAliasesListByResourceGroupResponse =
+  AvailableServiceAliasesResult;
 
 /** Optional parameters. */
 export interface AvailableServiceAliasesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type AvailableServiceAliasesListNextResponse = AvailableServiceAliasesResult;
+export type AvailableServiceAliasesListNextResponse =
+  AvailableServiceAliasesResult;
 
 /** Optional parameters. */
 export interface AvailableServiceAliasesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type AvailableServiceAliasesListByResourceGroupNextResponse = AvailableServiceAliasesResult;
+export type AvailableServiceAliasesListByResourceGroupNextResponse =
+  AvailableServiceAliasesResult;
 
 /** Optional parameters. */
 export interface AzureFirewallsDeleteOptionalParams
@@ -16815,7 +17060,8 @@ export interface AzureFirewallsPacketCaptureOptionalParams
 }
 
 /** Contains response data for the packetCapture operation. */
-export type AzureFirewallsPacketCaptureResponse = AzureFirewallsPacketCaptureHeaders;
+export type AzureFirewallsPacketCaptureResponse =
+  AzureFirewallsPacketCaptureHeaders;
 
 /** Optional parameters. */
 export interface AzureFirewallsListNextOptionalParams
@@ -16836,14 +17082,16 @@ export interface AzureFirewallFqdnTagsListAllOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAll operation. */
-export type AzureFirewallFqdnTagsListAllResponse = AzureFirewallFqdnTagListResult;
+export type AzureFirewallFqdnTagsListAllResponse =
+  AzureFirewallFqdnTagListResult;
 
 /** Optional parameters. */
 export interface AzureFirewallFqdnTagsListAllNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAllNext operation. */
-export type AzureFirewallFqdnTagsListAllNextResponse = AzureFirewallFqdnTagListResult;
+export type AzureFirewallFqdnTagsListAllNextResponse =
+  AzureFirewallFqdnTagListResult;
 
 /** Optional parameters. */
 export interface WebCategoriesGetOptionalParams
@@ -16860,14 +17108,16 @@ export interface WebCategoriesListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type WebCategoriesListBySubscriptionResponse = AzureWebCategoryListResult;
+export type WebCategoriesListBySubscriptionResponse =
+  AzureWebCategoryListResult;
 
 /** Optional parameters. */
 export interface WebCategoriesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type WebCategoriesListBySubscriptionNextResponse = AzureWebCategoryListResult;
+export type WebCategoriesListBySubscriptionNextResponse =
+  AzureWebCategoryListResult;
 
 /** Optional parameters. */
 export interface BastionHostsDeleteOptionalParams
@@ -16959,6 +17209,19 @@ export interface DeleteBastionShareableLinkOptionalParams
 }
 
 /** Optional parameters. */
+export interface DeleteBastionShareableLinkByTokenOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the deleteBastionShareableLinkByToken operation. */
+export type DeleteBastionShareableLinkByTokenResponse =
+  NetworkManagementClientDeleteBastionShareableLinkByTokenHeaders;
+
+/** Optional parameters. */
 export interface GetBastionShareableLinkOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -17006,7 +17269,8 @@ export interface ListActiveConnectivityConfigurationsOptionalParams
 }
 
 /** Contains response data for the listActiveConnectivityConfigurations operation. */
-export type ListActiveConnectivityConfigurationsResponse = ActiveConnectivityConfigurationsListResult;
+export type ListActiveConnectivityConfigurationsResponse =
+  ActiveConnectivityConfigurationsListResult;
 
 /** Optional parameters. */
 export interface ListActiveSecurityAdminRulesOptionalParams
@@ -17016,7 +17280,8 @@ export interface ListActiveSecurityAdminRulesOptionalParams
 }
 
 /** Contains response data for the listActiveSecurityAdminRules operation. */
-export type ListActiveSecurityAdminRulesResponse = ActiveSecurityAdminRulesListResult;
+export type ListActiveSecurityAdminRulesResponse =
+  ActiveSecurityAdminRulesListResult;
 
 /** Optional parameters. */
 export interface ListNetworkManagerEffectiveConnectivityConfigurationsOptionalParams
@@ -17026,7 +17291,8 @@ export interface ListNetworkManagerEffectiveConnectivityConfigurationsOptionalPa
 }
 
 /** Contains response data for the listNetworkManagerEffectiveConnectivityConfigurations operation. */
-export type ListNetworkManagerEffectiveConnectivityConfigurationsResponse = NetworkManagerEffectiveConnectivityConfigurationListResult;
+export type ListNetworkManagerEffectiveConnectivityConfigurationsResponse =
+  NetworkManagerEffectiveConnectivityConfigurationListResult;
 
 /** Optional parameters. */
 export interface ListNetworkManagerEffectiveSecurityAdminRulesOptionalParams
@@ -17036,7 +17302,8 @@ export interface ListNetworkManagerEffectiveSecurityAdminRulesOptionalParams
 }
 
 /** Contains response data for the listNetworkManagerEffectiveSecurityAdminRules operation. */
-export type ListNetworkManagerEffectiveSecurityAdminRulesResponse = NetworkManagerEffectiveSecurityAdminRulesListResult;
+export type ListNetworkManagerEffectiveSecurityAdminRulesResponse =
+  NetworkManagerEffectiveSecurityAdminRulesListResult;
 
 /** Optional parameters. */
 export interface SupportedSecurityProvidersOptionalParams
@@ -17055,21 +17322,24 @@ export interface GeneratevirtualwanvpnserverconfigurationvpnprofileOptionalParam
 }
 
 /** Contains response data for the generatevirtualwanvpnserverconfigurationvpnprofile operation. */
-export type GeneratevirtualwanvpnserverconfigurationvpnprofileResponse = VpnProfileResponse;
+export type GeneratevirtualwanvpnserverconfigurationvpnprofileResponse =
+  VpnProfileResponse;
 
 /** Optional parameters. */
 export interface PutBastionShareableLinkNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the putBastionShareableLinkNext operation. */
-export type PutBastionShareableLinkNextResponse = BastionShareableLinkListResult;
+export type PutBastionShareableLinkNextResponse =
+  BastionShareableLinkListResult;
 
 /** Optional parameters. */
 export interface GetBastionShareableLinkNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getBastionShareableLinkNext operation. */
-export type GetBastionShareableLinkNextResponse = BastionShareableLinkListResult;
+export type GetBastionShareableLinkNextResponse =
+  BastionShareableLinkListResult;
 
 /** Optional parameters. */
 export interface GetActiveSessionsNextOptionalParams
@@ -17090,14 +17360,16 @@ export interface NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesO
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listCloudServiceRoleInstanceNetworkInterfaces operation. */
-export type NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesResponse = NetworkInterfaceListResult;
+export type NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesResponse =
+  NetworkInterfaceListResult;
 
 /** Optional parameters. */
 export interface NetworkInterfacesListCloudServiceNetworkInterfacesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listCloudServiceNetworkInterfaces operation. */
-export type NetworkInterfacesListCloudServiceNetworkInterfacesResponse = NetworkInterfaceListResult;
+export type NetworkInterfacesListCloudServiceNetworkInterfacesResponse =
+  NetworkInterfaceListResult;
 
 /** Optional parameters. */
 export interface NetworkInterfacesGetCloudServiceNetworkInterfaceOptionalParams
@@ -17107,7 +17379,8 @@ export interface NetworkInterfacesGetCloudServiceNetworkInterfaceOptionalParams
 }
 
 /** Contains response data for the getCloudServiceNetworkInterface operation. */
-export type NetworkInterfacesGetCloudServiceNetworkInterfaceResponse = NetworkInterface;
+export type NetworkInterfacesGetCloudServiceNetworkInterfaceResponse =
+  NetworkInterface;
 
 /** Optional parameters. */
 export interface NetworkInterfacesDeleteOptionalParams
@@ -17171,7 +17444,8 @@ export interface NetworkInterfacesGetEffectiveRouteTableOptionalParams
 }
 
 /** Contains response data for the getEffectiveRouteTable operation. */
-export type NetworkInterfacesGetEffectiveRouteTableResponse = EffectiveRouteListResult;
+export type NetworkInterfacesGetEffectiveRouteTableResponse =
+  EffectiveRouteListResult;
 
 /** Optional parameters. */
 export interface NetworkInterfacesListEffectiveNetworkSecurityGroupsOptionalParams
@@ -17183,21 +17457,24 @@ export interface NetworkInterfacesListEffectiveNetworkSecurityGroupsOptionalPara
 }
 
 /** Contains response data for the listEffectiveNetworkSecurityGroups operation. */
-export type NetworkInterfacesListEffectiveNetworkSecurityGroupsResponse = EffectiveNetworkSecurityGroupListResult;
+export type NetworkInterfacesListEffectiveNetworkSecurityGroupsResponse =
+  EffectiveNetworkSecurityGroupListResult;
 
 /** Optional parameters. */
 export interface NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listVirtualMachineScaleSetVMNetworkInterfaces operation. */
-export type NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesResponse = NetworkInterfaceListResult;
+export type NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesResponse =
+  NetworkInterfaceListResult;
 
 /** Optional parameters. */
 export interface NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listVirtualMachineScaleSetNetworkInterfaces operation. */
-export type NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesResponse = NetworkInterfaceListResult;
+export type NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesResponse =
+  NetworkInterfaceListResult;
 
 /** Optional parameters. */
 export interface NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceOptionalParams
@@ -17207,7 +17484,8 @@ export interface NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceOptio
 }
 
 /** Contains response data for the getVirtualMachineScaleSetNetworkInterface operation. */
-export type NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceResponse = NetworkInterface;
+export type NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceResponse =
+  NetworkInterface;
 
 /** Optional parameters. */
 export interface NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsOptionalParams
@@ -17217,7 +17495,8 @@ export interface NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsOpti
 }
 
 /** Contains response data for the listVirtualMachineScaleSetIpConfigurations operation. */
-export type NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsResponse = NetworkInterfaceIPConfigurationListResult;
+export type NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsResponse =
+  NetworkInterfaceIPConfigurationListResult;
 
 /** Optional parameters. */
 export interface NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationOptionalParams
@@ -17227,21 +17506,24 @@ export interface NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationOption
 }
 
 /** Contains response data for the getVirtualMachineScaleSetIpConfiguration operation. */
-export type NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationResponse = NetworkInterfaceIPConfiguration;
+export type NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationResponse =
+  NetworkInterfaceIPConfiguration;
 
 /** Optional parameters. */
 export interface NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listCloudServiceRoleInstanceNetworkInterfacesNext operation. */
-export type NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesNextResponse = NetworkInterfaceListResult;
+export type NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesNextResponse =
+  NetworkInterfaceListResult;
 
 /** Optional parameters. */
 export interface NetworkInterfacesListCloudServiceNetworkInterfacesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listCloudServiceNetworkInterfacesNext operation. */
-export type NetworkInterfacesListCloudServiceNetworkInterfacesNextResponse = NetworkInterfaceListResult;
+export type NetworkInterfacesListCloudServiceNetworkInterfacesNextResponse =
+  NetworkInterfaceListResult;
 
 /** Optional parameters. */
 export interface NetworkInterfacesListAllNextOptionalParams
@@ -17262,35 +17544,40 @@ export interface NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesN
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listVirtualMachineScaleSetVMNetworkInterfacesNext operation. */
-export type NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesNextResponse = NetworkInterfaceListResult;
+export type NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesNextResponse =
+  NetworkInterfaceListResult;
 
 /** Optional parameters. */
 export interface NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listVirtualMachineScaleSetNetworkInterfacesNext operation. */
-export type NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesNextResponse = NetworkInterfaceListResult;
+export type NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesNextResponse =
+  NetworkInterfaceListResult;
 
 /** Optional parameters. */
 export interface NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listVirtualMachineScaleSetIpConfigurationsNext operation. */
-export type NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsNextResponse = NetworkInterfaceIPConfigurationListResult;
+export type NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsNextResponse =
+  NetworkInterfaceIPConfigurationListResult;
 
 /** Optional parameters. */
 export interface PublicIPAddressesListCloudServicePublicIPAddressesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listCloudServicePublicIPAddresses operation. */
-export type PublicIPAddressesListCloudServicePublicIPAddressesResponse = PublicIPAddressListResult;
+export type PublicIPAddressesListCloudServicePublicIPAddressesResponse =
+  PublicIPAddressListResult;
 
 /** Optional parameters. */
 export interface PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listCloudServiceRoleInstancePublicIPAddresses operation. */
-export type PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesResponse = PublicIPAddressListResult;
+export type PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesResponse =
+  PublicIPAddressListResult;
 
 /** Optional parameters. */
 export interface PublicIPAddressesGetCloudServicePublicIPAddressOptionalParams
@@ -17300,7 +17587,8 @@ export interface PublicIPAddressesGetCloudServicePublicIPAddressOptionalParams
 }
 
 /** Contains response data for the getCloudServicePublicIPAddress operation. */
-export type PublicIPAddressesGetCloudServicePublicIPAddressResponse = PublicIPAddress;
+export type PublicIPAddressesGetCloudServicePublicIPAddressResponse =
+  PublicIPAddress;
 
 /** Optional parameters. */
 export interface PublicIPAddressesDeleteOptionalParams
@@ -17364,21 +17652,24 @@ export interface PublicIPAddressesDdosProtectionStatusOptionalParams
 }
 
 /** Contains response data for the ddosProtectionStatus operation. */
-export type PublicIPAddressesDdosProtectionStatusResponse = PublicIpDdosProtectionStatusResult;
+export type PublicIPAddressesDdosProtectionStatusResponse =
+  PublicIpDdosProtectionStatusResult;
 
 /** Optional parameters. */
 export interface PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listVirtualMachineScaleSetPublicIPAddresses operation. */
-export type PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesResponse = PublicIPAddressListResult;
+export type PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesResponse =
+  PublicIPAddressListResult;
 
 /** Optional parameters. */
 export interface PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listVirtualMachineScaleSetVMPublicIPAddresses operation. */
-export type PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesResponse = PublicIPAddressListResult;
+export type PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesResponse =
+  PublicIPAddressListResult;
 
 /** Optional parameters. */
 export interface PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams
@@ -17388,21 +17679,24 @@ export interface PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOption
 }
 
 /** Contains response data for the getVirtualMachineScaleSetPublicIPAddress operation. */
-export type PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressResponse = PublicIPAddress;
+export type PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressResponse =
+  PublicIPAddress;
 
 /** Optional parameters. */
 export interface PublicIPAddressesListCloudServicePublicIPAddressesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listCloudServicePublicIPAddressesNext operation. */
-export type PublicIPAddressesListCloudServicePublicIPAddressesNextResponse = PublicIPAddressListResult;
+export type PublicIPAddressesListCloudServicePublicIPAddressesNextResponse =
+  PublicIPAddressListResult;
 
 /** Optional parameters. */
 export interface PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listCloudServiceRoleInstancePublicIPAddressesNext operation. */
-export type PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesNextResponse = PublicIPAddressListResult;
+export type PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesNextResponse =
+  PublicIPAddressListResult;
 
 /** Optional parameters. */
 export interface PublicIPAddressesListAllNextOptionalParams
@@ -17423,14 +17717,16 @@ export interface PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesNex
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listVirtualMachineScaleSetPublicIPAddressesNext operation. */
-export type PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesNextResponse = PublicIPAddressListResult;
+export type PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesNextResponse =
+  PublicIPAddressListResult;
 
 /** Optional parameters. */
 export interface PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listVirtualMachineScaleSetVMPublicIPAddressesNext operation. */
-export type PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesNextResponse = PublicIPAddressListResult;
+export type PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesNextResponse =
+  PublicIPAddressListResult;
 
 /** Optional parameters. */
 export interface VipSwapGetOptionalParams extends coreClient.OperationOptions {}
@@ -17602,7 +17898,8 @@ export interface DdosProtectionPlansListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type DdosProtectionPlansListByResourceGroupResponse = DdosProtectionPlanListResult;
+export type DdosProtectionPlansListByResourceGroupResponse =
+  DdosProtectionPlanListResult;
 
 /** Optional parameters. */
 export interface DdosProtectionPlansListNextOptionalParams
@@ -17616,7 +17913,8 @@ export interface DdosProtectionPlansListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type DdosProtectionPlansListByResourceGroupNextResponse = DdosProtectionPlanListResult;
+export type DdosProtectionPlansListByResourceGroupNextResponse =
+  DdosProtectionPlanListResult;
 
 /** Optional parameters. */
 export interface DscpConfigurationCreateOrUpdateOptionalParams
@@ -17686,7 +17984,8 @@ export interface AvailableEndpointServicesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type AvailableEndpointServicesListNextResponse = EndpointServicesListResult;
+export type AvailableEndpointServicesListNextResponse =
+  EndpointServicesListResult;
 
 /** Optional parameters. */
 export interface ExpressRouteCircuitAuthorizationsDeleteOptionalParams
@@ -17702,7 +18001,8 @@ export interface ExpressRouteCircuitAuthorizationsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ExpressRouteCircuitAuthorizationsGetResponse = ExpressRouteCircuitAuthorization;
+export type ExpressRouteCircuitAuthorizationsGetResponse =
+  ExpressRouteCircuitAuthorization;
 
 /** Optional parameters. */
 export interface ExpressRouteCircuitAuthorizationsCreateOrUpdateOptionalParams
@@ -17714,21 +18014,24 @@ export interface ExpressRouteCircuitAuthorizationsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ExpressRouteCircuitAuthorizationsCreateOrUpdateResponse = ExpressRouteCircuitAuthorization;
+export type ExpressRouteCircuitAuthorizationsCreateOrUpdateResponse =
+  ExpressRouteCircuitAuthorization;
 
 /** Optional parameters. */
 export interface ExpressRouteCircuitAuthorizationsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ExpressRouteCircuitAuthorizationsListResponse = AuthorizationListResult;
+export type ExpressRouteCircuitAuthorizationsListResponse =
+  AuthorizationListResult;
 
 /** Optional parameters. */
 export interface ExpressRouteCircuitAuthorizationsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ExpressRouteCircuitAuthorizationsListNextResponse = AuthorizationListResult;
+export type ExpressRouteCircuitAuthorizationsListNextResponse =
+  AuthorizationListResult;
 
 /** Optional parameters. */
 export interface ExpressRouteCircuitPeeringsDeleteOptionalParams
@@ -17756,21 +18059,24 @@ export interface ExpressRouteCircuitPeeringsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ExpressRouteCircuitPeeringsCreateOrUpdateResponse = ExpressRouteCircuitPeering;
+export type ExpressRouteCircuitPeeringsCreateOrUpdateResponse =
+  ExpressRouteCircuitPeering;
 
 /** Optional parameters. */
 export interface ExpressRouteCircuitPeeringsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ExpressRouteCircuitPeeringsListResponse = ExpressRouteCircuitPeeringListResult;
+export type ExpressRouteCircuitPeeringsListResponse =
+  ExpressRouteCircuitPeeringListResult;
 
 /** Optional parameters. */
 export interface ExpressRouteCircuitPeeringsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ExpressRouteCircuitPeeringsListNextResponse = ExpressRouteCircuitPeeringListResult;
+export type ExpressRouteCircuitPeeringsListNextResponse =
+  ExpressRouteCircuitPeeringListResult;
 
 /** Optional parameters. */
 export interface ExpressRouteCircuitConnectionsDeleteOptionalParams
@@ -17786,7 +18092,8 @@ export interface ExpressRouteCircuitConnectionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ExpressRouteCircuitConnectionsGetResponse = ExpressRouteCircuitConnection;
+export type ExpressRouteCircuitConnectionsGetResponse =
+  ExpressRouteCircuitConnection;
 
 /** Optional parameters. */
 export interface ExpressRouteCircuitConnectionsCreateOrUpdateOptionalParams
@@ -17798,42 +18105,48 @@ export interface ExpressRouteCircuitConnectionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ExpressRouteCircuitConnectionsCreateOrUpdateResponse = ExpressRouteCircuitConnection;
+export type ExpressRouteCircuitConnectionsCreateOrUpdateResponse =
+  ExpressRouteCircuitConnection;
 
 /** Optional parameters. */
 export interface ExpressRouteCircuitConnectionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ExpressRouteCircuitConnectionsListResponse = ExpressRouteCircuitConnectionListResult;
+export type ExpressRouteCircuitConnectionsListResponse =
+  ExpressRouteCircuitConnectionListResult;
 
 /** Optional parameters. */
 export interface ExpressRouteCircuitConnectionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ExpressRouteCircuitConnectionsListNextResponse = ExpressRouteCircuitConnectionListResult;
+export type ExpressRouteCircuitConnectionsListNextResponse =
+  ExpressRouteCircuitConnectionListResult;
 
 /** Optional parameters. */
 export interface PeerExpressRouteCircuitConnectionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type PeerExpressRouteCircuitConnectionsGetResponse = PeerExpressRouteCircuitConnection;
+export type PeerExpressRouteCircuitConnectionsGetResponse =
+  PeerExpressRouteCircuitConnection;
 
 /** Optional parameters. */
 export interface PeerExpressRouteCircuitConnectionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PeerExpressRouteCircuitConnectionsListResponse = PeerExpressRouteCircuitConnectionListResult;
+export type PeerExpressRouteCircuitConnectionsListResponse =
+  PeerExpressRouteCircuitConnectionListResult;
 
 /** Optional parameters. */
 export interface PeerExpressRouteCircuitConnectionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type PeerExpressRouteCircuitConnectionsListNextResponse = PeerExpressRouteCircuitConnectionListResult;
+export type PeerExpressRouteCircuitConnectionsListNextResponse =
+  PeerExpressRouteCircuitConnectionListResult;
 
 /** Optional parameters. */
 export interface ExpressRouteCircuitsDeleteOptionalParams
@@ -17880,7 +18193,8 @@ export interface ExpressRouteCircuitsListArpTableOptionalParams
 }
 
 /** Contains response data for the listArpTable operation. */
-export type ExpressRouteCircuitsListArpTableResponse = ExpressRouteCircuitsArpTableListResult;
+export type ExpressRouteCircuitsListArpTableResponse =
+  ExpressRouteCircuitsArpTableListResult;
 
 /** Optional parameters. */
 export interface ExpressRouteCircuitsListRoutesTableOptionalParams
@@ -17892,7 +18206,8 @@ export interface ExpressRouteCircuitsListRoutesTableOptionalParams
 }
 
 /** Contains response data for the listRoutesTable operation. */
-export type ExpressRouteCircuitsListRoutesTableResponse = ExpressRouteCircuitsRoutesTableListResult;
+export type ExpressRouteCircuitsListRoutesTableResponse =
+  ExpressRouteCircuitsRoutesTableListResult;
 
 /** Optional parameters. */
 export interface ExpressRouteCircuitsListRoutesTableSummaryOptionalParams
@@ -17904,7 +18219,8 @@ export interface ExpressRouteCircuitsListRoutesTableSummaryOptionalParams
 }
 
 /** Contains response data for the listRoutesTableSummary operation. */
-export type ExpressRouteCircuitsListRoutesTableSummaryResponse = ExpressRouteCircuitsRoutesTableSummaryListResult;
+export type ExpressRouteCircuitsListRoutesTableSummaryResponse =
+  ExpressRouteCircuitsRoutesTableSummaryListResult;
 
 /** Optional parameters. */
 export interface ExpressRouteCircuitsGetStatsOptionalParams
@@ -17918,7 +18234,8 @@ export interface ExpressRouteCircuitsGetPeeringStatsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getPeeringStats operation. */
-export type ExpressRouteCircuitsGetPeeringStatsResponse = ExpressRouteCircuitStats;
+export type ExpressRouteCircuitsGetPeeringStatsResponse =
+  ExpressRouteCircuitStats;
 
 /** Optional parameters. */
 export interface ExpressRouteCircuitsListOptionalParams
@@ -17939,49 +18256,56 @@ export interface ExpressRouteCircuitsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ExpressRouteCircuitsListNextResponse = ExpressRouteCircuitListResult;
+export type ExpressRouteCircuitsListNextResponse =
+  ExpressRouteCircuitListResult;
 
 /** Optional parameters. */
 export interface ExpressRouteCircuitsListAllNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAllNext operation. */
-export type ExpressRouteCircuitsListAllNextResponse = ExpressRouteCircuitListResult;
+export type ExpressRouteCircuitsListAllNextResponse =
+  ExpressRouteCircuitListResult;
 
 /** Optional parameters. */
 export interface ExpressRouteServiceProvidersListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ExpressRouteServiceProvidersListResponse = ExpressRouteServiceProviderListResult;
+export type ExpressRouteServiceProvidersListResponse =
+  ExpressRouteServiceProviderListResult;
 
 /** Optional parameters. */
 export interface ExpressRouteServiceProvidersListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ExpressRouteServiceProvidersListNextResponse = ExpressRouteServiceProviderListResult;
+export type ExpressRouteServiceProvidersListNextResponse =
+  ExpressRouteServiceProviderListResult;
 
 /** Optional parameters. */
 export interface ExpressRouteCrossConnectionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ExpressRouteCrossConnectionsListResponse = ExpressRouteCrossConnectionListResult;
+export type ExpressRouteCrossConnectionsListResponse =
+  ExpressRouteCrossConnectionListResult;
 
 /** Optional parameters. */
 export interface ExpressRouteCrossConnectionsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type ExpressRouteCrossConnectionsListByResourceGroupResponse = ExpressRouteCrossConnectionListResult;
+export type ExpressRouteCrossConnectionsListByResourceGroupResponse =
+  ExpressRouteCrossConnectionListResult;
 
 /** Optional parameters. */
 export interface ExpressRouteCrossConnectionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ExpressRouteCrossConnectionsGetResponse = ExpressRouteCrossConnection;
+export type ExpressRouteCrossConnectionsGetResponse =
+  ExpressRouteCrossConnection;
 
 /** Optional parameters. */
 export interface ExpressRouteCrossConnectionsCreateOrUpdateOptionalParams
@@ -17993,14 +18317,16 @@ export interface ExpressRouteCrossConnectionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ExpressRouteCrossConnectionsCreateOrUpdateResponse = ExpressRouteCrossConnection;
+export type ExpressRouteCrossConnectionsCreateOrUpdateResponse =
+  ExpressRouteCrossConnection;
 
 /** Optional parameters. */
 export interface ExpressRouteCrossConnectionsUpdateTagsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateTags operation. */
-export type ExpressRouteCrossConnectionsUpdateTagsResponse = ExpressRouteCrossConnection;
+export type ExpressRouteCrossConnectionsUpdateTagsResponse =
+  ExpressRouteCrossConnection;
 
 /** Optional parameters. */
 export interface ExpressRouteCrossConnectionsListArpTableOptionalParams
@@ -18012,7 +18338,8 @@ export interface ExpressRouteCrossConnectionsListArpTableOptionalParams
 }
 
 /** Contains response data for the listArpTable operation. */
-export type ExpressRouteCrossConnectionsListArpTableResponse = ExpressRouteCircuitsArpTableListResult;
+export type ExpressRouteCrossConnectionsListArpTableResponse =
+  ExpressRouteCircuitsArpTableListResult;
 
 /** Optional parameters. */
 export interface ExpressRouteCrossConnectionsListRoutesTableSummaryOptionalParams
@@ -18024,7 +18351,8 @@ export interface ExpressRouteCrossConnectionsListRoutesTableSummaryOptionalParam
 }
 
 /** Contains response data for the listRoutesTableSummary operation. */
-export type ExpressRouteCrossConnectionsListRoutesTableSummaryResponse = ExpressRouteCrossConnectionsRoutesTableSummaryListResult;
+export type ExpressRouteCrossConnectionsListRoutesTableSummaryResponse =
+  ExpressRouteCrossConnectionsRoutesTableSummaryListResult;
 
 /** Optional parameters. */
 export interface ExpressRouteCrossConnectionsListRoutesTableOptionalParams
@@ -18036,28 +18364,32 @@ export interface ExpressRouteCrossConnectionsListRoutesTableOptionalParams
 }
 
 /** Contains response data for the listRoutesTable operation. */
-export type ExpressRouteCrossConnectionsListRoutesTableResponse = ExpressRouteCircuitsRoutesTableListResult;
+export type ExpressRouteCrossConnectionsListRoutesTableResponse =
+  ExpressRouteCircuitsRoutesTableListResult;
 
 /** Optional parameters. */
 export interface ExpressRouteCrossConnectionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ExpressRouteCrossConnectionsListNextResponse = ExpressRouteCrossConnectionListResult;
+export type ExpressRouteCrossConnectionsListNextResponse =
+  ExpressRouteCrossConnectionListResult;
 
 /** Optional parameters. */
 export interface ExpressRouteCrossConnectionsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type ExpressRouteCrossConnectionsListByResourceGroupNextResponse = ExpressRouteCrossConnectionListResult;
+export type ExpressRouteCrossConnectionsListByResourceGroupNextResponse =
+  ExpressRouteCrossConnectionListResult;
 
 /** Optional parameters. */
 export interface ExpressRouteCrossConnectionPeeringsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ExpressRouteCrossConnectionPeeringsListResponse = ExpressRouteCrossConnectionPeeringList;
+export type ExpressRouteCrossConnectionPeeringsListResponse =
+  ExpressRouteCrossConnectionPeeringList;
 
 /** Optional parameters. */
 export interface ExpressRouteCrossConnectionPeeringsDeleteOptionalParams
@@ -18073,7 +18405,8 @@ export interface ExpressRouteCrossConnectionPeeringsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ExpressRouteCrossConnectionPeeringsGetResponse = ExpressRouteCrossConnectionPeering;
+export type ExpressRouteCrossConnectionPeeringsGetResponse =
+  ExpressRouteCrossConnectionPeering;
 
 /** Optional parameters. */
 export interface ExpressRouteCrossConnectionPeeringsCreateOrUpdateOptionalParams
@@ -18085,21 +18418,24 @@ export interface ExpressRouteCrossConnectionPeeringsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ExpressRouteCrossConnectionPeeringsCreateOrUpdateResponse = ExpressRouteCrossConnectionPeering;
+export type ExpressRouteCrossConnectionPeeringsCreateOrUpdateResponse =
+  ExpressRouteCrossConnectionPeering;
 
 /** Optional parameters. */
 export interface ExpressRouteCrossConnectionPeeringsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ExpressRouteCrossConnectionPeeringsListNextResponse = ExpressRouteCrossConnectionPeeringList;
+export type ExpressRouteCrossConnectionPeeringsListNextResponse =
+  ExpressRouteCrossConnectionPeeringList;
 
 /** Optional parameters. */
 export interface ExpressRoutePortsLocationsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ExpressRoutePortsLocationsListResponse = ExpressRoutePortsLocationListResult;
+export type ExpressRoutePortsLocationsListResponse =
+  ExpressRoutePortsLocationListResult;
 
 /** Optional parameters. */
 export interface ExpressRoutePortsLocationsGetOptionalParams
@@ -18113,7 +18449,8 @@ export interface ExpressRoutePortsLocationsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ExpressRoutePortsLocationsListNextResponse = ExpressRoutePortsLocationListResult;
+export type ExpressRoutePortsLocationsListNextResponse =
+  ExpressRoutePortsLocationListResult;
 
 /** Optional parameters. */
 export interface ExpressRoutePortsDeleteOptionalParams
@@ -18155,7 +18492,8 @@ export interface ExpressRoutePortsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type ExpressRoutePortsListByResourceGroupResponse = ExpressRoutePortListResult;
+export type ExpressRoutePortsListByResourceGroupResponse =
+  ExpressRoutePortListResult;
 
 /** Optional parameters. */
 export interface ExpressRoutePortsListOptionalParams
@@ -18169,14 +18507,16 @@ export interface ExpressRoutePortsGenerateLOAOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the generateLOA operation. */
-export type ExpressRoutePortsGenerateLOAResponse = GenerateExpressRoutePortsLOAResult;
+export type ExpressRoutePortsGenerateLOAResponse =
+  GenerateExpressRoutePortsLOAResult;
 
 /** Optional parameters. */
 export interface ExpressRoutePortsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type ExpressRoutePortsListByResourceGroupNextResponse = ExpressRoutePortListResult;
+export type ExpressRoutePortsListByResourceGroupNextResponse =
+  ExpressRoutePortListResult;
 
 /** Optional parameters. */
 export interface ExpressRoutePortsListNextOptionalParams
@@ -18220,7 +18560,8 @@ export interface ExpressRoutePortAuthorizationsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ExpressRoutePortAuthorizationsGetResponse = ExpressRoutePortAuthorization;
+export type ExpressRoutePortAuthorizationsGetResponse =
+  ExpressRoutePortAuthorization;
 
 /** Optional parameters. */
 export interface ExpressRoutePortAuthorizationsCreateOrUpdateOptionalParams
@@ -18232,21 +18573,24 @@ export interface ExpressRoutePortAuthorizationsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ExpressRoutePortAuthorizationsCreateOrUpdateResponse = ExpressRoutePortAuthorization;
+export type ExpressRoutePortAuthorizationsCreateOrUpdateResponse =
+  ExpressRoutePortAuthorization;
 
 /** Optional parameters. */
 export interface ExpressRoutePortAuthorizationsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ExpressRoutePortAuthorizationsListResponse = ExpressRoutePortAuthorizationListResult;
+export type ExpressRoutePortAuthorizationsListResponse =
+  ExpressRoutePortAuthorizationListResult;
 
 /** Optional parameters. */
 export interface ExpressRoutePortAuthorizationsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ExpressRoutePortAuthorizationsListNextResponse = ExpressRoutePortAuthorizationListResult;
+export type ExpressRoutePortAuthorizationsListNextResponse =
+  ExpressRoutePortAuthorizationListResult;
 
 /** Optional parameters. */
 export interface ExpressRouteProviderPortsLocationListOptionalParams
@@ -18256,7 +18600,8 @@ export interface ExpressRouteProviderPortsLocationListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type ExpressRouteProviderPortsLocationListResponse = ExpressRouteProviderPortListResult;
+export type ExpressRouteProviderPortsLocationListResponse =
+  ExpressRouteProviderPortListResult;
 
 /** Optional parameters. */
 export interface FirewallPoliciesDeleteOptionalParams
@@ -18338,7 +18683,8 @@ export interface FirewallPolicyRuleCollectionGroupsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type FirewallPolicyRuleCollectionGroupsGetResponse = FirewallPolicyRuleCollectionGroup;
+export type FirewallPolicyRuleCollectionGroupsGetResponse =
+  FirewallPolicyRuleCollectionGroup;
 
 /** Optional parameters. */
 export interface FirewallPolicyRuleCollectionGroupsCreateOrUpdateOptionalParams
@@ -18350,21 +18696,24 @@ export interface FirewallPolicyRuleCollectionGroupsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type FirewallPolicyRuleCollectionGroupsCreateOrUpdateResponse = FirewallPolicyRuleCollectionGroup;
+export type FirewallPolicyRuleCollectionGroupsCreateOrUpdateResponse =
+  FirewallPolicyRuleCollectionGroup;
 
 /** Optional parameters. */
 export interface FirewallPolicyRuleCollectionGroupsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type FirewallPolicyRuleCollectionGroupsListResponse = FirewallPolicyRuleCollectionGroupListResult;
+export type FirewallPolicyRuleCollectionGroupsListResponse =
+  FirewallPolicyRuleCollectionGroupListResult;
 
 /** Optional parameters. */
 export interface FirewallPolicyRuleCollectionGroupsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type FirewallPolicyRuleCollectionGroupsListNextResponse = FirewallPolicyRuleCollectionGroupListResult;
+export type FirewallPolicyRuleCollectionGroupsListNextResponse =
+  FirewallPolicyRuleCollectionGroupListResult;
 
 /** Optional parameters. */
 export interface FirewallPolicyIdpsSignaturesListOptionalParams
@@ -18378,35 +18727,40 @@ export interface FirewallPolicyIdpsSignaturesOverridesPatchOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the patch operation. */
-export type FirewallPolicyIdpsSignaturesOverridesPatchResponse = SignaturesOverrides;
+export type FirewallPolicyIdpsSignaturesOverridesPatchResponse =
+  SignaturesOverrides;
 
 /** Optional parameters. */
 export interface FirewallPolicyIdpsSignaturesOverridesPutOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the put operation. */
-export type FirewallPolicyIdpsSignaturesOverridesPutResponse = SignaturesOverrides;
+export type FirewallPolicyIdpsSignaturesOverridesPutResponse =
+  SignaturesOverrides;
 
 /** Optional parameters. */
 export interface FirewallPolicyIdpsSignaturesOverridesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type FirewallPolicyIdpsSignaturesOverridesGetResponse = SignaturesOverrides;
+export type FirewallPolicyIdpsSignaturesOverridesGetResponse =
+  SignaturesOverrides;
 
 /** Optional parameters. */
 export interface FirewallPolicyIdpsSignaturesOverridesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type FirewallPolicyIdpsSignaturesOverridesListResponse = SignaturesOverridesList;
+export type FirewallPolicyIdpsSignaturesOverridesListResponse =
+  SignaturesOverridesList;
 
 /** Optional parameters. */
 export interface FirewallPolicyIdpsSignaturesFilterValuesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type FirewallPolicyIdpsSignaturesFilterValuesListResponse = SignatureOverridesFilterValuesResponse;
+export type FirewallPolicyIdpsSignaturesFilterValuesListResponse =
+  SignatureOverridesFilterValuesResponse;
 
 /** Optional parameters. */
 export interface IpAllocationsDeleteOptionalParams
@@ -18472,7 +18826,8 @@ export interface IpAllocationsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type IpAllocationsListByResourceGroupNextResponse = IpAllocationListResult;
+export type IpAllocationsListByResourceGroupNextResponse =
+  IpAllocationListResult;
 
 /** Optional parameters. */
 export interface IpGroupsGetOptionalParams extends coreClient.OperationOptions {
@@ -18610,7 +18965,18 @@ export interface LoadBalancersListInboundNatRulePortMappingsOptionalParams
 }
 
 /** Contains response data for the listInboundNatRulePortMappings operation. */
-export type LoadBalancersListInboundNatRulePortMappingsResponse = BackendAddressInboundNatRulePortMappings;
+export type LoadBalancersListInboundNatRulePortMappingsResponse =
+  BackendAddressInboundNatRulePortMappings;
+
+/** Optional parameters. */
+export interface LoadBalancersMigrateToIpBasedOptionalParams
+  extends coreClient.OperationOptions {
+  /** Parameters supplied to the migrateToIpBased Api. */
+  parameters?: MigrateLoadBalancerToIpBasedRequest;
+}
+
+/** Contains response data for the migrateToIpBased operation. */
+export type LoadBalancersMigrateToIpBasedResponse = MigratedPools;
 
 /** Optional parameters. */
 export interface LoadBalancersListAllNextOptionalParams
@@ -18631,7 +18997,8 @@ export interface LoadBalancerBackendAddressPoolsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type LoadBalancerBackendAddressPoolsListResponse = LoadBalancerBackendAddressPoolListResult;
+export type LoadBalancerBackendAddressPoolsListResponse =
+  LoadBalancerBackendAddressPoolListResult;
 
 /** Optional parameters. */
 export interface LoadBalancerBackendAddressPoolsGetOptionalParams
@@ -18650,7 +19017,8 @@ export interface LoadBalancerBackendAddressPoolsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type LoadBalancerBackendAddressPoolsCreateOrUpdateResponse = BackendAddressPool;
+export type LoadBalancerBackendAddressPoolsCreateOrUpdateResponse =
+  BackendAddressPool;
 
 /** Optional parameters. */
 export interface LoadBalancerBackendAddressPoolsDeleteOptionalParams
@@ -18666,28 +19034,32 @@ export interface LoadBalancerBackendAddressPoolsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type LoadBalancerBackendAddressPoolsListNextResponse = LoadBalancerBackendAddressPoolListResult;
+export type LoadBalancerBackendAddressPoolsListNextResponse =
+  LoadBalancerBackendAddressPoolListResult;
 
 /** Optional parameters. */
 export interface LoadBalancerFrontendIPConfigurationsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type LoadBalancerFrontendIPConfigurationsListResponse = LoadBalancerFrontendIPConfigurationListResult;
+export type LoadBalancerFrontendIPConfigurationsListResponse =
+  LoadBalancerFrontendIPConfigurationListResult;
 
 /** Optional parameters. */
 export interface LoadBalancerFrontendIPConfigurationsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type LoadBalancerFrontendIPConfigurationsGetResponse = FrontendIPConfiguration;
+export type LoadBalancerFrontendIPConfigurationsGetResponse =
+  FrontendIPConfiguration;
 
 /** Optional parameters. */
 export interface LoadBalancerFrontendIPConfigurationsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type LoadBalancerFrontendIPConfigurationsListNextResponse = LoadBalancerFrontendIPConfigurationListResult;
+export type LoadBalancerFrontendIPConfigurationsListNextResponse =
+  LoadBalancerFrontendIPConfigurationListResult;
 
 /** Optional parameters. */
 export interface InboundNatRulesListOptionalParams
@@ -18739,7 +19111,8 @@ export interface LoadBalancerLoadBalancingRulesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type LoadBalancerLoadBalancingRulesListResponse = LoadBalancerLoadBalancingRuleListResult;
+export type LoadBalancerLoadBalancingRulesListResponse =
+  LoadBalancerLoadBalancingRuleListResult;
 
 /** Optional parameters. */
 export interface LoadBalancerLoadBalancingRulesGetOptionalParams
@@ -18753,14 +19126,16 @@ export interface LoadBalancerLoadBalancingRulesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type LoadBalancerLoadBalancingRulesListNextResponse = LoadBalancerLoadBalancingRuleListResult;
+export type LoadBalancerLoadBalancingRulesListNextResponse =
+  LoadBalancerLoadBalancingRuleListResult;
 
 /** Optional parameters. */
 export interface LoadBalancerOutboundRulesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type LoadBalancerOutboundRulesListResponse = LoadBalancerOutboundRuleListResult;
+export type LoadBalancerOutboundRulesListResponse =
+  LoadBalancerOutboundRuleListResult;
 
 /** Optional parameters. */
 export interface LoadBalancerOutboundRulesGetOptionalParams
@@ -18774,21 +19149,24 @@ export interface LoadBalancerOutboundRulesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type LoadBalancerOutboundRulesListNextResponse = LoadBalancerOutboundRuleListResult;
+export type LoadBalancerOutboundRulesListNextResponse =
+  LoadBalancerOutboundRuleListResult;
 
 /** Optional parameters. */
 export interface LoadBalancerNetworkInterfacesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type LoadBalancerNetworkInterfacesListResponse = NetworkInterfaceListResult;
+export type LoadBalancerNetworkInterfacesListResponse =
+  NetworkInterfaceListResult;
 
 /** Optional parameters. */
 export interface LoadBalancerNetworkInterfacesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type LoadBalancerNetworkInterfacesListNextResponse = NetworkInterfaceListResult;
+export type LoadBalancerNetworkInterfacesListNextResponse =
+  NetworkInterfaceListResult;
 
 /** Optional parameters. */
 export interface LoadBalancerProbesListOptionalParams
@@ -18882,35 +19260,40 @@ export interface NetworkInterfaceIPConfigurationsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type NetworkInterfaceIPConfigurationsListResponse = NetworkInterfaceIPConfigurationListResult;
+export type NetworkInterfaceIPConfigurationsListResponse =
+  NetworkInterfaceIPConfigurationListResult;
 
 /** Optional parameters. */
 export interface NetworkInterfaceIPConfigurationsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type NetworkInterfaceIPConfigurationsGetResponse = NetworkInterfaceIPConfiguration;
+export type NetworkInterfaceIPConfigurationsGetResponse =
+  NetworkInterfaceIPConfiguration;
 
 /** Optional parameters. */
 export interface NetworkInterfaceIPConfigurationsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type NetworkInterfaceIPConfigurationsListNextResponse = NetworkInterfaceIPConfigurationListResult;
+export type NetworkInterfaceIPConfigurationsListNextResponse =
+  NetworkInterfaceIPConfigurationListResult;
 
 /** Optional parameters. */
 export interface NetworkInterfaceLoadBalancersListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type NetworkInterfaceLoadBalancersListResponse = NetworkInterfaceLoadBalancerListResult;
+export type NetworkInterfaceLoadBalancersListResponse =
+  NetworkInterfaceLoadBalancerListResult;
 
 /** Optional parameters. */
 export interface NetworkInterfaceLoadBalancersListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type NetworkInterfaceLoadBalancersListNextResponse = NetworkInterfaceLoadBalancerListResult;
+export type NetworkInterfaceLoadBalancersListNextResponse =
+  NetworkInterfaceLoadBalancerListResult;
 
 /** Optional parameters. */
 export interface NetworkInterfaceTapConfigurationsDeleteOptionalParams
@@ -18926,7 +19309,8 @@ export interface NetworkInterfaceTapConfigurationsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type NetworkInterfaceTapConfigurationsGetResponse = NetworkInterfaceTapConfiguration;
+export type NetworkInterfaceTapConfigurationsGetResponse =
+  NetworkInterfaceTapConfiguration;
 
 /** Optional parameters. */
 export interface NetworkInterfaceTapConfigurationsCreateOrUpdateOptionalParams
@@ -18938,21 +19322,24 @@ export interface NetworkInterfaceTapConfigurationsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type NetworkInterfaceTapConfigurationsCreateOrUpdateResponse = NetworkInterfaceTapConfiguration;
+export type NetworkInterfaceTapConfigurationsCreateOrUpdateResponse =
+  NetworkInterfaceTapConfiguration;
 
 /** Optional parameters. */
 export interface NetworkInterfaceTapConfigurationsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type NetworkInterfaceTapConfigurationsListResponse = NetworkInterfaceTapConfigurationListResult;
+export type NetworkInterfaceTapConfigurationsListResponse =
+  NetworkInterfaceTapConfigurationListResult;
 
 /** Optional parameters. */
 export interface NetworkInterfaceTapConfigurationsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type NetworkInterfaceTapConfigurationsListNextResponse = NetworkInterfaceTapConfigurationListResult;
+export type NetworkInterfaceTapConfigurationsListNextResponse =
+  NetworkInterfaceTapConfigurationListResult;
 
 /** Optional parameters. */
 export interface NetworkManagersGetOptionalParams
@@ -18996,7 +19383,8 @@ export interface NetworkManagersListBySubscriptionOptionalParams
 }
 
 /** Contains response data for the listBySubscription operation. */
-export type NetworkManagersListBySubscriptionResponse = NetworkManagerListResult;
+export type NetworkManagersListBySubscriptionResponse =
+  NetworkManagerListResult;
 
 /** Optional parameters. */
 export interface NetworkManagersListOptionalParams
@@ -19015,7 +19403,8 @@ export interface NetworkManagersListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type NetworkManagersListBySubscriptionNextResponse = NetworkManagerListResult;
+export type NetworkManagersListBySubscriptionNextResponse =
+  NetworkManagerListResult;
 
 /** Optional parameters. */
 export interface NetworkManagersListNextOptionalParams
@@ -19044,21 +19433,24 @@ export interface NetworkManagerDeploymentStatusListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type NetworkManagerDeploymentStatusListResponse = NetworkManagerDeploymentStatusListResult;
+export type NetworkManagerDeploymentStatusListResponse =
+  NetworkManagerDeploymentStatusListResult;
 
 /** Optional parameters. */
 export interface SubscriptionNetworkManagerConnectionsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type SubscriptionNetworkManagerConnectionsCreateOrUpdateResponse = NetworkManagerConnection;
+export type SubscriptionNetworkManagerConnectionsCreateOrUpdateResponse =
+  NetworkManagerConnection;
 
 /** Optional parameters. */
 export interface SubscriptionNetworkManagerConnectionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type SubscriptionNetworkManagerConnectionsGetResponse = NetworkManagerConnection;
+export type SubscriptionNetworkManagerConnectionsGetResponse =
+  NetworkManagerConnection;
 
 /** Optional parameters. */
 export interface SubscriptionNetworkManagerConnectionsDeleteOptionalParams
@@ -19074,28 +19466,32 @@ export interface SubscriptionNetworkManagerConnectionsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type SubscriptionNetworkManagerConnectionsListResponse = NetworkManagerConnectionListResult;
+export type SubscriptionNetworkManagerConnectionsListResponse =
+  NetworkManagerConnectionListResult;
 
 /** Optional parameters. */
 export interface SubscriptionNetworkManagerConnectionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type SubscriptionNetworkManagerConnectionsListNextResponse = NetworkManagerConnectionListResult;
+export type SubscriptionNetworkManagerConnectionsListNextResponse =
+  NetworkManagerConnectionListResult;
 
 /** Optional parameters. */
 export interface ManagementGroupNetworkManagerConnectionsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type ManagementGroupNetworkManagerConnectionsCreateOrUpdateResponse = NetworkManagerConnection;
+export type ManagementGroupNetworkManagerConnectionsCreateOrUpdateResponse =
+  NetworkManagerConnection;
 
 /** Optional parameters. */
 export interface ManagementGroupNetworkManagerConnectionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ManagementGroupNetworkManagerConnectionsGetResponse = NetworkManagerConnection;
+export type ManagementGroupNetworkManagerConnectionsGetResponse =
+  NetworkManagerConnection;
 
 /** Optional parameters. */
 export interface ManagementGroupNetworkManagerConnectionsDeleteOptionalParams
@@ -19111,14 +19507,16 @@ export interface ManagementGroupNetworkManagerConnectionsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type ManagementGroupNetworkManagerConnectionsListResponse = NetworkManagerConnectionListResult;
+export type ManagementGroupNetworkManagerConnectionsListResponse =
+  NetworkManagerConnectionListResult;
 
 /** Optional parameters. */
 export interface ManagementGroupNetworkManagerConnectionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ManagementGroupNetworkManagerConnectionsListNextResponse = NetworkManagerConnectionListResult;
+export type ManagementGroupNetworkManagerConnectionsListNextResponse =
+  NetworkManagerConnectionListResult;
 
 /** Optional parameters. */
 export interface ConnectivityConfigurationsGetOptionalParams
@@ -19132,7 +19530,8 @@ export interface ConnectivityConfigurationsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type ConnectivityConfigurationsCreateOrUpdateResponse = ConnectivityConfiguration;
+export type ConnectivityConfigurationsCreateOrUpdateResponse =
+  ConnectivityConfiguration;
 
 /** Optional parameters. */
 export interface ConnectivityConfigurationsDeleteOptionalParams
@@ -19155,14 +19554,16 @@ export interface ConnectivityConfigurationsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type ConnectivityConfigurationsListResponse = ConnectivityConfigurationListResult;
+export type ConnectivityConfigurationsListResponse =
+  ConnectivityConfigurationListResult;
 
 /** Optional parameters. */
 export interface ConnectivityConfigurationsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ConnectivityConfigurationsListNextResponse = ConnectivityConfigurationListResult;
+export type ConnectivityConfigurationsListNextResponse =
+  ConnectivityConfigurationListResult;
 
 /** Optional parameters. */
 export interface NetworkGroupsGetOptionalParams
@@ -19179,8 +19580,8 @@ export interface NetworkGroupsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type NetworkGroupsCreateOrUpdateResponse = NetworkGroupsCreateOrUpdateHeaders &
-  NetworkGroup;
+export type NetworkGroupsCreateOrUpdateResponse =
+  NetworkGroupsCreateOrUpdateHeaders & NetworkGroup;
 
 /** Optional parameters. */
 export interface NetworkGroupsDeleteOptionalParams
@@ -19296,7 +19697,8 @@ export interface SecurityAdminConfigurationsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type SecurityAdminConfigurationsListResponse = SecurityAdminConfigurationListResult;
+export type SecurityAdminConfigurationsListResponse =
+  SecurityAdminConfigurationListResult;
 
 /** Optional parameters. */
 export interface SecurityAdminConfigurationsGetOptionalParams
@@ -19310,7 +19712,8 @@ export interface SecurityAdminConfigurationsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type SecurityAdminConfigurationsCreateOrUpdateResponse = SecurityAdminConfiguration;
+export type SecurityAdminConfigurationsCreateOrUpdateResponse =
+  SecurityAdminConfiguration;
 
 /** Optional parameters. */
 export interface SecurityAdminConfigurationsDeleteOptionalParams
@@ -19328,7 +19731,8 @@ export interface SecurityAdminConfigurationsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type SecurityAdminConfigurationsListNextResponse = SecurityAdminConfigurationListResult;
+export type SecurityAdminConfigurationsListNextResponse =
+  SecurityAdminConfigurationListResult;
 
 /** Optional parameters. */
 export interface AdminRuleCollectionsListOptionalParams
@@ -19372,7 +19776,8 @@ export interface AdminRuleCollectionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type AdminRuleCollectionsListNextResponse = AdminRuleCollectionListResult;
+export type AdminRuleCollectionsListNextResponse =
+  AdminRuleCollectionListResult;
 
 /** Optional parameters. */
 export interface AdminRulesListOptionalParams
@@ -19522,7 +19927,8 @@ export interface NetworkSecurityGroupsListAllOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAll operation. */
-export type NetworkSecurityGroupsListAllResponse = NetworkSecurityGroupListResult;
+export type NetworkSecurityGroupsListAllResponse =
+  NetworkSecurityGroupListResult;
 
 /** Optional parameters. */
 export interface NetworkSecurityGroupsListOptionalParams
@@ -19536,14 +19942,16 @@ export interface NetworkSecurityGroupsListAllNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAllNext operation. */
-export type NetworkSecurityGroupsListAllNextResponse = NetworkSecurityGroupListResult;
+export type NetworkSecurityGroupsListAllNextResponse =
+  NetworkSecurityGroupListResult;
 
 /** Optional parameters. */
 export interface NetworkSecurityGroupsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type NetworkSecurityGroupsListNextResponse = NetworkSecurityGroupListResult;
+export type NetworkSecurityGroupsListNextResponse =
+  NetworkSecurityGroupListResult;
 
 /** Optional parameters. */
 export interface SecurityRulesDeleteOptionalParams
@@ -19632,7 +20040,8 @@ export interface NetworkVirtualAppliancesUpdateTagsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateTags operation. */
-export type NetworkVirtualAppliancesUpdateTagsResponse = NetworkVirtualAppliance;
+export type NetworkVirtualAppliancesUpdateTagsResponse =
+  NetworkVirtualAppliance;
 
 /** Optional parameters. */
 export interface NetworkVirtualAppliancesCreateOrUpdateOptionalParams
@@ -19644,35 +20053,40 @@ export interface NetworkVirtualAppliancesCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type NetworkVirtualAppliancesCreateOrUpdateResponse = NetworkVirtualAppliance;
+export type NetworkVirtualAppliancesCreateOrUpdateResponse =
+  NetworkVirtualAppliance;
 
 /** Optional parameters. */
 export interface NetworkVirtualAppliancesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type NetworkVirtualAppliancesListByResourceGroupResponse = NetworkVirtualApplianceListResult;
+export type NetworkVirtualAppliancesListByResourceGroupResponse =
+  NetworkVirtualApplianceListResult;
 
 /** Optional parameters. */
 export interface NetworkVirtualAppliancesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type NetworkVirtualAppliancesListResponse = NetworkVirtualApplianceListResult;
+export type NetworkVirtualAppliancesListResponse =
+  NetworkVirtualApplianceListResult;
 
 /** Optional parameters. */
 export interface NetworkVirtualAppliancesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type NetworkVirtualAppliancesListByResourceGroupNextResponse = NetworkVirtualApplianceListResult;
+export type NetworkVirtualAppliancesListByResourceGroupNextResponse =
+  NetworkVirtualApplianceListResult;
 
 /** Optional parameters. */
 export interface NetworkVirtualAppliancesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type NetworkVirtualAppliancesListNextResponse = NetworkVirtualApplianceListResult;
+export type NetworkVirtualAppliancesListNextResponse =
+  NetworkVirtualApplianceListResult;
 
 /** Optional parameters. */
 export interface VirtualApplianceSitesDeleteOptionalParams
@@ -19707,21 +20121,24 @@ export interface VirtualApplianceSitesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type VirtualApplianceSitesListResponse = NetworkVirtualApplianceSiteListResult;
+export type VirtualApplianceSitesListResponse =
+  NetworkVirtualApplianceSiteListResult;
 
 /** Optional parameters. */
 export interface VirtualApplianceSitesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type VirtualApplianceSitesListNextResponse = NetworkVirtualApplianceSiteListResult;
+export type VirtualApplianceSitesListNextResponse =
+  NetworkVirtualApplianceSiteListResult;
 
 /** Optional parameters. */
 export interface VirtualApplianceSkusListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type VirtualApplianceSkusListResponse = NetworkVirtualApplianceSkuListResult;
+export type VirtualApplianceSkusListResponse =
+  NetworkVirtualApplianceSkuListResult;
 
 /** Optional parameters. */
 export interface VirtualApplianceSkusGetOptionalParams
@@ -19735,7 +20152,8 @@ export interface VirtualApplianceSkusListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type VirtualApplianceSkusListNextResponse = NetworkVirtualApplianceSkuListResult;
+export type VirtualApplianceSkusListNextResponse =
+  NetworkVirtualApplianceSkuListResult;
 
 /** Optional parameters. */
 export interface InboundSecurityRuleCreateOrUpdateOptionalParams
@@ -19858,7 +20276,8 @@ export interface NetworkWatchersGetTroubleshootingResultOptionalParams
 }
 
 /** Contains response data for the getTroubleshootingResult operation. */
-export type NetworkWatchersGetTroubleshootingResultResponse = TroubleshootingResult;
+export type NetworkWatchersGetTroubleshootingResultResponse =
+  TroubleshootingResult;
 
 /** Optional parameters. */
 export interface NetworkWatchersSetFlowLogConfigurationOptionalParams
@@ -19906,7 +20325,8 @@ export interface NetworkWatchersGetAzureReachabilityReportOptionalParams
 }
 
 /** Contains response data for the getAzureReachabilityReport operation. */
-export type NetworkWatchersGetAzureReachabilityReportResponse = AzureReachabilityReport;
+export type NetworkWatchersGetAzureReachabilityReportResponse =
+  AzureReachabilityReport;
 
 /** Optional parameters. */
 export interface NetworkWatchersListAvailableProvidersOptionalParams
@@ -19918,7 +20338,8 @@ export interface NetworkWatchersListAvailableProvidersOptionalParams
 }
 
 /** Contains response data for the listAvailableProviders operation. */
-export type NetworkWatchersListAvailableProvidersResponse = AvailableProvidersList;
+export type NetworkWatchersListAvailableProvidersResponse =
+  AvailableProvidersList;
 
 /** Optional parameters. */
 export interface NetworkWatchersGetNetworkConfigurationDiagnosticOptionalParams
@@ -19930,7 +20351,8 @@ export interface NetworkWatchersGetNetworkConfigurationDiagnosticOptionalParams
 }
 
 /** Contains response data for the getNetworkConfigurationDiagnostic operation. */
-export type NetworkWatchersGetNetworkConfigurationDiagnosticResponse = NetworkConfigurationDiagnosticResponse;
+export type NetworkWatchersGetNetworkConfigurationDiagnosticResponse =
+  NetworkConfigurationDiagnosticResponse;
 
 /** Optional parameters. */
 export interface PacketCapturesCreateOptionalParams
@@ -20168,7 +20590,8 @@ export interface PrivateEndpointsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type PrivateEndpointsListBySubscriptionResponse = PrivateEndpointListResult;
+export type PrivateEndpointsListBySubscriptionResponse =
+  PrivateEndpointListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointsListNextOptionalParams
@@ -20182,35 +20605,40 @@ export interface PrivateEndpointsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type PrivateEndpointsListBySubscriptionNextResponse = PrivateEndpointListResult;
+export type PrivateEndpointsListBySubscriptionNextResponse =
+  PrivateEndpointListResult;
 
 /** Optional parameters. */
 export interface AvailablePrivateEndpointTypesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type AvailablePrivateEndpointTypesListResponse = AvailablePrivateEndpointTypesResult;
+export type AvailablePrivateEndpointTypesListResponse =
+  AvailablePrivateEndpointTypesResult;
 
 /** Optional parameters. */
 export interface AvailablePrivateEndpointTypesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type AvailablePrivateEndpointTypesListByResourceGroupResponse = AvailablePrivateEndpointTypesResult;
+export type AvailablePrivateEndpointTypesListByResourceGroupResponse =
+  AvailablePrivateEndpointTypesResult;
 
 /** Optional parameters. */
 export interface AvailablePrivateEndpointTypesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type AvailablePrivateEndpointTypesListNextResponse = AvailablePrivateEndpointTypesResult;
+export type AvailablePrivateEndpointTypesListNextResponse =
+  AvailablePrivateEndpointTypesResult;
 
 /** Optional parameters. */
 export interface AvailablePrivateEndpointTypesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type AvailablePrivateEndpointTypesListByResourceGroupNextResponse = AvailablePrivateEndpointTypesResult;
+export type AvailablePrivateEndpointTypesListByResourceGroupNextResponse =
+  AvailablePrivateEndpointTypesResult;
 
 /** Optional parameters. */
 export interface PrivateDnsZoneGroupsDeleteOptionalParams
@@ -20252,7 +20680,8 @@ export interface PrivateDnsZoneGroupsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type PrivateDnsZoneGroupsListNextResponse = PrivateDnsZoneGroupListResult;
+export type PrivateDnsZoneGroupsListNextResponse =
+  PrivateDnsZoneGroupListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkServicesDeleteOptionalParams
@@ -20297,7 +20726,8 @@ export interface PrivateLinkServicesListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type PrivateLinkServicesListBySubscriptionResponse = PrivateLinkServiceListResult;
+export type PrivateLinkServicesListBySubscriptionResponse =
+  PrivateLinkServiceListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkServicesGetPrivateEndpointConnectionOptionalParams
@@ -20307,14 +20737,16 @@ export interface PrivateLinkServicesGetPrivateEndpointConnectionOptionalParams
 }
 
 /** Contains response data for the getPrivateEndpointConnection operation. */
-export type PrivateLinkServicesGetPrivateEndpointConnectionResponse = PrivateEndpointConnection;
+export type PrivateLinkServicesGetPrivateEndpointConnectionResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateLinkServicesUpdatePrivateEndpointConnectionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the updatePrivateEndpointConnection operation. */
-export type PrivateLinkServicesUpdatePrivateEndpointConnectionResponse = PrivateEndpointConnection;
+export type PrivateLinkServicesUpdatePrivateEndpointConnectionResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateLinkServicesDeletePrivateEndpointConnectionOptionalParams
@@ -20330,7 +20762,8 @@ export interface PrivateLinkServicesListPrivateEndpointConnectionsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPrivateEndpointConnections operation. */
-export type PrivateLinkServicesListPrivateEndpointConnectionsResponse = PrivateEndpointConnectionListResult;
+export type PrivateLinkServicesListPrivateEndpointConnectionsResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkServicesCheckPrivateLinkServiceVisibilityOptionalParams
@@ -20342,7 +20775,8 @@ export interface PrivateLinkServicesCheckPrivateLinkServiceVisibilityOptionalPar
 }
 
 /** Contains response data for the checkPrivateLinkServiceVisibility operation. */
-export type PrivateLinkServicesCheckPrivateLinkServiceVisibilityResponse = PrivateLinkServiceVisibility;
+export type PrivateLinkServicesCheckPrivateLinkServiceVisibilityResponse =
+  PrivateLinkServiceVisibility;
 
 /** Optional parameters. */
 export interface PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupOptionalParams
@@ -20354,21 +20788,24 @@ export interface PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceG
 }
 
 /** Contains response data for the checkPrivateLinkServiceVisibilityByResourceGroup operation. */
-export type PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupResponse = PrivateLinkServiceVisibility;
+export type PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupResponse =
+  PrivateLinkServiceVisibility;
 
 /** Optional parameters. */
 export interface PrivateLinkServicesListAutoApprovedPrivateLinkServicesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAutoApprovedPrivateLinkServices operation. */
-export type PrivateLinkServicesListAutoApprovedPrivateLinkServicesResponse = AutoApprovedPrivateLinkServicesResult;
+export type PrivateLinkServicesListAutoApprovedPrivateLinkServicesResponse =
+  AutoApprovedPrivateLinkServicesResult;
 
 /** Optional parameters. */
 export interface PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAutoApprovedPrivateLinkServicesByResourceGroup operation. */
-export type PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupResponse = AutoApprovedPrivateLinkServicesResult;
+export type PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupResponse =
+  AutoApprovedPrivateLinkServicesResult;
 
 /** Optional parameters. */
 export interface PrivateLinkServicesListNextOptionalParams
@@ -20382,28 +20819,32 @@ export interface PrivateLinkServicesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type PrivateLinkServicesListBySubscriptionNextResponse = PrivateLinkServiceListResult;
+export type PrivateLinkServicesListBySubscriptionNextResponse =
+  PrivateLinkServiceListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkServicesListPrivateEndpointConnectionsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPrivateEndpointConnectionsNext operation. */
-export type PrivateLinkServicesListPrivateEndpointConnectionsNextResponse = PrivateEndpointConnectionListResult;
+export type PrivateLinkServicesListPrivateEndpointConnectionsNextResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkServicesListAutoApprovedPrivateLinkServicesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAutoApprovedPrivateLinkServicesNext operation. */
-export type PrivateLinkServicesListAutoApprovedPrivateLinkServicesNextResponse = AutoApprovedPrivateLinkServicesResult;
+export type PrivateLinkServicesListAutoApprovedPrivateLinkServicesNextResponse =
+  AutoApprovedPrivateLinkServicesResult;
 
 /** Optional parameters. */
 export interface PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAutoApprovedPrivateLinkServicesByResourceGroupNext operation. */
-export type PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupNextResponse = AutoApprovedPrivateLinkServicesResult;
+export type PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupNextResponse =
+  AutoApprovedPrivateLinkServicesResult;
 
 /** Optional parameters. */
 export interface PublicIPPrefixesDeleteOptionalParams
@@ -20570,14 +21011,16 @@ export interface RouteFilterRulesListByRouteFilterOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByRouteFilter operation. */
-export type RouteFilterRulesListByRouteFilterResponse = RouteFilterRuleListResult;
+export type RouteFilterRulesListByRouteFilterResponse =
+  RouteFilterRuleListResult;
 
 /** Optional parameters. */
 export interface RouteFilterRulesListByRouteFilterNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByRouteFilterNext operation. */
-export type RouteFilterRulesListByRouteFilterNextResponse = RouteFilterRuleListResult;
+export type RouteFilterRulesListByRouteFilterNextResponse =
+  RouteFilterRuleListResult;
 
 /** Optional parameters. */
 export interface RouteTablesDeleteOptionalParams
@@ -20711,42 +21154,48 @@ export interface SecurityPartnerProvidersCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type SecurityPartnerProvidersCreateOrUpdateResponse = SecurityPartnerProvider;
+export type SecurityPartnerProvidersCreateOrUpdateResponse =
+  SecurityPartnerProvider;
 
 /** Optional parameters. */
 export interface SecurityPartnerProvidersUpdateTagsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateTags operation. */
-export type SecurityPartnerProvidersUpdateTagsResponse = SecurityPartnerProvider;
+export type SecurityPartnerProvidersUpdateTagsResponse =
+  SecurityPartnerProvider;
 
 /** Optional parameters. */
 export interface SecurityPartnerProvidersListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type SecurityPartnerProvidersListByResourceGroupResponse = SecurityPartnerProviderListResult;
+export type SecurityPartnerProvidersListByResourceGroupResponse =
+  SecurityPartnerProviderListResult;
 
 /** Optional parameters. */
 export interface SecurityPartnerProvidersListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type SecurityPartnerProvidersListResponse = SecurityPartnerProviderListResult;
+export type SecurityPartnerProvidersListResponse =
+  SecurityPartnerProviderListResult;
 
 /** Optional parameters. */
 export interface SecurityPartnerProvidersListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type SecurityPartnerProvidersListByResourceGroupNextResponse = SecurityPartnerProviderListResult;
+export type SecurityPartnerProvidersListByResourceGroupNextResponse =
+  SecurityPartnerProviderListResult;
 
 /** Optional parameters. */
 export interface SecurityPartnerProvidersListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type SecurityPartnerProvidersListNextResponse = SecurityPartnerProviderListResult;
+export type SecurityPartnerProvidersListNextResponse =
+  SecurityPartnerProviderListResult;
 
 /** Optional parameters. */
 export interface BgpServiceCommunitiesListOptionalParams
@@ -20760,7 +21209,8 @@ export interface BgpServiceCommunitiesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type BgpServiceCommunitiesListNextResponse = BgpServiceCommunityListResult;
+export type BgpServiceCommunitiesListNextResponse =
+  BgpServiceCommunityListResult;
 
 /** Optional parameters. */
 export interface ServiceEndpointPoliciesDeleteOptionalParams
@@ -20791,7 +21241,8 @@ export interface ServiceEndpointPoliciesCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ServiceEndpointPoliciesCreateOrUpdateResponse = ServiceEndpointPolicy;
+export type ServiceEndpointPoliciesCreateOrUpdateResponse =
+  ServiceEndpointPolicy;
 
 /** Optional parameters. */
 export interface ServiceEndpointPoliciesUpdateTagsOptionalParams
@@ -20805,28 +21256,32 @@ export interface ServiceEndpointPoliciesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ServiceEndpointPoliciesListResponse = ServiceEndpointPolicyListResult;
+export type ServiceEndpointPoliciesListResponse =
+  ServiceEndpointPolicyListResult;
 
 /** Optional parameters. */
 export interface ServiceEndpointPoliciesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type ServiceEndpointPoliciesListByResourceGroupResponse = ServiceEndpointPolicyListResult;
+export type ServiceEndpointPoliciesListByResourceGroupResponse =
+  ServiceEndpointPolicyListResult;
 
 /** Optional parameters. */
 export interface ServiceEndpointPoliciesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ServiceEndpointPoliciesListNextResponse = ServiceEndpointPolicyListResult;
+export type ServiceEndpointPoliciesListNextResponse =
+  ServiceEndpointPolicyListResult;
 
 /** Optional parameters. */
 export interface ServiceEndpointPoliciesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type ServiceEndpointPoliciesListByResourceGroupNextResponse = ServiceEndpointPolicyListResult;
+export type ServiceEndpointPoliciesListByResourceGroupNextResponse =
+  ServiceEndpointPolicyListResult;
 
 /** Optional parameters. */
 export interface ServiceEndpointPolicyDefinitionsDeleteOptionalParams
@@ -20842,7 +21297,8 @@ export interface ServiceEndpointPolicyDefinitionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ServiceEndpointPolicyDefinitionsGetResponse = ServiceEndpointPolicyDefinition;
+export type ServiceEndpointPolicyDefinitionsGetResponse =
+  ServiceEndpointPolicyDefinition;
 
 /** Optional parameters. */
 export interface ServiceEndpointPolicyDefinitionsCreateOrUpdateOptionalParams
@@ -20854,21 +21310,24 @@ export interface ServiceEndpointPolicyDefinitionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ServiceEndpointPolicyDefinitionsCreateOrUpdateResponse = ServiceEndpointPolicyDefinition;
+export type ServiceEndpointPolicyDefinitionsCreateOrUpdateResponse =
+  ServiceEndpointPolicyDefinition;
 
 /** Optional parameters. */
 export interface ServiceEndpointPolicyDefinitionsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type ServiceEndpointPolicyDefinitionsListByResourceGroupResponse = ServiceEndpointPolicyDefinitionListResult;
+export type ServiceEndpointPolicyDefinitionsListByResourceGroupResponse =
+  ServiceEndpointPolicyDefinitionListResult;
 
 /** Optional parameters. */
 export interface ServiceEndpointPolicyDefinitionsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type ServiceEndpointPolicyDefinitionsListByResourceGroupNextResponse = ServiceEndpointPolicyDefinitionListResult;
+export type ServiceEndpointPolicyDefinitionsListByResourceGroupNextResponse =
+  ServiceEndpointPolicyDefinitionListResult;
 
 /** Optional parameters. */
 export interface ServiceTagsListOptionalParams
@@ -20894,7 +21353,8 @@ export interface ServiceTagInformationListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ServiceTagInformationListNextResponse = ServiceTagInformationListResult;
+export type ServiceTagInformationListNextResponse =
+  ServiceTagInformationListResult;
 
 /** Optional parameters. */
 export interface UsagesListOptionalParams extends coreClient.OperationOptions {}
@@ -20966,7 +21426,8 @@ export interface VirtualNetworksCheckIPAddressAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkIPAddressAvailability operation. */
-export type VirtualNetworksCheckIPAddressAvailabilityResponse = IPAddressAvailabilityResult;
+export type VirtualNetworksCheckIPAddressAvailabilityResponse =
+  IPAddressAvailabilityResult;
 
 /** Optional parameters. */
 export interface VirtualNetworksListUsageOptionalParams
@@ -20989,7 +21450,8 @@ export interface VirtualNetworksListDdosProtectionStatusOptionalParams
 }
 
 /** Contains response data for the listDdosProtectionStatus operation. */
-export type VirtualNetworksListDdosProtectionStatusResponse = VirtualNetworkDdosProtectionStatusResult;
+export type VirtualNetworksListDdosProtectionStatusResponse =
+  VirtualNetworkDdosProtectionStatusResult;
 
 /** Optional parameters. */
 export interface VirtualNetworksListAllNextOptionalParams
@@ -21010,14 +21472,16 @@ export interface VirtualNetworksListUsageNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listUsageNext operation. */
-export type VirtualNetworksListUsageNextResponse = VirtualNetworkListUsageResult;
+export type VirtualNetworksListUsageNextResponse =
+  VirtualNetworkListUsageResult;
 
 /** Optional parameters. */
 export interface VirtualNetworksListDdosProtectionStatusNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDdosProtectionStatusNext operation. */
-export type VirtualNetworksListDdosProtectionStatusNextResponse = VirtualNetworkDdosProtectionStatusResult;
+export type VirtualNetworksListDdosProtectionStatusNextResponse =
+  VirtualNetworkDdosProtectionStatusResult;
 
 /** Optional parameters. */
 export interface SubnetsDeleteOptionalParams
@@ -21086,14 +21550,16 @@ export interface ResourceNavigationLinksListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ResourceNavigationLinksListResponse = ResourceNavigationLinksListResult;
+export type ResourceNavigationLinksListResponse =
+  ResourceNavigationLinksListResult;
 
 /** Optional parameters. */
 export interface ServiceAssociationLinksListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ServiceAssociationLinksListResponse = ServiceAssociationLinksListResult;
+export type ServiceAssociationLinksListResponse =
+  ServiceAssociationLinksListResult;
 
 /** Optional parameters. */
 export interface VirtualNetworkPeeringsDeleteOptionalParams
@@ -21123,21 +21589,24 @@ export interface VirtualNetworkPeeringsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type VirtualNetworkPeeringsCreateOrUpdateResponse = VirtualNetworkPeering;
+export type VirtualNetworkPeeringsCreateOrUpdateResponse =
+  VirtualNetworkPeering;
 
 /** Optional parameters. */
 export interface VirtualNetworkPeeringsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type VirtualNetworkPeeringsListResponse = VirtualNetworkPeeringListResult;
+export type VirtualNetworkPeeringsListResponse =
+  VirtualNetworkPeeringListResult;
 
 /** Optional parameters. */
 export interface VirtualNetworkPeeringsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type VirtualNetworkPeeringsListNextResponse = VirtualNetworkPeeringListResult;
+export type VirtualNetworkPeeringsListNextResponse =
+  VirtualNetworkPeeringListResult;
 
 /** Optional parameters. */
 export interface VirtualNetworkGatewaysCreateOrUpdateOptionalParams
@@ -21149,7 +21618,8 @@ export interface VirtualNetworkGatewaysCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type VirtualNetworkGatewaysCreateOrUpdateResponse = VirtualNetworkGateway;
+export type VirtualNetworkGatewaysCreateOrUpdateResponse =
+  VirtualNetworkGateway;
 
 /** Optional parameters. */
 export interface VirtualNetworkGatewaysGetOptionalParams
@@ -21184,14 +21654,16 @@ export interface VirtualNetworkGatewaysListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type VirtualNetworkGatewaysListResponse = VirtualNetworkGatewayListResult;
+export type VirtualNetworkGatewaysListResponse =
+  VirtualNetworkGatewayListResult;
 
 /** Optional parameters. */
 export interface VirtualNetworkGatewaysListConnectionsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listConnections operation. */
-export type VirtualNetworkGatewaysListConnectionsResponse = VirtualNetworkGatewayListConnectionsResult;
+export type VirtualNetworkGatewaysListConnectionsResponse =
+  VirtualNetworkGatewayListConnectionsResult;
 
 /** Optional parameters. */
 export interface VirtualNetworkGatewaysResetOptionalParams
@@ -21273,7 +21745,8 @@ export interface VirtualNetworkGatewaysGetBgpPeerStatusOptionalParams
 }
 
 /** Contains response data for the getBgpPeerStatus operation. */
-export type VirtualNetworkGatewaysGetBgpPeerStatusResponse = BgpPeerStatusListResult;
+export type VirtualNetworkGatewaysGetBgpPeerStatusResponse =
+  BgpPeerStatusListResult;
 
 /** Optional parameters. */
 export interface VirtualNetworkGatewaysSupportedVpnDevicesOptionalParams
@@ -21295,7 +21768,8 @@ export interface VirtualNetworkGatewaysGetLearnedRoutesOptionalParams
 }
 
 /** Contains response data for the getLearnedRoutes operation. */
-export type VirtualNetworkGatewaysGetLearnedRoutesResponse = GatewayRouteListResult;
+export type VirtualNetworkGatewaysGetLearnedRoutesResponse =
+  GatewayRouteListResult;
 
 /** Optional parameters. */
 export interface VirtualNetworkGatewaysGetAdvertisedRoutesOptionalParams
@@ -21307,7 +21781,8 @@ export interface VirtualNetworkGatewaysGetAdvertisedRoutesOptionalParams
 }
 
 /** Contains response data for the getAdvertisedRoutes operation. */
-export type VirtualNetworkGatewaysGetAdvertisedRoutesResponse = GatewayRouteListResult;
+export type VirtualNetworkGatewaysGetAdvertisedRoutesResponse =
+  GatewayRouteListResult;
 
 /** Optional parameters. */
 export interface VirtualNetworkGatewaysSetVpnclientIpsecParametersOptionalParams
@@ -21319,7 +21794,8 @@ export interface VirtualNetworkGatewaysSetVpnclientIpsecParametersOptionalParams
 }
 
 /** Contains response data for the setVpnclientIpsecParameters operation. */
-export type VirtualNetworkGatewaysSetVpnclientIpsecParametersResponse = VpnClientIPsecParameters;
+export type VirtualNetworkGatewaysSetVpnclientIpsecParametersResponse =
+  VpnClientIPsecParameters;
 
 /** Optional parameters. */
 export interface VirtualNetworkGatewaysGetVpnclientIpsecParametersOptionalParams
@@ -21331,7 +21807,8 @@ export interface VirtualNetworkGatewaysGetVpnclientIpsecParametersOptionalParams
 }
 
 /** Contains response data for the getVpnclientIpsecParameters operation. */
-export type VirtualNetworkGatewaysGetVpnclientIpsecParametersResponse = VpnClientIPsecParameters;
+export type VirtualNetworkGatewaysGetVpnclientIpsecParametersResponse =
+  VpnClientIPsecParameters;
 
 /** Optional parameters. */
 export interface VirtualNetworkGatewaysVpnDeviceConfigurationScriptOptionalParams
@@ -21385,7 +21862,8 @@ export interface VirtualNetworkGatewaysGetVpnclientConnectionHealthOptionalParam
 }
 
 /** Contains response data for the getVpnclientConnectionHealth operation. */
-export type VirtualNetworkGatewaysGetVpnclientConnectionHealthResponse = VpnClientConnectionHealthDetailListResult;
+export type VirtualNetworkGatewaysGetVpnclientConnectionHealthResponse =
+  VpnClientConnectionHealthDetailListResult;
 
 /** Optional parameters. */
 export interface VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnectionsOptionalParams
@@ -21401,14 +21879,16 @@ export interface VirtualNetworkGatewaysListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type VirtualNetworkGatewaysListNextResponse = VirtualNetworkGatewayListResult;
+export type VirtualNetworkGatewaysListNextResponse =
+  VirtualNetworkGatewayListResult;
 
 /** Optional parameters. */
 export interface VirtualNetworkGatewaysListConnectionsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listConnectionsNext operation. */
-export type VirtualNetworkGatewaysListConnectionsNextResponse = VirtualNetworkGatewayListConnectionsResult;
+export type VirtualNetworkGatewaysListConnectionsNextResponse =
+  VirtualNetworkGatewayListConnectionsResult;
 
 /** Optional parameters. */
 export interface VirtualNetworkGatewayConnectionsCreateOrUpdateOptionalParams
@@ -21420,14 +21900,16 @@ export interface VirtualNetworkGatewayConnectionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type VirtualNetworkGatewayConnectionsCreateOrUpdateResponse = VirtualNetworkGatewayConnection;
+export type VirtualNetworkGatewayConnectionsCreateOrUpdateResponse =
+  VirtualNetworkGatewayConnection;
 
 /** Optional parameters. */
 export interface VirtualNetworkGatewayConnectionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type VirtualNetworkGatewayConnectionsGetResponse = VirtualNetworkGatewayConnection;
+export type VirtualNetworkGatewayConnectionsGetResponse =
+  VirtualNetworkGatewayConnection;
 
 /** Optional parameters. */
 export interface VirtualNetworkGatewayConnectionsDeleteOptionalParams
@@ -21448,7 +21930,8 @@ export interface VirtualNetworkGatewayConnectionsUpdateTagsOptionalParams
 }
 
 /** Contains response data for the updateTags operation. */
-export type VirtualNetworkGatewayConnectionsUpdateTagsResponse = VirtualNetworkGatewayConnection;
+export type VirtualNetworkGatewayConnectionsUpdateTagsResponse =
+  VirtualNetworkGatewayConnection;
 
 /** Optional parameters. */
 export interface VirtualNetworkGatewayConnectionsSetSharedKeyOptionalParams
@@ -21460,21 +21943,24 @@ export interface VirtualNetworkGatewayConnectionsSetSharedKeyOptionalParams
 }
 
 /** Contains response data for the setSharedKey operation. */
-export type VirtualNetworkGatewayConnectionsSetSharedKeyResponse = ConnectionSharedKey;
+export type VirtualNetworkGatewayConnectionsSetSharedKeyResponse =
+  ConnectionSharedKey;
 
 /** Optional parameters. */
 export interface VirtualNetworkGatewayConnectionsGetSharedKeyOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSharedKey operation. */
-export type VirtualNetworkGatewayConnectionsGetSharedKeyResponse = ConnectionSharedKey;
+export type VirtualNetworkGatewayConnectionsGetSharedKeyResponse =
+  ConnectionSharedKey;
 
 /** Optional parameters. */
 export interface VirtualNetworkGatewayConnectionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type VirtualNetworkGatewayConnectionsListResponse = VirtualNetworkGatewayConnectionListResult;
+export type VirtualNetworkGatewayConnectionsListResponse =
+  VirtualNetworkGatewayConnectionListResult;
 
 /** Optional parameters. */
 export interface VirtualNetworkGatewayConnectionsResetSharedKeyOptionalParams
@@ -21486,7 +21972,8 @@ export interface VirtualNetworkGatewayConnectionsResetSharedKeyOptionalParams
 }
 
 /** Contains response data for the resetSharedKey operation. */
-export type VirtualNetworkGatewayConnectionsResetSharedKeyResponse = ConnectionResetSharedKey;
+export type VirtualNetworkGatewayConnectionsResetSharedKeyResponse =
+  ConnectionResetSharedKey;
 
 /** Optional parameters. */
 export interface VirtualNetworkGatewayConnectionsStartPacketCaptureOptionalParams
@@ -21549,7 +22036,8 @@ export interface VirtualNetworkGatewayConnectionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type VirtualNetworkGatewayConnectionsListNextResponse = VirtualNetworkGatewayConnectionListResult;
+export type VirtualNetworkGatewayConnectionsListNextResponse =
+  VirtualNetworkGatewayConnectionListResult;
 
 /** Optional parameters. */
 export interface LocalNetworkGatewaysCreateOrUpdateOptionalParams
@@ -21598,14 +22086,16 @@ export interface LocalNetworkGatewaysListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type LocalNetworkGatewaysListNextResponse = LocalNetworkGatewayListResult;
+export type LocalNetworkGatewaysListNextResponse =
+  LocalNetworkGatewayListResult;
 
 /** Optional parameters. */
 export interface VirtualNetworkGatewayNatRulesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type VirtualNetworkGatewayNatRulesGetResponse = VirtualNetworkGatewayNatRule;
+export type VirtualNetworkGatewayNatRulesGetResponse =
+  VirtualNetworkGatewayNatRule;
 
 /** Optional parameters. */
 export interface VirtualNetworkGatewayNatRulesCreateOrUpdateOptionalParams
@@ -21617,7 +22107,8 @@ export interface VirtualNetworkGatewayNatRulesCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type VirtualNetworkGatewayNatRulesCreateOrUpdateResponse = VirtualNetworkGatewayNatRule;
+export type VirtualNetworkGatewayNatRulesCreateOrUpdateResponse =
+  VirtualNetworkGatewayNatRule;
 
 /** Optional parameters. */
 export interface VirtualNetworkGatewayNatRulesDeleteOptionalParams
@@ -21633,14 +22124,16 @@ export interface VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayOptiona
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByVirtualNetworkGateway operation. */
-export type VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayResponse = ListVirtualNetworkGatewayNatRulesResult;
+export type VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayResponse =
+  ListVirtualNetworkGatewayNatRulesResult;
 
 /** Optional parameters. */
 export interface VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByVirtualNetworkGatewayNext operation. */
-export type VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayNextResponse = ListVirtualNetworkGatewayNatRulesResult;
+export type VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayNextResponse =
+  ListVirtualNetworkGatewayNatRulesResult;
 
 /** Optional parameters. */
 export interface VirtualNetworkTapsDeleteOptionalParams
@@ -21689,7 +22182,8 @@ export interface VirtualNetworkTapsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type VirtualNetworkTapsListByResourceGroupResponse = VirtualNetworkTapListResult;
+export type VirtualNetworkTapsListByResourceGroupResponse =
+  VirtualNetworkTapListResult;
 
 /** Optional parameters. */
 export interface VirtualNetworkTapsListAllNextOptionalParams
@@ -21703,7 +22197,8 @@ export interface VirtualNetworkTapsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type VirtualNetworkTapsListByResourceGroupNextResponse = VirtualNetworkTapListResult;
+export type VirtualNetworkTapsListByResourceGroupNextResponse =
+  VirtualNetworkTapListResult;
 
 /** Optional parameters. */
 export interface VirtualRoutersDeleteOptionalParams
@@ -21755,7 +22250,8 @@ export interface VirtualRoutersListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type VirtualRoutersListByResourceGroupNextResponse = VirtualRouterListResult;
+export type VirtualRoutersListByResourceGroupNextResponse =
+  VirtualRouterListResult;
 
 /** Optional parameters. */
 export interface VirtualRoutersListNextOptionalParams
@@ -21804,7 +22300,8 @@ export interface VirtualRouterPeeringsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type VirtualRouterPeeringsListNextResponse = VirtualRouterPeeringListResult;
+export type VirtualRouterPeeringsListNextResponse =
+  VirtualRouterPeeringListResult;
 
 /** Optional parameters. */
 export interface VirtualWansGetOptionalParams
@@ -21979,7 +22476,8 @@ export interface VpnServerConfigurationsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type VpnServerConfigurationsCreateOrUpdateResponse = VpnServerConfiguration;
+export type VpnServerConfigurationsCreateOrUpdateResponse =
+  VpnServerConfiguration;
 
 /** Optional parameters. */
 export interface VpnServerConfigurationsUpdateTagsOptionalParams
@@ -22002,28 +22500,32 @@ export interface VpnServerConfigurationsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type VpnServerConfigurationsListByResourceGroupResponse = ListVpnServerConfigurationsResult;
+export type VpnServerConfigurationsListByResourceGroupResponse =
+  ListVpnServerConfigurationsResult;
 
 /** Optional parameters. */
 export interface VpnServerConfigurationsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type VpnServerConfigurationsListResponse = ListVpnServerConfigurationsResult;
+export type VpnServerConfigurationsListResponse =
+  ListVpnServerConfigurationsResult;
 
 /** Optional parameters. */
 export interface VpnServerConfigurationsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type VpnServerConfigurationsListByResourceGroupNextResponse = ListVpnServerConfigurationsResult;
+export type VpnServerConfigurationsListByResourceGroupNextResponse =
+  ListVpnServerConfigurationsResult;
 
 /** Optional parameters. */
 export interface VpnServerConfigurationsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type VpnServerConfigurationsListNextResponse = ListVpnServerConfigurationsResult;
+export type VpnServerConfigurationsListNextResponse =
+  ListVpnServerConfigurationsResult;
 
 /** Optional parameters. */
 export interface ConfigurationPolicyGroupsCreateOrUpdateOptionalParams
@@ -22035,7 +22537,8 @@ export interface ConfigurationPolicyGroupsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ConfigurationPolicyGroupsCreateOrUpdateResponse = VpnServerConfigurationPolicyGroup;
+export type ConfigurationPolicyGroupsCreateOrUpdateResponse =
+  VpnServerConfigurationPolicyGroup;
 
 /** Optional parameters. */
 export interface ConfigurationPolicyGroupsDeleteOptionalParams
@@ -22051,21 +22554,24 @@ export interface ConfigurationPolicyGroupsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ConfigurationPolicyGroupsGetResponse = VpnServerConfigurationPolicyGroup;
+export type ConfigurationPolicyGroupsGetResponse =
+  VpnServerConfigurationPolicyGroup;
 
 /** Optional parameters. */
 export interface ConfigurationPolicyGroupsListByVpnServerConfigurationOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByVpnServerConfiguration operation. */
-export type ConfigurationPolicyGroupsListByVpnServerConfigurationResponse = ListVpnServerConfigurationPolicyGroupsResult;
+export type ConfigurationPolicyGroupsListByVpnServerConfigurationResponse =
+  ListVpnServerConfigurationPolicyGroupsResult;
 
 /** Optional parameters. */
 export interface ConfigurationPolicyGroupsListByVpnServerConfigurationNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByVpnServerConfigurationNext operation. */
-export type ConfigurationPolicyGroupsListByVpnServerConfigurationNextResponse = ListVpnServerConfigurationPolicyGroupsResult;
+export type ConfigurationPolicyGroupsListByVpnServerConfigurationNextResponse =
+  ListVpnServerConfigurationPolicyGroupsResult;
 
 /** Optional parameters. */
 export interface VirtualHubsGetOptionalParams
@@ -22128,7 +22634,8 @@ export interface VirtualHubsGetEffectiveVirtualHubRoutesOptionalParams
 }
 
 /** Contains response data for the getEffectiveVirtualHubRoutes operation. */
-export type VirtualHubsGetEffectiveVirtualHubRoutesResponse = VirtualHubEffectiveRouteList;
+export type VirtualHubsGetEffectiveVirtualHubRoutesResponse =
+  VirtualHubEffectiveRouteList;
 
 /** Optional parameters. */
 export interface VirtualHubsGetInboundRoutesOptionalParams
@@ -22220,7 +22727,8 @@ export interface HubVirtualNetworkConnectionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type HubVirtualNetworkConnectionsCreateOrUpdateResponse = HubVirtualNetworkConnection;
+export type HubVirtualNetworkConnectionsCreateOrUpdateResponse =
+  HubVirtualNetworkConnection;
 
 /** Optional parameters. */
 export interface HubVirtualNetworkConnectionsDeleteOptionalParams
@@ -22236,21 +22744,24 @@ export interface HubVirtualNetworkConnectionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type HubVirtualNetworkConnectionsGetResponse = HubVirtualNetworkConnection;
+export type HubVirtualNetworkConnectionsGetResponse =
+  HubVirtualNetworkConnection;
 
 /** Optional parameters. */
 export interface HubVirtualNetworkConnectionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type HubVirtualNetworkConnectionsListResponse = ListHubVirtualNetworkConnectionsResult;
+export type HubVirtualNetworkConnectionsListResponse =
+  ListHubVirtualNetworkConnectionsResult;
 
 /** Optional parameters. */
 export interface HubVirtualNetworkConnectionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type HubVirtualNetworkConnectionsListNextResponse = ListHubVirtualNetworkConnectionsResult;
+export type HubVirtualNetworkConnectionsListNextResponse =
+  ListHubVirtualNetworkConnectionsResult;
 
 /** Optional parameters. */
 export interface VpnGatewaysGetOptionalParams
@@ -22397,14 +22908,16 @@ export interface VpnLinkConnectionsListByVpnConnectionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByVpnConnection operation. */
-export type VpnLinkConnectionsListByVpnConnectionResponse = ListVpnSiteLinkConnectionsResult;
+export type VpnLinkConnectionsListByVpnConnectionResponse =
+  ListVpnSiteLinkConnectionsResult;
 
 /** Optional parameters. */
 export interface VpnLinkConnectionsListByVpnConnectionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByVpnConnectionNext operation. */
-export type VpnLinkConnectionsListByVpnConnectionNextResponse = ListVpnSiteLinkConnectionsResult;
+export type VpnLinkConnectionsListByVpnConnectionNextResponse =
+  ListVpnSiteLinkConnectionsResult;
 
 /** Optional parameters. */
 export interface VpnConnectionsGetOptionalParams
@@ -22480,7 +22993,8 @@ export interface VpnConnectionsListByVpnGatewayNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByVpnGatewayNext operation. */
-export type VpnConnectionsListByVpnGatewayNextResponse = ListVpnConnectionsResult;
+export type VpnConnectionsListByVpnGatewayNextResponse =
+  ListVpnConnectionsResult;
 
 /** Optional parameters. */
 export interface VpnSiteLinkConnectionsGetOptionalParams
@@ -22576,7 +23090,8 @@ export interface P2SVpnGatewaysListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type P2SVpnGatewaysListByResourceGroupResponse = ListP2SVpnGatewaysResult;
+export type P2SVpnGatewaysListByResourceGroupResponse =
+  ListP2SVpnGatewaysResult;
 
 /** Optional parameters. */
 export interface P2SVpnGatewaysListOptionalParams
@@ -22631,7 +23146,8 @@ export interface P2SVpnGatewaysGetP2SVpnConnectionHealthDetailedOptionalParams
 }
 
 /** Contains response data for the getP2SVpnConnectionHealthDetailed operation. */
-export type P2SVpnGatewaysGetP2SVpnConnectionHealthDetailedResponse = P2SVpnConnectionHealth;
+export type P2SVpnGatewaysGetP2SVpnConnectionHealthDetailedResponse =
+  P2SVpnConnectionHealth;
 
 /** Optional parameters. */
 export interface P2SVpnGatewaysDisconnectP2SVpnConnectionsOptionalParams
@@ -22647,7 +23163,8 @@ export interface P2SVpnGatewaysListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type P2SVpnGatewaysListByResourceGroupNextResponse = ListP2SVpnGatewaysResult;
+export type P2SVpnGatewaysListByResourceGroupNextResponse =
+  ListP2SVpnGatewaysResult;
 
 /** Optional parameters. */
 export interface P2SVpnGatewaysListNextOptionalParams
@@ -22666,7 +23183,8 @@ export interface VpnServerConfigurationsAssociatedWithVirtualWanListOptionalPara
 }
 
 /** Contains response data for the list operation. */
-export type VpnServerConfigurationsAssociatedWithVirtualWanListResponse = VpnServerConfigurationsResponse;
+export type VpnServerConfigurationsAssociatedWithVirtualWanListResponse =
+  VpnServerConfigurationsResponse;
 
 /** Optional parameters. */
 export interface VirtualHubRouteTableV2SGetOptionalParams
@@ -22685,7 +23203,8 @@ export interface VirtualHubRouteTableV2SCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type VirtualHubRouteTableV2SCreateOrUpdateResponse = VirtualHubRouteTableV2;
+export type VirtualHubRouteTableV2SCreateOrUpdateResponse =
+  VirtualHubRouteTableV2;
 
 /** Optional parameters. */
 export interface VirtualHubRouteTableV2SDeleteOptionalParams
@@ -22701,28 +23220,32 @@ export interface VirtualHubRouteTableV2SListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type VirtualHubRouteTableV2SListResponse = ListVirtualHubRouteTableV2SResult;
+export type VirtualHubRouteTableV2SListResponse =
+  ListVirtualHubRouteTableV2SResult;
 
 /** Optional parameters. */
 export interface VirtualHubRouteTableV2SListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type VirtualHubRouteTableV2SListNextResponse = ListVirtualHubRouteTableV2SResult;
+export type VirtualHubRouteTableV2SListNextResponse =
+  ListVirtualHubRouteTableV2SResult;
 
 /** Optional parameters. */
 export interface ExpressRouteGatewaysListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type ExpressRouteGatewaysListBySubscriptionResponse = ExpressRouteGatewayList;
+export type ExpressRouteGatewaysListBySubscriptionResponse =
+  ExpressRouteGatewayList;
 
 /** Optional parameters. */
 export interface ExpressRouteGatewaysListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type ExpressRouteGatewaysListByResourceGroupResponse = ExpressRouteGatewayList;
+export type ExpressRouteGatewaysListByResourceGroupResponse =
+  ExpressRouteGatewayList;
 
 /** Optional parameters. */
 export interface ExpressRouteGatewaysCreateOrUpdateOptionalParams
@@ -22774,7 +23297,8 @@ export interface ExpressRouteConnectionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ExpressRouteConnectionsCreateOrUpdateResponse = ExpressRouteConnection;
+export type ExpressRouteConnectionsCreateOrUpdateResponse =
+  ExpressRouteConnection;
 
 /** Optional parameters. */
 export interface ExpressRouteConnectionsGetOptionalParams
@@ -22809,14 +23333,16 @@ export interface NetworkVirtualApplianceConnectionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type NetworkVirtualApplianceConnectionsCreateOrUpdateResponse = NetworkVirtualApplianceConnection;
+export type NetworkVirtualApplianceConnectionsCreateOrUpdateResponse =
+  NetworkVirtualApplianceConnection;
 
 /** Optional parameters. */
 export interface NetworkVirtualApplianceConnectionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type NetworkVirtualApplianceConnectionsGetResponse = NetworkVirtualApplianceConnection;
+export type NetworkVirtualApplianceConnectionsGetResponse =
+  NetworkVirtualApplianceConnection;
 
 /** Optional parameters. */
 export interface NetworkVirtualApplianceConnectionsDeleteOptionalParams
@@ -22832,14 +23358,16 @@ export interface NetworkVirtualApplianceConnectionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type NetworkVirtualApplianceConnectionsListResponse = NetworkVirtualApplianceConnectionList;
+export type NetworkVirtualApplianceConnectionsListResponse =
+  NetworkVirtualApplianceConnectionList;
 
 /** Optional parameters. */
 export interface NetworkVirtualApplianceConnectionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type NetworkVirtualApplianceConnectionsListNextResponse = NetworkVirtualApplianceConnectionList;
+export type NetworkVirtualApplianceConnectionsListNextResponse =
+  NetworkVirtualApplianceConnectionList;
 
 /** Optional parameters. */
 export interface VirtualHubBgpConnectionGetOptionalParams
@@ -22874,7 +23402,8 @@ export interface VirtualHubBgpConnectionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type VirtualHubBgpConnectionsListResponse = ListVirtualHubBgpConnectionResults;
+export type VirtualHubBgpConnectionsListResponse =
+  ListVirtualHubBgpConnectionResults;
 
 /** Optional parameters. */
 export interface VirtualHubBgpConnectionsListLearnedRoutesOptionalParams
@@ -22909,7 +23438,8 @@ export interface VirtualHubBgpConnectionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type VirtualHubBgpConnectionsListNextResponse = ListVirtualHubBgpConnectionResults;
+export type VirtualHubBgpConnectionsListNextResponse =
+  ListVirtualHubBgpConnectionResults;
 
 /** Optional parameters. */
 export interface VirtualHubIpConfigurationGetOptionalParams
@@ -22928,7 +23458,8 @@ export interface VirtualHubIpConfigurationCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type VirtualHubIpConfigurationCreateOrUpdateResponse = HubIpConfiguration;
+export type VirtualHubIpConfigurationCreateOrUpdateResponse =
+  HubIpConfiguration;
 
 /** Optional parameters. */
 export interface VirtualHubIpConfigurationDeleteOptionalParams
@@ -22944,14 +23475,16 @@ export interface VirtualHubIpConfigurationListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type VirtualHubIpConfigurationListResponse = ListVirtualHubIpConfigurationResults;
+export type VirtualHubIpConfigurationListResponse =
+  ListVirtualHubIpConfigurationResults;
 
 /** Optional parameters. */
 export interface VirtualHubIpConfigurationListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type VirtualHubIpConfigurationListNextResponse = ListVirtualHubIpConfigurationResults;
+export type VirtualHubIpConfigurationListNextResponse =
+  ListVirtualHubIpConfigurationResults;
 
 /** Optional parameters. */
 export interface HubRouteTablesCreateOrUpdateOptionalParams
@@ -23042,28 +23575,32 @@ export interface WebApplicationFirewallPoliciesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type WebApplicationFirewallPoliciesListResponse = WebApplicationFirewallPolicyListResult;
+export type WebApplicationFirewallPoliciesListResponse =
+  WebApplicationFirewallPolicyListResult;
 
 /** Optional parameters. */
 export interface WebApplicationFirewallPoliciesListAllOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAll operation. */
-export type WebApplicationFirewallPoliciesListAllResponse = WebApplicationFirewallPolicyListResult;
+export type WebApplicationFirewallPoliciesListAllResponse =
+  WebApplicationFirewallPolicyListResult;
 
 /** Optional parameters. */
 export interface WebApplicationFirewallPoliciesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WebApplicationFirewallPoliciesGetResponse = WebApplicationFirewallPolicy;
+export type WebApplicationFirewallPoliciesGetResponse =
+  WebApplicationFirewallPolicy;
 
 /** Optional parameters. */
 export interface WebApplicationFirewallPoliciesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type WebApplicationFirewallPoliciesCreateOrUpdateResponse = WebApplicationFirewallPolicy;
+export type WebApplicationFirewallPoliciesCreateOrUpdateResponse =
+  WebApplicationFirewallPolicy;
 
 /** Optional parameters. */
 export interface WebApplicationFirewallPoliciesDeleteOptionalParams
@@ -23079,14 +23616,16 @@ export interface WebApplicationFirewallPoliciesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type WebApplicationFirewallPoliciesListNextResponse = WebApplicationFirewallPolicyListResult;
+export type WebApplicationFirewallPoliciesListNextResponse =
+  WebApplicationFirewallPolicyListResult;
 
 /** Optional parameters. */
 export interface WebApplicationFirewallPoliciesListAllNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAllNext operation. */
-export type WebApplicationFirewallPoliciesListAllNextResponse = WebApplicationFirewallPolicyListResult;
+export type WebApplicationFirewallPoliciesListAllNextResponse =
+  WebApplicationFirewallPolicyListResult;
 
 /** Optional parameters. */
 export interface NetworkManagementClientOptionalParams

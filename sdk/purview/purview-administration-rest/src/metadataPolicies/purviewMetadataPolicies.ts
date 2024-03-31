@@ -8,7 +8,7 @@ import { PurviewMetadataPoliciesRestClient } from "./clientDefinitions";
 export function PurviewMetadataPoliciesClient(
   Endpoint: string,
   credentials: TokenCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): PurviewMetadataPoliciesRestClient {
   const baseUrl = options.baseUrl ?? `${Endpoint}/policyStore`;
   options.apiVersion = options.apiVersion ?? "2021-07-01-preview";

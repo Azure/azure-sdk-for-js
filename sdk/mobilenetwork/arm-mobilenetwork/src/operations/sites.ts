@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MobileNetworkManagementClient } from "../mobileNetworkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Site,
   SitesListByMobileNetworkNextOptionalParams,
@@ -28,7 +32,9 @@ import {
   TagsObject,
   SitesUpdateTagsOptionalParams,
   SitesUpdateTagsResponse,
-  SitesListByMobileNetworkNextResponse
+  SiteDeletePacketCore,
+  SitesDeletePacketCoreOptionalParams,
+  SitesListByMobileNetworkNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -53,12 +59,12 @@ export class SitesImpl implements Sites {
   public listByMobileNetwork(
     resourceGroupName: string,
     mobileNetworkName: string,
-    options?: SitesListByMobileNetworkOptionalParams
+    options?: SitesListByMobileNetworkOptionalParams,
   ): PagedAsyncIterableIterator<Site> {
     const iter = this.listByMobileNetworkPagingAll(
       resourceGroupName,
       mobileNetworkName,
-      options
+      options,
     );
     return {
       next() {
@@ -75,9 +81,9 @@ export class SitesImpl implements Sites {
           resourceGroupName,
           mobileNetworkName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -85,7 +91,7 @@ export class SitesImpl implements Sites {
     resourceGroupName: string,
     mobileNetworkName: string,
     options?: SitesListByMobileNetworkOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Site[]> {
     let result: SitesListByMobileNetworkResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,7 +99,7 @@ export class SitesImpl implements Sites {
       result = await this._listByMobileNetwork(
         resourceGroupName,
         mobileNetworkName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -105,7 +111,7 @@ export class SitesImpl implements Sites {
         resourceGroupName,
         mobileNetworkName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,12 +123,12 @@ export class SitesImpl implements Sites {
   private async *listByMobileNetworkPagingAll(
     resourceGroupName: string,
     mobileNetworkName: string,
-    options?: SitesListByMobileNetworkOptionalParams
+    options?: SitesListByMobileNetworkOptionalParams,
   ): AsyncIterableIterator<Site> {
     for await (const page of this.listByMobileNetworkPagingPage(
       resourceGroupName,
       mobileNetworkName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -140,25 +146,24 @@ export class SitesImpl implements Sites {
     resourceGroupName: string,
     mobileNetworkName: string,
     siteName: string,
-    options?: SitesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: SitesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -167,8 +172,8 @@ export class SitesImpl implements Sites {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -176,20 +181,20 @@ export class SitesImpl implements Sites {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, mobileNetworkName, siteName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, mobileNetworkName, siteName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -207,13 +212,13 @@ export class SitesImpl implements Sites {
     resourceGroupName: string,
     mobileNetworkName: string,
     siteName: string,
-    options?: SitesDeleteOptionalParams
+    options?: SitesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       mobileNetworkName,
       siteName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -229,11 +234,11 @@ export class SitesImpl implements Sites {
     resourceGroupName: string,
     mobileNetworkName: string,
     siteName: string,
-    options?: SitesGetOptionalParams
+    options?: SitesGetOptionalParams,
   ): Promise<SitesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, mobileNetworkName, siteName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -251,30 +256,29 @@ export class SitesImpl implements Sites {
     mobileNetworkName: string,
     siteName: string,
     parameters: Site,
-    options?: SitesCreateOrUpdateOptionalParams
+    options?: SitesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SitesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SitesCreateOrUpdateResponse>,
       SitesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SitesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -283,8 +287,8 @@ export class SitesImpl implements Sites {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -292,20 +296,29 @@ export class SitesImpl implements Sites {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, mobileNetworkName, siteName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        mobileNetworkName,
+        siteName,
+        parameters,
+        options,
+      },
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      SitesCreateOrUpdateResponse,
+      OperationState<SitesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -325,14 +338,14 @@ export class SitesImpl implements Sites {
     mobileNetworkName: string,
     siteName: string,
     parameters: Site,
-    options?: SitesCreateOrUpdateOptionalParams
+    options?: SitesCreateOrUpdateOptionalParams,
   ): Promise<SitesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       mobileNetworkName,
       siteName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -350,11 +363,11 @@ export class SitesImpl implements Sites {
     mobileNetworkName: string,
     siteName: string,
     parameters: TagsObject,
-    options?: SitesUpdateTagsOptionalParams
+    options?: SitesUpdateTagsOptionalParams,
   ): Promise<SitesUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, mobileNetworkName, siteName, parameters, options },
-      updateTagsOperationSpec
+      updateTagsOperationSpec,
     );
   }
 
@@ -367,12 +380,110 @@ export class SitesImpl implements Sites {
   private _listByMobileNetwork(
     resourceGroupName: string,
     mobileNetworkName: string,
-    options?: SitesListByMobileNetworkOptionalParams
+    options?: SitesListByMobileNetworkOptionalParams,
   ): Promise<SitesListByMobileNetworkResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, mobileNetworkName, options },
-      listByMobileNetworkOperationSpec
+      listByMobileNetworkOperationSpec,
     );
+  }
+
+  /**
+   * Deletes a packet core under the specified mobile network site.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param mobileNetworkName The name of the mobile network.
+   * @param siteName The name of the mobile network site.
+   * @param parameters Parameters supplied to delete a packet core under a site.
+   * @param options The options parameters.
+   */
+  async beginDeletePacketCore(
+    resourceGroupName: string,
+    mobileNetworkName: string,
+    siteName: string,
+    parameters: SiteDeletePacketCore,
+    options?: SitesDeletePacketCoreOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        mobileNetworkName,
+        siteName,
+        parameters,
+        options,
+      },
+      spec: deletePacketCoreOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes a packet core under the specified mobile network site.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param mobileNetworkName The name of the mobile network.
+   * @param siteName The name of the mobile network site.
+   * @param parameters Parameters supplied to delete a packet core under a site.
+   * @param options The options parameters.
+   */
+  async beginDeletePacketCoreAndWait(
+    resourceGroupName: string,
+    mobileNetworkName: string,
+    siteName: string,
+    parameters: SiteDeletePacketCore,
+    options?: SitesDeletePacketCoreOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginDeletePacketCore(
+      resourceGroupName,
+      mobileNetworkName,
+      siteName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -386,11 +497,11 @@ export class SitesImpl implements Sites {
     resourceGroupName: string,
     mobileNetworkName: string,
     nextLink: string,
-    options?: SitesListByMobileNetworkNextOptionalParams
+    options?: SitesListByMobileNetworkNextOptionalParams,
   ): Promise<SitesListByMobileNetworkNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, mobileNetworkName, nextLink, options },
-      listByMobileNetworkNextOperationSpec
+      listByMobileNetworkNextOperationSpec,
     );
   }
 }
@@ -398,8 +509,7 @@ export class SitesImpl implements Sites {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/sites/{siteName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/sites/{siteName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -407,8 +517,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -416,22 +526,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.mobileNetworkName,
-    Parameters.siteName
+    Parameters.siteName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/sites/{siteName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/sites/{siteName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Site
+      bodyMapper: Mappers.Site,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -439,56 +548,54 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.mobileNetworkName,
-    Parameters.siteName
+    Parameters.siteName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/sites/{siteName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/sites/{siteName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Site
+      bodyMapper: Mappers.Site,
     },
     201: {
-      bodyMapper: Mappers.Site
+      bodyMapper: Mappers.Site,
     },
     202: {
-      bodyMapper: Mappers.Site
+      bodyMapper: Mappers.Site,
     },
     204: {
-      bodyMapper: Mappers.Site
+      bodyMapper: Mappers.Site,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters14,
+  requestBody: Parameters.parameters16,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.mobileNetworkName,
-    Parameters.siteName
+    Parameters.siteName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/sites/{siteName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/sites/{siteName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Site
+      bodyMapper: Mappers.Site,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -497,52 +604,76 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.mobileNetworkName,
-    Parameters.siteName
+    Parameters.siteName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByMobileNetworkOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/sites",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/sites",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SiteListResult
+      bodyMapper: Mappers.SiteListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.mobileNetworkName
+    Parameters.mobileNetworkName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const deletePacketCoreOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/sites/{siteName}/deletePacketCore",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters17,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.mobileNetworkName,
+    Parameters.siteName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
 };
 const listByMobileNetworkNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SiteListResult
+      bodyMapper: Mappers.SiteListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.mobileNetworkName
+    Parameters.mobileNetworkName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

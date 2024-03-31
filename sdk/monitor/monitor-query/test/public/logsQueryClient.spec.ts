@@ -70,7 +70,7 @@ describe("LogsQueryClient live tests", function () {
           name: "RestError",
           statusCode: 400,
         },
-        `Query should throw a RestError. Message: ${JSON.stringify(stringizableError)}`
+        `Query should throw a RestError. Message: ${JSON.stringify(stringizableError)}`,
       );
 
       assert.deepNestedInclude(
@@ -81,8 +81,8 @@ describe("LogsQueryClient live tests", function () {
           //  message: "Query could not be parsed at 'invalid' on line [1,11]",
         },
         `Query should indicate a syntax error in innermost error. Innermost error: ${JSON.stringify(
-          innermostError
-        )}`
+          innermostError,
+        )}`,
       );
     }
   });
@@ -96,7 +96,7 @@ describe("LogsQueryClient live tests", function () {
       },
       {
         includeQueryStatistics: true,
-      }
+      },
     );
 
     // TODO: statistics are not currently modeled in the generated code but
@@ -114,7 +114,7 @@ describe("LogsQueryClient live tests", function () {
       },
       {
         includeVisualization: true,
-      }
+      },
     );
 
     // TODO: render/visualizations are not currently modeled in the generated
@@ -177,7 +177,7 @@ describe("LogsQueryClient live tests", function () {
             type: "dynamic",
           },
         ],
-        table.columnDescriptors
+        table.columnDescriptors,
       );
 
       table.rows.map((rowValues) => {
@@ -268,7 +268,7 @@ describe("LogsQueryClient live tests", function () {
             type: "dynamic",
           },
         ],
-        table.columnDescriptors
+        table.columnDescriptors,
       );
 
       table.rows.map((rowValues) => {
@@ -341,7 +341,7 @@ describe("LogsQueryClient live tests", function () {
           name: "RestError",
           statusCode: 400,
         },
-        `Query should throw a RestError. Message: ${JSON.stringify(stringizableError)}`
+        `Query should throw a RestError. Message: ${JSON.stringify(stringizableError)}`,
       );
 
       assert.deepNestedInclude(
@@ -352,8 +352,8 @@ describe("LogsQueryClient live tests", function () {
             "'summarize' operator: Failed to resolve table or column expression named 'resource'",
         },
         `Query should indicate a syntax error in innermost error. Innermost error: ${JSON.stringify(
-          innermostError
-        )}`
+          innermostError,
+        )}`,
       );
     }
   });
@@ -397,7 +397,7 @@ describe("LogsQueryClient live tests", function () {
         kustoQuery,
         {
           duration: Durations.oneDay,
-        }
+        },
       );
 
       // TODO: the actual types aren't being deserialized (everything is coming back as 'string')
@@ -410,7 +410,7 @@ describe("LogsQueryClient live tests", function () {
             columns: ["Kind", "Name", "Target", "TestRunId"],
             rows: [["now", "testSpan", "testSpan", testRunId.toString()]],
           },
-          "Query for the last day"
+          "Query for the last day",
         );
       }
     });
@@ -444,7 +444,7 @@ describe("LogsQueryClient live tests", function () {
             columns: ["Kind", "Name", "Target", "TestRunId"],
             rows: [["now", "testSpan", "testSpan", testRunId.toString()]],
           },
-          "Standard results"
+          "Standard results",
         );
       }
       if (result[1].status === LogsQueryResultStatus.Success) {
@@ -455,7 +455,7 @@ describe("LogsQueryClient live tests", function () {
             columns: ["Count"],
             rows: [["1"]],
           },
-          "count table"
+          "count table",
         );
       }
     });
@@ -469,7 +469,7 @@ describe("LogsQueryClient live tests", function () {
       const startTime = Date.now();
 
       loggerForTest.verbose(
-        `Polling for results to make sure our telemetry has been ingested....\n${query}`
+        `Polling for results to make sure our telemetry has been ingested....\n${query}`,
       );
 
       for (let i = 0; i < args.maxTries; ++i) {
@@ -482,7 +482,7 @@ describe("LogsQueryClient live tests", function () {
 
           if (numRows != null && numRows > 0) {
             loggerForTest.verbose(
-              `[Attempt: ${i}/${args.maxTries}] Results came back, done waiting.`
+              `[Attempt: ${i}/${args.maxTries}] Results came back, done waiting.`,
             );
             return;
           }
@@ -491,7 +491,7 @@ describe("LogsQueryClient live tests", function () {
 
           if (numRows != null && numRows > 0) {
             loggerForTest.verbose(
-              `[Attempt: ${i}/${args.maxTries}] Partial Results came back, done waiting.`
+              `[Attempt: ${i}/${args.maxTries}] Partial Results came back, done waiting.`,
             );
             return;
           }
@@ -500,7 +500,7 @@ describe("LogsQueryClient live tests", function () {
         loggerForTest.verbose(
           `[Attempt: ${i}/${args.maxTries}, elapsed: ${
             Date.now() - startTime
-          } ms] No rows, will poll again.`
+          } ms] No rows, will poll again.`,
         );
 
         await new Promise((resolve) => setTimeout(resolve, args.secondsBetweenQueries * 1000));
@@ -548,7 +548,7 @@ describe("LogsQueryClient live tests - server timeout", function () {
         {
           // the query above easily takes longer than 1 second.
           serverTimeoutInSeconds: 1,
-        }
+        },
       );
       assert.fail("Should have thrown a RestError for a GatewayTimeout");
     } catch (err: any) {
@@ -562,7 +562,7 @@ describe("LogsQueryClient live tests - server timeout", function () {
           name: "RestError",
           statusCode: 504,
         },
-        `Query should throw a RestError. Message: ${JSON.stringify(stringizableError)}`
+        `Query should throw a RestError. Message: ${JSON.stringify(stringizableError)}`,
       );
 
       assert.deepNestedInclude(
@@ -573,8 +573,8 @@ describe("LogsQueryClient live tests - server timeout", function () {
           // "message":"Kusto query timed out"
         },
         `Should get a code indicating the query timed out. Innermost error: ${JSON.stringify(
-          innermostError
-        )}`
+          innermostError,
+        )}`,
       );
     }
   });

@@ -10,7 +10,8 @@ import createAuthoringClient, { TextAuthoringClient } from "@azure/ai-language-t
 import { createCustomTestProject } from "../public/utils/customTestHelpter";
 import { assertActionsResults } from "../public/utils/resultHelper";
 import { expectation1, expectation2, expectation4 } from "../public/expectations";
-matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
+import { authModes } from "../public/inputs";
+matrix(authModes, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
     let recorder: Recorder;
     let client: TextAnalysisClient;
@@ -46,7 +47,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               authoringClient,
               "CustomEntityRecognition",
               projectName,
-              deploymentName
+              deploymentName,
             );
           });
 
@@ -78,7 +79,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               "en",
               {
                 updateIntervalInMs: pollingInterval,
-              }
+              },
             );
             await assertActionsResults(await poller.pollUntilDone(), expectation1);
           });
@@ -97,7 +98,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               authoringClient,
               "CustomSingleLabelClassification",
               projectName,
-              deploymentName
+              deploymentName,
             );
           });
 
@@ -128,7 +129,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               "en",
               {
                 updateIntervalInMs: pollingInterval,
-              }
+              },
             );
             await assertActionsResults(await poller.pollUntilDone(), expectation2);
           });
@@ -147,7 +148,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               authoringClient,
               "CustomMultiLabelClassification",
               projectName,
-              deploymentName
+              deploymentName,
             );
           });
 
@@ -178,7 +179,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               "en",
               {
                 updateIntervalInMs: pollingInterval,
-              }
+              },
             );
             await assertActionsResults(await poller.pollUntilDone(), expectation4);
           });

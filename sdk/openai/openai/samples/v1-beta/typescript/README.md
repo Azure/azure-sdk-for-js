@@ -13,13 +13,20 @@ urlFragment: openai-typescript-beta
 
 These sample programs show how to use the TypeScript client libraries for Azure OpenAI in some common scenarios.
 
-| **File Name**                                 | **Description**                       |
-| --------------------------------------------- | ------------------------------------- |
-| [chatCompletions.ts][chatcompletions]         | get chat completions.                 |
-| [completions.ts][completions]                 | get completions.                      |
-| [listChatCompletions.ts][listchatcompletions] | list chat completions.                |
-| [listCompletions.ts][listcompletions]         | list completions.                     |
-| [openAi.ts][openai]                           | get completions using the OpenAI API. |
+| **File Name**                                                                       | **Description**                                                              |
+| ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| [audioTranscription.ts][audiotranscription]                                         | audio transcription.                                                         |
+| [audioTranslation.ts][audiotranslation]                                             | audio translation.                                                           |
+| [bringYourOwnData.ts][bringyourowndata]                                             | chat completions with your own data.                                         |
+| [chatCompletions.ts][chatcompletions]                                               | get chat completions.                                                        |
+| [completions.ts][completions]                                                       | get completions.                                                             |
+| [functions.ts][functions]                                                           | get chat completions with functions.                                         |
+| [getEmbeddings.ts][getembeddings]                                                   | generates embedding vectors from a prompt using Azure OpenAI Get Embeddings. |
+| [getImages.ts][getimages]                                                           | generates images from prompts using Azure OpenAI Batch Image Generation.     |
+| [streamChatCompletions.ts][streamchatcompletions]                                   | list chat completions.                                                       |
+| [streamChatCompletionsWithContentFilter.ts][streamchatcompletionswithcontentfilter] | get completions.                                                             |
+| [streamCompletions.ts][streamcompletions]                                           | list completions.                                                            |
+| [openAi.ts][openai]                                                                 | get completions using the OpenAI API.                                        |
 
 ## Prerequisites
 
@@ -60,25 +67,32 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/chatCompletions.js
+node dist/audioTranscription.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ENDPOINT="<endpoint>" AZURE_API_KEY="<azure api key>" node dist/chatCompletions.js
+npx cross-env ENDPOINT="<endpoint>" AZURE_API_KEY="<azure api key>" node dist/audioTranscription.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
+[audiotranscription]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/audioTranscription.ts
+[audiotranslation]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/audioTranslation.ts
+[bringyourowndata]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/bringYourOwnData.ts
 [chatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/chatCompletions.ts
 [completions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/completions.ts
-[listchatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/listChatCompletions.ts
-[listcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/listCompletions.ts
+[functions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/functions.ts
+[getembeddings]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/getEmbeddings.ts
+[getimages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/getImages.ts
+[streamchatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/streamChatCompletions.ts
+[streamchatcompletionswithcontentfilter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/streamChatCompletionsWithContentFilter.ts
+[streamcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/streamCompletions.ts
 [openai]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/openAi.ts
-[apiref]: https://learn.microsoft.com/azure/cognitive-services/openai/
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/openai
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecognitiveservicesinstance]: https://learn.microsoft.com/azure/cognitive-services/openai/how-to/create-resource
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai/README.md

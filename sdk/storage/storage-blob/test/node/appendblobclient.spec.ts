@@ -24,7 +24,7 @@ import {
 } from "../utils";
 import { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { Recorder } from "@azure-tools/test-recorder";
+import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
 import { Context } from "mocha";
 
@@ -37,6 +37,8 @@ describe("AppendBlobClient Node.js only", () => {
   let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
+  const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
+
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
@@ -50,7 +52,7 @@ describe("AppendBlobClient Node.js only", () => {
           ],
         },
       },
-      ["playback", "record"]
+      ["playback", "record"],
     );
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
@@ -111,7 +113,7 @@ describe("AppendBlobClient Node.js only", () => {
     const newClient = new AppendBlobClient(
       getConnectionStringFromEnvironment(),
       containerName,
-      blobName
+      blobName,
     );
     configureBlobStorageClient(recorder, newClient);
 
@@ -128,7 +130,7 @@ describe("AppendBlobClient Node.js only", () => {
         retryOptions: {
           maxTries: 5,
         },
-      }
+      },
     );
     configureBlobStorageClient(recorder, newClient);
 
@@ -158,7 +160,7 @@ describe("AppendBlobClient Node.js only", () => {
         blobName: blockBlobName,
         permissions: BlobSASPermissions.parse("r"),
       },
-      credential
+      credential,
     );
 
     await appendBlobClient.appendBlock(content, content.length);
@@ -190,7 +192,7 @@ describe("AppendBlobClient Node.js only", () => {
         blobName: blockBlobName,
         permissions: BlobSASPermissions.parse("r"),
       },
-      credential
+      credential,
     );
 
     const tokenBlobServiceClient = getTokenBSUWithDefaultCredential(recorder);
@@ -201,7 +203,7 @@ describe("AppendBlobClient Node.js only", () => {
     await tokenAppendBlobClient.appendBlockFromURL(
       `${blockBlobClient.url}?${sas}`,
       0,
-      content.length
+      content.length,
     );
 
     const downloadResponse = await appendBlobClient.download(0);
@@ -254,7 +256,7 @@ describe("AppendBlobClient Node.js only", () => {
 
   it("conditional tags for appendBlockFromURL's destination blob", async () => {
     const newBlobClient = containerClient.getAppendBlobClient(
-      recorder.variable("copiedblob", getUniqueName("copiedblob"))
+      recorder.variable("copiedblob", getUniqueName("copiedblob")),
     );
     const tags2 = {
       tag: "val",
@@ -276,7 +278,7 @@ describe("AppendBlobClient Node.js only", () => {
         blobName: blockBlobName,
         permissions: BlobSASPermissions.parse("r"),
       },
-      credential
+      credential,
     );
 
     let exceptionCaught = false;
@@ -317,7 +319,7 @@ describe("AppendBlobClient Node.js only", () => {
         blobName: blockBlobName,
         permissions: BlobSASPermissions.parse("r"),
       },
-      credential
+      credential,
     );
 
     const aResp = await appendBlobClient.appendBlock(content, content.length, {
@@ -329,7 +331,7 @@ describe("AppendBlobClient Node.js only", () => {
       `${blobClient.url}?${sas}`,
       0,
       content.length,
-      { customerProvidedKey: Test_CPK_INFO }
+      { customerProvidedKey: Test_CPK_INFO },
     );
     assert.equal(aResp2.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
 
@@ -339,4 +341,23 @@ describe("AppendBlobClient Node.js only", () => {
     assert.equal(await bodyToString(downloadResponse, content.length * 2), content + content);
     assert.equal(downloadResponse.contentLength!, content.length * 2);
   });
+
+  it("appendBlock - append large block", async function (this: Context) {
+    if (!isLiveMode()) {
+      // Recorder file larger than github limitation
+      this.skip();
+    }
+    await appendBlobClient.create();
+
+    const largeBlockSize = 100 * 1024 * 1024;
+    const content = new Uint8Array(largeBlockSize);
+    for (let i = 0; i < largeBlockSize; i = i + 1000) {
+      content[i] = i;
+    }
+    await appendBlobClient.appendBlock(content, content.length);
+
+    const downloadResponse = await appendBlobClient.downloadToBuffer(0);
+    assert.deepStrictEqual(downloadResponse, content);
+    assert.equal(downloadResponse.length, content.length);
+  }).timeout(timeoutForLargeFileUploadingTest);
 });

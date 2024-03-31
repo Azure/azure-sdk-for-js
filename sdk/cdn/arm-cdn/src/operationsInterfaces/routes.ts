@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Route,
   RoutesListByEndpointOptionalParams,
@@ -74,7 +74,7 @@ export interface Routes {
     route: Route,
     options?: RoutesCreateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<RoutesCreateResponse>, RoutesCreateResponse>
+    SimplePollerLike<OperationState<RoutesCreateResponse>, RoutesCreateResponse>
   >;
   /**
    * Creates a new route with the specified route name under the specified subscription, resource group,
@@ -114,7 +114,7 @@ export interface Routes {
     routeUpdateProperties: RouteUpdateParameters,
     options?: RoutesUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<RoutesUpdateResponse>, RoutesUpdateResponse>
+    SimplePollerLike<OperationState<RoutesUpdateResponse>, RoutesUpdateResponse>
   >;
   /**
    * Updates an existing route with the specified route name under the specified subscription, resource
@@ -151,7 +151,7 @@ export interface Routes {
     endpointName: string,
     routeName: string,
     options?: RoutesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing route with the specified route name under the specified subscription, resource
    * group, profile, and AzureFrontDoor endpoint.

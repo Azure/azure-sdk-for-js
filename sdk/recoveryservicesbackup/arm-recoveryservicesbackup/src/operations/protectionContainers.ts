@@ -12,6 +12,12 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
   ProtectionContainersGetOptionalParams,
   ProtectionContainersGetResponse,
   ProtectionContainerResource,
@@ -69,16 +75,61 @@ export class ProtectionContainersImpl implements ProtectionContainers {
    * @param parameters Request body for operation
    * @param options The options parameters.
    */
-  register(
+  async beginRegister(
     vaultName: string,
     resourceGroupName: string,
     fabricName: string,
     containerName: string,
     parameters: ProtectionContainerResource,
     options?: ProtectionContainersRegisterOptionalParams
-  ): Promise<ProtectionContainersRegisterResponse> {
-    return this.client.sendOperationRequest(
-      {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ProtectionContainersRegisterResponse>,
+      ProtectionContainersRegisterResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ProtectionContainersRegisterResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         vaultName,
         resourceGroupName,
         fabricName,
@@ -86,8 +137,49 @@ export class ProtectionContainersImpl implements ProtectionContainers {
         parameters,
         options
       },
-      registerOperationSpec
+      spec: registerOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ProtectionContainersRegisterResponse,
+      OperationState<ProtectionContainersRegisterResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Registers the container with Recovery Services vault.
+   * This is an asynchronous operation. To track the operation status, use location header to call get
+   * latest status of
+   * the operation.
+   * @param vaultName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
+   * @param fabricName Fabric name associated with the container.
+   * @param containerName Name of the container to be registered.
+   * @param parameters Request body for operation
+   * @param options The options parameters.
+   */
+  async beginRegisterAndWait(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    parameters: ProtectionContainerResource,
+    options?: ProtectionContainersRegisterOptionalParams
+  ): Promise<ProtectionContainersRegisterResponse> {
+    const poller = await this.beginRegister(
+      vaultName,
+      resourceGroupName,
+      fabricName,
+      containerName,
+      parameters,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -196,7 +288,15 @@ const registerOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.ProtectionContainerResource
     },
-    202: {},
+    201: {
+      bodyMapper: Mappers.ProtectionContainerResource
+    },
+    202: {
+      bodyMapper: Mappers.ProtectionContainerResource
+    },
+    204: {
+      bodyMapper: Mappers.ProtectionContainerResource
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }

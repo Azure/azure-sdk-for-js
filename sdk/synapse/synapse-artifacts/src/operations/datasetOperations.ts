@@ -14,8 +14,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DatasetResource,
   DatasetGetDatasetsByWorkspaceNextOptionalParams,
@@ -131,8 +135,8 @@ export class DatasetOperationsImpl implements DatasetOperations {
     dataset: DatasetResource,
     options?: DatasetCreateOrUpdateDatasetOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DatasetCreateOrUpdateDatasetResponse>,
+    SimplePollerLike<
+      OperationState<DatasetCreateOrUpdateDatasetResponse>,
       DatasetCreateOrUpdateDatasetResponse
     >
   > {
@@ -150,7 +154,7 @@ export class DatasetOperationsImpl implements DatasetOperations {
         }
       );
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -183,13 +187,16 @@ export class DatasetOperationsImpl implements DatasetOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { datasetName, dataset, options },
-      createOrUpdateDatasetOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { datasetName, dataset, options },
+      spec: createOrUpdateDatasetOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DatasetCreateOrUpdateDatasetResponse,
+      OperationState<DatasetCreateOrUpdateDatasetResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -244,7 +251,7 @@ export class DatasetOperationsImpl implements DatasetOperations {
   async beginDeleteDataset(
     datasetName: string,
     options?: DatasetDeleteDatasetOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -257,7 +264,7 @@ export class DatasetOperationsImpl implements DatasetOperations {
         }
       );
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -290,13 +297,13 @@ export class DatasetOperationsImpl implements DatasetOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { datasetName, options },
-      deleteDatasetOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { datasetName, options },
+      spec: deleteDatasetOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -326,7 +333,7 @@ export class DatasetOperationsImpl implements DatasetOperations {
     datasetName: string,
     request: ArtifactRenameRequest,
     options?: DatasetRenameDatasetOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -339,7 +346,7 @@ export class DatasetOperationsImpl implements DatasetOperations {
         }
       );
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -372,13 +379,13 @@ export class DatasetOperationsImpl implements DatasetOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { datasetName, request, options },
-      renameDatasetOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { datasetName, request, options },
+      spec: renameDatasetOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -435,7 +442,7 @@ const getDatasetsByWorkspaceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
@@ -461,7 +468,7 @@ const createOrUpdateDatasetOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.dataset,
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.datasetName],
   headerParameters: [
     Parameters.accept,
@@ -483,7 +490,7 @@ const getDatasetOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.datasetName],
   headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
   serializer
@@ -500,7 +507,7 @@ const deleteDatasetOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.datasetName],
   headerParameters: [Parameters.accept],
   serializer
@@ -518,7 +525,7 @@ const renameDatasetOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.request,
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.datasetName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",

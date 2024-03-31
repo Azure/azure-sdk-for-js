@@ -17,14 +17,14 @@ export = {
   meta: getRuleMetaData(
     "ts-package-json-sideeffects",
     "force package.json's sideEffects value to be false",
-    "code"
+    "code",
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const verifiers = getVerifiers(context, {
       outer: "sideEffects",
       expected: false,
     });
-    return stripPath(context.getFilename()) === "package.json"
+    return stripPath(context.filename) === "package.json"
       ? ({
           // callback functions
 

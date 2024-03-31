@@ -24,7 +24,7 @@ import {
 export interface Policy {
   /**
    * Lists all the Global Policy definitions of the Api Management service.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -35,7 +35,7 @@ export interface Policy {
   ): Promise<PolicyListByServiceResponse>;
   /**
    * Gets the entity state (Etag) version of the Global policy definition in the Api Management service.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param policyId The identifier of the Policy.
    * @param options The options parameters.
@@ -48,7 +48,7 @@ export interface Policy {
   ): Promise<PolicyGetEntityTagResponse>;
   /**
    * Get the Global policy definition of the Api Management service.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param policyId The identifier of the Policy.
    * @param options The options parameters.
@@ -61,7 +61,7 @@ export interface Policy {
   ): Promise<PolicyGetResponse>;
   /**
    * Creates or updates the global policy configuration of the Api Management service.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param policyId The identifier of the Policy.
    * @param parameters The policy contents to apply.
@@ -76,7 +76,7 @@ export interface Policy {
   ): Promise<PolicyCreateOrUpdateResponse>;
   /**
    * Deletes the global policy configuration of the Api Management Service.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param policyId The identifier of the Policy.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header

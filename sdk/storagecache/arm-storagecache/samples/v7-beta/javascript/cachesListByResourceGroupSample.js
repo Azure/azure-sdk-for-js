@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Returns all caches the user has access to under a resource group.
  *
  * @summary Returns all caches the user has access to under a resource group.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-03-01-preview/examples/Caches_ListByResourceGroup.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-11-01-preview/examples/Caches_ListByResourceGroup.json
  */
 async function cachesListByResourceGroup() {
   const subscriptionId =

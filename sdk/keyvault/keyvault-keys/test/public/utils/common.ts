@@ -3,26 +3,11 @@
 
 import { SupportedVersions, TestFunctionWrapper, supports } from "@azure/test-utils";
 import { env } from "@azure-tools/test-recorder";
-import { assert } from "@azure/test-utils";
-
-export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<void> {
-  let passed = false;
-  try {
-    await cb();
-    passed = true;
-  } catch (e: any) {
-    console.log(`name: ${e.name}, message: ${e.message}`);
-    assert.equal(e.name, "AbortError");
-  }
-  if (passed) {
-    throw new Error("Expected cb to throw an AbortError");
-  }
-}
 
 /**
  * The known API versions that we support.
  */
-export const serviceVersions = ["7.0", "7.1", "7.2", "7.3", "7.4"] as const;
+export const serviceVersions = ["7.0", "7.1", "7.2", "7.3", "7.4", "7.5"] as const;
 
 /**
  * Fetches the service version to test against. This version could be configured as part of CI
@@ -42,7 +27,7 @@ export function getServiceVersion(): string {
  */
 export function onVersions(
   supportedVersions: SupportedVersions,
-  serviceVersion?: string
+  serviceVersion?: string,
 ): TestFunctionWrapper {
   return supports(serviceVersion || getServiceVersion(), supportedVersions, serviceVersions);
 }

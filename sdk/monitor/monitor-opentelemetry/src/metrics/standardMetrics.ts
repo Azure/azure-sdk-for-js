@@ -7,25 +7,28 @@ import {
   PeriodicExportingMetricReader,
   PeriodicExportingMetricReaderOptions,
 } from "@opentelemetry/sdk-metrics";
-import { AzureMonitorOpenTelemetryConfig } from "../shared/config";
+import { InternalConfig } from "../shared/config";
 import { AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
-import { Attributes, Histogram, Meter, SpanKind, ValueType } from "@opentelemetry/api";
-import { ReadableSpan, Span } from "@opentelemetry/sdk-trace-base";
+import { Counter, Histogram, Meter, SpanKind, ValueType } from "@opentelemetry/api";
+import { ReadableSpan, Span, TimedEvent } from "@opentelemetry/sdk-trace-base";
+import { LogRecord } from "@opentelemetry/sdk-logs";
 import {
-  SemanticAttributes,
-  SemanticResourceAttributes,
-} from "@opentelemetry/semantic-conventions";
-import {
-  IMetricDependencyDimensions,
-  IMetricRequestDimensions,
-  IStandardMetricBaseDimensions,
-} from "./types";
+  getDependencyDimensions,
+  getExceptionDimensions,
+  getRequestDimensions,
+  getTraceDimensions,
+  isExceptionTelemetry,
+  isSyntheticLoad,
+  isTraceTelemetry,
+} from "./utils";
+import { StandardMetricIds } from "./types";
 
 /**
  * Azure Monitor Standard Metrics
  * @internal
  */
-export class _StandardMetrics {
+export class StandardMetrics {
+  private _config: InternalConfig;
   private _collectionInterval = 60000; // 60 seconds
   private _meterProvider: MeterProvider;
   private _azureExporter: AzureMonitorMetricExporter;
@@ -33,32 +36,46 @@ export class _StandardMetrics {
   private _meter: Meter;
   private _incomingRequestDurationHistogram: Histogram;
   private _outgoingRequestDurationHistogram: Histogram;
+  private _exceptionsCounter: Counter;
+  private _tracesCounter: Counter;
 
   /**
    * Initializes a new instance of the StandardMetrics class.
-   * @param _config - Configuration.
+   * @param config - Distro configuration.
+   * @param options - Standard Metrics options.
    */
-  constructor(
-    private _config: AzureMonitorOpenTelemetryConfig,
-    options?: { collectionInterval: number }
-  ) {
-    const meterProviderConfig: MeterProviderOptions = {
-      resource: this._config.resource,
-    };
-    this._meterProvider = new MeterProvider(meterProviderConfig);
-    this._azureExporter = new AzureMonitorMetricExporter(this._config.azureMonitorExporterConfig);
+  constructor(config: InternalConfig, options?: { collectionInterval: number }) {
+    this._config = config;
+    this._azureExporter = new AzureMonitorMetricExporter(this._config.azureMonitorExporterOptions);
     const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this._azureExporter as any,
       exportIntervalMillis: options?.collectionInterval || this._collectionInterval,
     };
     this._metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
-    this._meterProvider.addMetricReader(this._metricReader);
+    const meterProviderConfig: MeterProviderOptions = {
+      resource: this._config.resource,
+      readers: [this._metricReader],
+    };
+    this._meterProvider = new MeterProvider(meterProviderConfig);
     this._meter = this._meterProvider.getMeter("AzureMonitorStandardMetricsMeter");
-    this._incomingRequestDurationHistogram = this._meter.createHistogram("REQUEST_DURATION", {
-      valueType: ValueType.DOUBLE,
+    this._incomingRequestDurationHistogram = this._meter.createHistogram(
+      StandardMetricIds.REQUEST_DURATION,
+      {
+        valueType: ValueType.DOUBLE,
+      },
+    );
+    this._outgoingRequestDurationHistogram = this._meter.createHistogram(
+      StandardMetricIds.DEPENDENCIES_DURATION,
+      {
+        valueType: ValueType.DOUBLE,
+      },
+    );
+
+    this._exceptionsCounter = this._meter.createCounter(StandardMetricIds.EXCEPTIONS_COUNT, {
+      valueType: ValueType.INT,
     });
-    this._outgoingRequestDurationHistogram = this._meter.createHistogram("DEPENDENCY_DURATION", {
-      valueType: ValueType.DOUBLE,
+    this._tracesCounter = this._meter.createCounter(StandardMetricIds.TRACES_COUNT, {
+      valueType: ValueType.INT,
     });
   }
 
@@ -77,20 +94,25 @@ export class _StandardMetrics {
   }
 
   /**
+   *Get OpenTelemetry MeterProvider
+   */
+  public getMeterProvider(): MeterProvider {
+    return this._meterProvider;
+  }
+
+  /**
    * Add extra attributes to Span so Ingestion doesn't aggregate the data again
    * @internal
    */
-  public _markSpanAsProcessed(span: Span): void {
-    if (this._config.enableAutoCollectStandardMetrics) {
-      if (span.kind === SpanKind.CLIENT) {
-        span.setAttributes({
-          "_MS.ProcessedByMetricExtractors": "(Name:'Dependencies', Ver:'1.1')",
-        });
-      } else if (span.kind === SpanKind.SERVER) {
-        span.setAttributes({
-          "_MS.ProcessedByMetricExtractors": "(Name:'Requests', Ver:'1.1')",
-        });
-      }
+  public markSpanAsProcessed(span: Span): void {
+    if (span.kind === SpanKind.CLIENT) {
+      span.setAttributes({
+        "_MS.ProcessedByMetricExtractors": "(Name:'Dependencies', Ver:'1.1')",
+      });
+    } else if (span.kind === SpanKind.SERVER) {
+      span.setAttributes({
+        "_MS.ProcessedByMetricExtractors": "(Name:'Requests', Ver:'1.1')",
+      });
     }
   }
 
@@ -98,79 +120,41 @@ export class _StandardMetrics {
    * Record Span metrics
    * @internal
    */
-  public _recordSpan(span: ReadableSpan): void {
+  public recordSpan(span: ReadableSpan): void {
     const durationMs = span.duration[0];
     if (span.kind === SpanKind.SERVER) {
-      this._incomingRequestDurationHistogram.record(durationMs, this._getRequestDimensions(span));
+      this._incomingRequestDurationHistogram.record(durationMs, getRequestDimensions(span));
     } else {
-      this._outgoingRequestDurationHistogram.record(
-        durationMs,
-        this._getDependencyDimensions(span)
-      );
+      this._outgoingRequestDurationHistogram.record(durationMs, getDependencyDimensions(span));
     }
-  }
-
-  private _getRequestDimensions(span: ReadableSpan): Attributes {
-    const dimensions: IMetricRequestDimensions = this._getBaseDimensions(span);
-    dimensions.metricId = "requests/duration";
-    const statusCode = String(span.attributes["http.status_code"]);
-    dimensions.requestResultCode = statusCode;
-    dimensions.requestSuccess = statusCode === "200" ? "True" : "False";
-    return dimensions as Attributes;
-  }
-
-  private _getDependencyDimensions(span: ReadableSpan): Attributes {
-    const dimensions: IMetricDependencyDimensions = this._getBaseDimensions(span);
-    dimensions.metricId = "dependencies/duration";
-    const statusCode = String(span.attributes["http.status_code"]);
-    dimensions.dependencyTarget = this._getDependencyTarget(span.attributes);
-    dimensions.dependencyResultCode = statusCode;
-    dimensions.dependencyType = "http";
-    dimensions.dependencySuccess = statusCode === "200" ? "True" : "False";
-    return dimensions as Attributes;
-  }
-
-  private _getBaseDimensions(span: ReadableSpan): IStandardMetricBaseDimensions {
-    const dimensions: IStandardMetricBaseDimensions = {};
-    dimensions.IsAutocollected = "True";
-    if (span.resource) {
-      const spanResourceAttributes = span.resource.attributes;
-      const serviceName = spanResourceAttributes[SemanticResourceAttributes.SERVICE_NAME];
-      const serviceNamespace = spanResourceAttributes[SemanticResourceAttributes.SERVICE_NAMESPACE];
-      if (serviceName) {
-        if (serviceNamespace) {
-          dimensions.cloudRoleName = `${serviceNamespace}.${serviceName}`;
+    if (span.events) {
+      span.events.forEach((event: TimedEvent) => {
+        event.attributes = event.attributes || {};
+        if (event.name === "exception") {
+          event.attributes["_MS.ProcessedByMetricExtractors"] = "(Name:'Exceptions', Ver:'1.1')";
+          this._exceptionsCounter.add(1, getExceptionDimensions(span.resource));
         } else {
-          dimensions.cloudRoleName = String(serviceName);
+          event.attributes["_MS.ProcessedByMetricExtractors"] = "(Name:'Traces', Ver:'1.1')";
+          this._tracesCounter.add(1, getTraceDimensions(span.resource));
         }
-      }
-      const serviceInstanceId =
-        spanResourceAttributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID];
-      dimensions.cloudRoleInstance = String(serviceInstanceId);
+      });
     }
-    return dimensions;
   }
 
-  private _getDependencyTarget(attributes: Attributes): string {
-    if (!attributes) {
-      return "";
+  /**
+   * Record LogRecord metrics, add attribute so data is not aggregated again in ingestion
+   * @internal
+   */
+  public recordLog(logRecord: LogRecord): void {
+    if (isSyntheticLoad(logRecord)) {
+      logRecord.setAttribute("operation/synthetic", "True");
     }
-    const peerService = attributes[SemanticAttributes.PEER_SERVICE];
-    const httpHost = attributes[SemanticAttributes.HTTP_HOST];
-    const httpUrl = attributes[SemanticAttributes.HTTP_URL];
-    const netPeerName = attributes[SemanticAttributes.NET_PEER_NAME];
-    const netPeerIp = attributes[SemanticAttributes.NET_PEER_IP];
-    if (peerService) {
-      return String(peerService);
-    } else if (httpHost) {
-      return String(httpHost);
-    } else if (httpUrl) {
-      return String(httpUrl);
-    } else if (netPeerName) {
-      return String(netPeerName);
-    } else if (netPeerIp) {
-      return String(netPeerIp);
+    if (isExceptionTelemetry(logRecord)) {
+      logRecord.setAttribute("_MS.ProcessedByMetricExtractors", "(Name:'Exceptions', Ver:'1.1')");
+      this._exceptionsCounter.add(1, getExceptionDimensions(logRecord.resource));
+    } else if (isTraceTelemetry(logRecord)) {
+      logRecord.setAttribute("_MS.ProcessedByMetricExtractors", "(Name:'Traces', Ver:'1.1')");
+      this._tracesCounter.add(1, getTraceDimensions(logRecord.resource));
     }
-    return "";
   }
 }

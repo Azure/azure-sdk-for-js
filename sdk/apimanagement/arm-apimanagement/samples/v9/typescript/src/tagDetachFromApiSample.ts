@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Detach the tag from the Api.
  *
  * @summary Detach the tag from the Api.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementDeleteApiTag.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteApiTag.json
  */
 async function apiManagementDeleteApiTag() {
   const subscriptionId =

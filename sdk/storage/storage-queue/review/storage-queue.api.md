@@ -6,27 +6,23 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AzureLogger } from '@azure/logger';
-import { BaseRequestPolicy } from '@azure/core-http';
-import * as coreHttp from '@azure/core-http';
-import { deserializationPolicy } from '@azure/core-http';
-import { HttpHeaders } from '@azure/core-http';
-import { HttpOperationResponse } from '@azure/core-http';
-import { HttpRequestBody } from '@azure/core-http';
-import { HttpResponse } from '@azure/core-http';
-import { HttpClient as IHttpClient } from '@azure/core-http';
-import { KeepAliveOptions } from '@azure/core-http';
+import * as coreClient from '@azure/core-client';
+import * as coreHttpCompat from '@azure/core-http-compat';
+import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
+import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
+import { HttpPipelineLogLevel } from '@azure/core-http-compat';
+import { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
+import { KeepAliveOptions } from '@azure/core-http-compat';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { ProxyOptions } from '@azure/core-http';
-import { RequestOptionsBase } from '@azure/core-http';
-import { RequestPolicy } from '@azure/core-http';
-import { RequestPolicyFactory } from '@azure/core-http';
-import { RequestPolicyOptions } from '@azure/core-http';
-import { RestError } from '@azure/core-http';
-import { ServiceClientOptions } from '@azure/core-http';
-import { TokenCredential } from '@azure/core-http';
-import { UserAgentOptions } from '@azure/core-http';
-import { WebResource } from '@azure/core-http';
+import { ProxySettings } from '@azure/core-rest-pipeline';
+import { RequestPolicy } from '@azure/core-http-compat';
+import { RequestPolicyFactory } from '@azure/core-http-compat';
+import { RequestPolicyOptionsLike as RequestPolicyOptions } from '@azure/core-http-compat';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
+import { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
+import { WebResourceLike as WebResource } from '@azure/core-http-compat';
 
 // @public
 export interface AccessPolicy {
@@ -90,7 +86,17 @@ export class AnonymousCredentialPolicy extends CredentialPolicy {
     constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions);
 }
 
-export { BaseRequestPolicy }
+// @public
+export abstract class BaseRequestPolicy implements RequestPolicy {
+    protected constructor(
+    _nextPolicy: RequestPolicy,
+    _options: RequestPolicyOptions);
+    log(logLevel: HttpPipelineLogLevel, message: string): void;
+    readonly _nextPolicy: RequestPolicy;
+    readonly _options: RequestPolicyOptions;
+    abstract sendRequest(webResource: WebResource): Promise<HttpOperationResponse>;
+    shouldLog(logLevel: HttpPipelineLogLevel): boolean;
+}
 
 // @public
 export interface CommonOptions {
@@ -132,8 +138,6 @@ export interface DequeuedMessageItem {
     popReceipt: string;
 }
 
-export { deserializationPolicy }
-
 // @public
 export interface EnqueuedMessage {
     expiresOn: Date;
@@ -164,7 +168,15 @@ export { HttpOperationResponse }
 
 export { HttpRequestBody }
 
-export { IHttpClient }
+// @public
+export interface HttpResponse {
+    headers: HttpHeaders;
+    request: WebResource;
+    status: number;
+}
+
+// @public
+export function isPipelineLike(pipeline: unknown): pipeline is PipelineLike;
 
 // @public
 export type ListQueuesIncludeType = "metadata";
@@ -207,11 +219,7 @@ export interface MessageIdDeleteHeaders {
 }
 
 // @public
-export type MessageIdDeleteResponse = MessageIdDeleteHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: MessageIdDeleteHeaders;
-    };
-};
+export type MessageIdDeleteResponse = WithResponse<MessageIdDeleteHeaders, MessageIdDeleteHeaders>;
 
 // @public
 export interface MessageIdUpdateHeaders {
@@ -225,11 +233,7 @@ export interface MessageIdUpdateHeaders {
 }
 
 // @public
-export type MessageIdUpdateResponse = MessageIdUpdateHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: MessageIdUpdateHeaders;
-    };
-};
+export type MessageIdUpdateResponse = WithResponse<MessageIdUpdateHeaders, MessageIdUpdateHeaders>;
 
 // @public
 export interface MessagesClearHeaders {
@@ -241,11 +245,7 @@ export interface MessagesClearHeaders {
 }
 
 // @public
-export type MessagesClearResponse = MessagesClearHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: MessagesClearHeaders;
-    };
-};
+export type MessagesClearResponse = WithResponse<MessagesClearHeaders, MessagesClearHeaders>;
 
 // @public
 export interface MessagesDequeueHeaders {
@@ -257,7 +257,7 @@ export interface MessagesDequeueHeaders {
 }
 
 // @public
-export interface MessagesDequeueOptionalParams extends RequestOptionsBase {
+export interface MessagesDequeueOptionalParams extends CommonOptions {
     numberOfMessages?: number;
     requestId?: string;
     timeoutInSeconds?: number;
@@ -274,7 +274,7 @@ export interface MessagesEnqueueHeaders {
 }
 
 // @public
-export interface MessagesEnqueueOptionalParams extends RequestOptionsBase {
+export interface MessagesEnqueueOptionalParams extends CommonOptions {
     messageTimeToLive?: number;
     requestId?: string;
     timeoutInSeconds?: number;
@@ -291,7 +291,7 @@ export interface MessagesPeekHeaders {
 }
 
 // @public
-export interface MessagesPeekOptionalParams extends RequestOptionsBase {
+export interface MessagesPeekOptionalParams extends CommonOptions {
     numberOfMessages?: number;
     requestId?: string;
     timeoutInSeconds?: number;
@@ -323,7 +323,7 @@ export interface PeekedMessageItem {
 }
 
 // @public
-export class Pipeline {
+export class Pipeline implements PipelineLike {
     constructor(factories: RequestPolicyFactory[], options?: PipelineOptions);
     readonly factories: RequestPolicyFactory[];
     readonly options: PipelineOptions;
@@ -331,8 +331,15 @@ export class Pipeline {
 }
 
 // @public
+export interface PipelineLike {
+    readonly factories: RequestPolicyFactory[];
+    readonly options: PipelineOptions;
+    toServiceClientOptions(): ServiceClientOptions;
+}
+
+// @public
 export interface PipelineOptions {
-    httpClient?: IHttpClient;
+    httpClient?: RequestPolicy;
 }
 
 // @public
@@ -390,11 +397,7 @@ export interface QueueCreateOptions extends CommonOptions {
 }
 
 // @public
-export type QueueCreateResponse = QueueCreateHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: QueueCreateHeaders;
-    };
-};
+export type QueueCreateResponse = WithResponse<QueueCreateHeaders, QueueCreateHeaders>;
 
 // @public
 export interface QueueDeleteHeaders {
@@ -424,11 +427,7 @@ export interface QueueDeleteOptions extends CommonOptions {
 }
 
 // @public
-export type QueueDeleteResponse = QueueDeleteHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: QueueDeleteHeaders;
-    };
-};
+export type QueueDeleteResponse = WithResponse<QueueDeleteHeaders, QueueDeleteHeaders>;
 
 // @public
 export interface QueueExistsOptions extends CommonOptions {
@@ -461,15 +460,9 @@ export interface QueueGetAccessPolicyOptions extends CommonOptions {
 }
 
 // @public
-export type QueueGetAccessPolicyResponse = {
+export type QueueGetAccessPolicyResponse = WithResponse<{
     signedIdentifiers: SignedIdentifier[];
-} & QueueGetAccessPolicyHeaders & {
-    _response: HttpResponse & {
-        parsedHeaders: QueueGetAccessPolicyHeaders;
-        bodyAsText: string;
-        parsedBody: SignedIdentifierModel[];
-    };
-};
+} & QueueGetAccessPolicyHeaders, QueueGetAccessPolicyHeaders, SignedIdentifierModel[]>;
 
 // @public
 export interface QueueGetPropertiesHeaders {
@@ -491,11 +484,7 @@ export interface QueueGetPropertiesOptions extends CommonOptions {
 }
 
 // @public
-export type QueueGetPropertiesResponse = QueueGetPropertiesHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: QueueGetPropertiesHeaders;
-    };
-};
+export type QueueGetPropertiesResponse = WithResponse<QueueGetPropertiesHeaders, QueueGetPropertiesHeaders>;
 
 // @public
 export interface QueueItem {
@@ -510,30 +499,18 @@ export interface QueuePeekMessagesOptions extends MessagesPeekOptionalParams, Co
 }
 
 // @public
-export type QueuePeekMessagesResponse = {
+export type QueuePeekMessagesResponse = WithResponse<{
     peekedMessageItems: PeekedMessageItem[];
-} & MessagesPeekHeaders & {
-    _response: HttpResponse & {
-        parsedHeaders: MessagesPeekHeaders;
-        bodyAsText: string;
-        parsedBody: PeekedMessageItem[];
-    };
-};
+} & MessagesPeekHeaders, MessagesPeekHeaders, PeekedMessageItem[]>;
 
 // @public
 export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParams, CommonOptions {
 }
 
 // @public
-export type QueueReceiveMessageResponse = {
+export type QueueReceiveMessageResponse = WithResponse<{
     receivedMessageItems: ReceivedMessageItem[];
-} & MessagesDequeueHeaders & {
-    _response: HttpResponse & {
-        parsedHeaders: MessagesDequeueHeaders;
-        bodyAsText: string;
-        parsedBody: ReceivedMessageItem[];
-    };
-};
+} & MessagesDequeueHeaders, MessagesDequeueHeaders, ReceivedMessageItem[]>;
 
 // @public
 export class QueueSASPermissions {
@@ -562,19 +539,13 @@ export interface QueueSendMessageOptions extends MessagesEnqueueOptionalParams, 
 }
 
 // @public
-export type QueueSendMessageResponse = {
+export type QueueSendMessageResponse = WithResponse<{
     messageId: string;
     popReceipt: string;
     insertedOn: Date;
     expiresOn: Date;
     nextVisibleOn: Date;
-} & MessagesEnqueueHeaders & {
-    _response: HttpResponse & {
-        parsedHeaders: MessagesEnqueueHeaders;
-        bodyAsText: string;
-        parsedBody: EnqueuedMessage[];
-    };
-};
+} & MessagesEnqueueHeaders, MessagesEnqueueHeaders, EnqueuedMessage[]>;
 
 // @public
 export class QueueServiceClient extends StorageClient {
@@ -619,11 +590,7 @@ export interface QueueSetAccessPolicyOptions extends CommonOptions {
 }
 
 // @public
-export type QueueSetAccessPolicyResponse = QueueSetAccessPolicyHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: QueueSetAccessPolicyHeaders;
-    };
-};
+export type QueueSetAccessPolicyResponse = WithResponse<QueueSetAccessPolicyHeaders, QueueSetAccessPolicyHeaders>;
 
 // @public
 export interface QueueSetMetadataHeaders {
@@ -640,11 +607,7 @@ export interface QueueSetMetadataOptions extends CommonOptions {
 }
 
 // @public
-export type QueueSetMetadataResponse = QueueSetMetadataHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: QueueSetMetadataHeaders;
-    };
-};
+export type QueueSetMetadataResponse = WithResponse<QueueSetMetadataHeaders, QueueSetMetadataHeaders>;
 
 // @public
 export interface QueueUpdateMessageOptions extends CommonOptions {
@@ -657,11 +620,33 @@ export type QueueUpdateMessageResponse = MessageIdUpdateResponse;
 // @public
 export type ReceivedMessageItem = DequeuedMessageItem;
 
+export { RequestPolicy as IHttpClient }
 export { RequestPolicy }
 
 export { RequestPolicyFactory }
 
 export { RequestPolicyOptions }
+
+// @public
+export interface ResponseLike {
+    _response: HttpResponse;
+}
+
+// @public
+export interface ResponseWithBody<Headers, Body> {
+    _response: HttpResponse & {
+        parsedHeaders: Headers;
+        bodyAsText: string;
+        parsedBody: Body;
+    };
+}
+
+// @public
+export interface ResponseWithHeaders<Headers> {
+    _response: HttpResponse & {
+        parsedHeaders: Headers;
+    };
+}
 
 export { RestError }
 
@@ -701,6 +686,12 @@ export class SASQueryParameters {
 }
 
 // @public
+export interface ServiceClientOptions {
+    httpClient?: RequestPolicy;
+    requestPolicyFactories?: RequestPolicyFactory[] | ((defaultRequestPolicyFactories: RequestPolicyFactory[]) => void | RequestPolicyFactory[]);
+}
+
+// @public
 export interface ServiceGenerateAccountSasUrlOptions {
     ipRange?: SasIPRange;
     protocol?: SASProtocol;
@@ -722,13 +713,7 @@ export interface ServiceGetPropertiesOptions extends CommonOptions {
 }
 
 // @public
-export type ServiceGetPropertiesResponse = ServiceGetPropertiesHeaders & QueueServiceProperties & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: QueueServiceProperties;
-        parsedHeaders: ServiceGetPropertiesHeaders;
-    };
-};
+export type ServiceGetPropertiesResponse = WithResponse<ServiceGetPropertiesHeaders & QueueServiceProperties, ServiceGetPropertiesHeaders, QueueServiceProperties>;
 
 // @public
 export interface ServiceGetStatisticsHeaders {
@@ -745,13 +730,7 @@ export interface ServiceGetStatisticsOptions extends CommonOptions {
 }
 
 // @public
-export type ServiceGetStatisticsResponse = ServiceGetStatisticsHeaders & QueueServiceStatistics & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: QueueServiceStatistics;
-        parsedHeaders: ServiceGetStatisticsHeaders;
-    };
-};
+export type ServiceGetStatisticsResponse = WithResponse<ServiceGetStatisticsHeaders & QueueServiceStatistics, ServiceGetStatisticsHeaders, QueueServiceStatistics>;
 
 // @public
 export interface ServiceListQueuesOptions extends CommonOptions {
@@ -770,13 +749,7 @@ export interface ServiceListQueuesSegmentHeaders {
 }
 
 // @public
-export type ServiceListQueuesSegmentResponse = ServiceListQueuesSegmentHeaders & ListQueuesSegmentResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: ListQueuesSegmentResponse;
-        parsedHeaders: ServiceListQueuesSegmentHeaders;
-    };
-};
+export type ServiceListQueuesSegmentResponse = WithResponse<ServiceListQueuesSegmentHeaders & ListQueuesSegmentResponse, ServiceListQueuesSegmentHeaders, ListQueuesSegmentResponse>;
 
 // @public
 export interface ServiceSetPropertiesHeaders {
@@ -792,11 +765,7 @@ export interface ServiceSetPropertiesOptions extends CommonOptions {
 }
 
 // @public
-export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: ServiceSetPropertiesHeaders;
-    };
-};
+export type ServiceSetPropertiesResponse = WithResponse<ServiceSetPropertiesHeaders, ServiceSetPropertiesHeaders>;
 
 // @public
 export interface SignedIdentifier {
@@ -830,11 +799,12 @@ export const StorageOAuthScopes: string | string[];
 
 // @public
 export interface StoragePipelineOptions {
-    httpClient?: IHttpClient;
+    audience?: string | string[];
+    httpClient?: RequestPolicy;
     keepAliveOptions?: KeepAliveOptions;
-    proxyOptions?: ProxyOptions;
+    proxyOptions?: ProxySettings;
     retryOptions?: StorageRetryOptions;
-    userAgentOptions?: UserAgentOptions;
+    userAgentOptions?: UserAgentPolicyOptions;
 }
 
 // @public
@@ -882,6 +852,9 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
 }
 
 export { WebResource }
+
+// @public
+export type WithResponse<T, Headers = undefined, Body = undefined> = T & (Body extends object ? ResponseWithBody<Headers, Body> : Headers extends object ? ResponseWithHeaders<Headers> : ResponseLike);
 
 // (No @packageDocumentation comment for this package)
 

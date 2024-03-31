@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Gets an app's deployment slots.
  *
  * @summary Description for Gets an app's deployment slots.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/ListWebAppSlots.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/ListWebAppSlots.json
  */
 async function listWebAppSlots() {
   const subscriptionId =

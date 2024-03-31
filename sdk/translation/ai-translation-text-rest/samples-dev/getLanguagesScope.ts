@@ -37,7 +37,7 @@ export async function main() {
     for (const key in languages.translation) {
       const translationLanguage = languages.translation[key];
       console.log(
-        `${key} -- name: ${translationLanguage.name} (${translationLanguage.nativeName})`
+        `${key} -- name: ${translationLanguage.name} (${translationLanguage.nativeName})`,
       );
     }
   }
@@ -47,7 +47,7 @@ export async function main() {
     for (const key in languages.transliteration) {
       const transliterationLanguage = languages.transliteration[key];
       console.log(
-        `${key} -- name: ${transliterationLanguage.name} (${transliterationLanguage.nativeName})`
+        `${key} -- name: ${transliterationLanguage.name} (${transliterationLanguage.nativeName})`,
       );
     }
   }
@@ -57,7 +57,7 @@ export async function main() {
     for (const key in languages.dictionary) {
       const dictionaryLanguage = languages.dictionary[key];
       console.log(
-        `${key} -- name: ${dictionaryLanguage.name} (${dictionaryLanguage.nativeName}), supported target languages count: ${dictionaryLanguage.translations.length}`
+        `${key} -- name: ${dictionaryLanguage.name} (${dictionaryLanguage.nativeName}), supported target languages count: ${dictionaryLanguage.translations.length}`,
       );
     }
   }

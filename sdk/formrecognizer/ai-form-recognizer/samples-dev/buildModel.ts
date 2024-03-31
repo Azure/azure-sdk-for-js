@@ -4,7 +4,7 @@
 /**
  * This sample shows how to programmatically build a model with a single document type using a training data set.
  *
- * The Form Recognizer service expects the training data to be organized and labeled according to a particular
+ * The Document Intelligence service expects the training data to be organized and labeled according to a particular
  * convention and stored in an Azure Storage container. For more information about creating a training data set, please
  * see the information at the following link to the service's documentation:
  *
@@ -36,8 +36,12 @@ async function main() {
 
   const poller = await client.beginBuildDocumentModel(
     modelId,
-    trainingDataSasUrl,
-    DocumentModelBuildMode.Template
+    {
+      azureBlobSource: {
+        containerUrl: trainingDataSasUrl,
+      },
+    },
+    DocumentModelBuildMode.Template,
   );
   const model = await poller.pollUntilDone();
 
@@ -50,7 +54,7 @@ async function main() {
 
   console.log("Document Types:");
   for (const [docType, { description, fieldSchema: schema }] of Object.entries(
-    model.docTypes || {}
+    model.docTypes || {},
   )) {
     console.log(`- Name: "${docType}"`);
     console.log(`  Description: "${description}"`);

@@ -19,7 +19,7 @@ export interface QuotaByCounterKeys {
   /**
    * Lists a collection of current quota counter periods associated with the counter-key configured in
    * the policy on the specified service instance. The api does not support paging yet.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param quotaCounterKey Quota counter key identifier.This is the result of expression defined in
    *                        counter-key attribute of the quota-by-key policy.For Example, if you specify counter-key="boo" in
@@ -36,7 +36,7 @@ export interface QuotaByCounterKeys {
   /**
    * Updates all the quota counter values specified with the existing quota counter key to a value in the
    * specified service instance. This should be used for reset of the quota counter values.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param quotaCounterKey Quota counter key identifier.This is the result of expression defined in
    *                        counter-key attribute of the quota-by-key policy.For Example, if you specify counter-key="boo" in

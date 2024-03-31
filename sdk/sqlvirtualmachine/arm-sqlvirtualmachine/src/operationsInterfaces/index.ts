@@ -10,3 +10,4 @@ export * from "./availabilityGroupListeners";
 export * from "./operations";
 export * from "./sqlVirtualMachineGroups";
 export * from "./sqlVirtualMachines";
+export * from "./sqlVirtualMachineTroubleshoot";

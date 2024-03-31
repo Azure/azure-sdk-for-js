@@ -11,7 +11,7 @@ import { CommunicationAccessToken } from "../../../src";
 
 export const createMockHttpClient = <T = Record<string, unknown>>(
   status: number = 200,
-  parsedBody?: T
+  parsedBody?: T,
 ): HttpClient => {
   return {
     async sendRequest(httpRequest: PipelineRequest): Promise<PipelineResponse> {
@@ -37,7 +37,7 @@ const tokenResponse = {
 
 export const getTokenHttpClient: HttpClient = createMockHttpClient<CommunicationAccessToken>(
   200,
-  tokenResponse
+  tokenResponse,
 );
 export const revokeTokensHttpClient: HttpClient = createMockHttpClient(204);
 

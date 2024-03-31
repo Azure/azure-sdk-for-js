@@ -14,7 +14,7 @@ parameters:
 - name: Tests
   displayName: Tests (regex of tests to run)
   type: string
-  default: '^(send-event-batch|subscribe|receive-batch)$'
+  default: '^(send-queue-messages-batch|process-queue-messages|receive-queue-messages-batch)$'
 - name: Arguments
   displayName: Arguments (regex of arguments to run)
   type: string

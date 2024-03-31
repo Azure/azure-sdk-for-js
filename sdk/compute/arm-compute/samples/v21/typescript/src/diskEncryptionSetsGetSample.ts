@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets information about a disk encryption set.
  *
  * @summary Gets information about a disk encryption set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Get_WithAutoKeyRotationError.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Get_WithAutoKeyRotationError.json
  */
 async function getInformationAboutADiskEncryptionSetWhenAutoKeyRotationFailed() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function getInformationAboutADiskEncryptionSetWhenAutoKeyRotationFailed() 
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.diskEncryptionSets.get(
     resourceGroupName,
-    diskEncryptionSetName
+    diskEncryptionSetName,
   );
   console.log(result);
 }
@@ -39,7 +39,7 @@ async function getInformationAboutADiskEncryptionSetWhenAutoKeyRotationFailed() 
  * This sample demonstrates how to Gets information about a disk encryption set.
  *
  * @summary Gets information about a disk encryption set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Get.json
  */
 async function getInformationAboutADiskEncryptionSet() {
   const subscriptionId =
@@ -51,7 +51,7 @@ async function getInformationAboutADiskEncryptionSet() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.diskEncryptionSets.get(
     resourceGroupName,
-    diskEncryptionSetName
+    diskEncryptionSetName,
   );
   console.log(result);
 }

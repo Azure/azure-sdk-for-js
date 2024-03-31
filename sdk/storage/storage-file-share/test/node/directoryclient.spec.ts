@@ -2,14 +2,20 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { getBSU, recorderEnvSetup } from "../utils";
+import {
+  configureStorageClient,
+  getBSU,
+  getUniqueName,
+  recorderEnvSetup,
+  uriSanitizers,
+} from "../utils";
 import {
   newPipeline,
   ShareDirectoryClient,
   StorageSharedKeyCredential,
   ShareClient,
 } from "../../src";
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
 describe("DirectoryClient Node.js only", () => {
@@ -21,13 +27,15 @@ describe("DirectoryClient Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    const serviceClient = getBSU();
-    shareName = recorder.getUniqueName("share");
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    const serviceClient = getBSU(recorder);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    shareName = recorder.variable("share", getUniqueName("share"));
     shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create();
 
-    dirName = recorder.getUniqueName("dir");
+    dirName = recorder.variable("dir", getUniqueName("dir"));
     dirClient = shareClient.getDirectoryClient(dirName);
     await dirClient.create();
   });
@@ -39,9 +47,9 @@ describe("DirectoryClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential", async () => {
-    const factories = (dirClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = dirClient["credential"] as StorageSharedKeyCredential;
     const newClient = new ShareDirectoryClient(dirClient.url, credential);
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -53,13 +61,13 @@ describe("DirectoryClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
-    const factories = (dirClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = dirClient["credential"] as StorageSharedKeyCredential;
     const newClient = new ShareDirectoryClient(dirClient.url, credential, {
       retryOptions: {
         maxTries: 5,
       },
     });
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -71,10 +79,10 @@ describe("DirectoryClient Node.js only", () => {
   });
 
   it("can be created with a url and a pipeline", async () => {
-    const factories = (dirClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = dirClient["credential"] as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new ShareDirectoryClient(dirClient.url, pipeline);
+    configureStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 

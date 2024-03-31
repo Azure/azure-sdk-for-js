@@ -19,7 +19,7 @@ import {
 export interface Issue {
   /**
    * Lists a collection of issues in the specified service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -30,7 +30,7 @@ export interface Issue {
   ): PagedAsyncIterableIterator<IssueContract>;
   /**
    * Gets API Management issue details
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.

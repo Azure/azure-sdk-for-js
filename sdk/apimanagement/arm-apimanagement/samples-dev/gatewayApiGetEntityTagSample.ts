@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Checks that API entity specified by identifier is associated with the Gateway entity.
  *
  * @summary Checks that API entity specified by identifier is associated with the Gateway entity.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementHeadGatewayApi.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementHeadGatewayApi.json
  */
 async function apiManagementHeadGatewayApi() {
   const subscriptionId =

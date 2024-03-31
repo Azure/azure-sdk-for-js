@@ -1,21 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
 import { InternalClientPipelineOptions } from "@azure/core-client";
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { SDK_VERSION } from "./constants";
+import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
+import { bearerTokenAuthenticationPolicy, Pipeline } from "@azure/core-rest-pipeline";
 import { SearchIndexerStatus } from "./generated/service/models";
 import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient";
 import { logger } from "./logger";
+import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
+import { KnownSearchAudience } from "./searchAudience";
 import {
   CreateDataSourceConnectionOptions,
   CreateIndexerOptions,
-  CreateOrUpdateSkillsetOptions,
-  CreateSkillsetOptions,
   CreateorUpdateDataSourceConnectionOptions,
   CreateorUpdateIndexerOptions,
+  CreateOrUpdateSkillsetOptions,
+  CreateSkillsetOptions,
   DeleteDataSourceConnectionOptions,
   DeleteIndexerOptions,
   DeleteSkillsetOptions,
@@ -36,9 +38,6 @@ import {
 } from "./serviceModels";
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
-import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
-import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
-import { KnownSearchAudience } from "./searchAudience";
 
 /**
  * Client options used to configure Cognitive Search API requests.
@@ -86,11 +85,15 @@ export class SearchIndexerClient {
   public readonly endpoint: string;
 
   /**
-   * @internal
    * @hidden
    * A reference to the auto-generated SearchServiceClient
    */
   private readonly client: GeneratedClient;
+
+  /**
+   * A reference to the internal HTTP pipeline for use with raw requests
+   */
+  public readonly pipeline: Pipeline;
 
   /**
    * Creates an instance of SearchIndexerClient.
@@ -111,19 +114,9 @@ export class SearchIndexerClient {
   constructor(
     endpoint: string,
     credential: KeyCredential | TokenCredential,
-    options: SearchIndexerClientOptions = {}
+    options: SearchIndexerClientOptions = {},
   ) {
     this.endpoint = endpoint;
-
-    const libInfo = `azsdk-js-search-documents/${SDK_VERSION}`;
-    if (!options.userAgentOptions) {
-      options.userAgentOptions = {};
-    }
-    if (options.userAgentOptions.userAgentPrefix) {
-      options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      options.userAgentOptions.userAgentPrefix = libInfo;
-    }
 
     const internalClientPipelineOptions: InternalClientPipelineOptions = {
       ...options,
@@ -149,8 +142,9 @@ export class SearchIndexerClient {
     this.client = new GeneratedClient(
       this.endpoint,
       this.serviceVersion,
-      internalClientPipelineOptions
+      internalClientPipelineOptions,
     );
+    this.pipeline = this.client.pipeline;
 
     if (isTokenCredential(credential)) {
       const scope: string = options.audience
@@ -158,7 +152,7 @@ export class SearchIndexerClient {
         : `${KnownSearchAudience.AzurePublicCloud}/.default`;
 
       this.client.pipeline.addPolicy(
-        bearerTokenAuthenticationPolicy({ credential, scopes: scope })
+        bearerTokenAuthenticationPolicy({ credential, scopes: scope }),
       );
     } else {
       this.client.pipeline.addPolicy(createSearchApiKeyCredentialPolicy(credential));
@@ -215,11 +209,11 @@ export class SearchIndexerClient {
    * @param options - Options to the list indexers operation.
    */
   public async listDataSourceConnections(
-    options: ListDataSourceConnectionsOptions = {}
+    options: ListDataSourceConnectionsOptions = {},
   ): Promise<Array<SearchIndexerDataSourceConnection>> {
     const { span, updatedOptions } = createSpan(
       "SearchIndexerClient-listDataSourceConnections",
-      options
+      options,
     );
     try {
       const result = await this.client.dataSources.list(updatedOptions);
@@ -240,11 +234,11 @@ export class SearchIndexerClient {
    * @param options - Options to the list indexers operation.
    */
   public async listDataSourceConnectionsNames(
-    options: ListDataSourceConnectionsOptions = {}
+    options: ListDataSourceConnectionsOptions = {},
   ): Promise<Array<string>> {
     const { span, updatedOptions } = createSpan(
       "SearchIndexerClient-listDataSourceConnectionsNames",
-      options
+      options,
     );
     try {
       const result = await this.client.dataSources.list({
@@ -268,7 +262,7 @@ export class SearchIndexerClient {
    * @param options - Options to the list Skillsets operation.
    */
   public async listSkillsets(
-    options: ListSkillsetsOptions = {}
+    options: ListSkillsetsOptions = {},
   ): Promise<Array<SearchIndexerSkillset>> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-listSkillsets", options);
     try {
@@ -315,7 +309,7 @@ export class SearchIndexerClient {
    */
   public async getIndexer(
     indexerName: string,
-    options: GetIndexerOptions = {}
+    options: GetIndexerOptions = {},
   ): Promise<SearchIndexer> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-getIndexer", options);
     try {
@@ -339,11 +333,11 @@ export class SearchIndexerClient {
    */
   public async getDataSourceConnection(
     dataSourceConnectionName: string,
-    options: GetDataSourceConnectionOptions = {}
+    options: GetDataSourceConnectionOptions = {},
   ): Promise<SearchIndexerDataSourceConnection> {
     const { span, updatedOptions } = createSpan(
       "SearchIndexerClient-getDataSourceConnection",
-      options
+      options,
     );
     try {
       const result = await this.client.dataSources.get(dataSourceConnectionName, updatedOptions);
@@ -366,7 +360,7 @@ export class SearchIndexerClient {
    */
   public async getSkillset(
     skillsetName: string,
-    options: GetSkillSetOptions = {}
+    options: GetSkillSetOptions = {},
   ): Promise<SearchIndexerSkillset> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-getSkillset", options);
     try {
@@ -390,13 +384,13 @@ export class SearchIndexerClient {
    */
   public async createIndexer(
     indexer: SearchIndexer,
-    options: CreateIndexerOptions = {}
+    options: CreateIndexerOptions = {},
   ): Promise<SearchIndexer> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-createIndexer", options);
     try {
       const result = await this.client.indexers.create(
         utils.publicSearchIndexerToGeneratedSearchIndexer(indexer),
-        updatedOptions
+        updatedOptions,
       );
       return utils.generatedSearchIndexerToPublicSearchIndexer(result);
     } catch (e: any) {
@@ -417,16 +411,16 @@ export class SearchIndexerClient {
    */
   public async createDataSourceConnection(
     dataSourceConnection: SearchIndexerDataSourceConnection,
-    options: CreateDataSourceConnectionOptions = {}
+    options: CreateDataSourceConnectionOptions = {},
   ): Promise<SearchIndexerDataSourceConnection> {
     const { span, updatedOptions } = createSpan(
       "SearchIndexerClient-createDataSourceConnection",
-      options
+      options,
     );
     try {
       const result = await this.client.dataSources.create(
         utils.publicDataSourceToGeneratedDataSource(dataSourceConnection),
-        updatedOptions
+        updatedOptions,
       );
       return utils.generatedDataSourceToPublicDataSource(result);
     } catch (e: any) {
@@ -447,13 +441,13 @@ export class SearchIndexerClient {
    */
   public async createSkillset(
     skillset: SearchIndexerSkillset,
-    options: CreateSkillsetOptions = {}
+    options: CreateSkillsetOptions = {},
   ): Promise<SearchIndexerSkillset> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-createSkillset", options);
     try {
       const result = await this.client.skillsets.create(
         utils.publicSkillsetToGeneratedSkillset(skillset),
-        updatedOptions
+        updatedOptions,
       );
       return utils.generatedSkillsetToPublicSkillset(result);
     } catch (e: any) {
@@ -474,24 +468,24 @@ export class SearchIndexerClient {
    */
   public async createOrUpdateIndexer(
     indexer: SearchIndexer,
-    options: CreateorUpdateIndexerOptions = {}
+    options: CreateorUpdateIndexerOptions = {},
   ): Promise<SearchIndexer> {
     const { span, updatedOptions } = createSpan(
       "SearchIndexerClient-createOrUpdateIndexer",
-      options
+      options,
     );
+
+    const { onlyIfUnchanged, ...restOptions } = updatedOptions;
     try {
-      const etag = options.onlyIfUnchanged ? indexer.etag : undefined;
+      const etag = onlyIfUnchanged ? indexer.etag : undefined;
 
       const result = await this.client.indexers.createOrUpdate(
         indexer.name,
         utils.publicSearchIndexerToGeneratedSearchIndexer(indexer),
         {
-          ...updatedOptions,
+          ...restOptions,
           ifMatch: etag,
-          skipIndexerResetRequirementForCache: options.skipIndexerResetRequirementForCache,
-          disableCacheReprocessingChangeDetection: options.disableCacheReprocessingChangeDetection,
-        }
+        },
       );
       return utils.generatedSearchIndexerToPublicSearchIndexer(result);
     } catch (e: any) {
@@ -512,11 +506,11 @@ export class SearchIndexerClient {
    */
   public async createOrUpdateDataSourceConnection(
     dataSourceConnection: SearchIndexerDataSourceConnection,
-    options: CreateorUpdateDataSourceConnectionOptions = {}
+    options: CreateorUpdateDataSourceConnectionOptions = {},
   ): Promise<SearchIndexerDataSourceConnection> {
     const { span, updatedOptions } = createSpan(
       "SearchIndexerClient-createOrUpdateDataSourceConnection",
-      options
+      options,
     );
     try {
       const etag = options.onlyIfUnchanged ? dataSourceConnection.etag : undefined;
@@ -527,8 +521,7 @@ export class SearchIndexerClient {
         {
           ...updatedOptions,
           ifMatch: etag,
-          skipIndexerResetRequirementForCache: options.skipIndexerResetRequirementForCache,
-        }
+        },
       );
       return utils.generatedDataSourceToPublicDataSource(result);
     } catch (e: any) {
@@ -549,11 +542,11 @@ export class SearchIndexerClient {
    */
   public async createOrUpdateSkillset(
     skillset: SearchIndexerSkillset,
-    options: CreateOrUpdateSkillsetOptions = {}
+    options: CreateOrUpdateSkillsetOptions = {},
   ): Promise<SearchIndexerSkillset> {
     const { span, updatedOptions } = createSpan(
       "SearchIndexerClient-createOrUpdateSkillset",
-      options
+      options,
     );
     try {
       const etag = options.onlyIfUnchanged ? skillset.etag : undefined;
@@ -564,9 +557,7 @@ export class SearchIndexerClient {
         {
           ...updatedOptions,
           ifMatch: etag,
-          skipIndexerResetRequirementForCache: options.skipIndexerResetRequirementForCache,
-          disableCacheReprocessingChangeDetection: options.disableCacheReprocessingChangeDetection,
-        }
+        },
       );
 
       return utils.generatedSkillsetToPublicSkillset(result);
@@ -588,7 +579,7 @@ export class SearchIndexerClient {
    */
   public async deleteIndexer(
     indexer: string | SearchIndexer,
-    options: DeleteIndexerOptions = {}
+    options: DeleteIndexerOptions = {},
   ): Promise<void> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-deleteIndexer", options);
     try {
@@ -597,8 +588,8 @@ export class SearchIndexerClient {
         typeof indexer === "string"
           ? undefined
           : options.onlyIfUnchanged
-          ? indexer.etag
-          : undefined;
+            ? indexer.etag
+            : undefined;
 
       await this.client.indexers.delete(indexerName, {
         ...updatedOptions,
@@ -622,11 +613,11 @@ export class SearchIndexerClient {
    */
   public async deleteDataSourceConnection(
     dataSourceConnection: string | SearchIndexerDataSourceConnection,
-    options: DeleteDataSourceConnectionOptions = {}
+    options: DeleteDataSourceConnectionOptions = {},
   ): Promise<void> {
     const { span, updatedOptions } = createSpan(
       "SearchIndexerClient-deleteDataSourceConnection",
-      options
+      options,
     );
     try {
       const dataSourceConnectionName: string =
@@ -635,8 +626,8 @@ export class SearchIndexerClient {
         typeof dataSourceConnection === "string"
           ? undefined
           : options.onlyIfUnchanged
-          ? dataSourceConnection.etag
-          : undefined;
+            ? dataSourceConnection.etag
+            : undefined;
 
       await this.client.dataSources.delete(dataSourceConnectionName, {
         ...updatedOptions,
@@ -660,7 +651,7 @@ export class SearchIndexerClient {
    */
   public async deleteSkillset(
     skillset: string | SearchIndexerSkillset,
-    options: DeleteSkillsetOptions = {}
+    options: DeleteSkillsetOptions = {},
   ): Promise<void> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-deleteSkillset", options);
     try {
@@ -669,8 +660,8 @@ export class SearchIndexerClient {
         typeof skillset === "string"
           ? undefined
           : options.onlyIfUnchanged
-          ? skillset.etag
-          : undefined;
+            ? skillset.etag
+            : undefined;
 
       await this.client.skillsets.delete(skillsetName, {
         ...updatedOptions,
@@ -694,7 +685,7 @@ export class SearchIndexerClient {
    */
   public async getIndexerStatus(
     indexerName: string,
-    options: GetIndexerStatusOptions = {}
+    options: GetIndexerStatusOptions = {},
   ): Promise<SearchIndexerStatus> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-getIndexerStatus", options);
     try {
@@ -758,7 +749,7 @@ export class SearchIndexerClient {
    */
   public async resetDocuments(
     indexerName: string,
-    options: ResetDocumentsOptions = {}
+    options: ResetDocumentsOptions = {},
   ): Promise<void> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-resetDocs", options);
     try {
@@ -792,7 +783,7 @@ export class SearchIndexerClient {
       await this.client.skillsets.resetSkills(
         skillsetName,
         { skillNames: options.skillNames },
-        updatedOptions
+        updatedOptions,
       );
     } catch (e: any) {
       span.setStatus({

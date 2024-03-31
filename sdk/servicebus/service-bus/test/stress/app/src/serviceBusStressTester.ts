@@ -18,9 +18,7 @@ import {
   initializeLockRenewalOperationInfo,
   initializeOperationInfo,
   OperationInfo,
-  saveDiscrepanciesFromTrackedMessages,
   SnapshotOptions,
-  TrackedMessageIdsInfo,
 } from "./utils";
 import Long from "long";
 import * as appInsights from "applicationinsights";
@@ -57,15 +55,14 @@ export function captureConsoleOutputToAppInsights() {
 }
 
 export class ServiceBusStressTester {
-  private messagesSent: ServiceBusMessage[] = [];
-  private messagesReceived: ServiceBusMessage[] = [];
-  private trackedMessageIds: TrackedMessageIdsInfo = {};
-  private snapshotTimer: NodeJS.Timer;
+  private messagesSentCount: number = 0;
+  private messagesReceivedCount: number = 0;
+  private snapshotTimer: NodeJS.Timeout;
   private startedAt!: Date;
   private _numErrors = 0;
 
   public numMessagesSent(): number {
-    return this.messagesSent.length;
+    return this.messagesSentCount;
   }
 
   // Send metrics
@@ -85,7 +82,7 @@ export class ServiceBusStressTester {
   sessionLockRenewalInfo = initializeLockRenewalOperationInfo();
   // Queue Management
   serviceBusAdministrationClient = new ServiceBusAdministrationClient(
-    process.env.SERVICEBUS_CONNECTION_STRING!
+    process.env.SERVICEBUS_CONNECTION_STRING!,
   );
   queueName!: string;
 
@@ -105,7 +102,6 @@ export class ServiceBusStressTester {
       : this.snapshotOptions.snapshotIntervalInMs;
 
     this.startedAt = new Date();
-    this.messagesSent = [];
     this.snapshotTimer = setInterval(this.snapshot.bind(this), snapshotIntervalMs);
   }
 
@@ -136,7 +132,7 @@ export class ServiceBusStressTester {
     numberOfMessages = 1,
     useSessions = false,
     useScheduleApi = false,
-    numberOfSessions = 0 // Will be used only if useSessions is true
+    numberOfSessions = 0, // Will be used only if useSessions is true
   ) {
     for (const sender of senders) {
       try {
@@ -166,16 +162,15 @@ export class ServiceBusStressTester {
    * Tracks a sent message for reporting.
    */
   public trackSentMessages(messages: ServiceBusMessage[]) {
-    this.trackMessageIds(messages, "sent");
     this.sendInfo.numberOfSuccesses++;
-    this.messagesSent = this.messagesSent.concat(messages);
+    this.messagesSentCount = this.messagesSentCount + messages.length;
   }
 
   public async receiveMessages(
     receiver: ServiceBusReceiver,
     maxMsgCount = 10,
     maxWaitTimeInMs = 10000,
-    settleMessageOnReceive = false
+    settleMessageOnReceive = false,
   ): Promise<ServiceBusReceivedMessage[]> {
     try {
       const messages = await receiver.receiveMessages(maxMsgCount, {
@@ -184,7 +179,7 @@ export class ServiceBusStressTester {
       this.addReceivedMessage(messages);
       if (settleMessageOnReceive && receiver.receiveMode === "peekLock") {
         await Promise.all(
-          messages.map((msg: ServiceBusReceivedMessage) => this.completeMessage(receiver, msg))
+          messages.map((msg: ServiceBusReceivedMessage) => this.completeMessage(receiver, msg)),
         );
       }
       return messages;
@@ -202,22 +197,20 @@ export class ServiceBusStressTester {
    * @param messages
    */
   public addReceivedMessage(messages: ServiceBusReceivedMessage[]) {
-    this.trackMessageIds(messages, "received");
-    this.messagesReceived = this.messagesReceived.concat(messages as ServiceBusReceivedMessage[]);
+    this.messagesReceivedCount = this.messagesReceivedCount + messages.length;
     this.receiveInfo.numberOfSuccesses++;
   }
 
   public async peekMessages(
     receiver: ServiceBusReceiver,
     maxMsgCount = 10,
-    fromSequenceNumber?: Long
+    fromSequenceNumber?: Long,
   ): Promise<ServiceBusReceivedMessage[]> {
     try {
       const messages = await receiver.peekMessages(maxMsgCount, {
         fromSequenceNumber,
       });
-      this.trackMessageIds(messages, "received");
-      this.messagesReceived = this.messagesReceived.concat(messages as ServiceBusReceivedMessage[]);
+      this.messagesReceivedCount = this.messagesReceivedCount + messages.length;
       this.receiveInfo.numberOfSuccesses++;
       return messages;
     } catch (error: any) {
@@ -236,7 +229,7 @@ export class ServiceBusStressTester {
       completeMessageAfterDuration: boolean;
       maxAutoRenewLockDurationInMs: number;
       settleMessageOnReceive: boolean;
-    }
+    },
   ) {
     const startTime = new Date();
     const processMessage = async (message: ServiceBusReceivedMessage) => {
@@ -255,12 +248,11 @@ export class ServiceBusStressTester {
             message,
             receiver,
             duration - elapsedTime,
-            options.completeMessageAfterDuration
+            options.completeMessageAfterDuration,
           );
         }
       }
-      this.trackMessageIds([message], "received");
-      this.messagesReceived = this.messagesReceived.concat(message as ServiceBusReceivedMessage);
+      this.messagesReceivedCount = this.messagesReceivedCount;
       this.receiveInfo.numberOfSuccesses++;
     };
     const processError = async (processErrorArgs: ProcessErrorArgs) => {
@@ -272,7 +264,7 @@ export class ServiceBusStressTester {
         processMessage,
         processError,
       },
-      options
+      options,
     );
     await delay(duration);
     await subscriber.close();
@@ -294,7 +286,7 @@ export class ServiceBusStressTester {
       | "sessionlockrenewal"
       | "close",
     exception: Error | unknown,
-    extraProperties?: Record<string, string>
+    extraProperties?: Record<string, string>,
   ) {
     ++this._numErrors;
     defaultClient.trackException({
@@ -306,46 +298,13 @@ export class ServiceBusStressTester {
     });
   }
 
-  private trackMessageIds(messages: ServiceBusMessage[], path: "sent" | "received") {
-    messages.forEach((msg) => {
-      if (!msg.messageId) {
-        console.error("No message ID for sent message");
-        throw new Error(
-          "No message ID for tracked message. Make sure you initialize .messageId before sending messages."
-        );
-      }
-
-      if (path === "sent") {
-        if (this.trackedMessageIds[msg.messageId as string]) {
-          throw new Error(`${msg.messageId} has already been tracked as sent!`);
-        }
-
-        const destination = (this.trackedMessageIds[msg.messageId as string] = {
-          sentCount: 0,
-          receivedCount: 0,
-          settledCount: 0,
-        });
-
-        destination.sentCount = destination.sentCount + 1;
-      } else if (path === "received") {
-        if (!this.trackedMessageIds[msg.messageId as string]) {
-          throw new Error(
-            `${msg.messageId} was not tracked as sent, can't increment receive count`
-          );
-        }
-
-        this.trackedMessageIds[msg.messageId as string].receivedCount++;
-      }
-    });
-  }
-
   /**
    */
   public renewMessageLockUntil(
     message: ServiceBusReceivedMessage,
     receiver: ServiceBusReceiver,
     duration: number,
-    completeMessageAfterDuration: boolean
+    completeMessageAfterDuration: boolean,
   ) {
     // TODO: pass in max number of lock renewals?
     const startTime = new Date();
@@ -370,14 +329,14 @@ export class ServiceBusStressTester {
             message,
             receiver,
             duration - elapsedTime,
-            completeMessageAfterDuration
+            completeMessageAfterDuration,
           );
         } else {
           await this.completeMessage(receiver, message);
           clearTimeout(this.messageLockRenewalInfo.lockRenewalTimers[message.messageId as string]);
         }
       },
-      message.lockedUntilUtc!.valueOf() - startTime.valueOf() - 10000
+      message.lockedUntilUtc!.valueOf() - startTime.valueOf() - 10000,
     );
   }
 
@@ -387,7 +346,6 @@ export class ServiceBusStressTester {
   public async completeMessage(receiver: ServiceBusReceiver, message: ServiceBusReceivedMessage) {
     try {
       await receiver.completeMessage(message);
-      this.trackedMessageIds[message.messageId! as string].settledCount++;
     } catch (error: any) {
       console.error(`Error in message completion with id: ${message.messageId} `, error);
       this.trackError("complete", error);
@@ -400,31 +358,34 @@ export class ServiceBusStressTester {
   public renewSessionLockUntil(receiver: ServiceBusSessionReceiver, duration: number) {
     // TODO: pass in max number of lock renewals? and close the receiver at the end of max??
     const startTime = new Date();
-    this.sessionLockRenewalInfo.lockRenewalTimers[receiver.sessionId] = setTimeout(async () => {
-      try {
-        await receiver.renewSessionLock();
-        this.sessionLockRenewalInfo.numberOfSuccesses++;
-        const currentRenewalCount = this.sessionLockRenewalInfo.renewalCount[receiver.sessionId];
-        this.sessionLockRenewalInfo.renewalCount[receiver.sessionId] =
-          currentRenewalCount === undefined ? 1 : currentRenewalCount + 1;
-        const elapsedTime = new Date().valueOf() - startTime.valueOf();
-        if (duration - elapsedTime > 0) {
-          this.renewSessionLockUntil(receiver, duration - elapsedTime);
-        } else {
-          // Code reaches here only after the duration given has passed by
-          // TODO: Close the receiver maybe?
+    this.sessionLockRenewalInfo.lockRenewalTimers[receiver.sessionId] = setTimeout(
+      async () => {
+        try {
+          await receiver.renewSessionLock();
+          this.sessionLockRenewalInfo.numberOfSuccesses++;
+          const currentRenewalCount = this.sessionLockRenewalInfo.renewalCount[receiver.sessionId];
+          this.sessionLockRenewalInfo.renewalCount[receiver.sessionId] =
+            currentRenewalCount === undefined ? 1 : currentRenewalCount + 1;
+          const elapsedTime = new Date().valueOf() - startTime.valueOf();
+          if (duration - elapsedTime > 0) {
+            this.renewSessionLockUntil(receiver, duration - elapsedTime);
+          } else {
+            // Code reaches here only after the duration given has passed by
+            // TODO: Close the receiver maybe?
+          }
+        } catch (error: any) {
+          this.sessionLockRenewalInfo.numberOfFailures++;
+          this.trackError("sessionlockrenewal", error);
+          console.error("Error in session lock renewal: ", error);
         }
-      } catch (error: any) {
-        this.sessionLockRenewalInfo.numberOfFailures++;
-        this.trackError("sessionlockrenewal", error);
-        console.error("Error in session lock renewal: ", error);
-      }
-    }, receiver.sessionLockedUntilUtc!.valueOf() - startTime.valueOf() - 10000);
+      },
+      receiver.sessionLockedUntilUtc!.valueOf() - startTime.valueOf() - 10000,
+    );
   }
 
   public async callClose(
     object: ServiceBusSender | ServiceBusReceiver | ServiceBusSessionReceiver | ServiceBusClient,
-    type: "sender" | "receiver" | "client"
+    type: "sender" | "receiver" | "client",
   ) {
     try {
       await object.close();
@@ -445,8 +406,8 @@ export class ServiceBusStressTester {
     const elapsedTimeInSeconds = (new Date().valueOf() - this.startedAt.valueOf()) / 1000;
 
     eventProperties["elapsedTimeInSeconds"] = elapsedTimeInSeconds;
-    eventProperties["messsages.sent"] = this.messagesSent.length;
-    eventProperties["messages.received"] = this.messagesReceived.length;
+    eventProperties["messsages.sent"] = this.messagesSentCount;
+    eventProperties["messages.received"] = this.messagesReceivedCount;
 
     if (this.snapshotOptions.snapshotFocus?.includes("send-info")) {
       eventProperties["send.pass"] = this.sendInfo.numberOfSuccesses;
@@ -475,6 +436,10 @@ export class ServiceBusStressTester {
       eventProperties["close.receiver.fail"] = this.closeInfo.receiver.numberOfFailures;
     }
 
+    const { rss, heapUsed } = process.memoryUsage();
+    eventProperties["memoryUsage.rssMB"] = Math.round((rss / 1024 / 1024) * 100) / 100;
+    eventProperties["memoryUsage.heapUsedMB"] = Math.round((heapUsed / 1024 / 1024) * 100) / 100;
+
     eventProperties["errorCount"] = this._numErrors;
     this._numErrors = 0;
 
@@ -495,26 +460,6 @@ export class ServiceBusStressTester {
 
     await this.snapshot();
 
-    if (this.snapshotOptions.snapshotFocus?.includes("receive-info")) {
-      const output = await saveDiscrepanciesFromTrackedMessages(this.trackedMessageIds);
-
-      defaultClient.trackEvent({
-        name: "discrepencies",
-        properties: {
-          messages_sent_but_never_received: output.messages_sent_but_never_received.join(","),
-          messages_not_sent_but_received: output.messages_not_sent_but_received.join(","),
-          messages_sent_multiple_times: output.messages_sent_multiple_times.join(","),
-          messages_sent_once_but_received_multiple_times:
-            output.messages_sent_once_but_received_multiple_times.join(","),
-          messages_sent_once_and_received_once:
-            output.messages_sent_once_and_received_once.join(","),
-        },
-      });
-    }
-
-    // TODO: Log tracked messages in JSON
-    // TODO: Have a copy of sentMessages and match them with receivedMessages, have the leftover 'message-id's in the logged file maybe
-    // TODO: Add an argument to "end()" to not delete the resource
     clearInterval(this.snapshotTimer);
     for (const id in this.messageLockRenewalInfo.lockRenewalTimers) {
       clearTimeout(this.messageLockRenewalInfo.lockRenewalTimers[id]);
@@ -535,7 +480,7 @@ export class ServiceBusStressTester {
    */
   public async runStressTest(
     stressTest: (serviceBusClient: ServiceBusClient) => Promise<void>,
-    initOptions?: StressTestInitOptions
+    initOptions?: StressTestInitOptions,
   ): Promise<void> {
     let serviceBusClient: ServiceBusClient | undefined;
 
@@ -587,7 +532,7 @@ export function getUniqueQueueName(): string {
 
 export async function createRandomQueue(
   queueName: string,
-  queueOptions?: CreateQueueOptions
+  queueOptions?: CreateQueueOptions,
 ): Promise<void> {
   const serviceBusAdministrationClient = createAdminClient();
   await serviceBusAdministrationClient.createQueue(queueName, queueOptions);
@@ -620,7 +565,7 @@ export function createServiceBusClient(options?: ServiceBusClientOptions): Servi
 export async function loopForever(
   fn: () => Promise<void>,
   delay: number,
-  abortSignal?: AbortSignalLike
+  abortSignal?: AbortSignalLike,
 ) {
   const timeout = () => new Promise((resolve) => setTimeout(() => resolve(true), delay));
 

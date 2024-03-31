@@ -6,10 +6,10 @@ import {
   assertDivergentBehavior,
   assertError,
   createDoubleHeaders,
-} from "./utils/utils";
-import { assert, matrix } from "@azure/test-utils";
-import { createRunLroWith, createTestPoller } from "./utils/router";
-import { AbortController } from "@azure/abort-controller";
+} from "./utils/utils.js";
+import { describe, it, assert } from "vitest";
+import { createRunLroWith, createTestPoller } from "./utils/router.js";
+import { matrix } from "./matrix.js";
 
 matrix(
   [
@@ -1037,9 +1037,9 @@ matrix(
               assert.equal(result.id, "100");
             });
 
-            it("should handle patchAsync", async () => {
-              const resourceLocationPath = `/patchasync/succeeded`;
-              const pollingPath = `/patchasync/operationresults/123`;
+            it("should handle patchAsyncLocationHeader", async () => {
+              const resourceLocationPath = `/patchasynclocationheader/succeeded`;
+              const pollingPath = `/patchasynclocationheader/operationresults/123`;
               const result = await runLro({
                 routes: [
                   {
@@ -1068,6 +1068,44 @@ matrix(
                   {
                     method: "GET",
                     path: resourceLocationPath,
+                    status: 200,
+                    body: `{ "name": "sku" , "id": "100" }`,
+                  },
+                ],
+              });
+              assert.equal(result.name, "sku");
+              assert.equal(result.id, "100");
+            });
+
+            it("should handle patchAsyncNoLocationHeader", async () => {
+              const initialResourcePath = `/patchasyncnolocationheader/succeeded`;
+              const pollingPath = `/patchasyncnolocationheader/operationresults/123`;
+              const result = await runLro({
+                routes: [
+                  {
+                    method: "PATCH",
+                    status: 201,
+                    path: initialResourcePath,
+                    headers: {
+                      [headerName]: pollingPath,
+                    },
+                    body: `{ "properties": { "provisioningState": "Updating" } }`,
+                  },
+                  {
+                    method: "GET",
+                    path: pollingPath,
+                    status: 200,
+                    body: `{ "status": "InProgress"}`,
+                  },
+                  {
+                    method: "GET",
+                    path: pollingPath,
+                    status: 200,
+                    body: `{ "status": "Succeeded"}`,
+                  },
+                  {
+                    method: "GET",
+                    path: initialResourcePath,
                     status: 200,
                     body: `{ "name": "sku" , "id": "100" }`,
                   },
@@ -1440,6 +1478,42 @@ matrix(
               assert.deepInclude(result, { id: "100", name: "foo" });
             });
 
+            it("should handle resourceLocation being null", async () => {
+              const locationPath = "/postlocation/retry/succeeded/operationResults/foo/200/";
+              const pollingPath = "/postlocation/retry/succeeded/operationResults/200/";
+              const result = await runLro({
+                routes: [
+                  {
+                    method: "POST",
+                    status: 202,
+                    headers: {
+                      [headerName]: pollingPath,
+                      "retry-after": "0",
+                    },
+                    body: `{"status":"Accepted"}`,
+                  },
+                  {
+                    method: "GET",
+                    path: pollingPath,
+                    status: 202,
+                    headers: {
+                      location: locationPath,
+                      [headerName]: pollingPath,
+                      "retry-after": "0",
+                    },
+                    body: `{"status":"Accepted"}`,
+                  },
+                  {
+                    method: "GET",
+                    path: pollingPath,
+                    status: 200,
+                    body: `{"status":"Succeeded", "resourceLocation": null}`,
+                  },
+                ],
+              });
+              assert.deepInclude(result, { status: "Succeeded" });
+            });
+
             it("should handle postAsyncRetrycanceled", async () => {
               const pollingPath = "/postasync/retry/canceled/operationResults/200/";
               const body = { status: "Canceled" };
@@ -1474,7 +1548,7 @@ matrix(
               });
             });
           });
-        }
+        },
       );
 
       describe("LRO Sad scenarios", () => {
@@ -1926,7 +2000,7 @@ matrix(
             }),
             {
               name: "SyntaxError",
-            }
+            },
           );
         });
 
@@ -1981,7 +2055,7 @@ matrix(
             }),
             {
               name: "SyntaxError",
-            }
+            },
           );
         });
 
@@ -2060,7 +2134,7 @@ matrix(
             }),
             {
               name: "SyntaxError",
-            }
+            },
           );
         });
 
@@ -2139,7 +2213,7 @@ matrix(
             }),
             {
               name: "SyntaxError",
-            }
+            },
           );
         });
       });
@@ -2412,7 +2486,7 @@ matrix(
             }),
             {
               messagePattern: /The operation was aborted/,
-            }
+            },
           );
           assert.isFalse(poller.isDone());
         });
@@ -2458,7 +2532,7 @@ matrix(
             }),
             {
               messagePattern: /The operation was aborted/,
-            }
+            },
           );
           assert.equal(pollCount, 1);
           assert.isFalse(poller.isDone());
@@ -2620,7 +2694,7 @@ matrix(
             throwOnNon2xxResponse,
             throwing: {
               messagePattern: new RegExp(
-                `The long-running operation has failed. ${code}. ${message}`
+                `The long-running operation has failed. ${code}. ${message}`,
               ),
             },
             notThrowing: {
@@ -2630,5 +2704,5 @@ matrix(
         });
       });
     });
-  }
+  },
 );

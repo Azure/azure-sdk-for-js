@@ -18,7 +18,7 @@ import {
   ActivityLogAlertsDeleteOptionalParams,
   AlertRulePatchObject,
   ActivityLogAlertsUpdateOptionalParams,
-  ActivityLogAlertsUpdateResponse
+  ActivityLogAlertsUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface ActivityLogAlerts {
    * @param options The options parameters.
    */
   listBySubscriptionId(
-    options?: ActivityLogAlertsListBySubscriptionIdOptionalParams
+    options?: ActivityLogAlertsListBySubscriptionIdOptionalParams,
   ): PagedAsyncIterableIterator<ActivityLogAlertResource>;
   /**
    * Get a list of all Activity Log Alert rules in a resource group.
@@ -38,7 +38,7 @@ export interface ActivityLogAlerts {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ActivityLogAlertsListByResourceGroupOptionalParams
+    options?: ActivityLogAlertsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ActivityLogAlertResource>;
   /**
    * Create a new Activity Log Alert rule or update an existing one.
@@ -51,7 +51,7 @@ export interface ActivityLogAlerts {
     resourceGroupName: string,
     activityLogAlertName: string,
     activityLogAlertRule: ActivityLogAlertResource,
-    options?: ActivityLogAlertsCreateOrUpdateOptionalParams
+    options?: ActivityLogAlertsCreateOrUpdateOptionalParams,
   ): Promise<ActivityLogAlertsCreateOrUpdateResponse>;
   /**
    * Get an Activity Log Alert rule.
@@ -62,7 +62,7 @@ export interface ActivityLogAlerts {
   get(
     resourceGroupName: string,
     activityLogAlertName: string,
-    options?: ActivityLogAlertsGetOptionalParams
+    options?: ActivityLogAlertsGetOptionalParams,
   ): Promise<ActivityLogAlertsGetResponse>;
   /**
    * Delete an Activity Log Alert rule.
@@ -73,7 +73,7 @@ export interface ActivityLogAlerts {
   delete(
     resourceGroupName: string,
     activityLogAlertName: string,
-    options?: ActivityLogAlertsDeleteOptionalParams
+    options?: ActivityLogAlertsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates 'tags' and 'enabled' fields in an existing Alert rule. This method is used to update the
@@ -88,6 +88,6 @@ export interface ActivityLogAlerts {
     resourceGroupName: string,
     activityLogAlertName: string,
     activityLogAlertRulePatch: AlertRulePatchObject,
-    options?: ActivityLogAlertsUpdateOptionalParams
+    options?: ActivityLogAlertsUpdateOptionalParams,
   ): Promise<ActivityLogAlertsUpdateResponse>;
 }

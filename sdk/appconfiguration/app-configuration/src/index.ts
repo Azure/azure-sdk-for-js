@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { AppConfigurationClient, AppConfigurationClientOptions } from "./appConfigurationClient";
+export { AppConfigurationClient } from "./appConfigurationClient";
 export {
   featureFlagContentType,
   featureFlagPrefix,

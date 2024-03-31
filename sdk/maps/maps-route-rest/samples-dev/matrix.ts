@@ -31,7 +31,7 @@ async function main() {
 
   /** Azure Active Directory (Azure AD) authentication */
   // const credential = new DefaultAzureCredential();
-  // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
+  // const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
   // const client = MapsRoute(credential, mapsClientId);
 
   /**
@@ -70,7 +70,7 @@ async function main() {
 
   const { summary, matrix } = (routeMatrixResult as RouteGetRouteMatrix200Response).body;
   console.log(
-    `${summary.successfulRoutes}/${summary.totalRoutes} routes are successfully calculated. Following is the detailed info:`
+    `${summary.successfulRoutes}/${summary.totalRoutes} routes are successfully calculated. Following is the detailed info:`,
   );
   matrix.forEach((row) => {
     row.forEach((cell) => {

@@ -37,7 +37,7 @@ describe("Session Lock Renewal", () => {
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
 
     sender = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!),
     );
 
     sessionId = Date.now().toString();
@@ -72,7 +72,7 @@ describe("Session Lock Renewal", () => {
     async function (): Promise<void> {
       await beforeEachTest(0);
       await testBatchReceiverManualLockRenewalHappyCase();
-    }
+    },
   );
 
   it(
@@ -80,7 +80,7 @@ describe("Session Lock Renewal", () => {
     async function (): Promise<void> {
       await beforeEachTest(0);
       await testBatchReceiverManualLockRenewalErrorOnLockExpiry(testClientType);
-    }
+    },
   );
 
   it(
@@ -88,7 +88,7 @@ describe("Session Lock Renewal", () => {
     async function (): Promise<void> {
       await beforeEachTest(0);
       await testStreamingReceiverManualLockRenewalHappyCase();
-    }
+    },
   );
 
   it(
@@ -103,7 +103,7 @@ describe("Session Lock Renewal", () => {
 
       await beforeEachTest(options.maxAutoRenewLockDurationInMs);
       await testAutoLockRenewalConfigBehavior(options);
-    }
+    },
   );
 
   it(
@@ -117,7 +117,7 @@ describe("Session Lock Renewal", () => {
 
       await beforeEachTest(options.maxAutoRenewLockDurationInMs);
       await testAutoLockRenewalConfigBehavior(options);
-    }
+    },
   );
 
   const lockDurationInMilliseconds = 30000;
@@ -141,7 +141,7 @@ describe("Session Lock Renewal", () => {
     // Compute expected initial lock expiry time
     const expectedLockExpiryTimeUtc = new Date();
     expectedLockExpiryTimeUtc.setSeconds(
-      expectedLockExpiryTimeUtc.getSeconds() + lockDurationInMilliseconds / 1000
+      expectedLockExpiryTimeUtc.getSeconds() + lockDurationInMilliseconds / 1000,
     );
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -153,7 +153,7 @@ describe("Session Lock Renewal", () => {
     assertTimestampsAreApproximatelyEqual(
       receiver.sessionLockedUntilUtc,
       expectedLockExpiryTimeUtc,
-      "Initial"
+      "Initial",
     );
 
     await delay(5000);
@@ -166,7 +166,7 @@ describe("Session Lock Renewal", () => {
     assertTimestampsAreApproximatelyEqual(
       receiver.sessionLockedUntilUtc,
       expectedLockExpiryTimeUtc,
-      "After renewlock()"
+      "After renewlock()",
     );
 
     await receiver.completeMessage(msgs[0]);
@@ -176,7 +176,7 @@ describe("Session Lock Renewal", () => {
    * Test settling of message from Batch Receiver fails after session lock expires
    */
   async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
-    entityType: TestClientType
+    entityType: TestClientType,
   ): Promise<void> {
     const testMessage = getTestMessage();
     testMessage.body = `testBatchReceiverManualLockRenewalErrorOnLockExpiry-${Date.now().toString()}`;
@@ -226,25 +226,25 @@ describe("Session Lock Renewal", () => {
         should.equal(
           brokeredMessage.body,
           testMessage.body,
-          "MessageBody is different than expected"
+          "MessageBody is different than expected",
         );
         should.equal(
           brokeredMessage.messageId,
           testMessage.messageId,
-          "MessageId is different than expected"
+          "MessageId is different than expected",
         );
 
         // Compute expected initial lock expiry time
         const expectedLockExpiryTimeUtc = new Date();
         expectedLockExpiryTimeUtc.setSeconds(
-          expectedLockExpiryTimeUtc.getSeconds() + lockDurationInMilliseconds / 1000
+          expectedLockExpiryTimeUtc.getSeconds() + lockDurationInMilliseconds / 1000,
         );
 
         // Verify initial expiry time on session
         assertTimestampsAreApproximatelyEqual(
           receiver.sessionLockedUntilUtc,
           expectedLockExpiryTimeUtc,
-          "Initial"
+          "Initial",
         );
 
         await delay(5000);
@@ -257,7 +257,7 @@ describe("Session Lock Renewal", () => {
         assertTimestampsAreApproximatelyEqual(
           receiver.sessionLockedUntilUtc,
           expectedLockExpiryTimeUtc,
-          "After renewlock()"
+          "After renewlock()",
         );
 
         await receiver.completeMessage(brokeredMessage);
@@ -268,7 +268,7 @@ describe("Session Lock Renewal", () => {
       { processMessage, processError },
       {
         autoCompleteMessages: false,
-      }
+      },
     );
     await delay(10000);
     await receiver.close();
@@ -287,7 +287,7 @@ describe("Session Lock Renewal", () => {
   }
 
   async function testAutoLockRenewalConfigBehavior(
-    options: AutoLockRenewalTestOptions
+    options: AutoLockRenewalTestOptions,
   ): Promise<void> {
     let numOfMessagesReceived = 0;
     const testMessage = getTestMessage();
@@ -304,12 +304,12 @@ describe("Session Lock Renewal", () => {
         should.equal(
           brokeredMessage.body,
           testMessage.body,
-          "MessageBody is different than expected"
+          "MessageBody is different than expected",
         );
         should.equal(
           brokeredMessage.messageId,
           testMessage.messageId,
-          "MessageId is different than expected"
+          "MessageId is different than expected",
         );
 
         messagesReceived.push(brokeredMessage);
@@ -332,7 +332,7 @@ describe("Session Lock Renewal", () => {
       },
       {
         autoCompleteMessages: false,
-      }
+      },
     );
 
     await delay(options.delayBeforeAttemptingToCompleteMessageInSeconds * 1000 + 2000);
@@ -341,7 +341,7 @@ describe("Session Lock Renewal", () => {
     should.equal(
       sessionLockLostErrorThrown,
       options.expectSessionLockLostErrorToBeThrown,
-      "SessionLockLostErrorThrown flag must match"
+      "SessionLockLostErrorThrown flag must match",
     );
 
     should.equal(messagesReceived.length, 1, "Mismatch in number of messages received");
@@ -355,7 +355,7 @@ describe("Session Lock Renewal", () => {
     should.equal(
       errorWasThrown,
       options.expectSessionLockLostErrorToBeThrown,
-      "Error Thrown flag value mismatch"
+      "Error Thrown flag value mismatch",
     );
 
     await receiver.close();
@@ -368,13 +368,13 @@ describe("Session Lock Renewal", () => {
   function assertTimestampsAreApproximatelyEqual(
     actualTimeInUTC: Date | undefined,
     expectedTimeInUTC: Date,
-    label: string
+    label: string,
   ): void {
     if (actualTimeInUTC) {
       should.equal(
         Math.pow((actualTimeInUTC.valueOf() - expectedTimeInUTC.valueOf()) / 1000, 2) < 100, // Within +/- 10 seconds
         true,
-        `${label}: Actual time ${actualTimeInUTC} must be approximately equal to ${expectedTimeInUTC}`
+        `${label}: Actual time ${actualTimeInUTC} must be approximately equal to ${expectedTimeInUTC}`,
       );
     }
   }

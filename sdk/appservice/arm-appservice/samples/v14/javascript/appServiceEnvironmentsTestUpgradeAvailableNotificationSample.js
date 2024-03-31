@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Send a test notification that an upgrade is available for this App Service Environment.
  *
  * @summary Send a test notification that an upgrade is available for this App Service Environment.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/AppServiceEnvironments_TestUpgradeAvailableNotification.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/AppServiceEnvironments_TestUpgradeAvailableNotification.json
  */
 async function sendATestNotificationThatAnUpgradeIsAvailableForThisAppServiceEnvironment() {
   const subscriptionId =

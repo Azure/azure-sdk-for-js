@@ -19,11 +19,6 @@ import {
   VirtualMachinesDeleteOptionalParams,
   VirtualMachinesUpdateOptionalParams,
   VirtualMachinesUpdateResponse,
-  VirtualMachineVolumeParameters,
-  VirtualMachinesAttachVolumeOptionalParams,
-  VirtualMachinesAttachVolumeResponse,
-  VirtualMachinesDetachVolumeOptionalParams,
-  VirtualMachinesDetachVolumeResponse,
   VirtualMachinesPowerOffOptionalParams,
   VirtualMachinesPowerOffResponse,
   VirtualMachinesReimageOptionalParams,
@@ -146,68 +141,6 @@ export interface VirtualMachines {
     virtualMachineName: string,
     options?: VirtualMachinesUpdateOptionalParams
   ): Promise<VirtualMachinesUpdateResponse>;
-  /**
-   * Attach volume to the provided virtual machine.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param virtualMachineName The name of the virtual machine.
-   * @param virtualMachineAttachVolumeParameters The request body.
-   * @param options The options parameters.
-   */
-  beginAttachVolume(
-    resourceGroupName: string,
-    virtualMachineName: string,
-    virtualMachineAttachVolumeParameters: VirtualMachineVolumeParameters,
-    options?: VirtualMachinesAttachVolumeOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<VirtualMachinesAttachVolumeResponse>,
-      VirtualMachinesAttachVolumeResponse
-    >
-  >;
-  /**
-   * Attach volume to the provided virtual machine.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param virtualMachineName The name of the virtual machine.
-   * @param virtualMachineAttachVolumeParameters The request body.
-   * @param options The options parameters.
-   */
-  beginAttachVolumeAndWait(
-    resourceGroupName: string,
-    virtualMachineName: string,
-    virtualMachineAttachVolumeParameters: VirtualMachineVolumeParameters,
-    options?: VirtualMachinesAttachVolumeOptionalParams
-  ): Promise<VirtualMachinesAttachVolumeResponse>;
-  /**
-   * Detach volume from the provided virtual machine.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param virtualMachineName The name of the virtual machine.
-   * @param virtualMachineDetachVolumeParameters The request body.
-   * @param options The options parameters.
-   */
-  beginDetachVolume(
-    resourceGroupName: string,
-    virtualMachineName: string,
-    virtualMachineDetachVolumeParameters: VirtualMachineVolumeParameters,
-    options?: VirtualMachinesDetachVolumeOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<VirtualMachinesDetachVolumeResponse>,
-      VirtualMachinesDetachVolumeResponse
-    >
-  >;
-  /**
-   * Detach volume from the provided virtual machine.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param virtualMachineName The name of the virtual machine.
-   * @param virtualMachineDetachVolumeParameters The request body.
-   * @param options The options parameters.
-   */
-  beginDetachVolumeAndWait(
-    resourceGroupName: string,
-    virtualMachineName: string,
-    virtualMachineDetachVolumeParameters: VirtualMachineVolumeParameters,
-    options?: VirtualMachinesDetachVolumeOptionalParams
-  ): Promise<VirtualMachinesDetachVolumeResponse>;
   /**
    * Power off the provided virtual machine.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

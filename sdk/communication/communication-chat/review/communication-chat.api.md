@@ -38,6 +38,18 @@ export interface AddParticipantsRequest {
 }
 
 // @public
+export interface ChatAttachment {
+    attachmentType: ChatAttachmentType;
+    id: string;
+    name?: string;
+    previewUrl?: string;
+    url?: string;
+}
+
+// @public
+export type ChatAttachmentType = "image" | "unknown";
+
+// @public
 export class ChatClient {
     constructor(endpoint: string, credential: CommunicationTokenCredential, options?: ChatClientOptions);
     createChatThread(request: CreateChatThreadRequest, options?: CreateChatThreadOptions): Promise<CreateChatThreadResult>;
@@ -103,6 +115,7 @@ export interface ChatMessage {
 
 // @public
 export interface ChatMessageContent {
+    attachments?: ChatAttachment[];
     initiator?: CommunicationIdentifierKind;
     message?: string;
     participants?: ChatParticipant[];

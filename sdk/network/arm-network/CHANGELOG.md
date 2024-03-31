@@ -1,15 +1,100 @@
 # Release History
+    
+## 33.1.0 (2024-02-02)
+    
+**Features**
 
-## 31.0.1 (Unreleased)
+  - Interface BastionHost has a new optional parameter zones
+  - Enum KnownVirtualNetworkPrivateEndpointNetworkPolicies has a new value NetworkSecurityGroupEnabled
+  - Enum KnownVirtualNetworkPrivateEndpointNetworkPolicies has a new value RouteTableEnabled
+    
+    
+## 33.0.0 (2023-12-07)
+    
+**Features**
 
-### Features Added
+  - Added Interface BastionShareableLinkTokenListRequest
+  - Added Interface DdosCustomPoliciesDeleteHeaders
+  - Added Interface DeleteBastionShareableLinkByTokenOptionalParams
+  - Added Interface InternetIngressPublicIpsProperties
+  - Added Interface NetworkManagementClientDeleteBastionShareableLinkByTokenHeaders
+  - Added Type Alias DeleteBastionShareableLinkByTokenResponse
+  - Added Type Alias FirewallPolicyIntrusionDetectionProfileType
+  - Interface ApplicationGatewayListener has a new optional parameter hostNames
+  - Interface FirewallPolicyIntrusionDetection has a new optional parameter profile
+  - Interface NetworkVirtualAppliance has a new optional parameter internetIngressPublicIps
+  - Added Enum KnownFirewallPolicyIntrusionDetectionProfileType
+  - Enum KnownActionType has a new value JSChallenge
+  - Enum KnownBastionHostSkuName has a new value Developer
+  - Enum KnownVirtualNetworkGatewaySkuName has a new value ErGwScale
+  - Enum KnownVirtualNetworkGatewaySkuTier has a new value ErGwScale
+  - Enum KnownWebApplicationFirewallAction has a new value JSChallenge
 
-### Breaking Changes
+**Breaking Changes**
 
-### Bugs Fixed
+  - Type of parameter routingConfiguration of interface NetworkVirtualApplianceConnection is changed from RoutingConfigurationNfv to RoutingConfiguration
+    
+    
+## 32.2.0 (2023-09-07)
+    
+**Features**
 
-### Other Changes
+  - Added Interface BastionHostPropertiesFormatNetworkAcls
+  - Added Interface IPRule
+  - Added Interface VirtualNetworkGatewayAutoScaleBounds
+  - Added Interface VirtualNetworkGatewayAutoScaleConfiguration
+  - Interface BastionHost has a new optional parameter networkAcls
+  - Interface BastionHost has a new optional parameter virtualNetwork
+  - Interface FirewallPolicy has a new optional parameter size
+  - Interface FirewallPolicyRuleCollectionGroup has a new optional parameter size
+  - Interface Subnet has a new optional parameter defaultOutboundAccess
+  - Interface VirtualNetworkGateway has a new optional parameter autoScaleConfiguration
+    
+    
+## 32.1.0 (2023-08-08)
+    
+**Features**
 
+  - Added operation LoadBalancers.migrateToIpBased
+  - Added Interface LoadBalancersMigrateToIpBasedOptionalParams
+  - Added Interface MigratedPools
+  - Added Interface MigrateLoadBalancerToIpBasedRequest
+  - Added Type Alias LoadBalancersMigrateToIpBasedResponse
+  - Added Type Alias SyncMode
+  - Interface BackendAddressPool has a new optional parameter syncMode
+  - Added Enum KnownSyncMode
+  - Enum KnownApplicationGatewaySkuName has a new value Basic
+  - Enum KnownApplicationGatewayTier has a new value Basic
+    
+    
+## 32.0.0 (2023-07-06)
+    
+**Features**
+
+  - Added Type Alias AdminState
+  - Interface ActiveDefaultSecurityAdminRule has a new optional parameter resourceGuid
+  - Interface ActiveSecurityAdminRule has a new optional parameter resourceGuid
+  - Interface AdminRule has a new optional parameter resourceGuid
+  - Interface AdminRuleCollection has a new optional parameter resourceGuid
+  - Interface ApplicationGateway has a new optional parameter defaultPredefinedSslPolicy
+  - Interface ConfigurationGroup has a new optional parameter resourceGuid
+  - Interface ConnectivityConfiguration has a new optional parameter resourceGuid
+  - Interface DefaultAdminRule has a new optional parameter resourceGuid
+  - Interface EffectiveConnectivityConfiguration has a new optional parameter resourceGuid
+  - Interface EffectiveDefaultSecurityAdminRule has a new optional parameter resourceGuid
+  - Interface EffectiveSecurityAdminRule has a new optional parameter resourceGuid
+  - Interface NetworkGroup has a new optional parameter resourceGuid
+  - Interface NetworkManager has a new optional parameter resourceGuid
+  - Interface SecurityAdminConfiguration has a new optional parameter resourceGuid
+  - Interface VirtualNetworkGateway has a new optional parameter adminState
+  - Added Enum KnownAdminState
+  - Class NetworkManagementClient has a new signature
+
+**Breaking Changes**
+
+  - Enum KnownApplicationGatewayCustomErrorStatusCode no longer has value HttpStatus499
+    
+    
 ## 31.0.0 (2023-05-19)
     
 **Features**
@@ -841,4 +926,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

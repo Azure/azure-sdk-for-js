@@ -3,7 +3,7 @@
 
 import { createRequest, sendRequest } from "./internal/_client.js";
 import { NotificationHubsClientContext } from "./index.js";
-import { OperationOptions } from "@azure/core-client";
+import { OperationOptions } from "@azure-rest/core-client";
 import { tracingClient } from "../utils/tracing.js";
 
 const OPERATION_NAME = "getFeedbackContainerUrl";
@@ -17,7 +17,7 @@ const OPERATION_NAME = "getFeedbackContainerUrl";
  */
 export function getFeedbackContainerUrl(
   context: NotificationHubsClientContext,
-  options: OperationOptions = {}
+  options: OperationOptions = {},
 ): Promise<string> {
   return tracingClient.withSpan(
     `NotificationHubsClientContext.${OPERATION_NAME}`,
@@ -33,6 +33,6 @@ export function getFeedbackContainerUrl(
       const response = await sendRequest(context, request, 200);
 
       return response.bodyAsText!;
-    }
+    },
   );
 }

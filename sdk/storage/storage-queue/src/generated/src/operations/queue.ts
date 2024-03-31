@@ -6,10 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { Queue } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { StorageClientContext } from "../storageClientContext";
+import { StorageClient } from "../storageClient";
 import {
   QueueCreateOptionalParams,
   QueueCreateResponse,
@@ -25,15 +26,15 @@ import {
   QueueSetAccessPolicyResponse
 } from "../models";
 
-/** Class representing a Queue. */
-export class Queue {
-  private readonly client: StorageClientContext;
+/** Class containing Queue operations. */
+export class QueueImpl implements Queue {
+  private readonly client: StorageClient;
 
   /**
    * Initialize a new instance of the class Queue class.
    * @param client Reference to the service client
    */
-  constructor(client: StorageClientContext) {
+  constructor(client: StorageClient) {
     this.client = client;
   }
 
@@ -42,13 +43,7 @@ export class Queue {
    * @param options The options parameters.
    */
   create(options?: QueueCreateOptionalParams): Promise<QueueCreateResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      createOperationSpec
-    ) as Promise<QueueCreateResponse>;
+    return this.client.sendOperationRequest({ options }, createOperationSpec);
   }
 
   /**
@@ -56,13 +51,7 @@ export class Queue {
    * @param options The options parameters.
    */
   delete(options?: QueueDeleteOptionalParams): Promise<QueueDeleteResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      deleteOperationSpec
-    ) as Promise<QueueDeleteResponse>;
+    return this.client.sendOperationRequest({ options }, deleteOperationSpec);
   }
 
   /**
@@ -73,13 +62,10 @@ export class Queue {
   getProperties(
     options?: QueueGetPropertiesOptionalParams
   ): Promise<QueueGetPropertiesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       getPropertiesOperationSpec
-    ) as Promise<QueueGetPropertiesResponse>;
+    );
   }
 
   /**
@@ -90,13 +76,10 @@ export class Queue {
   setMetadata(
     options?: QueueSetMetadataOptionalParams
   ): Promise<QueueSetMetadataResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       setMetadataOperationSpec
-    ) as Promise<QueueSetMetadataResponse>;
+    );
   }
 
   /**
@@ -107,13 +90,10 @@ export class Queue {
   getAccessPolicy(
     options?: QueueGetAccessPolicyOptionalParams
   ): Promise<QueueGetAccessPolicyResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       getAccessPolicyOperationSpec
-    ) as Promise<QueueGetAccessPolicyResponse>;
+    );
   }
 
   /**
@@ -123,19 +103,16 @@ export class Queue {
   setAccessPolicy(
     options?: QueueSetAccessPolicyOptionalParams
   ): Promise<QueueSetAccessPolicyResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       setAccessPolicyOperationSpec
-    ) as Promise<QueueSetAccessPolicyResponse>;
+    );
   }
 }
 // Operation Specifications
-const xmlSerializer = new coreHttp.Serializer(Mappers, /* isXml */ true);
+const xmlSerializer = coreClient.createSerializer(Mappers, /* isXml */ true);
 
-const createOperationSpec: coreHttp.OperationSpec = {
+const createOperationSpec: coreClient.OperationSpec = {
   path: "/{queueName}",
   httpMethod: "PUT",
   responses: {
@@ -161,7 +138,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const deleteOperationSpec: coreHttp.OperationSpec = {
+const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/{queueName}",
   httpMethod: "DELETE",
   responses: {
@@ -183,7 +160,7 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const getPropertiesOperationSpec: coreHttp.OperationSpec = {
+const getPropertiesOperationSpec: coreClient.OperationSpec = {
   path: "/{queueName}",
   httpMethod: "GET",
   responses: {
@@ -205,7 +182,7 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const setMetadataOperationSpec: coreHttp.OperationSpec = {
+const setMetadataOperationSpec: coreClient.OperationSpec = {
   path: "/{queueName}",
   httpMethod: "PUT",
   responses: {
@@ -228,7 +205,7 @@ const setMetadataOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const getAccessPolicyOperationSpec: coreHttp.OperationSpec = {
+const getAccessPolicyOperationSpec: coreClient.OperationSpec = {
   path: "/{queueName}",
   httpMethod: "GET",
   responses: {
@@ -262,7 +239,7 @@ const getAccessPolicyOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-const setAccessPolicyOperationSpec: coreHttp.OperationSpec = {
+const setAccessPolicyOperationSpec: coreClient.OperationSpec = {
   path: "/{queueName}",
   httpMethod: "PUT",
   responses: {

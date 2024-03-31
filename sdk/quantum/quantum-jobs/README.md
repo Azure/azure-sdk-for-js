@@ -2,7 +2,7 @@
 
 This package contains an isomorphic SDK for QuantumJobClient.
 
-Azure Quantum is a Microsoft Azure service that you can use to run quantum computing programs or solve optimization problems in the cloud. Using the Azure Quantum tools and SDKs, you can create quantum programs and run them against different quantum simulators and machines. You can use the `@azure/quantum-jobs` client library to:
+Azure Quantum is a Microsoft Azure service that you can use to run quantum computing programs in the cloud. Using the Azure Quantum tools and SDKs, you can create quantum programs and run them against different quantum simulators and machines. You can use the `@azure/quantum-jobs` client library to:
 
 - Create, enumerate, and cancel quantum jobs
 - Enumerate provider status and quotas
@@ -57,7 +57,7 @@ Create an instance of the QuantumJobClient by passing in these parameters:
 
 - [Subscription Id][subscriptions] - looks like XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX and can be found in your list of subscriptions on azure
 - [Resource Group Name][resource-groups] - a container that holds related resources for an Azure solution
-- [Workspace Name][workspaces] - a collection of assets associated with running quantum or optimization applications
+- [Workspace Name][workspaces] - a collection of assets associated with running quantum
 - [Location][location] - choose the best data center by geographical region
 - [Storage Container Name][blob-storage] - your blob storage
 - [Credential][credentials] - used to authenticate
@@ -102,14 +102,28 @@ Create a storage container to put your data.
     await containerClient.createIfNotExists();
 ```
 
+### Compile your quantum program into QIR
+
+This step can be done in multiple ways and it is not in scope for this sample.
+
+[Quantum Intermediate Representation (QIR)](https://github.com/qir-alliance/qir-spec) is a [QIR Alliance](https://www.qir-alliance.org/) specification to represent quantum programs within the [LLVM](https://llvm.org/) Intermediate Representation (IR).
+
+A few methods to compile or generate a quantum program into QIR:
+- [Q# compiler](https://github.com/microsoft/qsharp-compiler/): Can be used to [compile Q# Code into QIR](https://github.com/microsoft/qsharp-compiler/tree/main/src/QsCompiler/QirGeneration).
+- [PyQIR](https://github.com/qir-alliance/pyqir): PyQIR is a set of APIs for generating, parsing, and evaluating Quantum Intermediate Representation (QIR).
+- [IQ#](https://github.com/microsoft/iqsharp): Can be used to compile a Q# program into QIR with the [%qir](https://learn.microsoft.com/qsharp/api/iqsharp-magic/qir) magic command.
+
+In this sample, we assume you already have a file with the QIR bitcode and you know the method name that you want to execute (entry point).
+
+We will use the QIR bitcode sample (`BellState.bc` in the samples folder), compiled a Q# code (`BellState.qs` in the samples folder) targeting the `quantinuum.sim.h1-1e` target, with `AdaptiveExecution` target capability.
+
 ### Upload Input Data
 
-Using the SAS URI, upload the json input data to the blob client.
-This contains the parameters to be used with [Quantum Inspired Optimizations](https://docs.microsoft.com/azure/quantum/optimization-overview-introduction)
+Using the SAS URI, upload the QIR bitcode input data to the blob client.
 
 ```Javascript Snippet
     // Get input data blob Uri with SAS key
-    const blobName = "myjobinput.json";
+    const blobName = "myjobinput.bc";
     const inputDataUri = (
       await quantumJobClient.storage.sasUri({
         containerName: storageContainerName,
@@ -119,9 +133,14 @@ This contains the parameters to be used with [Quantum Inspired Optimizations](ht
 
     // Upload input data to blob
     const blobClient = new BlockBlobClient(inputDataUri);
-    const problemFilename = "problem.json";
+    const problemFilename = "BellState.bc";
     const fileContent = fs.readFileSync(problemFilename, "utf8");
-    await blobClient.upload(fileContent, Buffer.byteLength(fileContent));
+    const blobOptions = {
+      blobHTTPHeaders: {
+        blobContentType: "qir.v1",
+      },
+    };
+    await blobClient.upload(fileContent, Buffer.byteLength(fileContent), blobOptions);
 ```
 
 ### Create The Job
@@ -134,10 +153,15 @@ Now that you've uploaded your problem definition to Azure Storage, you can use `
     // Submit job
     const jobId = `job-${randomId}`;
     const jobName = `jobName-${randomId}`;
-    const inputDataFormat = "microsoft.qio.v2";
-    const outputDataFormat = "microsoft.qio-results.v2";
-    const providerId = "microsoft";
-    const target = "microsoft.paralleltempering-parameterfree.cpu";
+    const inputDataFormat = "qir.v1";
+    const outputDataFormat = "microsoft.quantum-results.v1";
+    const providerId = "quantinuum";
+    const target = "quantinuum.sim.h1-1e";
+    const inputParams = {
+      "entryPoint": "ENTRYPOINT__BellState",
+      "arguments": [],
+      "targetCapability": "AdaptiveExecution",    
+    };
     const createJobDetails = {
       containerUri: containerUri,
       inputDataFormat: inputDataFormat,
@@ -146,7 +170,8 @@ Now that you've uploaded your problem definition to Azure Storage, you can use `
       id: jobId,
       inputDataUri: inputDataUri,
       name: jobName,
-      outputDataFormat: outputDataFormat
+      outputDataFormat: outputDataFormat,
+      inputParams: inputParams
     };
     const createdJob = await quantumJobClient.jobs.create(jobId, createJobDetails);
 ```

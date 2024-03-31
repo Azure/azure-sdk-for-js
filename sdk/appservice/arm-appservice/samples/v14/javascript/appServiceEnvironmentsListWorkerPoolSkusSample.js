@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Get available SKUs for scaling a worker pool.
  *
  * @summary Description for Get available SKUs for scaling a worker pool.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/AppServiceEnvironments_ListWorkerPoolSkus.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/AppServiceEnvironments_ListWorkerPoolSkus.json
  */
 async function getAvailableSkUsForScalingAWorkerPool() {
   const subscriptionId =

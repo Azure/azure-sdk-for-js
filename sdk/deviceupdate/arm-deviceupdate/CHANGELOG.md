@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.1 (Unreleased)
+## 1.2.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,18 @@
 
 ### Other Changes
 
+## 1.2.0 (2023-12-21)
+    
+**Features**
+
+  - Added Interface AccountsDeleteHeaders
+  - Added Interface Encryption
+  - Added Interface InstancesDeleteHeaders
+  - Added Interface PrivateEndpointConnectionProxiesDeleteHeaders
+  - Added Interface PrivateEndpointConnectionsDeleteHeaders
+  - Interface Account has a new optional parameter encryption
+    
+    
 ## 1.1.0 (2023-01-09)
     
 **Features**
@@ -19,4 +31,4 @@
     
 ## 1.0.0 (2022-08-18)
 
-The package of @azure/arm-deviceupdate is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+The package of @azure/arm-deviceupdate is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

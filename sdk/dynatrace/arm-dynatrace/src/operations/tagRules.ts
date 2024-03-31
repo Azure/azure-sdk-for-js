@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DynatraceObservability } from "../dynatraceObservability";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   TagRule,
   TagRulesListNextOptionalParams,
@@ -24,9 +28,6 @@ import {
   TagRulesGetResponse,
   TagRulesCreateOrUpdateOptionalParams,
   TagRulesCreateOrUpdateResponse,
-  TagRuleUpdate,
-  TagRulesUpdateOptionalParams,
-  TagRulesUpdateResponse,
   TagRulesDeleteOptionalParams,
   TagRulesListNextResponse
 } from "../models";
@@ -154,8 +155,8 @@ export class TagRulesImpl implements TagRules {
     resource: TagRule,
     options?: TagRulesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TagRulesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<TagRulesCreateOrUpdateResponse>,
       TagRulesCreateOrUpdateResponse
     >
   > {
@@ -165,7 +166,7 @@ export class TagRulesImpl implements TagRules {
     ): Promise<TagRulesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -198,15 +199,18 @@ export class TagRulesImpl implements TagRules {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, monitorName, ruleSetName, resource, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, monitorName, ruleSetName, resource, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      TagRulesCreateOrUpdateResponse,
+      OperationState<TagRulesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -238,27 +242,6 @@ export class TagRulesImpl implements TagRules {
   }
 
   /**
-   * Update a TagRule
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param ruleSetName Monitor resource name
-   * @param resource The resource properties to be updated.
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    monitorName: string,
-    ruleSetName: string,
-    resource: TagRuleUpdate,
-    options?: TagRulesUpdateOptionalParams
-  ): Promise<TagRulesUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, monitorName, ruleSetName, resource, options },
-      updateOperationSpec
-    );
-  }
-
-  /**
    * Delete a TagRule
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
@@ -270,14 +253,14 @@ export class TagRulesImpl implements TagRules {
     monitorName: string,
     ruleSetName: string,
     options?: TagRulesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -310,15 +293,15 @@ export class TagRulesImpl implements TagRules {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, monitorName, ruleSetName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, monitorName, ruleSetName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -430,31 +413,6 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.resource2,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.monitorName,
-    Parameters.ruleSetName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/tagRules/{ruleSetName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.TagRule
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.resource3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

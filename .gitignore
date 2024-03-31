@@ -176,3 +176,18 @@ code-model-*
 *.heapsnapshot
 # Temp typespec files
 TempTypeSpecFiles/
+
+# Symbolic link from project directory to recordings
+_recordings
+
+# CI generated artifacts
+/artifacts
+
+sdk/template/template-dpg/src/src
+
+# tshy
+.tshy-build-tmp
+
+# sshkey
+sdk/**/sshKey
+sdk/**/sshKey.pub

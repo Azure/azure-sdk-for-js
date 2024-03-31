@@ -128,11 +128,33 @@ export interface FcmLegacyInstallation extends DeviceTokenInstallation {
  * @returns The newly created Baidu installation.
  */
 export function createFcmLegacyInstallation(
-  installation: DeviceTokenInstallation
+  installation: DeviceTokenInstallation,
 ): FcmLegacyInstallation {
   return {
     ...installation,
     platform: "gcm",
+  };
+}
+
+/**
+ * Represents an Firebase V1 Cloud Messaging based installation.
+ */
+export interface FcmV1Installation extends DeviceTokenInstallation {
+  /**
+   * The platform for the installation.
+   */
+  platform: "fcmv1";
+}
+
+/**
+ * Creates an Firebase V1 Cloud Messaging based installation.
+ * @param installation - A partial installation used to create the Firebase V1 Cloud Messaging installation.
+ * @returns The newly created Firebase V1 Cloud Messaging installation.
+ */
+export function createFcmV1Installation(installation: DeviceTokenInstallation): FcmV1Installation {
+  return {
+    ...installation,
+    platform: "fcmv1",
   };
 }
 
@@ -152,7 +174,7 @@ export interface XiaomiInstallation extends DeviceTokenInstallation {
  * @returns The newly created Xiaomi installation.
  */
 export function createXiaomiInstallation(
-  installation: DeviceTokenInstallation
+  installation: DeviceTokenInstallation,
 ): XiaomiInstallation {
   return {
     ...installation,
@@ -176,7 +198,7 @@ export interface WindowsInstallation extends DeviceTokenInstallation {
  * @returns The newly created WNS installation.
  */
 export function createWindowsInstallation(
-  installation: DeviceTokenInstallation
+  installation: DeviceTokenInstallation,
 ): WindowsInstallation {
   return {
     ...installation,
@@ -230,7 +252,7 @@ export interface BrowserInstallation extends BrowserInstallationCommon {
  * @returns The newly created Web Push installation.
  */
 export function createBrowserInstallation(
-  installation: BrowserInstallationCommon
+  installation: BrowserInstallationCommon,
 ): BrowserInstallation {
   return {
     ...installation,
@@ -247,6 +269,7 @@ export type Installation =
   | BaiduInstallation
   | BrowserInstallation
   | FcmLegacyInstallation
+  | FcmV1Installation
   | XiaomiInstallation
   | WindowsInstallation;
 

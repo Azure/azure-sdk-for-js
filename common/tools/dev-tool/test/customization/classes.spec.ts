@@ -1,3 +1,7 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import {
   Project,
   SourceFile,
@@ -11,7 +15,6 @@ import {
   augmentConstructor,
   augmentMethod,
 } from "../../src/util/customization/classes";
-import { expect } from "chai";
 
 describe("Classes", () => {
   let project: Project;
@@ -22,14 +25,28 @@ describe("Classes", () => {
 
   beforeEach(() => {
     project = new Project({ useInMemoryFileSystem: true });
-    originalFile = project.createSourceFile("original.ts", "");
-    customFile = project.createSourceFile("custom.ts", "");
-    originalClass = originalFile.addClass({
-      name: "MyClass",
-    });
-    customClass = customFile.addClass({
-      name: "MyClass",
-    });
+
+    originalFile = project.createSourceFile(
+      "original.ts",
+      `
+/**
+ * Original docs
+ */
+class MyClass {}
+`,
+    );
+    customFile = project.createSourceFile(
+      "custom.ts",
+      `
+/**
+ * Custom docs
+ */
+class MyClass {}
+`,
+    );
+
+    originalClass = originalFile.getClassOrThrow("MyClass");
+    customClass = customFile.getClassOrThrow("MyClass");
   });
 
   afterEach(() => {
@@ -47,16 +64,17 @@ describe("Classes", () => {
 
     it("should add a new class to the source file", () => {
       augmentClass(undefined, customClass, originalFile);
-      expect(originalFile.getClass("MyClass")).to.not.be.undefined;
+      assert.isDefined(originalFile.getClass("MyClass"));
     });
 
     it("should add properties only present in the custom class", () => {
       originalClass = originalFile.addClass({ name: "MyClass" });
       customClass.addProperty({ name: "myProperty", type: "string" });
       augmentClass(originalClass, customClass, originalFile);
-      expect(
-        originalFile.getClass("MyClass")?.getProperty("myProperty")?.getType().getText()
-      ).to.equal("string");
+      assert.equal(
+        originalFile.getClass("MyClass")?.getProperty("myProperty")?.getType().getText(),
+        "string",
+      );
     });
 
     it("should not add the class augmentation property", () => {
@@ -64,19 +82,21 @@ describe("Classes", () => {
       customClass.addProperty({ name: "myProperty", type: "string" });
       customClass.addProperty({ name: AUGMENT_CLASS_TOKEN, type: "string" });
       augmentClass(originalClass, customClass, originalFile);
-      expect(originalFile.getClass("MyClass")?.getProperty(AUGMENT_CLASS_TOKEN)).to.be.undefined;
-      expect(
-        originalFile.getClass("MyClass")?.getProperty("myProperty")?.getType().getText()
-      ).to.equal("string");
+      assert.isUndefined(originalFile.getClass("MyClass")?.getProperty(AUGMENT_CLASS_TOKEN));
+      assert.equal(
+        originalFile.getClass("MyClass")?.getProperty("myProperty")?.getType().getText(),
+        "string",
+      );
     });
     it("should replace the original property with the custom property", () => {
       originalClass = originalFile.addClass({ name: "MyClass" });
       originalClass.addProperty({ name: "myProperty", type: "number" });
       customClass.addProperty({ name: "myProperty", type: "string" });
       augmentClass(originalClass, customClass, originalFile);
-      expect(
-        originalFile.getClass("MyClass")?.getProperty("myProperty")?.getType().getText()
-      ).to.equal("string");
+      assert.equal(
+        originalFile.getClass("MyClass")?.getProperty("myProperty")?.getType().getText(),
+        "string",
+      );
     });
   });
 
@@ -103,7 +123,7 @@ describe("Classes", () => {
       });
       augmentMethod(originalMethod, customMethod, originalClass!);
 
-      expect(originalFile.getClass("MyClass")?.getMethod("myMethod")).to.not.be.undefined;
+      assert.isDefined(originalFile.getClass("MyClass")?.getMethod("myMethod"));
     });
 
     it("should augment an existing method in the original class", () => {
@@ -119,9 +139,10 @@ describe("Classes", () => {
 
       augmentMethod(originalMethod, customMethod, originalClass!);
 
-      expect(
-        originalFile.getClass("MyClass")?.getMethod("myMethod")?.getReturnType().getText()
-      ).to.equal("number");
+      assert.equal(
+        originalFile.getClass("MyClass")?.getMethod("myMethod")?.getReturnType().getText(),
+        "number",
+      );
     });
 
     it("should replace an existing method in the original class", () => {
@@ -137,15 +158,17 @@ describe("Classes", () => {
 
       augmentMethod(originalMethod, customMethod, originalClass!);
 
-      expect(
-        originalFile.getClass("MyClass")?.getMethod("myMethod")?.getReturnType().getText()
-      ).to.equal("number");
+      assert.equal(
+        originalFile.getClass("MyClass")?.getMethod("myMethod")?.getReturnType().getText(),
+        "number",
+      );
     });
 
     it("should augment existing method with the original one", () => {
       originalMethod = originalClass!.addMethod({
         name: "myMethod",
         returnType: "number",
+        docs: ["Original docs"],
         statements: ["console.log('original');", "return 1;"],
       });
 
@@ -153,6 +176,7 @@ describe("Classes", () => {
       customMethod = customClass.addMethod({
         name: "myMethod",
         returnType: "number",
+        docs: ["Customized docs"],
         statements: [
           "const originalNumber = this.___.myMethod();",
           "console.log('custom')",
@@ -173,18 +197,26 @@ describe("Classes", () => {
         ?.getBody()
         ?.getText();
 
-      expect(methodBody).to.contain("return originalNumber;");
-      expect(methodBody).to.not.contain("return 1;");
+      const methodDocs = originalFile
+        .getClass("MyClass")
+        ?.getMethod("myMethod")
+        ?.getJsDocs()
+        ?.map((x) => x.getDescription());
 
-      expect(privateMethodBody).to.not.contain("return originalNumber;");
-      expect(privateMethodBody).to.contain("return 1;");
+      assert.include(methodBody, "return originalNumber;");
+      assert.notInclude(methodBody, "return 1;");
 
-      expect(originalFile.getClass("MyClass")?.getProperty(AUGMENT_CLASS_TOKEN)).to.be.undefined;
+      assert.lengthOf(methodDocs!, 1);
+      assert.equal(methodDocs?.[0], "Customized docs");
+
+      assert.notInclude(privateMethodBody, "return originalNumber;");
+      assert.include(privateMethodBody, "return 1;");
+
+      assert.isUndefined(originalFile.getClass("MyClass")?.getProperty(AUGMENT_CLASS_TOKEN));
     });
   });
 
   describe("augmentConstructor", () => {
-    let originalConstructor: ConstructorDeclaration | undefined;
     let customConstructor: ConstructorDeclaration | undefined;
 
     beforeEach(() => {
@@ -203,33 +235,38 @@ describe("Classes", () => {
       customConstructor = customClass.addConstructor({
         parameters: [{ name: "foo", type: "string" }],
       });
-      augmentConstructor(customConstructor, originalConstructor, originalClass!);
-
-      expect(originalFile.getClass("MyClass")?.getConstructors().length).to.equal(1);
+      augmentConstructor(customConstructor, originalClass!);
+      const constructorDeclarations = originalFile.getClass("MyClass")?.getConstructors()
+      assert.isDefined(constructorDeclarations);
+      if (constructorDeclarations) assert.lengthOf(constructorDeclarations, 1);
     });
 
     it("should replace the original constructor with the custom constructor", () => {
-      originalConstructor = originalClass?.addConstructor({
+      originalClass?.addConstructor({
         parameters: [{ name: "bar", type: "never" }],
       });
       customConstructor = customClass.addConstructor({
         parameters: [{ name: "foo", type: "string" }],
       });
-      augmentConstructor(customConstructor, originalConstructor, originalClass!);
+      augmentConstructor(customConstructor, originalClass!);
 
-      expect(originalFile.getClass("MyClass")?.getConstructors().length).to.equal(1);
-      expect(originalFile.getClass("MyClass")?.getConstructors()[0].getParameter("foo")).to.not.be
-        .undefined;
-      expect(originalFile.getClass("MyClass")?.getConstructors()[0].getParameter("bar")).to.be
-        .undefined;
+      const constructorDeclarations = originalFile.getClass("MyClass")?.getConstructors()
+      assert.isDefined(constructorDeclarations);
+      if (!constructorDeclarations) assert.fail("constructorDeclarations is undefined")
+      assert.lengthOf(constructorDeclarations, 1);
+      assert.isDefined(constructorDeclarations[0].getParameter("foo"));
+      assert.isUndefined(
+        constructorDeclarations[0].getParameter("bar"),
+      );
     });
 
     it("should augment constructor with original constructor", () => {
-      originalConstructor = originalClass?.addConstructor({
+      originalClass?.addConstructor({
         parameters: [
           { name: "baseUrl", type: "string" },
           { name: "config", type: "Record<string, unknown>" },
         ],
+        docs: ["Original docs"],
         statements: ["console.log('original');", "console.log(baseUrl);", "console.log(config);"],
       });
       customConstructor = customClass.addConstructor({
@@ -237,6 +274,7 @@ describe("Classes", () => {
           { name: "endpoint", type: "string" },
           { name: "options", type: "Record<string, unknown>" },
         ],
+        docs: ["Customized docs"],
         statements: [
           "console.log(endpoint);",
           "console.log(options);",
@@ -249,24 +287,37 @@ describe("Classes", () => {
         ],
       });
 
-      augmentConstructor(customConstructor, originalConstructor, originalClass!);
+      augmentConstructor(customConstructor, originalClass!);
 
-      expect(originalFile.getClass("MyClass")?.getConstructors().length).to.equal(1);
-      expect(originalFile.getClass("MyClass")?.getConstructors()[0].getParameter("endpoint")).to.not
-        .be.undefined;
-      expect(originalFile.getClass("MyClass")?.getConstructors()[0].getParameter("baseUrl")).to.be
-        .undefined;
-      expect(originalFile.getClass("MyClass")?.getConstructors()[0].getText()).to.include(
-        "console.log('custom');"
+      const constructorDeclarations = originalFile.getClass("MyClass")?.getConstructors()
+      if (!constructorDeclarations) assert.fail("constructorDeclarations is undefined")
+      assert.lengthOf(constructorDeclarations, 1);
+      assert.equal(constructorDeclarations[0].getJsDocs().length, 1);
+      assert.equal(
+        constructorDeclarations[0].getJsDocs()[0].getDescription(),
+        "Customized docs",
       );
-      expect(originalFile.getClass("MyClass")?.getConstructors()[0].getText()).to.include(
-        "console.log('original');"
+      assert.isDefined(
+        constructorDeclarations[0].getParameter("endpoint"),
       );
-      expect(originalFile.getClass("MyClass")?.getConstructors()[0].getText()).to.not.include(
-        "// @azsdk-constructor-end"
+      assert.isUndefined(
+        constructorDeclarations[0].getParameter("baseUrl"),
       );
-      expect(originalFile.getClass("MyClass")?.getConstructors()[0].getText()).to.include(
-        "console.log('finish custom');"
+      assert.include(
+        constructorDeclarations[0].getText(),
+        "console.log('custom');",
+      );
+      assert.include(
+        constructorDeclarations[0].getText(),
+        "console.log('original');",
+      );
+      assert.notInclude(
+        constructorDeclarations[0].getText(),
+        "// @azsdk-constructor-end",
+      );
+      assert.include(
+        constructorDeclarations[0].getText(),
+        "console.log('finish custom');",
       );
     });
   });

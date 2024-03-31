@@ -4,8 +4,7 @@
 /**
  * Current version of the `@azure/identity` package.
  */
-
-export const SDK_VERSION = `3.2.2`;
+export const SDK_VERSION = `4.1.0-beta.2`;
 
 /**
  * The default client ID for authentication
@@ -45,11 +44,31 @@ export enum AzureAuthorityHosts {
 }
 
 /**
+ * @internal
  * The default authority host.
  */
 export const DefaultAuthorityHost = AzureAuthorityHosts.AzurePublicCloud;
 
 /**
+ * @internal
  * Allow acquiring tokens for any tenant for multi-tentant auth.
  */
 export const ALL_TENANTS: string[] = ["*"];
+
+/**
+ * @internal
+ */
+export const CACHE_CAE_SUFFIX = "cae";
+
+/**
+ * @internal
+ */
+export const CACHE_NON_CAE_SUFFIX = "nocae";
+
+/**
+ * @internal
+ *
+ * The default name for the cache persistence plugin.
+ * Matches the constant defined in the cache persistence package.
+ */
+export const DEFAULT_TOKEN_CACHE_NAME = "msal.cache";

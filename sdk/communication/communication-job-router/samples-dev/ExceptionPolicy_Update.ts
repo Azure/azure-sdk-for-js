@@ -6,23 +6,26 @@
 
 // Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
-import { ExceptionPolicyResponse, QueueLengthExceptionTrigger, RouterAdministrationClient } from "@azure/communication-job-router";
+import {
+  ExceptionPolicyResponse,
+  QueueLengthExceptionTrigger,
+  JobRouterAdministrationClient,
+} from "@azure/communication-job-router";
 dotenv.config();
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
-
-
 // Update a exception policy
 async function updateExceptionPolicy(): Promise<void> {
   // Create the Router Client
-  const routerAdministrationClient: RouterAdministrationClient = new RouterAdministrationClient(connectionString);
+  const routerAdministrationClient: JobRouterAdministrationClient =
+    new JobRouterAdministrationClient(connectionString);
 
   // define exception trigger for queue over flow
   const queueLengthExceptionTrigger: QueueLengthExceptionTrigger = {
     kind: "queue-length",
-    threshold: 100
-  }
+    threshold: 100,
+  };
 
   const exceptionPolicyRequest: ExceptionPolicyResponse = {
     id: "exception-policy-123",
@@ -34,22 +37,20 @@ async function updateExceptionPolicy(): Promise<void> {
             kind: "reclassify",
             classificationPolicyId: "Main",
             labelsToUpsert: {
-              escalated: true
-            }
-          }
+              escalated: true,
+            },
+          },
         },
-        trigger: queueLengthExceptionTrigger
-      }
-    }
+        trigger: queueLengthExceptionTrigger,
+      },
+    },
   };
-
 
   const request = exceptionPolicyRequest;
 
   const result = await routerAdministrationClient.updateExceptionPolicy(request.id, request);
 
   console.log("exception policy: " + result);
-
-};
+}
 
 updateExceptionPolicy().catch(console.error);

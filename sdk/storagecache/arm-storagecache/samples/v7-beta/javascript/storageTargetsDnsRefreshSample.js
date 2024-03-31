@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Tells a storage target to refresh its DNS information.
  *
  * @summary Tells a storage target to refresh its DNS information.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-03-01-preview/examples/StorageTargets_DnsRefresh.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-11-01-preview/examples/StorageTargets_DnsRefresh.json
  */
 async function cachesDnsRefresh() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function cachesDnsRefresh() {
   const result = await client.storageTargets.beginDnsRefreshAndWait(
     resourceGroupName,
     cacheName,
-    storageTargetName
+    storageTargetName,
   );
   console.log(result);
 }

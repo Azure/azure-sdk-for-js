@@ -1,4 +1,7 @@
-import { PerfOptionDictionary } from "@azure/test-utils-perf";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { TablesTest } from "./tables.spec";
 import { TableEntity } from "@azure/data-tables";
 import { createComplexEntity } from "./utils/createBaseEntity";

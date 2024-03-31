@@ -132,7 +132,7 @@ interface TextAnalyticsResponse<T1 extends TextAnalyticsSuccessResult> {
  * @internal
  */
 export function intoTextAnalyticsError(
-  errorModel: GeneratedTextAnalyticsErrorModel | InnerError
+  errorModel: GeneratedTextAnalyticsErrorModel | InnerError,
 ): TextAnalyticsError {
   // Return the deepest error. This will always be at most
   // one level for TextAnalytics
@@ -153,7 +153,7 @@ export function intoTextAnalyticsError(
 export function makeTextAnalyticsSuccessResult(
   id: string,
   warnings: TextAnalyticsWarning[],
-  statistics?: TextDocumentStatistics
+  statistics?: TextDocumentStatistics,
 ): TextAnalyticsSuccessResult {
   return {
     id,
@@ -167,7 +167,7 @@ export function makeTextAnalyticsSuccessResult(
  */
 export function makeTextAnalyticsErrorResult(
   id: string,
-  error: GeneratedTextAnalyticsErrorModel
+  error: GeneratedTextAnalyticsErrorModel,
 ): TextAnalyticsErrorResult {
   return {
     id,
@@ -186,17 +186,17 @@ export function makeTextAnalyticsErrorResult(
 export function processAndCombineSuccessfulAndErroneousDocuments<
   TSuccessService extends TextAnalyticsSuccessResult,
   TSuccessSDK extends TextAnalyticsSuccessResult,
-  TError extends TextAnalyticsErrorResult
+  TError extends TextAnalyticsErrorResult,
 >(
   input: TextDocumentInput[],
   response: TextAnalyticsResponse<TSuccessService>,
   processSuccess: (successResult: TSuccessService) => TSuccessSDK,
-  processError: (id: string, error: GeneratedTextAnalyticsErrorModel) => TError
+  processError: (id: string, error: GeneratedTextAnalyticsErrorModel) => TError,
 ): (TSuccessSDK | TextAnalyticsErrorResult)[] {
   const successResults: (TSuccessSDK | TextAnalyticsErrorResult)[] =
     response.documents.map(processSuccess);
   const unsortedResults = successResults.concat(
-    response.errors.map((error) => processError(error.id, error.error))
+    response.errors.map((error) => processError(error.id, error.error)),
   );
 
   return sortResponseIdObjects(input, unsortedResults);
@@ -213,18 +213,18 @@ export function processAndCombineSuccessfulAndErroneousDocuments<
 export function combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion<
   TSuccessService extends TextAnalyticsSuccessResult,
   TSuccessSDK extends TextAnalyticsSuccessResult,
-  TError extends TextAnalyticsErrorResult
+  TError extends TextAnalyticsErrorResult,
 >(
   input: TextDocumentInput[],
   response: TextAnalyticsResponse<TSuccessService>,
   processSuccess: (doc: TSuccessService) => TSuccessSDK,
-  processError: (id: string, error: GeneratedTextAnalyticsErrorModel) => TError
+  processError: (id: string, error: GeneratedTextAnalyticsErrorModel) => TError,
 ): TextAnalyticsResultArray<TSuccessSDK> {
   const sorted = processAndCombineSuccessfulAndErroneousDocuments(
     input,
     response,
     processSuccess,
-    processError
+    processError,
   );
   return Object.assign(sorted, {
     statistics: response.statistics,

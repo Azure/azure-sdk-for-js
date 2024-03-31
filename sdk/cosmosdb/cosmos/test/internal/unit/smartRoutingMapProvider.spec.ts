@@ -4,6 +4,7 @@ import assert from "assert";
 import { ClientContext } from "../../../src/ClientContext";
 import { PartitionKeyRangeCache, QueryRange, SmartRoutingMapProvider } from "../../../src/routing";
 import { MockedClientContext } from "../../public/common/MockClientContext";
+import { createDummyDiagnosticNode } from "../../public/common/TestHelpers";
 
 describe("Smart Routing Map Provider OverlappingRanges", function () {
   const containerLink = "dbs/7JZZAA==/colls/7JZZAOS-JQA=/";
@@ -43,12 +44,20 @@ describe("Smart Routing Map Provider OverlappingRanges", function () {
     results1 = results2 = null;
     err1 = err2 = null;
     try {
-      results1 = await smartRoutingMapProvider.getOverlappingRanges(containerLink, queryRanges);
+      results1 = await smartRoutingMapProvider.getOverlappingRanges(
+        containerLink,
+        queryRanges,
+        createDummyDiagnosticNode(),
+      );
     } catch (err: any) {
       err1 = err;
     }
     try {
-      results2 = await partitionKeyRangeCache.getOverlappingRanges(containerLink, queryRanges);
+      results2 = await partitionKeyRangeCache.getOverlappingRanges(
+        containerLink,
+        queryRanges,
+        createDummyDiagnosticNode(),
+      );
     } catch (err: any) {
       err2 = err;
     }
@@ -62,11 +71,15 @@ describe("Smart Routing Map Provider OverlappingRanges", function () {
     provider: SmartRoutingMapProvider,
     queryRanges: any,
     expectedResults: any,
-    errorExpected?: any
+    errorExpected?: any,
   ): Promise<void> {
     errorExpected = errorExpected || false;
     try {
-      const results = await provider.getOverlappingRanges(containerLink, queryRanges);
+      const results = await provider.getOverlappingRanges(
+        containerLink,
+        queryRanges,
+        createDummyDiagnosticNode(),
+      );
       assert.deepEqual(results, expectedResults);
     } catch (err: any) {
       if (errorExpected) {
@@ -83,13 +96,13 @@ describe("Smart Routing Map Provider OverlappingRanges", function () {
   const validateSmartOverlappingRanges = async function (
     queryRanges: any,
     expectedResults: any,
-    errorExpected: any
+    errorExpected: any,
   ): Promise<void> {
     await validateProviderOverlappingRanges(
       smartRoutingMapProvider,
       queryRanges,
       expectedResults,
-      errorExpected
+      errorExpected,
     );
   };
 
@@ -98,13 +111,13 @@ describe("Smart Routing Map Provider OverlappingRanges", function () {
   const validatePartitionKeyRangeCacheOverlappingRanges = async function (
     queryRanges: any,
     expectedResults: any,
-    errorExpected: any
+    errorExpected: any,
   ): Promise<void> {
     await validateProviderOverlappingRanges(
       partitionKeyRangeCache as any,
       queryRanges,
       expectedResults,
-      errorExpected
+      errorExpected,
     );
   };
 
@@ -114,14 +127,14 @@ describe("Smart Routing Map Provider OverlappingRanges", function () {
   const validateOverlappingRanges = async function (
     queryRanges: any,
     expectedResults: any,
-    errorExpected?: any
+    errorExpected?: any,
   ): Promise<void> {
     errorExpected = errorExpected || false;
     await validateSmartOverlappingRanges(queryRanges, expectedResults, errorExpected);
     await validatePartitionKeyRangeCacheOverlappingRanges(
       queryRanges,
       expectedResults,
-      errorExpected
+      errorExpected,
     );
   };
 
@@ -130,19 +143,27 @@ describe("Smart Routing Map Provider OverlappingRanges", function () {
   const assertProviderOverlappingRangesAreEqual = async function (
     provider: SmartRoutingMapProvider,
     queryRanges1: any,
-    queryRanges2: any
+    queryRanges2: any,
   ): Promise<void> {
     let results1: any;
     let results2: any;
     let err1: any;
     let err2: any;
     try {
-      results1 = await provider.getOverlappingRanges(containerLink, queryRanges1);
+      results1 = await provider.getOverlappingRanges(
+        containerLink,
+        queryRanges1,
+        createDummyDiagnosticNode(),
+      );
     } catch (err: any) {
       err1 = err;
     }
     try {
-      results2 = await provider.getOverlappingRanges(containerLink, queryRanges2);
+      results2 = await provider.getOverlappingRanges(
+        containerLink,
+        queryRanges2,
+        createDummyDiagnosticNode(),
+      );
     } catch (err: any) {
       err2 = err;
     }
@@ -155,17 +176,17 @@ describe("Smart Routing Map Provider OverlappingRanges", function () {
   // partitionKeyRangeCache.getOverlappingRanges() is the same for both queryRanges1, queryRanges2
   const assertOverlappingRangesAreEqual = async function (
     queryRanges1: any,
-    queryRanges2: any
+    queryRanges2: any,
   ): Promise<void> {
     await assertProviderOverlappingRangesAreEqual(
       smartRoutingMapProvider,
       queryRanges1,
-      queryRanges2
+      queryRanges2,
     );
     await assertProviderOverlappingRangesAreEqual(
       partitionKeyRangeCache as any,
       queryRanges1,
-      queryRanges2
+      queryRanges2,
     );
     await assertBothProvidersResultsEqual(queryRanges1);
   };

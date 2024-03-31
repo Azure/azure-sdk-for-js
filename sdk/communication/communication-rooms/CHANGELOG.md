@@ -1,5 +1,15 @@
 # Release History
 
+## 1.1.0-beta.1 (2023-09-21)
+
+### Features Added
+
+- Added support for PSTN dial-out capability
+
+## 1.0.0 (2023-06-12)
+
+General Availability version of the Azure Communication Services Rooms JavaScript SDK.
+
 ## 1.0.0-beta.2 (2023-05-17)
 
 ### Features Added

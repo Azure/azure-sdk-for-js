@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT Licence.
+// Licensed under the MIT License.
 
 /**
  * @summary Use AAD token credentials when sending a SMS message.
@@ -29,7 +29,7 @@ export async function main() {
     !process.env.AZURE_CLIENT_SECRET
   ) {
     console.error(
-      "Azure AD authentication information not provided, but it is required to run this sample. Exiting."
+      "Azure AD authentication information not provided, but it is required to run this sample. Exiting.",
     );
     return;
   }
@@ -40,7 +40,7 @@ export async function main() {
     : new ClientSecretCredential(
         process.env.AZURE_TENANT_ID,
         process.env.AZURE_CLIENT_ID,
-        process.env.AZURE_CLIENT_SECRET
+        process.env.AZURE_CLIENT_SECRET,
       );
 
   // create new client with endpoint and credentials

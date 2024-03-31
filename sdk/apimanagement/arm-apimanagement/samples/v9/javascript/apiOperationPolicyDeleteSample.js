@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes the policy configuration at the Api Operation.
  *
  * @summary Deletes the policy configuration at the Api Operation.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementDeleteApiOperationPolicy.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteApiOperationPolicy.json
  */
 async function apiManagementDeleteApiOperationPolicy() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

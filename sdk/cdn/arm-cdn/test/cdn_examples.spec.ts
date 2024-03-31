@@ -29,6 +29,10 @@ const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: replaceableVariables
 };
 
+export const testPollingOptions = {
+  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
+};
+
 describe("CDN test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
@@ -61,7 +65,7 @@ describe("CDN test", () => {
       sku: {
         name: "Standard_Verizon"
       }
-    });
+    }, testPollingOptions);
     assert.equal(res.name, profileName);
   });
 
@@ -87,7 +91,7 @@ describe("CDN test", () => {
       tags: {
         key1: "value1"
       }
-    });
+    }, testPollingOptions);
     assert.equal(res.name, endpointName);
   });
 
@@ -118,7 +122,7 @@ describe("CDN test", () => {
   });
 
   it("profiles update test", async function () {
-    const res = await client.profiles.beginUpdateAndWait(resourceGroup, profileName, { tags: { additional_properties: "Tag1" } });
+    const res = await client.profiles.beginUpdateAndWait(resourceGroup, profileName, { tags: { additional_properties: "Tag1" } }, testPollingOptions);
   });
 
   it("endpoints list test", async function () {
@@ -130,7 +134,7 @@ describe("CDN test", () => {
   });
 
   it("endpoints update test", async function () {
-    const res = await client.endpoints.beginUpdateAndWait(resourceGroup, profileName, endpointName, { tags: { additional_properties: "Tag1" } });
+    const res = await client.endpoints.beginUpdateAndWait(resourceGroup, profileName, endpointName, { tags: { additional_properties: "Tag1" } }, testPollingOptions);
     assert.equal(res.type, "Microsoft.Cdn/profiles/endpoints");
   });
 
@@ -139,7 +143,7 @@ describe("CDN test", () => {
     // 2. then enable the https https://learn.microsoft.com/en-us/azure/cdn/cdn-custom-ssl?tabs=option-1-default-enable-https-with-a-cdn-managed-certificate
     const defaultSetting = { "certificateSource": "Cdn", "protocolType": "IPBased", "certificateSourceParameters": { "typeName": "CdnCertificateSourceParameters", "certificateType": "Shared" } };
     try {
-      await client.customDomains.beginEnableCustomHttpsAndWait(resourceGroup, profileName, endpointName, "www-qiaozha-xyz");
+      await client.customDomains.beginEnableCustomHttpsAndWait(resourceGroup, profileName, endpointName, "www-qiaozha-xyz", testPollingOptions);
     } catch (error) {
       // ensure we set the default value into the request body
       assert.deepEqual(JSON.parse((error as any).request.body), defaultSetting);
@@ -148,7 +152,7 @@ describe("CDN test", () => {
   });
 
   it("endpoints delete test", async function () {
-    const res = await client.endpoints.beginDeleteAndWait(resourceGroup, profileName, endpointName);
+    const res = await client.endpoints.beginDeleteAndWait(resourceGroup, profileName, endpointName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.endpoints.listByProfile(resourceGroup, profileName)) {
       resArray.push(item);
@@ -157,7 +161,7 @@ describe("CDN test", () => {
   });
 
   it("profiles delete test", async function () {
-    const res = await client.profiles.beginDeleteAndWait(resourceGroup, profileName);
+    const res = await client.profiles.beginDeleteAndWait(resourceGroup, profileName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.profiles.listByResourceGroup(resourceGroup)) {
       resArray.push(item);

@@ -32,7 +32,7 @@ async function updateExpressRouteCircuitTags() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}",
       subscriptionId,
       resourceGroupName,
-      circuitName
+      circuitName,
     )
     .patch(options);
   console.log(result);

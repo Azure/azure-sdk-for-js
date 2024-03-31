@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves a redirection URL containing an authentication token for signing a given user into the developer portal.
  *
  * @summary Retrieves a redirection URL containing an authentication token for signing a given user into the developer portal.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementUserGenerateSsoUrl.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUserGenerateSsoUrl.json
  */
 async function apiManagementUserGenerateSsoUrl() {
   const subscriptionId =

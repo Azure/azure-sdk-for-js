@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists of all the OpenId Connect Providers.
  *
  * @summary Lists of all the OpenId Connect Providers.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListOpenIdConnectProviders.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListOpenIdConnectProviders.json
  */
 async function apiManagementListOpenIdConnectProviders() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

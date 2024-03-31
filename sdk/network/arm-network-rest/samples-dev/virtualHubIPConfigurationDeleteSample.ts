@@ -34,7 +34,7 @@ async function virtualHubIPConfigurationDelete() {
       subscriptionId,
       resourceGroupName,
       virtualHubName,
-      ipConfigName
+      ipConfigName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

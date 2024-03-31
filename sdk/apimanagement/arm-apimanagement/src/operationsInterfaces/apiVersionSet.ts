@@ -27,7 +27,7 @@ import {
 export interface ApiVersionSet {
   /**
    * Lists a collection of API Version Sets in the specified service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -38,7 +38,7 @@ export interface ApiVersionSet {
   ): PagedAsyncIterableIterator<ApiVersionSetContract>;
   /**
    * Gets the entity state (Etag) version of the Api Version Set specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param versionSetId Api Version Set identifier. Must be unique in the current API Management service
    *                     instance.
@@ -52,7 +52,7 @@ export interface ApiVersionSet {
   ): Promise<ApiVersionSetGetEntityTagResponse>;
   /**
    * Gets the details of the Api Version Set specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param versionSetId Api Version Set identifier. Must be unique in the current API Management service
    *                     instance.
@@ -66,7 +66,7 @@ export interface ApiVersionSet {
   ): Promise<ApiVersionSetGetResponse>;
   /**
    * Creates or Updates a Api Version Set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param versionSetId Api Version Set identifier. Must be unique in the current API Management service
    *                     instance.
@@ -82,7 +82,7 @@ export interface ApiVersionSet {
   ): Promise<ApiVersionSetCreateOrUpdateResponse>;
   /**
    * Updates the details of the Api VersionSet specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param versionSetId Api Version Set identifier. Must be unique in the current API Management service
    *                     instance.
@@ -101,7 +101,7 @@ export interface ApiVersionSet {
   ): Promise<ApiVersionSetUpdateResponse>;
   /**
    * Deletes specific Api Version Set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param versionSetId Api Version Set identifier. Must be unique in the current API Management service
    *                     instance.

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update cache space allocation.
  *
  * @summary Update cache space allocation.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-03-01-preview/examples/SpaceAllocation_Post.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-11-01-preview/examples/SpaceAllocation_Post.json
  */
 async function spaceAllocationPost() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function spaceAllocationPost() {
   const result = await client.caches.beginSpaceAllocationAndWait(
     resourceGroupName,
     cacheName,
-    options
+    options,
   );
   console.log(result);
 }

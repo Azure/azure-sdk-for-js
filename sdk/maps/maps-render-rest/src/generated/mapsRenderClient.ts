@@ -22,7 +22,7 @@ export default function createClient(
     }
   };
 
-  const userAgentInfo = `azsdk-js-maps-render-rest/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-maps-render-rest/1.0.0-beta.2`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

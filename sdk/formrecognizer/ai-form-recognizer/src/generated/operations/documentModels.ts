@@ -356,8 +356,7 @@ const analyzeDocument$binaryOperationSpec: coreClient.OperationSpec = {
     Parameters.locale,
     Parameters.stringIndexType,
     Parameters.apiVersion,
-    Parameters.features,
-    Parameters.queryFields
+    Parameters.features
   ],
   urlParameters: [Parameters.endpoint, Parameters.modelId],
   headerParameters: [Parameters.contentType, Parameters.accept],
@@ -381,8 +380,7 @@ const analyzeDocument$textOperationSpec: coreClient.OperationSpec = {
     Parameters.locale,
     Parameters.stringIndexType,
     Parameters.apiVersion,
-    Parameters.features,
-    Parameters.queryFields
+    Parameters.features
   ],
   urlParameters: [Parameters.endpoint, Parameters.modelId],
   headerParameters: [Parameters.contentType1, Parameters.accept1],
@@ -406,8 +404,7 @@ const analyzeDocument$jsonOperationSpec: coreClient.OperationSpec = {
     Parameters.locale,
     Parameters.stringIndexType,
     Parameters.apiVersion,
-    Parameters.features,
-    Parameters.queryFields
+    Parameters.features
   ],
   urlParameters: [Parameters.endpoint, Parameters.modelId],
   headerParameters: [Parameters.contentType2, Parameters.accept2],

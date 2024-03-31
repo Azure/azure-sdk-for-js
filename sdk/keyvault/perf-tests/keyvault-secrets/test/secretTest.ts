@@ -1,5 +1,5 @@
 import { SecretClient } from "@azure/keyvault-secrets";
-import { PerfTest } from "@azure/test-utils-perf";
+import { PerfTest } from "@azure-tools/test-perf";
 import { keyVaultUri, credential } from "./utils";
 
 export abstract class SecretTest<TOptions = Record<string, unknown>> extends PerfTest<TOptions> {
@@ -7,11 +7,7 @@ export abstract class SecretTest<TOptions = Record<string, unknown>> extends Per
 
   constructor() {
     super();
-    this.secretClient = new SecretClient(
-      keyVaultUri,
-      credential,
-      this.configureClientOptionsCoreV1({})
-    );
+    this.secretClient = new SecretClient(keyVaultUri, credential, this.configureClientOptions({}));
   }
 
   async deleteAndPurgeSecrets(...names: string[]) {
@@ -22,7 +18,7 @@ export abstract class SecretTest<TOptions = Record<string, unknown>> extends Per
         if (deletedSecret.recoveryId) {
           await this.secretClient.purgeDeletedSecret(name);
         }
-      })
+      }),
     );
   }
 }

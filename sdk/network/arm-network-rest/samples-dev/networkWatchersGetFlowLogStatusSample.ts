@@ -36,7 +36,7 @@ async function getFlowLogStatus() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/queryFlowLogStatus",
       subscriptionId,
       resourceGroupName,
-      networkWatcherName
+      networkWatcherName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

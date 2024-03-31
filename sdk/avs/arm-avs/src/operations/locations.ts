@@ -72,7 +72,7 @@ const checkTrialAvailabilityOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Trial
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.sku,
@@ -95,7 +95,7 @@ const checkQuotaAvailabilityOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Quota
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],

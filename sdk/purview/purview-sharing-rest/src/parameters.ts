@@ -25,8 +25,6 @@ export type ReceivedSharesDeleteReceivedShareParameters = RequestParameters;
 export interface ReceivedSharesGetAllAttachedReceivedSharesQueryParamProperties {
   /** A name that references a data store. */
   referenceName: string;
-  /** The continuation token to list the next page */
-  skipToken?: string;
   /** Filters the results using OData syntax */
   filter?: string;
   /** Sorts the results using OData syntax */
@@ -41,8 +39,6 @@ export type ReceivedSharesGetAllAttachedReceivedSharesParameters =
   ReceivedSharesGetAllAttachedReceivedSharesQueryParam & RequestParameters;
 
 export interface ReceivedSharesGetAllDetachedReceivedSharesQueryParamProperties {
-  /** The continuation token to list the next page */
-  skipToken?: string;
   /** Filters the results using OData syntax */
   filter?: string;
   /** Sorts the results using OData syntax */
@@ -96,8 +92,6 @@ export type ReceivedSharesRegisterTenantEmailRegistrationParameters =
 export interface SentSharesGetAllSentSharesQueryParamProperties {
   /** A name that references a data store. */
   referenceName: string;
-  /** The continuation token to list the next page */
-  skipToken?: string;
   /** Filters the results using OData syntax */
   filter?: string;
   /** Sorts the results using OData syntax */
@@ -128,8 +122,6 @@ export type SentSharesCreateOrReplaceParameters = SentSharesCreateOrReplaceMedia
 export type SentSharesDeleteSentShareParameters = RequestParameters;
 
 export interface SentSharesGetAllSentShareInvitationsQueryParamProperties {
-  /** The continuation token to list the next page */
-  skipToken?: string;
   /** Filters the results using OData syntax */
   filter?: string;
   /** Sorts the results using OData syntax */
@@ -171,3 +163,17 @@ export interface SentSharesNotifyUserSentShareInvitationHeaderParam {
 
 export type SentSharesNotifyUserSentShareInvitationParameters =
   SentSharesNotifyUserSentShareInvitationHeaderParam & RequestParameters;
+
+export interface ShareResourcesGetAllShareResourcesQueryParamProperties {
+  /** Filters the results using OData syntax */
+  filter?: string;
+  /** Sorts the results using OData syntax */
+  orderby?: string;
+}
+
+export interface ShareResourcesGetAllShareResourcesQueryParam {
+  queryParameters?: ShareResourcesGetAllShareResourcesQueryParamProperties;
+}
+
+export type ShareResourcesGetAllShareResourcesParameters =
+  ShareResourcesGetAllShareResourcesQueryParam & RequestParameters;

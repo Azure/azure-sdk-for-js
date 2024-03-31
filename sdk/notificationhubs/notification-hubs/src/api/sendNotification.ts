@@ -8,6 +8,7 @@ import {
   isSendNotificationOptions,
 } from "../utils/optionUtils.js";
 import { BrowserPushChannel } from "../models/installation.js";
+import { NonNullableRecord } from "../utils/utils.js";
 import { Notification } from "../models/notification.js";
 import { NotificationHubsClientContext } from "./index.js";
 import { NotificationHubsMessageResponse } from "../models/notificationDetails.js";
@@ -25,7 +26,7 @@ import { tracingClient } from "../utils/tracing.js";
 export function sendNotification(
   context: NotificationHubsClientContext,
   notification: Notification,
-  options: DirectSendNotificationOptions | SendNotificationOptions = { enableTestSend: false }
+  options: DirectSendNotificationOptions | SendNotificationOptions = { enableTestSend: false },
 ): Promise<NotificationHubsMessageResponse> {
   return tracingClient.withSpan(
     `NotificationHubsClientContext.sendNotification`,
@@ -44,7 +45,10 @@ export function sendNotification(
         endpoint.searchParams.append("test", "true");
       }
 
-      const headers = await context.createHeaders("sendNotification", notification.headers);
+      const headers = await context.createHeaders(
+        "sendNotification",
+        notification.headers as NonNullableRecord,
+      );
       headers.set("ServiceBusNotification-Format", notification.platform);
 
       let body = notification.body;
@@ -82,6 +86,6 @@ export function sendNotification(
       const response = await sendRequest(context, request, 201);
 
       return parseNotificationSendResponse(response);
-    }
+    },
   );
 }

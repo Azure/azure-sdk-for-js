@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MobileNetworkManagementClient } from "../mobileNetworkManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   SimPolicy,
   SimPoliciesListByMobileNetworkNextOptionalParams,
@@ -28,7 +32,7 @@ import {
   TagsObject,
   SimPoliciesUpdateTagsOptionalParams,
   SimPoliciesUpdateTagsResponse,
-  SimPoliciesListByMobileNetworkNextResponse
+  SimPoliciesListByMobileNetworkNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -53,12 +57,12 @@ export class SimPoliciesImpl implements SimPolicies {
   public listByMobileNetwork(
     resourceGroupName: string,
     mobileNetworkName: string,
-    options?: SimPoliciesListByMobileNetworkOptionalParams
+    options?: SimPoliciesListByMobileNetworkOptionalParams,
   ): PagedAsyncIterableIterator<SimPolicy> {
     const iter = this.listByMobileNetworkPagingAll(
       resourceGroupName,
       mobileNetworkName,
-      options
+      options,
     );
     return {
       next() {
@@ -75,9 +79,9 @@ export class SimPoliciesImpl implements SimPolicies {
           resourceGroupName,
           mobileNetworkName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -85,7 +89,7 @@ export class SimPoliciesImpl implements SimPolicies {
     resourceGroupName: string,
     mobileNetworkName: string,
     options?: SimPoliciesListByMobileNetworkOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SimPolicy[]> {
     let result: SimPoliciesListByMobileNetworkResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,7 +97,7 @@ export class SimPoliciesImpl implements SimPolicies {
       result = await this._listByMobileNetwork(
         resourceGroupName,
         mobileNetworkName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -105,7 +109,7 @@ export class SimPoliciesImpl implements SimPolicies {
         resourceGroupName,
         mobileNetworkName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,12 +121,12 @@ export class SimPoliciesImpl implements SimPolicies {
   private async *listByMobileNetworkPagingAll(
     resourceGroupName: string,
     mobileNetworkName: string,
-    options?: SimPoliciesListByMobileNetworkOptionalParams
+    options?: SimPoliciesListByMobileNetworkOptionalParams,
   ): AsyncIterableIterator<SimPolicy> {
     for await (const page of this.listByMobileNetworkPagingPage(
       resourceGroupName,
       mobileNetworkName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -139,25 +143,24 @@ export class SimPoliciesImpl implements SimPolicies {
     resourceGroupName: string,
     mobileNetworkName: string,
     simPolicyName: string,
-    options?: SimPoliciesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: SimPoliciesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -166,8 +169,8 @@ export class SimPoliciesImpl implements SimPolicies {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -175,20 +178,20 @@ export class SimPoliciesImpl implements SimPolicies {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, mobileNetworkName, simPolicyName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, mobileNetworkName, simPolicyName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -205,13 +208,13 @@ export class SimPoliciesImpl implements SimPolicies {
     resourceGroupName: string,
     mobileNetworkName: string,
     simPolicyName: string,
-    options?: SimPoliciesDeleteOptionalParams
+    options?: SimPoliciesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       mobileNetworkName,
       simPolicyName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -227,11 +230,11 @@ export class SimPoliciesImpl implements SimPolicies {
     resourceGroupName: string,
     mobileNetworkName: string,
     simPolicyName: string,
-    options?: SimPoliciesGetOptionalParams
+    options?: SimPoliciesGetOptionalParams,
   ): Promise<SimPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, mobileNetworkName, simPolicyName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -248,30 +251,29 @@ export class SimPoliciesImpl implements SimPolicies {
     mobileNetworkName: string,
     simPolicyName: string,
     parameters: SimPolicy,
-    options?: SimPoliciesCreateOrUpdateOptionalParams
+    options?: SimPoliciesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SimPoliciesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SimPoliciesCreateOrUpdateResponse>,
       SimPoliciesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SimPoliciesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -280,8 +282,8 @@ export class SimPoliciesImpl implements SimPolicies {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -289,26 +291,29 @@ export class SimPoliciesImpl implements SimPolicies {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         mobileNetworkName,
         simPolicyName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      SimPoliciesCreateOrUpdateResponse,
+      OperationState<SimPoliciesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -327,14 +332,14 @@ export class SimPoliciesImpl implements SimPolicies {
     mobileNetworkName: string,
     simPolicyName: string,
     parameters: SimPolicy,
-    options?: SimPoliciesCreateOrUpdateOptionalParams
+    options?: SimPoliciesCreateOrUpdateOptionalParams,
   ): Promise<SimPoliciesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       mobileNetworkName,
       simPolicyName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -352,7 +357,7 @@ export class SimPoliciesImpl implements SimPolicies {
     mobileNetworkName: string,
     simPolicyName: string,
     parameters: TagsObject,
-    options?: SimPoliciesUpdateTagsOptionalParams
+    options?: SimPoliciesUpdateTagsOptionalParams,
   ): Promise<SimPoliciesUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       {
@@ -360,9 +365,9 @@ export class SimPoliciesImpl implements SimPolicies {
         mobileNetworkName,
         simPolicyName,
         parameters,
-        options
+        options,
       },
-      updateTagsOperationSpec
+      updateTagsOperationSpec,
     );
   }
 
@@ -375,11 +380,11 @@ export class SimPoliciesImpl implements SimPolicies {
   private _listByMobileNetwork(
     resourceGroupName: string,
     mobileNetworkName: string,
-    options?: SimPoliciesListByMobileNetworkOptionalParams
+    options?: SimPoliciesListByMobileNetworkOptionalParams,
   ): Promise<SimPoliciesListByMobileNetworkResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, mobileNetworkName, options },
-      listByMobileNetworkOperationSpec
+      listByMobileNetworkOperationSpec,
     );
   }
 
@@ -394,11 +399,11 @@ export class SimPoliciesImpl implements SimPolicies {
     resourceGroupName: string,
     mobileNetworkName: string,
     nextLink: string,
-    options?: SimPoliciesListByMobileNetworkNextOptionalParams
+    options?: SimPoliciesListByMobileNetworkNextOptionalParams,
   ): Promise<SimPoliciesListByMobileNetworkNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, mobileNetworkName, nextLink, options },
-      listByMobileNetworkNextOperationSpec
+      listByMobileNetworkNextOperationSpec,
     );
   }
 }
@@ -406,8 +411,7 @@ export class SimPoliciesImpl implements SimPolicies {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/simPolicies/{simPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/simPolicies/{simPolicyName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -415,8 +419,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -424,22 +428,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.mobileNetworkName,
-    Parameters.simPolicyName
+    Parameters.simPolicyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/simPolicies/{simPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/simPolicies/{simPolicyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SimPolicy
+      bodyMapper: Mappers.SimPolicy,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -447,56 +450,54 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.mobileNetworkName,
-    Parameters.simPolicyName
+    Parameters.simPolicyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/simPolicies/{simPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/simPolicies/{simPolicyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SimPolicy
+      bodyMapper: Mappers.SimPolicy,
     },
     201: {
-      bodyMapper: Mappers.SimPolicy
+      bodyMapper: Mappers.SimPolicy,
     },
     202: {
-      bodyMapper: Mappers.SimPolicy
+      bodyMapper: Mappers.SimPolicy,
     },
     204: {
-      bodyMapper: Mappers.SimPolicy
+      bodyMapper: Mappers.SimPolicy,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters13,
+  requestBody: Parameters.parameters15,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.mobileNetworkName,
-    Parameters.simPolicyName
+    Parameters.simPolicyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/simPolicies/{simPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/simPolicies/{simPolicyName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.SimPolicy
+      bodyMapper: Mappers.SimPolicy,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -505,52 +506,51 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.mobileNetworkName,
-    Parameters.simPolicyName
+    Parameters.simPolicyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByMobileNetworkOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/simPolicies",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/simPolicies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SimPolicyListResult
+      bodyMapper: Mappers.SimPolicyListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.mobileNetworkName
+    Parameters.mobileNetworkName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByMobileNetworkNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SimPolicyListResult
+      bodyMapper: Mappers.SimPolicyListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.mobileNetworkName
+    Parameters.mobileNetworkName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -341,6 +341,15 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
   }
 
   /**
+   * Returns the date and time the blob was created.
+   *
+   * @readonly
+   */
+  public get createdOn(): Date | undefined {
+    return this.originalResponse.createdOn;
+  }
+
+  /**
    * A name-value pair
    * to associate with a file storage object.
    *
@@ -518,7 +527,7 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
     getter: ReadableStreamGetter,
     offset: number,
     count: number,
-    options: RetriableReadableStreamOptions = {}
+    options: RetriableReadableStreamOptions = {},
   ) {
     this.originalResponse = originalResponse;
     this.blobDownloadStream = new RetriableReadableStream(
@@ -526,7 +535,7 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
       getter,
       offset,
       count,
-      options
+      options,
     );
   }
 }

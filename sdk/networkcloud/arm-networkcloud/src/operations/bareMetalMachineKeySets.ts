@@ -21,9 +21,9 @@ import {
 import { createLroSpec } from "../lroImpl";
 import {
   BareMetalMachineKeySet,
-  BareMetalMachineKeySetsListByResourceGroupNextOptionalParams,
-  BareMetalMachineKeySetsListByResourceGroupOptionalParams,
-  BareMetalMachineKeySetsListByResourceGroupResponse,
+  BareMetalMachineKeySetsListByClusterNextOptionalParams,
+  BareMetalMachineKeySetsListByClusterOptionalParams,
+  BareMetalMachineKeySetsListByClusterResponse,
   BareMetalMachineKeySetsGetOptionalParams,
   BareMetalMachineKeySetsGetResponse,
   BareMetalMachineKeySetsCreateOrUpdateOptionalParams,
@@ -31,7 +31,7 @@ import {
   BareMetalMachineKeySetsDeleteOptionalParams,
   BareMetalMachineKeySetsUpdateOptionalParams,
   BareMetalMachineKeySetsUpdateResponse,
-  BareMetalMachineKeySetsListByResourceGroupNextResponse
+  BareMetalMachineKeySetsListByClusterNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,17 +48,17 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
   }
 
   /**
-   * Get a list of bare metal machine key sets of the cluster in the provided resource group.
+   * Get a list of bare metal machine key sets for the provided cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster.
    * @param options The options parameters.
    */
-  public listByResourceGroup(
+  public listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: BareMetalMachineKeySetsListByResourceGroupOptionalParams
+    options?: BareMetalMachineKeySetsListByClusterOptionalParams
   ): PagedAsyncIterableIterator<BareMetalMachineKeySet> {
-    const iter = this.listByResourceGroupPagingAll(
+    const iter = this.listByClusterPagingAll(
       resourceGroupName,
       clusterName,
       options
@@ -74,7 +74,7 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
+        return this.listByClusterPagingPage(
           resourceGroupName,
           clusterName,
           options,
@@ -84,16 +84,16 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
     };
   }
 
-  private async *listByResourceGroupPagingPage(
+  private async *listByClusterPagingPage(
     resourceGroupName: string,
     clusterName: string,
-    options?: BareMetalMachineKeySetsListByResourceGroupOptionalParams,
+    options?: BareMetalMachineKeySetsListByClusterOptionalParams,
     settings?: PageSettings
   ): AsyncIterableIterator<BareMetalMachineKeySet[]> {
-    let result: BareMetalMachineKeySetsListByResourceGroupResponse;
+    let result: BareMetalMachineKeySetsListByClusterResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByResourceGroup(
+      result = await this._listByCluster(
         resourceGroupName,
         clusterName,
         options
@@ -104,7 +104,7 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
+      result = await this._listByClusterNext(
         resourceGroupName,
         clusterName,
         continuationToken,
@@ -117,12 +117,12 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
     }
   }
 
-  private async *listByResourceGroupPagingAll(
+  private async *listByClusterPagingAll(
     resourceGroupName: string,
     clusterName: string,
-    options?: BareMetalMachineKeySetsListByResourceGroupOptionalParams
+    options?: BareMetalMachineKeySetsListByClusterOptionalParams
   ): AsyncIterableIterator<BareMetalMachineKeySet> {
-    for await (const page of this.listByResourceGroupPagingPage(
+    for await (const page of this.listByClusterPagingPage(
       resourceGroupName,
       clusterName,
       options
@@ -132,19 +132,19 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
   }
 
   /**
-   * Get a list of bare metal machine key sets of the cluster in the provided resource group.
+   * Get a list of bare metal machine key sets for the provided cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster.
    * @param options The options parameters.
    */
-  private _listByResourceGroup(
+  private _listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: BareMetalMachineKeySetsListByResourceGroupOptionalParams
-  ): Promise<BareMetalMachineKeySetsListByResourceGroupResponse> {
+    options?: BareMetalMachineKeySetsListByClusterOptionalParams
+  ): Promise<BareMetalMachineKeySetsListByClusterResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, options },
-      listByResourceGroupOperationSpec
+      listByClusterOperationSpec
     );
   }
 
@@ -441,7 +441,7 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -471,28 +471,28 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
   }
 
   /**
-   * ListByResourceGroupNext
+   * ListByClusterNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
+   * @param nextLink The nextLink from the previous successful call to the ListByCluster method.
    * @param options The options parameters.
    */
-  private _listByResourceGroupNext(
+  private _listByClusterNext(
     resourceGroupName: string,
     clusterName: string,
     nextLink: string,
-    options?: BareMetalMachineKeySetsListByResourceGroupNextOptionalParams
-  ): Promise<BareMetalMachineKeySetsListByResourceGroupNextResponse> {
+    options?: BareMetalMachineKeySetsListByClusterNextOptionalParams
+  ): Promise<BareMetalMachineKeySetsListByClusterNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByClusterNextOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+const listByClusterOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/bareMetalMachineKeySets",
   httpMethod: "GET",
@@ -629,7 +629,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
+const listByClusterNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {

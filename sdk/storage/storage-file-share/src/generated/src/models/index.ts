@@ -6,7 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
+import * as coreHttpCompat from "@azure/core-http-compat";
 
 /** Storage service properties. */
 export interface FileServiceProperties {
@@ -159,14 +161,20 @@ export interface ListFilesAndDirectoriesSegmentResponse {
   serviceEndpoint: string;
   shareName: string;
   shareSnapshot?: string;
+  encoded?: boolean;
   directoryPath: string;
-  prefix: string;
+  prefix: StringEncoded;
   marker?: string;
   maxResults?: number;
   /** Abstract for entries that can be listed from Directory. */
   segment: FilesAndDirectoriesListSegment;
   continuationToken: string;
   directoryId?: string;
+}
+
+export interface StringEncoded {
+  encoded?: boolean;
+  content?: string;
 }
 
 /** Abstract for entries that can be listed from Directory. */
@@ -177,7 +185,7 @@ export interface FilesAndDirectoriesListSegment {
 
 /** A listed directory item. */
 export interface DirectoryItem {
-  name: string;
+  name: StringEncoded;
   fileId?: string;
   /** File properties. */
   properties?: FileProperty;
@@ -199,7 +207,7 @@ export interface FileProperty {
 
 /** A listed file item. */
 export interface FileItem {
-  name: string;
+  name: StringEncoded;
   fileId?: string;
   /** File properties. */
   properties: FileProperty;
@@ -217,8 +225,7 @@ export interface ListHandlesResponse {
 export interface HandleItem {
   /** XSMB service handle ID */
   handleId: string;
-  /** File or directory name including full path starting from share root */
-  path: string;
+  path: StringEncoded;
   /** FileId uniquely identifies the file or directory. */
   fileId: string;
   /** ParentId uniquely identifies the parent directory of the object. */
@@ -231,6 +238,7 @@ export interface HandleItem {
   openTime: Date;
   /** Time handle was last connected to (UTC) */
   lastReconnectTime?: Date;
+  accessRightList?: AccessRight[];
 }
 
 /** The list of file ranges */
@@ -1541,73 +1549,154 @@ export interface SourceModifiedAccessConditions {
   sourceIfNoneMatchCrc64?: Uint8Array;
 }
 
+/** Known values of {@link ShareTokenIntent} that the service accepts. */
+export enum KnownShareTokenIntent {
+  /** Backup */
+  Backup = "backup"
+}
+
+/**
+ * Defines values for ShareTokenIntent. \
+ * {@link KnownShareTokenIntent} can be used interchangeably with ShareTokenIntent,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **backup**
+ */
+export type ShareTokenIntent = string;
+
 /** Known values of {@link StorageErrorCode} that the service accepts. */
-export const enum KnownStorageErrorCode {
+export enum KnownStorageErrorCode {
+  /** AccountAlreadyExists */
   AccountAlreadyExists = "AccountAlreadyExists",
+  /** AccountBeingCreated */
   AccountBeingCreated = "AccountBeingCreated",
+  /** AccountIsDisabled */
   AccountIsDisabled = "AccountIsDisabled",
+  /** AuthenticationFailed */
   AuthenticationFailed = "AuthenticationFailed",
+  /** AuthorizationFailure */
   AuthorizationFailure = "AuthorizationFailure",
+  /** ConditionHeadersNotSupported */
   ConditionHeadersNotSupported = "ConditionHeadersNotSupported",
+  /** ConditionNotMet */
   ConditionNotMet = "ConditionNotMet",
+  /** EmptyMetadataKey */
   EmptyMetadataKey = "EmptyMetadataKey",
+  /** InsufficientAccountPermissions */
   InsufficientAccountPermissions = "InsufficientAccountPermissions",
+  /** InternalError */
   InternalError = "InternalError",
+  /** InvalidAuthenticationInfo */
   InvalidAuthenticationInfo = "InvalidAuthenticationInfo",
+  /** InvalidHeaderValue */
   InvalidHeaderValue = "InvalidHeaderValue",
+  /** InvalidHttpVerb */
   InvalidHttpVerb = "InvalidHttpVerb",
+  /** InvalidInput */
   InvalidInput = "InvalidInput",
+  /** InvalidMd5 */
   InvalidMd5 = "InvalidMd5",
+  /** InvalidMetadata */
   InvalidMetadata = "InvalidMetadata",
+  /** InvalidQueryParameterValue */
   InvalidQueryParameterValue = "InvalidQueryParameterValue",
+  /** InvalidRange */
   InvalidRange = "InvalidRange",
+  /** InvalidResourceName */
   InvalidResourceName = "InvalidResourceName",
+  /** InvalidUri */
   InvalidUri = "InvalidUri",
+  /** InvalidXmlDocument */
   InvalidXmlDocument = "InvalidXmlDocument",
+  /** InvalidXmlNodeValue */
   InvalidXmlNodeValue = "InvalidXmlNodeValue",
+  /** Md5Mismatch */
   Md5Mismatch = "Md5Mismatch",
+  /** MetadataTooLarge */
   MetadataTooLarge = "MetadataTooLarge",
+  /** MissingContentLengthHeader */
   MissingContentLengthHeader = "MissingContentLengthHeader",
+  /** MissingRequiredQueryParameter */
   MissingRequiredQueryParameter = "MissingRequiredQueryParameter",
+  /** MissingRequiredHeader */
   MissingRequiredHeader = "MissingRequiredHeader",
+  /** MissingRequiredXmlNode */
   MissingRequiredXmlNode = "MissingRequiredXmlNode",
+  /** MultipleConditionHeadersNotSupported */
   MultipleConditionHeadersNotSupported = "MultipleConditionHeadersNotSupported",
+  /** OperationTimedOut */
   OperationTimedOut = "OperationTimedOut",
+  /** OutOfRangeInput */
   OutOfRangeInput = "OutOfRangeInput",
+  /** OutOfRangeQueryParameterValue */
   OutOfRangeQueryParameterValue = "OutOfRangeQueryParameterValue",
+  /** RequestBodyTooLarge */
   RequestBodyTooLarge = "RequestBodyTooLarge",
+  /** ResourceTypeMismatch */
   ResourceTypeMismatch = "ResourceTypeMismatch",
+  /** RequestUrlFailedToParse */
   RequestUrlFailedToParse = "RequestUrlFailedToParse",
+  /** ResourceAlreadyExists */
   ResourceAlreadyExists = "ResourceAlreadyExists",
+  /** ResourceNotFound */
   ResourceNotFound = "ResourceNotFound",
+  /** ServerBusy */
   ServerBusy = "ServerBusy",
+  /** UnsupportedHeader */
   UnsupportedHeader = "UnsupportedHeader",
+  /** UnsupportedXmlNode */
   UnsupportedXmlNode = "UnsupportedXmlNode",
+  /** UnsupportedQueryParameter */
   UnsupportedQueryParameter = "UnsupportedQueryParameter",
+  /** UnsupportedHttpVerb */
   UnsupportedHttpVerb = "UnsupportedHttpVerb",
+  /** CannotDeleteFileOrDirectory */
   CannotDeleteFileOrDirectory = "CannotDeleteFileOrDirectory",
+  /** ClientCacheFlushDelay */
   ClientCacheFlushDelay = "ClientCacheFlushDelay",
+  /** DeletePending */
   DeletePending = "DeletePending",
+  /** DirectoryNotEmpty */
   DirectoryNotEmpty = "DirectoryNotEmpty",
+  /** FileLockConflict */
   FileLockConflict = "FileLockConflict",
+  /** InvalidFileOrDirectoryPathName */
   InvalidFileOrDirectoryPathName = "InvalidFileOrDirectoryPathName",
+  /** ParentNotFound */
   ParentNotFound = "ParentNotFound",
+  /** ReadOnlyAttribute */
   ReadOnlyAttribute = "ReadOnlyAttribute",
+  /** ShareAlreadyExists */
   ShareAlreadyExists = "ShareAlreadyExists",
+  /** ShareBeingDeleted */
   ShareBeingDeleted = "ShareBeingDeleted",
+  /** ShareDisabled */
   ShareDisabled = "ShareDisabled",
+  /** ShareNotFound */
   ShareNotFound = "ShareNotFound",
+  /** SharingViolation */
   SharingViolation = "SharingViolation",
+  /** ShareSnapshotInProgress */
   ShareSnapshotInProgress = "ShareSnapshotInProgress",
+  /** ShareSnapshotCountExceeded */
   ShareSnapshotCountExceeded = "ShareSnapshotCountExceeded",
+  /** ShareSnapshotOperationNotSupported */
   ShareSnapshotOperationNotSupported = "ShareSnapshotOperationNotSupported",
+  /** ShareHasSnapshots */
   ShareHasSnapshots = "ShareHasSnapshots",
+  /** ContainerQuotaDowngradeNotAllowed */
   ContainerQuotaDowngradeNotAllowed = "ContainerQuotaDowngradeNotAllowed",
+  /** AuthorizationSourceIPMismatch */
   AuthorizationSourceIPMismatch = "AuthorizationSourceIPMismatch",
+  /** AuthorizationProtocolMismatch */
   AuthorizationProtocolMismatch = "AuthorizationProtocolMismatch",
+  /** AuthorizationPermissionMismatch */
   AuthorizationPermissionMismatch = "AuthorizationPermissionMismatch",
+  /** AuthorizationServiceMismatch */
   AuthorizationServiceMismatch = "AuthorizationServiceMismatch",
+  /** AuthorizationResourceTypeMismatch */
   AuthorizationResourceTypeMismatch = "AuthorizationResourceTypeMismatch",
+  /** FeatureVersionMismatch */
   FeatureVersionMismatch = "FeatureVersionMismatch"
 }
 
@@ -1615,7 +1704,7 @@ export const enum KnownStorageErrorCode {
  * Defines values for StorageErrorCode. \
  * {@link KnownStorageErrorCode} can be used interchangeably with StorageErrorCode,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **AccountAlreadyExists** \
  * **AccountBeingCreated** \
  * **AccountIsDisabled** \
@@ -1709,6 +1798,8 @@ export type ListFilesIncludeType =
   | "Etag"
   | "Attributes"
   | "PermissionKey";
+/** Defines values for AccessRight. */
+export type AccessRight = "Read" | "Write" | "Delete";
 /** Defines values for CopyStatusType. */
 export type CopyStatusType = "pending" | "success" | "aborted" | "failed";
 /** Defines values for FileRangeWriteType. */
@@ -1720,45 +1811,28 @@ export type PermissionCopyModeType = "source" | "override";
 
 /** Optional parameters. */
 export interface ServiceSetPropertiesOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
 }
 
 /** Contains response data for the setProperties operation. */
-export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: ServiceSetPropertiesHeaders;
-  };
-};
+export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders;
 
 /** Optional parameters. */
 export interface ServiceGetPropertiesOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
 }
 
 /** Contains response data for the getProperties operation. */
 export type ServiceGetPropertiesResponse = ServiceGetPropertiesHeaders &
-  FileServiceProperties & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: FileServiceProperties;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: ServiceGetPropertiesHeaders;
-    };
-  };
+  FileServiceProperties;
 
 /** Optional parameters. */
 export interface ServiceListSharesSegmentOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Filters the results to return only entries whose name begins with the specified prefix. */
@@ -1773,21 +1847,10 @@ export interface ServiceListSharesSegmentOptionalParams
 
 /** Contains response data for the listSharesSegment operation. */
 export type ServiceListSharesSegmentResponse = ServiceListSharesSegmentHeaders &
-  ListSharesResponse & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: ListSharesResponse;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: ServiceListSharesSegmentHeaders;
-    };
-  };
+  ListSharesResponse;
 
 /** Optional parameters. */
-export interface ShareCreateOptionalParams extends coreHttp.OperationOptions {
+export interface ShareCreateOptionalParams extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** A name-value pair to associate with a file storage object. */
@@ -1803,17 +1866,11 @@ export interface ShareCreateOptionalParams extends coreHttp.OperationOptions {
 }
 
 /** Contains response data for the create operation. */
-export type ShareCreateResponse = ShareCreateHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: ShareCreateHeaders;
-  };
-};
+export type ShareCreateResponse = ShareCreateHeaders;
 
 /** Optional parameters. */
 export interface ShareGetPropertiesOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
@@ -1823,16 +1880,10 @@ export interface ShareGetPropertiesOptionalParams
 }
 
 /** Contains response data for the getProperties operation. */
-export type ShareGetPropertiesResponse = ShareGetPropertiesHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: ShareGetPropertiesHeaders;
-  };
-};
+export type ShareGetPropertiesResponse = ShareGetPropertiesHeaders;
 
 /** Optional parameters. */
-export interface ShareDeleteOptionalParams extends coreHttp.OperationOptions {
+export interface ShareDeleteOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
@@ -1844,17 +1895,11 @@ export interface ShareDeleteOptionalParams extends coreHttp.OperationOptions {
 }
 
 /** Contains response data for the delete operation. */
-export type ShareDeleteResponse = ShareDeleteHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: ShareDeleteHeaders;
-  };
-};
+export type ShareDeleteResponse = ShareDeleteHeaders;
 
 /** Optional parameters. */
 export interface ShareAcquireLeaseOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
@@ -1868,17 +1913,11 @@ export interface ShareAcquireLeaseOptionalParams
 }
 
 /** Contains response data for the acquireLease operation. */
-export type ShareAcquireLeaseResponse = ShareAcquireLeaseHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: ShareAcquireLeaseHeaders;
-  };
-};
+export type ShareAcquireLeaseResponse = ShareAcquireLeaseHeaders;
 
 /** Optional parameters. */
 export interface ShareReleaseLeaseOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
@@ -1888,17 +1927,11 @@ export interface ShareReleaseLeaseOptionalParams
 }
 
 /** Contains response data for the releaseLease operation. */
-export type ShareReleaseLeaseResponse = ShareReleaseLeaseHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: ShareReleaseLeaseHeaders;
-  };
-};
+export type ShareReleaseLeaseResponse = ShareReleaseLeaseHeaders;
 
 /** Optional parameters. */
 export interface ShareChangeLeaseOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
@@ -1910,17 +1943,11 @@ export interface ShareChangeLeaseOptionalParams
 }
 
 /** Contains response data for the changeLease operation. */
-export type ShareChangeLeaseResponse = ShareChangeLeaseHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: ShareChangeLeaseHeaders;
-  };
-};
+export type ShareChangeLeaseResponse = ShareChangeLeaseHeaders;
 
 /** Optional parameters. */
 export interface ShareRenewLeaseOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
@@ -1930,17 +1957,11 @@ export interface ShareRenewLeaseOptionalParams
 }
 
 /** Contains response data for the renewLease operation. */
-export type ShareRenewLeaseResponse = ShareRenewLeaseHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: ShareRenewLeaseHeaders;
-  };
-};
+export type ShareRenewLeaseResponse = ShareRenewLeaseHeaders;
 
 /** Optional parameters. */
 export interface ShareBreakLeaseOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
@@ -1954,17 +1975,11 @@ export interface ShareBreakLeaseOptionalParams
 }
 
 /** Contains response data for the breakLease operation. */
-export type ShareBreakLeaseResponse = ShareBreakLeaseHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: ShareBreakLeaseHeaders;
-  };
-};
+export type ShareBreakLeaseResponse = ShareBreakLeaseHeaders;
 
 /** Optional parameters. */
 export interface ShareCreateSnapshotOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** A name-value pair to associate with a file storage object. */
@@ -1972,55 +1987,36 @@ export interface ShareCreateSnapshotOptionalParams
 }
 
 /** Contains response data for the createSnapshot operation. */
-export type ShareCreateSnapshotResponse = ShareCreateSnapshotHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: ShareCreateSnapshotHeaders;
-  };
-};
+export type ShareCreateSnapshotResponse = ShareCreateSnapshotHeaders;
 
 /** Optional parameters. */
 export interface ShareCreatePermissionOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
 }
 
 /** Contains response data for the createPermission operation. */
-export type ShareCreatePermissionResponse = ShareCreatePermissionHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: ShareCreatePermissionHeaders;
-  };
-};
+export type ShareCreatePermissionResponse = ShareCreatePermissionHeaders;
 
 /** Optional parameters. */
 export interface ShareGetPermissionOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
 }
 
 /** Contains response data for the getPermission operation. */
 export type ShareGetPermissionResponse = ShareGetPermissionHeaders &
-  SharePermission & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: SharePermission;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: ShareGetPermissionHeaders;
-    };
-  };
+  SharePermission;
 
 /** Optional parameters. */
 export interface ShareSetPropertiesOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
@@ -2034,17 +2030,11 @@ export interface ShareSetPropertiesOptionalParams
 }
 
 /** Contains response data for the setProperties operation. */
-export type ShareSetPropertiesResponse = ShareSetPropertiesHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: ShareSetPropertiesHeaders;
-  };
-};
+export type ShareSetPropertiesResponse = ShareSetPropertiesHeaders;
 
 /** Optional parameters. */
 export interface ShareSetMetadataOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
@@ -2054,17 +2044,11 @@ export interface ShareSetMetadataOptionalParams
 }
 
 /** Contains response data for the setMetadata operation. */
-export type ShareSetMetadataResponse = ShareSetMetadataHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: ShareSetMetadataHeaders;
-  };
-};
+export type ShareSetMetadataResponse = ShareSetMetadataHeaders;
 
 /** Optional parameters. */
 export interface ShareGetAccessPolicyOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
@@ -2073,22 +2057,11 @@ export interface ShareGetAccessPolicyOptionalParams
 
 /** Contains response data for the getAccessPolicy operation. */
 export type ShareGetAccessPolicyResponse = ShareGetAccessPolicyHeaders &
-  SignedIdentifier[] & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: SignedIdentifier[];
-      /** The parsed HTTP response headers. */
-      parsedHeaders: ShareGetAccessPolicyHeaders;
-    };
-  };
+  SignedIdentifier[];
 
 /** Optional parameters. */
 export interface ShareSetAccessPolicyOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
@@ -2098,17 +2071,11 @@ export interface ShareSetAccessPolicyOptionalParams
 }
 
 /** Contains response data for the setAccessPolicy operation. */
-export type ShareSetAccessPolicyResponse = ShareSetAccessPolicyHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: ShareSetAccessPolicyHeaders;
-  };
-};
+export type ShareSetAccessPolicyResponse = ShareSetAccessPolicyHeaders;
 
 /** Optional parameters. */
 export interface ShareGetStatisticsOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
@@ -2116,22 +2083,11 @@ export interface ShareGetStatisticsOptionalParams
 }
 
 /** Contains response data for the getStatistics operation. */
-export type ShareGetStatisticsResponse = ShareGetStatisticsHeaders &
-  ShareStats & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: ShareStats;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: ShareGetStatisticsHeaders;
-    };
-  };
+export type ShareGetStatisticsResponse = ShareGetStatisticsHeaders & ShareStats;
 
 /** Optional parameters. */
-export interface ShareRestoreOptionalParams extends coreHttp.OperationOptions {
+export interface ShareRestoreOptionalParams
+  extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -2143,21 +2099,19 @@ export interface ShareRestoreOptionalParams extends coreHttp.OperationOptions {
 }
 
 /** Contains response data for the restore operation. */
-export type ShareRestoreResponse = ShareRestoreHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: ShareRestoreHeaders;
-  };
-};
+export type ShareRestoreResponse = ShareRestoreHeaders;
 
 /** Optional parameters. */
 export interface DirectoryCreateOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** A name-value pair to associate with a file storage object. */
   metadata?: { [propertyName: string]: string };
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
   /** If specified the permission (security descriptor) shall be set for the directory/file. This header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
   filePermission?: string;
   /** Key of the permission to be set for the directory/file. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
@@ -2171,53 +2125,47 @@ export interface DirectoryCreateOptionalParams
 }
 
 /** Contains response data for the create operation. */
-export type DirectoryCreateResponse = DirectoryCreateHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: DirectoryCreateHeaders;
-  };
-};
+export type DirectoryCreateResponse = DirectoryCreateHeaders;
 
 /** Optional parameters. */
 export interface DirectoryGetPropertiesOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
   shareSnapshot?: string;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
 }
 
 /** Contains response data for the getProperties operation. */
-export type DirectoryGetPropertiesResponse = DirectoryGetPropertiesHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: DirectoryGetPropertiesHeaders;
-  };
-};
+export type DirectoryGetPropertiesResponse = DirectoryGetPropertiesHeaders;
 
 /** Optional parameters. */
 export interface DirectoryDeleteOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
 }
 
 /** Contains response data for the delete operation. */
-export type DirectoryDeleteResponse = DirectoryDeleteHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: DirectoryDeleteHeaders;
-  };
-};
+export type DirectoryDeleteResponse = DirectoryDeleteHeaders;
 
 /** Optional parameters. */
 export interface DirectorySetPropertiesOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
   /** If specified the permission (security descriptor) shall be set for the directory/file. This header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
   filePermission?: string;
   /** Key of the permission to be set for the directory/file. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
@@ -2231,35 +2179,27 @@ export interface DirectorySetPropertiesOptionalParams
 }
 
 /** Contains response data for the setProperties operation. */
-export type DirectorySetPropertiesResponse = DirectorySetPropertiesHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: DirectorySetPropertiesHeaders;
-  };
-};
+export type DirectorySetPropertiesResponse = DirectorySetPropertiesHeaders;
 
 /** Optional parameters. */
 export interface DirectorySetMetadataOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** A name-value pair to associate with a file storage object. */
   metadata?: { [propertyName: string]: string };
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
 }
 
 /** Contains response data for the setMetadata operation. */
-export type DirectorySetMetadataResponse = DirectorySetMetadataHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: DirectorySetMetadataHeaders;
-  };
-};
+export type DirectorySetMetadataResponse = DirectorySetMetadataHeaders;
 
 /** Optional parameters. */
 export interface DirectoryListFilesAndDirectoriesSegmentOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Filters the results to return only entries whose name begins with the specified prefix. */
@@ -2270,6 +2210,10 @@ export interface DirectoryListFilesAndDirectoriesSegmentOptionalParams
   maxResults?: number;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
   shareSnapshot?: string;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
   /** Include this parameter to specify one or more datasets to include in the response. */
   include?: ListFilesIncludeType[];
   /** Include extended information. */
@@ -2278,22 +2222,11 @@ export interface DirectoryListFilesAndDirectoriesSegmentOptionalParams
 
 /** Contains response data for the listFilesAndDirectoriesSegment operation. */
 export type DirectoryListFilesAndDirectoriesSegmentResponse = DirectoryListFilesAndDirectoriesSegmentHeaders &
-  ListFilesAndDirectoriesSegmentResponse & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: ListFilesAndDirectoriesSegmentResponse;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: DirectoryListFilesAndDirectoriesSegmentHeaders;
-    };
-  };
+  ListFilesAndDirectoriesSegmentResponse;
 
 /** Optional parameters. */
 export interface DirectoryListHandlesOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** A string value that identifies the portion of the list to be returned with the next list operation. The operation returns a marker value within the response body if the list returned was not complete. The marker value may then be used in a subsequent call to request the next set of list items. The marker value is opaque to the client. */
@@ -2302,50 +2235,41 @@ export interface DirectoryListHandlesOptionalParams
   maxResults?: number;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
   shareSnapshot?: string;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
   /** Specifies operation should apply to the directory specified in the URI, its files, its subdirectories and their files. */
   recursive?: boolean;
 }
 
 /** Contains response data for the listHandles operation. */
 export type DirectoryListHandlesResponse = DirectoryListHandlesHeaders &
-  ListHandlesResponse & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: ListHandlesResponse;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: DirectoryListHandlesHeaders;
-    };
-  };
+  ListHandlesResponse;
 
 /** Optional parameters. */
 export interface DirectoryForceCloseHandlesOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** A string value that identifies the portion of the list to be returned with the next list operation. The operation returns a marker value within the response body if the list returned was not complete. The marker value may then be used in a subsequent call to request the next set of list items. The marker value is opaque to the client. */
   marker?: string;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
   shareSnapshot?: string;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
   /** Specifies operation should apply to the directory specified in the URI, its files, its subdirectories and their files. */
   recursive?: boolean;
 }
 
 /** Contains response data for the forceCloseHandles operation. */
-export type DirectoryForceCloseHandlesResponse = DirectoryForceCloseHandlesHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: DirectoryForceCloseHandlesHeaders;
-  };
-};
+export type DirectoryForceCloseHandlesResponse = DirectoryForceCloseHandlesHeaders;
 
 /** Optional parameters. */
 export interface DirectoryRenameOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   sourceLeaseAccessConditions?: SourceLeaseAccessConditions;
   /** Parameter group */
@@ -2356,6 +2280,10 @@ export interface DirectoryRenameOptionalParams
   timeoutInSeconds?: number;
   /** A name-value pair to associate with a file storage object. */
   metadata?: { [propertyName: string]: string };
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
   /** If specified the permission (security descriptor) shall be set for the directory/file. This header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
   filePermission?: string;
   /** Key of the permission to be set for the directory/file. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
@@ -2364,19 +2292,15 @@ export interface DirectoryRenameOptionalParams
   replaceIfExists?: boolean;
   /** Optional. A boolean value that specifies whether the ReadOnly attribute on a preexisting destination file should be respected. If true, the rename will succeed, otherwise, a previous file at the destination with the ReadOnly attribute set will cause the rename to fail. */
   ignoreReadOnly?: boolean;
+  /** If true, the trailing dot will not be trimmed from the source URI. */
+  allowSourceTrailingDot?: boolean;
 }
 
 /** Contains response data for the rename operation. */
-export type DirectoryRenameResponse = DirectoryRenameHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: DirectoryRenameHeaders;
-  };
-};
+export type DirectoryRenameResponse = DirectoryRenameHeaders;
 
 /** Optional parameters. */
-export interface FileCreateOptionalParams extends coreHttp.OperationOptions {
+export interface FileCreateOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -2385,6 +2309,10 @@ export interface FileCreateOptionalParams extends coreHttp.OperationOptions {
   timeoutInSeconds?: number;
   /** A name-value pair to associate with a file storage object. */
   metadata?: { [propertyName: string]: string };
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
   /** If specified the permission (security descriptor) shall be set for the directory/file. This header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
   filePermission?: string;
   /** Key of the permission to be set for the directory/file. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
@@ -2398,20 +2326,19 @@ export interface FileCreateOptionalParams extends coreHttp.OperationOptions {
 }
 
 /** Contains response data for the create operation. */
-export type FileCreateResponse = FileCreateHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: FileCreateHeaders;
-  };
-};
+export type FileCreateResponse = FileCreateHeaders;
 
 /** Optional parameters. */
-export interface FileDownloadOptionalParams extends coreHttp.OperationOptions {
+export interface FileDownloadOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
   /** Return file data only from the specified byte range. */
   range?: string;
   /** When this header is set to true and specified together with the Range header, the service returns the MD5 hash for the range, as long as the range is less than or equal to 4 MB in size. */
@@ -2434,60 +2361,54 @@ export type FileDownloadResponse = FileDownloadHeaders & {
    * Always `undefined` in the browser.
    */
   readableStreamBody?: NodeJS.ReadableStream;
-
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: FileDownloadHeaders;
-  };
 };
 
 /** Optional parameters. */
 export interface FileGetPropertiesOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
   shareSnapshot?: string;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
 }
 
 /** Contains response data for the getProperties operation. */
-export type FileGetPropertiesResponse = FileGetPropertiesHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: FileGetPropertiesHeaders;
-  };
-};
+export type FileGetPropertiesResponse = FileGetPropertiesHeaders;
 
 /** Optional parameters. */
-export interface FileDeleteOptionalParams extends coreHttp.OperationOptions {
+export interface FileDeleteOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
 }
 
 /** Contains response data for the delete operation. */
-export type FileDeleteResponse = FileDeleteHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: FileDeleteHeaders;
-  };
-};
+export type FileDeleteResponse = FileDeleteHeaders;
 
 /** Optional parameters. */
 export interface FileSetHttpHeadersOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
   fileHttpHeaders?: FileHttpHeaders;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
   /** If specified the permission (security descriptor) shall be set for the directory/file. This header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
   filePermission?: string;
   /** Key of the permission to be set for the directory/file. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
@@ -2503,37 +2424,29 @@ export interface FileSetHttpHeadersOptionalParams
 }
 
 /** Contains response data for the setHttpHeaders operation. */
-export type FileSetHttpHeadersResponse = FileSetHttpHeadersHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: FileSetHttpHeadersHeaders;
-  };
-};
+export type FileSetHttpHeadersResponse = FileSetHttpHeadersHeaders;
 
 /** Optional parameters. */
 export interface FileSetMetadataOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** A name-value pair to associate with a file storage object. */
   metadata?: { [propertyName: string]: string };
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
 }
 
 /** Contains response data for the setMetadata operation. */
-export type FileSetMetadataResponse = FileSetMetadataHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: FileSetMetadataHeaders;
-  };
-};
+export type FileSetMetadataResponse = FileSetMetadataHeaders;
 
 /** Optional parameters. */
 export interface FileAcquireLeaseOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Specifies the duration of the lease, in seconds, or negative one (-1) for a lease that never expires. A non-infinite lease can be between 15 and 60 seconds. A lease duration cannot be changed using renew or change. */
@@ -2542,84 +2455,80 @@ export interface FileAcquireLeaseOptionalParams
   proposedLeaseId?: string;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
 }
 
 /** Contains response data for the acquireLease operation. */
-export type FileAcquireLeaseResponse = FileAcquireLeaseHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: FileAcquireLeaseHeaders;
-  };
-};
+export type FileAcquireLeaseResponse = FileAcquireLeaseHeaders;
 
 /** Optional parameters. */
 export interface FileReleaseLeaseOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
 }
 
 /** Contains response data for the releaseLease operation. */
-export type FileReleaseLeaseResponse = FileReleaseLeaseHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: FileReleaseLeaseHeaders;
-  };
-};
+export type FileReleaseLeaseResponse = FileReleaseLeaseHeaders;
 
 /** Optional parameters. */
 export interface FileChangeLeaseOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Proposed lease ID, in a GUID string format. The File service returns 400 (Invalid request) if the proposed lease ID is not in the correct format. See Guid Constructor (String) for a list of valid GUID string formats. */
   proposedLeaseId?: string;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
 }
 
 /** Contains response data for the changeLease operation. */
-export type FileChangeLeaseResponse = FileChangeLeaseHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: FileChangeLeaseHeaders;
-  };
-};
+export type FileChangeLeaseResponse = FileChangeLeaseHeaders;
 
 /** Optional parameters. */
 export interface FileBreakLeaseOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
 }
 
 /** Contains response data for the breakLease operation. */
-export type FileBreakLeaseResponse = FileBreakLeaseHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: FileBreakLeaseHeaders;
-  };
-};
+export type FileBreakLeaseResponse = FileBreakLeaseHeaders;
 
 /** Optional parameters. */
 export interface FileUploadRangeOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
   /** Initial data. */
-  body?: coreHttp.HttpRequestBody;
+  body?: coreRestPipeline.RequestBodyType;
   /** An MD5 hash of the content. This hash is used to verify the integrity of the data during transport. When the Content-MD5 header is specified, the File service compares the hash of the content that has arrived with the header value that was sent. If the two hashes do not match, the operation will fail with error code 400 (Bad Request). */
   contentMD5?: Uint8Array;
   /** If the file last write time should be preserved or overwritten */
@@ -2627,23 +2536,21 @@ export interface FileUploadRangeOptionalParams
 }
 
 /** Contains response data for the uploadRange operation. */
-export type FileUploadRangeResponse = FileUploadRangeHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: FileUploadRangeHeaders;
-  };
-};
+export type FileUploadRangeResponse = FileUploadRangeHeaders;
 
 /** Optional parameters. */
 export interface FileUploadRangeFromURLOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
   sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
+  /** If true, the trailing dot will not be trimmed from the source URI. */
+  allowSourceTrailingDot?: boolean;
   /** If the file last write time should be preserved or overwritten */
   fileLastWrittenMode?: FileLastWrittenMode;
   /** Bytes of source data in the specified range. */
@@ -2655,23 +2562,21 @@ export interface FileUploadRangeFromURLOptionalParams
 }
 
 /** Contains response data for the uploadRangeFromURL operation. */
-export type FileUploadRangeFromURLResponse = FileUploadRangeFromURLHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: FileUploadRangeFromURLHeaders;
-  };
-};
+export type FileUploadRangeFromURLResponse = FileUploadRangeFromURLHeaders;
 
 /** Optional parameters. */
 export interface FileGetRangeListOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
   shareSnapshot?: string;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
   /** Specifies the range of bytes over which to list ranges, inclusively. */
   range?: string;
   /** The previous snapshot parameter is an opaque DateTime value that, when present, specifies the previous snapshot. */
@@ -2680,21 +2585,11 @@ export interface FileGetRangeListOptionalParams
 
 /** Contains response data for the getRangeList operation. */
 export type FileGetRangeListResponse = FileGetRangeListHeaders &
-  ShareFileRangeList & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: ShareFileRangeList;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: FileGetRangeListHeaders;
-    };
-  };
+  ShareFileRangeList;
 
 /** Optional parameters. */
-export interface FileStartCopyOptionalParams extends coreHttp.OperationOptions {
+export interface FileStartCopyOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -2703,41 +2598,40 @@ export interface FileStartCopyOptionalParams extends coreHttp.OperationOptions {
   timeoutInSeconds?: number;
   /** A name-value pair to associate with a file storage object. */
   metadata?: { [propertyName: string]: string };
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
   /** If specified the permission (security descriptor) shall be set for the directory/file. This header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
   filePermission?: string;
   /** Key of the permission to be set for the directory/file. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
   filePermissionKey?: string;
+  /** If true, the trailing dot will not be trimmed from the source URI. */
+  allowSourceTrailingDot?: boolean;
 }
 
 /** Contains response data for the startCopy operation. */
-export type FileStartCopyResponse = FileStartCopyHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: FileStartCopyHeaders;
-  };
-};
+export type FileStartCopyResponse = FileStartCopyHeaders;
 
 /** Optional parameters. */
-export interface FileAbortCopyOptionalParams extends coreHttp.OperationOptions {
+export interface FileAbortCopyOptionalParams
+  extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
 }
 
 /** Contains response data for the abortCopy operation. */
-export type FileAbortCopyResponse = FileAbortCopyHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: FileAbortCopyHeaders;
-  };
-};
+export type FileAbortCopyResponse = FileAbortCopyHeaders;
 
 /** Optional parameters. */
 export interface FileListHandlesOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** A string value that identifies the portion of the list to be returned with the next list operation. The operation returns a marker value within the response body if the list returned was not complete. The marker value may then be used in a subsequent call to request the next set of list items. The marker value is opaque to the client. */
@@ -2746,45 +2640,36 @@ export interface FileListHandlesOptionalParams
   maxResults?: number;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
   shareSnapshot?: string;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
 }
 
 /** Contains response data for the listHandles operation. */
 export type FileListHandlesResponse = FileListHandlesHeaders &
-  ListHandlesResponse & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: ListHandlesResponse;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: FileListHandlesHeaders;
-    };
-  };
+  ListHandlesResponse;
 
 /** Optional parameters. */
 export interface FileForceCloseHandlesOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** A string value that identifies the portion of the list to be returned with the next list operation. The operation returns a marker value within the response body if the list returned was not complete. The marker value may then be used in a subsequent call to request the next set of list items. The marker value is opaque to the client. */
   marker?: string;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
   shareSnapshot?: string;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
 }
 
 /** Contains response data for the forceCloseHandles operation. */
-export type FileForceCloseHandlesResponse = FileForceCloseHandlesHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: FileForceCloseHandlesHeaders;
-  };
-};
+export type FileForceCloseHandlesResponse = FileForceCloseHandlesHeaders;
 
 /** Optional parameters. */
-export interface FileRenameOptionalParams extends coreHttp.OperationOptions {
+export interface FileRenameOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   sourceLeaseAccessConditions?: SourceLeaseAccessConditions;
   /** Parameter group */
@@ -2797,6 +2682,10 @@ export interface FileRenameOptionalParams extends coreHttp.OperationOptions {
   timeoutInSeconds?: number;
   /** A name-value pair to associate with a file storage object. */
   metadata?: { [propertyName: string]: string };
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
+  /** If true, the trailing dot will not be trimmed from the target URI. */
+  allowTrailingDot?: boolean;
   /** If specified the permission (security descriptor) shall be set for the directory/file. This header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
   filePermission?: string;
   /** Key of the permission to be set for the directory/file. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
@@ -2805,20 +2694,16 @@ export interface FileRenameOptionalParams extends coreHttp.OperationOptions {
   replaceIfExists?: boolean;
   /** Optional. A boolean value that specifies whether the ReadOnly attribute on a preexisting destination file should be respected. If true, the rename will succeed, otherwise, a previous file at the destination with the ReadOnly attribute set will cause the rename to fail. */
   ignoreReadOnly?: boolean;
+  /** If true, the trailing dot will not be trimmed from the source URI. */
+  allowSourceTrailingDot?: boolean;
 }
 
 /** Contains response data for the rename operation. */
-export type FileRenameResponse = FileRenameHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: FileRenameHeaders;
-  };
-};
+export type FileRenameResponse = FileRenameHeaders;
 
 /** Optional parameters. */
 export interface StorageClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+  extends coreHttpCompat.ExtendedServiceClientOptions {
   /** Specifies the version of the operation to use for this request. */
   version?: string;
   /** Only update is supported: - Update: Writes the bytes downloaded from the source url into the specified range. */

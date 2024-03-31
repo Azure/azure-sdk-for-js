@@ -5,14 +5,17 @@ import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
 import { createReceiver, PartitionReceiver } from "../../src/partitionReceiver";
 import { EventHubSender } from "../../src/eventHubSender";
-import chai from "chai";
+import chai, { assert } from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { createConnectionContext } from "../../src/connectionContext";
 import { createMockServer } from "../public/utils/mockService";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+import { StandardAbortMessage } from "@azure/core-amqp";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
+
+const abortMsgRegex = new RegExp(StandardAbortMessage);
 
 testWithServiceTypes((serviceVersion) => {
   const env = getEnvVars();
@@ -36,11 +39,11 @@ testWithServiceTypes((serviceVersion) => {
     before("validate environment", () => {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
       );
       should.exist(
         env[EnvVarKeys.EVENTHUB_NAME],
-        "define EVENTHUB_NAME in your environment before running integration tests."
+        "define EVENTHUB_NAME in your environment before running integration tests.",
       );
     });
 
@@ -82,10 +85,11 @@ testWithServiceTypes((serviceVersion) => {
         client = createReceiver(
           context,
           "$default", // consumer group
+          "ID",
           "0", // partition id
           {
             enqueuedOn: Date.now(),
-          }
+          },
         );
       });
 
@@ -112,7 +116,7 @@ testWithServiceTypes((serviceVersion) => {
             throw new Error(TEST_FAILURE);
           } catch (err: any) {
             should.equal(err.name, "AbortError");
-            should.equal(err.message, "The operation was aborted.");
+            assert.match(err.message, abortMsgRegex);
           }
         });
 
@@ -125,7 +129,7 @@ testWithServiceTypes((serviceVersion) => {
             throw new Error(TEST_FAILURE);
           } catch (err: any) {
             should.equal(err.name, "AbortError");
-            should.equal(err.message, "The operation was aborted.");
+            assert.match(err.message, abortMsgRegex);
           }
         });
       }
@@ -134,7 +138,7 @@ testWithServiceTypes((serviceVersion) => {
     describe("EventHubSender", () => {
       let client: EventHubSender;
       beforeEach("instantiate EventHubSender", () => {
-        client = new EventHubSender(context, { enableIdempotentProducer: false });
+        client = new EventHubSender(context, "Sender1", { enableIdempotentProducer: false });
       });
 
       afterEach("close EventHubSender", () => {
@@ -149,7 +153,7 @@ testWithServiceTypes((serviceVersion) => {
             throw new Error(TEST_FAILURE);
           } catch (err: any) {
             should.equal(err.name, "AbortError");
-            should.equal(err.message, "The operation was aborted.");
+            assert.match(err.message, abortMsgRegex);
           }
         });
 
@@ -160,7 +164,7 @@ testWithServiceTypes((serviceVersion) => {
             throw new Error(TEST_FAILURE);
           } catch (err: any) {
             should.equal(err.name, "AbortError");
-            should.equal(err.message, "The operation was aborted.");
+            assert.match(err.message, abortMsgRegex);
           }
         });
 
@@ -171,7 +175,7 @@ testWithServiceTypes((serviceVersion) => {
             throw new Error(TEST_FAILURE);
           } catch (err: any) {
             should.equal(err.name, "AbortError");
-            should.equal(err.message, "The operation was aborted.");
+            assert.match(err.message, abortMsgRegex);
           }
         });
       }

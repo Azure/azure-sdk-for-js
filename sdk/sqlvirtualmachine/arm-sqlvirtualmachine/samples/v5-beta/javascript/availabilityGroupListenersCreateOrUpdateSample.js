@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates an availability group listener.
  *
  * @summary Creates or updates an availability group listener.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-07-01-preview/examples/CreateOrUpdateAvailabilityGroupListener.json
+ * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/CreateOrUpdateAvailabilityGroupListener.json
  */
 async function createsOrUpdatesAnAvailabilityGroupListenerUsingLoadBalancerThisIsUsedForVMSPresentInSingleSubnet() {
   const subscriptionId =
@@ -50,7 +50,7 @@ async function createsOrUpdatesAnAvailabilityGroupListenerUsingLoadBalancerThisI
     resourceGroupName,
     sqlVirtualMachineGroupName,
     availabilityGroupListenerName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -59,7 +59,7 @@ async function createsOrUpdatesAnAvailabilityGroupListenerUsingLoadBalancerThisI
  * This sample demonstrates how to Creates or updates an availability group listener.
  *
  * @summary Creates or updates an availability group listener.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-07-01-preview/examples/CreateOrUpdateAvailabilityGroupListenerWithMultiSubnet.json
+ * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/CreateOrUpdateAvailabilityGroupListenerWithMultiSubnet.json
  */
 async function createsOrUpdatesAnAvailabilityGroupListenerThisIsUsedForVMSPresentInMultiSubnet() {
   const subscriptionId =
@@ -97,7 +97,7 @@ async function createsOrUpdatesAnAvailabilityGroupListenerThisIsUsedForVMSPresen
     resourceGroupName,
     sqlVirtualMachineGroupName,
     availabilityGroupListenerName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

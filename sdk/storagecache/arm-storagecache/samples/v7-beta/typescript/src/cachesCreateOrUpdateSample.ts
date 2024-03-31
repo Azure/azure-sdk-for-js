@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update a cache.
  *
  * @summary Create or update a cache.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-03-01-preview/examples/Caches_CreateOrUpdate.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-11-01-preview/examples/Caches_CreateOrUpdate.json
  */
 async function cachesCreateOrUpdate() {
   const subscriptionId =
@@ -65,7 +65,6 @@ async function cachesCreateOrUpdate() {
       }
     },
     location: "westus",
-    scalingFactor: 1,
     securitySettings: {
       accessPolicies: [
         {
@@ -105,7 +104,7 @@ async function cachesCreateOrUpdate() {
  * This sample demonstrates how to Create or update a cache.
  *
  * @summary Create or update a cache.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-03-01-preview/examples/Caches_CreateOrUpdate_ldap_only.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-11-01-preview/examples/Caches_CreateOrUpdate_ldap_only.json
  */
 async function cachesCreateOrUpdateLdapOnly() {
   const subscriptionId =
@@ -138,7 +137,6 @@ async function cachesCreateOrUpdateLdapOnly() {
       }
     },
     location: "westus",
-    scalingFactor: 1,
     securitySettings: {
       accessPolicies: [
         {

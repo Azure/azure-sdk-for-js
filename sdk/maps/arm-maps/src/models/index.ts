@@ -35,34 +35,33 @@ export interface SystemData {
   lastModifiedAt?: Date;
 }
 
-/** Identity for the resource. */
+/** Managed service identity (system assigned and/or user assigned identities) */
 export interface ManagedServiceIdentity {
   /**
-   * The principal ID of resource identity.
+   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly principalId?: string;
   /**
-   * The tenant ID of resource.
+   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tenantId?: string;
-  /** The identity type. */
-  type?: ResourceIdentityType;
-  /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: {
-    [propertyName: string]: Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties;
-  };
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
 }
 
-export interface Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties {
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
   /**
-   * The principal id of user assigned identity.
+   * The principal ID of the assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly principalId?: string;
   /**
-   * The client id of user assigned identity.
+   * The client ID of the assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly clientId?: string;
@@ -75,17 +74,19 @@ export interface MapsAccountProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly uniqueId?: string;
-  /** Allows toggle functionality on Azure Policy to disable Azure Maps local authentication support. This will disable Shared Keys authentication from any usage. */
+  /** Allows toggle functionality on Azure Policy to disable Azure Maps local authentication support. This will disable Shared Keys and Shared Access Signature Token authentication from any usage. */
   disableLocalAuth?: boolean;
   /**
-   * The provisioning state of the Map account resource.
+   * The provisioning state of the Map account resource, Account updates can only be performed on terminal states. Terminal states: `Succeeded` and `Failed`
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-  /** Sets the resources to be used for Managed Identities based operations for the Map account resource. */
+  /** The array of associated resources to the Map account. Linked resource in the array cannot individually update, you must update all linked resources in the array together. These resources may be used on operations on the Azure Maps REST API. Access is controlled by the Map Account Managed Identity(s) permissions to those resource(s). */
   linkedResources?: LinkedResource[];
   /** Specifies CORS rules for the Blob service. You can include up to five CorsRule elements in the request. If no CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the Blob service. */
   cors?: CorsRules;
+  /** (Optional) Discouraged to include in resource definition. Only needed where it is possible to disable platform (AKA infrastructure) encryption. Azure SQL TDE is an example of this. Values are enabled and disabled. */
+  encryption?: Encryption;
 }
 
 /** Linked resource is reference to a resource deployed in an Azure subscription, add the linked resource `uniqueName` value as an optional parameter for operations on Azure Maps Geospatial REST APIs. */
@@ -106,6 +107,32 @@ export interface CorsRules {
 export interface CorsRule {
   /** Required if CorsRule element is present. A list of origin domains that will be allowed via CORS, or "*" to allow all domains */
   allowedOrigins: string[];
+}
+
+/** (Optional) Discouraged to include in resource definition. Only needed where it is possible to disable platform (AKA infrastructure) encryption. Azure SQL TDE is an example of this. Values are enabled and disabled. */
+export interface Encryption {
+  /** Values are enabled and disabled. */
+  infrastructureEncryption?: InfrastructureEncryption;
+  /** All Customer-managed key encryption properties for the resource. */
+  customerManagedKeyEncryption?: CustomerManagedKeyEncryption;
+}
+
+/** All Customer-managed key encryption properties for the resource. */
+export interface CustomerManagedKeyEncryption {
+  /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
+  keyEncryptionKeyIdentity?: CustomerManagedKeyEncryptionKeyIdentity;
+  /** key encryption key Url, versioned or non-versioned. Ex: https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 or https://contosovault.vault.azure.net/keys/contosokek. */
+  keyEncryptionKeyUrl?: string;
+}
+
+/** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
+export interface CustomerManagedKeyEncryptionKeyIdentity {
+  /** Values can be systemAssignedIdentity or userAssignedIdentity */
+  identityType?: IdentityType;
+  /** user assigned identity to use for accessing key encryption key Url. Ex: /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. Mutually exclusive with identityType systemAssignedIdentity and delegatedResourceIdentity. */
+  userAssignedIdentityResourceId?: string;
+  /** delegated identity to use for accessing key encryption key Url. Ex: /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. Mutually exclusive with identityType systemAssignedIdentity and userAssignedIdentity - internal use only. */
+  delegatedIdentityClientId?: string;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -184,24 +211,26 @@ export interface MapsAccountUpdateParameters {
   kind?: Kind;
   /** The SKU of this account. */
   sku?: Sku;
-  /** Sets the identity property for maps account. */
+  /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: ManagedServiceIdentity;
   /**
    * A unique identifier for the maps account
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly uniqueId?: string;
-  /** Allows toggle functionality on Azure Policy to disable Azure Maps local authentication support. This will disable Shared Keys authentication from any usage. */
+  /** Allows toggle functionality on Azure Policy to disable Azure Maps local authentication support. This will disable Shared Keys and Shared Access Signature Token authentication from any usage. */
   disableLocalAuth?: boolean;
   /**
-   * The provisioning state of the Map account resource.
+   * The provisioning state of the Map account resource, Account updates can only be performed on terminal states. Terminal states: `Succeeded` and `Failed`
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-  /** Sets the resources to be used for Managed Identities based operations for the Map account resource. */
+  /** The array of associated resources to the Map account. Linked resource in the array cannot individually update, you must update all linked resources in the array together. These resources may be used on operations on the Azure Maps REST API. Access is controlled by the Map Account Managed Identity(s) permissions to those resource(s). */
   linkedResources?: LinkedResource[];
   /** Specifies CORS rules for the Blob service. You can include up to five CorsRule elements in the request. If no CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the Blob service. */
   cors?: CorsRules;
+  /** (Optional) Discouraged to include in resource definition. Only needed where it is possible to disable platform (AKA infrastructure) encryption. Azure SQL TDE is an example of this. Values are enabled and disabled. */
+  encryption?: Encryption;
 }
 
 /** A list of Maps Accounts. */
@@ -220,7 +249,7 @@ export interface MapsAccounts {
 
 /** Parameters used to create an account Shared Access Signature (SAS) token. The REST API access control is provided by Azure Maps Role Based Access (RBAC) identity and access. */
 export interface AccountSasParameters {
-  /** The Map account key to use for signing. */
+  /** The Map account key to use for signing. Picking `primaryKey` or `secondaryKey` will use the Map account Shared Keys, and using `managedIdentity` will use the auto-renewed private key to sign the SAS. */
   signingKey: SigningKey;
   /** The principal Id also known as the object Id of a User Assigned Managed Identity currently assigned to the Map Account. To assign a Managed Identity of the account, use operation Create or Update an assign a User Assigned Identity resource Id. */
   principalId: string;
@@ -228,9 +257,9 @@ export interface AccountSasParameters {
   regions?: string[];
   /** Required parameter which represents the desired maximum request per second to allowed for the given SAS token. This does not guarantee perfect accuracy in measurements but provides application safe guards of abuse with eventual enforcement. */
   maxRatePerSecond: number;
-  /** The date time offset of when the token validity begins. For example "2017-05-24T10:42:03.1567373Z". */
+  /** The date time offset of when the token validity begins. For example "2017-05-24T10:42:03.1567373Z". Maximum duration allowed is 24 hours between `start` and `expiry`. */
   start: string;
-  /** The date time offset of when the token validity expires. For example "2017-05-24T10:42:03.1567373Z" */
+  /** The date time offset of when the token validity expires. For example "2017-05-24T10:42:03.1567373Z". Maximum duration allowed is 24 hours between `start` and `expiry`. */
   expiry: string;
 }
 
@@ -343,6 +372,12 @@ export interface MetricSpecification {
   sourceMdmAccount?: string;
   /** Internal metric name. */
   internalMetricName?: string;
+  /** Lock aggregation type for metrics. */
+  lockAggregationType?: string;
+  /** Metrics namespace. */
+  sourceMdmNamespace?: string;
+  /** Allowed aggregation types for metrics. */
+  supportedAggregationTypes?: string;
 }
 
 /** Dimension of map account, for example API Category, Api Name, Result Type, and Response Code. */
@@ -414,11 +449,11 @@ export interface MapsAccount extends TrackedResource {
   /** Get or Set Kind property. */
   kind?: Kind;
   /**
-   * The system meta data relating to this resource.
+   * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-  /** Sets the identity property for maps account. */
+  /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: ManagedServiceIdentity;
   /** The map account properties. */
   properties?: MapsAccountProperties;
@@ -498,12 +533,77 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  /** None */
+  None = "None",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned"
+}
+
+/**
+ * Defines values for ManagedServiceIdentityType. \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned, UserAssigned**
+ */
+export type ManagedServiceIdentityType = string;
+
+/** Known values of {@link InfrastructureEncryption} that the service accepts. */
+export enum KnownInfrastructureEncryption {
+  /** Enabled */
+  Enabled = "enabled",
+  /** Disabled */
+  Disabled = "disabled"
+}
+
+/**
+ * Defines values for InfrastructureEncryption. \
+ * {@link KnownInfrastructureEncryption} can be used interchangeably with InfrastructureEncryption,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **enabled** \
+ * **disabled**
+ */
+export type InfrastructureEncryption = string;
+
+/** Known values of {@link IdentityType} that the service accepts. */
+export enum KnownIdentityType {
+  /** SystemAssignedIdentity */
+  SystemAssignedIdentity = "systemAssignedIdentity",
+  /** UserAssignedIdentity */
+  UserAssignedIdentity = "userAssignedIdentity",
+  /** DelegatedResourceIdentity */
+  DelegatedResourceIdentity = "delegatedResourceIdentity"
+}
+
+/**
+ * Defines values for IdentityType. \
+ * {@link KnownIdentityType} can be used interchangeably with IdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **systemAssignedIdentity** \
+ * **userAssignedIdentity** \
+ * **delegatedResourceIdentity**
+ */
+export type IdentityType = string;
+
 /** Known values of {@link SigningKey} that the service accepts. */
 export enum KnownSigningKey {
   /** PrimaryKey */
   PrimaryKey = "primaryKey",
   /** SecondaryKey */
-  SecondaryKey = "secondaryKey"
+  SecondaryKey = "secondaryKey",
+  /** ManagedIdentity */
+  ManagedIdentity = "managedIdentity"
 }
 
 /**
@@ -512,7 +612,8 @@ export enum KnownSigningKey {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **primaryKey** \
- * **secondaryKey**
+ * **secondaryKey** \
+ * **managedIdentity**
  */
 export type SigningKey = string;
 
@@ -533,12 +634,6 @@ export enum KnownKeyType {
  * **secondary**
  */
 export type KeyType = string;
-/** Defines values for ResourceIdentityType. */
-export type ResourceIdentityType =
-  | "SystemAssigned"
-  | "UserAssigned"
-  | "SystemAssigned, UserAssigned"
-  | "None";
 
 /** Optional parameters. */
 export interface AccountsCreateOrUpdateOptionalParams

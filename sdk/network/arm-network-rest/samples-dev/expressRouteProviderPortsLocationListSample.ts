@@ -27,7 +27,7 @@ async function expressRouteProviderPortList() {
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteProviderPorts",
-      subscriptionId
+      subscriptionId,
     )
     .get(options);
   console.log(result);

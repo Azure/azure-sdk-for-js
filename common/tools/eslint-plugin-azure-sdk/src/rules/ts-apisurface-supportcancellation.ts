@@ -27,7 +27,7 @@ const getDefinedType = (type: any): Type => {
     return type;
   }
   const nonUndefinedType = type.types.find(
-    (candidate: Type): boolean => candidate.getFlags() !== TypeFlags.Undefined
+    (candidate: Type): boolean => candidate.getFlags() !== TypeFlags.Undefined,
   );
   return nonUndefinedType !== undefined ? nonUndefinedType : type;
 };
@@ -72,7 +72,7 @@ const isValidSymbol = (symbol: TSSymbol, typeChecker: TypeChecker): boolean => {
 const isValidParam = (
   param: TSESTree.Parameter,
   typeChecker: TypeChecker,
-  converter: ParserWeakMapESTreeToTSNode
+  converter: ParserWeakMapESTreeToTSNode,
 ): boolean => {
   if (param.type !== "Identifier" || param.typeAnnotation === undefined) {
     return false;
@@ -101,10 +101,10 @@ const isValidParam = (
 export = {
   meta: getRuleMetaData(
     "ts-apisurface-supportcancellation",
-    "require async client methods to accept an AbortSignalLike parameter"
+    "require async client methods to accept an AbortSignalLike parameter",
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
-    const parserServices = context.parserServices as ParserServices;
+    const parserServices = context.sourceCode.parserServices as ParserServices;
     if (
       parserServices.program === undefined ||
       parserServices.esTreeNodeToTSNodeMap === undefined
@@ -126,7 +126,7 @@ export = {
           if (
             TSFunction.async &&
             TSFunction.params.every(
-              (param: TSESTree.Parameter): boolean => !isValidParam(param, typeChecker, converter)
+              (param: TSESTree.Parameter): boolean => !isValidParam(param, typeChecker, converter),
             )
           ) {
             context.report({

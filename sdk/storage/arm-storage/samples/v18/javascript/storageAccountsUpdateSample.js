@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { StorageManagementClient } = require("@azure/arm-storage");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to The update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
  *
  * @summary The update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/StorageAccountEnableAD.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/StorageAccountEnableAD.json
  */
 async function storageAccountEnableAd() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res9407";
+  const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9407";
   const accountName = "sto8596";
   const parameters = {
     azureFilesIdentityBasedAuthentication: {
@@ -42,17 +43,15 @@ async function storageAccountEnableAd() {
   console.log(result);
 }
 
-storageAccountEnableAd().catch(console.error);
-
 /**
  * This sample demonstrates how to The update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
  *
  * @summary The update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/StorageAccountEnableCMK.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/StorageAccountEnableCMK.json
  */
 async function storageAccountEnableCmk() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res9407";
+  const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9407";
   const accountName = "sto8596";
   const parameters = {
     encryption: {
@@ -74,17 +73,15 @@ async function storageAccountEnableCmk() {
   console.log(result);
 }
 
-storageAccountEnableCmk().catch(console.error);
-
 /**
  * This sample demonstrates how to The update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
  *
  * @summary The update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/StorageAccountUpdate.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/StorageAccountUpdate.json
  */
 async function storageAccountUpdate() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res9407";
+  const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9407";
   const accountName = "sto8596";
   const parameters = {
     allowBlobPublicAccess: false,
@@ -124,17 +121,15 @@ async function storageAccountUpdate() {
   console.log(result);
 }
 
-storageAccountUpdate().catch(console.error);
-
 /**
  * This sample demonstrates how to The update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
  *
  * @summary The update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/StorageAccountUpdateAllowedCopyScopeToAAD.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/StorageAccountUpdateAllowedCopyScopeToAAD.json
  */
 async function storageAccountUpdateAllowedCopyScopeToAad() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res9407";
+  const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9407";
   const accountName = "sto8596";
   const parameters = {
     allowBlobPublicAccess: false,
@@ -172,17 +167,15 @@ async function storageAccountUpdateAllowedCopyScopeToAad() {
   console.log(result);
 }
 
-storageAccountUpdateAllowedCopyScopeToAad().catch(console.error);
-
 /**
  * This sample demonstrates how to The update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
  *
  * @summary The update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/StorageAccountUpdateDisablePublicNetworkAccess.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/StorageAccountUpdateDisablePublicNetworkAccess.json
  */
 async function storageAccountUpdateDisablePublicNetworkAccess() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res9407";
+  const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9407";
   const accountName = "sto8596";
   const parameters = {
     allowBlobPublicAccess: false,
@@ -220,17 +213,15 @@ async function storageAccountUpdateDisablePublicNetworkAccess() {
   console.log(result);
 }
 
-storageAccountUpdateDisablePublicNetworkAccess().catch(console.error);
-
 /**
  * This sample demonstrates how to The update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
  *
  * @summary The update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/StorageAccountUpdateUserAssignedEncryptionIdentityWithCMK.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/StorageAccountUpdateUserAssignedEncryptionIdentityWithCMK.json
  */
 async function storageAccountUpdateUserAssignedEncryptionIdentityWithCmk() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res9101";
+  const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9101";
   const accountName = "sto4445";
   const parameters = {
     encryption: {
@@ -265,17 +256,15 @@ async function storageAccountUpdateUserAssignedEncryptionIdentityWithCmk() {
   console.log(result);
 }
 
-storageAccountUpdateUserAssignedEncryptionIdentityWithCmk().catch(console.error);
-
 /**
  * This sample demonstrates how to The update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
  *
  * @summary The update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/StorageAccountUpdateUserAssignedIdentityWithFederatedIdentityClientId.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/StorageAccountUpdateUserAssignedIdentityWithFederatedIdentityClientId.json
  */
 async function storageAccountUpdateUserAssignedIdentityWithFederatedIdentityClientId() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res131918";
+  const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res131918";
   const accountName = "sto131918";
   const parameters = {
     encryption: {
@@ -311,17 +300,15 @@ async function storageAccountUpdateUserAssignedIdentityWithFederatedIdentityClie
   console.log(result);
 }
 
-storageAccountUpdateUserAssignedIdentityWithFederatedIdentityClientId().catch(console.error);
-
 /**
  * This sample demonstrates how to The update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
  *
  * @summary The update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/StorageAccountUpdateWithImmutabilityPolicy.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/StorageAccountUpdateWithImmutabilityPolicy.json
  */
 async function storageAccountUpdateWithImmutabilityPolicy() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res9407";
+  const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9407";
   const accountName = "sto8596";
   const parameters = {
     immutableStorageWithVersioning: {
@@ -339,4 +326,15 @@ async function storageAccountUpdateWithImmutabilityPolicy() {
   console.log(result);
 }
 
-storageAccountUpdateWithImmutabilityPolicy().catch(console.error);
+async function main() {
+  storageAccountEnableAd();
+  storageAccountEnableCmk();
+  storageAccountUpdate();
+  storageAccountUpdateAllowedCopyScopeToAad();
+  storageAccountUpdateDisablePublicNetworkAccess();
+  storageAccountUpdateUserAssignedEncryptionIdentityWithCmk();
+  storageAccountUpdateUserAssignedIdentityWithFederatedIdentityClientId();
+  storageAccountUpdateWithImmutabilityPolicy();
+}
+
+main().catch(console.error);

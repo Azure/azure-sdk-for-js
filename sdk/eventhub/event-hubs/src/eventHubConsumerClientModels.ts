@@ -78,7 +78,7 @@ export interface PartitionContext {
  */
 export type ProcessEventsHandler = (
   events: ReceivedEventData[],
-  context: PartitionContext
+  context: PartitionContext,
 ) => Promise<void>;
 
 /**
@@ -87,7 +87,7 @@ export type ProcessEventsHandler = (
  */
 export type ProcessErrorHandler = (
   error: Error | MessagingError,
-  context: PartitionContext
+  context: PartitionContext,
 ) => Promise<void>;
 
 /**
@@ -204,6 +204,10 @@ export interface SubscribeOptions {
    * prefer to work directly with the bytes present in the message body than have the client attempt to parse it.
    */
   skipParsingBodyAsJson?: boolean;
+  /**
+   * The count of events requested eagerly and queued without regard to whether a read was requested.
+   */
+  prefetchCount?: number;
 }
 
 /**

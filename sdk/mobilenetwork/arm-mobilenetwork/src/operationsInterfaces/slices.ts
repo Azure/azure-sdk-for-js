@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Slice,
   SlicesListByMobileNetworkOptionalParams,
@@ -18,7 +18,7 @@ import {
   SlicesCreateOrUpdateResponse,
   TagsObject,
   SlicesUpdateTagsOptionalParams,
-  SlicesUpdateTagsResponse
+  SlicesUpdateTagsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface Slices {
   listByMobileNetwork(
     resourceGroupName: string,
     mobileNetworkName: string,
-    options?: SlicesListByMobileNetworkOptionalParams
+    options?: SlicesListByMobileNetworkOptionalParams,
   ): PagedAsyncIterableIterator<Slice>;
   /**
    * Deletes the specified network slice.
@@ -46,8 +46,8 @@ export interface Slices {
     resourceGroupName: string,
     mobileNetworkName: string,
     sliceName: string,
-    options?: SlicesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: SlicesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified network slice.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -59,7 +59,7 @@ export interface Slices {
     resourceGroupName: string,
     mobileNetworkName: string,
     sliceName: string,
-    options?: SlicesDeleteOptionalParams
+    options?: SlicesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets information about the specified network slice.
@@ -72,7 +72,7 @@ export interface Slices {
     resourceGroupName: string,
     mobileNetworkName: string,
     sliceName: string,
-    options?: SlicesGetOptionalParams
+    options?: SlicesGetOptionalParams,
   ): Promise<SlicesGetResponse>;
   /**
    * Creates or updates a network slice. Must be created in the same location as its parent mobile
@@ -88,10 +88,10 @@ export interface Slices {
     mobileNetworkName: string,
     sliceName: string,
     parameters: Slice,
-    options?: SlicesCreateOrUpdateOptionalParams
+    options?: SlicesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SlicesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SlicesCreateOrUpdateResponse>,
       SlicesCreateOrUpdateResponse
     >
   >;
@@ -109,7 +109,7 @@ export interface Slices {
     mobileNetworkName: string,
     sliceName: string,
     parameters: Slice,
-    options?: SlicesCreateOrUpdateOptionalParams
+    options?: SlicesCreateOrUpdateOptionalParams,
   ): Promise<SlicesCreateOrUpdateResponse>;
   /**
    * Updates slice tags.
@@ -124,6 +124,6 @@ export interface Slices {
     mobileNetworkName: string,
     sliceName: string,
     parameters: TagsObject,
-    options?: SlicesUpdateTagsOptionalParams
+    options?: SlicesUpdateTagsOptionalParams,
   ): Promise<SlicesUpdateTagsResponse>;
 }

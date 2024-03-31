@@ -9,19 +9,17 @@
 import * as coreClient from "@azure/core-client";
 
 /** A wrapper for a list of short code entities. */
-export interface ShortCodes {
+export interface AcquiredShortCodes {
   /** List of short codes. */
   shortCodes?: ShortCode[];
   /** Represents the URL link to the next page. */
   nextLink?: string;
 }
 
-/** Represents a number, ShortCode or AlphaId, acquired in a given country. */
+/** Represents a ShortCode acquired in a given country. */
 export interface ShortCode {
-  /** The value of the ShortCode or the alpha numeric e.g. '555555', 'CONTOSO', etc. */
-  number?: string;
-  /** The type of number e.g. 'ShortCode', 'AlphaId'. */
-  numberType?: NumberType;
+  /** The value of the ShortCode e.g. '555555'. */
+  value?: string;
   /** ISO 3166 2-char code representing the country e.g. 'US'. */
   countryCode?: string;
   /** Program Brief Name. */
@@ -62,7 +60,7 @@ export interface CommunicationError {
 /** A wrapper for a list of short code costs entities. */
 export interface ShortCodeCosts {
   /** List of short code costs. */
-  shortCodeCosts?: ShortCodeCost[];
+  costs?: ShortCodeCost[];
   /** Represents the URL link to the next page of short code results. */
   nextLink?: string;
 }
@@ -70,15 +68,15 @@ export interface ShortCodeCosts {
 /** The incurred cost for a single short code. */
 export interface ShortCodeCost {
   /** The cost amount. */
-  amount: number;
+  amount?: number;
   /** The ISO 4217 currency code for the cost amount, e.g. USD. */
-  currencyCode: string;
+  currencyCode?: string;
   /** The ISO 3166-2 code of the phone number's country, e.g. US. */
-  countryCode: string;
+  countryCode?: string;
   /** Indicate whether a shortcode is vanity. */
-  isVanityShortCode: boolean;
+  isVanityShortCode?: boolean;
   /** The frequency with which the cost gets billed. */
-  billingFrequency: BillingFrequency;
+  billingFrequency?: BillingFrequency;
 }
 
 /**
@@ -315,8 +313,6 @@ export interface ProgramBriefAttachments {
   nextLink?: string;
 }
 
-/** Defines values for NumberType. */
-export type NumberType = "shortCode" | "alphaId";
 /** Defines values for BillingFrequency. */
 export type BillingFrequency = "monthly" | "once";
 /** Defines values for ProgramBriefStatus. */
@@ -327,6 +323,8 @@ export type ProgramBriefStatus =
   | "updateProgramBrief"
   | "draft"
   | "denied";
+/** Defines values for NumberType. */
+export type NumberType = "shortCode" | "alphaId";
 /** Defines values for CallToActionType. */
 export type CallToActionType =
   | "website"
@@ -382,7 +380,7 @@ export interface ShortCodesGetShortCodesOptionalParams
 }
 
 /** Contains response data for the getShortCodes operation. */
-export type ShortCodesGetShortCodesResponse = ShortCodes;
+export type ShortCodesGetShortCodesResponse = AcquiredShortCodes;
 
 /** Optional parameters. */
 export interface ShortCodesGetCostsOptionalParams
@@ -479,7 +477,7 @@ export interface ShortCodesGetShortCodesNextOptionalParams
 }
 
 /** Contains response data for the getShortCodesNext operation. */
-export type ShortCodesGetShortCodesNextResponse = ShortCodes;
+export type ShortCodesGetShortCodesNextResponse = AcquiredShortCodes;
 
 /** Optional parameters. */
 export interface ShortCodesGetCostsNextOptionalParams

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Schedule a priming job to be paused.
  *
  * @summary Schedule a priming job to be paused.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-03-01-preview/examples/PausePrimingJob.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-11-01-preview/examples/PausePrimingJob.json
  */
 async function pausePrimingJob() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function pausePrimingJob() {
   const result = await client.caches.beginPausePrimingJobAndWait(
     resourceGroupName,
     cacheName,
-    options
+    options,
   );
   console.log(result);
 }

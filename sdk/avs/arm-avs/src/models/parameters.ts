@@ -63,7 +63,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-05-01",
+    defaultValue: "2023-03-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -144,6 +144,9 @@ export const resourceGroupName: OperationURLParameter = {
 export const privateCloudName: OperationURLParameter = {
   parameterPath: "privateCloudName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._]+$")
+    },
     serializedName: "privateCloudName",
     required: true,
     type: {
@@ -165,6 +168,9 @@ export const privateCloudUpdate: OperationParameter = {
 export const clusterName: OperationURLParameter = {
   parameterPath: "clusterName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._]+$")
+    },
     serializedName: "clusterName",
     required: true,
     type: {
@@ -178,6 +184,17 @@ export const cluster: OperationParameter = {
   mapper: ClusterMapper
 };
 
+export const privateCloudName1: OperationURLParameter = {
+  parameterPath: "privateCloudName",
+  mapper: {
+    serializedName: "privateCloudName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const clusterUpdate: OperationParameter = {
   parameterPath: "clusterUpdate",
   mapper: ClusterUpdateMapper
@@ -186,6 +203,9 @@ export const clusterUpdate: OperationParameter = {
 export const datastoreName: OperationURLParameter = {
   parameterPath: "datastoreName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._]+$")
+    },
     serializedName: "datastoreName",
     required: true,
     type: {
@@ -202,6 +222,9 @@ export const datastore: OperationParameter = {
 export const hcxEnterpriseSiteName: OperationURLParameter = {
   parameterPath: "hcxEnterpriseSiteName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._]+$")
+    },
     serializedName: "hcxEnterpriseSiteName",
     required: true,
     type: {
@@ -218,6 +241,9 @@ export const hcxEnterpriseSite: OperationParameter = {
 export const authorizationName: OperationURLParameter = {
   parameterPath: "authorizationName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._]+$")
+    },
     serializedName: "authorizationName",
     required: true,
     type: {
@@ -234,6 +260,9 @@ export const authorization: OperationParameter = {
 export const globalReachConnectionName: OperationURLParameter = {
   parameterPath: "globalReachConnectionName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._]+$")
+    },
     serializedName: "globalReachConnectionName",
     required: true,
     type: {
@@ -395,6 +424,9 @@ export const workloadNetworkPublicIP: OperationParameter = {
 export const cloudLinkName: OperationURLParameter = {
   parameterPath: "cloudLinkName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._]+$")
+    },
     serializedName: "cloudLinkName",
     required: true,
     type: {
@@ -411,6 +443,9 @@ export const cloudLink: OperationParameter = {
 export const addonName: OperationURLParameter = {
   parameterPath: "addonName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._]+$")
+    },
     serializedName: "addonName",
     required: true,
     type: {
@@ -432,6 +467,9 @@ export const restrictMovement: OperationParameter = {
 export const placementPolicyName: OperationURLParameter = {
   parameterPath: "placementPolicyName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._]+$")
+    },
     serializedName: "placementPolicyName",
     required: true,
     type: {
@@ -453,6 +491,9 @@ export const placementPolicyUpdate: OperationParameter = {
 export const scriptPackageName: OperationURLParameter = {
   parameterPath: "scriptPackageName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._@]+$")
+    },
     serializedName: "scriptPackageName",
     required: true,
     type: {
@@ -464,6 +505,9 @@ export const scriptPackageName: OperationURLParameter = {
 export const scriptCmdletName: OperationURLParameter = {
   parameterPath: "scriptCmdletName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._]+$")
+    },
     serializedName: "scriptCmdletName",
     required: true,
     type: {
@@ -475,6 +519,9 @@ export const scriptCmdletName: OperationURLParameter = {
 export const scriptExecutionName: OperationURLParameter = {
   parameterPath: "scriptExecutionName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._]+$")
+    },
     serializedName: "scriptExecutionName",
     required: true,
     type: {

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes specific Schema.
  *
  * @summary Deletes specific Schema.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementDeleteGlobalSchema.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteGlobalSchema.json
  */
 async function apiManagementDeleteSchema() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

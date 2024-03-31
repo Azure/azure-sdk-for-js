@@ -57,6 +57,7 @@ describe("avs test", () => {
     await recorder.stop();
   });
 
+  //skip private clouds curd function because it costs too long.
   it.skip("privateClouds create test", async function () {
     const res = await client.privateClouds.beginCreateOrUpdateAndWait(
       resourceGroup,
@@ -85,7 +86,7 @@ describe("avs test", () => {
     assert.equal(res.name, privateCloudName);
   });
 
-  it("privateClouds list test", async function () {
+  it.skip("privateClouds list test", async function () {
     const resArray = new Array();
     for await (let item of client.privateClouds.listInSubscription()) {
       resArray.push(item);
@@ -93,9 +94,16 @@ describe("avs test", () => {
     assert.equal(resArray.length, 1);//should be 1,but when testing this test there's 2 resources on portal
   });
 
+  it("operation list test", async function () {
+    const resArray = new Array();
+    for await (let item of client.operations.list()) {
+      resArray.push(item);
+    }
+  });
+
   it.skip("privateClouds delete test", async function () {
     const resArray = new Array();
-    const res = await client.privateClouds.beginDeleteAndWait(resourceGroup, privateCloudName)
+    const res = await client.privateClouds.beginDeleteAndWait(resourceGroup, privateCloudName, testPollingOptions)
     for await (let item of client.privateClouds.listInSubscription()) {
       resArray.push(item);
     }

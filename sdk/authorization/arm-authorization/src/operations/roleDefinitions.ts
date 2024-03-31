@@ -44,7 +44,10 @@ export class RoleDefinitionsImpl implements RoleDefinitions {
 
   /**
    * Get all role definitions that are applicable at scope and above.
-   * @param scope The scope of the role definition.
+   * @param scope The scope of the operation or resource. Valid scopes are: subscription (format:
+   *              '/subscriptions/{subscriptionId}'), resource group (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
    * @param options The options parameters.
    */
   public list(
@@ -102,7 +105,10 @@ export class RoleDefinitionsImpl implements RoleDefinitions {
 
   /**
    * Deletes a role definition.
-   * @param scope The scope of the role definition.
+   * @param scope The scope of the operation or resource. Valid scopes are: subscription (format:
+   *              '/subscriptions/{subscriptionId}'), resource group (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
    * @param roleDefinitionId The ID of the role definition to delete.
    * @param options The options parameters.
    */
@@ -118,8 +124,11 @@ export class RoleDefinitionsImpl implements RoleDefinitions {
   }
 
   /**
-   * Get role definition by name (GUID).
-   * @param scope The scope of the role definition.
+   * Get role definition by ID (GUID).
+   * @param scope The scope of the operation or resource. Valid scopes are: subscription (format:
+   *              '/subscriptions/{subscriptionId}'), resource group (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
    * @param roleDefinitionId The ID of the role definition.
    * @param options The options parameters.
    */
@@ -136,7 +145,10 @@ export class RoleDefinitionsImpl implements RoleDefinitions {
 
   /**
    * Creates or updates a role definition.
-   * @param scope The scope of the role definition.
+   * @param scope The scope of the operation or resource. Valid scopes are: subscription (format:
+   *              '/subscriptions/{subscriptionId}'), resource group (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
    * @param roleDefinitionId The ID of the role definition.
    * @param roleDefinition The values for the role definition.
    * @param options The options parameters.
@@ -155,7 +167,10 @@ export class RoleDefinitionsImpl implements RoleDefinitions {
 
   /**
    * Get all role definitions that are applicable at scope and above.
-   * @param scope The scope of the role definition.
+   * @param scope The scope of the operation or resource. Valid scopes are: subscription (format:
+   *              '/subscriptions/{subscriptionId}'), resource group (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
    * @param options The options parameters.
    */
   private _list(
@@ -189,7 +204,10 @@ export class RoleDefinitionsImpl implements RoleDefinitions {
 
   /**
    * ListNext
-   * @param scope The scope of the role definition.
+   * @param scope The scope of the operation or resource. Valid scopes are: subscription (format:
+   *              '/subscriptions/{subscriptionId}'), resource group (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -220,7 +238,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
@@ -241,7 +259,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
@@ -263,7 +281,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.roleDefinition,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
@@ -284,7 +302,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1, Parameters.filter],
+  queryParameters: [Parameters.filter, Parameters.apiVersion2],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
   serializer
@@ -300,7 +318,7 @@ const getByIdOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.$host, Parameters.roleId],
   headerParameters: [Parameters.accept],
   serializer

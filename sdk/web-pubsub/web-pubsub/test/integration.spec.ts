@@ -29,7 +29,10 @@ function defer<T>(): {
 
 class SimpleWebSocketFrame {
   public dataAsString: string | undefined;
-  constructor(public data: Buffer | ArrayBuffer | Buffer[], public isBinary: boolean) {
+  constructor(
+    public data: Buffer | ArrayBuffer | Buffer[],
+    public isBinary: boolean,
+  ) {
     if (!isBinary) {
       this.dataAsString = data.toString();
     }
@@ -102,7 +105,7 @@ describe("ServiceClient to manage the connected WebSocket connections", function
     // Get token
     const serviceClient = new WebPubSubServiceClient(
       assertEnvironmentVariable("WPS_CONNECTION_STRING"),
-      hub
+      hub,
     );
     const token = await serviceClient.getClientAccessToken();
     const endSignal = defer<void>();
@@ -146,7 +149,7 @@ describe("ServiceClient to manage the connected WebSocket connections", function
     // Get token
     const serviceClient = new WebPubSubServiceClient(
       assertEnvironmentVariable("WPS_CONNECTION_STRING"),
-      hub
+      hub,
     );
     const token = await serviceClient.getClientAccessToken({
       groups: ["group1", "group2"],
@@ -187,7 +190,7 @@ describe("ServiceClient to manage the connected WebSocket connections", function
 
     // order from different groups is not guaranteed
     assert.isTrue(
-      messages.findIndex((s) => s.dataAsString === '{"message":"Hello world from group1!"}') > -1
+      messages.findIndex((s) => s.dataAsString === '{"message":"Hello world from group1!"}') > -1,
     );
     assert.isTrue(messages.findIndex((s) => s.dataAsString === "Hi there from group2!") > -1);
   });
@@ -200,7 +203,7 @@ describe("ServiceClient to manage the connected WebSocket connections", function
     // Get token
     const serviceClient = new WebPubSubServiceClient(
       assertEnvironmentVariable("WPS_CONNECTION_STRING"),
-      hub
+      hub,
     );
     const token = await serviceClient.getClientAccessToken();
     const endSignal = defer<void>();
@@ -240,11 +243,11 @@ describe("ServiceClient to manage the connected WebSocket connections", function
     assert.equal(messages[0].message.event, "connected");
     assert.equal(
       messages[1].dataAsString,
-      '{"type":"message","from":"server","dataType":"json","data":{"message":"Hello world!"}}'
+      '{"type":"message","from":"server","dataType":"json","data":{"message":"Hello world!"}}',
     );
     assert.equal(
       messages[2].dataAsString,
-      '{"type":"message","from":"server","dataType":"text","data":"Hi there!"}'
+      '{"type":"message","from":"server","dataType":"text","data":"Hi there!"}',
     );
   });
 
@@ -257,7 +260,7 @@ describe("ServiceClient to manage the connected WebSocket connections", function
     // Get token
     const serviceClient = new WebPubSubServiceClient(
       assertEnvironmentVariable("WPS_CONNECTION_STRING"),
-      hub
+      hub,
     );
     const token = await serviceClient.getClientAccessToken({ groups: ["groupA"] });
     const endSignal = defer<void>();
@@ -275,7 +278,10 @@ describe("ServiceClient to manage the connected WebSocket connections", function
     });
     client.on("open", async () => {
       // Send a JSON message to anonymous connections
-      await serviceClient.sendToAll({ message: "Hello world!" }, { filter: "userId eq null" });
+      await serviceClient.sendToAll(
+        { message: "Hello world!" },
+        { filter: "userId eq null", messageTtlSeconds: 60 },
+      );
       // Send a text message to connections in groupA but not in groupB
       const groupA = "groupA";
       const groupB = "groupB";
@@ -284,6 +290,7 @@ describe("ServiceClient to manage the connected WebSocket connections", function
         // use plain text "'groupA' in groups and not('groupB' in groups)"
         // or use the odata helper method
         filter: odata`${groupA} in groups and not(${groupB} in groups)`,
+        messageTtlSeconds: 60,
       });
       // Send the binary end signal message
       await serviceClient.sendToAll(getEndSignal());
@@ -294,5 +301,73 @@ describe("ServiceClient to manage the connected WebSocket connections", function
     assert.equal(messages.length, 2);
     assert.equal(messages[0].dataAsString, '{"message":"Hello world!"}');
     assert.equal(messages[1].dataAsString, "Hello world!");
+  });
+
+  it("Clients can join or leave multiple groups with filter", async function (this: Context) {
+    if (!isLiveMode()) this.skip();
+    const hub = "ClientsCanJoinOrLeaveMultipleGroupsWithFilter";
+
+    const messages: SimpleWebSocketFrame[] = [];
+
+    // Get token
+    const serviceClient = new WebPubSubServiceClient(
+      assertEnvironmentVariable("WPS_CONNECTION_STRING"),
+      hub,
+    );
+    const token = await serviceClient.getClientAccessToken({ userId: "user 1" });
+    const startSignal = defer<void>();
+    const endSignal = defer<void>();
+    // Start simple WebSocket connections
+    const client1 = new ws.WebSocket(token.url);
+    const client2 = new ws.WebSocket(token.url);
+    let opened = 0;
+
+    const onOpen = (): void => {
+      opened++;
+      if (opened === 2) {
+        startSignal.resolve();
+      }
+    };
+    const onMessage = (data: Buffer | ArrayBuffer | Buffer[], isBinary: boolean): void => {
+      const frame = new SimpleWebSocketFrame(data, isBinary);
+      console.log(frame.toString());
+      messages.push(frame);
+      if (messages.length === 6) {
+        endSignal.resolve();
+      }
+    };
+    client1.on("open", onOpen);
+    client2.on("open", onOpen);
+    client1.on("message", onMessage);
+    client2.on("message", onMessage);
+
+    // Wait all clients opened
+    await startSignal.promise;
+
+    // Add filtered connections to group1 and group2
+    await serviceClient.addConnectionsToGroups(["group1", "group2"], "userId eq 'user 1'");
+
+    // send to connections in both group1 and group2
+    await serviceClient.sendToAll(
+      { message: "Hi json!" },
+      { filter: "'group1 1' in groups and 'group2' in groups" },
+    );
+
+    // Send a plain text message
+    await serviceClient.sendToAll("Hi text!", {
+      contentType: "text/plain",
+      filter: "'group1 1' in groups and 'group2' in groups",
+    });
+
+    // Send the binary end signal message
+    await serviceClient.sendToAll(getEndSignal(2), {
+      filter: "'group1 1' in groups and 'group2' in groups",
+    });
+
+    // Timeout 1000 ms
+    await Promise.race([new Promise((resolve) => setTimeout(resolve, 1000)), endSignal.promise]);
+    assert.equal(messages.length, 6);
+    client1.close();
+    client2.close();
   });
 });

@@ -2,10 +2,9 @@
 // Licensed under the MIT license.
 
 import { readFile, pathExists } from "fs-extra";
-import path from "path";
+import path from "node:path";
 import { createMigration } from "../../util/migrations";
 import { runMigrationScript } from "../../util/testProxyUtils";
-
 import * as git from "../../util/git";
 import * as pwsh from "../../util/pwsh";
 
@@ -32,9 +31,9 @@ export default createMigration(
 
     // Optional validation
     async validate(ctx) {
-      const assetsJson = JSON.parse(
-        (await readFile(path.join(ctx.project.path, "assets.json"))).toString("utf-8")
-      ) as AssetsJson;
+      const assetsJson: Partial<AssetsJson> = await readFile(
+        path.join(ctx.project.path, "assets.json"),
+      ).then((buf) => JSON.parse(buf.toString("utf-8")));
 
       // Check that the assets.json file is well formed and that we didn't get a bad generation.
       if (
@@ -78,7 +77,7 @@ export default createMigration(
       // Check that PowerShell is available on the system
       if (!(await pwsh.hasPowerShell())) {
         ctx.logger.error(
-          "PowerShell is required to run this migration. Ensure it is installed and available on your PATH."
+          "PowerShell is required to run this migration. Ensure it is installed and available on your PATH.",
         );
         return false;
       }
@@ -93,7 +92,7 @@ export default createMigration(
       // Fail if we are using a recorder that isn't ^3.0.0
       if (currentRecorder && currentRecorder !== "^3.0.0") {
         ctx.logger.error(
-          `This migration only supports packages using the test-recorder '^3.0.0'. This package is using ${currentRecorder}.`
+          `This migration only supports packages using the test-recorder '^3.0.0'. This package is using ${currentRecorder}.`,
         );
         return false;
       }
@@ -104,12 +103,12 @@ export default createMigration(
         !(await git.getConfig("user.email", { global: true }))
       ) {
         ctx.logger.error(
-          'Your git identity is not set up globally. Ensure that "git config --global user.name" and "git config --global user.email" return a value.'
+          'Your git identity is not set up globally. Ensure that "git config --global user.name" and "git config --global user.email" return a value.',
         );
         return false;
       }
 
       return true;
     },
-  }
+  },
 );

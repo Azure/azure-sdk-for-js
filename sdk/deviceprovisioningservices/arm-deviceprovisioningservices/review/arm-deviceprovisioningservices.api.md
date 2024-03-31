@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type AccessRightsDescription = string;
@@ -137,7 +137,7 @@ export type DpsCertificateVerifyCertificateResponse = CertificateResponse;
 
 // @public
 export interface ErrorDetails {
-    readonly code?: string;
+    readonly code?: number;
     readonly details?: string;
     readonly httpStatusCode?: string;
     readonly message?: string;
@@ -201,6 +201,7 @@ export interface IotDpsPropertiesDescription {
     readonly idScope?: string;
     iotHubs?: IotHubDefinitionDescription[];
     ipFilterRules?: IpFilterRule[];
+    portalOperationsHostName?: string;
     privateEndpointConnections?: PrivateEndpointConnection[];
     provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -210,18 +211,18 @@ export interface IotDpsPropertiesDescription {
 
 // @public
 export interface IotDpsResource {
-    beginCreateOrUpdate(resourceGroupName: string, provisioningServiceName: string, iotDpsDescription: ProvisioningServiceDescription, options?: IotDpsResourceCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<IotDpsResourceCreateOrUpdateResponse>, IotDpsResourceCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, provisioningServiceName: string, iotDpsDescription: ProvisioningServiceDescription, options?: IotDpsResourceCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<IotDpsResourceCreateOrUpdateResponse>, IotDpsResourceCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, provisioningServiceName: string, iotDpsDescription: ProvisioningServiceDescription, options?: IotDpsResourceCreateOrUpdateOptionalParams): Promise<IotDpsResourceCreateOrUpdateResponse>;
-    beginCreateOrUpdatePrivateEndpointConnection(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: IotDpsResourceCreateOrUpdatePrivateEndpointConnectionOptionalParams): Promise<PollerLike<PollOperationState<IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse>, IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse>>;
+    beginCreateOrUpdatePrivateEndpointConnection(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: IotDpsResourceCreateOrUpdatePrivateEndpointConnectionOptionalParams): Promise<SimplePollerLike<OperationState<IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse>, IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse>>;
     beginCreateOrUpdatePrivateEndpointConnectionAndWait(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: IotDpsResourceCreateOrUpdatePrivateEndpointConnectionOptionalParams): Promise<IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse>;
-    beginDelete(provisioningServiceName: string, resourceGroupName: string, options?: IotDpsResourceDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(provisioningServiceName: string, resourceGroupName: string, options?: IotDpsResourceDeleteOptionalParams): Promise<void>;
-    beginDeletePrivateEndpointConnection(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: IotDpsResourceDeletePrivateEndpointConnectionOptionalParams): Promise<PollerLike<PollOperationState<IotDpsResourceDeletePrivateEndpointConnectionResponse>, IotDpsResourceDeletePrivateEndpointConnectionResponse>>;
+    beginDelete(resourceGroupName: string, provisioningServiceName: string, options?: IotDpsResourceDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, provisioningServiceName: string, options?: IotDpsResourceDeleteOptionalParams): Promise<void>;
+    beginDeletePrivateEndpointConnection(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: IotDpsResourceDeletePrivateEndpointConnectionOptionalParams): Promise<SimplePollerLike<OperationState<IotDpsResourceDeletePrivateEndpointConnectionResponse>, IotDpsResourceDeletePrivateEndpointConnectionResponse>>;
     beginDeletePrivateEndpointConnectionAndWait(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: IotDpsResourceDeletePrivateEndpointConnectionOptionalParams): Promise<IotDpsResourceDeletePrivateEndpointConnectionResponse>;
-    beginUpdate(resourceGroupName: string, provisioningServiceName: string, provisioningServiceTags: TagsResource, options?: IotDpsResourceUpdateOptionalParams): Promise<PollerLike<PollOperationState<IotDpsResourceUpdateResponse>, IotDpsResourceUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, provisioningServiceName: string, provisioningServiceTags: TagsResource, options?: IotDpsResourceUpdateOptionalParams): Promise<SimplePollerLike<OperationState<IotDpsResourceUpdateResponse>, IotDpsResourceUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, provisioningServiceName: string, provisioningServiceTags: TagsResource, options?: IotDpsResourceUpdateOptionalParams): Promise<IotDpsResourceUpdateResponse>;
     checkProvisioningServiceNameAvailability(argumentsParam: OperationInputs, options?: IotDpsResourceCheckProvisioningServiceNameAvailabilityOptionalParams): Promise<IotDpsResourceCheckProvisioningServiceNameAvailabilityResponse>;
-    get(provisioningServiceName: string, resourceGroupName: string, options?: IotDpsResourceGetOptionalParams): Promise<IotDpsResourceGetResponse>;
+    get(resourceGroupName: string, provisioningServiceName: string, options?: IotDpsResourceGetOptionalParams): Promise<IotDpsResourceGetResponse>;
     getOperationResult(operationId: string, resourceGroupName: string, provisioningServiceName: string, asyncinfo: string, options?: IotDpsResourceGetOperationResultOptionalParams): Promise<IotDpsResourceGetOperationResultResponse>;
     getPrivateEndpointConnection(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: IotDpsResourceGetPrivateEndpointConnectionOptionalParams): Promise<IotDpsResourceGetPrivateEndpointConnectionResponse>;
     getPrivateLinkResources(resourceGroupName: string, resourceName: string, groupId: string, options?: IotDpsResourceGetPrivateLinkResourcesOptionalParams): Promise<IotDpsResourceGetPrivateLinkResourcesResponse>;
@@ -476,6 +477,14 @@ export enum KnownIotDpsSku {
 }
 
 // @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownNameUnavailabilityReason {
     AlreadyExists = "AlreadyExists",
     Invalid = "Invalid"
@@ -510,6 +519,19 @@ export enum KnownState {
     Suspending = "Suspending",
     Transitioning = "Transitioning"
 }
+
+// @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity | null;
+    };
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
 
 // @public
 export interface NameAvailabilityInfo {
@@ -602,6 +624,7 @@ export type PrivateLinkServiceConnectionStatus = string;
 // @public
 export interface ProvisioningServiceDescription extends Resource {
     etag?: string;
+    identity?: ManagedServiceIdentity;
     properties: IotDpsPropertiesDescription;
     sku: IotDpsSkuInfo;
     readonly systemData?: SystemData;
@@ -621,6 +644,8 @@ export interface Resource {
     readonly id?: string;
     location: string;
     readonly name?: string;
+    resourcegroup?: string;
+    subscriptionid?: string;
     tags?: {
         [propertyName: string]: string;
     };
@@ -659,6 +684,12 @@ export interface TagsResource {
     tags?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
 // @public

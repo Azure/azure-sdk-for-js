@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { SearchManagementClient } = require("@azure/arm-search");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Initiates the deletion of the shared private link resource from the search service.
  *
  * @summary Initiates the deletion of the shared private link resource from the search service.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/DeleteSharedPrivateLinkResource.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/DeleteSharedPrivateLinkResource.json
  */
 async function sharedPrivateLinkResourceDelete() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
   const searchServiceName = "mysearchservice";
   const sharedPrivateLinkResourceName = "testResource";
   const credential = new DefaultAzureCredential();
@@ -32,4 +33,8 @@ async function sharedPrivateLinkResourceDelete() {
   console.log(result);
 }
 
-sharedPrivateLinkResourceDelete().catch(console.error);
+async function main() {
+  sharedPrivateLinkResourceDelete();
+}
+
+main().catch(console.error);

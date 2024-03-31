@@ -3,8 +3,8 @@
 
 import { assert } from "chai";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
-import { record, Recorder } from "@azure-tools/test-recorder";
-import { recorderEnvSetup } from "../utils/index.browser";
+import { Recorder } from "@azure-tools/test-recorder";
+import { recorderEnvSetup } from "../utils";
 import { Context } from "mocha";
 
 describe("Utility Helpers Node.js only", () => {
@@ -20,22 +20,23 @@ describe("Utility Helpers Node.js only", () => {
     assert.equal(
       "AccountConnString",
       connectionStringParts.kind,
-      "extractConnectionStringParts().kind is different than expected."
+      "extractConnectionStringParts().kind is different than expected.",
     );
     assert.equal(
       queueEndpoint,
       connectionStringParts.url,
-      "extractConnectionStringParts().url is different than expected."
+      "extractConnectionStringParts().url is different than expected.",
     );
     assert.equal(
       accountName,
       connectionStringParts.accountName,
-      "extractConnectionStringParts().accountName is different than expected."
+      "extractConnectionStringParts().accountName is different than expected.",
     );
   }
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
   });
 
   afterEach(async function () {
@@ -45,7 +46,7 @@ describe("Utility Helpers Node.js only", () => {
   it("extractConnectionStringParts throws error when passed an invalid protocol in the connection string", async () => {
     try {
       extractConnectionStringParts(
-        "DefaultEndpointsProtocol=a;AccountName=b;AccountKey=c;EndpointSuffix=d"
+        "DefaultEndpointsProtocol=a;AccountName=b;AccountKey=c;EndpointSuffix=d",
       );
       assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error: any) {
@@ -57,7 +58,7 @@ describe("Utility Helpers Node.js only", () => {
     try {
       extractConnectionStringParts(
         // Typo in the attributes
-        "DefaultEndpointsProtocol=https;Name=b;AccountKey=c;EndpointSuffix=d"
+        "DefaultEndpointsProtocol=https;Name=b;AccountKey=c;EndpointSuffix=d",
       );
 
       assert.fail("Expecting an thrown error but didn't get one.");
@@ -65,7 +66,7 @@ describe("Utility Helpers Node.js only", () => {
       assert.equal(
         "Invalid AccountName in the provided Connection String",
         error.message,
-        "Connection string error message is different than expected"
+        "Connection string error message is different than expected",
       );
     }
   });
@@ -73,14 +74,14 @@ describe("Utility Helpers Node.js only", () => {
   it("extractConnectionStringParts throws error with empty EndpointSuffix in the connection string", async () => {
     try {
       extractConnectionStringParts(
-        "DefaultEndpointsProtocol=https;AccountName=b;AccountKey=cdefg;EndpointSuffix="
+        "DefaultEndpointsProtocol=https;AccountName=b;AccountKey=cdefg;EndpointSuffix=",
       );
       assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error: any) {
       assert.equal(
         "Invalid EndpointSuffix in the provided Connection String",
         error.message,
-        "Connection string error message is different than expected"
+        "Connection string error message is different than expected",
       );
     }
   });
@@ -88,14 +89,14 @@ describe("Utility Helpers Node.js only", () => {
   it("extractConnectionStringParts throws error with empty AccountKey in the connection string", async () => {
     try {
       extractConnectionStringParts(
-        "DefaultEndpointsProtocol=https;AccountName=b;AccountKey=;EndpointSuffix=d"
+        "DefaultEndpointsProtocol=https;AccountName=b;AccountKey=;EndpointSuffix=d",
       );
       assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error: any) {
       assert.equal(
         "Invalid AccountKey in the provided Connection String",
         error.message,
-        "Connection string error message is different than expected"
+        "Connection string error message is different than expected",
       );
     }
   });
@@ -103,14 +104,14 @@ describe("Utility Helpers Node.js only", () => {
   it("extractConnectionStringParts throws error with empty AccountName in the connection string", async () => {
     try {
       extractConnectionStringParts(
-        "DefaultEndpointsProtocol=https;AccountName=;AccountKey=c;EndpointSuffix=d"
+        "DefaultEndpointsProtocol=https;AccountName=;AccountKey=c;EndpointSuffix=d",
       );
       assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error: any) {
       assert.equal(
         "Invalid AccountName in the provided Connection String",
         error.message,
-        "Connection string error message is different than expected"
+        "Connection string error message is different than expected",
       );
     }
   });
@@ -118,14 +119,14 @@ describe("Utility Helpers Node.js only", () => {
   it("extractConnectionStringParts throws error with empty DefaultEndpointsProtocol in the connection string", async () => {
     try {
       extractConnectionStringParts(
-        "DefaultEndpointsProtocol=;AccountName=b;AccountKey=c;EndpointSuffix=d"
+        "DefaultEndpointsProtocol=;AccountName=b;AccountKey=c;EndpointSuffix=d",
       );
       assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error: any) {
       assert.equal(
         "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'",
         error.message,
-        "Connection string error message is different than expected"
+        "Connection string error message is different than expected",
       );
     }
   });
@@ -138,7 +139,7 @@ describe("Utility Helpers Node.js only", () => {
           QueueEndpoint=${queueEndpoint};
           TableEndpoint=myTableEndpoint;
           AccountName=${accountName};
-          AccountKey=${accountKey}`
+          AccountKey=${accountKey}`,
     );
   });
 
@@ -147,7 +148,7 @@ describe("Utility Helpers Node.js only", () => {
       `DefaultEndpointsProtocol=${protocol};
         QueueEndpoint=${queueEndpoint};
         AccountName=${accountName};
-        AccountKey=${accountKey}`
+        AccountKey=${accountKey}`,
     );
   });
 
@@ -156,7 +157,7 @@ describe("Utility Helpers Node.js only", () => {
       `DefaultEndpointsProtocol=${protocol};
         AccountName=${accountName};
         AccountKey=${accountKey};
-        EndpointSuffix=${endpointSuffix};`
+        EndpointSuffix=${endpointSuffix};`,
     );
   });
 });

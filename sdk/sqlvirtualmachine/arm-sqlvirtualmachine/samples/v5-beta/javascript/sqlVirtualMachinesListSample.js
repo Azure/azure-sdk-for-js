@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets all SQL virtual machines in a subscription.
  *
  * @summary Gets all SQL virtual machines in a subscription.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-07-01-preview/examples/ListSubscriptionSqlVirtualMachine.json
+ * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/ListSubscriptionSqlVirtualMachine.json
  */
 async function getsAllSqlVirtualMachinesInASubscription() {
   const subscriptionId =

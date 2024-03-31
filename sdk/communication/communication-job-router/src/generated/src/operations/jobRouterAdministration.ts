@@ -27,7 +27,7 @@ import {
   JobRouterAdministrationListExceptionPoliciesNextOptionalParams,
   JobRouterAdministrationListExceptionPoliciesOptionalParams,
   JobRouterAdministrationListExceptionPoliciesResponse,
-  JobQueueItem,
+  RouterQueueItem,
   JobRouterAdministrationListQueuesNextOptionalParams,
   JobRouterAdministrationListQueuesOptionalParams,
   JobRouterAdministrationListQueuesResponse,
@@ -49,7 +49,7 @@ import {
   JobRouterAdministrationGetExceptionPolicyOptionalParams,
   JobRouterAdministrationGetExceptionPolicyResponse,
   JobRouterAdministrationDeleteExceptionPolicyOptionalParams,
-  JobQueue,
+  RouterQueue,
   JobRouterAdministrationUpsertQueueOptionalParams,
   JobRouterAdministrationUpsertQueueResponse,
   JobRouterAdministrationGetQueueOptionalParams,
@@ -253,7 +253,7 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
    */
   public listQueues(
     options?: JobRouterAdministrationListQueuesOptionalParams
-  ): PagedAsyncIterableIterator<JobQueueItem> {
+  ): PagedAsyncIterableIterator<RouterQueueItem> {
     const iter = this.listQueuesPagingAll(options);
     return {
       next() {
@@ -274,7 +274,7 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
   private async *listQueuesPagingPage(
     options?: JobRouterAdministrationListQueuesOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<JobQueueItem[]> {
+  ): AsyncIterableIterator<RouterQueueItem[]> {
     let result: JobRouterAdministrationListQueuesResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
@@ -295,7 +295,7 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
 
   private async *listQueuesPagingAll(
     options?: JobRouterAdministrationListQueuesOptionalParams
-  ): AsyncIterableIterator<JobQueueItem> {
+  ): AsyncIterableIterator<RouterQueueItem> {
     for await (const page of this.listQueuesPagingPage(options)) {
       yield* page;
     }
@@ -565,7 +565,7 @@ export class JobRouterAdministrationImpl implements JobRouterAdministration {
    */
   async upsertQueue(
     id: string,
-    patch: JobQueue,
+    patch: RouterQueue,
     options?: JobRouterAdministrationUpsertQueueOptionalParams
   ): Promise<JobRouterAdministrationUpsertQueueResponse> {
     return tracingClient.withSpan(
@@ -741,6 +741,9 @@ const upsertClassificationPolicyOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.ClassificationPolicy
     },
+    201: {
+      bodyMapper: Mappers.ClassificationPolicy
+    },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
@@ -793,7 +796,7 @@ const listClassificationPoliciesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.maxPageSize],
+  queryParameters: [Parameters.apiVersion, Parameters.maxpagesize],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
@@ -803,6 +806,9 @@ const upsertDistributionPolicyOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
+      bodyMapper: Mappers.DistributionPolicy
+    },
+    201: {
       bodyMapper: Mappers.DistributionPolicy
     },
     default: {
@@ -857,7 +863,7 @@ const listDistributionPoliciesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.maxPageSize],
+  queryParameters: [Parameters.apiVersion, Parameters.maxpagesize],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
@@ -867,6 +873,9 @@ const upsertExceptionPolicyOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
+      bodyMapper: Mappers.ExceptionPolicy
+    },
+    201: {
       bodyMapper: Mappers.ExceptionPolicy
     },
     default: {
@@ -921,7 +930,7 @@ const listExceptionPoliciesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.maxPageSize],
+  queryParameters: [Parameters.apiVersion, Parameters.maxpagesize],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
@@ -931,7 +940,10 @@ const upsertQueueOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.JobQueue
+      bodyMapper: Mappers.RouterQueue
+    },
+    201: {
+      bodyMapper: Mappers.RouterQueue
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
@@ -949,7 +961,7 @@ const getQueueOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobQueue
+      bodyMapper: Mappers.RouterQueue
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
@@ -979,13 +991,13 @@ const listQueuesOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QueueCollection
+      bodyMapper: Mappers.RouterQueueCollection
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.maxPageSize],
+  queryParameters: [Parameters.apiVersion, Parameters.maxpagesize],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
@@ -1040,7 +1052,7 @@ const listQueuesNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QueueCollection
+      bodyMapper: Mappers.RouterQueueCollection
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse

@@ -62,19 +62,21 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
     excludedHeaders: [
       "Accept-Language", // This is env-dependent
       "x-ms-content-sha256", // This is dependent on the current datetime
+      "sec-ch-ua", // This is browser dependent
+      // https://developer.mozilla.org/docs/Web/HTTP/Headers/Sec-CH-UA
     ],
   });
   return recorder;
 }
 
 export async function createRecordedSmsClient(
-  context: Context
+  context: Context,
 ): Promise<RecordedClient<SmsClient>> {
   const recorder = await createRecorder(context.currentTest);
 
   const client = new SmsClient(
     env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
-    recorder.configureClientOptions({})
+    recorder.configureClientOptions({}),
   );
   return {
     client,
@@ -83,13 +85,13 @@ export async function createRecordedSmsClient(
 }
 
 export async function createRecordedSmsClientWithToken(
-  context: Context
+  context: Context,
 ): Promise<RecordedClient<SmsClient>> {
   const recorder = await createRecorder(context.currentTest);
 
   let credential: TokenCredential;
   const endpoint = parseConnectionString(
-    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? ""
+    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
   ).endpoint;
 
   if (isPlaybackMode()) {

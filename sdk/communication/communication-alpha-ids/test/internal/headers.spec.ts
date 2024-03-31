@@ -27,7 +27,7 @@ describe("AlphaIdsClient - headers", function () {
 
   it("calls the spy", async function () {
     const spy = sinon.spy(configurationHttpClient, "sendRequest");
-    await client.getConfiguration();
+    await client.getDynamicAlphaIdConfiguration();
     sinon.assert.calledOnce(spy);
 
     request = spy.getCall(0).args[0];
@@ -44,7 +44,7 @@ describe("AlphaIdsClient - headers", function () {
     const userAgentHeader = isNode ? "user-agent" : "x-ms-useragent";
     assert.match(
       request.headers.get(userAgentHeader) as string,
-      new RegExp(`azsdk-js-communication-alpha-ids/${SDK_VERSION}`, "g")
+      new RegExp(`azsdk-js-communication-alpha-ids/${SDK_VERSION}`, "g"),
     );
   });
 
@@ -57,7 +57,7 @@ describe("AlphaIdsClient - headers", function () {
     assert.isDefined(request.headers.get("authorization"));
     assert.match(
       request.headers.get("authorization") as string,
-      /HMAC-SHA256 SignedHeaders=.+&Signature=.+/
+      /HMAC-SHA256 SignedHeaders=.+&Signature=.+/,
     );
   });
 
@@ -67,14 +67,14 @@ describe("AlphaIdsClient - headers", function () {
     });
 
     const spy = sinon.spy(configurationHttpClient, "sendRequest");
-    await client.getConfiguration();
+    await client.getDynamicAlphaIdConfiguration();
     sinon.assert.calledOnce(spy);
 
     request = spy.getCall(0).args[0];
     assert.isDefined(request.headers.get("authorization"));
     assert.match(
       request.headers.get("authorization") as string,
-      /HMAC-SHA256 SignedHeaders=.+&Signature=.+/
+      /HMAC-SHA256 SignedHeaders=.+&Signature=.+/,
     );
   });
 
@@ -86,7 +86,7 @@ describe("AlphaIdsClient - headers", function () {
     });
 
     const spy = sinon.spy(configurationHttpClient, "sendRequest");
-    await client.getConfiguration();
+    await client.getDynamicAlphaIdConfiguration();
     sinon.assert.calledOnce(spy);
 
     request = spy.getCall(0).args[0];
@@ -103,7 +103,7 @@ describe("AlphaIdsClient - headers", function () {
     });
 
     const spy = sinon.spy(configurationHttpClient, "sendRequest");
-    await client.getConfiguration();
+    await client.getDynamicAlphaIdConfiguration();
     sinon.assert.calledOnce(spy);
 
     request = spy.getCall(0).args[0];
@@ -111,7 +111,10 @@ describe("AlphaIdsClient - headers", function () {
     const userAgentHeader = isNode ? "user-agent" : "x-ms-useragent";
     assert.match(
       request.headers.get(userAgentHeader) as string,
-      new RegExp(`alphaidsclient-headers-test azsdk-js-communication-alpha-ids/${SDK_VERSION}`, "g")
+      new RegExp(
+        `alphaidsclient-headers-test azsdk-js-communication-alpha-ids/${SDK_VERSION}`,
+        "g",
+      ),
     );
   });
 });

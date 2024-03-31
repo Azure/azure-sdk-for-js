@@ -6,7 +6,7 @@ Self service experience for Microsoft Graph metered services
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/graphservices/arm-graphservices) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-graphservices) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-graphservices?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-graphservices) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

@@ -740,9 +740,9 @@ const listByCacheNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.nextLink,
     Parameters.cacheName
   ],
   headerParameters: [Parameters.accept],

@@ -36,7 +36,7 @@ async function main() {
 
   /** Azure Active Directory (Azure AD) authentication */
   // const credential = new DefaultAzureCredential();
-  // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
+  // const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
   // const client = MapsRoute(credential, mapsClientId);
 
   /**
@@ -77,8 +77,7 @@ async function main() {
     );
     legs.forEach(({ summary, points }, idx) => {
       console.log(
-        `The ${idx + 1}th leg's length is ${summary.lengthInMeters} meters, and it takes ${
-          summary.travelTimeInSeconds
+        `The ${idx + 1}th leg's length is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds
         } seconds. Followings are the first 10 points: `
       );
       console.table(points.slice(0, 10));
@@ -135,8 +134,7 @@ async function main() {
     );
     legs.forEach(({ summary, points }, idx) => {
       console.log(
-        `The ${idx + 1}th leg's length is ${summary.lengthInMeters} meters, and it takes ${
-          summary.travelTimeInSeconds
+        `The ${idx + 1}th leg's length is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds
         } seconds. Followings are the first 10 points: `
       );
       console.table(points.slice(0, 10));
@@ -201,8 +199,7 @@ async function main() {
         );
         legs.forEach(({ summary, points }, idx) => {
           console.log(
-            `The ${idx + 1}th leg's length is ${summary.lengthInMeters} meters, and it takes ${
-              summary.travelTimeInSeconds
+            `The ${idx + 1}th leg's length is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds
             } seconds. Followings are the first 10 points: `
           );
           console.table(points.slice(0, 10));

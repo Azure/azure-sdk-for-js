@@ -771,6 +771,13 @@ export const VaultProperties: coreClient.CompositeMapper = {
           className: "MonitoringSettings"
         }
       },
+      restoreSettings: {
+        serializedName: "restoreSettings",
+        type: {
+          name: "Composite",
+          className: "RestoreSettings"
+        }
+      },
       redundancySettings: {
         serializedName: "redundancySettings",
         type: {
@@ -783,6 +790,13 @@ export const VaultProperties: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SecuritySettings"
+        }
+      },
+      secureScore: {
+        serializedName: "secureScore",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -1154,6 +1168,37 @@ export const ClassicAlertSettings: coreClient.CompositeMapper = {
   }
 };
 
+export const RestoreSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestoreSettings",
+    modelProperties: {
+      crossSubscriptionRestoreSettings: {
+        serializedName: "crossSubscriptionRestoreSettings",
+        type: {
+          name: "Composite",
+          className: "CrossSubscriptionRestoreSettings"
+        }
+      }
+    }
+  }
+};
+
+export const CrossSubscriptionRestoreSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CrossSubscriptionRestoreSettings",
+    modelProperties: {
+      crossSubscriptionRestoreState: {
+        serializedName: "crossSubscriptionRestoreState",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const VaultPropertiesRedundancySettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1188,6 +1233,20 @@ export const SecuritySettings: coreClient.CompositeMapper = {
           name: "Composite",
           className: "ImmutabilitySettings"
         }
+      },
+      softDeleteSettings: {
+        serializedName: "softDeleteSettings",
+        type: {
+          name: "Composite",
+          className: "SoftDeleteSettings"
+        }
+      },
+      multiUserAuthorization: {
+        serializedName: "multiUserAuthorization",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1202,6 +1261,27 @@ export const ImmutabilitySettings: coreClient.CompositeMapper = {
         serializedName: "state",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SoftDeleteSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SoftDeleteSettings",
+    modelProperties: {
+      softDeleteState: {
+        serializedName: "softDeleteState",
+        type: {
+          name: "String"
+        }
+      },
+      softDeleteRetentionPeriodInDays: {
+        serializedName: "softDeleteRetentionPeriodInDays",
+        type: {
+          name: "Number"
         }
       }
     }

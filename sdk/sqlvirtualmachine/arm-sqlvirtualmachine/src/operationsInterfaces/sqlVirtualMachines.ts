@@ -7,14 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SqlVirtualMachine,
   SqlVirtualMachinesListBySqlVmGroupOptionalParams,
   SqlVirtualMachinesListOptionalParams,
   SqlVirtualMachinesListByResourceGroupOptionalParams,
-  SqlVirtualMachinesStartAssessmentOptionalParams,
-  SqlVirtualMachinesRedeployOptionalParams,
   SqlVirtualMachinesGetOptionalParams,
   SqlVirtualMachinesGetResponse,
   SqlVirtualMachinesCreateOrUpdateOptionalParams,
@@ -22,7 +20,9 @@ import {
   SqlVirtualMachinesDeleteOptionalParams,
   SqlVirtualMachineUpdate,
   SqlVirtualMachinesUpdateOptionalParams,
-  SqlVirtualMachinesUpdateResponse
+  SqlVirtualMachinesUpdateResponse,
+  SqlVirtualMachinesStartAssessmentOptionalParams,
+  SqlVirtualMachinesRedeployOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -58,54 +58,6 @@ export interface SqlVirtualMachines {
     options?: SqlVirtualMachinesListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<SqlVirtualMachine>;
   /**
-   * Starts Assessment on SQL virtual machine.
-   * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
-   *                          value from the Azure Resource Manager API or the portal.
-   * @param sqlVirtualMachineName Name of the SQL virtual machine.
-   * @param options The options parameters.
-   */
-  beginStartAssessment(
-    resourceGroupName: string,
-    sqlVirtualMachineName: string,
-    options?: SqlVirtualMachinesStartAssessmentOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
-  /**
-   * Starts Assessment on SQL virtual machine.
-   * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
-   *                          value from the Azure Resource Manager API or the portal.
-   * @param sqlVirtualMachineName Name of the SQL virtual machine.
-   * @param options The options parameters.
-   */
-  beginStartAssessmentAndWait(
-    resourceGroupName: string,
-    sqlVirtualMachineName: string,
-    options?: SqlVirtualMachinesStartAssessmentOptionalParams
-  ): Promise<void>;
-  /**
-   * Uninstalls and reinstalls the SQL Iaas Extension.
-   * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
-   *                          value from the Azure Resource Manager API or the portal.
-   * @param sqlVirtualMachineName Name of the SQL virtual machine.
-   * @param options The options parameters.
-   */
-  beginRedeploy(
-    resourceGroupName: string,
-    sqlVirtualMachineName: string,
-    options?: SqlVirtualMachinesRedeployOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
-  /**
-   * Uninstalls and reinstalls the SQL Iaas Extension.
-   * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
-   *                          value from the Azure Resource Manager API or the portal.
-   * @param sqlVirtualMachineName Name of the SQL virtual machine.
-   * @param options The options parameters.
-   */
-  beginRedeployAndWait(
-    resourceGroupName: string,
-    sqlVirtualMachineName: string,
-    options?: SqlVirtualMachinesRedeployOptionalParams
-  ): Promise<void>;
-  /**
    * Gets a SQL virtual machine.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
@@ -131,8 +83,8 @@ export interface SqlVirtualMachines {
     parameters: SqlVirtualMachine,
     options?: SqlVirtualMachinesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlVirtualMachinesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SqlVirtualMachinesCreateOrUpdateResponse>,
       SqlVirtualMachinesCreateOrUpdateResponse
     >
   >;
@@ -161,7 +113,7 @@ export interface SqlVirtualMachines {
     resourceGroupName: string,
     sqlVirtualMachineName: string,
     options?: SqlVirtualMachinesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a SQL virtual machine.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
@@ -188,8 +140,8 @@ export interface SqlVirtualMachines {
     parameters: SqlVirtualMachineUpdate,
     options?: SqlVirtualMachinesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlVirtualMachinesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SqlVirtualMachinesUpdateResponse>,
       SqlVirtualMachinesUpdateResponse
     >
   >;
@@ -207,4 +159,52 @@ export interface SqlVirtualMachines {
     parameters: SqlVirtualMachineUpdate,
     options?: SqlVirtualMachinesUpdateOptionalParams
   ): Promise<SqlVirtualMachinesUpdateResponse>;
+  /**
+   * Starts SQL best practices Assessment on SQL virtual machine.
+   * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
+   *                          value from the Azure Resource Manager API or the portal.
+   * @param sqlVirtualMachineName Name of the SQL virtual machine.
+   * @param options The options parameters.
+   */
+  beginStartAssessment(
+    resourceGroupName: string,
+    sqlVirtualMachineName: string,
+    options?: SqlVirtualMachinesStartAssessmentOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Starts SQL best practices Assessment on SQL virtual machine.
+   * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
+   *                          value from the Azure Resource Manager API or the portal.
+   * @param sqlVirtualMachineName Name of the SQL virtual machine.
+   * @param options The options parameters.
+   */
+  beginStartAssessmentAndWait(
+    resourceGroupName: string,
+    sqlVirtualMachineName: string,
+    options?: SqlVirtualMachinesStartAssessmentOptionalParams
+  ): Promise<void>;
+  /**
+   * Uninstalls and reinstalls the SQL IaaS Extension.
+   * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
+   *                          value from the Azure Resource Manager API or the portal.
+   * @param sqlVirtualMachineName Name of the SQL virtual machine.
+   * @param options The options parameters.
+   */
+  beginRedeploy(
+    resourceGroupName: string,
+    sqlVirtualMachineName: string,
+    options?: SqlVirtualMachinesRedeployOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Uninstalls and reinstalls the SQL IaaS Extension.
+   * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
+   *                          value from the Azure Resource Manager API or the portal.
+   * @param sqlVirtualMachineName Name of the SQL virtual machine.
+   * @param options The options parameters.
+   */
+  beginRedeployAndWait(
+    resourceGroupName: string,
+    sqlVirtualMachineName: string,
+    options?: SqlVirtualMachinesRedeployOptionalParams
+  ): Promise<void>;
 }

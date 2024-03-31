@@ -4,7 +4,12 @@
 import { CommonClientOptions, FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { RestError, RequestBodyType } from "@azure/core-rest-pipeline";
 import { GeneratedClient } from "./generated/generatedClient";
-import { WebPubSubGroup, WebPubSubGroupImpl } from "./groupClient";
+import {
+  WebPubSubGroup,
+  WebPubSubGroupImpl,
+  GroupAddConnectionOptions,
+  GroupRemoveConnectionOptions,
+} from "./groupClient";
 import { AzureKeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { webPubSubKeyCredentialPolicy } from "./webPubSubCredentialPolicy";
 import { tracingClient } from "./tracing";
@@ -12,7 +17,11 @@ import { logger } from "./logger";
 import { parseConnectionString } from "./parseConnectionString";
 import jwt from "jsonwebtoken";
 import { getPayloadForMessage } from "./utils";
-import { GeneratedClientOptionalParams } from "./generated";
+import {
+  GeneratedClientOptionalParams,
+  AddToGroupsRequest,
+  RemoveFromGroupsRequest,
+} from "./generated";
 import { webPubSubReverseProxyPolicy } from "./reverseProxyPolicy";
 
 /**
@@ -61,6 +70,14 @@ export interface HubSendToAllOptions extends OperationOptions {
    * Details about `filter` syntax please see [OData filter syntax for Azure Web PubSub](https://aka.ms/awps/filter-syntax).
    */
   filter?: string;
+  /**
+   * The time-to-live (TTL) value in seconds for messages sent to the service.
+   * 0 is the default value, which means the message never expires.
+   * 300 is the maximum value.
+   * If this parameter is non-zero, messages that are not consumed by the client within the specified TTL will be dropped by the service.
+   * This parameter can help when the client's bandwidth is limited.
+   */
+  messageTtlSeconds?: number;
 }
 
 /**
@@ -134,7 +151,16 @@ export interface HubRemoveUserFromAllGroupsOptions extends HubCloseConnectionOpt
 /**
  * Options for sending a message to a specific connection.
  */
-export interface HubSendToConnectionOptions extends OperationOptions {}
+export interface HubSendToConnectionOptions extends OperationOptions {
+  /**
+   * The time-to-live (TTL) value in seconds for messages sent to the service.
+   * 0 is the default value, which means the message never expires.
+   * 300 is the maximum value.
+   * If this parameter is non-zero, messages that are not consumed by the client within the specified TTL will be dropped by the service.
+   * This parameter can help when the client's bandwidth is limited.
+   */
+  messageTtlSeconds?: number;
+}
 
 /**
  * Options for sending a text message to a connection.
@@ -155,6 +181,14 @@ export interface HubSendToUserOptions extends OperationOptions {
    * Details about `filter` syntax please see [OData filter syntax for Azure Web PubSub](https://aka.ms/awps/filter-syntax).
    */
   filter?: string;
+  /**
+   * The time-to-live (TTL) value in seconds for messages sent to the service.
+   * 0 is the default value, which means the message never expires.
+   * 300 is the maximum value.
+   * If this parameter is non-zero, messages that are not consumed by the client within the specified TTL will be dropped by the service.
+   * This parameter can help when the client's bandwidth is limited.
+   */
+  messageTtlSeconds?: number;
 }
 
 /**
@@ -267,7 +301,7 @@ export class WebPubSubServiceClient {
   /**
    * The Web PubSub API version being used by this client
    */
-  public readonly apiVersion: string = "2022-11-01";
+  public readonly apiVersion: string = "2023-07-01";
 
   /**
    * The Web PubSub endpoint this client is connected to
@@ -310,13 +344,13 @@ export class WebPubSubServiceClient {
     endpoint: string,
     credential: AzureKeyCredential | TokenCredential,
     hubName: string,
-    options?: WebPubSubServiceClientOptions
+    options?: WebPubSubServiceClientOptions,
   );
   constructor(
     endpointOrConnectionString: string,
     credsOrHubName?: AzureKeyCredential | TokenCredential | string,
     hubNameOrOpts?: string | WebPubSubServiceClientOptions,
-    opts?: WebPubSubServiceClientOptions
+    opts?: WebPubSubServiceClientOptions,
   ) {
     // unpack constructor arguments
     if (typeof credsOrHubName === "object") {
@@ -360,7 +394,7 @@ export class WebPubSubServiceClient {
 
     if (this.clientOptions?.reverseProxyEndpoint) {
       this.client.pipeline.addPolicy(
-        webPubSubReverseProxyPolicy(this.clientOptions?.reverseProxyEndpoint)
+        webPubSubReverseProxyPolicy(this.clientOptions?.reverseProxyEndpoint),
       );
     }
   }
@@ -398,7 +432,7 @@ export class WebPubSubServiceClient {
 
   public async sendToAll(
     message: RequestBodyType | JSONTypes,
-    options: HubSendToAllOptions | HubSendTextToAllOptions = {}
+    options: HubSendToAllOptions | HubSendTextToAllOptions = {},
   ): Promise<void> {
     return tracingClient.withSpan("WebPubSubServiceClient.sendToAll", options, (updatedOptions) => {
       const { contentType, payload } = getPayloadForMessage(message, updatedOptions);
@@ -406,7 +440,7 @@ export class WebPubSubServiceClient {
         this.hubName,
         contentType,
         payload as any,
-        updatedOptions
+        updatedOptions,
       );
     });
   }
@@ -422,7 +456,7 @@ export class WebPubSubServiceClient {
     username: string,
     message: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options: HubSendTextToUserOptions
+    options: HubSendTextToUserOptions,
   ): Promise<void>;
 
   /**
@@ -435,7 +469,7 @@ export class WebPubSubServiceClient {
   public async sendToUser(
     username: string,
     message: JSONTypes,
-    options?: HubSendToUserOptions
+    options?: HubSendToUserOptions,
   ): Promise<void>;
 
   /**
@@ -448,12 +482,12 @@ export class WebPubSubServiceClient {
   public async sendToUser(
     username: string,
     message: RequestBodyType,
-    options?: HubSendToUserOptions | HubSendTextToUserOptions
+    options?: HubSendToUserOptions | HubSendTextToUserOptions,
   ): Promise<void>;
   public async sendToUser(
     username: string,
     message: RequestBodyType | JSONTypes,
-    options: HubSendToUserOptions = {}
+    options: HubSendToUserOptions = {},
   ): Promise<void> {
     return tracingClient.withSpan(
       "WebPubSubServiceClient.sendToUser",
@@ -465,9 +499,9 @@ export class WebPubSubServiceClient {
           username,
           contentType,
           payload as any,
-          updatedOptions
+          updatedOptions,
         );
-      }
+      },
     );
   }
 
@@ -482,7 +516,7 @@ export class WebPubSubServiceClient {
     connectionId: string,
     message: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options: HubSendTextToConnectionOptions
+    options: HubSendTextToConnectionOptions,
   ): Promise<void>;
 
   /**
@@ -495,7 +529,7 @@ export class WebPubSubServiceClient {
   public async sendToConnection(
     connectionId: string,
     message: JSONTypes,
-    options?: HubSendToConnectionOptions
+    options?: HubSendToConnectionOptions,
   ): Promise<void>;
 
   /**
@@ -508,12 +542,12 @@ export class WebPubSubServiceClient {
   public async sendToConnection(
     connectionId: string,
     message: RequestBodyType,
-    options?: HubSendToConnectionOptions | HubSendTextToConnectionOptions
+    options?: HubSendToConnectionOptions | HubSendTextToConnectionOptions,
   ): Promise<void>;
   public async sendToConnection(
     connectionId: string,
     message: RequestBodyType | JSONTypes,
-    options: HubSendToConnectionOptions = {}
+    options: HubSendToConnectionOptions = {},
   ): Promise<void> {
     return tracingClient.withSpan(
       "WebPubSubServiceClient.sendToConnection",
@@ -526,9 +560,9 @@ export class WebPubSubServiceClient {
           connectionId,
           contentType,
           payload as any,
-          updatedOptions
+          updatedOptions,
         );
-      }
+      },
     );
   }
 
@@ -540,7 +574,7 @@ export class WebPubSubServiceClient {
    */
   public async connectionExists(
     connectionId: string,
-    options: HasConnectionOptions = {}
+    options: HasConnectionOptions = {},
   ): Promise<boolean> {
     let response: FullOperationResponse | undefined;
     function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
@@ -571,7 +605,7 @@ export class WebPubSubServiceClient {
             response: response,
           });
         }
-      }
+      },
     );
   }
 
@@ -583,14 +617,14 @@ export class WebPubSubServiceClient {
    */
   public async closeConnection(
     connectionId: string,
-    options: HubCloseConnectionOptions = {}
+    options: HubCloseConnectionOptions = {},
   ): Promise<void> {
     return tracingClient.withSpan(
       "WebPubSubServiceClient.closeConnection",
       options,
       (updatedOptions) => {
         return this.client.webPubSub.closeConnection(this.hubName, connectionId, updatedOptions);
-      }
+      },
     );
   }
 
@@ -605,7 +639,7 @@ export class WebPubSubServiceClient {
       options,
       (updatedOptions) => {
         return this.client.webPubSub.closeAllConnections(this.hubName, updatedOptions);
-      }
+      },
     );
   }
 
@@ -617,14 +651,14 @@ export class WebPubSubServiceClient {
    */
   public async closeUserConnections(
     userId: string,
-    options: HubCloseUserConnectionsOptions = {}
+    options: HubCloseUserConnectionsOptions = {},
   ): Promise<void> {
     return tracingClient.withSpan(
       "WebPubSubServiceClient.closeUserConnections",
       options,
       (updatedOptions) => {
         return this.client.webPubSub.closeUserConnections(this.hubName, userId, updatedOptions);
-      }
+      },
     );
   }
 
@@ -635,14 +669,14 @@ export class WebPubSubServiceClient {
    */
   public async removeUserFromAllGroups(
     userId: string,
-    options: HubCloseConnectionOptions = {}
+    options: HubCloseConnectionOptions = {},
   ): Promise<void> {
     return tracingClient.withSpan(
       "WebPubSubServiceClient.removeUserFromAllGroups",
       options,
       (updatedOptions) => {
         return this.client.webPubSub.removeUserFromAllGroups(this.hubName, userId, updatedOptions);
-      }
+      },
     );
   }
 
@@ -653,7 +687,7 @@ export class WebPubSubServiceClient {
    */
   public async removeConnectionFromAllGroups(
     connectionId: string,
-    options: HubCloseConnectionOptions = {}
+    options: HubCloseConnectionOptions = {},
   ): Promise<void> {
     return tracingClient.withSpan(
       "WebPubSubServiceClient.removeConnectionFromAllGroups",
@@ -662,9 +696,63 @@ export class WebPubSubServiceClient {
         return this.client.webPubSub.removeConnectionFromAllGroups(
           this.hubName,
           connectionId,
-          updatedOptions
+          updatedOptions,
         );
-      }
+      },
+    );
+  }
+
+  /**
+   * Add filtered connections to multiple groups
+   * @param groups - A list of groups which target connections will be added into
+   * @param filter - An OData filter which target connections satisfy
+   * @param options - Additional options
+   */
+  public async addConnectionsToGroups(
+    groups: string[],
+    filter: string,
+    options: GroupAddConnectionOptions = {},
+  ): Promise<void> {
+    return tracingClient.withSpan(
+      "WebPubSubServiceClient.addConnectionsToGroups",
+      options,
+      (updatedOptions) => {
+        return this.client.webPubSub.addConnectionsToGroups(
+          this.hubName,
+          {
+            groups: groups,
+            filter: filter,
+          } as AddToGroupsRequest,
+          updatedOptions,
+        );
+      },
+    );
+  }
+
+  /**
+   * Remove filtered connections from multiple groups
+   * @param groups - A list of groups which target connections will be removed from
+   * @param filter - An OData filter which target connections satisfy
+   * @param options - Additional options
+   */
+  public async removeConnectionsFromGroups(
+    groups: string[],
+    filter: string,
+    options: GroupRemoveConnectionOptions = {},
+  ): Promise<void> {
+    return tracingClient.withSpan(
+      "WebPubSubServiceClient.removeConnectionsFromGroups",
+      options,
+      (updatedOptions) => {
+        return this.client.webPubSub.removeConnectionsFromGroups(
+          this.hubName,
+          {
+            groups: groups,
+            filter: filter,
+          } as RemoveFromGroupsRequest,
+          updatedOptions,
+        );
+      },
     );
   }
 
@@ -703,7 +791,7 @@ export class WebPubSubServiceClient {
             response: response,
           });
         }
-      }
+      },
     );
   }
 
@@ -743,7 +831,7 @@ export class WebPubSubServiceClient {
             response: response,
           });
         }
-      }
+      },
     );
   }
 
@@ -757,7 +845,7 @@ export class WebPubSubServiceClient {
   public async grantPermission(
     connectionId: string,
     permission: Permission,
-    options: HubGrantPermissionOptions = {}
+    options: HubGrantPermissionOptions = {},
   ): Promise<void> {
     return tracingClient.withSpan(
       "WebPubSubServiceClient.grantPermission",
@@ -767,9 +855,9 @@ export class WebPubSubServiceClient {
           this.hubName,
           permission,
           connectionId,
-          updatedOptions
+          updatedOptions,
         );
-      }
+      },
     );
   }
 
@@ -783,7 +871,7 @@ export class WebPubSubServiceClient {
   public async revokePermission(
     connectionId: string,
     permission: Permission,
-    options: HubRevokePermissionOptions = {}
+    options: HubRevokePermissionOptions = {},
   ): Promise<void> {
     return tracingClient.withSpan(
       "WebPubSubServiceClient.revokePermission",
@@ -793,9 +881,9 @@ export class WebPubSubServiceClient {
           this.hubName,
           permission,
           connectionId,
-          updatedOptions
+          updatedOptions,
         );
-      }
+      },
     );
   }
 
@@ -809,7 +897,7 @@ export class WebPubSubServiceClient {
   public async hasPermission(
     connectionId: string,
     permission: Permission,
-    options: HubHasPermissionOptions = {}
+    options: HubHasPermissionOptions = {},
   ): Promise<boolean> {
     let response: FullOperationResponse | undefined;
     function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
@@ -840,7 +928,7 @@ export class WebPubSubServiceClient {
             response: response,
           });
         }
-      }
+      },
     );
   }
 
@@ -850,7 +938,7 @@ export class WebPubSubServiceClient {
    * @param options - Additional options
    */
   public async getClientAccessToken(
-    options: GenerateClientTokenOptions = {}
+    options: GenerateClientTokenOptions = {},
   ): Promise<ClientTokenResponse> {
     return tracingClient.withSpan(
       "WebPubSubServiceClient.getClientAccessToken",
@@ -864,7 +952,7 @@ export class WebPubSubServiceClient {
         if (isTokenCredential(this.credential)) {
           const response = await this.client.webPubSub.generateClientToken(
             this.hubName,
-            updatedOptions
+            updatedOptions,
           );
           token = response.token!;
         } else {
@@ -890,7 +978,7 @@ export class WebPubSubServiceClient {
           baseUrl,
           url: `${baseUrl}?access_token=${token}`,
         };
-      }
+      },
     );
   }
 }

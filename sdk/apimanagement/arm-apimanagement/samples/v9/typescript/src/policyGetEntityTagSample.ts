@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the entity state (Etag) version of the Global policy definition in the Api Management service.
  *
  * @summary Gets the entity state (Etag) version of the Global policy definition in the Api Management service.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementHeadPolicy.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementHeadPolicy.json
  */
 async function apiManagementHeadPolicy() {
   const subscriptionId =

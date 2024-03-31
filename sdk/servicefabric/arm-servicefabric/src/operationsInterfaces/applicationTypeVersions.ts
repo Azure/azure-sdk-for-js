@@ -6,20 +6,35 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
+  ApplicationTypeVersionResource,
+  ApplicationTypeVersionsListOptionalParams,
   ApplicationTypeVersionsGetOptionalParams,
   ApplicationTypeVersionsGetResponse,
-  ApplicationTypeVersionResource,
   ApplicationTypeVersionsCreateOrUpdateOptionalParams,
   ApplicationTypeVersionsCreateOrUpdateResponse,
-  ApplicationTypeVersionsDeleteOptionalParams,
-  ApplicationTypeVersionsListOptionalParams,
-  ApplicationTypeVersionsListResponse
+  ApplicationTypeVersionsDeleteOptionalParams
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a ApplicationTypeVersions. */
 export interface ApplicationTypeVersions {
+  /**
+   * Gets all application type version resources created or in the process of being created in the
+   * Service Fabric application type name resource.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster resource.
+   * @param applicationTypeName The name of the application type name resource.
+   * @param options The options parameters.
+   */
+  list(
+    resourceGroupName: string,
+    clusterName: string,
+    applicationTypeName: string,
+    options?: ApplicationTypeVersionsListOptionalParams
+  ): PagedAsyncIterableIterator<ApplicationTypeVersionResource>;
   /**
    * Get a Service Fabric application type version resource created or in the process of being created in
    * the Service Fabric application type name resource.
@@ -53,8 +68,8 @@ export interface ApplicationTypeVersions {
     parameters: ApplicationTypeVersionResource,
     options?: ApplicationTypeVersionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ApplicationTypeVersionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ApplicationTypeVersionsCreateOrUpdateResponse>,
       ApplicationTypeVersionsCreateOrUpdateResponse
     >
   >;
@@ -89,7 +104,7 @@ export interface ApplicationTypeVersions {
     applicationTypeName: string,
     version: string,
     options?: ApplicationTypeVersionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a Service Fabric application type version resource with the specified name.
    * @param resourceGroupName The name of the resource group.
@@ -105,18 +120,4 @@ export interface ApplicationTypeVersions {
     version: string,
     options?: ApplicationTypeVersionsDeleteOptionalParams
   ): Promise<void>;
-  /**
-   * Gets all application type version resources created or in the process of being created in the
-   * Service Fabric application type name resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param clusterName The name of the cluster resource.
-   * @param applicationTypeName The name of the application type name resource.
-   * @param options The options parameters.
-   */
-  list(
-    resourceGroupName: string,
-    clusterName: string,
-    applicationTypeName: string,
-    options?: ApplicationTypeVersionsListOptionalParams
-  ): Promise<ApplicationTypeVersionsListResponse>;
 }

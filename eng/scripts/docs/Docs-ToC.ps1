@@ -1,3 +1,15 @@
+function GetOnboardingFile($docRepoLocation, $moniker) { 
+  $packageOnboardingFile = "$docRepoLocation/ci-configs/packages-latest.json"
+  if ("preview" -eq $moniker) {
+    $packageOnboardingFile = "$docRepoLocation/ci-configs/packages-preview.json"
+  }
+  elseif ("legacy" -eq $moniker) { 
+    $packageOnboardingFile = "$docRepoLocation/ci-configs/packages-legacy.json"
+  }
+
+  return $packageOnboardingFile
+}
+
 function Get-javascript-OnboardedDocsMsPackages($DocRepoLocation) {
   $packageOnboardingFiles = @(
     "$DocRepoLocation/ci-configs/packages-latest.json",
@@ -21,14 +33,10 @@ function Get-javascript-OnboardedDocsMsPackages($DocRepoLocation) {
 }
 
 function Get-javascript-OnboardedDocsMsPackagesForMoniker($DocRepoLocation, $moniker) {
-  $packageOnboardingFile = ""
-  if ("latest" -eq $moniker) {
-    $packageOnboardingFile = "$DocRepoLocation/ci-configs/packages-latest.json"
-  }
-  if ("preview" -eq $moniker) {
-    $packageOnboardingFile = "$DocRepoLocation/ci-configs/packages-preview.json"
-  }
-
+  $packageOnboardingFile = GetOnboardingFile `
+    -docRepoLocation $DocRepoLocation `
+    -moniker $moniker
+  
   $onboardedPackages = @{}
   $onboardingSpec = ConvertFrom-Json (Get-Content $packageOnboardingFile -Raw)
   foreach ($spec in $onboardingSpec.npm_package_sources) {
@@ -44,7 +52,7 @@ function Get-javascript-OnboardedDocsMsPackagesForMoniker($DocRepoLocation, $mon
     if (Test-Path $jsonFile) {
       $onboardedPackages[$packageName] = ConvertFrom-Json (Get-Content $jsonFile -Raw)
     }
-    else{
+    else {
       $onboardedPackages[$packageName] = $null
     }
   }
@@ -53,6 +61,20 @@ function Get-javascript-OnboardedDocsMsPackagesForMoniker($DocRepoLocation, $mon
 }
 
 function GetPackageReadmeName($packageMetadata) {
+  # If there is a metadata json for the package use the DocsMsReadmeName from
+  # the metadata function
+  if ($packageMetadata.PSObject.Members.Name -contains "FileMetadata") {
+    $readmeMetadata = &$GetDocsMsMetadataForPackageFn -PackageInfo $packageMetadata.FileMetadata
+
+    # Packages released outside of our EngSys will have an empty string for 
+    # DirectoryPath which will result in an empty string for DocsMsReadMeName.
+    # In those cases, do not return the empty name and instead use the fallback
+    # logic below.
+    if ($readmeMetadata.DocsMsReadMeName) { 
+      return $readmeMetadata.DocsMsReadMeName
+    }
+  }
+
   # Fallback to get package-level readme name if metadata file info does not exist
   $packageLevelReadmeName = $packageMetadata.Package.Replace('@azure/', '').Replace('@azure-tools/', '').Replace('azure-', '');
 
@@ -61,17 +83,10 @@ function GetPackageReadmeName($packageMetadata) {
     $packageLevelReadmeName = "$($packageMetadata.Package.Replace('@azure-rest/', ''))-rest"
   }
 
-  # If there is a metadata json for the package use the DocsMsReadmeName from
-  # the metadata function
-  if ($packageMetadata.PSObject.Members.Name -contains "FileMetadata") {
-    $readmeMetadata = &$GetDocsMsMetadataForPackageFn -PackageInfo $packageMetadata.FileMetadata
-    $packageLevelReadmeName = $readmeMetadata.DocsMsReadMeName
-  }
   return $packageLevelReadmeName
 }
 
-function Get-javascript-PackageLevelReadme($packageMetadata)
-{
+function Get-javascript-PackageLevelReadme($packageMetadata) {
   return GetPackageReadmeName -packageMetadata $packageMetadata
 }
 

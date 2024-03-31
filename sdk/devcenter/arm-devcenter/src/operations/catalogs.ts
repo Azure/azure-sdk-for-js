@@ -32,7 +32,10 @@ import {
   CatalogsUpdateOptionalParams,
   CatalogsUpdateResponse,
   CatalogsDeleteOptionalParams,
+  CatalogsGetSyncErrorDetailsOptionalParams,
+  CatalogsGetSyncErrorDetailsResponse,
   CatalogsSyncOptionalParams,
+  CatalogsConnectOptionalParams,
   CatalogsListByDevCenterNextResponse
 } from "../models";
 
@@ -460,6 +463,25 @@ export class CatalogsImpl implements Catalogs {
   }
 
   /**
+   * Gets catalog synchronization error details
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param devCenterName The name of the devcenter.
+   * @param catalogName The name of the Catalog.
+   * @param options The options parameters.
+   */
+  getSyncErrorDetails(
+    resourceGroupName: string,
+    devCenterName: string,
+    catalogName: string,
+    options?: CatalogsGetSyncErrorDetailsOptionalParams
+  ): Promise<CatalogsGetSyncErrorDetailsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, devCenterName, catalogName, options },
+      getSyncErrorDetailsOperationSpec
+    );
+  }
+
+  /**
    * Syncs templates for a template source.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
@@ -539,6 +561,94 @@ export class CatalogsImpl implements Catalogs {
     options?: CatalogsSyncOptionalParams
   ): Promise<void> {
     const poller = await this.beginSync(
+      resourceGroupName,
+      devCenterName,
+      catalogName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Connects a catalog to enable syncing.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param devCenterName The name of the devcenter.
+   * @param catalogName The name of the Catalog.
+   * @param options The options parameters.
+   */
+  async beginConnect(
+    resourceGroupName: string,
+    devCenterName: string,
+    catalogName: string,
+    options?: CatalogsConnectOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, devCenterName, catalogName, options },
+      spec: connectOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Connects a catalog to enable syncing.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param devCenterName The name of the devcenter.
+   * @param catalogName The name of the Catalog.
+   * @param options The options parameters.
+   */
+  async beginConnectAndWait(
+    resourceGroupName: string,
+    devCenterName: string,
+    catalogName: string,
+    options?: CatalogsConnectOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginConnect(
       resourceGroupName,
       devCenterName,
       catalogName,
@@ -706,9 +816,56 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const getSyncErrorDetailsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}/getSyncErrorDetails",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SyncErrorDetails
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.devCenterName,
+    Parameters.catalogName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const syncOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}/sync",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.devCenterName,
+    Parameters.catalogName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const connectOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/catalogs/{catalogName}/connect",
   httpMethod: "POST",
   responses: {
     200: {},

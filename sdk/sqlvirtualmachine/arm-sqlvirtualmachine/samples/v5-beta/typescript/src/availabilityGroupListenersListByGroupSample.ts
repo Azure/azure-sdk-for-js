@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all availability group listeners in a SQL virtual machine group.
  *
  * @summary Lists all availability group listeners in a SQL virtual machine group.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-07-01-preview/examples/ListByGroupAvailabilityGroupListener.json
+ * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/ListByGroupAvailabilityGroupListener.json
  */
 async function listsAllAvailabilityGroupListenersInASqlVirtualMachineGroup() {
   const subscriptionId =

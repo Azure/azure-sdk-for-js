@@ -65,6 +65,7 @@ export interface GroupSendTextToAllOptions extends GroupSendToAllOptions {
 export interface GroupSendToAllOptions extends OperationOptions {
     excludedConnections?: string[];
     filter?: string;
+    messageTtlSeconds?: number;
 }
 
 // @public
@@ -133,15 +134,18 @@ export interface HubSendTextToUserOptions extends HubSendToUserOptions {
 export interface HubSendToAllOptions extends OperationOptions {
     excludedConnections?: string[];
     filter?: string;
+    messageTtlSeconds?: number;
 }
 
 // @public
 export interface HubSendToConnectionOptions extends OperationOptions {
+    messageTtlSeconds?: number;
 }
 
 // @public
 export interface HubSendToUserOptions extends OperationOptions {
     filter?: string;
+    messageTtlSeconds?: number;
 }
 
 // @public
@@ -173,6 +177,7 @@ export interface WebPubSubGroup {
 export class WebPubSubServiceClient {
     constructor(connectionString: string, hubName: string, options?: WebPubSubServiceClientOptions);
     constructor(endpoint: string, credential: AzureKeyCredential | TokenCredential, hubName: string, options?: WebPubSubServiceClientOptions);
+    addConnectionsToGroups(groups: string[], filter: string, options?: GroupAddConnectionOptions): Promise<void>;
     readonly apiVersion: string;
     closeAllConnections(options?: HubCloseAllConnectionsOptions): Promise<void>;
     closeConnection(connectionId: string, options?: HubCloseConnectionOptions): Promise<void>;
@@ -186,6 +191,7 @@ export class WebPubSubServiceClient {
     hasPermission(connectionId: string, permission: Permission, options?: HubHasPermissionOptions): Promise<boolean>;
     readonly hubName: string;
     removeConnectionFromAllGroups(connectionId: string, options?: HubCloseConnectionOptions): Promise<void>;
+    removeConnectionsFromGroups(groups: string[], filter: string, options?: GroupRemoveConnectionOptions): Promise<void>;
     removeUserFromAllGroups(userId: string, options?: HubCloseConnectionOptions): Promise<void>;
     revokePermission(connectionId: string, permission: Permission, options?: HubRevokePermissionOptions): Promise<void>;
     sendToAll(message: string, options: HubSendTextToAllOptions): Promise<void>;

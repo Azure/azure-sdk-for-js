@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   RecoveryPlan,
   ReplicationRecoveryPlansListOptionalParams,
@@ -37,7 +37,7 @@ import {
   ReplicationRecoveryPlansTestFailoverCleanupResponse,
   RecoveryPlanUnplannedFailoverInput,
   ReplicationRecoveryPlansUnplannedFailoverOptionalParams,
-  ReplicationRecoveryPlansUnplannedFailoverResponse
+  ReplicationRecoveryPlansUnplannedFailoverResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -53,7 +53,7 @@ export interface ReplicationRecoveryPlans {
   list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationRecoveryPlansListOptionalParams
+    options?: ReplicationRecoveryPlansListOptionalParams,
   ): PagedAsyncIterableIterator<RecoveryPlan>;
   /**
    * Gets the details of the recovery plan.
@@ -67,7 +67,7 @@ export interface ReplicationRecoveryPlans {
     resourceName: string,
     resourceGroupName: string,
     recoveryPlanName: string,
-    options?: ReplicationRecoveryPlansGetOptionalParams
+    options?: ReplicationRecoveryPlansGetOptionalParams,
   ): Promise<ReplicationRecoveryPlansGetResponse>;
   /**
    * The operation to create a recovery plan.
@@ -83,10 +83,10 @@ export interface ReplicationRecoveryPlans {
     resourceGroupName: string,
     recoveryPlanName: string,
     input: CreateRecoveryPlanInput,
-    options?: ReplicationRecoveryPlansCreateOptionalParams
+    options?: ReplicationRecoveryPlansCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationRecoveryPlansCreateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationRecoveryPlansCreateResponse>,
       ReplicationRecoveryPlansCreateResponse
     >
   >;
@@ -104,7 +104,7 @@ export interface ReplicationRecoveryPlans {
     resourceGroupName: string,
     recoveryPlanName: string,
     input: CreateRecoveryPlanInput,
-    options?: ReplicationRecoveryPlansCreateOptionalParams
+    options?: ReplicationRecoveryPlansCreateOptionalParams,
   ): Promise<ReplicationRecoveryPlansCreateResponse>;
   /**
    * Delete a recovery plan.
@@ -118,8 +118,8 @@ export interface ReplicationRecoveryPlans {
     resourceName: string,
     resourceGroupName: string,
     recoveryPlanName: string,
-    options?: ReplicationRecoveryPlansDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ReplicationRecoveryPlansDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a recovery plan.
    * @param resourceName The name of the recovery services vault.
@@ -132,7 +132,7 @@ export interface ReplicationRecoveryPlans {
     resourceName: string,
     resourceGroupName: string,
     recoveryPlanName: string,
-    options?: ReplicationRecoveryPlansDeleteOptionalParams
+    options?: ReplicationRecoveryPlansDeleteOptionalParams,
   ): Promise<void>;
   /**
    * The operation to update a recovery plan.
@@ -148,10 +148,10 @@ export interface ReplicationRecoveryPlans {
     resourceGroupName: string,
     recoveryPlanName: string,
     input: UpdateRecoveryPlanInput,
-    options?: ReplicationRecoveryPlansUpdateOptionalParams
+    options?: ReplicationRecoveryPlansUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationRecoveryPlansUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationRecoveryPlansUpdateResponse>,
       ReplicationRecoveryPlansUpdateResponse
     >
   >;
@@ -169,7 +169,7 @@ export interface ReplicationRecoveryPlans {
     resourceGroupName: string,
     recoveryPlanName: string,
     input: UpdateRecoveryPlanInput,
-    options?: ReplicationRecoveryPlansUpdateOptionalParams
+    options?: ReplicationRecoveryPlansUpdateOptionalParams,
   ): Promise<ReplicationRecoveryPlansUpdateResponse>;
   /**
    * The operation to cancel the failover of a recovery plan.
@@ -183,10 +183,10 @@ export interface ReplicationRecoveryPlans {
     resourceName: string,
     resourceGroupName: string,
     recoveryPlanName: string,
-    options?: ReplicationRecoveryPlansFailoverCancelOptionalParams
+    options?: ReplicationRecoveryPlansFailoverCancelOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationRecoveryPlansFailoverCancelResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationRecoveryPlansFailoverCancelResponse>,
       ReplicationRecoveryPlansFailoverCancelResponse
     >
   >;
@@ -202,7 +202,7 @@ export interface ReplicationRecoveryPlans {
     resourceName: string,
     resourceGroupName: string,
     recoveryPlanName: string,
-    options?: ReplicationRecoveryPlansFailoverCancelOptionalParams
+    options?: ReplicationRecoveryPlansFailoverCancelOptionalParams,
   ): Promise<ReplicationRecoveryPlansFailoverCancelResponse>;
   /**
    * The operation to commit the failover of a recovery plan.
@@ -216,10 +216,10 @@ export interface ReplicationRecoveryPlans {
     resourceName: string,
     resourceGroupName: string,
     recoveryPlanName: string,
-    options?: ReplicationRecoveryPlansFailoverCommitOptionalParams
+    options?: ReplicationRecoveryPlansFailoverCommitOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationRecoveryPlansFailoverCommitResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationRecoveryPlansFailoverCommitResponse>,
       ReplicationRecoveryPlansFailoverCommitResponse
     >
   >;
@@ -235,7 +235,7 @@ export interface ReplicationRecoveryPlans {
     resourceName: string,
     resourceGroupName: string,
     recoveryPlanName: string,
-    options?: ReplicationRecoveryPlansFailoverCommitOptionalParams
+    options?: ReplicationRecoveryPlansFailoverCommitOptionalParams,
   ): Promise<ReplicationRecoveryPlansFailoverCommitResponse>;
   /**
    * The operation to start the planned failover of a recovery plan.
@@ -251,10 +251,10 @@ export interface ReplicationRecoveryPlans {
     resourceGroupName: string,
     recoveryPlanName: string,
     input: RecoveryPlanPlannedFailoverInput,
-    options?: ReplicationRecoveryPlansPlannedFailoverOptionalParams
+    options?: ReplicationRecoveryPlansPlannedFailoverOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationRecoveryPlansPlannedFailoverResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationRecoveryPlansPlannedFailoverResponse>,
       ReplicationRecoveryPlansPlannedFailoverResponse
     >
   >;
@@ -272,7 +272,7 @@ export interface ReplicationRecoveryPlans {
     resourceGroupName: string,
     recoveryPlanName: string,
     input: RecoveryPlanPlannedFailoverInput,
-    options?: ReplicationRecoveryPlansPlannedFailoverOptionalParams
+    options?: ReplicationRecoveryPlansPlannedFailoverOptionalParams,
   ): Promise<ReplicationRecoveryPlansPlannedFailoverResponse>;
   /**
    * The operation to reprotect(reverse replicate) a recovery plan.
@@ -286,10 +286,10 @@ export interface ReplicationRecoveryPlans {
     resourceName: string,
     resourceGroupName: string,
     recoveryPlanName: string,
-    options?: ReplicationRecoveryPlansReprotectOptionalParams
+    options?: ReplicationRecoveryPlansReprotectOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationRecoveryPlansReprotectResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationRecoveryPlansReprotectResponse>,
       ReplicationRecoveryPlansReprotectResponse
     >
   >;
@@ -305,7 +305,7 @@ export interface ReplicationRecoveryPlans {
     resourceName: string,
     resourceGroupName: string,
     recoveryPlanName: string,
-    options?: ReplicationRecoveryPlansReprotectOptionalParams
+    options?: ReplicationRecoveryPlansReprotectOptionalParams,
   ): Promise<ReplicationRecoveryPlansReprotectResponse>;
   /**
    * The operation to start the test failover of a recovery plan.
@@ -321,10 +321,10 @@ export interface ReplicationRecoveryPlans {
     resourceGroupName: string,
     recoveryPlanName: string,
     input: RecoveryPlanTestFailoverInput,
-    options?: ReplicationRecoveryPlansTestFailoverOptionalParams
+    options?: ReplicationRecoveryPlansTestFailoverOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationRecoveryPlansTestFailoverResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationRecoveryPlansTestFailoverResponse>,
       ReplicationRecoveryPlansTestFailoverResponse
     >
   >;
@@ -342,7 +342,7 @@ export interface ReplicationRecoveryPlans {
     resourceGroupName: string,
     recoveryPlanName: string,
     input: RecoveryPlanTestFailoverInput,
-    options?: ReplicationRecoveryPlansTestFailoverOptionalParams
+    options?: ReplicationRecoveryPlansTestFailoverOptionalParams,
   ): Promise<ReplicationRecoveryPlansTestFailoverResponse>;
   /**
    * The operation to cleanup test failover of a recovery plan.
@@ -358,10 +358,10 @@ export interface ReplicationRecoveryPlans {
     resourceGroupName: string,
     recoveryPlanName: string,
     input: RecoveryPlanTestFailoverCleanupInput,
-    options?: ReplicationRecoveryPlansTestFailoverCleanupOptionalParams
+    options?: ReplicationRecoveryPlansTestFailoverCleanupOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationRecoveryPlansTestFailoverCleanupResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationRecoveryPlansTestFailoverCleanupResponse>,
       ReplicationRecoveryPlansTestFailoverCleanupResponse
     >
   >;
@@ -379,7 +379,7 @@ export interface ReplicationRecoveryPlans {
     resourceGroupName: string,
     recoveryPlanName: string,
     input: RecoveryPlanTestFailoverCleanupInput,
-    options?: ReplicationRecoveryPlansTestFailoverCleanupOptionalParams
+    options?: ReplicationRecoveryPlansTestFailoverCleanupOptionalParams,
   ): Promise<ReplicationRecoveryPlansTestFailoverCleanupResponse>;
   /**
    * The operation to start the unplanned failover of a recovery plan.
@@ -395,10 +395,10 @@ export interface ReplicationRecoveryPlans {
     resourceGroupName: string,
     recoveryPlanName: string,
     input: RecoveryPlanUnplannedFailoverInput,
-    options?: ReplicationRecoveryPlansUnplannedFailoverOptionalParams
+    options?: ReplicationRecoveryPlansUnplannedFailoverOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationRecoveryPlansUnplannedFailoverResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationRecoveryPlansUnplannedFailoverResponse>,
       ReplicationRecoveryPlansUnplannedFailoverResponse
     >
   >;
@@ -416,6 +416,6 @@ export interface ReplicationRecoveryPlans {
     resourceGroupName: string,
     recoveryPlanName: string,
     input: RecoveryPlanUnplannedFailoverInput,
-    options?: ReplicationRecoveryPlansUnplannedFailoverOptionalParams
+    options?: ReplicationRecoveryPlansUnplannedFailoverOptionalParams,
   ): Promise<ReplicationRecoveryPlansUnplannedFailoverResponse>;
 }

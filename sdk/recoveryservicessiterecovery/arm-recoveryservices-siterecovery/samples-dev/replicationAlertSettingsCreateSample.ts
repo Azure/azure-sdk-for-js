@@ -10,27 +10,34 @@
 // Licensed under the MIT License.
 import {
   ConfigureAlertRequest,
-  SiteRecoveryManagementClient
+  SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update an email notification(alert) configuration.
  *
  * @summary Create or update an email notification(alert) configuration.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2022-10-01/examples/ReplicationAlertSettings_Create.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationAlertSettings_Create.json
  */
 async function configuresEmailNotificationsForThisVault() {
-  const subscriptionId = "c183865e-6077-46f2-a3b1-deb0f4f4650a";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
+    "c183865e-6077-46f2-a3b1-deb0f4f4650a";
   const resourceName = "vault1";
-  const resourceGroupName = "resourceGroupPS1";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] ||
+    "resourceGroupPS1";
   const alertSettingName = "defaultAlertSetting";
   const request: ConfigureAlertRequest = {
     properties: {
       customEmailAddresses: ["ronehr@microsoft.com"],
       locale: "",
-      sendToOwners: "false"
-    }
+      sendToOwners: "false",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
@@ -38,9 +45,13 @@ async function configuresEmailNotificationsForThisVault() {
     resourceName,
     resourceGroupName,
     alertSettingName,
-    request
+    request,
   );
   console.log(result);
 }
 
-configuresEmailNotificationsForThisVault().catch(console.error);
+async function main() {
+  configuresEmailNotificationsForThisVault();
+}
+
+main().catch(console.error);

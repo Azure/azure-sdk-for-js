@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Cancel verification of DNS record.
  *
  * @summary Cancel verification of DNS record.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/domains/cancelVerification.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/domains/cancelVerification.json
  */
 async function cancelVerification() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function cancelVerification() {
     resourceGroupName,
     emailServiceName,
     domainName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

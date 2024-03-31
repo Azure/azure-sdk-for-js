@@ -10,16 +10,20 @@
 // Licensed under the MIT License.
 import { FileShare, StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates share properties as specified in request body. Properties not mentioned in the request will not be changed. Update fails if the specified share does not already exist.
  *
  * @summary Updates share properties as specified in request body. Properties not mentioned in the request will not be changed. Update fails if the specified share does not already exist.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/FileShareAclsPatch.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/FileShareAclsPatch.json
  */
 async function updateShareAcls() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res3376";
+  const subscriptionId =
+    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res3376";
   const accountName = "sto328";
   const shareName = "share6185";
   const fileShare: FileShare = {
@@ -45,17 +49,16 @@ async function updateShareAcls() {
   console.log(result);
 }
 
-updateShareAcls().catch(console.error);
-
 /**
  * This sample demonstrates how to Updates share properties as specified in request body. Properties not mentioned in the request will not be changed. Update fails if the specified share does not already exist.
  *
  * @summary Updates share properties as specified in request body. Properties not mentioned in the request will not be changed. Update fails if the specified share does not already exist.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/FileSharesPatch.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/FileSharesPatch.json
  */
 async function updateShares() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res3376";
+  const subscriptionId =
+    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res3376";
   const accountName = "sto328";
   const shareName = "share6185";
   const fileShare: FileShare = { metadata: { type: "image" } };
@@ -70,4 +73,9 @@ async function updateShares() {
   console.log(result);
 }
 
-updateShares().catch(console.error);
+async function main() {
+  updateShareAcls();
+  updateShares();
+}
+
+main().catch(console.error);

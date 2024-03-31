@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT Licence.
+// Licensed under the MIT License.
 
 /**
  * @summary Demonstrates how to convert an IoT Hub connection string to an Event Hubs connection string that points to the built-in messaging endpoint using WebSockets.
@@ -15,7 +15,7 @@
 import * as crypto from "crypto";
 import { Buffer } from "buffer";
 import { AmqpError, Connection, ReceiverEvents, parseConnectionString } from "rhea-promise";
-import rheaPromise from "rhea-promise";
+import * as rheaPromise from "rhea-promise";
 import { EventHubConsumerClient, earliestEventPosition } from "@azure/event-hubs";
 import WebSocket from "ws";
 

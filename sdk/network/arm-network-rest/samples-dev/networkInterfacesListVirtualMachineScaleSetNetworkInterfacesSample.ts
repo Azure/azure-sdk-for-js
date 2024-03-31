@@ -32,7 +32,7 @@ async function listVirtualMachineScaleSetNetworkInterfaces() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/networkInterfaces",
       subscriptionId,
       resourceGroupName,
-      virtualMachineScaleSetName
+      virtualMachineScaleSetName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

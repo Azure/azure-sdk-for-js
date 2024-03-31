@@ -1,0 +1,562 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "TieringClient",
+    "description": "The tiering client library retrieves limits for each capability (SMS/PSTN Calling/Phone Number purchase) for a specific resource/tier.",
+    "version": "2023-06-15"
+  },
+  "paths": {
+    "/administration/resources/{resourceId}/telephone-number-summary": {
+      "get": {
+        "tags": [
+          "ACS Tiering"
+        ],
+        "summary": "Get acquired numbers and limits for a resource.",
+        "operationId": "NumberAllotment_GetAcquiredNumberLimits",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resourceId",
+            "description": "Resource Id. Must be a valid GUID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "assetDetails": {
+                  "description": "AssetDetails Array",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/assetDetails"
+                  }
+                }
+              },
+              "required":["assetDetails"]
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get acquired numbers and limits for a resource": {
+            "$ref": "./examples/GetAcquiredNumberLimits.json"
+          }
+        }
+      }
+    },
+    "/administration/tiers/resources/{resourceId}": {
+      "get": {
+        "tags": [
+          "ACS Tiering"
+        ],
+        "summary": " Get the tiering data for a given resource",
+        "operationId": "Tiering_GetByResourceId",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resourceId",
+            "description": "Resource Id. Must be a valid GUID",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/acsTier"
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get tier info for a resource": {
+            "$ref": "./examples/GetTierInfo.json"
+          }
+        }
+      }
+    }
+    },
+  "definitions": {
+    "assetDetails": {
+      "description": "Model response for acquired number and limits.",
+      "type": "object",
+      "properties": {
+        "numberType": {
+          "description": "Array defining the number type of the phone number.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+        },
+        "resourceAcquiredCount": {
+          "description": "Number of phone numbers that the resource has.",
+          "type": "integer"
+        },
+        "subscriptionAcquiredCount": {
+          "description": "Number of phone numbers that the subscription that the resource belongs to has.",
+          "type": "integer"
+        },
+        "aadTenantAcquiredCount": {
+          "description": "Number of phone numbers that the AAD tenant that the resource belongs to has.",
+          "type": "integer"
+        },
+        "tierInfo": {
+          "description": "Tier specific info.",
+          "type": "object",
+          "properties": {
+          "scope": {
+            "description": "The level at which the tiering properties in the TierInfo are for",
+            "type": "string"
+          },
+          "allowed": {
+            "description": "Number of phone numbers allowed that can change based on scope where scope can be (resource, subscription or tenant).",
+            "type": "integer"
+          },
+          "acquired": {
+            "description": "Number of phone numbers acquired that can change based on scope where scope can be (resource, subscription or tenant).",
+            "type": "integer"
+          },
+          "balance": {
+            "description": "Difference between allowed and acquired amount.",
+            "type": "integer"
+          },
+          "limit": {
+            "description": "The standing of a customer to determine if they able to purchase more phone numbers.",
+            "type": "string"
+          }
+          }
+        }
+      }
+    },
+    "acsTier": {
+      "description": "Represents an ACS Tier resource.",
+      "type": "object",
+      "properties": {
+        "tierId": {
+          "description": "Tier Id.",
+          "type": "string"
+        },
+        "tierType": {
+          "description": "Tier Type",
+          "type": "string"
+        },
+        "capabilities": {
+          "description": "Capabilities for the resource",
+          "type": "object",
+          "properties": {
+            "phoneNumberPurchase": {
+              "description": "Phone number purchase capabilities of the tier.",
+              "type": "array",
+              "items": {
+                 "$ref": "#/definitions/phoneNumberPurchase"
+              }
+            },
+            "sms": {
+              "description": "SMS capabilities of the tier.",
+              "type": "object",
+              "properties": {
+                "outbound": {
+                  "description": "SMS Outbound capabilities of the tier.",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/smsOutbound"
+                  }
+                },
+                "inbound": {
+                  "description": "SMS Inbound capabilities of the tier.",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/smsInbound"
+                  }
+                }
+              }
+            },
+            "calling": {
+              "description": "Calling capabilities of the tier.",
+              "type": "object",
+              "properties": {
+                "outbound": {
+                  "description": "Calling Outbound capabilities of the tier.",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/callingOutbound"
+                  }
+                },
+                "inbound": {
+                  "description": "Calling Inbound capabilities of the tier.",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/callingInbound"
+                  }
+                }
+              }
+            },
+            "trialPhoneNumberPurchase": {
+              "description": "Trial phone number purchase capability details.",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/trialPhoneNumberPurchase"
+              }
+            },
+            "trialPhoneNumberUsage": {
+              "description": "Trial phone number usage of the tier.",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/trialPhoneNumberUsage"
+              }
+            }
+          }
+        }
+      }
+    },
+    "phoneNumberPurchase":{
+      "description": "Phone number purchase capability details.",
+      "type":"object",
+      "properties": {
+        "numberType": {
+          "description": "Types to apply the limit to.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+        "scope": {
+          "description": "The scope to apply the limits.",
+          "type": "string"
+        },
+        "totalNumbers": {
+          "description": "The limit of numbers allowed for purchase for the number type.",
+          "type": "integer"
+        }
+      }
+    },
+    "smsOutbound":{
+      "description": "Sms Outbound Capabilities for the tier.",
+      "type":"object",
+      "properties": {
+        "type": {
+          "description": "Type of number.",
+          "type": "string"
+        },
+        "scope": {
+          "description": "The scope to apply the limits.",
+          "type": "string"
+        },
+        "smsPerMin": {
+          "description": "The limit of SMSs a customer can send per minute.",
+          "type": "integer"
+        },
+        "geographicLimitations": {
+          "description": "The areas where an SMS is allowed to be sent.",
+          "type": "string"
+        }
+      }
+    },
+    "smsInbound":{
+      "description": "Sms Inbound Capabilities for the tier.",
+      "type":"object",
+      "properties": {
+        "type": {
+          "description": "Type of number.",
+          "type": "string"
+        },
+        "scope": {
+          "description": "The scope to apply the limits.",
+          "type": "string"
+        },
+        "smsPerMin": {
+          "description": "The limit of SMSs a customer can send per minute.",
+          "type": "integer"
+        },
+        "geographicLimitations": {
+          "description": "The areas where an SMS is allowed to be sent.",
+          "type": "string"
+        }
+      }
+    },
+    "callingOutbound":{
+      "description": "Calling Outbound Capabilities for the tier.",
+      "type":"object",
+      "properties": {
+        "type": {
+          "description": "Type of calling.",
+          "type": "string"
+        },
+        "scope": {
+          "description": "The scope to apply the limits.",
+          "type": "string"
+        },
+        "concurrentCalls": {
+          "description": "The number of concurrent calls allowed.",
+          "type": "integer"
+        },
+        "geographicLimitations": {
+          "description": "The areas where calls are allowed to take place.",
+          "type": "string"
+        }
+      }
+    },
+    "callingInbound":{
+      "description": "Calling Outbound Capabilities for the tier.",
+      "type":"object",
+      "properties": {
+        "type": {
+          "description": "Type of calling.",
+          "type": "string"
+        },
+        "scope": {
+          "description": "The scope to apply the limits.",
+          "type": "string"
+        },
+        "concurrentCalls": {
+          "description": "The number of concurrent calls allowed.",
+          "type": "integer"
+        },
+        "geographicLimitations": {
+          "description": "The areas where calls are allowed to take place.",
+          "type": "string"
+        }
+      }
+    },
+    "trialPhoneNumberUsageCallingBounds":{
+      "description": "Trial phone number capability details.",
+      "type":"object",
+      "properties": {
+        "type": {
+          "description": " Type of calling.",
+          "type": "string"
+        },
+        "scope": {
+          "description": "The scope to apply the limits to.",
+          "type": "string"
+        },
+        "totalMinutes": {
+          "description": "The total calling minutes allowed for a tial number.",
+          "type": "integer"
+        },
+        "maximumCallDurationMinutes": {
+          "description": "The total call duration in minutes allowed for a trial number.",
+          "type": "integer"
+        },
+        "concurrentCalls": {
+          "description": "The number of concurrent calls allowed.",
+          "type": "integer"
+        }
+      }
+    },
+    "trialPhoneNumberUsageSmsBounds":{
+      "description": "Trial phone number SMS capability details.",
+      "type":"object",
+      "properties": {
+        "type": {
+          "description": "The type of SMS.",
+          "type": "string"
+        },
+        "scope": {
+          "description": "The scope to apply the limits to.",
+          "type": "string"
+        },
+        "total": {
+          "description": "Total",
+          "type": "integer"
+        },
+        "smsPerMin": {
+          "description": "The total SMSs allowed to be sent in a minute.",
+          "type": "integer"
+        }
+      }
+    },
+    "trialPhoneNumberPurchase":{
+      "description": "Trial phone number purchase capability details.",
+      "type":"object",
+      "properties": {
+        "numberType": {
+          "description": "Types to apply the limit to.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+        "scope": {
+          "description": "The scope to apply the limits.",
+          "type": "string"
+        },
+        "totalNumbers": {
+          "description": "The limit of numbers allowed for purchase for the number type.",
+          "type": "integer"
+        },
+        "trialPeriodDays": {
+          "description": "The number of days in the trial period for the number type.",
+          "type": "integer"
+        }
+      }
+    },
+    "trialPhoneNumberUsage":{
+      "description": "Trial phone number usage capability details.",
+      "type":"object",
+      "properties": {
+        "numberType": {
+          "description": "The number type.",
+          "type": "string"
+        },
+        "calling": {
+          "description": "The capabilities for calling.",
+          "type": "object",
+          "properties": {
+            "outbound": {
+              "description": "The Outbound capabilities for calling.",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/trialPhoneNumberUsageCallingBounds"
+              }
+            },
+            "inbound": {
+              "description": "The Inbound capabilities for calling.",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/trialPhoneNumberUsageCallingBounds"
+              }
+            }
+          }
+        },
+        "sms": {
+          "description": "The SMS capabilities for the trial phone number.",
+          "type": "object",
+          "properties": {
+            "outbound": {
+              "description": "Outbound trial phone number SMS capabilities.",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/trialPhoneNumberUsageSmsBounds"
+              }
+            },
+            "inbound": {
+              "description": "Inbound trial phone number SMS capabilities.",
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/trialPhoneNumberUsageSmsBounds"
+              }
+            }
+          }
+        }
+      }
+    },
+    "CommunicationErrorResponse": {
+      "description": "The Communication Services error.",
+      "type": "object",
+      "required": [
+        "error"
+      ],
+      "properties": {
+        "error": {
+          "description": "The Communication Services error.",
+          "$ref": "#/definitions/CommunicationError"
+        }
+      }
+    },
+    "CommunicationError": {
+      "description": "The Communication Services error.",
+      "type": "object",
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The error code."
+        },
+        "message": {
+          "type": "string",
+          "description": "The error message."
+        },
+        "target": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The error target."
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CommunicationError"
+          },
+          "readOnly": true,
+          "description": "Further details about specific errors that led to this error."
+        },
+        "innererror": {
+          "x-ms-client-name": "innerError",
+          "readOnly": true,
+          "$ref": "#/definitions/CommunicationError",
+          "description": "The inner error if any."
+        }
+      }
+    }
+  },
+  "parameters": {
+    "ApiVersionParameter": {
+      "in": "query",
+      "name": "api-version",
+      "description": "Version of API to invoke",
+      "required": true,
+      "type": "string"
+    },
+    "Endpoint": {
+      "in": "path",
+      "name": "endpoint",
+      "description": "The communication resource, for example https://resourcename.communication.azure.com",
+      "required": true,
+      "type": "string",
+      "x-ms-skip-url-encoding": true,
+      "x-ms-parameter-location": "client"
+    }
+  },
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "flow": "implicit",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      },
+      "description": "Azure Active Directory OAuth2 Flow"
+    }
+  },
+  "x-ms-parameterized-host": {
+    "hostTemplate": "{endpoint}",
+    "useSchemePrefix": false,
+    "parameters": [
+      {
+        "$ref": "#/parameters/Endpoint"
+      }
+    ]
+  }
+}

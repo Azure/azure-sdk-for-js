@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualMachine,
   VirtualMachinesListOptionalParams,
@@ -64,7 +64,7 @@ export interface VirtualMachines {
     virtualMachineId: string,
     restrictMovement: VirtualMachineRestrictMovement,
     options?: VirtualMachinesRestrictMovementOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Enable or disable DRS-driven VM movement restriction
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

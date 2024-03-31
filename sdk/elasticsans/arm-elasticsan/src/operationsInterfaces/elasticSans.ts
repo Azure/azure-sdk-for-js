@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ElasticSan,
   ElasticSansListBySubscriptionOptionalParams,
@@ -54,8 +54,8 @@ export interface ElasticSans {
     parameters: ElasticSan,
     options?: ElasticSansCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ElasticSansCreateResponse>,
+    SimplePollerLike<
+      OperationState<ElasticSansCreateResponse>,
       ElasticSansCreateResponse
     >
   >;
@@ -85,8 +85,8 @@ export interface ElasticSans {
     parameters: ElasticSanUpdate,
     options?: ElasticSansUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ElasticSansUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ElasticSansUpdateResponse>,
       ElasticSansUpdateResponse
     >
   >;
@@ -113,7 +113,7 @@ export interface ElasticSans {
     resourceGroupName: string,
     elasticSanName: string,
     options?: ElasticSansDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a Elastic San.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

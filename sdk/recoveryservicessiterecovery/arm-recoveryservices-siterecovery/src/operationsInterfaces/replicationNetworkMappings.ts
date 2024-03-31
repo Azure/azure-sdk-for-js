@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   NetworkMapping,
   ReplicationNetworkMappingsListByReplicationNetworksOptionalParams,
@@ -20,7 +20,7 @@ import {
   ReplicationNetworkMappingsDeleteOptionalParams,
   UpdateNetworkMappingInput,
   ReplicationNetworkMappingsUpdateOptionalParams,
-  ReplicationNetworkMappingsUpdateResponse
+  ReplicationNetworkMappingsUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,7 +40,7 @@ export interface ReplicationNetworkMappings {
     resourceGroupName: string,
     fabricName: string,
     networkName: string,
-    options?: ReplicationNetworkMappingsListByReplicationNetworksOptionalParams
+    options?: ReplicationNetworkMappingsListByReplicationNetworksOptionalParams,
   ): PagedAsyncIterableIterator<NetworkMapping>;
   /**
    * Lists all ASR network mappings in the vault.
@@ -52,7 +52,7 @@ export interface ReplicationNetworkMappings {
   list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationNetworkMappingsListOptionalParams
+    options?: ReplicationNetworkMappingsListOptionalParams,
   ): PagedAsyncIterableIterator<NetworkMapping>;
   /**
    * Gets the details of an ASR network mapping.
@@ -70,7 +70,7 @@ export interface ReplicationNetworkMappings {
     fabricName: string,
     networkName: string,
     networkMappingName: string,
-    options?: ReplicationNetworkMappingsGetOptionalParams
+    options?: ReplicationNetworkMappingsGetOptionalParams,
   ): Promise<ReplicationNetworkMappingsGetResponse>;
   /**
    * The operation to create an ASR network mapping.
@@ -90,10 +90,10 @@ export interface ReplicationNetworkMappings {
     networkName: string,
     networkMappingName: string,
     input: CreateNetworkMappingInput,
-    options?: ReplicationNetworkMappingsCreateOptionalParams
+    options?: ReplicationNetworkMappingsCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationNetworkMappingsCreateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationNetworkMappingsCreateResponse>,
       ReplicationNetworkMappingsCreateResponse
     >
   >;
@@ -115,7 +115,7 @@ export interface ReplicationNetworkMappings {
     networkName: string,
     networkMappingName: string,
     input: CreateNetworkMappingInput,
-    options?: ReplicationNetworkMappingsCreateOptionalParams
+    options?: ReplicationNetworkMappingsCreateOptionalParams,
   ): Promise<ReplicationNetworkMappingsCreateResponse>;
   /**
    * The operation to delete a network mapping.
@@ -133,8 +133,8 @@ export interface ReplicationNetworkMappings {
     fabricName: string,
     networkName: string,
     networkMappingName: string,
-    options?: ReplicationNetworkMappingsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ReplicationNetworkMappingsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete a network mapping.
    * @param resourceName The name of the recovery services vault.
@@ -151,7 +151,7 @@ export interface ReplicationNetworkMappings {
     fabricName: string,
     networkName: string,
     networkMappingName: string,
-    options?: ReplicationNetworkMappingsDeleteOptionalParams
+    options?: ReplicationNetworkMappingsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * The operation to update an ASR network mapping.
@@ -171,10 +171,10 @@ export interface ReplicationNetworkMappings {
     networkName: string,
     networkMappingName: string,
     input: UpdateNetworkMappingInput,
-    options?: ReplicationNetworkMappingsUpdateOptionalParams
+    options?: ReplicationNetworkMappingsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationNetworkMappingsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationNetworkMappingsUpdateResponse>,
       ReplicationNetworkMappingsUpdateResponse
     >
   >;
@@ -196,6 +196,6 @@ export interface ReplicationNetworkMappings {
     networkName: string,
     networkMappingName: string,
     input: UpdateNetworkMappingInput,
-    options?: ReplicationNetworkMappingsUpdateOptionalParams
+    options?: ReplicationNetworkMappingsUpdateOptionalParams,
   ): Promise<ReplicationNetworkMappingsUpdateResponse>;
 }

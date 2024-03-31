@@ -49,7 +49,7 @@ describe("StorageCache test", () => {
     const credential = createTestCredential();
     client = new StorageCacheManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
-    resourceGroup = "czwjstest";
+    resourceGroup = "myjstest";
     resourcename = "resourcetest";
   });
 
@@ -74,7 +74,6 @@ describe("StorageCache test", () => {
         cacheSizeGB: 3072,
         directoryServicesSettings: {},
         location,
-        scalingFactor: 1,
         securitySettings: {
           accessPolicies: [
             {
@@ -120,7 +119,7 @@ describe("StorageCache test", () => {
 
   it("caches delete test", async function () {
     const resArray = new Array();
-    const res = await client.caches.beginDeleteAndWait(resourceGroup, resourcename)
+    const res = await client.caches.beginDeleteAndWait(resourceGroup, resourcename, testPollingOptions)
     for await (let item of client.caches.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

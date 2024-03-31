@@ -6,7 +6,7 @@ Role based access control provides you a way to apply granular level policy admi
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/authorization/arm-authorization) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-authorization) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-authorization) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-authorization?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

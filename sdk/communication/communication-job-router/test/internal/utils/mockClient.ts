@@ -3,10 +3,10 @@
 
 import * as dotenv from "dotenv";
 import { Recorder, env } from "@azure-tools/test-recorder";
-import { RouterAdministrationClient, RouterClient } from "../../../src";
+import { JobRouterAdministrationClient, JobRouterClient } from "../../../src";
 import { Context } from "mocha";
 import { isNode } from "@azure/core-util";
-import { RouterAdministrationClientOptions, RouterClientOptions } from "../../../src";
+import { JobRouterAdministrationClientOptions, JobRouterClientOptions } from "../../../src";
 import { createRecorder } from "./recordedClient";
 
 if (isNode) {
@@ -14,24 +14,24 @@ if (isNode) {
 }
 
 export interface RecordedRouterClient {
-  client: RouterClient;
-  administrationClient: RouterAdministrationClient;
+  client: JobRouterClient;
+  administrationClient: JobRouterAdministrationClient;
   recorder: Recorder;
 }
 
 export async function createRecordedRouterClientWithConnectionString(
-  context: Context
+  context: Context,
 ): Promise<RecordedRouterClient> {
   const recorder = await createRecorder(context.currentTest);
 
   return {
-    client: new RouterClient(
+    client: new JobRouterClient(
       env.COMMUNICATION_CONNECTION_STRING as string,
-      recorder.configureClientOptions({}) as RouterClientOptions
+      recorder.configureClientOptions({}) as JobRouterClientOptions,
     ),
-    administrationClient: new RouterAdministrationClient(
+    administrationClient: new JobRouterAdministrationClient(
       env.COMMUNICATION_CONNECTION_STRING as string,
-      recorder.configureClientOptions({}) as RouterAdministrationClientOptions
+      recorder.configureClientOptions({}) as JobRouterAdministrationClientOptions,
     ),
     recorder,
   };

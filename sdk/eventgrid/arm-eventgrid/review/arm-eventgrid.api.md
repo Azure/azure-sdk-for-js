@@ -226,19 +226,12 @@ export interface Client extends Resource {
     attributes?: {
         [propertyName: string]: any;
     };
-    authentication?: ClientAuthentication;
     authenticationName?: string;
     clientCertificateAuthentication?: ClientCertificateAuthentication;
     description?: string;
     readonly provisioningState?: ClientProvisioningState;
     state?: ClientState;
     readonly systemData?: SystemData;
-}
-
-// @public
-export interface ClientAuthentication {
-    certificateSubject?: ClientCertificateSubjectDistinguishedName;
-    certificateThumbprint?: ClientCertificateThumbprint;
 }
 
 // @public
@@ -250,20 +243,6 @@ export interface ClientAuthenticationSettings {
 export interface ClientCertificateAuthentication {
     allowedThumbprints?: string[];
     validationScheme?: ClientCertificateValidationScheme;
-}
-
-// @public
-export interface ClientCertificateSubjectDistinguishedName {
-    commonName?: string;
-    countryCode?: string;
-    organization?: string;
-    organizationUnit?: string;
-}
-
-// @public
-export interface ClientCertificateThumbprint {
-    primary?: string;
-    secondary?: string;
 }
 
 // @public
@@ -456,6 +435,7 @@ export type DeliveryAttributeMappingUnion = DeliveryAttributeMapping | StaticDel
 // @public
 export interface DeliveryConfiguration {
     deliveryMode?: DeliveryMode;
+    push?: PushInfo;
     queue?: QueueInfo;
 }
 
@@ -901,6 +881,7 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: EventGridManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: EventGridManagementClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -930,6 +911,8 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     namespaceTopics: NamespaceTopics;
     // (undocumented)
+    networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
+    // (undocumented)
     operations: Operations;
     // (undocumented)
     partnerConfigurations: PartnerConfigurations;
@@ -950,7 +933,7 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     privateLinkResources: PrivateLinkResources;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
     // (undocumented)
     systemTopicEventSubscriptions: SystemTopicEventSubscriptions;
     // (undocumented)
@@ -1002,11 +985,11 @@ export interface EventSubscription extends Resource {
 
 // @public
 export interface EventSubscriptionDestination {
-    endpointType: "WebHook" | "EventHub" | "StorageQueue" | "HybridConnection" | "ServiceBusQueue" | "ServiceBusTopic" | "AzureFunction" | "PartnerDestination";
+    endpointType: "WebHook" | "EventHub" | "StorageQueue" | "HybridConnection" | "ServiceBusQueue" | "ServiceBusTopic" | "AzureFunction" | "PartnerDestination" | "MonitorAlert" | "NamespaceTopic";
 }
 
 // @public (undocumented)
-export type EventSubscriptionDestinationUnion = EventSubscriptionDestination | WebHookEventSubscriptionDestination | EventHubEventSubscriptionDestination | StorageQueueEventSubscriptionDestination | HybridConnectionEventSubscriptionDestination | ServiceBusQueueEventSubscriptionDestination | ServiceBusTopicEventSubscriptionDestination | AzureFunctionEventSubscriptionDestination | PartnerEventSubscriptionDestination;
+export type EventSubscriptionDestinationUnion = EventSubscriptionDestination | WebHookEventSubscriptionDestination | EventHubEventSubscriptionDestination | StorageQueueEventSubscriptionDestination | HybridConnectionEventSubscriptionDestination | ServiceBusQueueEventSubscriptionDestination | ServiceBusTopicEventSubscriptionDestination | AzureFunctionEventSubscriptionDestination | PartnerEventSubscriptionDestination | MonitorAlertEventSubscriptionDestination | NamespaceTopicEventSubscriptionDestination;
 
 // @public
 export interface EventSubscriptionFilter {
@@ -1574,6 +1557,7 @@ export enum KnownDeliveryAttributeMappingType {
 
 // @public
 export enum KnownDeliveryMode {
+    Push = "Push",
     Queue = "Queue"
 }
 
@@ -1607,6 +1591,8 @@ export enum KnownEndpointType {
     AzureFunction = "AzureFunction",
     EventHub = "EventHub",
     HybridConnection = "HybridConnection",
+    MonitorAlert = "MonitorAlert",
+    NamespaceTopic = "NamespaceTopic",
     PartnerDestination = "PartnerDestination",
     ServiceBusQueue = "ServiceBusQueue",
     ServiceBusTopic = "ServiceBusTopic",
@@ -1697,6 +1683,15 @@ export enum KnownIpActionType {
 }
 
 // @public
+export enum KnownMonitorAlertSeverity {
+    Sev0 = "Sev0",
+    Sev1 = "Sev1",
+    Sev2 = "Sev2",
+    Sev3 = "Sev3",
+    Sev4 = "Sev4"
+}
+
+// @public
 export enum KnownNamespaceProvisioningState {
     Canceled = "Canceled",
     CreateFailed = "CreateFailed",
@@ -1722,6 +1717,51 @@ export enum KnownNamespaceTopicProvisioningState {
     Succeeded = "Succeeded",
     UpdatedFailed = "UpdatedFailed",
     Updating = "Updating"
+}
+
+// @public
+export enum KnownNetworkSecurityPerimeterAssociationAccessMode {
+    Audit = "Audit",
+    Enforced = "Enforced",
+    Learning = "Learning"
+}
+
+// @public
+export enum KnownNetworkSecurityPerimeterConfigProvisioningState {
+    Accepted = "Accepted",
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleted = "Deleted",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownNetworkSecurityPerimeterConfigurationIssueSeverity {
+    Error = "Error",
+    Warning = "Warning"
+}
+
+// @public
+export enum KnownNetworkSecurityPerimeterConfigurationIssueType {
+    ConfigurationPropagationFailure = "ConfigurationPropagationFailure",
+    MissingIdentityConfiguration = "MissingIdentityConfiguration",
+    MissingPerimeterConfiguration = "MissingPerimeterConfiguration",
+    Other = "Other"
+}
+
+// @public
+export enum KnownNetworkSecurityPerimeterProfileAccessRuleDirection {
+    Inbound = "Inbound",
+    Outbound = "Outbound"
+}
+
+// @public
+export enum KnownNetworkSecurityPerimeterResourceType {
+    Domains = "domains",
+    Topics = "topics"
 }
 
 // @public
@@ -1841,7 +1881,8 @@ export enum KnownPrivateEndpointConnectionsParentType {
 // @public
 export enum KnownPublicNetworkAccess {
     Disabled = "Disabled",
-    Enabled = "Enabled"
+    Enabled = "Enabled",
+    SecuredByPerimeter = "SecuredByPerimeter"
 }
 
 // @public
@@ -1976,6 +2017,17 @@ export enum KnownVerifiedPartnerProvisioningState {
     Succeeded = "Succeeded",
     Updating = "Updating"
 }
+
+// @public
+export interface MonitorAlertEventSubscriptionDestination extends EventSubscriptionDestination {
+    actionGroups?: string[];
+    description?: string;
+    endpointType: "MonitorAlert";
+    severity?: MonitorAlertSeverity;
+}
+
+// @public
+export type MonitorAlertSeverity = string;
 
 // @public
 export interface Namespace extends TrackedResource {
@@ -2142,6 +2194,12 @@ export interface NamespaceTopic extends Resource {
 }
 
 // @public
+export interface NamespaceTopicEventSubscriptionDestination extends EventSubscriptionDestination {
+    endpointType: "NamespaceTopic";
+    resourceId?: string;
+}
+
+// @public
 export interface NamespaceTopicEventSubscriptions {
     beginCreateOrUpdate(resourceGroupName: string, namespaceName: string, topicName: string, eventSubscriptionName: string, eventSubscriptionInfo: Subscription, options?: NamespaceTopicEventSubscriptionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NamespaceTopicEventSubscriptionsCreateOrUpdateResponse>, NamespaceTopicEventSubscriptionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, namespaceName: string, topicName: string, eventSubscriptionName: string, eventSubscriptionInfo: Subscription, options?: NamespaceTopicEventSubscriptionsCreateOrUpdateOptionalParams): Promise<NamespaceTopicEventSubscriptionsCreateOrUpdateResponse>;
@@ -2150,6 +2208,7 @@ export interface NamespaceTopicEventSubscriptions {
     beginUpdate(resourceGroupName: string, namespaceName: string, topicName: string, eventSubscriptionName: string, eventSubscriptionUpdateParameters: SubscriptionUpdateParameters, options?: NamespaceTopicEventSubscriptionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NamespaceTopicEventSubscriptionsUpdateResponse>, NamespaceTopicEventSubscriptionsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, namespaceName: string, topicName: string, eventSubscriptionName: string, eventSubscriptionUpdateParameters: SubscriptionUpdateParameters, options?: NamespaceTopicEventSubscriptionsUpdateOptionalParams): Promise<NamespaceTopicEventSubscriptionsUpdateResponse>;
     get(resourceGroupName: string, namespaceName: string, topicName: string, eventSubscriptionName: string, options?: NamespaceTopicEventSubscriptionsGetOptionalParams): Promise<NamespaceTopicEventSubscriptionsGetResponse>;
+    getDeliveryAttributes(resourceGroupName: string, namespaceName: string, topicName: string, eventSubscriptionName: string, options?: NamespaceTopicEventSubscriptionsGetDeliveryAttributesOptionalParams): Promise<NamespaceTopicEventSubscriptionsGetDeliveryAttributesResponse>;
     listByNamespaceTopic(resourceGroupName: string, namespaceName: string, topicName: string, options?: NamespaceTopicEventSubscriptionsListByNamespaceTopicOptionalParams): PagedAsyncIterableIterator<Subscription>;
 }
 
@@ -2173,6 +2232,13 @@ export interface NamespaceTopicEventSubscriptionsDeleteOptionalParams extends co
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface NamespaceTopicEventSubscriptionsGetDeliveryAttributesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NamespaceTopicEventSubscriptionsGetDeliveryAttributesResponse = DeliveryAttributeListResult;
 
 // @public
 export interface NamespaceTopicEventSubscriptionsGetOptionalParams extends coreClient.OperationOptions {
@@ -2333,6 +2399,116 @@ export interface NamespaceUpdateParameters {
     };
     topicSpacesConfiguration?: UpdateTopicSpacesConfigurationInfo;
 }
+
+// @public
+export type NetworkSecurityPerimeterAssociationAccessMode = string;
+
+// @public
+export type NetworkSecurityPerimeterConfigProvisioningState = string;
+
+// @public
+export interface NetworkSecurityPerimeterConfiguration extends Resource {
+    networkSecurityPerimeter?: NetworkSecurityPerimeterInfo;
+    profile?: NetworkSecurityPerimeterConfigurationProfile;
+    provisioningIssues?: NetworkSecurityPerimeterConfigurationIssues[];
+    provisioningState?: NetworkSecurityPerimeterConfigProvisioningState;
+    resourceAssociation?: ResourceAssociation;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationIssues {
+    description?: string;
+    issueType?: NetworkSecurityPerimeterConfigurationIssueType;
+    name?: string;
+    severity?: NetworkSecurityPerimeterConfigurationIssueSeverity;
+    suggestedAccessRules?: string[];
+    suggestedResourceIds?: string[];
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationIssueSeverity = string;
+
+// @public
+export type NetworkSecurityPerimeterConfigurationIssueType = string;
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationList {
+    nextLink?: string;
+    value?: NetworkSecurityPerimeterConfiguration[];
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationProfile {
+    accessRules?: NetworkSecurityPerimeterProfileAccessRule[];
+    accessRulesVersion?: string;
+    diagnosticSettingsVersion?: string;
+    enabledLogCategories?: string[];
+    name?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurations {
+    beginReconcile(resourceGroupName: string, resourceType: NetworkSecurityPerimeterResourceType, resourceName: string, perimeterGuid: string, associationName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams): Promise<SimplePollerLike<OperationState<NetworkSecurityPerimeterConfigurationsReconcileResponse>, NetworkSecurityPerimeterConfigurationsReconcileResponse>>;
+    beginReconcileAndWait(resourceGroupName: string, resourceType: NetworkSecurityPerimeterResourceType, resourceName: string, perimeterGuid: string, associationName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams): Promise<NetworkSecurityPerimeterConfigurationsReconcileResponse>;
+    get(resourceGroupName: string, resourceType: NetworkSecurityPerimeterResourceType, resourceName: string, perimeterGuid: string, associationName: string, options?: NetworkSecurityPerimeterConfigurationsGetOptionalParams): Promise<NetworkSecurityPerimeterConfigurationsGetResponse>;
+    list(resourceGroupName: string, resourceType: NetworkSecurityPerimeterResourceType, resourceName: string, options?: NetworkSecurityPerimeterConfigurationsListOptionalParams): PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationsGetResponse = NetworkSecurityPerimeterConfiguration;
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationsListResponse = NetworkSecurityPerimeterConfigurationList;
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsReconcileHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationsReconcileResponse = NetworkSecurityPerimeterConfiguration;
+
+// @public
+export interface NetworkSecurityPerimeterInfo {
+    id?: string;
+    location?: string;
+    perimeterGuid?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterProfileAccessRule {
+    addressPrefixes?: string[];
+    direction?: NetworkSecurityPerimeterProfileAccessRuleDirection;
+    emailAddresses?: string[];
+    fullyQualifiedArmId?: string;
+    fullyQualifiedDomainNames?: string[];
+    name?: string;
+    networkSecurityPerimeters?: NetworkSecurityPerimeterInfo[];
+    phoneNumbers?: string[];
+    subscriptions?: string[];
+    type?: string;
+}
+
+// @public
+export type NetworkSecurityPerimeterProfileAccessRuleDirection = string;
+
+// @public
+export type NetworkSecurityPerimeterResourceType = string;
 
 // @public
 export interface NumberGreaterThanAdvancedFilter extends AdvancedFilter {
@@ -3456,6 +3632,14 @@ export type PublicNetworkAccess = string;
 export type PublisherType = string;
 
 // @public
+export interface PushInfo {
+    deadLetterDestinationWithResourceIdentity?: DeadLetterWithResourceIdentity;
+    deliveryWithResourceIdentity?: DeliveryWithResourceIdentity;
+    eventTimeToLive?: string;
+    maxDeliveryCount?: number;
+}
+
+// @public
 export interface QueueInfo {
     deadLetterDestinationWithResourceIdentity?: DeadLetterWithResourceIdentity;
     eventTimeToLive?: string;
@@ -3471,6 +3655,12 @@ export interface Resource {
     readonly id?: string;
     readonly name?: string;
     readonly type?: string;
+}
+
+// @public
+export interface ResourceAssociation {
+    accessMode?: NetworkSecurityPerimeterAssociationAccessMode;
+    name?: string;
 }
 
 // @public
@@ -3505,7 +3695,7 @@ export interface RoutingEnrichments {
     // (undocumented)
     dynamic?: DynamicRoutingEnrichment[];
     // (undocumented)
-    static?: StaticRoutingEnrichment[];
+    static?: StaticRoutingEnrichmentUnion[];
 }
 
 // @public
@@ -3546,14 +3736,23 @@ export interface StaticDeliveryAttributeMapping extends DeliveryAttributeMapping
     value?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface StaticRoutingEnrichment {
     key?: string;
-    valueType?: StaticRoutingEnrichmentType;
+    valueType: "String";
 }
 
 // @public
 export type StaticRoutingEnrichmentType = string;
+
+// @public (undocumented)
+export type StaticRoutingEnrichmentUnion = StaticRoutingEnrichment | StaticStringRoutingEnrichment;
+
+// @public (undocumented)
+export interface StaticStringRoutingEnrichment extends StaticRoutingEnrichment {
+    value?: string;
+    valueType: "String";
+}
 
 // @public
 export interface StorageBlobDeadLetterDestination extends DeadLetterDestination {
@@ -4219,8 +4418,17 @@ export interface TopicsUpdateOptionalParams extends coreClient.OperationOptions 
     updateIntervalInMs?: number;
 }
 
+// @public (undocumented)
+export interface TopicTypeAdditionalEnforcedPermission {
+    // (undocumented)
+    isDataAction?: boolean;
+    // (undocumented)
+    permissionName?: string;
+}
+
 // @public
 export interface TopicTypeInfo extends Resource {
+    additionalEnforcedPermissions?: TopicTypeAdditionalEnforcedPermission[];
     areRegionalAndGlobalSourcesSupported?: boolean;
     description?: string;
     displayName?: string;

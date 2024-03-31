@@ -58,7 +58,7 @@ export class IotDpsClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-deviceprovisioningservices/5.1.1`;
+    const packageDetails = `azsdk-js-arm-deviceprovisioningservices/6.0.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -111,7 +111,7 @@ export class IotDpsClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-02-05";
+    this.apiVersion = options.apiVersion || "2023-03-01-preview";
     this.operations = new OperationsImpl(this);
     this.dpsCertificate = new DpsCertificateImpl(this);
     this.iotDpsResource = new IotDpsResourceImpl(this);

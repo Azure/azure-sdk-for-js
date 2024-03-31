@@ -93,7 +93,7 @@ export function createRegistryClient(
   endpoint: string,
   serviceVersion: string,
   recorder: Recorder,
-  options: { anonymous: boolean } = { anonymous: false }
+  options: { anonymous: boolean } = { anonymous: false },
 ): ContainerRegistryClient {
   const authorityHost = getAuthority(endpoint);
   const audience = getAudience(authorityHost);
@@ -115,13 +115,13 @@ export function createRegistryClient(
       tenantId: env.CONTAINERREGISTRY_TENANT_ID,
       clientId: env.CONTAINERREGISTRY_CLIENT_ID,
       clientSecret: env.CONTAINERREGISTRY_CLIENT_SECRET,
-    }
+    },
   );
 
   return new ContainerRegistryClient(
     endpoint,
     credential,
-    recorder.configureClientOptions(clientOptions)
+    recorder.configureClientOptions(clientOptions),
   );
 }
 
@@ -129,7 +129,7 @@ export function createBlobClient(
   endpoint: string,
   repositoryName: string,
   serviceVersion: string,
-  recorder: Recorder
+  recorder: Recorder,
 ): ContainerRegistryContentClient {
   const authorityHost = getAuthority(endpoint);
   const audience = getAudience(authorityHost);
@@ -145,14 +145,14 @@ export function createBlobClient(
       tenantId: env.CONTAINERREGISTRY_TENANT_ID,
       clientId: env.CONTAINERREGISTRY_CLIENT_ID,
       clientSecret: env.CONTAINERREGISTRY_CLIENT_SECRET,
-    }
+    },
   );
 
   return new ContainerRegistryContentClient(
     endpoint,
     repositoryName,
     credential,
-    recorder.configureClientOptions(clientOptions)
+    recorder.configureClientOptions(clientOptions),
   );
 }
 

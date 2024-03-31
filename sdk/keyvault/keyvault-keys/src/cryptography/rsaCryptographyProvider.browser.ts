@@ -12,12 +12,12 @@ import { CryptographyProvider, LocalCryptographyUnsupportedError } from "./model
 export class RsaCryptographyProvider implements CryptographyProvider {
   encrypt(): never {
     throw new LocalCryptographyUnsupportedError(
-      "RSA Local cryptography is not supported in the browser."
+      "RSA Local cryptography is not supported in the browser.",
     );
   }
   decrypt(): never {
     throw new LocalCryptographyUnsupportedError(
-      "RSA Local cryptography is not supported in the browser."
+      "RSA Local cryptography is not supported in the browser.",
     );
   }
 
@@ -30,37 +30,37 @@ export class RsaCryptographyProvider implements CryptographyProvider {
 
   wrapKey(): never {
     throw new LocalCryptographyUnsupportedError(
-      "RSA Local cryptography is not supported in the browser."
+      "RSA Local cryptography is not supported in the browser.",
     );
   }
 
   unwrapKey(): never {
     throw new LocalCryptographyUnsupportedError(
-      "RSA Local cryptography is not supported in the browser."
+      "RSA Local cryptography is not supported in the browser.",
     );
   }
 
   sign(): never {
     throw new LocalCryptographyUnsupportedError(
-      "RSA Local cryptography is not supported in the browser."
+      "RSA Local cryptography is not supported in the browser.",
     );
   }
 
   signData(): never {
     throw new LocalCryptographyUnsupportedError(
-      "RSA Local cryptography is not supported in the browser."
+      "RSA Local cryptography is not supported in the browser.",
     );
   }
 
   verify(): never {
     throw new LocalCryptographyUnsupportedError(
-      "RSA Local cryptography is not supported in the browser."
+      "RSA Local cryptography is not supported in the browser.",
     );
   }
 
   verifyData(): never {
     throw new LocalCryptographyUnsupportedError(
-      "RSA Local cryptography is not supported in the browser."
+      "RSA Local cryptography is not supported in the browser.",
     );
   }
 }

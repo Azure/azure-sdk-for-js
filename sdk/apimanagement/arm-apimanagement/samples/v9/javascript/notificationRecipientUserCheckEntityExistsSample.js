@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Determine if the Notification Recipient User is subscribed to the notification.
  *
  * @summary Determine if the Notification Recipient User is subscribed to the notification.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementHeadNotificationRecipientUser.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementHeadNotificationRecipientUser.json
  */
 async function apiManagementHeadNotificationRecipientUser() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

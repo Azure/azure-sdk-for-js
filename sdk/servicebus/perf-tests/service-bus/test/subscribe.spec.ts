@@ -6,7 +6,7 @@ import {
   ServiceBusReceivedMessage,
   ServiceBusReceiver,
 } from "@azure/service-bus";
-import { PerfOptionDictionary, EventPerfTest } from "@azure/test-utils-perf";
+import { PerfOptionDictionary, EventPerfTest } from "@azure-tools/test-perf";
 import { sendMessages } from "./receiveBatch.spec";
 import { ServiceBusTest } from "./sbBase.spec";
 
@@ -78,7 +78,7 @@ export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
           this.errorRaised(args.error);
         },
       },
-      { maxConcurrentCalls: this.parsedOptions["max-concurrent-calls"].value }
+      { maxConcurrentCalls: this.parsedOptions["max-concurrent-calls"].value },
     );
   }
 

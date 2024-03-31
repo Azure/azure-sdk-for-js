@@ -4,6 +4,7 @@
 import {
   createDefaultHttpClient,
   HttpClient,
+  isRestError,
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
@@ -28,12 +29,12 @@ import { handleEnvSetup } from "./utils/envSetupForPlayback";
 import { CustomMatcherOptions, Matcher, setMatcher } from "./matcher";
 import { addTransform, Transform } from "./transform";
 import { createRecordingRequest } from "./utils/createRecordingRequest";
-import { AdditionalPolicyConfig } from "@azure/core-client";
 import { logger } from "./log";
 import { setRecordingOptions } from "./options";
-import { isNode } from "@azure/core-util";
+import { isBrowser, isNode } from "@azure/core-util";
 import { env } from "./utils/env";
 import { decodeBase64 } from "./utils/encoding";
+import { AdditionalPolicyConfig } from "@azure/core-client";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -51,6 +52,7 @@ export class Recorder {
   private sessionFile?: string;
   private assetsJson?: string;
   private variables: Record<string, string>;
+  private matcherSet = false;
 
   constructor(private testContext?: Test | undefined) {
     logger.info(`[Recorder#constructor] Creating a recorder instance in ${getTestMode()} mode`);
@@ -63,7 +65,7 @@ export class Recorder {
         this.httpClient = createDefaultHttpClient();
       } else {
         throw new Error(
-          "Unable to determine the recording file path, testContext provided is not defined."
+          "Unable to determine the recording file path, testContext provided is not defined.",
         );
       }
     }
@@ -92,20 +94,22 @@ export class Recorder {
     if (requestAlreadyRedirected) {
       logger.verbose(
         `[Recorder#redirectRequest] Determined that the request to ${request.url} has already been redirected, not attempting to redirect again.`,
-        request
+        request,
       );
     } else {
       if (this.recordingId === undefined) {
         logger.error(
-          "[Recorder#redirectRequest] Could not redirect request (recording ID not set)",
-          request
+          "[Recorder#redirectRequest] Could not redirect request since the recorder was not started",
+          request,
         );
-        throw new RecorderError("Recording ID must be defined to redirect a request");
+        throw new RecorderError(
+          "Attempted to redirect a request, but the recorder was not started. Make sure to call Recorder#start before making any requests.",
+        );
       }
 
       logger.info(
         `[Recorder#redirectRequest] Redirecting request to ${request.url} through the test proxy`,
-        request
+        request,
       );
 
       request.headers.set("x-recording-id", this.recordingId);
@@ -133,7 +137,7 @@ export class Recorder {
   private revertRequestChanges(request: PipelineRequest, originalUrl: string): void {
     logger.info(
       `[Recorder#revertRequestChanges] "undo"s the URL changes made by the recorder to hit the test proxy after the response is received,`,
-      request
+      request,
     );
     const proxyHeaders = ["x-recording-id", "x-recording-mode"];
     for (const headerName of proxyHeaders) {
@@ -153,7 +157,7 @@ export class Recorder {
    */
   async addSanitizers(
     options: SanitizerOptions,
-    mode: ("record" | "playback")[] = ["record"]
+    mode: ("record" | "playback")[] = ["record"],
   ): Promise<void> {
     if (isLiveMode()) return;
     const actualTestMode = getTestMode() as "record" | "playback";
@@ -179,7 +183,7 @@ export class Recorder {
    */
   static async addSessionSanitizers(
     options: SanitizerOptions,
-    mode: ("record" | "playback")[] = ["record"]
+    mode: ("record" | "playback")[] = ["record"],
   ): Promise<void> {
     if (isLiveMode()) {
       return;
@@ -202,6 +206,15 @@ export class Recorder {
     }
   }
 
+  private async preStart(): Promise<void> {
+    if (isBrowser && isPlaybackMode()) {
+      if (!this.matcherSet) {
+        await this.setMatcher("CustomDefaultMatcher");
+        this.matcherSet = true;
+      }
+    }
+  }
+
   /**
    * Call this method to ping the proxy-tool with a start request
    * signalling to start recording in the record mode
@@ -213,6 +226,8 @@ export class Recorder {
    * - sanitizerOptions - Generated recordings are updated by the "proxy-tool" based on the sanitizer options provided, these santizers are applied only in "record" mode.
    */
   async start(options: RecorderStartOptions): Promise<void> {
+    await this.preStart();
+
     if (isLiveMode()) return;
     logger.info(`[Recorder#start] Starting the recorder in ${getTestMode()} mode`);
     this.stateManager.state = "started";
@@ -226,12 +241,26 @@ export class Recorder {
         this.sessionFile,
         this.recordingId,
         "POST",
-        this.assetsJson
+        this.assetsJson,
       );
 
       if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient")) {
         logger.verbose("[Recorder#start] Setting redirect mode");
-        await setRecordingOptions(Recorder.url, this.httpClient, { handleRedirects: !isNode });
+        try {
+          await setRecordingOptions(Recorder.url, this.httpClient, {
+            handleRedirects: !isNode,
+            tlsValidationCert: options.tlsValidationCert,
+          });
+        } catch (e) {
+          if (isRestError(e) && e.message.includes("ECONNREFUSED")) {
+            throw new RecorderError(
+              `Test proxy appears to not be running at ${Recorder.url}. Make sure that you are running your tests using the dev-tool scripts.`,
+            );
+          } else {
+            throw e;
+          }
+        }
+
         logger.verbose("[Recorder#start] Sending the start request to the test proxy");
         let rsp = await this.httpClient.sendRequest({
           ...req,
@@ -248,7 +277,7 @@ export class Recorder {
             errorMessage.includes("does not exist")
           ) {
             logger.info(
-              "[Recorder#start] start request failed, trying again without assets.json specified"
+              "[Recorder#start] start request failed, trying again without assets.json specified",
             );
 
             const retryRequest = createRecordingRequest(
@@ -256,7 +285,7 @@ export class Recorder {
               this.sessionFile,
               this.recordingId,
               "POST",
-              undefined
+              undefined,
             );
 
             rsp = await this.httpClient.sendRequest({
@@ -268,12 +297,17 @@ export class Recorder {
 
         if (rsp.status !== 200) {
           logger.error("[Recorder#start] Could not start the recorder", rsp);
-          throw new RecorderError("Start request failed.");
+          const mismatchHeader = rsp.headers.get("x-request-mismatch-error");
+          if (mismatchHeader) {
+            throw new RecorderError(decodeBase64(mismatchHeader));
+          } else {
+            throw new RecorderError("Start request failed.");
+          }
         }
         const id = rsp.headers.get("x-recording-id");
         if (!id) {
           logger.error(
-            "[Recorder#start] Test proxy did not provide a recording ID when starting the recorder"
+            "[Recorder#start] Test proxy did not provide a recording ID when starting the recorder",
           );
           throw new RecorderError("No recording ID returned for a successful start request.");
         }
@@ -286,7 +320,7 @@ export class Recorder {
           this.httpClient,
           Recorder.url,
           this.recordingId,
-          options.envSetupForPlayback
+          options.envSetupForPlayback,
         );
 
         // Sanitizers to be added only in record mode
@@ -320,7 +354,7 @@ export class Recorder {
       if (isRecordMode()) {
         logger.verbose(
           "[Recorder#stop] Adding recorder variables to the request body:",
-          this.variables
+          this.variables,
         );
         req.headers.set("Content-Type", "application/json");
         req.body = JSON.stringify(this.variables);
@@ -340,7 +374,7 @@ export class Recorder {
       }
     } else {
       logger.error(
-        "[Recorder#stop] Encountered invalid state: recordingId should have been defined when calling stop"
+        "[Recorder#stop] Encountered invalid state: recordingId should have been defined when calling stop",
       );
       throw new RecorderError("Bad state, recordingId is not defined when called stop.");
     }
@@ -357,13 +391,37 @@ export class Recorder {
   /**
    * Sets the matcher for the current recording to the matcher specified.
    */
-  async setMatcher(matcher: Matcher, options?: CustomMatcherOptions): Promise<void> {
+  async setMatcher(matcher: Matcher, options: CustomMatcherOptions = {}): Promise<void> {
     if (isPlaybackMode()) {
       if (!this.httpClient) {
         throw new RecorderError("httpClient should be defined in playback mode");
       }
 
-      await setMatcher(Recorder.url, this.httpClient, matcher, this.recordingId, options);
+      // See discussion in https://github.com/Azure/azure-sdk-tools/pull/6152
+      // Ideally this should be handled by the test-proxy.  However, it was suggested that
+      // there may be scenarios where it is desired to include this header.
+      // Thus we are ignoring Accept-Language header  in recorder for browser.
+      const excludedHeaders = isBrowser
+        ? (options.excludedHeaders ?? []).concat("Accept-Language")
+        : options.excludedHeaders;
+
+      const updatedOptions = {
+        ...options,
+        excludedHeaders,
+      };
+      if (matcher === "BodilessMatcher") {
+        updatedOptions.compareBodies = false;
+        await setMatcher(
+          Recorder.url,
+          this.httpClient,
+          "CustomDefaultMatcher",
+          this.recordingId,
+          updatedOptions,
+        );
+      } else {
+        await setMatcher(Recorder.url, this.httpClient, matcher, this.recordingId, updatedOptions);
+      }
+      this.matcherSet = true;
     }
   }
 
@@ -387,15 +445,21 @@ export class Recorder {
    *
    * Note: Client Options must have "additionalPolicies" as part of the options.
    */
-  public configureClientOptions<T>(
-    options: T & { additionalPolicies?: AdditionalPolicyConfig[] }
-  ): T & { additionalPolicies?: AdditionalPolicyConfig[] } {
+  public configureClientOptions<
+    T,
+    U extends { position: "perCall" | "perRetry"; policy: unknown } = AdditionalPolicyConfig,
+  >(options: T & { additionalPolicies?: U[] }): T & { additionalPolicies?: U[] } {
     if (isLiveMode()) return options;
     if (!options.additionalPolicies) options.additionalPolicies = [];
+
+    options.additionalPolicies.push({
+      policy: this.fixedMultipartBoundaryPolicy(),
+      position: "perCall",
+    } as U);
     options.additionalPolicies.push({
       policy: this.recorderHttpPolicy(),
       position: "perRetry",
-    });
+    } as U);
     return options;
   }
 
@@ -404,14 +468,14 @@ export class Recorder {
       const errorMessage = decodeBase64(response.headers.get("x-request-mismatch-error") ?? "");
       logger.error(
         "[Recorder#handleTestProxyErrors] Could not match request to recording",
-        errorMessage
+        errorMessage,
       );
       throw new RecorderError(errorMessage);
     }
 
     if (response.headers.get("x-request-known-exception") === "true") {
       const errorMessage = decodeBase64(
-        response.headers.get("x-request-known-exception-error") ?? ""
+        response.headers.get("x-request-known-exception-error") ?? "",
       );
       logger.error("[Recorder#handleTestProxyErrors] Test proxy error encountered", errorMessage);
       throw new RecorderError(errorMessage);
@@ -426,14 +490,32 @@ export class Recorder {
       name: "recording policy",
       sendRequest: async (
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> => {
         const originalUrl = request.url;
+
         this.redirectRequest(request);
         const response = await next(request);
         this.handleTestProxyErrors(response);
         this.revertRequestChanges(request, originalUrl);
         return response;
+      },
+    };
+  }
+
+  private fixedMultipartBoundaryPolicy(): PipelinePolicy {
+    return {
+      name: "fixedMultipartBoundaryPolicy",
+      sendRequest: (request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> => {
+        if (request.multipartBody) {
+          request.multipartBody.boundary = "--RecordedTestMultipartBoundary";
+          const contentType = request.headers.get("Content-Type");
+          if (contentType) {
+            const contentTypeWithoutBoundary = contentType.split(";")[0];
+            request.headers.set("Content-Type", contentTypeWithoutBoundary);
+          }
+        }
+        return next(request);
       },
     };
   }
@@ -475,10 +557,10 @@ export class Recorder {
 
       if (recordedValue === undefined) {
         logger.error(
-          `[Recorder#variable] Test tried to access a variable in playback that was not set in the recording: ${name}`
+          `[Recorder#variable] Test tried to access a variable in playback that was not set in the recording: ${name}`,
         );
         throw new RecorderError(
-          `Tried to access a variable in playback that was not set in recording: ${name}`
+          `Tried to access a variable in playback that was not set in recording: ${name}`,
         );
       }
 
@@ -489,7 +571,7 @@ export class Recorder {
       if (value === undefined) {
         logger.error(`[Recorder#variable] Test tried to access an unitialized variable: ${name}`);
         throw new RecorderError(
-          `Tried to access uninitialized variable: ${name}. You must initialize it with a value before using it.`
+          `Tried to access uninitialized variable: ${name}. You must initialize it with a value before using it.`,
         );
       }
 

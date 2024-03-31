@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   KqlScriptResource,
   KqlScriptCreateOrUpdateOptionalParams,
@@ -31,8 +31,8 @@ export interface KqlScriptOperations {
     kqlScript: KqlScriptResource,
     options?: KqlScriptCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<KqlScriptCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<KqlScriptCreateOrUpdateResponse>,
       KqlScriptCreateOrUpdateResponse
     >
   >;
@@ -64,7 +64,7 @@ export interface KqlScriptOperations {
   beginDeleteByName(
     kqlScriptName: string,
     options?: KqlScriptDeleteByNameOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete KQL script by name
    * @param kqlScriptName KQL script name
@@ -84,7 +84,7 @@ export interface KqlScriptOperations {
     kqlScriptName: string,
     renameRequest: ArtifactRenameRequest,
     options?: KqlScriptRenameOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Rename KQL script
    * @param kqlScriptName KQL script name

@@ -90,7 +90,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationList
+      bodyMapper: Mappers.OperationListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

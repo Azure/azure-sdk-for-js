@@ -104,6 +104,8 @@ export interface VirtualNetworkConfiguration {
   enginePublicIpId: string;
   /** Data management's service public IP address resource id. */
   dataManagementPublicIpId: string;
+  /** When enabled, the cluster is deployed into the configured subnet, when disabled it will be removed from the subnet. */
+  state?: VnetState;
 }
 
 /** Properties of the key vault. */
@@ -130,6 +132,8 @@ export interface LanguageExtension {
   languageExtensionName?: LanguageExtensionName;
   /** The language extension image name. */
   languageExtensionImageName?: LanguageExtensionImageName;
+  /** The language extension custom image name. */
+  languageExtensionCustomImageName?: string;
 }
 
 /** Represents an accepted audience trusted by the cluster. */
@@ -179,22 +183,83 @@ export interface Resource {
   readonly type?: string;
 }
 
-/** An error response from Kusto. */
-export interface CloudError {
-  /** An error response from Kusto. */
-  error?: CloudErrorBody;
+/** Represents a properties of a cluster that is part of a migration. */
+export interface MigrationClusterProperties {
+  /**
+   * The resource ID of the cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The public URL of the cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uri?: string;
+  /**
+   * The public data ingestion URL of the cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dataIngestionUri?: string;
+  /**
+   * The role of the cluster in the migration process.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly role?: MigrationClusterRole;
 }
 
-/** An error response from Kusto. */
-export interface CloudErrorBody {
-  /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
-  code?: string;
-  /** A message describing the error, intended to be suitable for displaying in a user interface. */
-  message?: string;
-  /** The target of the particular error. For example, the name of the property in error. */
-  target?: string;
-  /** A list of additional details about the error. */
-  details?: CloudErrorBody[];
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** A cluster migrate request. */
+export interface ClusterMigrateRequest {
+  /** Resource ID of the destination cluster or kusto pool. */
+  clusterResourceId: string;
 }
 
 /** A principal assignment check name availability request. */
@@ -426,8 +491,24 @@ export interface AzureCapacity {
 
 /** The list Kusto databases operation response. */
 export interface DatabaseListResult {
+  /** Link to the next page of results */
+  nextLink?: string;
   /** The list of Kusto databases. */
   value?: DatabaseUnion[];
+}
+
+/** The request to invite a follower to a database. */
+export interface DatabaseInviteFollowerRequest {
+  /** The email of the invited user for which the follower invitation is generated. */
+  inviteeEmail: string;
+  /** Table level sharing specifications */
+  tableLevelSharingProperties?: TableLevelSharingProperties;
+}
+
+/** The result returned from a follower invitation generation request. */
+export interface DatabaseInviteFollowerResult {
+  /** The generated invitation token. */
+  generatedInvitation?: string;
 }
 
 /** A principal assignment check name availability request. */
@@ -483,6 +564,22 @@ export interface ScriptListResult {
   value?: Script[];
 }
 
+/** The list Kusto sandbox custom images operation response. */
+export interface SandboxCustomImagesListResult {
+  /** Link to the next page of results */
+  nextLink?: string;
+  /** The list of Kusto sandbox custom images. */
+  value?: SandboxCustomImage[];
+}
+
+/** The result returned from a sandboxCustomImage check name availability request. */
+export interface SandboxCustomImagesCheckNameRequest {
+  /** Sandbox custom image resource name. */
+  name: string;
+  /** The type of resource, for instance Microsoft.Kusto/clusters/sandboxCustomImages. */
+  type: "Microsoft.Kusto/clusters/sandboxCustomImages";
+}
+
 /** The list managed private endpoints operation response. */
 export interface ManagedPrivateEndpointListResult {
   /** The list of managed private endpoints. */
@@ -524,6 +621,8 @@ export interface EndpointDependency {
 export interface EndpointDetail {
   /** The port an endpoint is connected to. */
   port?: number;
+  /** The ip address of the endpoint. */
+  ipAddress?: string;
 }
 
 /** The list attached database configurations operation response. */
@@ -650,6 +749,12 @@ export interface DatabaseStatistics {
   size?: number;
 }
 
+/** The database suspension details. If the database is suspended, this object contains information related to the database's suspension state. */
+export interface SuspensionDetails {
+  /** The starting date and time of the suspension state. */
+  suspensionStartDate?: Date;
+}
+
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
@@ -669,6 +774,8 @@ export interface ClusterUpdate extends Resource {
   location?: string;
   /** The SKU of the cluster. */
   sku?: AzureSku;
+  /** The availability zones of the cluster. */
+  zones?: string[];
   /** The identity of the cluster, if configured. */
   identity?: Identity;
   /**
@@ -737,6 +844,11 @@ export interface ClusterUpdate extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /**
+   * Properties of the peer cluster involved in a migration to/from this cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly migrationCluster?: MigrationClusterProperties;
 }
 
 /** A private link resource */
@@ -878,6 +990,21 @@ export interface Script extends ProxyResource {
   forceUpdateTag?: string;
   /** Flag that indicates whether to continue if one of the command fails. */
   continueOnErrors?: boolean;
+  /**
+   * The provisioned state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** Class representing a Kusto sandbox custom image. */
+export interface SandboxCustomImage extends ProxyResource {
+  /** The language name, for example Python. */
+  language?: Language;
+  /** The version of the language. */
+  languageVersion?: string;
+  /** The requirements file content. */
+  requirementsFileContent?: string;
   /**
    * The provisioned state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1045,6 +1172,11 @@ export interface Cluster extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /**
+   * Properties of the peer cluster involved in a migration to/from this cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly migrationCluster?: MigrationClusterProperties;
 }
 
 /** Class representing a read write database. */
@@ -1070,6 +1202,13 @@ export interface ReadWriteDatabase extends Database {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isFollowed?: boolean;
+  /** KeyVault properties for the database encryption. */
+  keyVaultProperties?: KeyVaultProperties;
+  /**
+   * The database suspension details. If the database is suspended, this object contains information related to the database's suspension state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly suspensionDetails?: SuspensionDetails;
 }
 
 /** Class representing a read only following database. */
@@ -1123,6 +1262,11 @@ export interface ReadOnlyFollowingDatabase extends Database {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly databaseShareOrigin?: DatabaseShareOrigin;
+  /**
+   * The database suspension details. If the database is suspended, this object contains information related to the database's suspension state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly suspensionDetails?: SuspensionDetails;
 }
 
 /** Class representing an event hub data connection. */
@@ -1260,31 +1404,229 @@ export interface CosmosDbDataConnection extends DataConnection {
 
 /** Defines headers for Clusters_update operation. */
 export interface ClustersUpdateHeaders {
-  /** URL to query for status of the operation. */
+  /** URL to query the status of the operation. */
+  location?: string;
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Clusters_delete operation. */
+export interface ClustersDeleteHeaders {
+  /** URL to query the status of the operation. */
+  location?: string;
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Clusters_stop operation. */
+export interface ClustersStopHeaders {
+  /** URL to query the status of the operation. */
+  location?: string;
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Clusters_start operation. */
+export interface ClustersStartHeaders {
+  /** URL to query the status of the operation. */
+  location?: string;
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Clusters_migrate operation. */
+export interface ClustersMigrateHeaders {
+  /** URL to query the status of the operation. */
+  location?: string;
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Clusters_detachFollowerDatabases operation. */
+export interface ClustersDetachFollowerDatabasesHeaders {
+  /** URL to query the status of the operation. */
+  location?: string;
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Clusters_diagnoseVirtualNetwork operation. */
+export interface ClustersDiagnoseVirtualNetworkHeaders {
+  /** URL to query the status of the operation. */
+  location?: string;
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Clusters_addLanguageExtensions operation. */
+export interface ClustersAddLanguageExtensionsHeaders {
+  /** URL to query the status of the operation. */
+  location?: string;
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Clusters_removeLanguageExtensions operation. */
+export interface ClustersRemoveLanguageExtensionsHeaders {
+  /** URL to query the status of the operation. */
+  location?: string;
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for ClusterPrincipalAssignments_delete operation. */
+export interface ClusterPrincipalAssignmentsDeleteHeaders {
+  /** URL to query the status of the operation. */
+  location?: string;
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Databases_createOrUpdate operation. */
+export interface DatabasesCreateOrUpdateHeaders {
+  /** URL to query the status of the operation. */
   azureAsyncOperation?: string;
 }
 
 /** Defines headers for Databases_update operation. */
 export interface DatabasesUpdateHeaders {
-  /** URL to query for status of the operation. */
+  /** URL to query the status of the operation. */
+  location?: string;
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Databases_delete operation. */
+export interface DatabasesDeleteHeaders {
+  /** URL to query the status of the operation. */
+  location?: string;
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for AttachedDatabaseConfigurations_createOrUpdate operation. */
+export interface AttachedDatabaseConfigurationsCreateOrUpdateHeaders {
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for AttachedDatabaseConfigurations_delete operation. */
+export interface AttachedDatabaseConfigurationsDeleteHeaders {
+  /** URL to query the status of the operation. */
+  location?: string;
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for ManagedPrivateEndpoints_createOrUpdate operation. */
+export interface ManagedPrivateEndpointsCreateOrUpdateHeaders {
+  /** URL to query the status of the operation. */
   azureAsyncOperation?: string;
 }
 
 /** Defines headers for ManagedPrivateEndpoints_update operation. */
 export interface ManagedPrivateEndpointsUpdateHeaders {
-  /** URL to query for status of the operation. */
+  /** URL to query the status of the operation. */
+  location?: string;
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for ManagedPrivateEndpoints_delete operation. */
+export interface ManagedPrivateEndpointsDeleteHeaders {
+  /** URL to query the status of the operation. */
+  location?: string;
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for DatabasePrincipalAssignments_delete operation. */
+export interface DatabasePrincipalAssignmentsDeleteHeaders {
+  /** URL to query the status of the operation. */
+  location?: string;
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Scripts_createOrUpdate operation. */
+export interface ScriptsCreateOrUpdateHeaders {
+  /** URL to query the status of the operation. */
   azureAsyncOperation?: string;
 }
 
 /** Defines headers for Scripts_update operation. */
 export interface ScriptsUpdateHeaders {
-  /** URL to query for status of the operation. */
+  /** URL to query the status of the operation. */
+  location?: string;
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Scripts_delete operation. */
+export interface ScriptsDeleteHeaders {
+  /** URL to query the status of the operation. */
+  location?: string;
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for SandboxCustomImages_update operation. */
+export interface SandboxCustomImagesUpdateHeaders {
+  /** URL to query the status of the operation. */
+  location?: string;
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for SandboxCustomImages_delete operation. */
+export interface SandboxCustomImagesDeleteHeaders {
+  /** URL to query the status of the operation. */
+  location?: string;
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for PrivateEndpointConnections_delete operation. */
+export interface PrivateEndpointConnectionsDeleteHeaders {
+  /** URL to query the status of the operation. */
+  location?: string;
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for DataConnections_dataConnectionValidation operation. */
+export interface DataConnectionsDataConnectionValidationHeaders {
+  /** URL to query the status of the operation. */
+  location?: string;
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for DataConnections_createOrUpdate operation. */
+export interface DataConnectionsCreateOrUpdateHeaders {
+  /** URL to query the status of the operation. */
   azureAsyncOperation?: string;
 }
 
 /** Defines headers for DataConnections_update operation. */
 export interface DataConnectionsUpdateHeaders {
-  /** URL to query for status of the operation. */
+  /** URL to query the status of the operation. */
+  location?: string;
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for DataConnections_delete operation. */
+export interface DataConnectionsDeleteHeaders {
+  /** URL to query the status of the operation. */
+  location?: string;
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for OperationsResultsLocation_get operation. */
+export interface OperationsResultsLocationGetHeaders {
+  /** URL to query the status of the operation. */
   azureAsyncOperation?: string;
 }
 
@@ -1577,7 +1919,9 @@ export enum KnownState {
   /** Starting */
   Starting = "Starting",
   /** Updating */
-  Updating = "Updating"
+  Updating = "Updating",
+  /** Migrated */
+  Migrated = "Migrated"
 }
 
 /**
@@ -1593,7 +1937,8 @@ export enum KnownState {
  * **Stopping** \
  * **Stopped** \
  * **Starting** \
- * **Updating**
+ * **Updating** \
+ * **Migrated**
  */
 export type State = string;
 
@@ -1630,6 +1975,24 @@ export enum KnownProvisioningState {
  */
 export type ProvisioningState = string;
 
+/** Known values of {@link VnetState} that the service accepts. */
+export enum KnownVnetState {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for VnetState. \
+ * {@link KnownVnetState} can be used interchangeably with VnetState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type VnetState = string;
+
 /** Known values of {@link LanguageExtensionName} that the service accepts. */
 export enum KnownLanguageExtensionName {
   /** Python */
@@ -1654,12 +2017,12 @@ export enum KnownLanguageExtensionImageName {
   R = "R",
   /** Python365 */
   Python365 = "Python3_6_5",
-  /** Python3912 */
-  Python3912 = "Python3_9_12",
-  /** Python3912IncludeDeepLearning */
-  Python3912IncludeDeepLearning = "Python3_9_12IncludeDeepLearning",
   /** Python3108 */
-  Python3108 = "Python3_10_8"
+  Python3108 = "Python3_10_8",
+  /** Python3108DL */
+  Python3108DL = "Python3_10_8_DL",
+  /** PythonCustomImage */
+  PythonCustomImage = "PythonCustomImage"
 }
 
 /**
@@ -1669,9 +2032,9 @@ export enum KnownLanguageExtensionImageName {
  * ### Known values supported by the service
  * **R** \
  * **Python3_6_5** \
- * **Python3_9_12** \
- * **Python3_9_12IncludeDeepLearning** \
- * **Python3_10_8**
+ * **Python3_10_8** \
+ * **Python3_10_8_DL** \
+ * **PythonCustomImage**
  */
 export type LanguageExtensionImageName = string;
 
@@ -1746,6 +2109,24 @@ export enum KnownPublicIPType {
  * **DualStack**
  */
 export type PublicIPType = string;
+
+/** Known values of {@link MigrationClusterRole} that the service accepts. */
+export enum KnownMigrationClusterRole {
+  /** Source */
+  Source = "Source",
+  /** Destination */
+  Destination = "Destination"
+}
+
+/**
+ * Defines values for MigrationClusterRole. \
+ * {@link KnownMigrationClusterRole} can be used interchangeably with MigrationClusterRole,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Source** \
+ * **Destination**
+ */
+export type MigrationClusterRole = string;
 
 /** Known values of {@link Reason} that the service accepts. */
 export enum KnownReason {
@@ -1932,6 +2313,21 @@ export enum KnownDatabasePrincipalType {
  * **User**
  */
 export type DatabasePrincipalType = string;
+
+/** Known values of {@link Language} that the service accepts. */
+export enum KnownLanguage {
+  /** Python */
+  Python = "Python"
+}
+
+/**
+ * Defines values for Language. \
+ * {@link KnownLanguage} can be used interchangeably with Language,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Python**
+ */
+export type Language = string;
 
 /** Known values of {@link DefaultPrincipalsModificationKind} that the service accepts. */
 export enum KnownDefaultPrincipalsModificationKind {
@@ -2326,6 +2722,15 @@ export interface ClustersStartOptionalParams
 }
 
 /** Optional parameters. */
+export interface ClustersMigrateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
 export interface ClustersListFollowerDatabasesOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -2484,7 +2889,12 @@ export type DatabasesCheckNameAvailabilityResponse = CheckNameResult;
 
 /** Optional parameters. */
 export interface DatabasesListByClusterOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** limit the number of results */
+  top?: number;
+  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
+  skiptoken?: string;
+}
 
 /** Contains response data for the listByCluster operation. */
 export type DatabasesListByClusterResponse = DatabaseListResult;
@@ -2553,6 +2963,13 @@ export interface DatabasesRemovePrincipalsOptionalParams
 
 /** Contains response data for the removePrincipals operation. */
 export type DatabasesRemovePrincipalsResponse = DatabasePrincipalListResult;
+
+/** Optional parameters. */
+export interface DatabasesListByClusterNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByClusterNext operation. */
+export type DatabasesListByClusterNextResponse = DatabaseListResult;
 
 /** Optional parameters. */
 export interface AttachedDatabaseConfigurationsCheckNameAvailabilityOptionalParams
@@ -2651,6 +3068,13 @@ export interface ManagedPrivateEndpointsDeleteOptionalParams
 }
 
 /** Optional parameters. */
+export interface DatabaseInviteFollowerOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the inviteFollower operation. */
+export type DatabaseInviteFollowerResponse = DatabaseInviteFollowerResult;
+
+/** Optional parameters. */
 export interface DatabasePrincipalAssignmentsCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -2744,6 +3168,60 @@ export interface ScriptsCheckNameAvailabilityOptionalParams
 
 /** Contains response data for the checkNameAvailability operation. */
 export type ScriptsCheckNameAvailabilityResponse = CheckNameResult;
+
+/** Optional parameters. */
+export interface SandboxCustomImagesListByClusterOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCluster operation. */
+export type SandboxCustomImagesListByClusterResponse = SandboxCustomImagesListResult;
+
+/** Optional parameters. */
+export interface SandboxCustomImagesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SandboxCustomImagesGetResponse = SandboxCustomImage;
+
+/** Optional parameters. */
+export interface SandboxCustomImagesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SandboxCustomImagesCreateOrUpdateResponse = SandboxCustomImage;
+
+/** Optional parameters. */
+export interface SandboxCustomImagesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type SandboxCustomImagesUpdateResponse = SandboxCustomImage;
+
+/** Optional parameters. */
+export interface SandboxCustomImagesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface SandboxCustomImagesCheckNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkNameAvailability operation. */
+export type SandboxCustomImagesCheckNameAvailabilityResponse = CheckNameResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListOptionalParams
@@ -2884,6 +3362,9 @@ export type OperationsResultsGetResponse = OperationResult;
 /** Optional parameters. */
 export interface OperationsResultsLocationGetOptionalParams
   extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type OperationsResultsLocationGetResponse = OperationsResultsLocationGetHeaders;
 
 /** Optional parameters. */
 export interface KustoManagementClientOptionalParams

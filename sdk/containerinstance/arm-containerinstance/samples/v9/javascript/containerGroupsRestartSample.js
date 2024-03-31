@@ -26,7 +26,7 @@ async function containerRestart() {
   const client = new ContainerInstanceManagementClient(credential, subscriptionId);
   const result = await client.containerGroups.beginRestartAndWait(
     resourceGroupName,
-    containerGroupName
+    containerGroupName,
   );
   console.log(result);
 }

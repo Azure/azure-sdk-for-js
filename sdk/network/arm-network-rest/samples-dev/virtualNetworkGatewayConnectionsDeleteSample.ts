@@ -32,7 +32,7 @@ async function deleteVirtualNetworkGatewayConnection() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkGatewayConnectionName
+      virtualNetworkGatewayConnectionName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

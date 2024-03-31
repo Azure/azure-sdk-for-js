@@ -1,15 +1,15 @@
 # Release History
 
-## 1.0.0-beta.2 (2023-01-10)
+## 1.0.1 (Unreleased)
 
-**Features**
+### Features Added
 
--  Exposes `getContinuationToken` helper function to extract continuation token
+### Breaking Changes
 
-**Bugs Fixed**
+### Bugs Fixed
 
-- A series of small bug fixs relevant to authentication and apiVersion policy
+### Other Changes
 
-## 1.0.0-beta.1 (2022-10-21)
+## 1.0.0 (2024-01-19)
 
-The package of @azure/arm-elasticsan is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+The package of @azure/arm-elasticsan is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

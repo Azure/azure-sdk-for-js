@@ -74,6 +74,27 @@ async function usePackageTestTimeout(testPackageJson, packageJsonContents) {
   }
 }
 
+async function adjustEsmWorkaround(testPackageJson, packageJsonContents) {
+  if (packageJsonContents.scripts["integration-test:node"]) {
+    if (packageJsonContents.devDependencies["esm"]) {
+      return;
+    }
+
+    testPackageJson.scripts["integration-test:node"] = testPackageJson.scripts[
+      "integration-test:node"
+    ].replace("-r esm-workaround.js -r esm", "--loader=./esm4mocha.mjs");
+  }  
+}
+
+async function updateEsm4MochaMjs(commonToolsPath, filePath) {
+  let fileContent = await packageUtils.readFile(filePath);
+  const writeContent = fileContent.replace(
+    "./dev-tool/node_modules/ts-morph/dist/ts-morph.js",
+    `${commonToolsPath}/dev-tool/node_modules/ts-morph/dist/ts-morph.js`
+  );
+  await packageUtils.writeFile(filePath, writeContent);
+}
+
 /**
  * This inserts the package.json from the templates into the test folder.
  * It computes the different versions of the dependencies/ dev-dep in this package.json
@@ -148,6 +169,7 @@ async function insertPackageJson(
       }
     }
   }
+  await adjustEsmWorkaround(testPackageJson, packageJsonContents);
   console.log(testPackageJson);
   const testPackageJsonPath = path.join(testPath, "package.json");
   await packageUtils.writePackageJson(testPackageJsonPath, testPackageJson);
@@ -261,12 +283,12 @@ function fromDir(startPath, filter, resList) {
   return resList;
 }
 
-async function insertMochaReporter(targetPackagePath, repoRoot, testFolder) {
+async function copyRepoFile(repoRoot, relativePath, fileName, targetPackagePath, testFolder) {
   const testPath = path.join(targetPackagePath, testFolder);
-  const mochaPath = path.join(repoRoot, "./common/tools/mocha-multi-reporter.js");
-  const mochaDestPath = path.join(testPath, "./mocha-multi-reporter.js");
-  let mochaReporter = await packageUtils.readFile(mochaPath);
-  await packageUtils.writeFile(mochaDestPath, mochaReporter);
+  const sourcePath = path.join(repoRoot, relativePath, fileName);
+  const destPath = path.join(testPath, fileName);
+  console.log(`copying file from ${sourcePath} to ${destPath}`);
+  fs.copyFileSync(sourcePath, destPath);
 }
 
 async function insertTsConfigJson(targetPackagePath, testFolder) {
@@ -402,7 +424,11 @@ async function main(argv) {
     return;
   }
   await replaceSourceReferences(targetPackagePath, targetPackage.packageName, testFolder);
-  await insertMochaReporter(targetPackagePath, repoRoot, testFolder);
+  await copyRepoFile(repoRoot, "common/tools", "mocha-multi-reporter.js", targetPackagePath, testFolder);
+  await copyRepoFile(repoRoot, "common/tools", "esm-workaround.js", targetPackagePath, testFolder);
+  await copyRepoFile(repoRoot, "common/tools", "esm4mocha.mjs", targetPackagePath, testFolder);
+  const commonToolsPath = path.resolve(path.join(repoRoot, "common/tools"));
+  await updateEsm4MochaMjs(commonToolsPath, path.join(targetPackagePath, testFolder, "esm4mocha.mjs"));
   await updateRushConfig(repoRoot, targetPackage, testFolder);
   outputTestPath(targetPackage.projectFolder, sourceDir, testFolder);
 }

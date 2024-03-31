@@ -1,5 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { PartitionKeyDefinitionVersion } from "./PartitionKeyDefinitionVersion";
+import { PartitionKeyKind } from "./PartitionKeyKind";
+
 export interface PartitionKeyDefinition {
   /**
    * An array of paths for which data within the collection can be partitioned. Paths must not contain a wildcard or
@@ -11,6 +14,10 @@ export interface PartitionKeyDefinition {
    * An optional field, if not specified the default value is 1. To use the large partition key set the version to 2.
    * To learn about large partition keys, see [how to create containers with large partition key](https://docs.microsoft.com/en-us/azure/cosmos-db/large-partition-keys) article.
    */
-  version?: number;
+  version?: PartitionKeyDefinitionVersion;
   systemKey?: boolean;
+  /**
+   * What kind of partition key is being defined (default: "Hash")
+   */
+  kind?: PartitionKeyKind;
 }

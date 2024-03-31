@@ -5,7 +5,7 @@ import { AzureKeyCredential } from "@azure/core-auth";
 import MapsRender, { positionToTileXY } from "@azure-rest/maps-render";
 
 /**
- * @summary How to get the map tile and render on the browser.
+ * @summary How to get the map tile and render on the **browser**.
  */
 async function main() {
   /**
@@ -25,7 +25,7 @@ async function main() {
 
   /** Azure Active Directory (Azure AD) authentication */
   // const credential = new DefaultAzureCredential();
-  // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
+  // const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
   // const client = MapsRender(credential, mapsClientId);
 
   const zoom = 6;
@@ -46,6 +46,8 @@ async function main() {
 
   /**
    * Create a blob to host the response stream, so we can feed the blob to an image object.
+   * This is an browser API, please make sure you're running this sample on the browser.
+   * If you're using Node.js, please refer to the `getMapTileInNode` sample.
    * Reference: https://developer.mozilla.org/en-US/docs/Web/API/Streams_API/Using_readable_streams#reading_the_stream
    */
   const reader = response.body.getReader();

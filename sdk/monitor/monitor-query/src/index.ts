@@ -61,3 +61,6 @@ export {
 
 export { AggregationType, MetricClass } from "./generated/metricsdefinitions/src";
 export { NamespaceClassification } from "./generated/metricsnamespaces/src";
+
+export { MetricsQueryResourcesOptions } from "./models/publicBatchModels";
+export { MetricsClient } from "./metricsClient";

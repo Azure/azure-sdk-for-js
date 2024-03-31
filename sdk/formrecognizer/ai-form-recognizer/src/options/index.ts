@@ -14,8 +14,6 @@ import { DeleteDocumentModelOptions } from "./DeleteModelOptions";
 import {
   DocumentAnalysisClientOptions,
   DocumentModelAdministrationClientOptions,
-  FormRecognizerApiVersion,
-  FormRecognizerCommonClientOptions,
   StringIndexType,
 } from "./FormRecognizerClientOptions";
 import { GetCopyAuthorizationOptions } from "./GetCopyAuthorizationOptions";
@@ -38,7 +36,6 @@ export {
   CommonModelCreationOptions,
   BeginCopyModelOptions,
   DocumentModelBuildMode,
-  FormRecognizerCommonClientOptions,
   DocumentAnalysisClientOptions,
   DocumentModelAdministrationClientOptions,
   GetCopyAuthorizationOptions,
@@ -50,7 +47,6 @@ export {
   ListOperationsOptions,
   PollerOptions,
   StringIndexType,
-  FormRecognizerApiVersion,
   BeginBuildDocumentClassifierOptions,
   ClassifyDocumentOptions,
   FormRecognizerFeature,

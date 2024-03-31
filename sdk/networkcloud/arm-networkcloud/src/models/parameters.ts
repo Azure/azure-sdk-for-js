@@ -20,7 +20,6 @@ import {
   BareMetalMachineRunCommandParameters as BareMetalMachineRunCommandParametersMapper,
   BareMetalMachineRunDataExtractsParameters as BareMetalMachineRunDataExtractsParametersMapper,
   BareMetalMachineRunReadCommandsParameters as BareMetalMachineRunReadCommandsParametersMapper,
-  BareMetalMachineValidateHardwareParameters as BareMetalMachineValidateHardwareParametersMapper,
   CloudServicesNetwork as CloudServicesNetworkMapper,
   CloudServicesNetworkPatchParameters as CloudServicesNetworkPatchParametersMapper,
   ClusterManager as ClusterManagerMapper,
@@ -29,11 +28,9 @@ import {
   ClusterPatchParameters as ClusterPatchParametersMapper,
   ClusterDeployParameters as ClusterDeployParametersMapper,
   ClusterUpdateVersionParameters as ClusterUpdateVersionParametersMapper,
-  DefaultCniNetwork as DefaultCniNetworkMapper,
-  DefaultCniNetworkPatchParameters as DefaultCniNetworkPatchParametersMapper,
-  HybridAksCluster as HybridAksClusterMapper,
-  HybridAksClusterPatchParameters as HybridAksClusterPatchParametersMapper,
-  HybridAksClusterRestartNodeParameters as HybridAksClusterRestartNodeParametersMapper,
+  KubernetesCluster as KubernetesClusterMapper,
+  KubernetesClusterPatchParameters as KubernetesClusterPatchParametersMapper,
+  KubernetesClusterRestartNodeParameters as KubernetesClusterRestartNodeParametersMapper,
   L2Network as L2NetworkMapper,
   L2NetworkPatchParameters as L2NetworkPatchParametersMapper,
   L3Network as L3NetworkMapper,
@@ -43,13 +40,10 @@ import {
   StorageAppliance as StorageApplianceMapper,
   StorageAppliancePatchParameters as StorageAppliancePatchParametersMapper,
   StorageApplianceEnableRemoteVendorManagementParameters as StorageApplianceEnableRemoteVendorManagementParametersMapper,
-  StorageApplianceRunReadCommandsParameters as StorageApplianceRunReadCommandsParametersMapper,
-  StorageApplianceValidateHardwareParameters as StorageApplianceValidateHardwareParametersMapper,
   TrunkedNetwork as TrunkedNetworkMapper,
   TrunkedNetworkPatchParameters as TrunkedNetworkPatchParametersMapper,
   VirtualMachine as VirtualMachineMapper,
   VirtualMachinePatchParameters as VirtualMachinePatchParametersMapper,
-  VirtualMachineVolumeParameters as VirtualMachineVolumeParametersMapper,
   VirtualMachinePowerOffParameters as VirtualMachinePowerOffParametersMapper,
   Volume as VolumeMapper,
   VolumePatchParameters as VolumePatchParametersMapper,
@@ -59,6 +53,8 @@ import {
   BmcKeySetPatchParameters as BmcKeySetPatchParametersMapper,
   ClusterMetricsConfiguration as ClusterMetricsConfigurationMapper,
   ClusterMetricsConfigurationPatchParameters as ClusterMetricsConfigurationPatchParametersMapper,
+  AgentPool as AgentPoolMapper,
+  AgentPoolPatchParameters as AgentPoolPatchParametersMapper,
   Console as ConsoleMapper,
   ConsolePatchParameters as ConsolePatchParametersMapper
 } from "../models/mappers";
@@ -90,7 +86,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-12-12-preview",
+    defaultValue: "2023-07-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -114,13 +110,10 @@ export const nextLink: OperationURLParameter = {
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
-    constraints: {
-      MinLength: 1
-    },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
+      name: "Uuid"
     }
   }
 };
@@ -206,11 +199,6 @@ export const bareMetalMachineRunReadCommandsParameters: OperationParameter = {
   mapper: BareMetalMachineRunReadCommandsParametersMapper
 };
 
-export const bareMetalMachineValidateHardwareParameters: OperationParameter = {
-  parameterPath: "bareMetalMachineValidateHardwareParameters",
-  mapper: BareMetalMachineValidateHardwareParametersMapper
-};
-
 export const cloudServicesNetworkName: OperationURLParameter = {
   parameterPath: "cloudServicesNetworkName",
   mapper: {
@@ -293,13 +281,13 @@ export const clusterUpdateVersionParameters: OperationParameter = {
   mapper: ClusterUpdateVersionParametersMapper
 };
 
-export const defaultCniNetworkName: OperationURLParameter = {
-  parameterPath: "defaultCniNetworkName",
+export const kubernetesClusterName: OperationURLParameter = {
+  parameterPath: "kubernetesClusterName",
   mapper: {
     constraints: {
       Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,28}[a-zA-Z0-9])$")
     },
-    serializedName: "defaultCniNetworkName",
+    serializedName: "kubernetesClusterName",
     required: true,
     type: {
       name: "String"
@@ -307,43 +295,19 @@ export const defaultCniNetworkName: OperationURLParameter = {
   }
 };
 
-export const defaultCniNetworkParameters: OperationParameter = {
-  parameterPath: "defaultCniNetworkParameters",
-  mapper: DefaultCniNetworkMapper
+export const kubernetesClusterParameters: OperationParameter = {
+  parameterPath: "kubernetesClusterParameters",
+  mapper: KubernetesClusterMapper
 };
 
-export const defaultCniNetworkUpdateParameters: OperationParameter = {
-  parameterPath: ["options", "defaultCniNetworkUpdateParameters"],
-  mapper: DefaultCniNetworkPatchParametersMapper
+export const kubernetesClusterUpdateParameters: OperationParameter = {
+  parameterPath: ["options", "kubernetesClusterUpdateParameters"],
+  mapper: KubernetesClusterPatchParametersMapper
 };
 
-export const hybridAksClusterName: OperationURLParameter = {
-  parameterPath: "hybridAksClusterName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9])$")
-    },
-    serializedName: "hybridAksClusterName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const hybridAksClusterParameters: OperationParameter = {
-  parameterPath: "hybridAksClusterParameters",
-  mapper: HybridAksClusterMapper
-};
-
-export const hybridAksClusterUpdateParameters: OperationParameter = {
-  parameterPath: ["options", "hybridAksClusterUpdateParameters"],
-  mapper: HybridAksClusterPatchParametersMapper
-};
-
-export const hybridAksClusterRestartNodeParameters: OperationParameter = {
-  parameterPath: "hybridAksClusterRestartNodeParameters",
-  mapper: HybridAksClusterRestartNodeParametersMapper
+export const kubernetesClusterRestartNodeParameters: OperationParameter = {
+  parameterPath: "kubernetesClusterRestartNodeParameters",
+  mapper: KubernetesClusterRestartNodeParametersMapper
 };
 
 export const l2NetworkName: OperationURLParameter = {
@@ -461,16 +425,6 @@ export const storageApplianceEnableRemoteVendorManagementParameters: OperationPa
   mapper: StorageApplianceEnableRemoteVendorManagementParametersMapper
 };
 
-export const storageApplianceRunReadCommandsParameters: OperationParameter = {
-  parameterPath: "storageApplianceRunReadCommandsParameters",
-  mapper: StorageApplianceRunReadCommandsParametersMapper
-};
-
-export const storageApplianceValidateHardwareParameters: OperationParameter = {
-  parameterPath: "storageApplianceValidateHardwareParameters",
-  mapper: StorageApplianceValidateHardwareParametersMapper
-};
-
 export const trunkedNetworkName: OperationURLParameter = {
   parameterPath: "trunkedNetworkName",
   mapper: {
@@ -519,16 +473,6 @@ export const virtualMachineUpdateParameters: OperationParameter = {
   mapper: VirtualMachinePatchParametersMapper
 };
 
-export const virtualMachineAttachVolumeParameters: OperationParameter = {
-  parameterPath: "virtualMachineAttachVolumeParameters",
-  mapper: VirtualMachineVolumeParametersMapper
-};
-
-export const virtualMachineDetachVolumeParameters: OperationParameter = {
-  parameterPath: "virtualMachineDetachVolumeParameters",
-  mapper: VirtualMachineVolumeParametersMapper
-};
-
 export const virtualMachinePowerOffParameters: OperationParameter = {
   parameterPath: ["options", "virtualMachinePowerOffParameters"],
   mapper: VirtualMachinePowerOffParametersMapper
@@ -538,7 +482,7 @@ export const volumeName: OperationURLParameter = {
   parameterPath: "volumeName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9]{0,28}[a-zA-Z0-9])$")
+      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,62}[a-zA-Z0-9])$")
     },
     serializedName: "volumeName",
     required: true,
@@ -628,6 +572,30 @@ export const metricsConfigurationParameters: OperationParameter = {
 export const metricsConfigurationUpdateParameters: OperationParameter = {
   parameterPath: ["options", "metricsConfigurationUpdateParameters"],
   mapper: ClusterMetricsConfigurationPatchParametersMapper
+};
+
+export const agentPoolName: OperationURLParameter = {
+  parameterPath: "agentPoolName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,28}[a-zA-Z0-9])$")
+    },
+    serializedName: "agentPoolName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const agentPoolParameters: OperationParameter = {
+  parameterPath: "agentPoolParameters",
+  mapper: AgentPoolMapper
+};
+
+export const agentPoolUpdateParameters: OperationParameter = {
+  parameterPath: ["options", "agentPoolUpdateParameters"],
+  mapper: AgentPoolPatchParametersMapper
 };
 
 export const consoleName: OperationURLParameter = {

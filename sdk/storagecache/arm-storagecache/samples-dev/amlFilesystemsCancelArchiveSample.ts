@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Cancel archiving data from the AML file system.
  *
  * @summary Cancel archiving data from the AML file system.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-03-01-preview/examples/amlFilesystems_CancelArchive.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-11-01-preview/examples/amlFilesystems_CancelArchive.json
  */
 async function amlFilesystemsCancelArchive() {
   const subscriptionId =

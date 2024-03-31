@@ -10,7 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BmcKeySet,
-  BmcKeySetsListByResourceGroupOptionalParams,
+  BmcKeySetsListByClusterOptionalParams,
   BmcKeySetsGetOptionalParams,
   BmcKeySetsGetResponse,
   BmcKeySetsCreateOrUpdateOptionalParams,
@@ -24,16 +24,15 @@ import {
 /** Interface representing a BmcKeySets. */
 export interface BmcKeySets {
   /**
-   * Get a list of baseboard management controller key sets of the cluster in the provided resource
-   * group.
+   * Get a list of baseboard management controller key sets for the provided cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster.
    * @param options The options parameters.
    */
-  listByResourceGroup(
+  listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: BmcKeySetsListByResourceGroupOptionalParams
+    options?: BmcKeySetsListByClusterOptionalParams
   ): PagedAsyncIterableIterator<BmcKeySet>;
   /**
    * Get baseboard management controller key set of the provided cluster.

@@ -16,7 +16,8 @@ import {
   SqlVirtualMachineGroup as SqlVirtualMachineGroupMapper,
   SqlVirtualMachineGroupUpdate as SqlVirtualMachineGroupUpdateMapper,
   SqlVirtualMachine as SqlVirtualMachineMapper,
-  SqlVirtualMachineUpdate as SqlVirtualMachineUpdateMapper
+  SqlVirtualMachineUpdate as SqlVirtualMachineUpdateMapper,
+  SqlVmTroubleshooting as SqlVmTroubleshootingMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -100,7 +101,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-07-01-preview",
+    defaultValue: "2022-08-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -151,6 +152,13 @@ export const parameters2: OperationParameter = {
 export const sqlVirtualMachineName: OperationURLParameter = {
   parameterPath: "sqlVirtualMachineName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "^((?!_)[^\\\\/\"'\\[\\]:|<>+=;,?*@&]{1,64}(?<![.-]))$"
+      ),
+      MaxLength: 64,
+      MinLength: 1
+    },
     serializedName: "sqlVirtualMachineName",
     required: true,
     type: {
@@ -167,4 +175,9 @@ export const parameters3: OperationParameter = {
 export const parameters4: OperationParameter = {
   parameterPath: "parameters",
   mapper: SqlVirtualMachineUpdateMapper
+};
+
+export const parameters5: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: SqlVmTroubleshootingMapper
 };

@@ -28,7 +28,7 @@ export class DeleteSecretPoller extends KeyVaultSecretPoller<
       },
       vaultUrl,
       client,
-      operationOptions
+      operationOptions,
     );
 
     super(operation);

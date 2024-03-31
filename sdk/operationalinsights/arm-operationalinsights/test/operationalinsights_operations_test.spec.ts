@@ -98,7 +98,7 @@ describe("operationalinsights test", () => {
 
   it("workspaces delete test", async function () {
     const resArray = new Array();
-    const res = await client.workspaces.beginDeleteAndWait(resourceGroup, workspaceName)
+    const res = await client.workspaces.beginDeleteAndWait(resourceGroup, workspaceName, testPollingOptions)
     for await (let item of client.workspaces.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

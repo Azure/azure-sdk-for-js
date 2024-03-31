@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the client secret details of the authorization server.
  *
  * @summary Gets the client secret details of the authorization server.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementAuthorizationServerListSecrets.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementAuthorizationServerListSecrets.json
  */
 async function apiManagementAuthorizationServerListSecrets() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

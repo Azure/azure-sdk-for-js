@@ -21,7 +21,7 @@ export type BBox2D = [
   southWestLongitude: number,
   southWestLatitude: number,
   northEastLongitude: number,
-  northEastLatitude: number
+  northEastLatitude: number,
 ];
 /** 3D bounding box */
 export type BBox3D = [
@@ -30,7 +30,7 @@ export type BBox3D = [
   southWestElevation: number,
   northEastLongitude: number,
   northEastLatitude: number,
-  northEastElevation: number
+  northEastElevation: number,
 ];
 /** Bounding box including information on the coordinate range for its geometries */
 export type BBox = BBox2D | BBox3D;

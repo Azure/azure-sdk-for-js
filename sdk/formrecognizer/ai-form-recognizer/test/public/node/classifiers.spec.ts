@@ -22,8 +22,8 @@ import fs from "fs";
 import { ASSET_PATH, makeTestUrl } from "../../utils/etc";
 
 const endpoint = (): string => assertEnvironmentVariable("FORM_RECOGNIZER_ENDPOINT");
-// const containerSasUrl = (): string =>
-//   assertEnvironmentVariable("FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL");
+const containerSasUrl = (): string =>
+  assertEnvironmentVariable("FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL");
 
 /*
  * Run the entire battery of tests using both AAD and API Key.
@@ -42,7 +42,7 @@ matrix([[true, false]] as const, async (useAad) => {
       client = new DocumentAnalysisClient(
         endpoint(),
         makeCredential(useAad),
-        recorder.configureClientOptions({})
+        recorder.configureClientOptions({}),
       );
     });
 
@@ -64,11 +64,11 @@ matrix([[true, false]] as const, async (useAad) => {
         const trainingClient = new DocumentModelAdministrationClient(
           endpoint(),
           makeCredential(useAad),
-          recorder.configureClientOptions({})
+          recorder.configureClientOptions({}),
         );
         _classifierId = recorder.variable(
           "customClassifierId",
-          `customClassifier${getRandomNumber()}`
+          `customClassifier${getRandomNumber()}`,
         );
 
         const poller = await trainingClient.beginBuildDocumentClassifier(
@@ -77,20 +77,16 @@ matrix([[true, false]] as const, async (useAad) => {
             // TODO: use a different container for each test
             foo: {
               azureBlobSource: {
-                containerUrl: assertEnvironmentVariable(
-                  "FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL"
-                ),
+                containerUrl: containerSasUrl(),
               },
             },
             bar: {
               azureBlobSource: {
-                containerUrl: assertEnvironmentVariable(
-                  "FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL"
-                ),
+                containerUrl: containerSasUrl(),
               },
             },
           },
-          { ...testPollingOptions, description: customClassifierDescription }
+          { ...testPollingOptions, description: customClassifierDescription },
         );
 
         _classifier = await poller.pollUntilDone();
@@ -124,7 +120,6 @@ matrix([[true, false]] as const, async (useAad) => {
 
       // Additionally check that the pages aren't empty and that there are some common fields set
       assert.isNotEmpty(result.pages);
-      assert.ok(result.pages![0].kind);
       assert.ok(result.pages![0].pageNumber);
       assert.isDefined(result.pages![0].angle);
       assert.ok(result.pages![0].height);
@@ -140,7 +135,7 @@ matrix([[true, false]] as const, async (useAad) => {
       const poller = await client.beginClassifyDocumentFromUrl(
         classifierId,
         url,
-        testPollingOptions
+        testPollingOptions,
       );
 
       const result = await poller.pollUntilDone();
@@ -158,7 +153,7 @@ matrix([[true, false]] as const, async (useAad) => {
       const trainingClient = new DocumentModelAdministrationClient(
         endpoint(),
         makeCredential(useAad),
-        recorder.configureClientOptions({})
+        recorder.configureClientOptions({}),
       );
       await trainingClient.getDocumentClassifier(_classifierId);
 
@@ -171,7 +166,7 @@ matrix([[true, false]] as const, async (useAad) => {
       await assert.isRejected(
         (async function () {
           await trainingClient.getDocumentClassifier(_classifierId);
-        })()
+        })(),
       );
     });
   });

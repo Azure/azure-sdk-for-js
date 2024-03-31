@@ -62,6 +62,8 @@ export interface ChatMessageContent {
   participants?: ChatParticipant[];
   /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set. */
   initiator?: CommunicationIdentifierKind;
+  /** List of attachments for this message */
+  attachments?: ChatAttachment[];
 }
 
 /** A chat message read receipt indicates the time a chat message was read by a recipient. */
@@ -104,4 +106,21 @@ export interface ListPageSettings {
    * enforces pagination.
    */
   continuationToken?: string;
+}
+
+/** Defines values for AttachmentType. */
+export type ChatAttachmentType = "image" | "unknown";
+
+/** An attachment in a chat message. */
+export interface ChatAttachment {
+  /** Id of the attachment */
+  id: string;
+  /** The type of attachment. */
+  attachmentType: ChatAttachmentType;
+  /** The name of the attachment content. */
+  name?: string;
+  /** The URL where the attachment can be downloaded */
+  url?: string;
+  /** The URL where the preview of attachment can be downloaded */
+  previewUrl?: string;
 }

@@ -32,7 +32,7 @@ async function deleteIPAllocation() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations/{ipAllocationName}",
       subscriptionId,
       resourceGroupName,
-      ipAllocationName
+      ipAllocationName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

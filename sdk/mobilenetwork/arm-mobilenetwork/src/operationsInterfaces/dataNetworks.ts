@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DataNetwork,
   DataNetworksListByMobileNetworkOptionalParams,
@@ -18,7 +18,7 @@ import {
   DataNetworksCreateOrUpdateResponse,
   TagsObject,
   DataNetworksUpdateTagsOptionalParams,
-  DataNetworksUpdateTagsResponse
+  DataNetworksUpdateTagsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface DataNetworks {
   listByMobileNetwork(
     resourceGroupName: string,
     mobileNetworkName: string,
-    options?: DataNetworksListByMobileNetworkOptionalParams
+    options?: DataNetworksListByMobileNetworkOptionalParams,
   ): PagedAsyncIterableIterator<DataNetwork>;
   /**
    * Deletes the specified data network.
@@ -46,8 +46,8 @@ export interface DataNetworks {
     resourceGroupName: string,
     mobileNetworkName: string,
     dataNetworkName: string,
-    options?: DataNetworksDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: DataNetworksDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified data network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -59,7 +59,7 @@ export interface DataNetworks {
     resourceGroupName: string,
     mobileNetworkName: string,
     dataNetworkName: string,
-    options?: DataNetworksDeleteOptionalParams
+    options?: DataNetworksDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets information about the specified data network.
@@ -72,7 +72,7 @@ export interface DataNetworks {
     resourceGroupName: string,
     mobileNetworkName: string,
     dataNetworkName: string,
-    options?: DataNetworksGetOptionalParams
+    options?: DataNetworksGetOptionalParams,
   ): Promise<DataNetworksGetResponse>;
   /**
    * Creates or updates a data network. Must be created in the same location as its parent mobile
@@ -88,10 +88,10 @@ export interface DataNetworks {
     mobileNetworkName: string,
     dataNetworkName: string,
     parameters: DataNetwork,
-    options?: DataNetworksCreateOrUpdateOptionalParams
+    options?: DataNetworksCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<DataNetworksCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DataNetworksCreateOrUpdateResponse>,
       DataNetworksCreateOrUpdateResponse
     >
   >;
@@ -109,7 +109,7 @@ export interface DataNetworks {
     mobileNetworkName: string,
     dataNetworkName: string,
     parameters: DataNetwork,
-    options?: DataNetworksCreateOrUpdateOptionalParams
+    options?: DataNetworksCreateOrUpdateOptionalParams,
   ): Promise<DataNetworksCreateOrUpdateResponse>;
   /**
    * Updates data network tags.
@@ -124,6 +124,6 @@ export interface DataNetworks {
     mobileNetworkName: string,
     dataNetworkName: string,
     parameters: TagsObject,
-    options?: DataNetworksUpdateTagsOptionalParams
+    options?: DataNetworksUpdateTagsOptionalParams,
   ): Promise<DataNetworksUpdateTagsResponse>;
 }

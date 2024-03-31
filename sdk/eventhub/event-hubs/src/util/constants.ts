@@ -6,7 +6,7 @@
  */
 export const packageJsonInfo = {
   name: "@azure/event-hubs",
-  version: "5.10.1",
+  version: "5.11.5",
 };
 
 /**
@@ -19,9 +19,12 @@ export const idempotentProducerAmqpPropertyNames = {
   producerSequenceNumber: "com.microsoft:producer-sequence-number",
 } as const;
 
+/** @internal */
+export const receiverIdPropertyName = "com.microsoft:receiver-name";
+
 /**
  * @internal
  */
 export const PENDING_PUBLISH_SEQ_NUM_SYMBOL = Symbol.for(
-  "@azure/event-hubs.pendingPublishSequenceNumber"
+  "@azure/event-hubs.pendingPublishSequenceNumber",
 );

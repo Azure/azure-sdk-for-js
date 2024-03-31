@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CompositeMapper, FullOperationResponse, OperationResponseMap } from "./interfaces";
+import { CompositeMapper, FullOperationResponse, OperationResponseMap } from "./interfaces.js";
 
 /**
  * The union of all possible types for a primitive response body.
@@ -89,7 +89,7 @@ interface ResponseObjectWithMetadata {
  * @internal
  */
 function handleNullableResponseAndWrappableBody(
-  responseObject: ResponseObjectWithMetadata
+  responseObject: ResponseObjectWithMetadata,
 ): unknown | null {
   const combinedHeadersAndBody = {
     ...responseObject.headers,
@@ -120,7 +120,7 @@ function handleNullableResponseAndWrappableBody(
  */
 export function flattenResponse(
   fullResponse: FullOperationResponse,
-  responseSpec: OperationResponseMap | undefined
+  responseSpec: OperationResponseMap | undefined,
 ): unknown {
   const parsedHeaders = fullResponse.parsedHeaders;
 
@@ -150,7 +150,7 @@ export function flattenResponse(
       (bodyMapper as CompositeMapper).type.modelProperties) ||
     {};
   const isPageableResponse = Object.keys(modelProperties).some(
-    (k) => modelProperties[k].serializedName === ""
+    (k) => modelProperties[k].serializedName === "",
   );
   if (expectedBodyTypeName === "Sequence" || isPageableResponse) {
     const arrayResponse: { [key: string]: unknown } =

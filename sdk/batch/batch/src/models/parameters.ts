@@ -80,7 +80,7 @@ export const clientRequestId1: msRest.OperationParameter = {
 export const clientRequestId10: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolPatchOptions",
+    "poolDisableAutoScaleOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -93,7 +93,7 @@ export const clientRequestId10: msRest.OperationParameter = {
 export const clientRequestId11: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolDisableAutoScaleOptions",
+    "poolEnableAutoScaleOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -106,7 +106,7 @@ export const clientRequestId11: msRest.OperationParameter = {
 export const clientRequestId12: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolEnableAutoScaleOptions",
+    "poolEvaluateAutoScaleOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -119,7 +119,7 @@ export const clientRequestId12: msRest.OperationParameter = {
 export const clientRequestId13: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolEvaluateAutoScaleOptions",
+    "poolResizeOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -132,7 +132,7 @@ export const clientRequestId13: msRest.OperationParameter = {
 export const clientRequestId14: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolResizeOptions",
+    "poolStopResizeOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -145,7 +145,7 @@ export const clientRequestId14: msRest.OperationParameter = {
 export const clientRequestId15: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolStopResizeOptions",
+    "poolUpdatePropertiesOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -158,7 +158,7 @@ export const clientRequestId15: msRest.OperationParameter = {
 export const clientRequestId16: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolUpdatePropertiesOptions",
+    "poolRemoveNodesOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -171,7 +171,7 @@ export const clientRequestId16: msRest.OperationParameter = {
 export const clientRequestId17: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolRemoveNodesOptions",
+    "poolListUsageMetricsNextOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -184,7 +184,7 @@ export const clientRequestId17: msRest.OperationParameter = {
 export const clientRequestId18: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolListUsageMetricsNextOptions",
+    "poolListNextOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -197,7 +197,7 @@ export const clientRequestId18: msRest.OperationParameter = {
 export const clientRequestId19: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolListNextOptions",
+    "accountListSupportedImagesOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -223,7 +223,7 @@ export const clientRequestId2: msRest.OperationParameter = {
 export const clientRequestId20: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "accountListSupportedImagesOptions",
+    "accountListPoolNodeCountsOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -236,7 +236,7 @@ export const clientRequestId20: msRest.OperationParameter = {
 export const clientRequestId21: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "accountListPoolNodeCountsOptions",
+    "accountListSupportedImagesNextOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -249,7 +249,7 @@ export const clientRequestId21: msRest.OperationParameter = {
 export const clientRequestId22: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "accountListSupportedImagesNextOptions",
+    "accountListPoolNodeCountsNextOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -262,7 +262,7 @@ export const clientRequestId22: msRest.OperationParameter = {
 export const clientRequestId23: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "accountListPoolNodeCountsNextOptions",
+    "certificateAddOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -275,7 +275,7 @@ export const clientRequestId23: msRest.OperationParameter = {
 export const clientRequestId24: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobGetAllLifetimeStatisticsOptions",
+    "certificateListOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -288,7 +288,7 @@ export const clientRequestId24: msRest.OperationParameter = {
 export const clientRequestId25: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobDeleteMethodOptions",
+    "certificateCancelDeletionOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -301,7 +301,7 @@ export const clientRequestId25: msRest.OperationParameter = {
 export const clientRequestId26: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobGetOptions",
+    "certificateDeleteMethodOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -314,7 +314,7 @@ export const clientRequestId26: msRest.OperationParameter = {
 export const clientRequestId27: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobPatchOptions",
+    "certificateGetOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -327,7 +327,7 @@ export const clientRequestId27: msRest.OperationParameter = {
 export const clientRequestId28: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobUpdateOptions",
+    "certificateListNextOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -340,7 +340,7 @@ export const clientRequestId28: msRest.OperationParameter = {
 export const clientRequestId29: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobDisableOptions",
+    "fileDeleteFromTaskOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -366,7 +366,7 @@ export const clientRequestId3: msRest.OperationParameter = {
 export const clientRequestId30: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobEnableOptions",
+    "fileGetFromTaskOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -379,7 +379,7 @@ export const clientRequestId30: msRest.OperationParameter = {
 export const clientRequestId31: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobTerminateOptions",
+    "fileGetPropertiesFromTaskOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -392,7 +392,7 @@ export const clientRequestId31: msRest.OperationParameter = {
 export const clientRequestId32: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobAddOptions",
+    "fileDeleteFromComputeNodeOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -405,7 +405,7 @@ export const clientRequestId32: msRest.OperationParameter = {
 export const clientRequestId33: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobListOptions",
+    "fileGetFromComputeNodeOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -418,7 +418,7 @@ export const clientRequestId33: msRest.OperationParameter = {
 export const clientRequestId34: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobListFromJobScheduleOptions",
+    "fileGetPropertiesFromComputeNodeOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -431,7 +431,7 @@ export const clientRequestId34: msRest.OperationParameter = {
 export const clientRequestId35: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobListPreparationAndReleaseTaskStatusOptions",
+    "fileListFromTaskOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -444,7 +444,7 @@ export const clientRequestId35: msRest.OperationParameter = {
 export const clientRequestId36: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobGetTaskCountsOptions",
+    "fileListFromComputeNodeOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -457,7 +457,7 @@ export const clientRequestId36: msRest.OperationParameter = {
 export const clientRequestId37: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobListNextOptions",
+    "fileListFromTaskNextOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -470,7 +470,7 @@ export const clientRequestId37: msRest.OperationParameter = {
 export const clientRequestId38: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobListFromJobScheduleNextOptions",
+    "fileListFromComputeNodeNextOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -483,7 +483,7 @@ export const clientRequestId38: msRest.OperationParameter = {
 export const clientRequestId39: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobListPreparationAndReleaseTaskStatusNextOptions",
+    "jobScheduleExistsOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -496,7 +496,7 @@ export const clientRequestId39: msRest.OperationParameter = {
 export const clientRequestId4: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolGetAllLifetimeStatisticsOptions",
+    "poolAddOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -509,7 +509,7 @@ export const clientRequestId4: msRest.OperationParameter = {
 export const clientRequestId40: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "certificateAddOptions",
+    "jobScheduleDeleteMethodOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -522,7 +522,7 @@ export const clientRequestId40: msRest.OperationParameter = {
 export const clientRequestId41: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "certificateListOptions",
+    "jobScheduleGetOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -535,7 +535,7 @@ export const clientRequestId41: msRest.OperationParameter = {
 export const clientRequestId42: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "certificateCancelDeletionOptions",
+    "jobSchedulePatchOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -548,7 +548,7 @@ export const clientRequestId42: msRest.OperationParameter = {
 export const clientRequestId43: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "certificateDeleteMethodOptions",
+    "jobScheduleUpdateOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -561,7 +561,7 @@ export const clientRequestId43: msRest.OperationParameter = {
 export const clientRequestId44: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "certificateGetOptions",
+    "jobScheduleDisableOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -574,7 +574,7 @@ export const clientRequestId44: msRest.OperationParameter = {
 export const clientRequestId45: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "certificateListNextOptions",
+    "jobScheduleEnableOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -587,7 +587,7 @@ export const clientRequestId45: msRest.OperationParameter = {
 export const clientRequestId46: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileDeleteFromTaskOptions",
+    "jobScheduleTerminateOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -600,7 +600,7 @@ export const clientRequestId46: msRest.OperationParameter = {
 export const clientRequestId47: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileGetFromTaskOptions",
+    "jobScheduleAddOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -613,7 +613,7 @@ export const clientRequestId47: msRest.OperationParameter = {
 export const clientRequestId48: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileGetPropertiesFromTaskOptions",
+    "jobScheduleListOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -626,7 +626,7 @@ export const clientRequestId48: msRest.OperationParameter = {
 export const clientRequestId49: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileDeleteFromComputeNodeOptions",
+    "jobScheduleListNextOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -639,7 +639,7 @@ export const clientRequestId49: msRest.OperationParameter = {
 export const clientRequestId5: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolAddOptions",
+    "poolListOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -652,7 +652,7 @@ export const clientRequestId5: msRest.OperationParameter = {
 export const clientRequestId50: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileGetFromComputeNodeOptions",
+    "jobDeleteMethodOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -665,7 +665,7 @@ export const clientRequestId50: msRest.OperationParameter = {
 export const clientRequestId51: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileGetPropertiesFromComputeNodeOptions",
+    "jobGetOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -678,7 +678,7 @@ export const clientRequestId51: msRest.OperationParameter = {
 export const clientRequestId52: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileListFromTaskOptions",
+    "jobPatchOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -691,7 +691,7 @@ export const clientRequestId52: msRest.OperationParameter = {
 export const clientRequestId53: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileListFromComputeNodeOptions",
+    "jobUpdateOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -704,7 +704,7 @@ export const clientRequestId53: msRest.OperationParameter = {
 export const clientRequestId54: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileListFromTaskNextOptions",
+    "jobDisableOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -717,7 +717,7 @@ export const clientRequestId54: msRest.OperationParameter = {
 export const clientRequestId55: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileListFromComputeNodeNextOptions",
+    "jobEnableOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -730,7 +730,7 @@ export const clientRequestId55: msRest.OperationParameter = {
 export const clientRequestId56: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleExistsOptions",
+    "jobTerminateOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -743,7 +743,7 @@ export const clientRequestId56: msRest.OperationParameter = {
 export const clientRequestId57: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleDeleteMethodOptions",
+    "jobAddOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -756,7 +756,7 @@ export const clientRequestId57: msRest.OperationParameter = {
 export const clientRequestId58: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleGetOptions",
+    "jobListOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -769,7 +769,7 @@ export const clientRequestId58: msRest.OperationParameter = {
 export const clientRequestId59: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobSchedulePatchOptions",
+    "jobListFromJobScheduleOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -782,7 +782,7 @@ export const clientRequestId59: msRest.OperationParameter = {
 export const clientRequestId6: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolListOptions",
+    "poolDeleteMethodOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -795,7 +795,7 @@ export const clientRequestId6: msRest.OperationParameter = {
 export const clientRequestId60: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleUpdateOptions",
+    "jobListPreparationAndReleaseTaskStatusOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -808,7 +808,7 @@ export const clientRequestId60: msRest.OperationParameter = {
 export const clientRequestId61: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleDisableOptions",
+    "jobGetTaskCountsOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -821,7 +821,7 @@ export const clientRequestId61: msRest.OperationParameter = {
 export const clientRequestId62: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleEnableOptions",
+    "jobListNextOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -834,7 +834,7 @@ export const clientRequestId62: msRest.OperationParameter = {
 export const clientRequestId63: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleTerminateOptions",
+    "jobListFromJobScheduleNextOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -847,7 +847,7 @@ export const clientRequestId63: msRest.OperationParameter = {
 export const clientRequestId64: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleAddOptions",
+    "jobListPreparationAndReleaseTaskStatusNextOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -860,7 +860,7 @@ export const clientRequestId64: msRest.OperationParameter = {
 export const clientRequestId65: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleListOptions",
+    "taskAddOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -873,7 +873,7 @@ export const clientRequestId65: msRest.OperationParameter = {
 export const clientRequestId66: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleListNextOptions",
+    "taskListOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -886,7 +886,7 @@ export const clientRequestId66: msRest.OperationParameter = {
 export const clientRequestId67: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "taskAddOptions",
+    "taskAddCollectionOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -899,7 +899,7 @@ export const clientRequestId67: msRest.OperationParameter = {
 export const clientRequestId68: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "taskListOptions",
+    "taskDeleteMethodOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -912,7 +912,7 @@ export const clientRequestId68: msRest.OperationParameter = {
 export const clientRequestId69: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "taskAddCollectionOptions",
+    "taskGetOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -925,7 +925,7 @@ export const clientRequestId69: msRest.OperationParameter = {
 export const clientRequestId7: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolDeleteMethodOptions",
+    "poolExistsOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -938,7 +938,7 @@ export const clientRequestId7: msRest.OperationParameter = {
 export const clientRequestId70: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "taskDeleteMethodOptions",
+    "taskUpdateOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -951,7 +951,7 @@ export const clientRequestId70: msRest.OperationParameter = {
 export const clientRequestId71: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "taskGetOptions",
+    "taskListSubtasksOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -964,7 +964,7 @@ export const clientRequestId71: msRest.OperationParameter = {
 export const clientRequestId72: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "taskUpdateOptions",
+    "taskTerminateOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -977,7 +977,7 @@ export const clientRequestId72: msRest.OperationParameter = {
 export const clientRequestId73: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "taskListSubtasksOptions",
+    "taskReactivateOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -990,7 +990,7 @@ export const clientRequestId73: msRest.OperationParameter = {
 export const clientRequestId74: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "taskTerminateOptions",
+    "taskListNextOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -1003,7 +1003,7 @@ export const clientRequestId74: msRest.OperationParameter = {
 export const clientRequestId75: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "taskReactivateOptions",
+    "computeNodeAddUserOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -1016,7 +1016,7 @@ export const clientRequestId75: msRest.OperationParameter = {
 export const clientRequestId76: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "taskListNextOptions",
+    "computeNodeDeleteUserOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -1029,7 +1029,7 @@ export const clientRequestId76: msRest.OperationParameter = {
 export const clientRequestId77: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeAddUserOptions",
+    "computeNodeUpdateUserOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -1042,7 +1042,7 @@ export const clientRequestId77: msRest.OperationParameter = {
 export const clientRequestId78: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeDeleteUserOptions",
+    "computeNodeGetOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -1055,7 +1055,7 @@ export const clientRequestId78: msRest.OperationParameter = {
 export const clientRequestId79: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeUpdateUserOptions",
+    "computeNodeRebootOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -1068,7 +1068,7 @@ export const clientRequestId79: msRest.OperationParameter = {
 export const clientRequestId8: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolExistsOptions",
+    "poolGetOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -1081,7 +1081,7 @@ export const clientRequestId8: msRest.OperationParameter = {
 export const clientRequestId80: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeGetOptions",
+    "computeNodeReimageOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -1094,7 +1094,7 @@ export const clientRequestId80: msRest.OperationParameter = {
 export const clientRequestId81: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeRebootOptions",
+    "computeNodeDisableSchedulingOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -1107,7 +1107,7 @@ export const clientRequestId81: msRest.OperationParameter = {
 export const clientRequestId82: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeReimageOptions",
+    "computeNodeEnableSchedulingOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -1120,7 +1120,7 @@ export const clientRequestId82: msRest.OperationParameter = {
 export const clientRequestId83: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeDisableSchedulingOptions",
+    "computeNodeGetRemoteLoginSettingsOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -1133,7 +1133,7 @@ export const clientRequestId83: msRest.OperationParameter = {
 export const clientRequestId84: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeEnableSchedulingOptions",
+    "computeNodeGetRemoteDesktopOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -1146,7 +1146,7 @@ export const clientRequestId84: msRest.OperationParameter = {
 export const clientRequestId85: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeGetRemoteLoginSettingsOptions",
+    "computeNodeUploadBatchServiceLogsOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -1159,7 +1159,7 @@ export const clientRequestId85: msRest.OperationParameter = {
 export const clientRequestId86: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeGetRemoteDesktopOptions",
+    "computeNodeListOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -1172,7 +1172,7 @@ export const clientRequestId86: msRest.OperationParameter = {
 export const clientRequestId87: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeUploadBatchServiceLogsOptions",
+    "computeNodeListNextOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -1185,7 +1185,7 @@ export const clientRequestId87: msRest.OperationParameter = {
 export const clientRequestId88: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeListOptions",
+    "computeNodeExtensionGetOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -1198,7 +1198,7 @@ export const clientRequestId88: msRest.OperationParameter = {
 export const clientRequestId89: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeListNextOptions",
+    "computeNodeExtensionListOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -1211,7 +1211,7 @@ export const clientRequestId89: msRest.OperationParameter = {
 export const clientRequestId9: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolGetOptions",
+    "poolPatchOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -1222,32 +1222,6 @@ export const clientRequestId9: msRest.OperationParameter = {
   }
 };
 export const clientRequestId90: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "computeNodeExtensionGetOptions",
-    "clientRequestId"
-  ],
-  mapper: {
-    serializedName: "client-request-id",
-    type: {
-      name: "Uuid"
-    }
-  }
-};
-export const clientRequestId91: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "computeNodeExtensionListOptions",
-    "clientRequestId"
-  ],
-  mapper: {
-    serializedName: "client-request-id",
-    type: {
-      name: "Uuid"
-    }
-  }
-};
-export const clientRequestId92: msRest.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeExtensionListNextOptions",
@@ -1302,7 +1276,7 @@ export const expand1: msRest.OperationQueryParameter = {
 export const expand2: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobGetOptions",
+    "jobScheduleGetOptions",
     "expand"
   ],
   mapper: {
@@ -1315,7 +1289,7 @@ export const expand2: msRest.OperationQueryParameter = {
 export const expand3: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobListOptions",
+    "jobScheduleListOptions",
     "expand"
   ],
   mapper: {
@@ -1328,7 +1302,7 @@ export const expand3: msRest.OperationQueryParameter = {
 export const expand4: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobListFromJobScheduleOptions",
+    "jobGetOptions",
     "expand"
   ],
   mapper: {
@@ -1341,7 +1315,7 @@ export const expand4: msRest.OperationQueryParameter = {
 export const expand5: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobScheduleGetOptions",
+    "jobListOptions",
     "expand"
   ],
   mapper: {
@@ -1354,7 +1328,7 @@ export const expand5: msRest.OperationQueryParameter = {
 export const expand6: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobScheduleListOptions",
+    "jobListFromJobScheduleOptions",
     "expand"
   ],
   mapper: {
@@ -1439,7 +1413,7 @@ export const filter1: msRest.OperationQueryParameter = {
 export const filter10: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobScheduleListOptions",
+    "jobListPreparationAndReleaseTaskStatusOptions",
     "filter"
   ],
   mapper: {
@@ -1504,7 +1478,7 @@ export const filter3: msRest.OperationQueryParameter = {
 export const filter4: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobListOptions",
+    "certificateListOptions",
     "filter"
   ],
   mapper: {
@@ -1517,7 +1491,7 @@ export const filter4: msRest.OperationQueryParameter = {
 export const filter5: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobListFromJobScheduleOptions",
+    "fileListFromTaskOptions",
     "filter"
   ],
   mapper: {
@@ -1530,7 +1504,7 @@ export const filter5: msRest.OperationQueryParameter = {
 export const filter6: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobListPreparationAndReleaseTaskStatusOptions",
+    "fileListFromComputeNodeOptions",
     "filter"
   ],
   mapper: {
@@ -1543,7 +1517,7 @@ export const filter6: msRest.OperationQueryParameter = {
 export const filter7: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "certificateListOptions",
+    "jobScheduleListOptions",
     "filter"
   ],
   mapper: {
@@ -1556,7 +1530,7 @@ export const filter7: msRest.OperationQueryParameter = {
 export const filter8: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "fileListFromTaskOptions",
+    "jobListOptions",
     "filter"
   ],
   mapper: {
@@ -1569,7 +1543,7 @@ export const filter8: msRest.OperationQueryParameter = {
 export const filter9: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "fileListFromComputeNodeOptions",
+    "jobListFromJobScheduleOptions",
     "filter"
   ],
   mapper: {
@@ -1608,7 +1582,7 @@ export const ifMatch1: msRest.OperationParameter = {
 export const ifMatch10: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobPatchOptions",
+    "jobScheduleGetOptions",
     "ifMatch"
   ],
   mapper: {
@@ -1621,7 +1595,7 @@ export const ifMatch10: msRest.OperationParameter = {
 export const ifMatch11: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobUpdateOptions",
+    "jobSchedulePatchOptions",
     "ifMatch"
   ],
   mapper: {
@@ -1634,7 +1608,7 @@ export const ifMatch11: msRest.OperationParameter = {
 export const ifMatch12: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobDisableOptions",
+    "jobScheduleUpdateOptions",
     "ifMatch"
   ],
   mapper: {
@@ -1647,7 +1621,7 @@ export const ifMatch12: msRest.OperationParameter = {
 export const ifMatch13: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobEnableOptions",
+    "jobScheduleDisableOptions",
     "ifMatch"
   ],
   mapper: {
@@ -1660,7 +1634,7 @@ export const ifMatch13: msRest.OperationParameter = {
 export const ifMatch14: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobTerminateOptions",
+    "jobScheduleEnableOptions",
     "ifMatch"
   ],
   mapper: {
@@ -1673,7 +1647,7 @@ export const ifMatch14: msRest.OperationParameter = {
 export const ifMatch15: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleExistsOptions",
+    "jobScheduleTerminateOptions",
     "ifMatch"
   ],
   mapper: {
@@ -1686,7 +1660,7 @@ export const ifMatch15: msRest.OperationParameter = {
 export const ifMatch16: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleDeleteMethodOptions",
+    "jobDeleteMethodOptions",
     "ifMatch"
   ],
   mapper: {
@@ -1699,7 +1673,7 @@ export const ifMatch16: msRest.OperationParameter = {
 export const ifMatch17: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleGetOptions",
+    "jobGetOptions",
     "ifMatch"
   ],
   mapper: {
@@ -1712,7 +1686,7 @@ export const ifMatch17: msRest.OperationParameter = {
 export const ifMatch18: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobSchedulePatchOptions",
+    "jobPatchOptions",
     "ifMatch"
   ],
   mapper: {
@@ -1725,7 +1699,7 @@ export const ifMatch18: msRest.OperationParameter = {
 export const ifMatch19: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleUpdateOptions",
+    "jobUpdateOptions",
     "ifMatch"
   ],
   mapper: {
@@ -1751,7 +1725,7 @@ export const ifMatch2: msRest.OperationParameter = {
 export const ifMatch20: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleDisableOptions",
+    "jobDisableOptions",
     "ifMatch"
   ],
   mapper: {
@@ -1764,7 +1738,7 @@ export const ifMatch20: msRest.OperationParameter = {
 export const ifMatch21: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleEnableOptions",
+    "jobEnableOptions",
     "ifMatch"
   ],
   mapper: {
@@ -1777,7 +1751,7 @@ export const ifMatch21: msRest.OperationParameter = {
 export const ifMatch22: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleTerminateOptions",
+    "jobTerminateOptions",
     "ifMatch"
   ],
   mapper: {
@@ -1920,7 +1894,7 @@ export const ifMatch7: msRest.OperationParameter = {
 export const ifMatch8: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobDeleteMethodOptions",
+    "jobScheduleExistsOptions",
     "ifMatch"
   ],
   mapper: {
@@ -1933,7 +1907,7 @@ export const ifMatch8: msRest.OperationParameter = {
 export const ifMatch9: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobGetOptions",
+    "jobScheduleDeleteMethodOptions",
     "ifMatch"
   ],
   mapper: {
@@ -1972,7 +1946,7 @@ export const ifModifiedSince1: msRest.OperationParameter = {
 export const ifModifiedSince10: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobPatchOptions",
+    "fileGetFromComputeNodeOptions",
     "ifModifiedSince"
   ],
   mapper: {
@@ -1985,7 +1959,7 @@ export const ifModifiedSince10: msRest.OperationParameter = {
 export const ifModifiedSince11: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobUpdateOptions",
+    "fileGetPropertiesFromComputeNodeOptions",
     "ifModifiedSince"
   ],
   mapper: {
@@ -1998,7 +1972,7 @@ export const ifModifiedSince11: msRest.OperationParameter = {
 export const ifModifiedSince12: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobDisableOptions",
+    "jobScheduleExistsOptions",
     "ifModifiedSince"
   ],
   mapper: {
@@ -2011,7 +1985,7 @@ export const ifModifiedSince12: msRest.OperationParameter = {
 export const ifModifiedSince13: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobEnableOptions",
+    "jobScheduleDeleteMethodOptions",
     "ifModifiedSince"
   ],
   mapper: {
@@ -2024,7 +1998,7 @@ export const ifModifiedSince13: msRest.OperationParameter = {
 export const ifModifiedSince14: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobTerminateOptions",
+    "jobScheduleGetOptions",
     "ifModifiedSince"
   ],
   mapper: {
@@ -2037,7 +2011,7 @@ export const ifModifiedSince14: msRest.OperationParameter = {
 export const ifModifiedSince15: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileGetFromTaskOptions",
+    "jobSchedulePatchOptions",
     "ifModifiedSince"
   ],
   mapper: {
@@ -2050,7 +2024,7 @@ export const ifModifiedSince15: msRest.OperationParameter = {
 export const ifModifiedSince16: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileGetPropertiesFromTaskOptions",
+    "jobScheduleUpdateOptions",
     "ifModifiedSince"
   ],
   mapper: {
@@ -2063,7 +2037,7 @@ export const ifModifiedSince16: msRest.OperationParameter = {
 export const ifModifiedSince17: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileGetFromComputeNodeOptions",
+    "jobScheduleDisableOptions",
     "ifModifiedSince"
   ],
   mapper: {
@@ -2076,7 +2050,7 @@ export const ifModifiedSince17: msRest.OperationParameter = {
 export const ifModifiedSince18: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileGetPropertiesFromComputeNodeOptions",
+    "jobScheduleEnableOptions",
     "ifModifiedSince"
   ],
   mapper: {
@@ -2089,7 +2063,7 @@ export const ifModifiedSince18: msRest.OperationParameter = {
 export const ifModifiedSince19: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleExistsOptions",
+    "jobScheduleTerminateOptions",
     "ifModifiedSince"
   ],
   mapper: {
@@ -2115,7 +2089,7 @@ export const ifModifiedSince2: msRest.OperationParameter = {
 export const ifModifiedSince20: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleDeleteMethodOptions",
+    "jobDeleteMethodOptions",
     "ifModifiedSince"
   ],
   mapper: {
@@ -2128,7 +2102,7 @@ export const ifModifiedSince20: msRest.OperationParameter = {
 export const ifModifiedSince21: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleGetOptions",
+    "jobGetOptions",
     "ifModifiedSince"
   ],
   mapper: {
@@ -2141,7 +2115,7 @@ export const ifModifiedSince21: msRest.OperationParameter = {
 export const ifModifiedSince22: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobSchedulePatchOptions",
+    "jobPatchOptions",
     "ifModifiedSince"
   ],
   mapper: {
@@ -2154,7 +2128,7 @@ export const ifModifiedSince22: msRest.OperationParameter = {
 export const ifModifiedSince23: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleUpdateOptions",
+    "jobUpdateOptions",
     "ifModifiedSince"
   ],
   mapper: {
@@ -2167,7 +2141,7 @@ export const ifModifiedSince23: msRest.OperationParameter = {
 export const ifModifiedSince24: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleDisableOptions",
+    "jobDisableOptions",
     "ifModifiedSince"
   ],
   mapper: {
@@ -2180,7 +2154,7 @@ export const ifModifiedSince24: msRest.OperationParameter = {
 export const ifModifiedSince25: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleEnableOptions",
+    "jobEnableOptions",
     "ifModifiedSince"
   ],
   mapper: {
@@ -2193,7 +2167,7 @@ export const ifModifiedSince25: msRest.OperationParameter = {
 export const ifModifiedSince26: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleTerminateOptions",
+    "jobTerminateOptions",
     "ifModifiedSince"
   ],
   mapper: {
@@ -2336,7 +2310,7 @@ export const ifModifiedSince7: msRest.OperationParameter = {
 export const ifModifiedSince8: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobDeleteMethodOptions",
+    "fileGetFromTaskOptions",
     "ifModifiedSince"
   ],
   mapper: {
@@ -2349,7 +2323,7 @@ export const ifModifiedSince8: msRest.OperationParameter = {
 export const ifModifiedSince9: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobGetOptions",
+    "fileGetPropertiesFromTaskOptions",
     "ifModifiedSince"
   ],
   mapper: {
@@ -2388,7 +2362,7 @@ export const ifNoneMatch1: msRest.OperationParameter = {
 export const ifNoneMatch10: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobPatchOptions",
+    "jobScheduleGetOptions",
     "ifNoneMatch"
   ],
   mapper: {
@@ -2401,7 +2375,7 @@ export const ifNoneMatch10: msRest.OperationParameter = {
 export const ifNoneMatch11: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobUpdateOptions",
+    "jobSchedulePatchOptions",
     "ifNoneMatch"
   ],
   mapper: {
@@ -2414,7 +2388,7 @@ export const ifNoneMatch11: msRest.OperationParameter = {
 export const ifNoneMatch12: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobDisableOptions",
+    "jobScheduleUpdateOptions",
     "ifNoneMatch"
   ],
   mapper: {
@@ -2427,7 +2401,7 @@ export const ifNoneMatch12: msRest.OperationParameter = {
 export const ifNoneMatch13: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobEnableOptions",
+    "jobScheduleDisableOptions",
     "ifNoneMatch"
   ],
   mapper: {
@@ -2440,7 +2414,7 @@ export const ifNoneMatch13: msRest.OperationParameter = {
 export const ifNoneMatch14: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobTerminateOptions",
+    "jobScheduleEnableOptions",
     "ifNoneMatch"
   ],
   mapper: {
@@ -2453,7 +2427,7 @@ export const ifNoneMatch14: msRest.OperationParameter = {
 export const ifNoneMatch15: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleExistsOptions",
+    "jobScheduleTerminateOptions",
     "ifNoneMatch"
   ],
   mapper: {
@@ -2466,7 +2440,7 @@ export const ifNoneMatch15: msRest.OperationParameter = {
 export const ifNoneMatch16: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleDeleteMethodOptions",
+    "jobDeleteMethodOptions",
     "ifNoneMatch"
   ],
   mapper: {
@@ -2479,7 +2453,7 @@ export const ifNoneMatch16: msRest.OperationParameter = {
 export const ifNoneMatch17: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleGetOptions",
+    "jobGetOptions",
     "ifNoneMatch"
   ],
   mapper: {
@@ -2492,7 +2466,7 @@ export const ifNoneMatch17: msRest.OperationParameter = {
 export const ifNoneMatch18: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobSchedulePatchOptions",
+    "jobPatchOptions",
     "ifNoneMatch"
   ],
   mapper: {
@@ -2505,7 +2479,7 @@ export const ifNoneMatch18: msRest.OperationParameter = {
 export const ifNoneMatch19: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleUpdateOptions",
+    "jobUpdateOptions",
     "ifNoneMatch"
   ],
   mapper: {
@@ -2531,7 +2505,7 @@ export const ifNoneMatch2: msRest.OperationParameter = {
 export const ifNoneMatch20: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleDisableOptions",
+    "jobDisableOptions",
     "ifNoneMatch"
   ],
   mapper: {
@@ -2544,7 +2518,7 @@ export const ifNoneMatch20: msRest.OperationParameter = {
 export const ifNoneMatch21: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleEnableOptions",
+    "jobEnableOptions",
     "ifNoneMatch"
   ],
   mapper: {
@@ -2557,7 +2531,7 @@ export const ifNoneMatch21: msRest.OperationParameter = {
 export const ifNoneMatch22: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleTerminateOptions",
+    "jobTerminateOptions",
     "ifNoneMatch"
   ],
   mapper: {
@@ -2700,7 +2674,7 @@ export const ifNoneMatch7: msRest.OperationParameter = {
 export const ifNoneMatch8: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobDeleteMethodOptions",
+    "jobScheduleExistsOptions",
     "ifNoneMatch"
   ],
   mapper: {
@@ -2713,7 +2687,7 @@ export const ifNoneMatch8: msRest.OperationParameter = {
 export const ifNoneMatch9: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobGetOptions",
+    "jobScheduleDeleteMethodOptions",
     "ifNoneMatch"
   ],
   mapper: {
@@ -2752,7 +2726,7 @@ export const ifUnmodifiedSince1: msRest.OperationParameter = {
 export const ifUnmodifiedSince10: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobPatchOptions",
+    "fileGetFromComputeNodeOptions",
     "ifUnmodifiedSince"
   ],
   mapper: {
@@ -2765,7 +2739,7 @@ export const ifUnmodifiedSince10: msRest.OperationParameter = {
 export const ifUnmodifiedSince11: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobUpdateOptions",
+    "fileGetPropertiesFromComputeNodeOptions",
     "ifUnmodifiedSince"
   ],
   mapper: {
@@ -2778,7 +2752,7 @@ export const ifUnmodifiedSince11: msRest.OperationParameter = {
 export const ifUnmodifiedSince12: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobDisableOptions",
+    "jobScheduleExistsOptions",
     "ifUnmodifiedSince"
   ],
   mapper: {
@@ -2791,7 +2765,7 @@ export const ifUnmodifiedSince12: msRest.OperationParameter = {
 export const ifUnmodifiedSince13: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobEnableOptions",
+    "jobScheduleDeleteMethodOptions",
     "ifUnmodifiedSince"
   ],
   mapper: {
@@ -2804,7 +2778,7 @@ export const ifUnmodifiedSince13: msRest.OperationParameter = {
 export const ifUnmodifiedSince14: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobTerminateOptions",
+    "jobScheduleGetOptions",
     "ifUnmodifiedSince"
   ],
   mapper: {
@@ -2817,7 +2791,7 @@ export const ifUnmodifiedSince14: msRest.OperationParameter = {
 export const ifUnmodifiedSince15: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileGetFromTaskOptions",
+    "jobSchedulePatchOptions",
     "ifUnmodifiedSince"
   ],
   mapper: {
@@ -2830,7 +2804,7 @@ export const ifUnmodifiedSince15: msRest.OperationParameter = {
 export const ifUnmodifiedSince16: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileGetPropertiesFromTaskOptions",
+    "jobScheduleUpdateOptions",
     "ifUnmodifiedSince"
   ],
   mapper: {
@@ -2843,7 +2817,7 @@ export const ifUnmodifiedSince16: msRest.OperationParameter = {
 export const ifUnmodifiedSince17: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileGetFromComputeNodeOptions",
+    "jobScheduleDisableOptions",
     "ifUnmodifiedSince"
   ],
   mapper: {
@@ -2856,7 +2830,7 @@ export const ifUnmodifiedSince17: msRest.OperationParameter = {
 export const ifUnmodifiedSince18: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileGetPropertiesFromComputeNodeOptions",
+    "jobScheduleEnableOptions",
     "ifUnmodifiedSince"
   ],
   mapper: {
@@ -2869,7 +2843,7 @@ export const ifUnmodifiedSince18: msRest.OperationParameter = {
 export const ifUnmodifiedSince19: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleExistsOptions",
+    "jobScheduleTerminateOptions",
     "ifUnmodifiedSince"
   ],
   mapper: {
@@ -2895,7 +2869,7 @@ export const ifUnmodifiedSince2: msRest.OperationParameter = {
 export const ifUnmodifiedSince20: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleDeleteMethodOptions",
+    "jobDeleteMethodOptions",
     "ifUnmodifiedSince"
   ],
   mapper: {
@@ -2908,7 +2882,7 @@ export const ifUnmodifiedSince20: msRest.OperationParameter = {
 export const ifUnmodifiedSince21: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleGetOptions",
+    "jobGetOptions",
     "ifUnmodifiedSince"
   ],
   mapper: {
@@ -2921,7 +2895,7 @@ export const ifUnmodifiedSince21: msRest.OperationParameter = {
 export const ifUnmodifiedSince22: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobSchedulePatchOptions",
+    "jobPatchOptions",
     "ifUnmodifiedSince"
   ],
   mapper: {
@@ -2934,7 +2908,7 @@ export const ifUnmodifiedSince22: msRest.OperationParameter = {
 export const ifUnmodifiedSince23: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleUpdateOptions",
+    "jobUpdateOptions",
     "ifUnmodifiedSince"
   ],
   mapper: {
@@ -2947,7 +2921,7 @@ export const ifUnmodifiedSince23: msRest.OperationParameter = {
 export const ifUnmodifiedSince24: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleDisableOptions",
+    "jobDisableOptions",
     "ifUnmodifiedSince"
   ],
   mapper: {
@@ -2960,7 +2934,7 @@ export const ifUnmodifiedSince24: msRest.OperationParameter = {
 export const ifUnmodifiedSince25: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleEnableOptions",
+    "jobEnableOptions",
     "ifUnmodifiedSince"
   ],
   mapper: {
@@ -2973,7 +2947,7 @@ export const ifUnmodifiedSince25: msRest.OperationParameter = {
 export const ifUnmodifiedSince26: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleTerminateOptions",
+    "jobTerminateOptions",
     "ifUnmodifiedSince"
   ],
   mapper: {
@@ -3116,7 +3090,7 @@ export const ifUnmodifiedSince7: msRest.OperationParameter = {
 export const ifUnmodifiedSince8: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobDeleteMethodOptions",
+    "fileGetFromTaskOptions",
     "ifUnmodifiedSince"
   ],
   mapper: {
@@ -3129,7 +3103,7 @@ export const ifUnmodifiedSince8: msRest.OperationParameter = {
 export const ifUnmodifiedSince9: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobGetOptions",
+    "fileGetPropertiesFromTaskOptions",
     "ifUnmodifiedSince"
   ],
   mapper: {
@@ -3198,7 +3172,7 @@ export const maxResults1: msRest.OperationQueryParameter = {
 export const maxResults10: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "fileListFromComputeNodeOptions",
+    "jobListFromJobScheduleOptions",
     "maxResults"
   ],
   mapper: {
@@ -3216,7 +3190,7 @@ export const maxResults10: msRest.OperationQueryParameter = {
 export const maxResults11: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobScheduleListOptions",
+    "jobListPreparationAndReleaseTaskStatusOptions",
     "maxResults"
   ],
   mapper: {
@@ -3342,7 +3316,7 @@ export const maxResults4: msRest.OperationQueryParameter = {
 export const maxResults5: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobListOptions",
+    "certificateListOptions",
     "maxResults"
   ],
   mapper: {
@@ -3360,7 +3334,7 @@ export const maxResults5: msRest.OperationQueryParameter = {
 export const maxResults6: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobListFromJobScheduleOptions",
+    "fileListFromTaskOptions",
     "maxResults"
   ],
   mapper: {
@@ -3378,7 +3352,7 @@ export const maxResults6: msRest.OperationQueryParameter = {
 export const maxResults7: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobListPreparationAndReleaseTaskStatusOptions",
+    "fileListFromComputeNodeOptions",
     "maxResults"
   ],
   mapper: {
@@ -3396,7 +3370,7 @@ export const maxResults7: msRest.OperationQueryParameter = {
 export const maxResults8: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "certificateListOptions",
+    "jobScheduleListOptions",
     "maxResults"
   ],
   mapper: {
@@ -3414,7 +3388,7 @@ export const maxResults8: msRest.OperationQueryParameter = {
 export const maxResults9: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "fileListFromTaskOptions",
+    "jobListOptions",
     "maxResults"
   ],
   mapper: {
@@ -3479,7 +3453,7 @@ export const ocpDate1: msRest.OperationParameter = {
 export const ocpDate10: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolPatchOptions",
+    "poolDisableAutoScaleOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3492,7 +3466,7 @@ export const ocpDate10: msRest.OperationParameter = {
 export const ocpDate11: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolDisableAutoScaleOptions",
+    "poolEnableAutoScaleOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3505,7 +3479,7 @@ export const ocpDate11: msRest.OperationParameter = {
 export const ocpDate12: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolEnableAutoScaleOptions",
+    "poolEvaluateAutoScaleOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3518,7 +3492,7 @@ export const ocpDate12: msRest.OperationParameter = {
 export const ocpDate13: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolEvaluateAutoScaleOptions",
+    "poolResizeOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3531,7 +3505,7 @@ export const ocpDate13: msRest.OperationParameter = {
 export const ocpDate14: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolResizeOptions",
+    "poolStopResizeOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3544,7 +3518,7 @@ export const ocpDate14: msRest.OperationParameter = {
 export const ocpDate15: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolStopResizeOptions",
+    "poolUpdatePropertiesOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3557,7 +3531,7 @@ export const ocpDate15: msRest.OperationParameter = {
 export const ocpDate16: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolUpdatePropertiesOptions",
+    "poolRemoveNodesOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3570,7 +3544,7 @@ export const ocpDate16: msRest.OperationParameter = {
 export const ocpDate17: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolRemoveNodesOptions",
+    "poolListUsageMetricsNextOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3583,7 +3557,7 @@ export const ocpDate17: msRest.OperationParameter = {
 export const ocpDate18: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolListUsageMetricsNextOptions",
+    "poolListNextOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3596,7 +3570,7 @@ export const ocpDate18: msRest.OperationParameter = {
 export const ocpDate19: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolListNextOptions",
+    "accountListSupportedImagesOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3622,7 +3596,7 @@ export const ocpDate2: msRest.OperationParameter = {
 export const ocpDate20: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "accountListSupportedImagesOptions",
+    "accountListPoolNodeCountsOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3635,7 +3609,7 @@ export const ocpDate20: msRest.OperationParameter = {
 export const ocpDate21: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "accountListPoolNodeCountsOptions",
+    "accountListSupportedImagesNextOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3648,7 +3622,7 @@ export const ocpDate21: msRest.OperationParameter = {
 export const ocpDate22: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "accountListSupportedImagesNextOptions",
+    "accountListPoolNodeCountsNextOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3661,7 +3635,7 @@ export const ocpDate22: msRest.OperationParameter = {
 export const ocpDate23: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "accountListPoolNodeCountsNextOptions",
+    "certificateAddOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3674,7 +3648,7 @@ export const ocpDate23: msRest.OperationParameter = {
 export const ocpDate24: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobGetAllLifetimeStatisticsOptions",
+    "certificateListOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3687,7 +3661,7 @@ export const ocpDate24: msRest.OperationParameter = {
 export const ocpDate25: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobDeleteMethodOptions",
+    "certificateCancelDeletionOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3700,7 +3674,7 @@ export const ocpDate25: msRest.OperationParameter = {
 export const ocpDate26: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobGetOptions",
+    "certificateDeleteMethodOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3713,7 +3687,7 @@ export const ocpDate26: msRest.OperationParameter = {
 export const ocpDate27: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobPatchOptions",
+    "certificateGetOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3726,7 +3700,7 @@ export const ocpDate27: msRest.OperationParameter = {
 export const ocpDate28: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobUpdateOptions",
+    "certificateListNextOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3739,7 +3713,7 @@ export const ocpDate28: msRest.OperationParameter = {
 export const ocpDate29: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobDisableOptions",
+    "fileDeleteFromTaskOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3765,7 +3739,7 @@ export const ocpDate3: msRest.OperationParameter = {
 export const ocpDate30: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobEnableOptions",
+    "fileGetFromTaskOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3778,7 +3752,7 @@ export const ocpDate30: msRest.OperationParameter = {
 export const ocpDate31: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobTerminateOptions",
+    "fileGetPropertiesFromTaskOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3791,7 +3765,7 @@ export const ocpDate31: msRest.OperationParameter = {
 export const ocpDate32: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobAddOptions",
+    "fileDeleteFromComputeNodeOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3804,7 +3778,7 @@ export const ocpDate32: msRest.OperationParameter = {
 export const ocpDate33: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobListOptions",
+    "fileGetFromComputeNodeOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3817,7 +3791,7 @@ export const ocpDate33: msRest.OperationParameter = {
 export const ocpDate34: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobListFromJobScheduleOptions",
+    "fileGetPropertiesFromComputeNodeOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3830,7 +3804,7 @@ export const ocpDate34: msRest.OperationParameter = {
 export const ocpDate35: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobListPreparationAndReleaseTaskStatusOptions",
+    "fileListFromTaskOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3843,7 +3817,7 @@ export const ocpDate35: msRest.OperationParameter = {
 export const ocpDate36: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobGetTaskCountsOptions",
+    "fileListFromComputeNodeOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3856,7 +3830,7 @@ export const ocpDate36: msRest.OperationParameter = {
 export const ocpDate37: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobListNextOptions",
+    "fileListFromTaskNextOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3869,7 +3843,7 @@ export const ocpDate37: msRest.OperationParameter = {
 export const ocpDate38: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobListFromJobScheduleNextOptions",
+    "fileListFromComputeNodeNextOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3882,7 +3856,7 @@ export const ocpDate38: msRest.OperationParameter = {
 export const ocpDate39: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobListPreparationAndReleaseTaskStatusNextOptions",
+    "jobScheduleExistsOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3895,7 +3869,7 @@ export const ocpDate39: msRest.OperationParameter = {
 export const ocpDate4: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolGetAllLifetimeStatisticsOptions",
+    "poolAddOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3908,7 +3882,7 @@ export const ocpDate4: msRest.OperationParameter = {
 export const ocpDate40: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "certificateAddOptions",
+    "jobScheduleDeleteMethodOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3921,7 +3895,7 @@ export const ocpDate40: msRest.OperationParameter = {
 export const ocpDate41: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "certificateListOptions",
+    "jobScheduleGetOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3934,7 +3908,7 @@ export const ocpDate41: msRest.OperationParameter = {
 export const ocpDate42: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "certificateCancelDeletionOptions",
+    "jobSchedulePatchOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3947,7 +3921,7 @@ export const ocpDate42: msRest.OperationParameter = {
 export const ocpDate43: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "certificateDeleteMethodOptions",
+    "jobScheduleUpdateOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3960,7 +3934,7 @@ export const ocpDate43: msRest.OperationParameter = {
 export const ocpDate44: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "certificateGetOptions",
+    "jobScheduleDisableOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3973,7 +3947,7 @@ export const ocpDate44: msRest.OperationParameter = {
 export const ocpDate45: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "certificateListNextOptions",
+    "jobScheduleEnableOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3986,7 +3960,7 @@ export const ocpDate45: msRest.OperationParameter = {
 export const ocpDate46: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileDeleteFromTaskOptions",
+    "jobScheduleTerminateOptions",
     "ocpDate"
   ],
   mapper: {
@@ -3999,7 +3973,7 @@ export const ocpDate46: msRest.OperationParameter = {
 export const ocpDate47: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileGetFromTaskOptions",
+    "jobScheduleAddOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4012,7 +3986,7 @@ export const ocpDate47: msRest.OperationParameter = {
 export const ocpDate48: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileGetPropertiesFromTaskOptions",
+    "jobScheduleListOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4025,7 +3999,7 @@ export const ocpDate48: msRest.OperationParameter = {
 export const ocpDate49: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileDeleteFromComputeNodeOptions",
+    "jobScheduleListNextOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4038,7 +4012,7 @@ export const ocpDate49: msRest.OperationParameter = {
 export const ocpDate5: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolAddOptions",
+    "poolListOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4051,7 +4025,7 @@ export const ocpDate5: msRest.OperationParameter = {
 export const ocpDate50: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileGetFromComputeNodeOptions",
+    "jobDeleteMethodOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4064,7 +4038,7 @@ export const ocpDate50: msRest.OperationParameter = {
 export const ocpDate51: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileGetPropertiesFromComputeNodeOptions",
+    "jobGetOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4077,7 +4051,7 @@ export const ocpDate51: msRest.OperationParameter = {
 export const ocpDate52: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileListFromTaskOptions",
+    "jobPatchOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4090,7 +4064,7 @@ export const ocpDate52: msRest.OperationParameter = {
 export const ocpDate53: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileListFromComputeNodeOptions",
+    "jobUpdateOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4103,7 +4077,7 @@ export const ocpDate53: msRest.OperationParameter = {
 export const ocpDate54: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileListFromTaskNextOptions",
+    "jobDisableOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4116,7 +4090,7 @@ export const ocpDate54: msRest.OperationParameter = {
 export const ocpDate55: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileListFromComputeNodeNextOptions",
+    "jobEnableOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4129,7 +4103,7 @@ export const ocpDate55: msRest.OperationParameter = {
 export const ocpDate56: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleExistsOptions",
+    "jobTerminateOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4142,7 +4116,7 @@ export const ocpDate56: msRest.OperationParameter = {
 export const ocpDate57: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleDeleteMethodOptions",
+    "jobAddOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4155,7 +4129,7 @@ export const ocpDate57: msRest.OperationParameter = {
 export const ocpDate58: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleGetOptions",
+    "jobListOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4168,7 +4142,7 @@ export const ocpDate58: msRest.OperationParameter = {
 export const ocpDate59: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobSchedulePatchOptions",
+    "jobListFromJobScheduleOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4181,7 +4155,7 @@ export const ocpDate59: msRest.OperationParameter = {
 export const ocpDate6: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolListOptions",
+    "poolDeleteMethodOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4194,7 +4168,7 @@ export const ocpDate6: msRest.OperationParameter = {
 export const ocpDate60: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleUpdateOptions",
+    "jobListPreparationAndReleaseTaskStatusOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4207,7 +4181,7 @@ export const ocpDate60: msRest.OperationParameter = {
 export const ocpDate61: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleDisableOptions",
+    "jobGetTaskCountsOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4220,7 +4194,7 @@ export const ocpDate61: msRest.OperationParameter = {
 export const ocpDate62: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleEnableOptions",
+    "jobListNextOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4233,7 +4207,7 @@ export const ocpDate62: msRest.OperationParameter = {
 export const ocpDate63: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleTerminateOptions",
+    "jobListFromJobScheduleNextOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4246,7 +4220,7 @@ export const ocpDate63: msRest.OperationParameter = {
 export const ocpDate64: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleAddOptions",
+    "jobListPreparationAndReleaseTaskStatusNextOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4259,7 +4233,7 @@ export const ocpDate64: msRest.OperationParameter = {
 export const ocpDate65: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleListOptions",
+    "taskAddOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4272,7 +4246,7 @@ export const ocpDate65: msRest.OperationParameter = {
 export const ocpDate66: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleListNextOptions",
+    "taskListOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4285,7 +4259,7 @@ export const ocpDate66: msRest.OperationParameter = {
 export const ocpDate67: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "taskAddOptions",
+    "taskAddCollectionOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4298,7 +4272,7 @@ export const ocpDate67: msRest.OperationParameter = {
 export const ocpDate68: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "taskListOptions",
+    "taskDeleteMethodOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4311,7 +4285,7 @@ export const ocpDate68: msRest.OperationParameter = {
 export const ocpDate69: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "taskAddCollectionOptions",
+    "taskGetOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4324,7 +4298,7 @@ export const ocpDate69: msRest.OperationParameter = {
 export const ocpDate7: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolDeleteMethodOptions",
+    "poolExistsOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4337,7 +4311,7 @@ export const ocpDate7: msRest.OperationParameter = {
 export const ocpDate70: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "taskDeleteMethodOptions",
+    "taskUpdateOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4350,7 +4324,7 @@ export const ocpDate70: msRest.OperationParameter = {
 export const ocpDate71: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "taskGetOptions",
+    "taskListSubtasksOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4363,7 +4337,7 @@ export const ocpDate71: msRest.OperationParameter = {
 export const ocpDate72: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "taskUpdateOptions",
+    "taskTerminateOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4376,7 +4350,7 @@ export const ocpDate72: msRest.OperationParameter = {
 export const ocpDate73: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "taskListSubtasksOptions",
+    "taskReactivateOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4389,7 +4363,7 @@ export const ocpDate73: msRest.OperationParameter = {
 export const ocpDate74: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "taskTerminateOptions",
+    "taskListNextOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4402,7 +4376,7 @@ export const ocpDate74: msRest.OperationParameter = {
 export const ocpDate75: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "taskReactivateOptions",
+    "computeNodeAddUserOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4415,7 +4389,7 @@ export const ocpDate75: msRest.OperationParameter = {
 export const ocpDate76: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "taskListNextOptions",
+    "computeNodeDeleteUserOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4428,7 +4402,7 @@ export const ocpDate76: msRest.OperationParameter = {
 export const ocpDate77: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeAddUserOptions",
+    "computeNodeUpdateUserOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4441,7 +4415,7 @@ export const ocpDate77: msRest.OperationParameter = {
 export const ocpDate78: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeDeleteUserOptions",
+    "computeNodeGetOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4454,7 +4428,7 @@ export const ocpDate78: msRest.OperationParameter = {
 export const ocpDate79: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeUpdateUserOptions",
+    "computeNodeRebootOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4467,7 +4441,7 @@ export const ocpDate79: msRest.OperationParameter = {
 export const ocpDate8: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolExistsOptions",
+    "poolGetOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4480,7 +4454,7 @@ export const ocpDate8: msRest.OperationParameter = {
 export const ocpDate80: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeGetOptions",
+    "computeNodeReimageOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4493,7 +4467,7 @@ export const ocpDate80: msRest.OperationParameter = {
 export const ocpDate81: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeRebootOptions",
+    "computeNodeDisableSchedulingOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4506,7 +4480,7 @@ export const ocpDate81: msRest.OperationParameter = {
 export const ocpDate82: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeReimageOptions",
+    "computeNodeEnableSchedulingOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4519,7 +4493,7 @@ export const ocpDate82: msRest.OperationParameter = {
 export const ocpDate83: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeDisableSchedulingOptions",
+    "computeNodeGetRemoteLoginSettingsOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4532,7 +4506,7 @@ export const ocpDate83: msRest.OperationParameter = {
 export const ocpDate84: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeEnableSchedulingOptions",
+    "computeNodeGetRemoteDesktopOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4545,7 +4519,7 @@ export const ocpDate84: msRest.OperationParameter = {
 export const ocpDate85: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeGetRemoteLoginSettingsOptions",
+    "computeNodeUploadBatchServiceLogsOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4558,7 +4532,7 @@ export const ocpDate85: msRest.OperationParameter = {
 export const ocpDate86: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeGetRemoteDesktopOptions",
+    "computeNodeListOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4571,7 +4545,7 @@ export const ocpDate86: msRest.OperationParameter = {
 export const ocpDate87: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeUploadBatchServiceLogsOptions",
+    "computeNodeListNextOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4584,7 +4558,7 @@ export const ocpDate87: msRest.OperationParameter = {
 export const ocpDate88: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeListOptions",
+    "computeNodeExtensionGetOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4597,7 +4571,7 @@ export const ocpDate88: msRest.OperationParameter = {
 export const ocpDate89: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeListNextOptions",
+    "computeNodeExtensionListOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4610,7 +4584,7 @@ export const ocpDate89: msRest.OperationParameter = {
 export const ocpDate9: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolGetOptions",
+    "poolPatchOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4621,32 +4595,6 @@ export const ocpDate9: msRest.OperationParameter = {
   }
 };
 export const ocpDate90: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "computeNodeExtensionGetOptions",
-    "ocpDate"
-  ],
-  mapper: {
-    serializedName: "ocp-date",
-    type: {
-      name: "DateTimeRfc1123"
-    }
-  }
-};
-export const ocpDate91: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "computeNodeExtensionListOptions",
-    "ocpDate"
-  ],
-  mapper: {
-    serializedName: "ocp-date",
-    type: {
-      name: "DateTimeRfc1123"
-    }
-  }
-};
-export const ocpDate92: msRest.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeExtensionListNextOptions",
@@ -4738,7 +4686,7 @@ export const returnClientRequestId1: msRest.OperationParameter = {
 export const returnClientRequestId10: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolPatchOptions",
+    "poolDisableAutoScaleOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -4752,7 +4700,7 @@ export const returnClientRequestId10: msRest.OperationParameter = {
 export const returnClientRequestId11: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolDisableAutoScaleOptions",
+    "poolEnableAutoScaleOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -4766,7 +4714,7 @@ export const returnClientRequestId11: msRest.OperationParameter = {
 export const returnClientRequestId12: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolEnableAutoScaleOptions",
+    "poolEvaluateAutoScaleOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -4780,7 +4728,7 @@ export const returnClientRequestId12: msRest.OperationParameter = {
 export const returnClientRequestId13: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolEvaluateAutoScaleOptions",
+    "poolResizeOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -4794,7 +4742,7 @@ export const returnClientRequestId13: msRest.OperationParameter = {
 export const returnClientRequestId14: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolResizeOptions",
+    "poolStopResizeOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -4808,7 +4756,7 @@ export const returnClientRequestId14: msRest.OperationParameter = {
 export const returnClientRequestId15: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolStopResizeOptions",
+    "poolUpdatePropertiesOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -4822,7 +4770,7 @@ export const returnClientRequestId15: msRest.OperationParameter = {
 export const returnClientRequestId16: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolUpdatePropertiesOptions",
+    "poolRemoveNodesOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -4836,7 +4784,7 @@ export const returnClientRequestId16: msRest.OperationParameter = {
 export const returnClientRequestId17: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolRemoveNodesOptions",
+    "poolListUsageMetricsNextOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -4850,7 +4798,7 @@ export const returnClientRequestId17: msRest.OperationParameter = {
 export const returnClientRequestId18: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolListUsageMetricsNextOptions",
+    "poolListNextOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -4864,7 +4812,7 @@ export const returnClientRequestId18: msRest.OperationParameter = {
 export const returnClientRequestId19: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolListNextOptions",
+    "accountListSupportedImagesOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -4892,7 +4840,7 @@ export const returnClientRequestId2: msRest.OperationParameter = {
 export const returnClientRequestId20: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "accountListSupportedImagesOptions",
+    "accountListPoolNodeCountsOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -4906,7 +4854,7 @@ export const returnClientRequestId20: msRest.OperationParameter = {
 export const returnClientRequestId21: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "accountListPoolNodeCountsOptions",
+    "accountListSupportedImagesNextOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -4920,7 +4868,7 @@ export const returnClientRequestId21: msRest.OperationParameter = {
 export const returnClientRequestId22: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "accountListSupportedImagesNextOptions",
+    "accountListPoolNodeCountsNextOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -4934,7 +4882,7 @@ export const returnClientRequestId22: msRest.OperationParameter = {
 export const returnClientRequestId23: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "accountListPoolNodeCountsNextOptions",
+    "certificateAddOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -4948,7 +4896,7 @@ export const returnClientRequestId23: msRest.OperationParameter = {
 export const returnClientRequestId24: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobGetAllLifetimeStatisticsOptions",
+    "certificateListOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -4962,7 +4910,7 @@ export const returnClientRequestId24: msRest.OperationParameter = {
 export const returnClientRequestId25: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobDeleteMethodOptions",
+    "certificateCancelDeletionOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -4976,7 +4924,7 @@ export const returnClientRequestId25: msRest.OperationParameter = {
 export const returnClientRequestId26: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobGetOptions",
+    "certificateDeleteMethodOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -4990,7 +4938,7 @@ export const returnClientRequestId26: msRest.OperationParameter = {
 export const returnClientRequestId27: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobPatchOptions",
+    "certificateGetOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5004,7 +4952,7 @@ export const returnClientRequestId27: msRest.OperationParameter = {
 export const returnClientRequestId28: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobUpdateOptions",
+    "certificateListNextOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5018,7 +4966,7 @@ export const returnClientRequestId28: msRest.OperationParameter = {
 export const returnClientRequestId29: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobDisableOptions",
+    "fileDeleteFromTaskOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5046,7 +4994,7 @@ export const returnClientRequestId3: msRest.OperationParameter = {
 export const returnClientRequestId30: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobEnableOptions",
+    "fileGetFromTaskOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5060,7 +5008,7 @@ export const returnClientRequestId30: msRest.OperationParameter = {
 export const returnClientRequestId31: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobTerminateOptions",
+    "fileGetPropertiesFromTaskOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5074,7 +5022,7 @@ export const returnClientRequestId31: msRest.OperationParameter = {
 export const returnClientRequestId32: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobAddOptions",
+    "fileDeleteFromComputeNodeOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5088,7 +5036,7 @@ export const returnClientRequestId32: msRest.OperationParameter = {
 export const returnClientRequestId33: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobListOptions",
+    "fileGetFromComputeNodeOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5102,7 +5050,7 @@ export const returnClientRequestId33: msRest.OperationParameter = {
 export const returnClientRequestId34: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobListFromJobScheduleOptions",
+    "fileGetPropertiesFromComputeNodeOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5116,7 +5064,7 @@ export const returnClientRequestId34: msRest.OperationParameter = {
 export const returnClientRequestId35: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobListPreparationAndReleaseTaskStatusOptions",
+    "fileListFromTaskOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5130,7 +5078,7 @@ export const returnClientRequestId35: msRest.OperationParameter = {
 export const returnClientRequestId36: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobGetTaskCountsOptions",
+    "fileListFromComputeNodeOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5144,7 +5092,7 @@ export const returnClientRequestId36: msRest.OperationParameter = {
 export const returnClientRequestId37: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobListNextOptions",
+    "fileListFromTaskNextOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5158,7 +5106,7 @@ export const returnClientRequestId37: msRest.OperationParameter = {
 export const returnClientRequestId38: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobListFromJobScheduleNextOptions",
+    "fileListFromComputeNodeNextOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5172,7 +5120,7 @@ export const returnClientRequestId38: msRest.OperationParameter = {
 export const returnClientRequestId39: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobListPreparationAndReleaseTaskStatusNextOptions",
+    "jobScheduleExistsOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5186,7 +5134,7 @@ export const returnClientRequestId39: msRest.OperationParameter = {
 export const returnClientRequestId4: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolGetAllLifetimeStatisticsOptions",
+    "poolAddOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5200,7 +5148,7 @@ export const returnClientRequestId4: msRest.OperationParameter = {
 export const returnClientRequestId40: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "certificateAddOptions",
+    "jobScheduleDeleteMethodOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5214,7 +5162,7 @@ export const returnClientRequestId40: msRest.OperationParameter = {
 export const returnClientRequestId41: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "certificateListOptions",
+    "jobScheduleGetOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5228,7 +5176,7 @@ export const returnClientRequestId41: msRest.OperationParameter = {
 export const returnClientRequestId42: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "certificateCancelDeletionOptions",
+    "jobSchedulePatchOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5242,7 +5190,7 @@ export const returnClientRequestId42: msRest.OperationParameter = {
 export const returnClientRequestId43: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "certificateDeleteMethodOptions",
+    "jobScheduleUpdateOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5256,7 +5204,7 @@ export const returnClientRequestId43: msRest.OperationParameter = {
 export const returnClientRequestId44: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "certificateGetOptions",
+    "jobScheduleDisableOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5270,7 +5218,7 @@ export const returnClientRequestId44: msRest.OperationParameter = {
 export const returnClientRequestId45: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "certificateListNextOptions",
+    "jobScheduleEnableOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5284,7 +5232,7 @@ export const returnClientRequestId45: msRest.OperationParameter = {
 export const returnClientRequestId46: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileDeleteFromTaskOptions",
+    "jobScheduleTerminateOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5298,7 +5246,7 @@ export const returnClientRequestId46: msRest.OperationParameter = {
 export const returnClientRequestId47: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileGetFromTaskOptions",
+    "jobScheduleAddOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5312,7 +5260,7 @@ export const returnClientRequestId47: msRest.OperationParameter = {
 export const returnClientRequestId48: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileGetPropertiesFromTaskOptions",
+    "jobScheduleListOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5326,7 +5274,7 @@ export const returnClientRequestId48: msRest.OperationParameter = {
 export const returnClientRequestId49: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileDeleteFromComputeNodeOptions",
+    "jobScheduleListNextOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5340,7 +5288,7 @@ export const returnClientRequestId49: msRest.OperationParameter = {
 export const returnClientRequestId5: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolAddOptions",
+    "poolListOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5354,7 +5302,7 @@ export const returnClientRequestId5: msRest.OperationParameter = {
 export const returnClientRequestId50: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileGetFromComputeNodeOptions",
+    "jobDeleteMethodOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5368,7 +5316,7 @@ export const returnClientRequestId50: msRest.OperationParameter = {
 export const returnClientRequestId51: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileGetPropertiesFromComputeNodeOptions",
+    "jobGetOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5382,7 +5330,7 @@ export const returnClientRequestId51: msRest.OperationParameter = {
 export const returnClientRequestId52: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileListFromTaskOptions",
+    "jobPatchOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5396,7 +5344,7 @@ export const returnClientRequestId52: msRest.OperationParameter = {
 export const returnClientRequestId53: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileListFromComputeNodeOptions",
+    "jobUpdateOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5410,7 +5358,7 @@ export const returnClientRequestId53: msRest.OperationParameter = {
 export const returnClientRequestId54: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileListFromTaskNextOptions",
+    "jobDisableOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5424,7 +5372,7 @@ export const returnClientRequestId54: msRest.OperationParameter = {
 export const returnClientRequestId55: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "fileListFromComputeNodeNextOptions",
+    "jobEnableOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5438,7 +5386,7 @@ export const returnClientRequestId55: msRest.OperationParameter = {
 export const returnClientRequestId56: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleExistsOptions",
+    "jobTerminateOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5452,7 +5400,7 @@ export const returnClientRequestId56: msRest.OperationParameter = {
 export const returnClientRequestId57: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleDeleteMethodOptions",
+    "jobAddOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5466,7 +5414,7 @@ export const returnClientRequestId57: msRest.OperationParameter = {
 export const returnClientRequestId58: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleGetOptions",
+    "jobListOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5480,7 +5428,7 @@ export const returnClientRequestId58: msRest.OperationParameter = {
 export const returnClientRequestId59: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobSchedulePatchOptions",
+    "jobListFromJobScheduleOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5494,7 +5442,7 @@ export const returnClientRequestId59: msRest.OperationParameter = {
 export const returnClientRequestId6: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolListOptions",
+    "poolDeleteMethodOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5508,7 +5456,7 @@ export const returnClientRequestId6: msRest.OperationParameter = {
 export const returnClientRequestId60: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleUpdateOptions",
+    "jobListPreparationAndReleaseTaskStatusOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5522,7 +5470,7 @@ export const returnClientRequestId60: msRest.OperationParameter = {
 export const returnClientRequestId61: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleDisableOptions",
+    "jobGetTaskCountsOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5536,7 +5484,7 @@ export const returnClientRequestId61: msRest.OperationParameter = {
 export const returnClientRequestId62: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleEnableOptions",
+    "jobListNextOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5550,7 +5498,7 @@ export const returnClientRequestId62: msRest.OperationParameter = {
 export const returnClientRequestId63: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleTerminateOptions",
+    "jobListFromJobScheduleNextOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5564,7 +5512,7 @@ export const returnClientRequestId63: msRest.OperationParameter = {
 export const returnClientRequestId64: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleAddOptions",
+    "jobListPreparationAndReleaseTaskStatusNextOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5578,7 +5526,7 @@ export const returnClientRequestId64: msRest.OperationParameter = {
 export const returnClientRequestId65: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleListOptions",
+    "taskAddOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5592,7 +5540,7 @@ export const returnClientRequestId65: msRest.OperationParameter = {
 export const returnClientRequestId66: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "jobScheduleListNextOptions",
+    "taskListOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5606,7 +5554,7 @@ export const returnClientRequestId66: msRest.OperationParameter = {
 export const returnClientRequestId67: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "taskAddOptions",
+    "taskAddCollectionOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5620,7 +5568,7 @@ export const returnClientRequestId67: msRest.OperationParameter = {
 export const returnClientRequestId68: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "taskListOptions",
+    "taskDeleteMethodOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5634,7 +5582,7 @@ export const returnClientRequestId68: msRest.OperationParameter = {
 export const returnClientRequestId69: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "taskAddCollectionOptions",
+    "taskGetOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5648,7 +5596,7 @@ export const returnClientRequestId69: msRest.OperationParameter = {
 export const returnClientRequestId7: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolDeleteMethodOptions",
+    "poolExistsOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5662,7 +5610,7 @@ export const returnClientRequestId7: msRest.OperationParameter = {
 export const returnClientRequestId70: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "taskDeleteMethodOptions",
+    "taskUpdateOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5676,7 +5624,7 @@ export const returnClientRequestId70: msRest.OperationParameter = {
 export const returnClientRequestId71: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "taskGetOptions",
+    "taskListSubtasksOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5690,7 +5638,7 @@ export const returnClientRequestId71: msRest.OperationParameter = {
 export const returnClientRequestId72: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "taskUpdateOptions",
+    "taskTerminateOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5704,7 +5652,7 @@ export const returnClientRequestId72: msRest.OperationParameter = {
 export const returnClientRequestId73: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "taskListSubtasksOptions",
+    "taskReactivateOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5718,7 +5666,7 @@ export const returnClientRequestId73: msRest.OperationParameter = {
 export const returnClientRequestId74: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "taskTerminateOptions",
+    "taskListNextOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5732,7 +5680,7 @@ export const returnClientRequestId74: msRest.OperationParameter = {
 export const returnClientRequestId75: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "taskReactivateOptions",
+    "computeNodeAddUserOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5746,7 +5694,7 @@ export const returnClientRequestId75: msRest.OperationParameter = {
 export const returnClientRequestId76: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "taskListNextOptions",
+    "computeNodeDeleteUserOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5760,7 +5708,7 @@ export const returnClientRequestId76: msRest.OperationParameter = {
 export const returnClientRequestId77: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeAddUserOptions",
+    "computeNodeUpdateUserOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5774,7 +5722,7 @@ export const returnClientRequestId77: msRest.OperationParameter = {
 export const returnClientRequestId78: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeDeleteUserOptions",
+    "computeNodeGetOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5788,7 +5736,7 @@ export const returnClientRequestId78: msRest.OperationParameter = {
 export const returnClientRequestId79: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeUpdateUserOptions",
+    "computeNodeRebootOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5802,7 +5750,7 @@ export const returnClientRequestId79: msRest.OperationParameter = {
 export const returnClientRequestId8: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolExistsOptions",
+    "poolGetOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5816,7 +5764,7 @@ export const returnClientRequestId8: msRest.OperationParameter = {
 export const returnClientRequestId80: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeGetOptions",
+    "computeNodeReimageOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5830,7 +5778,7 @@ export const returnClientRequestId80: msRest.OperationParameter = {
 export const returnClientRequestId81: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeRebootOptions",
+    "computeNodeDisableSchedulingOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5844,7 +5792,7 @@ export const returnClientRequestId81: msRest.OperationParameter = {
 export const returnClientRequestId82: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeReimageOptions",
+    "computeNodeEnableSchedulingOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5858,7 +5806,7 @@ export const returnClientRequestId82: msRest.OperationParameter = {
 export const returnClientRequestId83: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeDisableSchedulingOptions",
+    "computeNodeGetRemoteLoginSettingsOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5872,7 +5820,7 @@ export const returnClientRequestId83: msRest.OperationParameter = {
 export const returnClientRequestId84: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeEnableSchedulingOptions",
+    "computeNodeGetRemoteDesktopOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5886,7 +5834,7 @@ export const returnClientRequestId84: msRest.OperationParameter = {
 export const returnClientRequestId85: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeGetRemoteLoginSettingsOptions",
+    "computeNodeUploadBatchServiceLogsOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5900,7 +5848,7 @@ export const returnClientRequestId85: msRest.OperationParameter = {
 export const returnClientRequestId86: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeGetRemoteDesktopOptions",
+    "computeNodeListOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5914,7 +5862,7 @@ export const returnClientRequestId86: msRest.OperationParameter = {
 export const returnClientRequestId87: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeUploadBatchServiceLogsOptions",
+    "computeNodeListNextOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5928,7 +5876,7 @@ export const returnClientRequestId87: msRest.OperationParameter = {
 export const returnClientRequestId88: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeListOptions",
+    "computeNodeExtensionGetOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5942,7 +5890,7 @@ export const returnClientRequestId88: msRest.OperationParameter = {
 export const returnClientRequestId89: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeListNextOptions",
+    "computeNodeExtensionListOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5956,7 +5904,7 @@ export const returnClientRequestId89: msRest.OperationParameter = {
 export const returnClientRequestId9: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "poolGetOptions",
+    "poolPatchOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5968,34 +5916,6 @@ export const returnClientRequestId9: msRest.OperationParameter = {
   }
 };
 export const returnClientRequestId90: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "computeNodeExtensionGetOptions",
-    "returnClientRequestId"
-  ],
-  mapper: {
-    serializedName: "return-client-request-id",
-    defaultValue: false,
-    type: {
-      name: "Boolean"
-    }
-  }
-};
-export const returnClientRequestId91: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "computeNodeExtensionListOptions",
-    "returnClientRequestId"
-  ],
-  mapper: {
-    serializedName: "return-client-request-id",
-    defaultValue: false,
-    type: {
-      name: "Boolean"
-    }
-  }
-};
-export const returnClientRequestId92: msRest.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeExtensionListNextOptions",
@@ -6129,7 +6049,7 @@ export const select16: msRest.OperationQueryParameter = {
 export const select2: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobGetOptions",
+    "certificateListOptions",
     "select"
   ],
   mapper: {
@@ -6142,7 +6062,7 @@ export const select2: msRest.OperationQueryParameter = {
 export const select3: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobListOptions",
+    "certificateGetOptions",
     "select"
   ],
   mapper: {
@@ -6155,7 +6075,7 @@ export const select3: msRest.OperationQueryParameter = {
 export const select4: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobListFromJobScheduleOptions",
+    "jobScheduleGetOptions",
     "select"
   ],
   mapper: {
@@ -6168,7 +6088,7 @@ export const select4: msRest.OperationQueryParameter = {
 export const select5: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobListPreparationAndReleaseTaskStatusOptions",
+    "jobScheduleListOptions",
     "select"
   ],
   mapper: {
@@ -6181,7 +6101,7 @@ export const select5: msRest.OperationQueryParameter = {
 export const select6: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "certificateListOptions",
+    "jobGetOptions",
     "select"
   ],
   mapper: {
@@ -6194,7 +6114,7 @@ export const select6: msRest.OperationQueryParameter = {
 export const select7: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "certificateGetOptions",
+    "jobListOptions",
     "select"
   ],
   mapper: {
@@ -6207,7 +6127,7 @@ export const select7: msRest.OperationQueryParameter = {
 export const select8: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobScheduleGetOptions",
+    "jobListFromJobScheduleOptions",
     "select"
   ],
   mapper: {
@@ -6220,7 +6140,7 @@ export const select8: msRest.OperationQueryParameter = {
 export const select9: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobScheduleListOptions",
+    "jobListPreparationAndReleaseTaskStatusOptions",
     "select"
   ],
   mapper: {
@@ -6304,7 +6224,7 @@ export const timeout1: msRest.OperationQueryParameter = {
 export const timeout10: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "poolDisableAutoScaleOptions",
+    "poolEnableAutoScaleOptions",
     "timeout"
   ],
   mapper: {
@@ -6318,7 +6238,7 @@ export const timeout10: msRest.OperationQueryParameter = {
 export const timeout11: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "poolEnableAutoScaleOptions",
+    "poolEvaluateAutoScaleOptions",
     "timeout"
   ],
   mapper: {
@@ -6332,7 +6252,7 @@ export const timeout11: msRest.OperationQueryParameter = {
 export const timeout12: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "poolEvaluateAutoScaleOptions",
+    "poolResizeOptions",
     "timeout"
   ],
   mapper: {
@@ -6346,7 +6266,7 @@ export const timeout12: msRest.OperationQueryParameter = {
 export const timeout13: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "poolResizeOptions",
+    "poolStopResizeOptions",
     "timeout"
   ],
   mapper: {
@@ -6360,7 +6280,7 @@ export const timeout13: msRest.OperationQueryParameter = {
 export const timeout14: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "poolStopResizeOptions",
+    "poolUpdatePropertiesOptions",
     "timeout"
   ],
   mapper: {
@@ -6374,7 +6294,7 @@ export const timeout14: msRest.OperationQueryParameter = {
 export const timeout15: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "poolUpdatePropertiesOptions",
+    "poolRemoveNodesOptions",
     "timeout"
   ],
   mapper: {
@@ -6388,7 +6308,7 @@ export const timeout15: msRest.OperationQueryParameter = {
 export const timeout16: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "poolRemoveNodesOptions",
+    "accountListSupportedImagesOptions",
     "timeout"
   ],
   mapper: {
@@ -6402,7 +6322,7 @@ export const timeout16: msRest.OperationQueryParameter = {
 export const timeout17: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "accountListSupportedImagesOptions",
+    "accountListPoolNodeCountsOptions",
     "timeout"
   ],
   mapper: {
@@ -6416,7 +6336,7 @@ export const timeout17: msRest.OperationQueryParameter = {
 export const timeout18: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "accountListPoolNodeCountsOptions",
+    "certificateAddOptions",
     "timeout"
   ],
   mapper: {
@@ -6430,7 +6350,7 @@ export const timeout18: msRest.OperationQueryParameter = {
 export const timeout19: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobGetAllLifetimeStatisticsOptions",
+    "certificateListOptions",
     "timeout"
   ],
   mapper: {
@@ -6458,7 +6378,7 @@ export const timeout2: msRest.OperationQueryParameter = {
 export const timeout20: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobDeleteMethodOptions",
+    "certificateCancelDeletionOptions",
     "timeout"
   ],
   mapper: {
@@ -6472,7 +6392,7 @@ export const timeout20: msRest.OperationQueryParameter = {
 export const timeout21: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobGetOptions",
+    "certificateDeleteMethodOptions",
     "timeout"
   ],
   mapper: {
@@ -6486,7 +6406,7 @@ export const timeout21: msRest.OperationQueryParameter = {
 export const timeout22: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobPatchOptions",
+    "certificateGetOptions",
     "timeout"
   ],
   mapper: {
@@ -6500,7 +6420,7 @@ export const timeout22: msRest.OperationQueryParameter = {
 export const timeout23: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobUpdateOptions",
+    "fileDeleteFromTaskOptions",
     "timeout"
   ],
   mapper: {
@@ -6514,7 +6434,7 @@ export const timeout23: msRest.OperationQueryParameter = {
 export const timeout24: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobDisableOptions",
+    "fileGetFromTaskOptions",
     "timeout"
   ],
   mapper: {
@@ -6528,7 +6448,7 @@ export const timeout24: msRest.OperationQueryParameter = {
 export const timeout25: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobEnableOptions",
+    "fileGetPropertiesFromTaskOptions",
     "timeout"
   ],
   mapper: {
@@ -6542,7 +6462,7 @@ export const timeout25: msRest.OperationQueryParameter = {
 export const timeout26: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobTerminateOptions",
+    "fileDeleteFromComputeNodeOptions",
     "timeout"
   ],
   mapper: {
@@ -6556,7 +6476,7 @@ export const timeout26: msRest.OperationQueryParameter = {
 export const timeout27: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobAddOptions",
+    "fileGetFromComputeNodeOptions",
     "timeout"
   ],
   mapper: {
@@ -6570,7 +6490,7 @@ export const timeout27: msRest.OperationQueryParameter = {
 export const timeout28: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobListOptions",
+    "fileGetPropertiesFromComputeNodeOptions",
     "timeout"
   ],
   mapper: {
@@ -6584,7 +6504,7 @@ export const timeout28: msRest.OperationQueryParameter = {
 export const timeout29: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobListFromJobScheduleOptions",
+    "fileListFromTaskOptions",
     "timeout"
   ],
   mapper: {
@@ -6598,7 +6518,7 @@ export const timeout29: msRest.OperationQueryParameter = {
 export const timeout3: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "poolGetAllLifetimeStatisticsOptions",
+    "poolAddOptions",
     "timeout"
   ],
   mapper: {
@@ -6612,7 +6532,7 @@ export const timeout3: msRest.OperationQueryParameter = {
 export const timeout30: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobListPreparationAndReleaseTaskStatusOptions",
+    "fileListFromComputeNodeOptions",
     "timeout"
   ],
   mapper: {
@@ -6626,7 +6546,7 @@ export const timeout30: msRest.OperationQueryParameter = {
 export const timeout31: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobGetTaskCountsOptions",
+    "jobScheduleExistsOptions",
     "timeout"
   ],
   mapper: {
@@ -6640,7 +6560,7 @@ export const timeout31: msRest.OperationQueryParameter = {
 export const timeout32: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "certificateAddOptions",
+    "jobScheduleDeleteMethodOptions",
     "timeout"
   ],
   mapper: {
@@ -6654,7 +6574,7 @@ export const timeout32: msRest.OperationQueryParameter = {
 export const timeout33: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "certificateListOptions",
+    "jobScheduleGetOptions",
     "timeout"
   ],
   mapper: {
@@ -6668,7 +6588,7 @@ export const timeout33: msRest.OperationQueryParameter = {
 export const timeout34: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "certificateCancelDeletionOptions",
+    "jobSchedulePatchOptions",
     "timeout"
   ],
   mapper: {
@@ -6682,7 +6602,7 @@ export const timeout34: msRest.OperationQueryParameter = {
 export const timeout35: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "certificateDeleteMethodOptions",
+    "jobScheduleUpdateOptions",
     "timeout"
   ],
   mapper: {
@@ -6696,7 +6616,7 @@ export const timeout35: msRest.OperationQueryParameter = {
 export const timeout36: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "certificateGetOptions",
+    "jobScheduleDisableOptions",
     "timeout"
   ],
   mapper: {
@@ -6710,7 +6630,7 @@ export const timeout36: msRest.OperationQueryParameter = {
 export const timeout37: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "fileDeleteFromTaskOptions",
+    "jobScheduleEnableOptions",
     "timeout"
   ],
   mapper: {
@@ -6724,7 +6644,7 @@ export const timeout37: msRest.OperationQueryParameter = {
 export const timeout38: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "fileGetFromTaskOptions",
+    "jobScheduleTerminateOptions",
     "timeout"
   ],
   mapper: {
@@ -6738,7 +6658,7 @@ export const timeout38: msRest.OperationQueryParameter = {
 export const timeout39: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "fileGetPropertiesFromTaskOptions",
+    "jobScheduleAddOptions",
     "timeout"
   ],
   mapper: {
@@ -6752,7 +6672,7 @@ export const timeout39: msRest.OperationQueryParameter = {
 export const timeout4: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "poolAddOptions",
+    "poolListOptions",
     "timeout"
   ],
   mapper: {
@@ -6766,7 +6686,7 @@ export const timeout4: msRest.OperationQueryParameter = {
 export const timeout40: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "fileDeleteFromComputeNodeOptions",
+    "jobScheduleListOptions",
     "timeout"
   ],
   mapper: {
@@ -6780,7 +6700,7 @@ export const timeout40: msRest.OperationQueryParameter = {
 export const timeout41: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "fileGetFromComputeNodeOptions",
+    "jobDeleteMethodOptions",
     "timeout"
   ],
   mapper: {
@@ -6794,7 +6714,7 @@ export const timeout41: msRest.OperationQueryParameter = {
 export const timeout42: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "fileGetPropertiesFromComputeNodeOptions",
+    "jobGetOptions",
     "timeout"
   ],
   mapper: {
@@ -6808,7 +6728,7 @@ export const timeout42: msRest.OperationQueryParameter = {
 export const timeout43: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "fileListFromTaskOptions",
+    "jobPatchOptions",
     "timeout"
   ],
   mapper: {
@@ -6822,7 +6742,7 @@ export const timeout43: msRest.OperationQueryParameter = {
 export const timeout44: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "fileListFromComputeNodeOptions",
+    "jobUpdateOptions",
     "timeout"
   ],
   mapper: {
@@ -6836,7 +6756,7 @@ export const timeout44: msRest.OperationQueryParameter = {
 export const timeout45: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobScheduleExistsOptions",
+    "jobDisableOptions",
     "timeout"
   ],
   mapper: {
@@ -6850,7 +6770,7 @@ export const timeout45: msRest.OperationQueryParameter = {
 export const timeout46: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobScheduleDeleteMethodOptions",
+    "jobEnableOptions",
     "timeout"
   ],
   mapper: {
@@ -6864,7 +6784,7 @@ export const timeout46: msRest.OperationQueryParameter = {
 export const timeout47: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobScheduleGetOptions",
+    "jobTerminateOptions",
     "timeout"
   ],
   mapper: {
@@ -6878,7 +6798,7 @@ export const timeout47: msRest.OperationQueryParameter = {
 export const timeout48: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobSchedulePatchOptions",
+    "jobAddOptions",
     "timeout"
   ],
   mapper: {
@@ -6892,7 +6812,7 @@ export const timeout48: msRest.OperationQueryParameter = {
 export const timeout49: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobScheduleUpdateOptions",
+    "jobListOptions",
     "timeout"
   ],
   mapper: {
@@ -6906,7 +6826,7 @@ export const timeout49: msRest.OperationQueryParameter = {
 export const timeout5: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "poolListOptions",
+    "poolDeleteMethodOptions",
     "timeout"
   ],
   mapper: {
@@ -6920,7 +6840,7 @@ export const timeout5: msRest.OperationQueryParameter = {
 export const timeout50: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobScheduleDisableOptions",
+    "jobListFromJobScheduleOptions",
     "timeout"
   ],
   mapper: {
@@ -6934,7 +6854,7 @@ export const timeout50: msRest.OperationQueryParameter = {
 export const timeout51: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobScheduleEnableOptions",
+    "jobListPreparationAndReleaseTaskStatusOptions",
     "timeout"
   ],
   mapper: {
@@ -6948,7 +6868,7 @@ export const timeout51: msRest.OperationQueryParameter = {
 export const timeout52: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobScheduleTerminateOptions",
+    "jobGetTaskCountsOptions",
     "timeout"
   ],
   mapper: {
@@ -6962,7 +6882,7 @@ export const timeout52: msRest.OperationQueryParameter = {
 export const timeout53: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobScheduleAddOptions",
+    "taskAddOptions",
     "timeout"
   ],
   mapper: {
@@ -6976,7 +6896,7 @@ export const timeout53: msRest.OperationQueryParameter = {
 export const timeout54: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "jobScheduleListOptions",
+    "taskListOptions",
     "timeout"
   ],
   mapper: {
@@ -6990,7 +6910,7 @@ export const timeout54: msRest.OperationQueryParameter = {
 export const timeout55: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "taskAddOptions",
+    "taskAddCollectionOptions",
     "timeout"
   ],
   mapper: {
@@ -7004,7 +6924,7 @@ export const timeout55: msRest.OperationQueryParameter = {
 export const timeout56: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "taskListOptions",
+    "taskDeleteMethodOptions",
     "timeout"
   ],
   mapper: {
@@ -7018,7 +6938,7 @@ export const timeout56: msRest.OperationQueryParameter = {
 export const timeout57: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "taskAddCollectionOptions",
+    "taskGetOptions",
     "timeout"
   ],
   mapper: {
@@ -7032,7 +6952,7 @@ export const timeout57: msRest.OperationQueryParameter = {
 export const timeout58: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "taskDeleteMethodOptions",
+    "taskUpdateOptions",
     "timeout"
   ],
   mapper: {
@@ -7046,7 +6966,7 @@ export const timeout58: msRest.OperationQueryParameter = {
 export const timeout59: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "taskGetOptions",
+    "taskListSubtasksOptions",
     "timeout"
   ],
   mapper: {
@@ -7060,7 +6980,7 @@ export const timeout59: msRest.OperationQueryParameter = {
 export const timeout6: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "poolDeleteMethodOptions",
+    "poolExistsOptions",
     "timeout"
   ],
   mapper: {
@@ -7074,7 +6994,7 @@ export const timeout6: msRest.OperationQueryParameter = {
 export const timeout60: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "taskUpdateOptions",
+    "taskTerminateOptions",
     "timeout"
   ],
   mapper: {
@@ -7088,7 +7008,7 @@ export const timeout60: msRest.OperationQueryParameter = {
 export const timeout61: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "taskListSubtasksOptions",
+    "taskReactivateOptions",
     "timeout"
   ],
   mapper: {
@@ -7102,7 +7022,7 @@ export const timeout61: msRest.OperationQueryParameter = {
 export const timeout62: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "taskTerminateOptions",
+    "computeNodeAddUserOptions",
     "timeout"
   ],
   mapper: {
@@ -7116,7 +7036,7 @@ export const timeout62: msRest.OperationQueryParameter = {
 export const timeout63: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "taskReactivateOptions",
+    "computeNodeDeleteUserOptions",
     "timeout"
   ],
   mapper: {
@@ -7130,7 +7050,7 @@ export const timeout63: msRest.OperationQueryParameter = {
 export const timeout64: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "computeNodeAddUserOptions",
+    "computeNodeUpdateUserOptions",
     "timeout"
   ],
   mapper: {
@@ -7144,7 +7064,7 @@ export const timeout64: msRest.OperationQueryParameter = {
 export const timeout65: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "computeNodeDeleteUserOptions",
+    "computeNodeGetOptions",
     "timeout"
   ],
   mapper: {
@@ -7158,7 +7078,7 @@ export const timeout65: msRest.OperationQueryParameter = {
 export const timeout66: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "computeNodeUpdateUserOptions",
+    "computeNodeRebootOptions",
     "timeout"
   ],
   mapper: {
@@ -7172,7 +7092,7 @@ export const timeout66: msRest.OperationQueryParameter = {
 export const timeout67: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "computeNodeGetOptions",
+    "computeNodeReimageOptions",
     "timeout"
   ],
   mapper: {
@@ -7186,7 +7106,7 @@ export const timeout67: msRest.OperationQueryParameter = {
 export const timeout68: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "computeNodeRebootOptions",
+    "computeNodeDisableSchedulingOptions",
     "timeout"
   ],
   mapper: {
@@ -7200,7 +7120,7 @@ export const timeout68: msRest.OperationQueryParameter = {
 export const timeout69: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "computeNodeReimageOptions",
+    "computeNodeEnableSchedulingOptions",
     "timeout"
   ],
   mapper: {
@@ -7214,7 +7134,7 @@ export const timeout69: msRest.OperationQueryParameter = {
 export const timeout7: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "poolExistsOptions",
+    "poolGetOptions",
     "timeout"
   ],
   mapper: {
@@ -7228,7 +7148,7 @@ export const timeout7: msRest.OperationQueryParameter = {
 export const timeout70: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "computeNodeDisableSchedulingOptions",
+    "computeNodeGetRemoteLoginSettingsOptions",
     "timeout"
   ],
   mapper: {
@@ -7242,7 +7162,7 @@ export const timeout70: msRest.OperationQueryParameter = {
 export const timeout71: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "computeNodeEnableSchedulingOptions",
+    "computeNodeGetRemoteDesktopOptions",
     "timeout"
   ],
   mapper: {
@@ -7256,7 +7176,7 @@ export const timeout71: msRest.OperationQueryParameter = {
 export const timeout72: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "computeNodeGetRemoteLoginSettingsOptions",
+    "computeNodeUploadBatchServiceLogsOptions",
     "timeout"
   ],
   mapper: {
@@ -7270,7 +7190,7 @@ export const timeout72: msRest.OperationQueryParameter = {
 export const timeout73: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "computeNodeGetRemoteDesktopOptions",
+    "computeNodeListOptions",
     "timeout"
   ],
   mapper: {
@@ -7284,34 +7204,6 @@ export const timeout73: msRest.OperationQueryParameter = {
 export const timeout74: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "computeNodeUploadBatchServiceLogsOptions",
-    "timeout"
-  ],
-  mapper: {
-    serializedName: "timeout",
-    defaultValue: 30,
-    type: {
-      name: "Number"
-    }
-  }
-};
-export const timeout75: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "computeNodeListOptions",
-    "timeout"
-  ],
-  mapper: {
-    serializedName: "timeout",
-    defaultValue: 30,
-    type: {
-      name: "Number"
-    }
-  }
-};
-export const timeout76: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
     "computeNodeExtensionGetOptions",
     "timeout"
   ],
@@ -7323,7 +7215,7 @@ export const timeout76: msRest.OperationQueryParameter = {
     }
   }
 };
-export const timeout77: msRest.OperationQueryParameter = {
+export const timeout75: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
     "computeNodeExtensionListOptions",
@@ -7340,7 +7232,7 @@ export const timeout77: msRest.OperationQueryParameter = {
 export const timeout8: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "poolGetOptions",
+    "poolPatchOptions",
     "timeout"
   ],
   mapper: {
@@ -7354,7 +7246,7 @@ export const timeout8: msRest.OperationQueryParameter = {
 export const timeout9: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "poolPatchOptions",
+    "poolDisableAutoScaleOptions",
     "timeout"
   ],
   mapper: {

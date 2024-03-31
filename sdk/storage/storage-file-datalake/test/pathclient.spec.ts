@@ -50,6 +50,112 @@ describe("DataLakePathClient", () => {
     await recorder.stop();
   });
 
+  it("DataLakeFileClient create file path with directory dots", async () => {
+    const fileBaseName = recorder.variable("filename", getUniqueName("filename"));
+    const fileNameWithDots = "./adir/../anotherdir/.././" + fileBaseName;
+
+    const fileClientWithDirDots = fileSystemClient.getFileClient(fileNameWithDots);
+    await fileClientWithDirDots.create();
+
+    let foundFile: boolean = false;
+    for await (const listedFile of fileSystemClient.listPaths()) {
+      if (listedFile.name === fileBaseName && !listedFile.isDirectory) {
+        foundFile = true;
+      }
+    }
+
+    assert.ok(foundFile, "The file should have been created.");
+  });
+
+  it("DataLakeDirectoryClient create directory path with directory dots", async () => {
+    const subDirName = recorder.variable("dirname", getUniqueName("dirname"));
+    const subDirNameWithDots = "./adir/.././anotherdir/.././" + subDirName;
+    const subDirClient = fileSystemClient.getDirectoryClient(subDirNameWithDots);
+    await subDirClient.create();
+
+    let foundSubDir: boolean = false;
+
+    for await (const listedFile of fileSystemClient.listPaths()) {
+      if (listedFile.name === subDirName && listedFile.isDirectory) {
+        foundSubDir = true;
+      }
+    }
+
+    assert.ok(foundSubDir, "The directory should have been created.");
+  });
+
+  it("DataLakeFileClient create file path with directory dots under a dir", async () => {
+    const dirName = recorder.variable("dirname", getUniqueName("dirname"));
+    const dirClient = fileSystemClient.getDirectoryClient(dirName);
+    await dirClient.create();
+
+    const fileBaseName = recorder.variable("filename", getUniqueName("filename"));
+    const fileNameWithDots = "./adir/../anotherdir/.././" + fileBaseName;
+
+    const fileClientWithDirDots = dirClient.getFileClient(fileNameWithDots);
+    await fileClientWithDirDots.create();
+
+    let foundFile: boolean = false;
+    for await (const listedFile of fileSystemClient.listPaths({ path: dirName })) {
+      if (listedFile.name === `${dirName}/${fileBaseName}` && !listedFile.isDirectory) {
+        foundFile = true;
+      }
+    }
+
+    assert.ok(foundFile, "The file should have been created.");
+
+    const fileUnderRootDirBaseName = recorder.variable("filename1", getUniqueName("filename1"));
+    const fileUnderRootDir = "./adir/../../anotherdir/.././" + fileUnderRootDirBaseName;
+
+    const fileUnderRootDirClient = dirClient.getFileClient(fileUnderRootDir);
+    await fileUnderRootDirClient.create();
+
+    foundFile = false;
+    for await (const listedFile of fileSystemClient.listPaths()) {
+      if (listedFile.name === fileUnderRootDirBaseName && !listedFile.isDirectory) {
+        foundFile = true;
+      }
+    }
+
+    assert.ok(foundFile, "The file should have been created.");
+  });
+
+  it("DataLakeDirectoryClient create directory path with directory dots under a dir", async () => {
+    const dirName = recorder.variable("dirname", getUniqueName("dirname"));
+    const dirClient = fileSystemClient.getDirectoryClient(dirName);
+    await dirClient.create();
+
+    const subDirBaseName = recorder.variable("subdirname", getUniqueName("subdirname"));
+    const subDirNameWithDots = "./adir/../anotherdir/.././" + subDirBaseName;
+
+    const dirClientWithDirDots = dirClient.getSubdirectoryClient(subDirNameWithDots);
+    await dirClientWithDirDots.create();
+
+    let foundSubDir: boolean = false;
+    for await (const listedFile of fileSystemClient.listPaths({ path: dirName })) {
+      if (listedFile.name === `${dirName}/${subDirBaseName}` && listedFile.isDirectory) {
+        foundSubDir = true;
+      }
+    }
+
+    assert.ok(foundSubDir, "The directory should have been created.");
+
+    const dirUnderRootDirBaseName = recorder.variable("subdirname1", getUniqueName("subdirname1"));
+    const dirUnderRootDir = "./adir/../../anotherdir/.././" + dirUnderRootDirBaseName;
+
+    const fileUnderRootDirClient = dirClient.getSubdirectoryClient(dirUnderRootDir);
+    await fileUnderRootDirClient.create();
+
+    foundSubDir = false;
+    for await (const listedFile of fileSystemClient.listPaths()) {
+      if (listedFile.name === dirUnderRootDirBaseName && listedFile.isDirectory) {
+        foundSubDir = true;
+      }
+    }
+
+    assert.ok(foundSubDir, "The directory should have been created.");
+  });
+
   it("DataLakeFileClient create with meta data", async () => {
     const testFileName = recorder.variable("testfile", getUniqueName("testfile"));
     const testFileClient = fileSystemClient.getFileClient(testFileName);
@@ -175,6 +281,7 @@ describe("DataLakePathClient", () => {
     const timeToExpireInMs = 60 * 1000; // 60s
 
     const testFileName = recorder.variable("testfile", getUniqueName("testfile"));
+    const encryptionContext = "EncryptionContext";
     const testFileClient = fileSystemClient.getFileClient(testFileName);
     await testFileClient.create({
       metadata: metadata,
@@ -184,20 +291,9 @@ describe("DataLakePathClient", () => {
       proposedLeaseId: leaseId,
       leaseDuration: leaseDuration,
       expiresOn: timeToExpireInMs,
+      encryptionContext,
     });
 
-    const result = await testFileClient.getProperties();
-    assert.deepStrictEqual(result.metadata, metadata);
-    assert.equal(result.createdOn!.getTime() + 1000 * 60, result.expiresOn!.getTime());
-    assert.equal(result.leaseDuration, "fixed");
-    assert.equal(result.leaseState, "leased");
-    assert.equal(result.leaseStatus, "locked");
-    assert.equal(result.cacheControl, httpHeader.cacheControl);
-    assert.equal(result.contentEncoding, httpHeader.contentEncoding);
-    assert.equal(result.contentLanguage, httpHeader.contentLanguage);
-    assert.equal(result.contentDisposition, httpHeader.contentDisposition);
-    assert.equal(result.contentType, httpHeader.contentType);
-    const aclResult = await testFileClient.getAccessControl();
     const permissions = {
       owner: {
         read: true,
@@ -217,6 +313,21 @@ describe("DataLakePathClient", () => {
       stickyBit: false,
       extendedAcls: false,
     };
+
+    const result = await testFileClient.getProperties();
+    assert.deepStrictEqual(result.metadata, metadata);
+    assert.equal(result.createdOn!.getTime() + 1000 * 60, result.expiresOn!.getTime());
+    assert.equal(result.leaseDuration, "fixed");
+    assert.equal(result.leaseState, "leased");
+    assert.equal(result.leaseStatus, "locked");
+    assert.equal(result.cacheControl, httpHeader.cacheControl);
+    assert.equal(result.contentEncoding, httpHeader.contentEncoding);
+    assert.equal(result.contentLanguage, httpHeader.contentLanguage);
+    assert.equal(result.contentDisposition, httpHeader.contentDisposition);
+    assert.equal(result.contentType, httpHeader.contentType);
+    assert.equal(result.encryptionContext, encryptionContext);
+    assert.deepEqual(result.permissions, permissions);
+    const aclResult = await testFileClient.getAccessControl();
     assert.deepEqual(aclResult.permissions, permissions);
   });
 
@@ -334,11 +445,30 @@ describe("DataLakePathClient", () => {
     assert.ok(!(await testFileClient.exists()));
   });
 
+  it("DataLakeFileClient createIfNotExist with encryption context", async () => {
+    const testFileName = recorder.variable("testfile", getUniqueName("testfile"));
+    const encryptionContext = "EncryptionContext";
+    const testFileClient = fileSystemClient.getFileClient(testFileName);
+    await testFileClient.createIfNotExists({ encryptionContext: encryptionContext });
+
+    const result = await testFileClient.getProperties();
+    assert.equal(result.encryptionContext, encryptionContext);
+  });
+
   it("DataLakeDirectoryClient create with default parameters", async () => {
     const testDirName = recorder.variable("testdir", getUniqueName("testdir"));
     const testdirClient = fileSystemClient.getDirectoryClient(testDirName);
     await testdirClient.create();
     assert.ok(await testdirClient.exists());
+  });
+
+  it("DataLakeDirectoryClient create with  encryption context", async () => {
+    const testDirName = recorder.variable("testdir", getUniqueName("testdir"));
+    const testdirClient = fileSystemClient.getDirectoryClient(testDirName);
+    const encryptionContext = "EncryptionContext";
+    await testdirClient.create({ encryptionContext: encryptionContext });
+    const properties = await testdirClient.getProperties();
+    assert.equal(properties.encryptionContext, encryptionContext);
   });
 
   it("DataLakeDirectoryClient create with meta data", async () => {
@@ -460,7 +590,6 @@ describe("DataLakePathClient", () => {
     assert.equal(result.contentLanguage, httpHeader.contentLanguage);
     assert.equal(result.contentDisposition, httpHeader.contentDisposition);
     assert.equal(result.contentType, httpHeader.contentType);
-    const aclResult = await testDirClient.getAccessControl();
     const permissions = {
       owner: {
         read: true,
@@ -480,6 +609,9 @@ describe("DataLakePathClient", () => {
       stickyBit: false,
       extendedAcls: false,
     };
+    assert.deepEqual(result.permissions, permissions);
+
+    const aclResult = await testDirClient.getAccessControl();
     assert.deepEqual(aclResult.permissions, permissions);
   });
 
@@ -633,6 +765,51 @@ describe("DataLakePathClient", () => {
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
   });
 
+  it("read a file with encryption context set", async () => {
+    const testFileName = recorder.variable("file1", getUniqueName("file1"));
+    const testFileClient = fileSystemClient.getFileClient(testFileName);
+    const encryptionContext = "EncryptionContext";
+    await testFileClient.create({ encryptionContext: encryptionContext });
+    await testFileClient.append(content, 0, content.length);
+    await testFileClient.flush(content.length);
+    const result = await testFileClient.read();
+    assert.equal(result.encryptionContext, encryptionContext);
+    assert.deepStrictEqual(await bodyToString(result, content.length), content);
+    assert.exists(result.createdOn);
+  });
+
+  it("read a file with permissions set", async () => {
+    const testFileName = recorder.variable("file1", getUniqueName("file1"));
+    const testFileClient = fileSystemClient.getFileClient(testFileName);
+    const permissionString = "0777";
+    const umask = "0057";
+    await testFileClient.create({ permissions: permissionString, umask: umask });
+    await testFileClient.append(content, 0, content.length);
+    await testFileClient.flush(content.length);
+    const result = await testFileClient.read();
+    const permissions = {
+      owner: {
+        read: true,
+        write: true,
+        execute: true,
+      },
+      group: {
+        read: false,
+        write: true,
+        execute: false,
+      },
+      other: {
+        read: false,
+        write: false,
+        execute: false,
+      },
+      stickyBit: false,
+      extendedAcls: false,
+    };
+    assert.deepEqual(result.permissions, permissions);
+    assert.deepStrictEqual(await bodyToString(result, content.length), content);
+    assert.exists(result.createdOn);
+  });
   it("read should not have aborted error after read finishes", async () => {
     const aborter = new AbortController();
     const result = await fileClient.read(0, undefined, { abortSignal: aborter.signal });
@@ -740,7 +917,7 @@ describe("DataLakePathClient", () => {
         const result = await fileClient.read(undefined, undefined, options);
         assert.deepStrictEqual(await bodyToString(result, content.length), content);
       },
-      ["DataLakeFileClient-read"]
+      ["DataLakeFileClient-read"],
     );
   });
 
@@ -748,18 +925,18 @@ describe("DataLakePathClient", () => {
     const accountName = "myaccount";
     const path = "file/part/1.txt";
     const newClient = new DataLakeFileClient(
-      `https://${accountName}.dfs.core.windows.net/` + fileSystemName + "/" + path
+      `https://${accountName}.dfs.core.windows.net/` + fileSystemName + "/" + path,
     );
     assert.equal(
       newClient.fileSystemName,
       fileSystemName,
-      "File system name is not the same as the one provided."
+      "File system name is not the same as the one provided.",
     );
     assert.equal(newClient.name, path, "File name is not the same as the one provided.");
     assert.equal(
       newClient.accountName,
       accountName,
-      "Account name is not the same as the one provided."
+      "Account name is not the same as the one provided.",
     );
   });
 
@@ -774,7 +951,7 @@ describe("DataLakePathClient", () => {
 
     await tempFileClient.append(body, 0, body.length, {
       proposedLeaseId: leaseId,
-      leaseDuration: 15,
+      leaseDurationInSeconds: 15,
       leaseAction: "acquire",
     });
 
@@ -787,8 +964,8 @@ describe("DataLakePathClient", () => {
       gotError = true;
       assert.ok(
         (err as any).message.startsWith(
-          "There is currently a lease on the resource and no lease ID was specified in the request."
-        )
+          "There is currently a lease on the resource and no lease ID was specified in the request.",
+        ),
       );
     }
     assert.ok(gotError, "Should throw out an exception to write to a leased file without lease id");
@@ -835,7 +1012,7 @@ describe("DataLakePathClient", () => {
     }
     await tempFileClient.append(body, 0, body.length, {
       conditions: { leaseId: leaseId },
-      leaseDuration: 15,
+      leaseDurationInSeconds: 15,
       leaseAction: "auto-renew",
     });
 
@@ -848,8 +1025,8 @@ describe("DataLakePathClient", () => {
       gotError = true;
       assert.ok(
         (err as any).message.startsWith(
-          "There is currently a lease on the resource and no lease ID was specified in the request."
-        )
+          "There is currently a lease on the resource and no lease ID was specified in the request.",
+        ),
       );
     }
     assert.ok(gotError, "Should throw out an exception to write to a leased file without lease id");
@@ -904,7 +1081,7 @@ describe("DataLakePathClient", () => {
 
     await tempFileClient.flush(body.length * 2, {
       proposedLeaseId: leaseId,
-      leaseDuration: 15,
+      leaseDurationInSeconds: 15,
       leaseAction: "acquire",
     });
 
@@ -915,8 +1092,8 @@ describe("DataLakePathClient", () => {
       gotError = true;
       assert.ok(
         (err as any).message.startsWith(
-          "There is currently a lease on the resource and no lease ID was specified in the request."
-        )
+          "There is currently a lease on the resource and no lease ID was specified in the request.",
+        ),
       );
     }
     assert.ok(gotError, "Should throw out an exception to write to a leased file without lease id");
@@ -959,7 +1136,7 @@ describe("DataLakePathClient", () => {
 
     await tempFileClient.flush(body.length * 2, {
       conditions: { leaseId: leaseId },
-      leaseDuration: 15,
+      leaseDurationInSeconds: 15,
       leaseAction: "auto-renew",
     });
 
@@ -970,8 +1147,8 @@ describe("DataLakePathClient", () => {
       gotError = true;
       assert.ok(
         (err as any).message.startsWith(
-          "There is currently a lease on the resource and no lease ID was specified in the request."
-        )
+          "There is currently a lease on the resource and no lease ID was specified in the request.",
+        ),
       );
     }
     assert.ok(gotError, "Should throw out an exception to write to a leased file without lease id");
@@ -1157,13 +1334,13 @@ describe("DataLakePathClient", () => {
 
   it("exists returns false on non-existing file or directory", async () => {
     const newFileClient = fileSystemClient.getFileClient(
-      recorder.variable("newFile", getUniqueName("newFile"))
+      recorder.variable("newFile", getUniqueName("newFile")),
     );
     const result = await newFileClient.exists();
     assert.ok(result === false, "exists() should return false for a non-existing file");
 
     const newDirectoryClient = fileSystemClient.getDirectoryClient(
-      recorder.variable("newDirectory", getUniqueName("newDirectory"))
+      recorder.variable("newDirectory", getUniqueName("newDirectory")),
     );
     const dirResult = await newDirectoryClient.exists();
     assert.ok(dirResult === false, "exists() should return false for a non-existing directory");
@@ -1364,7 +1541,7 @@ describe("DataLakePathClient with CPK", () => {
     assert.ok(
       await fileClient.exists({
         customerProvidedKey: Test_CPK_INFO,
-      })
+      }),
     );
   });
 
@@ -1374,7 +1551,7 @@ describe("DataLakePathClient with CPK", () => {
     assert.ok(
       await fileClient.exists({
         customerProvidedKey: Test_CPK_INFO,
-      })
+      }),
     );
   });
 
@@ -1534,7 +1711,7 @@ describe("DataLakePathClient with CPK", () => {
         {},
         {
           customerProvidedKey: Test_CPK_INFO,
-        }
+        },
       );
     } catch (err: any) {
       gotError = true;
@@ -1589,7 +1766,7 @@ describe("DataLakePathClient with CPK", () => {
     assert.ok(
       await dirClient.exists({
         customerProvidedKey: Test_CPK_INFO,
-      })
+      }),
     );
   });
 
@@ -1598,7 +1775,7 @@ describe("DataLakePathClient with CPK", () => {
     assert.ok(
       await dirClient.exists({
         customerProvidedKey: Test_CPK_INFO,
-      })
+      }),
     );
   });
 
@@ -1655,7 +1832,7 @@ describe("DataLakePathClient with CPK", () => {
         {},
         {
           customerProvidedKey: Test_CPK_INFO,
-        }
+        },
       );
     } catch (err: any) {
       gotError = true;

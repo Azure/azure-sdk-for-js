@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   NginxConfiguration,
   ConfigurationsListOptionalParams,
@@ -15,96 +15,112 @@ import {
   ConfigurationsGetResponse,
   ConfigurationsCreateOrUpdateOptionalParams,
   ConfigurationsCreateOrUpdateResponse,
-  ConfigurationsDeleteOptionalParams
+  ConfigurationsDeleteOptionalParams,
+  ConfigurationsAnalysisOptionalParams,
+  ConfigurationsAnalysisResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Configurations. */
 export interface Configurations {
   /**
-   * List the Nginx configuration of given Nginx deployment.
+   * List the NGINX configuration of given NGINX deployment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted Nginx deployment
+   * @param deploymentName The name of targeted NGINX deployment
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     deploymentName: string,
-    options?: ConfigurationsListOptionalParams
+    options?: ConfigurationsListOptionalParams,
   ): PagedAsyncIterableIterator<NginxConfiguration>;
   /**
-   * Get the Nginx configuration of given Nginx deployment
+   * Get the NGINX configuration of given NGINX deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted Nginx deployment
+   * @param deploymentName The name of targeted NGINX deployment
    * @param configurationName The name of configuration, only 'default' is supported value due to the
-   *                          singleton of Nginx conf
+   *                          singleton of NGINX conf
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     deploymentName: string,
     configurationName: string,
-    options?: ConfigurationsGetOptionalParams
+    options?: ConfigurationsGetOptionalParams,
   ): Promise<ConfigurationsGetResponse>;
   /**
-   * Create or update the Nginx configuration for given Nginx deployment
+   * Create or update the NGINX configuration for given NGINX deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted Nginx deployment
+   * @param deploymentName The name of targeted NGINX deployment
    * @param configurationName The name of configuration, only 'default' is supported value due to the
-   *                          singleton of Nginx conf
+   *                          singleton of NGINX conf
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     deploymentName: string,
     configurationName: string,
-    options?: ConfigurationsCreateOrUpdateOptionalParams
+    options?: ConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ConfigurationsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ConfigurationsCreateOrUpdateResponse>,
       ConfigurationsCreateOrUpdateResponse
     >
   >;
   /**
-   * Create or update the Nginx configuration for given Nginx deployment
+   * Create or update the NGINX configuration for given NGINX deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted Nginx deployment
+   * @param deploymentName The name of targeted NGINX deployment
    * @param configurationName The name of configuration, only 'default' is supported value due to the
-   *                          singleton of Nginx conf
+   *                          singleton of NGINX conf
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     deploymentName: string,
     configurationName: string,
-    options?: ConfigurationsCreateOrUpdateOptionalParams
+    options?: ConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<ConfigurationsCreateOrUpdateResponse>;
   /**
-   * Reset the Nginx configuration of given Nginx deployment to default
+   * Reset the NGINX configuration of given NGINX deployment to default
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted Nginx deployment
+   * @param deploymentName The name of targeted NGINX deployment
    * @param configurationName The name of configuration, only 'default' is supported value due to the
-   *                          singleton of Nginx conf
+   *                          singleton of NGINX conf
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     deploymentName: string,
     configurationName: string,
-    options?: ConfigurationsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ConfigurationsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Reset the Nginx configuration of given Nginx deployment to default
+   * Reset the NGINX configuration of given NGINX deployment to default
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted Nginx deployment
+   * @param deploymentName The name of targeted NGINX deployment
    * @param configurationName The name of configuration, only 'default' is supported value due to the
-   *                          singleton of Nginx conf
+   *                          singleton of NGINX conf
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     deploymentName: string,
     configurationName: string,
-    options?: ConfigurationsDeleteOptionalParams
+    options?: ConfigurationsDeleteOptionalParams,
   ): Promise<void>;
+  /**
+   * Analyze an NGINX configuration without applying it to the NGINXaaS deployment
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param deploymentName The name of targeted NGINX deployment
+   * @param configurationName The name of configuration, only 'default' is supported value due to the
+   *                          singleton of NGINX conf
+   * @param options The options parameters.
+   */
+  analysis(
+    resourceGroupName: string,
+    deploymentName: string,
+    configurationName: string,
+    options?: ConfigurationsAnalysisOptionalParams,
+  ): Promise<ConfigurationsAnalysisResponse>;
 }

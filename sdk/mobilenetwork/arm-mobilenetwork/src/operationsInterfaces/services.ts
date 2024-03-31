@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Service,
   ServicesListByMobileNetworkOptionalParams,
@@ -18,7 +18,7 @@ import {
   ServicesCreateOrUpdateResponse,
   TagsObject,
   ServicesUpdateTagsOptionalParams,
-  ServicesUpdateTagsResponse
+  ServicesUpdateTagsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface Services {
   listByMobileNetwork(
     resourceGroupName: string,
     mobileNetworkName: string,
-    options?: ServicesListByMobileNetworkOptionalParams
+    options?: ServicesListByMobileNetworkOptionalParams,
   ): PagedAsyncIterableIterator<Service>;
   /**
    * Deletes the specified service.
@@ -47,8 +47,8 @@ export interface Services {
     resourceGroupName: string,
     mobileNetworkName: string,
     serviceName: string,
-    options?: ServicesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ServicesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified service.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -61,7 +61,7 @@ export interface Services {
     resourceGroupName: string,
     mobileNetworkName: string,
     serviceName: string,
-    options?: ServicesDeleteOptionalParams
+    options?: ServicesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets information about the specified service.
@@ -75,7 +75,7 @@ export interface Services {
     resourceGroupName: string,
     mobileNetworkName: string,
     serviceName: string,
-    options?: ServicesGetOptionalParams
+    options?: ServicesGetOptionalParams,
   ): Promise<ServicesGetResponse>;
   /**
    * Creates or updates a service. Must be created in the same location as its parent mobile network.
@@ -91,10 +91,10 @@ export interface Services {
     mobileNetworkName: string,
     serviceName: string,
     parameters: Service,
-    options?: ServicesCreateOrUpdateOptionalParams
+    options?: ServicesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ServicesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ServicesCreateOrUpdateResponse>,
       ServicesCreateOrUpdateResponse
     >
   >;
@@ -112,7 +112,7 @@ export interface Services {
     mobileNetworkName: string,
     serviceName: string,
     parameters: Service,
-    options?: ServicesCreateOrUpdateOptionalParams
+    options?: ServicesCreateOrUpdateOptionalParams,
   ): Promise<ServicesCreateOrUpdateResponse>;
   /**
    * Updates service tags.
@@ -128,6 +128,6 @@ export interface Services {
     mobileNetworkName: string,
     serviceName: string,
     parameters: TagsObject,
-    options?: ServicesUpdateTagsOptionalParams
+    options?: ServicesUpdateTagsOptionalParams,
   ): Promise<ServicesUpdateTagsResponse>;
 }

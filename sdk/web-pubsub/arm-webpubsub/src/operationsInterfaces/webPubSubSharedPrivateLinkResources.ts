@@ -23,8 +23,7 @@ import {
 export interface WebPubSubSharedPrivateLinkResources {
   /**
    * List shared private link resources
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -36,8 +35,7 @@ export interface WebPubSubSharedPrivateLinkResources {
   /**
    * Get the specified shared private link resource
    * @param sharedPrivateLinkResourceName The name of the shared private link resource
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -50,8 +48,7 @@ export interface WebPubSubSharedPrivateLinkResources {
   /**
    * Create or update a shared private link resource
    * @param sharedPrivateLinkResourceName The name of the shared private link resource
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters The shared private link resource
    * @param options The options parameters.
@@ -71,8 +68,7 @@ export interface WebPubSubSharedPrivateLinkResources {
   /**
    * Create or update a shared private link resource
    * @param sharedPrivateLinkResourceName The name of the shared private link resource
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters The shared private link resource
    * @param options The options parameters.
@@ -87,8 +83,7 @@ export interface WebPubSubSharedPrivateLinkResources {
   /**
    * Delete the specified shared private link resource
    * @param sharedPrivateLinkResourceName The name of the shared private link resource
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -101,8 +96,7 @@ export interface WebPubSubSharedPrivateLinkResources {
   /**
    * Delete the specified shared private link resource
    * @param sharedPrivateLinkResourceName The name of the shared private link resource
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */

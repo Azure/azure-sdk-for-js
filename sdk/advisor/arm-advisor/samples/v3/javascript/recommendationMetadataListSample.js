@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AdvisorManagementClient } = require("@azure/arm-advisor");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets the list of metadata entities.
@@ -18,9 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2020-01-01/examples/ListRecommendationMetadata.json
  */
 async function getMetadata() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
-  const client = new AdvisorManagementClient(credential, subscriptionId);
+  const client = new AdvisorManagementClient(credential);
   const resArray = new Array();
   for await (let item of client.recommendationMetadata.list()) {
     resArray.push(item);
@@ -28,4 +28,8 @@ async function getMetadata() {
   console.log(resArray);
 }
 
-getMetadata().catch(console.error);
+async function main() {
+  getMetadata();
+}
+
+main().catch(console.error);

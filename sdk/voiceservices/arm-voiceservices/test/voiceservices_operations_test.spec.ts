@@ -107,7 +107,7 @@ describe("voiceservices test", () => {
 
   it("communicationsGateways delete test", async function () {
     const resArray = new Array();
-    const res = await client.communicationsGateways.beginDeleteAndWait(resourceGroup, communicationsGatewayName)
+    const res = await client.communicationsGateways.beginDeleteAndWait(resourceGroup, communicationsGatewayName, testPollingOptions)
     for await (let item of client.communicationsGateways.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

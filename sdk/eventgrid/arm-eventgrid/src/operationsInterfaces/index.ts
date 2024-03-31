@@ -27,6 +27,7 @@ export * from "./partnerDestinations";
 export * from "./partnerNamespaces";
 export * from "./partnerRegistrations";
 export * from "./partnerTopics";
+export * from "./networkSecurityPerimeterConfigurations";
 export * from "./permissionBindings";
 export * from "./privateEndpointConnections";
 export * from "./privateLinkResources";

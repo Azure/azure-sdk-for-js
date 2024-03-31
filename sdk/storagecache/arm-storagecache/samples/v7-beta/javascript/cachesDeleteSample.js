@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Schedules a cache for deletion.
  *
  * @summary Schedules a cache for deletion.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-03-01-preview/examples/Caches_Delete.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-11-01-preview/examples/Caches_Delete.json
  */
 async function cachesDelete() {
   const subscriptionId =

@@ -64,7 +64,7 @@ export class SourceControlConfigurationClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-kubernetesconfiguration/6.0.1`;
+    const packageDetails = `azsdk-js-arm-kubernetesconfiguration/6.1.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -117,7 +117,7 @@ export class SourceControlConfigurationClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-11-01";
+    this.apiVersion = options.apiVersion || "2023-05-01";
     this.extensions = new ExtensionsImpl(this);
     this.operationStatus = new OperationStatusImpl(this);
     this.fluxConfigurations = new FluxConfigurationsImpl(this);

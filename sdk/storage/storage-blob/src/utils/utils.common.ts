@@ -141,7 +141,7 @@ export function getValueInConnString(
     | "AccountKey"
     | "DefaultEndpointsProtocol"
     | "EndpointSuffix"
-    | "SharedAccessSignature"
+    | "SharedAccessSignature",
 ): string {
   const elements = connectionString.split(";");
   for (const element of elements) {
@@ -196,7 +196,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
       const protocol = defaultEndpointsProtocol!.toLowerCase();
       if (protocol !== "https" && protocol !== "http") {
         throw new Error(
-          "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'"
+          "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'",
         );
       }
 
@@ -224,7 +224,11 @@ export function extractConnectionStringParts(connectionString: string): Connecti
     // SAS connection string
 
     let accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
-    const accountName = getAccountNameFromUrl(blobEndpoint);
+    let accountName = getValueInConnString(connectionString, "AccountName");
+    // if accountName is empty, try to read it from BlobEndpoint
+    if (!accountName) {
+      accountName = getAccountNameFromUrl(blobEndpoint);
+    }
     if (!blobEndpoint) {
       throw new Error("Invalid BlobEndpoint in the provided SAS Connection String");
     } else if (!accountSas) {
@@ -502,7 +506,7 @@ export function generateBlockID(blockIDPrefix: string, blockIndex: number): stri
 export async function delay(
   timeInMs: number,
   aborter?: AbortSignalLike,
-  abortError?: Error
+  abortError?: Error,
 ): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     /* eslint-disable-next-line prefer-const */
@@ -540,7 +544,7 @@ export async function delay(
 export function padStart(
   currentString: string,
   targetLength: number,
-  padString: string = " "
+  padString: string = " ",
 ): string {
   // @ts-expect-error: TS doesn't know this code needs to run downlevel sometimes
   if (String.prototype.padStart) {
@@ -623,12 +627,12 @@ export function isIpEndpointStyle(parsedUrl: URL): boolean {
   const host = parsedUrl.host;
 
   // Case 1: Ipv6, use a broad regex to find out candidates whose host contains two ':'.
-  // Case 2: localhost(:port), use broad regex to match port part.
+  // Case 2: localhost(:port) or host.docker.internal, use broad regex to match port part.
   // Case 3: Ipv4, use broad regex which just check if host contains Ipv4.
   // For valid host please refer to https://man7.org/linux/man-pages/man7/hostname.7.html.
   return (
-    /^.*:.*:.*$|^localhost(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
-      host
+    /^.*:.*:.*$|^(localhost|host.docker.internal)(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
+      host,
     ) ||
     (Boolean(parsedUrl.port) && PathStylePorts.includes(parsedUrl.port))
   );
@@ -708,7 +712,7 @@ export function toQuerySerialization(
     | BlobQueryJsonTextConfiguration
     | BlobQueryCsvTextConfiguration
     | BlobQueryArrowConfiguration
-    | BlobQueryParquetConfiguration
+    | BlobQueryParquetConfiguration,
 ): QuerySerialization | undefined {
   if (textConfiguration === undefined) {
     return undefined;
@@ -759,7 +763,7 @@ export function toQuerySerialization(
 }
 
 export function parseObjectReplicationRecord(
-  objectReplicationRecord?: Record<string, string>
+  objectReplicationRecord?: Record<string, string>,
 ): ObjectReplicationPolicy[] | undefined {
   if (!objectReplicationRecord) {
     return undefined;
@@ -807,7 +811,7 @@ export function attachCredential<T>(thing: T, credential: TokenCredential): T {
 }
 
 export function httpAuthorizationToString(
-  httpAuthorization?: HttpAuthorization
+  httpAuthorization?: HttpAuthorization,
 ): string | undefined {
   return httpAuthorization ? httpAuthorization.scheme + " " + httpAuthorization.value : undefined;
 }
@@ -821,7 +825,7 @@ export function BlobNameToString(name: BlobName): string {
 }
 
 export function ConvertInternalResponseOfListBlobFlat(
-  internalResponse: ListBlobsFlatSegmentResponse
+  internalResponse: ListBlobsFlatSegmentResponse,
 ): ListBlobsFlatSegmentResponseModel {
   return {
     ...internalResponse,
@@ -838,13 +842,14 @@ export function ConvertInternalResponseOfListBlobFlat(
 }
 
 export function ConvertInternalResponseOfListBlobHierarchy(
-  internalResponse: ListBlobsHierarchySegmentResponse
+  internalResponse: ListBlobsHierarchySegmentResponse,
 ): ListBlobsHierarchySegmentResponseModel {
   return {
     ...internalResponse,
     segment: {
       blobPrefixes: internalResponse.segment.blobPrefixes?.map((blobPrefixInternal) => {
         const blobPrefix: BlobPrefixModel = {
+          ...blobPrefixInternal,
           name: BlobNameToString(blobPrefixInternal.name),
         };
         return blobPrefix;
@@ -861,7 +866,7 @@ export function ConvertInternalResponseOfListBlobHierarchy(
 }
 
 export function* ExtractPageRangeInfoItems(
-  getPageRangesSegment: PageBlobGetPageRangesDiffResponseModel
+  getPageRangesSegment: PageBlobGetPageRangesDiffResponseModel,
 ): IterableIterator<PageRangeInfo> {
   let pageRange: PageRange[] = [];
   let clearRange: ClearRange[] = [];
@@ -995,8 +1000,8 @@ export type WithResponse<T, Headers = undefined, Body = undefined> = T &
   (Body extends object
     ? ResponseWithBody<Headers, Body>
     : Headers extends object
-    ? ResponseWithHeaders<Headers>
-    : ResponseLike);
+      ? ResponseWithHeaders<Headers>
+      : ResponseLike);
 
 /**
  * A typesafe helper for ensuring that a given response object has
@@ -1005,7 +1010,7 @@ export type WithResponse<T, Headers = undefined, Body = undefined> = T &
  * @returns The same object, but with known _response property
  */
 export function assertResponse<T extends object, Headers = undefined, Body = undefined>(
-  response: T
+  response: T,
 ): WithResponse<T, Headers, Body> {
   if (`_response` in response) {
     return response as WithResponse<T, Headers, Body>;

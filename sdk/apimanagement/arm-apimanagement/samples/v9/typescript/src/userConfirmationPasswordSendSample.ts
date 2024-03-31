@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Sends confirmation
  *
  * @summary Sends confirmation
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementUserConfirmationPasswordSend.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUserConfirmationPasswordSend.json
  */
 async function apiManagementUserConfirmationPasswordSend() {
   const subscriptionId =

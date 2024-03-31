@@ -1,21 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { PrimitivePartitionKeyValue } from "../../documents";
 import { doubleToByteArrayJSBI } from "./encoding/number";
 import { BytePrefix } from "./encoding/prefix";
 import MurmurHash from "./murmurHash";
 
-type v2Key = string | number | boolean | null | Record<string, unknown> | undefined;
-
-export function hashV2PartitionKey(partitionKey: v2Key): string {
-  const toHash = prefixKeyByType(partitionKey);
+export function hashV2PartitionKey(partitionKey: PrimitivePartitionKeyValue[]): string {
+  const toHash: Buffer = Buffer.concat(partitionKey.map(prefixKeyByType));
   const hash = MurmurHash.x64.hash128(toHash);
   const reverseBuff: Buffer = reverse(Buffer.from(hash, "hex"));
   reverseBuff[0] &= 0x3f;
   return reverseBuff.toString("hex").toUpperCase();
 }
 
-function prefixKeyByType(key: v2Key): Buffer {
+function prefixKeyByType(key: PrimitivePartitionKeyValue): Buffer {
   let bytes: Buffer;
   switch (typeof key) {
     case "string": {

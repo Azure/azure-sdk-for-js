@@ -5,20 +5,21 @@ import { doubleToByteArrayJSBI, writeNumberForBinaryEncodingJSBI } from "./encod
 import { writeStringForBinaryEncoding } from "./encoding/string";
 import { BytePrefix } from "./encoding/prefix";
 import MurmurHash from "./murmurHash";
+import { PrimitivePartitionKeyValue } from "../../documents";
 
 const MAX_STRING_CHARS = 100;
 
-type v1Key = string | number | boolean | null | Record<string, unknown> | undefined;
-
-export function hashV1PartitionKey(partitionKey: v1Key): string {
-  const toHash = prefixKeyByType(partitionKey);
+export function hashV1PartitionKey(partitionKey: PrimitivePartitionKeyValue[]): string {
+  const key = partitionKey[0];
+  const toHash = prefixKeyByType(key);
   const hash = MurmurHash.x86.hash32(toHash);
   const encodedJSBI = writeNumberForBinaryEncodingJSBI(hash);
-  const encodedValue = encodeByType(partitionKey);
-  return Buffer.concat([encodedJSBI, encodedValue]).toString("hex").toUpperCase();
+  const encodedValue = encodeByType(key);
+  const finalHash = Buffer.concat([encodedJSBI, encodedValue]).toString("hex").toUpperCase();
+  return finalHash;
 }
 
-function prefixKeyByType(key: v1Key): Buffer {
+function prefixKeyByType(key: PrimitivePartitionKeyValue): Buffer {
   let bytes: Buffer;
   switch (typeof key) {
     case "string": {
@@ -53,7 +54,7 @@ function prefixKeyByType(key: v1Key): Buffer {
   }
 }
 
-function encodeByType(key: v1Key): Buffer {
+function encodeByType(key: PrimitivePartitionKeyValue): Buffer {
   switch (typeof key) {
     case "string": {
       const truncated = key.substr(0, MAX_STRING_CHARS);

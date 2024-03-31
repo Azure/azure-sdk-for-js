@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Get Detector
  *
  * @summary Description for Get Detector
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/Diagnostics_GetSiteDetector.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/Diagnostics_GetSiteDetector.json
  */
 async function getAppDetector() {
   const subscriptionId =
@@ -46,7 +46,7 @@ async function getAppDetector() {
  * This sample demonstrates how to Description for Get Detector
  *
  * @summary Description for Get Detector
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/Diagnostics_GetSiteDetectorSlot.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/Diagnostics_GetSiteDetectorSlot.json
  */
 async function getAppSlotDetector() {
   const subscriptionId =

@@ -22,9 +22,11 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [piiEntityRecognition.ts][piientityrecognition]                       | detects personally-identifiable information                                         |
 | [sentimentAnalysis.ts][sentimentanalysis]                             | analyzes the sentiment of a piece of text                                           |
 | [stats.ts][stats]                                                     | access statistics about documents and transactions                                  |
+| [abstractiveSummarization.ts][abstractivesummarization]               | generates a summary for an article                                                  |
 | [customEntityRecognition.ts][customentityrecognition]                 | detects custom text in a piece of text                                              |
 | [customMultiLabelClassification.ts][custommultilabelclassification]   | multi-label classification of pieces of text                                        |
 | [customSingleLabelClassification.ts][customsinglelabelclassification] | single-label classification of pieces of text                                       |
+| [extractiveSummarization.ts][extractivesummarization]                 | extracts a summary from an article                                                  |
 | [healthcare.ts][healthcare]                                           | detects healthcare entities in a piece of text                                      |
 | [opinionMining.ts][opinionmining]                                     | analyzes the sentiment of a piece of text and mine opinions about different targets |
 | [authenticationMethods.ts][authenticationmethods]                     | authenticates a service client using both Azure Active Directory and an API key     |
@@ -92,9 +94,11 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [piientityrecognition]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/typescript/src/piiEntityRecognition.ts
 [sentimentanalysis]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/typescript/src/sentimentAnalysis.ts
 [stats]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/typescript/src/stats.ts
+[abstractivesummarization]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/typescript/src/abstractiveSummarization.ts
 [customentityrecognition]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/typescript/src/customEntityRecognition.ts
 [custommultilabelclassification]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/typescript/src/customMultiLabelClassification.ts
 [customsinglelabelclassification]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/typescript/src/customSingleLabelClassification.ts
+[extractivesummarization]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/typescript/src/extractiveSummarization.ts
 [healthcare]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/typescript/src/healthcare.ts
 [opinionmining]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/typescript/src/opinionMining.ts
 [authenticationmethods]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text/samples/v1/typescript/src/authenticationMethods.ts

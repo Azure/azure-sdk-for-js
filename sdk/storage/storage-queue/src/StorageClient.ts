@@ -1,14 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { StorageClientContext } from "./generated/src/storageClientContext";
-import { Pipeline } from "./Pipeline";
-import { getAccountNameFromUrl, getStorageClientContext } from "./utils/utils.common";
+import { StorageClient as StorageClientContext } from "./generated/src/";
+import { StorageContextClient } from "./StorageContextClient";
+import {
+  Pipeline,
+  StoragePipelineOptions,
+  getCoreClientOptions,
+  getCredentialFromPipeline,
+} from "../../storage-blob/src/Pipeline";
+import { getAccountNameFromUrl } from "./utils/utils.common";
 import { OperationTracingOptions } from "@azure/core-tracing";
-import { Credential } from "./credentials/Credential";
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { isNode } from "@azure/core-http";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
+import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential";
+import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
+import { TokenCredential } from "@azure/core-auth";
 
 /**
  * An interface for options common to every remote operation.
@@ -38,12 +43,12 @@ export abstract class StorageClient {
   protected readonly pipeline: Pipeline;
 
   /**
-   * Credential factory in the pipleline to authenticate requests to the service, such as AnonymousCredential, StorageSharedKeyCredential.
+   * Credential factory in the pipeline to authenticate requests to the service, such as AnonymousCredential, StorageSharedKeyCredential.
    * Initialized to an AnonymousCredential if not able to retrieve it from the pipeline.
    *
    * @internal
    */
-  protected readonly credential: Credential;
+  protected readonly credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential;
 
   /**
    * StorageClientContext is a reference to protocol layer operations entry, which is
@@ -60,29 +65,8 @@ export abstract class StorageClient {
     this.url = url;
     this.accountName = getAccountNameFromUrl(url);
     this.pipeline = pipeline;
-    this.storageClientContext = getStorageClientContext(url, pipeline);
-
-    // Retrieve credential from the pipeline.
-    this.credential = new AnonymousCredential();
-    for (const factory of this.pipeline.factories) {
-      if (
-        (isNode && factory instanceof StorageSharedKeyCredential) ||
-        factory instanceof AnonymousCredential
-      ) {
-        this.credential = factory;
-        break;
-      } else {
-        try {
-          const authPolicy = (factory as any).create();
-          if (authPolicy.constructor.name === "BearerTokenAuthenticationPolicy") {
-            this.credential = factory;
-            break;
-          }
-        } catch (err: any) {
-          // ignore errors in creating policy, the client instance may still work without the policy.
-        }
-      }
-    }
+    this.storageClientContext = getStorageClientContext(this.url, this.pipeline);
+    this.credential = getCredentialFromPipeline(pipeline);
   }
 }
 
@@ -96,3 +80,21 @@ export abstract class StorageClient {
  * @readonly
  */
 export type ListQueuesIncludeType = "metadata";
+
+/**
+ * @internal
+ */
+export function getStorageClientContext(url: string, pipeline: Pipeline): StorageClientContext {
+  const pipelineOptions = pipeline.options as StoragePipelineOptions;
+  // Set maximum timeout for queue operations.
+  // This was previously set manually in the retry policy specific to this package.
+  // https://docs.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations
+  if (pipelineOptions.retryOptions === undefined) {
+    pipelineOptions.retryOptions = {
+      tryTimeoutInMs: 30 * 1000,
+    };
+  } else if (pipelineOptions.retryOptions.tryTimeoutInMs === undefined) {
+    (pipelineOptions.retryOptions as any).tryTimeoutInMs = 30 * 1000;
+  }
+  return new StorageContextClient(url, getCoreClientOptions(pipeline));
+}

@@ -51,7 +51,7 @@ export class SubscriptionImpl implements Subscription {
 
   /**
    * Lists all subscriptions of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -127,7 +127,7 @@ export class SubscriptionImpl implements Subscription {
 
   /**
    * Lists all subscriptions of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -144,7 +144,7 @@ export class SubscriptionImpl implements Subscription {
 
   /**
    * Gets the entity state (Etag) version of the apimanagement subscription specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param sid Subscription entity Identifier. The entity represents the association between a user and
    *            a product in API Management.
@@ -164,7 +164,7 @@ export class SubscriptionImpl implements Subscription {
 
   /**
    * Gets the specified Subscription entity.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param sid Subscription entity Identifier. The entity represents the association between a user and
    *            a product in API Management.
@@ -184,7 +184,7 @@ export class SubscriptionImpl implements Subscription {
 
   /**
    * Creates or updates the subscription of specified user to the specified product.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param sid Subscription entity Identifier. The entity represents the association between a user and
    *            a product in API Management.
@@ -206,7 +206,7 @@ export class SubscriptionImpl implements Subscription {
 
   /**
    * Updates the details of a subscription specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param sid Subscription entity Identifier. The entity represents the association between a user and
    *            a product in API Management.
@@ -231,7 +231,7 @@ export class SubscriptionImpl implements Subscription {
 
   /**
    * Deletes the specified subscription.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param sid Subscription entity Identifier. The entity represents the association between a user and
    *            a product in API Management.
@@ -254,7 +254,7 @@ export class SubscriptionImpl implements Subscription {
 
   /**
    * Regenerates primary key of existing subscription of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param sid Subscription entity Identifier. The entity represents the association between a user and
    *            a product in API Management.
@@ -274,7 +274,7 @@ export class SubscriptionImpl implements Subscription {
 
   /**
    * Regenerates secondary key of existing subscription of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param sid Subscription entity Identifier. The entity represents the association between a user and
    *            a product in API Management.
@@ -294,7 +294,7 @@ export class SubscriptionImpl implements Subscription {
 
   /**
    * Gets the specified Subscription keys.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param sid Subscription entity Identifier. The entity represents the association between a user and
    *            a product in API Management.
@@ -314,7 +314,7 @@ export class SubscriptionImpl implements Subscription {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -425,7 +425,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters56,
+  requestBody: Parameters.parameters67,
   queryParameters: [
     Parameters.apiVersion,
     Parameters.notify,
@@ -459,7 +459,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters57,
+  requestBody: Parameters.parameters68,
   queryParameters: [
     Parameters.apiVersion,
     Parameters.notify,

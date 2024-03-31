@@ -185,7 +185,8 @@ export enum KnownEndpointMonitorStatus {
     Disabled = "Disabled",
     Inactive = "Inactive",
     Online = "Online",
-    Stopped = "Stopped"
+    Stopped = "Stopped",
+    Unmonitored = "Unmonitored"
 }
 
 // @public
@@ -282,6 +283,7 @@ export type ProfileMonitorStatus = string;
 
 // @public
 export interface Profiles {
+    checkTrafficManagerNameAvailabilityV2(parameters: CheckTrafficManagerRelativeDnsNameAvailabilityParameters, options?: ProfilesCheckTrafficManagerNameAvailabilityV2OptionalParams): Promise<ProfilesCheckTrafficManagerNameAvailabilityV2Response>;
     checkTrafficManagerRelativeDnsNameAvailability(parameters: CheckTrafficManagerRelativeDnsNameAvailabilityParameters, options?: ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityOptionalParams): Promise<ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityResponse>;
     createOrUpdate(resourceGroupName: string, profileName: string, parameters: Profile, options?: ProfilesCreateOrUpdateOptionalParams): Promise<ProfilesCreateOrUpdateResponse>;
     delete(resourceGroupName: string, profileName: string, options?: ProfilesDeleteOptionalParams): Promise<ProfilesDeleteResponse>;
@@ -290,6 +292,13 @@ export interface Profiles {
     listBySubscription(options?: ProfilesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Profile>;
     update(resourceGroupName: string, profileName: string, parameters: Profile, options?: ProfilesUpdateOptionalParams): Promise<ProfilesUpdateResponse>;
 }
+
+// @public
+export interface ProfilesCheckTrafficManagerNameAvailabilityV2OptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProfilesCheckTrafficManagerNameAvailabilityV2Response = TrafficManagerNameAvailability;
 
 // @public
 export interface ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityOptionalParams extends coreClient.OperationOptions {

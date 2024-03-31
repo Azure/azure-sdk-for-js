@@ -24,7 +24,7 @@ import {
 export interface ApiOperationPolicy {
   /**
    * Get the list of policy configuration at the API Operation level.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -41,7 +41,7 @@ export interface ApiOperationPolicy {
   ): Promise<ApiOperationPolicyListByOperationResponse>;
   /**
    * Gets the entity state (Etag) version of the API operation policy specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -60,7 +60,7 @@ export interface ApiOperationPolicy {
   ): Promise<ApiOperationPolicyGetEntityTagResponse>;
   /**
    * Get the policy configuration at the API Operation level.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -79,7 +79,7 @@ export interface ApiOperationPolicy {
   ): Promise<ApiOperationPolicyGetResponse>;
   /**
    * Creates or updates policy configuration for the API Operation level.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -100,7 +100,7 @@ export interface ApiOperationPolicy {
   ): Promise<ApiOperationPolicyCreateOrUpdateResponse>;
   /**
    * Deletes the policy configuration at the Api Operation.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.

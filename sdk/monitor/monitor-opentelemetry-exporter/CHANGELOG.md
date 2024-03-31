@@ -1,8 +1,108 @@
 # Release History
 
+## 1.0.0-beta.21 (2024-03-08)
+
+### Bugs Fixed
+
+- Fix issue with duration calculation for Spans.
+
+## 1.0.0-beta.20 (2024-02-13)
+
+### Bugs Fixed
+
+- Added exception handling for reading files to avoid concurrency errors.
+- Fixed issues with formatting for the duration field.
+
+### Other Changes
+
+- Changed the environment variable used to pass the sdk prefix.
+- Errors are no longer thrown upon failed statsbeat export.
+- Added exception handling for file creation and lookup used for telemetry caching.
+- Update OpenTelemetry depdendencies.
+- Change time precision to nanoseconds.
+
+## 1.0.0-beta.19 (2024-01-23)
+
+### Features Added
+
+- Capture WCF as an RPC dependency type.
+
+### Other Changes
+
+- Statsbeat will stop being exported when user iKey is invalid.
+- Statsbeat attach type name updated to follow spec.
+- Update OpenTelemetry dependencies.
+- Update generated files.
+
+## 1.0.0-beta.18 (2023-11-09)
+
+### Bugs Fixed
+
+- Fix Feature and Instrumentation Statsbeat type value.
+
+### Other Changes
+
+- Update OpenTelemetry dependencies.
+- Add instructions to export Logs in readme.
+
+
+## 1.0.0-beta.17 (2023-10-09)
+
+### Features Added
+
+- Update OpenTelemetry dependency packages.
+- Add support for aadAudience configuration using connection string.
+
+### Bugs Fixed
+
+- Fix issue with credentialScopes setup not being passed to core-client.
+- Fix Statsbeat metric names.
+
+### Other Changes
+
+- Add performance tests.
+- Add metric and span util tests.
+
+## 1.0.0-beta.16 (2023-08-30)
+
+### Bugs Fixed
+
+- Avoid dependency telemetry for ingestion endpoint calls.
+
+## 1.0.0-beta.15 (2023-08-24)
+
+### Breaking Changes
+
+- `AzureMonitorExporterOptions.aadTokenCredential` is now `AzureMonitorExporterOptions.credential`.
+- No longer expose the `MonitorBase`, `MonitorDomain`, or `TelemetryItem` interfaces.
+
+### Bugs Fixed
+
+- Fix issue with wrong name for _OTELRESOURCE_ metric.
+- Fix an issue with serializing nested log messages.
+
+## 1.0.0-beta.14 (2023-06-15)
+
+### Features Added
+
+- Update OpenTelemetry dependency packages.
+
+### Bugs Fixed
+
+- Fix issues with Breeze events format for new Resource attributes telemetry event
+  and legacy Application Insights events.
+- Metrics Exporter use delta aggregation temporality.
+
+## 1.0.0-beta.13 (2023-06-06)
+
 ### Features Added
 
 - Update opentelemetry/instrumentation packages.
+- Add support for Application Insights log events.
+- Add AiCloudRole and AiCloudRoleInstance to OTel Resource event.
+- Add OTel resource metric envelope.
+- Add OpenTelemetry Log Exporter
+- Use Kubernetes resource attributes to populate cloud role and role instance.
 
 ## 1.0.0-beta.12 (2023-04-04)
 

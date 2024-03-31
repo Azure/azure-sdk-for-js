@@ -22,7 +22,7 @@ import {
 export interface ProductGroup {
   /**
    * Lists the collection of developer groups associated with the specified product.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
@@ -35,7 +35,7 @@ export interface ProductGroup {
   ): PagedAsyncIterableIterator<GroupContract>;
   /**
    * Checks that Group entity specified by identifier is associated with the Product entity.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param groupId Group identifier. Must be unique in the current API Management service instance.
@@ -50,7 +50,7 @@ export interface ProductGroup {
   ): Promise<ProductGroupCheckEntityExistsResponse>;
   /**
    * Adds the association between the specified developer group with the specified product.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param groupId Group identifier. Must be unique in the current API Management service instance.
@@ -65,7 +65,7 @@ export interface ProductGroup {
   ): Promise<ProductGroupCreateOrUpdateResponse>;
   /**
    * Deletes the association between the specified group and product.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param productId Product identifier. Must be unique in the current API Management service instance.
    * @param groupId Group identifier. Must be unique in the current API Management service instance.

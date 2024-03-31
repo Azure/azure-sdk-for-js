@@ -14,3 +14,5 @@ export * from "./linkedServer";
 export * from "./privateEndpointConnections";
 export * from "./privateLinkResources";
 export * from "./asyncOperationStatus";
+export * from "./accessPolicy";
+export * from "./accessPolicyAssignment";

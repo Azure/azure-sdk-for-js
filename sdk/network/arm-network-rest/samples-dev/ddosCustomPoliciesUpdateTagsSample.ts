@@ -32,7 +32,7 @@ async function dDoSCustomPolicyUpdateTags() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}",
       subscriptionId,
       resourceGroupName,
-      ddosCustomPolicyName
+      ddosCustomPolicyName,
     )
     .patch(options);
   console.log(result);

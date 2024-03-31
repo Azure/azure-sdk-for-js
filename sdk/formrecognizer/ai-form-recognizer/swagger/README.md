@@ -12,12 +12,11 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-# input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/1a8a869d1a96dc007f116d320f5c2659323bbe7c/specification/cognitiveservices/data-plane/FormRecognizer/stable/v2.1/FormRecognizer.json
-input-file: ./FormRecognizer.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/cognitiveservices/data-plane/FormRecognizer/stable/2023-07-31/FormRecognizer.json
 override-client-name: GeneratedClient
 add-credentials: false
 typescript: true
-package-version: "4.1.0-beta.1"
+package-version: "5.0.0"
 use-extension:
   "@autorest/typescript": "6.0.0-alpha.20.20220622.1"
 ```
@@ -90,14 +89,4 @@ directive:
     where: $.parameters.PathOperationId
     transform: >
       delete $["format"];
-```
-
-### Mark `kind` optional
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions.DocumentPage
-    transform: >
-      $.required = $.required.filter((r) => r !== "kind");
 ```

@@ -12,7 +12,7 @@ import {
   DocumentStyle,
 } from "../generated";
 import { DocumentField, toAnalyzedDocumentFieldsFromGenerated } from "../models/fields";
-import { FormRecognizerApiVersion, PollerOptions } from "../options";
+import { PollerOptions } from "../options";
 import { AnalyzeDocumentOptions } from "../options/AnalyzeDocumentOptions";
 import {
   toBoundingPolygon,
@@ -28,7 +28,6 @@ import {
   DocumentLine,
   DocumentParagraph,
   DocumentFormula,
-  DocumentImage,
 } from "../models/documentElements";
 import {
   Document as GeneratedDocument,
@@ -103,7 +102,7 @@ export interface AnalyzeResultCommon {
   /**
    * The service API version used to produce this result.
    */
-  apiVersion: FormRecognizerApiVersion;
+  apiVersion: string;
 
   /**
    * The unique ID of the model that was used to produce this result.
@@ -195,14 +194,14 @@ export function* iterFrom<T>(items: T[], idx: number): Generator<T> {
 
 export function toDocumentLineFromGenerated(
   generated: GeneratedDocumentLine,
-  page: GeneratedDocumentPage
+  page: GeneratedDocumentPage,
 ): DocumentLine {
   (generated as DocumentLine).words = () =>
     fastGetChildren(
       iterFrom(generated.spans, 0),
       page.words?.map((word) => {
         return { ...word, polygon: toBoundingPolygon(word.polygon) };
-      }) ?? []
+      }) ?? [],
     );
 
   (generated as DocumentLine).polygon = toBoundingPolygon(generated.polygon);
@@ -217,7 +216,6 @@ export function toDocumentLineFromGenerated(
 export function toDocumentPageFromGenerated(generated: GeneratedDocumentPage): DocumentPage {
   return {
     ...generated,
-    kind: generated.kind ?? "document",
     lines: generated.lines?.map((line) => toDocumentLineFromGenerated(line, generated)),
     selectionMarks: generated.selectionMarks?.map((mark) => ({
       ...mark,
@@ -227,10 +225,6 @@ export function toDocumentPageFromGenerated(generated: GeneratedDocumentPage): D
       ...word,
       polygon: toBoundingPolygon(word.polygon),
     })),
-    annotations: generated.annotations?.map((annotation) => ({
-      ...annotation,
-      polygon: toBoundingPolygon(annotation.polygon),
-    })),
     barcodes: generated.barcodes?.map((barcode) => ({
       ...barcode,
       polygon: toBoundingPolygon(barcode.polygon),
@@ -239,13 +233,7 @@ export function toDocumentPageFromGenerated(generated: GeneratedDocumentPage): D
       (formula): DocumentFormula => ({
         ...formula,
         polygon: toBoundingPolygon(formula.polygon),
-      })
-    ),
-    images: generated.images?.map(
-      (image): DocumentImage => ({
-        ...image,
-        polygon: toBoundingPolygon(image.polygon),
-      })
+      }),
     ),
   };
 }
@@ -264,7 +252,7 @@ export function toDocumentPageFromGenerated(generated: GeneratedDocumentPage): D
  */
 export function iteratorFromFirstMatchBinarySearch<Spanned extends { span: DocumentSpan }>(
   span: DocumentSpan,
-  items: Spanned[]
+  items: Spanned[],
 ): IterableIterator<Spanned> {
   let idx = Math.floor(items.length / 2);
   let prevIdx = idx;
@@ -306,7 +294,7 @@ export function iteratorFromFirstMatchBinarySearch<Spanned extends { span: Docum
  */
 export function* fastGetChildren<Spanned extends { span: DocumentSpan }>(
   spans: Iterator<DocumentSpan>,
-  childrenArray: Spanned[]
+  childrenArray: Spanned[],
 ): Generator<Spanned> {
   let curSpan = spans.next();
 
@@ -384,7 +372,7 @@ export type AnalysisPoller<Result = AnalyzeResult<AnalyzedDocument>> = PollerLik
  */
 export function toAnalyzeResultFromGenerated(result: GeneratedAnalyzeResult): AnalyzeResult {
   return {
-    apiVersion: result.apiVersion as FormRecognizerApiVersion,
+    apiVersion: result.apiVersion,
     modelId: result.modelId,
     content: result.content,
     pages: result.pages.map((page) => toDocumentPageFromGenerated(page)),
@@ -421,7 +409,7 @@ export function toDocumentAnalysisPollOperationState<Result>(
   definition: AnalysisOperationDefinition<Result>,
   modelId: string,
   operationLocation: string,
-  response: AnalyzeResultOperation
+  response: AnalyzeResultOperation,
 ): DocumentAnalysisPollOperationState<Result> {
   return {
     status: response.status,

@@ -42,11 +42,11 @@ testWithServiceTypes((serviceVersion) => {
     before(() => {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
       );
       should.exist(
         env[EnvVarKeys.EVENTHUB_NAME],
-        "define EVENTHUB_NAME in your environment before running integration tests."
+        "define EVENTHUB_NAME in your environment before running integration tests.",
       );
     });
 
@@ -56,7 +56,7 @@ testWithServiceTypes((serviceVersion) => {
           const consumerClient = new EventHubConsumerClient(
             "$Default",
             service.connectionString,
-            service.path
+            service.path,
           );
 
           const properties = await consumerClient.getEventHubProperties();
@@ -79,14 +79,14 @@ testWithServiceTypes((serviceVersion) => {
         it("EventHubConsumerClient", async () => {
           const namedKeyCredential = new AzureNamedKeyCredential(
             sharedAccessKeyName!,
-            sharedAccessKey!
+            sharedAccessKey!,
           );
 
           const consumerClient = new EventHubConsumerClient(
             "$Default",
             fullyQualifiedNamespace,
             service.path,
-            namedKeyCredential
+            namedKeyCredential,
           );
 
           const properties = await consumerClient.getEventHubProperties();
@@ -98,13 +98,13 @@ testWithServiceTypes((serviceVersion) => {
         it("EventHubProducerClient", async () => {
           const namedKeyCredential = new AzureNamedKeyCredential(
             sharedAccessKeyName!,
-            sharedAccessKey!
+            sharedAccessKey!,
           );
 
           const producerClient = new EventHubProducerClient(
             fullyQualifiedNamespace,
             service.path,
-            namedKeyCredential
+            namedKeyCredential,
           );
 
           const properties = await producerClient.getEventHubProperties();
@@ -116,28 +116,30 @@ testWithServiceTypes((serviceVersion) => {
     });
 
     describe("SAS", () => {
-      function getSas(): string {
+      async function getSas(): Promise<string> {
         const parsed = parseEventHubConnectionString(service.connectionString) as Required<
           | Pick<EventHubConnectionStringProperties, "sharedAccessKey" | "sharedAccessKeyName">
           | Pick<EventHubConnectionStringProperties, "sharedAccessSignature">
         >;
-        return createSasTokenProvider(parsed).getToken(`${service.endpoint}/${service.path}`).token;
+        return (
+          await createSasTokenProvider(parsed).getToken(`${service.endpoint}/${service.path}`)
+        ).token;
       }
 
       describe("using connection string", () => {
-        function getSasConnectionString(): string {
-          const sas = getSas();
+        async function getSasConnectionString(): Promise<string> {
+          const sas = await getSas();
 
           return `Endpoint=${service.endpoint}/;SharedAccessSignature=${sas}`;
         }
 
         it("EventHubConsumerClient", async () => {
-          const sasConnectionString = getSasConnectionString();
+          const sasConnectionString = await getSasConnectionString();
 
           const consumerClient = new EventHubConsumerClient(
             "$Default",
             sasConnectionString,
-            service.path
+            service.path,
           );
 
           const properties = await consumerClient.getEventHubProperties();
@@ -147,7 +149,7 @@ testWithServiceTypes((serviceVersion) => {
         });
 
         it("EventHubProducerClient", async () => {
-          const sasConnectionString = getSasConnectionString();
+          const sasConnectionString = await getSasConnectionString();
 
           const producerClient = new EventHubProducerClient(sasConnectionString, service.path);
 
@@ -160,13 +162,13 @@ testWithServiceTypes((serviceVersion) => {
 
       describe("using SASCredential", () => {
         it("EventHubConsumerClient", async () => {
-          const sasCredential = new AzureSASCredential(getSas());
+          const sasCredential = new AzureSASCredential(await getSas());
 
           const consumerClient = new EventHubConsumerClient(
             "$Default",
             fullyQualifiedNamespace,
             service.path,
-            sasCredential
+            sasCredential,
           );
 
           const properties = await consumerClient.getEventHubProperties();
@@ -176,12 +178,12 @@ testWithServiceTypes((serviceVersion) => {
         });
 
         it("EventHubProducerClient", async () => {
-          const sasCredential = new AzureSASCredential(getSas());
+          const sasCredential = new AzureSASCredential(await getSas());
 
           const producerClient = new EventHubProducerClient(
             fullyQualifiedNamespace,
             service.path,
-            sasCredential
+            sasCredential,
           );
 
           const properties = await producerClient.getEventHubProperties();

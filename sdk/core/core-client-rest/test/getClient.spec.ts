@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { getCachedDefaultHttpsClient } from "../src/clientHelpers";
-import { getClient } from "../src/getClient";
-import sinon from "sinon";
+import { describe, it, assert, vi, afterEach } from "vitest";
+import { getCachedDefaultHttpsClient } from "../src/clientHelpers.js";
+import { getClient } from "../src/getClient.js";
 import {
+  HttpClient,
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
@@ -15,13 +15,13 @@ import {
 
 describe("getClient", () => {
   afterEach(() => {
-    sinon.restore();
+    vi.restoreAllMocks();
   });
 
   describe("#apiVersionPolicy", () => {
     it("should add apiVersion to requests if apiVersion is absent", async () => {
       const defaultHttpClient = getCachedDefaultHttpsClient();
-      sinon.stub(defaultHttpClient, "sendRequest").callsFake(async (req) => {
+      vi.spyOn(defaultHttpClient, "sendRequest").mockImplementation(async (req) => {
         return { headers: createHttpHeaders(), status: 200, request: req } as PipelineResponse;
       });
 
@@ -41,7 +41,7 @@ describe("getClient", () => {
 
     it("should use operation-level apiVersion even if we config the client one", async () => {
       const defaultHttpClient = getCachedDefaultHttpsClient();
-      sinon.stub(defaultHttpClient, "sendRequest").callsFake(async (req) => {
+      vi.spyOn(defaultHttpClient, "sendRequest").mockImplementation(async (req) => {
         return { headers: createHttpHeaders(), status: 200, request: req } as PipelineResponse;
       });
 
@@ -69,7 +69,7 @@ describe("getClient", () => {
 
     it("should use apiVersion in url directly even if we config the client one", async () => {
       const defaultHttpClient = getCachedDefaultHttpsClient();
-      sinon.stub(defaultHttpClient, "sendRequest").callsFake(async (req) => {
+      vi.spyOn(defaultHttpClient, "sendRequest").mockImplementation(async (req) => {
         return { headers: createHttpHeaders(), status: 200, request: req } as PipelineResponse;
       });
 
@@ -93,7 +93,7 @@ describe("getClient", () => {
 
     it("should not encode url when skip query parameter encoding and api version parameter exists", async () => {
       const defaultHttpClient = getCachedDefaultHttpsClient();
-      sinon.stub(defaultHttpClient, "sendRequest").callsFake(async (req) => {
+      vi.spyOn(defaultHttpClient, "sendRequest").mockImplementation(async (req) => {
         return {
           headers: createHttpHeaders(),
           status: 200,
@@ -122,7 +122,7 @@ describe("getClient", () => {
 
     it("should encode url when not skip query parameter encoding and api version parameter exists", async () => {
       const defaultHttpClient = getCachedDefaultHttpsClient();
-      sinon.stub(defaultHttpClient, "sendRequest").callsFake(async (req) => {
+      vi.spyOn(defaultHttpClient, "sendRequest").mockImplementation(async (req) => {
         return {
           headers: createHttpHeaders(),
           status: 200,
@@ -151,7 +151,7 @@ describe("getClient", () => {
 
   it("should append api version correctly", async () => {
     const defaultHttpClient = getCachedDefaultHttpsClient();
-    sinon.stub(defaultHttpClient, "sendRequest").callsFake(async (req) => {
+    vi.spyOn(defaultHttpClient, "sendRequest").mockImplementation(async (req) => {
       return {
         headers: createHttpHeaders(),
         status: 200,
@@ -174,7 +174,8 @@ describe("getClient", () => {
   });
 
   it("should insert policies in the correct pipeline position", async function () {
-    const sendRequest = (request: PipelineRequest, next: SendRequest) => next(request);
+    const sendRequest = (request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> =>
+      next(request);
     const retryPolicy: PipelinePolicy = {
       name: "retry",
       sendRequest,
@@ -199,5 +200,64 @@ describe("getClient", () => {
     const policies = client.pipeline.getOrderedPolicies();
     assert.isTrue(policies.indexOf(policy2) < policies.indexOf(retryPolicy));
     assert.isTrue(policies.indexOf(retryPolicy) < policies.indexOf(policy1));
+  });
+
+  it("should use the client setting for `allowInsecureConnection` when the request setting is undefined", async () => {
+    const fakeHttpClient: HttpClient = {
+      sendRequest: async (request) => {
+        assert.isTrue(request.allowInsecureConnection);
+        return { headers: createHttpHeaders(), status: 200, request };
+      },
+    };
+
+    const client = getClient("https://example.org", {
+      allowInsecureConnection: true,
+      httpClient: fakeHttpClient,
+    });
+
+    await client.pathUnchecked("/foo").get({
+      allowInsecureConnection: undefined,
+    });
+  });
+
+  it("should not use the client setting for `allowInsecureConnection` when the request setting is false", async () => {
+    const fakeHttpClient: HttpClient = {
+      sendRequest: async (request) => {
+        assert.isFalse(request.allowInsecureConnection);
+        return { headers: createHttpHeaders(), status: 200, request };
+      },
+    };
+
+    const client = getClient("https://example.org", {
+      allowInsecureConnection: true,
+      httpClient: fakeHttpClient,
+    });
+
+    await client.pathUnchecked("/foo").get({
+      allowInsecureConnection: false,
+    });
+  });
+
+  it("stream methods should call onResponse", async () => {
+    let called = false;
+    const fakeHttpClient: HttpClient = {
+      sendRequest: async (request) => {
+        return { headers: createHttpHeaders(), status: 200, request };
+      },
+    };
+
+    const client = getClient("https://example.org", {
+      httpClient: fakeHttpClient,
+    });
+    const res = client.pathUnchecked("/foo").get({
+      onResponse: () => {
+        called = true;
+      },
+    });
+    await res.asNodeStream();
+    assert.isTrue(called);
+    called = false;
+    await res.asBrowserStream();
+    assert.isTrue(called);
   });
 });

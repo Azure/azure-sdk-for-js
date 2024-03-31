@@ -32,7 +32,7 @@ async function virtualHubDelete() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}",
       subscriptionId,
       resourceGroupName,
-      virtualHubName
+      virtualHubName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

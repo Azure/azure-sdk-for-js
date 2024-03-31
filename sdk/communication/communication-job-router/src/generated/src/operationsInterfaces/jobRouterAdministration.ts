@@ -14,7 +14,7 @@ import {
   JobRouterAdministrationListDistributionPoliciesOptionalParams,
   ExceptionPolicyItem,
   JobRouterAdministrationListExceptionPoliciesOptionalParams,
-  JobQueueItem,
+  RouterQueueItem,
   JobRouterAdministrationListQueuesOptionalParams,
   ClassificationPolicy,
   JobRouterAdministrationUpsertClassificationPolicyOptionalParams,
@@ -34,7 +34,7 @@ import {
   JobRouterAdministrationGetExceptionPolicyOptionalParams,
   JobRouterAdministrationGetExceptionPolicyResponse,
   JobRouterAdministrationDeleteExceptionPolicyOptionalParams,
-  JobQueue,
+  RouterQueue,
   JobRouterAdministrationUpsertQueueOptionalParams,
   JobRouterAdministrationUpsertQueueResponse,
   JobRouterAdministrationGetQueueOptionalParams,
@@ -72,7 +72,7 @@ export interface JobRouterAdministration {
    */
   listQueues(
     options?: JobRouterAdministrationListQueuesOptionalParams
-  ): PagedAsyncIterableIterator<JobQueueItem>;
+  ): PagedAsyncIterableIterator<RouterQueueItem>;
   /**
    * Creates or updates a classification policy.
    * @param id Id of the classification policy
@@ -172,7 +172,7 @@ export interface JobRouterAdministration {
    */
   upsertQueue(
     id: string,
-    patch: JobQueue,
+    patch: RouterQueue,
     options?: JobRouterAdministrationUpsertQueueOptionalParams
   ): Promise<JobRouterAdministrationUpsertQueueResponse>;
   /**

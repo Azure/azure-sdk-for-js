@@ -8,9 +8,11 @@ import {
   HttpResponseFields,
   featureFlagContentType,
   secretReferenceContentType,
+  ConfigurationSettingId,
 } from "../../src";
 import {
   checkAndFormatIfAndIfNoneMatch,
+  extractAfterTokenFromLinkHeader,
   extractAfterTokenFromNextLink,
   formatFieldsForSelect,
   formatFiltersAndSelect,
@@ -22,20 +24,21 @@ import {
   transformKeyValueResponseWithStatusCode,
 } from "../../src/internal/helpers";
 import { FeatureFlagValue } from "../../src/featureFlag";
-import { HttpHeadersLike } from "@azure/core-http-compat";
+import { WebResourceLike } from "@azure/core-http-compat";
 import { SecretReferenceValue } from "../../src/secretReference";
 import { assert } from "chai";
 
 describe("helper methods", () => {
   it("checkAndFormatIfAndIfNoneMatch", () => {
     const key = "ignored";
-
+    const object: ConfigurationSettingId = { key };
+    const objectWithEtag: ConfigurationSettingId = { key, etag: "hello" };
     assert.deepEqual(
       {
         ifMatch: undefined,
         ifNoneMatch: undefined,
       },
-      checkAndFormatIfAndIfNoneMatch({ key }, {})
+      checkAndFormatIfAndIfNoneMatch(object, {}),
     );
 
     assert.deepEqual(
@@ -43,12 +46,9 @@ describe("helper methods", () => {
         ifMatch: '"hello"',
         ifNoneMatch: undefined,
       },
-      checkAndFormatIfAndIfNoneMatch(
-        { key, etag: "hello" },
-        {
-          onlyIfUnchanged: true,
-        }
-      )
+      checkAndFormatIfAndIfNoneMatch(objectWithEtag, {
+        onlyIfUnchanged: true,
+      }),
     );
 
     assert.deepEqual(
@@ -56,28 +56,23 @@ describe("helper methods", () => {
         ifNoneMatch: '"hello"',
         ifMatch: undefined,
       },
-      checkAndFormatIfAndIfNoneMatch(
-        { key, etag: "hello" },
-        {
-          onlyIfChanged: true,
-        }
-      )
+      checkAndFormatIfAndIfNoneMatch(objectWithEtag, {
+        onlyIfChanged: true,
+      }),
     );
   });
 
   it("checkAndFormatIfAndIfNoneMatch - mutually exclusive", () => {
     const key = "ignored";
+    const objectWithEtag: ConfigurationSettingId = { key, etag: "won't get used" };
 
     assert.throws(
       () =>
-        checkAndFormatIfAndIfNoneMatch(
-          { key, etag: "won't get used" },
-          {
-            onlyIfChanged: true,
-            onlyIfUnchanged: true,
-          }
-        ),
-      /onlyIfChanged and onlyIfUnchanged are mutually-exclusive/
+        checkAndFormatIfAndIfNoneMatch(objectWithEtag, {
+          onlyIfChanged: true,
+          onlyIfUnchanged: true,
+        }),
+      /onlyIfChanged and onlyIfUnchanged are mutually-exclusive/,
     );
   });
 
@@ -138,6 +133,13 @@ describe("helper methods", () => {
       const token = extractAfterTokenFromNextLink("/kv?key=someKey&api-version=1.0&after=bGlah%3D");
       assert.equal("bGlah=", token);
     });
+
+    it("extractAfterTokenFromLinkHeader", () => {
+      const link = '</kv?api-version=2023-10-01&key=listResults714&after=bGlzdE4>; rel="next"';
+      const expectedLink = "bGlzdE4";
+
+      assert.equal(expectedLink, extractAfterTokenFromLinkHeader(link));
+    });
   });
 
   describe("serializeAsConfigurationSettingParam", () => {
@@ -157,7 +159,7 @@ describe("helper methods", () => {
         assert.deepEqual(
           serializeAsConfigurationSettingParam(featureFlag),
           featureFlag as unknown as ConfigurationSettingParam<string>,
-          "setting was modified"
+          "setting was modified",
         );
       });
 
@@ -172,7 +174,7 @@ describe("helper methods", () => {
         assert.deepEqual(
           serializeAsConfigurationSettingParam(setting),
           setting as any,
-          "setting was modified"
+          "setting was modified",
         );
       });
     });
@@ -191,12 +193,21 @@ describe("helper methods", () => {
         },
         method: "GET",
         withCredentials: false,
-        headers: {} as HttpHeadersLike,
+        headers: {} as any,
         timeout: 0,
         requestId: "",
+        clone(): WebResourceLike {
+          throw new Error("Cannot clone a non-proxied WebResourceLike");
+        },
+        prepare(): WebResourceLike {
+          throw new Error("WebResourceLike.prepare() is not supported by @azure/core-http-compat");
+        },
+        validateRequestProperties(): void {
+          /** do nothing */
+        },
       },
       status: 204,
-      headers: {} as HttpHeadersLike,
+      headers: {} as any,
       bodyAsText: "",
       parsedHeaders: {},
     },
@@ -248,7 +259,7 @@ describe("helper methods", () => {
         locked: true,
         ...fakeHttp204Response,
       },
-      204
+      204,
     );
 
     const actualKeys = Object.keys(configurationSetting).sort();

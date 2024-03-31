@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { BatchManagementClient } from "../batchManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Pool,
   PoolListByBatchAccountNextOptionalParams,
@@ -31,7 +35,7 @@ import {
   PoolDisableAutoScaleResponse,
   PoolStopResizeOptionalParams,
   PoolStopResizeResponse,
-  PoolListByBatchAccountNextResponse
+  PoolListByBatchAccountNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,12 +60,12 @@ export class PoolOperationsImpl implements PoolOperations {
   public listByBatchAccount(
     resourceGroupName: string,
     accountName: string,
-    options?: PoolListByBatchAccountOptionalParams
+    options?: PoolListByBatchAccountOptionalParams,
   ): PagedAsyncIterableIterator<Pool> {
     const iter = this.listByBatchAccountPagingAll(
       resourceGroupName,
       accountName,
-      options
+      options,
     );
     return {
       next() {
@@ -78,9 +82,9 @@ export class PoolOperationsImpl implements PoolOperations {
           resourceGroupName,
           accountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -88,7 +92,7 @@ export class PoolOperationsImpl implements PoolOperations {
     resourceGroupName: string,
     accountName: string,
     options?: PoolListByBatchAccountOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Pool[]> {
     let result: PoolListByBatchAccountResponse;
     let continuationToken = settings?.continuationToken;
@@ -96,7 +100,7 @@ export class PoolOperationsImpl implements PoolOperations {
       result = await this._listByBatchAccount(
         resourceGroupName,
         accountName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -108,7 +112,7 @@ export class PoolOperationsImpl implements PoolOperations {
         resourceGroupName,
         accountName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -120,12 +124,12 @@ export class PoolOperationsImpl implements PoolOperations {
   private async *listByBatchAccountPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: PoolListByBatchAccountOptionalParams
+    options?: PoolListByBatchAccountOptionalParams,
   ): AsyncIterableIterator<Pool> {
     for await (const page of this.listByBatchAccountPagingPage(
       resourceGroupName,
       accountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -140,11 +144,11 @@ export class PoolOperationsImpl implements PoolOperations {
   private _listByBatchAccount(
     resourceGroupName: string,
     accountName: string,
-    options?: PoolListByBatchAccountOptionalParams
+    options?: PoolListByBatchAccountOptionalParams,
   ): Promise<PoolListByBatchAccountResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listByBatchAccountOperationSpec
+      listByBatchAccountOperationSpec,
     );
   }
 
@@ -161,11 +165,11 @@ export class PoolOperationsImpl implements PoolOperations {
     accountName: string,
     poolName: string,
     parameters: Pool,
-    options?: PoolCreateOptionalParams
+    options?: PoolCreateOptionalParams,
   ): Promise<PoolCreateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, poolName, parameters, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -183,11 +187,11 @@ export class PoolOperationsImpl implements PoolOperations {
     accountName: string,
     poolName: string,
     parameters: Pool,
-    options?: PoolUpdateOptionalParams
+    options?: PoolUpdateOptionalParams,
   ): Promise<PoolUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, poolName, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -202,25 +206,24 @@ export class PoolOperationsImpl implements PoolOperations {
     resourceGroupName: string,
     accountName: string,
     poolName: string,
-    options?: PoolDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: PoolDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -229,8 +232,8 @@ export class PoolOperationsImpl implements PoolOperations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -238,20 +241,20 @@ export class PoolOperationsImpl implements PoolOperations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, accountName, poolName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, poolName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -268,13 +271,13 @@ export class PoolOperationsImpl implements PoolOperations {
     resourceGroupName: string,
     accountName: string,
     poolName: string,
-    options?: PoolDeleteOptionalParams
+    options?: PoolDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       accountName,
       poolName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -290,11 +293,11 @@ export class PoolOperationsImpl implements PoolOperations {
     resourceGroupName: string,
     accountName: string,
     poolName: string,
-    options?: PoolGetOptionalParams
+    options?: PoolGetOptionalParams,
   ): Promise<PoolGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, poolName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -309,11 +312,11 @@ export class PoolOperationsImpl implements PoolOperations {
     resourceGroupName: string,
     accountName: string,
     poolName: string,
-    options?: PoolDisableAutoScaleOptionalParams
+    options?: PoolDisableAutoScaleOptionalParams,
   ): Promise<PoolDisableAutoScaleResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, poolName, options },
-      disableAutoScaleOperationSpec
+      disableAutoScaleOperationSpec,
     );
   }
 
@@ -333,11 +336,11 @@ export class PoolOperationsImpl implements PoolOperations {
     resourceGroupName: string,
     accountName: string,
     poolName: string,
-    options?: PoolStopResizeOptionalParams
+    options?: PoolStopResizeOptionalParams,
   ): Promise<PoolStopResizeResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, poolName, options },
-      stopResizeOperationSpec
+      stopResizeOperationSpec,
     );
   }
 
@@ -352,11 +355,11 @@ export class PoolOperationsImpl implements PoolOperations {
     resourceGroupName: string,
     accountName: string,
     nextLink: string,
-    options?: PoolListByBatchAccountNextOptionalParams
+    options?: PoolListByBatchAccountNextOptionalParams,
   ): Promise<PoolListByBatchAccountNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, nextLink, options },
-      listByBatchAccountNextOperationSpec
+      listByBatchAccountNextOperationSpec,
     );
   }
 }
@@ -364,44 +367,42 @@ export class PoolOperationsImpl implements PoolOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByBatchAccountOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListPoolsResult
+      bodyMapper: Mappers.ListPoolsResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.maxresults,
     Parameters.filter,
-    Parameters.select
+    Parameters.select,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.accountName1
+    Parameters.accountName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.Pool,
-      headersMapper: Mappers.PoolCreateHeaders
+      headersMapper: Mappers.PoolCreateHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters10,
   queryParameters: [Parameters.apiVersion],
@@ -410,29 +411,28 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.accountName1,
-    Parameters.poolName
+    Parameters.poolName,
   ],
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}",
   httpMethod: "PATCH",
   responses: {
     200: {
       bodyMapper: Mappers.Pool,
-      headersMapper: Mappers.PoolUpdateHeaders
+      headersMapper: Mappers.PoolUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters10,
   queryParameters: [Parameters.apiVersion],
@@ -441,19 +441,18 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.accountName1,
-    Parameters.poolName
+    Parameters.poolName,
   ],
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,
-    Parameters.ifMatch
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -461,8 +460,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -470,23 +469,22 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.accountName1,
-    Parameters.poolName
+    Parameters.poolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.Pool,
-      headersMapper: Mappers.PoolGetHeaders
+      headersMapper: Mappers.PoolGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -494,23 +492,22 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.accountName1,
-    Parameters.poolName
+    Parameters.poolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const disableAutoScaleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}/disableAutoScale",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}/disableAutoScale",
   httpMethod: "POST",
   responses: {
     200: {
       bodyMapper: Mappers.Pool,
-      headersMapper: Mappers.PoolDisableAutoScaleHeaders
+      headersMapper: Mappers.PoolDisableAutoScaleHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -518,23 +515,22 @@ const disableAutoScaleOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.accountName1,
-    Parameters.poolName
+    Parameters.poolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const stopResizeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}/stopResize",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}/stopResize",
   httpMethod: "POST",
   responses: {
     200: {
       bodyMapper: Mappers.Pool,
-      headersMapper: Mappers.PoolStopResizeHeaders
+      headersMapper: Mappers.PoolStopResizeHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -542,35 +538,29 @@ const stopResizeOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.accountName1,
-    Parameters.poolName
+    Parameters.poolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByBatchAccountNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListPoolsResult
+      bodyMapper: Mappers.ListPoolsResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.maxresults,
-    Parameters.filter,
-    Parameters.select
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.accountName1,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

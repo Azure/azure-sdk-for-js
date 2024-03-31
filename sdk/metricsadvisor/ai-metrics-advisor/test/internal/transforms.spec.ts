@@ -71,7 +71,7 @@ describe("Transforms", () => {
     assert.equal(actual.id, original.anomalyDetectionConfigurationId);
     assert.deepStrictEqual(
       actual.wholeSeriesDetectionCondition,
-      original.wholeMetricConfiguration as MetricDetectionCondition
+      original.wholeMetricConfiguration as MetricDetectionCondition,
     );
   });
 
@@ -190,7 +190,7 @@ describe("Transforms", () => {
     assert.strictEqual(actualSource.blobTemplate, serviceDataFeed.dataSourceParameter.blobTemplate);
     assert.strictEqual(
       actualSource.connectionString,
-      serviceDataFeed.dataSourceParameter.connectionString
+      serviceDataFeed.dataSourceParameter.connectionString,
     );
     assert.strictEqual(actualSource.container, serviceDataFeed.dataSourceParameter.container);
     assert.strictEqual(actual.name, serviceDataFeed.dataFeedName);

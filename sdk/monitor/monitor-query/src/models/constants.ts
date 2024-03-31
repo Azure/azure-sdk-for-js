@@ -17,14 +17,14 @@ export const Durations = {
   oneHour: "PT1H",
   /** Alias for ISO8601 value 'PT4H' */
   fourHours: "PT4H",
-  /** Alias for ISO8601 value 'P24H' */
-  twentyFourHours: "P24H",
-  /** Alias for ISO8601 value 'P48H' */
-  fortyEightHours: "P48H",
+  /** Alias for ISO8601 value 'PT24H' */
+  twentyFourHours: "PT24H",
+  /** Alias for ISO8601 value 'PT48H' */
+  fortyEightHours: "PT48H",
   /**
-   * @deprecated Alias name `fourtyEightHours` for ISO8601 value 'P48H' is deprecated
+   * @deprecated Alias name `fourtyEightHours` for ISO8601 value 'PT48H' is deprecated
    */
-  fourtyEightHours: "P48H",
+  fourtyEightHours: "PT48H",
   /** Alias for ISO8601 value 'PT30M' */
   thirtyMinutes: "PT30M",
   /** Alias for ISO8601 value 'PT5M' */

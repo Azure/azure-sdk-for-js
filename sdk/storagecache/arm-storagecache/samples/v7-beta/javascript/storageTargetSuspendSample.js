@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Suspends client access to a storage target.
  *
  * @summary Suspends client access to a storage target.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-03-01-preview/examples/StorageTargets_Suspend.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-11-01-preview/examples/StorageTargets_Suspend.json
  */
 async function storageTargetsSuspend() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function storageTargetsSuspend() {
   const result = await client.storageTargetOperations.beginSuspendAndWait(
     resourceGroupName,
     cacheName,
-    storageTargetName
+    storageTargetName,
   );
   console.log(result);
 }

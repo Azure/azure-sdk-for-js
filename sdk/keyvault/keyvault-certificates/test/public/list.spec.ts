@@ -3,11 +3,9 @@
 
 import { Context } from "mocha";
 import { assert } from "@azure/test-utils";
-import { env, isPlaybackMode, Recorder, isRecordMode } from "@azure-tools/test-recorder";
-import { isNode } from "@azure/core-util";
+import { env, Recorder, isRecordMode } from "@azure-tools/test-recorder";
 
 import { CertificateClient } from "../../src";
-import { assertThrowsAbortError } from "./utils/common";
 import { testPollerProperties } from "./utils/recorderUtils";
 import { authenticate } from "./utils/testAuthentication";
 import { getServiceVersion } from "./utils/common";
@@ -72,7 +70,7 @@ describe("Certificates client - list certificates in various ways", () => {
       const createPoller = await client.beginCreateCertificate(
         name,
         basicCertificatePolicy,
-        testPollerProperties
+        testPollerProperties,
       );
       await createPoller.pollUntilDone();
     }
@@ -94,7 +92,7 @@ describe("Certificates client - list certificates in various ways", () => {
       const createPoller = await client.beginCreateCertificate(
         name,
         basicCertificatePolicy,
-        testPollerProperties
+        testPollerProperties,
       );
       await createPoller.pollUntilDone();
     }
@@ -124,7 +122,7 @@ describe("Certificates client - list certificates in various ways", () => {
       const createPoller = await client.beginCreateCertificate(
         name,
         basicCertificatePolicy,
-        testPollerProperties
+        testPollerProperties,
       );
       await createPoller.pollUntilDone();
     }
@@ -141,16 +139,6 @@ describe("Certificates client - list certificates in various ways", () => {
     assert.equal(found, 2, "Unexpected number of certificates found by listCertificates.");
   });
 
-  if (isNode && !isPlaybackMode()) {
-    // On playback mode, the tests happen too fast for the timeout to work
-    it("can get several inserted certificates with requestOptions timeout", async function () {
-      const iter = client.listPropertiesOfCertificates({ requestOptions: { timeout: 1 } });
-      await assertThrowsAbortError(async () => {
-        await iter.next();
-      });
-    });
-  }
-
   it("can list deleted certificates by page", async function (this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
@@ -158,7 +146,7 @@ describe("Certificates client - list certificates in various ways", () => {
       const createPoller = await client.beginCreateCertificate(
         name,
         basicCertificatePolicy,
-        testPollerProperties
+        testPollerProperties,
       );
       await createPoller.pollUntilDone();
     }
@@ -179,17 +167,6 @@ describe("Certificates client - list certificates in various ways", () => {
     for (const name of certificateNames) {
       await testClient.purgeCertificate(name);
     }
-  });
-
-  // On playback mode, the tests happen too fast for the timeout to work
-  it("list deleted certificates with requestOptions timeout", async function () {
-    if (isPlaybackMode()) {
-      this.skip();
-    }
-    const iter = client.listDeletedCertificates({ requestOptions: { timeout: 1 } });
-    await assertThrowsAbortError(async () => {
-      await iter.next();
-    });
   });
 
   it("can retrieve all versions of a certificate", async function (this: Context) {
@@ -213,7 +190,7 @@ describe("Certificates client - list certificates in various ways", () => {
           ...testPollerProperties,
           tags: { tag },
           enabled: true,
-        }
+        },
       );
       const response = await createPoller.pollUntilDone();
       // Versions don't match. Something must be happening under the hood.
@@ -237,20 +214,6 @@ describe("Certificates client - list certificates in various ways", () => {
     assert.deepEqual(results, versions);
   });
 
-  // On playback mode, the tests happen too fast for the timeout to work
-  it("can get the versions of a certificate with requestOptions timeout", async function () {
-    if (isPlaybackMode()) {
-      this.skip();
-    }
-
-    const iter = client.listPropertiesOfCertificateVersions("doesn't matter", {
-      requestOptions: { timeout: 1 },
-    });
-    await assertThrowsAbortError(async () => {
-      await iter.next();
-    });
-  });
-
   it("can list certificate versions (non existing)", async function (this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     let totalVersions = 0;
@@ -259,7 +222,7 @@ describe("Certificates client - list certificates in various ways", () => {
         assert.equal(
           version.name,
           certificateName,
-          "Unexpected certificate name in result from listKeyVersions()."
+          "Unexpected certificate name in result from listKeyVersions().",
         );
         totalVersions += 1;
       }

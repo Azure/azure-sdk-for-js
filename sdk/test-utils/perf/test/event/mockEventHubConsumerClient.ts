@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { generateUuid } from "@azure/core-http";
+import { randomUUID } from "@azure/core-util";
 
 export interface Event {
   body: string;
@@ -60,7 +60,7 @@ export class MockEventHubConsumerClient {
 
   public subscribe(
     handlers: EventHandlers,
-    options?: SubscribeOptions
+    options?: SubscribeOptions,
   ): { close: () => Promise<void> } {
     this.internalSubscribe(handlers, options);
     return {
@@ -84,14 +84,14 @@ export class MockEventHubConsumerClient {
     const promises = [];
     for (let i = 0; i < this.partitions; i++) {
       promises.push(
-        this.handlePartition(handlers.processEvents, i, maxEventsPerSecondPerPartition)
+        this.handlePartition(handlers.processEvents, i, maxEventsPerSecondPerPartition),
       );
     }
     if (options && options?.delayToRaiseErrorInSeconds > 0) {
       promises.push(
         this.processFuncWithDelay(async () => {
-          await handlers.processError(new Error(`new error ${generateUuid()}`));
-        }, options?.delayToRaiseErrorInSeconds * 1000)
+          await handlers.processError(new Error(`new error ${randomUUID()}`));
+        }, options?.delayToRaiseErrorInSeconds * 1000),
       );
     }
 
@@ -101,14 +101,14 @@ export class MockEventHubConsumerClient {
   private async handlePartition(
     processEvents: (events: Event[], context: { partitionId: number }) => Promise<void>,
     partitionId: number,
-    maxEventsPerSecondPerPartition: number
+    maxEventsPerSecondPerPartition: number,
   ) {
     // eventArrays[i] contains an array of events with length i
     const eventArrays: Event[][] = new Array(this.maxBatchSize);
     for (let i = 0; i <= this.maxBatchSize; i++) {
       const events: Event[] = new Array(i);
       for (let j = 0; j < i; j++) {
-        events[j] = { body: generateUuid() };
+        events[j] = { body: randomUUID() };
       }
       eventArrays[i] = events;
     }
@@ -141,7 +141,7 @@ export class MockEventHubConsumerClient {
 
   private async processFuncWithDelay(func: () => Promise<void>, delayInMilliseconds: number) {
     return new Promise<void>((resolve) =>
-      this.timers.push(setTimeout(async () => resolve(await func()), delayInMilliseconds))
+      this.timers.push(setTimeout(async () => resolve(await func()), delayInMilliseconds)),
     );
   }
 

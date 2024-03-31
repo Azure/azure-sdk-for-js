@@ -6,9 +6,12 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
+
+// @public
+export type AadAuthFailureMode = "http403" | "http401WithBearerChallenge";
 
 // @public
 export type AdminKeyKind = "primary" | "secondary";
@@ -62,6 +65,7 @@ export interface CheckNameAvailabilityOutput {
 // @public
 export interface CloudError {
     error?: CloudErrorBody;
+    message?: string;
 }
 
 // @public
@@ -70,6 +74,23 @@ export interface CloudErrorBody {
     details?: CloudErrorBody[];
     message?: string;
     target?: string;
+}
+
+// @public
+export interface DataPlaneAadOrApiKeyAuthOption {
+    aadAuthFailureMode?: AadAuthFailureMode;
+}
+
+// @public
+export interface DataPlaneAuthOptions {
+    aadOrApiKey?: DataPlaneAadOrApiKeyAuthOption;
+    apiKeyOnly?: Record<string, unknown>;
+}
+
+// @public
+export interface EncryptionWithCmk {
+    readonly encryptionComplianceStatus?: SearchEncryptionComplianceStatus;
+    enforcement?: SearchEncryptionWithCmk;
 }
 
 // @public
@@ -83,10 +104,13 @@ export interface Identity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: IdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedManagedIdentity;
+    };
 }
 
 // @public
-export type IdentityType = "None" | "SystemAssigned";
+export type IdentityType = string;
 
 // @public
 export interface IpRule {
@@ -94,10 +118,80 @@ export interface IpRule {
 }
 
 // @public
+export enum KnownIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownPrivateLinkServiceConnectionProvisioningState {
+    Canceled = "Canceled",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Incomplete = "Incomplete",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownPublicNetworkAccess {
+    Disabled = "disabled",
+    Enabled = "enabled"
+}
+
+// @public
+export enum KnownSearchBypass {
+    AzurePortal = "AzurePortal",
+    None = "None"
+}
+
+// @public
+export enum KnownSearchDisabledDataExfiltrationOption {
+    All = "All"
+}
+
+// @public
+export enum KnownSearchSemanticSearch {
+    Disabled = "disabled",
+    Free = "free",
+    Standard = "standard"
+}
+
+// @public
 export enum KnownSharedPrivateLinkResourceAsyncOperationResult {
     Failed = "Failed",
     Running = "Running",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownSharedPrivateLinkResourceProvisioningState {
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Incomplete = "Incomplete",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownSharedPrivateLinkResourceStatus {
+    Approved = "Approved",
+    Disconnected = "Disconnected",
+    Pending = "Pending",
+    Rejected = "Rejected"
+}
+
+// @public
+export enum KnownSkuName {
+    Basic = "basic",
+    Free = "free",
+    Standard = "standard",
+    Standard2 = "standard2",
+    Standard3 = "standard3",
+    StorageOptimizedL1 = "storage_optimized_l1",
+    StorageOptimizedL2 = "storage_optimized_l2"
 }
 
 // @public
@@ -114,13 +208,163 @@ export interface ListQueryKeysResult {
 
 // @public
 export interface NetworkRuleSet {
+    bypass?: SearchBypass;
     ipRules?: IpRule[];
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
+    networkSecurityPerimeter?: NSPConfigPerimeter;
+    profile?: NSPConfigProfile;
+    // (undocumented)
+    provisioningIssues?: NSPProvisioningIssue[];
+    readonly provisioningState?: string;
+    resourceAssociation?: NSPConfigAssociation;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationListResult {
+    readonly nextLink?: string;
+    readonly value?: NetworkSecurityPerimeterConfiguration[];
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurations {
+    beginReconcile(resourceGroupName: string, searchServiceName: string, nspConfigName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams): Promise<SimplePollerLike<OperationState<NetworkSecurityPerimeterConfigurationsReconcileResponse>, NetworkSecurityPerimeterConfigurationsReconcileResponse>>;
+    beginReconcileAndWait(resourceGroupName: string, searchServiceName: string, nspConfigName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams): Promise<NetworkSecurityPerimeterConfigurationsReconcileResponse>;
+    get(resourceGroupName: string, searchServiceName: string, nspConfigName: string, options?: NetworkSecurityPerimeterConfigurationsGetOptionalParams): Promise<NetworkSecurityPerimeterConfigurationsGetResponse>;
+    listByService(resourceGroupName: string, searchServiceName: string, options?: NetworkSecurityPerimeterConfigurationsListByServiceOptionalParams): PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationsGetResponse = NetworkSecurityPerimeterConfiguration;
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsListByServiceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationsListByServiceNextResponse = NetworkSecurityPerimeterConfigurationListResult;
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsListByServiceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationsListByServiceResponse = NetworkSecurityPerimeterConfigurationListResult;
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsReconcileHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationsReconcileResponse = NetworkSecurityPerimeterConfigurationsReconcileHeaders;
+
+// @public
+export interface NSPConfigAccessRule {
+    // (undocumented)
+    name?: string;
+    properties?: NSPConfigAccessRuleProperties;
+}
+
+// @public
+export interface NSPConfigAccessRuleProperties {
+    // (undocumented)
+    addressPrefixes?: string[];
+    // (undocumented)
+    direction?: string;
+    // (undocumented)
+    fullyQualifiedDomainNames?: string[];
+    // (undocumented)
+    networkSecurityPerimeters?: NSPConfigNetworkSecurityPerimeterRule[];
+    // (undocumented)
+    subscriptions?: string[];
+}
+
+// @public
+export interface NSPConfigAssociation {
+    // (undocumented)
+    accessMode?: string;
+    // (undocumented)
+    name?: string;
+}
+
+// @public
+export interface NSPConfigNetworkSecurityPerimeterRule {
+    // (undocumented)
+    id?: string;
+    // (undocumented)
+    location?: string;
+    // (undocumented)
+    perimeterGuid?: string;
+}
+
+// @public
+export interface NSPConfigPerimeter {
+    // (undocumented)
+    id?: string;
+    // (undocumented)
+    location?: string;
+    // (undocumented)
+    perimeterGuid?: string;
+}
+
+// @public
+export interface NSPConfigProfile {
+    // (undocumented)
+    accessRules?: NSPConfigAccessRule[];
+    // (undocumented)
+    accessRulesVersion?: string;
+    // (undocumented)
+    name?: string;
+}
+
+// @public
+export interface NSPProvisioningIssue {
+    // (undocumented)
+    name?: string;
+    properties?: NSPProvisioningIssueProperties;
+}
+
+// @public
+export interface NSPProvisioningIssueProperties {
+    // (undocumented)
+    description?: string;
+    // (undocumented)
+    issueType?: string;
+    // (undocumented)
+    severity?: string;
+    // (undocumented)
+    suggestedAccessRules?: string[];
+    // (undocumented)
+    suggestedResourceIds?: string[];
 }
 
 // @public
 export interface Operation {
     readonly display?: OperationDisplay;
+    readonly isDataAction?: boolean;
     readonly name?: string;
+    readonly origin?: string;
+    readonly properties?: OperationProperties;
+}
+
+// @public
+export interface OperationAvailability {
+    readonly blobDuration?: string;
+    readonly timeGrain?: string;
 }
 
 // @public
@@ -138,8 +382,43 @@ export interface OperationListResult {
 }
 
 // @public
+export interface OperationLogsSpecification {
+    readonly blobDuration?: string;
+    readonly displayName?: string;
+    readonly name?: string;
+}
+
+// @public
+export interface OperationMetricDimension {
+    readonly displayName?: string;
+    readonly name?: string;
+}
+
+// @public
+export interface OperationMetricsSpecification {
+    readonly aggregationType?: string;
+    readonly availabilities?: OperationAvailability[];
+    readonly dimensions?: OperationMetricDimension[];
+    readonly displayDescription?: string;
+    readonly displayName?: string;
+    readonly name?: string;
+    readonly unit?: string;
+}
+
+// @public
+export interface OperationProperties {
+    readonly serviceSpecification?: OperationServiceSpecification;
+}
+
+// @public
 export interface Operations {
     list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+}
+
+// @public
+export interface OperationServiceSpecification {
+    readonly logSpecifications?: OperationLogsSpecification[];
+    readonly metricSpecifications?: OperationMetricsSpecification[];
 }
 
 // @public
@@ -162,8 +441,10 @@ export interface PrivateEndpointConnectionListResult {
 
 // @public
 export interface PrivateEndpointConnectionProperties {
+    groupId?: string;
     privateEndpoint?: PrivateEndpointConnectionPropertiesPrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateEndpointConnectionPropertiesPrivateLinkServiceConnectionState;
+    provisioningState?: PrivateLinkServiceConnectionProvisioningState;
 }
 
 // @public
@@ -258,13 +539,20 @@ export interface PrivateLinkResourcesResult {
 }
 
 // @public
+export type PrivateLinkServiceConnectionProvisioningState = string;
+
+// @public
 export type PrivateLinkServiceConnectionStatus = "Pending" | "Approved" | "Rejected" | "Disconnected";
 
 // @public
 export type ProvisioningState = "succeeded" | "provisioning" | "failed";
 
 // @public
-export type PublicNetworkAccess = "enabled" | "disabled";
+export interface ProxyResource extends Resource {
+}
+
+// @public
+export type PublicNetworkAccess = string;
 
 // @public
 export interface QueryKey {
@@ -309,11 +597,44 @@ export interface QueryKeysListBySearchServiceOptionalParams extends coreClient.O
 export type QueryKeysListBySearchServiceResponse = ListQueryKeysResult;
 
 // @public
+export interface QuotaUsageResult {
+    currentValue?: number;
+    id?: string;
+    limit?: number;
+    readonly name?: QuotaUsageResultName;
+    unit?: string;
+}
+
+// @public
+export interface QuotaUsageResultName {
+    localizedValue?: string;
+    value?: string;
+}
+
+// @public
+export interface QuotaUsagesListResult {
+    readonly nextLink?: string;
+    readonly value?: QuotaUsageResult[];
+}
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
     readonly type?: string;
 }
+
+// @public
+export type SearchBypass = string;
+
+// @public
+export type SearchDisabledDataExfiltrationOption = string;
+
+// @public
+export type SearchEncryptionComplianceStatus = "Compliant" | "NonCompliant";
+
+// @public
+export type SearchEncryptionWithCmk = "Disabled" | "Enabled" | "Unspecified";
 
 // @public (undocumented)
 export class SearchManagementClient extends coreClient.ServiceClient {
@@ -324,6 +645,8 @@ export class SearchManagementClient extends coreClient.ServiceClient {
     adminKeys: AdminKeys;
     // (undocumented)
     apiVersion: string;
+    // (undocumented)
+    networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -338,6 +661,9 @@ export class SearchManagementClient extends coreClient.ServiceClient {
     sharedPrivateLinkResources: SharedPrivateLinkResources;
     // (undocumented)
     subscriptionId: string;
+    usageBySubscriptionSku(location: string, skuName: string, options?: UsageBySubscriptionSkuOptionalParams): Promise<UsageBySubscriptionSkuResponse>;
+    // (undocumented)
+    usages: Usages;
 }
 
 // @public
@@ -353,7 +679,15 @@ export interface SearchManagementRequestOptions {
 }
 
 // @public
+export type SearchSemanticSearch = string;
+
+// @public
 export interface SearchService extends TrackedResource {
+    authOptions?: DataPlaneAuthOptions;
+    disabledDataExfiltrationOptions?: SearchDisabledDataExfiltrationOption[];
+    disableLocalAuth?: boolean;
+    encryptionWithCmk?: EncryptionWithCmk;
+    readonly eTag?: string;
     hostingMode?: HostingMode;
     identity?: Identity;
     networkRuleSet?: NetworkRuleSet;
@@ -362,6 +696,7 @@ export interface SearchService extends TrackedResource {
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
     replicaCount?: number;
+    semanticSearch?: SearchSemanticSearch;
     readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
     sku?: Sku;
     readonly status?: SearchServiceStatus;
@@ -375,10 +710,15 @@ export interface SearchServiceListResult {
 }
 
 // @public
-export type SearchServiceStatus = "running" | "provisioning" | "deleting" | "degraded" | "disabled" | "error";
+export type SearchServiceStatus = "running" | "provisioning" | "deleting" | "degraded" | "disabled" | "error" | "stopped";
 
 // @public
 export interface SearchServiceUpdate extends Resource {
+    authOptions?: DataPlaneAuthOptions;
+    disabledDataExfiltrationOptions?: SearchDisabledDataExfiltrationOption[];
+    disableLocalAuth?: boolean;
+    encryptionWithCmk?: EncryptionWithCmk;
+    readonly eTag?: string;
     hostingMode?: HostingMode;
     identity?: Identity;
     location?: string;
@@ -388,6 +728,7 @@ export interface SearchServiceUpdate extends Resource {
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
     replicaCount?: number;
+    semanticSearch?: SearchSemanticSearch;
     readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
     sku?: Sku;
     readonly status?: SearchServiceStatus;
@@ -399,7 +740,7 @@ export interface SearchServiceUpdate extends Resource {
 
 // @public
 export interface Services {
-    beginCreateOrUpdate(resourceGroupName: string, searchServiceName: string, service: SearchService, options?: ServicesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ServicesCreateOrUpdateResponse>, ServicesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, searchServiceName: string, service: SearchService, options?: ServicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ServicesCreateOrUpdateResponse>, ServicesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, searchServiceName: string, service: SearchService, options?: ServicesCreateOrUpdateOptionalParams): Promise<ServicesCreateOrUpdateResponse>;
     checkNameAvailability(name: string, options?: ServicesCheckNameAvailabilityOptionalParams): Promise<ServicesCheckNameAvailabilityResponse>;
     delete(resourceGroupName: string, searchServiceName: string, options?: ServicesDeleteOptionalParams): Promise<void>;
@@ -518,13 +859,13 @@ export interface SharedPrivateLinkResourceProperties {
 }
 
 // @public
-export type SharedPrivateLinkResourceProvisioningState = "Updating" | "Deleting" | "Failed" | "Succeeded" | "Incomplete";
+export type SharedPrivateLinkResourceProvisioningState = string;
 
 // @public
 export interface SharedPrivateLinkResources {
-    beginCreateOrUpdate(resourceGroupName: string, searchServiceName: string, sharedPrivateLinkResourceName: string, sharedPrivateLinkResource: SharedPrivateLinkResource, options?: SharedPrivateLinkResourcesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<SharedPrivateLinkResourcesCreateOrUpdateResponse>, SharedPrivateLinkResourcesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, searchServiceName: string, sharedPrivateLinkResourceName: string, sharedPrivateLinkResource: SharedPrivateLinkResource, options?: SharedPrivateLinkResourcesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SharedPrivateLinkResourcesCreateOrUpdateResponse>, SharedPrivateLinkResourcesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, searchServiceName: string, sharedPrivateLinkResourceName: string, sharedPrivateLinkResource: SharedPrivateLinkResource, options?: SharedPrivateLinkResourcesCreateOrUpdateOptionalParams): Promise<SharedPrivateLinkResourcesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, searchServiceName: string, sharedPrivateLinkResourceName: string, options?: SharedPrivateLinkResourcesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, searchServiceName: string, sharedPrivateLinkResourceName: string, options?: SharedPrivateLinkResourcesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, searchServiceName: string, sharedPrivateLinkResourceName: string, options?: SharedPrivateLinkResourcesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, searchServiceName: string, sharedPrivateLinkResourceName: string, options?: SharedPrivateLinkResourcesGetOptionalParams): Promise<SharedPrivateLinkResourcesGetResponse>;
     listByService(resourceGroupName: string, searchServiceName: string, options?: SharedPrivateLinkResourcesListByServiceOptionalParams): PagedAsyncIterableIterator<SharedPrivateLinkResource>;
@@ -572,7 +913,7 @@ export interface SharedPrivateLinkResourcesListByServiceOptionalParams extends c
 export type SharedPrivateLinkResourcesListByServiceResponse = SharedPrivateLinkResourceListResult;
 
 // @public
-export type SharedPrivateLinkResourceStatus = "Pending" | "Approved" | "Rejected" | "Disconnected";
+export type SharedPrivateLinkResourceStatus = string;
 
 // @public
 export interface Sku {
@@ -580,7 +921,7 @@ export interface Sku {
 }
 
 // @public
-export type SkuName = "free" | "basic" | "standard" | "standard2" | "standard3" | "storage_optimized_l1" | "storage_optimized_l2";
+export type SkuName = string;
 
 // @public
 export interface TrackedResource extends Resource {
@@ -592,6 +933,41 @@ export interface TrackedResource extends Resource {
 
 // @public
 export type UnavailableNameReason = string;
+
+// @public
+export interface UsageBySubscriptionSkuOptionalParams extends coreClient.OperationOptions {
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
+}
+
+// @public
+export type UsageBySubscriptionSkuResponse = QuotaUsageResult;
+
+// @public
+export interface Usages {
+    listBySubscription(location: string, options?: UsagesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<QuotaUsageResult>;
+}
+
+// @public
+export interface UsagesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
+}
+
+// @public
+export type UsagesListBySubscriptionNextResponse = QuotaUsagesListResult;
+
+// @public
+export interface UsagesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+    searchManagementRequestOptions?: SearchManagementRequestOptions;
+}
+
+// @public
+export type UsagesListBySubscriptionResponse = QuotaUsagesListResult;
+
+// @public
+export interface UserAssignedManagedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
 
 // (No @packageDocumentation comment for this package)
 

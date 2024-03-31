@@ -41,6 +41,8 @@ describe("Eventgrid test", () => {
   let resourceGroupName: string;
   let topicName: string;
   let domainName: string;
+  let eventSubscriptionName: string;
+  let domaintopicName: string;
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
@@ -53,6 +55,8 @@ describe("Eventgrid test", () => {
     resourceGroupName = "myjstest";
     topicName = "mytopicxxx";
     domainName = "mydomainxxx";
+    domaintopicName = "mydomaintopicxxx";
+    eventSubscriptionName = "myeventSubscription";
   });
 
   afterEach(async function () {
@@ -70,15 +74,6 @@ describe("Eventgrid test", () => {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
-  });
-
-  it("topics delete test", async function () {
-    const res = await client.topics.beginDeleteAndWait(resourceGroupName, topicName, testPollingOptions);
-    const resArray = new Array();
-    for await (let item of client.topics.listByResourceGroup(resourceGroupName)) {
-      resArray.push(item);
-    }
-    assert.equal(resArray.length, 0);
   });
 
   it("domains create test", async function () {
@@ -107,6 +102,111 @@ describe("Eventgrid test", () => {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1)
+  });
+
+  it("domaintopics create test", async function () {
+    const res = await client.topics.beginCreateOrUpdateAndWait(resourceGroupName, domaintopicName, { location }, testPollingOptions);
+    assert.equal(res.name, domaintopicName);
+  });
+
+  it("domainTopicEventSubscriptions create test", async function () {
+    //before test this case please create an eventhub namespace "czweventhub" and an eventhub "czweh"
+    const res = await client.domainTopicEventSubscriptions.beginCreateOrUpdateAndWait(resourceGroupName,
+      domainName,
+      domaintopicName,
+      eventSubscriptionName,
+      {
+        topic: "/subscriptions/" + subscriptionId + "/resourceGroups/myjstest/providers/Microsoft.EventGrid/domains/mydomainxxx/topics/testDomainTopic",
+        destination: {
+          endpointType: "EventHub",
+          resourceId: "/subscriptions/" + subscriptionId + "/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/czweventhub/eventhubs/czweh",
+        },
+        filter: {
+          advancedFilters: [],
+          enableAdvancedFilteringOnArrays: true
+        },
+        eventDeliverySchema: "EventGridSchema"
+      },
+      testPollingOptions);
+    console.log(res);
+    assert.equal(res.name, eventSubscriptionName);
+  });
+
+  it("domainTopicEventSubscriptions listByResourceGroup test", async function () {
+    const resArray = new Array();
+    for await (let item of client.domainTopicEventSubscriptions.list(
+      resourceGroupName,
+      domainName,
+      domaintopicName)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 1);
+    console.log('********************************')
+  });
+
+  it("domainTopicEventSubscriptions get test", async function () {
+    const res = await client.domainTopicEventSubscriptions.get(
+      resourceGroupName,
+      domainName,
+      domaintopicName,
+      eventSubscriptionName);
+    assert.equal(res.name, eventSubscriptionName);
+  });
+
+  it("domainTopicEventSubscriptions update test", async function () {
+    const res = await client.domainTopicEventSubscriptions.beginUpdateAndWait(resourceGroupName,
+      domainName,
+      domaintopicName,
+      eventSubscriptionName,
+      {
+        destination: {
+          endpointType: "EventHub",
+          resourceId: "/subscriptions/" + subscriptionId + "/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/czweventhub/eventhubs/czweh",
+        },
+        filter: {
+          advancedFilters: [],
+          enableAdvancedFilteringOnArrays: true
+        },
+        eventDeliverySchema: "EventGridSchema"
+      },
+      testPollingOptions);
+    console.log(res);
+    assert.equal(res.name, eventSubscriptionName);
+  });
+
+  it("domainTopicEventSubscriptions delete test", async function () {
+    const res = await client.domainTopicEventSubscriptions.beginDeleteAndWait(
+      resourceGroupName,
+      domainName,
+      topicName,
+      eventSubscriptionName, testPollingOptions);
+    const resArray = new Array();
+    for await (let item of client.domainTopicEventSubscriptions.list(
+      resourceGroupName,
+      domainName,
+      topicName)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 0);
+  });
+
+  it("domaintopics delete test", async function () {
+    const res = await client.domainTopics.beginDeleteAndWait(resourceGroupName, domainName, domaintopicName, testPollingOptions);
+    const resArray = new Array();
+    for await (let item of client.domainTopics.listByDomain(resourceGroupName, domainName)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 0);
+  });
+
+  it("topics delete test", async function () {
+    const res = await client.topics.beginDeleteAndWait(resourceGroupName, topicName, testPollingOptions);
+    const res1 = await client.topics.beginDeleteAndWait(resourceGroupName, domaintopicName, testPollingOptions);// when create a domaintopic, it will create a topic with the same name, so we also need to delete that resource to make test pass.
+    const resArray = new Array();
+    for await (let item of client.topics.listByResourceGroup(resourceGroupName)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 0);
   });
 
   it("domains delete test", async function () {

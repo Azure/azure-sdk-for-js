@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import { ClientOptions, OperationOptions } from "@azure-rest/core-client";
 import { BrowserPushChannel } from "./installation.js";
 
 /**
  * Describes the options that can be provided while creating the NotificationHubsClientContext.
  */
-export interface NotificationHubsClientOptions extends CommonClientOptions {}
+export interface NotificationHubsClientOptions extends ClientOptions {}
 
 /**
  * Options for polled operations including the polling interval cycle.

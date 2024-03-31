@@ -1,0 +1,40 @@
+# Release History
+
+## 2.1.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Revert TypeScript output target to ES2017.
+
+## 2.1.1 (2024-03-20)
+
+### Other Changes
+
+- Add top-level `browser` field to `package.json` as fallback for legacy bundlers that do not support the `exports` field.
+
+## 2.1.0 (2024-03-12)
+
+### Other Changes
+
+- Migrated the codebase to ESM. This change is internal and should not affect customers.
+- Migrated unit tests to vitest.
+
+## 2.0.0 (2024-01-02)
+
+### Features Added
+
+- `createSseStream` returns a `ReadableStream` that is iterable and can also be disposed.
+
+### Breaking Changes
+
+- `iterateSseStream` is renamed to `createSseStream` and no longer takes arbitrary `AsyncIterable<Uint8Array>` as input and instead only accepts `ReadableStream<Uint8Array>` and `http.IncomingMessage` as input.
+
+## 1.0.0 (2023-09-07)
+
+- First release of package, see README.md for details.

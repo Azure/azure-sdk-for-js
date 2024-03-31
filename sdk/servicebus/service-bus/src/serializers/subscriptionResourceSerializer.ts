@@ -33,7 +33,7 @@ import {
  * converts values to string and ensures the right order as expected by the service
  */
 export function buildSubscriptionOptions(
-  subscription: CreateSubscriptionOptions
+  subscription: CreateSubscriptionOptions,
 ): InternalSubscriptionOptions {
   return {
     // NOTE: this ordering is extremely important. As an example, misordering of the ForwardTo property
@@ -46,10 +46,10 @@ export function buildSubscriptionOptions(
     RequiresSession: getStringOrUndefined(subscription.requiresSession),
     DefaultMessageTimeToLive: getStringOrUndefined(subscription.defaultMessageTimeToLive),
     DeadLetteringOnMessageExpiration: getStringOrUndefined(
-      subscription.deadLetteringOnMessageExpiration
+      subscription.deadLetteringOnMessageExpiration,
     ),
     DeadLetteringOnFilterEvaluationExceptions: getStringOrUndefined(
-      subscription.deadLetteringOnFilterEvaluationExceptions
+      subscription.deadLetteringOnFilterEvaluationExceptions,
     ),
     DefaultRuleDescription: subscription.defaultRuleOptions
       ? buildInternalRuleResource(subscription.defaultRuleOptions)
@@ -81,25 +81,25 @@ export function buildSubscription(rawSubscription: Record<string, any>): Subscri
     requiresSession: getBoolean(rawSubscription[Constants.REQUIRES_SESSION], "requiresSession"),
     enableBatchedOperations: getBoolean(
       rawSubscription[Constants.ENABLE_BATCHED_OPERATIONS],
-      "enableBatchedOperations"
+      "enableBatchedOperations",
     ),
 
     defaultMessageTimeToLive: getString(
       rawSubscription[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
-      "defaultMessageTimeToLive"
+      "defaultMessageTimeToLive",
     ),
     autoDeleteOnIdle: getString(rawSubscription[Constants.AUTO_DELETE_ON_IDLE], "autoDeleteOnIdle"),
 
     deadLetteringOnMessageExpiration: getBoolean(
       rawSubscription[Constants.DEAD_LETTERING_ON_MESSAGE_EXPIRATION],
-      "deadLetteringOnMessageExpiration"
+      "deadLetteringOnMessageExpiration",
     ),
     deadLetteringOnFilterEvaluationExceptions: getBoolean(
       rawSubscription[Constants.DEAD_LETTERING_ON_FILTER_EVALUATION_EXCEPTIONS],
-      "deadLetteringOnFilterEvaluationExceptions"
+      "deadLetteringOnFilterEvaluationExceptions",
     ),
     forwardDeadLetteredMessagesTo: getStringOrUndefined(
-      rawSubscription[Constants.FORWARD_DEADLETTERED_MESSAGES_TO]
+      rawSubscription[Constants.FORWARD_DEADLETTERED_MESSAGES_TO],
     ),
 
     forwardTo: getStringOrUndefined(rawSubscription[Constants.FORWARD_TO]),
@@ -109,7 +109,7 @@ export function buildSubscription(rawSubscription: Record<string, any>): Subscri
 
     availabilityStatus: getString(
       rawSubscription[Constants.ENTITY_AVAILABILITY_STATUS],
-      "availabilityStatus"
+      "availabilityStatus",
     ) as EntityAvailabilityStatus,
   };
 }
@@ -120,7 +120,7 @@ export function buildSubscription(rawSubscription: Record<string, any>): Subscri
  * the response from the service
  */
 export function buildSubscriptionRuntimeProperties(
-  rawSubscription: Record<string, any>
+  rawSubscription: Record<string, any>,
 ): SubscriptionRuntimeProperties {
   const messageCountDetails = getMessageCountDetails(rawSubscription[Constants.COUNT_DETAILS]);
   return {

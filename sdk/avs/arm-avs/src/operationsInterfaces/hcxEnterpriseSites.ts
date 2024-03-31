@@ -21,7 +21,7 @@ import {
 /** Interface representing a HcxEnterpriseSites. */
 export interface HcxEnterpriseSites {
   /**
-   * List HCX Enterprise Sites in a private cloud
+   * List HCX on-premises key in a private cloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -32,7 +32,7 @@ export interface HcxEnterpriseSites {
     options?: HcxEnterpriseSitesListOptionalParams
   ): PagedAsyncIterableIterator<HcxEnterpriseSite>;
   /**
-   * Get an HCX Enterprise Site by name in a private cloud
+   * Get an HCX on-premises key by name in a private cloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param hcxEnterpriseSiteName Name of the HCX Enterprise Site in the private cloud
@@ -45,7 +45,7 @@ export interface HcxEnterpriseSites {
     options?: HcxEnterpriseSitesGetOptionalParams
   ): Promise<HcxEnterpriseSitesGetResponse>;
   /**
-   * Create or update an HCX Enterprise Site in a private cloud
+   * Create or update an activation key for on-premises HCX site
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName The name of the private cloud.
    * @param hcxEnterpriseSiteName Name of the HCX Enterprise Site in the private cloud
@@ -60,7 +60,7 @@ export interface HcxEnterpriseSites {
     options?: HcxEnterpriseSitesCreateOrUpdateOptionalParams
   ): Promise<HcxEnterpriseSitesCreateOrUpdateResponse>;
   /**
-   * Delete an HCX Enterprise Site in a private cloud
+   * Delete HCX on-premises key in a private cloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param hcxEnterpriseSiteName Name of the HCX Enterprise Site in the private cloud

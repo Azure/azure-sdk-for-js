@@ -12,8 +12,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   KqlScriptResource,
   KqlScriptCreateOrUpdateOptionalParams,
@@ -48,8 +52,8 @@ export class KqlScriptOperationsImpl implements KqlScriptOperations {
     kqlScript: KqlScriptResource,
     options?: KqlScriptCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<KqlScriptCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<KqlScriptCreateOrUpdateResponse>,
       KqlScriptCreateOrUpdateResponse
     >
   > {
@@ -67,7 +71,7 @@ export class KqlScriptOperationsImpl implements KqlScriptOperations {
         }
       );
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -100,13 +104,16 @@ export class KqlScriptOperationsImpl implements KqlScriptOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { kqlScriptName, kqlScript, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { kqlScriptName, kqlScript, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      KqlScriptCreateOrUpdateResponse,
+      OperationState<KqlScriptCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -161,7 +168,7 @@ export class KqlScriptOperationsImpl implements KqlScriptOperations {
   async beginDeleteByName(
     kqlScriptName: string,
     options?: KqlScriptDeleteByNameOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -174,7 +181,7 @@ export class KqlScriptOperationsImpl implements KqlScriptOperations {
         }
       );
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -207,13 +214,13 @@ export class KqlScriptOperationsImpl implements KqlScriptOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { kqlScriptName, options },
-      deleteByNameOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { kqlScriptName, options },
+      spec: deleteByNameOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -243,7 +250,7 @@ export class KqlScriptOperationsImpl implements KqlScriptOperations {
     kqlScriptName: string,
     renameRequest: ArtifactRenameRequest,
     options?: KqlScriptRenameOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -256,7 +263,7 @@ export class KqlScriptOperationsImpl implements KqlScriptOperations {
         }
       );
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -289,13 +296,13 @@ export class KqlScriptOperationsImpl implements KqlScriptOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { kqlScriptName, renameRequest, options },
-      renameOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { kqlScriptName, renameRequest, options },
+      spec: renameOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -345,7 +352,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.kqlScript,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.kqlScriptName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -362,7 +369,7 @@ const getByNameOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorContract
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.kqlScriptName],
   headerParameters: [Parameters.accept],
   serializer
@@ -379,7 +386,7 @@ const deleteByNameOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorContract
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.kqlScriptName],
   headerParameters: [Parameters.accept],
   serializer
@@ -397,7 +404,7 @@ const renameOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.renameRequest,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.kqlScriptName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",

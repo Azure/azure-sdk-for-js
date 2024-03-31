@@ -26,7 +26,7 @@ async function main() {
 
   /** Azure Active Directory (Azure AD) authentication */
   // const credential = new DefaultAzureCredential();
-  // const mapsClientId = process.env.MAPS_CLIENT_ID || "";
+  // const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
   // const client = MapsRender(credential, mapsClientId);
 
   const response = await client.path("/map/tileset").get({
@@ -43,7 +43,7 @@ async function main() {
   const { maxzoom, minzoom, bounds = [] } = response.body;
   console.log(`The zoom range started from ${minzoom} to ${maxzoom}`);
   console.log(
-    `The left bound is ${bounds[0]}, bottom bound is ${bounds[1]}, right bound is ${bounds[2]}, and top bound is ${bounds[3]}`
+    `The left bound is ${bounds[0]}, bottom bound is ${bounds[1]}, right bound is ${bounds[2]}, and top bound is ${bounds[3]}`,
   );
 }
 

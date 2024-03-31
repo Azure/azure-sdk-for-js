@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SimGroup,
   SimGroupsListBySubscriptionOptionalParams,
@@ -17,9 +17,9 @@ import {
   SimGroupsGetResponse,
   SimGroupsCreateOrUpdateOptionalParams,
   SimGroupsCreateOrUpdateResponse,
-  TagsObject,
+  IdentityAndTagsObject,
   SimGroupsUpdateTagsOptionalParams,
-  SimGroupsUpdateTagsResponse
+  SimGroupsUpdateTagsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface SimGroups {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: SimGroupsListBySubscriptionOptionalParams
+    options?: SimGroupsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<SimGroup>;
   /**
    * Gets all the SIM groups in a resource group.
@@ -39,7 +39,7 @@ export interface SimGroups {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: SimGroupsListByResourceGroupOptionalParams
+    options?: SimGroupsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<SimGroup>;
   /**
    * Deletes the specified SIM group.
@@ -50,8 +50,8 @@ export interface SimGroups {
   beginDelete(
     resourceGroupName: string,
     simGroupName: string,
-    options?: SimGroupsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: SimGroupsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified SIM group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -61,7 +61,7 @@ export interface SimGroups {
   beginDeleteAndWait(
     resourceGroupName: string,
     simGroupName: string,
-    options?: SimGroupsDeleteOptionalParams
+    options?: SimGroupsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets information about the specified SIM group.
@@ -72,7 +72,7 @@ export interface SimGroups {
   get(
     resourceGroupName: string,
     simGroupName: string,
-    options?: SimGroupsGetOptionalParams
+    options?: SimGroupsGetOptionalParams,
   ): Promise<SimGroupsGetResponse>;
   /**
    * Creates or updates a SIM group.
@@ -85,10 +85,10 @@ export interface SimGroups {
     resourceGroupName: string,
     simGroupName: string,
     parameters: SimGroup,
-    options?: SimGroupsCreateOrUpdateOptionalParams
+    options?: SimGroupsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SimGroupsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SimGroupsCreateOrUpdateResponse>,
       SimGroupsCreateOrUpdateResponse
     >
   >;
@@ -103,19 +103,19 @@ export interface SimGroups {
     resourceGroupName: string,
     simGroupName: string,
     parameters: SimGroup,
-    options?: SimGroupsCreateOrUpdateOptionalParams
+    options?: SimGroupsCreateOrUpdateOptionalParams,
   ): Promise<SimGroupsCreateOrUpdateResponse>;
   /**
-   * Updates SIM group tags.
+   * Patch SIM group resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param simGroupName The name of the SIM Group.
-   * @param parameters Parameters supplied to update SIM group tags.
+   * @param parameters Parameters supplied to patch SIM group resource.
    * @param options The options parameters.
    */
   updateTags(
     resourceGroupName: string,
     simGroupName: string,
-    parameters: TagsObject,
-    options?: SimGroupsUpdateTagsOptionalParams
+    parameters: IdentityAndTagsObject,
+    options?: SimGroupsUpdateTagsOptionalParams,
   ): Promise<SimGroupsUpdateTagsResponse>;
 }

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import type { BarrierMessage } from "./barrier";
 import { Snapshot } from "./snapshot";
 

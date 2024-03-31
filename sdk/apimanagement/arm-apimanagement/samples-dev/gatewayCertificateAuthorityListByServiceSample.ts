@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the collection of Certificate Authorities for the specified Gateway entity.
  *
  * @summary Lists the collection of Certificate Authorities for the specified Gateway entity.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListGatewayCertificateAuthorities.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListGatewayCertificateAuthorities.json
  */
 async function apiManagementListGatewaycertificateAuthorities() {
   const subscriptionId =

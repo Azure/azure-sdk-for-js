@@ -4,7 +4,7 @@
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { createTracingClient } from "@azure/core-tracing";
 import { TracingClient } from "@azure/core-tracing";
-import { SDK_VERSION } from "./constants";
+import { FORM_RECOGNIZER_API_VERSION, SDK_VERSION } from "./constants";
 import {
   AnalyzeDocumentRequest,
   AnalyzeResultOperation,
@@ -23,11 +23,7 @@ import {
 } from "./lro/analysis";
 import { OperationContext, lro } from "./lro/util/poller";
 import { AnalyzeDocumentOptions } from "./options/AnalyzeDocumentOptions";
-import {
-  DEFAULT_GENERATED_CLIENT_OPTIONS,
-  DocumentAnalysisClientOptions,
-  FormRecognizerApiVersion,
-} from "./options/FormRecognizerClientOptions";
+import { DocumentAnalysisClientOptions } from "./options/FormRecognizerClientOptions";
 import { DocumentModel } from "./documentModel";
 import { makeServiceClient, Mappers, SERIALIZER } from "./util";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -66,7 +62,6 @@ import { ClassifyDocumentOptions } from "./options/ClassifyDocumentOptions";
 export class DocumentAnalysisClient {
   private _restClient: GeneratedClient;
   private _tracing: TracingClient;
-  private _apiVersion: FormRecognizerApiVersion;
 
   /**
    * Create a `DocumentAnalysisClient` instance from a resource endpoint and a an Azure Identity `TokenCredential`.
@@ -93,7 +88,7 @@ export class DocumentAnalysisClient {
   public constructor(
     endpoint: string,
     credential: TokenCredential,
-    options?: DocumentAnalysisClientOptions
+    options?: DocumentAnalysisClientOptions,
   );
   /**
    * Create a `DocumentAnalysisClient` instance from a resource endpoint and a static API key (`KeyCredential`),
@@ -116,7 +111,7 @@ export class DocumentAnalysisClient {
   public constructor(
     endpoint: string,
     credential: KeyCredential,
-    options?: DocumentAnalysisClientOptions
+    options?: DocumentAnalysisClientOptions,
   );
   /**
    * @hidden
@@ -124,12 +119,12 @@ export class DocumentAnalysisClient {
   public constructor(
     endpoint: string,
     credential: KeyCredential | TokenCredential,
-    options?: DocumentAnalysisClientOptions
+    options?: DocumentAnalysisClientOptions,
   );
   public constructor(
     endpoint: string,
     credential: KeyCredential | TokenCredential,
-    options: DocumentAnalysisClientOptions = {}
+    options: DocumentAnalysisClientOptions = {},
   ) {
     this._restClient = makeServiceClient(endpoint, credential, options);
     this._tracing = createTracingClient({
@@ -137,8 +132,6 @@ export class DocumentAnalysisClient {
       packageVersion: SDK_VERSION,
       namespace: "Microsoft.CognitiveServices",
     });
-
-    this._apiVersion = options.apiVersion ?? DEFAULT_GENERATED_CLIENT_OPTIONS.apiVersion;
   }
 
   // #region Analysis
@@ -197,7 +190,7 @@ export class DocumentAnalysisClient {
     modelId: string,
     document: FormRecognizerRequestBody,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: AnalyzeDocumentOptions
+    options?: AnalyzeDocumentOptions,
   ): Promise<AnalysisPoller>;
   /**
    * Extract data from an input using a model that has a known, strongly-typed document schema (a {@link DocumentModel}).
@@ -255,12 +248,12 @@ export class DocumentAnalysisClient {
     model: DocumentModel<Result>,
     document: FormRecognizerRequestBody,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: AnalyzeDocumentOptions<Result>
+    options?: AnalyzeDocumentOptions<Result>,
   ): Promise<AnalysisPoller<Result>>;
   public async beginAnalyzeDocument(
     model: string | DocumentModel<unknown>,
     document: FormRecognizerRequestBody,
-    options: AnalyzeDocumentOptions<unknown> = {}
+    options: AnalyzeDocumentOptions<unknown> = {},
   ): Promise<AnalysisPoller<unknown>> {
     return this._tracing.withSpan(
       "DocumentAnalysisClient.beginAnalyzeDocument",
@@ -270,8 +263,8 @@ export class DocumentAnalysisClient {
       this.analyze.bind(
         this,
         model,
-        typeof document === "string" ? source("url", document) : source("body", document)
-      )
+        typeof document === "string" ? source("url", document) : source("body", document),
+      ),
     );
   }
 
@@ -329,7 +322,7 @@ export class DocumentAnalysisClient {
     modelId: string,
     documentUrl: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: AnalyzeDocumentOptions
+    options?: AnalyzeDocumentOptions,
   ): Promise<AnalysisPoller>;
   /**
    * Extract data from an input using a model that has a known, strongly-typed document schema (a {@link DocumentModel}).
@@ -383,17 +376,17 @@ export class DocumentAnalysisClient {
     model: DocumentModel<Result>,
     documentUrl: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: AnalyzeDocumentOptions<Result>
+    options?: AnalyzeDocumentOptions<Result>,
   ): Promise<AnalysisPoller<Result>>;
   public async beginAnalyzeDocumentFromUrl(
     model: string | DocumentModel<unknown>,
     documentUrl: string,
-    options: AnalyzeDocumentOptions<unknown> = {}
+    options: AnalyzeDocumentOptions<unknown> = {},
   ): Promise<AnalysisPoller<unknown>> {
     return this._tracing.withSpan(
       "DocumentAnalysisClient.beginAnalyzeDocumentFromUrl",
       options,
-      this.analyze.bind(this, model, source("url", documentUrl))
+      this.analyze.bind(this, model, source("url", documentUrl)),
     );
   }
 
@@ -408,7 +401,7 @@ export class DocumentAnalysisClient {
   private analyze(
     model: string | DocumentModel<unknown>,
     input: DocumentSource,
-    options: AnalyzeDocumentOptions<unknown>
+    options: AnalyzeDocumentOptions<unknown>,
   ) {
     const {
       modelId: initialModelId,
@@ -418,12 +411,13 @@ export class DocumentAnalysisClient {
       ? { modelId: model, apiVersion: undefined, transformResult: (v: AnalyzeResult) => v }
       : model;
 
-    if (requestApiVersion && requestApiVersion !== this._apiVersion) {
+    if (requestApiVersion && requestApiVersion !== FORM_RECOGNIZER_API_VERSION) {
       throw new Error(
         [
-          `API Version mismatch: the provided model wants version: ${requestApiVersion}, but the client is using ${this._apiVersion}.`,
+          `API Version mismatch: the provided model wants version: ${requestApiVersion},`,
+          `but the client is using ${FORM_RECOGNIZER_API_VERSION}.`,
           "The API version of the model must match the client's API version.",
-        ].join("\n")
+        ].join(" "),
       );
     }
 
@@ -441,7 +435,7 @@ export class DocumentAnalysisClient {
         initialModelId,
         options,
         transformResult: (result) => transformResult(toAnalyzeResultFromGenerated(result)),
-      }
+      },
     );
   }
 
@@ -487,12 +481,12 @@ export class DocumentAnalysisClient {
     classifierId: string,
     document: FormRecognizerRequestBody,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options: ClassifyDocumentOptions = {}
+    options: ClassifyDocumentOptions = {},
   ): Promise<AnalysisPoller> {
     return this._tracing.withSpan(
       "DocumentAnalysisClient.beginClassifyDocument",
       options,
-      this.classify.bind(this, classifierId, source("body", document))
+      this.classify.bind(this, classifierId, source("body", document)),
     );
   }
 
@@ -538,12 +532,12 @@ export class DocumentAnalysisClient {
     classifierId: string,
     documentUrl: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options: ClassifyDocumentOptions = {}
+    options: ClassifyDocumentOptions = {},
   ): Promise<AnalysisPoller> {
     return this._tracing.withSpan(
       "DocumentAnalysisClient.beginClassifyDocumentFromUrl",
       options,
-      this.classify.bind(this, classifierId, source("url", documentUrl))
+      this.classify.bind(this, classifierId, source("url", documentUrl)),
     );
   }
 
@@ -557,7 +551,7 @@ export class DocumentAnalysisClient {
   private classify(
     classifierId: string,
     input: DocumentSource,
-    options: ClassifyDocumentOptions
+    options: ClassifyDocumentOptions,
   ): Promise<AnalysisPoller> {
     return this.createUnifiedPoller(
       async (abortSignal) => {
@@ -570,14 +564,14 @@ export class DocumentAnalysisClient {
             ...options,
             abortSignal,
             classifyRequest,
-          }
+          },
         );
       },
       {
         initialModelId: classifierId,
         options,
         transformResult: toAnalyzeResultFromGenerated,
-      }
+      },
     );
   }
 
@@ -592,9 +586,9 @@ export class DocumentAnalysisClient {
    */
   private async createUnifiedPoller<Result>(
     startOperation: (
-      abortSignal: AbortSignalLike | undefined
+      abortSignal: AbortSignalLike | undefined,
     ) => Promise<{ operationLocation?: string }>,
-    definition: AnalysisOperationDefinition<Result>
+    definition: AnalysisOperationDefinition<Result>,
   ): Promise<AnalysisPoller<Result>> {
     const { resumeFrom } = definition.options;
 
@@ -603,7 +597,7 @@ export class DocumentAnalysisClient {
 
     const getAnalyzeResult = (
       ctx: OperationContext,
-      operationLocation: string
+      operationLocation: string,
     ): Promise<AnalyzeResultOperation> =>
       this._tracing.withSpan(
         "DocumentAnalysisClient.createAnalysisPoller-getAnalyzeResult",
@@ -651,8 +645,8 @@ export class DocumentAnalysisClient {
               // URL is fully-formed, so we don't need any query parameters
               headerParameters: [accept1],
               serializer: SERIALIZER,
-            }
-          )
+            },
+          ),
       );
 
     const toInit =
@@ -674,7 +668,7 @@ export class DocumentAnalysisClient {
                     [
                       "Cannot restore poller from a serialized state from a different version of the client",
                       `library (restoreFrom: '${clientVersion}', current: '${SDK_VERSION}').`,
-                    ].join(" ")
+                    ].join(" "),
                   );
                 }
 
@@ -684,9 +678,9 @@ export class DocumentAnalysisClient {
                   definition,
                   modelId,
                   operationLocation,
-                  result
+                  result,
                 );
-              }
+              },
             )
         : // Otherwise, we'll start a new operation from the initialModelId
           async (ctx: OperationContext) =>
@@ -698,7 +692,7 @@ export class DocumentAnalysisClient {
 
                 if (operationLocation === undefined) {
                   throw new Error(
-                    "Unable to start analysis operation: no Operation-Location received."
+                    "Unable to start analysis operation: no Operation-Location received.",
                   );
                 }
 
@@ -708,9 +702,9 @@ export class DocumentAnalysisClient {
                   definition,
                   definition.initialModelId,
                   operationLocation,
-                  result
+                  result,
                 );
-              }
+              },
             );
 
     const poller = await lro<Result, DocumentAnalysisPollOperationState<Result>>(
@@ -727,15 +721,15 @@ export class DocumentAnalysisClient {
                 definition,
                 modelId,
                 operationLocation,
-                result
+                result,
               );
-            }
+            },
           ),
         serialize: ({ operationLocation, modelId }) =>
           JSON.stringify({ clientVersion: SDK_VERSION, id: modelId, operationLocation }),
       },
       definition.options.updateIntervalInMs,
-      definition.options.abortSignal
+      definition.options.abortSignal,
     );
 
     if (definition.options.onProgress !== undefined) {
@@ -754,7 +748,7 @@ export class DocumentAnalysisClient {
  * @internal
  */
 function toAnalyzeRequest(
-  input: DocumentSource
+  input: DocumentSource,
 ): ["application/json", AnalyzeDocumentRequest] | [ContentType, FormRecognizerRequestBody] {
   switch (input.kind) {
     case "body":
@@ -777,7 +771,7 @@ function toAnalyzeRequest(
 
 function source<K extends DocumentSource["kind"]>(
   kind: K,
-  value: Extract<DocumentSource, { kind: K }>[K & keyof Extract<DocumentSource, { kind: K }>]
+  value: Extract<DocumentSource, { kind: K }>[K & keyof Extract<DocumentSource, { kind: K }>],
 ): DocumentSource {
   return {
     kind,

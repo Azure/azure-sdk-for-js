@@ -74,6 +74,6 @@ describe("networkfunction test", () => {
 
   it("azureTrafficCollector delete test", async function () {
     const resArray = new Array();
-    const res = await client.azureTrafficCollectors.beginDeleteAndWait(resourceGroup, azureTrafficCollectorName)
+    const res = await client.azureTrafficCollectors.beginDeleteAndWait(resourceGroup, azureTrafficCollectorName, testPollingOptions)
   });
 })

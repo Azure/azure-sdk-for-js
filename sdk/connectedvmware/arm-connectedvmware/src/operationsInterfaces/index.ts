@@ -7,7 +7,6 @@
  */
 
 export * from "./operations";
-export * from "./virtualMachines";
 export * from "./resourcePools";
 export * from "./clusters";
 export * from "./hosts";
@@ -16,6 +15,6 @@ export * from "./vCenters";
 export * from "./virtualMachineTemplates";
 export * from "./virtualNetworks";
 export * from "./inventoryItems";
-export * from "./hybridIdentityMetadataOperations";
-export * from "./machineExtensions";
-export * from "./guestAgents";
+export * from "./virtualMachineInstances";
+export * from "./vmInstanceHybridIdentityMetadataOperations";
+export * from "./vMInstanceGuestAgents";

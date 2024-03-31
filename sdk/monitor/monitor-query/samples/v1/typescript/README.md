@@ -4,9 +4,10 @@ These sample programs show how to use the TypeScript client libraries for Monito
 
 | **File Name**                                                 | **Description**                                                         |
 | ------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| [logsQuery.ts][logsquery]                                     | Demonstrates how to run a query against a Log Analytics workspace       |
+| [logsQuery.ts][logsquery]                                     | Demonstrates how to run a query against a Log Analytics workspace, using a workspace ID      |
 | [logsQueryBatch.ts][logsquerybatch]                           | Demonstrates how to run a batch query against a Log Analytics workspace |
 | [logsQueryMultipleWorkspaces.ts][logsquerymultipleworkspaces] | Demonstrates how to run a query against a Log Analytics workspace       |
+| [logsResourceCentricQuery.ts][logsresourcecentricquery]       | Demonstrates how to run a query against a Log Analytics workspace, using an Azure resource ID            |
 | [metricsQuery.ts][metricsquery]                               | Demonstrates how to query metrics using the MetricsClient.              |
 
 ## Prerequisites
@@ -64,9 +65,10 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [logsquery]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQuery.ts
 [logsquerybatch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQueryBatch.ts
 [logsquerymultipleworkspaces]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQueryMultipleWorkspaces.ts
+[logsresourcecentricquery]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/logsResourceCentricQuery.ts
 [metricsquery]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/metricsQuery.ts
-[apiref]: https://docs.microsoft.com/javascript/api/
+[apiref]: https://learn.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azuremonitor]: https://docs.microsoft.com/azure/azure-monitor/
+[createinstance_azuremonitor]: https://learn.microsoft.com/azure/azure-monitor/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-query/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

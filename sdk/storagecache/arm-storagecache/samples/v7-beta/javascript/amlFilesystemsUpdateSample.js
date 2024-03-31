@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update an AML file system instance.
  *
  * @summary Update an AML file system instance.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-03-01-preview/examples/amlFilesystems_Update.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-11-01-preview/examples/amlFilesystems_Update.json
  */
 async function amlFilesystemsUpdate() {
   const subscriptionId =
@@ -33,6 +33,12 @@ async function amlFilesystemsUpdate() {
       },
     },
     maintenanceWindow: { dayOfWeek: "Friday", timeOfDayUTC: "22:00" },
+    rootSquashSettings: {
+      mode: "All",
+      noSquashNidLists: "10.0.0.[5-6]@tcp;10.0.1.2@tcp",
+      squashGID: 99,
+      squashUID: 99,
+    },
     tags: { dept: "ContosoAds" },
   };
   const credential = new DefaultAzureCredential();
@@ -40,7 +46,7 @@ async function amlFilesystemsUpdate() {
   const result = await client.amlFilesystems.beginUpdateAndWait(
     resourceGroupName,
     amlFilesystemName,
-    amlFilesystem
+    amlFilesystem,
   );
   console.log(result);
 }

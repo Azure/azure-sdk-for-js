@@ -27,7 +27,7 @@ import {
 export interface Logger {
   /**
    * Lists a collection of loggers in the specified service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -38,7 +38,7 @@ export interface Logger {
   ): PagedAsyncIterableIterator<LoggerContract>;
   /**
    * Gets the entity state (Etag) version of the logger specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param loggerId Logger identifier. Must be unique in the API Management service instance.
    * @param options The options parameters.
@@ -51,7 +51,7 @@ export interface Logger {
   ): Promise<LoggerGetEntityTagResponse>;
   /**
    * Gets the details of the logger specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param loggerId Logger identifier. Must be unique in the API Management service instance.
    * @param options The options parameters.
@@ -64,7 +64,7 @@ export interface Logger {
   ): Promise<LoggerGetResponse>;
   /**
    * Creates or Updates a logger.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param loggerId Logger identifier. Must be unique in the API Management service instance.
    * @param parameters Create parameters.
@@ -79,7 +79,7 @@ export interface Logger {
   ): Promise<LoggerCreateOrUpdateResponse>;
   /**
    * Updates an existing logger.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param loggerId Logger identifier. Must be unique in the API Management service instance.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -97,7 +97,7 @@ export interface Logger {
   ): Promise<LoggerUpdateResponse>;
   /**
    * Deletes the specified logger.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param loggerId Logger identifier. Must be unique in the API Management service instance.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header

@@ -23,8 +23,7 @@ import {
 export interface WebPubSubPrivateEndpointConnections {
   /**
    * List private endpoint connections
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -35,9 +34,9 @@ export interface WebPubSubPrivateEndpointConnections {
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /**
    * Get the specified private endpoint connection
-   * @param privateEndpointConnectionName The name of the private endpoint connection
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
+   *                                      Azure resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -49,9 +48,9 @@ export interface WebPubSubPrivateEndpointConnections {
   ): Promise<WebPubSubPrivateEndpointConnectionsGetResponse>;
   /**
    * Update the state of specified private endpoint connection
-   * @param privateEndpointConnectionName The name of the private endpoint connection
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
+   *                                      Azure resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters The resource of private endpoint and its properties
    * @param options The options parameters.
@@ -65,9 +64,9 @@ export interface WebPubSubPrivateEndpointConnections {
   ): Promise<WebPubSubPrivateEndpointConnectionsUpdateResponse>;
   /**
    * Delete the specified private endpoint connection
-   * @param privateEndpointConnectionName The name of the private endpoint connection
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
+   *                                      Azure resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -79,9 +78,9 @@ export interface WebPubSubPrivateEndpointConnections {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the specified private endpoint connection
-   * @param privateEndpointConnectionName The name of the private endpoint connection
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
+   *                                      Azure resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */

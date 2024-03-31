@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SparkConfigurationResource,
   SparkConfigurationGetSparkConfigurationsByWorkspaceOptionalParams,
@@ -41,8 +41,8 @@ export interface SparkConfigurationOperations {
     sparkConfiguration: SparkConfigurationResource,
     options?: SparkConfigurationCreateOrUpdateSparkConfigurationOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
+    SimplePollerLike<
+      OperationState<
         SparkConfigurationCreateOrUpdateSparkConfigurationResponse
       >,
       SparkConfigurationCreateOrUpdateSparkConfigurationResponse
@@ -76,7 +76,7 @@ export interface SparkConfigurationOperations {
   beginDeleteSparkConfiguration(
     sparkConfigurationName: string,
     options?: SparkConfigurationDeleteSparkConfigurationOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a sparkConfiguration.
    * @param sparkConfigurationName The spark Configuration name.
@@ -96,7 +96,7 @@ export interface SparkConfigurationOperations {
     sparkConfigurationName: string,
     request: ArtifactRenameRequest,
     options?: SparkConfigurationRenameSparkConfigurationOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Renames a sparkConfiguration.
    * @param sparkConfigurationName The spark Configuration name.

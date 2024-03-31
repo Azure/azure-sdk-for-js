@@ -17,7 +17,7 @@ export interface AnomalyDetectorRestClientOptions extends ClientOptions {
 export default function createClient(
   Endpoint: string,
   credentials: KeyCredential,
-  options: AnomalyDetectorRestClientOptions = {}
+  options: AnomalyDetectorRestClientOptions = {},
 ): AnomalyDetectorRestClient {
   const ApiVersion = options.ApiVersion ?? "v1.1";
   const baseUrl = options.baseUrl ?? `${Endpoint}/anomalydetector/${ApiVersion}`;

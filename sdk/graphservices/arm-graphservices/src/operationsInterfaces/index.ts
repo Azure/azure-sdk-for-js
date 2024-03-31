@@ -7,5 +7,4 @@
  */
 
 export * from "./accounts";
-export * from "./account";
-export * from "./operationOperations";
+export * from "./operations";

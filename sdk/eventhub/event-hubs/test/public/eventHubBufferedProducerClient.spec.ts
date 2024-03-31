@@ -43,11 +43,11 @@ testWithServiceTypes((serviceVersion) => {
     before(() => {
       assert.exists(
         connectionString,
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
       );
       assert.exists(
         eventHubName,
-        "define EVENTHUB_NAME in your environment before running integration tests."
+        "define EVENTHUB_NAME in your environment before running integration tests.",
       );
     });
 
@@ -56,6 +56,20 @@ testWithServiceTypes((serviceVersion) => {
         await client.close();
         client = undefined;
       }
+    });
+
+    describe("client options", function (): void {
+      it("the identifier option can be set", async function (): Promise<void> {
+        const identifier = "Test1";
+        client = new EventHubBufferedProducerClient(connectionString, eventHubName, {
+          identifier,
+          async onSendEventsErrorHandler() {
+            throw new Error("Should not have been called");
+          },
+          maxWaitTimeInMs: 1000,
+        });
+        client.identifier.should.equal(identifier, "The client identifier wasn't set correctly");
+      });
     });
 
     describe("enqueueEvent", () => {
@@ -179,7 +193,7 @@ testWithServiceTypes((serviceVersion) => {
         assert.deepEqual(
           resultEnqueued,
           testEvents,
-          "Expected enqueued events to match test events."
+          "Expected enqueued events to match test events.",
         );
         assert.deepEqual(resultSuccess, testEvents, "Expected sent events to match test events.");
       });

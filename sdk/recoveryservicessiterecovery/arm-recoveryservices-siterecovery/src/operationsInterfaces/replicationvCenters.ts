@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VCenter,
   ReplicationvCentersListByReplicationFabricsOptionalParams,
@@ -20,7 +20,7 @@ import {
   ReplicationvCentersDeleteOptionalParams,
   UpdateVCenterRequest,
   ReplicationvCentersUpdateOptionalParams,
-  ReplicationvCentersUpdateResponse
+  ReplicationvCentersUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,7 +38,7 @@ export interface ReplicationvCenters {
     resourceName: string,
     resourceGroupName: string,
     fabricName: string,
-    options?: ReplicationvCentersListByReplicationFabricsOptionalParams
+    options?: ReplicationvCentersListByReplicationFabricsOptionalParams,
   ): PagedAsyncIterableIterator<VCenter>;
   /**
    * Lists the vCenter servers registered in the vault.
@@ -50,7 +50,7 @@ export interface ReplicationvCenters {
   list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationvCentersListOptionalParams
+    options?: ReplicationvCentersListOptionalParams,
   ): PagedAsyncIterableIterator<VCenter>;
   /**
    * Gets the details of a registered vCenter server(Add vCenter server).
@@ -66,7 +66,7 @@ export interface ReplicationvCenters {
     resourceGroupName: string,
     fabricName: string,
     vcenterName: string,
-    options?: ReplicationvCentersGetOptionalParams
+    options?: ReplicationvCentersGetOptionalParams,
   ): Promise<ReplicationvCentersGetResponse>;
   /**
    * The operation to create a vCenter object..
@@ -84,10 +84,10 @@ export interface ReplicationvCenters {
     fabricName: string,
     vcenterName: string,
     addVCenterRequest: AddVCenterRequest,
-    options?: ReplicationvCentersCreateOptionalParams
+    options?: ReplicationvCentersCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationvCentersCreateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationvCentersCreateResponse>,
       ReplicationvCentersCreateResponse
     >
   >;
@@ -107,7 +107,7 @@ export interface ReplicationvCenters {
     fabricName: string,
     vcenterName: string,
     addVCenterRequest: AddVCenterRequest,
-    options?: ReplicationvCentersCreateOptionalParams
+    options?: ReplicationvCentersCreateOptionalParams,
   ): Promise<ReplicationvCentersCreateResponse>;
   /**
    * The operation to remove(unregister) a registered vCenter server from the vault.
@@ -123,8 +123,8 @@ export interface ReplicationvCenters {
     resourceGroupName: string,
     fabricName: string,
     vcenterName: string,
-    options?: ReplicationvCentersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ReplicationvCentersDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to remove(unregister) a registered vCenter server from the vault.
    * @param resourceName The name of the recovery services vault.
@@ -139,7 +139,7 @@ export interface ReplicationvCenters {
     resourceGroupName: string,
     fabricName: string,
     vcenterName: string,
-    options?: ReplicationvCentersDeleteOptionalParams
+    options?: ReplicationvCentersDeleteOptionalParams,
   ): Promise<void>;
   /**
    * The operation to update a registered vCenter.
@@ -157,10 +157,10 @@ export interface ReplicationvCenters {
     fabricName: string,
     vcenterName: string,
     updateVCenterRequest: UpdateVCenterRequest,
-    options?: ReplicationvCentersUpdateOptionalParams
+    options?: ReplicationvCentersUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationvCentersUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationvCentersUpdateResponse>,
       ReplicationvCentersUpdateResponse
     >
   >;
@@ -180,6 +180,6 @@ export interface ReplicationvCenters {
     fabricName: string,
     vcenterName: string,
     updateVCenterRequest: UpdateVCenterRequest,
-    options?: ReplicationvCentersUpdateOptionalParams
+    options?: ReplicationvCentersUpdateOptionalParams,
   ): Promise<ReplicationvCentersUpdateResponse>;
 }

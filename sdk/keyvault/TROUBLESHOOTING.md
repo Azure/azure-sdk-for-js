@@ -6,22 +6,26 @@ common to these SDKs.
 
 For any package-specific troubleshooting guides, see any of the following:
 
-* [Troubleshooting Azure Key Vault Administration SDK Issues](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/TROUBLESHOOTING.md)
-* [Troubleshooting Azure Key Vault Certificates SDK Issues](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/TROUBLESHOOTING.md)
-* [Troubleshooting Azure Key Vault Keys SDK Issues](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/TROUBLESHOOTING.md)
-* [Troubleshooting Azure Key Vault Secrets SDK Issues](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/TROUBLESHOOTING.md)
+- [Troubleshooting Azure Key Vault Administration SDK Issues](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/TROUBLESHOOTING.md)
+- [Troubleshooting Azure Key Vault Certificates SDK Issues](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/TROUBLESHOOTING.md)
+- [Troubleshooting Azure Key Vault Keys SDK Issues](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/TROUBLESHOOTING.md)
+- [Troubleshooting Azure Key Vault Secrets SDK Issues](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/TROUBLESHOOTING.md)
 
 ## Table of Contents
 
-* [Troubleshooting Authentication Issues](#troubleshooting-authentication-issues)
-  * [HTTP 401 Errors](#http-401-errors)
-    * [Frequent HTTP 401 Errors in Logs](#frequent-http-401-errors-in-logs)
-    * [AKV10032: Invalid issuer](#akv10032-invalid-issuer)
-    * [Other Authentication Issues](#other-authentication-issues)
-  * [HTTP 403 Errors](#http-403-errors)
-    * [Operation Not Permitted](#operation-not-permitted)
-* [Other Service Errors](#other-service-errors)
-  * [HTTP 429: Too Many Request](#http-429-too-many-requests)
+- [Troubleshooting Authentication Issues](#troubleshooting-authentication-issues)
+  - [HTTP 401 Errors](#http-401-errors)
+    - [Frequent HTTP 401 Errors in Logs](#frequent-http-401-errors-in-logs)
+    - [AKV10032: Invalid issuer](#akv10032-invalid-issuer)
+    - [Other Authentication Issues](#other-authentication-issues)
+  - [HTTP 403 Errors](#http-403-errors)
+    - [Operation Not Permitted](#operation-not-permitted)
+  - [Other Authentication Errors](#other-authentication-errors)
+    - [Multi-tenant Authentication Issues](#multi-tenant-authentication-issues)
+    - [Incorrect Challenge Resource](#incorrect-challenge-resource)
+- [Other Service Errors](#other-service-errors)
+  - [HTTP 429: Too Many Requests](#http-429-too-many-requests)
+- [Support](#support)
 
 ## Troubleshooting Authentication Issues
 
@@ -57,12 +61,12 @@ under the wrong tenant even though you're logged into the Azure CLI under the ri
 Automatic tenant discovery support has been added when referencing package `@azure/identity` version
 2.0.0 or newer, and any of the following Key Vault SDK package versions or newer:
 
-Package | Minimum Version
---- | ---
-`@azure/keyvault-admin` | 4.2.0
-`@azure/keyvault-certificates` | 4.4.0
-`@azure/keyvault-keys` | 4.4.0
-`@azure/keyvault-secrets` | 4.4.0
+| Package                        | Minimum Version |
+| ------------------------------ | --------------- |
+| `@azure/keyvault-admin`        | 4.2.0           |
+| `@azure/keyvault-certificates` | 4.4.0           |
+| `@azure/keyvault-keys`         | 4.4.0           |
+| `@azure/keyvault-secrets`      | 4.4.0           |
 
 Upgrading to these package versions should resolve any "Invalid Issuer" errors as long as the application or user is a member of the resource's tenant.
 
@@ -93,10 +97,41 @@ The message and inner `code` may vary, but the rest of the text will indicate wh
 This error indicates that the authenticated application or user does not have permissions to perform that operation, though the cause may vary.
 
 1. Check that the application or user has the appropriate permissions:
-    * [Access policies](https://docs.microsoft.com/azure/key-vault/general/assign-access-policy) (Key Vault)
-    * [Role-Based Access Control (RBAC)](https://docs.microsoft.com/azure/key-vault/general/rbac-guide) (Key Vault and Managed HSM)
+   - [Access policies](https://docs.microsoft.com/azure/key-vault/general/assign-access-policy) (Key Vault)
+   - [Role-Based Access Control (RBAC)](https://docs.microsoft.com/azure/key-vault/general/rbac-guide) (Key Vault and Managed HSM)
 2. If the appropriate permissions are assigned to your application or user, make sure you are authenticating as that user.
-    * If using the [DefaultAzureCredential] a different credential might've been used than one you expected. [Enable logging](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md#logging) and you will see which credential the [DefaultAzureCredential] used as shown below, and why previously-attempted credentials were rejected.
+   - Are you using [DefaultAzureCredential]? If so, ensure that it is selecting the correct underlying credential type. [Enable logging](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md#logging) to see which credential type was used.
+
+### Other Authentication Errors
+
+See the [`@azure/identity` troubleshooting guide][identity-troubleshooting-guide] for general guidance on authentication errors.
+
+#### Multi-tenant Authentication Issues
+
+If a `CredentialUnavailableError` message is thrown with a message similar to:
+
+> The current credential is not configured to acquire tokens for tenant
+
+See our [troubleshooting guide for multi-tenant authentication issues](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/TROUBLESHOOTING.md#troubleshoot-multi-tenant-authentication-issues).
+Read our [release notes](https://aka.ms/azsdk/blog/multi-tenant-guidance) for more information about this change.
+
+#### Incorrect Challenge Resource
+
+If an `Error` is thrown with a message similar to:
+
+> The challenge resource 'myvault.vault.azure.net' does not match the requested domain. Set disableChallengeResourceVerification to true in your client options to disable. See https://aka.ms/azsdk/blog/vault-uri for more information.
+
+Check that the resource is as expected - that you're not receiving a challenge from an unknown host which may indicate an incorrect request URI.
+
+If it is correct but you are using a mock service or non-transparent proxy for testing, set `disableChallengeResourceVerification` to `true` in your client options:
+
+```typescript
+const client = new SecretClient(vaultUri, credential, {
+  disableChallengeResourceVerification: true,
+});
+```
+
+Read our [release notes](https://aka.ms/azsdk/blog/vault-uri) for more information on this change.
 
 ## Other Service Errors
 
@@ -115,4 +150,9 @@ Possible solutions include:
 
 See our [Azure Key Vault throttling guide](https://docs.microsoft.com/azure/key-vault/general/overview-throttling) for more information.
 
+## Support
+
+For additional support, please search our [existing issues](https://github.com/Azure/azure-sdk-for-js/issues) or [open a new issue](https://github.com/Azure/azure-sdk-for-net/issues/new/choose). You may also find existing answers on community sites like [Stack Overflow](https://stackoverflow.com/questions/tagged/azure-keyvault+node.js).
+
 [DefaultAzureCredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md#defaultazurecredential
+[identity-troubleshooting-guide]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/TROUBLESHOOTING.md

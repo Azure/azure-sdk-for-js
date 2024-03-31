@@ -38,7 +38,7 @@ export class DelegationSettingsImpl implements DelegationSettings {
 
   /**
    * Gets the entity state (Etag) version of the DelegationSettings.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -55,7 +55,7 @@ export class DelegationSettingsImpl implements DelegationSettings {
 
   /**
    * Get Delegation Settings for the Portal.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -72,7 +72,7 @@ export class DelegationSettingsImpl implements DelegationSettings {
 
   /**
    * Update Delegation settings.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    *                response of the GET request or it should be * for unconditional update.
@@ -94,7 +94,7 @@ export class DelegationSettingsImpl implements DelegationSettings {
 
   /**
    * Create or Update Delegation settings.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param parameters Create or update parameters.
    * @param options The options parameters.
@@ -113,7 +113,7 @@ export class DelegationSettingsImpl implements DelegationSettings {
 
   /**
    * Gets the secret validation key of the DelegationSettings.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -186,7 +186,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters51,
+  requestBody: Parameters.parameters62,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -214,7 +214,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters51,
+  requestBody: Parameters.parameters62,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

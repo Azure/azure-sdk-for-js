@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all of the available SQL Virtual Machine Rest API operations.
  *
  * @summary Lists all of the available SQL Virtual Machine Rest API operations.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-07-01-preview/examples/ListOperation.json
+ * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/ListOperation.json
  */
 async function listsAllOfTheAvailableSqlVirtualMachineRestApiOperations() {
   const subscriptionId =

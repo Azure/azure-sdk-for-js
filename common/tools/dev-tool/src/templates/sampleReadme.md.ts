@@ -1,12 +1,10 @@
 // Copyright (c) Microsoft corporation.
 // Licensed under the MIT license.
 
-import path from "path";
+import path from "node:path";
 import YAML from "yaml";
-
-import prettier from "prettier";
-
 import { SampleReadmeConfiguration } from "../util/samples/info";
+import { format } from "../util/prettier";
 
 /**
  * Renders the frontmatter of the sample README.
@@ -58,7 +56,7 @@ function fileLinks(info: SampleReadmeConfiguration) {
         ? relativeSourcePath
         : relativeSourcePath.replace(/\.ts$/, ".js");
       return `[${sampleLinkTag(
-        relativeSourcePath
+        relativeSourcePath,
       )}]: https://github.com/Azure/azure-sdk-for-js/blob/main/${packageSamplesPathFragment}/${sourcePath}`;
     })
     .join("\n");
@@ -132,7 +130,7 @@ function table(info: SampleReadmeConfiguration) {
  */
 function exampleNodeInvocation(info: SampleReadmeConfiguration) {
   const firstModule = filterModules(info)[0];
-  const envVars = firstModule.usedEnvironmentVariables
+  const envVars = [...new Set(firstModule.usedEnvironmentVariables)]
     .map((envVar) => `${envVar}="<${envVar.replace(/_/g, " ").toLowerCase()}>"`)
     .join(" ");
 
@@ -156,13 +154,13 @@ function createReadmeLink(info: SampleReadmeConfiguration) {
 /**
  * Creates a README for a sample package from a SampleReadmeConfiguration.
  */
-export default (info: SampleReadmeConfiguration): string => {
+export default (info: SampleReadmeConfiguration): Promise<string> => {
   let stepCount = 1;
   const step = (content: string) => `${stepCount++}. ${content}`;
 
   const language = info.useTypeScript ? "TypeScript" : "JavaScript";
 
-  return prettier.format(
+  return format(
     `${formatFrontmatter(info.frontmatter)}\
 # ${info.productName} client library samples for ${language}${info.isBeta ? " (Beta)" : ""}
 
@@ -213,11 +211,11 @@ ${(() => {
   }
 })()}
 ${step(
-  "Edit the file `sample.env`, adding the correct credentials to access the Azure service and run the samples. Then rename the file from `sample.env` to just `.env`. The sample programs will read this file automatically."
+  "Edit the file `sample.env`, adding the correct credentials to access the Azure service and run the samples. Then rename the file from `sample.env` to just `.env`. The sample programs will read this file automatically.",
 )}
 
 ${step(
-  "Run whichever samples you like (note that some samples may require additional setup, see the table above):"
+  "Run whichever samples you like (note that some samples may require additional setup, see the table above):",
 )}
 
 ${fence(
@@ -226,7 +224,7 @@ ${fence(
     const firstSource = filterModules(info)[0].relativeSourcePath;
     const filePath = info.useTypeScript ? "dist/" : "";
     return filePath + firstSource.replace(/\.ts$/, ".js");
-  })()}`
+  })()}`,
 )}
 
 Alternatively, run a single sample with the correct environment variables set (setting up the \`.env\` file is not required if you do this), for example (cross-platform):
@@ -246,8 +244,6 @@ ${resourceLinks(info)}
 [package]: ${createReadmeLink(info)}
 ${info.useTypeScript ? "[typescript]: https://www.typescriptlang.org/docs/home.html\n" : ""}\
 `,
-    {
-      parser: "markdown",
-    }
+    "markdown",
   );
 };

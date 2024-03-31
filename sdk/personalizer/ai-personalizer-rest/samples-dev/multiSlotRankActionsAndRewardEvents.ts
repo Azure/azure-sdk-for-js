@@ -92,6 +92,6 @@ function log(message: string) {
 
 main().catch((err: PersonalizerErrorOutput) => {
   console.error(
-    `The sample encountered an error with code: ${err.code} and message: ${err.message}`
+    `The sample encountered an error with code: ${err.code} and message: ${err.message}`,
   );
 });

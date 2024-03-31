@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Resumes client access to a previously suspended storage target.
  *
  * @summary Resumes client access to a previously suspended storage target.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-03-01-preview/examples/StorageTargets_Resume.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-11-01-preview/examples/StorageTargets_Resume.json
  */
 async function storageTargetsResume() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function storageTargetsResume() {
   const result = await client.storageTargetOperations.beginResumeAndWait(
     resourceGroupName,
     cacheName,
-    storageTargetName
+    storageTargetName,
   );
   console.log(result);
 }

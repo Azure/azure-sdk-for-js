@@ -67,7 +67,7 @@ async function main() {
     console.log(`Uploading data into a blob...`);
 
     // Get input data blob Uri with SAS key
-    const blobName = "myjobinput.json";
+    const blobName = "myjobinput.bc";
     const inputDataUri = (
       await quantumJobClient.storage.sasUri({
         containerName: storageContainerName,
@@ -77,9 +77,14 @@ async function main() {
 
     // Upload input data to blob
     const blobClient = new BlockBlobClient(inputDataUri);
-    const problemFilename = "problem.json";
+    const problemFilename = "BellState.bc";
     const fileContent = fs.readFileSync(problemFilename, "utf8");
-    await blobClient.upload(fileContent, Buffer.byteLength(fileContent));
+    const blobOptions = {
+      blobHTTPHeaders: {
+        blobContentType: "qir.v1",
+      },
+    };
+    await blobClient.upload(fileContent, Buffer.byteLength(fileContent), blobOptions);
 
     console.log(`Input data Uri with SAS key:
   ${inputDataUri}
@@ -92,10 +97,15 @@ async function main() {
     // Submit job
     const jobId = `job-${randomId}`;
     const jobName = `jobName-${randomId}`;
-    const inputDataFormat = "microsoft.qio.v2";
-    const outputDataFormat = "microsoft.qio-results.v2";
-    const providerId = "microsoft";
-    const target = "microsoft.paralleltempering-parameterfree.cpu";
+    const inputDataFormat = "qir.v1";
+    const outputDataFormat = "microsoft.quantum-results.v1";
+    const providerId = "quantinuum";
+    const target = "quantinuum.sim.h1-1e";
+    const inputParams = {
+      "entryPoint": "ENTRYPOINT__BellState",
+      "arguments": [],
+      "targetCapability": "AdaptiveExecution",    
+    };
     const createJobDetails = {
       containerUri: containerUri,
       inputDataFormat: inputDataFormat,
@@ -104,7 +114,8 @@ async function main() {
       id: jobId,
       inputDataUri: inputDataUri,
       name: jobName,
-      outputDataFormat: outputDataFormat
+      outputDataFormat: outputDataFormat,
+      inputParams: inputParams
     };
     const createdJob = await quantumJobClient.jobs.create(jobId, createJobDetails);
 

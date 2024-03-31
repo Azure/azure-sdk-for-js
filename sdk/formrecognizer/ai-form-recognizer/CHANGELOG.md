@@ -1,5 +1,40 @@
 # Release History
 
+## 5.0.0 (2023-08-08)
+
+### Features Added
+
+- Updated the SDK to use the latest Generally Available (GA) version of the Form Recognizer REST API: `2023-07-31`.
+- `AnalyzeDocumentOptions.features` accepts three new features compared to the last beta version:
+  - `barcodes`: enables the detection of barcodes in the document.
+  - `keyValuePairs`: enable the detection of general key value pairs (form fields) in the document.
+  - `languages`: enables the detection of the text content language.
+- `beginBuildDocumentModel` has a new overload that accepts a `DocumentModelSource` in place of a raw `containerUrl`. This allows training document models using the new Blob File List source (that is already supported by document classifiers). Like with classifiers, the source inputs are specified as an object containing an `azureFileListSource` property or an `azureBlobSource` property containing the respective details of each source type.
+
+### Breaking Changes
+
+From the last stable release (4.0.0):
+
+- Support for passing alternative API versions has been removed from the client. In practice, the client only supported
+  using a single API version, but types and options for specifying an API version were provided. In version 5.0.0, these options and their associated types were removed:
+  - The `apiVersion` option that was previously accepted by the `DocumentAnalysisClient` and `DocumentModelAdministrationClient` constructors was removed. This option previously only had one valid value in version 4.0.0, and supporting multiple API versions in a single package weakens the type constraints, so we have chosen to only support the latest Generally Available version of the service in this SDK package. Support for multiple API versions may be reintroduced in a future version.
+  - The `FormRecognizerApiVersion` type and enum were removed as they no longer serve any purpose.
+  - The type of `apiVersion` properties of result objects was changed from `FormRecognizerApiVersion` to `string`. This type is more accurate, as these fields reflect the API version used to create the model or start the analysis operation, and not necessarily an API version that the client instance is aware of.
+  - The `FormRecognizerCommonClientOptions` interface, which both `DocumentAnalysisClientOptions` and `DocumentModelAdministrationClientOptions` inherited from was removed, as it only carried the `apiVersion` option that no longer exists.
+- The `languages` and `keyValuePairs` properties of `AnalyzeResult` that were previously returned when using the `prebuilt-document` model are no longer returned unless the corresponding `features` are specified when making the analysis request.
+
+From the last beta release (4.1.0-beta.1):
+
+- `AnalyzeDocumentOptions.features` changed the following feature names:
+  - `ocr.highResolution` renamed to `ocrHighResolution`.
+  - `ocr.formula` renamed to `formulas`.
+  - `ocr.font` renamed to `styleFont`.
+- The following fields have been removed:
+  - `AnalyzeDocumentOptions.queryFields`
+  - `DocumentPage.kind` and `DocumentPage.images` (`DocumentPageKind` and `DocumentImage` types have been removed too.)
+  - `DocumentKeyValuePair.commonName`
+- The type of the `docTypes` parameter of `beginBuildDocumentClassifier` was refined slightly. The type will no longer accept _both_ `azureBlobSource` and `azureFileListSource`
+
 ## 4.1.0-beta.1 (2023-04-11)
 
 ### Features Added
@@ -148,7 +183,7 @@
 
 ## 4.0.0-beta.1 (2021-10-07)
 
-This new major version beta introduces a full redesign of the Azure Form Recognizer client library. To leverage features of the newest Form Recognizer service API (version "2021-09-30-preview" and newer), the new SDK is required, and application code must be changed to use the new clients. Please see the [Migration Guide](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/MIGRATION-v3_v4.md) for detailed instructions on how to update application code from version 3.x of the Form Recognizer SDK to the new version (4.x). The following sections contain an outline of the changes.
+This new major version beta introduces a full redesign of the Azure Form Recognizer client library. To leverage features of the newest Form Recognizer service API (version "2021-09-30-preview" and newer), the new SDK is required, and application code must be changed to use the new clients. Please see the [Migration Guide](https://github.com/Azure/azure-sdk-for-js/blob/09eeb926e5c632ec27b386b47adb33f1a893aeb6/sdk/formrecognizer/ai-form-recognizer/MIGRATION-v3_v4.md) for detailed instructions on how to update application code from version 3.x of the Form Recognizer SDK to the new version (4.x). The following sections contain an outline of the changes.
 
 ### Breaking Changes
 
@@ -168,7 +203,7 @@ This new major version beta introduces a full redesign of the Azure Form Recogni
   - Custom models no longer have a name that is distinct from the model ID (more accurately, the model ID and name have been unified).
   - You must now specify a model ID to create a model (whether composed, copied, or built). Previously, the Form Recognizer service would generate a GUID for the newly-created model. Now, the model ID may be any text (so long as it does not start with "prebuilt-"), and it must be provided when the model is created.
   - The `ModelInfo` type (previously `CustomFormModelInfo`) has been redesigned. It no longer contains `trainingDocuments`, and it has a property called `docTypes` that contains the information previously contained in `submodels`, but with a different shape. Please refer to the documentation for more information, as this type has changed significantly.
-- The structure of many output types has changed. The full list of changes is extensive and discussed in depth in [the migration guide](https://github.com/azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/MIGRATION-v3_v4.md). The following are some of the changes:
+- The structure of many output types has changed. The full list of changes is extensive and discussed in depth in [the migration guide](https://github.com/Azure/azure-sdk-for-js/blob/09eeb926e5c632ec27b386b47adb33f1a893aeb6/sdk/formrecognizer/ai-form-recognizer/MIGRATION-v3_v4.md). The following are some of the changes:
   - When analyzing a document, the output is no longer an array of `RecognizedForm`s. All analysis methods&mdash;including custom/prebuilt model analysis, layout, and the generic document model&mdash;produce an `AnalyzeResult` or a subset thereof. The `AnalyzeResult` has fields for `pages`, `tables`, `styles`, `entities`, `keyValuePairs`, and `documents`. The `beginExtractLayout` and `beginExtractGenericDocument` methods produce subtypes (`LayoutResult` and `GenericDocumentResult` respectively) of `AnalyzeResult` that contain only those fields that are produced by that model. The list of changes within these types is extensive, as they have been redesigned. Please consult the documentation for more information.
   - The new type `AnalyzedDocument` replaces `RecognizedForm`. It does not contain a `pages` property, as `pages` are now a top-level property of the `AnalyzeResult`.
   - The new type `DocumentPage` replaces `FormPage`. It does not have a `tables` property, as `tables` are now a top-level property of the `AnalyzeResult`.

@@ -5,6 +5,7 @@
 ```ts
 
 import { CommonClientOptions } from '@azure/core-client';
+import * as coreClient from '@azure/core-client';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { TokenCredential } from '@azure/core-auth';
@@ -20,9 +21,9 @@ export const Durations: {
     readonly oneDay: "P1D";
     readonly oneHour: "PT1H";
     readonly fourHours: "PT4H";
-    readonly twentyFourHours: "P24H";
-    readonly fortyEightHours: "P48H";
-    readonly fourtyEightHours: "P48H";
+    readonly twentyFourHours: "PT24H";
+    readonly fortyEightHours: "PT48H";
+    readonly fourtyEightHours: "PT48H";
     readonly thirtyMinutes: "PT30M";
     readonly fiveMinutes: "PT5M";
 };
@@ -173,6 +174,12 @@ export interface MetricNamespace {
 }
 
 // @public
+export class MetricsClient {
+    constructor(endpoint: string, tokenCredential: TokenCredential, options?: CommonClientOptions);
+    queryResources(resourceIds: string[], metricNames: string[], metricNamespace: string, options?: MetricsQueryResourcesOptions): Promise<MetricsQueryResult[]>;
+}
+
+// @public
 export interface MetricsClientOptions extends CommonClientOptions {
     endpoint?: string;
 }
@@ -188,12 +195,27 @@ export class MetricsQueryClient {
 // @public
 export interface MetricsQueryOptions extends OperationOptions {
     aggregations?: AggregationType[];
+    autoAdjustTimegrain?: boolean;
     filter?: string;
     granularity?: string;
     metricNamespace?: string;
     orderBy?: string;
     resultType?: ResultType;
+    rollUpBy?: string;
     timespan?: QueryTimeInterval;
+    top?: number;
+    validateDimensions?: boolean;
+}
+
+// @public
+export interface MetricsQueryResourcesOptions extends coreClient.OperationOptions {
+    aggregation?: string;
+    endTime?: Date;
+    filter?: string;
+    interval?: string;
+    orderBy?: string;
+    rollUpBy?: string;
+    startTime?: Date;
     top?: number;
 }
 
@@ -204,6 +226,7 @@ export interface MetricsQueryResult {
     granularity?: string;
     metrics: Metric[];
     namespace?: string;
+    resourceId?: string;
     resourceRegion?: string;
     timespan: QueryTimeInterval;
 }

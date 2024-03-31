@@ -23,30 +23,34 @@ export async function handleEnvSetup(
   httpClient: HttpClient,
   url: string,
   recordingId: string,
-  envSetupForPlayback: Record<string, string>
+  envSetupForPlayback: Record<string, string>,
 ): Promise<void> {
   if (envSetupForPlayback) {
     if (isPlaybackMode()) {
       // Loads the "fake" environment variables in `process.env` or `window.__env__` based on the runtime
       logger.verbose(
-        "[handleEnvSetup] Playback mode: updating environment variables to their fake values"
+        "[handleEnvSetup] Playback mode: updating environment variables to their fake values",
       );
       setEnvironmentVariables(envSetupForPlayback);
     } else if (isRecordMode()) {
       logger.verbose(
         "[handleEnvSetup] Record mode: adding sanitizers to remove environment variables set in envSetupForPlayback:",
-        envSetupForPlayback
+        envSetupForPlayback,
       );
 
       // If the env variables are present in the recordings as plain strings, they will be replaced with the provided values in record mode
+      const valueToReplacementPairs = Object.entries(envSetupForPlayback)
+        // Map the values from the environment to their replacements
+        .map(([key, value]) => [env[key], value])
+        // Don't perform a replacement if the environment variable to replace is not actually defined
+        .filter(([key]) => key !== undefined) as [string, string][];
 
-      const generalSanitizers: FindReplaceSanitizer[] = [];
-      for (const [key, value] of Object.entries(envSetupForPlayback)) {
-        const envKey = env[key];
-        if (envKey) {
-          generalSanitizers.push({ target: envKey, value });
-        }
-      }
+      // Sort so that we add the sanitizers from longest replacement value to shortest to ensure if one value is a substring of another,
+      // the replacement of the shorter value doesn't interfere with the replacement of the longer value.
+      const generalSanitizers: FindReplaceSanitizer[] = valueToReplacementPairs
+        .sort(([aKey], [bKey]) => bKey.length - aKey.length)
+        .map(([envKey, value]) => ({ target: envKey, value }));
+
       await addSanitizers(httpClient, url, recordingId, {
         generalSanitizers,
       });

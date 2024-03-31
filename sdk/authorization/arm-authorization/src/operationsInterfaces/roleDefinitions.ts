@@ -25,7 +25,10 @@ import {
 export interface RoleDefinitions {
   /**
    * Get all role definitions that are applicable at scope and above.
-   * @param scope The scope of the role definition.
+   * @param scope The scope of the operation or resource. Valid scopes are: subscription (format:
+   *              '/subscriptions/{subscriptionId}'), resource group (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
    * @param options The options parameters.
    */
   list(
@@ -34,7 +37,10 @@ export interface RoleDefinitions {
   ): PagedAsyncIterableIterator<RoleDefinition>;
   /**
    * Deletes a role definition.
-   * @param scope The scope of the role definition.
+   * @param scope The scope of the operation or resource. Valid scopes are: subscription (format:
+   *              '/subscriptions/{subscriptionId}'), resource group (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
    * @param roleDefinitionId The ID of the role definition to delete.
    * @param options The options parameters.
    */
@@ -44,8 +50,11 @@ export interface RoleDefinitions {
     options?: RoleDefinitionsDeleteOptionalParams
   ): Promise<RoleDefinitionsDeleteResponse>;
   /**
-   * Get role definition by name (GUID).
-   * @param scope The scope of the role definition.
+   * Get role definition by ID (GUID).
+   * @param scope The scope of the operation or resource. Valid scopes are: subscription (format:
+   *              '/subscriptions/{subscriptionId}'), resource group (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
    * @param roleDefinitionId The ID of the role definition.
    * @param options The options parameters.
    */
@@ -56,7 +65,10 @@ export interface RoleDefinitions {
   ): Promise<RoleDefinitionsGetResponse>;
   /**
    * Creates or updates a role definition.
-   * @param scope The scope of the role definition.
+   * @param scope The scope of the operation or resource. Valid scopes are: subscription (format:
+   *              '/subscriptions/{subscriptionId}'), resource group (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
    * @param roleDefinitionId The ID of the role definition.
    * @param roleDefinition The values for the role definition.
    * @param options The options parameters.

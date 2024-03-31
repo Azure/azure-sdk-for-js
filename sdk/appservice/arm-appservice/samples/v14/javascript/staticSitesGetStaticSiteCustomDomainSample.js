@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Gets an existing custom domain for a particular static site.
  *
  * @summary Description for Gets an existing custom domain for a particular static site.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/GetStaticSiteCustomDomain.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/GetStaticSiteCustomDomain.json
  */
 async function getCustomDomainForAStaticSite() {
   const subscriptionId =

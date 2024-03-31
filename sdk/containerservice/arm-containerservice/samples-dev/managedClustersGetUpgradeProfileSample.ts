@@ -18,11 +18,12 @@ dotenv.config();
  * This sample demonstrates how to Gets the upgrade profile of a managed cluster.
  *
  * @summary Gets the upgrade profile of a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-04-01/examples/ManagedClustersGetUpgradeProfile.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/ManagedClustersGetUpgradeProfile.json
  */
 async function getUpgradeProfileForManagedCluster() {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
     process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
@@ -30,7 +31,7 @@ async function getUpgradeProfileForManagedCluster() {
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.managedClusters.getUpgradeProfile(
     resourceGroupName,
-    resourceName
+    resourceName,
   );
   console.log(result);
 }

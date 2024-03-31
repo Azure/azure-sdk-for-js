@@ -18,7 +18,7 @@ export interface BatchAccountCreateParameters {
   identity?: BatchAccountIdentity;
   /** The properties related to the auto-storage account. */
   autoStorage?: AutoStorageBaseProperties;
-  /** The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is UserSubscription, clients must use Azure Active Directory. The default is BatchService. */
+  /** The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the mode is BatchService, clients may authenticate using access keys or Microsoft Entra ID. If the mode is UserSubscription, clients must use Microsoft Entra ID. The default is BatchService. */
   poolAllocationMode?: PoolAllocationMode;
   /** A reference to the Azure key vault associated with the Batch account. */
   keyVaultReference?: KeyVaultReference;
@@ -91,7 +91,7 @@ export interface EncryptionProperties {
 /** KeyVault configuration when using an encryption KeySource of Microsoft.KeyVault. */
 export interface KeyVaultProperties {
   /**
-   * Full path to the versioned secret. Example https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053. To be usable the following prerequisites must be met:
+   * Full path to the secret with or without version. Example https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053. or https://mykeyvault.vault.azure.net/keys/testkey. To be usable the following prerequisites must be met:
    *
    *  The Batch Account has a System Assigned identity
    *  The account identity has been granted Key/Get, Key/Unwrap and Key/Wrap permissions
@@ -349,6 +349,11 @@ export interface SupportedSku {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly capabilities?: SkuCapability[];
+  /**
+   * The time when Azure Batch service will retire this SKU.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly batchSupportEndOfLife?: Date;
 }
 
 /** A SKU capability, such as the number of cores. */
@@ -532,6 +537,10 @@ export interface VirtualMachineConfiguration {
   extensions?: VMExtension[];
   /** Contains configuration for ephemeral OSDisk settings. */
   osDisk?: OSDisk;
+  /** Specifies the security profile settings for the virtual machine or virtual machine scale set. */
+  securityProfile?: SecurityProfile;
+  /** The service artifact reference id in the form of /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/serviceArtifacts/{serviceArtifactName}/vmArtifactsProfiles/{vmArtifactsProfilesName} */
+  serviceArtifactReference?: ServiceArtifactReference;
 }
 
 /** A reference to an Azure Virtual Machines Marketplace image or the Azure Image resource of a custom Virtual Machine. To get the list of all imageReferences verified by Azure Batch, see the 'List supported node agent SKUs' operation. */
@@ -544,7 +553,7 @@ export interface ImageReference {
   sku?: string;
   /** A value of 'latest' can be specified to select the latest version of an image. If omitted, the default is 'latest'. */
   version?: string;
-  /** This property is mutually exclusive with other properties. The Shared Image Gallery image must have replicas in the same region as the Azure Batch account. For information about the firewall settings for the Batch node agent to communicate with the Batch service see https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration. */
+  /** This property is mutually exclusive with other properties. The Azure Compute Gallery Image must have replicas in the same region as the Azure Batch account. For information about the firewall settings for the Batch node agent to communicate with the Batch service see https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration. */
   id?: string;
 }
 
@@ -582,7 +591,7 @@ export interface DataDisk {
 /** The configuration for container-enabled pools. */
 export interface ContainerConfiguration {
   /** The container technology to be used. */
-  type: "DockerCompatible";
+  type: ContainerType;
   /** This is the full image reference, as would be specified to "docker pull". An image will be sourced from the default Docker registry unless the image is fully qualified with an alternative registry. */
   containerImageNames?: string[];
   /** If any images must be downloaded from a private registry which requires credentials, then those credentials must be provided here. */
@@ -601,7 +610,7 @@ export interface ContainerRegistry {
   identityReference?: ComputeNodeIdentityReference;
 }
 
-/** The disk encryption configuration applied on compute nodes in the pool. Disk encryption configuration is not supported on Linux pool created with Virtual Machine Image or Shared Image Gallery Image. */
+/** The disk encryption configuration applied on compute nodes in the pool. Disk encryption configuration is not supported on Linux pool created with Virtual Machine Image or Azure Compute Gallery Image. */
 export interface DiskEncryptionConfiguration {
   /** On Linux pool, only "TemporaryDisk" is supported; on Windows pool, "OsDisk" and "TemporaryDisk" must be specified. */
   targets?: DiskEncryptionTarget[];
@@ -625,6 +634,8 @@ export interface VMExtension {
   typeHandlerVersion?: string;
   /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
   autoUpgradeMinorVersion?: boolean;
+  /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available. */
+  enableAutomaticUpgrade?: boolean;
   /** JSON formatted public settings for the extension. */
   settings?: Record<string, unknown>;
   /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
@@ -637,12 +648,48 @@ export interface VMExtension {
 export interface OSDisk {
   /** Specifies the ephemeral Disk Settings for the operating system disk used by the virtual machine. */
   ephemeralOSDiskSettings?: DiffDiskSettings;
+  /** The type of caching to enable for the disk. */
+  caching?: CachingType;
+  managedDisk?: ManagedDisk;
+  /** The initial disk size in GB when creating new OS disk. */
+  diskSizeGB?: number;
+  /** Specifies whether writeAccelerator should be enabled or disabled on the disk. */
+  writeAcceleratorEnabled?: boolean;
 }
 
 /** Specifies the ephemeral Disk Settings for the operating system disk used by the virtual machine. */
 export interface DiffDiskSettings {
   /** This property can be used by user in the request to choose which location the operating system should be in. e.g., cache disk space for Ephemeral OS disk provisioning. For more information on Ephemeral OS disk size requirements, please refer to Ephemeral OS disk size requirements for Windows VMs at https://docs.microsoft.com/en-us/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements and Linux VMs at https://docs.microsoft.com/en-us/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements. */
   placement?: "CacheDisk";
+}
+
+export interface ManagedDisk {
+  /** The storage account type for use in creating data disks or OS disk. */
+  storageAccountType?: StorageAccountType;
+}
+
+/** Specifies the security profile settings for the virtual machine or virtual machine scale set. */
+export interface SecurityProfile {
+  /** Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable UefiSettings. */
+  securityType?: "trustedLaunch";
+  /** This property can be used by user in the request to enable or disable the Host Encryption for the virtual machine or virtual machine scale set. This will enable the encryption for all the disks including Resource/Temp disk at host itself. */
+  encryptionAtHost?: boolean;
+  /** Specifies the security settings like secure boot and vTPM used while creating the virtual machine. */
+  uefiSettings?: UefiSettings;
+}
+
+/** Specifies the security settings like secure boot and vTPM used while creating the virtual machine. */
+export interface UefiSettings {
+  /** Specifies whether secure boot should be enabled on the virtual machine. */
+  secureBootEnabled?: boolean;
+  /** Specifies whether vTPM should be enabled on the virtual machine. */
+  vTpmEnabled?: boolean;
+}
+
+/** Specifies the service artifact reference id used to set same image version for all virtual machines in the scale set when using 'latest' image version. */
+export interface ServiceArtifactReference {
+  /** The service artifact reference id in the form of /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/serviceArtifacts/{serviceArtifactName}/vmArtifactsProfiles/{vmArtifactsProfilesName} */
+  id: string;
 }
 
 /** Defines the desired size of the pool. This can either be 'fixedScale' where the requested targetDedicatedNodes is specified, or 'autoScale' which defines a formula which is periodically reevaluated. If this property is not specified, the pool will have a fixed scale with 0 targetDedicatedNodes. */
@@ -703,6 +750,8 @@ export interface NetworkConfiguration {
   endpointConfiguration?: PoolEndpointConfiguration;
   /** This property is only supported on Pools with the virtualMachineConfiguration property. */
   publicIPAddressConfiguration?: PublicIPAddressConfiguration;
+  /** Accelerated networking enables single root I/O virtualization (SR-IOV) to a VM, which may lead to improved networking performance. For more details, see: https://learn.microsoft.com/azure/virtual-network/accelerated-networking-overview. */
+  enableAcceleratedNetworking?: boolean;
 }
 
 /** The endpoint configuration for a pool. */
@@ -801,7 +850,7 @@ export interface StartTask {
   environmentSettings?: EnvironmentSetting[];
   /** If omitted, the task runs as a non-administrative user unique to the task. */
   userIdentity?: UserIdentity;
-  /** The Batch service retries a task if its exit code is nonzero. Note that this value specifically controls the number of retries. The Batch service will try the task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the task. If the maximum retry count is -1, the Batch service retries the task without limit. */
+  /** The Batch service retries a task if its exit code is nonzero. Note that this value specifically controls the number of retries. The Batch service will try the task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the task. If the maximum retry count is -1, the Batch service retries the task without limit. Default is 0 */
   maxTaskRetryCount?: number;
   /** If true and the start task fails on a compute node, the Batch service retries the start task up to its maximum retry count (maxTaskRetryCount). If the task has still not completed successfully after all retries, then the Batch service marks the compute node unusable, and will not schedule tasks to it. This condition can be detected via the node state and scheduling error detail. If false, the Batch service will not wait for the start task to complete. In this case, other tasks can start executing on the compute node while the start task is still running; and even if the start task fails, new tasks will continue to be scheduled on the node. The default is true. */
   waitForSuccess?: boolean;
@@ -975,6 +1024,46 @@ export interface AzureFileShareConfiguration {
   relativeMountPath: string;
   /** These are 'net use' options in Windows and 'mount' options in Linux. */
   mountOptions?: string;
+}
+
+/** Describes an upgrade policy - automatic, manual, or rolling. */
+export interface UpgradePolicy {
+  /** Specifies the mode of an upgrade to virtual machines in the scale set.<br /><br /> Possible values are:<br /><br /> **Manual** - You  control the application of updates to virtual machines in the scale set. You do this by using the manualUpgrade action.<br /><br /> **Automatic** - All virtual machines in the scale set are automatically updated at the same time.<br /><br /> **Rolling** - Scale set performs updates in batches with an optional pause time in between. */
+  mode: UpgradeMode;
+  /** The configuration parameters used for performing automatic OS upgrade. */
+  automaticOSUpgradePolicy?: AutomaticOSUpgradePolicy;
+  /** This property is only supported on Pools with the virtualMachineConfiguration property. */
+  rollingUpgradePolicy?: RollingUpgradePolicy;
+}
+
+/** The configuration parameters used for performing automatic OS upgrade. */
+export interface AutomaticOSUpgradePolicy {
+  /** Whether OS image rollback feature should be disabled. */
+  disableAutomaticRollback?: boolean;
+  /** Indicates whether OS upgrades should automatically be applied to scale set instances in a rolling fashion when a newer version of the OS image becomes available. <br /><br /> If this is set to true for Windows based pools, [WindowsConfiguration.enableAutomaticUpdates](https://learn.microsoft.com/en-us/rest/api/batchmanagement/pool/create?tabs=HTTP#windowsconfiguration) cannot be set to true. */
+  enableAutomaticOSUpgrade?: boolean;
+  /** Indicates whether rolling upgrade policy should be used during Auto OS Upgrade. Auto OS Upgrade will fallback to the default policy if no policy is defined on the VMSS. */
+  useRollingUpgradePolicy?: boolean;
+  /** Defer OS upgrades on the TVMs if they are running tasks. */
+  osRollingUpgradeDeferral?: boolean;
+}
+
+/** The configuration parameters used while performing a rolling upgrade. */
+export interface RollingUpgradePolicy {
+  /** Allow VMSS to ignore AZ boundaries when constructing upgrade batches. Take into consideration the Update Domain and maxBatchInstancePercent to determine the batch size. If this field is not set, Azure Azure Batch will not set its default value. The value of enableCrossZoneUpgrade on the created VirtualMachineScaleSet will be decided by the default configurations on VirtualMachineScaleSet. This field is able to be set to true or false only when using NodePlacementConfiguration as Zonal. */
+  enableCrossZoneUpgrade?: boolean;
+  /** The maximum percent of total virtual machine instances that will be upgraded simultaneously by the rolling upgrade in one batch. As this is a maximum, unhealthy instances in previous or future batches can cause the percentage of instances in a batch to decrease to ensure higher reliability. The value of this field should be between 5 and 100, inclusive. If both maxBatchInstancePercent and maxUnhealthyInstancePercent are assigned with value, the value of maxBatchInstancePercent should not be more than maxUnhealthyInstancePercent. */
+  maxBatchInstancePercent?: number;
+  /** The maximum percentage of the total virtual machine instances in the scale set that can be simultaneously unhealthy, either as a result of being upgraded, or by being found in an unhealthy state by the virtual machine health checks before the rolling upgrade aborts. This constraint will be checked prior to starting any batch. The value of this field should be between 5 and 100, inclusive. If both maxBatchInstancePercent and maxUnhealthyInstancePercent are assigned with value, the value of maxBatchInstancePercent should not be more than maxUnhealthyInstancePercent. */
+  maxUnhealthyInstancePercent?: number;
+  /** The maximum percentage of upgraded virtual machine instances that can be found to be in an unhealthy state. This check will happen after each batch is upgraded. If this percentage is ever exceeded, the rolling update aborts. The value of this field should be between 0 and 100, inclusive. */
+  maxUnhealthyUpgradedInstancePercent?: number;
+  /** The wait time between completing the update for all virtual machines in one batch and starting the next batch. The time duration should be specified in ISO 8601 format. */
+  pauseTimeBetweenBatches?: string;
+  /** Upgrade all unhealthy instances in a scale set before any healthy instances. */
+  prioritizeUnhealthyInstances?: boolean;
+  /** Rollback failed instances to previous model if the Rolling Upgrade policy is violated. */
+  rollbackFailedInstancesOnPolicyBreach?: boolean;
 }
 
 /** The identity of the Batch pool, if configured. If the pool identity is updated during update an existing pool, only the new vms which are created after the pool shrinks to 0 will have the updated identities */
@@ -1275,6 +1364,10 @@ export interface Pool extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly currentNodeCommunicationMode?: NodeCommunicationMode;
+  /** Describes an upgrade policy - automatic, manual, or rolling. */
+  upgradePolicy?: UpgradePolicy;
+  /** The user-defined tags to be associated with the Azure Batch Pool. When specified, these tags are propagated to the backing Azure resources associated with the pool. This property can only be specified when the Batch account was created with the poolAllocationMode property set to 'UserSubscription'. */
+  resourceTags?: { [propertyName: string]: string };
 }
 
 /** Contains information about an Azure Batch account. */
@@ -1504,6 +1597,23 @@ export interface PoolStopResizeHeaders {
   eTag?: string;
 }
 
+/** Known values of {@link ContainerType} that the service accepts. */
+export enum KnownContainerType {
+  /** A Docker compatible container technology will be used to launch the containers. */
+  DockerCompatible = "DockerCompatible",
+  /** A CRI based technology will be used to launch the containers. */
+  CriCompatible = "CriCompatible",
+}
+
+/**
+ * Defines values for ContainerType. \
+ * {@link KnownContainerType} can be used interchangeably with ContainerType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DockerCompatible**: A Docker compatible container technology will be used to launch the containers. \
+ * **CriCompatible**: A CRI based technology will be used to launch the containers.
+ */
+export type ContainerType = string;
 /** Defines values for AutoStorageAuthenticationMode. */
 export type AutoStorageAuthenticationMode =
   | "StorageKeys"
@@ -1562,7 +1672,10 @@ export type AllocationState = "Steady" | "Resizing" | "Stopping";
 /** Defines values for CachingType. */
 export type CachingType = "None" | "ReadOnly" | "ReadWrite";
 /** Defines values for StorageAccountType. */
-export type StorageAccountType = "Standard_LRS" | "Premium_LRS";
+export type StorageAccountType =
+  | "Standard_LRS"
+  | "Premium_LRS"
+  | "StandardSSD_LRS";
 /** Defines values for DiskEncryptionTarget. */
 export type DiskEncryptionTarget = "OsDisk" | "TemporaryDisk";
 /** Defines values for NodePlacementPolicyType. */
@@ -1604,6 +1717,8 @@ export type CertificateStoreLocation = "CurrentUser" | "LocalMachine";
 export type CertificateVisibility = "StartTask" | "Task" | "RemoteUser";
 /** Defines values for NodeCommunicationMode. */
 export type NodeCommunicationMode = "Default" | "Classic" | "Simplified";
+/** Defines values for UpgradeMode. */
+export type UpgradeMode = "automatic" | "manual" | "rolling";
 /** Defines values for PoolIdentityType. */
 export type PoolIdentityType = "UserAssigned" | "None";
 
@@ -1693,7 +1808,8 @@ export interface BatchAccountListOutboundNetworkDependenciesEndpointsOptionalPar
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOutboundNetworkDependenciesEndpoints operation. */
-export type BatchAccountListOutboundNetworkDependenciesEndpointsResponse = OutboundEnvironmentEndpointCollection;
+export type BatchAccountListOutboundNetworkDependenciesEndpointsResponse =
+  OutboundEnvironmentEndpointCollection;
 
 /** Optional parameters. */
 export interface BatchAccountListNextOptionalParams
@@ -1707,7 +1823,8 @@ export interface BatchAccountListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type BatchAccountListByResourceGroupNextResponse = BatchAccountListResult;
+export type BatchAccountListByResourceGroupNextResponse =
+  BatchAccountListResult;
 
 /** Optional parameters. */
 export interface BatchAccountListDetectorsNextOptionalParams
@@ -1721,7 +1838,8 @@ export interface BatchAccountListOutboundNetworkDependenciesEndpointsNextOptiona
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOutboundNetworkDependenciesEndpointsNext operation. */
-export type BatchAccountListOutboundNetworkDependenciesEndpointsNextResponse = OutboundEnvironmentEndpointCollection;
+export type BatchAccountListOutboundNetworkDependenciesEndpointsNextResponse =
+  OutboundEnvironmentEndpointCollection;
 
 /** Optional parameters. */
 export interface ApplicationPackageActivateOptionalParams
@@ -1763,10 +1881,7 @@ export type ApplicationPackageListResponse = ListApplicationPackagesResult;
 
 /** Optional parameters. */
 export interface ApplicationPackageListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of items to return in the response. */
-  maxresults?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ApplicationPackageListNextResponse = ListApplicationPackagesResult;
@@ -1811,10 +1926,7 @@ export type ApplicationListResponse = ListApplicationsResult;
 
 /** Optional parameters. */
 export interface ApplicationListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of items to return in the response. */
-  maxresults?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ApplicationListNextResponse = ListApplicationsResult;
@@ -1836,7 +1948,8 @@ export interface LocationListSupportedVirtualMachineSkusOptionalParams
 }
 
 /** Contains response data for the listSupportedVirtualMachineSkus operation. */
-export type LocationListSupportedVirtualMachineSkusResponse = SupportedSkusResult;
+export type LocationListSupportedVirtualMachineSkusResponse =
+  SupportedSkusResult;
 
 /** Optional parameters. */
 export interface LocationListSupportedCloudServiceSkusOptionalParams
@@ -1859,27 +1972,19 @@ export type LocationCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
 
 /** Optional parameters. */
 export interface LocationListSupportedVirtualMachineSkusNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of items to return in the response. */
-  maxresults?: number;
-  /** OData filter expression. Valid properties for filtering are "familyName". */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSupportedVirtualMachineSkusNext operation. */
-export type LocationListSupportedVirtualMachineSkusNextResponse = SupportedSkusResult;
+export type LocationListSupportedVirtualMachineSkusNextResponse =
+  SupportedSkusResult;
 
 /** Optional parameters. */
 export interface LocationListSupportedCloudServiceSkusNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of items to return in the response. */
-  maxresults?: number;
-  /** OData filter expression. Valid properties for filtering are "familyName". */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSupportedCloudServiceSkusNext operation. */
-export type LocationListSupportedCloudServiceSkusNextResponse = SupportedSkusResult;
+export type LocationListSupportedCloudServiceSkusNextResponse =
+  SupportedSkusResult;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -1952,19 +2057,12 @@ export interface CertificateCancelDeletionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the cancelDeletion operation. */
-export type CertificateCancelDeletionResponse = CertificateCancelDeletionHeaders &
-  Certificate;
+export type CertificateCancelDeletionResponse =
+  CertificateCancelDeletionHeaders & Certificate;
 
 /** Optional parameters. */
 export interface CertificateListByBatchAccountNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of items to return in the response. */
-  maxresults?: number;
-  /** OData filter expression. Valid properties for filtering are "properties/provisioningState", "properties/provisioningStateTransitionTime", "name". */
-  filter?: string;
-  /** Comma separated list of properties that should be returned. e.g. "properties/provisioningState". Only top level properties under properties/ are valid for selection. */
-  select?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBatchAccountNext operation. */
 export type CertificateListByBatchAccountNextResponse = ListCertificatesResult;
@@ -1977,7 +2075,8 @@ export interface PrivateLinkResourceListByBatchAccountOptionalParams
 }
 
 /** Contains response data for the listByBatchAccount operation. */
-export type PrivateLinkResourceListByBatchAccountResponse = ListPrivateLinkResourcesResult;
+export type PrivateLinkResourceListByBatchAccountResponse =
+  ListPrivateLinkResourcesResult;
 
 /** Optional parameters. */
 export interface PrivateLinkResourceGetOptionalParams
@@ -1988,13 +2087,11 @@ export type PrivateLinkResourceGetResponse = PrivateLinkResource;
 
 /** Optional parameters. */
 export interface PrivateLinkResourceListByBatchAccountNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of items to return in the response. */
-  maxresults?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBatchAccountNext operation. */
-export type PrivateLinkResourceListByBatchAccountNextResponse = ListPrivateLinkResourcesResult;
+export type PrivateLinkResourceListByBatchAccountNextResponse =
+  ListPrivateLinkResourcesResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionListByBatchAccountOptionalParams
@@ -2004,7 +2101,8 @@ export interface PrivateEndpointConnectionListByBatchAccountOptionalParams
 }
 
 /** Contains response data for the listByBatchAccount operation. */
-export type PrivateEndpointConnectionListByBatchAccountResponse = ListPrivateEndpointConnectionsResult;
+export type PrivateEndpointConnectionListByBatchAccountResponse =
+  ListPrivateEndpointConnectionsResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionGetOptionalParams
@@ -2037,17 +2135,16 @@ export interface PrivateEndpointConnectionDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type PrivateEndpointConnectionDeleteResponse = PrivateEndpointConnectionDeleteHeaders;
+export type PrivateEndpointConnectionDeleteResponse =
+  PrivateEndpointConnectionDeleteHeaders;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionListByBatchAccountNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of items to return in the response. */
-  maxresults?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBatchAccountNext operation. */
-export type PrivateEndpointConnectionListByBatchAccountNextResponse = ListPrivateEndpointConnectionsResult;
+export type PrivateEndpointConnectionListByBatchAccountNextResponse =
+  ListPrivateEndpointConnectionsResult;
 
 /** Optional parameters. */
 export interface PoolListByBatchAccountOptionalParams
@@ -2127,28 +2224,7 @@ export type PoolStopResizeResponse = PoolStopResizeHeaders & Pool;
 
 /** Optional parameters. */
 export interface PoolListByBatchAccountNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of items to return in the response. */
-  maxresults?: number;
-  /**
-   * OData filter expression. Valid properties for filtering are:
-   *
-   *  name
-   *  properties/allocationState
-   *  properties/allocationStateTransitionTime
-   *  properties/creationTime
-   *  properties/provisioningState
-   *  properties/provisioningStateTransitionTime
-   *  properties/lastModified
-   *  properties/vmSize
-   *  properties/interNodeCommunication
-   *  properties/scaleSettings/autoScale
-   *  properties/scaleSettings/fixedScale
-   */
-  filter?: string;
-  /** Comma separated list of properties that should be returned. e.g. "properties/provisioningState". Only top level properties under properties/ are valid for selection. */
-  select?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBatchAccountNext operation. */
 export type PoolListByBatchAccountNextResponse = ListPoolsResult;

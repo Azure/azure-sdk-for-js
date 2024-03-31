@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update a CA certificate with the specified parameters.
  *
  * @summary Create or update a CA certificate with the specified parameters.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-06-01-preview/examples/CaCertificates_CreateOrUpdate.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/CaCertificates_CreateOrUpdate.json
  */
 async function caCertificatesCreateOrUpdate() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function caCertificatesCreateOrUpdate() {
     resourceGroupName,
     namespaceName,
     caCertificateName,
-    caCertificateInfo
+    caCertificateInfo,
   );
   console.log(result);
 }

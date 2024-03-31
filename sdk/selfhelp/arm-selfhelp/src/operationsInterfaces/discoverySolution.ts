@@ -16,15 +16,18 @@ import {
 /** Interface representing a DiscoverySolution. */
 export interface DiscoverySolution {
   /**
-   * Solutions Discovery is the initial point of entry within Help API, which helps you identify the
-   * relevant solutions for your Azure issue.<br/><br/> You can discover solutions using resourceUri OR
-   * resourceUri + problemClassificationId.<br/><br/>We will do our best in returning relevant
-   * diagnostics for your Azure issue.<br/><br/> Get the problemClassificationId(s) using this
-   * [reference](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP).<br/><br/>
-   * <b>Note: </b> ‘requiredParameterSets’ from Solutions Discovery API response must be passed via
-   * ‘additionalParameters’ as an input to Diagnostics API.
-   * @param scope This is an extension resource provider and only resource level extension is supported
-   *              at the moment.
+   * Lists the relevant Azure diagnostics and solutions using [problemClassification
+   * API](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP)) AND
+   * resourceUri or resourceType.<br/> Discovery Solutions is the initial entry point within Help API,
+   * which identifies relevant Azure diagnostics and solutions. <br/><br/> Required Input :
+   * problemClassificationId (Use the [problemClassification
+   * API](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP))
+   * <br/>Optional input: resourceUri OR resource Type <br/><br/> <b>Note: </b>  ‘requiredInputs’ from
+   * Discovery solutions response must be passed via ‘additionalParameters’ as an input to Diagnostics
+   * and Solutions API.
+   * @param scope scope = resourceUri of affected resource.<br/> For example:
+   *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
+   *
    * @param options The options parameters.
    */
   list(

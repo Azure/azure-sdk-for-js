@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { NotificationHubsClientContext } from "./index.js";
-import { OperationOptions } from "@azure/core-client";
+import { OperationOptions } from "@azure-rest/core-client";
 import { RegistrationDescription } from "../models/registration.js";
 import { createOrUpdateRegistrationDescription } from "./internal/_createOrUpdateRegistrationDescription.js";
 import { tracingClient } from "../utils/tracing.js";
@@ -19,7 +19,7 @@ const OPERATION_NAME = "createOrUpdateRegistration";
 export function createOrUpdateRegistration(
   context: NotificationHubsClientContext,
   registration: RegistrationDescription,
-  options: OperationOptions = {}
+  options: OperationOptions = {},
 ): Promise<RegistrationDescription> {
   return tracingClient.withSpan(
     `NotificationHubsClientContext.${OPERATION_NAME}`,
@@ -29,8 +29,8 @@ export function createOrUpdateRegistration(
         context,
         registration,
         "createOrUpdate",
-        updatedOptions
+        updatedOptions,
       );
-    }
+    },
   );
 }

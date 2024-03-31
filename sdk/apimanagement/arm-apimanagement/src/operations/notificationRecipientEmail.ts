@@ -37,7 +37,7 @@ export class NotificationRecipientEmailImpl
 
   /**
    * Gets the list of the Notification Recipient Emails subscribed to a notification.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param notificationName Notification Name Identifier.
    * @param options The options parameters.
@@ -56,7 +56,7 @@ export class NotificationRecipientEmailImpl
 
   /**
    * Determine if Notification Recipient Email subscribed to the notification.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param notificationName Notification Name Identifier.
    * @param email Email identifier.
@@ -77,7 +77,7 @@ export class NotificationRecipientEmailImpl
 
   /**
    * Adds the Email address to the list of Recipients for the Notification.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param notificationName Notification Name Identifier.
    * @param email Email identifier.
@@ -98,7 +98,7 @@ export class NotificationRecipientEmailImpl
 
   /**
    * Removes the email from the list of Notification.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param notificationName Notification Name Identifier.
    * @param email Email identifier.

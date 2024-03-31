@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { exec } from "child_process";
 import os from "os";
 import { performStage } from "./barrier";
@@ -95,10 +98,10 @@ export class ManagerPerfProgram implements PerfProgram {
       `Completed ${totalOperations.toLocaleString(undefined, {
         maximumFractionDigits: 0,
       })} ` +
-        `operations in a weighted-average of ` +
-        `${formatNumber(weightedAverage, 4)}s ` +
-        `(${formatNumber(operationsPerSecond, 4)} ops/s, ` +
-        `${formatNumber(secondsPerOperation, 4)} s/op)`
+      `operations in a weighted-average of ` +
+      `${formatNumber(weightedAverage, 4)}s ` +
+      `(${formatNumber(operationsPerSecond, 4)} ops/s, ` +
+      `${formatNumber(secondsPerOperation, 4)} s/op)`,
     );
   }
 
@@ -165,9 +168,8 @@ export class ManagerPerfProgram implements PerfProgram {
     // of operations running.
     const millisecondsToLog = Number(this.parsedOptions["milliseconds-to-log"].value);
     console.log(
-      `\n=== ${title} mode, iteration ${iterationIndex + 1}. Logs every ${
-        millisecondsToLog / 1000
-      }s ===`
+      `\n=== ${title} mode, iteration ${iterationIndex + 1}. Logs every ${millisecondsToLog / 1000
+      }s ===`,
     );
     console.log(`ElapsedTime\tCurrent\t\tTotal\t\tAverage\t\tRSS(MB)\t\tHeapUsed(MB)`);
 
@@ -183,7 +185,7 @@ export class ManagerPerfProgram implements PerfProgram {
     this.managerUtils.getMessageFromAll((m) => m.tag === "statusUpdate").then(handleUpdate);
 
     const resultMessages = (await this.managerUtils.getMessageFromAll(
-      (m) => m.tag === "reportResults"
+      (m) => m.tag === "reportResults",
     )) as ReportResultsMessage[];
 
     // stop the handleUpdate part when it next gets a chance
@@ -238,7 +240,7 @@ export class ManagerPerfProgram implements PerfProgram {
     }
 
     await this.logPackageVersions(
-      this.parsedOptions["list-transitive-dependencies"].value ?? false
+      this.parsedOptions["list-transitive-dependencies"].value ?? false,
     );
 
     const options = this.dummyTestInstance.parsedOptions;
@@ -248,12 +250,12 @@ export class ManagerPerfProgram implements PerfProgram {
     this.createWorkers();
 
     console.log(
-      `=== Calling globalSetup() once per CPU for (all) the instance(s) of ${this.testName} ===`
+      `=== Calling globalSetup() once per CPU for (all) the instance(s) of ${this.testName} ===`,
     );
     await performStage("globalSetup");
 
     console.log(
-      `=== Calling setup() for the ${this.parallelNumber} instantiated ${this.testName} tests ===`
+      `=== Calling setup() for the ${this.parallelNumber} instantiated ${this.testName} tests ===`,
     );
 
     await performStage("setup");
@@ -273,11 +275,11 @@ export class ManagerPerfProgram implements PerfProgram {
 
     if (!options["no-cleanup"].value) {
       console.log(
-        `=== Calling cleanup() for the ${this.parallelNumber} instantiated ${this.testName} tests ===`
+        `=== Calling cleanup() for the ${this.parallelNumber} instantiated ${this.testName} tests ===`,
       );
       await performStage("cleanup");
       console.log(
-        `=== Calling globalCleanup() once per CPU for (all) the instance(s) of ${this.testName} ===`
+        `=== Calling globalCleanup() once per CPU for (all) the instance(s) of ${this.testName} ===`,
       );
       await performStage("globalCleanup");
     }

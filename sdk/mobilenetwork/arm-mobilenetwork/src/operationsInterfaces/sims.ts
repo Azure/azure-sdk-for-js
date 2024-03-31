@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Sim,
   SimsListByGroupOptionalParams,
@@ -24,7 +24,7 @@ import {
   SimsBulkDeleteResponse,
   EncryptedSimUploadList,
   SimsBulkUploadEncryptedOptionalParams,
-  SimsBulkUploadEncryptedResponse
+  SimsBulkUploadEncryptedResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +39,7 @@ export interface Sims {
   listByGroup(
     resourceGroupName: string,
     simGroupName: string,
-    options?: SimsListByGroupOptionalParams
+    options?: SimsListByGroupOptionalParams,
   ): PagedAsyncIterableIterator<Sim>;
   /**
    * Deletes the specified SIM.
@@ -52,8 +52,8 @@ export interface Sims {
     resourceGroupName: string,
     simGroupName: string,
     simName: string,
-    options?: SimsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: SimsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified SIM.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -65,7 +65,7 @@ export interface Sims {
     resourceGroupName: string,
     simGroupName: string,
     simName: string,
-    options?: SimsDeleteOptionalParams
+    options?: SimsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets information about the specified SIM.
@@ -78,7 +78,7 @@ export interface Sims {
     resourceGroupName: string,
     simGroupName: string,
     simName: string,
-    options?: SimsGetOptionalParams
+    options?: SimsGetOptionalParams,
   ): Promise<SimsGetResponse>;
   /**
    * Creates or updates a SIM.
@@ -93,10 +93,10 @@ export interface Sims {
     simGroupName: string,
     simName: string,
     parameters: Sim,
-    options?: SimsCreateOrUpdateOptionalParams
+    options?: SimsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SimsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SimsCreateOrUpdateResponse>,
       SimsCreateOrUpdateResponse
     >
   >;
@@ -113,7 +113,7 @@ export interface Sims {
     simGroupName: string,
     simName: string,
     parameters: Sim,
-    options?: SimsCreateOrUpdateOptionalParams
+    options?: SimsCreateOrUpdateOptionalParams,
   ): Promise<SimsCreateOrUpdateResponse>;
   /**
    * Bulk upload SIMs to a SIM group.
@@ -126,10 +126,10 @@ export interface Sims {
     resourceGroupName: string,
     simGroupName: string,
     parameters: SimUploadList,
-    options?: SimsBulkUploadOptionalParams
+    options?: SimsBulkUploadOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SimsBulkUploadResponse>,
+    SimplePollerLike<
+      OperationState<SimsBulkUploadResponse>,
       SimsBulkUploadResponse
     >
   >;
@@ -144,7 +144,7 @@ export interface Sims {
     resourceGroupName: string,
     simGroupName: string,
     parameters: SimUploadList,
-    options?: SimsBulkUploadOptionalParams
+    options?: SimsBulkUploadOptionalParams,
   ): Promise<SimsBulkUploadResponse>;
   /**
    * Bulk delete SIMs from a SIM group.
@@ -157,10 +157,10 @@ export interface Sims {
     resourceGroupName: string,
     simGroupName: string,
     parameters: SimDeleteList,
-    options?: SimsBulkDeleteOptionalParams
+    options?: SimsBulkDeleteOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SimsBulkDeleteResponse>,
+    SimplePollerLike<
+      OperationState<SimsBulkDeleteResponse>,
       SimsBulkDeleteResponse
     >
   >;
@@ -175,7 +175,7 @@ export interface Sims {
     resourceGroupName: string,
     simGroupName: string,
     parameters: SimDeleteList,
-    options?: SimsBulkDeleteOptionalParams
+    options?: SimsBulkDeleteOptionalParams,
   ): Promise<SimsBulkDeleteResponse>;
   /**
    * Bulk upload SIMs in encrypted form to a SIM group. The SIM credentials must be encrypted.
@@ -188,10 +188,10 @@ export interface Sims {
     resourceGroupName: string,
     simGroupName: string,
     parameters: EncryptedSimUploadList,
-    options?: SimsBulkUploadEncryptedOptionalParams
+    options?: SimsBulkUploadEncryptedOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SimsBulkUploadEncryptedResponse>,
+    SimplePollerLike<
+      OperationState<SimsBulkUploadEncryptedResponse>,
       SimsBulkUploadEncryptedResponse
     >
   >;
@@ -206,6 +206,6 @@ export interface Sims {
     resourceGroupName: string,
     simGroupName: string,
     parameters: EncryptedSimUploadList,
-    options?: SimsBulkUploadEncryptedOptionalParams
+    options?: SimsBulkUploadEncryptedOptionalParams,
   ): Promise<SimsBulkUploadEncryptedResponse>;
 }

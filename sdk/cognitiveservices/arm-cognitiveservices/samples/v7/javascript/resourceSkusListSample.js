@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the list of Microsoft.CognitiveServices SKUs available for your Subscription.
  *
  * @summary Gets the list of Microsoft.CognitiveServices SKUs available for your Subscription.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-12-01/examples/GetSkus.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2023-05-01/examples/GetSkus.json
  */
 async function regenerateKeys() {
   const subscriptionId =

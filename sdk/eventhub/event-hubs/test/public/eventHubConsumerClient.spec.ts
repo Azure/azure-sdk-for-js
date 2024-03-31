@@ -53,11 +53,11 @@ testWithServiceTypes((serviceVersion) => {
     before(() => {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
       );
       should.exist(
         env[EnvVarKeys.EVENTHUB_NAME],
-        "define EVENTHUB_NAME in your environment before running integration tests."
+        "define EVENTHUB_NAME in your environment before running integration tests.",
       );
     });
 
@@ -66,7 +66,7 @@ testWithServiceTypes((serviceVersion) => {
       consumerClient = new EventHubConsumerClient(
         EventHubConsumerClient.defaultConsumerGroupName,
         service.connectionString,
-        service.path
+        service.path,
       );
       partitionIds = await producerClient.getPartitionIds({});
     });
@@ -96,12 +96,27 @@ testWithServiceTypes((serviceVersion) => {
         clients = [];
       });
 
+      describe("client options", function (): void {
+        it("the identifier option can be set", async function (): Promise<void> {
+          const identifier = "Test1";
+          const client = new EventHubConsumerClient(
+            EventHubConsumerClient.defaultConsumerGroupName,
+            service.connectionString,
+            service.path,
+            {
+              identifier,
+            },
+          );
+          client.identifier.should.equal(identifier, "The client identifier wasn't set correctly");
+        });
+      });
+
       describe("#close()", function (): void {
         it("stops any actively running subscriptions", async function (): Promise<void> {
           const client = new EventHubConsumerClient(
             EventHubConsumerClient.defaultConsumerGroupName,
             service.connectionString,
-            service.path
+            service.path,
           );
 
           // Spin up multiple subscriptions.
@@ -114,7 +129,7 @@ testWithServiceTypes((serviceVersion) => {
                 async processEvents() {
                   /* no-op for test */
                 },
-              })
+              }),
             );
           }
 
@@ -133,7 +148,7 @@ testWithServiceTypes((serviceVersion) => {
 
           client["_subscriptions"].size.should.equal(
             0,
-            "Some dangling subscriptions are still hanging around!"
+            "Some dangling subscriptions are still hanging around!",
           );
         });
 
@@ -141,18 +156,18 @@ testWithServiceTypes((serviceVersion) => {
           const client = new EventHubConsumerClient(
             EventHubConsumerClient.defaultConsumerGroupName,
             service.connectionString,
-            service.path
+            service.path,
           );
 
           const startingPositions = await getStartingPositionsForTests(client);
 
           let waitForInitializeResolver: () => void;
           const waitForInitialize = new Promise<void>(
-            (resolve) => (waitForInitializeResolver = resolve)
+            (resolve) => (waitForInitializeResolver = resolve),
           );
           let waitForCloseResolver: (reason: CloseReason) => void;
           const waitForClose = new Promise<CloseReason>(
-            (resolve) => (waitForCloseResolver = resolve)
+            (resolve) => (waitForCloseResolver = resolve),
           );
           let unexpectedError: Error | undefined;
           let eventsWereReceived = false;
@@ -175,7 +190,7 @@ testWithServiceTypes((serviceVersion) => {
             },
             {
               startPosition: startingPositions,
-            }
+            },
           );
 
           // Assert that the subscription is running.
@@ -192,7 +207,7 @@ testWithServiceTypes((serviceVersion) => {
           const closeReason = await waitForClose;
           closeReason.should.equal(
             CloseReason.Shutdown,
-            "Subscription closed for an unexpected reason."
+            "Subscription closed for an unexpected reason.",
           );
 
           // Ensure no errors were thrown.
@@ -206,7 +221,7 @@ testWithServiceTypes((serviceVersion) => {
 
           client["_subscriptions"].size.should.equal(
             0,
-            "Some dangling subscriptions are still hanging around!"
+            "Some dangling subscriptions are still hanging around!",
           );
         });
       });
@@ -217,12 +232,12 @@ testWithServiceTypes((serviceVersion) => {
           const consumerClient1 = new EventHubConsumerClient(
             EventHubConsumerClient.defaultConsumerGroupName,
             service.connectionString,
-            service.path
+            service.path,
           );
           const consumerClient2 = new EventHubConsumerClient(
             EventHubConsumerClient.defaultConsumerGroupName,
             service.connectionString,
-            service.path
+            service.path,
           );
 
           clients.push(consumerClient1, consumerClient2);
@@ -272,7 +287,7 @@ testWithServiceTypes((serviceVersion) => {
             {
               maxBatchSize: 1,
               maxWaitTimeInSeconds: 1,
-            }
+            },
           );
 
           await loopUntil({
@@ -296,13 +311,13 @@ testWithServiceTypes((serviceVersion) => {
             EventHubConsumerClient.defaultConsumerGroupName,
             service.connectionString,
             service.path,
-            { loadBalancingOptions: { updateIntervalInMs: 1000 } }
+            { loadBalancingOptions: { updateIntervalInMs: 1000 } },
           );
           const consumerClient2 = new EventHubConsumerClient(
             EventHubConsumerClient.defaultConsumerGroupName,
             service.connectionString,
             service.path,
-            { loadBalancingOptions: { updateIntervalInMs: 1000 } }
+            { loadBalancingOptions: { updateIntervalInMs: 1000 } },
           );
 
           clients.push(consumerClient1, consumerClient2);
@@ -381,7 +396,7 @@ testWithServiceTypes((serviceVersion) => {
               const sub1CloseHandlersCalled = Boolean(
                 partitionIds.filter((id) => {
                   return partitionHandlerCalls[id].close > 0;
-                }).length === partitionIds.length
+                }).length === partitionIds.length,
               );
               return partitionsReadFromSub2.size === partitionIds.length && sub1CloseHandlersCalled;
             },
@@ -409,11 +424,11 @@ testWithServiceTypes((serviceVersion) => {
           for (const id of partitionIds) {
             partitionHandlerCalls[id].initialize.should.be.greaterThan(
               1,
-              `Initialize on partition ${id} was not called more than 1 time.`
+              `Initialize on partition ${id} was not called more than 1 time.`,
             );
             partitionHandlerCalls[id].close.should.be.greaterThan(
               1,
-              `Close on partition ${id} was not called more than 1 time.`
+              `Close on partition ${id} was not called more than 1 time.`,
             );
           }
         });
@@ -430,7 +445,7 @@ testWithServiceTypes((serviceVersion) => {
             logger.verbose as debug.Debugger,
             logger.verbose as debug.Debugger,
             logger.verbose as debug.Debugger,
-          ]
+          ],
         );
 
         const tester = new ReceivedMessagesTester(["0"], false);
@@ -439,8 +454,8 @@ testWithServiceTypes((serviceVersion) => {
           new EventHubConsumerClient(
             EventHubConsumerClient.defaultConsumerGroupName,
             service.connectionString!,
-            service.path
-          )
+            service.path,
+          ),
         );
 
         const startPosition = await getStartingPositionsForTests(clients[0]);
@@ -461,7 +476,7 @@ testWithServiceTypes((serviceVersion) => {
             logger.verbose as debug.Debugger,
             logger.verbose as debug.Debugger,
             logger.verbose as debug.Debugger,
-          ]
+          ],
         );
 
         const tester = new ReceivedMessagesTester(partitionIds, false);
@@ -470,8 +485,8 @@ testWithServiceTypes((serviceVersion) => {
           new EventHubConsumerClient(
             EventHubConsumerClient.defaultConsumerGroupName,
             service.connectionString!,
-            service.path
-          )
+            service.path,
+          ),
         );
 
         const startPosition = await getStartingPositionsForTests(clients[0]);
@@ -489,7 +504,7 @@ testWithServiceTypes((serviceVersion) => {
             ...partitionIds.map(
               (partitionId) =>
                 `EventHubConsumerClient subscribing to specific partition (${partitionId}), no checkpoint store.`,
-              `Abandoning owned partitions`
+              `Abandoning owned partitions`,
             ),
             ...partitionIds.map((partitionId) => `Single partition target: ${partitionId}`),
           ],
@@ -497,7 +512,7 @@ testWithServiceTypes((serviceVersion) => {
             logger.verbose as debug.Debugger,
             logger.verbose as debug.Debugger,
             logger.verbose as debug.Debugger,
-          ]
+          ],
         );
 
         const tester = new ReceivedMessagesTester(partitionIds, false);
@@ -506,8 +521,8 @@ testWithServiceTypes((serviceVersion) => {
           new EventHubConsumerClient(
             EventHubConsumerClient.defaultConsumerGroupName,
             service.connectionString!,
-            service.path
-          )
+            service.path,
+          ),
         );
 
         const startPosition = await getStartingPositionsForTests(clients[0]);
@@ -534,7 +549,7 @@ testWithServiceTypes((serviceVersion) => {
             logger.verbose as debug.Debugger,
             logger.verbose as debug.Debugger,
             logger.verbose as debug.Debugger,
-          ]
+          ],
         );
 
         const checkpointStore = new TestInMemoryCheckpointStore();
@@ -545,9 +560,9 @@ testWithServiceTypes((serviceVersion) => {
             service.connectionString!,
             service.path,
             // specifying your own checkpoint store activates the "production ready" code path that
-            checkpointStore
+            checkpointStore,
             // also uses the BalancedLoadBalancingStrategy
-          )
+          ),
         );
         const startPosition = await getStartingPositionsForTests(clients[0]);
 
@@ -560,10 +575,10 @@ testWithServiceTypes((serviceVersion) => {
           new EventHubConsumerClient(
             EventHubConsumerClient.defaultConsumerGroupName,
             service.connectionString!,
-            service.path
+            service.path,
             // specifying your own checkpoint store activates the "production ready" code path that
             // also uses the BalancedLoadBalancingStrategy
-          )
+          ),
         );
 
         const subscriber2 = clients[1].subscribe(tester, { startPosition });
@@ -591,7 +606,7 @@ testWithServiceTypes((serviceVersion) => {
             logger.verbose as debug.Debugger,
             logger.verbose as debug.Debugger,
             logger.verbose as debug.Debugger,
-          ]
+          ],
         );
 
         const checkpointStore = new TestInMemoryCheckpointStore();
@@ -606,8 +621,8 @@ testWithServiceTypes((serviceVersion) => {
               loadBalancingOptions: {
                 strategy: "greedy",
               },
-            }
-          )
+            },
+          ),
         );
 
         const tester = new ReceivedMessagesTester(partitionIds, true);
@@ -627,8 +642,8 @@ testWithServiceTypes((serviceVersion) => {
               loadBalancingOptions: {
                 strategy: "greedy",
               },
-            }
-          )
+            },
+          ),
         );
 
         const subscriber2 = clients[1].subscribe(tester, { startPosition });
@@ -648,7 +663,7 @@ testWithServiceTypes((serviceVersion) => {
         const client = new EventHubConsumerClient(
           EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString,
-          service.path
+          service.path,
         );
 
         clients.push(client);
@@ -686,7 +701,7 @@ testWithServiceTypes((serviceVersion) => {
         // Otherwise, we shouldn't see either called.
         initializeCalled.should.equal(
           closeCalled,
-          "processClose was not called the same number of times as processInitialize."
+          "processClose was not called the same number of times as processInitialize.",
         );
       });
 
@@ -694,7 +709,7 @@ testWithServiceTypes((serviceVersion) => {
         const client = new EventHubConsumerClient(
           EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString,
-          service.path
+          service.path,
         );
 
         clients.push(client);
@@ -732,7 +747,7 @@ testWithServiceTypes((serviceVersion) => {
         // Otherwise, we shouldn't see either called.
         initializeCalled.should.equal(
           closeCalled,
-          "processClose was not called the same number of times as processInitialize."
+          "processClose was not called the same number of times as processInitialize.",
         );
       });
 
@@ -742,7 +757,7 @@ testWithServiceTypes((serviceVersion) => {
           const client = new EventHubConsumerClient(
             EventHubConsumerClient.defaultConsumerGroupName,
             service.connectionString,
-            "Fake-Hub"
+            "Fake-Hub",
           );
 
           let subscription: Subscription;
@@ -770,7 +785,7 @@ testWithServiceTypes((serviceVersion) => {
           const client = new EventHubConsumerClient(
             EventHubConsumerClient.defaultConsumerGroupName,
             service.connectionString,
-            service.path
+            service.path,
           );
 
           let subscription: Subscription;
@@ -814,7 +829,7 @@ testWithServiceTypes((serviceVersion) => {
             {
               startPosition: latestEventPosition,
               maxWaitTimeInSeconds: 0, // Set timeout of 0 to resolve the promise ASAP
-            }
+            },
           );
         });
         await subscription!.close();
@@ -873,7 +888,7 @@ testWithServiceTypes((serviceVersion) => {
             {
               startPosition: latestEventPosition,
               maxWaitTimeInSeconds: 30,
-            }
+            },
           );
         });
         await subscription!.close();
@@ -885,12 +900,12 @@ testWithServiceTypes((serviceVersion) => {
         should.equal(
           eventsReceived.length,
           eventsSentAfterSubscribe.length,
-          "Not received the same number of events that were sent."
+          "Not received the same number of events that were sent.",
         );
         for (let i = 0; i < eventsSentAfterSubscribe.length; i++) {
           eventsReceived[i].body.should.equal(eventsSentAfterSubscribe[i].body);
           eventsReceived[i].properties!.stamp.should.equal(
-            eventsSentAfterSubscribe[i].properties!.stamp
+            eventsSentAfterSubscribe[i].properties!.stamp,
           );
         }
       });
@@ -924,7 +939,7 @@ testWithServiceTypes((serviceVersion) => {
             {
               startPosition: { sequenceNumber: partitionInfo.lastEnqueuedSequenceNumber },
               maxWaitTimeInSeconds: 30,
-            }
+            },
           );
         });
         await subscription!.close();
@@ -936,12 +951,12 @@ testWithServiceTypes((serviceVersion) => {
         should.equal(
           eventsReceived.length,
           eventsSentAfterSubscribe.length,
-          "Not received the same number of events that were sent."
+          "Not received the same number of events that were sent.",
         );
         for (let i = 0; i < eventsSentAfterSubscribe.length; i++) {
           eventsReceived[i].body.should.equal(eventsSentAfterSubscribe[i].body);
           eventsReceived[i].properties!.stamp.should.equal(
-            eventsSentAfterSubscribe[i].properties!.stamp
+            eventsSentAfterSubscribe[i].properties!.stamp,
           );
         }
       });
@@ -962,12 +977,12 @@ testWithServiceTypes((serviceVersion) => {
                   should.equal(
                     data.length,
                     1,
-                    "Expected 1 event sent right before subscribe call."
+                    "Expected 1 event sent right before subscribe call.",
                   );
                   should.equal(
                     data[0].body,
                     eventSentBeforeSubscribe.body,
-                    "Should have received only the 1 event sent right before subscribe call."
+                    "Should have received only the 1 event sent right before subscribe call.",
                   );
 
                   await producerClient.sendBatch(eventsSentAfterSubscribe, { partitionId });
@@ -989,7 +1004,7 @@ testWithServiceTypes((serviceVersion) => {
                 isInclusive: true,
               },
               maxWaitTimeInSeconds: 30,
-            }
+            },
           );
         });
         await subscription!.close();
@@ -997,13 +1012,13 @@ testWithServiceTypes((serviceVersion) => {
         should.equal(
           eventsReceived.length,
           eventsSentAfterSubscribe.length,
-          "Not received the same number of events that were sent."
+          "Not received the same number of events that were sent.",
         );
 
         for (let i = 0; i < eventsSentAfterSubscribe.length; i++) {
           eventsReceived[i].body.should.equal(eventsSentAfterSubscribe[i].body);
           eventsReceived[i].properties!.stamp.should.equal(
-            eventsSentAfterSubscribe[i].properties!.stamp
+            eventsSentAfterSubscribe[i].properties!.stamp,
           );
         }
       });
@@ -1037,7 +1052,7 @@ testWithServiceTypes((serviceVersion) => {
             {
               startPosition: { offset: partitionInfo.lastEnqueuedOffset },
               maxWaitTimeInSeconds: 30,
-            }
+            },
           );
         });
         await subscription!.close();
@@ -1049,12 +1064,12 @@ testWithServiceTypes((serviceVersion) => {
         should.equal(
           eventsReceived.length,
           eventsSentAfterSubscribe.length,
-          "Not received the same number of events that were sent."
+          "Not received the same number of events that were sent.",
         );
         for (let i = 0; i < eventsSentAfterSubscribe.length; i++) {
           eventsReceived[i].body.should.equal(eventsSentAfterSubscribe[i].body);
           eventsReceived[i].properties!.stamp.should.equal(
-            eventsSentAfterSubscribe[i].properties!.stamp
+            eventsSentAfterSubscribe[i].properties!.stamp,
           );
         }
       });
@@ -1075,12 +1090,12 @@ testWithServiceTypes((serviceVersion) => {
                   should.equal(
                     data.length,
                     1,
-                    "Expected 1 event sent right before subscribe call."
+                    "Expected 1 event sent right before subscribe call.",
                   );
                   should.equal(
                     data[0].body,
                     eventSentBeforeSubscribe.body,
-                    "Should have received only the 1 event sent right before subscribe call."
+                    "Should have received only the 1 event sent right before subscribe call.",
                   );
 
                   await producerClient.sendBatch(eventsSentAfterSubscribe, {
@@ -1104,7 +1119,7 @@ testWithServiceTypes((serviceVersion) => {
                 isInclusive: true,
               },
               maxWaitTimeInSeconds: 30,
-            }
+            },
           );
         });
         await subscription!.close();
@@ -1112,13 +1127,13 @@ testWithServiceTypes((serviceVersion) => {
         should.equal(
           eventsReceived.length,
           eventsSentAfterSubscribe.length,
-          "Not received the same number of events that were sent."
+          "Not received the same number of events that were sent.",
         );
 
         for (let i = 0; i < eventsSentAfterSubscribe.length; i++) {
           eventsReceived[i].body.should.equal(eventsSentAfterSubscribe[i].body);
           eventsReceived[i].properties!.stamp.should.equal(
-            eventsSentAfterSubscribe[i].properties!.stamp
+            eventsSentAfterSubscribe[i].properties!.stamp,
           );
         }
       });
@@ -1155,7 +1170,7 @@ testWithServiceTypes((serviceVersion) => {
             {
               startPosition: { enqueuedOn: partitionInfo.lastEnqueuedOnUtc },
               maxWaitTimeInSeconds: 30,
-            }
+            },
           );
         });
         await subscription!.close();
@@ -1167,12 +1182,12 @@ testWithServiceTypes((serviceVersion) => {
         should.equal(
           eventsReceived.length,
           eventsSentAfterSubscribe.length,
-          "Not received the same number of events that were sent."
+          "Not received the same number of events that were sent.",
         );
         for (let i = 0; i < eventsSentAfterSubscribe.length; i++) {
           eventsReceived[i].body.should.equal(eventsSentAfterSubscribe[i].body);
           eventsReceived[i].properties!.stamp.should.equal(
-            eventsSentAfterSubscribe[i].properties!.stamp
+            eventsSentAfterSubscribe[i].properties!.stamp,
           );
         }
       });
@@ -1199,7 +1214,7 @@ testWithServiceTypes((serviceVersion) => {
                 should.exist(context.lastEnqueuedEventProperties);
                 context.lastEnqueuedEventProperties!.offset!.should.equal(pInfo.lastEnqueuedOffset);
                 context.lastEnqueuedEventProperties!.sequenceNumber!.should.equal(
-                  pInfo.lastEnqueuedSequenceNumber
+                  pInfo.lastEnqueuedSequenceNumber,
                 );
                 context
                   .lastEnqueuedEventProperties!.enqueuedOn!.getTime()
@@ -1218,7 +1233,7 @@ testWithServiceTypes((serviceVersion) => {
               startPosition: earliestEventPosition,
               maxBatchSize: 1,
               trackLastEnqueuedEventProperties: true,
-            }
+            },
           );
         });
         await subscription!.close();
@@ -1230,7 +1245,7 @@ testWithServiceTypes((serviceVersion) => {
         const badConsumerClient = new EventHubConsumerClient(
           "boo",
           service.connectionString,
-          service.path
+          service.path,
         );
         let subscription: Subscription | undefined;
         const caughtErr = await new Promise<Error | MessagingError>((resolve) => {
@@ -1277,7 +1292,7 @@ testWithServiceTypes((serviceVersion) => {
           [{ body: Uint8Array.from(data), contentType: "avro/binary+1234" }],
           {
             partitionId,
-          }
+          },
         );
         let subscription: Subscription;
         const receivedEvent = await new Promise<ReceivedEventData>((resolve, reject) => {
@@ -1293,7 +1308,7 @@ testWithServiceTypes((serviceVersion) => {
             },
             {
               startPosition: startingPositions,
-            }
+            },
           );
         });
         await subscription!.close();

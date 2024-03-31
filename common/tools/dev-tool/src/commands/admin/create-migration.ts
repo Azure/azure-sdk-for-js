@@ -4,16 +4,11 @@
 import path from "node:path";
 import readline from "node:readline";
 import { spawnSync } from "node:child_process";
-
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import migrationTemplate, { MigrationTemplate } from "../../templates/migration";
 import { createPrinter } from "../../util/printer";
-
 import { ensureDir, pathExists, writeFile } from "fs-extra";
-
-import * as prettier from "prettier";
-
-import prettierOptions from "../../../../eslint-plugin-azure-sdk/prettier.json";
+import { format } from "../../util/prettier";
 
 const log = createPrinter("create-migration");
 
@@ -84,7 +79,7 @@ export default leafCommand(commandInfo, async (options) => {
       failed = true;
 
       log.error(
-        "Migration ids must only contain alphanumeric characters, underscores, dashes, and forward slashes."
+        "Migration ids must only contain alphanumeric characters, underscores, dashes, and forward slashes.",
       );
     }
 
@@ -143,10 +138,7 @@ export default leafCommand(commandInfo, async (options) => {
   // Get the instantiated template and write it to the migrations folder.
   const result = migrationTemplate(template);
 
-  const formattedResult = prettier.format(result, {
-    ...(prettierOptions as prettier.Options),
-    parser: "typescript",
-  });
+  const formattedResult = await format(result, "typescript");
 
   await ensureDir(path.dirname(migrationFile));
   await writeFile(migrationFile, formattedResult);
@@ -184,12 +176,12 @@ export default leafCommand(commandInfo, async (options) => {
       }
 
       log.warn(
-        `Failed to open migration using one of the following commands: ${commands.join(", ")}`
+        `Failed to open migration using one of the following commands: ${commands.join(", ")}`,
       );
     }
   } else if (options.open) {
     log.warn(
-      "Cannot detect VS Code. Skipping opening migration even though '--open' was specified."
+      "Cannot detect VS Code. Skipping opening migration even though '--open' was specified.",
     );
   }
 

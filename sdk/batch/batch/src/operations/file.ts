@@ -376,13 +376,13 @@ const deleteFromTaskOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.recursive,
     Parameters.apiVersion,
-    Parameters.timeout37
+    Parameters.timeout23
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId46,
-    Parameters.returnClientRequestId46,
-    Parameters.ocpDate46
+    Parameters.clientRequestId29,
+    Parameters.returnClientRequestId29,
+    Parameters.ocpDate29
   ],
   responses: {
     200: {
@@ -407,16 +407,16 @@ const getFromTaskOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout38
+    Parameters.timeout24
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId47,
-    Parameters.returnClientRequestId47,
-    Parameters.ocpDate47,
+    Parameters.clientRequestId30,
+    Parameters.returnClientRequestId30,
+    Parameters.ocpDate30,
     Parameters.ocpRange0,
-    Parameters.ifModifiedSince15,
-    Parameters.ifUnmodifiedSince15
+    Parameters.ifModifiedSince8,
+    Parameters.ifUnmodifiedSince8
   ],
   responses: {
     200: {
@@ -447,15 +447,15 @@ const getPropertiesFromTaskOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout39
+    Parameters.timeout25
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId48,
-    Parameters.returnClientRequestId48,
-    Parameters.ocpDate48,
-    Parameters.ifModifiedSince16,
-    Parameters.ifUnmodifiedSince16
+    Parameters.clientRequestId31,
+    Parameters.returnClientRequestId31,
+    Parameters.ocpDate31,
+    Parameters.ifModifiedSince9,
+    Parameters.ifUnmodifiedSince9
   ],
   responses: {
     200: {
@@ -481,13 +481,13 @@ const deleteFromComputeNodeOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.recursive,
     Parameters.apiVersion,
-    Parameters.timeout40
+    Parameters.timeout26
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId49,
-    Parameters.returnClientRequestId49,
-    Parameters.ocpDate49
+    Parameters.clientRequestId32,
+    Parameters.returnClientRequestId32,
+    Parameters.ocpDate32
   ],
   responses: {
     200: {
@@ -512,16 +512,16 @@ const getFromComputeNodeOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout41
+    Parameters.timeout27
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId50,
-    Parameters.returnClientRequestId50,
-    Parameters.ocpDate50,
+    Parameters.clientRequestId33,
+    Parameters.returnClientRequestId33,
+    Parameters.ocpDate33,
     Parameters.ocpRange1,
-    Parameters.ifModifiedSince17,
-    Parameters.ifUnmodifiedSince17
+    Parameters.ifModifiedSince10,
+    Parameters.ifUnmodifiedSince10
   ],
   responses: {
     200: {
@@ -552,15 +552,15 @@ const getPropertiesFromComputeNodeOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout42
+    Parameters.timeout28
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId51,
-    Parameters.returnClientRequestId51,
-    Parameters.ocpDate51,
-    Parameters.ifModifiedSince18,
-    Parameters.ifUnmodifiedSince18
+    Parameters.clientRequestId34,
+    Parameters.returnClientRequestId34,
+    Parameters.ocpDate34,
+    Parameters.ifModifiedSince11,
+    Parameters.ifUnmodifiedSince11
   ],
   responses: {
     200: {
@@ -585,15 +585,15 @@ const listFromTaskOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.recursive,
     Parameters.apiVersion,
-    Parameters.filter8,
-    Parameters.maxResults9,
-    Parameters.timeout43
+    Parameters.filter5,
+    Parameters.maxResults6,
+    Parameters.timeout29
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId52,
-    Parameters.returnClientRequestId52,
-    Parameters.ocpDate52
+    Parameters.clientRequestId35,
+    Parameters.returnClientRequestId35,
+    Parameters.ocpDate35
   ],
   responses: {
     200: {
@@ -619,15 +619,15 @@ const listFromComputeNodeOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.recursive,
     Parameters.apiVersion,
-    Parameters.filter9,
-    Parameters.maxResults10,
-    Parameters.timeout44
+    Parameters.filter6,
+    Parameters.maxResults7,
+    Parameters.timeout30
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId53,
-    Parameters.returnClientRequestId53,
-    Parameters.ocpDate53
+    Parameters.clientRequestId36,
+    Parameters.returnClientRequestId36,
+    Parameters.ocpDate36
   ],
   responses: {
     200: {
@@ -655,9 +655,9 @@ const listFromTaskNextOperationSpec: msRest.OperationSpec = {
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId54,
-    Parameters.returnClientRequestId54,
-    Parameters.ocpDate54
+    Parameters.clientRequestId37,
+    Parameters.returnClientRequestId37,
+    Parameters.ocpDate37
   ],
   responses: {
     200: {
@@ -685,9 +685,9 @@ const listFromComputeNodeNextOperationSpec: msRest.OperationSpec = {
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId55,
-    Parameters.returnClientRequestId55,
-    Parameters.ocpDate55
+    Parameters.clientRequestId38,
+    Parameters.returnClientRequestId38,
+    Parameters.ocpDate38
   ],
   responses: {
     200: {

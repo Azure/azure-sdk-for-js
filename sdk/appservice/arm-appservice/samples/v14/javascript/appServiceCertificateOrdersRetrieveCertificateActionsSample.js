@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Retrieve the list of certificate actions.
  *
  * @summary Description for Retrieve the list of certificate actions.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2022-09-01/examples/RetrieveCertificateOrderActions.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2023-01-01/examples/RetrieveCertificateOrderActions.json
  */
 async function retrieveCertificateOrderActions() {
   const subscriptionId =

@@ -14,6 +14,12 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ChaosManagementClient } from "../chaosManagementClient";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
   Experiment,
   ExperimentsListAllNextOptionalParams,
   ExperimentsListAllOptionalParams,
@@ -21,31 +27,27 @@ import {
   ExperimentsListNextOptionalParams,
   ExperimentsListOptionalParams,
   ExperimentsListResponse,
-  ExperimentStatus,
-  ExperimentsListAllStatusesNextOptionalParams,
-  ExperimentsListAllStatusesOptionalParams,
-  ExperimentsListAllStatusesResponse,
-  ExperimentExecutionDetails,
-  ExperimentsListExecutionDetailsNextOptionalParams,
-  ExperimentsListExecutionDetailsOptionalParams,
-  ExperimentsListExecutionDetailsResponse,
+  ExperimentExecution,
+  ExperimentsListAllExecutionsNextOptionalParams,
+  ExperimentsListAllExecutionsOptionalParams,
+  ExperimentsListAllExecutionsResponse,
   ExperimentsDeleteOptionalParams,
   ExperimentsGetOptionalParams,
   ExperimentsGetResponse,
   ExperimentsCreateOrUpdateOptionalParams,
   ExperimentsCreateOrUpdateResponse,
+  ExperimentUpdate,
+  ExperimentsUpdateOptionalParams,
+  ExperimentsUpdateResponse,
   ExperimentsCancelOptionalParams,
-  ExperimentsCancelResponse,
   ExperimentsStartOptionalParams,
-  ExperimentsStartResponse,
-  ExperimentsGetStatusOptionalParams,
-  ExperimentsGetStatusResponse,
-  ExperimentsGetExecutionDetailsOptionalParams,
-  ExperimentsGetExecutionDetailsResponse,
+  ExperimentsGetExecutionOptionalParams,
+  ExperimentsGetExecutionResponse,
+  ExperimentsExecutionDetailsOptionalParams,
+  ExperimentsExecutionDetailsResponse,
   ExperimentsListAllNextResponse,
   ExperimentsListNextResponse,
-  ExperimentsListAllStatusesNextResponse,
-  ExperimentsListExecutionDetailsNextResponse
+  ExperimentsListAllExecutionsNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -66,7 +68,7 @@ export class ExperimentsImpl implements Experiments {
    * @param options The options parameters.
    */
   public listAll(
-    options?: ExperimentsListAllOptionalParams
+    options?: ExperimentsListAllOptionalParams,
   ): PagedAsyncIterableIterator<Experiment> {
     const iter = this.listAllPagingAll(options);
     return {
@@ -81,13 +83,13 @@ export class ExperimentsImpl implements Experiments {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listAllPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listAllPagingPage(
     options?: ExperimentsListAllOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Experiment[]> {
     let result: ExperimentsListAllResponse;
     let continuationToken = settings?.continuationToken;
@@ -108,7 +110,7 @@ export class ExperimentsImpl implements Experiments {
   }
 
   private async *listAllPagingAll(
-    options?: ExperimentsListAllOptionalParams
+    options?: ExperimentsListAllOptionalParams,
   ): AsyncIterableIterator<Experiment> {
     for await (const page of this.listAllPagingPage(options)) {
       yield* page;
@@ -122,7 +124,7 @@ export class ExperimentsImpl implements Experiments {
    */
   public list(
     resourceGroupName: string,
-    options?: ExperimentsListOptionalParams
+    options?: ExperimentsListOptionalParams,
   ): PagedAsyncIterableIterator<Experiment> {
     const iter = this.listPagingAll(resourceGroupName, options);
     return {
@@ -137,14 +139,14 @@ export class ExperimentsImpl implements Experiments {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceGroupName, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
     options?: ExperimentsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Experiment[]> {
     let result: ExperimentsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -159,7 +161,7 @@ export class ExperimentsImpl implements Experiments {
       result = await this._listNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -170,7 +172,7 @@ export class ExperimentsImpl implements Experiments {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    options?: ExperimentsListOptionalParams
+    options?: ExperimentsListOptionalParams,
   ): AsyncIterableIterator<Experiment> {
     for await (const page of this.listPagingPage(resourceGroupName, options)) {
       yield* page;
@@ -178,20 +180,20 @@ export class ExperimentsImpl implements Experiments {
   }
 
   /**
-   * Get a list of statuses of a Experiment resource.
+   * Get a list of executions of an Experiment resource.
    * @param resourceGroupName String that represents an Azure resource group.
    * @param experimentName String that represents a Experiment resource name.
    * @param options The options parameters.
    */
-  public listAllStatuses(
+  public listAllExecutions(
     resourceGroupName: string,
     experimentName: string,
-    options?: ExperimentsListAllStatusesOptionalParams
-  ): PagedAsyncIterableIterator<ExperimentStatus> {
-    const iter = this.listAllStatusesPagingAll(
+    options?: ExperimentsListAllExecutionsOptionalParams,
+  ): PagedAsyncIterableIterator<ExperimentExecution> {
+    const iter = this.listAllExecutionsPagingAll(
       resourceGroupName,
       experimentName,
-      options
+      options,
     );
     return {
       next() {
@@ -204,29 +206,29 @@ export class ExperimentsImpl implements Experiments {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listAllStatusesPagingPage(
+        return this.listAllExecutionsPagingPage(
           resourceGroupName,
           experimentName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
-  private async *listAllStatusesPagingPage(
+  private async *listAllExecutionsPagingPage(
     resourceGroupName: string,
     experimentName: string,
-    options?: ExperimentsListAllStatusesOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<ExperimentStatus[]> {
-    let result: ExperimentsListAllStatusesResponse;
+    options?: ExperimentsListAllExecutionsOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<ExperimentExecution[]> {
+    let result: ExperimentsListAllExecutionsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listAllStatuses(
+      result = await this._listAllExecutions(
         resourceGroupName,
         experimentName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -234,11 +236,11 @@ export class ExperimentsImpl implements Experiments {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listAllStatusesNext(
+      result = await this._listAllExecutionsNext(
         resourceGroupName,
         experimentName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -247,99 +249,15 @@ export class ExperimentsImpl implements Experiments {
     }
   }
 
-  private async *listAllStatusesPagingAll(
+  private async *listAllExecutionsPagingAll(
     resourceGroupName: string,
     experimentName: string,
-    options?: ExperimentsListAllStatusesOptionalParams
-  ): AsyncIterableIterator<ExperimentStatus> {
-    for await (const page of this.listAllStatusesPagingPage(
+    options?: ExperimentsListAllExecutionsOptionalParams,
+  ): AsyncIterableIterator<ExperimentExecution> {
+    for await (const page of this.listAllExecutionsPagingPage(
       resourceGroupName,
       experimentName,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Get a list of execution details of a Experiment resource.
-   * @param resourceGroupName String that represents an Azure resource group.
-   * @param experimentName String that represents a Experiment resource name.
-   * @param options The options parameters.
-   */
-  public listExecutionDetails(
-    resourceGroupName: string,
-    experimentName: string,
-    options?: ExperimentsListExecutionDetailsOptionalParams
-  ): PagedAsyncIterableIterator<ExperimentExecutionDetails> {
-    const iter = this.listExecutionDetailsPagingAll(
-      resourceGroupName,
-      experimentName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listExecutionDetailsPagingPage(
-          resourceGroupName,
-          experimentName,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listExecutionDetailsPagingPage(
-    resourceGroupName: string,
-    experimentName: string,
-    options?: ExperimentsListExecutionDetailsOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<ExperimentExecutionDetails[]> {
-    let result: ExperimentsListExecutionDetailsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listExecutionDetails(
-        resourceGroupName,
-        experimentName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listExecutionDetailsNext(
-        resourceGroupName,
-        experimentName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listExecutionDetailsPagingAll(
-    resourceGroupName: string,
-    experimentName: string,
-    options?: ExperimentsListExecutionDetailsOptionalParams
-  ): AsyncIterableIterator<ExperimentExecutionDetails> {
-    for await (const page of this.listExecutionDetailsPagingPage(
-      resourceGroupName,
-      experimentName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -350,7 +268,7 @@ export class ExperimentsImpl implements Experiments {
    * @param options The options parameters.
    */
   private _listAll(
-    options?: ExperimentsListAllOptionalParams
+    options?: ExperimentsListAllOptionalParams,
   ): Promise<ExperimentsListAllResponse> {
     return this.client.sendOperationRequest({ options }, listAllOperationSpec);
   }
@@ -362,11 +280,11 @@ export class ExperimentsImpl implements Experiments {
    */
   private _list(
     resourceGroupName: string,
-    options?: ExperimentsListOptionalParams
+    options?: ExperimentsListOptionalParams,
   ): Promise<ExperimentsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -376,15 +294,80 @@ export class ExperimentsImpl implements Experiments {
    * @param experimentName String that represents a Experiment resource name.
    * @param options The options parameters.
    */
-  delete(
+  async beginDelete(
     resourceGroupName: string,
     experimentName: string,
-    options?: ExperimentsDeleteOptionalParams
+    options?: ExperimentsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, experimentName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Delete a Experiment resource.
+   * @param resourceGroupName String that represents an Azure resource group.
+   * @param experimentName String that represents a Experiment resource name.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    experimentName: string,
+    options?: ExperimentsDeleteOptionalParams,
   ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, experimentName, options },
-      deleteOperationSpec
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      experimentName,
+      options,
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -396,11 +379,11 @@ export class ExperimentsImpl implements Experiments {
   get(
     resourceGroupName: string,
     experimentName: string,
-    options?: ExperimentsGetOptionalParams
+    options?: ExperimentsGetOptionalParams,
   ): Promise<ExperimentsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, experimentName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -411,16 +394,187 @@ export class ExperimentsImpl implements Experiments {
    * @param experiment Experiment resource to be created or updated.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  async beginCreateOrUpdate(
     resourceGroupName: string,
     experimentName: string,
     experiment: Experiment,
-    options?: ExperimentsCreateOrUpdateOptionalParams
+    options?: ExperimentsCreateOrUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ExperimentsCreateOrUpdateResponse>,
+      ExperimentsCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ExperimentsCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, experimentName, experiment, options },
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ExperimentsCreateOrUpdateResponse,
+      OperationState<ExperimentsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Create or update a Experiment resource.
+   * @param resourceGroupName String that represents an Azure resource group.
+   * @param experimentName String that represents a Experiment resource name.
+   * @param experiment Experiment resource to be created or updated.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    experimentName: string,
+    experiment: Experiment,
+    options?: ExperimentsCreateOrUpdateOptionalParams,
   ): Promise<ExperimentsCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, experimentName, experiment, options },
-      createOrUpdateOperationSpec
+    const poller = await this.beginCreateOrUpdate(
+      resourceGroupName,
+      experimentName,
+      experiment,
+      options,
     );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * The operation to update an experiment.
+   * @param resourceGroupName String that represents an Azure resource group.
+   * @param experimentName String that represents a Experiment resource name.
+   * @param experiment Parameters supplied to the Update experiment operation.
+   * @param options The options parameters.
+   */
+  async beginUpdate(
+    resourceGroupName: string,
+    experimentName: string,
+    experiment: ExperimentUpdate,
+    options?: ExperimentsUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ExperimentsUpdateResponse>,
+      ExperimentsUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ExperimentsUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, experimentName, experiment, options },
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ExperimentsUpdateResponse,
+      OperationState<ExperimentsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * The operation to update an experiment.
+   * @param resourceGroupName String that represents an Azure resource group.
+   * @param experimentName String that represents a Experiment resource name.
+   * @param experiment Parameters supplied to the Update experiment operation.
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
+    resourceGroupName: string,
+    experimentName: string,
+    experiment: ExperimentUpdate,
+    options?: ExperimentsUpdateOptionalParams,
+  ): Promise<ExperimentsUpdateResponse> {
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      experimentName,
+      experiment,
+      options,
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -429,15 +583,80 @@ export class ExperimentsImpl implements Experiments {
    * @param experimentName String that represents a Experiment resource name.
    * @param options The options parameters.
    */
-  cancel(
+  async beginCancel(
     resourceGroupName: string,
     experimentName: string,
-    options?: ExperimentsCancelOptionalParams
-  ): Promise<ExperimentsCancelResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, experimentName, options },
-      cancelOperationSpec
+    options?: ExperimentsCancelOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, experimentName, options },
+      spec: cancelOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Cancel a running Experiment resource.
+   * @param resourceGroupName String that represents an Azure resource group.
+   * @param experimentName String that represents a Experiment resource name.
+   * @param options The options parameters.
+   */
+  async beginCancelAndWait(
+    resourceGroupName: string,
+    experimentName: string,
+    options?: ExperimentsCancelOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginCancel(
+      resourceGroupName,
+      experimentName,
+      options,
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -446,86 +665,134 @@ export class ExperimentsImpl implements Experiments {
    * @param experimentName String that represents a Experiment resource name.
    * @param options The options parameters.
    */
-  start(
+  async beginStart(
     resourceGroupName: string,
     experimentName: string,
-    options?: ExperimentsStartOptionalParams
-  ): Promise<ExperimentsStartResponse> {
+    options?: ExperimentsStartOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, experimentName, options },
+      spec: startOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Start a Experiment resource.
+   * @param resourceGroupName String that represents an Azure resource group.
+   * @param experimentName String that represents a Experiment resource name.
+   * @param options The options parameters.
+   */
+  async beginStartAndWait(
+    resourceGroupName: string,
+    experimentName: string,
+    options?: ExperimentsStartOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginStart(
+      resourceGroupName,
+      experimentName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Get a list of executions of an Experiment resource.
+   * @param resourceGroupName String that represents an Azure resource group.
+   * @param experimentName String that represents a Experiment resource name.
+   * @param options The options parameters.
+   */
+  private _listAllExecutions(
+    resourceGroupName: string,
+    experimentName: string,
+    options?: ExperimentsListAllExecutionsOptionalParams,
+  ): Promise<ExperimentsListAllExecutionsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, experimentName, options },
-      startOperationSpec
+      listAllExecutionsOperationSpec,
     );
   }
 
   /**
-   * Get a list of statuses of a Experiment resource.
+   * Get an execution of an Experiment resource.
    * @param resourceGroupName String that represents an Azure resource group.
    * @param experimentName String that represents a Experiment resource name.
+   * @param executionId GUID that represents a Experiment execution detail.
    * @param options The options parameters.
    */
-  private _listAllStatuses(
+  getExecution(
     resourceGroupName: string,
     experimentName: string,
-    options?: ExperimentsListAllStatusesOptionalParams
-  ): Promise<ExperimentsListAllStatusesResponse> {
+    executionId: string,
+    options?: ExperimentsGetExecutionOptionalParams,
+  ): Promise<ExperimentsGetExecutionResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, experimentName, options },
-      listAllStatusesOperationSpec
+      { resourceGroupName, experimentName, executionId, options },
+      getExecutionOperationSpec,
     );
   }
 
   /**
-   * Get a status of a Experiment resource.
+   * Execution details of an experiment resource.
    * @param resourceGroupName String that represents an Azure resource group.
    * @param experimentName String that represents a Experiment resource name.
-   * @param statusId GUID that represents a Experiment status.
+   * @param executionId GUID that represents a Experiment execution detail.
    * @param options The options parameters.
    */
-  getStatus(
+  executionDetails(
     resourceGroupName: string,
     experimentName: string,
-    statusId: string,
-    options?: ExperimentsGetStatusOptionalParams
-  ): Promise<ExperimentsGetStatusResponse> {
+    executionId: string,
+    options?: ExperimentsExecutionDetailsOptionalParams,
+  ): Promise<ExperimentsExecutionDetailsResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, experimentName, statusId, options },
-      getStatusOperationSpec
-    );
-  }
-
-  /**
-   * Get a list of execution details of a Experiment resource.
-   * @param resourceGroupName String that represents an Azure resource group.
-   * @param experimentName String that represents a Experiment resource name.
-   * @param options The options parameters.
-   */
-  private _listExecutionDetails(
-    resourceGroupName: string,
-    experimentName: string,
-    options?: ExperimentsListExecutionDetailsOptionalParams
-  ): Promise<ExperimentsListExecutionDetailsResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, experimentName, options },
-      listExecutionDetailsOperationSpec
-    );
-  }
-
-  /**
-   * Get an execution detail of a Experiment resource.
-   * @param resourceGroupName String that represents an Azure resource group.
-   * @param experimentName String that represents a Experiment resource name.
-   * @param executionDetailsId GUID that represents a Experiment execution detail.
-   * @param options The options parameters.
-   */
-  getExecutionDetails(
-    resourceGroupName: string,
-    experimentName: string,
-    executionDetailsId: string,
-    options?: ExperimentsGetExecutionDetailsOptionalParams
-  ): Promise<ExperimentsGetExecutionDetailsResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, experimentName, executionDetailsId, options },
-      getExecutionDetailsOperationSpec
+      { resourceGroupName, experimentName, executionId, options },
+      executionDetailsOperationSpec,
     );
   }
 
@@ -536,11 +803,11 @@ export class ExperimentsImpl implements Experiments {
    */
   private _listAllNext(
     nextLink: string,
-    options?: ExperimentsListAllNextOptionalParams
+    options?: ExperimentsListAllNextOptionalParams,
   ): Promise<ExperimentsListAllNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listAllNextOperationSpec
+      listAllNextOperationSpec,
     );
   }
 
@@ -553,49 +820,30 @@ export class ExperimentsImpl implements Experiments {
   private _listNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: ExperimentsListNextOptionalParams
+    options?: ExperimentsListNextOptionalParams,
   ): Promise<ExperimentsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
   /**
-   * ListAllStatusesNext
+   * ListAllExecutionsNext
    * @param resourceGroupName String that represents an Azure resource group.
    * @param experimentName String that represents a Experiment resource name.
-   * @param nextLink The nextLink from the previous successful call to the ListAllStatuses method.
+   * @param nextLink The nextLink from the previous successful call to the ListAllExecutions method.
    * @param options The options parameters.
    */
-  private _listAllStatusesNext(
+  private _listAllExecutionsNext(
     resourceGroupName: string,
     experimentName: string,
     nextLink: string,
-    options?: ExperimentsListAllStatusesNextOptionalParams
-  ): Promise<ExperimentsListAllStatusesNextResponse> {
+    options?: ExperimentsListAllExecutionsNextOptionalParams,
+  ): Promise<ExperimentsListAllExecutionsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, experimentName, nextLink, options },
-      listAllStatusesNextOperationSpec
-    );
-  }
-
-  /**
-   * ListExecutionDetailsNext
-   * @param resourceGroupName String that represents an Azure resource group.
-   * @param experimentName String that represents a Experiment resource name.
-   * @param nextLink The nextLink from the previous successful call to the ListExecutionDetails method.
-   * @param options The options parameters.
-   */
-  private _listExecutionDetailsNext(
-    resourceGroupName: string,
-    experimentName: string,
-    nextLink: string,
-    options?: ExperimentsListExecutionDetailsNextOptionalParams
-  ): Promise<ExperimentsListExecutionDetailsNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, experimentName, nextLink, options },
-      listExecutionDetailsNextOperationSpec
+      listAllExecutionsNextOperationSpec,
     );
   }
 }
@@ -607,100 +855,107 @@ const listAllOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExperimentListResult
+      bodyMapper: Mappers.ExperimentListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.continuationToken,
-    Parameters.running
+    Parameters.running,
   ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExperimentListResult
+      bodyMapper: Mappers.ExperimentListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.continuationToken,
-    Parameters.running
+    Parameters.running,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
+    201: {},
+    202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.experimentName
+    Parameters.experimentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Experiment
+      bodyMapper: Mappers.Experiment,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.experimentName
+    Parameters.experimentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Experiment
+      bodyMapper: Mappers.Experiment,
+    },
+    201: {
+      bodyMapper: Mappers.Experiment,
+    },
+    202: {
+      bodyMapper: Mappers.Experiment,
+    },
+    204: {
+      bodyMapper: Mappers.Experiment,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.experiment,
   queryParameters: [Parameters.apiVersion],
@@ -708,89 +963,77 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.experimentName
+    Parameters.experimentName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Experiment,
+    },
+    201: {
+      bodyMapper: Mappers.Experiment,
+    },
+    202: {
+      bodyMapper: Mappers.Experiment,
+    },
+    204: {
+      bodyMapper: Mappers.Experiment,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.experiment1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.experimentName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
 };
 const cancelOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/cancel",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/cancel",
   httpMethod: "POST",
   responses: {
-    202: {
-      bodyMapper: Mappers.ExperimentCancelOperationResult
-    },
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.experimentName
+    Parameters.experimentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const startOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/start",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/start",
   httpMethod: "POST",
   responses: {
-    202: {
-      bodyMapper: Mappers.ExperimentStartOperationResult
-    },
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.experimentName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listAllStatusesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/statuses",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ExperimentStatusListResult
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.experimentName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getStatusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/statuses/{statusId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ExperimentStatus
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -798,44 +1041,20 @@ const getStatusOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.experimentName,
-    Parameters.statusId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listExecutionDetailsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/executionDetails",
+const listAllExecutionsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/executions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExperimentExecutionDetailsListResult
+      bodyMapper: Mappers.ExperimentExecutionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.experimentName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getExecutionDetailsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/executionDetails/{executionDetailsId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ExperimentExecutionDetails
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -843,89 +1062,111 @@ const getExecutionDetailsOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.experimentName,
-    Parameters.executionDetailsId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getExecutionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/executions/{executionId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ExperimentExecution,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.experimentName,
+    Parameters.executionId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const executionDetailsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/executions/{executionId}/getExecutionDetails",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ExperimentExecutionDetails,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.experimentName,
+    Parameters.executionId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listAllNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExperimentListResult
+      bodyMapper: Mappers.ExperimentListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExperimentListResult
+      bodyMapper: Mappers.ExperimentListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listAllStatusesNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ExperimentStatusListResult
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.experimentName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listExecutionDetailsNextOperationSpec: coreClient.OperationSpec = {
+const listAllExecutionsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExperimentExecutionDetailsListResult
+      bodyMapper: Mappers.ExperimentExecutionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.experimentName
+    Parameters.experimentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

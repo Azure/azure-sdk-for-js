@@ -7,8 +7,6 @@
  * endpoint provides a primary language as well as a score representing the
  * service's confidence in the correctness of its assessment.
  *
- * Script detection feature can be enabled with the "2022-04-10-preview" model version.
- *
  * @summary detects the language of a piece of text
  * @azsdk-weight 100
  */
@@ -43,11 +41,8 @@ export async function main() {
   for (const doc of result) {
     if (!doc.error) {
       console.log(
-        `Primary language: ${doc.primaryLanguage.name} (iso6391 name: ${doc.primaryLanguage.iso6391Name})`
+        `Primary language: ${doc.primaryLanguage.name} (iso6391 name: ${doc.primaryLanguage.iso6391Name})`,
       );
-      if (doc.primaryLanguage.script) {
-        console.log(`Detected script: ${doc.primaryLanguage.script}`);
-      }
     }
   }
 }

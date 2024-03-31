@@ -63,7 +63,7 @@ export class ReportsImpl implements Reports {
 
   /**
    * Lists report records by API.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param filter The filter to apply on the operation.
    * @param options The options parameters.
@@ -155,7 +155,7 @@ export class ReportsImpl implements Reports {
 
   /**
    * Lists report records by User.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
    *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
@@ -259,7 +259,7 @@ export class ReportsImpl implements Reports {
 
   /**
    * Lists report records by API Operations.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
    *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
@@ -362,7 +362,7 @@ export class ReportsImpl implements Reports {
 
   /**
    * Lists report records by Product.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
    *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
@@ -465,7 +465,7 @@ export class ReportsImpl implements Reports {
 
   /**
    * Lists report records by geography.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
    *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
@@ -568,7 +568,7 @@ export class ReportsImpl implements Reports {
 
   /**
    * Lists report records by subscription.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
    *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
@@ -671,7 +671,7 @@ export class ReportsImpl implements Reports {
 
   /**
    * Lists report records by Time.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
    *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter, select
@@ -784,7 +784,7 @@ export class ReportsImpl implements Reports {
 
   /**
    * Lists report records by Request.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
    *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
@@ -862,7 +862,7 @@ export class ReportsImpl implements Reports {
 
   /**
    * Lists report records by API.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param filter The filter to apply on the operation.
    * @param options The options parameters.
@@ -881,7 +881,7 @@ export class ReportsImpl implements Reports {
 
   /**
    * Lists report records by User.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
    *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
@@ -912,7 +912,7 @@ export class ReportsImpl implements Reports {
 
   /**
    * Lists report records by API Operations.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
    *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
@@ -942,7 +942,7 @@ export class ReportsImpl implements Reports {
 
   /**
    * Lists report records by Product.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
    *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
@@ -972,7 +972,7 @@ export class ReportsImpl implements Reports {
 
   /**
    * Lists report records by geography.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
    *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
@@ -1002,7 +1002,7 @@ export class ReportsImpl implements Reports {
 
   /**
    * Lists report records by subscription.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
    *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
@@ -1032,7 +1032,7 @@ export class ReportsImpl implements Reports {
 
   /**
    * Lists report records by Time.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
    *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter, select
@@ -1066,7 +1066,7 @@ export class ReportsImpl implements Reports {
 
   /**
    * Lists report records by Request.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
    *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
@@ -1089,7 +1089,7 @@ export class ReportsImpl implements Reports {
 
   /**
    * ListByApiNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the ListByApi method.
    * @param options The options parameters.
@@ -1108,7 +1108,7 @@ export class ReportsImpl implements Reports {
 
   /**
    * ListByUserNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the ListByUser method.
    * @param options The options parameters.
@@ -1127,7 +1127,7 @@ export class ReportsImpl implements Reports {
 
   /**
    * ListByOperationNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the ListByOperation method.
    * @param options The options parameters.
@@ -1146,7 +1146,7 @@ export class ReportsImpl implements Reports {
 
   /**
    * ListByProductNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the ListByProduct method.
    * @param options The options parameters.
@@ -1165,7 +1165,7 @@ export class ReportsImpl implements Reports {
 
   /**
    * ListByGeoNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the ListByGeo method.
    * @param options The options parameters.
@@ -1184,7 +1184,7 @@ export class ReportsImpl implements Reports {
 
   /**
    * ListBySubscriptionNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
@@ -1203,7 +1203,7 @@ export class ReportsImpl implements Reports {
 
   /**
    * ListByTimeNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the ListByTime method.
    * @param options The options parameters.
@@ -1239,8 +1239,8 @@ const listByApiOperationSpec: coreClient.OperationSpec = {
     Parameters.top,
     Parameters.skip,
     Parameters.apiVersion,
-    Parameters.filter1,
-    Parameters.orderby
+    Parameters.orderby,
+    Parameters.filter1
   ],
   urlParameters: [
     Parameters.$host,
@@ -1267,8 +1267,8 @@ const listByUserOperationSpec: coreClient.OperationSpec = {
     Parameters.top,
     Parameters.skip,
     Parameters.apiVersion,
-    Parameters.filter1,
-    Parameters.orderby
+    Parameters.orderby,
+    Parameters.filter1
   ],
   urlParameters: [
     Parameters.$host,
@@ -1295,8 +1295,8 @@ const listByOperationOperationSpec: coreClient.OperationSpec = {
     Parameters.top,
     Parameters.skip,
     Parameters.apiVersion,
-    Parameters.filter1,
-    Parameters.orderby
+    Parameters.orderby,
+    Parameters.filter1
   ],
   urlParameters: [
     Parameters.$host,
@@ -1323,8 +1323,8 @@ const listByProductOperationSpec: coreClient.OperationSpec = {
     Parameters.top,
     Parameters.skip,
     Parameters.apiVersion,
-    Parameters.filter1,
-    Parameters.orderby
+    Parameters.orderby,
+    Parameters.filter1
   ],
   urlParameters: [
     Parameters.$host,
@@ -1378,8 +1378,8 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
     Parameters.top,
     Parameters.skip,
     Parameters.apiVersion,
-    Parameters.filter1,
-    Parameters.orderby
+    Parameters.orderby,
+    Parameters.filter1
   ],
   urlParameters: [
     Parameters.$host,
@@ -1406,8 +1406,8 @@ const listByTimeOperationSpec: coreClient.OperationSpec = {
     Parameters.top,
     Parameters.skip,
     Parameters.apiVersion,
-    Parameters.filter1,
     Parameters.orderby,
+    Parameters.filter1,
     Parameters.interval
   ],
   urlParameters: [

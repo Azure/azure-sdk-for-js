@@ -1,6 +1,6 @@
 # Release History
 
-## 1.3.2 (Unreleased)
+## 1.4.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,19 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.4.0 (2023-12-04)
+
+### Features Added
+
+- Added `ChatAttachment` object that contains properties for inline images incoming from Teams Chat Threads.
+- Updated to @azure/communication-signaling@1.0.0-beta.22 with inline image support
+
+## 1.3.2 (2023-08-24)
+
+### Features Added
+
+- Updated to @azure/communication-signaling@1.0.0-beta.20. Added EUDB real-time notification support. `https://*.trouter.teams.microsoft.com` and `https://teams.microsoft.com` needs to be allowed for real-time notifications.
 
 ## 1.3.1 (2023-02-28)
 

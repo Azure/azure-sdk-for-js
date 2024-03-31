@@ -19,20 +19,21 @@ import {
   ImagesUpdateResponse,
   ImagesDeleteOptionalParams,
   ImagesGetOptionalParams,
-  ImagesGetResponse
+  ImagesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Images. */
 export interface Images {
   /**
-   * Gets the list of images under a resource group.
+   * Gets the list of images under a resource group. Use nextLink property in the response to get the
+   * next page of Images. Do this till nextLink is null to fetch all the Images.
    * @param resourceGroupName The name of the resource group.
    * @param options The options parameters.
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ImagesListByResourceGroupOptionalParams
+    options?: ImagesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Image>;
   /**
    * Gets the list of Images in the subscription. Use nextLink property in the response to get the next
@@ -51,7 +52,7 @@ export interface Images {
     resourceGroupName: string,
     imageName: string,
     parameters: Image,
-    options?: ImagesCreateOrUpdateOptionalParams
+    options?: ImagesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ImagesCreateOrUpdateResponse>,
@@ -69,7 +70,7 @@ export interface Images {
     resourceGroupName: string,
     imageName: string,
     parameters: Image,
-    options?: ImagesCreateOrUpdateOptionalParams
+    options?: ImagesCreateOrUpdateOptionalParams,
   ): Promise<ImagesCreateOrUpdateResponse>;
   /**
    * Update an image.
@@ -82,7 +83,7 @@ export interface Images {
     resourceGroupName: string,
     imageName: string,
     parameters: ImageUpdate,
-    options?: ImagesUpdateOptionalParams
+    options?: ImagesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<ImagesUpdateResponse>, ImagesUpdateResponse>
   >;
@@ -97,7 +98,7 @@ export interface Images {
     resourceGroupName: string,
     imageName: string,
     parameters: ImageUpdate,
-    options?: ImagesUpdateOptionalParams
+    options?: ImagesUpdateOptionalParams,
   ): Promise<ImagesUpdateResponse>;
   /**
    * Deletes an Image.
@@ -108,7 +109,7 @@ export interface Images {
   beginDelete(
     resourceGroupName: string,
     imageName: string,
-    options?: ImagesDeleteOptionalParams
+    options?: ImagesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an Image.
@@ -119,7 +120,7 @@ export interface Images {
   beginDeleteAndWait(
     resourceGroupName: string,
     imageName: string,
-    options?: ImagesDeleteOptionalParams
+    options?: ImagesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets an image.
@@ -130,6 +131,6 @@ export interface Images {
   get(
     resourceGroupName: string,
     imageName: string,
-    options?: ImagesGetOptionalParams
+    options?: ImagesGetOptionalParams,
   ): Promise<ImagesGetResponse>;
 }

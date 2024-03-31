@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the secret validation key of the DelegationSettings.
  *
  * @summary Gets the secret validation key of the DelegationSettings.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListSecretsPortalSettingsValidationKey.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListSecretsPortalSettingsValidationKey.json
  */
 async function apiManagementListSecretsPortalSettings() {
   const subscriptionId =

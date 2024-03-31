@@ -1,6 +1,6 @@
-# Troubleshoot Azure Form Recognizer client library issues
+# Troubleshoot Azure AI Document Intelligence client library issues
 
-This troubleshooting guide contains information to help diagnose frequently encountered issues while using the Azure Form Recognizer client library for JavaScript.
+This troubleshooting guide contains information to help diagnose frequently encountered issues while using the Azure AI Document Intelligence client library for JavaScript.
 
 ## Table of Contents
 
@@ -18,9 +18,9 @@ This troubleshooting guide contains information to help diagnose frequently enco
 
 ### Handling RestError
 
-Form Recognizer service methods throw [`RestError`] on failure.
+Document Intelligence service methods throw [`RestError`] on failure.
 
-The RestError raised by the Azure Form Recognizer client library includes detailed error response information that provides useful insights into what went wrong and includes corrective actions to fix common issues.
+The RestError raised by the Azure Document Intelligence client library includes detailed error response information that provides useful insights into what went wrong and includes corrective actions to fix common issues.
 This error information can be found in the `RestError#message` property.
 
 ### Build model error
@@ -60,7 +60,7 @@ Example error below:
 
 #### Invalid SAS URL
 
-This error points to missing permissions on the blob storage SAS URL for the Form Recognizer service to access the training dataset resource. For more information about SAS tokens for Form Recognizer, see [here](https://learn.microsoft.com/azure/applied-ai-services/form-recognizer/create-sas-tokens).
+This error points to missing permissions on the blob storage SAS URL for the Document Intelligence service to access the training dataset resource. For more information about SAS tokens for Document Intelligence, see [here](https://learn.microsoft.com/azure/applied-ai-services/form-recognizer/create-sas-tokens).
 
 Example error:
 
@@ -104,14 +104,14 @@ Training(`DocumentModelAdministrationClient#beginBuildDocumentModel()`) with the
 
 For simpler use-cases, you can use the `template` build mode which uses a different model building algorithm that takes less time. Neural models are trained using deep learning, so they are more computationally intensive to train and use. More information about the `template` and neural build modes and the characteristics of models created using each can be found at the following Microsoft Learn pages:
 
-
 - [Custom template models](https://aka.ms/custom-template-models)
 - [Custom neural models](https://aka.ms/custom-neural-models)
 
 _See also_: [`DocumentModelBuildMode` reference documentation](https://docs.microsoft.com/javascript/api/@azure/ai-form-recognizer/documentmodelbuildmode).
+
 ### Form Recognizer errors
 
-For information about the error messages and codes produced by the Form Recognizer service, please refer to [the service's error documentation][fr-errors].
+For information about the error messages and codes produced by the Document Intelligence service, please refer to [the service's error documentation][fr-errors].
 
 ### Logging
 
@@ -122,7 +122,6 @@ const { setLogLevel } = require("@azure/logger");
 
 setLogLevel("info");
 ```
-
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 

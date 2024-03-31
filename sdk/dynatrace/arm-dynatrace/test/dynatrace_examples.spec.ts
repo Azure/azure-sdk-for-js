@@ -55,8 +55,31 @@ describe("Dynatrace test", () => {
     resourceGroup = "myjstest";
     monitorName = "myMonitormtest1";
     resource = {
-      dynatraceEnvironmentProperties: {},
-      location
+      dynatraceEnvironmentProperties: {
+        accountInfo: {},
+        environmentInfo: {},
+        singleSignOnProperties: {}
+      },
+      identity: { type: "SystemAssigned" },
+      liftrResourceCategory: "Unknown",
+      location,
+      marketplaceSubscriptionStatus: "Active",
+      monitoringStatus: "Enabled",
+      planData: {
+        billingCycle: "Monthly",
+        effectiveDate: new Date("2023-08-22T15:14:33+02:00"),
+        planDetails: "dynatraceapitestplan",
+        usageType: "Committed"
+      },
+      provisioningState: "Accepted",
+      tags: { environment: "Dev" },
+      userInfo: {
+        country: "westus2",
+        emailAddress: "alice@microsoft.com",
+        firstName: "Alice",
+        lastName: "Bobab",
+        phoneNumber: "123456"
+      }
     }
   });
 
@@ -64,14 +87,14 @@ describe("Dynatrace test", () => {
     await recorder.stop();
   });
 
-  // it("monitor create test", async function () {
-  //   const res = await client.monitors.beginCreateOrUpdateAndWait(
-  //     resourceGroup,
-  //     monitorName,
-  //     resource,
-  //     testPollingOptions);
-  //   assert.equal(res.name, monitorName);
-  // });
+  it.skip("monitor create test", async function () {
+    const res = await client.monitors.beginCreateOrUpdateAndWait(
+      resourceGroup,
+      monitorName,
+      resource,
+      testPollingOptions);
+    assert.equal(res.name, monitorName);
+  });
 
   it("monitor get test", async function () {
     const res = await client.monitors.get(
@@ -89,9 +112,16 @@ describe("Dynatrace test", () => {
     assert.equal(resArray.length, 1);
   });
 
+  it("operation list test", async function () {
+    const resArray = new Array();
+    for await (let item of client.operations.list()) {
+      resArray.push(item);
+    }
+  });
+
   it("monitor delete test", async function () {
     const resArray = new Array();
-    const res = await client.monitors.beginDeleteAndWait(resourceGroup, monitorName)
+    const res = await client.monitors.beginDeleteAndWait(resourceGroup, monitorName, testPollingOptions)
     for await (let item of client.monitors.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

@@ -6,7 +6,7 @@ HDInsight Management Client
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hdinsight/arm-hdinsight) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-hdinsight) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-hdinsight) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-hdinsight?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

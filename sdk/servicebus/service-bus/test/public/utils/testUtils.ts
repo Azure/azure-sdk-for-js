@@ -4,8 +4,6 @@
 import chai from "chai";
 const assert = chai.assert;
 import { ServiceBusReceivedMessage, ServiceBusMessage, delay } from "../../../src";
-import * as dotenv from "dotenv";
-dotenv.config();
 
 export class TestMessage {
   static sessionId: string = "my-session";
@@ -67,7 +65,7 @@ export class TestMessage {
     sent: ServiceBusMessage,
     received: ServiceBusReceivedMessage,
     useSessions?: boolean,
-    usePartitions?: boolean
+    usePartitions?: boolean,
   ): void {
     if (sent.applicationProperties) {
       if (!received.applicationProperties) {
@@ -80,7 +78,7 @@ export class TestMessage {
         chai.assert.equal(
           receivedUserProperties[key],
           expectedUserProperties[key],
-          `Unexpected value for user property for ${key}`
+          `Unexpected value for user property for ${key}`,
         );
       });
     }
@@ -91,17 +89,17 @@ export class TestMessage {
     chai.assert.equal(
       received.contentType,
       sent.contentType,
-      `Unexpected contentType in received msg`
+      `Unexpected contentType in received msg`,
     );
     chai.assert.equal(
       received.correlationId,
       sent.correlationId,
-      `Unexpected correlationId in received msg`
+      `Unexpected correlationId in received msg`,
     );
     chai.assert.equal(
       received.timeToLive,
       sent.timeToLive,
-      `Unexpected timeToLive in received msg`
+      `Unexpected timeToLive in received msg`,
     );
     chai.assert.equal(received.to, sent.to, `Unexpected to in received msg`);
     chai.assert.equal(received.replyTo, sent.replyTo, `Unexpected replyTo in received msg`);
@@ -111,20 +109,20 @@ export class TestMessage {
       chai.assert.equal(
         received.replyToSessionId,
         sent.replyToSessionId,
-        `Unexpected replyToSessionId in received msg`
+        `Unexpected replyToSessionId in received msg`,
       );
       if (usePartitions) {
         chai.assert.equal(
           received.partitionKey,
           sent.sessionId,
-          `Unexpected partitionKey in received msg`
+          `Unexpected partitionKey in received msg`,
         );
       }
     } else {
       chai.assert.equal(
         received.partitionKey,
         sent.partitionKey,
-        `Unexpected partitionKey in received msg`
+        `Unexpected partitionKey in received msg`,
       );
     }
   }
@@ -152,7 +150,7 @@ export enum TestClientType {
 export async function checkWithTimeout(
   predicate: () => boolean | Promise<boolean>,
   delayBetweenRetriesInMilliseconds: number = 1000,
-  maxWaitTimeInMilliseconds: number = 10000
+  maxWaitTimeInMilliseconds: number = 10000,
 ): Promise<boolean> {
   const maxTime = Date.now() + maxWaitTimeInMilliseconds;
   while (Date.now() < maxTime) {
@@ -211,10 +209,10 @@ export enum EntityNames {
 export function assertThrows<T>(
   fn: () => Promise<T>,
   expectedErr: Record<string, any>,
-  assertMessage?: string
+  assertMessage?: string,
 ): Promise<Error> {
   const testShouldHaveThrownError = new Error(
-    `assert failure, an error was expected, but none was thrown: ${assertMessage}`
+    `assert failure, an error was expected, but none was thrown: ${assertMessage}`,
   );
 
   return fn()

@@ -22,7 +22,7 @@ import {
 export interface GatewayApi {
   /**
    * Lists a collection of the APIs associated with a gateway.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
    *                  instance. Must not have value 'managed'
@@ -36,7 +36,7 @@ export interface GatewayApi {
   ): PagedAsyncIterableIterator<ApiContract>;
   /**
    * Checks that API entity specified by identifier is associated with the Gateway entity.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
    *                  instance. Must not have value 'managed'
@@ -52,7 +52,7 @@ export interface GatewayApi {
   ): Promise<GatewayApiGetEntityTagResponse>;
   /**
    * Adds an API to the specified Gateway.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
    *                  instance. Must not have value 'managed'
@@ -68,7 +68,7 @@ export interface GatewayApi {
   ): Promise<GatewayApiCreateOrUpdateResponse>;
   /**
    * Deletes the specified API from the specified Gateway.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
    *                  instance. Must not have value 'managed'

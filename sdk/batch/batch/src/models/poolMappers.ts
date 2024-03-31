@@ -51,7 +51,6 @@ export {
   PoolEvaluateAutoScaleHeaders,
   PoolEvaluateAutoScaleParameter,
   PoolExistsHeaders,
-  PoolGetAllLifetimeStatisticsHeaders,
   PoolGetHeaders,
   PoolListHeaders,
   PoolListUsageMetricsHeaders,

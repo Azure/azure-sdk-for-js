@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Permanently deletes the specified vault. aka Purges the deleted Azure key vault.
  *
  * @summary Permanently deletes the specified vault. aka Purges the deleted Azure key vault.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-02-01/examples/purgeDeletedVault.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/purgeDeletedVault.json
  */
 async function purgeADeletedVault() {
   const subscriptionId =

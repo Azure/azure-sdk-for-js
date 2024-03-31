@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Application,
   ApplicationsListByClusterOptionalParams,
@@ -62,8 +62,8 @@ export interface Applications {
     parameters: Application,
     options?: ApplicationsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ApplicationsCreateResponse>,
+    SimplePollerLike<
+      OperationState<ApplicationsCreateResponse>,
       ApplicationsCreateResponse
     >
   >;
@@ -94,7 +94,7 @@ export interface Applications {
     clusterName: string,
     applicationName: string,
     options?: ApplicationsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified application on the HDInsight cluster.
    * @param resourceGroupName The name of the resource group.

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Regenerate primary access key
  *
  * @summary Regenerate primary access key
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementTenantAccessRegenerateKey.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementTenantAccessRegenerateKey.json
  */
 async function apiManagementTenantAccessRegenerateKey() {
   const subscriptionId =

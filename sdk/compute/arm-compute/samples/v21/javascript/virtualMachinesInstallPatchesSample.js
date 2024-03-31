@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Installs patches on the VM.
  *
  * @summary Installs patches on the VM.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-03-01/examples/virtualMachineExamples/VirtualMachine_InstallPatches.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineExamples/VirtualMachine_InstallPatches.json
  */
 async function installPatchStateOfAVirtualMachine() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -35,7 +35,7 @@ async function installPatchStateOfAVirtualMachine() {
   const result = await client.virtualMachines.beginInstallPatchesAndWait(
     resourceGroupName,
     vmName,
-    installPatchesInput
+    installPatchesInput,
   );
   console.log(result);
 }

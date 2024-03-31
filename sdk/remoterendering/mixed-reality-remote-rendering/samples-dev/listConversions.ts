@@ -34,11 +34,11 @@ export async function main() {
   for await (const conversion of client.listConversions()) {
     if (conversion.status === "Succeeded") {
       console.log(
-        `Conversion ${conversion.conversionId} succeeded: Output written to ${conversion.output?.outputAssetUrl}`
+        `Conversion ${conversion.conversionId} succeeded: Output written to ${conversion.output?.outputAssetUrl}`,
       );
     } else if (conversion.status === "Failed") {
       console.log(
-        `Conversion ${conversion.conversionId} failed: ${conversion.error.code} ${conversion.error.message}`
+        `Conversion ${conversion.conversionId} failed: ${conversion.error.code} ${conversion.error.message}`,
       );
     }
   }

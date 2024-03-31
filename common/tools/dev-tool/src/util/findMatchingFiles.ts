@@ -2,7 +2,7 @@
 // Licensed under the MIT license
 
 import fs from "fs-extra";
-import path from "path";
+import path from "node:path";
 import { createPrinter } from "./printer";
 import { shouldSkip } from "./samples/configuration";
 
@@ -56,7 +56,7 @@ const defaultFindOptions: FindOptions = {
 export async function* findMatchingFiles(
   dir: string,
   matches: (name: string, entry: fs.Stats) => boolean,
-  findOptions?: Partial<FindOptions>
+  findOptions?: Partial<FindOptions>,
 ): AsyncGenerator<string> {
   const q: FileInfo[] = [];
 

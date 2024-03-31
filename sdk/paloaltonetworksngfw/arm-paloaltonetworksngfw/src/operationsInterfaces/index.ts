@@ -15,6 +15,7 @@ export * from "./preRules";
 export * from "./operations";
 export * from "./firewalls";
 export * from "./localRulestacks";
+export * from "./firewallStatus";
 export * from "./certificateObjectLocalRulestack";
 export * from "./fqdnListLocalRulestack";
 export * from "./localRules";

@@ -29,7 +29,7 @@ import {
 export interface AuthorizationServer {
   /**
    * Lists a collection of authorization servers defined within a service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -40,7 +40,7 @@ export interface AuthorizationServer {
   ): PagedAsyncIterableIterator<AuthorizationServerContract>;
   /**
    * Gets the entity state (Etag) version of the authorizationServer specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param authsid Identifier of the authorization server.
    * @param options The options parameters.
@@ -53,7 +53,7 @@ export interface AuthorizationServer {
   ): Promise<AuthorizationServerGetEntityTagResponse>;
   /**
    * Gets the details of the authorization server specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param authsid Identifier of the authorization server.
    * @param options The options parameters.
@@ -66,7 +66,7 @@ export interface AuthorizationServer {
   ): Promise<AuthorizationServerGetResponse>;
   /**
    * Creates new authorization server or updates an existing authorization server.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param authsid Identifier of the authorization server.
    * @param parameters Create or update parameters.
@@ -81,7 +81,7 @@ export interface AuthorizationServer {
   ): Promise<AuthorizationServerCreateOrUpdateResponse>;
   /**
    * Updates the details of the authorization server specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param authsid Identifier of the authorization server.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -99,7 +99,7 @@ export interface AuthorizationServer {
   ): Promise<AuthorizationServerUpdateResponse>;
   /**
    * Deletes specific authorization server instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param authsid Identifier of the authorization server.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -115,7 +115,7 @@ export interface AuthorizationServer {
   ): Promise<void>;
   /**
    * Gets the client secret details of the authorization server.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param authsid Identifier of the authorization server.
    * @param options The options parameters.

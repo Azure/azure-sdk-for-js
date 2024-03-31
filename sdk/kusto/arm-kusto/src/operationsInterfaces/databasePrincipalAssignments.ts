@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DatabasePrincipalAssignment,
   DatabasePrincipalAssignmentsListOptionalParams,
@@ -26,7 +26,7 @@ import {
 export interface DatabasePrincipalAssignments {
   /**
    * Lists all Kusto cluster database principalAssignments.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param options The options parameters.
@@ -39,7 +39,7 @@ export interface DatabasePrincipalAssignments {
   ): PagedAsyncIterableIterator<DatabasePrincipalAssignment>;
   /**
    * Checks that the database principal assignment is valid and is not already in use.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param principalAssignmentName The name of the resource.
@@ -54,7 +54,7 @@ export interface DatabasePrincipalAssignments {
   ): Promise<DatabasePrincipalAssignmentsCheckNameAvailabilityResponse>;
   /**
    * Gets a Kusto cluster database principalAssignment.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param principalAssignmentName The name of the Kusto principalAssignment.
@@ -69,7 +69,7 @@ export interface DatabasePrincipalAssignments {
   ): Promise<DatabasePrincipalAssignmentsGetResponse>;
   /**
    * Creates a Kusto cluster database principalAssignment.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param principalAssignmentName The name of the Kusto principalAssignment.
@@ -84,14 +84,14 @@ export interface DatabasePrincipalAssignments {
     parameters: DatabasePrincipalAssignment,
     options?: DatabasePrincipalAssignmentsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DatabasePrincipalAssignmentsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DatabasePrincipalAssignmentsCreateOrUpdateResponse>,
       DatabasePrincipalAssignmentsCreateOrUpdateResponse
     >
   >;
   /**
    * Creates a Kusto cluster database principalAssignment.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param principalAssignmentName The name of the Kusto principalAssignment.
@@ -108,7 +108,7 @@ export interface DatabasePrincipalAssignments {
   ): Promise<DatabasePrincipalAssignmentsCreateOrUpdateResponse>;
   /**
    * Deletes a Kusto principalAssignment.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param principalAssignmentName The name of the Kusto principalAssignment.
@@ -120,10 +120,10 @@ export interface DatabasePrincipalAssignments {
     databaseName: string,
     principalAssignmentName: string,
     options?: DatabasePrincipalAssignmentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Kusto principalAssignment.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param principalAssignmentName The name of the Kusto principalAssignment.

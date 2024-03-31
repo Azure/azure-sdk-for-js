@@ -87,7 +87,7 @@ describe("devcenter test", () => {
 
   it("devcenters delete test", async function () {
     const resArray = new Array();
-    const res = await client.devCenters.beginDeleteAndWait(resourceGroup, devCenterName)
+    const res = await client.devCenters.beginDeleteAndWait(resourceGroup, devCenterName, testPollingOptions)
     for await (let item of client.devCenters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

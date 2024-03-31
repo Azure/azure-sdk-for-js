@@ -15,7 +15,7 @@ export {
 export { generateProject } from "./generateProject";
 export type {
   WidgetConfig as CustomWidgetCommonConfig,
-  DeploymentConfig,
+  ServiceInformation as DeploymentConfig,
   Options,
   ScaffoldTech,
 } from "./scaffolding";

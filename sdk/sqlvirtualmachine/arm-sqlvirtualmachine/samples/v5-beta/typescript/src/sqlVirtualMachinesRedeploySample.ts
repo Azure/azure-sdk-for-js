@@ -15,12 +15,12 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Uninstalls and reinstalls the SQL Iaas Extension.
+ * This sample demonstrates how to Uninstalls and reinstalls the SQL IaaS Extension.
  *
- * @summary Uninstalls and reinstalls the SQL Iaas Extension.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-07-01-preview/examples/RedeploySqlVirtualMachine.json
+ * @summary Uninstalls and reinstalls the SQL IaaS Extension.
+ * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/RedeploySqlVirtualMachine.json
  */
-async function uninstallsAndReinstallsTheSqlIaasExtension() {
+async function uninstallsAndReinstallsTheSqlIaaSExtension() {
   const subscriptionId =
     process.env["SQLVIRTUALMACHINE_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -40,7 +40,7 @@ async function uninstallsAndReinstallsTheSqlIaasExtension() {
 }
 
 async function main() {
-  uninstallsAndReinstallsTheSqlIaasExtension();
+  uninstallsAndReinstallsTheSqlIaaSExtension();
 }
 
 main().catch(console.error);

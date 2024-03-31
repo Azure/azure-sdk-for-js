@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all of the available REST API operations of the Microsoft.Communication provider.
  *
  * @summary Lists all of the available REST API operations of the Microsoft.Communication provider.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/communicationServices/operationsList.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/operationsList.json
  */
 async function operationsList() {
   const subscriptionId =

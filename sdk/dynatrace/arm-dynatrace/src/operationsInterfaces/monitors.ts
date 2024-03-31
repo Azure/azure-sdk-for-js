@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   MonitoredResource,
   MonitorsListMonitoredResourcesOptionalParams,
@@ -21,8 +21,6 @@ import {
   LinkableEnvironmentResponse,
   LinkableEnvironmentRequest,
   MonitorsListLinkableEnvironmentsOptionalParams,
-  MonitorsGetAccountCredentialsOptionalParams,
-  MonitorsGetAccountCredentialsResponse,
   MonitorsGetVMHostPayloadOptionalParams,
   MonitorsGetVMHostPayloadResponse,
   MonitorsGetOptionalParams,
@@ -33,6 +31,11 @@ import {
   MonitorsUpdateOptionalParams,
   MonitorsUpdateResponse,
   MonitorsDeleteOptionalParams,
+  MarketplaceSaaSResourceDetailsRequest,
+  MonitorsGetMarketplaceSaaSResourceDetailsOptionalParams,
+  MonitorsGetMarketplaceSaaSResourceDetailsResponse,
+  MonitorsGetMetricStatusOptionalParams,
+  MonitorsGetMetricStatusResponse,
   MonitorsGetSSODetailsOptionalParams,
   MonitorsGetSSODetailsResponse
 } from "../models";
@@ -68,7 +71,7 @@ export interface Monitors {
     options?: MonitorsListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<MonitorResource>;
   /**
-   * List the compute resources currently being monitored by the Dynatrace resource.
+   * List the VM/VMSS resources currently being monitored by the Dynatrace resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
@@ -102,17 +105,6 @@ export interface Monitors {
     request: LinkableEnvironmentRequest,
     options?: MonitorsListLinkableEnvironmentsOptionalParams
   ): PagedAsyncIterableIterator<LinkableEnvironmentResponse>;
-  /**
-   * Gets the user account credentials for a Monitor
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param options The options parameters.
-   */
-  getAccountCredentials(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: MonitorsGetAccountCredentialsOptionalParams
-  ): Promise<MonitorsGetAccountCredentialsResponse>;
   /**
    * Returns the payload that needs to be passed in the request body for installing Dynatrace agent on a
    * VM.
@@ -149,8 +141,8 @@ export interface Monitors {
     resource: MonitorResource,
     options?: MonitorsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MonitorsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<MonitorsCreateOrUpdateResponse>,
       MonitorsCreateOrUpdateResponse
     >
   >;
@@ -190,7 +182,7 @@ export interface Monitors {
     resourceGroupName: string,
     monitorName: string,
     options?: MonitorsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a MonitorResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -202,6 +194,26 @@ export interface Monitors {
     monitorName: string,
     options?: MonitorsDeleteOptionalParams
   ): Promise<void>;
+  /**
+   * Get Marketplace SaaS resource details of a tenant under a specific subscription
+   * @param request Tenant Id
+   * @param options The options parameters.
+   */
+  getMarketplaceSaaSResourceDetails(
+    request: MarketplaceSaaSResourceDetailsRequest,
+    options?: MonitorsGetMarketplaceSaaSResourceDetailsOptionalParams
+  ): Promise<MonitorsGetMarketplaceSaaSResourceDetailsResponse>;
+  /**
+   * Get metric status
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Name of the Monitor resource
+   * @param options The options parameters.
+   */
+  getMetricStatus(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsGetMetricStatusOptionalParams
+  ): Promise<MonitorsGetMetricStatusResponse>;
   /**
    * Gets the SSO configuration details from the partner.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

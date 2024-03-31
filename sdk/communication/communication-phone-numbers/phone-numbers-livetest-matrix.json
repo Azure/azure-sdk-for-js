@@ -5,23 +5,23 @@
   "matrix": {
     "Agent": {
       "windows-2022": {
-        "OSVmImage": "MMS2022",
-        "Pool": "azsdk-pool-mms-win-2022-general",
+        "OSVmImage": "env:WINDOWSVMIMAGE",
+        "Pool": "env:WINDOWSPOOL",
         "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS": "true"
       },
       "ubuntu-20.04": {
-        "OSVmImage": "MMSUbuntu20.04",
-        "Pool": "azsdk-pool-mms-ubuntu-2004-general",
+        "OSVmImage": "env:LINUXVMIMAGE",
+        "Pool": "env:LINUXPOOL",
         "AZURE_TEST_AGENT": "UBUNTU_2004_NODE14",
         "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS": "false"
       },
       "macos-11": {
-        "OSVmImage": "macos-11",
-        "Pool": "Azure Pipelines",
+        "OSVmImage": "env:MACVMIMAGE",
+        "Pool": "env:MACPOOL",
         "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS": "true"
       }
     },
-    "NodeTestVersion": ["14.x", "16.x", "18.x"],
+    "NodeTestVersion": ["18.x", "20.x"],
     "TestType": "node",
     "TestResultsFiles": "**/test-results.xml"
   },
@@ -29,8 +29,8 @@
     {
       "Agent": {
         "windows-2022": {
-          "OSVmImage": "MMS2022",
-          "Pool": "azsdk-pool-mms-win-2022-general"
+          "OSVmImage": "env:WINDOWSVMIMAGE",
+          "Pool": "env:WINDOWSPOOL"
         }
       },
       "Scenario": {
@@ -53,17 +53,17 @@
           "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS": "false"
         }
       },
-      "NodeTestVersion": "14.x"
+      "NodeTestVersion": "18.x"
     },
     {
       "Agent": {
         "ubuntu-20.04": {
-          "OSVmImage": "MMSUbuntu20.04",
-          "Pool": "azsdk-pool-mms-ubuntu-2004-general"
+          "OSVmImage": "env:LINUXVMIMAGE",
+          "Pool": "env:LINUXPOOL"
         }
       },
       "TestType": "node",
-      "NodeTestVersion": "14.x",
+      "NodeTestVersion": "18.x",
       "DependencyVersion": ["max", "min"],
       "TestResultsFiles": "**/test-results.xml",
       "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS": "true"

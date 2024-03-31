@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DataFlowResource,
   DataFlowGetDataFlowsByWorkspaceOptionalParams,
@@ -41,8 +41,8 @@ export interface DataFlowOperations {
     dataFlow: DataFlowResource,
     options?: DataFlowCreateOrUpdateDataFlowOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DataFlowCreateOrUpdateDataFlowResponse>,
+    SimplePollerLike<
+      OperationState<DataFlowCreateOrUpdateDataFlowResponse>,
       DataFlowCreateOrUpdateDataFlowResponse
     >
   >;
@@ -74,7 +74,7 @@ export interface DataFlowOperations {
   beginDeleteDataFlow(
     dataFlowName: string,
     options?: DataFlowDeleteDataFlowOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a data flow.
    * @param dataFlowName The data flow name.
@@ -94,7 +94,7 @@ export interface DataFlowOperations {
     dataFlowName: string,
     request: ArtifactRenameRequest,
     options?: DataFlowRenameDataFlowOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Renames a dataflow.
    * @param dataFlowName The data flow name.

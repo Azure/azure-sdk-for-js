@@ -6,15 +6,14 @@ import { createClient, createRecorder } from "./utils/recordedClient";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
-import { EnclaveQuoteOutput } from "../../src";
 
 describe("Colder endpoints", function () {
   let recorder: Recorder;
   let client: ConfidentialLedgerClient;
 
   beforeEach(async function (this: Context) {
-    recorder = createRecorder(this);
-    client = await createClient();
+    recorder = await createRecorder(this);
+    client = await createClient(recorder);
   });
 
   afterEach(async function () {
@@ -48,10 +47,10 @@ describe("Colder endpoints", function () {
       throw result.body;
     }
 
-    result.body.members.forEach((member) => {
+    for (const member of result.body.members) {
       assert.typeOf(member.certificate, "string");
       assert.typeOf(member.id, "string");
-    });
+    }
   });
 
   it("should retrieve a list of enclave quotes", async function () {
@@ -66,8 +65,7 @@ describe("Colder endpoints", function () {
     assert.typeOf(result.body.currentNodeId, "string");
 
     const enclaveQuotes = result.body.enclaveQuotes;
-    for (const key in enclaveQuotes) {
-      const quote: EnclaveQuoteOutput = enclaveQuotes[key];
+    for (const quote of Object.values(enclaveQuotes)) {
       assert.typeOf(quote.quoteVersion, "string");
       assert.typeOf(quote.nodeId, "string");
       assert.typeOf(quote.raw, "string");

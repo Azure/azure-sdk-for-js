@@ -14,8 +14,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   TriggerResource,
   TriggerGetTriggersByWorkspaceNextOptionalParams,
@@ -137,8 +141,8 @@ export class TriggerOperationsImpl implements TriggerOperations {
     trigger: TriggerResource,
     options?: TriggerCreateOrUpdateTriggerOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TriggerCreateOrUpdateTriggerResponse>,
+    SimplePollerLike<
+      OperationState<TriggerCreateOrUpdateTriggerResponse>,
       TriggerCreateOrUpdateTriggerResponse
     >
   > {
@@ -156,7 +160,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
         }
       );
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -189,13 +193,16 @@ export class TriggerOperationsImpl implements TriggerOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { triggerName, trigger, options },
-      createOrUpdateTriggerOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { triggerName, trigger, options },
+      spec: createOrUpdateTriggerOperationSpec
+    });
+    const poller = await createHttpPoller<
+      TriggerCreateOrUpdateTriggerResponse,
+      OperationState<TriggerCreateOrUpdateTriggerResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -250,7 +257,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
   async beginDeleteTrigger(
     triggerName: string,
     options?: TriggerDeleteTriggerOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -263,7 +270,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
         }
       );
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -296,13 +303,13 @@ export class TriggerOperationsImpl implements TriggerOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { triggerName, options },
-      deleteTriggerOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { triggerName, options },
+      spec: deleteTriggerOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -331,8 +338,8 @@ export class TriggerOperationsImpl implements TriggerOperations {
     triggerName: string,
     options?: TriggerSubscribeTriggerToEventsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TriggerSubscribeTriggerToEventsResponse>,
+    SimplePollerLike<
+      OperationState<TriggerSubscribeTriggerToEventsResponse>,
       TriggerSubscribeTriggerToEventsResponse
     >
   > {
@@ -350,7 +357,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
         }
       );
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -383,13 +390,16 @@ export class TriggerOperationsImpl implements TriggerOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { triggerName, options },
-      subscribeTriggerToEventsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { triggerName, options },
+      spec: subscribeTriggerToEventsOperationSpec
+    });
+    const poller = await createHttpPoller<
+      TriggerSubscribeTriggerToEventsResponse,
+      OperationState<TriggerSubscribeTriggerToEventsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -442,8 +452,8 @@ export class TriggerOperationsImpl implements TriggerOperations {
     triggerName: string,
     options?: TriggerUnsubscribeTriggerFromEventsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TriggerUnsubscribeTriggerFromEventsResponse>,
+    SimplePollerLike<
+      OperationState<TriggerUnsubscribeTriggerFromEventsResponse>,
       TriggerUnsubscribeTriggerFromEventsResponse
     >
   > {
@@ -461,7 +471,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
         }
       );
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -494,13 +504,16 @@ export class TriggerOperationsImpl implements TriggerOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { triggerName, options },
-      unsubscribeTriggerFromEventsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { triggerName, options },
+      spec: unsubscribeTriggerFromEventsOperationSpec
+    });
+    const poller = await createHttpPoller<
+      TriggerUnsubscribeTriggerFromEventsResponse,
+      OperationState<TriggerUnsubscribeTriggerFromEventsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -531,7 +544,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
   async beginStartTrigger(
     triggerName: string,
     options?: TriggerStartTriggerOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -544,7 +557,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
         }
       );
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -577,13 +590,13 @@ export class TriggerOperationsImpl implements TriggerOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { triggerName, options },
-      startTriggerOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { triggerName, options },
+      spec: startTriggerOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -611,7 +624,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
   async beginStopTrigger(
     triggerName: string,
     options?: TriggerStopTriggerOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -624,7 +637,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
         }
       );
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -657,13 +670,13 @@ export class TriggerOperationsImpl implements TriggerOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { triggerName, options },
-      stopTriggerOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { triggerName, options },
+      spec: stopTriggerOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -718,7 +731,7 @@ const getTriggersByWorkspaceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
@@ -744,7 +757,7 @@ const createOrUpdateTriggerOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.trigger,
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.triggerName],
   headerParameters: [
     Parameters.accept,
@@ -766,7 +779,7 @@ const getTriggerOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.triggerName],
   headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
   serializer
@@ -783,7 +796,7 @@ const deleteTriggerOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.triggerName],
   headerParameters: [Parameters.accept],
   serializer
@@ -808,7 +821,7 @@ const subscribeTriggerToEventsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.triggerName],
   headerParameters: [Parameters.accept],
   serializer
@@ -824,7 +837,7 @@ const getEventSubscriptionStatusOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.triggerName],
   headerParameters: [Parameters.accept],
   serializer
@@ -849,7 +862,7 @@ const unsubscribeTriggerFromEventsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.triggerName],
   headerParameters: [Parameters.accept],
   serializer
@@ -866,7 +879,7 @@ const startTriggerOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.triggerName],
   headerParameters: [Parameters.accept],
   serializer
@@ -883,7 +896,7 @@ const stopTriggerOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.triggerName],
   headerParameters: [Parameters.accept],
   serializer

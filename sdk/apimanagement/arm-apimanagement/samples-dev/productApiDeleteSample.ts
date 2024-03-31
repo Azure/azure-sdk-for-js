@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified API from the specified product.
  *
  * @summary Deletes the specified API from the specified product.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementDeleteProductApi.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteProductApi.json
  */
 async function apiManagementDeleteProductApi() {
   const subscriptionId =

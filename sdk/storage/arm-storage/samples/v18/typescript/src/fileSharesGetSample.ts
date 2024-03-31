@@ -13,16 +13,20 @@ import {
   StorageManagementClient
 } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets properties of a specified share.
  *
  * @summary Gets properties of a specified share.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/FileSharesGet_Stats.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/FileSharesGet_Stats.json
  */
 async function getShareStats() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res9871";
+  const subscriptionId =
+    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9871";
   const accountName = "sto6217";
   const shareName = "share1634";
   const expand = "stats";
@@ -38,17 +42,16 @@ async function getShareStats() {
   console.log(result);
 }
 
-getShareStats().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets properties of a specified share.
  *
  * @summary Gets properties of a specified share.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/FileSharesGet.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/FileSharesGet.json
  */
 async function getShares() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res9871";
+  const subscriptionId =
+    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9871";
   const accountName = "sto6217";
   const shareName = "share1634";
   const credential = new DefaultAzureCredential();
@@ -61,4 +64,9 @@ async function getShares() {
   console.log(result);
 }
 
-getShares().catch(console.error);
+async function main() {
+  getShareStats();
+  getShares();
+}
+
+main().catch(console.error);

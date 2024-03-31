@@ -49,7 +49,7 @@ export class GeneratedClient extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-ai-form-recognizer/4.1.0-beta.1`;
+    const packageDetails = `azsdk-js-ai-form-recognizer/5.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -92,7 +92,7 @@ export class GeneratedClient extends coreClient.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2023-02-28-preview";
+    this.apiVersion = options.apiVersion || "2023-07-31";
     this.documentModels = new DocumentModelsImpl(this);
     this.miscellaneous = new MiscellaneousImpl(this);
     this.documentClassifiers = new DocumentClassifiersImpl(this);

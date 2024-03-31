@@ -38,7 +38,7 @@ export class Chunk {
     blockOffset: number,
     eventIndex: number,
     public readonly chunkPath: string,
-    avroOptions: AvroParseOptions = {}
+    avroOptions: AvroParseOptions = {},
   ) {
     this.avroReader = avroReader;
     this._blockOffset = blockOffset;

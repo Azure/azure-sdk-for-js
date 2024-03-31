@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation that retrieves information about the capacity reservation.
  *
  * @summary The operation that retrieves information about the capacity reservation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-03-01/examples/capacityReservationExamples/CapacityReservation_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/capacityReservationExamples/CapacityReservation_Get.json
  */
 async function getACapacityReservation() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
@@ -31,7 +31,7 @@ async function getACapacityReservation() {
     resourceGroupName,
     capacityReservationGroupName,
     capacityReservationName,
-    options
+    options,
   );
   console.log(result);
 }

@@ -272,9 +272,9 @@ describe("Compute test", () => {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
-    await client.disks.beginDeleteAndWait(resourceGroupName, "myVMosdisk")
-    await network_client.networkInterfaces.beginDeleteAndWait(resourceGroupName, interface_name);
-    await network_client.subnets.beginDeleteAndWait(resourceGroupName, network_name, subnet_name);
-    await network_client.virtualNetworks.beginDeleteAndWait(resourceGroupName, network_name);
+    await client.disks.beginDeleteAndWait(resourceGroupName, "myVMosdisk", testPollingOptions)
+    await network_client.networkInterfaces.beginDeleteAndWait(resourceGroupName, interface_name, testPollingOptions);
+    await network_client.subnets.beginDeleteAndWait(resourceGroupName, network_name, subnet_name, testPollingOptions);
+    await network_client.virtualNetworks.beginDeleteAndWait(resourceGroupName, network_name, testPollingOptions);
   });
 });

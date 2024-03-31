@@ -1,50 +1,46 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import * as os from "os";
-import { Resource } from "@opentelemetry/resources";
+
 import {
-  AZURE_MONITOR_OPENTELEMETRY_VERSION,
-  DEFAULT_ROLE_NAME,
-  IConfig,
-  IInstrumentationsConfig,
-} from "./types";
+  Resource,
+  ResourceDetectionConfig,
+  detectResourcesSync,
+  envDetectorSync,
+} from "@opentelemetry/resources";
+import {
+  BrowserSdkLoaderOptions,
+  AzureMonitorOpenTelemetryOptions,
+  InstrumentationOptions,
+} from "../types";
 import { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
-import {
-  SemanticResourceAttributes,
-  TelemetrySdkLanguageValues,
-} from "@opentelemetry/semantic-conventions";
 import { JsonConfig } from "./jsonConfig";
 import { Logger } from "./logging";
+import {
+  azureAppServiceDetector,
+  azureFunctionsDetector,
+  azureVmDetector,
+} from "@opentelemetry/resource-detector-azure";
 
 /**
  * Azure Monitor OpenTelemetry Client Configuration
  */
-export class AzureMonitorOpenTelemetryConfig implements IConfig {
+export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
   /** The rate of telemetry items tracked that should be transmitted (Default 1.0) */
   public samplingRatio: number;
   /** Azure Monitor Exporter Configuration */
-  public azureMonitorExporterConfig?: AzureMonitorExporterOptions;
-  /**
-   * Sets the state of performance tracking (enabled by default)
-   * if true performance counters will be collected every second and sent to Azure Monitor
-   */
-  public enableAutoCollectPerformance: boolean;
-  /**
-   * Sets the state of standard metrics tracking (enabled by default)
-   * if true Standard metrics will be collected every minute and sent to Azure Monitor
-   */
-  public enableAutoCollectStandardMetrics: boolean;
-  /**
-   * Sets the state of native metrics tracking (disabled by default)
-   * if true and applicationinsights-native-metrics is installed, native metrics will be collected every minute and sent to Azure Monitor
-   */
-  public enableAutoCollectNativeMetrics?: boolean;
+  public azureMonitorExporterOptions: AzureMonitorExporterOptions;
   /**
    * OpenTelemetry Instrumentations configuration included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4)
    */
-  public instrumentations: IInstrumentationsConfig;
+  public instrumentationOptions: InstrumentationOptions;
+  /** Enable Live Metrics feature */
+  enableLiveMetrics?: boolean;
+  /** Enable Standard Metrics feature */
+  enableStandardMetrics?: boolean;
+  /** Enable log sampling based on trace (Default true) */
+  enableTraceBasedSamplingForLogs?: boolean;
 
-  private _resource: Resource;
+  private _resource: Resource = Resource.empty();
 
   public set resource(resource: Resource) {
     this._resource = this._resource.merge(resource);
@@ -57,14 +53,19 @@ export class AzureMonitorOpenTelemetryConfig implements IConfig {
     return this._resource;
   }
 
+  public browserSdkLoaderOptions: BrowserSdkLoaderOptions;
+
   /**
-   * Initializes a new instance of the AzureMonitorOpenTelemetryConfig class.
+   * Initializes a new instance of the AzureMonitorOpenTelemetryOptions class.
    */
-  constructor() {
-    this.enableAutoCollectPerformance = true;
-    this.enableAutoCollectStandardMetrics = true;
+  constructor(options?: AzureMonitorOpenTelemetryOptions) {
+    // Default values
+    this.azureMonitorExporterOptions = {};
     this.samplingRatio = 1;
-    this.instrumentations = {
+    this.enableLiveMetrics = false;
+    this.enableStandardMetrics = true;
+    this.enableTraceBasedSamplingForLogs = true;
+    this.instrumentationOptions = {
       http: { enabled: true },
       azureSdk: { enabled: false },
       mongoDb: { enabled: false },
@@ -73,93 +74,99 @@ export class AzureMonitorOpenTelemetryConfig implements IConfig {
       redis: { enabled: false },
       redis4: { enabled: false },
     };
-    this._resource = this._getDefaultResource();
+    this._setDefaultResource();
+    this.browserSdkLoaderOptions = {
+      enabled: false,
+      connectionString: "",
+    };
 
+    if (options) {
+      // Merge default with provided options
+      this.azureMonitorExporterOptions = Object.assign(
+        this.azureMonitorExporterOptions,
+        options.azureMonitorExporterOptions,
+      );
+      this.instrumentationOptions = Object.assign(
+        this.instrumentationOptions,
+        options.instrumentationOptions,
+      );
+      this.resource = Object.assign(this.resource, options.resource);
+      this.samplingRatio = options.samplingRatio || this.samplingRatio;
+      this.browserSdkLoaderOptions = Object.assign(
+        this.browserSdkLoaderOptions,
+        options.browserSdkLoaderOptions,
+      );
+      this.enableLiveMetrics =
+        options.enableLiveMetrics != undefined ? options.enableLiveMetrics : this.enableLiveMetrics;
+      this.enableStandardMetrics =
+        options.enableStandardMetrics != undefined
+          ? options.enableStandardMetrics
+          : this.enableStandardMetrics;
+      this.enableTraceBasedSamplingForLogs =
+        options.enableTraceBasedSamplingForLogs != undefined
+          ? options.enableTraceBasedSamplingForLogs
+          : this.enableTraceBasedSamplingForLogs;
+    }
+    // JSON configuration will take precedence over other settings
     this._mergeConfig();
   }
 
   private _mergeConfig() {
     try {
       const jsonConfig = JsonConfig.getInstance();
-      this.azureMonitorExporterConfig =
-        jsonConfig.azureMonitorExporterConfig !== undefined
-          ? jsonConfig.azureMonitorExporterConfig
-          : this.azureMonitorExporterConfig;
-      this.enableAutoCollectPerformance =
-        jsonConfig.enableAutoCollectPerformance !== undefined
-          ? jsonConfig.enableAutoCollectPerformance
-          : this.enableAutoCollectPerformance;
-      this.enableAutoCollectStandardMetrics =
-        jsonConfig.enableAutoCollectStandardMetrics !== undefined
-          ? jsonConfig.enableAutoCollectStandardMetrics
-          : this.enableAutoCollectStandardMetrics;
       this.samplingRatio =
         jsonConfig.samplingRatio !== undefined ? jsonConfig.samplingRatio : this.samplingRatio;
-      if (jsonConfig.instrumentations) {
-        if (
-          jsonConfig.instrumentations.azureSdk &&
-          jsonConfig.instrumentations.azureSdk.enabled !== undefined
-        ) {
-          this.instrumentations.azureSdk.enabled = jsonConfig.instrumentations.azureSdk.enabled;
-        }
-        if (
-          jsonConfig.instrumentations.http &&
-          jsonConfig.instrumentations.http.enabled !== undefined
-        ) {
-          this.instrumentations.http.enabled = jsonConfig.instrumentations.http.enabled;
-        }
-        if (
-          jsonConfig.instrumentations.mongoDb &&
-          jsonConfig.instrumentations.mongoDb.enabled !== undefined
-        ) {
-          this.instrumentations.mongoDb.enabled = jsonConfig.instrumentations.mongoDb.enabled;
-        }
-        if (
-          jsonConfig.instrumentations.mySql &&
-          jsonConfig.instrumentations.mySql.enabled !== undefined
-        ) {
-          this.instrumentations.mySql.enabled = jsonConfig.instrumentations.mySql.enabled;
-        }
-        if (
-          jsonConfig.instrumentations.postgreSql &&
-          jsonConfig.instrumentations.postgreSql.enabled !== undefined
-        ) {
-          this.instrumentations.postgreSql.enabled = jsonConfig.instrumentations.postgreSql.enabled;
-        }
-        if (
-          jsonConfig.instrumentations.redis4 &&
-          jsonConfig.instrumentations.redis4.enabled !== undefined
-        ) {
-          this.instrumentations.redis4.enabled = jsonConfig.instrumentations.redis4.enabled;
-        }
-        if (
-          jsonConfig.instrumentations.redis &&
-          jsonConfig.instrumentations.redis.enabled !== undefined
-        ) {
-          this.instrumentations.redis.enabled = jsonConfig.instrumentations.redis.enabled;
-        }
-      }
+      this.browserSdkLoaderOptions = Object.assign(
+        this.browserSdkLoaderOptions,
+        jsonConfig.browserSdkLoaderOptions,
+      );
+      this.enableLiveMetrics =
+        jsonConfig.enableLiveMetrics !== undefined
+          ? jsonConfig.enableLiveMetrics
+          : this.enableLiveMetrics;
+      this.enableStandardMetrics =
+        jsonConfig.enableStandardMetrics !== undefined
+          ? jsonConfig.enableStandardMetrics
+          : this.enableStandardMetrics;
+      this.enableTraceBasedSamplingForLogs =
+        jsonConfig.enableTraceBasedSamplingForLogs !== undefined
+          ? jsonConfig.enableTraceBasedSamplingForLogs
+          : this.enableTraceBasedSamplingForLogs;
+      this.azureMonitorExporterOptions = Object.assign(
+        this.azureMonitorExporterOptions,
+        jsonConfig.azureMonitorExporterOptions,
+      );
+      this.instrumentationOptions = Object.assign(
+        this.instrumentationOptions,
+        jsonConfig.instrumentationOptions,
+      );
     } catch (error) {
       Logger.getInstance().error("Failed to load JSON config file values.", error);
     }
   }
 
-  private _getDefaultResource(): Resource {
-    const resource = Resource.EMPTY;
-    resource.attributes[SemanticResourceAttributes.SERVICE_NAME] = DEFAULT_ROLE_NAME;
-    if (process.env.WEBSITE_SITE_NAME) {
-      // Azure Web apps and Functions
-      resource.attributes[SemanticResourceAttributes.SERVICE_NAME] = process.env.WEBSITE_SITE_NAME;
+  private _setDefaultResource(): void {
+    let resource = Resource.default();
+    // Load resource attributes from env
+    const detectResourceConfig: ResourceDetectionConfig = {
+      detectors: [envDetectorSync],
+    };
+    const envResource = detectResourcesSync(detectResourceConfig);
+    resource = resource.merge(envResource) as Resource;
+
+    // Load resource attributes from Azure
+    const azureResource: Resource = detectResourcesSync({
+      detectors: [azureAppServiceDetector, azureFunctionsDetector],
+    });
+    this._resource = resource.merge(azureResource) as Resource;
+
+    const vmResource = detectResourcesSync({
+      detectors: [azureVmDetector],
+    });
+    if (vmResource.asyncAttributesPending) {
+      vmResource.waitForAsyncAttributes?.().then(() => {
+        this._resource = this._resource.merge(vmResource) as Resource;
+      });
     }
-    resource.attributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID] = os && os.hostname();
-    if (process.env.WEBSITE_INSTANCE_ID) {
-      resource.attributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID] =
-        process.env.WEBSITE_INSTANCE_ID;
-    }
-    const sdkVersion = AZURE_MONITOR_OPENTELEMETRY_VERSION;
-    resource.attributes[SemanticResourceAttributes.TELEMETRY_SDK_LANGUAGE] =
-      TelemetrySdkLanguageValues.NODEJS;
-    resource.attributes[SemanticResourceAttributes.TELEMETRY_SDK_VERSION] = `node:${sdkVersion}`;
-    return resource;
   }
 }

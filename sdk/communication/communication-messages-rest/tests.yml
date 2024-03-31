@@ -1,0 +1,31 @@
+trigger: none
+
+parameters:
+  - name: runOnlyPPE
+    displayName: "Run only the PPE stage"
+    type: boolean
+    default: false
+
+extends:
+    template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+    parameters:
+      PackageName: "@azure-rest/communication-messages"
+      ServiceDirectory: communication
+      MatrixFilters:
+        - DependencyVersion=^$
+      CloudConfig:
+        Public:
+          SubscriptionConfigurations:
+            - $(sub-config-azure-cloud-test-resources)
+            - $(sub-config-communication-services-cloud-test-resources-common)
+            - $(sub-config-communication-services-cloud-test-resources-js)
+        PPE:
+          SubscriptionConfigurations:
+            - $(sub-config-communication-ppe-test-resources-common)
+            - $(sub-config-communication-ppe-test-resources-js)
+      ${{ if eq(parameters.runOnlyPPE, true) }}:
+        Clouds: PPE
+      ${{ if eq(parameters.runOnlyPPE, false) }}:
+        Clouds: Public,PPE
+      TestResourceDirectories:
+        - communication/communication-messages-rest/

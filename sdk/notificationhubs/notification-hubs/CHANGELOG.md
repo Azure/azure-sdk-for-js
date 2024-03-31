@@ -1,6 +1,53 @@
 # Release History
 
-## 1.0.2 (Unreleased)
+## 1.2.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.2.0 (2024-03-28)
+
+### Features Added
+
+- Added overloads to create notifications for ADM, Baidu, Template, Xiaomi and WebPush accepting either a string or a custom object that is transformed into the JSON notification body.
+
+### Bugs Fixed
+
+- Fix ordering of XML `BrowserRegistrationDescription` properties.
+
+## 1.1.1 (2024-03-19)
+
+### Bugs Fixed
+
+- Fixed to allow `FcmV1Notification` as part of the `Notification` and `sendNotification` parameters.
+
+## 1.1.0 (2024-03-01)
+
+### Features Added
+
+- Added Support for [Firebase Cloud Messaging (FCM)](https://firebase.google.com/docs/cloud-messaging) V1 API with the following:
+  - `FcmV1RegistrationDescription` and `FcmV1TemplateRegistrationDescription` for registrations with associated factory methods.
+  - `FcmV1Installation` for installation operations and associated factory methods.
+  - `FcmV1Notification` for notification send support and associated factory methods.
+
+## 1.0.3 (2023-11-13)
+
+### Features Added
+
+- Added support for [Live Activity Apple message types](https://developer.apple.com/documentation/activitykit/updating-and-ending-your-live-activity-with-activitykit-push-notifications).
+- Added typings for APNs and WNS headers via the `createAppleNotification` and the `createWindowsNotification` factory methods.
+
+### Bugs Fixed
+
+- Fixed WNS Message Platform to use the correct `platform`
+
+
+## 1.0.2 (2023-06-15)
 
 ### Features Added
 
@@ -9,6 +56,10 @@
 ### Features Added
 
 - [#25230](ttps://github.com/Azure/azure-sdk-for-js/issues/25230) - Added section for React Native support in troubleshooting.
+
+### Bugs Fixed
+
+- [#25316](https://github.com/Azure/azure-sdk-for-js/issues/25914) - Fix `parseXMLError` to properly handle the XML document response.
 
 ## 1.0.1 (2023-03-21)
 

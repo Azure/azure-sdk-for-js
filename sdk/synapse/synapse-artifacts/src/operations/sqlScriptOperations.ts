@@ -14,8 +14,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   SqlScriptResource,
   SqlScriptGetSqlScriptsByWorkspaceNextOptionalParams,
@@ -131,8 +135,8 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
     sqlScript: SqlScriptResource,
     options?: SqlScriptCreateOrUpdateSqlScriptOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlScriptCreateOrUpdateSqlScriptResponse>,
+    SimplePollerLike<
+      OperationState<SqlScriptCreateOrUpdateSqlScriptResponse>,
       SqlScriptCreateOrUpdateSqlScriptResponse
     >
   > {
@@ -150,7 +154,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
         }
       );
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -183,13 +187,16 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { sqlScriptName, sqlScript, options },
-      createOrUpdateSqlScriptOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { sqlScriptName, sqlScript, options },
+      spec: createOrUpdateSqlScriptOperationSpec
+    });
+    const poller = await createHttpPoller<
+      SqlScriptCreateOrUpdateSqlScriptResponse,
+      OperationState<SqlScriptCreateOrUpdateSqlScriptResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -244,7 +251,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
   async beginDeleteSqlScript(
     sqlScriptName: string,
     options?: SqlScriptDeleteSqlScriptOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -257,7 +264,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
         }
       );
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -290,13 +297,13 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { sqlScriptName, options },
-      deleteSqlScriptOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { sqlScriptName, options },
+      spec: deleteSqlScriptOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -326,7 +333,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
     sqlScriptName: string,
     request: ArtifactRenameRequest,
     options?: SqlScriptRenameSqlScriptOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
@@ -339,7 +346,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
         }
       );
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -372,13 +379,13 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { sqlScriptName, request, options },
-      renameSqlScriptOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { sqlScriptName, request, options },
+      spec: renameSqlScriptOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -440,7 +447,7 @@ const getSqlScriptsByWorkspaceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
@@ -466,7 +473,7 @@ const createOrUpdateSqlScriptOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.sqlScript,
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.sqlScriptName],
   headerParameters: [
     Parameters.accept,
@@ -488,7 +495,7 @@ const getSqlScriptOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.sqlScriptName],
   headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
   serializer
@@ -505,7 +512,7 @@ const deleteSqlScriptOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.sqlScriptName],
   headerParameters: [Parameters.accept],
   serializer
@@ -523,7 +530,7 @@ const renameSqlScriptOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.request,
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.sqlScriptName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",

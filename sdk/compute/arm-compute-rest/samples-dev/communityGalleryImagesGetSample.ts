@@ -33,7 +33,7 @@ async function getACommunityGalleryImage() {
       subscriptionId,
       location,
       publicGalleryName,
-      galleryImageName
+      galleryImageName,
     )
     .get(options);
   console.log(result);

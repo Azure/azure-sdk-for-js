@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Operation to delete a SenderUsernames resource.
  *
  * @summary Operation to delete a SenderUsernames resource.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/senderUsernames/delete.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/senderUsernames/delete.json
  */
 async function deleteSenderUsernamesResource() {
   const subscriptionId =
@@ -32,13 +32,13 @@ async function deleteSenderUsernamesResource() {
   const credential = new DefaultAzureCredential();
   const client = new CommunicationServiceManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.senderUsernames.delete(
     resourceGroupName,
     emailServiceName,
     domainName,
-    senderUsername
+    senderUsername,
   );
   console.log(result);
 }

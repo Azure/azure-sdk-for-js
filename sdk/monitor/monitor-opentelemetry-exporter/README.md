@@ -4,7 +4,7 @@
 
 ## Getting started
 
-This exporter package assumes your application is [already instrumented](https://opentelemetry.io/docs/js/getting-started/) with the OpenTelemetry SDK. Once you are ready to export OpenTelemetry data, you can add this exporter to your application.
+This exporter package assumes your application is [already instrumented](https://opentelemetry.io/docs/languages/js/getting-started/) with the OpenTelemetry SDK. Once you are ready to export OpenTelemetry data, you can add this exporter to your application.
 
 ### Install the package
 
@@ -13,9 +13,10 @@ This exporter package assumes your application is [already instrumented](https:/
 ### Currently supported environments
 
 - [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
-- Latest versions of Safari, Chrome, Edge, and Firefox.
 
 See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
+> *Warning:* This SDK only works for Node.js environments. Use the [Application Insights JavaScript SDK](https://github.com/microsoft/ApplicationInsights-JS) for browser environments.
 
 ### Prerequisites
 
@@ -24,7 +25,7 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Distributed Tracing
 
-Add the exporter to your existing OpenTelemetry tracer provider (`NodeTracerProvider` / `BasicTracerProvider`)
+Add the exporter to your existing OpenTelemetry Tracer Provider (`NodeTracerProvider` / `BasicTracerProvider`)
 
 ```js
 const { AzureMonitorTraceExporter } = require("@azure/monitor-opentelemetry-exporter");
@@ -33,12 +34,13 @@ const { NodeTracerProvider } = require("@opentelemetry/sdk-trace-node");
 const { Resource } = require("@opentelemetry/resources"); 
 const { SemanticResourceAttributes } = require("@opentelemetry/semantic-conventions"); 
 
-const provider = new NodeTracerProvider({
+const tracerProvider = new NodeTracerProvider({
   resource: new Resource({
     [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
   }),
 });
-provider.register();
+// Register Tracer Provider as global
+tracerProvider.register();
 
 // Create an exporter instance
 const exporter = new AzureMonitorTraceExporter({
@@ -46,8 +48,8 @@ const exporter = new AzureMonitorTraceExporter({
     process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>"
 });
 
-// Add the exporter to the provider
-provider.addSpanProcessor(
+// Add the exporter to the Provider
+tracerProvider.addSpanProcessor(
   new BatchSpanProcessor(exporter, {
     bufferTimeout: 15000,
     bufferSize: 1000
@@ -57,16 +59,14 @@ provider.addSpanProcessor(
 
 ### Metrics
 
-Add the exporter to your existing OpenTelemetry tracer provider (`NodeTracerProvider` / `BasicTracerProvider`)
+Add the exporter to your existing OpenTelemetry Meter Provider (`MeterProvider`)
 
 ```js
+const { metrics } = require("@opentelemetry/api");
 const { MeterProvider, PeriodicExportingMetricReader } = require("@opentelemetry/sdk-metrics");
 const { AzureMonitorMetricExporter } = require("@azure/monitor-opentelemetry-exporter");
-const { Resource } = require("@opentelemetry/resources");
-const { SemanticResourceAttributes } = require("@opentelemetry/semantic-conventions");
 
 // Add the exporter into the MetricReader and register it with the MeterProvider
-const provider = new MeterProvider();
 const exporter = new AzureMonitorMetricExporter({
   connectionString:
     process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
@@ -75,12 +75,37 @@ const metricReaderOptions = {
   exporter: exporter,
 };
 const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
-provider.addMetricReader(metricReader);
+const meterProvider = new MeterProvider();
+meterProvider.addMetricReader(metricReader);
+
+// Register Meter Provider as global
+ metrics.setGlobalMeterProvider(meterProvider);
+
 ```
 
 ### Logs
 
-Coming Soon
+Add the Log Exporter to your existing OpenTelemetry Logger Provider (`LoggerProvider`)
+
+```js
+const { logs } = require("@opentelemetry/api-logs");
+const { LoggerProvider, BatchLogRecordProcessor } = require("@opentelemetry/sdk-logs");
+const { AzureMonitorLogExporter } = require("@azure/monitor-opentelemetry-exporter");
+
+// Add the Log exporter into the logRecordProcessor and register it with the LoggerProvider
+const exporter = new AzureMonitorLogExporter({
+  connectionString:
+    process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
+});
+const logRecordProcessor = new BatchLogRecordProcessor(exporter);
+const loggerProvider = new LoggerProvider();
+loggerProvider.addLogRecordProcessor(logRecordProcessor);
+
+// Register logger Provider as global
+logs.setGlobalLoggerProvider(loggerProvider);
+
+```
+
 
 ### Sampling
 
@@ -90,6 +115,8 @@ You can enable sampling to limit the amount of telemetry records you receive. In
 const { ApplicationInsightsSampler } = require("@azure/monitor-opentelemetry-exporter");
 const { BatchSpanProcessor } = require("@opentelemetry/sdk-trace-base");
 const { NodeTracerProvider } = require("@opentelemetry/sdk-trace-node");
+const { Resource } = require("@opentelemetry/resources"); 
+const { SemanticResourceAttributes } = require("@opentelemetry/semantic-conventions"); 
 
 // Sampler expects a sample rate of between 0 and 1 inclusive
 // A rate of 0.75 means approximately 75 % of your traces will be sent

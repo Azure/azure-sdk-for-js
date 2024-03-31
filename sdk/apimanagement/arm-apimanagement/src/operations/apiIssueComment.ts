@@ -43,7 +43,7 @@ export class ApiIssueCommentImpl implements ApiIssueComment {
 
   /**
    * Lists all comments for the Issue associated with the specified API.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
@@ -145,7 +145,7 @@ export class ApiIssueCommentImpl implements ApiIssueComment {
 
   /**
    * Lists all comments for the Issue associated with the specified API.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
@@ -166,7 +166,7 @@ export class ApiIssueCommentImpl implements ApiIssueComment {
 
   /**
    * Gets the entity state (Etag) version of the issue Comment for an API specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
@@ -189,7 +189,7 @@ export class ApiIssueCommentImpl implements ApiIssueComment {
 
   /**
    * Gets the details of the issue Comment for an API specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
@@ -212,7 +212,7 @@ export class ApiIssueCommentImpl implements ApiIssueComment {
 
   /**
    * Creates a new Comment for the Issue in an API or updates an existing one.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
@@ -245,7 +245,7 @@ export class ApiIssueCommentImpl implements ApiIssueComment {
 
   /**
    * Deletes the specified comment from an Issue.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
@@ -279,7 +279,7 @@ export class ApiIssueCommentImpl implements ApiIssueComment {
 
   /**
    * ListByServiceNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API identifier. Must be unique in the current API Management service instance.
    * @param issueId Issue identifier. Must be unique in the current API Management service instance.
@@ -400,7 +400,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters11,
+  requestBody: Parameters.parameters13,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

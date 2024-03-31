@@ -980,6 +980,8 @@ export interface ContainerGetAccountInfoExceptionHeaders {
 export interface BlobDownloadHeaders {
   /** Returns the date and time the container was last modified. Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last-modified time of the blob. */
   lastModified?: Date;
+  /** Returns the date and time the blob was created. */
+  createdOn?: Date;
   metadata?: { [propertyName: string]: string };
   /** Optional. Only valid when Object Replication is enabled for the storage container and on the destination blob of the replication. */
   objectReplicationPolicyId?: string;
@@ -2842,7 +2844,8 @@ export type AccessTier =
 /** Defines values for ArchiveStatus. */
 export type ArchiveStatus =
   | "rehydrate-pending-to-hot"
-  | "rehydrate-pending-to-cool";
+  | "rehydrate-pending-to-cool"
+  | "rehydrate-pending-to-cold";
 /** Defines values for RehydratePriority. */
 export type RehydratePriority = "High" | "Standard";
 /** Defines values for BlobImmutabilityPolicyMode. */

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfOptionDictionary, getEnvVar, drainStream } from "@azure/test-utils-perf";
+import { PerfOptionDictionary, getEnvVar, drainStream } from "@azure-tools/test-perf";
 import { StorageBlobTest } from "./storageTest.spec";
 import {
   BlockBlobClient,
@@ -10,7 +10,7 @@ import {
   BlobClient,
 } from "@azure/storage-blob";
 import { getValueInConnString } from "./utils/utils";
-import { generateUuid } from "@azure/core-http";
+import { randomUUID } from "@azure/core-util";
 
 interface StorageBlobDownloadTestOptions {
   size: number;
@@ -27,7 +27,7 @@ export class StorageBlobDownloadWithSASTest extends StorageBlobTest<StorageBlobD
     },
   };
 
-  static blobName = generateUuid();
+  static blobName = randomUUID();
   blockBlobClient: BlockBlobClient;
   blobClientFromSAS: BlobClient;
   sasUrl: string;
@@ -35,7 +35,7 @@ export class StorageBlobDownloadWithSASTest extends StorageBlobTest<StorageBlobD
   constructor() {
     super();
     this.blockBlobClient = this.containerClient.getBlockBlobClient(
-      StorageBlobDownloadWithSASTest.blobName
+      StorageBlobDownloadWithSASTest.blobName,
     );
     const sasParams = generateBlobSASQueryParameters(
       {
@@ -45,15 +45,14 @@ export class StorageBlobDownloadWithSASTest extends StorageBlobTest<StorageBlobD
         blobName: StorageBlobDownloadWithSASTest.blobName,
         permissions: BlobSASPermissions.parse("r"),
       },
-      this.sharedKeyCredential
+      this.sharedKeyCredential,
     ).toString();
 
     this.sasUrl = `https://${getValueInConnString(
       getEnvVar("STORAGE_CONNECTION_STRING"),
-      "AccountName"
-    )}.blob.core.windows.net/${StorageBlobDownloadWithSASTest.containerName}/${
-      StorageBlobDownloadWithSASTest.blobName
-    }?${sasParams}`;
+      "AccountName",
+    )}.blob.core.windows.net/${StorageBlobDownloadWithSASTest.containerName}/${StorageBlobDownloadWithSASTest.blobName
+      }?${sasParams}`;
 
     this.blobClientFromSAS = new BlobClient(this.sasUrl);
   }
@@ -63,7 +62,7 @@ export class StorageBlobDownloadWithSASTest extends StorageBlobTest<StorageBlobD
     // Create a blob
     await this.blockBlobClient.upload(
       Buffer.alloc(this.parsedOptions.size.value),
-      this.parsedOptions.size.value
+      this.parsedOptions.size.value,
     );
   }
 

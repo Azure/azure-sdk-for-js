@@ -32,6 +32,8 @@ import {
   SubscriptionUpdateParameters,
   NamespaceTopicEventSubscriptionsUpdateOptionalParams,
   NamespaceTopicEventSubscriptionsUpdateResponse,
+  NamespaceTopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
+  NamespaceTopicEventSubscriptionsGetDeliveryAttributesResponse,
   NamespaceTopicEventSubscriptionsListByNamespaceTopicNextResponse
 } from "../models";
 
@@ -525,6 +527,34 @@ export class NamespaceTopicEventSubscriptionsImpl
   }
 
   /**
+   * Get all delivery attributes for an event subscription of a namespace topic.
+   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param namespaceName Name of the namespace.
+   * @param topicName Name of the namespace topic.
+   * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
+   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param options The options parameters.
+   */
+  getDeliveryAttributes(
+    resourceGroupName: string,
+    namespaceName: string,
+    topicName: string,
+    eventSubscriptionName: string,
+    options?: NamespaceTopicEventSubscriptionsGetDeliveryAttributesOptionalParams
+  ): Promise<NamespaceTopicEventSubscriptionsGetDeliveryAttributesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        namespaceName,
+        topicName,
+        eventSubscriptionName,
+        options
+      },
+      getDeliveryAttributesOperationSpec
+    );
+  }
+
+  /**
    * ListByNamespaceTopicNext
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param namespaceName Name of the namespace.
@@ -686,6 +716,30 @@ const listByNamespaceTopicOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.topicName1
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getDeliveryAttributesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/namespaces/{namespaceName}/topics/{topicName}/eventSubscriptions/{eventSubscriptionName}/getDeliveryAttributes",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeliveryAttributeListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.topicName1,
+    Parameters.eventSubscriptionName1
   ],
   headerParameters: [Parameters.accept],
   serializer

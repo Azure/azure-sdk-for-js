@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { HybridComputeManagementClient } = require("@azure/arm-hybridcompute");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to The operation to Upgrade Machine Extensions.
  *
  * @summary The operation to Upgrade Machine Extensions.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2021-06-10-preview/examples/Extensions_Upgrade.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-06-20-preview/examples/extension/Extensions_Upgrade.json
  */
 async function upgradeMachineExtensions() {
-  const subscriptionId = "{subscriptionId}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId = process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
+  const resourceGroupName = process.env["HYBRIDCOMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const machineName = "myMachine";
   const extensionUpgradeParameters = {
     extensionTargets: {
@@ -37,4 +38,8 @@ async function upgradeMachineExtensions() {
   console.log(result);
 }
 
-upgradeMachineExtensions().catch(console.error);
+async function main() {
+  upgradeMachineExtensions();
+}
+
+main().catch(console.error);

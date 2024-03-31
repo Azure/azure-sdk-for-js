@@ -38,6 +38,7 @@ export class AzureSASCredential implements SASCredential {
 export interface GetTokenOptions {
     abortSignal?: AbortSignalLike;
     claims?: string;
+    enableCae?: boolean;
     requestOptions?: {
         timeout?: number;
     };
@@ -46,6 +47,9 @@ export interface GetTokenOptions {
         tracingContext?: TracingContext;
     };
 }
+
+// @public
+export function isKeyCredential(credential: unknown): credential is KeyCredential;
 
 // @public
 export function isNamedKeyCredential(credential: unknown): credential is NamedKeyCredential;

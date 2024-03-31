@@ -2,8 +2,7 @@
 // Licensed under the MIT license.
 
 import fs from "fs-extra";
-import path from "path";
-
+import path from "node:path";
 import { createPrinter } from "./printer";
 import { SampleConfiguration } from "./samples/configuration";
 
@@ -29,8 +28,16 @@ declare global {
     version: string;
     "sdk-type"?: "client" | "mgmt" | "perf-test" | "utility";
     description: string;
-    main: string;
+    main?: string;
     types: string;
+    exports?: {
+      [path: string]: {
+        import?: string;
+        require?: string;
+        types?: string;
+        [extraTypes: `types@${string}`]: string;
+      };
+    };
     typesVersions?: {
       [k: string]: {
         [k: string]: string[];
@@ -113,6 +120,8 @@ async function isAzureSDKPackage(fileName: string): Promise<boolean> {
 
   if (/^@azure(-[a-z]+)?\//.test(f.name)) {
     return true;
+  } else if (f.name.startsWith("@typespec")) {
+    return true;
   } else {
     return false;
   }
@@ -152,7 +161,7 @@ async function findAzSDKPackageJson(directory: string): Promise<[string, Package
  * @returns the package info for the SDK project that owns the given directory
  */
 export async function resolveProject(
-  workingDirectory: string = process.cwd()
+  workingDirectory: string = process.cwd(),
 ): Promise<ProjectInfo> {
   if (!fs.existsSync(workingDirectory)) {
     throw new Error(`No such file or directory: ${workingDirectory}`);
@@ -168,7 +177,7 @@ export async function resolveProject(
 
   if (!packageJson.name || !packageJson.version) {
     throw new Error(
-      `Malformed package (did not have a name or version): ${path}, name="${packageJson.name}", version="${packageJson.version}"`
+      `Malformed package (did not have a name or version): ${path}, name="${packageJson.name}", version="${packageJson.version}"`,
     );
   }
 

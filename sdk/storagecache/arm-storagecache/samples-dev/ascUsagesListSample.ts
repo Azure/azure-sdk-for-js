@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the quantity used and quota limit for resources
  *
  * @summary Gets the quantity used and quota limit for resources
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-03-01-preview/examples/AscResourceUsages_Get.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-11-01-preview/examples/AscResourceUsages_Get.json
  */
 async function ascUsagesList() {
   const subscriptionId =

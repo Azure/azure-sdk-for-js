@@ -39,11 +39,11 @@ testWithServiceTypes((serviceVersion) => {
     before("validate environment", function (): void {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
       );
       should.exist(
         env[EnvVarKeys.EVENTHUB_NAME],
-        "define EVENTHUB_NAME in your environment before running integration tests."
+        "define EVENTHUB_NAME in your environment before running integration tests.",
       );
     });
 
@@ -51,7 +51,7 @@ testWithServiceTypes((serviceVersion) => {
       const client = new EventHubConsumerClient(
         EventHubConsumerClient.defaultConsumerGroupName,
         service.connectionString,
-        service.path
+        service.path,
       );
       partitionIds = await client.getPartitionIds();
       return client.close();
@@ -64,7 +64,9 @@ testWithServiceTypes((serviceVersion) => {
        */
       it("send works after disconnect", async () => {
         const context = createConnectionContext(service.connectionString, service.path);
-        const sender = EventHubSender.create(context, { enableIdempotentProducer: false });
+        const sender = EventHubSender.create(context, "Sender1", {
+          enableIdempotentProducer: false,
+        });
 
         // Create the sender link via getMaxMessageSize() so we can check when 'send' is about to be called on it.
         await sender.getMaxMessageSize();
@@ -101,19 +103,25 @@ testWithServiceTypes((serviceVersion) => {
           const receiver1 = createReceiver(
             context,
             EventHubConsumerClient.defaultConsumerGroupName,
+            "Consumer1",
             partitionIds[0],
-            latestEventPosition
+            latestEventPosition,
           );
           const receiver2 = createReceiver(
             context,
             EventHubConsumerClient.defaultConsumerGroupName,
+            "Consumer2",
             partitionIds[1],
-            latestEventPosition
+            latestEventPosition,
           );
 
           // Add 2 senders.
-          const sender1 = new EventHubSender(context, { enableIdempotentProducer: false });
-          const sender2 = new EventHubSender(context, { enableIdempotentProducer: false });
+          const sender1 = new EventHubSender(context, "Sender1", {
+            enableIdempotentProducer: false,
+          });
+          const sender2 = new EventHubSender(context, "Sender2", {
+            enableIdempotentProducer: false,
+          });
 
           // Initialize sender links
           await sender1["_getLink"]();
@@ -161,19 +169,25 @@ testWithServiceTypes((serviceVersion) => {
           const receiver1 = createReceiver(
             context,
             EventHubConsumerClient.defaultConsumerGroupName,
+            "Consumer1",
             partitionIds[0],
-            latestEventPosition
+            latestEventPosition,
           );
           const receiver2 = createReceiver(
             context,
             EventHubConsumerClient.defaultConsumerGroupName,
+            "Consumer2",
             partitionIds[1],
-            latestEventPosition
+            latestEventPosition,
           );
 
           // Add 2 senders.
-          const sender1 = new EventHubSender(context, { enableIdempotentProducer: false });
-          const sender2 = new EventHubSender(context, { enableIdempotentProducer: false });
+          const sender1 = new EventHubSender(context, "Sender1", {
+            enableIdempotentProducer: false,
+          });
+          const sender2 = new EventHubSender(context, "Sender2", {
+            enableIdempotentProducer: false,
+          });
 
           // Initialize sender links
           await sender1["_getLink"]();

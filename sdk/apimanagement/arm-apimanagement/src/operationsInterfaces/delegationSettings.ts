@@ -23,7 +23,7 @@ import {
 export interface DelegationSettings {
   /**
    * Gets the entity state (Etag) version of the DelegationSettings.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -34,7 +34,7 @@ export interface DelegationSettings {
   ): Promise<DelegationSettingsGetEntityTagResponse>;
   /**
    * Get Delegation Settings for the Portal.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -45,7 +45,7 @@ export interface DelegationSettings {
   ): Promise<DelegationSettingsGetResponse>;
   /**
    * Update Delegation settings.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    *                response of the GET request or it should be * for unconditional update.
@@ -61,7 +61,7 @@ export interface DelegationSettings {
   ): Promise<void>;
   /**
    * Create or Update Delegation settings.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param parameters Create or update parameters.
    * @param options The options parameters.
@@ -74,7 +74,7 @@ export interface DelegationSettings {
   ): Promise<DelegationSettingsCreateOrUpdateResponse>;
   /**
    * Gets the secret validation key of the DelegationSettings.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */

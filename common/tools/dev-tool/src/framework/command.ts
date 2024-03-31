@@ -54,7 +54,7 @@ export type StrictAllowMultiple<Opts extends CommandOptions> = {
 export function makeCommandInfo<Opts extends CommandOptions>(
   name: string,
   description: string,
-  options?: Opts
+  options?: Opts,
 ): CommandInfo<StrictAllowMultiple<Opts>> {
   return {
     name,
@@ -72,7 +72,7 @@ export function makeCommandInfo<Opts extends CommandOptions>(
  */
 export function subCommand<Info extends CommandInfo<CommandOptions>>(
   info: Info,
-  commands: CommandLoader
+  commands: CommandLoader,
 ): (...args: string[]) => Promise<boolean> {
   const log = createPrinter(info.name);
   return async (...rawArgs: string[]) => {
@@ -87,8 +87,8 @@ export function subCommand<Info extends CommandInfo<CommandOptions>>(
       return true;
     }
 
-    const commandName = options.args[0];
-    const commandArgs = options.args.slice(1);
+    const commandName = options.args[0] as string | undefined;
+    const commandArgs = options.args.slice(1) as string[] | undefined;
 
     if (commandName === undefined) {
       log.error("No sub-command provided.");
@@ -98,12 +98,11 @@ export function subCommand<Info extends CommandInfo<CommandOptions>>(
 
     const extraArgs = options["--"];
 
-    const fullArgs =
-      extraArgs !== undefined && extraArgs.length > 0
-        ? [...commandArgs, "--", ...extraArgs]
-        : commandArgs;
+    const fullArgs = [commandArgs, extraArgs?.length && ["--", extraArgs]]
+      .flat(2)
+      .filter((arg): arg is string => typeof arg === "string");
 
-    log.debug(`$ ${commandName} ${fullArgs.join(" ") ?? ""}`);
+    log.debug(`$ ${commandName} ${fullArgs.join(" ")}`);
 
     if (Object.prototype.hasOwnProperty.call(commands, commandName)) {
       const commandModule = await commands[commandName]();
@@ -125,7 +124,7 @@ export function subCommand<Info extends CommandInfo<CommandOptions>>(
  */
 export function leafCommand<Info extends CommandInfo<CommandOptions>>(
   info: Info,
-  handler: (options: ParsedOptions<NonNullable<Info["options"]>>) => Promise<boolean>
+  handler: (options: ParsedOptions<NonNullable<Info["options"]>>) => Promise<boolean>,
 ): (...args: string[]) => Promise<boolean> {
   return async (...args: string[]): Promise<boolean> => {
     const options = parseOptions(args, info.options);

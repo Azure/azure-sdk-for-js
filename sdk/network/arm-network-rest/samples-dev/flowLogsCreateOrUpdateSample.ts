@@ -45,7 +45,7 @@ async function createOrUpdateFlowLog() {
       subscriptionId,
       resourceGroupName,
       networkWatcherName,
-      flowLogName
+      flowLogName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

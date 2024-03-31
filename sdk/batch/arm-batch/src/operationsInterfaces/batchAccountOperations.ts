@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BatchAccount,
   BatchAccountListOptionalParams,
@@ -32,7 +32,7 @@ import {
   BatchAccountGetKeysOptionalParams,
   BatchAccountGetKeysResponse,
   BatchAccountGetDetectorOptionalParams,
-  BatchAccountGetDetectorResponse
+  BatchAccountGetDetectorResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,7 +43,7 @@ export interface BatchAccountOperations {
    * @param options The options parameters.
    */
   list(
-    options?: BatchAccountListOptionalParams
+    options?: BatchAccountListOptionalParams,
   ): PagedAsyncIterableIterator<BatchAccount>;
   /**
    * Gets information about the Batch accounts associated with the specified resource group.
@@ -52,7 +52,7 @@ export interface BatchAccountOperations {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: BatchAccountListByResourceGroupOptionalParams
+    options?: BatchAccountListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<BatchAccount>;
   /**
    * Gets information about the detectors available for a given Batch account.
@@ -63,7 +63,7 @@ export interface BatchAccountOperations {
   listDetectors(
     resourceGroupName: string,
     accountName: string,
-    options?: BatchAccountListDetectorsOptionalParams
+    options?: BatchAccountListDetectorsOptionalParams,
   ): PagedAsyncIterableIterator<DetectorResponse>;
   /**
    * Lists the endpoints that a Batch Compute Node under this Batch Account may call as part of Batch
@@ -79,7 +79,7 @@ export interface BatchAccountOperations {
   listOutboundNetworkDependenciesEndpoints(
     resourceGroupName: string,
     accountName: string,
-    options?: BatchAccountListOutboundNetworkDependenciesEndpointsOptionalParams
+    options?: BatchAccountListOutboundNetworkDependenciesEndpointsOptionalParams,
   ): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
   /**
    * Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with
@@ -96,10 +96,10 @@ export interface BatchAccountOperations {
     resourceGroupName: string,
     accountName: string,
     parameters: BatchAccountCreateParameters,
-    options?: BatchAccountCreateOptionalParams
+    options?: BatchAccountCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<BatchAccountCreateResponse>,
+    SimplePollerLike<
+      OperationState<BatchAccountCreateResponse>,
       BatchAccountCreateResponse
     >
   >;
@@ -118,7 +118,7 @@ export interface BatchAccountOperations {
     resourceGroupName: string,
     accountName: string,
     parameters: BatchAccountCreateParameters,
-    options?: BatchAccountCreateOptionalParams
+    options?: BatchAccountCreateOptionalParams,
   ): Promise<BatchAccountCreateResponse>;
   /**
    * Updates the properties of an existing Batch account.
@@ -131,7 +131,7 @@ export interface BatchAccountOperations {
     resourceGroupName: string,
     accountName: string,
     parameters: BatchAccountUpdateParameters,
-    options?: BatchAccountUpdateOptionalParams
+    options?: BatchAccountUpdateOptionalParams,
   ): Promise<BatchAccountUpdateResponse>;
   /**
    * Deletes the specified Batch account.
@@ -142,8 +142,8 @@ export interface BatchAccountOperations {
   beginDelete(
     resourceGroupName: string,
     accountName: string,
-    options?: BatchAccountDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: BatchAccountDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified Batch account.
    * @param resourceGroupName The name of the resource group that contains the Batch account.
@@ -153,7 +153,7 @@ export interface BatchAccountOperations {
   beginDeleteAndWait(
     resourceGroupName: string,
     accountName: string,
-    options?: BatchAccountDeleteOptionalParams
+    options?: BatchAccountDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets information about the specified Batch account.
@@ -164,7 +164,7 @@ export interface BatchAccountOperations {
   get(
     resourceGroupName: string,
     accountName: string,
-    options?: BatchAccountGetOptionalParams
+    options?: BatchAccountGetOptionalParams,
   ): Promise<BatchAccountGetResponse>;
   /**
    * Synchronizes access keys for the auto-storage account configured for the specified Batch account,
@@ -176,7 +176,7 @@ export interface BatchAccountOperations {
   synchronizeAutoStorageKeys(
     resourceGroupName: string,
     accountName: string,
-    options?: BatchAccountSynchronizeAutoStorageKeysOptionalParams
+    options?: BatchAccountSynchronizeAutoStorageKeysOptionalParams,
   ): Promise<void>;
   /**
    * This operation applies only to Batch accounts with allowedAuthenticationModes containing
@@ -192,7 +192,7 @@ export interface BatchAccountOperations {
     resourceGroupName: string,
     accountName: string,
     parameters: BatchAccountRegenerateKeyParameters,
-    options?: BatchAccountRegenerateKeyOptionalParams
+    options?: BatchAccountRegenerateKeyOptionalParams,
   ): Promise<BatchAccountRegenerateKeyResponse>;
   /**
    * This operation applies only to Batch accounts with allowedAuthenticationModes containing
@@ -206,7 +206,7 @@ export interface BatchAccountOperations {
   getKeys(
     resourceGroupName: string,
     accountName: string,
-    options?: BatchAccountGetKeysOptionalParams
+    options?: BatchAccountGetKeysOptionalParams,
   ): Promise<BatchAccountGetKeysResponse>;
   /**
    * Gets information about the given detector for a given Batch account.
@@ -219,6 +219,6 @@ export interface BatchAccountOperations {
     resourceGroupName: string,
     accountName: string,
     detectorId: string,
-    options?: BatchAccountGetDetectorOptionalParams
+    options?: BatchAccountGetDetectorOptionalParams,
   ): Promise<BatchAccountGetDetectorResponse>;
 }

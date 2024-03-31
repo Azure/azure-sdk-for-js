@@ -1,11 +1,11 @@
 trigger: none
 
-stages:
-  - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+extends:
+    template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
       PackageName: "@azure-rest/ai-personalizer"
       ServiceDirectory: personalizer
-      Clouds: Canary
+      Clouds: 'Canary'
       EnvVars:
         AZURE_CLIENT_ID: $(PERSONALIZER_CLIENT_ID)
         AZURE_TENANT_ID: $(PERSONALIZER_TENANT_ID)

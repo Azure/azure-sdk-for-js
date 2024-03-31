@@ -15,8 +15,8 @@ export function ensureScopes(scopes: string | string[]): string[] {
  * Throws if the received scope is not valid.
  * @internal
  */
-export function ensureValidScope(scope: string, logger: CredentialLogger): void {
-  if (!scope.match(/^[0-9a-zA-Z-.:/]+$/)) {
+export function ensureValidScopeForDevTimeCreds(scope: string, logger: CredentialLogger): void {
+  if (!scope.match(/^[0-9a-zA-Z-_.:/]+$/)) {
     const error = new Error("Invalid scope was specified by the user or calling client");
     logger.getToken.info(formatError(scope, error));
     throw error;

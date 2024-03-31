@@ -71,7 +71,7 @@ describe("Relay test", () => {
       tags: {
         tag1: "value1"
       }
-    });
+    }, testPollingOptions);
     assert.equal(res.name, namespaceName);
   });
 

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Creates or updates an App Service Plan.
  *
  * @summary Description for Creates or updates an App Service Plan.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/CreateOrUpdateAppServicePlan.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/CreateOrUpdateAppServicePlan.json
  */
 async function createOrUpdateAppServicePlan() {
   const subscriptionId =

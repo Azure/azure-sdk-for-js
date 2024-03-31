@@ -34,7 +34,7 @@ async function deletePrivateDnsZoneGroup() {
       subscriptionId,
       resourceGroupName,
       privateEndpointName,
-      privateDnsZoneGroupName
+      privateDnsZoneGroupName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

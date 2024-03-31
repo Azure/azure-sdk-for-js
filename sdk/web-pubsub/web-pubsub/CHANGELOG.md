@@ -1,6 +1,13 @@
 # Release History
 
-## 1.1.2 (Unreleased)
+## 1.1.3 (Unreleased)
+
+### Features Added
+- Added a `messageTtlSeconds` option to `serviceClient.sendToAll`, `serviceClient.sendToUser`, `serviceClient.sendToConnection` and `groupClient.sendToAll`. This option defines the expiration time for a message. Messages that are not consumed by the client within the specified TTL will be dropped by the service. This parameter helps when the client's bandwidth is limited.
+- Added method `serviceClient.addConnectionsToGroups` to add connections to multiple groups. Target connections are specified by a filter string.
+- Added method `serviceClient.removeConnectionsFromGroups` to remove connections from multiple groups. Target connections are specified by a filter string.
+
+## 1.1.2 (2023-04-18)
 
 ### Features Added
 

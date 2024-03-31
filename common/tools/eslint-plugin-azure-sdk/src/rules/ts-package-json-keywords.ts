@@ -17,14 +17,14 @@ export = {
   meta: getRuleMetaData(
     "ts-package-json-keywords",
     "force package.json's keywords value to contain at least 'Azure' and 'cloud'",
-    "code"
+    "code",
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const verifiers = getVerifiers(context, {
       outer: "keywords",
       expected: ["azure", "cloud"],
     });
-    return stripPath(context.getFilename()) === "package.json"
+    return stripPath(context.filename) === "package.json"
       ? ({
           // callback functions
 

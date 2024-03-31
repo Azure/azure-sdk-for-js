@@ -14,8 +14,12 @@ export async function hasPowerShell(): Promise<boolean> {
     const success = await new Promise<boolean>((resolve) => {
       const cmd = exec(`${command} -Command '$PSVersionTable.PSVersion.Major'`);
 
-      cmd.on("error", () => resolve(false));
-      cmd.on("exit", (code) => (code === 0 ? resolve(true) : resolve(false)));
+      cmd.on("error", () => {
+        resolve(false);
+      });
+      cmd.on("exit", (code) => {
+        code === 0 ? resolve(true) : resolve(false);
+      });
     });
 
     if (success) return true;

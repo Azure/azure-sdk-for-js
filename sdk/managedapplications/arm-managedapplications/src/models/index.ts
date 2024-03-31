@@ -8,30 +8,191 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** Result of the request to list Microsoft.Solutions operations. It contains a list of operations and a URL link to get the next set of results. */
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface OperationListResult {
-  /** List of Microsoft.Solutions operations. */
-  value?: Operation[];
-  /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
+  /**
+   * List of operations supported by the resource provider
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Operation[];
+  /**
+   * URL to get the next set of operation list results (if there are any).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
-/** Microsoft.Solutions operation */
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
-  /** Operation name: {provider}/{resource}/{operation} */
-  name?: string;
-  /** The object that represents the operation. */
+  /**
+   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
   display?: OperationDisplay;
+  /**
+   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly origin?: Origin;
+  /**
+   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actionType?: ActionType;
 }
 
-/** The object that represents the operation. */
+/** Localized display information for this particular operation. */
 export interface OperationDisplay {
-  /** Service provider: Microsoft.Solutions */
-  provider?: string;
-  /** Resource on which the operation is performed: Application, JitRequest, etc. */
-  resource?: string;
-  /** Operation type: Read, write, delete, etc. */
-  operation?: string;
+  /**
+   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provider?: string;
+  /**
+   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resource?: string;
+  /**
+   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operation?: string;
+  /**
+   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** Managed application billing details definition. */
+export interface ApplicationBillingDetailsDefinition {
+  /** The managed application resource usage Id. */
+  resourceUsageId?: string;
+}
+
+/** Managed application Jit access policy. */
+export interface ApplicationJitAccessPolicy {
+  /** Whether the JIT access is enabled. */
+  jitAccessEnabled: boolean;
+  /** JIT approval mode. */
+  jitApprovalMode?: JitApprovalMode;
+  /** The JIT approvers */
+  jitApprovers?: JitApproverDefinition[];
+  /** The maximum duration JIT access is granted. This is an ISO8601 time period value. */
+  maximumJitAccessDuration?: string;
+}
+
+/** JIT approver definition. */
+export interface JitApproverDefinition {
+  /** The approver service principal Id. */
+  id: string;
+  /** The approver type. */
+  type?: JitApproverType;
+  /** The approver display name. */
+  displayName?: string;
+}
+
+/** The managed application provider authorization. */
+export interface ApplicationAuthorization {
+  /** The provider's principal identifier. This is the identity that the provider will use to call ARM to manage the managed application resources. */
+  principalId: string;
+  /** The provider's role definition identifier. This role will define all the permissions that the provider must have on the managed application's container resource group. This role definition cannot have permission to delete the resource group. */
+  roleDefinitionId: string;
+}
+
+/** The application package contact information. */
+export interface ApplicationPackageContact {
+  /** The contact name. */
+  contactName?: string;
+  /** The contact email. */
+  email: string;
+  /** The contact phone number. */
+  phone: string;
+}
+
+/** The appliance package support URLs. */
+export interface ApplicationPackageSupportUrls {
+  /** The public azure support URL. */
+  publicAzure?: string;
+  /** The government cloud support URL. */
+  governmentCloud?: string;
+}
+
+/** Managed application artifact. */
+export interface ApplicationArtifact {
+  /** The managed application artifact name. */
+  name: ApplicationArtifactName;
+  /** The managed application artifact blob uri. */
+  uri: string;
+  /** The managed application artifact type. */
+  type: ApplicationArtifactType;
+}
+
+/** The application client details to track the entity creating/updating the managed app resource. */
+export interface ApplicationClientDetails {
+  /** The client Oid. */
+  oid?: string;
+  /** The client Puid */
+  puid?: string;
+  /** The client application Id. */
+  applicationId?: string;
 }
 
 /** Plan for the managed application. */
@@ -48,6 +209,40 @@ export interface Plan {
   version: string;
 }
 
+/** Identity for the resource. */
+export interface Identity {
+  /**
+   * The principal ID of resource identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** The identity type. */
+  type?: ResourceIdentityType;
+  /** The list of user identities associated with the resource. The user identity dictionary key references will be resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+  userAssignedIdentities?: {
+    [propertyName: string]: UserAssignedResourceIdentity;
+  };
+}
+
+/** Represents the user assigned identity that is contained within the UserAssignedIdentities dictionary on ResourceIdentity */
+export interface UserAssignedResourceIdentity {
+  /**
+   * The principal id of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant id of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+}
+
 /** SKU for the resource. */
 export interface Sku {
   /** The SKU name. */
@@ -62,22 +257,6 @@ export interface Sku {
   model?: string;
   /** The SKU capacity. */
   capacity?: number;
-}
-
-/** Identity for the resource. */
-export interface Identity {
-  /**
-   * The principal ID of resource identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The tenant ID of resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantId?: string;
-  /** The identity type. */
-  type?: "SystemAssigned";
 }
 
 /** Resource information. */
@@ -101,16 +280,27 @@ export interface Resource {
   location?: string;
   /** Resource tags */
   tags?: { [propertyName: string]: string };
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
 }
 
-/** Error response indicates managed application is not able to process the incoming request. The reason is provided in the error message. */
-export interface ErrorResponse {
-  /** Http status code. */
-  httpStatus?: string;
-  /** Error code. */
-  errorCode?: string;
-  /** Error message indicating why the operation failed. */
-  errorMessage?: string;
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
 /** Plan for the managed application. */
@@ -127,22 +317,62 @@ export interface PlanPatchable {
   version?: string;
 }
 
-/** The managed application provider authorization. */
-export interface ApplicationProviderAuthorization {
-  /** The provider's principal identifier. This is the identity that the provider will use to call ARM to manage the managed application resources. */
-  principalId: string;
-  /** The provider's role definition identifier. This role will define all the permissions that the provider must have on the managed application's container resource group. This role definition cannot have permission to delete the resource group. */
-  roleDefinitionId: string;
+/** Application definition artifact. */
+export interface ApplicationDefinitionArtifact {
+  /** The managed application definition artifact name. */
+  name: ApplicationDefinitionArtifactName;
+  /** The managed application definition artifact blob uri. */
+  uri: string;
+  /** The managed application definition artifact type. */
+  type: ApplicationArtifactType;
 }
 
-/** Managed application artifact. */
-export interface ApplicationArtifact {
-  /** The managed application artifact name. */
+/** Managed application notification policy. */
+export interface ApplicationNotificationPolicy {
+  /** The managed application notification endpoint. */
+  notificationEndpoints: ApplicationNotificationEndpoint[];
+}
+
+/** Managed application notification endpoint. */
+export interface ApplicationNotificationEndpoint {
+  /** The managed application notification endpoint uri. */
+  uri: string;
+}
+
+/** Managed application locking policy. */
+export interface ApplicationPackageLockingPolicyDefinition {
+  /** The deny assignment excluded actions. */
+  allowedActions?: string[];
+  /** The deny assignment excluded data actions. */
+  allowedDataActions?: string[];
+}
+
+/** Managed application deployment policy. */
+export interface ApplicationDeploymentPolicy {
+  /** The managed application deployment mode. */
+  deploymentMode: DeploymentMode;
+}
+
+/** Managed application management policy. */
+export interface ApplicationManagementPolicy {
+  /** The managed application management mode. */
+  mode?: ApplicationManagementMode;
+}
+
+/** Managed application policy. */
+export interface ApplicationPolicy {
+  /** The policy name */
   name?: string;
-  /** The managed application artifact blob uri. */
-  uri?: string;
-  /** The managed application artifact type. */
-  type?: ApplicationArtifactType;
+  /** The policy definition Id. */
+  policyDefinitionId?: string;
+  /** The policy parameters. */
+  parameters?: string;
+}
+
+/** Information about an application definition request. */
+export interface ApplicationDefinitionPatchable {
+  /** Application definition tags */
+  tags?: { [propertyName: string]: string };
 }
 
 /** List of managed application definitions. */
@@ -161,14 +391,141 @@ export interface ApplicationListResult {
   nextLink?: string;
 }
 
+/** The JIT authorization policies. */
+export interface JitAuthorizationPolicies {
+  /** The the principal id that will be granted JIT access. */
+  principalId: string;
+  /** The role definition id that will be granted to the Principal. */
+  roleDefinitionId: string;
+}
+
+/** The JIT scheduling policies. */
+export interface JitSchedulingPolicy {
+  /** The type of JIT schedule. */
+  type: JitSchedulingType;
+  /** The required duration of the JIT request. */
+  duration: string;
+  /** The start time of the request. */
+  startTime: Date;
+}
+
+/** Information about JIT request. */
+export interface JitRequestPatchable {
+  /** Jit request tags */
+  tags?: { [propertyName: string]: string };
+}
+
+/** List of JIT requests. */
+export interface JitRequestDefinitionListResult {
+  /** The array of Jit request definition. */
+  value?: JitRequestDefinition[];
+  /** The URL to use for getting the next set of results. */
+  nextLink?: string;
+}
+
+/** The array of plan. */
+export interface AllowedUpgradePlansResult {
+  /** The array of plans. */
+  value?: Plan[];
+}
+
+/** Update access request definition. */
+export interface UpdateAccessDefinition {
+  /** The approver name. */
+  approver?: string;
+  /** The JIT request metadata. */
+  metadata: JitRequestMetadata;
+  /** The JIT status. */
+  status: Status;
+  /** The JIT status. */
+  subStatus: Substatus;
+}
+
+/** The JIT request metadata. */
+export interface JitRequestMetadata {
+  /** The origin request id. */
+  originRequestId?: string;
+  /** The requestor id. */
+  requestorId?: string;
+  /** The publisher's tenant name. */
+  tenantDisplayName?: string;
+  /** The subject display name. */
+  subjectDisplayName?: string;
+}
+
+/** List token request body. */
+export interface ListTokenRequest {
+  /** The authorization audience. */
+  authorizationAudience?: string;
+  /** The user assigned identities. */
+  userAssignedIdentities?: string[];
+}
+
+/** The array of managed identity tokens. */
+export interface ManagedIdentityTokenResult {
+  /** The array of managed identity tokens. */
+  value?: ManagedIdentityToken[];
+}
+
+/** The managed identity token for the managed app resource. */
+export interface ManagedIdentityToken {
+  /** The requested access token. */
+  accessToken?: string;
+  /** The number of seconds the access token will be valid. */
+  expiresIn?: string;
+  /** The timespan when the access token expires. This is represented as the number of seconds from epoch. */
+  expiresOn?: string;
+  /** The timespan when the access token takes effect. This is represented as the number of seconds from epoch. */
+  notBefore?: string;
+  /** The aud (audience) the access token was request for. This is the same as what was provided in the listTokens request. */
+  authorizationAudience?: string;
+  /** The Azure resource ID for the issued token. This is either the managed application ID or the user-assigned identity ID. */
+  resourceId?: string;
+  /** The type of the token. */
+  tokenType?: string;
+}
+
 /** Resource information. */
 export interface GenericResource extends Resource {
   /** ID of the resource that manages this resource. */
   managedBy?: string;
   /** The SKU of the resource. */
   sku?: Sku;
-  /** The identity of the resource. */
-  identity?: Identity;
+}
+
+/** Information about JIT request definition. */
+export interface JitRequestDefinition extends Resource {
+  /** The parent application id. */
+  applicationResourceId?: string;
+  /**
+   * The publisher tenant id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publisherTenantId?: string;
+  /** The JIT authorization policies. */
+  jitAuthorizationPolicies?: JitAuthorizationPolicies[];
+  /** The JIT request properties. */
+  jitSchedulingPolicy?: JitSchedulingPolicy;
+  /**
+   * The JIT request provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The JIT request state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly jitRequestState?: JitRequestState;
+  /**
+   * The client entity that created the JIT request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdBy?: ApplicationClientDetails;
+  /**
+   * The client entity that last updated the JIT request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedBy?: ApplicationClientDetails;
 }
 
 /** Information about managed application. */
@@ -177,30 +534,8 @@ export interface Application extends GenericResource {
   plan?: Plan;
   /** The kind of the managed application. Allowed values are MarketPlace and ServiceCatalog. */
   kind: string;
-  /** The managed resource group Id. */
-  managedResourceGroupId: string;
-  /** The fully qualified path of managed application definition Id. */
-  applicationDefinitionId?: string;
-  /** Name and value pairs that define the managed application parameters. It can be a JObject or a well formed JSON string. */
-  parameters?: Record<string, unknown>;
-  /**
-   * Name and value pairs that define the managed application outputs.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly outputs?: Record<string, unknown>;
-  /**
-   * The managed application provisioning state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-}
-
-/** Information about managed application. */
-export interface ApplicationPatchable extends GenericResource {
-  /** The plan information. */
-  plan?: PlanPatchable;
-  /** The kind of the managed application. Allowed values are MarketPlace and ServiceCatalog. */
-  kind?: string;
+  /** The identity of the resource. */
+  identity?: Identity;
   /** The managed resource group Id. */
   managedResourceGroupId?: string;
   /** The fully qualified path of managed application definition Id. */
@@ -217,6 +552,126 @@ export interface ApplicationPatchable extends GenericResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * The managed application billing details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingDetails?: ApplicationBillingDetailsDefinition;
+  /** The managed application Jit access policy. */
+  jitAccessPolicy?: ApplicationJitAccessPolicy;
+  /**
+   * The publisher tenant Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publisherTenantId?: string;
+  /**
+   * The  read-only authorizations property that is retrieved from the application package.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly authorizations?: ApplicationAuthorization[];
+  /**
+   * The managed application management mode.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly managementMode?: ApplicationManagementMode;
+  /**
+   * The read-only customer support property that is retrieved from the application package.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customerSupport?: ApplicationPackageContact;
+  /**
+   * The read-only support URLs property that is retrieved from the application package.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly supportUrls?: ApplicationPackageSupportUrls;
+  /**
+   * The collection of managed application artifacts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly artifacts?: ApplicationArtifact[];
+  /**
+   * The client entity that created the JIT request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdBy?: ApplicationClientDetails;
+  /**
+   * The client entity that last updated the JIT request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedBy?: ApplicationClientDetails;
+}
+
+/** Information about managed application. */
+export interface ApplicationPatchable extends GenericResource {
+  /** The plan information. */
+  plan?: PlanPatchable;
+  /** The kind of the managed application. Allowed values are MarketPlace and ServiceCatalog. */
+  kind?: string;
+  /** The identity of the resource. */
+  identity?: Identity;
+  /** The managed resource group Id. */
+  managedResourceGroupId?: string;
+  /** The fully qualified path of managed application definition Id. */
+  applicationDefinitionId?: string;
+  /** Name and value pairs that define the managed application parameters. It can be a JObject or a well formed JSON string. */
+  parameters?: Record<string, unknown>;
+  /**
+   * Name and value pairs that define the managed application outputs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly outputs?: Record<string, unknown>;
+  /**
+   * The managed application provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The managed application billing details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingDetails?: ApplicationBillingDetailsDefinition;
+  /** The managed application Jit access policy. */
+  jitAccessPolicy?: ApplicationJitAccessPolicy;
+  /**
+   * The publisher tenant Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publisherTenantId?: string;
+  /**
+   * The  read-only authorizations property that is retrieved from the application package.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly authorizations?: ApplicationAuthorization[];
+  /**
+   * The managed application management mode.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly managementMode?: ApplicationManagementMode;
+  /**
+   * The read-only customer support property that is retrieved from the application package.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customerSupport?: ApplicationPackageContact;
+  /**
+   * The read-only support URLs property that is retrieved from the application package.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly supportUrls?: ApplicationPackageSupportUrls;
+  /**
+   * The collection of managed application artifacts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly artifacts?: ApplicationArtifact[];
+  /**
+   * The client entity that created the JIT request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdBy?: ApplicationClientDetails;
+  /**
+   * The client entity that last updated the JIT request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedBy?: ApplicationClientDetails;
 }
 
 /** Information about managed application definition. */
@@ -226,33 +681,77 @@ export interface ApplicationDefinition extends GenericResource {
   /** The managed application definition display name. */
   displayName?: string;
   /** A value indicating whether the package is enabled or not. */
-  isEnabled?: string;
+  isEnabled?: boolean;
   /** The managed application provider authorizations. */
-  authorizations: ApplicationProviderAuthorization[];
+  authorizations?: ApplicationAuthorization[];
   /** The collection of managed application artifacts. The portal will use the files specified as artifacts to construct the user experience of creating a managed application from a managed application definition. */
-  artifacts?: ApplicationArtifact[];
+  artifacts?: ApplicationDefinitionArtifact[];
   /** The managed application definition description. */
   description?: string;
   /** The managed application definition package file Uri. Use this element */
   packageFileUri?: string;
+  /** The storage account id for bring your own storage scenario. */
+  storageAccountId?: string;
   /** The inline main template json which has resources to be provisioned. It can be a JObject or well-formed JSON string. */
   mainTemplate?: Record<string, unknown>;
   /** The createUiDefinition json for the backing template with Microsoft.Solutions/applications resource. It can be a JObject or well-formed JSON string. */
   createUiDefinition?: Record<string, unknown>;
+  /** The managed application notification policy. */
+  notificationPolicy?: ApplicationNotificationPolicy;
+  /** The managed application locking policy. */
+  lockingPolicy?: ApplicationPackageLockingPolicyDefinition;
+  /** The managed application deployment policy. */
+  deploymentPolicy?: ApplicationDeploymentPolicy;
+  /** The managed application management policy that determines publisher's access to the managed resource group. */
+  managementPolicy?: ApplicationManagementPolicy;
+  /** The managed application provider policies. */
+  policies?: ApplicationPolicy[];
 }
+
+/** Known values of {@link Origin} that the service accepts. */
+export enum KnownOrigin {
+  /** User */
+  User = "user",
+  /** System */
+  System = "system",
+  /** UserSystem */
+  UserSystem = "user,system"
+}
+
+/**
+ * Defines values for Origin. \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user** \
+ * **system** \
+ * **user,system**
+ */
+export type Origin = string;
+
+/** Known values of {@link ActionType} that the service accepts. */
+export enum KnownActionType {
+  /** Internal */
+  Internal = "Internal"
+}
+
+/**
+ * Defines values for ActionType. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Internal**
+ */
+export type ActionType = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** NotSpecified */
+  NotSpecified = "NotSpecified",
   /** Accepted */
   Accepted = "Accepted",
   /** Running */
   Running = "Running",
-  /** Ready */
-  Ready = "Ready",
-  /** Creating */
-  Creating = "Creating",
-  /** Created */
-  Created = "Created",
   /** Deleting */
   Deleting = "Deleting",
   /** Deleted */
@@ -272,11 +771,9 @@ export enum KnownProvisioningState {
  * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **NotSpecified** \
  * **Accepted** \
  * **Running** \
- * **Ready** \
- * **Creating** \
- * **Created** \
  * **Deleting** \
  * **Deleted** \
  * **Canceled** \
@@ -285,10 +782,277 @@ export enum KnownProvisioningState {
  * **Updating**
  */
 export type ProvisioningState = string;
+
+/** Known values of {@link JitApprovalMode} that the service accepts. */
+export enum KnownJitApprovalMode {
+  /** NotSpecified */
+  NotSpecified = "NotSpecified",
+  /** AutoApprove */
+  AutoApprove = "AutoApprove",
+  /** ManualApprove */
+  ManualApprove = "ManualApprove"
+}
+
+/**
+ * Defines values for JitApprovalMode. \
+ * {@link KnownJitApprovalMode} can be used interchangeably with JitApprovalMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified** \
+ * **AutoApprove** \
+ * **ManualApprove**
+ */
+export type JitApprovalMode = string;
+
+/** Known values of {@link JitApproverType} that the service accepts. */
+export enum KnownJitApproverType {
+  /** User */
+  User = "user",
+  /** Group */
+  Group = "group"
+}
+
+/**
+ * Defines values for JitApproverType. \
+ * {@link KnownJitApproverType} can be used interchangeably with JitApproverType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user** \
+ * **group**
+ */
+export type JitApproverType = string;
+
+/** Known values of {@link ApplicationManagementMode} that the service accepts. */
+export enum KnownApplicationManagementMode {
+  /** NotSpecified */
+  NotSpecified = "NotSpecified",
+  /** Unmanaged */
+  Unmanaged = "Unmanaged",
+  /** Managed */
+  Managed = "Managed"
+}
+
+/**
+ * Defines values for ApplicationManagementMode. \
+ * {@link KnownApplicationManagementMode} can be used interchangeably with ApplicationManagementMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified** \
+ * **Unmanaged** \
+ * **Managed**
+ */
+export type ApplicationManagementMode = string;
+
+/** Known values of {@link ApplicationArtifactName} that the service accepts. */
+export enum KnownApplicationArtifactName {
+  /** NotSpecified */
+  NotSpecified = "NotSpecified",
+  /** ViewDefinition */
+  ViewDefinition = "ViewDefinition",
+  /** Authorizations */
+  Authorizations = "Authorizations",
+  /** CustomRoleDefinition */
+  CustomRoleDefinition = "CustomRoleDefinition"
+}
+
+/**
+ * Defines values for ApplicationArtifactName. \
+ * {@link KnownApplicationArtifactName} can be used interchangeably with ApplicationArtifactName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified** \
+ * **ViewDefinition** \
+ * **Authorizations** \
+ * **CustomRoleDefinition**
+ */
+export type ApplicationArtifactName = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key"
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
+/** Known values of {@link ApplicationDefinitionArtifactName} that the service accepts. */
+export enum KnownApplicationDefinitionArtifactName {
+  /** NotSpecified */
+  NotSpecified = "NotSpecified",
+  /** ApplicationResourceTemplate */
+  ApplicationResourceTemplate = "ApplicationResourceTemplate",
+  /** CreateUiDefinition */
+  CreateUiDefinition = "CreateUiDefinition",
+  /** MainTemplateParameters */
+  MainTemplateParameters = "MainTemplateParameters"
+}
+
+/**
+ * Defines values for ApplicationDefinitionArtifactName. \
+ * {@link KnownApplicationDefinitionArtifactName} can be used interchangeably with ApplicationDefinitionArtifactName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified** \
+ * **ApplicationResourceTemplate** \
+ * **CreateUiDefinition** \
+ * **MainTemplateParameters**
+ */
+export type ApplicationDefinitionArtifactName = string;
+
+/** Known values of {@link DeploymentMode} that the service accepts. */
+export enum KnownDeploymentMode {
+  /** NotSpecified */
+  NotSpecified = "NotSpecified",
+  /** Incremental */
+  Incremental = "Incremental",
+  /** Complete */
+  Complete = "Complete"
+}
+
+/**
+ * Defines values for DeploymentMode. \
+ * {@link KnownDeploymentMode} can be used interchangeably with DeploymentMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified** \
+ * **Incremental** \
+ * **Complete**
+ */
+export type DeploymentMode = string;
+
+/** Known values of {@link JitSchedulingType} that the service accepts. */
+export enum KnownJitSchedulingType {
+  /** NotSpecified */
+  NotSpecified = "NotSpecified",
+  /** Once */
+  Once = "Once",
+  /** Recurring */
+  Recurring = "Recurring"
+}
+
+/**
+ * Defines values for JitSchedulingType. \
+ * {@link KnownJitSchedulingType} can be used interchangeably with JitSchedulingType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified** \
+ * **Once** \
+ * **Recurring**
+ */
+export type JitSchedulingType = string;
+
+/** Known values of {@link JitRequestState} that the service accepts. */
+export enum KnownJitRequestState {
+  /** NotSpecified */
+  NotSpecified = "NotSpecified",
+  /** Pending */
+  Pending = "Pending",
+  /** Approved */
+  Approved = "Approved",
+  /** Denied */
+  Denied = "Denied",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Expired */
+  Expired = "Expired",
+  /** Timeout */
+  Timeout = "Timeout"
+}
+
+/**
+ * Defines values for JitRequestState. \
+ * {@link KnownJitRequestState} can be used interchangeably with JitRequestState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified** \
+ * **Pending** \
+ * **Approved** \
+ * **Denied** \
+ * **Failed** \
+ * **Canceled** \
+ * **Expired** \
+ * **Timeout**
+ */
+export type JitRequestState = string;
+
+/** Known values of {@link Status} that the service accepts. */
+export enum KnownStatus {
+  /** NotSpecified */
+  NotSpecified = "NotSpecified",
+  /** Elevate */
+  Elevate = "Elevate",
+  /** Remove */
+  Remove = "Remove"
+}
+
+/**
+ * Defines values for Status. \
+ * {@link KnownStatus} can be used interchangeably with Status,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified** \
+ * **Elevate** \
+ * **Remove**
+ */
+export type Status = string;
+
+/** Known values of {@link Substatus} that the service accepts. */
+export enum KnownSubstatus {
+  /** NotSpecified */
+  NotSpecified = "NotSpecified",
+  /** Approved */
+  Approved = "Approved",
+  /** Denied */
+  Denied = "Denied",
+  /** Failed */
+  Failed = "Failed",
+  /** Expired */
+  Expired = "Expired",
+  /** Timeout */
+  Timeout = "Timeout"
+}
+
+/**
+ * Defines values for Substatus. \
+ * {@link KnownSubstatus} can be used interchangeably with Substatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified** \
+ * **Approved** \
+ * **Denied** \
+ * **Failed** \
+ * **Expired** \
+ * **Timeout**
+ */
+export type Substatus = string;
+/** Defines values for ApplicationArtifactType. */
+export type ApplicationArtifactType = "NotSpecified" | "Template" | "Custom";
+/** Defines values for ResourceIdentityType. */
+export type ResourceIdentityType =
+  | "SystemAssigned"
+  | "UserAssigned"
+  | "SystemAssigned, UserAssigned"
+  | "None";
 /** Defines values for ApplicationLockLevel. */
 export type ApplicationLockLevel = "CanNotDelete" | "ReadOnly" | "None";
-/** Defines values for ApplicationArtifactType. */
-export type ApplicationArtifactType = "Template" | "Custom";
 
 /** Optional parameters. */
 export interface ListOperationsOptionalParams
@@ -337,10 +1101,14 @@ export interface ApplicationsUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** Parameters supplied to update an existing managed application. */
   parameters?: ApplicationPatchable;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
 /** Contains response data for the update operation. */
-export type ApplicationsUpdateResponse = Application;
+export type ApplicationsUpdateResponse = ApplicationPatchable;
 
 /** Optional parameters. */
 export interface ApplicationsListByResourceGroupOptionalParams
@@ -388,11 +1156,47 @@ export type ApplicationsCreateOrUpdateByIdResponse = Application;
 export interface ApplicationsUpdateByIdOptionalParams
   extends coreClient.OperationOptions {
   /** Parameters supplied to update an existing managed application. */
-  parameters?: Application;
+  parameters?: ApplicationPatchable;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
 /** Contains response data for the updateById operation. */
-export type ApplicationsUpdateByIdResponse = Application;
+export type ApplicationsUpdateByIdResponse = ApplicationPatchable;
+
+/** Optional parameters. */
+export interface ApplicationsRefreshPermissionsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ApplicationsListAllowedUpgradePlansOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAllowedUpgradePlans operation. */
+export type ApplicationsListAllowedUpgradePlansResponse = AllowedUpgradePlansResult;
+
+/** Optional parameters. */
+export interface ApplicationsUpdateAccessOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ApplicationsListTokensOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listTokens operation. */
+export type ApplicationsListTokensResponse = ManagedIdentityTokenResult;
 
 /** Optional parameters. */
 export interface ApplicationsListByResourceGroupNextOptionalParams
@@ -417,24 +1221,21 @@ export type ApplicationDefinitionsGetResponse = ApplicationDefinition;
 
 /** Optional parameters. */
 export interface ApplicationDefinitionsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ApplicationDefinitionsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type ApplicationDefinitionsCreateOrUpdateResponse = ApplicationDefinition;
+
+/** Optional parameters. */
+export interface ApplicationDefinitionsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type ApplicationDefinitionsUpdateResponse = ApplicationDefinition;
 
 /** Optional parameters. */
 export interface ApplicationDefinitionsListByResourceGroupOptionalParams
@@ -442,6 +1243,13 @@ export interface ApplicationDefinitionsListByResourceGroupOptionalParams
 
 /** Contains response data for the listByResourceGroup operation. */
 export type ApplicationDefinitionsListByResourceGroupResponse = ApplicationDefinitionListResult;
+
+/** Optional parameters. */
+export interface ApplicationDefinitionsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type ApplicationDefinitionsListBySubscriptionResponse = ApplicationDefinitionListResult;
 
 /** Optional parameters. */
 export interface ApplicationDefinitionsGetByIdOptionalParams
@@ -452,24 +1260,21 @@ export type ApplicationDefinitionsGetByIdResponse = ApplicationDefinition;
 
 /** Optional parameters. */
 export interface ApplicationDefinitionsDeleteByIdOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ApplicationDefinitionsCreateOrUpdateByIdOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdateById operation. */
 export type ApplicationDefinitionsCreateOrUpdateByIdResponse = ApplicationDefinition;
+
+/** Optional parameters. */
+export interface ApplicationDefinitionsUpdateByIdOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the updateById operation. */
+export type ApplicationDefinitionsUpdateByIdResponse = ApplicationDefinition;
 
 /** Optional parameters. */
 export interface ApplicationDefinitionsListByResourceGroupNextOptionalParams
@@ -477,6 +1282,57 @@ export interface ApplicationDefinitionsListByResourceGroupNextOptionalParams
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type ApplicationDefinitionsListByResourceGroupNextResponse = ApplicationDefinitionListResult;
+
+/** Optional parameters. */
+export interface ApplicationDefinitionsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type ApplicationDefinitionsListBySubscriptionNextResponse = ApplicationDefinitionListResult;
+
+/** Optional parameters. */
+export interface JitRequestsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type JitRequestsGetResponse = JitRequestDefinition;
+
+/** Optional parameters. */
+export interface JitRequestsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type JitRequestsCreateOrUpdateResponse = JitRequestDefinition;
+
+/** Optional parameters. */
+export interface JitRequestsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type JitRequestsUpdateResponse = JitRequestDefinition;
+
+/** Optional parameters. */
+export interface JitRequestsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface JitRequestsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type JitRequestsListBySubscriptionResponse = JitRequestDefinitionListResult;
+
+/** Optional parameters. */
+export interface JitRequestsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type JitRequestsListByResourceGroupResponse = JitRequestDefinitionListResult;
 
 /** Optional parameters. */
 export interface ApplicationClientOptionalParams

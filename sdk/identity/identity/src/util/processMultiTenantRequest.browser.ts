@@ -16,7 +16,7 @@ function createConfigurationErrorMessage(tenantId: string): string {
 export function processMultiTenantRequest(
   tenantId?: string,
   getTokenOptions?: GetTokenOptions,
-  additionallyAllowedTenantIds: string[] = []
+  additionallyAllowedTenantIds: string[] = [],
 ): string | undefined {
   let resolvedTenantId: string | undefined;
   if (tenantId === "adfs") {

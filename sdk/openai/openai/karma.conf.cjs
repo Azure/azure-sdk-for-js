@@ -51,13 +51,25 @@ module.exports = function (config) {
     // https://www.npmjs.com/package/karma-env-preprocessor
     envPreprocessor: [
       "TEST_MODE",
-      "ENDPOINT",
-      "AZURE_API_KEY",
+      "ENDPOINT_DALLE",
+      "AZURE_API_KEY_DALLE",
+      "ACCOUNT_NAME_DALLE",
+      "ENDPOINT_WHISPER",
+      "AZURE_API_KEY_WHISPER",
+      "ACCOUNT_NAME_WHISPER",
+      "ENDPOINT_COMPLETIONS",
+      "AZURE_API_KEY_COMPLETIONS",
+      "ACCOUNT_NAME_COMPLETIONS",
       "OPENAI_API_KEY",
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
       "AZURE_TENANT_ID",
       "RECORDINGS_RELATIVE_PATH",
+      "SUBSCRIPTION_ID",
+      "RESOURCE_GROUP",
+      "ENDPOINT_SEARCH",
+      "AZURE_API_KEY_SEARCH",
+      "AZURE_SEARCH_INDEX",
     ],
     // test results reporter to use
     // possible values: 'dots', 'progress'
@@ -101,7 +113,15 @@ module.exports = function (config) {
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     // 'ChromeHeadless', 'Chrome', 'Firefox', 'Edge', 'IE'
-    browsers: ["ChromeHeadless"],
+    // --no-sandbox allows our tests to run in Linux without having to change the system.
+    // --disable-web-security allows us to authenticate from the browser without having to write tests using interactive auth, which would be far more complex.
+    browsers: ["ChromeHeadlessNoSandbox"],
+    customLaunchers: {
+      ChromeHeadlessNoSandbox: {
+        base: "ChromeHeadless",
+        flags: ["--no-sandbox", "--disable-web-security"],
+      },
+    },
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits

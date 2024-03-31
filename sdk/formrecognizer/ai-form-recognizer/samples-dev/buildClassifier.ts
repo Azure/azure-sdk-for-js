@@ -4,7 +4,7 @@
 /**
  * This sample shows how to programmatically build a custom classifier.
  *
- * The Form Recognizer service expects the training data to be organized and labeled according to a particular
+ * The Document Intelligence service expects the training data to be organized and labeled according to a particular
  * convention and stored in an Azure Storage container. For more information about creating a training data set, please
  * see the information at the following link to the service's documentation:
  *
@@ -16,7 +16,6 @@
 import { AzureKeyCredential, DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
 
 import * as dotenv from "dotenv";
-import { FormRecognizerError } from "../src/error";
 dotenv.config();
 
 async function main() {
@@ -57,7 +56,7 @@ async function main() {
       onProgress(state) {
         console.log(`Training status: ${state.status}`);
       },
-    }
+    },
   );
 
   let classifier;
@@ -65,7 +64,7 @@ async function main() {
   try {
     classifier = await poller.pollUntilDone();
   } catch (error) {
-    console.log("Training failed:", JSON.stringify(error as FormRecognizerError));
+    console.log("Training failed:", error);
     process.exit(1);
   }
 

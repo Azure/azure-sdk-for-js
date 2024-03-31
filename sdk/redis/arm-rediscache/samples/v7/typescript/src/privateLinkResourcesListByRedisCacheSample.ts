@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the private link resources that need to be created for a redis cache.
  *
  * @summary Gets the private link resources that need to be created for a redis cache.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-06-01/examples/RedisCacheListPrivateLinkResources.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2023-04-01/examples/RedisCacheListPrivateLinkResources.json
  */
 async function storageAccountListPrivateLinkResources() {
   const subscriptionId =
