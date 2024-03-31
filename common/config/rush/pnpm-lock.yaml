@@ -13186,7 +13186,7 @@ packages:
     dev: false
 
   file:projects/arm-cosmosdbforpostgresql.tgz:
-    resolution: {integrity: sha512-YVZp7Ag7PatiIxl/13D4h0eNc/SZeOLktA40W3lUBNKTEYumUa1uizz0ckQ5cFa03Y9er0E0mK5KZ6beQBjsxw==, tarball: file:projects/arm-cosmosdbforpostgresql.tgz}
+    resolution: {integrity: sha512-cWIPVZRViEZ4sXsi/mWOWQqg9+FkVq8vGWq430qxiy6g5g/huHpZQf1cQpgXMaGaXs292bylenjUJLMpks7OAw==, tarball: file:projects/arm-cosmosdbforpostgresql.tgz}
     name: '@rush-temp/arm-cosmosdbforpostgresql'
     version: 0.0.0
     dependencies:
@@ -13201,6 +13201,7 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.3.0
       rimraf: 5.0.5
@@ -15569,7 +15570,7 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-avLBKAINIlOeuFmLCa5blOu+DdKwQX2EPVi4p0BJYAqE7qRgZd6XfxqrPg5o9J7zGZ3tHsI2MQcn9cgrzQ1+QQ==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-2py3NIM8385P+IDp2HOccR1wFDYqLBsQKO1z8qOx9NRTpNGz7E6dn6kT1A32Z/6DVTdgbefj1V2f8/rw+FclLQ==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
@@ -15584,6 +15585,7 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.3.0
       rimraf: 5.0.5
