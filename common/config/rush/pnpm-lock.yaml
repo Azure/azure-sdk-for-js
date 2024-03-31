@@ -23326,7 +23326,7 @@ packages:
     dev: false
 
   file:projects/test-recorder.tgz:
-    resolution: {integrity: sha512-Xi2daspB8C112BG6sD43k+sunP5buUSawBZfQK8qbxsVjNh5PnHwe9aJKFLUdO94v35DGlx2hNA+xgzIbWsA5Q==, tarball: file:projects/test-recorder.tgz}
+    resolution: {integrity: sha512-L2uqffOJqkyr5DdquQTpjGByPTmRe1Aop2AiUX99ADb2OR2ER8yf2wgmbUEYb+Z9K4FGJ+M4RWj4/8RJBTaypA==, tarball: file:projects/test-recorder.tgz}
     name: '@rush-temp/test-recorder'
     version: 0.0.0
     dependencies:
@@ -23350,7 +23350,7 @@ packages:
       prettier: 3.2.5
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.26)(typescript@5.3.3)
-      tshy: 1.12.0
+      tshy: 1.13.0
       tslib: 2.6.2
       typescript: 5.3.3
       vitest: 1.4.0(@types/node@18.19.26)(@vitest/browser@1.4.0)
