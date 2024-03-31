@@ -1,14 +1,10 @@
 # Release History
 
-## 1.0.4 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.0.4 (2024-04-01)
 
 ### Bugs Fixed
 
-### Other Changes
+- Fixes "types" for the package.
 
 ## 1.0.3 (2024-03-21)
 
