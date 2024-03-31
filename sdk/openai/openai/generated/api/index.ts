@@ -9,7 +9,7 @@ export {
   getAudioTranslationAsResponseObject,
   getCompletions,
   getChatCompletions,
-  getChatCompletionsWithAzureExtensions,
   getImageGenerations,
+  generateSpeechFromText,
   getEmbeddings,
 } from "./operations.js";
