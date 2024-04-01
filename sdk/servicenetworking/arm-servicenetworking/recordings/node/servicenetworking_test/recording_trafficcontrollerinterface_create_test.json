@@ -9,15 +9,15 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Length": "53",
-        "Content-Type": "application/json",
+        "Content-Type": "application/json; charset=UTF-8",
         "User-Agent": "azsdk-js-arm-servicenetworking/1.0.0 core-rest-pipeline/1.12.3 Node/v21.1.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "de3b4bfa-5cd3-4dc5-9f72-1f6ca8eacc1f"
       },
       "RequestBody": {
+        "location": "centraluseuap",
         "tags": {
           "key1": "value1"
-        },
-        "location": "centraluseuap"
+        }
       },
       "StatusCode": 201,
       "ResponseHeaders": {
@@ -64,7 +64,6 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Type": "application/json",
         "User-Agent": "azsdk-js-arm-servicenetworking/1.0.0 core-rest-pipeline/1.12.3 Node/v21.1.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "18214e2f-23d0-4eff-9a73-34453ff3a55c"
       },
@@ -103,7 +102,6 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Type": "application/json",
         "User-Agent": "azsdk-js-arm-servicenetworking/1.0.0 core-rest-pipeline/1.12.3 Node/v21.1.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "5f1910f0-3511-44c4-80c3-2e09fa941dff"
       },
@@ -142,7 +140,6 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Type": "application/json",
         "User-Agent": "azsdk-js-arm-servicenetworking/1.0.0 core-rest-pipeline/1.12.3 Node/v21.1.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "076210fd-7f41-4772-98be-3928e6428feb"
       },
@@ -181,7 +178,6 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Type": "application/json",
         "User-Agent": "azsdk-js-arm-servicenetworking/1.0.0 core-rest-pipeline/1.12.3 Node/v21.1.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "b5783c47-a19b-4cbc-a333-a7e747288491"
       },
@@ -220,7 +216,6 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Type": "application/json",
         "User-Agent": "azsdk-js-arm-servicenetworking/1.0.0 core-rest-pipeline/1.12.3 Node/v21.1.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "6980170f-9ad1-497f-9c6d-0cb73c8bb3c2"
       },
@@ -259,7 +254,6 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Type": "application/json",
         "User-Agent": "azsdk-js-arm-servicenetworking/1.0.0 core-rest-pipeline/1.12.3 Node/v21.1.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "d680cf99-84ed-483f-bd7e-19f67bd40de5"
       },
@@ -298,7 +292,6 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Type": "application/json",
         "User-Agent": "azsdk-js-arm-servicenetworking/1.0.0 core-rest-pipeline/1.12.3 Node/v21.1.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "468bde2e-415a-4b17-a502-908fb3d76f3f"
       },
@@ -337,7 +330,6 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Type": "application/json",
         "User-Agent": "azsdk-js-arm-servicenetworking/1.0.0 core-rest-pipeline/1.12.3 Node/v21.1.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "70c67925-3dda-479f-872c-130ad43db56d"
       },
@@ -376,7 +368,6 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Type": "application/json",
         "User-Agent": "azsdk-js-arm-servicenetworking/1.0.0 core-rest-pipeline/1.12.3 Node/v21.1.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "45c9eafd-151f-43a3-8485-c5c2e8ac1e0c"
       },
@@ -415,7 +406,6 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Type": "application/json",
         "User-Agent": "azsdk-js-arm-servicenetworking/1.0.0 core-rest-pipeline/1.12.3 Node/v21.1.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "ab5ef4bf-3563-4192-afa4-15c6de0e886c"
       },
@@ -453,7 +443,6 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Type": "application/json",
         "User-Agent": "azsdk-js-arm-servicenetworking/1.0.0 core-rest-pipeline/1.12.3 Node/v21.1.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "7ab9094a-c36f-4631-be3b-76523a2ec004"
       },
