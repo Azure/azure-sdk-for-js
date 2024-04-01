@@ -29,7 +29,7 @@ param principalUserType string = 'User'
 @description('Whether to deploy resources for Managed Identity. When set to false, this file deploys nothing.')
 param deployMIResources bool = false
 
-module managedIdentityModule 'test-resources-msi.bicep' = if(deployMIResources) {
+module managedIdentityModule 'test-resources-managed-identity.bicep' = if(deployMIResources) {
     name: 'managedIdentityModule'
     params: {
         baseName: baseName
