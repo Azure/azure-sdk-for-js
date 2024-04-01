@@ -449,6 +449,9 @@ dependencies:
   '@rush-temp/arm-migrate':
     specifier: file:./projects/arm-migrate.tgz
     version: file:projects/arm-migrate.tgz
+  '@rush-temp/arm-migrationdiscoverysap':
+    specifier: file:./projects/arm-migrationdiscoverysap.tgz
+    version: file:projects/arm-migrationdiscoverysap.tgz
   '@rush-temp/arm-mixedreality':
     specifier: file:./projects/arm-mixedreality.tgz
     version: file:projects/arm-mixedreality.tgz
@@ -15144,6 +15147,34 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-migrationdiscoverysap.tgz:
+    resolution: {integrity: sha512-nQ88JylbnssIVc9gEAgfjaPEck2zcca2vCNwRdvdHGlD9CQ8qKvEBUS/Z2iFdIMkUkkBZepkqqZFNNsmXD/UIQ==, tarball: file:projects/arm-migrationdiscoverysap.tgz}
+    name: '@rush-temp/arm-migrationdiscoverysap'
+    version: 0.0.0
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/identity': 4.0.1
+      '@microsoft/api-extractor': 7.43.0(@types/node@18.19.26)
+      '@types/chai': 4.3.14
+      '@types/mocha': 10.0.6
+      '@types/node': 18.19.26
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.4.5
+      esm: 3.2.25
+      mkdirp: 2.1.6
+      mocha: 10.3.0
+      rimraf: 5.0.5
+      ts-node: 10.9.2(@types/node@18.19.26)(typescript@5.3.3)
+      tslib: 2.6.2
+      typescript: 5.3.3
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
   file:projects/arm-mixedreality.tgz:
     resolution: {integrity: sha512-sYBluPy2FMEuhw35LFzDGCUBt5tRNZ+s32SdZQ4X4lZxTgyYunBA8u8XOaZNM4fKGdkRFwLg6EjLIvDp4cTwfQ==, tarball: file:projects/arm-mixedreality.tgz}
     name: '@rush-temp/arm-mixedreality'
@@ -21127,7 +21158,7 @@ packages:
     dev: false
 
   file:projects/perf-event-hubs.tgz:
-    resolution: {integrity: sha512-lS/OimE+RJufEtRT8m271rfz2ynsw/pmwI6/L1s8b8JCkdQZkZOHi9J7efZ52OI1ULB77Z/ZeNdlM1wz61E9QQ==, tarball: file:projects/perf-event-hubs.tgz}
+    resolution: {integrity: sha512-63zllJX+oZScSVb9Z5g2X2y+P6zO2RNZaZ3K/dEPN/1fq6pSiP6PiU/+aLhN83ivupPnzMYsNCRb1ur+fNa5cg==, tarball: file:projects/perf-event-hubs.tgz}
     name: '@rush-temp/perf-event-hubs'
     version: 0.0.0
     dependencies:
