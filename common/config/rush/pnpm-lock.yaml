@@ -2690,8 +2690,8 @@ packages:
       - supports-color
     dev: false
 
-  /@opentelemetry/instrumentation-mongodb@0.40.0(@opentelemetry/api@1.8.0):
-    resolution: {integrity: sha512-ldlJUW/1UlnGtIWBt7fIUl+7+TGOKxIU+0Js5ukpXfQc07ENYFeck5TdbFjvYtF8GppPErnsZJiFiRdYm6Pv/Q==}
+  /@opentelemetry/instrumentation-mongodb@0.41.0(@opentelemetry/api@1.8.0):
+    resolution: {integrity: sha512-DlSH0oyEuTW5gprCUppb0Qe3pK3cpUUFW5eTmayWNyICI1LFunwtcrULTNv6UiThD/V5ykAf/GGGEa7KFAmkog==}
     engines: {node: '>=14'}
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
@@ -20680,7 +20680,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-oZztMX4e40Twx7KCFb7UApfT3yCw5gCxYjHzp4BiZWIn4u/S3h+iwOtnh0p1l+qfbPcgEor4kdbFxCG6uAlyUA==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-T3z92iA7ZLW8XT41RJoYvF69A3DLfQZFcFERPJLnkyrbF5uBUpcwFvOylgwnq8A5MPk1760GoOMwYiiNY+tdNw==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -20693,7 +20693,7 @@ packages:
       '@opentelemetry/instrumentation': 0.49.1(@opentelemetry/api@1.8.0)
       '@opentelemetry/instrumentation-bunyan': 0.36.0(@opentelemetry/api@1.8.0)
       '@opentelemetry/instrumentation-http': 0.49.1(@opentelemetry/api@1.8.0)
-      '@opentelemetry/instrumentation-mongodb': 0.40.0(@opentelemetry/api@1.8.0)
+      '@opentelemetry/instrumentation-mongodb': 0.41.0(@opentelemetry/api@1.8.0)
       '@opentelemetry/instrumentation-mysql': 0.36.0(@opentelemetry/api@1.8.0)
       '@opentelemetry/instrumentation-pg': 0.39.1(@opentelemetry/api@1.8.0)
       '@opentelemetry/instrumentation-redis': 0.37.0(@opentelemetry/api@1.8.0)
@@ -22667,7 +22667,7 @@ packages:
     dev: false
 
   file:projects/test-utils.tgz:
-    resolution: {integrity: sha512-DwBo66ieqQPqfjI3z2waj0OO8do548CVP+PZAICdC5w/Fq8ZOz6dMh09PWYXkpZCvXaFDtl0aaYtAwDmtMAcSw==, tarball: file:projects/test-utils.tgz}
+    resolution: {integrity: sha512-ylmBMDjrB/9WohH8ekU9AmhgAaKTqC+zlhkbRFYOpFHivYxLODJgL/MCbprwHG58tysE8X6GeznfM38DsZWy+g==, tarball: file:projects/test-utils.tgz}
     name: '@rush-temp/test-utils'
     version: 0.0.0
     dependencies:
