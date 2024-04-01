@@ -127,7 +127,6 @@ try {
         npm config set $regAuth`:email=not_set
     }
 
-    $publishList = @()
     foreach ($p in $packageList) {
         if($p.Publish -and !$publishToNpm) {
             # Publishing to private feed
