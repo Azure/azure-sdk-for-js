@@ -11,7 +11,6 @@ import {
 import { MSI, MSIToken } from "./models";
 import { MsalResult, MsalToken, ValidMsalToken } from "../../msal/types";
 import { credentialLogger, formatError, formatSuccess } from "../../util/logging";
-import { imdsMsi, imdsMsiRetryConfig } from "./imdsMsi";
 
 import { DeveloperSignOnClientId } from "../../constants";
 import { IdentityClient } from "../../client/identityClient";
@@ -23,6 +22,7 @@ import { cloudShellMsi } from "./cloudShellMsi";
 import { fabricMsi } from "./fabricMsi";
 import { getLogLevel } from "@azure/logger";
 import { getMSALLogLevel } from "../../msal/utils";
+import { imdsMsi } from "./imdsMsi";
 import { tokenExchangeMsi } from "./tokenExchangeMsi";
 import { tracingClient } from "../../util/tracing";
 
@@ -70,6 +70,15 @@ export class ManagedIdentityCredential implements TokenCredential {
   private isAvailableIdentityClient: IdentityClient;
   private confidentialApp: ConfidentialClientApplication;
   private isAppTokenProviderInitialized: boolean = false;
+  private msiRetryConfig: {
+    maxRetries: number;
+    startDelayInMs: number;
+    intervalIncrement: number;
+  } = {
+    maxRetries: 3,
+    startDelayInMs: 800,
+    intervalIncrement: 2,
+  };
 
   /**
    * Creates an instance of ManagedIdentityCredential with the client ID of a
@@ -118,7 +127,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       );
     }
     if (_options?.retryOptions?.maxRetries !== undefined) {
-      imdsMsiRetryConfig.maxRetries = _options.retryOptions.maxRetries;
+      this.msiRetryConfig.maxRetries = _options.retryOptions.maxRetries;
     }
     this.identityClient = new IdentityClient(_options);
     this.isAvailableIdentityClient = new IdentityClient({
@@ -208,6 +217,7 @@ export class ManagedIdentityCredential implements TokenCredential {
           scopes,
           clientId: this.clientId,
           resourceId: this.resourceId,
+          retryConfig: this.msiRetryConfig,
         },
         updatedOptions,
       );

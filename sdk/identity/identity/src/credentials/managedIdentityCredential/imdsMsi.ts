@@ -77,12 +77,12 @@ function prepareRequestOptions(
   };
 }
 
-// 800ms -> 1600ms -> 3200ms
-export const imdsMsiRetryConfig = {
-  maxRetries: 3,
-  startDelayInMs: 800,
-  intervalIncrement: 2,
-};
+// // 800ms -> 1600ms -> 3200ms
+// export const imdsMsiRetryConfig = {
+//   maxRetries: 3,
+//   startDelayInMs: 800,
+//   intervalIncrement: 2,
+// };
 
 /**
  * Defines how to determine whether the Azure IMDS MSI is available, and also how to retrieve a token from the Azure IMDS MSI.
@@ -179,8 +179,8 @@ export const imdsMsi: MSI = {
       logger.info(`${msiName}: Using the default Azure IMDS endpoint ${imdsHost}.`);
     }
 
-    let nextDelayInMs = imdsMsiRetryConfig.startDelayInMs;
-    for (let retries = 0; retries < imdsMsiRetryConfig.maxRetries; retries++) {
+    let nextDelayInMs = configuration.retryConfig.startDelayInMs;
+    for (let retries = 0; retries < configuration.retryConfig.maxRetries; retries++) {
       try {
         const request = createPipelineRequest({
           abortSignal: getTokenOptions.abortSignal,
@@ -193,7 +193,7 @@ export const imdsMsi: MSI = {
       } catch (error: any) {
         if (error.statusCode === 404) {
           await delay(nextDelayInMs);
-          nextDelayInMs *= imdsMsiRetryConfig.intervalIncrement;
+          nextDelayInMs *= configuration.retryConfig.intervalIncrement;
           continue;
         }
         throw error;
@@ -202,7 +202,7 @@ export const imdsMsi: MSI = {
 
     throw new AuthenticationError(
       404,
-      `${msiName}: Failed to retrieve IMDS token after ${imdsMsiRetryConfig.maxRetries} retries.`,
+      `${msiName}: Failed to retrieve IMDS token after ${configuration.retryConfig.maxRetries} retries.`,
     );
   },
 };
