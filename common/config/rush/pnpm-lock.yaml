@@ -449,6 +449,9 @@ dependencies:
   '@rush-temp/arm-migrate':
     specifier: file:./projects/arm-migrate.tgz
     version: file:projects/arm-migrate.tgz
+  '@rush-temp/arm-migrationdiscoverysap':
+    specifier: file:./projects/arm-migrationdiscoverysap.tgz
+    version: file:projects/arm-migrationdiscoverysap.tgz
   '@rush-temp/arm-mixedreality':
     specifier: file:./projects/arm-mixedreality.tgz
     version: file:projects/arm-mixedreality.tgz
@@ -3536,7 +3539,7 @@ packages:
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.28
+      '@types/node': 20.10.8
     dev: false
 
   /@types/fs-extra@8.1.5:
@@ -3583,7 +3586,7 @@ packages:
   /@types/jsonfile@6.1.4:
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
     dependencies:
-      '@types/node': 18.19.28
+      '@types/node': 20.10.8
     dev: false
 
   /@types/jsonwebtoken@9.0.6:
@@ -3701,7 +3704,7 @@ packages:
   /@types/readdir-glob@1.1.5:
     resolution: {integrity: sha512-raiuEPUYqXu+nvtY2Pe8s8FEmZ3x5yAH4VkLdihcPdalvsHltomrRC9BzuStrJ9yk06470hS0Crw0f1pXqD+Hg==}
     dependencies:
-      '@types/node': 18.19.28
+      '@types/node': 20.10.8
     dev: false
 
   /@types/resolve@1.20.2:
@@ -8904,6 +8907,7 @@ packages:
 
   /queue-tick@1.0.1:
     resolution: {integrity: sha512-kJt5qhMxoszgU/62PLP1CJytzd2NKetjSRnyuj31fDd3Rlcz3fzlFdFLD1SItunPwyqEOkca6GbV612BWfaBag==}
+    requiresBuild: true
     dev: false
 
   /randombytes@2.1.0:
@@ -15397,6 +15401,36 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       mkdirp: 1.0.4
+      mocha: 10.4.0
+      rimraf: 5.0.5
+      ts-node: 10.9.2(@types/node@18.19.28)(typescript@5.3.3)
+      tslib: 2.6.2
+      typescript: 5.3.3
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
+  file:projects/arm-migrationdiscoverysap.tgz:
+    resolution: {integrity: sha512-hQ+oO9RqRR9fmUeJc+F3/Mha2W7TYLNae6X5Ptep6f3r54chyfdOy+JYRaMAD+ABKcaDT73YS+JJ8rM1byba6A==, tarball: file:projects/arm-migrationdiscoverysap.tgz}
+    name: '@rush-temp/arm-migrationdiscoverysap'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-recorder': 3.1.0
+      '@azure/abort-controller': 1.1.0
+      '@azure/identity': 4.0.1
+      '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
+      '@types/chai': 4.3.14
+      '@types/mocha': 10.0.6
+      '@types/node': 18.19.28
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.4.5
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.4.0
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.28)(typescript@5.3.3)
