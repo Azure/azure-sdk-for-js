@@ -34,7 +34,7 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/latest/src",
+    "types/tools-test-credential.d.ts",
     "README.md",
     "LICENSE"
   ],
