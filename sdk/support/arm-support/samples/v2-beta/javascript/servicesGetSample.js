@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a specific Azure service for support ticket creation.
  *
  * @summary Gets a specific Azure service for support ticket creation.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/GetService.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/GetService.json
  */
 async function getsDetailsOfTheAzureService() {
   const serviceName = "service_guid";

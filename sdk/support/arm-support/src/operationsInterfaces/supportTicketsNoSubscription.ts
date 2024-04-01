@@ -20,7 +20,7 @@ import {
   SupportTicketsNoSubscriptionUpdateOptionalParams,
   SupportTicketsNoSubscriptionUpdateResponse,
   SupportTicketsNoSubscriptionCreateOptionalParams,
-  SupportTicketsNoSubscriptionCreateResponse
+  SupportTicketsNoSubscriptionCreateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface SupportTicketsNoSubscription {
    * @param options The options parameters.
    */
   list(
-    options?: SupportTicketsNoSubscriptionListOptionalParams
+    options?: SupportTicketsNoSubscriptionListOptionalParams,
   ): PagedAsyncIterableIterator<SupportTicketDetails>;
   /**
    * Check the availability of a resource name. This API should be used to check the uniqueness of the
@@ -45,7 +45,7 @@ export interface SupportTicketsNoSubscription {
    */
   checkNameAvailability(
     checkNameAvailabilityInput: CheckNameAvailabilityInput,
-    options?: SupportTicketsNoSubscriptionCheckNameAvailabilityOptionalParams
+    options?: SupportTicketsNoSubscriptionCheckNameAvailabilityOptionalParams,
   ): Promise<SupportTicketsNoSubscriptionCheckNameAvailabilityResponse>;
   /**
    * Gets details for a specific support ticket. Support ticket data is available for 18 months after
@@ -56,7 +56,7 @@ export interface SupportTicketsNoSubscription {
    */
   get(
     supportTicketName: string,
-    options?: SupportTicketsNoSubscriptionGetOptionalParams
+    options?: SupportTicketsNoSubscriptionGetOptionalParams,
   ): Promise<SupportTicketsNoSubscriptionGetResponse>;
   /**
    * This API allows you to update the severity level, ticket status, and your contact information in the
@@ -70,7 +70,7 @@ export interface SupportTicketsNoSubscription {
   update(
     supportTicketName: string,
     updateSupportTicket: UpdateSupportTicket,
-    options?: SupportTicketsNoSubscriptionUpdateOptionalParams
+    options?: SupportTicketsNoSubscriptionUpdateOptionalParams,
   ): Promise<SupportTicketsNoSubscriptionUpdateResponse>;
   /**
    * Creates a new support ticket for Billing, and Subscription Management issues. Learn the
@@ -90,7 +90,7 @@ export interface SupportTicketsNoSubscription {
   beginCreate(
     supportTicketName: string,
     createSupportTicketParameters: SupportTicketDetails,
-    options?: SupportTicketsNoSubscriptionCreateOptionalParams
+    options?: SupportTicketsNoSubscriptionCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SupportTicketsNoSubscriptionCreateResponse>,
@@ -115,6 +115,6 @@ export interface SupportTicketsNoSubscription {
   beginCreateAndWait(
     supportTicketName: string,
     createSupportTicketParameters: SupportTicketDetails,
-    options?: SupportTicketsNoSubscriptionCreateOptionalParams
+    options?: SupportTicketsNoSubscriptionCreateOptionalParams,
   ): Promise<SupportTicketsNoSubscriptionCreateResponse>;
 }

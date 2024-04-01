@@ -6,6 +6,8 @@ import {
   isBun,
   isDeno,
   isNode,
+  isNodeLike,
+  isNodeRuntime,
   isReactNative,
   isWebWorker,
 } from "../../../src/index.js";
@@ -30,9 +32,27 @@ describe("checkEnvironment (browser)", function () {
     });
   });
 
-  describe("isNode (browser)", function () {
+  describe("isNode(browser)", function () {
     it("should return true", async function () {
       assert.isFalse(isNode);
+    });
+  });
+
+  describe("isNodeRuntime (browser)", function () {
+    it("should return true", async function () {
+      assert.isFalse(isNodeRuntime);
+    });
+  });
+
+  describe("isNodeLike (browser)", function () {
+    it("should return false", async function () {
+      assert.isFalse(isNodeLike);
+    });
+  });
+
+  describe("isNodeRuntime (browser)", function () {
+    it("should return false", async function () {
+      assert.isFalse(isNodeRuntime);
     });
   });
 

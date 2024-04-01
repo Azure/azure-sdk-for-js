@@ -2,11 +2,19 @@
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
     "paths": {
-      "@azure/notification-hubs": ["./src/index.js"]
+      "@azure/notification-hubs": [
+        "./src/index.js"
+      ]
     },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "rootDir": "."
   },
-  "include": ["src/**/*.ts", "src/**/*.cts", "src/**/*.mts", "test/**/*.ts", "samples-dev/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.cts",
+    "src/**/*.mts",
+    "test/**/*.ts",
+    "samples-dev/**/*.ts"
+  ]
 }

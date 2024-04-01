@@ -2,15 +2,15 @@
 // Licensed under the MIT license.
 
 import { HttpClient } from "@azure/core-rest-pipeline";
-import { logger } from "../log";
-import { addSanitizers } from "../sanitizer";
-import { env } from "./env";
+import { logger } from "../log.js";
+import { addSanitizers } from "../sanitizer.js";
 import {
   isPlaybackMode,
   isRecordMode,
   setEnvironmentVariables,
   FindReplaceSanitizer,
-} from "./utils";
+} from "./utils.js";
+import { env } from "./env.js";
 
 /**
  * Supposed to be used in record and playback modes.

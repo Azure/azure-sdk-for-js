@@ -1,6 +1,6 @@
 # Release History
 
-## 2.7.1 (Unreleased)
+## 2.7.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,14 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+- Revert TypeScript output target to ES2017.
+
+## 2.7.1 (2024-03-20)
+
+### Other Changes
+
+- Add top-level `browser` field to `package.json` as fallback for legacy bundlers that do not support the `exports` field.
 
 ## 2.7.0 (2024-03-12)
 

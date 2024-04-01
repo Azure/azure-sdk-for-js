@@ -1,11 +1,12 @@
 {
   "name": "@azure/core-http-compat",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Core HTTP Compatibility Library to bridge the gap between Core V1 & V2 packages.",
   "sdk-type": "client",
   "type": "module",
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
+  "browser": "./dist/browser/index.js",
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -87,7 +88,7 @@
     "playwright": "^1.41.2",
     "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
-    "tshy": "^1.11.1",
+    "tshy": "^1.13.0",
     "typescript": "~5.3.3",
     "vitest": "^1.3.1"
   },

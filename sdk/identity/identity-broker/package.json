@@ -75,15 +75,13 @@
     "@types/mocha": "^10.0.0",
     "@types/node": "^18.0.0",
     "@types/sinon": "^17.0.0",
-    "@types/wtfnode": "0.7.2",
     "cross-env": "^7.0.2",
     "eslint": "^8.0.0",
     "mocha": "^10.0.0",
     "puppeteer": "^22.2.0",
     "rimraf": "^5.0.1",
     "typescript": "~5.3.3",
-    "sinon": "^17.0.0",
-    "wtfnode": "0.9.1"
+    "sinon": "^17.0.0"
   },
   "//sampleConfiguration": {
     "productName": "Azure Identity Brokered Auth Plugin",
