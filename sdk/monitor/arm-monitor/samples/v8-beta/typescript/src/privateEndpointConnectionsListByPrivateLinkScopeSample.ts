@@ -31,7 +31,7 @@ async function getsListOfPrivateEndpointConnectionsOnAPrivateLinkScope() {
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.privateEndpointConnections.listByPrivateLinkScope(
     resourceGroupName,
-    scopeName
+    scopeName,
   );
   console.log(result);
 }

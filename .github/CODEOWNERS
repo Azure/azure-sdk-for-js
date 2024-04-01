@@ -586,6 +586,9 @@
 /sdk/machinelearningcompute/arm-machinelearningcompute/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/migrationdiscovery/arm-migrationdiscoverysap/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/machinelearningexperimentation/arm-machinelearningexperimentation/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -1209,7 +1212,7 @@
 #/<NotInRepo>/          @azmonapplicationinsights
 
 # ServiceLabel: %Monitor - Exporter %Service Attention
-#/<NotInRepo>/          @@cijothomas @@reyang @@rajkumar-rangaraj @@TimothyMothra @@vishweshbankwar @@ramthi
+#/<NotInRepo>/          @JacksonWeber @hectorhdzg @ramthi
 
 # ServiceLabel: %MySQL %Service Attention
 #/<NotInRepo>/          @ambhatna @savjani
