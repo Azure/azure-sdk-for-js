@@ -6,10 +6,7 @@ import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth"
 import { isPlaybackMode, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import { StorageClient } from "../../src/StorageClient";
 import { Pipeline } from "@azure/core-rest-pipeline";
-import {
-  FindReplaceSanitizer,
-  RegexSanitizer,
-} from "@azure-tools/test-recorder/types/src/utils/utils";
+import { FindReplaceSanitizer, RegexSanitizer } from "@azure-tools/test-recorder";
 
 export const testPollerProperties = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
