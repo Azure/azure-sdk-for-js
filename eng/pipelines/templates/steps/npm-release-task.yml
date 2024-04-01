@@ -16,10 +16,10 @@ steps:
           Intent: 'PackageDistribution'
           ContentType: 'npm'
           FolderLocation: ${{parameters.PathToArtifacts}}
-          - ${{ if ne(variables['Build.RequestedForEmail'], '')}}:
-              Owners: $(Build.RequestedForEmail)
+          - ${{ if ne(variables['Build.RequestedForEmail'], '') }}:
+              - Owners: $(Build.RequestedForEmail)
           - ${{ else }}:
-              Owners: 'azuresdk@microsoft.com'
+              - Owners: 'azuresdk@microsoft.com'
           Approvers: 'azuresdk@microsoft.com'
           ServiceEndpointUrl: 'https://api.esrp.microsoft.com'
           MainPublisher: 'ESRPRELPACMANTEST'
