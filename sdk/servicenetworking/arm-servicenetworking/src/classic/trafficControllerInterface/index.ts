@@ -25,7 +25,7 @@ import {
   TrafficControllerInterfaceListBySubscriptionOptions,
 } from "../../models/options.js";
 
-export interface TrafficControllerInterfaceOperations {
+export interface TrafficControllerInterface {
   get: (
     subscriptionId: string,
     resourceGroupName: string,
@@ -148,7 +148,7 @@ export function getTrafficControllerInterface(
 
 export function getTrafficControllerInterfaceOperations(
   context: ServiceNetworkingContext,
-): TrafficControllerInterfaceOperations {
+): TrafficControllerInterface {
   return {
     ...getTrafficControllerInterface(context),
   };

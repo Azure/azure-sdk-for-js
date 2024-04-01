@@ -59,8 +59,8 @@ export {
   PagedAsyncIterableIterator,
 } from "./models/index.js";
 export {
-  AssociationsInterfaceOperations,
-  FrontendsInterfaceOperations,
-  OperationsOperations,
-  TrafficControllerInterfaceOperations,
+  AssociationsInterface,
+  FrontendsInterface,
+  Operations,
+  TrafficControllerInterface,
 } from "./classic/index.js";

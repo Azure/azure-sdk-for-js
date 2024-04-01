@@ -52,6 +52,20 @@ export interface AssociationProperties {
 }
 
 // @public (undocumented)
+export interface AssociationsInterface {
+    // (undocumented)
+    createOrUpdate: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, associationName: string, resource: Association, options?: AssociationsInterfaceCreateOrUpdateOptions) => PollerLike<OperationState<Association>, Association>;
+    // (undocumented)
+    deleteOperation: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, associationName: string, options?: AssociationsInterfaceDeleteOperationOptions) => PollerLike<OperationState<void>, void>;
+    // (undocumented)
+    get: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, associationName: string, options?: AssociationsInterfaceGetOptions) => Promise<Association>;
+    // (undocumented)
+    listByTrafficController: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, options?: AssociationsInterfaceListByTrafficControllerOptions) => PagedAsyncIterableIterator<Association>;
+    // (undocumented)
+    update: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, associationName: string, properties: AssociationUpdate, options?: AssociationsInterfaceUpdateOptions) => Promise<Association>;
+}
+
+// @public (undocumented)
 export interface AssociationsInterfaceCreateOrUpdateOptions extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -67,20 +81,6 @@ export interface AssociationsInterfaceGetOptions extends OperationOptions {
 
 // @public (undocumented)
 export interface AssociationsInterfaceListByTrafficControllerOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface AssociationsInterfaceOperations {
-    // (undocumented)
-    createOrUpdate: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, associationName: string, resource: Association, options?: AssociationsInterfaceCreateOrUpdateOptions) => PollerLike<OperationState<Association>, Association>;
-    // (undocumented)
-    deleteOperation: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, associationName: string, options?: AssociationsInterfaceDeleteOperationOptions) => PollerLike<OperationState<void>, void>;
-    // (undocumented)
-    get: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, associationName: string, options?: AssociationsInterfaceGetOptions) => Promise<Association>;
-    // (undocumented)
-    listByTrafficController: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, options?: AssociationsInterfaceListByTrafficControllerOptions) => PagedAsyncIterableIterator<Association>;
-    // (undocumented)
-    update: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, associationName: string, properties: AssociationUpdate, options?: AssociationsInterfaceUpdateOptions) => Promise<Association>;
 }
 
 // @public (undocumented)
@@ -149,6 +149,20 @@ export interface FrontendProperties {
 }
 
 // @public (undocumented)
+export interface FrontendsInterface {
+    // (undocumented)
+    createOrUpdate: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, frontendName: string, resource: Frontend, options?: FrontendsInterfaceCreateOrUpdateOptions) => PollerLike<OperationState<Frontend>, Frontend>;
+    // (undocumented)
+    deleteOperation: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, frontendName: string, options?: FrontendsInterfaceDeleteOperationOptions) => PollerLike<OperationState<void>, void>;
+    // (undocumented)
+    get: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, frontendName: string, options?: FrontendsInterfaceGetOptions) => Promise<Frontend>;
+    // (undocumented)
+    listByTrafficController: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, options?: FrontendsInterfaceListByTrafficControllerOptions) => PagedAsyncIterableIterator<Frontend>;
+    // (undocumented)
+    update: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, frontendName: string, properties: FrontendUpdate, options?: FrontendsInterfaceUpdateOptions) => Promise<Frontend>;
+}
+
+// @public (undocumented)
 export interface FrontendsInterfaceCreateOrUpdateOptions extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -164,20 +178,6 @@ export interface FrontendsInterfaceGetOptions extends OperationOptions {
 
 // @public (undocumented)
 export interface FrontendsInterfaceListByTrafficControllerOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface FrontendsInterfaceOperations {
-    // (undocumented)
-    createOrUpdate: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, frontendName: string, resource: Frontend, options?: FrontendsInterfaceCreateOrUpdateOptions) => PollerLike<OperationState<Frontend>, Frontend>;
-    // (undocumented)
-    deleteOperation: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, frontendName: string, options?: FrontendsInterfaceDeleteOperationOptions) => PollerLike<OperationState<void>, void>;
-    // (undocumented)
-    get: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, frontendName: string, options?: FrontendsInterfaceGetOptions) => Promise<Frontend>;
-    // (undocumented)
-    listByTrafficController: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, options?: FrontendsInterfaceListByTrafficControllerOptions) => PagedAsyncIterableIterator<Frontend>;
-    // (undocumented)
-    update: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, frontendName: string, properties: FrontendUpdate, options?: FrontendsInterfaceUpdateOptions) => Promise<Frontend>;
 }
 
 // @public (undocumented)
@@ -207,13 +207,13 @@ export interface OperationDisplay {
 }
 
 // @public (undocumented)
-export interface OperationsListOptions extends OperationOptions {
+export interface Operations {
+    // (undocumented)
+    list: (options?: OperationsListOptions) => PagedAsyncIterableIterator<Operation>;
 }
 
 // @public (undocumented)
-export interface OperationsOperations {
-    // (undocumented)
-    list: (options?: OperationsListOptions) => PagedAsyncIterableIterator<Operation>;
+export interface OperationsListOptions extends OperationOptions {
 }
 
 // @public
@@ -263,11 +263,11 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
 // @public (undocumented)
 export class ServiceNetworkingClient {
     constructor(credential: TokenCredential, options?: ServiceNetworkingClientOptions);
-    readonly associationsInterface: AssociationsInterfaceOperations;
-    readonly frontendsInterface: FrontendsInterfaceOperations;
-    readonly operations: OperationsOperations;
+    readonly associationsInterface: AssociationsInterface;
+    readonly frontendsInterface: FrontendsInterface;
+    readonly operations: Operations;
     readonly pipeline: Pipeline;
-    readonly trafficControllerInterface: TrafficControllerInterfaceOperations;
+    readonly trafficControllerInterface: TrafficControllerInterface;
 }
 
 // @public (undocumented)
@@ -296,6 +296,22 @@ export interface TrafficController extends TrackedResourceBase {
 }
 
 // @public (undocumented)
+export interface TrafficControllerInterface {
+    // (undocumented)
+    createOrUpdate: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, resource: TrafficController, options?: TrafficControllerInterfaceCreateOrUpdateOptions) => PollerLike<OperationState<TrafficController>, TrafficController>;
+    // (undocumented)
+    deleteOperation: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, options?: TrafficControllerInterfaceDeleteOperationOptions) => PollerLike<OperationState<void>, void>;
+    // (undocumented)
+    get: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, options?: TrafficControllerInterfaceGetOptions) => Promise<TrafficController>;
+    // (undocumented)
+    listByResourceGroup: (subscriptionId: string, resourceGroupName: string, options?: TrafficControllerInterfaceListByResourceGroupOptions) => PagedAsyncIterableIterator<TrafficController>;
+    // (undocumented)
+    listBySubscription: (subscriptionId: string, options?: TrafficControllerInterfaceListBySubscriptionOptions) => PagedAsyncIterableIterator<TrafficController>;
+    // (undocumented)
+    update: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, properties: TrafficControllerUpdate, options?: TrafficControllerInterfaceUpdateOptions) => Promise<TrafficController>;
+}
+
+// @public (undocumented)
 export interface TrafficControllerInterfaceCreateOrUpdateOptions extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -315,22 +331,6 @@ export interface TrafficControllerInterfaceListByResourceGroupOptions extends Op
 
 // @public (undocumented)
 export interface TrafficControllerInterfaceListBySubscriptionOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface TrafficControllerInterfaceOperations {
-    // (undocumented)
-    createOrUpdate: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, resource: TrafficController, options?: TrafficControllerInterfaceCreateOrUpdateOptions) => PollerLike<OperationState<TrafficController>, TrafficController>;
-    // (undocumented)
-    deleteOperation: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, options?: TrafficControllerInterfaceDeleteOperationOptions) => PollerLike<OperationState<void>, void>;
-    // (undocumented)
-    get: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, options?: TrafficControllerInterfaceGetOptions) => Promise<TrafficController>;
-    // (undocumented)
-    listByResourceGroup: (subscriptionId: string, resourceGroupName: string, options?: TrafficControllerInterfaceListByResourceGroupOptions) => PagedAsyncIterableIterator<TrafficController>;
-    // (undocumented)
-    listBySubscription: (subscriptionId: string, options?: TrafficControllerInterfaceListBySubscriptionOptions) => PagedAsyncIterableIterator<TrafficController>;
-    // (undocumented)
-    update: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, properties: TrafficControllerUpdate, options?: TrafficControllerInterfaceUpdateOptions) => Promise<TrafficController>;
 }
 
 // @public (undocumented)

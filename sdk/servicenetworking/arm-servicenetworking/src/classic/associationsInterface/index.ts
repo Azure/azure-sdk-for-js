@@ -20,7 +20,7 @@ import {
   AssociationsInterfaceListByTrafficControllerOptions,
 } from "../../models/options.js";
 
-export interface AssociationsInterfaceOperations {
+export interface AssociationsInterface {
   get: (
     subscriptionId: string,
     resourceGroupName: string,
@@ -143,7 +143,7 @@ export function getAssociationsInterface(context: ServiceNetworkingContext) {
 
 export function getAssociationsInterfaceOperations(
   context: ServiceNetworkingContext,
-): AssociationsInterfaceOperations {
+): AssociationsInterface {
   return {
     ...getAssociationsInterface(context),
   };

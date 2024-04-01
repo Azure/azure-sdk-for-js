@@ -5,19 +5,19 @@ import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import {
   getAssociationsInterfaceOperations,
-  AssociationsInterfaceOperations,
+  AssociationsInterface,
 } from "./classic/associationsInterface/index.js";
 import {
   getFrontendsInterfaceOperations,
-  FrontendsInterfaceOperations,
+  FrontendsInterface,
 } from "./classic/frontendsInterface/index.js";
 import {
   getTrafficControllerInterfaceOperations,
-  TrafficControllerInterfaceOperations,
+  TrafficControllerInterface,
 } from "./classic/trafficControllerInterface/index.js";
 import {
   getOperationsOperations,
-  OperationsOperations,
+  Operations,
 } from "./classic/operations/index.js";
 import {
   createServiceNetworking,
@@ -50,11 +50,11 @@ export class ServiceNetworkingClient {
   }
 
   /** The operation groups for AssociationsInterface */
-  public readonly associationsInterface: AssociationsInterfaceOperations;
+  public readonly associationsInterface: AssociationsInterface;
   /** The operation groups for FrontendsInterface */
-  public readonly frontendsInterface: FrontendsInterfaceOperations;
+  public readonly frontendsInterface: FrontendsInterface;
   /** The operation groups for TrafficControllerInterface */
-  public readonly trafficControllerInterface: TrafficControllerInterfaceOperations;
+  public readonly trafficControllerInterface: TrafficControllerInterface;
   /** The operation groups for Operations */
-  public readonly operations: OperationsOperations;
+  public readonly operations: Operations;
 }

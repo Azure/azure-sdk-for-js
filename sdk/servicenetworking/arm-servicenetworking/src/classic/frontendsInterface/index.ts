@@ -20,7 +20,7 @@ import {
   FrontendsInterfaceListByTrafficControllerOptions,
 } from "../../models/options.js";
 
-export interface FrontendsInterfaceOperations {
+export interface FrontendsInterface {
   get: (
     subscriptionId: string,
     resourceGroupName: string,
@@ -143,7 +143,7 @@ export function getFrontendsInterface(context: ServiceNetworkingContext) {
 
 export function getFrontendsInterfaceOperations(
   context: ServiceNetworkingContext,
-): FrontendsInterfaceOperations {
+): FrontendsInterface {
   return {
     ...getFrontendsInterface(context),
   };
