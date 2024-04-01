@@ -973,7 +973,7 @@ export interface EmbeddingsOptions {
 /** A response containing error details. */
 export interface ErrorResponse {
   /** The error object. */
-  error: OpenAIErrorModel
+  error: OpenAIErrorModel;
 }
 
 /** The error object. */
