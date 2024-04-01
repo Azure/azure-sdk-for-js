@@ -1182,8 +1182,8 @@ packages:
       '@jridgewell/trace-mapping': 0.3.25
     dev: false
 
-  /@azure-tools/test-credential@1.0.3:
-    resolution: {integrity: sha512-xvztql+3lEzpH4HCtoRcfIs/51kzIyCVmkSzh0mCYXJlQObTzcG496S+omkCm7kK6bsXJdVIeI9pvy0BLUu1sg==}
+  /@azure-tools/test-credential@1.0.4:
+    resolution: {integrity: sha512-O5wyYiI6bILqO9MOeQ1WhSIcKH6c3DvbpsjMPKYJ+yekmFhFUb/zU/pSKsLvyqZhqUWSACFMNri4cZd4tuW0rw==}
     engines: {node: '>=18.0.0'}
     dependencies:
       '@azure-tools/test-recorder': 3.1.0
@@ -3539,7 +3539,7 @@ packages:
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 20.10.8
+      '@types/node': 18.19.28
     dev: false
 
   /@types/fs-extra@8.1.5:
@@ -3586,7 +3586,7 @@ packages:
   /@types/jsonfile@6.1.4:
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
     dependencies:
-      '@types/node': 20.10.8
+      '@types/node': 18.19.28
     dev: false
 
   /@types/jsonwebtoken@9.0.6:
@@ -3628,6 +3628,13 @@ packages:
 
   /@types/mime@3.0.4:
     resolution: {integrity: sha512-iJt33IQnVRkqeqC7PzBHPTC6fDlRNRW8vjrgqtScAhrmMwe8c4Eo7+fUGTa+XdWrpEgpyKWMYmi2dIwMAYRzPw==}
+    dev: false
+
+  /@types/mime@4.0.0:
+    resolution: {integrity: sha512-5eEkJZ/BLvTE3vXGKkWlyTSUVZuzj23Wj8PoyOq2lt5I3CYbiLBOPb3XmCW6QcuOibIUE6emHXHt9E/F/rCa6w==}
+    deprecated: This is a stub types definition. mime provides its own type definitions, so you do not need this installed.
+    dependencies:
+      mime: 4.0.1
     dev: false
 
   /@types/minimist@1.2.5:
@@ -3704,7 +3711,7 @@ packages:
   /@types/readdir-glob@1.1.5:
     resolution: {integrity: sha512-raiuEPUYqXu+nvtY2Pe8s8FEmZ3x5yAH4VkLdihcPdalvsHltomrRC9BzuStrJ9yk06470hS0Crw0f1pXqD+Hg==}
     dependencies:
-      '@types/node': 20.10.8
+      '@types/node': 18.19.28
     dev: false
 
   /@types/resolve@1.20.2:
@@ -3730,7 +3737,7 @@ packages:
     resolution: {integrity: sha512-PDRk21MnK70hja/YF8AHfC7yIsiQHn1rcXx7ijCFBX/k+XQJhQT/gw3xekXKJvx+5SXaMMS8oqQy09Mzvz2TuQ==}
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/mime': 3.0.4
+      '@types/mime': 4.0.0
       '@types/node': 18.19.28
     dev: false
 
@@ -8147,8 +8154,8 @@ packages:
       - supports-color
     dev: false
 
-  /node-abi@3.56.0:
-    resolution: {integrity: sha512-fZjdhDOeRcaS+rcpve7XuwHBmktS1nS1gzgghwKUQQ8nTy2FdSDr6ZT8k6YhvlJeHmmQMYiT/IH9hfco5zeW2Q==}
+  /node-abi@3.57.0:
+    resolution: {integrity: sha512-Dp+A9JWxRaKuHP35H77I4kCKesDy5HUDEmScia2FyncMTOXASMyg251F5PhFoDA5uqBrDDffiLpbqnrZmNXW+g==}
     engines: {node: '>=10'}
     dependencies:
       semver: 7.6.0
@@ -8695,7 +8702,7 @@ packages:
       minimist: 1.2.8
       mkdirp-classic: 0.5.3
       napi-build-utils: 1.0.2
-      node-abi: 3.56.0
+      node-abi: 3.57.0
       pump: 3.0.0
       rc: 1.2.8
       simple-get: 4.0.1
@@ -8907,7 +8914,6 @@ packages:
 
   /queue-tick@1.0.1:
     resolution: {integrity: sha512-kJt5qhMxoszgU/62PLP1CJytzd2NKetjSRnyuj31fDd3Rlcz3fzlFdFLD1SItunPwyqEOkca6GbV612BWfaBag==}
-    requiresBuild: true
     dev: false
 
   /randombytes@2.1.0:
@@ -10864,7 +10870,7 @@ packages:
     name: '@rush-temp/agrifood-farming'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -10910,7 +10916,7 @@ packages:
     name: '@rush-temp/ai-anomaly-detector'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -10956,7 +10962,7 @@ packages:
     name: '@rush-temp/ai-content-safety'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -11001,7 +11007,7 @@ packages:
     name: '@rush-temp/ai-document-intelligence'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -11047,7 +11053,7 @@ packages:
     name: '@rush-temp/ai-document-translator'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -11092,7 +11098,7 @@ packages:
     name: '@rush-temp/ai-form-recognizer'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -11141,7 +11147,7 @@ packages:
     name: '@rush-temp/ai-language-conversations'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -11191,7 +11197,7 @@ packages:
     name: '@rush-temp/ai-language-text'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -11265,7 +11271,7 @@ packages:
     name: '@rush-temp/ai-metrics-advisor'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -11310,7 +11316,7 @@ packages:
     name: '@rush-temp/ai-personalizer'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -11355,7 +11361,7 @@ packages:
     name: '@rush-temp/ai-text-analytics'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -11403,7 +11409,7 @@ packages:
     name: '@rush-temp/ai-translation-text'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -11448,7 +11454,7 @@ packages:
     name: '@rush-temp/ai-vision-image-analysis'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.39.5(@types/node@20.10.8)
@@ -11587,7 +11593,7 @@ packages:
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -11628,7 +11634,7 @@ packages:
     name: '@rush-temp/arm-advisor'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -11656,7 +11662,7 @@ packages:
     name: '@rush-temp/arm-agrifood'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -11684,7 +11690,7 @@ packages:
     name: '@rush-temp/arm-analysisservices'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -11712,7 +11718,7 @@ packages:
     name: '@rush-temp/arm-apicenter'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -11742,7 +11748,7 @@ packages:
     name: '@rush-temp/arm-apimanagement'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -11771,7 +11777,7 @@ packages:
     name: '@rush-temp/arm-appcomplianceautomation'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -11799,7 +11805,7 @@ packages:
     name: '@rush-temp/arm-appconfiguration'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -11828,7 +11834,7 @@ packages:
     name: '@rush-temp/arm-appcontainers'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -11858,7 +11864,7 @@ packages:
     name: '@rush-temp/arm-appinsights'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -11885,7 +11891,7 @@ packages:
     name: '@rush-temp/arm-appplatform'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -11915,7 +11921,7 @@ packages:
     name: '@rush-temp/arm-appservice-1'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -11945,7 +11951,7 @@ packages:
     name: '@rush-temp/arm-appservice-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -11974,7 +11980,7 @@ packages:
     name: '@rush-temp/arm-appservice'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -12019,7 +12025,7 @@ packages:
     name: '@rush-temp/arm-astro'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -12049,7 +12055,7 @@ packages:
     name: '@rush-temp/arm-attestation'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -12076,7 +12082,7 @@ packages:
     name: '@rush-temp/arm-authorization-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -12104,7 +12110,7 @@ packages:
     name: '@rush-temp/arm-authorization'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -12133,7 +12139,7 @@ packages:
     name: '@rush-temp/arm-automanage'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -12161,7 +12167,7 @@ packages:
     name: '@rush-temp/arm-automation'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -12190,7 +12196,7 @@ packages:
     name: '@rush-temp/arm-avs'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -12219,7 +12225,7 @@ packages:
     name: '@rush-temp/arm-azureadexternalidentities'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -12247,7 +12253,7 @@ packages:
     name: '@rush-temp/arm-azurestack'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -12274,7 +12280,7 @@ packages:
     name: '@rush-temp/arm-azurestackhci'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -12303,7 +12309,7 @@ packages:
     name: '@rush-temp/arm-baremetalinfrastructure'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -12333,7 +12339,7 @@ packages:
     name: '@rush-temp/arm-batch'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -12363,7 +12369,7 @@ packages:
     name: '@rush-temp/arm-billing'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -12391,7 +12397,7 @@ packages:
     name: '@rush-temp/arm-billingbenefits'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -12419,7 +12425,7 @@ packages:
     name: '@rush-temp/arm-botservice'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -12448,7 +12454,7 @@ packages:
     name: '@rush-temp/arm-cdn'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -12477,7 +12483,7 @@ packages:
     name: '@rush-temp/arm-changeanalysis'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -12504,7 +12510,7 @@ packages:
     name: '@rush-temp/arm-changes'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -12531,7 +12537,7 @@ packages:
     name: '@rush-temp/arm-chaos'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/arm-cosmosdb': 16.0.0-beta.6
@@ -12562,7 +12568,7 @@ packages:
     name: '@rush-temp/arm-cognitiveservices'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -12591,7 +12597,7 @@ packages:
     name: '@rush-temp/arm-commerce-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -12619,7 +12625,7 @@ packages:
     name: '@rush-temp/arm-commerce'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -12646,7 +12652,7 @@ packages:
     name: '@rush-temp/arm-commitmentplans'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -12673,7 +12679,7 @@ packages:
     name: '@rush-temp/arm-communication'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -12703,7 +12709,7 @@ packages:
     name: '@rush-temp/arm-compute-1'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/arm-network': 32.2.0
@@ -12734,7 +12740,7 @@ packages:
     name: '@rush-temp/arm-compute-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -12763,7 +12769,7 @@ packages:
     name: '@rush-temp/arm-compute'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/arm-network': 32.2.0
       '@azure/identity': 4.0.1
@@ -12809,7 +12815,7 @@ packages:
     name: '@rush-temp/arm-confidentialledger'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -12838,7 +12844,7 @@ packages:
     name: '@rush-temp/arm-confluent'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -12868,7 +12874,7 @@ packages:
     name: '@rush-temp/arm-connectedvmware'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -12897,7 +12903,7 @@ packages:
     name: '@rush-temp/arm-consumption'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -12925,7 +12931,7 @@ packages:
     name: '@rush-temp/arm-containerinstance'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -12954,7 +12960,7 @@ packages:
     name: '@rush-temp/arm-containerregistry'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -12984,7 +12990,7 @@ packages:
     name: '@rush-temp/arm-containerservice-1'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -13014,7 +13020,7 @@ packages:
     name: '@rush-temp/arm-containerservice'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -13059,7 +13065,7 @@ packages:
     name: '@rush-temp/arm-containerservicefleet'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -13089,7 +13095,7 @@ packages:
     name: '@rush-temp/arm-cosmosdb'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -13119,7 +13125,7 @@ packages:
     name: '@rush-temp/arm-cosmosdbforpostgresql'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -13149,7 +13155,7 @@ packages:
     name: '@rush-temp/arm-costmanagement'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -13178,7 +13184,7 @@ packages:
     name: '@rush-temp/arm-customerinsights'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -13206,7 +13212,7 @@ packages:
     name: '@rush-temp/arm-dashboard'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -13236,7 +13242,7 @@ packages:
     name: '@rush-temp/arm-databox'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -13265,7 +13271,7 @@ packages:
     name: '@rush-temp/arm-databoxedge-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -13294,7 +13300,7 @@ packages:
     name: '@rush-temp/arm-databoxedge'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -13322,7 +13328,7 @@ packages:
     name: '@rush-temp/arm-databricks'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -13352,7 +13358,7 @@ packages:
     name: '@rush-temp/arm-datacatalog'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -13380,7 +13386,7 @@ packages:
     name: '@rush-temp/arm-datadog'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -13410,7 +13416,7 @@ packages:
     name: '@rush-temp/arm-datafactory'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -13440,7 +13446,7 @@ packages:
     name: '@rush-temp/arm-datalake-analytics'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -13468,7 +13474,7 @@ packages:
     name: '@rush-temp/arm-datamigration'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -13496,7 +13502,7 @@ packages:
     name: '@rush-temp/arm-dataprotection'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -13526,7 +13532,7 @@ packages:
     name: '@rush-temp/arm-defendereasm'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -13555,7 +13561,7 @@ packages:
     name: '@rush-temp/arm-deploymentmanager'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -13583,7 +13589,7 @@ packages:
     name: '@rush-temp/arm-desktopvirtualization'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -13611,7 +13617,7 @@ packages:
     name: '@rush-temp/arm-devcenter'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -13640,7 +13646,7 @@ packages:
     name: '@rush-temp/arm-devhub'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -13668,7 +13674,7 @@ packages:
     name: '@rush-temp/arm-deviceprovisioningservices'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -13697,7 +13703,7 @@ packages:
     name: '@rush-temp/arm-deviceupdate'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -13727,7 +13733,7 @@ packages:
     name: '@rush-temp/arm-devspaces'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -13755,7 +13761,7 @@ packages:
     name: '@rush-temp/arm-devtestlabs'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -13783,7 +13789,7 @@ packages:
     name: '@rush-temp/arm-digitaltwins'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -13812,7 +13818,7 @@ packages:
     name: '@rush-temp/arm-dns-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -13841,7 +13847,7 @@ packages:
     name: '@rush-temp/arm-dns'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -13869,7 +13875,7 @@ packages:
     name: '@rush-temp/arm-dnsresolver'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -13898,7 +13904,7 @@ packages:
     name: '@rush-temp/arm-domainservices'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -13926,7 +13932,7 @@ packages:
     name: '@rush-temp/arm-dynatrace'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -13955,7 +13961,7 @@ packages:
     name: '@rush-temp/arm-education'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -13983,7 +13989,7 @@ packages:
     name: '@rush-temp/arm-elastic'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -14012,7 +14018,7 @@ packages:
     name: '@rush-temp/arm-elasticsan'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -14042,7 +14048,7 @@ packages:
     name: '@rush-temp/arm-eventgrid'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -14072,7 +14078,7 @@ packages:
     name: '@rush-temp/arm-eventhub-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -14101,7 +14107,7 @@ packages:
     name: '@rush-temp/arm-eventhub'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/arm-network': 32.2.0
@@ -14131,7 +14137,7 @@ packages:
     name: '@rush-temp/arm-extendedlocation'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -14160,7 +14166,7 @@ packages:
     name: '@rush-temp/arm-features'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -14187,7 +14193,7 @@ packages:
     name: '@rush-temp/arm-fluidrelay'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -14215,7 +14221,7 @@ packages:
     name: '@rush-temp/arm-frontdoor'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -14244,7 +14250,7 @@ packages:
     name: '@rush-temp/arm-graphservices'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -14273,7 +14279,7 @@ packages:
     name: '@rush-temp/arm-hanaonazure'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -14301,7 +14307,7 @@ packages:
     name: '@rush-temp/arm-hardwaresecuritymodules'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -14331,7 +14337,7 @@ packages:
     name: '@rush-temp/arm-hdinsight'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -14360,7 +14366,7 @@ packages:
     name: '@rush-temp/arm-hdinsightcontainers'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -14389,7 +14395,7 @@ packages:
     name: '@rush-temp/arm-healthbot'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -14417,7 +14423,7 @@ packages:
     name: '@rush-temp/arm-healthcareapis'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -14447,7 +14453,7 @@ packages:
     name: '@rush-temp/arm-hybridcompute'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -14477,7 +14483,7 @@ packages:
     name: '@rush-temp/arm-hybridconnectivity'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -14505,7 +14511,7 @@ packages:
     name: '@rush-temp/arm-hybridcontainerservice'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -14535,7 +14541,7 @@ packages:
     name: '@rush-temp/arm-hybridkubernetes'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -14563,7 +14569,7 @@ packages:
     name: '@rush-temp/arm-hybridnetwork'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -14593,7 +14599,7 @@ packages:
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -14623,7 +14629,7 @@ packages:
     name: '@rush-temp/arm-iotcentral'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -14651,7 +14657,7 @@ packages:
     name: '@rush-temp/arm-iotfirmwaredefense'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -14680,7 +14686,7 @@ packages:
     name: '@rush-temp/arm-iothub-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -14709,7 +14715,7 @@ packages:
     name: '@rush-temp/arm-iothub'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -14738,7 +14744,7 @@ packages:
     name: '@rush-temp/arm-keyvault-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -14767,7 +14773,7 @@ packages:
     name: '@rush-temp/arm-keyvault'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -14797,7 +14803,7 @@ packages:
     name: '@rush-temp/arm-kubernetesconfiguration'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -14826,7 +14832,7 @@ packages:
     name: '@rush-temp/arm-kusto'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -14855,7 +14861,7 @@ packages:
     name: '@rush-temp/arm-labservices'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -14884,7 +14890,7 @@ packages:
     name: '@rush-temp/arm-largeinstance'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -14914,7 +14920,7 @@ packages:
     name: '@rush-temp/arm-links'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -14941,7 +14947,7 @@ packages:
     name: '@rush-temp/arm-loadtesting'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -14970,7 +14976,7 @@ packages:
     name: '@rush-temp/arm-locks-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -14998,7 +15004,7 @@ packages:
     name: '@rush-temp/arm-locks'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -15025,7 +15031,7 @@ packages:
     name: '@rush-temp/arm-logic'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -15054,7 +15060,7 @@ packages:
     name: '@rush-temp/arm-machinelearning'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -15082,7 +15088,7 @@ packages:
     name: '@rush-temp/arm-machinelearningcompute'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -15110,7 +15116,7 @@ packages:
     name: '@rush-temp/arm-machinelearningexperimentation'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -15138,7 +15144,7 @@ packages:
     name: '@rush-temp/arm-maintenance'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -15163,7 +15169,7 @@ packages:
     name: '@rush-temp/arm-managedapplications'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -15192,7 +15198,7 @@ packages:
     name: '@rush-temp/arm-managednetworkfabric'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -15221,7 +15227,7 @@ packages:
     name: '@rush-temp/arm-managementgroups'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -15249,7 +15255,7 @@ packages:
     name: '@rush-temp/arm-managementpartner'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -15277,7 +15283,7 @@ packages:
     name: '@rush-temp/arm-maps'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -15305,7 +15311,7 @@ packages:
     name: '@rush-temp/arm-mariadb'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -15333,7 +15339,7 @@ packages:
     name: '@rush-temp/arm-marketplaceordering'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -15361,7 +15367,7 @@ packages:
     name: '@rush-temp/arm-mediaservices'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -15390,7 +15396,7 @@ packages:
     name: '@rush-temp/arm-migrate'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -15418,7 +15424,7 @@ packages:
     name: '@rush-temp/arm-migrationdiscoverysap'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -15448,7 +15454,7 @@ packages:
     name: '@rush-temp/arm-mixedreality'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -15475,7 +15481,7 @@ packages:
     name: '@rush-temp/arm-mobilenetwork'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -15505,7 +15511,7 @@ packages:
     name: '@rush-temp/arm-monitor-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -15533,7 +15539,7 @@ packages:
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -15563,7 +15569,7 @@ packages:
     name: '@rush-temp/arm-msi'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -15591,7 +15597,7 @@ packages:
     name: '@rush-temp/arm-mysql-flexible'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -15620,7 +15626,7 @@ packages:
     name: '@rush-temp/arm-mysql'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -15648,7 +15654,7 @@ packages:
     name: '@rush-temp/arm-netapp'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -15678,7 +15684,7 @@ packages:
     name: '@rush-temp/arm-network-1'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -15708,7 +15714,7 @@ packages:
     name: '@rush-temp/arm-network-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -15737,7 +15743,7 @@ packages:
     name: '@rush-temp/arm-network'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -15782,7 +15788,7 @@ packages:
     name: '@rush-temp/arm-networkanalytics'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -15812,7 +15818,7 @@ packages:
     name: '@rush-temp/arm-networkcloud'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -15841,7 +15847,7 @@ packages:
     name: '@rush-temp/arm-networkfunction'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -15869,7 +15875,7 @@ packages:
     name: '@rush-temp/arm-newrelicobservability'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -15899,7 +15905,7 @@ packages:
     name: '@rush-temp/arm-nginx'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -15929,7 +15935,7 @@ packages:
     name: '@rush-temp/arm-notificationhubs'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -15959,7 +15965,7 @@ packages:
     name: '@rush-temp/arm-oep'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -15987,7 +15993,7 @@ packages:
     name: '@rush-temp/arm-operationalinsights'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -16016,7 +16022,7 @@ packages:
     name: '@rush-temp/arm-operations'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -16044,7 +16050,7 @@ packages:
     name: '@rush-temp/arm-orbital'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -16073,7 +16079,7 @@ packages:
     name: '@rush-temp/arm-paloaltonetworksngfw'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -16103,7 +16109,7 @@ packages:
     name: '@rush-temp/arm-peering'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -16130,7 +16136,7 @@ packages:
     name: '@rush-temp/arm-playwrighttesting'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -16160,7 +16166,7 @@ packages:
     name: '@rush-temp/arm-policy-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -16188,7 +16194,7 @@ packages:
     name: '@rush-temp/arm-policy'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -16216,7 +16222,7 @@ packages:
     name: '@rush-temp/arm-policyinsights'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -16245,7 +16251,7 @@ packages:
     name: '@rush-temp/arm-portal'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -16273,7 +16279,7 @@ packages:
     name: '@rush-temp/arm-postgresql-flexible'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -16303,7 +16309,7 @@ packages:
     name: '@rush-temp/arm-postgresql'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -16331,7 +16337,7 @@ packages:
     name: '@rush-temp/arm-powerbidedicated'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -16360,7 +16366,7 @@ packages:
     name: '@rush-temp/arm-powerbiembedded'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -16388,7 +16394,7 @@ packages:
     name: '@rush-temp/arm-privatedns'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -16417,7 +16423,7 @@ packages:
     name: '@rush-temp/arm-purview'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -16445,7 +16451,7 @@ packages:
     name: '@rush-temp/arm-quantum'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -16475,7 +16481,7 @@ packages:
     name: '@rush-temp/arm-qumulo'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -16504,7 +16510,7 @@ packages:
     name: '@rush-temp/arm-quota'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -16534,7 +16540,7 @@ packages:
     name: '@rush-temp/arm-recoveryservices-siterecovery'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -16564,7 +16570,7 @@ packages:
     name: '@rush-temp/arm-recoveryservices'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -16593,7 +16599,7 @@ packages:
     name: '@rush-temp/arm-recoveryservicesbackup'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -16623,7 +16629,7 @@ packages:
     name: '@rush-temp/arm-recoveryservicesdatareplication'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -16652,7 +16658,7 @@ packages:
     name: '@rush-temp/arm-rediscache'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/arm-network': 32.2.0
@@ -16682,7 +16688,7 @@ packages:
     name: '@rush-temp/arm-redisenterprisecache'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -16712,7 +16718,7 @@ packages:
     name: '@rush-temp/arm-relay'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -16741,7 +16747,7 @@ packages:
     name: '@rush-temp/arm-reservations'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -16770,7 +16776,7 @@ packages:
     name: '@rush-temp/arm-resourceconnector'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -16799,7 +16805,7 @@ packages:
     name: '@rush-temp/arm-resourcegraph'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -16826,7 +16832,7 @@ packages:
     name: '@rush-temp/arm-resourcehealth'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -16854,7 +16860,7 @@ packages:
     name: '@rush-temp/arm-resourcemover'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -16883,7 +16889,7 @@ packages:
     name: '@rush-temp/arm-resources-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -16912,7 +16918,7 @@ packages:
     name: '@rush-temp/arm-resources-subscriptions'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -16940,7 +16946,7 @@ packages:
     name: '@rush-temp/arm-resources'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -16969,7 +16975,7 @@ packages:
     name: '@rush-temp/arm-resourcesdeploymentstacks'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -16998,7 +17004,7 @@ packages:
     name: '@rush-temp/arm-scvmm'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -17027,7 +17033,7 @@ packages:
     name: '@rush-temp/arm-search'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -17057,7 +17063,7 @@ packages:
     name: '@rush-temp/arm-security'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -17086,7 +17092,7 @@ packages:
     name: '@rush-temp/arm-securitydevops'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -17115,7 +17121,7 @@ packages:
     name: '@rush-temp/arm-securityinsight'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -17144,7 +17150,7 @@ packages:
     name: '@rush-temp/arm-selfhelp'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -17174,7 +17180,7 @@ packages:
     name: '@rush-temp/arm-serialconsole'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -17201,7 +17207,7 @@ packages:
     name: '@rush-temp/arm-servicebus'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -17230,7 +17236,7 @@ packages:
     name: '@rush-temp/arm-servicefabric-1'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -17260,7 +17266,7 @@ packages:
     name: '@rush-temp/arm-servicefabric'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -17305,7 +17311,7 @@ packages:
     name: '@rush-temp/arm-servicefabricmesh'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -17333,7 +17339,7 @@ packages:
     name: '@rush-temp/arm-servicelinker'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -17362,7 +17368,7 @@ packages:
     name: '@rush-temp/arm-servicemap'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -17390,7 +17396,7 @@ packages:
     name: '@rush-temp/arm-servicenetworking'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -17420,7 +17426,7 @@ packages:
     name: '@rush-temp/arm-signalr'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -17449,7 +17455,7 @@ packages:
     name: '@rush-temp/arm-sphere'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -17479,7 +17485,7 @@ packages:
     name: '@rush-temp/arm-springappdiscovery'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -17509,7 +17515,7 @@ packages:
     name: '@rush-temp/arm-sql'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -17539,7 +17545,7 @@ packages:
     name: '@rush-temp/arm-sqlvirtualmachine'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -17568,7 +17574,7 @@ packages:
     name: '@rush-temp/arm-storage-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -17597,7 +17603,7 @@ packages:
     name: '@rush-temp/arm-storage'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -17626,7 +17632,7 @@ packages:
     name: '@rush-temp/arm-storageactions'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -17656,7 +17662,7 @@ packages:
     name: '@rush-temp/arm-storagecache'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -17686,7 +17692,7 @@ packages:
     name: '@rush-temp/arm-storageimportexport'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -17714,7 +17720,7 @@ packages:
     name: '@rush-temp/arm-storagemover'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -17743,7 +17749,7 @@ packages:
     name: '@rush-temp/arm-storagesync'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -17771,7 +17777,7 @@ packages:
     name: '@rush-temp/arm-storsimple1200series'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -17799,7 +17805,7 @@ packages:
     name: '@rush-temp/arm-storsimple8000series'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -17827,7 +17833,7 @@ packages:
     name: '@rush-temp/arm-streamanalytics'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -17857,7 +17863,7 @@ packages:
     name: '@rush-temp/arm-subscriptions-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -17885,7 +17891,7 @@ packages:
     name: '@rush-temp/arm-subscriptions'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -17913,7 +17919,7 @@ packages:
     name: '@rush-temp/arm-support'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -17943,7 +17949,7 @@ packages:
     name: '@rush-temp/arm-synapse'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -17972,7 +17978,7 @@ packages:
     name: '@rush-temp/arm-templatespecs'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -17999,7 +18005,7 @@ packages:
     name: '@rush-temp/arm-timeseriesinsights'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -18028,7 +18034,7 @@ packages:
     name: '@rush-temp/arm-trafficmanager'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -18056,7 +18062,7 @@ packages:
     name: '@rush-temp/arm-visualstudio'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -18084,7 +18090,7 @@ packages:
     name: '@rush-temp/arm-vmwarecloudsimple'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -18113,7 +18119,7 @@ packages:
     name: '@rush-temp/arm-voiceservices'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -18142,7 +18148,7 @@ packages:
     name: '@rush-temp/arm-webpubsub'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -18171,7 +18177,7 @@ packages:
     name: '@rush-temp/arm-webservices'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -18199,7 +18205,7 @@ packages:
     name: '@rush-temp/arm-workloads'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -18228,7 +18234,7 @@ packages:
     name: '@rush-temp/arm-workloadssapvirtualinstance'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -18258,7 +18264,7 @@ packages:
     name: '@rush-temp/arm-workspaces'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -18285,7 +18291,7 @@ packages:
     name: '@rush-temp/attestation'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -18381,7 +18387,7 @@ packages:
     name: '@rush-temp/communication-call-automation'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/communication-phone-numbers': 1.2.0
@@ -18429,7 +18435,7 @@ packages:
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/communication-signaling': 1.0.0-beta.22
@@ -18569,7 +18575,7 @@ packages:
     name: '@rush-temp/communication-identity'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -18666,7 +18672,7 @@ packages:
     name: '@rush-temp/communication-job-router'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -18710,7 +18716,7 @@ packages:
     name: '@rush-temp/communication-messages'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 3.4.2
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -18755,7 +18761,7 @@ packages:
     name: '@rush-temp/communication-network-traversal'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -18803,7 +18809,7 @@ packages:
     name: '@rush-temp/communication-phone-numbers'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -18896,7 +18902,7 @@ packages:
     name: '@rush-temp/communication-rooms'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
       '@types/chai': 4.3.14
@@ -18979,7 +18985,7 @@ packages:
     name: '@rush-temp/communication-sms'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -19117,7 +19123,7 @@ packages:
     name: '@rush-temp/confidential-ledger'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -19147,7 +19153,7 @@ packages:
     name: '@rush-temp/container-registry'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -19644,7 +19650,7 @@ packages:
     name: '@rush-temp/data-tables'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -19689,7 +19695,7 @@ packages:
     name: '@rush-temp/defender-easm'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -19798,7 +19804,7 @@ packages:
     name: '@rush-temp/developer-devcenter'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -19844,7 +19850,7 @@ packages:
     name: '@rush-temp/digital-twins-core'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -20158,7 +20164,7 @@ packages:
     name: '@rush-temp/functions-authentication-events'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/functions': 3.5.1
       '@azure/identity': 4.0.1
@@ -20204,7 +20210,7 @@ packages:
     name: '@rush-temp/health-insights-cancerprofiling'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -20250,7 +20256,7 @@ packages:
     name: '@rush-temp/health-insights-clinicalmatching'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -20296,7 +20302,7 @@ packages:
     name: '@rush-temp/health-insights-radiologyinsights'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -20498,7 +20504,7 @@ packages:
     name: '@rush-temp/iot-device-update'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -20591,7 +20597,7 @@ packages:
     name: '@rush-temp/keyvault-admin'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -20624,7 +20630,7 @@ packages:
     name: '@rush-temp/keyvault-certificates'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -20699,7 +20705,7 @@ packages:
     name: '@rush-temp/keyvault-keys'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -20746,7 +20752,7 @@ packages:
     name: '@rush-temp/keyvault-secrets'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -20790,7 +20796,7 @@ packages:
     name: '@rush-temp/load-testing'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -20890,7 +20896,7 @@ packages:
     name: '@rush-temp/maps-geolocation'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@azure/maps-common': 1.0.0-beta.2
@@ -20936,7 +20942,7 @@ packages:
     name: '@rush-temp/maps-render'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@azure/maps-common': 1.0.0-beta.2
@@ -20982,7 +20988,7 @@ packages:
     name: '@rush-temp/maps-route'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@azure/maps-common': 1.0.0-beta.2
@@ -21028,7 +21034,7 @@ packages:
     name: '@rush-temp/maps-search'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@azure/maps-common': 1.0.0-beta.2
@@ -21074,7 +21080,7 @@ packages:
     name: '@rush-temp/mixed-reality-authentication'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
       '@types/chai': 4.3.14
@@ -21186,7 +21192,7 @@ packages:
     name: '@rush-temp/monitor-ingestion'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -21317,7 +21323,7 @@ packages:
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -21400,7 +21406,7 @@ packages:
     name: '@rush-temp/openai-1'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -21445,7 +21451,7 @@ packages:
     name: '@rush-temp/openai-assistants'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -22019,7 +22025,7 @@ packages:
     name: '@rush-temp/purview-administration'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -22063,7 +22069,7 @@ packages:
     name: '@rush-temp/purview-catalog'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -22107,7 +22113,7 @@ packages:
     name: '@rush-temp/purview-datamap'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -22152,7 +22158,7 @@ packages:
     name: '@rush-temp/purview-scanning'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -22196,7 +22202,7 @@ packages:
     name: '@rush-temp/purview-sharing'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -22242,7 +22248,7 @@ packages:
     name: '@rush-temp/purview-workflow'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -22287,7 +22293,7 @@ packages:
     name: '@rush-temp/quantum-jobs'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@azure/storage-blob': 12.17.0
@@ -22334,7 +22340,7 @@ packages:
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@azure/schema-registry': 1.2.0
@@ -22387,7 +22393,7 @@ packages:
     name: '@rush-temp/schema-registry-json'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -22430,7 +22436,7 @@ packages:
     name: '@rush-temp/schema-registry'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -22629,7 +22635,7 @@ packages:
     name: '@rush-temp/storage-blob'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -22677,7 +22683,7 @@ packages:
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -22729,7 +22735,7 @@ packages:
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -22869,7 +22875,7 @@ packages:
     name: '@rush-temp/synapse-access-control-1'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
       '@types/chai': 4.3.14
@@ -22915,7 +22921,7 @@ packages:
     name: '@rush-temp/synapse-access-control'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -22963,7 +22969,7 @@ packages:
     name: '@rush-temp/synapse-artifacts'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -23013,7 +23019,7 @@ packages:
     name: '@rush-temp/synapse-managed-private-endpoints'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
       '@types/chai': 4.3.14
@@ -23056,7 +23062,7 @@ packages:
     name: '@rush-temp/synapse-monitoring'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
       '@types/mocha': 10.0.6
@@ -23094,7 +23100,7 @@ packages:
     name: '@rush-temp/synapse-spark'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
       '@types/chai': 4.3.14
@@ -23137,7 +23143,7 @@ packages:
     name: '@rush-temp/template-dpg'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
       '@types/chai': 4.3.14
@@ -23180,7 +23186,7 @@ packages:
     name: '@rush-temp/template'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
@@ -23549,7 +23555,7 @@ packages:
     name: '@rush-temp/web-pubsub'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.3
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
       '@types/chai': 4.3.14
