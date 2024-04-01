@@ -16,3 +16,4 @@ https://docs.microsoft.com/javascript/api/@azure/arm-largeinstance?view=azure-no
 https://docs.microsoft.com/javascript/api/@azure/arm-springappdiscovery?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure-rest/purview-datamap?view=azure-node-preview
 https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-datamap-rest/samples
+https://docs.microsoft.com/javascript/api/@azure/arm-migrationdiscoverysap?view=azure-node-preview
