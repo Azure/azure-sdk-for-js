@@ -20,9 +20,7 @@ require("dotenv").config();
  */
 
 export async function main(): Promise<void> {
-  const credential = new DefaultAzureCredential({
-    retryOptions: { maxRetries: 3 },
-  });
+  const credential = new DefaultAzureCredential();
 
   const keyVaultUrl = `https://key-vault-name.vault.azure.net`;
   const client = new KeyClient(keyVaultUrl, credential);

@@ -30,7 +30,7 @@ function prepareRequestOptions(
   options?: {
     skipQuery?: boolean;
     skipMetadataHeader?: boolean;
-  },
+  }
 ): PipelineRequestOptions {
   const resource = mapScopesToResource(scopes);
   if (!resource) {
@@ -76,13 +76,6 @@ function prepareRequestOptions(
     headers: createHttpHeaders(rawHeaders),
   };
 }
-
-// // 800ms -> 1600ms -> 3200ms
-// export const imdsMsiRetryConfig = {
-//   maxRetries: 3,
-//   startDelayInMs: 800,
-//   intervalIncrement: 2,
-// };
 
 /**
  * Defines how to determine whether the Azure IMDS MSI is available, and also how to retrieve a token from the Azure IMDS MSI.
@@ -151,7 +144,7 @@ export const imdsMsi: MSI = {
         if (response.status === 403) {
           if (
             response.bodyAsText?.includes(
-              "A socket operation was attempted to an unreachable network",
+              "A socket operation was attempted to an unreachable network"
             )
           ) {
             logger.info(`${msiName}: The Azure IMDS endpoint is unavailable`);
@@ -162,18 +155,18 @@ export const imdsMsi: MSI = {
         // If we received any response, the endpoint is available
         logger.info(`${msiName}: The Azure IMDS endpoint is available`);
         return true;
-      },
+      }
     );
   },
   async getToken(
     configuration: MSIConfiguration,
-    getTokenOptions: GetTokenOptions = {},
+    getTokenOptions: GetTokenOptions = {}
   ): Promise<MSIToken | null> {
     const { identityClient, scopes, clientId, resourceId } = configuration;
 
     if (process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST) {
       logger.info(
-        `${msiName}: Using the Azure IMDS endpoint coming from the environment variable AZURE_POD_IDENTITY_AUTHORITY_HOST=${process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST}.`,
+        `${msiName}: Using the Azure IMDS endpoint coming from the environment variable AZURE_POD_IDENTITY_AUTHORITY_HOST=${process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST}.`
       );
     } else {
       logger.info(`${msiName}: Using the default Azure IMDS endpoint ${imdsHost}.`);
@@ -202,7 +195,7 @@ export const imdsMsi: MSI = {
 
     throw new AuthenticationError(
       404,
-      `${msiName}: Failed to retrieve IMDS token after ${configuration.retryConfig.maxRetries} retries.`,
+      `${msiName}: Failed to retrieve IMDS token after ${configuration.retryConfig.maxRetries} retries.`
     );
   },
 };
