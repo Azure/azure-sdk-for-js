@@ -3,13 +3,10 @@
 
 import { ServiceClient } from "@azure/core-client";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
-import { assert } from "vitest";
-import { expect } from "chai";
 import { CustomMatcherOptions, isPlaybackMode, Recorder } from "../src/index.js";
 import { isLiveMode, TestMode } from "../src/utils/utils.js";
 import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils.js";
-import { describe, it, beforeEach, afterEach, beforeAll } from "vitest";
-import { env } from "../src/index.js";
+import { describe, it, assert, expect, beforeEach, afterEach, beforeAll } from "vitest";
 
 // These tests require the following to be running in parallel
 // - utils/server.ts (to serve requests to act as a service)
@@ -43,7 +40,7 @@ import { env } from "../src/index.js";
       );
     });
 
-    it("redirect (redirect location has host)", async function (this: Mocha.Context) {
+    it("redirect (redirect location has host)", async function () {
       await recorder.start({ envSetupForPlayback: {} });
 
       await makeRequestAndVerifyResponse(
@@ -53,7 +50,7 @@ import { env } from "../src/index.js";
       );
     });
 
-    it("redirect (redirect location is relative)", async function (this: Mocha.Context) {
+    it("redirect (redirect location is relative)", async function () {
       await recorder.start({ envSetupForPlayback: {} });
 
       await makeRequestAndVerifyResponse(

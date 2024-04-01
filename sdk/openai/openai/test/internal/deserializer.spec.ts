@@ -307,6 +307,7 @@ describe("deserializers", () => {
               role: "bot",
               content: "Hello",
             },
+            logprobs: null,
             index: 0,
             finish_reason: "stop",
             content_filter_results: {
@@ -367,8 +368,8 @@ describe("deserializers", () => {
             message: {
               role: "bot",
               content: "Hello",
-              toolCalls: [],
             },
+            logprobs: null,
             index: 0,
             finishReason: "stop",
             contentFilterResults: {
@@ -428,6 +429,7 @@ describe("deserializers", () => {
               role: "bot",
               content: "Hello",
             },
+            logprobs: null,
             index: 0,
             finish_reason: "stop",
             content_filter_results: {
@@ -454,7 +456,7 @@ describe("deserializers", () => {
         system_fingerprint: "123",
       };
 
-      const result = getChatCompletionsResult(body as any);
+      const result = getChatCompletionsResult(body);
 
       assert.deepStrictEqual(result, {
         id: "123",
@@ -488,8 +490,8 @@ describe("deserializers", () => {
             message: {
               role: "bot",
               content: "Hello",
-              toolCalls: [],
             },
+            logprobs: null,
             index: 0,
             finishReason: "stop",
             contentFilterResults: {
@@ -538,6 +540,7 @@ describe("deserializers", () => {
               role: "bot",
               content: "Hello",
             },
+            logprobs: null,
             index: 0,
             finish_reason: "stop",
             content_filter_results: {
@@ -576,8 +579,8 @@ describe("deserializers", () => {
             message: {
               role: "bot",
               content: "Hello",
-              toolCalls: [],
             },
+            logprobs: null,
             index: 0,
             finishReason: "stop",
             contentFilterResults: {

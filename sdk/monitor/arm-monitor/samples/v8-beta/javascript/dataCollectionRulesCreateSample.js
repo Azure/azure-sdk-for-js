@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates a data collection rule.
  *
  * @summary Creates or updates a data collection rule.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-09-01-preview/examples/DataCollectionRulesCreate.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/DataCollectionRulesCreate.json
  */
 async function createOrUpdateDataCollectionRule() {
   const subscriptionId =
@@ -97,7 +97,7 @@ async function createOrUpdateDataCollectionRule() {
   const result = await client.dataCollectionRules.create(
     resourceGroupName,
     dataCollectionRuleName,
-    options
+    options,
   );
   console.log(result);
 }

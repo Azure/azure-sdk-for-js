@@ -7,6 +7,7 @@ import {
   PipelineResponse,
   bearerTokenAuthenticationPolicy,
   createHttpHeaders,
+  createPipelineRequest,
 } from "@azure/core-rest-pipeline";
 import { authorizeRequestOnTenantChallenge } from "../src/index.js";
 
@@ -382,5 +383,47 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
     // We are setting expiration time within the refresh window
     // so we expect 2 calls to refresh the token
     expect(getTokenStub).toBeCalledTimes(2);
+  });
+
+  it("should not try to request a token if tenant is invalid", async function () {
+    const request = createPipelineRequest({ url: "https://example.org" });
+    const invalidAuthUri =
+      "https://login.microsoftonline.com/eastasia:/DiskRP-eastasia_2/PoolManagerService/oauth2/authorize";
+    const shouldSendRequest = await authorizeRequestOnTenantChallenge({
+      request,
+      response: {
+        headers: createHttpHeaders({
+          "WWW-Authenticate": `Bearer authorization_uri=${invalidAuthUri}`,
+        }),
+        request,
+        status: 401,
+      },
+      getAccessToken: getTokenStub,
+      scopes: [],
+    });
+    expect(getTokenStub).toBeCalledTimes(0);
+    assert.isFalse(shouldSendRequest);
+  });
+
+  it("should handle disk scope being quirky", async function () {
+    const request = createPipelineRequest({ url: "https://example.org" });
+    // the double forward slash is required
+    const quirkScope = "https://disk.azure.com//.default";
+    const shouldSendRequest = await authorizeRequestOnTenantChallenge({
+      request,
+      response: {
+        headers: createHttpHeaders({
+          "WWW-Authenticate": `Bearer authorization_uri=https://login.microsoftonline.com/${fakeGuid}/oauth2/authorize resource_id=https://disk.azure.com/`,
+        }),
+        request,
+        status: 401,
+      },
+      getAccessToken: getTokenStub,
+      scopes: [],
+    });
+    assert.isTrue(shouldSendRequest);
+    expect(getTokenStub).toBeCalledTimes(1);
+    const lastGetTokenCall = getTokenStub.mock.calls[0];
+    assert.equal(lastGetTokenCall[0], quirkScope);
   });
 });

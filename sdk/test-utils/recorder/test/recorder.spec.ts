@@ -1,27 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
-import { expect } from "chai";
-import { describe, it } from "vitest";
+import { describe, it, expect } from "vitest";
 
 import { calculatePaths } from "../src/recorder.js";
 
 describe("Recorder file paths", () => {
-  it("calculates paths for a Mocha test", () => {
-    const mochaTest = {
-      title: "mocha test title",
-      parent: {
-        fullTitle: () => "mocha suite title",
-      },
-    };
-    const context = calculatePaths(mochaTest);
-
-    expect(context).to.eql({
-      suiteTitle: "mocha suite title",
-      testTitle: "mocha test title",
-    });
-  });
-
   it("calculates paths for a vitest test", () => {
     const vitestTest = (): void => {
       /* no-op */

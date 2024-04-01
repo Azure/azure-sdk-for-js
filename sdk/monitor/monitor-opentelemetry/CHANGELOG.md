@@ -1,6 +1,18 @@
 # Release History
 
-## Unreleased ()
+## 1.3.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+### Features Added
+
+- Add support for Trace based sampling for logs.
 
 ## 1.3.0 (2024-02-13)
 

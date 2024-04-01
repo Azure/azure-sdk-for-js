@@ -21,7 +21,7 @@ import {
   DevicesDeleteOptionalParams,
   GenerateCapabilityImageRequest,
   DevicesGenerateCapabilityImageOptionalParams,
-  DevicesGenerateCapabilityImageResponse
+  DevicesGenerateCapabilityImageResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export interface Devices {
     catalogName: string,
     productName: string,
     deviceGroupName: string,
-    options?: DevicesListByDeviceGroupOptionalParams
+    options?: DevicesListByDeviceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Device>;
   /**
    * Get a Device. Use '.unassigned' or '.default' for the device group and product names when a device
@@ -59,7 +59,7 @@ export interface Devices {
     productName: string,
     deviceGroupName: string,
     deviceName: string,
-    options?: DevicesGetOptionalParams
+    options?: DevicesGetOptionalParams,
   ): Promise<DevicesGetResponse>;
   /**
    * Create a Device. Use '.unassigned' or '.default' for the device group and product names to claim a
@@ -79,7 +79,7 @@ export interface Devices {
     deviceGroupName: string,
     deviceName: string,
     resource: Device,
-    options?: DevicesCreateOrUpdateOptionalParams
+    options?: DevicesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DevicesCreateOrUpdateResponse>,
@@ -104,7 +104,7 @@ export interface Devices {
     deviceGroupName: string,
     deviceName: string,
     resource: Device,
-    options?: DevicesCreateOrUpdateOptionalParams
+    options?: DevicesCreateOrUpdateOptionalParams,
   ): Promise<DevicesCreateOrUpdateResponse>;
   /**
    * Update a Device. Use '.unassigned' or '.default' for the device group and product names to move a
@@ -124,7 +124,7 @@ export interface Devices {
     deviceGroupName: string,
     deviceName: string,
     properties: DeviceUpdate,
-    options?: DevicesUpdateOptionalParams
+    options?: DevicesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DevicesUpdateResponse>,
@@ -149,7 +149,7 @@ export interface Devices {
     deviceGroupName: string,
     deviceName: string,
     properties: DeviceUpdate,
-    options?: DevicesUpdateOptionalParams
+    options?: DevicesUpdateOptionalParams,
   ): Promise<DevicesUpdateResponse>;
   /**
    * Delete a Device
@@ -166,7 +166,7 @@ export interface Devices {
     productName: string,
     deviceGroupName: string,
     deviceName: string,
-    options?: DevicesDeleteOptionalParams
+    options?: DevicesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a Device
@@ -183,7 +183,7 @@ export interface Devices {
     productName: string,
     deviceGroupName: string,
     deviceName: string,
-    options?: DevicesDeleteOptionalParams
+    options?: DevicesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Generates the capability image for the device. Use '.unassigned' or '.default' for the device group
@@ -204,7 +204,7 @@ export interface Devices {
     deviceGroupName: string,
     deviceName: string,
     generateDeviceCapabilityRequest: GenerateCapabilityImageRequest,
-    options?: DevicesGenerateCapabilityImageOptionalParams
+    options?: DevicesGenerateCapabilityImageOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DevicesGenerateCapabilityImageResponse>,
@@ -230,6 +230,6 @@ export interface Devices {
     deviceGroupName: string,
     deviceName: string,
     generateDeviceCapabilityRequest: GenerateCapabilityImageRequest,
-    options?: DevicesGenerateCapabilityImageOptionalParams
+    options?: DevicesGenerateCapabilityImageOptionalParams,
   ): Promise<DevicesGenerateCapabilityImageResponse>;
 }

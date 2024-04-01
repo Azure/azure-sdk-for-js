@@ -6,10 +6,5 @@
     "moduleResolution": "NodeNext",
     "rootDir": "."
   },
-  "include": [
-    "./src/**/*.ts",
-    "./test/**/*.ts",
-    "src/utils/encoding-browser.mts",
-    "src/utils/relativePathCalculator-browser.mts"
-  ]
+  "include": ["./src/**/*.ts", "./src/**/*.mts", "./src/**/*.cts", "./test/**/*.ts"]
 }

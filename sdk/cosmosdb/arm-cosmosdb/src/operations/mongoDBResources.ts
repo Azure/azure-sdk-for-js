@@ -15,7 +15,7 @@ import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -47,6 +47,16 @@ import {
   MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse,
   MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputOptionalParams,
   MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse,
+  RetrieveThroughputParameters,
+  MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams,
+  MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse,
+  RedistributeThroughputParameters,
+  MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams,
+  MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse,
+  MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams,
+  MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse,
+  MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams,
+  MongoDBResourcesMongoDBContainerRedistributeThroughputResponse,
   MongoDBResourcesGetMongoDBCollectionOptionalParams,
   MongoDBResourcesGetMongoDBCollectionResponse,
   MongoDBCollectionCreateUpdateParameters,
@@ -54,6 +64,11 @@ import {
   MongoDBResourcesCreateUpdateMongoDBCollectionResponse,
   MongoDBResourcesDeleteMongoDBCollectionOptionalParams,
   MongoDBResourcesDeleteMongoDBCollectionResponse,
+  MergeParameters,
+  MongoDBResourcesMongoDBDatabasePartitionMergeOptionalParams,
+  MongoDBResourcesMongoDBDatabasePartitionMergeResponse,
+  MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams,
+  MongoDBResourcesListMongoDBCollectionPartitionMergeResponse,
   MongoDBResourcesGetMongoDBCollectionThroughputOptionalParams,
   MongoDBResourcesGetMongoDBCollectionThroughputResponse,
   MongoDBResourcesUpdateMongoDBCollectionThroughputOptionalParams,
@@ -76,7 +91,7 @@ import {
   MongoDBResourcesDeleteMongoUserDefinitionOptionalParams,
   ContinuousBackupRestoreLocation,
   MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams,
-  MongoDBResourcesRetrieveContinuousBackupInformationResponse
+  MongoDBResourcesRetrieveContinuousBackupInformationResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -101,12 +116,12 @@ export class MongoDBResourcesImpl implements MongoDBResources {
   public listMongoDBDatabases(
     resourceGroupName: string,
     accountName: string,
-    options?: MongoDBResourcesListMongoDBDatabasesOptionalParams
+    options?: MongoDBResourcesListMongoDBDatabasesOptionalParams,
   ): PagedAsyncIterableIterator<MongoDBDatabaseGetResults> {
     const iter = this.listMongoDBDatabasesPagingAll(
       resourceGroupName,
       accountName,
-      options
+      options,
     );
     return {
       next() {
@@ -123,9 +138,9 @@ export class MongoDBResourcesImpl implements MongoDBResources {
           resourceGroupName,
           accountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -133,13 +148,13 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     options?: MongoDBResourcesListMongoDBDatabasesOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<MongoDBDatabaseGetResults[]> {
     let result: MongoDBResourcesListMongoDBDatabasesResponse;
     result = await this._listMongoDBDatabases(
       resourceGroupName,
       accountName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -147,12 +162,12 @@ export class MongoDBResourcesImpl implements MongoDBResources {
   private async *listMongoDBDatabasesPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: MongoDBResourcesListMongoDBDatabasesOptionalParams
+    options?: MongoDBResourcesListMongoDBDatabasesOptionalParams,
   ): AsyncIterableIterator<MongoDBDatabaseGetResults> {
     for await (const page of this.listMongoDBDatabasesPagingPage(
       resourceGroupName,
       accountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -169,13 +184,13 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: MongoDBResourcesListMongoDBCollectionsOptionalParams
+    options?: MongoDBResourcesListMongoDBCollectionsOptionalParams,
   ): PagedAsyncIterableIterator<MongoDBCollectionGetResults> {
     const iter = this.listMongoDBCollectionsPagingAll(
       resourceGroupName,
       accountName,
       databaseName,
-      options
+      options,
     );
     return {
       next() {
@@ -193,9 +208,9 @@ export class MongoDBResourcesImpl implements MongoDBResources {
           accountName,
           databaseName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -204,14 +219,14 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     accountName: string,
     databaseName: string,
     options?: MongoDBResourcesListMongoDBCollectionsOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<MongoDBCollectionGetResults[]> {
     let result: MongoDBResourcesListMongoDBCollectionsResponse;
     result = await this._listMongoDBCollections(
       resourceGroupName,
       accountName,
       databaseName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -220,13 +235,13 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: MongoDBResourcesListMongoDBCollectionsOptionalParams
+    options?: MongoDBResourcesListMongoDBCollectionsOptionalParams,
   ): AsyncIterableIterator<MongoDBCollectionGetResults> {
     for await (const page of this.listMongoDBCollectionsPagingPage(
       resourceGroupName,
       accountName,
       databaseName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -241,12 +256,12 @@ export class MongoDBResourcesImpl implements MongoDBResources {
   public listMongoRoleDefinitions(
     resourceGroupName: string,
     accountName: string,
-    options?: MongoDBResourcesListMongoRoleDefinitionsOptionalParams
+    options?: MongoDBResourcesListMongoRoleDefinitionsOptionalParams,
   ): PagedAsyncIterableIterator<MongoRoleDefinitionGetResults> {
     const iter = this.listMongoRoleDefinitionsPagingAll(
       resourceGroupName,
       accountName,
-      options
+      options,
     );
     return {
       next() {
@@ -263,9 +278,9 @@ export class MongoDBResourcesImpl implements MongoDBResources {
           resourceGroupName,
           accountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -273,13 +288,13 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     options?: MongoDBResourcesListMongoRoleDefinitionsOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<MongoRoleDefinitionGetResults[]> {
     let result: MongoDBResourcesListMongoRoleDefinitionsResponse;
     result = await this._listMongoRoleDefinitions(
       resourceGroupName,
       accountName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -287,12 +302,12 @@ export class MongoDBResourcesImpl implements MongoDBResources {
   private async *listMongoRoleDefinitionsPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: MongoDBResourcesListMongoRoleDefinitionsOptionalParams
+    options?: MongoDBResourcesListMongoRoleDefinitionsOptionalParams,
   ): AsyncIterableIterator<MongoRoleDefinitionGetResults> {
     for await (const page of this.listMongoRoleDefinitionsPagingPage(
       resourceGroupName,
       accountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -307,12 +322,12 @@ export class MongoDBResourcesImpl implements MongoDBResources {
   public listMongoUserDefinitions(
     resourceGroupName: string,
     accountName: string,
-    options?: MongoDBResourcesListMongoUserDefinitionsOptionalParams
+    options?: MongoDBResourcesListMongoUserDefinitionsOptionalParams,
   ): PagedAsyncIterableIterator<MongoUserDefinitionGetResults> {
     const iter = this.listMongoUserDefinitionsPagingAll(
       resourceGroupName,
       accountName,
-      options
+      options,
     );
     return {
       next() {
@@ -329,9 +344,9 @@ export class MongoDBResourcesImpl implements MongoDBResources {
           resourceGroupName,
           accountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -339,13 +354,13 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     options?: MongoDBResourcesListMongoUserDefinitionsOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<MongoUserDefinitionGetResults[]> {
     let result: MongoDBResourcesListMongoUserDefinitionsResponse;
     result = await this._listMongoUserDefinitions(
       resourceGroupName,
       accountName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -353,12 +368,12 @@ export class MongoDBResourcesImpl implements MongoDBResources {
   private async *listMongoUserDefinitionsPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: MongoDBResourcesListMongoUserDefinitionsOptionalParams
+    options?: MongoDBResourcesListMongoUserDefinitionsOptionalParams,
   ): AsyncIterableIterator<MongoUserDefinitionGetResults> {
     for await (const page of this.listMongoUserDefinitionsPagingPage(
       resourceGroupName,
       accountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -373,11 +388,11 @@ export class MongoDBResourcesImpl implements MongoDBResources {
   private _listMongoDBDatabases(
     resourceGroupName: string,
     accountName: string,
-    options?: MongoDBResourcesListMongoDBDatabasesOptionalParams
+    options?: MongoDBResourcesListMongoDBDatabasesOptionalParams,
   ): Promise<MongoDBResourcesListMongoDBDatabasesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listMongoDBDatabasesOperationSpec
+      listMongoDBDatabasesOperationSpec,
     );
   }
 
@@ -393,11 +408,11 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: MongoDBResourcesGetMongoDBDatabaseOptionalParams
+    options?: MongoDBResourcesGetMongoDBDatabaseOptionalParams,
   ): Promise<MongoDBResourcesGetMongoDBDatabaseResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, databaseName, options },
-      getMongoDBDatabaseOperationSpec
+      getMongoDBDatabaseOperationSpec,
     );
   }
 
@@ -415,7 +430,7 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     accountName: string,
     databaseName: string,
     createUpdateMongoDBDatabaseParameters: MongoDBDatabaseCreateUpdateParameters,
-    options?: MongoDBResourcesCreateUpdateMongoDBDatabaseOptionalParams
+    options?: MongoDBResourcesCreateUpdateMongoDBDatabaseOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MongoDBResourcesCreateUpdateMongoDBDatabaseResponse>,
@@ -424,21 +439,20 @@ export class MongoDBResourcesImpl implements MongoDBResources {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MongoDBResourcesCreateUpdateMongoDBDatabaseResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -447,8 +461,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -456,8 +470,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -468,16 +482,16 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         accountName,
         databaseName,
         createUpdateMongoDBDatabaseParameters,
-        options
+        options,
       },
-      spec: createUpdateMongoDBDatabaseOperationSpec
+      spec: createUpdateMongoDBDatabaseOperationSpec,
     });
     const poller = await createHttpPoller<
       MongoDBResourcesCreateUpdateMongoDBDatabaseResponse,
       OperationState<MongoDBResourcesCreateUpdateMongoDBDatabaseResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -497,14 +511,14 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     accountName: string,
     databaseName: string,
     createUpdateMongoDBDatabaseParameters: MongoDBDatabaseCreateUpdateParameters,
-    options?: MongoDBResourcesCreateUpdateMongoDBDatabaseOptionalParams
+    options?: MongoDBResourcesCreateUpdateMongoDBDatabaseOptionalParams,
   ): Promise<MongoDBResourcesCreateUpdateMongoDBDatabaseResponse> {
     const poller = await this.beginCreateUpdateMongoDBDatabase(
       resourceGroupName,
       accountName,
       databaseName,
       createUpdateMongoDBDatabaseParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -520,7 +534,7 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: MongoDBResourcesDeleteMongoDBDatabaseOptionalParams
+    options?: MongoDBResourcesDeleteMongoDBDatabaseOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MongoDBResourcesDeleteMongoDBDatabaseResponse>,
@@ -529,21 +543,20 @@ export class MongoDBResourcesImpl implements MongoDBResources {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MongoDBResourcesDeleteMongoDBDatabaseResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -552,8 +565,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -561,22 +574,22 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, databaseName, options },
-      spec: deleteMongoDBDatabaseOperationSpec
+      spec: deleteMongoDBDatabaseOperationSpec,
     });
     const poller = await createHttpPoller<
       MongoDBResourcesDeleteMongoDBDatabaseResponse,
       OperationState<MongoDBResourcesDeleteMongoDBDatabaseResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -593,13 +606,13 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: MongoDBResourcesDeleteMongoDBDatabaseOptionalParams
+    options?: MongoDBResourcesDeleteMongoDBDatabaseOptionalParams,
   ): Promise<MongoDBResourcesDeleteMongoDBDatabaseResponse> {
     const poller = await this.beginDeleteMongoDBDatabase(
       resourceGroupName,
       accountName,
       databaseName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -616,11 +629,11 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: MongoDBResourcesGetMongoDBDatabaseThroughputOptionalParams
+    options?: MongoDBResourcesGetMongoDBDatabaseThroughputOptionalParams,
   ): Promise<MongoDBResourcesGetMongoDBDatabaseThroughputResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, databaseName, options },
-      getMongoDBDatabaseThroughputOperationSpec
+      getMongoDBDatabaseThroughputOperationSpec,
     );
   }
 
@@ -638,7 +651,7 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     accountName: string,
     databaseName: string,
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
-    options?: MongoDBResourcesUpdateMongoDBDatabaseThroughputOptionalParams
+    options?: MongoDBResourcesUpdateMongoDBDatabaseThroughputOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MongoDBResourcesUpdateMongoDBDatabaseThroughputResponse>,
@@ -647,21 +660,20 @@ export class MongoDBResourcesImpl implements MongoDBResources {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MongoDBResourcesUpdateMongoDBDatabaseThroughputResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -670,8 +682,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -679,8 +691,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -691,16 +703,16 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         accountName,
         databaseName,
         updateThroughputParameters,
-        options
+        options,
       },
-      spec: updateMongoDBDatabaseThroughputOperationSpec
+      spec: updateMongoDBDatabaseThroughputOperationSpec,
     });
     const poller = await createHttpPoller<
       MongoDBResourcesUpdateMongoDBDatabaseThroughputResponse,
       OperationState<MongoDBResourcesUpdateMongoDBDatabaseThroughputResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -720,14 +732,14 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     accountName: string,
     databaseName: string,
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
-    options?: MongoDBResourcesUpdateMongoDBDatabaseThroughputOptionalParams
+    options?: MongoDBResourcesUpdateMongoDBDatabaseThroughputOptionalParams,
   ): Promise<MongoDBResourcesUpdateMongoDBDatabaseThroughputResponse> {
     const poller = await this.beginUpdateMongoDBDatabaseThroughput(
       resourceGroupName,
       accountName,
       databaseName,
       updateThroughputParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -743,7 +755,7 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleOptionalParams
+    options?: MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse>,
@@ -752,21 +764,20 @@ export class MongoDBResourcesImpl implements MongoDBResources {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -775,8 +786,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -784,22 +795,22 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, databaseName, options },
-      spec: migrateMongoDBDatabaseToAutoscaleOperationSpec
+      spec: migrateMongoDBDatabaseToAutoscaleOperationSpec,
     });
     const poller = await createHttpPoller<
       MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse,
       OperationState<MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -816,13 +827,13 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleOptionalParams
+    options?: MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleOptionalParams,
   ): Promise<MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse> {
     const poller = await this.beginMigrateMongoDBDatabaseToAutoscale(
       resourceGroupName,
       accountName,
       databaseName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -838,32 +849,29 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputOptionalParams
+    options?: MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse
-      >,
+      OperationState<MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse>,
       MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -872,8 +880,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -881,24 +889,22 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, databaseName, options },
-      spec: migrateMongoDBDatabaseToManualThroughputOperationSpec
+      spec: migrateMongoDBDatabaseToManualThroughputOperationSpec,
     });
     const poller = await createHttpPoller<
       MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse,
-      OperationState<
-        MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse
-      >
+      OperationState<MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -915,13 +921,459 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputOptionalParams
+    options?: MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputOptionalParams,
   ): Promise<MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse> {
     const poller = await this.beginMigrateMongoDBDatabaseToManualThroughput(
       resourceGroupName,
       accountName,
       databaseName,
-      options
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Retrieve throughput distribution for an Azure Cosmos DB MongoDB database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param retrieveThroughputParameters The parameters to provide for retrieving throughput distribution
+   *                                     for the current MongoDB database.
+   * @param options The options parameters.
+   */
+  async beginMongoDBDatabaseRetrieveThroughputDistribution(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    retrieveThroughputParameters: RetrieveThroughputParameters,
+    options?: MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse>,
+      MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        retrieveThroughputParameters,
+        options,
+      },
+      spec: mongoDBDatabaseRetrieveThroughputDistributionOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse,
+      OperationState<MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Retrieve throughput distribution for an Azure Cosmos DB MongoDB database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param retrieveThroughputParameters The parameters to provide for retrieving throughput distribution
+   *                                     for the current MongoDB database.
+   * @param options The options parameters.
+   */
+  async beginMongoDBDatabaseRetrieveThroughputDistributionAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    retrieveThroughputParameters: RetrieveThroughputParameters,
+    options?: MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams,
+  ): Promise<MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse> {
+    const poller =
+      await this.beginMongoDBDatabaseRetrieveThroughputDistribution(
+        resourceGroupName,
+        accountName,
+        databaseName,
+        retrieveThroughputParameters,
+        options,
+      );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Redistribute throughput for an Azure Cosmos DB MongoDB database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param redistributeThroughputParameters The parameters to provide for redistributing throughput for
+   *                                         the current MongoDB database.
+   * @param options The options parameters.
+   */
+  async beginMongoDBDatabaseRedistributeThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    redistributeThroughputParameters: RedistributeThroughputParameters,
+    options?: MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse>,
+      MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        redistributeThroughputParameters,
+        options,
+      },
+      spec: mongoDBDatabaseRedistributeThroughputOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse,
+      OperationState<MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Redistribute throughput for an Azure Cosmos DB MongoDB database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param redistributeThroughputParameters The parameters to provide for redistributing throughput for
+   *                                         the current MongoDB database.
+   * @param options The options parameters.
+   */
+  async beginMongoDBDatabaseRedistributeThroughputAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    redistributeThroughputParameters: RedistributeThroughputParameters,
+    options?: MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams,
+  ): Promise<MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse> {
+    const poller = await this.beginMongoDBDatabaseRedistributeThroughput(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      redistributeThroughputParameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Retrieve throughput distribution for an Azure Cosmos DB MongoDB container
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param retrieveThroughputParameters The parameters to provide for retrieving throughput distribution
+   *                                     for the current MongoDB container.
+   * @param options The options parameters.
+   */
+  async beginMongoDBContainerRetrieveThroughputDistribution(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    retrieveThroughputParameters: RetrieveThroughputParameters,
+    options?: MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse>,
+      MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        collectionName,
+        retrieveThroughputParameters,
+        options,
+      },
+      spec: mongoDBContainerRetrieveThroughputDistributionOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse,
+      OperationState<MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Retrieve throughput distribution for an Azure Cosmos DB MongoDB container
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param retrieveThroughputParameters The parameters to provide for retrieving throughput distribution
+   *                                     for the current MongoDB container.
+   * @param options The options parameters.
+   */
+  async beginMongoDBContainerRetrieveThroughputDistributionAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    retrieveThroughputParameters: RetrieveThroughputParameters,
+    options?: MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams,
+  ): Promise<MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse> {
+    const poller =
+      await this.beginMongoDBContainerRetrieveThroughputDistribution(
+        resourceGroupName,
+        accountName,
+        databaseName,
+        collectionName,
+        retrieveThroughputParameters,
+        options,
+      );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Redistribute throughput for an Azure Cosmos DB MongoDB container
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param redistributeThroughputParameters The parameters to provide for redistributing throughput for
+   *                                         the current MongoDB container.
+   * @param options The options parameters.
+   */
+  async beginMongoDBContainerRedistributeThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    redistributeThroughputParameters: RedistributeThroughputParameters,
+    options?: MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MongoDBResourcesMongoDBContainerRedistributeThroughputResponse>,
+      MongoDBResourcesMongoDBContainerRedistributeThroughputResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<MongoDBResourcesMongoDBContainerRedistributeThroughputResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        collectionName,
+        redistributeThroughputParameters,
+        options,
+      },
+      spec: mongoDBContainerRedistributeThroughputOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      MongoDBResourcesMongoDBContainerRedistributeThroughputResponse,
+      OperationState<MongoDBResourcesMongoDBContainerRedistributeThroughputResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Redistribute throughput for an Azure Cosmos DB MongoDB container
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param redistributeThroughputParameters The parameters to provide for redistributing throughput for
+   *                                         the current MongoDB container.
+   * @param options The options parameters.
+   */
+  async beginMongoDBContainerRedistributeThroughputAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    redistributeThroughputParameters: RedistributeThroughputParameters,
+    options?: MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams,
+  ): Promise<MongoDBResourcesMongoDBContainerRedistributeThroughputResponse> {
+    const poller = await this.beginMongoDBContainerRedistributeThroughput(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      collectionName,
+      redistributeThroughputParameters,
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -937,11 +1389,11 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: MongoDBResourcesListMongoDBCollectionsOptionalParams
+    options?: MongoDBResourcesListMongoDBCollectionsOptionalParams,
   ): Promise<MongoDBResourcesListMongoDBCollectionsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, databaseName, options },
-      listMongoDBCollectionsOperationSpec
+      listMongoDBCollectionsOperationSpec,
     );
   }
 
@@ -958,11 +1410,11 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     accountName: string,
     databaseName: string,
     collectionName: string,
-    options?: MongoDBResourcesGetMongoDBCollectionOptionalParams
+    options?: MongoDBResourcesGetMongoDBCollectionOptionalParams,
   ): Promise<MongoDBResourcesGetMongoDBCollectionResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, databaseName, collectionName, options },
-      getMongoDBCollectionOperationSpec
+      getMongoDBCollectionOperationSpec,
     );
   }
 
@@ -982,7 +1434,7 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     databaseName: string,
     collectionName: string,
     createUpdateMongoDBCollectionParameters: MongoDBCollectionCreateUpdateParameters,
-    options?: MongoDBResourcesCreateUpdateMongoDBCollectionOptionalParams
+    options?: MongoDBResourcesCreateUpdateMongoDBCollectionOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MongoDBResourcesCreateUpdateMongoDBCollectionResponse>,
@@ -991,21 +1443,20 @@ export class MongoDBResourcesImpl implements MongoDBResources {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MongoDBResourcesCreateUpdateMongoDBCollectionResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1014,8 +1465,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1023,8 +1474,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -1036,16 +1487,16 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         databaseName,
         collectionName,
         createUpdateMongoDBCollectionParameters,
-        options
+        options,
       },
-      spec: createUpdateMongoDBCollectionOperationSpec
+      spec: createUpdateMongoDBCollectionOperationSpec,
     });
     const poller = await createHttpPoller<
       MongoDBResourcesCreateUpdateMongoDBCollectionResponse,
       OperationState<MongoDBResourcesCreateUpdateMongoDBCollectionResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -1067,7 +1518,7 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     databaseName: string,
     collectionName: string,
     createUpdateMongoDBCollectionParameters: MongoDBCollectionCreateUpdateParameters,
-    options?: MongoDBResourcesCreateUpdateMongoDBCollectionOptionalParams
+    options?: MongoDBResourcesCreateUpdateMongoDBCollectionOptionalParams,
   ): Promise<MongoDBResourcesCreateUpdateMongoDBCollectionResponse> {
     const poller = await this.beginCreateUpdateMongoDBCollection(
       resourceGroupName,
@@ -1075,7 +1526,7 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       databaseName,
       collectionName,
       createUpdateMongoDBCollectionParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1093,7 +1544,7 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     accountName: string,
     databaseName: string,
     collectionName: string,
-    options?: MongoDBResourcesDeleteMongoDBCollectionOptionalParams
+    options?: MongoDBResourcesDeleteMongoDBCollectionOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MongoDBResourcesDeleteMongoDBCollectionResponse>,
@@ -1102,21 +1553,20 @@ export class MongoDBResourcesImpl implements MongoDBResources {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MongoDBResourcesDeleteMongoDBCollectionResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1125,8 +1575,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1134,8 +1584,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -1146,16 +1596,16 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         accountName,
         databaseName,
         collectionName,
-        options
+        options,
       },
-      spec: deleteMongoDBCollectionOperationSpec
+      spec: deleteMongoDBCollectionOperationSpec,
     });
     const poller = await createHttpPoller<
       MongoDBResourcesDeleteMongoDBCollectionResponse,
       OperationState<MongoDBResourcesDeleteMongoDBCollectionResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -1174,14 +1624,232 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     accountName: string,
     databaseName: string,
     collectionName: string,
-    options?: MongoDBResourcesDeleteMongoDBCollectionOptionalParams
+    options?: MongoDBResourcesDeleteMongoDBCollectionOptionalParams,
   ): Promise<MongoDBResourcesDeleteMongoDBCollectionResponse> {
     const poller = await this.beginDeleteMongoDBCollection(
       resourceGroupName,
       accountName,
       databaseName,
       collectionName,
-      options
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Merges the partitions of a MongoDB database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param mergeParameters The parameters for the merge operation.
+   * @param options The options parameters.
+   */
+  async beginMongoDBDatabasePartitionMerge(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    mergeParameters: MergeParameters,
+    options?: MongoDBResourcesMongoDBDatabasePartitionMergeOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MongoDBResourcesMongoDBDatabasePartitionMergeResponse>,
+      MongoDBResourcesMongoDBDatabasePartitionMergeResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<MongoDBResourcesMongoDBDatabasePartitionMergeResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        mergeParameters,
+        options,
+      },
+      spec: mongoDBDatabasePartitionMergeOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      MongoDBResourcesMongoDBDatabasePartitionMergeResponse,
+      OperationState<MongoDBResourcesMongoDBDatabasePartitionMergeResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Merges the partitions of a MongoDB database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param mergeParameters The parameters for the merge operation.
+   * @param options The options parameters.
+   */
+  async beginMongoDBDatabasePartitionMergeAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    mergeParameters: MergeParameters,
+    options?: MongoDBResourcesMongoDBDatabasePartitionMergeOptionalParams,
+  ): Promise<MongoDBResourcesMongoDBDatabasePartitionMergeResponse> {
+    const poller = await this.beginMongoDBDatabasePartitionMerge(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      mergeParameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Merges the partitions of a MongoDB Collection
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param mergeParameters The parameters for the merge operation.
+   * @param options The options parameters.
+   */
+  async beginListMongoDBCollectionPartitionMerge(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    mergeParameters: MergeParameters,
+    options?: MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MongoDBResourcesListMongoDBCollectionPartitionMergeResponse>,
+      MongoDBResourcesListMongoDBCollectionPartitionMergeResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<MongoDBResourcesListMongoDBCollectionPartitionMergeResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        collectionName,
+        mergeParameters,
+        options,
+      },
+      spec: listMongoDBCollectionPartitionMergeOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      MongoDBResourcesListMongoDBCollectionPartitionMergeResponse,
+      OperationState<MongoDBResourcesListMongoDBCollectionPartitionMergeResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Merges the partitions of a MongoDB Collection
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param mergeParameters The parameters for the merge operation.
+   * @param options The options parameters.
+   */
+  async beginListMongoDBCollectionPartitionMergeAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    mergeParameters: MergeParameters,
+    options?: MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams,
+  ): Promise<MongoDBResourcesListMongoDBCollectionPartitionMergeResponse> {
+    const poller = await this.beginListMongoDBCollectionPartitionMerge(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      collectionName,
+      mergeParameters,
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1200,11 +1868,11 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     accountName: string,
     databaseName: string,
     collectionName: string,
-    options?: MongoDBResourcesGetMongoDBCollectionThroughputOptionalParams
+    options?: MongoDBResourcesGetMongoDBCollectionThroughputOptionalParams,
   ): Promise<MongoDBResourcesGetMongoDBCollectionThroughputResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, databaseName, collectionName, options },
-      getMongoDBCollectionThroughputOperationSpec
+      getMongoDBCollectionThroughputOperationSpec,
     );
   }
 
@@ -1224,7 +1892,7 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     databaseName: string,
     collectionName: string,
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
-    options?: MongoDBResourcesUpdateMongoDBCollectionThroughputOptionalParams
+    options?: MongoDBResourcesUpdateMongoDBCollectionThroughputOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MongoDBResourcesUpdateMongoDBCollectionThroughputResponse>,
@@ -1233,21 +1901,20 @@ export class MongoDBResourcesImpl implements MongoDBResources {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MongoDBResourcesUpdateMongoDBCollectionThroughputResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1256,8 +1923,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1265,8 +1932,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -1278,16 +1945,16 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         databaseName,
         collectionName,
         updateThroughputParameters,
-        options
+        options,
       },
-      spec: updateMongoDBCollectionThroughputOperationSpec
+      spec: updateMongoDBCollectionThroughputOperationSpec,
     });
     const poller = await createHttpPoller<
       MongoDBResourcesUpdateMongoDBCollectionThroughputResponse,
       OperationState<MongoDBResourcesUpdateMongoDBCollectionThroughputResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -1309,7 +1976,7 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     databaseName: string,
     collectionName: string,
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
-    options?: MongoDBResourcesUpdateMongoDBCollectionThroughputOptionalParams
+    options?: MongoDBResourcesUpdateMongoDBCollectionThroughputOptionalParams,
   ): Promise<MongoDBResourcesUpdateMongoDBCollectionThroughputResponse> {
     const poller = await this.beginUpdateMongoDBCollectionThroughput(
       resourceGroupName,
@@ -1317,7 +1984,7 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       databaseName,
       collectionName,
       updateThroughputParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1335,32 +2002,29 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     accountName: string,
     databaseName: string,
     collectionName: string,
-    options?: MongoDBResourcesMigrateMongoDBCollectionToAutoscaleOptionalParams
+    options?: MongoDBResourcesMigrateMongoDBCollectionToAutoscaleOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse
-      >,
+      OperationState<MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse>,
       MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1369,8 +2033,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1378,8 +2042,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -1390,18 +2054,16 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         accountName,
         databaseName,
         collectionName,
-        options
+        options,
       },
-      spec: migrateMongoDBCollectionToAutoscaleOperationSpec
+      spec: migrateMongoDBCollectionToAutoscaleOperationSpec,
     });
     const poller = await createHttpPoller<
       MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse,
-      OperationState<
-        MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse
-      >
+      OperationState<MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -1420,14 +2082,14 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     accountName: string,
     databaseName: string,
     collectionName: string,
-    options?: MongoDBResourcesMigrateMongoDBCollectionToAutoscaleOptionalParams
+    options?: MongoDBResourcesMigrateMongoDBCollectionToAutoscaleOptionalParams,
   ): Promise<MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse> {
     const poller = await this.beginMigrateMongoDBCollectionToAutoscale(
       resourceGroupName,
       accountName,
       databaseName,
       collectionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1445,32 +2107,29 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     accountName: string,
     databaseName: string,
     collectionName: string,
-    options?: MongoDBResourcesMigrateMongoDBCollectionToManualThroughputOptionalParams
+    options?: MongoDBResourcesMigrateMongoDBCollectionToManualThroughputOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse
-      >,
+      OperationState<MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse>,
       MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1479,8 +2138,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1488,8 +2147,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -1500,18 +2159,16 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         accountName,
         databaseName,
         collectionName,
-        options
+        options,
       },
-      spec: migrateMongoDBCollectionToManualThroughputOperationSpec
+      spec: migrateMongoDBCollectionToManualThroughputOperationSpec,
     });
     const poller = await createHttpPoller<
       MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse,
-      OperationState<
-        MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse
-      >
+      OperationState<MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -1530,16 +2187,14 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     accountName: string,
     databaseName: string,
     collectionName: string,
-    options?: MongoDBResourcesMigrateMongoDBCollectionToManualThroughputOptionalParams
-  ): Promise<
-    MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse
-  > {
+    options?: MongoDBResourcesMigrateMongoDBCollectionToManualThroughputOptionalParams,
+  ): Promise<MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse> {
     const poller = await this.beginMigrateMongoDBCollectionToManualThroughput(
       resourceGroupName,
       accountName,
       databaseName,
       collectionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1555,11 +2210,11 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     mongoRoleDefinitionId: string,
     resourceGroupName: string,
     accountName: string,
-    options?: MongoDBResourcesGetMongoRoleDefinitionOptionalParams
+    options?: MongoDBResourcesGetMongoRoleDefinitionOptionalParams,
   ): Promise<MongoDBResourcesGetMongoRoleDefinitionResponse> {
     return this.client.sendOperationRequest(
       { mongoRoleDefinitionId, resourceGroupName, accountName, options },
-      getMongoRoleDefinitionOperationSpec
+      getMongoRoleDefinitionOperationSpec,
     );
   }
 
@@ -1577,7 +2232,7 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     createUpdateMongoRoleDefinitionParameters: MongoRoleDefinitionCreateUpdateParameters,
-    options?: MongoDBResourcesCreateUpdateMongoRoleDefinitionOptionalParams
+    options?: MongoDBResourcesCreateUpdateMongoRoleDefinitionOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse>,
@@ -1586,21 +2241,20 @@ export class MongoDBResourcesImpl implements MongoDBResources {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1609,8 +2263,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1618,8 +2272,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -1630,16 +2284,16 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         resourceGroupName,
         accountName,
         createUpdateMongoRoleDefinitionParameters,
-        options
+        options,
       },
-      spec: createUpdateMongoRoleDefinitionOperationSpec
+      spec: createUpdateMongoRoleDefinitionOperationSpec,
     });
     const poller = await createHttpPoller<
       MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse,
       OperationState<MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -1659,14 +2313,14 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     createUpdateMongoRoleDefinitionParameters: MongoRoleDefinitionCreateUpdateParameters,
-    options?: MongoDBResourcesCreateUpdateMongoRoleDefinitionOptionalParams
+    options?: MongoDBResourcesCreateUpdateMongoRoleDefinitionOptionalParams,
   ): Promise<MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse> {
     const poller = await this.beginCreateUpdateMongoRoleDefinition(
       mongoRoleDefinitionId,
       resourceGroupName,
       accountName,
       createUpdateMongoRoleDefinitionParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1682,25 +2336,24 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     mongoRoleDefinitionId: string,
     resourceGroupName: string,
     accountName: string,
-    options?: MongoDBResourcesDeleteMongoRoleDefinitionOptionalParams
+    options?: MongoDBResourcesDeleteMongoRoleDefinitionOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1709,8 +2362,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1718,19 +2371,19 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { mongoRoleDefinitionId, resourceGroupName, accountName, options },
-      spec: deleteMongoRoleDefinitionOperationSpec
+      spec: deleteMongoRoleDefinitionOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -1747,13 +2400,13 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     mongoRoleDefinitionId: string,
     resourceGroupName: string,
     accountName: string,
-    options?: MongoDBResourcesDeleteMongoRoleDefinitionOptionalParams
+    options?: MongoDBResourcesDeleteMongoRoleDefinitionOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDeleteMongoRoleDefinition(
       mongoRoleDefinitionId,
       resourceGroupName,
       accountName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1767,11 +2420,11 @@ export class MongoDBResourcesImpl implements MongoDBResources {
   private _listMongoRoleDefinitions(
     resourceGroupName: string,
     accountName: string,
-    options?: MongoDBResourcesListMongoRoleDefinitionsOptionalParams
+    options?: MongoDBResourcesListMongoRoleDefinitionsOptionalParams,
   ): Promise<MongoDBResourcesListMongoRoleDefinitionsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listMongoRoleDefinitionsOperationSpec
+      listMongoRoleDefinitionsOperationSpec,
     );
   }
 
@@ -1786,11 +2439,11 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     mongoUserDefinitionId: string,
     resourceGroupName: string,
     accountName: string,
-    options?: MongoDBResourcesGetMongoUserDefinitionOptionalParams
+    options?: MongoDBResourcesGetMongoUserDefinitionOptionalParams,
   ): Promise<MongoDBResourcesGetMongoUserDefinitionResponse> {
     return this.client.sendOperationRequest(
       { mongoUserDefinitionId, resourceGroupName, accountName, options },
-      getMongoUserDefinitionOperationSpec
+      getMongoUserDefinitionOperationSpec,
     );
   }
 
@@ -1808,7 +2461,7 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     createUpdateMongoUserDefinitionParameters: MongoUserDefinitionCreateUpdateParameters,
-    options?: MongoDBResourcesCreateUpdateMongoUserDefinitionOptionalParams
+    options?: MongoDBResourcesCreateUpdateMongoUserDefinitionOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MongoDBResourcesCreateUpdateMongoUserDefinitionResponse>,
@@ -1817,21 +2470,20 @@ export class MongoDBResourcesImpl implements MongoDBResources {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MongoDBResourcesCreateUpdateMongoUserDefinitionResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1840,8 +2492,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1849,8 +2501,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -1861,16 +2513,16 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         resourceGroupName,
         accountName,
         createUpdateMongoUserDefinitionParameters,
-        options
+        options,
       },
-      spec: createUpdateMongoUserDefinitionOperationSpec
+      spec: createUpdateMongoUserDefinitionOperationSpec,
     });
     const poller = await createHttpPoller<
       MongoDBResourcesCreateUpdateMongoUserDefinitionResponse,
       OperationState<MongoDBResourcesCreateUpdateMongoUserDefinitionResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -1890,14 +2542,14 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     createUpdateMongoUserDefinitionParameters: MongoUserDefinitionCreateUpdateParameters,
-    options?: MongoDBResourcesCreateUpdateMongoUserDefinitionOptionalParams
+    options?: MongoDBResourcesCreateUpdateMongoUserDefinitionOptionalParams,
   ): Promise<MongoDBResourcesCreateUpdateMongoUserDefinitionResponse> {
     const poller = await this.beginCreateUpdateMongoUserDefinition(
       mongoUserDefinitionId,
       resourceGroupName,
       accountName,
       createUpdateMongoUserDefinitionParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1913,25 +2565,24 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     mongoUserDefinitionId: string,
     resourceGroupName: string,
     accountName: string,
-    options?: MongoDBResourcesDeleteMongoUserDefinitionOptionalParams
+    options?: MongoDBResourcesDeleteMongoUserDefinitionOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1940,8 +2591,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1949,19 +2600,19 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { mongoUserDefinitionId, resourceGroupName, accountName, options },
-      spec: deleteMongoUserDefinitionOperationSpec
+      spec: deleteMongoUserDefinitionOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -1978,13 +2629,13 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     mongoUserDefinitionId: string,
     resourceGroupName: string,
     accountName: string,
-    options?: MongoDBResourcesDeleteMongoUserDefinitionOptionalParams
+    options?: MongoDBResourcesDeleteMongoUserDefinitionOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDeleteMongoUserDefinition(
       mongoUserDefinitionId,
       resourceGroupName,
       accountName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1998,11 +2649,11 @@ export class MongoDBResourcesImpl implements MongoDBResources {
   private _listMongoUserDefinitions(
     resourceGroupName: string,
     accountName: string,
-    options?: MongoDBResourcesListMongoUserDefinitionsOptionalParams
+    options?: MongoDBResourcesListMongoUserDefinitionsOptionalParams,
   ): Promise<MongoDBResourcesListMongoUserDefinitionsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listMongoUserDefinitionsOperationSpec
+      listMongoUserDefinitionsOperationSpec,
     );
   }
 
@@ -2021,32 +2672,29 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     databaseName: string,
     collectionName: string,
     location: ContinuousBackupRestoreLocation,
-    options?: MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams
+    options?: MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        MongoDBResourcesRetrieveContinuousBackupInformationResponse
-      >,
+      OperationState<MongoDBResourcesRetrieveContinuousBackupInformationResponse>,
       MongoDBResourcesRetrieveContinuousBackupInformationResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MongoDBResourcesRetrieveContinuousBackupInformationResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -2055,8 +2703,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -2064,8 +2712,8 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -2077,19 +2725,17 @@ export class MongoDBResourcesImpl implements MongoDBResources {
         databaseName,
         collectionName,
         location,
-        options
+        options,
       },
-      spec: retrieveContinuousBackupInformationOperationSpec
+      spec: retrieveContinuousBackupInformationOperationSpec,
     });
     const poller = await createHttpPoller<
       MongoDBResourcesRetrieveContinuousBackupInformationResponse,
-      OperationState<
-        MongoDBResourcesRetrieveContinuousBackupInformationResponse
-      >
+      OperationState<MongoDBResourcesRetrieveContinuousBackupInformationResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -2110,7 +2756,7 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     databaseName: string,
     collectionName: string,
     location: ContinuousBackupRestoreLocation,
-    options?: MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams
+    options?: MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams,
   ): Promise<MongoDBResourcesRetrieveContinuousBackupInformationResponse> {
     const poller = await this.beginRetrieveContinuousBackupInformation(
       resourceGroupName,
@@ -2118,7 +2764,7 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       databaseName,
       collectionName,
       location,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -2127,249 +2773,30 @@ export class MongoDBResourcesImpl implements MongoDBResources {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listMongoDBDatabasesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MongoDBDatabaseListResult
-    }
+      bodyMapper: Mappers.MongoDBDatabaseListResult,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName
+    Parameters.accountName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getMongoDBDatabaseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MongoDBDatabaseGetResults
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.databaseName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createUpdateMongoDBDatabaseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MongoDBDatabaseGetResults
+      bodyMapper: Mappers.MongoDBDatabaseGetResults,
     },
-    201: {
-      bodyMapper: Mappers.MongoDBDatabaseGetResults
-    },
-    202: {
-      bodyMapper: Mappers.MongoDBDatabaseGetResults
-    },
-    204: {
-      bodyMapper: Mappers.MongoDBDatabaseGetResults
-    }
-  },
-  requestBody: Parameters.createUpdateMongoDBDatabaseParameters,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.databaseName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const deleteMongoDBDatabaseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {
-      headersMapper: Mappers.MongoDBResourcesDeleteMongoDBDatabaseHeaders
-    },
-    201: {
-      headersMapper: Mappers.MongoDBResourcesDeleteMongoDBDatabaseHeaders
-    },
-    202: {
-      headersMapper: Mappers.MongoDBResourcesDeleteMongoDBDatabaseHeaders
-    },
-    204: {
-      headersMapper: Mappers.MongoDBResourcesDeleteMongoDBDatabaseHeaders
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.databaseName
-  ],
-  serializer
-};
-const getMongoDBDatabaseThroughputOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.databaseName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateMongoDBDatabaseThroughputOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    },
-    201: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    },
-    202: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    },
-    204: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.updateThroughputParameters,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.databaseName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const migrateMongoDBDatabaseToAutoscaleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default/migrateToAutoscale",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    },
-    201: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    },
-    202: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    },
-    204: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.databaseName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const migrateMongoDBDatabaseToManualThroughputOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default/migrateToManualThroughput",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    },
-    201: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    },
-    202: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    },
-    204: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.databaseName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listMongoDBCollectionsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MongoDBCollectionListResult
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.databaseName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getMongoDBCollectionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MongoDBCollectionGetResults
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2378,28 +2805,376 @@ const getMongoDBCollectionOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
-    Parameters.collectionName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const createUpdateMongoDBCollectionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}",
+const createUpdateMongoDBDatabaseOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.MongoDBCollectionGetResults
+      bodyMapper: Mappers.MongoDBDatabaseGetResults,
     },
     201: {
-      bodyMapper: Mappers.MongoDBCollectionGetResults
+      bodyMapper: Mappers.MongoDBDatabaseGetResults,
     },
     202: {
-      bodyMapper: Mappers.MongoDBCollectionGetResults
+      bodyMapper: Mappers.MongoDBDatabaseGetResults,
     },
     204: {
-      bodyMapper: Mappers.MongoDBCollectionGetResults
-    }
+      bodyMapper: Mappers.MongoDBDatabaseGetResults,
+    },
+  },
+  requestBody: Parameters.createUpdateMongoDBDatabaseParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const deleteMongoDBDatabaseOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      headersMapper: Mappers.MongoDBResourcesDeleteMongoDBDatabaseHeaders,
+    },
+    201: {
+      headersMapper: Mappers.MongoDBResourcesDeleteMongoDBDatabaseHeaders,
+    },
+    202: {
+      headersMapper: Mappers.MongoDBResourcesDeleteMongoDBDatabaseHeaders,
+    },
+    204: {
+      headersMapper: Mappers.MongoDBResourcesDeleteMongoDBDatabaseHeaders,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+  ],
+  serializer,
+};
+const getMongoDBDatabaseThroughputOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const updateMongoDBDatabaseThroughputOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults,
+    },
+    201: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults,
+    },
+    202: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults,
+    },
+    204: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.updateThroughputParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const migrateMongoDBDatabaseToAutoscaleOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default/migrateToAutoscale",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      201: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      202: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      204: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
+    },
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.accountName,
+      Parameters.databaseName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const migrateMongoDBDatabaseToManualThroughputOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default/migrateToManualThroughput",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      201: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      202: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      204: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
+    },
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.accountName,
+      Parameters.databaseName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const mongoDBDatabaseRetrieveThroughputDistributionOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default/retrieveThroughputDistribution",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult,
+      },
+      201: {
+        bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult,
+      },
+      202: {
+        bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult,
+      },
+      204: {
+        bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
+    },
+    requestBody: Parameters.retrieveThroughputParameters,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.accountName,
+      Parameters.databaseName,
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer,
+  };
+const mongoDBDatabaseRedistributeThroughputOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default/redistributeThroughput",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult,
+      },
+      201: {
+        bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult,
+      },
+      202: {
+        bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult,
+      },
+      204: {
+        bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
+    },
+    requestBody: Parameters.redistributeThroughputParameters,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.accountName,
+      Parameters.databaseName,
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer,
+  };
+const mongoDBContainerRetrieveThroughputDistributionOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default/retrieveThroughputDistribution",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult,
+      },
+      201: {
+        bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult,
+      },
+      202: {
+        bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult,
+      },
+      204: {
+        bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
+    },
+    requestBody: Parameters.retrieveThroughputParameters,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.accountName,
+      Parameters.databaseName,
+      Parameters.collectionName,
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer,
+  };
+const mongoDBContainerRedistributeThroughputOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default/redistributeThroughput",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult,
+      },
+      201: {
+        bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult,
+      },
+      202: {
+        bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult,
+      },
+      204: {
+        bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
+    },
+    requestBody: Parameters.redistributeThroughputParameters,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.accountName,
+      Parameters.databaseName,
+      Parameters.collectionName,
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer,
+  };
+const listMongoDBCollectionsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MongoDBCollectionListResult,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getMongoDBCollectionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MongoDBCollectionGetResults,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.collectionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createUpdateMongoDBCollectionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MongoDBCollectionGetResults,
+    },
+    201: {
+      bodyMapper: Mappers.MongoDBCollectionGetResults,
+    },
+    202: {
+      bodyMapper: Mappers.MongoDBCollectionGetResults,
+    },
+    204: {
+      bodyMapper: Mappers.MongoDBCollectionGetResults,
+    },
   },
   requestBody: Parameters.createUpdateMongoDBCollectionParameters,
   queryParameters: [Parameters.apiVersion],
@@ -2409,29 +3184,28 @@ const createUpdateMongoDBCollectionOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
-    Parameters.collectionName
+    Parameters.collectionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteMongoDBCollectionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.MongoDBResourcesDeleteMongoDBCollectionHeaders
+      headersMapper: Mappers.MongoDBResourcesDeleteMongoDBCollectionHeaders,
     },
     201: {
-      headersMapper: Mappers.MongoDBResourcesDeleteMongoDBCollectionHeaders
+      headersMapper: Mappers.MongoDBResourcesDeleteMongoDBCollectionHeaders,
     },
     202: {
-      headersMapper: Mappers.MongoDBResourcesDeleteMongoDBCollectionHeaders
+      headersMapper: Mappers.MongoDBResourcesDeleteMongoDBCollectionHeaders,
     },
     204: {
-      headersMapper: Mappers.MongoDBResourcesDeleteMongoDBCollectionHeaders
-    }
+      headersMapper: Mappers.MongoDBResourcesDeleteMongoDBCollectionHeaders,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2440,50 +3214,31 @@ const deleteMongoDBCollectionOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
-    Parameters.collectionName
+    Parameters.collectionName,
   ],
-  serializer
+  serializer,
 };
-const getMongoDBCollectionThroughputOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default",
-  httpMethod: "GET",
+const mongoDBDatabasePartitionMergeOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/partitionMerge",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.databaseName,
-    Parameters.collectionName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateMongoDBCollectionThroughputOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
+      bodyMapper: Mappers.PhysicalPartitionStorageInfoCollection,
     },
     201: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
+      bodyMapper: Mappers.PhysicalPartitionStorageInfoCollection,
     },
     202: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
+      bodyMapper: Mappers.PhysicalPartitionStorageInfoCollection,
     },
     204: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    }
+      bodyMapper: Mappers.PhysicalPartitionStorageInfoCollection,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  requestBody: Parameters.updateThroughputParameters,
+  requestBody: Parameters.mergeParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2491,89 +3246,53 @@ const updateMongoDBCollectionThroughputOperationSpec: coreClient.OperationSpec =
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
-    Parameters.collectionName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const migrateMongoDBCollectionToAutoscaleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default/migrateToAutoscale",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
+const listMongoDBCollectionPartitionMergeOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/partitionMerge",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PhysicalPartitionStorageInfoCollection,
+      },
+      201: {
+        bodyMapper: Mappers.PhysicalPartitionStorageInfoCollection,
+      },
+      202: {
+        bodyMapper: Mappers.PhysicalPartitionStorageInfoCollection,
+      },
+      204: {
+        bodyMapper: Mappers.PhysicalPartitionStorageInfoCollection,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    201: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    },
-    202: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    },
-    204: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.databaseName,
-    Parameters.collectionName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const migrateMongoDBCollectionToManualThroughputOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default/migrateToManualThroughput",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    },
-    201: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    },
-    202: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    },
-    204: {
-      bodyMapper: Mappers.ThroughputSettingsGetResults
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.databaseName,
-    Parameters.collectionName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getMongoRoleDefinitionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbRoleDefinitions/{mongoRoleDefinitionId}",
+    requestBody: Parameters.mergeParameters,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.accountName,
+      Parameters.databaseName,
+      Parameters.collectionName,
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer,
+  };
+const getMongoDBCollectionThroughputOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MongoRoleDefinitionGetResults
+      bodyMapper: Mappers.ThroughputSettingsGetResults,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2581,31 +3300,151 @@ const getMongoRoleDefinitionOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.mongoRoleDefinitionId
+    Parameters.databaseName,
+    Parameters.collectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const updateMongoDBCollectionThroughputOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default",
+    httpMethod: "PUT",
+    responses: {
+      200: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      201: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      202: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      204: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+    },
+    requestBody: Parameters.updateThroughputParameters,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.accountName,
+      Parameters.databaseName,
+      Parameters.collectionName,
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer,
+  };
+const migrateMongoDBCollectionToAutoscaleOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default/migrateToAutoscale",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      201: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      202: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      204: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
+    },
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.accountName,
+      Parameters.databaseName,
+      Parameters.collectionName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const migrateMongoDBCollectionToManualThroughputOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default/migrateToManualThroughput",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      201: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      202: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      204: {
+        bodyMapper: Mappers.ThroughputSettingsGetResults,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
+    },
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.accountName,
+      Parameters.databaseName,
+      Parameters.collectionName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const getMongoRoleDefinitionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbRoleDefinitions/{mongoRoleDefinitionId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MongoRoleDefinitionGetResults,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.mongoRoleDefinitionId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createUpdateMongoRoleDefinitionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbRoleDefinitions/{mongoRoleDefinitionId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbRoleDefinitions/{mongoRoleDefinitionId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.MongoRoleDefinitionGetResults
+      bodyMapper: Mappers.MongoRoleDefinitionGetResults,
     },
     201: {
-      bodyMapper: Mappers.MongoRoleDefinitionGetResults
+      bodyMapper: Mappers.MongoRoleDefinitionGetResults,
     },
     202: {
-      bodyMapper: Mappers.MongoRoleDefinitionGetResults
+      bodyMapper: Mappers.MongoRoleDefinitionGetResults,
     },
     204: {
-      bodyMapper: Mappers.MongoRoleDefinitionGetResults
+      bodyMapper: Mappers.MongoRoleDefinitionGetResults,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.createUpdateMongoRoleDefinitionParameters,
   queryParameters: [Parameters.apiVersion],
@@ -2614,15 +3453,14 @@ const createUpdateMongoRoleDefinitionOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.mongoRoleDefinitionId
+    Parameters.mongoRoleDefinitionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteMongoRoleDefinitionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbRoleDefinitions/{mongoRoleDefinitionId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbRoleDefinitions/{mongoRoleDefinitionId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -2630,8 +3468,8 @@ const deleteMongoRoleDefinitionOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2639,44 +3477,21 @@ const deleteMongoRoleDefinitionOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.mongoRoleDefinitionId
+    Parameters.mongoRoleDefinitionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listMongoRoleDefinitionsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbRoleDefinitions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbRoleDefinitions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MongoRoleDefinitionListResult
+      bodyMapper: Mappers.MongoRoleDefinitionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getMongoUserDefinitionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbUserDefinitions/{mongoUserDefinitionId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MongoUserDefinitionGetResults
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2684,31 +3499,51 @@ const getMongoUserDefinitionOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.mongoUserDefinitionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getMongoUserDefinitionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbUserDefinitions/{mongoUserDefinitionId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MongoUserDefinitionGetResults,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.mongoUserDefinitionId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createUpdateMongoUserDefinitionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbUserDefinitions/{mongoUserDefinitionId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbUserDefinitions/{mongoUserDefinitionId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.MongoUserDefinitionGetResults
+      bodyMapper: Mappers.MongoUserDefinitionGetResults,
     },
     201: {
-      bodyMapper: Mappers.MongoUserDefinitionGetResults
+      bodyMapper: Mappers.MongoUserDefinitionGetResults,
     },
     202: {
-      bodyMapper: Mappers.MongoUserDefinitionGetResults
+      bodyMapper: Mappers.MongoUserDefinitionGetResults,
     },
     204: {
-      bodyMapper: Mappers.MongoUserDefinitionGetResults
+      bodyMapper: Mappers.MongoUserDefinitionGetResults,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.createUpdateMongoUserDefinitionParameters,
   queryParameters: [Parameters.apiVersion],
@@ -2717,15 +3552,14 @@ const createUpdateMongoUserDefinitionOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.mongoUserDefinitionId
+    Parameters.mongoUserDefinitionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteMongoUserDefinitionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbUserDefinitions/{mongoUserDefinitionId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbUserDefinitions/{mongoUserDefinitionId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -2733,8 +3567,8 @@ const deleteMongoUserDefinitionOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -2742,65 +3576,64 @@ const deleteMongoUserDefinitionOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.mongoUserDefinitionId
+    Parameters.mongoUserDefinitionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listMongoUserDefinitionsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbUserDefinitions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbUserDefinitions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MongoUserDefinitionListResult
+      bodyMapper: Mappers.MongoUserDefinitionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const retrieveContinuousBackupInformationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/retrieveContinuousBackupInformation",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BackupInformation
-    },
-    201: {
-      bodyMapper: Mappers.BackupInformation
-    },
-    202: {
-      bodyMapper: Mappers.BackupInformation
-    },
-    204: {
-      bodyMapper: Mappers.BackupInformation
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.location,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.databaseName,
-    Parameters.collectionName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
+  headerParameters: [Parameters.accept],
+  serializer,
 };
+const retrieveContinuousBackupInformationOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/retrieveContinuousBackupInformation",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.BackupInformation,
+      },
+      201: {
+        bodyMapper: Mappers.BackupInformation,
+      },
+      202: {
+        bodyMapper: Mappers.BackupInformation,
+      },
+      204: {
+        bodyMapper: Mappers.BackupInformation,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
+    },
+    requestBody: Parameters.location,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.accountName,
+      Parameters.databaseName,
+      Parameters.collectionName,
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer,
+  };
