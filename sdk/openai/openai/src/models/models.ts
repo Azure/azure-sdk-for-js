@@ -1728,6 +1728,18 @@ export interface EmbeddingsUsage {
   totalTokens: number;
 }
 
+/** The OpenAI error object. */
+export interface OpenAIErrorModel {
+  /** A human-readable representation of the error. */
+  message?: string;
+  /** The parameters of the error. */
+  param?: string;
+  /** Type of the error. */
+  type?: string;
+  /** The error code. */
+  code?: string;
+}
+
 /** Alias for ChatRequestMessageUnion */
 export type ChatRequestMessageUnion =
   | ChatRequestSystemMessage

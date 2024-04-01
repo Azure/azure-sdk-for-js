@@ -819,8 +819,16 @@ export class OpenAIClient {
     streamCompletions(deploymentName: string, prompt: string[], options?: GetCompletionsOptions): Promise<EventStream<Omit<Completions, "usage">>>;
 }
 
-// @public (undocumented)
+// @public
 export interface OpenAIClientOptions extends ClientOptions {
+}
+
+// @public
+export interface OpenAIErrorModel {
+    code?: string;
+    message?: string;
+    param?: string;
+    type?: string;
 }
 
 // @public
