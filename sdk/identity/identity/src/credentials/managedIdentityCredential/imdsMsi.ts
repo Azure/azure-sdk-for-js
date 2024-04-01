@@ -29,7 +29,7 @@ function prepareRequestOptions(
   options?: {
     skipQuery?: boolean;
     skipMetadataHeader?: boolean;
-  },
+  }
 ): PipelineRequestOptions {
   const resource = mapScopesToResource(scopes);
   if (!resource) {
@@ -76,9 +76,9 @@ function prepareRequestOptions(
   };
 }
 
-// 800ms -> 1600ms -> 3200ms -> 6400ms -> 12800ms
+// 800ms -> 1600ms -> 3200ms
 export const imdsMsiRetryConfig = {
-  maxRetries: 5,
+  maxRetries: 3,
   startDelayInMs: 800,
   intervalIncrement: 2,
 };
@@ -157,18 +157,18 @@ export const imdsMsi: MSI = {
         // If we received any response, the endpoint is available
         logger.info(`${msiName}: The Azure IMDS endpoint is available`);
         return true;
-      },
+      }
     );
   },
   async getToken(
     configuration: MSIConfiguration,
-    getTokenOptions: GetTokenOptions = {},
+    getTokenOptions: GetTokenOptions = {}
   ): Promise<MSIToken | null> {
     const { identityClient, scopes, clientId, resourceId } = configuration;
 
     if (process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST) {
       logger.info(
-        `${msiName}: Using the Azure IMDS endpoint coming from the environment variable AZURE_POD_IDENTITY_AUTHORITY_HOST=${process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST}.`,
+        `${msiName}: Using the Azure IMDS endpoint coming from the environment variable AZURE_POD_IDENTITY_AUTHORITY_HOST=${process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST}.`
       );
     } else {
       logger.info(`${msiName}: Using the default Azure IMDS endpoint ${imdsHost}.`);
@@ -197,7 +197,7 @@ export const imdsMsi: MSI = {
 
     throw new AuthenticationError(
       404,
-      `${msiName}: Failed to retrieve IMDS token after ${imdsMsiRetryConfig.maxRetries} retries.`,
+      `${msiName}: Failed to retrieve IMDS token after ${imdsMsiRetryConfig.maxRetries} retries.`
     );
   },
 };
