@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List galleries under a resource group.
  *
  * @summary List galleries under a resource group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/Gallery_ListByResourceGroup.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/Gallery_ListByResourceGroup.json
  */
 async function listGalleriesInAResourceGroup() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function listGalleriesInAResourceGroup() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.galleries.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

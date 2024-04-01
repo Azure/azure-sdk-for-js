@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all of the applications in the specified account.
  *
  * @summary Lists all of the applications in the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/ApplicationList.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/ApplicationList.json
  */
 async function applicationList() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function applicationList() {
   const resArray = new Array();
   for await (let item of client.applicationOperations.list(
     resourceGroupName,
-    accountName
+    accountName,
   )) {
     resArray.push(item);
   }

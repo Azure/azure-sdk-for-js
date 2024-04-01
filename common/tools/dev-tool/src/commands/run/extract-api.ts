@@ -1,33 +1,41 @@
-import { leafCommand, makeCommandInfo } from "../../framework/command";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import {
   Extractor,
   ExtractorConfig,
+  ExtractorLogLevel,
   ExtractorResult,
   IConfigApiReport,
   IConfigDocModel,
   IConfigDtsRollup,
   IConfigFile,
 } from "@microsoft/api-extractor";
+import { createReadStream, createWriteStream } from "node:fs";
+import { leafCommand, makeCommandInfo } from "../../framework/command";
 
+import archiver from "archiver";
 import { createPrinter } from "../../util/printer";
-import { resolveProject } from "../../util/resolveProject";
 import path from "path";
 import { readFile } from "fs-extra";
-import { readdir } from "fs/promises";
-import { createReadStream, createWriteStream } from "fs";
-import archiver from "archiver";
+import { readdir } from "node:fs/promises";
+import { resolveProject } from "../../util/resolveProject";
 
 export const commandInfo = makeCommandInfo(
   "extract-api",
   "Runs api-extractor multiple times for all exports.",
-  {},
+  {
+    "subpath-doc-model": {
+      shortName: "sdc",
+      kind: "boolean",
+      default: false,
+      description:
+        "When true, generates api.json docModel files for each subpath export. Otherwise only generates for the main entry point. Markdown files are always generated for each subpath export.",
+    },
+  },
 );
 
 const log = createPrinter("extract-api");
-
-function getSuffix(exportPath: string): string {
-  return exportPath.replaceAll("/", "\u2215"); // replace with division slash to avoid file system issue
-}
 
 function extractApi(
   extractorConfigObject: IConfigFile,
@@ -58,7 +66,7 @@ function extractApi(
   }
 }
 
-export default leafCommand(commandInfo, async () => {
+export default leafCommand(commandInfo, async (options) => {
   const projectInfo = await resolveProject(process.cwd());
   const packageJsonPath = path.join(projectInfo.path, "package.json");
   const packageJson = JSON.parse((await readFile(packageJsonPath)).toString("utf-8"));
@@ -83,30 +91,50 @@ export default leafCommand(commandInfo, async () => {
   // sub path exports extraction
   const exports = packageJson["exports"];
   if (exports) {
-    for (const exprt of Object.keys(exports)) {
-      log.debug(`extracting Api for "${exprt}"`);
-      const suffix = getSuffix(exprt);
-      const newPublicTrimmedPath = extractorConfigObject.dtsRollup.publicTrimmedFilePath.replace(
-        ".d.ts",
-        `-${suffix}.d.ts`,
+    log.info("Detected subpath exports, extracting markdown for each subpath.");
+    for (const exportPath of Object.keys(exports)) {
+      const customizations = {
+        isSubpathExport: exportPath !== ".",
+        exportBaseName: path.parse(exportPath).name,
+        generateDocModel: exportPath === "." || options["subpath-doc-model"],
+      };
+
+      // Place the subpath export rollup file in the directory from which it is exported
+      let publicTrimmedFilePath = path.parse(extractorConfigObject.dtsRollup.publicTrimmedFilePath);
+      const newPublicTrimmedPath = path.join(
+        publicTrimmedFilePath.dir,
+        exportPath,
+        publicTrimmedFilePath.base,
       );
-      const newApiJsonPath = extractorConfigObject.docModel?.apiJsonFilePath?.replace(
-        ".api.json",
-        `-${suffix}.api.json`,
-      );
-      const newApiReportName = extractorConfigObject.apiReport?.reportFileName?.replace(
-        ".api.md",
-        `-${suffix}.api.md`,
-      );
+
+      // Leave filenames unchanged for the root export
+      let newApiJsonPath = extractorConfigObject.docModel?.apiJsonFilePath;
+      let newApiReportName = extractorConfigObject.apiReport?.reportFileName;
+
+      if (customizations.isSubpathExport) {
+        // Append the subpath export name to the api.json and api.md file names
+        // e.g. for ./rest export: <unscopedPackageName>.api.json -> <unscopedPackageName>-rest.api.json
+        // e.g. for ./rest export: <unscopedPackageName>.api.md -> <unscopedPackageName>-rest.api.md
+        newApiJsonPath = extractorConfigObject.docModel?.apiJsonFilePath?.replace(
+          ".api.json",
+          `-${customizations.exportBaseName}.api.json`,
+        );
+        newApiReportName = extractorConfigObject.apiReport?.reportFileName?.replace(
+          ".api.md",
+          `-${customizations.exportBaseName}.api.md`,
+        );
+      }
+
       const newDtsRollupOptions: IConfigDtsRollup = {
         ...extractorConfigObject.dtsRollup,
         publicTrimmedFilePath: newPublicTrimmedPath,
       };
       const newDocModel: IConfigDocModel = {
         ...extractorConfigObject.docModel,
-        enabled: true,
+        enabled: customizations.generateDocModel,
         apiJsonFilePath: newApiJsonPath,
       };
+
       const newApiReport: IConfigApiReport = {
         ...extractorConfigObject.apiReport,
         enabled: true, // or should we disable? not sure if we need look at multiple api.md
@@ -117,12 +145,24 @@ export default leafCommand(commandInfo, async () => {
         dtsRollup: newDtsRollupOptions,
         docModel: newDocModel,
         apiReport: newApiReport,
-        mainEntryPointFilePath: exports[exprt].types,
+        mainEntryPointFilePath: exports[exportPath].types,
       };
 
+      // subpath exports often use top-level exports, but API Extractor is not aware of this and
+      // flags them as forgotten exports.
+      if (
+        customizations.isSubpathExport &&
+        updatedConfigObject.messages?.extractorMessageReporting
+      ) {
+        updatedConfigObject.messages.extractorMessageReporting["ae-forgotten-export"] = {
+          addToApiReportFile: false,
+          logLevel: ExtractorLogLevel.None,
+        };
+      }
       succeed = extractApi(updatedConfigObject, apiExtractorJsonPath, packageJsonPath);
     }
   } else {
+    log.info("No subpath exports detected, extracting api for main entry point.");
     // normal extraction
     succeed = extractApi(extractorConfigObject, apiExtractorJsonPath, packageJsonPath);
   }

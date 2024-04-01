@@ -1,5 +1,5 @@
 import { SearchDocumentsBase, SearchDocumentsTestOptions } from "./core/searchDocumentsBase.spec";
-import { PerfOptionDictionary } from "@azure/test-utils-perf";
+import { PerfOptionDictionary } from "@azure-tools/test-perf";
 
 export class SearchDocumentsTest extends SearchDocumentsBase<SearchDocumentsTestOptions> {
   public options: PerfOptionDictionary<SearchDocumentsTestOptions> = {

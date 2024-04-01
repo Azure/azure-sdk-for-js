@@ -30,7 +30,7 @@ async function getCloudServiceInstanceViewWithMultipleRoles() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.cloudServices.getInstanceView(
     resourceGroupName,
-    cloudServiceName
+    cloudServiceName,
   );
   console.log(result);
 }

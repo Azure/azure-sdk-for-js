@@ -1,4 +1,4 @@
-import { createPerfProgram } from "@azure/test-utils-perf";
+import { createPerfProgram } from "@azure-tools/test-perf";
 import { ListSettingsTest } from "./listSettings.spec";
 
 const perfProgram = createPerfProgram(ListSettingsTest);

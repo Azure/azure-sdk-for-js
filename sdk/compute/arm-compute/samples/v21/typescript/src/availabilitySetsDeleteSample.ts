@@ -30,7 +30,7 @@ async function availabilitySetDeleteMaximumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.availabilitySets.delete(
     resourceGroupName,
-    availabilitySetName
+    availabilitySetName,
   );
   console.log(result);
 }
@@ -51,7 +51,7 @@ async function availabilitySetDeleteMinimumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.availabilitySets.delete(
     resourceGroupName,
-    availabilitySetName
+    availabilitySetName,
   );
   console.log(result);
 }

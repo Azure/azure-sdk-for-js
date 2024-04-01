@@ -2540,6 +2540,7 @@ export interface GalleryArtifactSource {
 // @public
 export interface GalleryArtifactVersionFullSource extends GalleryArtifactVersionSource {
     communityGalleryImageId?: string;
+    virtualMachineId?: string;
 }
 
 // @public
