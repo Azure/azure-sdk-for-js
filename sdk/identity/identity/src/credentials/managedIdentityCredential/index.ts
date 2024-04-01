@@ -8,7 +8,7 @@ import {
   AuthenticationRequiredError,
   CredentialUnavailableError,
 } from "../../errors";
-import { MSI, MSIToken } from "./models";
+import { MSI, MSIConfiguration, MSIToken } from "./models";
 import { MsalResult, MsalToken, ValidMsalToken } from "../../msal/types";
 import { credentialLogger, formatError, formatSuccess } from "../../util/logging";
 
@@ -70,11 +70,7 @@ export class ManagedIdentityCredential implements TokenCredential {
   private isAvailableIdentityClient: IdentityClient;
   private confidentialApp: ConfidentialClientApplication;
   private isAppTokenProviderInitialized: boolean = false;
-  private msiRetryConfig: {
-    maxRetries: number;
-    startDelayInMs: number;
-    intervalIncrement: number;
-  } = {
+  private msiRetryConfig: MSIConfiguration["retryConfig"] = {
     maxRetries: 3,
     startDelayInMs: 800,
     intervalIncrement: 2,
