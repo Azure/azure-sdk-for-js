@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert, beforeEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import {
   NotificationHubsClientContext,
   createOrUpdateInstallation,
@@ -10,7 +10,6 @@ import {
 import { Recorder } from "@azure-tools/test-recorder";
 import { createAppleInstallation } from "../../src/models/index.js";
 import { createRecordedClientContext } from "./utils/recordedClient.js";
-import { isNode } from "@azure/core-util";
 
 describe("createOrUpdateInstallation()", () => {
   let recorder: Recorder;
@@ -18,28 +17,16 @@ describe("createOrUpdateInstallation()", () => {
   const installationId = "0e7c5973-714c-4ba9-a233-7c4497d5f43b";
   const pushChannel = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
 
-  beforeEach(async (_ctx) => {
-    if (!isNode) {
-      return;
-    }
-
-    recorder = new Recorder();
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     context = await createRecordedClientContext(recorder);
   });
 
   afterEach(async () => {
-    if (!isNode) {
-      return;
-    }
-
     await recorder.stop();
   });
 
-  it("should add an installation", async (ctx) => {
-    if (!isNode) {
-      ctx.skip();
-    }
-
+  it("should add an installation", async () => {
     const installation = createAppleInstallation({
       installationId,
       pushChannel,

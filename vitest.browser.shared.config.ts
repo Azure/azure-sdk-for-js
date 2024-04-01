@@ -2,6 +2,10 @@
 // Licensed under the MIT license.
 
 import { defineConfig } from "vitest/config";
+import browserMap from "@azure-tools/vite-plugin-browser-test-map";
+import { relativeRecordingsPath } from "@azure-tools/test-recorder";
+
+process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
 
 export default defineConfig({
   test: {
@@ -14,6 +18,11 @@ export default defineConfig({
       headless: true,
       name: "chromium",
       provider: "playwright",
+      providerOptions: {
+        launch: {
+          args: ["--disable-web-security"],
+        },
+      },
     },
     fakeTimers: {
       toFake: ["setTimeout"],

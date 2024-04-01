@@ -14,7 +14,6 @@ import {
 } from "../../src/api/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createRecordedClientContext } from "./utils/recordedClient.js";
-import { isNode } from "@azure/core-util";
 
 describe("listRegistrations()", () => {
   let recorder: Recorder;
@@ -22,12 +21,8 @@ describe("listRegistrations()", () => {
   const registrationIds: string[] = [];
   const deviceToken = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
 
-  beforeEach(async (_ctx) => {
-    if (!isNode) {
-      return;
-    }
-
-    recorder = new Recorder();
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.setMatcher("BodilessMatcher");
     context = await createRecordedClientContext(recorder);
 
@@ -46,10 +41,6 @@ describe("listRegistrations()", () => {
   });
 
   afterEach(async () => {
-    if (!isNode) {
-      return;
-    }
-
     for (const registrationId of registrationIds) {
       await deleteRegistration(context, registrationId);
     }
@@ -57,11 +48,7 @@ describe("listRegistrations()", () => {
     await recorder.stop();
   });
 
-  it("should list all registrations", async (ctx) => {
-    if (!isNode) {
-      ctx.skip();
-    }
-
+  it("should list all registrations", async () => {
     const registrations = listRegistrations(context);
 
     let numberOfItems = 0;

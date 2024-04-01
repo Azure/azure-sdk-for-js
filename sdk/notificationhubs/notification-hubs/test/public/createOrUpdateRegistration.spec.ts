@@ -12,7 +12,6 @@ import {
 import { Recorder } from "@azure-tools/test-recorder";
 import { createAppleRegistrationDescription } from "../../src/models/index.js";
 import { createRecordedClientContext } from "./utils/recordedClient.js";
-import { isNode } from "@azure/core-util";
 
 describe("createRegistrationId()", () => {
   let registrationId: string;
@@ -20,12 +19,8 @@ describe("createRegistrationId()", () => {
   let context: NotificationHubsClientContext;
   const deviceToken = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
 
-  beforeEach(async (_ctx) => {
-    if (!isNode) {
-      return;
-    }
-
-    recorder = new Recorder();
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.setMatcher("BodilessMatcher");
     context = await createRecordedClientContext(recorder);
 
@@ -41,19 +36,11 @@ describe("createRegistrationId()", () => {
   });
 
   afterEach(async () => {
-    if (!isNode) {
-      return;
-    }
-
     await deleteRegistration(context, registrationId);
     await recorder.stop();
   });
 
-  it("should get a registration by the given registration ID", async (ctx) => {
-    if (!isNode) {
-      ctx.skip();
-    }
-
+  it("should get a registration by the given registration ID", async () => {
     const registration = await getRegistration(context!, registrationId!);
 
     assert.equal(registration.registrationId, registrationId);
