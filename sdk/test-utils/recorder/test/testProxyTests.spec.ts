@@ -30,8 +30,6 @@ import { describe, it, assert, expect, beforeEach, afterEach, beforeAll } from "
     });
 
     it("sample_response", async () => {
-      console.log(env.AZURE_APP_TITLE);
-      console.log("vite.. ", env.VITE_APP_TITLE);
       await recorder.start({ envSetupForPlayback: {} });
       await makeRequestAndVerifyResponse(
         client,
