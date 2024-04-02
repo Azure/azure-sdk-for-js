@@ -79,7 +79,8 @@ function buildExportConfiguration(packageJson: any, options: any): ExportEntry[]
         isSubpath: exportPath !== ".",
         baseName: path.parse(exportPath).name,
         generateDocModel: exportPath === "." || options["subpath-doc-model"],
-        mainEntryPointFilePath: exports[exportPath].types || exports[exportPath]?.require?.types,
+        // Take either the top-level "types" filepath or - for packages that use tshy - the ESM "types" filepath
+        mainEntryPointFilePath: exports[exportPath].types || exports[exportPath]?.import?.types,
         suppressForgottenExportErrors: exportPath !== ".",
       };
     });
