@@ -7,9 +7,6 @@
   "type": "module",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/apimanagement/api-management-custom-widgets-tools/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
-  "browser": {
-    "./dist-esm/src/node/deploy.js": "./dist-esm/src/node/deploy.browser.js"
-  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -26,8 +23,6 @@
   "sideEffects": false,
   "files": [
     "dist/",
-    "dist-esm/src/",
-    "types/latest/api-management-custom-widgets-tools.d.ts",
     "LICENSE"
   ],
   "scripts": {
