@@ -1,9 +1,12 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
+    "paths": {
+      "@azure/template": ["./src/index.js"]
+    },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "rootDir": "."
   },
-  "include": ["./src/**/*.ts", "./test/**/*.ts"]
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }

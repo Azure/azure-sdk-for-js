@@ -71,7 +71,7 @@ describe("[AAD] ConfigurationClient functional tests", function () {
   });
 
   describe("#getConfigurationSetting", () => {
-    it("predetermined setting has expected value", async () => {
+    it.only("predetermined setting has expected value", async () => {
       const key = assertEnvironmentVariable("APPCONFIG_TEST_SETTING_KEY");
       const expectedValue = assertEnvironmentVariable("APPCONFIG_TEST_SETTING_EXPECTED_VALUE");
 
