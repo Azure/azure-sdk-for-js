@@ -91,11 +91,11 @@ steps:
           Copy-Item $(Build.SourcesDirectory)/docGen/$artifactName.zip $(Build.ArtifactStagingDirectory)/$artifactName/documentation
         }
       }
-    displayName: 'Copy Packages'
+    displayName: "Copy Packages"
 
   - pwsh: |
       eng/scripts/stage-api-review-file.ps1 -PackageInfoPath $(Build.ArtifactStagingDirectory)/PackageInfo -StagingDirectory $(Build.ArtifactStagingDirectory)
-    displayName: 'Copy API extracted files'
+    displayName: "Copy API extracted files"
 
   - task: Powershell@2
     inputs:
@@ -108,10 +108,10 @@ steps:
 
   - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
     parameters:
-      ArtifactPath: '$(Build.ArtifactStagingDirectory)'
-      ArtifactName: 'packages'
+      ArtifactPath: "$(Build.ArtifactStagingDirectory)"
+      ArtifactName: "packages"
 
-  - template: /eng/pipelines/templates/steps/create-apireview.yml
+  - template: /eng/common/pipelines/templates/steps/create-apireview.yml
     parameters:
       Artifacts: ${{ parameters.Artifacts }}
 
