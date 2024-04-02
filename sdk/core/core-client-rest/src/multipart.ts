@@ -50,7 +50,69 @@ export interface PartDescriptor {
   body?: unknown;
 }
 
-type MultipartBodyType = BodyPart["body"];
+export type RawMultipartBodyType = BodyPart["body"];
+
+/**
+ * A part descriptor representing a multipart/form-data field with binary content.
+ */
+export interface BinaryFormDataPart<
+  TPartName extends string,
+  TPartType extends RawMultipartBodyType,
+> extends PartDescriptor {
+  name: TPartName;
+  body: TPartType;
+  dispositionType?: "form-data";
+  contentType?: string;
+  filename?: string;
+}
+
+/**
+ * A part descriptor representing a multipart/form-data field with JSON content.
+ */
+export interface JsonFormDataPart<TPartName extends string, TPartType> extends PartDescriptor {
+  name: TPartName;
+  body: TPartType;
+  dispositionType?: "form-data";
+  contentType?: "application/json; charset=UTF-8";
+}
+
+/**
+ * A part descriptor representing a multipart/form-data field with textual content.
+ */
+export interface TextFormDataPart<TPartName extends string> extends PartDescriptor {
+  name: TPartName;
+  body: string;
+  dispositionType?: "form-data";
+  contentType?: "text/plain; charset=UTF-8";
+}
+
+/**
+ * A type alias providing an appropriate multipart/form-data part descriptor for a part with
+ * name restricted to TPartName and part type restricted to TPartType.
+ */
+export type FormDataPart<TPartName extends string, TPartType> =
+  TPartType extends Array<infer U>
+    ? FormDataPart<TPartName, U>
+    : TPartType extends string
+      ? TextFormDataPart<TPartName>
+      : TPartType extends RawMultipartBodyType
+        ? BinaryFormDataPart<TPartName, TPartType>
+        : JsonFormDataPart<TPartName, TPartType>;
+
+/**
+ * For a model TModel, returns a union of possible parts in a multipart/form-data request
+ */
+export type FormDataParts<TModel> = {
+  [K in keyof TModel & string]: FormDataPart<K, TModel[K]>;
+}[keyof TModel & string];
+
+/**
+ * Utility type representing the expected body shape for a multipart/form-data request with
+ * the given model as a body.
+ */
+export type FormDataPayload<TModel = Record<string, unknown>> =
+  | Array<FormDataParts<TModel>>
+  | FormData;
 
 /**
  * Get value of a header in the part descriptor ignoring case
@@ -139,7 +201,7 @@ function getContentDisposition(descriptor: PartDescriptor): string | undefined {
   return disposition;
 }
 
-function normalizeBody(body?: unknown, contentType?: string): MultipartBodyType {
+function normalizeBody(body?: unknown, contentType?: string): RawMultipartBodyType {
   if (body === undefined) {
     // zero-length body
     return new Uint8Array([]);
