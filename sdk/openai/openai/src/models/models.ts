@@ -1733,11 +1733,11 @@ export interface OpenAIErrorModel {
   /** A human-readable representation of the error. */
   message?: string;
   /** The parameters of the error. */
-  param?: string;
+  param: string | null;
   /** Type of the error. */
-  type?: string;
+  type: string | null;
   /** The error code. */
-  code?: string;
+  code: string | null;
 }
 
 /** Alias for ChatRequestMessageUnion */

@@ -825,10 +825,10 @@ export interface OpenAIClientOptions extends ClientOptions {
 
 // @public
 export interface OpenAIErrorModel {
-    code?: string;
+    code: string | null;
     message?: string;
-    param?: string;
-    type?: string;
+    param: string | null;
+    type: string | null;
 }
 
 // @public
