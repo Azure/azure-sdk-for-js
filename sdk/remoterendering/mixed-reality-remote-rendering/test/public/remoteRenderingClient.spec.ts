@@ -261,11 +261,8 @@ describe("RemoteRendering functional tests", () => {
       await conversionPoller.pollUntilDone();
       assert.isTrue(false, "Previous call should have thrown an exception.");
     } catch (e: any) {
-      console.log(`Got error with error code ${e.code}`);
-      console.log(`and error message ${e.message}`);
       assert.isTrue(e.code === "InputContainerError");
       // Message: "Could not find the asset file in the storage account. Please make sure all paths and names are correct and the file is uploaded to storage."
-      assert.isTrue(e.message);
       assert.isTrue(e.message.toLowerCase().includes("could not find the asset file in the storage account"));
     }
   });
