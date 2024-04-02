@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ScaffoldTech } from "./scaffolding";
+import { ScaffoldTech } from "./scaffolding.js";
 import { glob } from "glob";
-import { join as pathJoin } from "path";
+import { join as pathJoin } from "node:path";
 
 export async function getTemplates(template: ScaffoldTech): Promise<string[]> {
   const sharedFiles = await getFiles(

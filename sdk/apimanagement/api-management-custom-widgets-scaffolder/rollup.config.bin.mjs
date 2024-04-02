@@ -15,13 +15,6 @@ const executable = (options = {}) => {
       if (!shebang) return null;
       shebangReplacements.set(module, shebang);
       return { code, map: null };
-      /*return {
-        code: code.replace(
-          /^#![^\n]/,
-          (shebang) => (shebangReplacements.set(module, shebang), "")
-        ),
-        map: null,
-      };*/
     },
     renderChunk(code, chunk, { sourcemap }) {
       const shebang = shebangReplacements.get(chunk.facadeModuleId);

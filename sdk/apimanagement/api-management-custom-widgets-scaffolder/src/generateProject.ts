@@ -9,10 +9,10 @@ import {
   WidgetConfig,
   displayNameToName,
   widgetFolderName,
-} from "./scaffolding";
-import { join as joinPath, parse as parsePath } from "path";
-import { promises as fs } from "fs";
-import { getTemplates } from "./getTemplates";
+} from "./scaffolding.js";
+import { join as joinPath, parse as parsePath } from "node:path";
+import { promises as fs } from "node:fs";
+import { getTemplates } from "./getTemplates.js";
 import mustache from "mustache";
 
 const templateSuffix = ".mustache";
