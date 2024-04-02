@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { APIM_EDITOR_DATA_KEY, APIM_ON_CHANGE_MESSAGE_KEY, onChangeWithOrigin } from "../src";
-import { getEditorValuesPure, getValuesPure, getWidgetDataPure } from "../src/utils";
-import { assert } from "chai";
-import sinon from "sinon";
+import { APIM_EDITOR_DATA_KEY } from "../../src/index.js";
+import { getEditorValuesPure, getValuesPure, getWidgetDataPure } from "../../src/utils.js";
+import { describe, it, assert } from "vitest";
 
 const valuesUrl = {
   origin: "http://localhost:8000",
@@ -75,22 +74,5 @@ describe("getEditorValues", () => {
   it("contains correct bar value", () => {
     const editorValues = getEditorValuesPure(urlSearchPrams);
     assert.equal(editorValues.bar, undefined);
-  });
-});
-
-describe("onChangeWithOrigin", () => {
-  it("reports values in valid form", () => {
-    const changedValueKey = "foo";
-    const changedValues = { [changedValueKey]: "new value" };
-
-    sinon.stub(self.parent, "postMessage").callsFake((msg, targetOrigin: any) => {
-      const data = msg[APIM_ON_CHANGE_MESSAGE_KEY];
-      assert.equal(valuesUrl.instanceId, data.instanceId);
-      assert.equal(changedValueKey, data.key);
-      assert.equal(changedValues[changedValueKey], data.value);
-
-      assert.equal(valuesUrl.origin, targetOrigin);
-    });
-    onChangeWithOrigin(valuesUrl.origin, valuesUrl.instanceId, changedValues);
   });
 });
