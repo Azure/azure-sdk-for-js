@@ -1,9 +1,7 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "lib": [
-      "dom"
-    ],
+    "lib": ["dom"],
     "resolveJsonModule": true,
     "module": "NodeNext",
     "moduleResolution": "NodeNext"

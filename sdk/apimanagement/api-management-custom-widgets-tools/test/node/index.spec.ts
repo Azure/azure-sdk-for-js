@@ -3,7 +3,7 @@
 
 import { APIM_EDITOR_DATA_KEY } from "../../src/index.js";
 import { getEditorValuesPure, getValuesPure, getWidgetDataPure } from "../../src/utils.js";
-import { describe, it, assert, vi } from "vitest";
+import { describe, it, assert } from "vitest";
 
 const valuesUrl = {
   origin: "http://localhost:8000",
