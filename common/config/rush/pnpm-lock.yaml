@@ -1193,6 +1193,17 @@ packages:
       - supports-color
     dev: false
 
+  /@azure-tools/test-credential@1.0.4:
+    resolution: {integrity: sha512-O5wyYiI6bILqO9MOeQ1WhSIcKH6c3DvbpsjMPKYJ+yekmFhFUb/zU/pSKsLvyqZhqUWSACFMNri4cZd4tuW0rw==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure-tools/test-recorder': 3.1.0
+      '@azure/core-auth': 1.7.1
+      '@azure/identity': 4.0.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure-tools/test-recorder@3.1.0:
     resolution: {integrity: sha512-qDbZkrhz9OMyH3ijFAJVm1aUN3H1CVgAhW6826U9Pkk0TwcumjtHCx2mPzH8vY8Otl03s8So+Fac00PuyastVw==}
     engines: {node: '>=18.0.0'}
@@ -11188,11 +11199,11 @@ packages:
     dev: false
 
   file:projects/ai-vision-image-analysis.tgz:
-    resolution: {integrity: sha512-z/e3GFiR19/o24QUs5GWho/tELUR1jP/TF1kbfmth2jDmIG3TU4kuKOAtdreJCt6ZQHlakeyqdlE3uGmcfT+Cg==, tarball: file:projects/ai-vision-image-analysis.tgz}
+    resolution: {integrity: sha512-FpXRl2YmfsAmDNcqPjWWDSlp+5te7NE+kDEMIym9LzDMFJjcpk24HZV0pOPFUjg49163yL2J0vv2O9WIJosumg==, tarball: file:projects/ai-vision-image-analysis.tgz}
     name: '@rush-temp/ai-vision-image-analysis'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.2
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.39.5(@types/node@20.10.8)
@@ -18121,7 +18132,7 @@ packages:
     dev: false
 
   file:projects/communication-call-automation.tgz:
-    resolution: {integrity: sha512-DtSuJN0rTD7ajWMsz9TLrt2bkPiesoYt4WzvG16vL2eTFrDWgQw7FiqBj0n4Qo8Zr61WAWvjZKsNM45SsoQJNg==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-fEhM80Ps/3rd/QuRcgJ2yDC+xPSYg4iSjOGLYYw7iGSkmdfEqgy2rm3upXHGoYNkKgz37HR3I4QSemwtsxWHZw==, tarball: file:projects/communication-call-automation.tgz}
     name: '@rush-temp/communication-call-automation'
     version: 0.0.0
     dependencies:
@@ -19904,11 +19915,11 @@ packages:
     dev: false
 
   file:projects/functions-authentication-events.tgz:
-    resolution: {integrity: sha512-BinWxk+9gG6FcX5T1Y0ZKwhVWbGGnNU0j9ThfKUcK9K+gQMQ7YQNEMcjD1djFngEGbrqNF5B7NI/91njaJaiGg==, tarball: file:projects/functions-authentication-events.tgz}
+    resolution: {integrity: sha512-wPvG8Uhbv8Oh0fFLEFv4UY8T5eaEMyGrypwtcya0rwKdnn+wL+sRpW85HyZRNJUjwfGzJenljtD1bbm+86NCiQ==, tarball: file:projects/functions-authentication-events.tgz}
     name: '@rush-temp/functions-authentication-events'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.2
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/functions': 3.5.1
       '@azure/identity': 4.0.1
@@ -20538,11 +20549,11 @@ packages:
     dev: false
 
   file:projects/load-testing.tgz:
-    resolution: {integrity: sha512-fPMkBZrnPFZU+jKEHvtIcS9+TkTG2LlFaK6T9cvCOeeM6JFz3OhDD8v3X+MOZlpIIkDTtTApaArsVDpE6J73CQ==, tarball: file:projects/load-testing.tgz}
+    resolution: {integrity: sha512-tFjkZwnucc4eaV4w7wrmjQo3kMnBWDU81z7Zqk0847lwmv8v7/GX0Gn64NjvBRLSmqM244uq0jmV3Pxba3pr0A==, tarball: file:projects/load-testing.tgz}
     name: '@rush-temp/load-testing'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.2
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -20934,11 +20945,11 @@ packages:
     dev: false
 
   file:projects/monitor-ingestion.tgz:
-    resolution: {integrity: sha512-GKrfnHgmA6JE+HvV+c90ba2Wq7NlJL5hLmYl4PoV4F04ze2/XPDpHzNGDvUDrL7BZ7CQCPhqoPxbi8H99eBjvQ==, tarball: file:projects/monitor-ingestion.tgz}
+    resolution: {integrity: sha512-jupuFG2vTwsBVNqvNnikZ+v55xdWqFrwg3s1k0d0LMH345YWE9/yt4Fw53HsMjIyrUmQT4SyMh+d6mLaInS08Q==, tarball: file:projects/monitor-ingestion.tgz}
     name: '@rush-temp/monitor-ingestion'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.2
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
@@ -21193,7 +21204,7 @@ packages:
     dev: false
 
   file:projects/openai-assistants.tgz:
-    resolution: {integrity: sha512-EVuxJcB106+cWSC4taJrt9VgBnafaU8f9y6zN0IDRfO8QJcwWpp7vl01+734IsAk8gMshahLSFReBwLd8r658Q==, tarball: file:projects/openai-assistants.tgz}
+    resolution: {integrity: sha512-RxssOQt5iF3yqAuybk9zG7o7FVADXc7XEDadAV+SE1ZLYyjf2bXm8TIyU2Mw3ZSQJ1960WEo3i9OOPKH/Uf7jQ==, tarball: file:projects/openai-assistants.tgz}
     name: '@rush-temp/openai-assistants'
     version: 0.0.0
     dependencies:
@@ -22885,11 +22896,11 @@ packages:
     dev: false
 
   file:projects/template-dpg.tgz:
-    resolution: {integrity: sha512-WpxxC22aOSszHqkFsdlWgVY0W5b36gYC2kq96C9ztep7PTptem0yURqkq0oU/smGTUutGYEVM/6EHVyi/1Zi9g==, tarball: file:projects/template-dpg.tgz}
+    resolution: {integrity: sha512-YUHzHcZtKLv3SdHKhQKb8+C3Zrk1d/khJ/tZCGbgieWHrBzHpQdeIh+H6U6gLv5pVBs8F+l8AzO58YPK2jT9+Q==, tarball: file:projects/template-dpg.tgz}
     name: '@rush-temp/template-dpg'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.2
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.26)
       '@types/chai': 4.3.14
@@ -22919,8 +22930,6 @@ packages:
       typescript: 5.3.3
       util: 0.12.5
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
       - bufferutil
       - debug
       - supports-color
