@@ -111,7 +111,7 @@ steps:
       ArtifactPath: '$(Build.ArtifactStagingDirectory)'
       ArtifactName: 'packages'
 
-  - template: /eng/pipelines/templates/steps/create-apireview.yml
+  - template: /eng/common/pipelines/templates/steps/create-apireview.yml
     parameters:
       Artifacts: ${{ parameters.Artifacts }}
 
