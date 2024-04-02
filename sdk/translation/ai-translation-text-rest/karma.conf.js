@@ -62,7 +62,7 @@ module.exports = function (config) {
       "TEXT_TRANSLATION_REGION",
       "RECORDINGS_RELATIVE_PATH",
       "TEXT_TRANSLATION_AAD_REGION",
-      "TEXT_TRANSLATION_RESOURCE_ID"
+      "TEXT_TRANSLATION_RESOURCE_ID",
     ],
 
     // test results reporter to use

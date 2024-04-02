@@ -135,16 +135,14 @@ export async function createAADAuthenticationTranslationClient(options: {
     const tenantId = assertEnvironmentVariable("TEXT_TRANSLATION_TENANT_ID");
     const secret = assertEnvironmentVariable("TEXT_TRANSLATION_CLIENT_SECRET");
 
-    tokenCredential = new ClientSecretCredential(
-      tenantId, clientId, secret
-    );
+    tokenCredential = new ClientSecretCredential(tenantId, clientId, secret);
   }
 
   const translatorTokenCredentials: TranslatorTokenCredential = {
     tokenCredential,
     azureResourceId,
-    region
-  }
+    region,
+  };
   const client = createTextTranslationClient(endpoint, translatorTokenCredentials, updatedOptions);
   return client;
 }

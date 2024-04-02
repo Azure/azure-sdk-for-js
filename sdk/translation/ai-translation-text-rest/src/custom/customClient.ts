@@ -32,8 +32,10 @@ function isTokenCredential(credential: any): credential is TokenCredential {
 }
 
 function isTranslatorTokenCredential(credential: any): credential is TranslatorTokenCredential {
-  return (credential as TranslatorTokenCredential)?.tokenCredential !== undefined
-    && (credential as TranslatorTokenCredential)?.azureResourceId !== undefined;
+  return (
+    (credential as TranslatorTokenCredential)?.tokenCredential !== undefined &&
+    (credential as TranslatorTokenCredential)?.azureResourceId !== undefined
+  );
 }
 
 /**
@@ -44,7 +46,12 @@ function isTranslatorTokenCredential(credential: any): credential is TranslatorT
  */
 export default function createClient(
   endpoint: undefined | string,
-  credential: undefined | TranslatorCredential | TranslatorTokenCredential | KeyCredential | TokenCredential = undefined,
+  credential:
+    | undefined
+    | TranslatorCredential
+    | TranslatorTokenCredential
+    | KeyCredential
+    | TokenCredential = undefined,
   options: ClientOptions = {},
 ): TextTranslationClient {
   let serviceEndpoint: string;
@@ -102,9 +109,9 @@ export default function createClient(
         scopes: DEFAULT_SCOPE,
       }),
     );
-    client.pipeline.addPolicy(new TranslatorTokenCredentialAuthenticationPolicy(
-      credential as TranslatorTokenCredential
-    ));
+    client.pipeline.addPolicy(
+      new TranslatorTokenCredentialAuthenticationPolicy(credential as TranslatorTokenCredential),
+    );
   }
 
   return client;
