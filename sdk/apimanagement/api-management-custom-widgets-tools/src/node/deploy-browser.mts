@@ -6,7 +6,7 @@ async function deploy(
   _name: string,
   _fallbackConfigPath: string,
 ): Promise<void> {
-  throw new Error("Only for Node.js");
+  throw new Error("Not supported in the browser environment.");
 }
 
 export default deploy;

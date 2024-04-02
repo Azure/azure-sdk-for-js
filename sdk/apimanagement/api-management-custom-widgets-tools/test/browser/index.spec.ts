@@ -1,10 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { APIM_EDITOR_DATA_KEY, APIM_ON_CHANGE_MESSAGE_KEY, onChangeWithOrigin } from "../src";
-import { getEditorValuesPure, getValuesPure, getWidgetDataPure } from "../src/utils";
-import { assert } from "chai";
-import sinon from "sinon";
+import {
+  APIM_EDITOR_DATA_KEY,
+  APIM_ON_CHANGE_MESSAGE_KEY,
+  onChangeWithOrigin,
+} from "../../src/index.js";
+import { getEditorValuesPure, getValuesPure, getWidgetDataPure } from "../../src/utils.js";
+import { describe, it, assert, vi } from "vitest";
 
 const valuesUrl = {
   origin: "http://localhost:8000",
@@ -83,7 +86,7 @@ describe("onChangeWithOrigin", () => {
     const changedValueKey = "foo";
     const changedValues = { [changedValueKey]: "new value" };
 
-    sinon.stub(self.parent, "postMessage").callsFake((msg, targetOrigin: any) => {
+    vi.spyOn(self.parent, "postMessage").mockImplementation((msg, targetOrigin: any) => {
       const data = msg[APIM_ON_CHANGE_MESSAGE_KEY];
       assert.equal(valuesUrl.instanceId, data.instanceId);
       assert.equal(changedValueKey, data.key);
@@ -91,6 +94,7 @@ describe("onChangeWithOrigin", () => {
 
       assert.equal(valuesUrl.origin, targetOrigin);
     });
+
     onChangeWithOrigin(valuesUrl.origin, valuesUrl.instanceId, changedValues);
   });
 });
