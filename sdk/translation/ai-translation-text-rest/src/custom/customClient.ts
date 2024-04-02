@@ -6,13 +6,15 @@ import { logger } from "../logger";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import { TextTranslationClient } from "../clientDefinitions";
 import {
+  DEFAULT_SCOPE,
   TranslatorCredential,
+  TranslatorTokenCredential,
   TranslatorAuthenticationPolicy,
   TranslatorAzureKeyAuthenticationPolicy,
+  TranslatorTokenCredentialAuthenticationPolicy,
 } from "./authentication";
 import { AzureKeyCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
 
-const DEFAULT_SCOPE = "https://cognitiveservices.azure.com/.default";
 const DEFAULT_ENPOINT = "https://api.cognitive.microsofttranslator.com";
 const PLATFORM_HOST = "cognitiveservices";
 const PLATFORM_PATH = "/translator/text/v3.0";
@@ -25,6 +27,15 @@ function isTranslatorKeyCredential(credential: any): credential is TranslatorCre
   return (credential as TranslatorCredential)?.key !== undefined;
 }
 
+function isTokenCredential(credential: any): credential is TokenCredential {
+  return (credential as TokenCredential)?.getToken !== undefined;
+}
+
+function isTranslatorTokenCredential(credential: any): credential is TranslatorTokenCredential {
+  return (credential as TranslatorTokenCredential)?.tokenCredential !== undefined
+    && (credential as TranslatorTokenCredential)?.azureResourceId !== undefined;
+}
+
 /**
  * Initialize a new instance of `TextTranslationClient`
  * @param endpoint type: string, Supported Text Translation endpoints (protocol and hostname, for example:
@@ -33,7 +44,7 @@ function isTranslatorKeyCredential(credential: any): credential is TranslatorCre
  */
 export default function createClient(
   endpoint: undefined | string,
-  credential: undefined | TranslatorCredential | KeyCredential | TokenCredential = undefined,
+  credential: undefined | TranslatorCredential | TranslatorTokenCredential | KeyCredential | TokenCredential = undefined,
   options: ClientOptions = {},
 ): TextTranslationClient {
   let serviceEndpoint: string;
@@ -77,13 +88,23 @@ export default function createClient(
       credential as AzureKeyCredential,
     );
     client.pipeline.addPolicy(mtKeyAuthenticationPolicy);
-  } else if (credential) {
+  } else if (isTokenCredential(credential)) {
     client.pipeline.addPolicy(
       coreRestPipeline.bearerTokenAuthenticationPolicy({
         credential: credential as TokenCredential,
         scopes: DEFAULT_SCOPE,
       }),
     );
+  } else if (isTranslatorTokenCredential(credential)) {
+    client.pipeline.addPolicy(
+      coreRestPipeline.bearerTokenAuthenticationPolicy({
+        credential: (credential as TranslatorTokenCredential).tokenCredential,
+        scopes: DEFAULT_SCOPE,
+      }),
+    );
+    client.pipeline.addPolicy(new TranslatorTokenCredentialAuthenticationPolicy(
+      credential as TranslatorTokenCredential
+    ));
   }
 
   return client;
