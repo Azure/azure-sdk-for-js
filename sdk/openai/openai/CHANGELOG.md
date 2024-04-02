@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.12 (Unreleased)
+## 1.0.0-beta.12 (2024-04-01)
 
 ### Features Added
 
@@ -32,8 +32,6 @@ Changes to "bring your own data" features:
 ### Bugs Fixed
 
 - Fix a bug where `ChatCompletionsFunctionToolCall` did not expose the `index` property for the streaming mode.
-
-### Other Changes
 
 ## 1.0.0-beta.11 (2024-01-25)
 
