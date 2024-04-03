@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Update application inisghts resource endpoint.
+
 ### Other Changes
 
 ### Features Added
