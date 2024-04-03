@@ -10,8 +10,9 @@ import {
   displayNameToName,
   widgetFolderName,
 } from "./scaffolding.js";
+import { sourceDir } from "./sourceDir.js";
 import { join as joinPath, parse as parsePath } from "node:path";
-import { promises as fs } from "node:fs";
+import * as fs from "node:fs/promises";
 import { getTemplates } from "./getTemplates.js";
 import mustache from "mustache";
 
@@ -70,12 +71,12 @@ export async function generateProject(
     }
 
     let relativePath = file;
-    if (__dirname.includes("\\")) {
+    if (sourceDir.includes("\\")) {
       relativePath = relativePath.replace(/\//g, "\\");
     }
     relativePath = relativePath
-      .replace(joinPath(__dirname, "templates", "_shared"), "")
-      .replace(joinPath(__dirname, "templates", widgetConfig.technology), "")
+      .replace(joinPath(sourceDir, "..", "templates", "_shared"), "")
+      .replace(joinPath(sourceDir, "..", "templates", widgetConfig.technology), "")
       .replace(templateSuffix, "");
     const newFilePath = joinPath(process.cwd(), widgetFolderName(name), relativePath);
     const dir = parsePath(newFilePath).dir;
