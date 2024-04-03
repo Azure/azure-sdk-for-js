@@ -11,9 +11,9 @@ import {
   widgetFolderName,
 } from "./scaffolding.js";
 import { join as joinPath, parse as parsePath } from "node:path";
-import { promises as fs } from "node:fs";
 import { getTemplates } from "./getTemplates.js";
 import mustache from "mustache";
+import * as promises from "node:fs/promises";
 
 const templateSuffix = ".mustache";
 
@@ -57,7 +57,7 @@ export async function generateProject(
   const renderTemplate = async (file: string): Promise<void> => {
     const isTemplate = file.endsWith(templateSuffix);
     const encoding = file.endsWith(".ttf") ? "binary" : "utf8";
-    let fileData = await fs.readFile(file, { encoding });
+    let fileData = await promises.readFile(file, { encoding });
     if (isTemplate) {
       fileData = mustache.render(fileData, {
         name,
@@ -80,8 +80,8 @@ export async function generateProject(
     const newFilePath = joinPath(process.cwd(), widgetFolderName(name), relativePath);
     const dir = parsePath(newFilePath).dir;
 
-    await fs.mkdir(dir, { recursive: true });
-    await fs.writeFile(newFilePath, fileData, { encoding });
+    await promises.mkdir(dir, { recursive: true });
+    await promises.writeFile(newFilePath, fileData, { encoding });
   };
 
   const templates = await getTemplates(widgetConfig.technology);
