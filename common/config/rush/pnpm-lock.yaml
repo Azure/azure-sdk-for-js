@@ -14370,7 +14370,7 @@ packages:
     dev: false
 
   file:projects/arm-hdinsightcontainers.tgz:
-    resolution: {integrity: sha512-2z+wwLdBD97JZCs+hakP7gaVADqFowajau6NNplzwURG5lZvI++YkhdbvdsF2dncrX2OplW4vhnxsqfyGf8QGw==, tarball: file:projects/arm-hdinsightcontainers.tgz}
+    resolution: {integrity: sha512-gFkVTSFukvrTjZNjdU+45NjfiREUC2ZmeLG4dihSuQpwnTFBUHNA9f4StKTxjGTbBbGhPLk72JeKlGp0HelH6Q==, tarball: file:projects/arm-hdinsightcontainers.tgz}
     name: '@rush-temp/arm-hdinsightcontainers'
     version: 0.0.0
     dependencies:
@@ -14385,6 +14385,7 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -18906,7 +18907,7 @@ packages:
     dev: false
 
   file:projects/communication-rooms.tgz:
-    resolution: {integrity: sha512-Qx+IMxXE+mitHGUJsQ0z9CoDAuejQBQDKcxWs8ApQcsig2NGYe+3fFc0I/NdR0TsR3lzPeOS78B1A8e/uFDlzA==, tarball: file:projects/communication-rooms.tgz}
+    resolution: {integrity: sha512-Wo2CGmqMd/dddZMFQZZf8Kb7jtMqiccShkAjHW4RstjQSts5Jsikr5ZRQYmVnLBCTQxcJMpZW5llcE9HExEcrQ==, tarball: file:projects/communication-rooms.tgz}
     name: '@rush-temp/communication-rooms'
     version: 0.0.0
     dependencies:
