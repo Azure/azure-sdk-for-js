@@ -68,11 +68,7 @@ import {
   ChatThreadDeleteChatImageOptionalParams,
 } from "./generated/src";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
-import {
-  createXhrHttpClient,
-  isReadableStream,
-  isBlob,
-} from "./xhrHttpClient";
+import { createXhrHttpClient, isReadableStream, isBlob } from "./xhrHttpClient";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
 import { tracingClient } from "./generated/src/tracing";
 
@@ -612,7 +608,7 @@ export class ChatThreadClient {
     options?: UploadImageOptions,
   ): Promise<UploadChatImageResult>;
 
-   /**
+  /**
    * Uploads an chat image stream to a thread identified by threadId.
    * Allowed image types "jpg", "png", "gif", "heic", "webp".
    * Returns the id of the uploaded image.
@@ -629,23 +625,21 @@ export class ChatThreadClient {
     options?: UploadImageStreamOptions,
   ): Promise<UploadChatImageResult>;
 
-  
   async uploadImage(
     image: ArrayBuffer | Blob | ReadableStream<Uint8Array> | NodeJS.ReadableStream,
     imageFilename: string,
     imageBytesLengthOrOptions?: number | UploadImageOptions,
     options: UploadImageStreamOptions = {},
   ): Promise<UploadChatImageResult> {
-
     let uploadImageOptions = {};
     if (imageBytesLengthOrOptions !== undefined) {
-      if (typeof(imageBytesLengthOrOptions) === 'number') {
-        uploadImageOptions = { ...options, imageBytesLength: imageBytesLengthOrOptions }
+      if (typeof imageBytesLengthOrOptions === "number") {
+        uploadImageOptions = { ...options, imageBytesLength: imageBytesLengthOrOptions };
       } else {
-        uploadImageOptions = { ...options, ...imageBytesLengthOrOptions }
+        uploadImageOptions = { ...options, ...imageBytesLengthOrOptions };
       }
-    };
-    
+    }
+
     return tracingClient.withSpan(
       "ChatThreadClient-UploadImage",
       uploadImageOptions,
@@ -661,9 +655,7 @@ export class ChatThreadClient {
           // - is not readable stream
           result = await this.xhrClient.chatThread.uploadChatImage(
             this.threadId,
-            isReadableStream(image)
-              ? await this.getArrayBufferFromReadableStream(image)
-              : image,
+            isReadableStream(image) ? await this.getArrayBufferFromReadableStream(image) : image,
             { imageFilename, ...updatedOptions },
           );
         } else {
@@ -675,11 +667,10 @@ export class ChatThreadClient {
           } else if (isReadableStream(image)) {
             chatImageFile = await this.getArrayBufferFromReadableStream(image);
           }
-          result = await this.client.chatThread.uploadChatImage(
-            this.threadId,
-            chatImageFile,
-            { imageFilename, ...updatedOptions }
-          );
+          result = await this.client.chatThread.uploadChatImage(this.threadId, chatImageFile, {
+            imageFilename,
+            ...updatedOptions,
+          });
         }
         return result;
       },

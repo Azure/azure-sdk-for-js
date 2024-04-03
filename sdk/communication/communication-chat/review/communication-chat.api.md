@@ -148,7 +148,7 @@ export interface ChatParticipant {
 }
 
 // @public
-export type ChatRetentionPolicy = ThreadCreationDateRetentionPolicy;
+export type ChatRetentionPolicy = ThreadCreationDateRetentionPolicy | NoneRetentionPolicy;
 
 // @public
 export class ChatThreadClient {
@@ -252,6 +252,11 @@ export type ListParticipantsOptions = RestListParticipantsOptions;
 
 // @public
 export type ListReadReceiptsOptions = RestListReadReceiptsOptions;
+
+// @public
+export interface NoneRetentionPolicy {
+    kind: "none";
+}
 
 export { ParticipantsAddedEvent }
 

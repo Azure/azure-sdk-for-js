@@ -38,8 +38,14 @@ export interface ThreadCreationDateRetentionPolicy {
   deleteThreadAfterDays: number;
 }
 
+/** No thread retention policy. */
+export interface NoneRetentionPolicy {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "none";
+}
+
 /** Data retention policy for auto deletion. */
-export declare type ChatRetentionPolicy = ThreadCreationDateRetentionPolicy;
+export declare type ChatRetentionPolicy = ThreadCreationDateRetentionPolicy | NoneRetentionPolicy;
 
 /** Chat message. */
 export interface ChatMessage {
