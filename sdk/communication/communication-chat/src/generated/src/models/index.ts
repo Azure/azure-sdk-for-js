@@ -181,7 +181,7 @@ export interface ChatParticipant {
   metadata?: { [propertyName: string]: string };
 }
 
-/** An attachment in a chat message. */
+/** An attachment in a chat message. Currently only supported in Teams Interop scenarios. */
 export interface ChatAttachment {
   /** Id of the attachment */
   id: string;
@@ -315,7 +315,7 @@ export enum KnownCommunicationIdentifierModelKind {
   /** PhoneNumber */
   PhoneNumber = "phoneNumber",
   /** MicrosoftTeamsUser */
-  MicrosoftTeamsUser = "microsoftTeamsUser"
+  MicrosoftTeamsUser = "microsoftTeamsUser",
 }
 
 /**
@@ -337,7 +337,7 @@ export enum KnownCommunicationCloudEnvironmentModel {
   /** Dod */
   Dod = "dod",
   /** Gcch */
-  Gcch = "gcch"
+  Gcch = "gcch",
 }
 
 /**
@@ -370,7 +370,8 @@ export interface ChatThreadListChatReadReceiptsOptionalParams
 }
 
 /** Contains response data for the listChatReadReceipts operation. */
-export type ChatThreadListChatReadReceiptsResponse = ChatMessageReadReceiptsCollection;
+export type ChatThreadListChatReadReceiptsResponse =
+  ChatMessageReadReceiptsCollection;
 
 /** Optional parameters. */
 export interface ChatThreadSendChatReadReceiptOptionalParams
@@ -456,7 +457,8 @@ export interface ChatThreadListChatReadReceiptsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listChatReadReceiptsNext operation. */
-export type ChatThreadListChatReadReceiptsNextResponse = ChatMessageReadReceiptsCollection;
+export type ChatThreadListChatReadReceiptsNextResponse =
+  ChatMessageReadReceiptsCollection;
 
 /** Optional parameters. */
 export interface ChatThreadListChatMessagesNextOptionalParams
@@ -470,7 +472,8 @@ export interface ChatThreadListChatParticipantsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listChatParticipantsNext operation. */
-export type ChatThreadListChatParticipantsNextResponse = ChatParticipantsCollection;
+export type ChatThreadListChatParticipantsNextResponse =
+  ChatParticipantsCollection;
 
 /** Optional parameters. */
 export interface ChatCreateChatThreadOptionalParams
