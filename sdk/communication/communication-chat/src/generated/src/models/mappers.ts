@@ -758,11 +758,11 @@ export const ChatRetentionPolicy: coreClient.CompositeMapper = {
     },
     modelProperties: {
       kind: {
-        defaultValue: "threadCreationDate",
-        isConstant: true,
         serializedName: "kind",
+        required: true,
         type: {
-          name: "String",
+          name: "Enum",
+          allowedValues: ["threadCreationDate", "none"],
         },
       },
     },
@@ -1087,7 +1087,21 @@ export const ThreadCreationDateRetentionPolicy: coreClient.CompositeMapper = {
   },
 };
 
+export const NoneRetentionPolicy: coreClient.CompositeMapper = {
+  serializedName: "none",
+  type: {
+    name: "Composite",
+    className: "NoneRetentionPolicy",
+    uberParent: "ChatRetentionPolicy",
+    polymorphicDiscriminator: ChatRetentionPolicy.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ChatRetentionPolicy.type.modelProperties,
+    },
+  },
+};
+
 export let discriminators = {
   ChatRetentionPolicy: ChatRetentionPolicy,
   "ChatRetentionPolicy.threadCreationDate": ThreadCreationDateRetentionPolicy,
+  "ChatRetentionPolicy.none": NoneRetentionPolicy,
 };

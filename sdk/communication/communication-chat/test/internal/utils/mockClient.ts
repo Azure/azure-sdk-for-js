@@ -44,6 +44,7 @@ export const mockThread: RestModel.ChatThreadProperties = {
   id: "threadid",
   topic: "topic",
   metadata: { threadType: "primary", secondaryThread: "test-id" },
+  retentionPolicy: { kind: "none" },
   createdByCommunicationIdentifier: mockCommunicationIdentifier,
   createdOn: new Date("2020-06-26T18:06:06Z"),
 };
