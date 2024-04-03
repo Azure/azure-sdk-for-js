@@ -127,7 +127,7 @@ export {
   ChatCompletionsNamedToolSelectionUnion,
   ChatFinishDetailsUnion,
   OpenAIError,
-  OpenAIErrorOptions
+  OpenAIErrorOptions,
 } from "./models.js";
 export {
   GetCompletionsOptions,

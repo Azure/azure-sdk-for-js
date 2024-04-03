@@ -825,11 +825,10 @@ export class OpenAIClient {
 export interface OpenAIClientOptions extends ClientOptions {
 }
 
-// @public (undocumented)
+// @public
 export class OpenAIError extends RestError {
     // Warning: (ae-forgotten-export) The symbol "OpenAIErrorOptions" needs to be exported by the entry point index.d.ts
     constructor(message: string, options?: OpenAIErrorOptions);
-    details?: unknown;
     param: string | null;
     type: string | null;
 }

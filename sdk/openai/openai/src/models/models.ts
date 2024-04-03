@@ -1729,7 +1729,7 @@ export interface EmbeddingsUsage {
   totalTokens: number;
 }
 /**
- * The options supported by RestError.
+ * The options supported by OpenAIError.
  */
 export interface OpenAIErrorOptions extends RestErrorOptions {
   /** The parameters of the error. */
@@ -1738,21 +1738,20 @@ export interface OpenAIErrorOptions extends RestErrorOptions {
   type: string | null;
 }
 
-export class OpenAIError extends RestError{
+/**
+ * The OpenAI error class
+ */
+export class OpenAIError extends RestError {
   /**
-   * The HTTP status code of the request (if applicable.)
+   * The type of the error
    */
   public type: string | null;
   /**
-   * The request that was made.
+   * The param meter of the error
    */
   public param: string | null;
-  /**
-   * Bonus property set by the throw site.
-   */
-  public details?: unknown;
   constructor(message: string, options?: OpenAIErrorOptions) {
-    super(message, {code: options?.code ?? undefined, ...options});
+    super(message, { code: options?.code ?? undefined, ...options });
     this.type = options?.type ?? null;
     this.param = options?.param ?? null;
   }

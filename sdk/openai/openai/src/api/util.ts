@@ -109,6 +109,6 @@ export function createOpenAIError(result: PathUncheckedResponse): OpenAIError {
       headers: createHttpHeaders(result.headers),
       request: result.request,
       status: statusCodeToNumber(result.status) ?? -1,
-    }
+    },
   });
 }
