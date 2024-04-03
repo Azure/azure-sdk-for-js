@@ -133,5 +133,5 @@ export {
   GetImagesOptions,
   GetEmbeddingsOptions,
   EventStream,
-  OpenAIErrorModel,
+  OpenAIError,
 } from "./models/index.js";

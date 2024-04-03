@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { PathUncheckedResponse } from "@azure-rest/core-client";
+import { OpenAIError } from "../models/models.js";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
+
 type CamelCase<S extends string> = S extends `${infer P1}_${infer P2}`
   ? `${Lowercase<P1>}${Capitalize<CamelCase<P2>>}`
   : Lowercase<S>;
@@ -86,4 +90,25 @@ function toSnakeCase<P extends string>(str: P): SnakeCase<P> {
   return str
     .replace(/([A-Z])/g, (group) => `_${group.toLowerCase()}`)
     .replace(/^_/, "") as SnakeCase<P>;
+}
+
+function statusCodeToNumber(statusCode: string): number | undefined {
+  const status = Number.parseInt(statusCode);
+
+  return Number.isNaN(status) ? undefined : status;
+}
+
+export function createOpenAIError(result: PathUncheckedResponse): OpenAIError {
+  const message = result.body.error?.message ?? "An error has occurred";
+  return new OpenAIError(message, {
+    code: result.body.error?.code,
+    param: result.body.error?.param,
+    type: result.body.error?.type,
+    statusCode: statusCodeToNumber(result.status),
+    response: {
+      headers: createHttpHeaders(result.headers),
+      request: result.request,
+      status: statusCodeToNumber(result.status) ?? -1,
+    }
+  });
 }

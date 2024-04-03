@@ -9,6 +9,8 @@ import { ClientOptions } from '@azure-rest/core-client';
 import { ErrorModel } from '@azure-rest/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure-rest/core-client';
+import { RestError } from '@azure/core-rest-pipeline';
+import { RestErrorOptions } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -823,10 +825,11 @@ export class OpenAIClient {
 export interface OpenAIClientOptions extends ClientOptions {
 }
 
-// @public
-export interface OpenAIErrorModel {
-    code: string | null;
-    message?: string;
+// @public (undocumented)
+export class OpenAIError extends RestError {
+    // Warning: (ae-forgotten-export) The symbol "OpenAIErrorOptions" needs to be exported by the entry point index.d.ts
+    constructor(message: string, options?: OpenAIErrorOptions);
+    details?: unknown;
     param: string | null;
     type: string | null;
 }
