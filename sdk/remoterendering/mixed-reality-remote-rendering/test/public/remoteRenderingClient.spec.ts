@@ -263,7 +263,7 @@ describe("RemoteRendering functional tests", () => {
     } catch (e: any) {
       assert.isTrue(e.code === "InputContainerError");
       // Message: "Could not find the asset file in the storage account. Please make sure all paths and names are correct and the file is uploaded to storage."
-      assert.isNotNull(e.message)
+      assert.exists(e.message)
       assert.isTrue(e.message.toLowerCase().includes("could not find the asset file in the storage account"));
     }
   });
