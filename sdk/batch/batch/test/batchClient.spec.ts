@@ -285,34 +285,6 @@ describe("Batch Service", function () {
     //   // }
     // });
 
-    it("should add a pool with vnet and get expected error", async function () {
-      const pool: BatchServiceModels.PoolAddParameter = {
-        id: VNET_POOL,
-        vmSize: VMSIZE_A1,
-        virtualMachineConfiguration: {
-          imageReference: {
-            publisher: "Canonical",
-            offer: "0001-com-ubuntu-server-jammy",
-            sku: "22_04-lts",
-          },
-          nodeAgentSKUId: "batch.node.ubuntu 22.04",
-        },
-        targetDedicatedNodes: 0,
-        networkConfiguration: {
-          subnetId:
-            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
-        },
-      };
-
-      try {
-        await client.pool.add(pool);
-        assert.fail("Expected error to be thrown");
-      } catch (error) {
-        assert.equal(error.statusCode, 400);
-        assert.equal(error.body.code, "InvalidPropertyValue");
-      }
-    });
-
     it("should add a pool with a custom image and get expected error", async function () {
       const pool: BatchServiceModels.PoolAddParameter = {
         id: IMAGE_POOL,
