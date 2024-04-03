@@ -10,10 +10,11 @@ import {
   displayNameToName,
   widgetFolderName,
 } from "./scaffolding.js";
+import { sourceDir } from "./sourceDir.js";
 import { join as joinPath, parse as parsePath } from "node:path";
+import * as fs from "node:fs/promises";
 import { getTemplates } from "./getTemplates.js";
 import mustache from "mustache";
-import * as promises from "node:fs/promises";
 
 const templateSuffix = ".mustache";
 
@@ -57,7 +58,7 @@ export async function generateProject(
   const renderTemplate = async (file: string): Promise<void> => {
     const isTemplate = file.endsWith(templateSuffix);
     const encoding = file.endsWith(".ttf") ? "binary" : "utf8";
-    let fileData = await promises.readFile(file, { encoding });
+    let fileData = await fs.readFile(file, { encoding });
     if (isTemplate) {
       fileData = mustache.render(fileData, {
         name,
@@ -70,18 +71,18 @@ export async function generateProject(
     }
 
     let relativePath = file;
-    if (__dirname.includes("\\")) {
+    if (sourceDir.includes("\\")) {
       relativePath = relativePath.replace(/\//g, "\\");
     }
     relativePath = relativePath
-      .replace(joinPath(__dirname, "templates", "_shared"), "")
-      .replace(joinPath(__dirname, "templates", widgetConfig.technology), "")
+      .replace(joinPath(sourceDir, "..", "templates", "_shared"), "")
+      .replace(joinPath(sourceDir, "..", "templates", widgetConfig.technology), "")
       .replace(templateSuffix, "");
     const newFilePath = joinPath(process.cwd(), widgetFolderName(name), relativePath);
     const dir = parsePath(newFilePath).dir;
 
-    await promises.mkdir(dir, { recursive: true });
-    await promises.writeFile(newFilePath, fileData, { encoding });
+    await fs.mkdir(dir, { recursive: true });
+    await fs.writeFile(newFilePath, fileData, { encoding });
   };
 
   const templates = await getTemplates(widgetConfig.technology);

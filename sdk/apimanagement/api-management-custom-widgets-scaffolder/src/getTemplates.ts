@@ -4,13 +4,14 @@
 import { ScaffoldTech } from "./scaffolding.js";
 import { glob } from "glob";
 import { join as pathJoin } from "node:path";
+import { sourceDir } from "./sourceDir.js";
 
 export async function getTemplates(template: ScaffoldTech): Promise<string[]> {
   const sharedFiles = await getFiles(
-    pathJoin(__dirname, "templates", "_shared", "**", "**", "*.*"),
+    pathJoin(sourceDir, "..", "templates", "_shared", "**", "**", "*.*"),
   );
   const templateFiles = await getFiles(
-    pathJoin(__dirname, "templates", template, "**", "**", "*.*"),
+    pathJoin(sourceDir, "..", "templates", template, "**", "**", "*.*"),
   );
   return [...sharedFiles, ...templateFiles];
 }

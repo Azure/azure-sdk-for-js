@@ -8,6 +8,7 @@ vi.mock("node:fs/promises", async () => {
   const actual = await vi.importActual("node:fs/promises");
   return {
     ...actual,
+    mkdir: vi.fn(),
     writeFile: vi.fn(),
   };
 });
@@ -27,11 +28,10 @@ const deployConfig = {
 
 TECHNOLOGIES.forEach((technology) => {
   describe("Custom widget scaffolder - " + technology, () => {
-    const writtenFiles: { name: string; content: string }[] = [];
+    let writtenFiles: { name: string; content: string }[] = [];
 
     beforeEach(() => {
       vi.mocked(promises.writeFile).mockImplementation(async (name, content) => {
-        console.log("writing file", name, content);
         const stringName = name as string;
         const contentString = content as string;
         writtenFiles.push({ name: stringName, content: contentString });
@@ -39,13 +39,14 @@ TECHNOLOGIES.forEach((technology) => {
     });
 
     afterEach(() => {
-      vi.clearAllMocks();
+      vi.resetAllMocks();
+      writtenFiles = [];
     });
 
     it("should generate project", async () => {
       await generateProject({ ...widgetConfig, technology }, deployConfig);
 
-      assert.ok(writtenFiles.length);
+      assert.isAbove(writtenFiles.length, 0);
 
       const indexFile = writtenFiles.find((file) => file.name.includes("index.html"))?.content;
       if (!indexFile) {
