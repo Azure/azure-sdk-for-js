@@ -41,6 +41,8 @@ export interface CommunicationIdentifierModel {
   phoneNumber?: PhoneNumberIdentifierModel;
   /** The Microsoft Teams user. */
   microsoftTeamsUser?: MicrosoftTeamsUserIdentifierModel;
+  /** The Microsoft Teams application. */
+  microsoftTeamsApp?: MicrosoftTeamsAppIdentifierModel;
 }
 
 /** A user that got created with an Azure Communication Services resource. */
@@ -62,6 +64,14 @@ export interface MicrosoftTeamsUserIdentifierModel {
   /** True if the Microsoft Teams user is anonymous. By default false if missing. */
   isAnonymous?: boolean;
   /** The cloud that the Microsoft Teams user belongs to. By default 'public' if missing. */
+  cloud?: CommunicationCloudEnvironmentModel;
+}
+
+/** A Microsoft Teams application. */
+export interface MicrosoftTeamsAppIdentifierModel {
+  /** The Id of the Microsoft Teams application. */
+  appId: string;
+  /** The cloud that the Microsoft Teams application belongs to. By default 'public' if missing. */
   cloud?: CommunicationCloudEnvironmentModel;
 }
 
@@ -308,6 +318,8 @@ export enum KnownCommunicationIdentifierModelKind {
   PhoneNumber = "phoneNumber",
   /** MicrosoftTeamsUser */
   MicrosoftTeamsUser = "microsoftTeamsUser",
+  /** MicrosoftTeamsApp */
+  MicrosoftTeamsApp = "microsoftTeamsApp",
 }
 
 /**
@@ -318,7 +330,8 @@ export enum KnownCommunicationIdentifierModelKind {
  * **unknown** \
  * **communicationUser** \
  * **phoneNumber** \
- * **microsoftTeamsUser**
+ * **microsoftTeamsUser** \
+ * **microsoftTeamsApp**
  */
 export type CommunicationIdentifierModelKind = string;
 
