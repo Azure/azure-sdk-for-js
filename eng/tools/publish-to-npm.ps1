@@ -107,6 +107,10 @@ try {
     if (!$basicDeployment) {
         if ($registry -eq 'https://registry.npmjs.org/') {
             $publishToNpm = $true
+            if ($npmToken) {
+                $env:NPM_TOKEN=$npmToken
+                npm config set $regAuth`:_authToken=`$`{NPM_TOKEN`}
+            }
         }
         else {
             Write-Host "Choosing Private Devops Feed Deployment"
