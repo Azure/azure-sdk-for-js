@@ -62,17 +62,6 @@ export interface AnswerCallOptions extends OperationOptions {
 export type AnswerCallResult = CallResult;
 
 // @public
-export interface AzureBlobContainerRecordingStorage extends RecordingStorage {
-    recordingDestinationContainerUrl?: string;
-    recordingStorageKind: 'azureBlobStorage';
-}
-
-// @public
-export interface AzureCommunicationsRecordingStorage extends RecordingStorage {
-    recordingStorageKind: 'azureCommunicationServices';
-}
-
-// @public
 export class CallAutomationClient {
     constructor(connectionString: string, options?: CallAutomationClientOptions);
     constructor(endpoint: string, credential: TokenCredential | KeyCredential, options?: CallAutomationClientOptions);
@@ -407,6 +396,12 @@ export enum DtmfTone {
 }
 
 // @public
+export interface ExternalStorage {
+    recordingDestinationContainerUrl?: string;
+    recordingStorageKind: RecordingStorageKind;
+}
+
+// @public
 export interface FileSource extends PlaySource {
     // (undocumented)
     readonly kind: "fileSource";
@@ -578,11 +573,6 @@ export interface RecordingStateResult {
     recordingKind: RecordingKind_2;
     // (undocumented)
     recordingState: RecordingState;
-}
-
-// @public
-export interface RecordingStorage {
-    recordingStorageKind: RecordingStorageKind;
 }
 
 // @public
@@ -930,13 +920,12 @@ export interface StartRecordingOptions extends OperationOptions {
     audioChannelParticipantOrdering?: CommunicationIdentifier[];
     callLocator: CallLocator;
     channelAffinity?: ChannelAffinity[];
+    externalStorage?: ExternalStorage;
     pauseOnStart?: boolean;
     recordingChannel?: RecordingChannel;
     recordingContent?: RecordingContent;
     recordingFormat?: RecordingFormat;
     recordingStateCallbackEndpointUrl?: string;
-    // Warning: (ae-forgotten-export) The symbol "RecordingStorage_2" needs to be exported by the entry point index.d.ts
-    recordingStorage?: RecordingStorage_2;
 }
 
 // @public

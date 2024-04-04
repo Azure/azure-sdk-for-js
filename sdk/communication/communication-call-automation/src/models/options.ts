@@ -17,8 +17,8 @@ import {
   ChannelAffinity,
   CallIntelligenceOptions,
   CustomCallingContext,
+  ExternalStorage
 } from "./models";
-import { RecordingStorage } from "../generated/src";
 
 /** Options to configure the recognize operation. */
 export interface CallMediaRecognizeOptions extends OperationOptions {
@@ -227,7 +227,7 @@ export interface StartRecordingOptions extends OperationOptions {
   /** Pause on start call recording option. */
   pauseOnStart?: boolean;
   /** Recording storage option. */
-  recordingStorage?: RecordingStorage;
+  externalStorage?: ExternalStorage;
   /**
    * The sequential order in which audio channels are assigned to participants in the unmixed recording.
    * When 'recordingChannelType' is set to 'unmixed' and `audioChannelParticipantOrdering` is not specified,

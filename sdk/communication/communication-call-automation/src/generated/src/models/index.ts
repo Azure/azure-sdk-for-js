@@ -499,7 +499,7 @@ export interface StartCallRecordingRequest {
   channelAffinity?: ChannelAffinity[];
   /** When set to true will start recording in Pause mode, which can be resumed. */
   pauseOnStart?: boolean;
-  recordingStorage?: RecordingStorage;
+  externalStorage?: ExternalStorage;
 }
 
 /** The locator used for joining or taking action on a call. */
@@ -523,7 +523,7 @@ export interface ChannelAffinity {
   participant: CommunicationIdentifierModel;
 }
 
-export interface RecordingStorage {
+export interface ExternalStorage {
   /** Defines the kind of external storage */
   recordingStorageKind: RecordingStorageKind;
   /** Uri of a container or a location within a container */

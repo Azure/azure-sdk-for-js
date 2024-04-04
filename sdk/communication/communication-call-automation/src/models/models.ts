@@ -194,22 +194,9 @@ export interface ChannelAffinity {
 }
 
 /** The recording storage */
-export interface RecordingStorage {
+export interface ExternalStorage {
   /** Defines the kind of recording storage */
   recordingStorageKind: RecordingStorageKind;
-  /** Uri of a container or a location within a container */
-}
-
-/** AzureCommunicationsRecordingStorage storage */
-export interface AzureCommunicationsRecordingStorage extends RecordingStorage {
-  /** Defines the kind of recording storage */
-  recordingStorageKind: 'azureCommunicationServices';
-}
-
-/** AzureBlobContainerRecordingStorage storage */
-export interface AzureBlobContainerRecordingStorage extends RecordingStorage {
-  /** Defines the kind of recording storage */
-  recordingStorageKind: 'azureBlobStorage';
   /** Uri of a container or a location within a container */
   recordingDestinationContainerUrl?: string;
 }

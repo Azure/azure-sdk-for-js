@@ -1341,11 +1341,11 @@ export const StartCallRecordingRequest: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
-      recordingStorage: {
-        serializedName: "recordingStorage",
+      externalStorage: {
+        serializedName: "externalStorage",
         type: {
           name: "Composite",
-          className: "RecordingStorage",
+          className: "ExternalStorage",
         },
       },
     },
@@ -1405,10 +1405,10 @@ export const ChannelAffinity: coreClient.CompositeMapper = {
   },
 };
 
-export const RecordingStorage: coreClient.CompositeMapper = {
+export const ExternalStorage: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "RecordingStorage",
+    className: "ExternalStorage",
     modelProperties: {
       recordingStorageKind: {
         serializedName: "recordingStorageKind",
