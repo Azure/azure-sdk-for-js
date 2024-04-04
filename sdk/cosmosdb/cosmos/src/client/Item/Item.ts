@@ -29,6 +29,7 @@ import { EncryptionProcessor } from "../../encryption";
  */
 export class Item {
   private partitionKey: PartitionKeyInternal;
+  private encryptionProcessor: EncryptionProcessor;
   /**
    * Returns a reference URL to the resource. Used for linking in Permissions.
    */
@@ -50,6 +51,13 @@ export class Item {
   ) {
     this.partitionKey =
       partitionKey === undefined ? undefined : convertToInternalPartitionKey(partitionKey);
+    if (this.clientContext.enableEncyption) {
+      this.encryptionProcessor = EncryptionProcessor.getInstance(
+        this.container.id,
+        this.container.database.id,
+        this.clientContext.encryptionKeyStoreProvider,
+      );
+    }
   }
 
   /**
@@ -92,9 +100,12 @@ export class Item {
       let id = getIdFromLink(this.url);
 
       if (this.clientContext.enableEncyption) {
-        this.partitionKey = await this.getEncryptedPartitionKeyIfEncrypted(this.partitionKey);
-        id = await this.getEncryptedIdIfEncrypted(id);
-        path = await this.getEncryptedIdIfEncrypted(path);
+        this.partitionKey = await this.encryptionProcessor.getEncryptedPartitionKeyValue(
+          this.partitionKey,
+        );
+        const url = await this.encryptionProcessor.getEncryptedUrl(this.url);
+        path = getPathFromLink(url);
+        id = getIdFromLink(url);
       }
 
       let response: Response<T & Resource>;
@@ -115,7 +126,7 @@ export class Item {
       }
 
       if (this.clientContext.enableEncyption) {
-        response.result = await this.decryptItem(response.result);
+        response.result = await this.encryptionProcessor.decrypt(response.result);
       }
 
       return new ItemResponse(
@@ -178,10 +189,15 @@ export class Item {
       let id = getIdFromLink(this.url);
 
       if (this.clientContext.enableEncyption) {
-        body = await this.encryptItem(body);
-        this.partitionKey = await this.getEncryptedPartitionKeyIfEncrypted(this.partitionKey);
-        id = await this.getEncryptedIdIfEncrypted(id);
-        path = await this.getEncryptedIdIfEncrypted(path);
+        body = await this.encryptionProcessor.encrypt(body);
+        this.partitionKey = await this.encryptionProcessor.getEncryptedPartitionKeyValue(
+          this.partitionKey,
+        );
+        const url = await this.encryptionProcessor.getEncryptedUrl(this.url);
+        path = getPathFromLink(url);
+        id = getIdFromLink(url);
+        // id = await this.encryptionProcessor.getEncryptedId(id);
+        // path = await this.encryptionProcessor.getEncryptedId(path);
       }
 
       const response = await this.clientContext.replace<T>({
@@ -195,7 +211,7 @@ export class Item {
       });
 
       if (this.clientContext.enableEncyption) {
-        response.result = await this.decryptItem(response.result);
+        response.result = await this.encryptionProcessor.decrypt(response.result);
       }
       return new ItemResponse(
         response.result,
@@ -232,9 +248,12 @@ export class Item {
       let id = getIdFromLink(this.url);
 
       if (this.clientContext.enableEncyption) {
-        this.partitionKey = await this.getEncryptedPartitionKeyIfEncrypted(this.partitionKey);
-        id = await this.getEncryptedIdIfEncrypted(id);
-        path = await this.getEncryptedIdIfEncrypted(path);
+        this.partitionKey = await this.encryptionProcessor.getEncryptedPartitionKeyValue(
+          this.partitionKey,
+        );
+        const url = await this.encryptionProcessor.getEncryptedUrl(this.url);
+        path = getPathFromLink(url);
+        id = getIdFromLink(url);
       }
 
       const response = await this.clientContext.delete<T>({
@@ -247,7 +266,7 @@ export class Item {
       });
 
       if (this.clientContext.enableEncyption) {
-        response.result = await this.decryptItem(response.result);
+        response.result = await this.encryptionProcessor.decrypt(response.result);
       }
 
       return new ItemResponse(
@@ -289,12 +308,18 @@ export class Item {
         const operations = Array.isArray(body) ? body : body.operations;
         for (const operation of operations) {
           if ("value" in operation) {
-            operation.value = await this.encryptValue(operation.path, operation.value);
+            operation.value = await this.encryptionProcessor.encryptProperty(
+              operation.path,
+              operation.value,
+            );
           }
         }
-        this.partitionKey = await this.getEncryptedPartitionKeyIfEncrypted(this.partitionKey);
-        id = await this.getEncryptedIdIfEncrypted(id);
-        path = await this.getEncryptedIdIfEncrypted(path);
+        this.partitionKey = await this.encryptionProcessor.getEncryptedPartitionKeyValue(
+          this.partitionKey,
+        );
+        const url = await this.encryptionProcessor.getEncryptedUrl(this.url);
+        path = getPathFromLink(url);
+        id = getIdFromLink(url);
       }
 
       const response = await this.clientContext.patch<T>({
@@ -308,7 +333,7 @@ export class Item {
       });
 
       if (this.clientContext.enableEncyption) {
-        response.result = await this.decryptItem(response.result);
+        response.result = await this.encryptionProcessor.decrypt(response.result);
       }
 
       return new ItemResponse(
@@ -320,129 +345,5 @@ export class Item {
         getEmptyCosmosDiagnostics(),
       );
     }, this.clientContext);
-  }
-
-  async encryptItem<T extends ItemDefinition>(item: T): Promise<T> {
-    const key = this.container.database.id + "/" + this.container.id;
-    let encryptionSettings = this.clientContext.encryptionSettingsCache.getEncryptionSettings(key);
-    if (encryptionSettings === undefined) {
-      await this.container.initializeEncryption();
-      encryptionSettings = this.clientContext.encryptionSettingsCache.getEncryptionSettings(key);
-    }
-
-    if (encryptionSettings.pathsToEncrypt.length === 0) return item;
-    const encryptedItem = await EncryptionProcessor.encrypt(
-      item,
-      encryptionSettings,
-      this.clientContext.encryptionKeyStoreProvider,
-      this.container,
-    );
-    return encryptedItem;
-  }
-
-  async getEncryptedPartitionKeyIfEncrypted(
-    partitionKeyList: PartitionKeyInternal,
-  ): Promise<PartitionKeyInternal> {
-    const key = this.container.database.id + "/" + this.container.id;
-    let encryptionSettings = this.clientContext.encryptionSettingsCache.getEncryptionSettings(key);
-
-    if (encryptionSettings === undefined) {
-      await this.container.initializeEncryption();
-      encryptionSettings = this.clientContext.encryptionSettingsCache.getEncryptionSettings(key);
-    }
-    const partitionKeyPaths = encryptionSettings.partitionKeyPaths;
-    for (let i = 0; i < partitionKeyPaths.length; i++) {
-      const partitionKeyPath = this.extractPartitionKeyPath(partitionKeyPaths[i]);
-      if (encryptionSettings.pathsToEncrypt.includes(partitionKeyPath)) {
-        const settingForProperty =
-          encryptionSettings.getEncryptionSettingForProperty(partitionKeyPath);
-        const clientEncryptionKeyProperties =
-          await this.container.getClientEncryptionKeyProperties(partitionKeyPath);
-        partitionKeyList[i] = await EncryptionProcessor.encryptToken(
-          partitionKeyList[i],
-          settingForProperty,
-          partitionKeyPath === "/id",
-          this.clientContext.encryptionKeyStoreProvider,
-          clientEncryptionKeyProperties,
-        );
-      }
-    }
-    return partitionKeyList;
-  }
-  extractPartitionKeyPath(path: string): string {
-    const secondSlashIndex = path.indexOf("/", path.indexOf("/") + 1);
-    if (secondSlashIndex === -1) {
-      return path;
-    }
-    return path.substring(0, secondSlashIndex);
-  }
-
-  async IdEncryptionHelper(id: string): Promise<string> {
-    const key = this.container.database.id + "/" + this.container.id;
-    const encryptionSettings =
-      this.clientContext.encryptionSettingsCache.getEncryptionSettings(key);
-    const settingForProperty = encryptionSettings.getEncryptionSettingForProperty("/id");
-
-    if (settingForProperty == null) return id;
-    const clientEncryptionKeyProperties =
-      await this.container.getClientEncryptionKeyProperties("/id");
-    if (settingForProperty != null) {
-      id = await EncryptionProcessor.encryptToken(
-        id,
-        settingForProperty,
-        true,
-        this.clientContext.encryptionKeyStoreProvider,
-        clientEncryptionKeyProperties,
-      );
-    }
-    return id;
-  }
-
-  async getEncryptedIdIfEncrypted(id: string): Promise<string> {
-    const parts = id.split("/");
-    const lastPart = parts[parts.length - 1];
-    const encryptedLastPart = await this.IdEncryptionHelper(lastPart);
-    parts[parts.length - 1] = encryptedLastPart;
-    return parts.join("/");
-  }
-
-  async decryptItem<T extends ItemDefinition>(item: T): Promise<T> {
-    const key = this.container.database.id + "/" + this.container.id;
-    const encryptionSettings =
-      this.clientContext.encryptionSettingsCache.getEncryptionSettings(key);
-    item = await EncryptionProcessor.decrypt(
-      item,
-      encryptionSettings,
-      this.clientContext.encryptionKeyStoreProvider,
-      this.container,
-    );
-    return item;
-  }
-
-  async encryptValue(
-    property: string,
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    value: any,
-  ): Promise<any> {
-    const key = this.container.database.id + "/" + this.container.id;
-    let encryptionSettings = this.clientContext.encryptionSettingsCache.getEncryptionSettings(key);
-    if (encryptionSettings === undefined) {
-      await this.container.initializeEncryption();
-      encryptionSettings = this.clientContext.encryptionSettingsCache.getEncryptionSettings(key);
-    }
-    const settingForProperty = encryptionSettings.getEncryptionSettingForProperty(property);
-    if (settingForProperty == null) {
-      return value;
-    }
-    const clientEncryptionKeyProperties =
-      await this.container.getClientEncryptionKeyProperties(property);
-    value = await EncryptionProcessor.encryptToken(
-      value,
-      settingForProperty,
-      property === "/id",
-      this.clientContext.encryptionKeyStoreProvider,
-      clientEncryptionKeyProperties,
-    );
-    return value;
   }
 }

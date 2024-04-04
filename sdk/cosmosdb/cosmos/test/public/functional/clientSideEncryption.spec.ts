@@ -1,10 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ClientSecretCredential } from "@azure/identity";
 import {
   CosmosClient,
-  AzureKeyVaultEncryptionKeyResolver,
   EncryptionAlgorithm,
   EncryptionKeyResolverName,
   EncryptionKeyWrapMetadata,
@@ -13,42 +11,63 @@ import {
   ClientEncryptionIncludedPath,
   EncryptionType,
   ClientEncryptionPolicy,
-  PartitionKeyDefinitionVersion,
-  PartitionKeyKind,
   StatusCodes,
   PatchOperation,
+  PartitionKeyDefinitionVersion,
+  PartitionKeyKind,
+  OperationInput,
+  PatchOperationType,
+  BulkOperationType,
+  EncryptionKeyResolver,
 } from "../../../src";
 import { assert } from "chai";
 import { masterKey } from "../common/_fakeTestSecrets";
 import { endpoint } from "../common/_testConfig";
 
-const credentials = new ClientSecretCredential(
-  "<tenant-id>",
-  "<client-id>", // HR service client ID
-  "client-secret",
-);
+import { removeAllDatabases } from "../common/TestHelpers";
+
+export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver {
+  async wrapKey(encryptionKeyId: string, algorithm: string, key: Buffer): Promise<Buffer> {
+    // To satisfy build requirements
+    const _ = encryptionKeyId + algorithm + key.toString();
+    console.log(_.slice(0, 0));
+
+    const base64key = "CWF5CrojTqFvTUWWHhq/IVWYIFbUYF99QwisJmCV3mc=";
+    return Buffer.from(base64key, "base64");
+  }
+
+  async unwrapKey(encryptionKeyId: string, algorithm: string, wrappedKey: Buffer): Promise<Buffer> {
+    // To satisfy build requirements
+    const _ = encryptionKeyId + algorithm + wrappedKey.toString();
+    console.log(_.slice(0, 0));
+
+    const base64key = "CGB4CbkiTaBuTESVHRm+IFSXH1XTX158QgerJV+U3WY=";
+    return Buffer.from(base64key, "base64");
+  }
+}
+const testKeyVault = "TESTKEYSTORE_VAULT" as EncryptionKeyResolverName;
 
 const client = new CosmosClient({
   endpoint: endpoint,
   key: masterKey,
   enableEncryption: true,
-  keyEncryptionKeyResolver: new AzureKeyVaultEncryptionKeyResolver(credentials),
+  keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
 });
 
 describe("Client Side Encryption", () => {
   let database: Database;
   before(async () => {
     try {
-      const response = await client.databases.createIfNotExists({ id: "encryptionTestDatabase" });
+      const response = await client.databases.createIfNotExists({ id: "encryptionTestDatabase2" });
       database = response.database;
       console.log("Database created");
       await database.createClientEncryptionKey(
         "dek1",
         EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
         new EncryptionKeyWrapMetadata(
-          EncryptionKeyResolverName.AzureKeyVault,
-          "akvKey",
-          "<key-vault-url>",
+          testKeyVault,
+          "key1",
+          "tempmetadata1",
           KeyEncryptionKeyAlgorithm.RSA_OAEP,
         ),
       );
@@ -80,6 +99,7 @@ describe("Client Side Encryption", () => {
       partitionKey: "/id",
       clientEncryptionPolicy: clientEncryptionPolicy,
     });
+    await container.initializeEncryption();
 
     // create Item
     const createResponse = await container.items.create({
@@ -192,7 +212,7 @@ describe("Client Side Encryption", () => {
   });
 
   it("CRUD operation with encrypted hierarchical partition key", async () => {
-    const includedPaths = ["/valueint", "/valuebit", "/object"].map(
+    const includedPaths = ["/valueint", "/valuebit", "/object", "/id"].map(
       (path) =>
         new ClientEncryptionIncludedPath(
           path,
@@ -292,7 +312,227 @@ describe("Client Side Encryption", () => {
     assert.equal(deleteResponse.statusCode, StatusCodes.NoContent);
   });
 
+  it("encryption batch operation", async () => {
+    const includedPaths = ["/key", "/id", "/object"].map(
+      (path) =>
+        new ClientEncryptionIncludedPath(
+          path,
+          "dek1",
+          EncryptionType.DETERMINISTIC,
+          EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+        ),
+    );
+    const clientEncryptionPolicy = new ClientEncryptionPolicy(includedPaths, 2);
+    const containerDef = {
+      id: "encryption_container_batch",
+      partitionKey: "/key",
+      clientEncryptionPolicy: clientEncryptionPolicy,
+    };
+    const { container } = await database.containers.createIfNotExists(containerDef);
+    await container.initializeEncryption();
+    const operations: OperationInput[] = [
+      {
+        operationType: "Create",
+        resourceBody: { id: "doc1", name: "sample", key: "A", object: { o1: 1, o2: 2 } },
+      },
+      {
+        operationType: "Upsert",
+        resourceBody: { id: "doc2", name: "other", key: "A", object: { o1: 1, o2: 2 } },
+      },
+      {
+        operationType: "Read",
+        id: "doc1",
+      },
+      {
+        operationType: "Delete",
+        id: "doc1",
+      },
+      {
+        operationType: "Patch",
+        id: "doc2",
+        resourceBody: {
+          operations: [{ op: PatchOperationType.set, path: "/name", value: "sample" }],
+          condition: "from c where NOT IS_DEFINED(c.newImproved)",
+        },
+      },
+    ];
+
+    const response = await container.items.batch(operations, "A");
+    assert.equal(response.result[0].statusCode, StatusCodes.Created);
+    assert.equal(response.result[1].statusCode, StatusCodes.Created);
+    assert.equal(response.result[2].statusCode, StatusCodes.Ok);
+    assert.equal(response.result[3].statusCode, StatusCodes.NoContent);
+    assert.equal(response.result[4].statusCode, StatusCodes.Ok);
+  });
+
+  it("encryption batch with hierarchical partition key", async () => {
+    const includedPaths = ["/key", "/id", "/object"].map(
+      (path) =>
+        new ClientEncryptionIncludedPath(
+          path,
+          "dek1",
+          EncryptionType.DETERMINISTIC,
+          EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+        ),
+    );
+    const clientEncryptionPolicy = new ClientEncryptionPolicy(includedPaths, 2);
+    const containerDef = {
+      id: "encryption_hierarchical_container_batch",
+      partitionKey: {
+        paths: ["/key", "/object/o1"],
+        version: PartitionKeyDefinitionVersion.V2,
+        kind: PartitionKeyKind.MultiHash,
+      },
+      clientEncryptionPolicy: clientEncryptionPolicy,
+    };
+    const { container } = await database.containers.createIfNotExists(containerDef);
+    await container.initializeEncryption();
+    const operations: OperationInput[] = [
+      {
+        operationType: "Create",
+        resourceBody: { id: "doc1", name: "sample", key: "A", object: { o1: 1, o2: 2 } },
+      },
+      {
+        operationType: "Upsert",
+        resourceBody: { id: "doc2", name: "other", key: "A", object: { o1: 1, o2: 2 } },
+      },
+      {
+        operationType: "Read",
+        id: "doc1",
+      },
+      {
+        operationType: "Delete",
+        id: "doc1",
+      },
+      {
+        operationType: "Patch",
+        id: "doc2",
+        resourceBody: {
+          operations: [{ op: PatchOperationType.set, path: "/name", value: "sample" }],
+          condition: "from c where NOT IS_DEFINED(c.newImproved)",
+        },
+      },
+    ];
+
+    const response = await container.items.batch(operations, ["A", 1]);
+    assert.equal(response.result[0].statusCode, StatusCodes.Created);
+    assert.equal(response.result[1].statusCode, StatusCodes.Created);
+    assert.equal(response.result[2].statusCode, StatusCodes.Ok);
+    assert.equal(response.result[3].statusCode, StatusCodes.NoContent);
+    assert.equal(response.result[4].statusCode, StatusCodes.Ok);
+  });
+
+  it("encryption bulk operation", async () => {
+    const includedPaths = ["/key", "/id"].map(
+      (path) =>
+        new ClientEncryptionIncludedPath(
+          path,
+          "dek1",
+          EncryptionType.DETERMINISTIC,
+          EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+        ),
+    );
+    const clientEncryptionPolicy = new ClientEncryptionPolicy(includedPaths, 2);
+    const containerDef = {
+      id: "encryption_container_bulk",
+      partitionKey: "/key",
+      clientEncryptionPolicy: clientEncryptionPolicy,
+    };
+    const { container } = await database.containers.createIfNotExists(containerDef);
+    await container.initializeEncryption();
+    const operations = [
+      {
+        operationType: BulkOperationType.Create,
+        resourceBody: { id: "doc1", name: "sample", key: "A" },
+      },
+      {
+        operationType: BulkOperationType.Upsert,
+        partitionKey: "A",
+        resourceBody: { id: "doc2", name: "other", key: "A" },
+      },
+      {
+        operationType: BulkOperationType.Read,
+        id: "doc1",
+        partitionKey: "A",
+      },
+      {
+        operationType: BulkOperationType.Delete,
+        id: "doc2",
+        partitionKey: "A",
+      },
+      {
+        operationType: BulkOperationType.Replace,
+        partitionKey: "A",
+        id: "doc1",
+        resourceBody: { id: "doc2", name: "nice", key: "A" },
+      },
+    ];
+    const response = await container.items.bulk(operations);
+    assert.equal(response[0].statusCode, StatusCodes.Created);
+    assert.equal(response[1].statusCode, StatusCodes.Created);
+    assert.equal(response[2].statusCode, StatusCodes.Ok);
+    assert.equal(response[3].statusCode, StatusCodes.NoContent);
+    assert.equal(response[4].statusCode, StatusCodes.Ok);
+  });
+
+  it("encryption bulk operation with hierarchical partition key", async () => {
+    const includedPaths = ["/key", "/id"].map(
+      (path) =>
+        new ClientEncryptionIncludedPath(
+          path,
+          "dek1",
+          EncryptionType.DETERMINISTIC,
+          EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+        ),
+    );
+    const clientEncryptionPolicy = new ClientEncryptionPolicy(includedPaths, 2);
+    const containerDef = {
+      id: "encryption_hierarchical_container_bulk",
+      partitionKey: {
+        paths: ["/key", "/object/o1"],
+        version: PartitionKeyDefinitionVersion.V2,
+        kind: PartitionKeyKind.MultiHash,
+      },
+      clientEncryptionPolicy: clientEncryptionPolicy,
+    };
+    const { container } = await database.containers.createIfNotExists(containerDef);
+    await container.initializeEncryption();
+    const operations = [
+      {
+        operationType: BulkOperationType.Create,
+        resourceBody: { id: "doc1", name: "sample", key: "A", object: { o1: 1, o2: 2 } },
+      },
+      {
+        operationType: BulkOperationType.Upsert,
+        partitionKey: ["B", 1],
+        resourceBody: { id: "doc1", name: "other", key: "B", object: { o1: 1, o2: 2 } },
+      },
+      {
+        operationType: BulkOperationType.Read,
+        id: "doc1",
+        partitionKey: ["A", 1],
+      },
+      {
+        operationType: BulkOperationType.Delete,
+        id: "doc1",
+        partitionKey: ["A", 1],
+      },
+      {
+        operationType: BulkOperationType.Replace,
+        partitionKey: ["B", 1],
+        id: "doc1",
+        resourceBody: { id: "doc1", name: "nice", key: "B", object: { o1: 1, o2: 2 } },
+      },
+    ];
+    const response = await container.items.bulk(operations);
+    assert.equal(response[0].statusCode, StatusCodes.Created);
+    assert.equal(response[1].statusCode, StatusCodes.Created);
+    assert.equal(response[2].statusCode, StatusCodes.Ok);
+    assert.equal(response[3].statusCode, StatusCodes.NoContent);
+    assert.equal(response[4].statusCode, StatusCodes.Ok);
+  });
+
   after(async () => {
-    await database.delete();
+    await removeAllDatabases();
   });
 });

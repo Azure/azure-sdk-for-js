@@ -3,21 +3,21 @@
 
 import { Serializer } from "./Serializer";
 
-export class BitSerializer implements Serializer {
-  private static instance: BitSerializer;
+export class BooleanSerializer implements Serializer {
+  private static instance: BooleanSerializer;
 
   private constructor() {
-    if (BitSerializer.instance) {
+    if (BooleanSerializer.instance) {
       throw new Error("Already initialized. Use getInstance() method instead");
     }
     console.log("no instance found");
   }
 
-  public static getInstance(): BitSerializer {
-    if (!BitSerializer.instance) {
-      BitSerializer.instance = new BitSerializer();
+  public static getInstance(): BooleanSerializer {
+    if (!BooleanSerializer.instance) {
+      BooleanSerializer.instance = new BooleanSerializer();
     }
-    return BitSerializer.instance;
+    return BooleanSerializer.instance;
   }
 
   serialize(value: boolean): Buffer {

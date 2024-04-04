@@ -24,11 +24,16 @@ import {
   decorateBatchOperation,
   splitBatchBasedOnBodySize,
   BulkOperationResponse,
+  BulkOperationType,
 } from "../../utils/batch";
 import { readPartitionKeyDefinition } from "../ClientUtils";
 import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks";
 import { hashPartitionKey } from "../../utils/hashing/hash";
-import { PartitionKey, PartitionKeyDefinition } from "../../documents";
+import {
+  convertToInternalPartitionKey,
+  PartitionKey,
+  PartitionKeyDefinition,
+} from "../../documents";
 import { PartitionKeyRangeCache } from "../../routing";
 import {
   ChangeFeedPullModelIterator,
@@ -61,6 +66,7 @@ function isChangeFeedOptions(options: unknown): options is ChangeFeedOptions {
  */
 export class Items {
   private partitionKeyRangeCache: PartitionKeyRangeCache;
+  private encryptionProcessor: EncryptionProcessor;
   /**
    * Create an instance of {@link Items} linked to the parent {@link Container}.
    * @param container - The parent container.
@@ -71,6 +77,13 @@ export class Items {
     private readonly clientContext: ClientContext,
   ) {
     this.partitionKeyRangeCache = new PartitionKeyRangeCache(this.clientContext);
+    if (this.clientContext.enableEncyption) {
+      this.encryptionProcessor = EncryptionProcessor.getInstance(
+        this.container.id,
+        this.container.database.id,
+        this.clientContext.encryptionKeyStoreProvider,
+      );
+    }
   }
 
   /**
@@ -316,7 +329,7 @@ export class Items {
       let partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
 
       if (this.clientContext.enableEncyption) {
-        body = await this.encryptItem(body);
+        body = await this.encryptionProcessor.encrypt(body);
         partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
       }
 
@@ -339,7 +352,7 @@ export class Items {
       });
 
       if (this.clientContext.enableEncyption) {
-        response.result = await this.decryptItem(response.result);
+        response.result = await this.encryptionProcessor.decrypt(response.result);
         partitionKey = extractPartitionKeys(response.result, partitionKeyDefinition);
       }
       const ref = new Item(
@@ -404,7 +417,7 @@ export class Items {
       let partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
 
       if (this.clientContext.enableEncyption) {
-        body = await this.encryptItem(body);
+        body = await this.encryptionProcessor.encrypt(body);
         partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
       }
 
@@ -427,7 +440,7 @@ export class Items {
       });
 
       if (this.clientContext.enableEncyption) {
-        response.result = await this.decryptItem(response.result);
+        response.result = await this.encryptionProcessor.decrypt(response.result);
         partitionKey = extractPartitionKeys(response.result, partitionKeyDefinition);
       }
 
@@ -489,6 +502,11 @@ export class Items {
         diagnosticNode,
         this.container,
       );
+
+      if (this.clientContext.enableEncyption) {
+        operations = await this.bulkBatchEncryptionHelper(operations);
+      }
+
       const batches: Batch[] = partitionKeyRanges.map((keyRange: PartitionKeyRange) => {
         return {
           min: keyRange.minInclusive,
@@ -529,6 +547,12 @@ export class Items {
                 diagnosticNode,
                 DiagnosticNodeType.BATCH_REQUEST,
               );
+
+              if (this.clientContext.enableEncyption) {
+                for (const result of response.result) {
+                  result.resourceBody = await this.encryptionProcessor.decrypt(result.resourceBody);
+                }
+              }
               response.result.forEach((operationResponse: OperationResponse, index: number) => {
                 orderedResponses[batch.indexes[index]] = operationResponse;
               });
@@ -629,6 +653,16 @@ export class Items {
       if (operations.length > 100) {
         throw new Error("Cannot run batch request with more than 100 operations per partition");
       }
+
+      if (this.clientContext.enableEncyption) {
+        if (partitionKey) {
+          const partitionKeyInternal = convertToInternalPartitionKey(partitionKey);
+          partitionKey =
+            await this.encryptionProcessor.getEncryptedPartitionKeyValue(partitionKeyInternal);
+        }
+        operations = await this.bulkBatchEncryptionHelper(operations);
+      }
+
       try {
         const response: Response<OperationResponse[]> = await this.clientContext.batch({
           body: operations,
@@ -638,6 +672,15 @@ export class Items {
           options,
           diagnosticNode,
         });
+
+        if (this.clientContext.enableEncyption) {
+          for (const result of response.result) {
+            if (result.resourceBody) {
+              result.resourceBody = await this.encryptionProcessor.decrypt(result.resourceBody);
+            }
+          }
+        }
+
         return response;
       } catch (err: any) {
         throw new Error(`Batch request error: ${err.message}`);
@@ -645,37 +688,42 @@ export class Items {
     }, this.clientContext);
   }
 
-  async encryptItem<T extends ItemDefinition>(item: T): Promise<T> {
-    const key = this.container.database.id + "/" + this.container.id;
-    let encryptionSettings = this.clientContext.encryptionSettingsCache.getEncryptionSettings(key);
-    if (encryptionSettings === undefined) {
-      await this.container.initializeEncryption();
-      encryptionSettings = this.clientContext.encryptionSettingsCache.getEncryptionSettings(key);
+  // TODO: Encryption for Patch Operations
+  private async bulkBatchEncryptionHelper(operations: OperationInput[]): Promise<OperationInput[]> {
+    for (const operation of operations) {
+      if (Object.prototype.hasOwnProperty.call(operation, "partitionKey")) {
+        const partitionKeyInternal = convertToInternalPartitionKey(operation.partitionKey);
+        operation.partitionKey =
+          await this.encryptionProcessor.getEncryptedPartitionKeyValue(partitionKeyInternal);
+      }
+      switch (operation.operationType) {
+        case BulkOperationType.Create:
+        case BulkOperationType.Upsert:
+          operation.resourceBody = await this.encryptionProcessor.encrypt(operation.resourceBody);
+          break;
+        case BulkOperationType.Read:
+        case BulkOperationType.Delete:
+          operation.id = await this.encryptionProcessor.getEncryptedId(operation.id);
+          break;
+        case BulkOperationType.Replace:
+          operation.id = await this.encryptionProcessor.getEncryptedId(operation.id);
+          operation.resourceBody = await this.encryptionProcessor.encrypt(operation.resourceBody);
+          break;
+        case BulkOperationType.Patch:
+          operation.id = await this.encryptionProcessor.getEncryptedId(operation.id);
+          const body = operation.resourceBody;
+          const patchRequestBody = Array.isArray(body) ? body : body.operations;
+          for (const patchOperation of patchRequestBody) {
+            if ("value" in patchOperation) {
+              patchOperation.value = await this.encryptionProcessor.encryptProperty(
+                patchOperation.path,
+                patchOperation.value,
+              );
+            }
+          }
+          break;
+      }
     }
-
-    const encryptedItem = await EncryptionProcessor.encrypt(
-      item,
-      encryptionSettings,
-      this.clientContext.encryptionKeyStoreProvider,
-      this.container,
-    );
-    return encryptedItem;
-  }
-
-  async decryptItem<T extends ItemDefinition>(item: T): Promise<T> {
-    const key = this.container.database.id + "/" + this.container.id;
-    const encryptionSettings =
-      this.clientContext.encryptionSettingsCache.getEncryptionSettings(key);
-    if (encryptionSettings == null) await this.container.initializeEncryption();
-    if (encryptionSettings == null) {
-      throw new Error("Encryption Settings is not defined");
-    }
-    item = await EncryptionProcessor.decrypt(
-      item,
-      encryptionSettings,
-      this.clientContext.encryptionKeyStoreProvider,
-      this.container,
-    );
-    return item;
+    return operations;
   }
 }

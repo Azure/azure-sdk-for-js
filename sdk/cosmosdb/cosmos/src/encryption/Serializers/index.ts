@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 export { Serializer } from "./Serializer";
-export { BitSerializer } from "./BitSerializer";
+export { BooleanSerializer } from "./BooleanSerializer";
 export { NumberSerializer } from "./NumberSerializer";
 export { FloatSerializer } from "./FloatSerializer";
 export { StringSerializer } from "./StringSerializer";

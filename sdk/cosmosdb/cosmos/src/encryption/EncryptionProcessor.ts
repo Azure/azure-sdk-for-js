@@ -5,10 +5,16 @@ import { EncryptionSettings } from "./EncryptionSettings";
 import { EncryptionSettingForProperty } from "./EncryptionSettingForProperty";
 import { AeadAes256CbcHmacSha256Algorithm } from "./AeadAes256CbcHmacSha256Algorithm";
 import { EncryptionKeyStoreProvider } from "./EncryptionKeyStoreProvider";
-import { Container, ItemDefinition } from "../client";
+import { ItemDefinition } from "../client";
 import { Serializer } from "./Serializers/Serializer";
-import { BitSerializer, FloatSerializer, NumberSerializer, StringSerializer } from "./Serializers";
-import { ClientEncryptionKeyProperties } from "./ClientEncryptionKey";
+import {
+  BooleanSerializer,
+  FloatSerializer,
+  NumberSerializer,
+  StringSerializer,
+} from "./Serializers";
+import { ClientEncryptionKeyPropertiesCache, EncryptionSettingsCache } from "./Cache";
+import { PartitionKeyInternal } from "../documents";
 
 enum TypeMarker {
   Null = 1,
@@ -18,18 +24,39 @@ enum TypeMarker {
   String = 5,
 }
 
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class EncryptionProcessor {
-  static async encrypt<T extends ItemDefinition>(
-    body: T,
-    encryptionSettings: EncryptionSettings,
+  private static instances: { [containerId: string]: EncryptionProcessor } = {};
+  private constructor(
+    private readonly containerId: string,
+    private readonly databaseId: string,
+    private readonly encryptionKeyStoreProvider: EncryptionKeyStoreProvider,
+  ) {
+    // Private constructor to prevent external instantiation
+  }
+  static getInstance(
+    containerId: string,
+    databaseId: string,
     encryptionKeyStoreProvider: EncryptionKeyStoreProvider,
-    container: Container,
-  ): Promise<T> {
-    if (body == null) {
+  ): EncryptionProcessor {
+    if (!this.instances[containerId]) {
+      this.instances[containerId] = new EncryptionProcessor(
+        containerId,
+        databaseId,
+        encryptionKeyStoreProvider,
+      );
+    }
+    return this.instances[containerId];
+  }
+
+  async encrypt<T extends ItemDefinition>(body: T): Promise<T> {
+    if (!body) {
       throw new Error("Input body is null or undefined.");
     }
 
+    const encryptionSettings = EncryptionProcessor.getEncryptionSettings(
+      this.databaseId,
+      this.containerId,
+    );
     for (const pathToEncrypt of encryptionSettings.pathsToEncrypt) {
       const propertyName = pathToEncrypt.slice(1);
       if (!Object.prototype.hasOwnProperty.call(body, propertyName)) {
@@ -37,29 +64,89 @@ export class EncryptionProcessor {
       }
 
       const settingForProperty = encryptionSettings.getEncryptionSettingForProperty(pathToEncrypt);
-      if (settingForProperty == null) {
+      if (!settingForProperty) {
         throw new Error("Invalid Encryption Setting for the Property: " + propertyName);
       }
-      const clientEncryptionKeyProperties =
-        await container.getClientEncryptionKeyProperties(pathToEncrypt);
-      body[propertyName as keyof T] = await EncryptionProcessor.encryptToken(
+
+      body[propertyName as keyof T] = await this.encryptToken(
         body[propertyName],
         settingForProperty,
         propertyName === "id",
-        encryptionKeyStoreProvider,
-        clientEncryptionKeyProperties,
       );
     }
     return body;
   }
 
-  static async encryptToken(
+  async encryptProperty(
+    path: string,
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    value: any,
+  ): Promise<any> {
+    const encryptionSettings = EncryptionProcessor.getEncryptionSettings(
+      this.databaseId,
+      this.containerId,
+    );
+    const settingForProperty = encryptionSettings.getEncryptionSettingForProperty(path);
+    if (!settingForProperty) {
+      return value;
+    }
+
+    value = await this.encryptToken(value, settingForProperty, path === "/id");
+    return value;
+  }
+
+  async getEncryptedPartitionKeyValue(
+    partitionKeyList: PartitionKeyInternal,
+  ): Promise<PartitionKeyInternal> {
+    const encryptionSettings = EncryptionProcessor.getEncryptionSettings(
+      this.databaseId,
+      this.containerId,
+    );
+    const partitionKeyPaths = encryptionSettings.partitionKeyPaths;
+    for (let i = 0; i < partitionKeyPaths.length; i++) {
+      const partitionKeyPath = EncryptionProcessor.extractPartitionKeyPath(partitionKeyPaths[i]);
+      if (encryptionSettings.pathsToEncrypt.includes(partitionKeyPath)) {
+        const settingForProperty =
+          encryptionSettings.getEncryptionSettingForProperty(partitionKeyPath);
+        partitionKeyList[i] = await this.encryptToken(
+          partitionKeyList[i],
+          settingForProperty,
+          partitionKeyPath === "/id",
+        );
+      }
+    }
+    return partitionKeyList;
+  }
+
+  async getEncryptedUrl(id: string): Promise<string> {
+    const parts = id.split("/");
+    const lastPart = parts[parts.length - 1];
+    const encryptedLastPart = await this.getEncryptedId(lastPart);
+    parts[parts.length - 1] = encryptedLastPart;
+    return parts.join("/");
+  }
+
+  async getEncryptedId(id: string): Promise<string> {
+    const encryptionSettings = EncryptionProcessor.getEncryptionSettings(
+      this.databaseId,
+      this.containerId,
+    );
+    const settingForProperty = encryptionSettings.getEncryptionSettingForProperty("/id");
+
+    if (!settingForProperty) return id;
+    id = await this.encryptToken(id, settingForProperty, true);
+    return id;
+  }
+
+  static extractPartitionKeyPath(path: string): string {
+    const secondSlashIndex = path.indexOf("/", path.indexOf("/") + 1);
+    return secondSlashIndex === -1 ? path : path.substring(0, secondSlashIndex);
+  }
+
+  private async encryptToken(
     valueToEncrypt: any,
     propertySetting: EncryptionSettingForProperty,
     isValueId: boolean,
-    encryptionKeyStoreProvider: EncryptionKeyStoreProvider,
-    clientEncryptionKeyProperties: ClientEncryptionKeyProperties,
   ): Promise<any> {
     if (typeof valueToEncrypt === "object" && valueToEncrypt !== null) {
       for (const key in valueToEncrypt) {
@@ -68,39 +155,27 @@ export class EncryptionProcessor {
             valueToEncrypt[key],
             propertySetting,
             isValueId,
-            encryptionKeyStoreProvider,
-            clientEncryptionKeyProperties,
           );
         }
       }
     } else if (Array.isArray(valueToEncrypt)) {
       for (let i = 0; i < valueToEncrypt.length; i++) {
-        valueToEncrypt[i] = await this.encryptToken(
-          valueToEncrypt[i],
-          propertySetting,
-          isValueId,
-          encryptionKeyStoreProvider,
-          clientEncryptionKeyProperties,
-        );
+        valueToEncrypt[i] = await this.encryptToken(valueToEncrypt[i], propertySetting, isValueId);
       }
     } else {
       valueToEncrypt = await this.serializeAndEncryptValue(
         valueToEncrypt,
         propertySetting,
         isValueId,
-        encryptionKeyStoreProvider,
-        clientEncryptionKeyProperties,
       );
     }
     return valueToEncrypt;
   }
 
-  private static async serializeAndEncryptValue(
+  private async serializeAndEncryptValue(
     valueToEncrypt: any,
     propertySetting: EncryptionSettingForProperty,
     isValueId: boolean,
-    encryptionKeyStoreProvider: EncryptionKeyStoreProvider,
-    clientEncryptionKeyProperties: ClientEncryptionKeyProperties,
   ): Promise<string> {
     if (valueToEncrypt === null) {
       return valueToEncrypt;
@@ -108,10 +183,15 @@ export class EncryptionProcessor {
     const [typeMarker, serializer] = EncryptionProcessor.createSerializer(valueToEncrypt);
     const plainText = serializer.serialize(valueToEncrypt);
 
+    const key = this.databaseId + "/" + propertySetting.encryptionKeyId;
+    const clientEncryptionKeyPropertiesCache = ClientEncryptionKeyPropertiesCache.getInstance();
+    const clientEncryptionKeyProperties =
+      clientEncryptionKeyPropertiesCache.getClientEncryptionKeyProperties(key);
+
     const encryptionAlgorithm: AeadAes256CbcHmacSha256Algorithm =
       await propertySetting.buildEncryptionAlgorithm(
         clientEncryptionKeyProperties,
-        encryptionKeyStoreProvider,
+        this.encryptionKeyStoreProvider,
       );
     const cipherText = encryptionAlgorithm.encrypt(plainText);
 
@@ -134,12 +214,12 @@ export class EncryptionProcessor {
     return encryptedValue;
   }
 
-  public static createSerializer(
+  private static createSerializer(
     propertyValue: boolean | string | number,
   ): [TypeMarker, Serializer] {
     switch (typeof propertyValue) {
       case "boolean":
-        return [TypeMarker.Boolean, BitSerializer.getInstance()];
+        return [TypeMarker.Boolean, BooleanSerializer.getInstance()];
       case "string":
         return [TypeMarker.String, StringSerializer.getInstance()];
       case "number":
@@ -153,18 +233,17 @@ export class EncryptionProcessor {
     }
   }
 
-  static async decrypt<T extends ItemDefinition>(
-    document: T,
-    encryptionSettings: EncryptionSettings,
-    encryptionKeyStoreProvider: EncryptionKeyStoreProvider,
-    container: Container,
-  ): Promise<T> {
-    if (document == null) {
-      return document;
+  async decrypt<T extends ItemDefinition>(body: T): Promise<T> {
+    if (body == null) {
+      return body;
     }
+    const encryptionSettings = EncryptionProcessor.getEncryptionSettings(
+      this.databaseId,
+      this.containerId,
+    );
     for (const pathToEncrypt of encryptionSettings.pathsToEncrypt) {
       const propertyName = pathToEncrypt.slice(1);
-      if (!Object.prototype.hasOwnProperty.call(document, propertyName)) {
+      if (!Object.prototype.hasOwnProperty.call(body, propertyName)) {
         continue;
       }
       const settingForProperty = encryptionSettings.getEncryptionSettingForProperty(pathToEncrypt);
@@ -172,25 +251,19 @@ export class EncryptionProcessor {
         throw new Error("Invalid Encryption Setting for the Path: " + pathToEncrypt);
       }
 
-      const clientEncryptionKeyProperties =
-        await container.getClientEncryptionKeyProperties(pathToEncrypt);
-      document[propertyName as keyof T] = await EncryptionProcessor.decryptToken(
-        document[propertyName],
+      body[propertyName as keyof T] = await this.decryptToken(
+        body[propertyName],
         settingForProperty,
         propertyName === "id",
-        encryptionKeyStoreProvider,
-        clientEncryptionKeyProperties,
       );
     }
-    return document;
+    return body;
   }
 
-  private static async decryptToken(
+  private async decryptToken(
     valueToDecrypt: any,
     propertySetting: EncryptionSettingForProperty,
     isValueId: boolean,
-    encryptionKeyStoreProvider: EncryptionKeyStoreProvider,
-    clientEncryptionKeyProperties: ClientEncryptionKeyProperties,
   ): Promise<any> {
     if (typeof valueToDecrypt === "object") {
       for (const key in valueToDecrypt) {
@@ -199,39 +272,27 @@ export class EncryptionProcessor {
             valueToDecrypt[key],
             propertySetting,
             isValueId,
-            encryptionKeyStoreProvider,
-            clientEncryptionKeyProperties,
           );
         }
       }
     } else if (Array.isArray(valueToDecrypt)) {
       for (let i = 0; i < valueToDecrypt.length; i++) {
-        valueToDecrypt[i] = await this.decryptToken(
-          valueToDecrypt[i],
-          propertySetting,
-          isValueId,
-          encryptionKeyStoreProvider,
-          clientEncryptionKeyProperties,
-        );
+        valueToDecrypt[i] = await this.decryptToken(valueToDecrypt[i], propertySetting, isValueId);
       }
     } else {
-      valueToDecrypt = await EncryptionProcessor.deserializeAndDecryptValue(
+      valueToDecrypt = await this.deserializeAndDecryptValue(
         valueToDecrypt,
         propertySetting,
         isValueId,
-        encryptionKeyStoreProvider,
-        clientEncryptionKeyProperties,
       );
     }
     return valueToDecrypt;
   }
 
-  private static async deserializeAndDecryptValue(
+  private async deserializeAndDecryptValue(
     valueToDecrypt: any,
     propertySetting: EncryptionSettingForProperty,
     isValueId: boolean,
-    encryptionKeyStoreProvider: EncryptionKeyStoreProvider,
-    clientEncryptionKeyProperties: ClientEncryptionKeyProperties,
   ): Promise<any> {
     if (isValueId) {
       valueToDecrypt = valueToDecrypt.replace(/_/g, "/").replace(/-/g, "+");
@@ -244,10 +305,14 @@ export class EncryptionProcessor {
 
     let cipherText = Buffer.alloc(cipherTextWithTypeMarker.length - 1);
     cipherText = Buffer.from(cipherTextWithTypeMarker.slice(1));
+    const key = this.databaseId + "/" + propertySetting.encryptionKeyId;
+    const clientEncryptionKeyPropertiesCache = ClientEncryptionKeyPropertiesCache.getInstance();
+    const clientEncryptionKeyProperties =
+      clientEncryptionKeyPropertiesCache.getClientEncryptionKeyProperties(key);
 
     const encryptionAlgorithm = await propertySetting.buildEncryptionAlgorithm(
       clientEncryptionKeyProperties,
-      encryptionKeyStoreProvider,
+      this.encryptionKeyStoreProvider,
     );
     const plainText = encryptionAlgorithm.decrypt(cipherText);
     if (plainText === null) {
@@ -260,7 +325,7 @@ export class EncryptionProcessor {
     return serializer.deserialize(plainText);
   }
 
-  static createDeserializer(typeMarker: TypeMarker): Serializer {
+  private static createDeserializer(typeMarker: TypeMarker): Serializer {
     switch (typeMarker) {
       case TypeMarker.Long: {
         // return instance
@@ -271,9 +336,19 @@ export class EncryptionProcessor {
       case TypeMarker.String:
         return StringSerializer.getInstance();
       case TypeMarker.Boolean:
-        return BitSerializer.getInstance();
+        return BooleanSerializer.getInstance();
       default:
         throw new Error("Invalid or Unsupported data type passed.");
     }
+  }
+
+  private static getEncryptionSettings(
+    databaseId: string,
+    containerId: string,
+  ): EncryptionSettings {
+    const key = databaseId + "/" + containerId;
+    const encryptionSettingsCache = EncryptionSettingsCache.getInstance();
+    const encryptionSettings = encryptionSettingsCache.getEncryptionSettings(key);
+    return encryptionSettings;
   }
 }

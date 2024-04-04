@@ -32,7 +32,7 @@ import {
   withMetadataDiagnostics,
 } from "../../utils/diagnostics";
 import { MetadataLookUpType } from "../../CosmosDiagnostics";
-import { ClientEncryptionKeyProperties, EncryptionSettings } from "../../encryption";
+import { EncryptionSettings } from "../../encryption";
 
 /**
  * Operations for reading, replacing, or deleting a specific, existing container by id.
@@ -399,21 +399,5 @@ export class Container {
         }
       }, this.clientContext);
     }
-  }
-
-  public async getClientEncryptionKeyProperties(
-    path: string,
-  ): Promise<ClientEncryptionKeyProperties> {
-    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
-      const readResponse = await this.readInternal(diagnosticNode);
-      const clientEncryptionPolicy = readResponse.resource.clientEncryptionPolicy;
-      const clientEncryptionIncludedPath = clientEncryptionPolicy.includedPaths.find(
-        (includedPath) => includedPath.path === path,
-      );
-      const key = this.database.id + "/" + clientEncryptionIncludedPath.clientEncryptionKeyId;
-      return this.clientContext.clientEncryptionKeyPropertiesCache.getClientEncryptionKeyProperties(
-        key,
-      );
-    }, this.clientContext);
   }
 }

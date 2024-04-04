@@ -655,8 +655,6 @@ export class Container {
     delete(options?: RequestOptions): Promise<ContainerResponse>;
     deleteAllItemsForPartitionKey(partitionKey: PartitionKey, options?: RequestOptions): Promise<ContainerResponse>;
     // (undocumented)
-    getClientEncryptionKeyProperties(path: string): Promise<ClientEncryptionKeyProperties>;
-    // (undocumented)
     getFeedRanges(): Promise<ReadonlyArray<FeedRange>>;
     // @deprecated
     getPartitionKeyDefinition(): Promise<ResourceResponse<PartitionKeyDefinition>>;
@@ -1299,23 +1297,9 @@ export class Item {
     constructor(container: Container, id: string, clientContext: ClientContext, partitionKey?: PartitionKey);
     // (undocumented)
     readonly container: Container;
-    // (undocumented)
-    decryptItem<T extends ItemDefinition>(item: T): Promise<T>;
     delete<T extends ItemDefinition = any>(options?: RequestOptions): Promise<ItemResponse<T>>;
     // (undocumented)
-    encryptItem<T extends ItemDefinition>(item: T): Promise<T>;
-    // (undocumented)
-    encryptValue(property: string, value: any): Promise<any>;
-    // (undocumented)
-    getEncryptedIdIfEncrypted(id: string): Promise<string>;
-    // Warning: (ae-forgotten-export) The symbol "PartitionKeyInternal" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    getEncryptedPartitionKeyIfEncrypted(partitionKeyList: PartitionKeyInternal): Promise<PartitionKeyInternal>;
-    // (undocumented)
     readonly id: string;
-    // (undocumented)
-    IdEncryptionHelper(id: string): Promise<string>;
     patch<T extends ItemDefinition = any>(body: PatchRequestBody, options?: RequestOptions): Promise<ItemResponse<T>>;
     read<T extends ItemDefinition = any>(options?: RequestOptions): Promise<ItemResponse<T>>;
     replace(body: ItemDefinition, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
@@ -1349,13 +1333,7 @@ export class Items {
     // (undocumented)
     readonly container: Container;
     create<T extends ItemDefinition = any>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
-    // (undocumented)
-    decryptItem<T extends ItemDefinition>(item: T): Promise<T>;
-    // (undocumented)
-    encryptItem<T extends ItemDefinition>(item: T): Promise<T>;
     getChangeFeedIterator<T>(changeFeedIteratorOptions?: ChangeFeedIteratorOptions): ChangeFeedPullModelIterator<T>;
-    // (undocumented)
-    getEncryptedPartitionKeyIfEncrypted(partitionKeyList: PartitionKeyInternal): Promise<PartitionKeyInternal>;
     query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
     query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
     readAll(options?: FeedOptions): QueryIterator<ItemDefinition>;
