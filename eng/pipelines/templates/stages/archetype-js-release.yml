@@ -98,6 +98,8 @@ stages:
                                 Artifact: ${{artifact}}
                                 Registry: ${{parameters.Registry}}
                                 PathToArtifacts: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
+                                Tag: "$(Tag)"
+                                AdditionalTag: "$(AdditionalTag)"
                             - pwsh: >
                                 write-host "$(Package.Archive)"
 
@@ -254,6 +256,7 @@ stages:
                       Artifact: ${{artifact}}
                       Registry: ${{parameters.Registry}}
                       PathToArtifacts: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
+                      Tag: "dev"
                     
       - job: PublishDocsToNightlyBranch
         condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal'),  ne(variables['Skip.PublishDocs'], 'true')))
