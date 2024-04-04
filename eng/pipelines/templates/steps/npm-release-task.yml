@@ -11,7 +11,7 @@ steps:
   - ${{if eq(parameters.Registry, 'https://registry.npmjs.org/')}}:
       - pwsh: |
           Write-Host "Publishing package ${{parameters.Artifact.name}} with tag ${{parameters.Tag}}"
-      - task: EsrpRelease@6
+      - task: EsrpRelease@6.0.1
         inputs:
           displayName: 'Publish ${{parameters.Artifact.name}} to ESRP'
           ConnectedServiceName: 'ESRP Release Service'
