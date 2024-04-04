@@ -157,7 +157,7 @@ try {
             }
         }
         elseif ($addTag -and $publishToNpm) {
-            $nameAndVersion = "$($p.Project.name)@$($p.Project)"
+            $nameAndVersion = $p.Project.name + "@" + $p.Project.version
             if ($tag) {
                 Write-Host "Adding tag for package"
                 Write-Host "npm dist-tag add $nameAndVersion $tag"
