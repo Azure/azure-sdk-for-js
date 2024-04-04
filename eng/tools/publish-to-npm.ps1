@@ -107,6 +107,10 @@ try {
     if (!$basicDeployment) {
         if ($registry -eq 'https://registry.npmjs.org/') {
             $publishToNpm = $true
+            if ($npmToken) {
+                $env:NPM_TOKEN=$npmToken
+                npm config set $regAuth`:_authToken=`$`{NPM_TOKEN`}
+            }
         }
         else {
             Write-Host "Choosing Private Devops Feed Deployment"
@@ -157,7 +161,7 @@ try {
             }
         }
         elseif ($addTag -and $publishToNpm) {
-            $nameAndVersion = "$($p.Project.name)@$($p.Project)"
+            $nameAndVersion = $p.Project.name + "@" + $p.Project.version
             if ($tag) {
                 Write-Host "Adding tag for package"
                 Write-Host "npm dist-tag add $nameAndVersion $tag"
