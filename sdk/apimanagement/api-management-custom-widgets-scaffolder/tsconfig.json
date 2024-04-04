@@ -4,9 +4,7 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext"
   },
-  "exclude": [
-    "./src/templates/**"
-  ],
+  "exclude": ["./src/templates/**"],
   "include": [
     "src/**/*.ts",
     "src/**/*.cts",

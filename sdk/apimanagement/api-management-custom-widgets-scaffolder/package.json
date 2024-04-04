@@ -26,7 +26,8 @@
   "files": [
     "dist/",
     "bin/",
-    "LICENSE"
+    "LICENSE",
+    "dist-esm/src"
   ],
   "type": "module",
   "scripts": {
@@ -105,6 +106,6 @@
       }
     }
   },
-  "main": "./dist/commonjs/index.js",
+  "main": "dist/index.js",
   "types": "./dist/commonjs/index.d.ts"
 }
