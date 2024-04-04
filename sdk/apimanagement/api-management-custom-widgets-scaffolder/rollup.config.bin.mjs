@@ -1,8 +1,12 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import MagicString from "magic-string";
-import fs from "fs";
+import fs from "node:fs";
 import nodeResolve from "@rollup/plugin-node-resolve";
-import path from "path";
-import { readFile } from "fs/promises";
+import path from "node:path";
+import { readFile } from "node:fs/promises";
+import process from "node:process";
 
 const executable = (options = {}) => {
   let fileName;
@@ -44,7 +48,7 @@ function copyTemplates() {
   return {
     name: "copy-templates",
     generateBundle() {
-      const from = path.join("src", "templates");
+      const from = path.join("templates");
       const to = path.join("bin");
       fs.mkdirSync("bin", { recursive: true });
       const log = (msg) => console.log("\x1b[36m%s\x1b[0m", msg);
@@ -94,11 +98,22 @@ const pkg = JSON.parse(await readFile("./package.json", { encoding: "utf-8" }));
 
 /** @type {import('rollup').RollupOptions} */
 const config = {
-  input: ["dist-esm/src/bin/execute.js"],
-  output: {
-    format: "cjs",
-    file: "bin/execute.js",
-  },
+  input: ["dist/esm/bin/execute.js"],
+  output: [
+    {
+      format: "cjs",
+      file: "bin/execute.cjs",
+      sourcemap: true,
+    },
+    // TODO ESM output becomes default
+    /*
+    {
+      format: "esm",
+      file: "bin/execute.mjs",
+      sourcemap: true,
+    },
+    */
+  ],
   external: [...Object.keys(pkg.dependencies), "@azure/identity"],
   plugins: [
     executable(),
