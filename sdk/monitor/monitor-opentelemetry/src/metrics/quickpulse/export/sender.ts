@@ -13,7 +13,7 @@ import {
   QuickpulseClientOptionalParams,
 } from "../../../generated";
 
-const applicationInsightsResource = "https://monitor.azure.com//.default";
+const applicationInsightsResource = "https://monitor.azure.com/.default";
 
 /**
  * Quickpulse sender class
