@@ -31,7 +31,6 @@ const ENDPOINT_POOL = getPoolName("endpoint");
 const BASIC_POOL = getPoolName("basic");
 const TEST_POOL3 = getPoolName("3");
 const DISK_POOL = getPoolName("datadisk");
-const VNET_POOL = getPoolName("vnet");
 const IMAGE_POOL = getPoolName("image");
 const SCHEDULE = "JSSDKTestSchedule";
 const TEST_USER = "JSSDKTestSchedule";
@@ -302,7 +301,7 @@ describe("Batch Service", function () {
       try {
         await client.pool.add(pool);
         assert.fail("Expected error to be thrown");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.statusCode, 400);
         assert.equal(error.body.code, "InvalidPropertyValue");
         assert.equal(error.body.values[0].value, "virtualMachineImageId");
@@ -678,7 +677,7 @@ describe("Batch Service", function () {
           const result = await client.computeNode.disableScheduling(BASIC_POOL, compute_nodes[1]);
           assert.equal(result._response.status, 200);
           break;
-        } catch (error) {
+        } catch (error: any) {
           if (error.code === "NodeNotReady") {
             await wait(POLLING_INTERVAL);
           } else {
@@ -704,7 +703,7 @@ describe("Batch Service", function () {
       try {
         await client.computeNode.reimage(BASIC_POOL, compute_nodes[1]);
         assert.fail("Expected error to be thrown");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.statusCode, 409);
         assert.equal(error.body.code, "OperationNotValidOnNode");
       }
@@ -1286,7 +1285,7 @@ describe("Batch Service", function () {
     it("should fail to job prep+release status", async function () {
       try {
         await client.job.listPreparationAndReleaseTaskStatus(JOB_NAME);
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.code, "JobPreparationTaskOrReleaseTaskNotSpecified");
       }
     });
@@ -1488,7 +1487,7 @@ describe("Batch Service", function () {
     it("should fail to delete a non-existent pool", async function () {
       try {
         await client.pool.deleteMethod(BASIC_POOL);
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.code, "PoolBeingDeleted");
       }
     });
@@ -1502,7 +1501,7 @@ describe("Batch Service", function () {
     it("should fail to cancel deleting a certificate", async function () {
       try {
         await client.certificate.cancelDeletion("sha1", certThumb);
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.code, "CertificateBeingDeleted");
       }
     });
