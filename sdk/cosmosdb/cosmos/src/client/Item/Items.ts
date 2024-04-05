@@ -688,7 +688,6 @@ export class Items {
     }, this.clientContext);
   }
 
-  // TODO: Encryption for Patch Operations
   private async bulkBatchEncryptionHelper(operations: OperationInput[]): Promise<OperationInput[]> {
     for (const operation of operations) {
       if (Object.prototype.hasOwnProperty.call(operation, "partitionKey")) {

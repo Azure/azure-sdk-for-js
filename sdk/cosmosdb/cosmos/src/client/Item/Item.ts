@@ -196,8 +196,6 @@ export class Item {
         const url = await this.encryptionProcessor.getEncryptedUrl(this.url);
         path = getPathFromLink(url);
         id = getIdFromLink(url);
-        // id = await this.encryptionProcessor.getEncryptedId(id);
-        // path = await this.encryptionProcessor.getEncryptedId(path);
       }
 
       const response = await this.clientContext.replace<T>({
