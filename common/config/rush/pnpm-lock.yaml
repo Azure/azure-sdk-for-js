@@ -1298,8 +1298,8 @@ packages:
       - supports-color
     dev: false
 
-  /@azure/communication-signaling@1.0.0-beta.22:
-    resolution: {integrity: sha512-0ispnIoRERypuNck90C+QaMTRC4v8owOOV+MbNec72HWCuPz+ndribcc8kIfCgplgwXDFsghskHkD6CaPyYdsA==}
+  /@azure/communication-signaling@1.0.0-beta.23:
+    resolution: {integrity: sha512-K80JlZ6lFAUBxl67hJraYTNOY6dTfk9EYpz39xgiawV2BponogdwLFG2FHbCb7PtlSP4QDpN55yj8f54bgkMyA==}
     engines: {node: '>=8.0.0'}
     dependencies:
       '@azure/core-http': 2.3.2
@@ -1354,7 +1354,7 @@ packages:
       '@azure/core-auth': 1.7.1
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/core-util': 1.8.1
-      '@azure/logger': 1.0.4
+      '@azure/logger': 1.1.1
       '@types/node-fetch': 2.6.11
       '@types/tunnel': 0.0.3
       form-data: 4.0.0
@@ -3652,7 +3652,7 @@ packages:
   /@types/node-fetch@2.6.11:
     resolution: {integrity: sha512-24xFj9R5+rfQJLRyM56qh+wnVSYhyXC2tkoBndtY0U+vubqNsYXGjufB2nn8Q6gt0LrARwL6UBtMCSVCwl4B1g==}
     dependencies:
-      '@types/node': 18.19.28
+      '@types/node': 20.10.8
       form-data: 4.0.0
     dev: false
 
@@ -3764,7 +3764,7 @@ packages:
   /@types/tunnel@0.0.3:
     resolution: {integrity: sha512-sOUTGn6h1SfQ+gbgqC364jLFBw2lnFqkgF3q0WovEHRLMrVD1sd5aufqi/aJObLekJO+Aq5z646U4Oxy6shXMA==}
     dependencies:
-      '@types/node': 18.19.28
+      '@types/node': 20.10.8
     dev: false
 
   /@types/underscore@1.11.15:
@@ -3805,7 +3805,7 @@ packages:
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
     requiresBuild: true
     dependencies:
-      '@types/node': 18.19.28
+      '@types/node': 20.10.8
     dev: false
     optional: true
 
@@ -10200,8 +10200,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.3:
-    resolution: {integrity: sha512-KrPd3PKaCLr78MalgiwJnA25Nm8HAmdwN3mYUYZgG/wizIo9EainNVQI9/yDavtVFRN2h3k8uf3GLHuhDMgEHg==}
+  /typescript@5.4.4:
+    resolution: {integrity: sha512-dGE2Vv8cpVvw28v8HCPqyb08EzbBURxDpuhJvTrusShUfGnhHBafDsLdS1EhhxyL6BJQE+2cT3dDPAv+MQ6oLw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -18389,14 +18389,14 @@ packages:
     dev: false
 
   file:projects/communication-chat.tgz:
-    resolution: {integrity: sha512-GAFhPIrbddfhhBBo/1A3+10vvMNMTH/P43/f7cCoVCObvrBBqu05JlYwawFEGsBg8eIQ1OtIGxkj4/iSOEA9aw==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-An8haWRBFF2elEFNJGd+qKXW00CCEZjabU7mp8hDvmsSJuDV+Im89KTIel2cOAPHgDJNIkIOg3iji0WzPTzNOg==, tarball: file:projects/communication-chat.tgz}
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
-      '@azure/communication-signaling': 1.0.0-beta.22
+      '@azure/communication-signaling': 1.0.0-beta.23
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -19647,11 +19647,11 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-+bhDzfvPvq4GZ7wsCa2n88wV/biduasOH0FbtwxebJKfG7Br9lefJ0RHB+vpn/S/fN9rv7E1sA0V2j5NB3huKQ==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-hJqSlHyVUPamPMQi1OrwlZl4XImDHvZREPu6KxHjA4U8G74li0Ky7Kz0+MIxYYQXRmo+I2zKWhOiJ4WYYNqj8g==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript@5.4.3
+      '@_ts/max': /typescript@5.4.4
       '@_ts/min': /typescript@4.2.4
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
       '@rollup/plugin-commonjs': 25.0.7(rollup@4.13.2)
@@ -19677,6 +19677,7 @@ packages:
       env-paths: 2.2.1
       eslint: 8.57.0
       fs-extra: 11.2.0
+      karma: 6.4.3(debug@4.3.4)
       minimist: 1.2.8
       mkdirp: 3.0.1
       prettier: 3.2.5
@@ -19698,6 +19699,8 @@ packages:
       - '@swc/wasm'
       - '@vitest/browser'
       - '@vitest/ui'
+      - bufferutil
+      - debug
       - happy-dom
       - jsdom
       - less
@@ -19707,6 +19710,7 @@ packages:
       - sugarss
       - supports-color
       - terser
+      - utf-8-validate
     dev: false
 
   file:projects/developer-devcenter.tgz:
@@ -20254,7 +20258,7 @@ packages:
     dev: false
 
   file:projects/identity-broker.tgz:
-    resolution: {integrity: sha512-vx9xKcy+ZhlA5PuFj3b7Wy96HXvMEp7BQ/NHiT+iIVUcMhrp6n40MuaPGh0dxLS/2XQnLLLmu1L7BHH0Gtqqaw==, tarball: file:projects/identity-broker.tgz}
+    resolution: {integrity: sha512-/1yRGPEHyWuO8GlEku4koWnbUYXwSdeA35zFn8p+U1YmNPSdDgz/0E/1/mw+Q3++Kpc9lbOeHFwxZ1dE/HrT0g==, tarball: file:projects/identity-broker.tgz}
     name: '@rush-temp/identity-broker'
     version: 0.0.0
     dependencies:
@@ -20282,7 +20286,7 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-nvsuxkC8hNuUFrT4Hoxkuz10oArGS3SUs0Ssaq9hICOrUJdNcFEjRlgYRiPqpuM3oxC/HEBZ9AE5ppVHOCEcSg==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-Xxl1uL7DnRM0WyFOUhr11fyMK6M5H+693acw72m1AhOUbQ+rbDYWtWPJ8gpPxkSpoad2WQ74Bp5XWL3K3EyAyw==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
@@ -20318,7 +20322,7 @@ packages:
     dev: false
 
   file:projects/identity-vscode.tgz:
-    resolution: {integrity: sha512-LEj3TH59TnCC5VMd+EEm1lsbPq92b2MZWzMUQclrt69cNc/fR5wueyWkDVKUeIpL3juf9gIaDlTAW6TARoV6qQ==, tarball: file:projects/identity-vscode.tgz}
+    resolution: {integrity: sha512-4HZqGJZyak/tpbtgUeuajlrZ95S9q61bfAWy1kdmDMYWAhAmchZJTjBA4XI1kwqLnxCgxC1xQWyWYyz1O5i4pQ==, tarball: file:projects/identity-vscode.tgz}
     name: '@rush-temp/identity-vscode'
     version: 0.0.0
     dependencies:
