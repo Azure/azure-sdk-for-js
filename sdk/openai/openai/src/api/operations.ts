@@ -268,7 +268,12 @@ export async function getCompletions(
   options: GetCompletionsOptions = { requestOptions: {} },
 ): Promise<Completions> {
   const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
-  const result = await _getCompletionsSend(context, deploymentId, { prompt, ...rest }, options);
+  const result = await _getCompletionsSend(
+    context,
+    deploymentId,
+    { prompt, ...rest },
+    { abortSignal, onResponse, requestOptions, tracingOptions },
+  );
   return _getCompletionsDeserialize(result);
 }
 
@@ -574,7 +579,7 @@ export async function getImageGenerations(
     context,
     deploymentId,
     { prompt, ...rest },
-    options,
+    { abortSignal, onResponse, requestOptions, tracingOptions },
   );
   return _getImageGenerationsDeserialize(result);
 }
@@ -623,7 +628,12 @@ export async function getEmbeddings(
   options: GetEmbeddingsOptions = { requestOptions: {} },
 ): Promise<Embeddings> {
   const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
-  const result = await _getEmbeddingsSend(context, deploymentId, { input, ...rest }, options);
+  const result = await _getEmbeddingsSend(
+    context,
+    deploymentId,
+    { input, ...rest },
+    { abortSignal, onResponse, requestOptions, tracingOptions },
+  );
   return _getEmbeddingsDeserialize(result);
 }
 
