@@ -8,9 +8,7 @@ import {
   imdsEndpointPath,
   imdsHost,
 } from "../../../src/credentials/managedIdentityCredential/constants";
-import {
-  imdsMsi,
-} from "../../../src/credentials/managedIdentityCredential/imdsMsi";
+import { imdsMsi } from "../../../src/credentials/managedIdentityCredential/imdsMsi";
 import { mkdtempSync, rmdirSync, unlinkSync, writeFileSync } from "fs";
 import { Context } from "mocha";
 import { GetTokenOptions } from "@azure/core-auth";
@@ -315,7 +313,7 @@ describe("ManagedIdentityCredential", function () {
   });
 
   it("IMDS MSI retries up to a limit on 404", async function () {
-    const credential = new ManagedIdentityCredential("errclient")
+    const credential = new ManagedIdentityCredential("errclient");
     const { error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
       credential: credential,
