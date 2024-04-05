@@ -654,6 +654,8 @@ export class Container {
     readonly database: Database;
     delete(options?: RequestOptions): Promise<ContainerResponse>;
     deleteAllItemsForPartitionKey(partitionKey: PartitionKey, options?: RequestOptions): Promise<ContainerResponse>;
+    // Warning: (ae-forgotten-export) The symbol "EncryptionProcessor" needs to be exported by the entry point index.d.ts
+    encryptionProcessor: EncryptionProcessor;
     // (undocumented)
     getFeedRanges(): Promise<ReadonlyArray<FeedRange>>;
     // @deprecated

@@ -20,7 +20,6 @@ import { Resource } from "../Resource";
 import { ItemDefinition } from "./ItemDefinition";
 import { ItemResponse } from "./ItemResponse";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
-import { EncryptionProcessor } from "../../encryption";
 
 /**
  * Used to perform operations on a specific item.
@@ -29,7 +28,6 @@ import { EncryptionProcessor } from "../../encryption";
  */
 export class Item {
   private partitionKey: PartitionKeyInternal;
-  private encryptionProcessor: EncryptionProcessor;
   /**
    * Returns a reference URL to the resource. Used for linking in Permissions.
    */
@@ -51,13 +49,6 @@ export class Item {
   ) {
     this.partitionKey =
       partitionKey === undefined ? undefined : convertToInternalPartitionKey(partitionKey);
-    if (this.clientContext.enableEncyption) {
-      this.encryptionProcessor = EncryptionProcessor.getInstance(
-        this.container.id,
-        this.container.database.id,
-        this.clientContext.encryptionKeyStoreProvider,
-      );
-    }
   }
 
   /**
@@ -100,10 +91,10 @@ export class Item {
       let id = getIdFromLink(this.url);
 
       if (this.clientContext.enableEncyption) {
-        this.partitionKey = await this.encryptionProcessor.getEncryptedPartitionKeyValue(
+        this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
           this.partitionKey,
         );
-        const url = await this.encryptionProcessor.getEncryptedUrl(this.url);
+        const url = await this.container.encryptionProcessor.getEncryptedUrl(this.url);
         path = getPathFromLink(url);
         id = getIdFromLink(url);
       }
@@ -126,7 +117,7 @@ export class Item {
       }
 
       if (this.clientContext.enableEncyption) {
-        response.result = await this.encryptionProcessor.decrypt(response.result);
+        response.result = await this.container.encryptionProcessor.decrypt(response.result);
       }
 
       return new ItemResponse(
@@ -189,11 +180,11 @@ export class Item {
       let id = getIdFromLink(this.url);
 
       if (this.clientContext.enableEncyption) {
-        body = await this.encryptionProcessor.encrypt(body);
-        this.partitionKey = await this.encryptionProcessor.getEncryptedPartitionKeyValue(
+        body = await this.container.encryptionProcessor.encrypt(body);
+        this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
           this.partitionKey,
         );
-        const url = await this.encryptionProcessor.getEncryptedUrl(this.url);
+        const url = await this.container.encryptionProcessor.getEncryptedUrl(this.url);
         path = getPathFromLink(url);
         id = getIdFromLink(url);
       }
@@ -209,7 +200,7 @@ export class Item {
       });
 
       if (this.clientContext.enableEncyption) {
-        response.result = await this.encryptionProcessor.decrypt(response.result);
+        response.result = await this.container.encryptionProcessor.decrypt(response.result);
       }
       return new ItemResponse(
         response.result,
@@ -246,10 +237,10 @@ export class Item {
       let id = getIdFromLink(this.url);
 
       if (this.clientContext.enableEncyption) {
-        this.partitionKey = await this.encryptionProcessor.getEncryptedPartitionKeyValue(
+        this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
           this.partitionKey,
         );
-        const url = await this.encryptionProcessor.getEncryptedUrl(this.url);
+        const url = await this.container.encryptionProcessor.getEncryptedUrl(this.url);
         path = getPathFromLink(url);
         id = getIdFromLink(url);
       }
@@ -264,7 +255,7 @@ export class Item {
       });
 
       if (this.clientContext.enableEncyption) {
-        response.result = await this.encryptionProcessor.decrypt(response.result);
+        response.result = await this.container.encryptionProcessor.decrypt(response.result);
       }
 
       return new ItemResponse(
@@ -306,16 +297,16 @@ export class Item {
         const operations = Array.isArray(body) ? body : body.operations;
         for (const operation of operations) {
           if ("value" in operation) {
-            operation.value = await this.encryptionProcessor.encryptProperty(
+            operation.value = await this.container.encryptionProcessor.encryptProperty(
               operation.path,
               operation.value,
             );
           }
         }
-        this.partitionKey = await this.encryptionProcessor.getEncryptedPartitionKeyValue(
+        this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
           this.partitionKey,
         );
-        const url = await this.encryptionProcessor.getEncryptedUrl(this.url);
+        const url = await this.container.encryptionProcessor.getEncryptedUrl(this.url);
         path = getPathFromLink(url);
         id = getIdFromLink(url);
       }
@@ -331,7 +322,7 @@ export class Item {
       });
 
       if (this.clientContext.enableEncyption) {
-        response.result = await this.encryptionProcessor.decrypt(response.result);
+        response.result = await this.container.encryptionProcessor.decrypt(response.result);
       }
 
       return new ItemResponse(

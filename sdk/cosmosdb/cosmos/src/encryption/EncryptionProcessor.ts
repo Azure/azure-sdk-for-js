@@ -25,28 +25,11 @@ enum TypeMarker {
 }
 
 export class EncryptionProcessor {
-  private static instances: { [containerId: string]: EncryptionProcessor } = {};
-  private constructor(
+  constructor(
     private readonly containerId: string,
     private readonly databaseId: string,
     private readonly encryptionKeyStoreProvider: EncryptionKeyStoreProvider,
-  ) {
-    // Private constructor to prevent external instantiation
-  }
-  static getInstance(
-    containerId: string,
-    databaseId: string,
-    encryptionKeyStoreProvider: EncryptionKeyStoreProvider,
-  ): EncryptionProcessor {
-    if (!this.instances[containerId]) {
-      this.instances[containerId] = new EncryptionProcessor(
-        containerId,
-        databaseId,
-        encryptionKeyStoreProvider,
-      );
-    }
-    return this.instances[containerId];
-  }
+  ) {}
 
   async encrypt<T extends ItemDefinition>(body: T): Promise<T> {
     if (!body) {

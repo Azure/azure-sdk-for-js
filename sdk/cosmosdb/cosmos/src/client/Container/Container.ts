@@ -32,7 +32,12 @@ import {
   withMetadataDiagnostics,
 } from "../../utils/diagnostics";
 import { MetadataLookUpType } from "../../CosmosDiagnostics";
-import { EncryptionSettings } from "../../encryption";
+import {
+  ClientEncryptionKeyPropertiesCache,
+  EncryptionProcessor,
+  EncryptionSettings,
+  EncryptionSettingsCache,
+} from "../../encryption";
 
 /**
  * Operations for reading, replacing, or deleting a specific, existing container by id.
@@ -93,6 +98,10 @@ export class Container {
   public get url(): string {
     return createDocumentCollectionUri(this.database.id, this.id);
   }
+  /**
+   * handles encryption and decryption of items in container
+   */
+  public encryptionProcessor: EncryptionProcessor;
 
   /**
    * Returns a container instance. Note: You should get this from `database.container(id)`, rather than creating your own object.
@@ -104,7 +113,15 @@ export class Container {
     public readonly database: Database,
     public readonly id: string,
     private readonly clientContext: ClientContext,
-  ) {}
+  ) {
+    if (this.clientContext.enableEncyption) {
+      this.encryptionProcessor = new EncryptionProcessor(
+        this.id,
+        this.database.id,
+        this.clientContext.encryptionKeyStoreProvider,
+      );
+    }
+  }
 
   /**
    * Used to read, replace, or delete a specific, existing {@link Item} by id.
@@ -381,7 +398,8 @@ export class Container {
           partitionKeyPaths,
           clientEncryptionPolicy,
         );
-        this.clientContext.encryptionSettingsCache.setEncryptionSettings(key, encryptionSettings);
+        const encryptionSettingsCache = EncryptionSettingsCache.getInstance();
+        encryptionSettingsCache.setEncryptionSettings(key, encryptionSettings);
         const clientEncryptionKeyIds = [
           ...new Set(
             clientEncryptionPolicy.includedPaths.map((item) => item.clientEncryptionKeyId),
@@ -392,7 +410,9 @@ export class Container {
           const res = await this.database.readClientEncryptionKey(clientEncryptionKeyId);
           const encryptionKeyProperties = res.clientEncryptionKeyProperties;
           const key1 = this.database.id + "/" + clientEncryptionKeyId;
-          this.clientContext.clientEncryptionKeyPropertiesCache.setClientEncryptionKeyProperties(
+          const clientEncryptionKeyPropertiesCache =
+            ClientEncryptionKeyPropertiesCache.getInstance();
+          clientEncryptionKeyPropertiesCache.setClientEncryptionKeyProperties(
             key1,
             encryptionKeyProperties,
           );

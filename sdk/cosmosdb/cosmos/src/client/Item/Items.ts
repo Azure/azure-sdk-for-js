@@ -50,7 +50,6 @@ import {
   withDiagnostics,
   addDignosticChild,
 } from "../../utils/diagnostics";
-import { EncryptionProcessor } from "../../encryption";
 
 /**
  * @hidden
@@ -66,7 +65,6 @@ function isChangeFeedOptions(options: unknown): options is ChangeFeedOptions {
  */
 export class Items {
   private partitionKeyRangeCache: PartitionKeyRangeCache;
-  private encryptionProcessor: EncryptionProcessor;
   /**
    * Create an instance of {@link Items} linked to the parent {@link Container}.
    * @param container - The parent container.
@@ -77,13 +75,6 @@ export class Items {
     private readonly clientContext: ClientContext,
   ) {
     this.partitionKeyRangeCache = new PartitionKeyRangeCache(this.clientContext);
-    if (this.clientContext.enableEncyption) {
-      this.encryptionProcessor = EncryptionProcessor.getInstance(
-        this.container.id,
-        this.container.database.id,
-        this.clientContext.encryptionKeyStoreProvider,
-      );
-    }
   }
 
   /**
@@ -329,7 +320,7 @@ export class Items {
       let partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
 
       if (this.clientContext.enableEncyption) {
-        body = await this.encryptionProcessor.encrypt(body);
+        body = await this.container.encryptionProcessor.encrypt(body);
         partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
       }
 
@@ -352,7 +343,7 @@ export class Items {
       });
 
       if (this.clientContext.enableEncyption) {
-        response.result = await this.encryptionProcessor.decrypt(response.result);
+        response.result = await this.container.encryptionProcessor.decrypt(response.result);
         partitionKey = extractPartitionKeys(response.result, partitionKeyDefinition);
       }
       const ref = new Item(
@@ -417,7 +408,7 @@ export class Items {
       let partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
 
       if (this.clientContext.enableEncyption) {
-        body = await this.encryptionProcessor.encrypt(body);
+        body = await this.container.encryptionProcessor.encrypt(body);
         partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
       }
 
@@ -440,7 +431,7 @@ export class Items {
       });
 
       if (this.clientContext.enableEncyption) {
-        response.result = await this.encryptionProcessor.decrypt(response.result);
+        response.result = await this.container.encryptionProcessor.decrypt(response.result);
         partitionKey = extractPartitionKeys(response.result, partitionKeyDefinition);
       }
 
@@ -550,7 +541,9 @@ export class Items {
 
               if (this.clientContext.enableEncyption) {
                 for (const result of response.result) {
-                  result.resourceBody = await this.encryptionProcessor.decrypt(result.resourceBody);
+                  result.resourceBody = await this.container.encryptionProcessor.decrypt(
+                    result.resourceBody,
+                  );
                 }
               }
               response.result.forEach((operationResponse: OperationResponse, index: number) => {
@@ -658,7 +651,9 @@ export class Items {
         if (partitionKey) {
           const partitionKeyInternal = convertToInternalPartitionKey(partitionKey);
           partitionKey =
-            await this.encryptionProcessor.getEncryptedPartitionKeyValue(partitionKeyInternal);
+            await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
+              partitionKeyInternal,
+            );
         }
         operations = await this.bulkBatchEncryptionHelper(operations);
       }
@@ -676,7 +671,9 @@ export class Items {
         if (this.clientContext.enableEncyption) {
           for (const result of response.result) {
             if (result.resourceBody) {
-              result.resourceBody = await this.encryptionProcessor.decrypt(result.resourceBody);
+              result.resourceBody = await this.container.encryptionProcessor.decrypt(
+                result.resourceBody,
+              );
             }
           }
         }
@@ -693,28 +690,34 @@ export class Items {
       if (Object.prototype.hasOwnProperty.call(operation, "partitionKey")) {
         const partitionKeyInternal = convertToInternalPartitionKey(operation.partitionKey);
         operation.partitionKey =
-          await this.encryptionProcessor.getEncryptedPartitionKeyValue(partitionKeyInternal);
+          await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
+            partitionKeyInternal,
+          );
       }
       switch (operation.operationType) {
         case BulkOperationType.Create:
         case BulkOperationType.Upsert:
-          operation.resourceBody = await this.encryptionProcessor.encrypt(operation.resourceBody);
+          operation.resourceBody = await this.container.encryptionProcessor.encrypt(
+            operation.resourceBody,
+          );
           break;
         case BulkOperationType.Read:
         case BulkOperationType.Delete:
-          operation.id = await this.encryptionProcessor.getEncryptedId(operation.id);
+          operation.id = await this.container.encryptionProcessor.getEncryptedId(operation.id);
           break;
         case BulkOperationType.Replace:
-          operation.id = await this.encryptionProcessor.getEncryptedId(operation.id);
-          operation.resourceBody = await this.encryptionProcessor.encrypt(operation.resourceBody);
+          operation.id = await this.container.encryptionProcessor.getEncryptedId(operation.id);
+          operation.resourceBody = await this.container.encryptionProcessor.encrypt(
+            operation.resourceBody,
+          );
           break;
         case BulkOperationType.Patch:
-          operation.id = await this.encryptionProcessor.getEncryptedId(operation.id);
+          operation.id = await this.container.encryptionProcessor.getEncryptedId(operation.id);
           const body = operation.resourceBody;
           const patchRequestBody = Array.isArray(body) ? body : body.operations;
           for (const patchOperation of patchRequestBody) {
             if ("value" in patchOperation) {
-              patchOperation.value = await this.encryptionProcessor.encryptProperty(
+              patchOperation.value = await this.container.encryptionProcessor.encryptProperty(
                 patchOperation.path,
                 patchOperation.value,
               );

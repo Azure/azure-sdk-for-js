@@ -107,8 +107,6 @@ export class ClientContext {
         "AzureKeyVault",
         this.encryptionKeyTimeToLiveInHours,
       );
-      this.encryptionSettingsCache = EncryptionSettingsCache.getInstance();
-      this.clientEncryptionKeyPropertiesCache = ClientEncryptionKeyPropertiesCache.getInstance();
       this.encryptionKeyTimeToLiveInHours = cosmosClientOptions.encryptionKeyTimeToLiveInHours
         ? cosmosClientOptions.encryptionKeyTimeToLiveInHours
         : 2;
