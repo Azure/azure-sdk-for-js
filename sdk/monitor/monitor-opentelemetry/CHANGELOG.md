@@ -1,18 +1,19 @@
 # Release History
 
-## 1.3.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+## 1.4.0 (2024-04-05)
 
 ### Features Added
 
 - Add support for Trace based sampling for logs.
+
+### Bugs Fixed
+
+- Handle Parsing Nested Objects in Integration Tests.
+
+### Other Changes
+
+- When log sampling, check for spanId instead of traeId.
+- Update OpenTelemetry depdendencies.
 
 ## 1.3.0 (2024-02-13)
 
