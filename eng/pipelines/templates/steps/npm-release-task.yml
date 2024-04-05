@@ -9,8 +9,6 @@ parameters:
 steps:
   - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
   - ${{if eq(parameters.Registry, 'https://registry.npmjs.org/')}}:
-      - pwsh: |
-          Write-Host "Publishing package ${{parameters.Artifact.name}} with tag ${{parameters.Tag}}"
       - task: EsrpRelease@6
         inputs:
           displayName: 'Publish ${{parameters.Artifact.name}} to ESRP'
