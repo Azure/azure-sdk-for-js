@@ -10,13 +10,13 @@ title: ChatApiClient
 description: Chat Client
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: package-2023-11-15-preview
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/de868d17c7e25379f826fa43963d1ce6015cded3/specification/communication/data-plane/Chat/readme.md
+tag: package-2024-03-01-preview
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/767d78342db6d86eab018009bd34223bafc9f7e6/specification/communication/data-plane/Chat/readme.md
 model-date-time-as-string: false
 optional-response-headers: true
 add-credentials: false
 disable-async-iterators: true
-package-version: 1.5.0-beta.1
+package-version: 1.5.0-beta.2
 use-extension:
   "@autorest/typescript": "latest"
 tracing-info:
