@@ -363,7 +363,7 @@ export interface HoldOptions extends OperationOptions {
   /** Operation Context. */
   operationContext?: string;
   /** Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation. */
-  operationCallbackUri?: string;
+  operationCallbackUrl?: string;
 }
 
 /**

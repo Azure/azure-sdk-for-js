@@ -344,7 +344,7 @@ describe("CallMedia Unit Tests", async function () {
     const options: HoldOptions = {
       playSource: playSource,
       operationContext: "withPlaySource",
-      operationCallbackUri: "https://localhost",
+      operationCallbackUrl: "https://localhost",
     };
     await callMedia.hold(participantToHold, options);
     const request = spy.getCall(0).args[0];
