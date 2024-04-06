@@ -177,7 +177,7 @@ export const ConnectionContextBase = {
     }
 
     const connectionOptions: ConnectionOptions = {
-      transport: Constants.TLS,
+      transport: (parameters.config.useDevelopmentEmulator ? Constants.TCP : Constants.TLS) as any,
       host: parameters.config.host,
       hostname: parameters.config.amqpHostname ?? parameters.config.host,
       username: parameters.config.sharedAccessKeyName,

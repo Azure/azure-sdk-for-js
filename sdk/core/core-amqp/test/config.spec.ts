@@ -98,6 +98,14 @@ describe("ConnectionConfig", function () {
       done();
     });
 
+    it("Parses the connection string for the development emulator", async function () {
+      const config = ConnectionConfig.create(
+        "Endpoint=localhost:6765;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true",
+      );
+      config.should.have.property("endpoint").that.equals("localhost:6765/");
+      config.should.have.property("useDevelopmentEmulator").that.equals(true);
+    });
+
     describe("Throws error if required connection config properties are not present", function () {
       const connectionString = `
         Endpoint=sb://hostname.servicebus.windows.net/;
@@ -233,6 +241,52 @@ describe("ConnectionConfig", function () {
         config.entityPath = "entityPath";
         ConnectionConfig.validate(config);
         should.equal(config.entityPath, "entityPath", `EntityPath is not a string`);
+      });
+    });
+
+    describe("Development Emulator Validation", function () {
+      it("Accepts localhost", async function () {
+        const connectionString =
+          "Endpoint=localhost:6765;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true";
+        const config: ConnectionConfig = {
+          connectionString,
+          endpoint: "localhost:6765/",
+          host: "localhost:6765/",
+          sharedAccessKeyName: "sakName",
+          sharedAccessKey: "abcd",
+          useDevelopmentEmulator: true,
+        };
+        ConnectionConfig.validate(config);
+      });
+
+      it("Accepts 127.0.0.1", async function () {
+        const connectionString =
+          "Endpoint=127.0.0.1:6765;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true";
+        const config: ConnectionConfig = {
+          connectionString,
+          endpoint: "127.0.0.1:6765/",
+          host: "127.0.0.1:6765",
+          sharedAccessKeyName: "sakName",
+          sharedAccessKey: "abcd",
+          useDevelopmentEmulator: true,
+        };
+        ConnectionConfig.validate(config);
+      });
+
+      it("Rejects non-local host", async function () {
+        const connectionString =
+          "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true";
+        const config: ConnectionConfig = {
+          connectionString,
+          endpoint: "sb://hostname.servicebus.windows.net/",
+          host: "hostname.servicebus.windows.net",
+          sharedAccessKeyName: "sakName",
+          sharedAccessKey: "abcd",
+          useDevelopmentEmulator: true,
+        };
+        should.throw(() => {
+          ConnectionConfig.validate(config);
+        }, new RegExp("When using the development environment"));
       });
     });
   });

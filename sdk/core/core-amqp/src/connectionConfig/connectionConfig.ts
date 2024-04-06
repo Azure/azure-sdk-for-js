@@ -78,6 +78,23 @@ export interface ConnectionConfig {
    * Options to be passed to the WebSocket constructor
    */
   webSocketConstructorOptions?: any;
+  /**
+   * This should be true only if the connection string contains the slug ";UseDevelopmentEmulator=true"
+   * and the endpoint is a loopback address.
+   */
+  useDevelopmentEmulator?: boolean;
+}
+
+function isLoopbackAddress(address: string) {
+  return /^(127\.[\d.]+|[0:]+1|localhost)/.test(address.toLowerCase());
+}
+function getHost(endpoint: string): string {
+  const matches = /.*:\/\/([^/]*)/.exec(endpoint);
+  const match = matches?.[1];
+  if (!match) {
+    return isLoopbackAddress(endpoint) ? endpoint : "";
+  }
+  return match;
 }
 
 /**
@@ -102,6 +119,7 @@ export const ConnectionConfig = {
       SharedAccessKeyName: string;
       SharedAccessKey: string;
       EntityPath?: string;
+      UseDevelopmentEmulator?: string;
     }>(connectionString);
     if (!parsedCS.Endpoint) {
       throw new TypeError("Missing Endpoint in Connection String.");
@@ -112,9 +130,10 @@ export const ConnectionConfig = {
     const result: ConnectionConfig = {
       connectionString: connectionString,
       endpoint: parsedCS.Endpoint,
-      host: parsedCS && parsedCS.Endpoint ? (parsedCS.Endpoint.match(".*://([^/]*)") || [])[1] : "",
+      host: getHost(parsedCS.Endpoint),
       sharedAccessKeyName: parsedCS.SharedAccessKeyName,
       sharedAccessKey: parsedCS.SharedAccessKey,
+      useDevelopmentEmulator: parsedCS.UseDevelopmentEmulator === "true",
     };
 
     if (path || parsedCS.EntityPath) {
@@ -139,6 +158,16 @@ export const ConnectionConfig = {
       throw new TypeError("Missing 'endpoint' in configuration");
     }
     config.endpoint = String(config.endpoint);
+
+    if (
+      config.useDevelopmentEmulator &&
+      !config.endpoint.startsWith("localhost") &&
+      !config.endpoint.startsWith("127")
+    ) {
+      throw new TypeError(
+        `When using the development environment, the endpoint should be a localhost. Given endpoint is "${config.endpoint}".`,
+      );
+    }
 
     if (!config.host) {
       throw new TypeError("Missing 'host' in configuration");

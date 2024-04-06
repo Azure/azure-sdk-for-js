@@ -278,6 +278,25 @@ describe("ConnectionContextBase", function () {
     done();
   });
 
+  it("disables tls when connecting to the development emulator", async function () {
+    const connectionString =
+      "Endpoint=localhost;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep;UseDevelopmentEmulator=true";
+    const path = "mypath";
+    const config = ConnectionConfig.create(connectionString, path);
+    console.log(config);
+    const context = ConnectionContextBase.create({
+      config: config,
+      connectionProperties: {
+        product: "MSJSClient",
+        userAgent: "/js-amqp-client",
+        version: "1.0.0",
+      },
+    });
+    should.exist(context.connection);
+    context.connection.should.instanceOf(Connection);
+    context.connection.options.transport!.should.equal("tcp");
+  });
+
   describe("#refreshConnection", function () {
     it("should update fields on the context", function () {
       const connectionString =
