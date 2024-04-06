@@ -11,18 +11,16 @@ import { Logger as InternalLogger } from "./shared/logging";
 import { LogHandler } from "./logs";
 import {
   AZURE_MONITOR_OPENTELEMETRY_VERSION,
-  AZURE_MONITOR_STATSBEAT_FEATURES,
   AzureMonitorOpenTelemetryOptions,
   InstrumentationOptions,
   BrowserSdkLoaderOptions,
-  StatsbeatFeature,
-  StatsbeatInstrumentation,
 } from "./types";
 import { BrowserSdkLoader } from "./browserSdkLoader/browserSdkLoader";
 import { setSdkPrefix } from "./metrics/quickpulse/utils";
 import { SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { LogRecordProcessor, LoggerProvider } from "@opentelemetry/sdk-logs";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+import { setStatsbeatFeatures } from "./utils/statsbeat";
 
 export { AzureMonitorOpenTelemetryOptions, InstrumentationOptions, BrowserSdkLoaderOptions };
 
@@ -41,7 +39,7 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
   if (config.browserSdkLoaderOptions.enabled) {
     browserSdkLoader = new BrowserSdkLoader(config);
   }
-  _setStatsbeatFeatures(config, browserSdkLoader);
+  setStatsbeatFeatures(config);
   // Remove global providers in OpenTelemetry, these would be overriden if present
   metrics.disable();
   trace.disable();
@@ -114,46 +112,4 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
 export function shutdownAzureMonitor(): Promise<void> {
   browserSdkLoader?.dispose();
   return sdk?.shutdown();
-}
-
-function _setStatsbeatFeatures(config: InternalConfig, browserSdkLoader?: BrowserSdkLoader) {
-  let instrumentationBitMap = StatsbeatInstrumentation.NONE;
-  if (config.instrumentationOptions?.azureSdk?.enabled) {
-    instrumentationBitMap |= StatsbeatInstrumentation.AZURE_CORE_TRACING;
-  }
-  if (config.instrumentationOptions?.mongoDb?.enabled) {
-    instrumentationBitMap |= StatsbeatInstrumentation.MONGODB;
-  }
-  if (config.instrumentationOptions?.mySql?.enabled) {
-    instrumentationBitMap |= StatsbeatInstrumentation.MYSQL;
-  }
-  if (config.instrumentationOptions?.postgreSql?.enabled) {
-    instrumentationBitMap |= StatsbeatInstrumentation.POSTGRES;
-  }
-  if (config.instrumentationOptions?.redis?.enabled) {
-    instrumentationBitMap |= StatsbeatInstrumentation.REDIS;
-  }
-  if (config.instrumentationOptions?.bunyan?.enabled) {
-    instrumentationBitMap |= StatsbeatInstrumentation.BUNYAN;
-  }
-
-  let featureBitMap = StatsbeatFeature.NONE;
-  featureBitMap |= StatsbeatFeature.DISTRO;
-
-  if (browserSdkLoader?.isInitialized()) {
-    featureBitMap |= StatsbeatFeature.BROWSER_SDK_LOADER;
-  }
-
-  try {
-    const currentFeaturesBitMap = Number(process.env[AZURE_MONITOR_STATSBEAT_FEATURES]);
-    if (!isNaN(currentFeaturesBitMap)) {
-      featureBitMap |= currentFeaturesBitMap;
-    }
-    process.env[AZURE_MONITOR_STATSBEAT_FEATURES] = JSON.stringify({
-      instrumentation: instrumentationBitMap,
-      feature: featureBitMap,
-    });
-  } catch (error) {
-    InternalLogger.getInstance().error("Failed call to JSON.stringify.", error);
-  }
 }

@@ -45,6 +45,7 @@ import { ConnectionStringParser } from "../../utils/connectionStringParser";
 import { DEFAULT_LIVEMETRICS_ENDPOINT } from "../../types";
 import { QuickPulseOpenTelemetryMetricNames, QuickpulseExporterOptions } from "./types";
 import { hrTimeToMilliseconds, suppressTracing } from "@opentelemetry/core";
+import { setStatsbeatFeatures } from "../../utils/statsbeat";
 
 const POST_INTERVAL = 1000;
 const MAX_POST_WAIT_TIME = 20000;
@@ -229,6 +230,8 @@ export class LiveMetrics {
     if (this.meterProvider) {
       return;
     }
+    // Turn on live metrics active collection for statsbeat
+    setStatsbeatFeatures(this.config, true);
     this.lastCpus = os.cpus();
     this.totalDependencyCount = 0;
     this.totalExceptionCount = 0;

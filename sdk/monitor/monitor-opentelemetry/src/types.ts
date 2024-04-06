@@ -100,6 +100,8 @@ export enum StatsbeatFeature {
   AAD_HANDLING = 2,
   BROWSER_SDK_LOADER = 4,
   DISTRO = 8,
+  LIVE_METRICS = 16,
+  ACTIVATED_LIVE_METRICS = 32,
 }
 
 export enum StatsbeatInstrumentation {
