@@ -3,11 +3,11 @@
 /// <reference lib="esnext.asynciterable" />
 import { ChangeFeedOptions } from "./ChangeFeedOptions";
 import { ChangeFeedResponse } from "./ChangeFeedResponse";
-import { Resource } from "./client";
+import { Container, Resource } from "./client";
 import { ClientContext } from "./ClientContext";
 import { Constants, ResourceType, StatusCodes } from "./common";
 import { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal";
-import { PartitionKey } from "./documents";
+import { convertToInternalPartitionKey, PartitionKey } from "./documents";
 import { FeedOptions } from "./request";
 import { Response } from "./request";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "./utils/diagnostics";
@@ -29,6 +29,7 @@ export class ChangeFeedIterator<T> {
    */
   constructor(
     private clientContext: ClientContext,
+    private container: Container,
     private resourceId: string,
     private resourceLink: string,
     private partitionKey: PartitionKey,
@@ -121,6 +122,12 @@ export class ChangeFeedIterator<T> {
       feedOptions.initialHeaders[Constants.HttpHeaders.IfModifiedSince] = this.ifModifiedSince;
     }
 
+    if (this.clientContext.enableEncyption) {
+      this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
+        convertToInternalPartitionKey(this.partitionKey),
+      );
+    }
+
     const response: Response<Array<T & Resource>> = await (this.clientContext.queryFeed<T>({
       path: this.resourceLink,
       resourceType: ResourceType.item,
@@ -131,6 +138,12 @@ export class ChangeFeedIterator<T> {
       partitionKey: this.partitionKey,
       diagnosticNode: diagnosticNode,
     }) as Promise<any>); // TODO: some funky issues with query feed. Probably need to change it up.
+
+    if (this.clientContext.enableEncyption) {
+      for (let item of response.result) {
+        item = await this.container.encryptionProcessor.decrypt(item);
+      }
+    }
 
     return new ChangeFeedResponse(
       response.result,

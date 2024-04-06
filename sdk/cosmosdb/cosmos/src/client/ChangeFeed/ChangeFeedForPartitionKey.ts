@@ -8,7 +8,7 @@ import { Constants, ResourceType } from "../../common";
 import { FeedOptions, Response, ErrorResponse } from "../../request";
 import { ContinuationTokenForPartitionKey } from "./ContinuationTokenForPartitionKey";
 import { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
-import { PartitionKey } from "../../documents";
+import { PartitionKey, convertToInternalPartitionKey } from "../../documents";
 import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
 /**
@@ -141,6 +141,12 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
       feedOptions.initialHeaders[Constants.HttpHeaders.IfModifiedSince] = this.startTime;
     }
 
+    if (this.clientContext.enableEncyption) {
+      this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
+        convertToInternalPartitionKey(this.partitionKey),
+      );
+    }
+
     const response: Response<Array<T & Resource>> = await (this.clientContext.queryFeed<T>({
       path: this.resourceLink,
       resourceType: ResourceType.item,
@@ -151,6 +157,12 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
       options: feedOptions,
       partitionKey: this.partitionKey,
     }) as Promise<any>);
+
+    if (this.clientContext.enableEncyption) {
+      for (let item of response.result) {
+        item = await this.container.encryptionProcessor.decrypt(item);
+      }
+    }
 
     return new ChangeFeedIteratorResponse(
       response.result,

@@ -19,6 +19,8 @@ import {
   PatchOperationType,
   BulkOperationType,
   EncryptionKeyResolver,
+  ChangeFeedIteratorOptions,
+  ChangeFeedStartFrom,
 } from "../../../src";
 import { assert } from "chai";
 import { masterKey } from "../common/_fakeTestSecrets";
@@ -530,6 +532,58 @@ describe("Client Side Encryption", () => {
     assert.equal(response[2].statusCode, StatusCodes.Ok);
     assert.equal(response[3].statusCode, StatusCodes.NoContent);
     assert.equal(response[4].statusCode, StatusCodes.Ok);
+  });
+
+  it("encryption change feed iterator", async () => {
+    const includedPaths = ["/key1", "/id"].map(
+      (path) =>
+        new ClientEncryptionIncludedPath(
+          path,
+          "dek1",
+          EncryptionType.DETERMINISTIC,
+          EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+        ),
+    );
+    const clientEncryptionPolicy = new ClientEncryptionPolicy(includedPaths, 2);
+    const containerDef = {
+      id: "encryption_changefeed_container",
+      partitionKey: {
+        paths: ["/key1", "/key2"],
+        version: PartitionKeyDefinitionVersion.V2,
+        kind: PartitionKeyKind.MultiHash,
+      },
+      clientEncryptionPolicy: clientEncryptionPolicy,
+    };
+    const { container } = await database.containers.createIfNotExists(containerDef);
+    await container.initializeEncryption();
+    for (let i = 1; i < 3; i++) {
+      await container.items.create({ id: `item${i}`, key1: `0`, key2: 0 });
+      await container.items.create({ id: `item${i}`, key1: `0`, key2: 1 });
+    }
+
+    // change feed for entire container
+    const cfOptionsForContainer: ChangeFeedIteratorOptions = {
+      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(),
+    };
+
+    const cfIteratorForContainer = container.items.getChangeFeedIterator(cfOptionsForContainer);
+    const response1 = await cfIteratorForContainer.readNext();
+    assert.equal(response1.statusCode, StatusCodes.Ok);
+
+    // change feed for partition key
+    const cfOptionsForPartitionKey: ChangeFeedIteratorOptions = {
+      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(["0", 1]),
+    };
+    const cfIteratorForPartitionKey =
+      container.items.getChangeFeedIterator(cfOptionsForPartitionKey);
+
+    const response2 = await cfIteratorForPartitionKey.readNext();
+    assert.equal(response2.statusCode, StatusCodes.Ok);
+
+    // change feed iterator
+    const cfIterator = container.items.changeFeed(["0", 0], { startFromBeginning: true });
+    const response3 = await cfIterator.fetchNext();
+    assert.equal(response3.statusCode, StatusCodes.Ok);
   });
 
   after(async () => {

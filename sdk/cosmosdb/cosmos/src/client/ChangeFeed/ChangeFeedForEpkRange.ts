@@ -181,6 +181,13 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
       do {
         const [processedFeedRange, response] = await this.fetchNext(diagnosticNode);
         result = response;
+
+        if (this.clientContext.enableEncyption) {
+          for (let item of result.result) {
+            item = await this.container.encryptionProcessor.decrypt(item);
+          }
+        }
+
         if (result !== undefined) {
           {
             if (firstNotModifiedFeedRange === undefined) {
