@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Adds support for connecting to the development emulator. The connection string for the development emulator should have the `";UseDevelopmentEmulator=true"` slug.
+
 ### Breaking Changes
 
 ### Bugs Fixed
