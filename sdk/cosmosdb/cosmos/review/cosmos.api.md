@@ -1101,6 +1101,19 @@ export class EncryptionKeyWrapMetadata {
 }
 
 // @public (undocumented)
+export class EncryptionQueryBuilder {
+    constructor(query: string);
+    // (undocumented)
+    addBooleanParameter(name: string, value: boolean): void;
+    // (undocumented)
+    addFloatParameter(name: string, value: number): void;
+    // (undocumented)
+    addIntegerParameter(name: string, value: number): void;
+    // (undocumented)
+    addStringParameter(name: string, value: string): void;
+}
+
+// @public (undocumented)
 export enum EncryptionType {
     // (undocumented)
     DETERMINISTIC = "Deterministic",
@@ -1378,6 +1391,8 @@ export class Items {
     readonly container: Container;
     create<T extends ItemDefinition = any>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
     getChangeFeedIterator<T>(changeFeedIteratorOptions?: ChangeFeedIteratorOptions): ChangeFeedPullModelIterator<T>;
+    getEncryptionQueryIterator(queryBuilder: EncryptionQueryBuilder, options?: FeedOptions): Promise<QueryIterator<any>>;
+    getEncryptionQueryIterator<T>(queryBuilder: EncryptionQueryBuilder, options?: FeedOptions): Promise<QueryIterator<T>>;
     query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
     query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
     readAll(options?: FeedOptions): QueryIterator<ItemDefinition>;

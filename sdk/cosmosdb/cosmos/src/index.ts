@@ -142,4 +142,5 @@ export {
   ClientEncryptionPolicy,
   ClientEncryptionKeyProperties,
   EncryptionKeyWrapMetadata,
+  EncryptionQueryBuilder,
 } from "./encryption";
