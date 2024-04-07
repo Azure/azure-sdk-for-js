@@ -45,6 +45,7 @@ import {
   withDiagnostics,
   addDignosticChild,
 } from "../../utils/diagnostics";
+import { EncryptionQueryBuilder } from "../../encryption";
 
 /**
  * @hidden
@@ -87,6 +88,8 @@ export class Items {
    * const {result: items} = await items.query(querySpec).fetchAll();
    * ```
    */
+
+  //
   public query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
   /**
    * Queries all items.
@@ -135,6 +138,51 @@ export class Items {
       this.container.url,
       ResourceType.item,
     );
+  }
+  /**
+   * Queries all items in an encrypted container.
+   * @param queryBuilder - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to build a query on encrypted properties.
+   * @param options - Used for modifying the request (for instance, specifying the partition key).
+   * @example Read all items to array.
+   * ```typescript
+   * const queryBuilder = new EncryptionQueryBuilder("SELECT firstname FROM Families f WHERE f.lastName = @lastName");
+   * queryBuilder.addStringParameter("@lastName", "Hendricks");
+   * const queryIterator = await items.getEncryptionQueryIterator(queryBuilder);
+   * const {result: items} = await queryIterator.fetchAll();
+   * ```
+   */
+  public async getEncryptionQueryIterator(
+    queryBuilder: EncryptionQueryBuilder,
+    options?: FeedOptions,
+  ): Promise<QueryIterator<any>>;
+  /**
+   * Queries all items in an encrypted container.
+   * @param queryBuilder - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to build a query on encrypted properties.
+   * @param options - Used for modifying the request (for instance, specifying the partition key).
+   * @example Read all items to array.
+   * ```typescript
+   * const queryBuilder = new EncryptionQueryBuilder("SELECT firstname FROM Families f WHERE f.lastName = @lastName");
+   * queryBuilder.addStringParameter("@lastName", "Hendricks");
+   * const queryIterator = await items.getEncryptionQueryIterator<{firstName: string}>(queryBuilder);
+   * const {result: items} = await queryIterator.fetchAll();
+   * ```
+   */
+  public async getEncryptionQueryIterator<T>(
+    queryBuilder: EncryptionQueryBuilder,
+    options?: FeedOptions,
+  ): Promise<QueryIterator<T>>;
+  public async getEncryptionQueryIterator<T>(
+    queryBuilder: EncryptionQueryBuilder,
+    options: FeedOptions = {},
+  ): Promise<QueryIterator<T>> {
+    const encryptionSqlQuerySpec = queryBuilder.toEncryptionSqlQuerySpec();
+    const SqlQuerySpec = await this.buildSqlQuerySpec(encryptionSqlQuerySpec);
+    return this.query<T>(SqlQuerySpec, options);
+  }
+
+  private async buildSqlQuerySpec(encryptionSqlQuerySpec: SqlQuerySpec): Promise<SqlQuerySpec> {
+    // TODO: iterate over each parameter, find its encrypted value.
+    return encryptionSqlQuerySpec;
   }
 
   /**
