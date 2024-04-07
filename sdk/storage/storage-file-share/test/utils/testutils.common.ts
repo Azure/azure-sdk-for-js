@@ -115,3 +115,14 @@ export function base64encode(content: string): string {
 export function base64decode(encodedString: string): string {
   return isBrowser() ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
 }
+
+/**
+ * Sleep for seconds.
+ *
+ * @param seconds -
+ */
+export function sleep(seconds: number): Promise<void> {
+  return new Promise((resolve) => {
+    setTimeout(resolve, seconds * 1000);
+  });
+}

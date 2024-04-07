@@ -1047,6 +1047,7 @@ describe("DirectoryClient", () => {
       assert.notDeepEqual(handle.sessionId, undefined);
       assert.notDeepEqual(handle.clientIp, undefined);
       assert.notDeepEqual(handle.openTime, undefined);
+      assert.notDeepEqual(handle.clientName, undefined);
       assert.deepEqual(handle.accessRightList, ["Read", "Write", "Delete"]);
     }
   });
@@ -1071,6 +1072,7 @@ describe("DirectoryClient", () => {
       assert.notDeepEqual(handle.sessionId, undefined);
       assert.notDeepEqual(handle.clientIp, undefined);
       assert.notDeepEqual(handle.openTime, undefined);
+      assert.notDeepEqual(handle.clientName, undefined);
     }
   });
 
