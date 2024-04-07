@@ -10,7 +10,7 @@ import * as coreHttp from "@azure/core-http";
 import { StorageClientOptionalParams } from "./models";
 
 const packageName = "azure-storage-blob";
-const packageVersion = "12.17.1";
+const packageVersion = "12.18.0-beta.1";
 
 export class StorageClientContext extends coreHttp.ServiceClient {
   url: string;
@@ -47,6 +47,6 @@ export class StorageClientContext extends coreHttp.ServiceClient {
     this.url = url;
 
     // Assigning values to Constant parameters
-    this.version = options.version || "2023-11-03";
+    this.version = options.version || "2024-05-04";
   }
 }

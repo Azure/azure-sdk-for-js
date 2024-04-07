@@ -1913,10 +1913,20 @@ export class DataLakeFileClient extends DataLakePathClient {
   ): Promise<FileReadResponse> {
     const { span, updatedOptions } = createSpan("DataLakeFileClient-readToFile", options);
     try {
-      return await this.blockBlobClientInternal.downloadToFile(filePath, offset, count, {
-        ...updatedOptions,
-        customerProvidedKey: toBlobCpkInfo(options.customerProvidedKey),
-      });
+      const rawResposne = await this.blockBlobClientInternal.downloadToFile(
+        filePath,
+        offset,
+        count,
+        {
+          ...updatedOptions,
+          customerProvidedKey: toBlobCpkInfo(options.customerProvidedKey),
+        }
+      );
+
+      const response = ParsePathGetPropertiesExtraHeaderValues(
+        rawResposne as FileReadResponse
+      ) as FileReadResponse;
+      return response;
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

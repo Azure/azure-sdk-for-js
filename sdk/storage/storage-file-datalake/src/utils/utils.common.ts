@@ -3,7 +3,12 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders, HttpHeadersLike, HttpResponse, isNode, URLBuilder } from "@azure/core-http";
 import { ContainerEncryptionScope } from "@azure/storage-blob";
-import { CpkInfo, FileSystemEncryptionScope, PathPermissions } from "../models";
+import {
+  CpkInfo,
+  FileSystemEncryptionScope,
+  PathAccessControlItem,
+  PathPermissions,
+} from "../models";
 
 import {
   DevelopmentConnectionString,
@@ -12,7 +17,7 @@ import {
   PathStylePorts,
   UrlConstants,
 } from "./constants";
-import { toPermissions } from "../transforms";
+import { toAcl, toPermissions } from "../transforms";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -583,8 +588,6 @@ export function isIpEndpointStyle(parsedUrl: URLBuilder): boolean {
   );
 }
 
-const BugTimeBeginningInMS = 13322188800000;
-
 /**
  * This is to convert a Windows File Time ticks to a Date object.
  */
@@ -601,12 +604,6 @@ export function windowsFileTimeTicksToTime(timeNumber: string | undefined): Date
   const timeNumerInMs = timeNumberInternal / 10000;
   const date = new Date(timeNumerInMs);
 
-  // When initializing date from a miliseconds number the day after 2023-03-01 is still 2023-03-01.
-  // For example, 13322188799999 is 2023-03-01T23:59:59.999Z, while 13322188800000 is 2023-03-01T00:00:00.000Z
-  // Here is to work around the bug.
-  if (timeNumerInMs >= BugTimeBeginningInMS) {
-    date.setUTCDate(date.getUTCDate() + 1);
-  }
   date.setUTCFullYear(date.getUTCFullYear() - 369);
   return date;
 }
@@ -650,12 +647,14 @@ export interface PathGetPropertiesRawResponseWithExtraPropertiesLike {
   owner?: string;
   group?: string;
   permissions?: PathPermissions;
+  acl: PathAccessControlItem[];
   _response: HttpResponse & {
     parsedHeaders: {
       encryptionContext?: string;
       owner?: string;
       group?: string;
       permissions?: PathPermissions;
+      acl: PathAccessControlItem[];
     };
   };
 }
@@ -685,11 +684,13 @@ export function ParsePathGetPropertiesExtraHeaderValues(
   response.owner = ParseHeaderValue(rawResponse, "x-ms-owner");
   response.group = ParseHeaderValue(rawResponse, "x-ms-group");
   response.permissions = toPermissions(ParseHeaderValue(rawResponse, "x-ms-permissions"));
+  response.acl = toAcl(ParseHeaderValue(rawResponse, "x-ms-acl"));
   if (response._response?.parsedHeaders) {
     response._response.parsedHeaders.encryptionContext = response.encryptionContext;
     response._response.parsedHeaders.owner = response.owner;
     response._response.parsedHeaders.group = response.group;
     response._response.parsedHeaders.permissions = response.permissions;
+    response._response.parsedHeaders.acl = response.acl;
   }
   return response;
 }

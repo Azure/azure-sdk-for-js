@@ -119,13 +119,5 @@ export function getBrowserFile(name: string, size: number): File {
 
 export function getSASConnectionStringFromEnvironment(): string {
   const env = (self as any).__env__;
-  return `BlobEndpoint=https://${env.ACCOUNT_NAME}.blob.core.windows.net/;QueueEndpoint=https://${
-    env.ACCOUNT_NAME
-  }.queue.core.windows.net/;FileEndpoint=https://${
-    env.ACCOUNT_NAME
-  }.file.core.windows.net/;TableEndpoint=https://${
-    env.ACCOUNT_NAME
-  }.table.core.windows.net/;SharedAccessSignature=${env.ACCOUNT_SAS.substring(1)}`;
-  // env.ACCOUNT_SAS.substring(1) - to remove the `?` in ACCOUNT_SAS
-  // SAS Connection String doesn't have `?` in the `SharedAccessSignature`
+  return `BlobEndpoint=https://${env.ACCOUNT_NAME}.blob.core.windows.net/;QueueEndpoint=https://${env.ACCOUNT_NAME}.queue.core.windows.net/;FileEndpoint=https://${env.ACCOUNT_NAME}.file.core.windows.net/;TableEndpoint=https://${env.ACCOUNT_NAME}.table.core.windows.net/;SharedAccessSignature=${env.ACCOUNT_SAS}`;
 }
