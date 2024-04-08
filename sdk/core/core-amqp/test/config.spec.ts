@@ -273,6 +273,34 @@ describe("ConnectionConfig", function () {
         ConnectionConfig.validate(config);
       });
 
+      it("Accepts 0:0:0:0:0:0:0:1", async function () {
+        const connectionString =
+          "Endpoint=0:0:0:0:0:0:0:1;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true";
+        const config: ConnectionConfig = {
+          connectionString,
+          endpoint: "0:0:0:0:0:0:0:1/",
+          host: "0:0:0:0:0:0:0:1",
+          sharedAccessKeyName: "sakName",
+          sharedAccessKey: "abcd",
+          useDevelopmentEmulator: true,
+        };
+        ConnectionConfig.validate(config);
+      });
+
+      it("Accepts ::1", async function () {
+        const connectionString =
+          "Endpoint=::1;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true";
+        const config: ConnectionConfig = {
+          connectionString,
+          endpoint: "::1/",
+          host: "::1",
+          sharedAccessKeyName: "sakName",
+          sharedAccessKey: "abcd",
+          useDevelopmentEmulator: true,
+        };
+        ConnectionConfig.validate(config);
+      });
+
       it("Rejects non-local host", async function () {
         const connectionString =
           "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true";

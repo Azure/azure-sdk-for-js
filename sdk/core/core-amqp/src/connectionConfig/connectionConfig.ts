@@ -3,7 +3,7 @@
 
 import { WebSocketImpl } from "rhea-promise";
 import { isDefined } from "@azure/core-util";
-import { parseConnectionString } from "../util/utils";
+import { isLoopbackAddress, parseConnectionString } from "../util/utils";
 
 /**
  * Describes the options that can be provided while creating a connection config.
@@ -85,9 +85,6 @@ export interface ConnectionConfig {
   useDevelopmentEmulator?: boolean;
 }
 
-function isLoopbackAddress(address: string) {
-  return /^(127\.[\d.]+|[0:]+1|localhost)/.test(address.toLowerCase());
-}
 function getHost(endpoint: string): string {
   const matches = /.*:\/\/([^/]*)/.exec(endpoint);
   const match = matches?.[1];

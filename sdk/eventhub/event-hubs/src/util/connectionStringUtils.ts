@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { parseConnectionString } from "@azure/core-amqp";
+import { isLoopbackAddress, parseConnectionString } from "@azure/core-amqp";
 
 /**
  * The set of properties that comprise an Event Hub connection string.
@@ -127,8 +127,4 @@ function validateProperties(
       "Connection string should either has a loopback address or not have UseDevelopmentEmulator.",
     );
   }
-}
-
-function isLoopbackAddress(address: string) {
-  return /^(127\.[\d.]+|[0:]+1|localhost)$/.test(address.toLowerCase());
 }
