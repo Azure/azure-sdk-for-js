@@ -28,6 +28,7 @@ describe("ConnectionContextBase", function () {
     should.exist(context.negotiateClaimLock);
     context.wasConnectionCloseCalled.should.equal(false);
     context.connection.should.instanceOf(Connection);
+    context.connection.options.transport!.should.equal("tls");
     context.connection.options.properties!.product.should.equal("MSJSClient");
     context.connection.options.properties!["user-agent"].should.equal("/js-amqp-client");
     context.connection.options.properties!.version.should.equal("1.0.0");
