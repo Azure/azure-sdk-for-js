@@ -31,11 +31,15 @@ const logger = credentialLogger("DefaultAzureCredential");
  * @internal
  */
 export function createDefaultManagedIdentityCredential(
-  options?:
+  options:
     | DefaultAzureCredentialOptions
     | DefaultAzureCredentialResourceIdOptions
-    | DefaultAzureCredentialClientIdOptions,
+    | DefaultAzureCredentialClientIdOptions = {},
 ): TokenCredential {
+  options.retryOptions ??= {
+    maxRetries: 5,
+    retryDelayInMs: 800,
+  };
   const managedIdentityClientId =
     (options as DefaultAzureCredentialClientIdOptions)?.managedIdentityClientId ??
     process.env.AZURE_CLIENT_ID;
