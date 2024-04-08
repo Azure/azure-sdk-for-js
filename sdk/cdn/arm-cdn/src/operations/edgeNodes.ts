@@ -18,7 +18,7 @@ import {
   EdgeNodesListNextOptionalParams,
   EdgeNodesListOptionalParams,
   EdgeNodesListResponse,
-  EdgeNodesListNextResponse
+  EdgeNodesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +39,7 @@ export class EdgeNodesImpl implements EdgeNodes {
    * @param options The options parameters.
    */
   public list(
-    options?: EdgeNodesListOptionalParams
+    options?: EdgeNodesListOptionalParams,
   ): PagedAsyncIterableIterator<EdgeNode> {
     const iter = this.listPagingAll(options);
     return {
@@ -54,13 +54,13 @@ export class EdgeNodesImpl implements EdgeNodes {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: EdgeNodesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<EdgeNode[]> {
     let result: EdgeNodesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -81,7 +81,7 @@ export class EdgeNodesImpl implements EdgeNodes {
   }
 
   private async *listPagingAll(
-    options?: EdgeNodesListOptionalParams
+    options?: EdgeNodesListOptionalParams,
   ): AsyncIterableIterator<EdgeNode> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -93,7 +93,7 @@ export class EdgeNodesImpl implements EdgeNodes {
    * @param options The options parameters.
    */
   private _list(
-    options?: EdgeNodesListOptionalParams
+    options?: EdgeNodesListOptionalParams,
   ): Promise<EdgeNodesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -105,11 +105,11 @@ export class EdgeNodesImpl implements EdgeNodes {
    */
   private _listNext(
     nextLink: string,
-    options?: EdgeNodesListNextOptionalParams
+    options?: EdgeNodesListNextOptionalParams,
   ): Promise<EdgeNodesListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -121,29 +121,29 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EdgenodeResult
+      bodyMapper: Mappers.EdgenodeResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EdgenodeResult
+      bodyMapper: Mappers.EdgenodeResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
