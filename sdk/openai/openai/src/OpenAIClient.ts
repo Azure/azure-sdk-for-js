@@ -263,13 +263,7 @@ export class OpenAIClient {
     options: GetCompletionsOptions = { requestOptions: {} },
   ): Promise<Completions> {
     this.setModel(deploymentName, options);
-    const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
-    return getCompletions(
-      this._client,
-      deploymentName,
-      { prompt, ...rest },
-      { abortSignal, onResponse, requestOptions, tracingOptions },
-    );
+    return getCompletions(this._client, deploymentName, prompt, options);
   }
 
   /**
@@ -326,12 +320,7 @@ export class OpenAIClient {
   ): Promise<ImageGenerations> {
     this.setModel(deploymentName, options);
     const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
-    return getImageGenerations(
-      this._client,
-      deploymentName,
-      { prompt, ...rest },
-      { abortSignal, onResponse, requestOptions, tracingOptions },
-    );
+    return getImageGenerations(this._client, deploymentName, prompt, rest);
   }
 
   /** Return the embeddings for a given prompt. */
@@ -341,12 +330,6 @@ export class OpenAIClient {
     options: GetEmbeddingsOptions = { requestOptions: {} },
   ): Promise<Embeddings> {
     this.setModel(deploymentName, options);
-    const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
-    return getEmbeddings(
-      this._client,
-      deploymentName,
-      { input, ...rest },
-      { abortSignal, onResponse, requestOptions, tracingOptions },
-    );
+    return getEmbeddings(this._client, deploymentName, input, options);
   }
 }

@@ -343,6 +343,7 @@ export interface ChatCompletionsOutput {
     choices: Array<ChatChoiceOutput>;
     created: number;
     id: string;
+    model: string;
     prompt_filter_results?: Array<ContentFilterResultsForPromptOutput>;
     system_fingerprint?: string;
     usage: CompletionsUsageOutput;

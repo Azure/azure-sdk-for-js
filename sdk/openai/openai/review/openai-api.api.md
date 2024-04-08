@@ -35,13 +35,13 @@ export function getAudioTranslation<Format extends AudioResultFormat>(context: O
 export function getChatCompletions(context: OpenAIContext, deploymentName: string, messages: ChatRequestMessageUnion[], options?: GetChatCompletionsOptions): Promise<ChatCompletions>;
 
 // @public
-export function getCompletions(context: OpenAIContext, deploymentId: string, body: CompletionsOptions_2, options?: GetCompletionsOptions): Promise<Completions>;
+export function getCompletions(context: OpenAIContext, deploymentId: string, prompt: string[], options?: GetCompletionsOptions): Promise<Completions>;
 
 // @public
-export function getEmbeddings(context: OpenAIContext, deploymentId: string, body: EmbeddingsOptions_2, options?: GetEmbeddingsOptions): Promise<Embeddings>;
+export function getEmbeddings(context: OpenAIContext, deploymentId: string, input: string[], options?: GetEmbeddingsOptions): Promise<Embeddings>;
 
 // @public
-export function getImageGenerations(context: OpenAIContext, deploymentId: string, body: ImageGenerationOptions_2, options?: GetImagesOptions): Promise<ImageGenerations>;
+export function getImageGenerations(context: OpenAIContext, deploymentId: string, prompt: string, options?: GetImagesOptions): Promise<ImageGenerations>;
 
 // @public (undocumented)
 export interface OpenAIClientOptions extends ClientOptions {
