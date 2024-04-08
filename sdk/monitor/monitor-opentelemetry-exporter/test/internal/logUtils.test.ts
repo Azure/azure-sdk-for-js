@@ -398,7 +398,11 @@ describe("logUtils.ts", () => {
       "extra.attribute": "foo",
       [SemanticAttributes.MESSAGE_TYPE]: "test message type",
     };
-    testLogRecord.body = {"message":{"nested":{"nested2":{"test":"test"}}},"severityLevel":"Information","version":2};
+    testLogRecord.body = {
+      message: { nested: { nested2: { test: "test" } } },
+      severityLevel: "Information",
+      version: 2,
+    };
     const expectedTime = hrTimeToDate(testLogRecord.hrTime);
     const expectedProperties = {
       "extra.attribute": "foo",
