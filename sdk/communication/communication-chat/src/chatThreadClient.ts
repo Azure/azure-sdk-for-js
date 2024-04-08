@@ -141,7 +141,7 @@ export class ChatThreadClient {
         await this.client.chatThread.updateChatThreadProperties(
           this.threadId,
           options,
-          updatedOptions
+          updatedOptions,
         );
       },
     );

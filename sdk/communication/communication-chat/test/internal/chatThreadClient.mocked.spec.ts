@@ -388,7 +388,7 @@ describe("[Mocked] ChatThreadClient", async function () {
 
     assert.equal(
       request.url,
-      `${baseUri}/chat/threads/${threadId}/participants/:add?api-version=${API_VERSION}`
+      `${baseUri}/chat/threads/${threadId}/participants/:add?api-version=${API_VERSION}`,
     );
     assert.equal(request.method, "POST");
     const requestJson = JSON.parse(request.body as string);
@@ -450,7 +450,7 @@ describe("[Mocked] ChatThreadClient", async function () {
 
         assert.equal(
           (id as CommunicationUserIdentifier).communicationUserId,
-          communicationIdentifier?.communicationUser?.id
+          communicationIdentifier?.communicationUser?.id,
         );
         assert.deepEqual(requestParticipant, expectedParticipant);
       }
