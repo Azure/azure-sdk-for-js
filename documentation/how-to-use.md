@@ -6,14 +6,14 @@ In this document, we will give a brief introduction on how to use the JavaScript
 
 1. Create a empty folder and `cd` this folder.
 
-    ```sh
+    ```
     mkdir jstest
     cd jstest
     ```
 
 1. Initialize a new node project. 
 
-    ```sh
+    ```
     npm init
     ```
 
@@ -21,7 +21,7 @@ In this document, we will give a brief introduction on how to use the JavaScript
 
 1. Install dependencies.
 
-   ```sh
+   ```
    // install @azure/identity, you can use @azure/identity to do the authentication work.
    npm install @azure/identity
    
@@ -66,13 +66,13 @@ In this document, we will give a brief introduction on how to use the JavaScript
     
 1. Install all the dependencies
 
-   ```sh
+   ```
    npm install // need to make sure package.json exists and has contained at step 4.
    ```
 
 1. Compile the ts file.
 
-   ```sh
+   ```
    tsc test_1.ts
    ```
 
@@ -80,7 +80,7 @@ In this document, we will give a brief introduction on how to use the JavaScript
 
 1. Run the code. 
    
-   ```sh
+   ```
    node test_1.js
    ```
    
