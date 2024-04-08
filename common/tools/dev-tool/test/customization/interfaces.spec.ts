@@ -39,8 +39,8 @@ describe("Interfaces", () => {
     augmentInterface(customInterface, originalInterface, originalFile);
 
     assert.isDefined(originalFile.getInterface("myInterface"));
-    const props = originalFile.getInterface("myInterface")?.getProperties()
-    if (!props) assert.fail("myInterface#getProperties() is undefined")
+    const props = originalFile.getInterface("myInterface")?.getProperties();
+    if (!props) assert.fail("myInterface#getProperties() is undefined");
     assert.lengthOf(props, 2);
     assert.isDefined(originalFile.getInterface("myInterface")?.getProperty("foo"));
     assert.equal(
@@ -70,7 +70,7 @@ describe("Interfaces", () => {
 
     assert.isDefined(originalFile.getInterface("myInterface"));
     const props = originalFile.getInterface("myInterface")?.getProperties();
-    if (!props) assert.fail("myInterface#getProperties() is undefined")
+    if (!props) assert.fail("myInterface#getProperties() is undefined");
     assert.lengthOf(props, 2);
     assert.isDefined(originalFile.getInterface("myInterface")?.getProperty("foo"));
     assert.isDefined(originalFile.getInterface("myInterface")?.getProperty("baz"));
