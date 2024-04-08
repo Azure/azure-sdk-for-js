@@ -317,7 +317,7 @@ describe("sendRequest", () => {
       return { headers: createHttpHeaders() } as PipelineResponse;
     };
 
-    await sendRequest("POST", mockBaseUrl, mockPipeline, { headers: { accept: "testContent" }});
+    await sendRequest("POST", mockBaseUrl, mockPipeline, { headers: { accept: "testContent" } });
   });
 
   it("should set custom headers", async () => {
