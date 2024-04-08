@@ -1,6 +1,6 @@
 In this document, we will give a brief introduction on how to use the JavaScript SDK for new users.
 
-1. Prepare your environment.
+1. Prepare your environment.  
     NodeJS: can be installed from https://nodejs.org/en/download/  
     typescript: install it with `npm install -g typescript`.
 
