@@ -6,13 +6,8 @@
     "lib": ["dom"],
     "resolveJsonModule": true,
     "paths": {
-      "@azure/keyvault-secrets": ["./src/index"],
-    },
+      "@azure/keyvault-secrets": ["./src/index"]
+    }
   },
-  "include": [
-    "./src/**/*.ts",
-    "./test/**/*.ts",
-    "../keyvault-common/src/**/*.ts",
-    "samples-dev/**/*.ts",
-  ],
+  "include": ["./src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"]
 }

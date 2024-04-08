@@ -15,7 +15,7 @@ import { CosmosDBForPostgreSQL } from "../cosmosDBForPostgreSQL";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -27,7 +27,7 @@ import {
   FirewallRulesDeleteOptionalParams,
   FirewallRulesDeleteResponse,
   FirewallRulesGetOptionalParams,
-  FirewallRulesGetResponse
+  FirewallRulesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,12 +52,12 @@ export class FirewallRulesImpl implements FirewallRules {
   public listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: FirewallRulesListByClusterOptionalParams
+    options?: FirewallRulesListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<FirewallRule> {
     const iter = this.listByClusterPagingAll(
       resourceGroupName,
       clusterName,
-      options
+      options,
     );
     return {
       next() {
@@ -74,9 +74,9 @@ export class FirewallRulesImpl implements FirewallRules {
           resourceGroupName,
           clusterName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -84,7 +84,7 @@ export class FirewallRulesImpl implements FirewallRules {
     resourceGroupName: string,
     clusterName: string,
     options?: FirewallRulesListByClusterOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<FirewallRule[]> {
     let result: FirewallRulesListByClusterResponse;
     result = await this._listByCluster(resourceGroupName, clusterName, options);
@@ -94,12 +94,12 @@ export class FirewallRulesImpl implements FirewallRules {
   private async *listByClusterPagingAll(
     resourceGroupName: string,
     clusterName: string,
-    options?: FirewallRulesListByClusterOptionalParams
+    options?: FirewallRulesListByClusterOptionalParams,
   ): AsyncIterableIterator<FirewallRule> {
     for await (const page of this.listByClusterPagingPage(
       resourceGroupName,
       clusterName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -118,7 +118,7 @@ export class FirewallRulesImpl implements FirewallRules {
     clusterName: string,
     firewallRuleName: string,
     parameters: FirewallRule,
-    options?: FirewallRulesCreateOrUpdateOptionalParams
+    options?: FirewallRulesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<FirewallRulesCreateOrUpdateResponse>,
@@ -127,21 +127,20 @@ export class FirewallRulesImpl implements FirewallRules {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<FirewallRulesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -150,8 +149,8 @@ export class FirewallRulesImpl implements FirewallRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -159,8 +158,8 @@ export class FirewallRulesImpl implements FirewallRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -171,9 +170,9 @@ export class FirewallRulesImpl implements FirewallRules {
         clusterName,
         firewallRuleName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       FirewallRulesCreateOrUpdateResponse,
@@ -181,7 +180,7 @@ export class FirewallRulesImpl implements FirewallRules {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -200,14 +199,14 @@ export class FirewallRulesImpl implements FirewallRules {
     clusterName: string,
     firewallRuleName: string,
     parameters: FirewallRule,
-    options?: FirewallRulesCreateOrUpdateOptionalParams
+    options?: FirewallRulesCreateOrUpdateOptionalParams,
   ): Promise<FirewallRulesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       clusterName,
       firewallRuleName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -223,7 +222,7 @@ export class FirewallRulesImpl implements FirewallRules {
     resourceGroupName: string,
     clusterName: string,
     firewallRuleName: string,
-    options?: FirewallRulesDeleteOptionalParams
+    options?: FirewallRulesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<FirewallRulesDeleteResponse>,
@@ -232,21 +231,20 @@ export class FirewallRulesImpl implements FirewallRules {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<FirewallRulesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -255,8 +253,8 @@ export class FirewallRulesImpl implements FirewallRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -264,15 +262,15 @@ export class FirewallRulesImpl implements FirewallRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, clusterName, firewallRuleName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       FirewallRulesDeleteResponse,
@@ -280,7 +278,7 @@ export class FirewallRulesImpl implements FirewallRules {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -297,13 +295,13 @@ export class FirewallRulesImpl implements FirewallRules {
     resourceGroupName: string,
     clusterName: string,
     firewallRuleName: string,
-    options?: FirewallRulesDeleteOptionalParams
+    options?: FirewallRulesDeleteOptionalParams,
   ): Promise<FirewallRulesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       clusterName,
       firewallRuleName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -319,11 +317,11 @@ export class FirewallRulesImpl implements FirewallRules {
     resourceGroupName: string,
     clusterName: string,
     firewallRuleName: string,
-    options?: FirewallRulesGetOptionalParams
+    options?: FirewallRulesGetOptionalParams,
   ): Promise<FirewallRulesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, firewallRuleName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -336,11 +334,11 @@ export class FirewallRulesImpl implements FirewallRules {
   private _listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: FirewallRulesListByClusterOptionalParams
+    options?: FirewallRulesListByClusterOptionalParams,
   ): Promise<FirewallRulesListByClusterResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, options },
-      listByClusterOperationSpec
+      listByClusterOperationSpec,
     );
   }
 }
@@ -348,25 +346,24 @@ export class FirewallRulesImpl implements FirewallRules {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/firewallRules/{firewallRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/firewallRules/{firewallRuleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.FirewallRule
+      bodyMapper: Mappers.FirewallRule,
     },
     201: {
-      bodyMapper: Mappers.FirewallRule
+      bodyMapper: Mappers.FirewallRule,
     },
     202: {
-      bodyMapper: Mappers.FirewallRule
+      bodyMapper: Mappers.FirewallRule,
     },
     204: {
-      bodyMapper: Mappers.FirewallRule
+      bodyMapper: Mappers.FirewallRule,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
@@ -375,32 +372,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.firewallRuleName
+    Parameters.firewallRuleName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/firewallRules/{firewallRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/firewallRules/{firewallRuleName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.FirewallRulesDeleteHeaders
+      headersMapper: Mappers.FirewallRulesDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.FirewallRulesDeleteHeaders
+      headersMapper: Mappers.FirewallRulesDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.FirewallRulesDeleteHeaders
+      headersMapper: Mappers.FirewallRulesDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.FirewallRulesDeleteHeaders
+      headersMapper: Mappers.FirewallRulesDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -408,22 +404,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.firewallRuleName
+    Parameters.firewallRuleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/firewallRules/{firewallRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/firewallRules/{firewallRuleName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FirewallRule
+      bodyMapper: Mappers.FirewallRule,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -431,30 +426,29 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.firewallRuleName
+    Parameters.firewallRuleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByClusterOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/firewallRules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/firewallRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FirewallRuleListResult
+      bodyMapper: Mappers.FirewallRuleListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.clusterName
+    Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

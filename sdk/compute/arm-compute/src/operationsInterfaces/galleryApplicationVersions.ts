@@ -18,7 +18,7 @@ import {
   GalleryApplicationVersionsUpdateResponse,
   GalleryApplicationVersionsGetOptionalParams,
   GalleryApplicationVersionsGetResponse,
-  GalleryApplicationVersionsDeleteOptionalParams
+  GalleryApplicationVersionsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -37,7 +37,7 @@ export interface GalleryApplicationVersions {
     resourceGroupName: string,
     galleryName: string,
     galleryApplicationName: string,
-    options?: GalleryApplicationVersionsListByGalleryApplicationOptionalParams
+    options?: GalleryApplicationVersionsListByGalleryApplicationOptionalParams,
   ): PagedAsyncIterableIterator<GalleryApplicationVersion>;
   /**
    * Create or update a gallery Application Version.
@@ -59,7 +59,7 @@ export interface GalleryApplicationVersions {
     galleryApplicationName: string,
     galleryApplicationVersionName: string,
     galleryApplicationVersion: GalleryApplicationVersion,
-    options?: GalleryApplicationVersionsCreateOrUpdateOptionalParams
+    options?: GalleryApplicationVersionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<GalleryApplicationVersionsCreateOrUpdateResponse>,
@@ -86,7 +86,7 @@ export interface GalleryApplicationVersions {
     galleryApplicationName: string,
     galleryApplicationVersionName: string,
     galleryApplicationVersion: GalleryApplicationVersion,
-    options?: GalleryApplicationVersionsCreateOrUpdateOptionalParams
+    options?: GalleryApplicationVersionsCreateOrUpdateOptionalParams,
   ): Promise<GalleryApplicationVersionsCreateOrUpdateResponse>;
   /**
    * Update a gallery Application Version.
@@ -108,7 +108,7 @@ export interface GalleryApplicationVersions {
     galleryApplicationName: string,
     galleryApplicationVersionName: string,
     galleryApplicationVersion: GalleryApplicationVersionUpdate,
-    options?: GalleryApplicationVersionsUpdateOptionalParams
+    options?: GalleryApplicationVersionsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<GalleryApplicationVersionsUpdateResponse>,
@@ -135,7 +135,7 @@ export interface GalleryApplicationVersions {
     galleryApplicationName: string,
     galleryApplicationVersionName: string,
     galleryApplicationVersion: GalleryApplicationVersionUpdate,
-    options?: GalleryApplicationVersionsUpdateOptionalParams
+    options?: GalleryApplicationVersionsUpdateOptionalParams,
   ): Promise<GalleryApplicationVersionsUpdateResponse>;
   /**
    * Retrieves information about a gallery Application Version.
@@ -152,7 +152,7 @@ export interface GalleryApplicationVersions {
     galleryName: string,
     galleryApplicationName: string,
     galleryApplicationVersionName: string,
-    options?: GalleryApplicationVersionsGetOptionalParams
+    options?: GalleryApplicationVersionsGetOptionalParams,
   ): Promise<GalleryApplicationVersionsGetResponse>;
   /**
    * Delete a gallery Application Version.
@@ -169,7 +169,7 @@ export interface GalleryApplicationVersions {
     galleryName: string,
     galleryApplicationName: string,
     galleryApplicationVersionName: string,
-    options?: GalleryApplicationVersionsDeleteOptionalParams
+    options?: GalleryApplicationVersionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a gallery Application Version.
@@ -186,6 +186,6 @@ export interface GalleryApplicationVersions {
     galleryName: string,
     galleryApplicationName: string,
     galleryApplicationVersionName: string,
-    options?: GalleryApplicationVersionsDeleteOptionalParams
+    options?: GalleryApplicationVersionsDeleteOptionalParams,
   ): Promise<void>;
 }

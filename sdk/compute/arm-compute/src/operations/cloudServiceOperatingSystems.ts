@@ -27,13 +27,14 @@ import {
   CloudServiceOperatingSystemsGetOSFamilyOptionalParams,
   CloudServiceOperatingSystemsGetOSFamilyResponse,
   CloudServiceOperatingSystemsListOSVersionsNextResponse,
-  CloudServiceOperatingSystemsListOSFamiliesNextResponse
+  CloudServiceOperatingSystemsListOSFamiliesNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing CloudServiceOperatingSystems operations. */
 export class CloudServiceOperatingSystemsImpl
-  implements CloudServiceOperatingSystems {
+  implements CloudServiceOperatingSystems
+{
   private readonly client: ComputeManagementClient;
 
   /**
@@ -53,7 +54,7 @@ export class CloudServiceOperatingSystemsImpl
    */
   public listOSVersions(
     location: string,
-    options?: CloudServiceOperatingSystemsListOSVersionsOptionalParams
+    options?: CloudServiceOperatingSystemsListOSVersionsOptionalParams,
   ): PagedAsyncIterableIterator<OSVersion> {
     const iter = this.listOSVersionsPagingAll(location, options);
     return {
@@ -68,14 +69,14 @@ export class CloudServiceOperatingSystemsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listOSVersionsPagingPage(location, options, settings);
-      }
+      },
     };
   }
 
   private async *listOSVersionsPagingPage(
     location: string,
     options?: CloudServiceOperatingSystemsListOSVersionsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<OSVersion[]> {
     let result: CloudServiceOperatingSystemsListOSVersionsResponse;
     let continuationToken = settings?.continuationToken;
@@ -90,7 +91,7 @@ export class CloudServiceOperatingSystemsImpl
       result = await this._listOSVersionsNext(
         location,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -101,7 +102,7 @@ export class CloudServiceOperatingSystemsImpl
 
   private async *listOSVersionsPagingAll(
     location: string,
-    options?: CloudServiceOperatingSystemsListOSVersionsOptionalParams
+    options?: CloudServiceOperatingSystemsListOSVersionsOptionalParams,
   ): AsyncIterableIterator<OSVersion> {
     for await (const page of this.listOSVersionsPagingPage(location, options)) {
       yield* page;
@@ -117,7 +118,7 @@ export class CloudServiceOperatingSystemsImpl
    */
   public listOSFamilies(
     location: string,
-    options?: CloudServiceOperatingSystemsListOSFamiliesOptionalParams
+    options?: CloudServiceOperatingSystemsListOSFamiliesOptionalParams,
   ): PagedAsyncIterableIterator<OSFamily> {
     const iter = this.listOSFamiliesPagingAll(location, options);
     return {
@@ -132,14 +133,14 @@ export class CloudServiceOperatingSystemsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listOSFamiliesPagingPage(location, options, settings);
-      }
+      },
     };
   }
 
   private async *listOSFamiliesPagingPage(
     location: string,
     options?: CloudServiceOperatingSystemsListOSFamiliesOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<OSFamily[]> {
     let result: CloudServiceOperatingSystemsListOSFamiliesResponse;
     let continuationToken = settings?.continuationToken;
@@ -154,7 +155,7 @@ export class CloudServiceOperatingSystemsImpl
       result = await this._listOSFamiliesNext(
         location,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -165,7 +166,7 @@ export class CloudServiceOperatingSystemsImpl
 
   private async *listOSFamiliesPagingAll(
     location: string,
-    options?: CloudServiceOperatingSystemsListOSFamiliesOptionalParams
+    options?: CloudServiceOperatingSystemsListOSFamiliesOptionalParams,
   ): AsyncIterableIterator<OSFamily> {
     for await (const page of this.listOSFamiliesPagingPage(location, options)) {
       yield* page;
@@ -182,11 +183,11 @@ export class CloudServiceOperatingSystemsImpl
   getOSVersion(
     location: string,
     osVersionName: string,
-    options?: CloudServiceOperatingSystemsGetOSVersionOptionalParams
+    options?: CloudServiceOperatingSystemsGetOSVersionOptionalParams,
   ): Promise<CloudServiceOperatingSystemsGetOSVersionResponse> {
     return this.client.sendOperationRequest(
       { location, osVersionName, options },
-      getOSVersionOperationSpec
+      getOSVersionOperationSpec,
     );
   }
 
@@ -199,11 +200,11 @@ export class CloudServiceOperatingSystemsImpl
    */
   private _listOSVersions(
     location: string,
-    options?: CloudServiceOperatingSystemsListOSVersionsOptionalParams
+    options?: CloudServiceOperatingSystemsListOSVersionsOptionalParams,
   ): Promise<CloudServiceOperatingSystemsListOSVersionsResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listOSVersionsOperationSpec
+      listOSVersionsOperationSpec,
     );
   }
 
@@ -217,11 +218,11 @@ export class CloudServiceOperatingSystemsImpl
   getOSFamily(
     location: string,
     osFamilyName: string,
-    options?: CloudServiceOperatingSystemsGetOSFamilyOptionalParams
+    options?: CloudServiceOperatingSystemsGetOSFamilyOptionalParams,
   ): Promise<CloudServiceOperatingSystemsGetOSFamilyResponse> {
     return this.client.sendOperationRequest(
       { location, osFamilyName, options },
-      getOSFamilyOperationSpec
+      getOSFamilyOperationSpec,
     );
   }
 
@@ -234,11 +235,11 @@ export class CloudServiceOperatingSystemsImpl
    */
   private _listOSFamilies(
     location: string,
-    options?: CloudServiceOperatingSystemsListOSFamiliesOptionalParams
+    options?: CloudServiceOperatingSystemsListOSFamiliesOptionalParams,
   ): Promise<CloudServiceOperatingSystemsListOSFamiliesResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listOSFamiliesOperationSpec
+      listOSFamiliesOperationSpec,
     );
   }
 
@@ -251,11 +252,11 @@ export class CloudServiceOperatingSystemsImpl
   private _listOSVersionsNext(
     location: string,
     nextLink: string,
-    options?: CloudServiceOperatingSystemsListOSVersionsNextOptionalParams
+    options?: CloudServiceOperatingSystemsListOSVersionsNextOptionalParams,
   ): Promise<CloudServiceOperatingSystemsListOSVersionsNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
-      listOSVersionsNextOperationSpec
+      listOSVersionsNextOperationSpec,
     );
   }
 
@@ -268,11 +269,11 @@ export class CloudServiceOperatingSystemsImpl
   private _listOSFamiliesNext(
     location: string,
     nextLink: string,
-    options?: CloudServiceOperatingSystemsListOSFamiliesNextOptionalParams
+    options?: CloudServiceOperatingSystemsListOSFamiliesNextOptionalParams,
   ): Promise<CloudServiceOperatingSystemsListOSFamiliesNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
-      listOSFamiliesNextOperationSpec
+      listOSFamiliesNextOperationSpec,
     );
   }
 }
@@ -280,128 +281,124 @@ export class CloudServiceOperatingSystemsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOSVersionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/cloudServiceOsVersions/{osVersionName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/cloudServiceOsVersions/{osVersionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OSVersion
+      bodyMapper: Mappers.OSVersion,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location1,
-    Parameters.osVersionName
+    Parameters.osVersionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOSVersionsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/cloudServiceOsVersions",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/cloudServiceOsVersions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OSVersionListResult
+      bodyMapper: Mappers.OSVersionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion4],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOSFamilyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/cloudServiceOsFamilies/{osFamilyName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.OSFamily
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location1,
-    Parameters.osFamilyName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listOSFamiliesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/cloudServiceOsFamilies",
+const getOSFamilyOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/cloudServiceOsFamilies/{osFamilyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OSFamilyListResult
+      bodyMapper: Mappers.OSFamily,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1
+    Parameters.location1,
+    Parameters.osFamilyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listOSFamiliesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/cloudServiceOsFamilies",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OSFamilyListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion4],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listOSVersionsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OSVersionListResult
+      bodyMapper: Mappers.OSVersionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.location1
+    Parameters.location1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOSFamiliesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OSFamilyListResult
+      bodyMapper: Mappers.OSFamilyListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.location1
+    Parameters.location1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -18,7 +18,7 @@ import {
   CapacityReservationGroupsUpdateResponse,
   CapacityReservationGroupsDeleteOptionalParams,
   CapacityReservationGroupsGetOptionalParams,
-  CapacityReservationGroupsGetResponse
+  CapacityReservationGroupsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface CapacityReservationGroups {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: CapacityReservationGroupsListByResourceGroupOptionalParams
+    options?: CapacityReservationGroupsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<CapacityReservationGroup>;
   /**
    * Lists all of the capacity reservation groups in the subscription. Use the nextLink property in the
@@ -40,7 +40,7 @@ export interface CapacityReservationGroups {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: CapacityReservationGroupsListBySubscriptionOptionalParams
+    options?: CapacityReservationGroupsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<CapacityReservationGroup>;
   /**
    * The operation to create or update a capacity reservation group. When updating a capacity reservation
@@ -55,7 +55,7 @@ export interface CapacityReservationGroups {
     resourceGroupName: string,
     capacityReservationGroupName: string,
     parameters: CapacityReservationGroup,
-    options?: CapacityReservationGroupsCreateOrUpdateOptionalParams
+    options?: CapacityReservationGroupsCreateOrUpdateOptionalParams,
   ): Promise<CapacityReservationGroupsCreateOrUpdateResponse>;
   /**
    * The operation to update a capacity reservation group. When updating a capacity reservation group,
@@ -69,7 +69,7 @@ export interface CapacityReservationGroups {
     resourceGroupName: string,
     capacityReservationGroupName: string,
     parameters: CapacityReservationGroupUpdate,
-    options?: CapacityReservationGroupsUpdateOptionalParams
+    options?: CapacityReservationGroupsUpdateOptionalParams,
   ): Promise<CapacityReservationGroupsUpdateResponse>;
   /**
    * The operation to delete a capacity reservation group. This operation is allowed only if all the
@@ -83,7 +83,7 @@ export interface CapacityReservationGroups {
   delete(
     resourceGroupName: string,
     capacityReservationGroupName: string,
-    options?: CapacityReservationGroupsDeleteOptionalParams
+    options?: CapacityReservationGroupsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * The operation that retrieves information about a capacity reservation group.
@@ -94,6 +94,6 @@ export interface CapacityReservationGroups {
   get(
     resourceGroupName: string,
     capacityReservationGroupName: string,
-    options?: CapacityReservationGroupsGetOptionalParams
+    options?: CapacityReservationGroupsGetOptionalParams,
   ): Promise<CapacityReservationGroupsGetResponse>;
 }

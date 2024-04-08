@@ -31,13 +31,14 @@ import {
   DataCollectionRuleAssociationsDeleteOptionalParams,
   DataCollectionRuleAssociationsListByResourceNextResponse,
   DataCollectionRuleAssociationsListByRuleNextResponse,
-  DataCollectionRuleAssociationsListByDataCollectionEndpointNextResponse
+  DataCollectionRuleAssociationsListByDataCollectionEndpointNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DataCollectionRuleAssociations operations. */
 export class DataCollectionRuleAssociationsImpl
-  implements DataCollectionRuleAssociations {
+  implements DataCollectionRuleAssociations
+{
   private readonly client: MonitorClient;
 
   /**
@@ -55,10 +56,8 @@ export class DataCollectionRuleAssociationsImpl
    */
   public listByResource(
     resourceUri: string,
-    options?: DataCollectionRuleAssociationsListByResourceOptionalParams
-  ): PagedAsyncIterableIterator<
-    DataCollectionRuleAssociationProxyOnlyResource
-  > {
+    options?: DataCollectionRuleAssociationsListByResourceOptionalParams,
+  ): PagedAsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource> {
     const iter = this.listByResourcePagingAll(resourceUri, options);
     return {
       next() {
@@ -72,14 +71,14 @@ export class DataCollectionRuleAssociationsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listByResourcePagingPage(resourceUri, options, settings);
-      }
+      },
     };
   }
 
   private async *listByResourcePagingPage(
     resourceUri: string,
     options?: DataCollectionRuleAssociationsListByResourceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource[]> {
     let result: DataCollectionRuleAssociationsListByResourceResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +93,7 @@ export class DataCollectionRuleAssociationsImpl
       result = await this._listByResourceNext(
         resourceUri,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -105,11 +104,11 @@ export class DataCollectionRuleAssociationsImpl
 
   private async *listByResourcePagingAll(
     resourceUri: string,
-    options?: DataCollectionRuleAssociationsListByResourceOptionalParams
+    options?: DataCollectionRuleAssociationsListByResourceOptionalParams,
   ): AsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource> {
     for await (const page of this.listByResourcePagingPage(
       resourceUri,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -124,14 +123,12 @@ export class DataCollectionRuleAssociationsImpl
   public listByRule(
     resourceGroupName: string,
     dataCollectionRuleName: string,
-    options?: DataCollectionRuleAssociationsListByRuleOptionalParams
-  ): PagedAsyncIterableIterator<
-    DataCollectionRuleAssociationProxyOnlyResource
-  > {
+    options?: DataCollectionRuleAssociationsListByRuleOptionalParams,
+  ): PagedAsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource> {
     const iter = this.listByRulePagingAll(
       resourceGroupName,
       dataCollectionRuleName,
-      options
+      options,
     );
     return {
       next() {
@@ -148,9 +145,9 @@ export class DataCollectionRuleAssociationsImpl
           resourceGroupName,
           dataCollectionRuleName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -158,7 +155,7 @@ export class DataCollectionRuleAssociationsImpl
     resourceGroupName: string,
     dataCollectionRuleName: string,
     options?: DataCollectionRuleAssociationsListByRuleOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource[]> {
     let result: DataCollectionRuleAssociationsListByRuleResponse;
     let continuationToken = settings?.continuationToken;
@@ -166,7 +163,7 @@ export class DataCollectionRuleAssociationsImpl
       result = await this._listByRule(
         resourceGroupName,
         dataCollectionRuleName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -178,7 +175,7 @@ export class DataCollectionRuleAssociationsImpl
         resourceGroupName,
         dataCollectionRuleName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -190,12 +187,12 @@ export class DataCollectionRuleAssociationsImpl
   private async *listByRulePagingAll(
     resourceGroupName: string,
     dataCollectionRuleName: string,
-    options?: DataCollectionRuleAssociationsListByRuleOptionalParams
+    options?: DataCollectionRuleAssociationsListByRuleOptionalParams,
   ): AsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource> {
     for await (const page of this.listByRulePagingPage(
       resourceGroupName,
       dataCollectionRuleName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -211,14 +208,12 @@ export class DataCollectionRuleAssociationsImpl
   public listByDataCollectionEndpoint(
     resourceGroupName: string,
     dataCollectionEndpointName: string,
-    options?: DataCollectionRuleAssociationsListByDataCollectionEndpointOptionalParams
-  ): PagedAsyncIterableIterator<
-    DataCollectionRuleAssociationProxyOnlyResource
-  > {
+    options?: DataCollectionRuleAssociationsListByDataCollectionEndpointOptionalParams,
+  ): PagedAsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource> {
     const iter = this.listByDataCollectionEndpointPagingAll(
       resourceGroupName,
       dataCollectionEndpointName,
-      options
+      options,
     );
     return {
       next() {
@@ -235,9 +230,9 @@ export class DataCollectionRuleAssociationsImpl
           resourceGroupName,
           dataCollectionEndpointName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -245,7 +240,7 @@ export class DataCollectionRuleAssociationsImpl
     resourceGroupName: string,
     dataCollectionEndpointName: string,
     options?: DataCollectionRuleAssociationsListByDataCollectionEndpointOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource[]> {
     let result: DataCollectionRuleAssociationsListByDataCollectionEndpointResponse;
     let continuationToken = settings?.continuationToken;
@@ -253,7 +248,7 @@ export class DataCollectionRuleAssociationsImpl
       result = await this._listByDataCollectionEndpoint(
         resourceGroupName,
         dataCollectionEndpointName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -265,7 +260,7 @@ export class DataCollectionRuleAssociationsImpl
         resourceGroupName,
         dataCollectionEndpointName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -277,12 +272,12 @@ export class DataCollectionRuleAssociationsImpl
   private async *listByDataCollectionEndpointPagingAll(
     resourceGroupName: string,
     dataCollectionEndpointName: string,
-    options?: DataCollectionRuleAssociationsListByDataCollectionEndpointOptionalParams
+    options?: DataCollectionRuleAssociationsListByDataCollectionEndpointOptionalParams,
   ): AsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource> {
     for await (const page of this.listByDataCollectionEndpointPagingPage(
       resourceGroupName,
       dataCollectionEndpointName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -295,11 +290,11 @@ export class DataCollectionRuleAssociationsImpl
    */
   private _listByResource(
     resourceUri: string,
-    options?: DataCollectionRuleAssociationsListByResourceOptionalParams
+    options?: DataCollectionRuleAssociationsListByResourceOptionalParams,
   ): Promise<DataCollectionRuleAssociationsListByResourceResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, options },
-      listByResourceOperationSpec
+      listByResourceOperationSpec,
     );
   }
 
@@ -312,11 +307,11 @@ export class DataCollectionRuleAssociationsImpl
   private _listByRule(
     resourceGroupName: string,
     dataCollectionRuleName: string,
-    options?: DataCollectionRuleAssociationsListByRuleOptionalParams
+    options?: DataCollectionRuleAssociationsListByRuleOptionalParams,
   ): Promise<DataCollectionRuleAssociationsListByRuleResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dataCollectionRuleName, options },
-      listByRuleOperationSpec
+      listByRuleOperationSpec,
     );
   }
 
@@ -330,13 +325,11 @@ export class DataCollectionRuleAssociationsImpl
   private _listByDataCollectionEndpoint(
     resourceGroupName: string,
     dataCollectionEndpointName: string,
-    options?: DataCollectionRuleAssociationsListByDataCollectionEndpointOptionalParams
-  ): Promise<
-    DataCollectionRuleAssociationsListByDataCollectionEndpointResponse
-  > {
+    options?: DataCollectionRuleAssociationsListByDataCollectionEndpointOptionalParams,
+  ): Promise<DataCollectionRuleAssociationsListByDataCollectionEndpointResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dataCollectionEndpointName, options },
-      listByDataCollectionEndpointOperationSpec
+      listByDataCollectionEndpointOperationSpec,
     );
   }
 
@@ -349,11 +342,11 @@ export class DataCollectionRuleAssociationsImpl
   get(
     resourceUri: string,
     associationName: string,
-    options?: DataCollectionRuleAssociationsGetOptionalParams
+    options?: DataCollectionRuleAssociationsGetOptionalParams,
   ): Promise<DataCollectionRuleAssociationsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, associationName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -366,11 +359,11 @@ export class DataCollectionRuleAssociationsImpl
   create(
     resourceUri: string,
     associationName: string,
-    options?: DataCollectionRuleAssociationsCreateOptionalParams
+    options?: DataCollectionRuleAssociationsCreateOptionalParams,
   ): Promise<DataCollectionRuleAssociationsCreateResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, associationName, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -383,11 +376,11 @@ export class DataCollectionRuleAssociationsImpl
   delete(
     resourceUri: string,
     associationName: string,
-    options?: DataCollectionRuleAssociationsDeleteOptionalParams
+    options?: DataCollectionRuleAssociationsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceUri, associationName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -400,11 +393,11 @@ export class DataCollectionRuleAssociationsImpl
   private _listByResourceNext(
     resourceUri: string,
     nextLink: string,
-    options?: DataCollectionRuleAssociationsListByResourceNextOptionalParams
+    options?: DataCollectionRuleAssociationsListByResourceNextOptionalParams,
   ): Promise<DataCollectionRuleAssociationsListByResourceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, nextLink, options },
-      listByResourceNextOperationSpec
+      listByResourceNextOperationSpec,
     );
   }
 
@@ -419,11 +412,11 @@ export class DataCollectionRuleAssociationsImpl
     resourceGroupName: string,
     dataCollectionRuleName: string,
     nextLink: string,
-    options?: DataCollectionRuleAssociationsListByRuleNextOptionalParams
+    options?: DataCollectionRuleAssociationsListByRuleNextOptionalParams,
   ): Promise<DataCollectionRuleAssociationsListByRuleNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dataCollectionRuleName, nextLink, options },
-      listByRuleNextOperationSpec
+      listByRuleNextOperationSpec,
     );
   }
 
@@ -440,13 +433,11 @@ export class DataCollectionRuleAssociationsImpl
     resourceGroupName: string,
     dataCollectionEndpointName: string,
     nextLink: string,
-    options?: DataCollectionRuleAssociationsListByDataCollectionEndpointNextOptionalParams
-  ): Promise<
-    DataCollectionRuleAssociationsListByDataCollectionEndpointNextResponse
-  > {
+    options?: DataCollectionRuleAssociationsListByDataCollectionEndpointNextOptionalParams,
+  ): Promise<DataCollectionRuleAssociationsListByDataCollectionEndpointNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dataCollectionEndpointName, nextLink, options },
-      listByDataCollectionEndpointNextOperationSpec
+      listByDataCollectionEndpointNextOperationSpec,
     );
   }
 }
@@ -454,135 +445,129 @@ export class DataCollectionRuleAssociationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.Insights/dataCollectionRuleAssociations",
+  path: "/{resourceUri}/providers/Microsoft.Insights/dataCollectionRuleAssociations",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper:
-        Mappers.DataCollectionRuleAssociationProxyOnlyResourceListResult
+        Mappers.DataCollectionRuleAssociationProxyOnlyResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseCommonV2
-    }
+      bodyMapper: Mappers.ErrorResponseCommonV2,
+    },
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion14],
   urlParameters: [Parameters.$host, Parameters.resourceUri1],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionRules/{dataCollectionRuleName}/associations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionRules/{dataCollectionRuleName}/associations",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper:
-        Mappers.DataCollectionRuleAssociationProxyOnlyResourceListResult
+        Mappers.DataCollectionRuleAssociationProxyOnlyResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseCommonV2
-    }
+      bodyMapper: Mappers.ErrorResponseCommonV2,
+    },
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion14],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.dataCollectionRuleName
+    Parameters.resourceGroupName,
+    Parameters.dataCollectionRuleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByDataCollectionEndpointOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionEndpoints/{dataCollectionEndpointName}/associations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionEndpoints/{dataCollectionEndpointName}/associations",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper:
-        Mappers.DataCollectionRuleAssociationProxyOnlyResourceListResult
+        Mappers.DataCollectionRuleAssociationProxyOnlyResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseCommonV2
-    }
+      bodyMapper: Mappers.ErrorResponseCommonV2,
+    },
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion14],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.dataCollectionEndpointName
+    Parameters.resourceGroupName,
+    Parameters.dataCollectionEndpointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.Insights/dataCollectionRuleAssociations/{associationName}",
+  path: "/{resourceUri}/providers/Microsoft.Insights/dataCollectionRuleAssociations/{associationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataCollectionRuleAssociationProxyOnlyResource
+      bodyMapper: Mappers.DataCollectionRuleAssociationProxyOnlyResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseCommonV2
-    }
+      bodyMapper: Mappers.ErrorResponseCommonV2,
+    },
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion14],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri1,
-    Parameters.associationName
+    Parameters.associationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.Insights/dataCollectionRuleAssociations/{associationName}",
+  path: "/{resourceUri}/providers/Microsoft.Insights/dataCollectionRuleAssociations/{associationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DataCollectionRuleAssociationProxyOnlyResource
+      bodyMapper: Mappers.DataCollectionRuleAssociationProxyOnlyResource,
     },
     201: {
-      bodyMapper: Mappers.DataCollectionRuleAssociationProxyOnlyResource
+      bodyMapper: Mappers.DataCollectionRuleAssociationProxyOnlyResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseCommonV2
-    }
+      bodyMapper: Mappers.ErrorResponseCommonV2,
+    },
   },
-  requestBody: Parameters.body2,
-  queryParameters: [Parameters.apiVersion13],
+  requestBody: Parameters.body3,
+  queryParameters: [Parameters.apiVersion14],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri1,
-    Parameters.associationName
+    Parameters.associationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.Insights/dataCollectionRuleAssociations/{associationName}",
+  path: "/{resourceUri}/providers/Microsoft.Insights/dataCollectionRuleAssociations/{associationName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseCommonV2
-    }
+      bodyMapper: Mappers.ErrorResponseCommonV2,
+    },
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion14],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri1,
-    Parameters.associationName
+    Parameters.associationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
@@ -590,19 +575,19 @@ const listByResourceNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper:
-        Mappers.DataCollectionRuleAssociationProxyOnlyResourceListResult
+        Mappers.DataCollectionRuleAssociationProxyOnlyResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseCommonV2
-    }
+      bodyMapper: Mappers.ErrorResponseCommonV2,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.resourceUri1
+    Parameters.resourceUri1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByRuleNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
@@ -610,41 +595,42 @@ const listByRuleNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper:
-        Mappers.DataCollectionRuleAssociationProxyOnlyResourceListResult
+        Mappers.DataCollectionRuleAssociationProxyOnlyResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseCommonV2
-    }
+      bodyMapper: Mappers.ErrorResponseCommonV2,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.dataCollectionRuleName
+    Parameters.dataCollectionRuleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listByDataCollectionEndpointNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper:
-        Mappers.DataCollectionRuleAssociationProxyOnlyResourceListResult
+const listByDataCollectionEndpointNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper:
+          Mappers.DataCollectionRuleAssociationProxyOnlyResourceListResult,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponseCommonV2,
+      },
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponseCommonV2
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-    Parameters.dataCollectionEndpointName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.nextLink,
+      Parameters.dataCollectionEndpointName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };

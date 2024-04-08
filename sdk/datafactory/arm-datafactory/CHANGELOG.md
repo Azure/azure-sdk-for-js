@@ -1,4 +1,40 @@
 # Release History
+
+## 14.1.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 14.1.0 (2024-03-11)
+    
+**Features**
+
+  - Added Interface ExpressionV2
+  - Added Interface GoogleBigQueryV2LinkedService
+  - Added Interface GoogleBigQueryV2ObjectDataset
+  - Added Interface GoogleBigQueryV2Source
+  - Added Interface PostgreSqlV2LinkedService
+  - Added Interface PostgreSqlV2Source
+  - Added Interface PostgreSqlV2TableDataset
+  - Added Interface ServiceNowV2LinkedService
+  - Added Interface ServiceNowV2ObjectDataset
+  - Added Interface ServiceNowV2Source
+  - Added Type Alias ExpressionV2Type
+  - Added Type Alias GoogleBigQueryV2AuthenticationType
+  - Added Type Alias ServiceNowV2AuthenticationType
+  - Type of parameter type of interface CopySource has four new values "PostgreSqlV2Source" | "GoogleBigQueryV2Source" | "GreenplumSource" | "ServiceNowV2Source"
+  - Type of parameter type of interface Dataset has four new values "PostgreSqlV2Source" | "GoogleBigQueryV2Source" | "GreenplumSource" | "ServiceNowV2Source"
+  - Type of parameter type of interface LinkedService has three new values "PostgreSqlV2" | "GoogleBigQueryV2" | "ServiceNowV2"
+  - Type of parameter type of interface TabularSource has four new values "PostgreSqlV2Source" | "GoogleBigQueryV2Source" | "GreenplumSource" | "ServiceNowV2Source"
+  - Added Enum KnownExpressionV2Type
+  - Added Enum KnownGoogleBigQueryV2AuthenticationType
+  - Added Enum KnownServiceNowV2AuthenticationType
+    
     
 ## 14.0.0 (2024-02-04)
     

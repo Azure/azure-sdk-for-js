@@ -23,6 +23,8 @@ import {
   StartTranscriptionRequest,
   StopTranscriptionRequest,
   UpdateTranscriptionRequest,
+  HoldRequest,
+  UnholdRequest,
 } from "./generated/src";
 
 import { CallMediaImpl } from "./generated/src/operations";
@@ -43,6 +45,8 @@ import {
   CallMediaRecognizeSpeechOrDtmfOptions,
   StartTranscriptionOptions,
   StopTranscriptionOptions,
+  HoldOptions,
+  UnholdOptions,
 } from "./models/options";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
@@ -607,29 +611,77 @@ export class CallMedia {
    * Put participant on hold while playing audio.
    *
    * @param targetParticipant - The targets to play to.
+   * @param options - Additional attributes for hold participant.
+   */
+  public async hold(
+    targetParticipant: CommunicationIdentifier,
+    options: HoldOptions = {},
+  ): Promise<void> {
+    const holdRequest: HoldRequest = {
+      targetParticipant: serializeCommunicationIdentifier(targetParticipant),
+      playSourceInfo:
+        options.playSource !== undefined
+          ? this.createPlaySourceInternal(options.playSource)
+          : undefined,
+      operationContext:
+        options.operationContext !== undefined ? options.operationContext : undefined,
+      operationCallbackUri:
+        options.operationCallbackUri !== undefined ? options.operationCallbackUri : undefined,
+    };
+    return this.callMedia.hold(this.callConnectionId, holdRequest);
+  }
+
+  /**
+   * Remove participant from hold.
+   *
+   * @param targetParticipant - The targets to play to.
+   * @param options - Additional attributes for unhold participant.
+   */
+  public async unhold(
+    targetParticipant: CommunicationIdentifier,
+    options: UnholdOptions = {},
+  ): Promise<void> {
+    const unholdRequest: UnholdRequest = {
+      targetParticipant: serializeCommunicationIdentifier(targetParticipant),
+      operationContext:
+        options.operationContext !== undefined ? options.operationContext : undefined,
+    };
+    return this.callMedia.unhold(this.callConnectionId, unholdRequest);
+  }
+
+  /**
+   * Put participant on hold while playing audio.
+   *
+   * @deprecated - This operations is deprecated, please use hold instead.
+   * @param targetParticipant - The targets to play to.
    * @param playSource - A PlaySource representing the source to play.
-   * @param loop - To play the audio continously until stopped.
    * @param operationContext - Operation Context.
+   * @param operationCallbackUri - Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
    */
   public async startHoldMusic(
     targetParticipant: CommunicationIdentifier,
-    playSource: FileSource | TextSource | SsmlSource,
-    loop: boolean = true,
+    playSource: FileSource | TextSource | SsmlSource | undefined = undefined,
+    loop?: boolean,
     operationContext: string | undefined = undefined,
+    operationCallbackUri: string | undefined = undefined,
   ): Promise<void> {
     const holdRequest: StartHoldMusicRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      playSourceInfo: this.createPlaySourceInternal(playSource),
-      loop: loop,
+      playSourceInfo:
+        playSource !== undefined ? this.createPlaySourceInternal(playSource) : undefined,
       operationContext: operationContext,
+      operationCallbackUri: operationCallbackUri,
     };
-
+    if (loop) {
+      // Do nothing. Added since it needs to be backwards compatible.
+    }
     return this.callMedia.startHoldMusic(this.callConnectionId, holdRequest);
   }
 
   /**
    * Remove participant from hold.
    *
+   * @deprecated - This operations is deprecated, please use unhold instead.
    * @param targetParticipant - The targets to play to.
    * @param operationContext - Operation Context.
    */

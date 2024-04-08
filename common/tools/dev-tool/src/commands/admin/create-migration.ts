@@ -4,13 +4,10 @@
 import path from "node:path";
 import readline from "node:readline";
 import { spawnSync } from "node:child_process";
-
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import migrationTemplate, { MigrationTemplate } from "../../templates/migration";
 import { createPrinter } from "../../util/printer";
-
 import { ensureDir, pathExists, writeFile } from "fs-extra";
-
 import { format } from "../../util/prettier";
 
 const log = createPrinter("create-migration");

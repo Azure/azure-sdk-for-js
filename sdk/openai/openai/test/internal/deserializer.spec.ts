@@ -2,10 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "@azure/test-utils";
-import {
-  getChatCompletionsResult,
-  getCompletionsResult,
-} from "../../src/api/client/openAIClient/deserializers.js";
+import { getChatCompletionsResult, getCompletionsResult } from "../../src/api/operations.js";
 
 const created = new Date("2022-01-01T00:00:00.000Z").getTime();
 
@@ -310,6 +307,7 @@ describe("deserializers", () => {
               role: "bot",
               content: "Hello",
             },
+            logprobs: null,
             index: 0,
             finish_reason: "stop",
             content_filter_results: {
@@ -370,8 +368,8 @@ describe("deserializers", () => {
             message: {
               role: "bot",
               content: "Hello",
-              toolCalls: [],
             },
+            logprobs: null,
             index: 0,
             finishReason: "stop",
             contentFilterResults: {
@@ -431,6 +429,7 @@ describe("deserializers", () => {
               role: "bot",
               content: "Hello",
             },
+            logprobs: null,
             index: 0,
             finish_reason: "stop",
             content_filter_results: {
@@ -457,7 +456,7 @@ describe("deserializers", () => {
         system_fingerprint: "123",
       };
 
-      const result = getChatCompletionsResult(body as any);
+      const result = getChatCompletionsResult(body);
 
       assert.deepStrictEqual(result, {
         id: "123",
@@ -491,8 +490,8 @@ describe("deserializers", () => {
             message: {
               role: "bot",
               content: "Hello",
-              toolCalls: [],
             },
+            logprobs: null,
             index: 0,
             finishReason: "stop",
             contentFilterResults: {
@@ -541,6 +540,7 @@ describe("deserializers", () => {
               role: "bot",
               content: "Hello",
             },
+            logprobs: null,
             index: 0,
             finish_reason: "stop",
             content_filter_results: {
@@ -579,8 +579,8 @@ describe("deserializers", () => {
             message: {
               role: "bot",
               content: "Hello",
-              toolCalls: [],
             },
+            logprobs: null,
             index: 0,
             finishReason: "stop",
             contentFilterResults: {

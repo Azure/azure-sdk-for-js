@@ -17,6 +17,6 @@ export interface ResourceSkus {
    * @param options The options parameters.
    */
   list(
-    options?: ResourceSkusListOptionalParams
+    options?: ResourceSkusListOptionalParams,
   ): PagedAsyncIterableIterator<ResourceSku>;
 }

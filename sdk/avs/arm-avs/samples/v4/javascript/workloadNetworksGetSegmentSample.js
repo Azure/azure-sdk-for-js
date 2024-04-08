@@ -29,7 +29,7 @@ async function workloadNetworksGetSegment() {
   const result = await client.workloadNetworks.getSegment(
     resourceGroupName,
     privateCloudName,
-    segmentId
+    segmentId,
   );
   console.log(result);
 }

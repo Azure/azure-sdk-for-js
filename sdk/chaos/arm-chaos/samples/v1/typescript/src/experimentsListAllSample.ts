@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ExperimentsListAllOptionalParams,
-  ChaosManagementClient
+  ChaosManagementClient,
 } from "@azure/arm-chaos";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Get a list of Experiment resources in a subscription.
  *
  * @summary Get a list of Experiment resources in a subscription.
- * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2023-11-01/examples/ListExperimentsInASubscription.json
+ * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/ListExperimentsInASubscription.json
  */
 async function listAllExperimentsInASubscription() {
   const subscriptionId =

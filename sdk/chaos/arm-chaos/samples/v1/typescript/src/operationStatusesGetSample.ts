@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the status of a long running azure asynchronous operation.
  *
  * @summary Get the status of a long running azure asynchronous operation.
- * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2023-11-01/examples/GetOperationStatus.json
+ * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/GetOperationStatus.json
  */
 async function getSpecificOperationStatus() {
   const subscriptionId =

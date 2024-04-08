@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfTest } from "@azure/test-utils-perf";
+import { PerfTest } from "@azure-tools/test-perf";
 import { MetricsQueryClient } from "@azure/monitor-query";
 import { DefaultAzureCredential } from "@azure/identity";
 

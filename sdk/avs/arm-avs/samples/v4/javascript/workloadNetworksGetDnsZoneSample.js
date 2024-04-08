@@ -29,7 +29,7 @@ async function workloadNetworksGetDnsZone() {
   const result = await client.workloadNetworks.getDnsZone(
     resourceGroupName,
     privateCloudName,
-    dnsZoneId
+    dnsZoneId,
   );
   console.log(result);
 }
