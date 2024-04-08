@@ -2297,46 +2297,6 @@ export const TranscriptionUpdate: coreClient.CompositeMapper = {
   },
 };
 
-export const HoldFailed: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "HoldFailed",
-    modelProperties: {
-      callConnectionId: {
-        serializedName: "callConnectionId",
-        type: {
-          name: "String",
-        },
-      },
-      serverCallId: {
-        serializedName: "serverCallId",
-        type: {
-          name: "String",
-        },
-      },
-      correlationId: {
-        serializedName: "correlationId",
-        type: {
-          name: "String",
-        },
-      },
-      operationContext: {
-        serializedName: "operationContext",
-        type: {
-          name: "String",
-        },
-      },
-      resultInformation: {
-        serializedName: "resultInformation",
-        type: {
-          name: "Composite",
-          className: "RestResultInformation",
-        },
-      },
-    },
-  },
-};
-
 export const RestAddParticipantSucceeded: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3569,6 +3529,46 @@ export const RestTranscriptionFailed: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "TranscriptionUpdate",
+        },
+      },
+    },
+  },
+};
+
+export const RestHoldFailed: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestHoldFailed",
+    modelProperties: {
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        type: {
+          name: "String",
+        },
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "RestResultInformation",
         },
       },
     },

@@ -931,19 +931,6 @@ export interface TranscriptionUpdate {
   transcriptionStatusDetails?: TranscriptionStatusDetails;
 }
 
-export interface HoldFailed {
-  /** Call connection ID. */
-  callConnectionId?: string;
-  /** Server call ID. */
-  serverCallId?: string;
-  /** Correlation ID for event to call correlation. */
-  correlationId?: string;
-  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-  operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
-}
-
 /** The participants successfully added event. */
 export interface RestAddParticipantSucceeded {
   /** Call connection ID. */
@@ -1413,6 +1400,19 @@ export interface RestTranscriptionFailed {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly transcriptionUpdateResult?: TranscriptionUpdate;
+}
+
+export interface RestHoldFailed {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: RestResultInformation;
 }
 
 /** Power Virtual Agents Dialog */

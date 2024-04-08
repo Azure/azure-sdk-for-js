@@ -34,7 +34,7 @@ import {
   RestTranscriptionStopped,
   RestTranscriptionUpdated,
   RestTranscriptionFailed,
-  HoldFailed,
+  RestHoldFailed,
 } from "../generated/src/models";
 
 import { CallParticipant } from "./models";
@@ -69,7 +69,7 @@ export type CallAutomationEvent =
   | TranscriptionStopped
   | TranscriptionUpdated
   | TranscriptionFailed
-  | HoldParticipantFailed;
+  | HoldFailed;
 
 export interface ResultInformation
   extends Omit<RestResultInformation, "code" | "subCode" | "message"> {
@@ -582,9 +582,9 @@ export interface TranscriptionFailed
   kind: "TranscriptionFailed";
 }
 
-export interface HoldParticipantFailed
+export interface HoldFailed
   extends Omit<
-    HoldFailed,
+    RestHoldFailed,
     "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
   > {
   /** Call connection ID. */

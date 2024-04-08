@@ -104,7 +104,7 @@ export interface CallAutomationClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | TeamsComplianceRecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed | HoldParticipantFailed;
+export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | TeamsComplianceRecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed | HoldFailed;
 
 // @public
 export class CallAutomationEventProcessor {
@@ -502,23 +502,23 @@ export type GetRecordingPropertiesOptions = OperationOptions;
 // @public
 export type HangUpOptions = OperationOptions;
 
-// @public
-export interface HoldOptions extends OperationOptions {
-    operationCallbackUri?: string;
-    operationContext?: string;
-    playSource?: FileSource | TextSource | SsmlSource;
-}
-
-// Warning: (ae-forgotten-export) The symbol "HoldFailed" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "RestHoldFailed" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
-export interface HoldParticipantFailed extends Omit<HoldFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
+export interface HoldFailed extends Omit<RestHoldFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
     kind: "HoldFailed";
     // Warning: (ae-forgotten-export) The symbol "RestResultInformation" needs to be exported by the entry point index.d.ts
     resultInformation?: RestResultInformation;
     serverCallId: string;
+}
+
+// @public
+export interface HoldOptions extends OperationOptions {
+    operationCallbackUrl?: string;
+    operationContext?: string;
+    playSource?: FileSource | TextSource | SsmlSource;
 }
 
 // @public
