@@ -229,7 +229,7 @@ stages:
             artifact: ${{parameters.ArtifactName}}
             timeoutInMinutes: 5
           - ${{ each artifact in parameters.Artifacts }}:
-              - ${{if ne('false', 'true')}}:
+              - ${{if ne(artifact.skipPublishDevFeed, 'true')}}:
                   - pwsh: |
                       $detectedPackageName=Get-ChildItem $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz
                       Write-Host "Detected package name: $($detectedPackageName)"
