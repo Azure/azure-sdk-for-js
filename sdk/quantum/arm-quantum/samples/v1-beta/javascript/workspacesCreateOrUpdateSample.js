@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates a workspace resource.
  *
  * @summary Creates or updates a workspace resource.
- * x-ms-original-file: specification/quantum/resource-manager/Microsoft.Quantum/preview/2022-01-10-preview/examples/quantumWorkspacesPut.json
+ * x-ms-original-file: specification/quantum/resource-manager/Microsoft.Quantum/preview/2023-11-13-preview/examples/quantumWorkspacesPut.json
  */
 async function quantumWorkspacesPut() {
   const subscriptionId =
@@ -25,20 +25,22 @@ async function quantumWorkspacesPut() {
   const workspaceName = "quantumworkspace1";
   const quantumWorkspace = {
     location: "West US",
-    providers: [
-      { providerId: "IonQ", providerSku: "Basic" },
-      { providerId: "OneQBit", providerSku: "Basic" },
-    ],
-    storageAccount:
-      "/subscriptions/1C4B2828-7D49-494F-933D-061373BE28C2/resourceGroups/quantumResourcegroup/providers/Microsoft.Storage/storageAccounts/testStorageAccount",
-    identity: { type: "SystemAssigned" },
+    properties: {
+      providers: [
+        { providerId: "Honeywell", providerSku: "Basic" },
+        { providerId: "IonQ", providerSku: "Basic" },
+        { providerId: "OneQBit", providerSku: "Basic" },
+      ],
+      storageAccount:
+        "/subscriptions/1C4B2828-7D49-494F-933D-061373BE28C2/resourceGroups/quantumResourcegroup/providers/Microsoft.Storage/storageAccounts/testStorageAccount",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureQuantumManagementClient(credential, subscriptionId);
   const result = await client.workspaces.beginCreateOrUpdateAndWait(
     resourceGroupName,
     workspaceName,
-    quantumWorkspace
+    quantumWorkspace,
   );
   console.log(result);
 }

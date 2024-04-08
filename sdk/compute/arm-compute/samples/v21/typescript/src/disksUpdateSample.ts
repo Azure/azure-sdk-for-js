@@ -32,7 +32,7 @@ async function createOrUpdateABurstingEnabledManagedDisk() {
   const result = await client.disks.beginUpdateAndWait(
     resourceGroupName,
     diskName,
-    disk
+    disk,
   );
   console.log(result);
 }
@@ -50,14 +50,14 @@ async function updateAManagedDiskToAddAcceleratedNetworking() {
     process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskName = "myDisk";
   const disk: DiskUpdate = {
-    supportedCapabilities: { acceleratedNetwork: false }
+    supportedCapabilities: { acceleratedNetwork: false },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.disks.beginUpdateAndWait(
     resourceGroupName,
     diskName,
-    disk
+    disk,
   );
   console.log(result);
 }
@@ -80,7 +80,7 @@ async function updateAManagedDiskToAddArchitecture() {
   const result = await client.disks.beginUpdateAndWait(
     resourceGroupName,
     diskName,
-    disk
+    disk,
   );
   console.log(result);
 }
@@ -102,15 +102,15 @@ async function updateAManagedDiskToAddPurchasePlan() {
       name: "myPurchasePlanName",
       product: "myPurchasePlanProduct",
       promotionCode: "myPurchasePlanPromotionCode",
-      publisher: "myPurchasePlanPublisher"
-    }
+      publisher: "myPurchasePlanPublisher",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.disks.beginUpdateAndWait(
     resourceGroupName,
     diskName,
-    disk
+    disk,
   );
   console.log(result);
 }
@@ -133,7 +133,7 @@ async function updateAManagedDiskToAddSupportsHibernation() {
   const result = await client.disks.beginUpdateAndWait(
     resourceGroupName,
     diskName,
-    disk
+    disk,
   );
   console.log(result);
 }
@@ -156,7 +156,7 @@ async function updateAManagedDiskToChangeTier() {
   const result = await client.disks.beginUpdateAndWait(
     resourceGroupName,
     diskName,
-    disk
+    disk,
   );
   console.log(result);
 }
@@ -179,7 +179,7 @@ async function updateAManagedDiskToDisableBursting() {
   const result = await client.disks.beginUpdateAndWait(
     resourceGroupName,
     diskName,
-    disk
+    disk,
   );
   console.log(result);
 }
@@ -202,7 +202,7 @@ async function updateAManagedDiskToDisableOptimizedForFrequentAttach() {
   const result = await client.disks.beginUpdateAndWait(
     resourceGroupName,
     diskName,
-    disk
+    disk,
   );
   console.log(result);
 }
@@ -220,14 +220,14 @@ async function updateAManagedDiskWithDiskControllerTypes() {
     process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskName = "myDisk";
   const disk: DiskUpdate = {
-    supportedCapabilities: { diskControllerTypes: "SCSI" }
+    supportedCapabilities: { diskControllerTypes: "SCSI" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.disks.beginUpdateAndWait(
     resourceGroupName,
     diskName,
-    disk
+    disk,
   );
   console.log(result);
 }
@@ -250,7 +250,7 @@ async function updateManagedDiskToRemoveDiskAccessResourceAssociation() {
   const result = await client.disks.beginUpdateAndWait(
     resourceGroupName,
     diskName,
-    disk
+    disk,
   );
   console.log(result);
 }

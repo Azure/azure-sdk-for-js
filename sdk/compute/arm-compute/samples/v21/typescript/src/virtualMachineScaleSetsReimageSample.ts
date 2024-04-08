@@ -11,7 +11,7 @@
 import {
   VirtualMachineScaleSetReimageParameters,
   VirtualMachineScaleSetsReimageOptionalParams,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -32,17 +32,17 @@ async function virtualMachineScaleSetReimageMaximumSetGen() {
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaa";
   const vmScaleSetReimageInput: VirtualMachineScaleSetReimageParameters = {
     instanceIds: ["aaaaaaaaaa"],
-    tempDisk: true
+    tempDisk: true,
   };
   const options: VirtualMachineScaleSetsReimageOptionalParams = {
-    vmScaleSetReimageInput
+    vmScaleSetReimageInput,
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineScaleSets.beginReimageAndWait(
     resourceGroupName,
     vmScaleSetName,
-    options
+    options,
   );
   console.log(result);
 }
@@ -63,7 +63,7 @@ async function virtualMachineScaleSetReimageMinimumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineScaleSets.beginReimageAndWait(
     resourceGroupName,
-    vmScaleSetName
+    vmScaleSetName,
   );
   console.log(result);
 }

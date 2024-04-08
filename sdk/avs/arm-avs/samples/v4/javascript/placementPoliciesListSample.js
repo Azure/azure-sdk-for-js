@@ -30,7 +30,7 @@ async function placementPoliciesList() {
   for await (let item of client.placementPolicies.list(
     resourceGroupName,
     privateCloudName,
-    clusterName
+    clusterName,
   )) {
     resArray.push(item);
   }

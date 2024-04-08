@@ -11,7 +11,7 @@ import {
   TargetType,
   TargetTypesListOptionalParams,
   TargetTypesGetOptionalParams,
-  TargetTypesGetResponse
+  TargetTypesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,7 +24,7 @@ export interface TargetTypes {
    */
   list(
     locationName: string,
-    options?: TargetTypesListOptionalParams
+    options?: TargetTypesListOptionalParams,
   ): PagedAsyncIterableIterator<TargetType>;
   /**
    * Get a Target Type resources for given location.
@@ -35,6 +35,6 @@ export interface TargetTypes {
   get(
     locationName: string,
     targetTypeName: string,
-    options?: TargetTypesGetOptionalParams
+    options?: TargetTypesGetOptionalParams,
   ): Promise<TargetTypesGetResponse>;
 }

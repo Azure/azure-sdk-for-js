@@ -1,6 +1,32 @@
 # Release History
 
-## 1.1.0 (Unreleased)
+## 1.2.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.2.0 (2024-03-28)
+
+### Features Added
+
+- Added overloads to create notifications for ADM, Baidu, Template, Xiaomi and WebPush accepting either a string or a custom object that is transformed into the JSON notification body.
+
+### Bugs Fixed
+
+- Fix ordering of XML `BrowserRegistrationDescription` properties.
+
+## 1.1.1 (2024-03-19)
+
+### Bugs Fixed
+
+- Fixed to allow `FcmV1Notification` as part of the `Notification` and `sendNotification` parameters.
+
+## 1.1.0 (2024-03-01)
 
 ### Features Added
 

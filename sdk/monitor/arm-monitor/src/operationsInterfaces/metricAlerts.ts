@@ -18,7 +18,7 @@ import {
   MetricAlertResourcePatch,
   MetricAlertsUpdateOptionalParams,
   MetricAlertsUpdateResponse,
-  MetricAlertsDeleteOptionalParams
+  MetricAlertsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface MetricAlerts {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: MetricAlertsListBySubscriptionOptionalParams
+    options?: MetricAlertsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<MetricAlertResource>;
   /**
    * Retrieve alert rule definitions in a resource group.
@@ -38,7 +38,7 @@ export interface MetricAlerts {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: MetricAlertsListByResourceGroupOptionalParams
+    options?: MetricAlertsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<MetricAlertResource>;
   /**
    * Retrieve an alert rule definition.
@@ -49,7 +49,7 @@ export interface MetricAlerts {
   get(
     resourceGroupName: string,
     ruleName: string,
-    options?: MetricAlertsGetOptionalParams
+    options?: MetricAlertsGetOptionalParams,
   ): Promise<MetricAlertsGetResponse>;
   /**
    * Create or update an metric alert definition.
@@ -62,7 +62,7 @@ export interface MetricAlerts {
     resourceGroupName: string,
     ruleName: string,
     parameters: MetricAlertResource,
-    options?: MetricAlertsCreateOrUpdateOptionalParams
+    options?: MetricAlertsCreateOrUpdateOptionalParams,
   ): Promise<MetricAlertsCreateOrUpdateResponse>;
   /**
    * Update an metric alert definition.
@@ -75,7 +75,7 @@ export interface MetricAlerts {
     resourceGroupName: string,
     ruleName: string,
     parameters: MetricAlertResourcePatch,
-    options?: MetricAlertsUpdateOptionalParams
+    options?: MetricAlertsUpdateOptionalParams,
   ): Promise<MetricAlertsUpdateResponse>;
   /**
    * Delete an alert rule definition.
@@ -86,6 +86,6 @@ export interface MetricAlerts {
   delete(
     resourceGroupName: string,
     ruleName: string,
-    options?: MetricAlertsDeleteOptionalParams
+    options?: MetricAlertsDeleteOptionalParams,
   ): Promise<void>;
 }

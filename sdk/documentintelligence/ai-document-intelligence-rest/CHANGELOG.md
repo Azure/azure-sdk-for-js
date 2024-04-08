@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.2 (Unreleased)
+## 1.0.0-beta.3 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,21 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.0.0-beta.2 (2024-03-06)
+
+### Features Added
+
+- Support for "retry-after" header has been added for long-running operations, including `/documentModels/{modelId}:analyze`, `/documentModels:build`, and `/documentClassifiers:build`.
+- `BuildDocumentClassifierContent` now includes a new property, `baseClassifierId`.
+- `DocumentClassifierDetailsOutput` now includes a new property, `baseClassifierId`.
+- A new property, `warnings`, has been added to `DocumentModelDetailsOutput` and `DocumentClassifierDetailsOutput`, represents an array of objects with `code`, `message`, and `target`.
+- `DocumentFieldOutput` now includes a new property, `valueSelectionGroup`.
+- A new member, `"completed"`, has been added to `OperationDetails#status`.
+
+### Breaking Changes
+
+- The `@azure-rest/ai-document-intelligence` Rest Level Client Library, previously known as Form Recognizer, now targets the Azure AI Document Intelligence service API version `"2024-02-29-preview"`. Please note that support for `2023-10-31-preview` has been discontinued.
 
 ## 1.0.0-beta.1 (2023-11-16)
 

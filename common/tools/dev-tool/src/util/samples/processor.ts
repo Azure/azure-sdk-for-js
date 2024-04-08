@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import fs from "fs-extra";
-import path from "path";
-import * as ts from "typescript";
+import path from "node:path";
+import ts from "typescript";
 import { convert } from "./convert";
 import { createPrinter } from "../printer";
 import { createAccumulator } from "../typescript/accumulator";

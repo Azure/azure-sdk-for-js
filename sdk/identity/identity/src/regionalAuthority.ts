@@ -112,3 +112,29 @@ export enum RegionalAuthority {
   /** Uses the {@link RegionalAuthority} for the Azure 'usdodcentral' region. */
   GovernmentUSDodCentral = "usdodcentral",
 }
+
+/**
+ * Calculates the correct regional authority based on the supplied value
+ * and the AZURE_REGIONAL_AUTHORITY_NAME environment variable.
+ *
+ * Values will be returned verbatim, except for {@link RegionalAuthority.AutoDiscoverRegion}
+ * which is mapped to a value MSAL can understand.
+ *
+ * @internal
+ */
+export function calculateRegionalAuthority(regionalAuthority?: string): string | undefined {
+  let azureRegion = regionalAuthority;
+
+  if (
+    azureRegion === undefined &&
+    globalThis.process?.env?.AZURE_REGIONAL_AUTHORITY_NAME !== undefined
+  ) {
+    azureRegion = process.env.AZURE_REGIONAL_AUTHORITY_NAME;
+  }
+
+  if (azureRegion === RegionalAuthority.AutoDiscoverRegion) {
+    return "AUTO_DISCOVER";
+  }
+
+  return azureRegion;
+}

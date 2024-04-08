@@ -6,7 +6,7 @@
  * @author Hamsa Shankar
  */
 
-import { RuleTester } from "eslint";
+import { RuleTester } from "../ruleTester";
 import rule from "../../src/rules/ts-doc-internal-private-member";
 
 //------------------------------------------------------------------------------

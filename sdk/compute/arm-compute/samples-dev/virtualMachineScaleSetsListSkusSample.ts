@@ -31,7 +31,7 @@ async function virtualMachineScaleSetListSkusMaximumSetGen() {
   const resArray = new Array();
   for await (let item of client.virtualMachineScaleSets.listSkus(
     resourceGroupName,
-    vmScaleSetName
+    vmScaleSetName,
   )) {
     resArray.push(item);
   }
@@ -55,7 +55,7 @@ async function virtualMachineScaleSetListSkusMinimumSetGen() {
   const resArray = new Array();
   for await (let item of client.virtualMachineScaleSets.listSkus(
     resourceGroupName,
-    vmScaleSetName
+    vmScaleSetName,
   )) {
     resArray.push(item);
   }

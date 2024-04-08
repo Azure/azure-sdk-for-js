@@ -14,7 +14,7 @@ import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
 import {
   CheckNameAvailabilityRequest,
   NamespacesCheckNameAvailabilityOptionalParams,
-  NamespacesCheckNameAvailabilityResponse
+  NamespacesCheckNameAvailabilityResponse,
 } from "../models";
 
 /** Class containing Namespaces operations. */
@@ -40,16 +40,16 @@ export class NamespacesImpl implements Namespaces {
     resourceGroupName: string,
     environmentName: string,
     checkNameAvailabilityRequest: CheckNameAvailabilityRequest,
-    options?: NamespacesCheckNameAvailabilityOptionalParams
+    options?: NamespacesCheckNameAvailabilityOptionalParams,
   ): Promise<NamespacesCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         environmentName,
         checkNameAvailabilityRequest,
-        options
+        options,
       },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
     );
   }
 }
@@ -57,16 +57,15 @@ export class NamespacesImpl implements Namespaces {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/checkNameAvailability",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameAvailabilityResponse
+      bodyMapper: Mappers.CheckNameAvailabilityResponse,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   requestBody: Parameters.checkNameAvailabilityRequest,
   queryParameters: [Parameters.apiVersion],
@@ -74,9 +73,9 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName
+    Parameters.environmentName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

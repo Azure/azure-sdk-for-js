@@ -25,7 +25,10 @@ export interface MetricResultsResponseValuesItem {
   starttime: string;
   /** The end time, in datetime format, for which the data was retrieved. */
   endtime: string;
-  /** The interval (window size) for which the metric data was returned in. Follows the IS8601/RFC3339 duration format (e.g. 'P1D' for 1 day). This may be adjusted in the future and returned back from what was originally requested.  This is not present if a metadata request was made. */
+  /**
+   * The interval (window size) for which the metric data was returned in ISO 8601 duration format with a special case for 'FULL' value that returns single datapoint for entire time span requested (*Examples: PT15M, PT1H, P1D, FULL*).
+   * This may be adjusted and different from what was originally requested if AutoAdjustTimegrain=true is specified.
+   */
   interval?: string;
   /** The namespace of the metrics been queried */
   namespace?: string;
@@ -39,11 +42,11 @@ export interface MetricResultsResponseValuesItem {
 
 /** The result data of a query. */
 export interface Metric {
-  /** the metric Id. */
+  /** The metric Id. */
   id: string;
-  /** the resource type of the metric resource. */
+  /** The resource type of the metric resource. */
   type: string;
-  /** the name and the display name of the metric, i.e. it is localizable string. */
+  /** The name and the display name of the metric, i.e. it is localizable string. */
   name: LocalizableString;
   /** Detailed description of this metric. */
   displayDescription?: string;
@@ -53,7 +56,7 @@ export interface Metric {
   errorMessage?: string;
   /** The unit of the metric. */
   unit: MetricUnit;
-  /** the time series returned when a data query is performed. */
+  /** The time series returned when a data query is performed. */
   timeseries: TimeSeriesElement[];
 }
 
@@ -67,7 +70,7 @@ export interface LocalizableString {
 
 /** A time series result type. The discriminator value is always TimeSeries in this case. */
 export interface TimeSeriesElement {
-  /** the metadata values returned if $filter was specified in the call. */
+  /** The metadata values returned if $filter was specified in the call. */
   metadatavalues?: MetadataValue[];
   /** An array of data points representing the metric values.  This is only returned if a result type of data is specified. */
   data?: MetricValue[];
@@ -97,27 +100,53 @@ export interface MetricValue {
   count?: number;
 }
 
-/** The response to a metrics query that results in a bad request, with optional additional information. */
-export interface AdditionalInfoErrorResponse {
-  /** Top level error object that contains all relevant information. */
-  error: AdditionalInfoErrorResponseError;
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
 }
 
-/** Top level error object that contains all relevant information. */
-export interface AdditionalInfoErrorResponseError {
-  /** Additional information about the error */
-  additionalInfo?: AdditionalInfoErrorResponseErrorAdditionalInfoItem[];
-  /** Error code */
-  code: string;
-  /** Error message indicating why the operation failed. */
-  message: string;
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
 }
 
-export interface AdditionalInfoErrorResponseErrorAdditionalInfoItem {
-  /** The type of the info property (e.g. string). */
-  type?: string;
-  /** Additional information related to the error. */
-  info?: string;
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
 }
 
 /** Defines headers for MetricsBatch_batch operation. */
@@ -126,35 +155,48 @@ export interface MetricsBatchBatchExceptionHeaders {
   xMsErrorCode?: string;
 }
 
-/** Known values of {@link ApiVersion20230501Preview} that the service accepts. */
-export enum KnownApiVersion20230501Preview {
-  /** Api Version '2023-05-01-preview' */
-  TwoThousandTwentyThree0501Preview = "2023-05-01-preview"
+/** Known values of {@link ApiVersion20240201} that the service accepts. */
+export enum KnownApiVersion20240201 {
+  /** Api Version '2024-02-01' */
+  TwoThousandTwentyFour0201 = "2024-02-01"
 }
 
 /**
- * Defines values for ApiVersion20230501Preview. \
- * {@link KnownApiVersion20230501Preview} can be used interchangeably with ApiVersion20230501Preview,
+ * Defines values for ApiVersion20240201. \
+ * {@link KnownApiVersion20240201} can be used interchangeably with ApiVersion20240201,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2023-05-01-preview**: Api Version '2023-05-01-preview'
+ * **2024-02-01**: Api Version '2024-02-01'
  */
-export type ApiVersion20230501Preview = string;
+export type ApiVersion20240201 = string;
 
 /** Known values of {@link MetricUnit} that the service accepts. */
 export enum KnownMetricUnit {
+  /** Unit of raw quantity. */
   Count = "Count",
+  /** Unit of memory in bytes. */
   Bytes = "Bytes",
+  /** Unit of time in seconds. */
   Seconds = "Seconds",
+  /** Rate unit of raw quantity per second. */
   CountPerSecond = "CountPerSecond",
+  /** Rate unit of memory in bytes per second. */
   BytesPerSecond = "BytesPerSecond",
+  /** Percentage unit. */
   Percent = "Percent",
+  /** Unit of time in 1/1000th of a second. */
   MilliSeconds = "MilliSeconds",
+  /** Unit of data transfer or storage. It is the size of the data in bytes multiplied by the time it takes to transfer or store the data in seconds. */
   ByteSeconds = "ByteSeconds",
+  /** No specified unit. */
   Unspecified = "Unspecified",
+  /** Unit of processing power. */
   Cores = "Cores",
+  /** Unit of processing power in 1/1000th of a CPU core. */
   MilliCores = "MilliCores",
+  /** Unit of processing power in one billionth of a CPU core. */
   NanoCores = "NanoCores",
+  /** Rate unit of binary digits per second. */
   BitsPerSecond = "BitsPerSecond"
 }
 
@@ -163,19 +205,19 @@ export enum KnownMetricUnit {
  * {@link KnownMetricUnit} can be used interchangeably with MetricUnit,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Count** \
- * **Bytes** \
- * **Seconds** \
- * **CountPerSecond** \
- * **BytesPerSecond** \
- * **Percent** \
- * **MilliSeconds** \
- * **ByteSeconds** \
- * **Unspecified** \
- * **Cores** \
- * **MilliCores** \
- * **NanoCores** \
- * **BitsPerSecond**
+ * **Count**: Unit of raw quantity. \
+ * **Bytes**: Unit of memory in bytes. \
+ * **Seconds**: Unit of time in seconds. \
+ * **CountPerSecond**: Rate unit of raw quantity per second. \
+ * **BytesPerSecond**: Rate unit of memory in bytes per second. \
+ * **Percent**: Percentage unit. \
+ * **MilliSeconds**: Unit of time in 1\/1000th of a second. \
+ * **ByteSeconds**: Unit of data transfer or storage. It is the size of the data in bytes multiplied by the time it takes to transfer or store the data in seconds. \
+ * **Unspecified**: No specified unit. \
+ * **Cores**: Unit of processing power. \
+ * **MilliCores**: Unit of processing power in 1\/1000th of a CPU core. \
+ * **NanoCores**: Unit of processing power in one billionth of a CPU core. \
+ * **BitsPerSecond**: Rate unit of binary digits per second.
  */
 export type MetricUnit = string;
 
@@ -191,8 +233,8 @@ export interface MetricsBatchBatchOptionalParams
   /** The end time of the query. It is a string in the format 'yyyy-MM-ddTHH:mm:ss.fffZ'. */
   endtime?: string;
   /**
-   * The interval (i.e. timegrain) of the query.
-   * *Examples: PT15M, PT1H, P1D*
+   * The interval (i.e. timegrain) of the query in ISO 8601 duration format. Defaults to PT1M. Special case for 'FULL' value that returns single datapoint for entire time span requested.
+   * *Examples: PT15M, PT1H, P1D, FULL*
    */
   interval?: string;
   /**
@@ -214,6 +256,8 @@ export interface MetricsBatchBatchOptionalParams
   orderby?: string;
   /** The filter is used to reduce the set of metric data returned.<br>Example:<br>Metric contains metadata A, B and C.<br>- Return all time series of C where A = a1 and B = b1 or b2<br>**filter=A eq ‘a1’ and B eq ‘b1’ or B eq ‘b2’ and C eq ‘*’**<br>- Invalid variant:<br>**filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘*’ or B = ‘b2’**<br>This is invalid because the logical or operator cannot separate two different metadata names.<br>- Return all time series where A = a1, B = b1 and C = c1:<br>**filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘c1’**<br>- Return all time series where A = a1<br>**filter=A eq ‘a1’ and B eq ‘*’ and C eq ‘*’**. */
   filter?: string;
+  /** Dimension name(s) to rollup results by. For example if you only want to see metric values with a filter like 'City eq Seattle or City eq Tacoma' but don't want to see separate values for each city, you can specify 'RollUpBy=City' to see the results for Seattle and Tacoma rolled up into one timeseries. */
+  rollupby?: string;
 }
 
 /** Contains response data for the batch operation. */

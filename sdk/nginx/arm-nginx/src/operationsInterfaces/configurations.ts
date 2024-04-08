@@ -15,7 +15,9 @@ import {
   ConfigurationsGetResponse,
   ConfigurationsCreateOrUpdateOptionalParams,
   ConfigurationsCreateOrUpdateResponse,
-  ConfigurationsDeleteOptionalParams
+  ConfigurationsDeleteOptionalParams,
+  ConfigurationsAnalysisOptionalParams,
+  ConfigurationsAnalysisResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +32,7 @@ export interface Configurations {
   list(
     resourceGroupName: string,
     deploymentName: string,
-    options?: ConfigurationsListOptionalParams
+    options?: ConfigurationsListOptionalParams,
   ): PagedAsyncIterableIterator<NginxConfiguration>;
   /**
    * Get the NGINX configuration of given NGINX deployment
@@ -44,7 +46,7 @@ export interface Configurations {
     resourceGroupName: string,
     deploymentName: string,
     configurationName: string,
-    options?: ConfigurationsGetOptionalParams
+    options?: ConfigurationsGetOptionalParams,
   ): Promise<ConfigurationsGetResponse>;
   /**
    * Create or update the NGINX configuration for given NGINX deployment
@@ -58,7 +60,7 @@ export interface Configurations {
     resourceGroupName: string,
     deploymentName: string,
     configurationName: string,
-    options?: ConfigurationsCreateOrUpdateOptionalParams
+    options?: ConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigurationsCreateOrUpdateResponse>,
@@ -77,7 +79,7 @@ export interface Configurations {
     resourceGroupName: string,
     deploymentName: string,
     configurationName: string,
-    options?: ConfigurationsCreateOrUpdateOptionalParams
+    options?: ConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<ConfigurationsCreateOrUpdateResponse>;
   /**
    * Reset the NGINX configuration of given NGINX deployment to default
@@ -91,7 +93,7 @@ export interface Configurations {
     resourceGroupName: string,
     deploymentName: string,
     configurationName: string,
-    options?: ConfigurationsDeleteOptionalParams
+    options?: ConfigurationsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Reset the NGINX configuration of given NGINX deployment to default
@@ -105,6 +107,20 @@ export interface Configurations {
     resourceGroupName: string,
     deploymentName: string,
     configurationName: string,
-    options?: ConfigurationsDeleteOptionalParams
+    options?: ConfigurationsDeleteOptionalParams,
   ): Promise<void>;
+  /**
+   * Analyze an NGINX configuration without applying it to the NGINXaaS deployment
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param deploymentName The name of targeted NGINX deployment
+   * @param configurationName The name of configuration, only 'default' is supported value due to the
+   *                          singleton of NGINX conf
+   * @param options The options parameters.
+   */
+  analysis(
+    resourceGroupName: string,
+    deploymentName: string,
+    configurationName: string,
+    options?: ConfigurationsAnalysisOptionalParams,
+  ): Promise<ConfigurationsAnalysisResponse>;
 }

@@ -32,7 +32,7 @@ async function virtualMachineScaleSetVMReimageAllMaximumSetGen() {
   const result = await client.virtualMachineScaleSetVMs.beginReimageAllAndWait(
     resourceGroupName,
     vmScaleSetName,
-    instanceId
+    instanceId,
   );
   console.log(result);
 }
@@ -55,7 +55,7 @@ async function virtualMachineScaleSetVMReimageAllMinimumSetGen() {
   const result = await client.virtualMachineScaleSetVMs.beginReimageAllAndWait(
     resourceGroupName,
     vmScaleSetName,
-    instanceId
+    instanceId,
   );
   console.log(result);
 }

@@ -264,29 +264,6 @@ describe("OpenTelemetryInstrumenter", () => {
       assert.isTrue(contextSpy.calledWith(activeContext, callback, undefined, callbackArg));
     });
 
-    it("works when caller binds `this`", function (this: Context) {
-      // a bit of a silly test but demonstrates how to bind `this` correctly
-      // and ensures the behavior does not regress
-
-      // Function syntax
-      instrumenter.withContext(context.active(), function (this: any) {
-        assert.notExists(this);
-      });
-      instrumenter.withContext(
-        context.active(),
-        function (this: any) {
-          assert.equal(this, 42);
-        }.bind(42),
-      );
-
-      // Arrow syntax
-      // eslint-disable-next-line @typescript-eslint/no-this-alias
-      const that = this;
-      instrumenter.withContext(context.active(), () => {
-        assert.equal(this, that);
-      });
-    });
-
     it("Returns the value of the callback", () => {
       const result = instrumenter.withContext(context.active(), () => 42);
       assert.equal(result, 42);

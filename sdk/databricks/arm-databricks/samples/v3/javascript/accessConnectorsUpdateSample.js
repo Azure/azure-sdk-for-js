@@ -28,7 +28,7 @@ async function updateAnAzureDatabricksAccessConnector() {
   const result = await client.accessConnectors.beginUpdateAndWait(
     resourceGroupName,
     connectorName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

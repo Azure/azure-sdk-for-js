@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the properties of a specific Organization resource.
  *
  * @summary Get the properties of a specific Organization resource.
- * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2023-08-22/examples/Organization_Get.json
+ * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Organization_Get.json
  */
 async function organizationGet() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function organizationGet() {
   const client = new ConfluentManagementClient(credential, subscriptionId);
   const result = await client.organization.get(
     resourceGroupName,
-    organizationName
+    organizationName,
   );
   console.log(result);
 }

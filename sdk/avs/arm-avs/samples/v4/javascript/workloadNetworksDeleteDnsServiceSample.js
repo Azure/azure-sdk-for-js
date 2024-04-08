@@ -29,7 +29,7 @@ async function workloadNetworksDeleteDnsService() {
   const result = await client.workloadNetworks.beginDeleteDnsServiceAndWait(
     resourceGroupName,
     dnsServiceId,
-    privateCloudName
+    privateCloudName,
   );
   console.log(result);
 }

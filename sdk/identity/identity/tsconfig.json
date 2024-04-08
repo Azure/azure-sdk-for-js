@@ -6,9 +6,9 @@
     "outDir": "./dist-esm",
     "resolveJsonModule": true,
     "paths": {
-      "@azure/identity": ["./src/index"],
-    },
+      "@azure/identity": ["./src/index"]
+    }
   },
   "include": ["src/**/*", "test/**/*", "samples-dev/**/*.ts"],
-  "exclude": ["test/manual*/**/*", "node_modules"],
+  "exclude": ["test/manual*/**/*", "integration/**", "node_modules"]
 }

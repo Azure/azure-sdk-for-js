@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import CustomWidgetBlobService, { Config } from "./CustomWidgetBlobService";
+import CustomWidgetBlobService, { Config } from "./CustomWidgetBlobService.js";
 import { InteractiveBrowserCredentialNodeOptions } from "@azure/identity";
-import { APIM_CONFIG_FILE_NAME } from "../paths";
-import fs from "fs";
-import getStorageSasUrl from "./getStorageSasUrl";
-import readdir from "./readdir";
+import { APIM_CONFIG_FILE_NAME } from "../paths.js";
+import fs from "node:fs";
+import getStorageSasUrl from "./getStorageSasUrl.js";
+import readdir from "./readdir.js";
 
 /**
  * resourceId - resource ID of API Management service "subscriptions/[subscription-id]/resourceGroups/[resource-group-name]/providers/Microsoft.ApiManagement/service/[service-name]"
