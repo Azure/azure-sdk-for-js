@@ -9,6 +9,7 @@ import { TypeMarker } from "./enums/TypeMarker";
 
 interface EncryptionSqlParameter extends SqlParameter {
   type: TypeMarker;
+  path: string;
 }
 
 export class EncryptionQueryBuilder {
@@ -20,20 +21,20 @@ export class EncryptionQueryBuilder {
     this.parameters = [];
   }
 
-  public addBooleanParameter(name: string, value: boolean) {
-    this.parameters.push({ name: name, value: value, type: TypeMarker.Boolean });
+  public addBooleanParameter(name: string, value: boolean, path: string) {
+    this.parameters.push({ name: name, value: value, type: TypeMarker.Boolean, path: path });
   }
 
-  public addIntegerParameter(name: string, value: number) {
-    this.parameters.push({ name: name, value: value, type: TypeMarker.Double });
+  public addIntegerParameter(name: string, value: number, path: string) {
+    this.parameters.push({ name: name, value: value, type: TypeMarker.Double, path: path });
   }
 
-  public addFloatParameter(name: string, value: number) {
-    this.parameters.push({ name: name, value: value, type: TypeMarker.Long });
+  public addFloatParameter(name: string, value: number, path: string) {
+    this.parameters.push({ name: name, value: value, type: TypeMarker.Long, path: path });
   }
 
-  public addStringParameter(name: string, value: string) {
-    this.parameters.push({ name: name, value: value, type: TypeMarker.String });
+  public addStringParameter(name: string, value: string, path: string) {
+    this.parameters.push({ name: name, value: value, type: TypeMarker.String, path: path });
   }
   /*
    * @internal
