@@ -12,9 +12,9 @@ source-code-folder-path: ./src/generated
 
 ## Custom authentication
 
-Some services require a custom authentication flow. For example Metrics Advisor uses Key Authentication, however MA requires 2 headers for key authentication `Ocp-Apim-Subscription-Key` and `x-api-key`, which is different to the usual key authentication which only requires a single key.
+Some services require a custom authentication flow. For example, Metrics Advisor uses Key Authentication, however, MA requires 2 headers for key authentication `Ocp-Apim-Subscription-Key` and `x-api-key`, which is different to the usual key authentication which only requires a single key.
 
-In this case we customize as follows:
+In this case, we customize as follows:
 
 1. Hand author a `PipelinePolicy` that takes values for both keys and sign the request
 2. Hand author a wrapping client factory function
@@ -52,7 +52,7 @@ export default function createClient(
 }
 ```
 
-And in `metricsAdvisorKeyCredentialPolicy.ts` file we have the customized policy and `createMetricsAdvisorKeyCredentialPolicy` function to create that policy
+And in `metricsAdvisorKeyCredentialPolicy.ts` file, we have the customized policy and `createMetricsAdvisorKeyCredentialPolicy` function to create that policy.
 
 ```typescript
 import {
@@ -113,7 +113,7 @@ Eventhough the code generator provides a pagination helper for RLCs, there are s
 
 One example is the Metrics Advisor service, which implements a pagination pattern in which getting the next page can be called with `GET` or `POST` depending on the resource.
 
-The standard pagination pattern, assumes `GET` for getting the next pages. In this case we implemented a custom paginate helper that has the same public interface as the generated helper but under the hoods has an additional pagination implementation to use `POST`. Also this custom helper has an internal map that indicates which operations need `POST` and which need `GET`.
+The standard pagination pattern, assumes `GET` for getting the next pages. In this case, we implemented a custom paginate helper that has the same public interface as the generated helper but under the hoods has an additional pagination implementation to use `POST`. Also this custom helper has an internal map that indicates which operations need `POST` and which need `GET`.
 
 Here is the implementation in Metrics Advisor and remember to replace the `paginationMapping` as yours. The generated paging helper is hidden and the custom paginate helper is exposed.
 
@@ -204,7 +204,7 @@ for await (const dataFeed of dataFeeds) {
 
 There may be times in which transforming the data from the service would be beneficial. When a transformation is common for our customers we may decide to expose helper transformation functions. These helper transformations are optional and customers can decide to use them or not, the calls maintain the original data form from the Service.
 
-If we export `toDataFeedDetailResponse` which may convert the REST model to a common one, so that the customers could call this way:
+If we export `toDataFeedDetailResponse`, which may convert the REST model to a common one so that the customers could call this way:
 
 ```typescript
 import MetricsAdvisor, { toDataFeedDetailResponse } from "@azure-rest/ai-metricsadvisor";
@@ -222,7 +222,7 @@ const formattedDatafeed = toDataFeedDetailResponse(listResponse);
 
 ## Multi-client packages
 
-There are cases where 2 services are closely related that most users will need to use both in the same application, in this case, we may opt for multi-client packages. Each client can be imported individually without a top-level client, this is to work nicely with bundler TreeShaking.
+There are cases where 2 services are closely related that most users will need to use both in the same application. In this case, we may opt for multi-client packages. Each client can be imported individually without a top-level client, this is to work nicely with bundler TreeShaking.
 
 We could leverage the autorest batch option and enable multi-client flag in our `README.md` to generate two or more service clients.
 
@@ -240,7 +240,7 @@ batch:
 
 ### Specify configurations for each individual clients
 
-For each individual clients specify your client name and swagger file. Make sure that you don't have one Swagger with operations that are designed to be in two different clients so that clients should correspond to a clear set of Swagger files.
+For each individual clients, specify your client name and swagger file. Make sure that you don't have one Swagger with operations that are designed to be in two different clients so that clients should correspond to a clear set of Swagger files.
 
 Normally, the folder structure would be something like `sdk/{servicename}/{servicename}-{modulename}-rest`. For example, we have `sdk/agrifood/agrifood-farming-rest` folder for Farmbeats account modules. That folder will be your **${PROJECT_ROOT} folder**.
 
@@ -262,7 +262,7 @@ input-file: /your/swagger/folder/metricsadvisor-admin.json
 
 ### Generate code with `--multi-client`
 
-When generating the code specify that what we want is multi-client so append the flag in command line `--multi-client`. After generation the folder structure would be like below:
+When generating the code, specify that what we want is multi-client so append the flag in command line `--multi-client`. After generation, the folder structure would be like below:
 
 ```
 ${PROJECT_ROOT}/
@@ -283,6 +283,7 @@ import {
   MetricsAdvisorAdministrationClient,
   MetricsAdvisorClient,
 } from "@azure-rest/ai-metrics-advisor";
+
 const adminClient = MetricsAdvisorAdministrationClient.createClient(endpoint, credential);
 // call any admin operation
 const createdResponse = await adminClient.createDataFeed(`<parameter>`);
@@ -297,4 +298,4 @@ Our customization strategy has the following principles:
 
 - Expose custom functionality as helper functions that users can opt-in
 - Never force customers to use a customized function or operation
-- The only exception is if we need to add custom policies to the client, it is okay to wrap the generated client factory and exposed the wrapped factory instead of the generated one.
+- The only exception is if we need to add custom policies to the client. It is okay to wrap the generated client factory and expose the wrapped factory instead of the generated one.

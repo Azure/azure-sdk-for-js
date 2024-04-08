@@ -2,11 +2,11 @@
 
 The Smoke Tests validate customer scenarios by creating an application which
 uses package dependencies, loads all packages into a single process, and
-executes code samples to ensure basic end to end scenarios work as expected.
+executes code samples to ensure basic end-to-end scenarios work as expected.
 
 Smoke Tests are meant to be run periodically in an Azure DevOps pipeline. See
 [`smoke-tests.yml`](https://github.com/Azure/azure-sdk-for-js/blob/main/common/smoke-test/smoke-tests.yml) to configure Smoke Tests in an Azure
-DevOps pipeline. When run in an Azure DevOps pipeline specify the `-CI` flag to
+DevOps pipeline. When run in an Azure DevOps pipeline, specify the `-CI` flag to
 ensure environment variables are properly set and error/warning messages are
 properly surfaced during the execution.
 
@@ -28,7 +28,7 @@ package.
 
 ## Configuring Samples
 
-By default _all_ JavaScript samples are prepped, loaded, and executed. Samples
+By default, _all_ JavaScript samples are prepped, loaded, and executed. Samples
 are assumed to work with just the environment variables defined in
 `test-resources.json` for the service. Samples which have additional resource
 requirements should opt out of execution.

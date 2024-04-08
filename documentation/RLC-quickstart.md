@@ -23,13 +23,13 @@ Follow the [setup guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CON
 
 # Identify your project's service and package name
 
-The `service name` is a concise identifier for the Azure service and should be consistent across all SDK languages. It's typically the name of the directory in the azure-rest-api-specs repository containing your service's REST API definition.
+The `service name` is a concise identifier for the Azure service and should be consistent across all SDK languages. It's typically the name of the directory in the `azure-rest-api-specs` repository containing your service's REST API definition.
 
 The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). It usually follows the format `@azure/{service-name}-rest` or `@azure/{service-name}-{module}-rest` for services with multiple modules.
 
 # Structure your project
 
-1. **SDK Repo Root**: the generated libraries should be in the [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js) repo, so fork and clone it in your local then the absolute path is called **${SDK_REPO_ROOT} folder**.
+1. **SDK Repo Root**: the generated libraries should be in the [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js) repo, so fork and clone it in your local. Then, the absolute path is called **${SDK_REPO_ROOT} folder**.
 
 1. **Project Folder Structure**: the typical structure is `sdk/{servicename}/{servicename}-{modulename}-rest`, e.g., `sdk/agrifood/agrifood-farming-rest`. That folder is under {SDK_REPO_ROOT} and will be your **${PROJECT_ROOT} folder**. 
 
@@ -99,9 +99,9 @@ The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). I
 
 3. **Edit rush.json**  
     
-    As the libraries in azure-sdk-for-js repository are managed by rush, you need to add an entry in rush.json under projects section for the first time to make sure it works. For example:
+    As the libraries in `azure-sdk-for-js` repository are managed by rush, you need to add an entry in `rush.json` under projects section for the first time to make sure it works. For example:
 
-    ```
+    ```json
         {
           "packageName": "@azure-rest/agrifood-farming",
           "projectFolder": "sdk/agrifood/agrifood-farming-rest",
@@ -109,7 +109,7 @@ The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). I
         },
     ```
 
-    Here you also need to replace the `packageName`, `projectFolder` into your own services'.
+    Here, you also need to replace the `packageName`, `projectFolder` into your own services'.
 
     ---  
     **NOTE**

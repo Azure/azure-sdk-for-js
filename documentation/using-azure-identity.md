@@ -111,7 +111,7 @@ permissions](https://learn.microsoft.com/azure/active-directory/develop/v2-permi
   behalf of a specific user. The user may grant permission to your application
   unless the permission requires administrator consent.
 
-If you are only using _confidential credentials_ you should only need to be
+If you are only using _confidential credentials_, you should only need to be
 concerned with application permissions. If you will be authenticating users
 with a _public credential_, you must configure API permissions for the Azure
 service you need to access (Key Vault, Storage, etc) so that user accounts can
@@ -153,15 +153,15 @@ To use this credential, you will need to create a client secret using the
 "Certificates & secrets" page for your app registration.
 
 The `ClientCertificateCredential` implements the same client credentials flow,
-but instead uses a certificate as the means to authenticate the client. You must
-must generate your own PEM-formatted certificate for use in this flow and then
+but instead uses a certificate as the means to authenticate the client. You must 
+generate your own PEM-formatted certificate for use in this flow and then
 [register
 it](https://learn.microsoft.com/azure/active-directory/develop/active-directory-certificate-credentials#register-your-certificate-with-azure-ad)
 in the "Certificates & secrets" page for your app registration. Using a
 certificate to authenticate is recommended as it is generally more secure than
 using a client secret.
 
-> NOTE: At this time, @azure/identity only supports PEM certificates that are
+> NOTE: At this time, `@azure/identity` only supports PEM certificates that are
 > **not** password protected.
 
 For both of these credentials, `tenantId` and `clientId` are required parameters.
