@@ -159,11 +159,7 @@ export const ConnectionConfig = {
     }
     config.endpoint = String(config.endpoint);
 
-    if (
-      config.useDevelopmentEmulator &&
-      !config.endpoint.startsWith("localhost") &&
-      !config.endpoint.startsWith("127")
-    ) {
+    if (config.useDevelopmentEmulator && !isLoopbackAddress(config.endpoint)) {
       throw new TypeError(
         `When using the development environment, the endpoint should be a localhost. Given endpoint is "${config.endpoint}".`,
       );
