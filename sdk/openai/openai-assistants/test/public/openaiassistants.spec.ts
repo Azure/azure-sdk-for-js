@@ -31,7 +31,7 @@ describe("OpenAIAssistants", () => {
       let client: AssistantsClient;
       const codeAssistant = {
         tools: [{ type: "code_interpreter" } as ToolDefinition],
-        model: "gpt-4-0125-Preview",
+        model: "gpt-4-1106-preview",
         name: "JS CI Math Tutor",
         description: "Math Tutor for Math Problems",
         instructions: "You are a personal math tutor. Write and run code to answer math questions.",
@@ -163,7 +163,7 @@ describe("OpenAIAssistants", () => {
         });
         it("create, lists, gets, and cancels a run", async function () {
           const assistant = await client.createAssistant({
-            model: "gpt-4-0125-Preview",
+            model: "gpt-4-1106-preview",
             name: "JS CI Math Tutor",
             instructions:
               "You are a personal math tutor. Write and run code to answer math questions.",
@@ -366,7 +366,7 @@ describe("OpenAIAssistants", () => {
               nicknames for cities whenever possible.
           `;
           const functionAssistant = {
-            model: "gpt-4-0125-Preview",
+            model: "gpt-4-1106-preview",
             name: "JS SDK Test Assistant - Nickname",
             instructions,
             tools: [getUserFavoriteCityTool, getCityNicknameTool] as ToolDefinition[],
