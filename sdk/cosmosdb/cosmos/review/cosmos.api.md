@@ -1104,13 +1104,13 @@ export class EncryptionKeyWrapMetadata {
 export class EncryptionQueryBuilder {
     constructor(query: string);
     // (undocumented)
-    addBooleanParameter(name: string, value: boolean): void;
+    addBooleanParameter(name: string, value: boolean, path: string): void;
     // (undocumented)
-    addFloatParameter(name: string, value: number): void;
+    addFloatParameter(name: string, value: number, path: string): void;
     // (undocumented)
-    addIntegerParameter(name: string, value: number): void;
+    addIntegerParameter(name: string, value: number, path: string): void;
     // (undocumented)
-    addStringParameter(name: string, value: string): void;
+    addStringParameter(name: string, value: string, path: string): void;
 }
 
 // @public (undocumented)
