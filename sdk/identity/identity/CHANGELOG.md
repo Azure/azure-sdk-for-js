@@ -8,7 +8,7 @@
 
 ### Breaking Changes
 
-- IMDS probing retry configuration updated for `DefaultAzureCredential` and `ManagedIdentityCredential`, with `maxRetryCount` increased to 5. See [BREAKING_CHANGES.md](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/BREAKING_CHANGES.md#410)
+- IMDS probing retry configuration updated for `DefaultAzureCredential` and `ManagedIdentityCredential`, with `maxRetryCount` increased to 5. For more information, see [BREAKING_CHANGES.md](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/BREAKING_CHANGES.md#410).
 
 ### Bugs Fixed
 
