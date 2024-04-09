@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ClusterPoolVersion,
-  AvailableClusterPoolVersionsListByLocationOptionalParams
+  AvailableClusterPoolVersionsListByLocationOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -22,6 +22,6 @@ export interface AvailableClusterPoolVersions {
    */
   listByLocation(
     location: string,
-    options?: AvailableClusterPoolVersionsListByLocationOptionalParams
+    options?: AvailableClusterPoolVersionsListByLocationOptionalParams,
   ): PagedAsyncIterableIterator<ClusterPoolVersion>;
 }

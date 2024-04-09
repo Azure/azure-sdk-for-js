@@ -31,6 +31,6 @@ export interface ActivityLogs {
    */
   list(
     filter: string,
-    options?: ActivityLogsListOptionalParams
+    options?: ActivityLogsListOptionalParams,
   ): PagedAsyncIterableIterator<EventData>;
 }

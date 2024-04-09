@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */{
+ */ {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -421,11 +421,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure-rest/ai-personalizer",
-      "projectFolder": "sdk/personalizer/ai-personalizer-rest",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure/search-documents",
       "projectFolder": "sdk/search/search-documents",
       "versionPolicyName": "client"
@@ -463,11 +458,6 @@
     {
       "packageName": "@azure/communication-identity",
       "projectFolder": "sdk/communication/communication-identity",
-      "versionPolicyName": "client"
-    },
-    {
-      "packageName": "@azure/communication-network-traversal",
-      "projectFolder": "sdk/communication/communication-network-traversal",
       "versionPolicyName": "client"
     },
     {
@@ -643,9 +633,7 @@
     {
       "packageName": "@azure/identity",
       "projectFolder": "sdk/identity/identity",
-      "decoupledLocalDependencies": [
-        "@azure/keyvault-keys"
-      ],
+      "decoupledLocalDependencies": ["@azure/keyvault-keys"],
       "versionPolicyName": "client"
     },
     {
@@ -2206,6 +2194,11 @@
     {
       "packageName": "@azure/arm-springappdiscovery",
       "projectFolder": "sdk/springappdiscovery/arm-springappdiscovery",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-migrationdiscoverysap",
+      "projectFolder": "sdk/migrationdiscovery/arm-migrationdiscoverysap",
       "versionPolicyName": "management"
     },
     {
