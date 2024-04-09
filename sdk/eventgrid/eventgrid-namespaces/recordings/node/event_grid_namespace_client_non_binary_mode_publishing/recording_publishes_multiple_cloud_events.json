@@ -1,0 +1,207 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/topics/testtopic1/eventsubscriptions/testsubscription1:receive?api-version=2023-10-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "User-Agent": "azsdk-js-eventgrid-namespaces-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/18.18.0 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "de30f818-6490-49b0-8e91-029d6517eeb2"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "329",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 09 Apr 2024 18:15:42 GMT"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "brokerProperties": {
+              "lockToken": "CiYKJEVEMjNGRjVGLUU0MDktNEE5Ni04NDYwLUYyMTA2M0NFNDg4NxISChCjTes1BT1Ge5PewpU4iuMC",
+              "deliveryCount": 2
+            },
+            "event": {
+              "specversion": "1.0",
+              "source": "https://example.com",
+              "time": "2024-04-09T18:14:41Z",
+              "id": "singleEventIdV210001",
+              "type": "example",
+              "data": {
+                "resourceUri": "https://dummyurl.com"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/topics/testtopic1/eventsubscriptions/testsubscription1:acknowledge?api-version=2023-10-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "99",
+        "Content-Type": "application/json; charset=UTF-8",
+        "User-Agent": "azsdk-js-eventgrid-namespaces-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/18.18.0 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "a5a8a4c2-a774-4c6d-aee7-a86474b1d15a"
+      },
+      "RequestBody": {
+        "lockTokens": [
+          "CiYKJEVEMjNGRjVGLUU0MDktNEE5Ni04NDYwLUYyMTA2M0NFNDg4NxISChCjTes1BT1Ge5PewpU4iuMC"
+        ]
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "130",
+        "Content-Type": "application/json",
+        "Date": "Tue, 09 Apr 2024 18:15:42 GMT"
+      },
+      "ResponseBody": {
+        "succeededLockTokens": [
+          "CiYKJEVEMjNGRjVGLUU0MDktNEE5Ni04NDYwLUYyMTA2M0NFNDg4NxISChCjTes1BT1Ge5PewpU4iuMC"
+        ],
+        "failedLockTokens": []
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/topics/testtopic1/eventsubscriptions/testsubscription1:receive?api-version=2023-10-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "User-Agent": "azsdk-js-eventgrid-namespaces-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/18.18.0 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "e08ec9bf-8fe3-4c74-a8f1-e6560bb217aa"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "12",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 09 Apr 2024 18:16:42 GMT"
+      },
+      "ResponseBody": {
+        "value": []
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/topics/testtopic1:publish?api-version=2023-10-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "487",
+        "Content-Type": "application/cloudevents-batch\u002Bjson; charset=utf-8",
+        "User-Agent": "azsdk-js-eventgrid-namespaces-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/18.18.0 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "43a14a7b-8994-441d-83b2-72f7ba6550a0"
+      },
+      "RequestBody": "[{\u0022id\u0022:\u0022MultipleEventId110002\u0022,\u0022source\u0022:\u0022https://example.com\u0022,\u0022data\u0022:{\u0022resourceUri\u0022:\u0022https://dummyurl.com\u0022},\u0022type\u0022:\u0022example\u0022,\u0022time\u0022:\u00222024-04-09T18:16:42.000Z\u0022,\u0022specversion\u0022:\u00221.0\u0022,\u0022datacontenttype\u0022:\u0022application/cloudevents\u002Bjson; charset=utf-8\u0022},{\u0022id\u0022:\u0022MultipleEventId210003\u0022,\u0022source\u0022:\u0022https://example.com\u0022,\u0022data\u0022:{\u0022resourceUri\u0022:\u0022https://dummyurl.com\u0022},\u0022type\u0022:\u0022example\u0022,\u0022time\u0022:\u00222024-04-09T18:16:42.000Z\u0022,\u0022specversion\u0022:\u00221.0\u0022,\u0022datacontenttype\u0022:\u0022application/cloudevents\u002Bjson; charset=utf-8\u0022}]",
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "2",
+        "Content-Type": "application/json",
+        "Date": "Tue, 09 Apr 2024 18:16:42 GMT"
+      },
+      "ResponseBody": {}
+    },
+    {
+      "RequestUri": "https://endpoint/topics/testtopic1/eventsubscriptions/testsubscription1:receive?maxEvents=2\u0026api-version=2023-10-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "User-Agent": "azsdk-js-eventgrid-namespaces-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/18.18.0 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "67ef8524-8050-42c5-85af-b23c68db1ed8"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "777",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 09 Apr 2024 18:16:42 GMT"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "brokerProperties": {
+              "lockToken": "CiYKJEVEMjNGRjVGLUU0MDktNEE5Ni04NDYwLUYyMTA2M0NFNDg4NxISChDx8MtagLhKRJP1THIQsMN7",
+              "deliveryCount": 1
+            },
+            "event": {
+              "specversion": "1.0",
+              "source": "https://example.com",
+              "time": "2024-04-09T18:16:42Z",
+              "id": "MultipleEventId110002",
+              "datacontenttype": "application/cloudevents\u002Bjson; charset=utf-8",
+              "type": "example",
+              "data": {
+                "resourceUri": "https://dummyurl.com"
+              }
+            }
+          },
+          {
+            "brokerProperties": {
+              "lockToken": "CiYKJEVEMjNGRjVGLUU0MDktNEE5Ni04NDYwLUYyMTA2M0NFNDg4NxISChAsQyqyO9dGN5andjZg8mZn",
+              "deliveryCount": 1
+            },
+            "event": {
+              "specversion": "1.0",
+              "source": "https://example.com",
+              "time": "2024-04-09T18:16:42Z",
+              "id": "MultipleEventId210003",
+              "datacontenttype": "application/cloudevents\u002Bjson; charset=utf-8",
+              "type": "example",
+              "data": {
+                "resourceUri": "https://dummyurl.com"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/topics/testtopic1/eventsubscriptions/testsubscription1:receive?api-version=2023-10-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "User-Agent": "azsdk-js-eventgrid-namespaces-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/18.18.0 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "8f670d94-cc54-4cbe-95ff-88e86427b848"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "12",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 09 Apr 2024 18:17:42 GMT"
+      },
+      "ResponseBody": {
+        "value": []
+      }
+    }
+  ],
+  "Variables": {
+    "MulipleEventId1": "MultipleEventId110002",
+    "MulipleEventId2": "MultipleEventId210003",
+    "singleEventDate1": "Tue Apr 09 2024 11:16:42 GMT-0700 (Pacific Daylight Time)",
+    "singleEventDate2": "Tue Apr 09 2024 11:16:42 GMT-0700 (Pacific Daylight Time)"
+  }
+}

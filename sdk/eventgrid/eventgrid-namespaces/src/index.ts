@@ -1,0 +1,35 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+export { AzureKeyCredential, AzureSASCredential } from "@azure/core-auth";
+
+export { EventGridEvent, SendCloudEventInput, SendEventGridEventInput } from "./models";
+
+export {
+  CloudEvent,
+  ReceiveResult,
+  ReceiveDetails,
+  BrokerProperties,
+  AcknowledgeResult,
+  FailedLockToken,
+  ReleaseResult,
+  RejectResult,
+  PublishCloudEventsOptions,
+  ReceiveCloudEventsOptions,
+  AcknowledgeCloudEventsOptions,
+  ReleaseCloudEventsOptions,
+  RejectCloudEventsOptions,
+  ReleaseDelay,
+  RenewCloudEventLocksOptions,
+  RenewCloudEventLocksResult,
+} from "./cadl-generated/models";
+
+export { EventGridNamespacesClient } from "./eventGridNamespacesClient";
+
+export { EventGridClientOptions } from "./cadl-generated";
+
+export { PublishResultOutput } from "./cadl-generated/rest";
+
+export { OperationOptions as OperationRestOptions } from "@azure-rest/core-client";
+
+export { PublishCloudEventOptions } from "./models";
