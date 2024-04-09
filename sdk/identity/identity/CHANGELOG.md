@@ -1,6 +1,6 @@
 # Release History
 
-## 4.1.0-beta.2 (Unreleased)
+## 4.1.0 (2024-04-09)
 
 ### Features Added
 
@@ -13,7 +13,7 @@
 ### Bugs Fixed
 
 - msal cache files are properly named when the user does not pass in a custom file name [#29039](https://github.com/Azure/azure-sdk-for-js/pull/29039)
-- Allow IMDS probing retry options in `ManagedIdentityCredential` to be overridden by customers
+- Allow IMDS probing retry options in `ManagedIdentityCredential` to be overridden by customers.
 
 ### Other Changes
 
