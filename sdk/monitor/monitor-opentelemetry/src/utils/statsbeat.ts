@@ -39,13 +39,9 @@ export const setStatsbeatFeatures = (config: InternalConfig, liveMetricsActivate
   if (config.browserSdkLoaderOptions.enabled === true) {
     featureBitMap |= StatsbeatFeature.BROWSER_SDK_LOADER;
   }
-  // Determines if the Live Metrics feature is enabled in configuration
-  if (config.enableLiveMetrics === true) {
-    featureBitMap |= StatsbeatFeature.LIVE_METRICS;
-  }
   // Determines if the customer has activated the Live Metrics feature
   if (liveMetricsActivated === true) {
-    featureBitMap |= StatsbeatFeature.ACTIVATED_LIVE_METRICS;
+    featureBitMap |= StatsbeatFeature.LIVE_METRICS;
   }
 
   try {

@@ -162,11 +162,6 @@ describe("Main functions", () => {
     assert.ok(!(features & StatsbeatFeature.DISK_RETRY), "DISK_RETRY is set");
     assert.ok(!(features & StatsbeatFeature.BROWSER_SDK_LOADER), "BROWSER_SDK_LOADER is set");
     assert.ok(features & StatsbeatFeature.DISTRO, "DISTRO is not set");
-    assert.ok(features & StatsbeatFeature.LIVE_METRICS, "LIVE_METRICS is not set");
-    assert.ok(
-      !(features & StatsbeatFeature.ACTIVATED_LIVE_METRICS),
-      "ACTIVATED_LIVE_METRICS is set",
-    );
     assert.ok(
       instrumentations & StatsbeatInstrumentation.AZURE_CORE_TRACING,
       "AZURE_CORE_TRACING not set",
@@ -198,10 +193,6 @@ describe("Main functions", () => {
     assert.ok(numberOutput & StatsbeatFeature.DISTRO, "DISTRO not set");
     assert.ok(!(numberOutput & StatsbeatFeature.BROWSER_SDK_LOADER), "BROWSER_SDK_LOADER is set");
     assert.ok(numberOutput & StatsbeatFeature.LIVE_METRICS, "LIVE_METRICS is not set");
-    assert.ok(
-      !(numberOutput & StatsbeatFeature.ACTIVATED_LIVE_METRICS),
-      "ACTIVATED_LIVE_METRICS is set",
-    );
   });
 
   it("should capture the app service SDK prefix correctly", () => {
