@@ -50,6 +50,8 @@ import {
   withDiagnostics,
   addDignosticChild,
 } from "../../utils/diagnostics";
+import { EncryptionQueryBuilder } from "../../encryption";
+import { EncryptionSqlParameter } from "../../encryption/EncryptionQueryBuilder";
 
 /**
  * @hidden
@@ -92,6 +94,8 @@ export class Items {
    * const {result: items} = await items.query(querySpec).fetchAll();
    * ```
    */
+
+  //
   public query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
   /**
    * Queries all items.
@@ -132,7 +136,7 @@ export class Items {
       return response;
     };
 
-    return new QueryIterator(
+    const iterator = new QueryIterator<T>(
       this.clientContext,
       query,
       options,
@@ -140,6 +144,63 @@ export class Items {
       this.container.url,
       ResourceType.item,
     );
+    iterator.addEncryptionProcessor(this.container.encryptionProcessor);
+    return iterator;
+  }
+  /**
+   * Queries all items in an encrypted container.
+   * @param queryBuilder - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to build a query on encrypted properties.
+   * @param options - Used for modifying the request (for instance, specifying the partition key).
+   * @example Read all items to array.
+   * ```typescript
+   * const queryBuilder = new EncryptionQueryBuilder("SELECT firstname FROM Families f WHERE f.lastName = @lastName");
+   * queryBuilder.addStringParameter("@lastName", "Hendricks", "/lastname");
+   * const queryIterator = await items.getEncryptionQueryIterator(queryBuilder);
+   * const {result: items} = await queryIterator.fetchAll();
+   * ```
+   */
+  public async getEncryptionQueryIterator(
+    queryBuilder: EncryptionQueryBuilder,
+    options?: FeedOptions,
+  ): Promise<QueryIterator<any>>;
+  /**
+   * Queries all items in an encrypted container.
+   * @param queryBuilder - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to build a query on encrypted properties.
+   * @param options - Used for modifying the request (for instance, specifying the partition key).
+   * @example Read all items to array.
+   * ```typescript
+   * const queryBuilder = new EncryptionQueryBuilder("SELECT firstname FROM Families f WHERE f.lastName = @lastName");
+   * queryBuilder.addStringParameter("@lastName", "Hendricks", "/lastname");
+   * const queryIterator = await items.getEncryptionQueryIterator<{firstName: string}>(queryBuilder);
+   * const {result: items} = await queryIterator.fetchAll();
+   * ```
+   */
+  public async getEncryptionQueryIterator<T>(
+    queryBuilder: EncryptionQueryBuilder,
+    options?: FeedOptions,
+  ): Promise<QueryIterator<T>>;
+  public async getEncryptionQueryIterator<T>(
+    queryBuilder: EncryptionQueryBuilder,
+    options: FeedOptions = {},
+  ): Promise<QueryIterator<T>> {
+    const encryptionSqlQuerySpec = queryBuilder.toEncryptionSqlQuerySpec();
+    const sqlQuerySpec = await this.buildSqlQuerySpec(encryptionSqlQuerySpec);
+    const iterator = this.query<T>(sqlQuerySpec, options);
+    return iterator;
+  }
+
+  private async buildSqlQuerySpec(encryptionSqlQuerySpec: SqlQuerySpec): Promise<SqlQuerySpec> {
+    const encryptionParameters = encryptionSqlQuerySpec.parameters as EncryptionSqlParameter[];
+
+    for (const parameter of encryptionParameters) {
+      parameter.value = await this.container.encryptionProcessor.serializeAndEncryptQueryParameter(
+        parameter.path,
+        parameter.value,
+        parameter.type,
+        parameter.path === "/id",
+      );
+    }
+    return encryptionSqlQuerySpec;
   }
 
   /**
@@ -240,14 +301,7 @@ export class Items {
 
     const path = getPathFromLink(this.container.url, ResourceType.item);
     const id = getIdFromLink(this.container.url);
-    return new ChangeFeedIterator<T>(
-      this.clientContext,
-      this.container,
-      id,
-      path,
-      partitionKey,
-      changeFeedOptions,
-    );
+    return new ChangeFeedIterator<T>(this.clientContext, id, path, partitionKey, changeFeedOptions);
   }
 
   /**

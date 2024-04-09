@@ -4,7 +4,7 @@ import { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
 import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
 import { Container, Resource } from "../../client";
 import { ClientContext } from "../../ClientContext";
-import { Constants, ResourceType } from "../../common";
+import { Constants, ResourceType, StatusCodes } from "../../common";
 import { FeedOptions, Response, ErrorResponse } from "../../request";
 import { ContinuationTokenForPartitionKey } from "./ContinuationTokenForPartitionKey";
 import { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
@@ -98,6 +98,14 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
         await this.instantiateIterator(diagnosticNode);
       }
       const result = await this.fetchNext(diagnosticNode);
+
+      if (result.statusCode === StatusCodes.Ok) {
+        if (this.clientContext.enableEncyption) {
+          for (let item of result.result) {
+            item = await this.container.encryptionProcessor.decrypt(item);
+          }
+        }
+      }
       return result;
     }, this.clientContext);
   }
@@ -157,12 +165,6 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
       options: feedOptions,
       partitionKey: this.partitionKey,
     }) as Promise<any>);
-
-    if (this.clientContext.enableEncyption) {
-      for (let item of response.result) {
-        item = await this.container.encryptionProcessor.decrypt(item);
-      }
-    }
 
     return new ChangeFeedIteratorResponse(
       response.result,

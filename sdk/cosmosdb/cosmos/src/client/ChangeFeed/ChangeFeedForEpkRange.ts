@@ -182,12 +182,6 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
         const [processedFeedRange, response] = await this.fetchNext(diagnosticNode);
         result = response;
 
-        if (this.clientContext.enableEncyption) {
-          for (let item of result.result) {
-            item = await this.container.encryptionProcessor.decrypt(item);
-          }
-        }
-
         if (result !== undefined) {
           {
             if (firstNotModifiedFeedRange === undefined) {
@@ -200,6 +194,12 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
             if (result.statusCode === StatusCodes.Ok) {
               result.headers[Constants.HttpHeaders.ContinuationToken] =
                 this.generateContinuationToken();
+
+              if (this.clientContext.enableEncyption) {
+                for (let item of result.result) {
+                  item = await this.container.encryptionProcessor.decrypt(item);
+                }
+              }
               return result;
             }
           }

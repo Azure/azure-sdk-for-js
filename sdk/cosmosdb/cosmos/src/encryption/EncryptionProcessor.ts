@@ -15,14 +15,7 @@ import {
 } from "./Serializers";
 import { ClientEncryptionKeyPropertiesCache, EncryptionSettingsCache } from "./Cache";
 import { PartitionKeyInternal } from "../documents";
-
-enum TypeMarker {
-  Null = 1,
-  Boolean = 2,
-  Double = 3,
-  Long = 4,
-  String = 5,
-}
+import { TypeMarker } from "./enums/TypeMarker";
 
 export class EncryptionProcessor {
   constructor(
@@ -60,11 +53,7 @@ export class EncryptionProcessor {
     return body;
   }
 
-  async encryptProperty(
-    path: string,
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    value: any,
-  ): Promise<any> {
+  async encryptProperty(path: string, value: any): Promise<any> {
     const encryptionSettings = EncryptionProcessor.getEncryptionSettings(
       this.databaseId,
       this.containerId,
@@ -153,6 +142,71 @@ export class EncryptionProcessor {
       );
     }
     return valueToEncrypt;
+  }
+
+  async serializeAndEncryptQueryParameter(
+    path: string,
+    value: any,
+    typeMarker: TypeMarker,
+    isValueId: boolean,
+  ): Promise<string> {
+    if (value === null) {
+      return value;
+    }
+    const encryptionSettings = EncryptionProcessor.getEncryptionSettings(
+      this.databaseId,
+      this.containerId,
+    );
+    const settingForProperty = encryptionSettings.getEncryptionSettingForProperty(path);
+    if (!settingForProperty) {
+      return value;
+    }
+    let serializer: Serializer;
+    switch (typeMarker) {
+      case TypeMarker.Boolean:
+        serializer = BooleanSerializer.getInstance();
+        break;
+      case TypeMarker.String:
+        serializer = StringSerializer.getInstance();
+        break;
+      case TypeMarker.Double:
+        serializer = FloatSerializer.getInstance();
+        break;
+      case TypeMarker.Long:
+        serializer = NumberSerializer.getInstance();
+        break;
+      default:
+        throw new Error("Invalid or Unsupported data type passed.");
+    }
+    const plainText = serializer.serialize(value);
+    const key = this.databaseId + "/" + settingForProperty.encryptionKeyId;
+    const clientEncryptionKeyPropertiesCache = ClientEncryptionKeyPropertiesCache.getInstance();
+    const clientEncryptionKeyProperties =
+      clientEncryptionKeyPropertiesCache.getClientEncryptionKeyProperties(key);
+
+    const encryptionAlgorithm: AeadAes256CbcHmacSha256Algorithm =
+      await settingForProperty.buildEncryptionAlgorithm(
+        clientEncryptionKeyProperties,
+        this.encryptionKeyStoreProvider,
+      );
+    const cipherText = encryptionAlgorithm.encrypt(plainText);
+    if (isValueId) {
+      if (typeof value !== "string") {
+        throw new Error("The id should be of string type.");
+      }
+    }
+
+    const cipherTextWithTypeMarker = Buffer.alloc(cipherText.length + 1);
+    cipherTextWithTypeMarker[0] = typeMarker;
+    cipherText.forEach((val, index) => {
+      cipherTextWithTypeMarker[index + 1] = val;
+    });
+
+    let encryptedValue = Buffer.from(cipherTextWithTypeMarker).toString("base64");
+    if (isValueId) {
+      encryptedValue = encryptedValue.replace(/\//g, "_").replace(/\+/g, "-");
+    }
+    return encryptedValue;
   }
 
   private async serializeAndEncryptValue(

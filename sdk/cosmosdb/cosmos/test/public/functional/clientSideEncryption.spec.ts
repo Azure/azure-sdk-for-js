@@ -19,8 +19,7 @@ import {
   PatchOperationType,
   BulkOperationType,
   EncryptionKeyResolver,
-  ChangeFeedIteratorOptions,
-  ChangeFeedStartFrom,
+  EncryptionQueryBuilder,
 } from "../../../src";
 import { assert } from "chai";
 import { masterKey } from "../common/_fakeTestSecrets";
@@ -59,6 +58,7 @@ const client = new CosmosClient({
 describe("Client Side Encryption", () => {
   let database: Database;
   before(async () => {
+    await removeAllDatabases();
     try {
       const response = await client.databases.createIfNotExists({ id: "encryptionTestDatabase2" });
       database = response.database;
@@ -534,8 +534,8 @@ describe("Client Side Encryption", () => {
     assert.equal(response[4].statusCode, StatusCodes.Ok);
   });
 
-  it("encryption change feed iterator", async () => {
-    const includedPaths = ["/key1", "/id"].map(
+  it("encryption query iterator", async () => {
+    const includedPaths = ["/key", "/id", "/boolval", "/floatval"].map(
       (path) =>
         new ClientEncryptionIncludedPath(
           path,
@@ -546,47 +546,45 @@ describe("Client Side Encryption", () => {
     );
     const clientEncryptionPolicy = new ClientEncryptionPolicy(includedPaths, 2);
     const containerDef = {
-      id: "encryption_changefeed_container",
-      partitionKey: {
-        paths: ["/key1", "/key2"],
-        version: PartitionKeyDefinitionVersion.V2,
-        kind: PartitionKeyKind.MultiHash,
-      },
+      id: "encryption_query_container",
+      partitionKey: "/key",
       clientEncryptionPolicy: clientEncryptionPolicy,
     };
     const { container } = await database.containers.createIfNotExists(containerDef);
     await container.initializeEncryption();
-    for (let i = 1; i < 3; i++) {
-      await container.items.create({ id: `item${i}`, key1: `0`, key2: 0 });
-      await container.items.create({ id: `item${i}`, key1: `0`, key2: 1 });
+    await Promise.all([
+      container.items.create({ id: "1", name: "foo", key: 1, boolval: true, floatval: 3.0 }),
+      container.items.create({ id: "2", name: "bar", key: 2, boolval: false, floatval: 6.5 }),
+      container.items.create({ id: "1", name: "foo", key: 3, boolval: true, floatval: 6.5 }),
+      container.items.create({ id: "2", name: "bar", key: 4, boolval: false, floatval: 0.0 }),
+    ]);
+    const readAllResponse = await container.items.readAll().fetchAll();
+    assert.equal(readAllResponse.resources.length, 4);
+
+    const queryBuilder = new EncryptionQueryBuilder(
+      "SELECT * FROM f WHERE f.id = @id and f.boolval = @boolval",
+    );
+    queryBuilder.addStringParameter("@id", "1", "/id");
+    queryBuilder.addBooleanParameter("@boolval", true, "/boolval");
+    const iterator1 = await container.items.getEncryptionQueryIterator(queryBuilder);
+    for await (const response of iterator1.getAsyncIterator()) {
+      assert.equal(response.resources.length, 2);
     }
 
-    // change feed for entire container
-    const cfOptionsForContainer: ChangeFeedIteratorOptions = {
-      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(),
-    };
+    const queryBuilder1 = new EncryptionQueryBuilder(
+      "SELECT * FROM f WHERE f.id = @id and f.floatval = @floatval",
+    );
+    queryBuilder1.addStringParameter("@id", "1", "/id");
+    queryBuilder1.addFloatParameter("@floatval", 6.5, "/floatval");
 
-    const cfIteratorForContainer = container.items.getChangeFeedIterator(cfOptionsForContainer);
-    const response1 = await cfIteratorForContainer.readNext();
-    assert.equal(response1.statusCode, StatusCodes.Ok);
+    const iterator2 = await container.items.getEncryptionQueryIterator(queryBuilder1);
+    const fetchNextResponse = await iterator2.fetchNext();
+    assert.equal(fetchNextResponse.resources.length, 1);
 
-    // change feed for partition key
-    const cfOptionsForPartitionKey: ChangeFeedIteratorOptions = {
-      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(["0", 1]),
-    };
-    const cfIteratorForPartitionKey =
-      container.items.getChangeFeedIterator(cfOptionsForPartitionKey);
-
-    const response2 = await cfIteratorForPartitionKey.readNext();
-    assert.equal(response2.statusCode, StatusCodes.Ok);
-
-    // change feed iterator
-    const cfIterator = container.items.changeFeed(["0", 0], { startFromBeginning: true });
-    const response3 = await cfIterator.fetchNext();
-    assert.equal(response3.statusCode, StatusCodes.Ok);
-  });
-
-  after(async () => {
-    await removeAllDatabases();
+    const queryBuilder2 = new EncryptionQueryBuilder("SELECT * FROM f WHERE f.key = @key");
+    queryBuilder2.addIntegerParameter("@key", 1, "/key");
+    const iterator3 = await container.items.getEncryptionQueryIterator(queryBuilder2);
+    const fetchAllResponse = await iterator3.fetchAll();
+    assert.equal(fetchAllResponse.resources.length, 1);
   });
 });
