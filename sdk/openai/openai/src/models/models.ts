@@ -1728,15 +1728,6 @@ export interface EmbeddingsUsage {
   /** Total number of tokens transacted in this request/response. */
   totalTokens: number;
 }
-/**
- * The options supported by OpenAIError.
- */
-export interface OpenAIErrorOptions extends RestErrorOptions {
-  /** The parameters of the error. */
-  param: string | null;
-  /** Type of the error. */
-  type: string | null;
-}
 
 /**
  * The OpenAI error class
@@ -1750,10 +1741,15 @@ export class OpenAIError extends RestError {
    * The param meter of the error
    */
   public param: string | null;
-  constructor(message: string, options?: OpenAIErrorOptions) {
+  constructor(
+    message: string,
+    param: string | null = null,
+    type: string | null = null,
+    options?: RestErrorOptions,
+  ) {
     super(message, { code: options?.code ?? undefined, ...options });
-    this.type = options?.type ?? null;
-    this.param = options?.param ?? null;
+    this.type = type;
+    this.param = param;
   }
 }
 

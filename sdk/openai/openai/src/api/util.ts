@@ -99,16 +99,18 @@ function statusCodeToNumber(statusCode: string): number | undefined {
 }
 
 export function createOpenAIError(result: PathUncheckedResponse): OpenAIError {
-  const message = result.body.error?.message ?? "An error has occurred";
-  return new OpenAIError(message, {
-    code: result.body.error?.code,
-    param: result.body.error?.param,
-    type: result.body.error?.type,
-    statusCode: statusCodeToNumber(result.status),
+  const err = result.body.error ?? result.body;
+  if (!err) {
+    throw new Error("An error response has been received but can't be parsed");
+  }
+  const statusCode = statusCodeToNumber(result.status);
+  return new OpenAIError(err.message, err.param, err.type, {
+    code: err.code,
+    statusCode,
     response: {
       headers: createHttpHeaders(result.headers),
       request: result.request,
-      status: statusCodeToNumber(result.status) ?? -1,
+      status: statusCode ?? -1,
     },
   });
 }
