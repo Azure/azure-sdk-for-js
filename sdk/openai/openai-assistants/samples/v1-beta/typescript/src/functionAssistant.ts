@@ -104,7 +104,7 @@ export async function main() {
   } as const;
 
   const weatherAssistant = await assistantsClient.assistants.createAssistant({
-    model: "gpt-4-1106-preview",
+    model: "gpt-4-0125-Preview",
     name: "JS SDK Test Assistant - Weather",
     instructions: `You are a weather bot. Use the provided functions to help answer questions.
         Customize your responses to the user's preferences as much as possible and use friendly
