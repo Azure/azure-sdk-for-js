@@ -1298,8 +1298,8 @@ packages:
       - supports-color
     dev: false
 
-  /@azure/communication-signaling@1.0.0-beta.24:
-    resolution: {integrity: sha512-8OzwTxTWhoJYRsGgTJaiM6X/T51m4/EW3zRyGdmufLzBqq7bZnI+RpvMGC01pAJONoMF5IYej63DjrFSbroWdw==}
+  /@azure/communication-signaling@1.0.0-beta.25:
+    resolution: {integrity: sha512-lkPkbHuXv68mOcNEsjk8E3iNfVXKoZYYZcfJSNiIp8/f2dER5UD3hC+kf0cVot/fCOV9Cn+VOsIr9Cw2qM9GHw==}
     engines: {node: '>=8.0.0'}
     dependencies:
       '@azure/core-http': 2.3.2
@@ -18389,14 +18389,14 @@ packages:
     dev: false
 
   file:projects/communication-chat.tgz:
-    resolution: {integrity: sha512-155VsL+Ja9+wqlXw3wQ7IB81lri8MQcU6dIYacjdLLj35jj0fJzgjDtgGjcCRTEugLZAs5wI2tRu55cAXO5vIg==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-/2RqN/80DpOdvtzr5rmBbMWEByp3gQgFYQsa18aK8F2wG3PCpJQWnFK1ncHQwLlPHwb4xR9VfTdUDQWbxhthKA==, tarball: file:projects/communication-chat.tgz}
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
-      '@azure/communication-signaling': 1.0.0-beta.24
+      '@azure/communication-signaling': 1.0.0-beta.25
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
