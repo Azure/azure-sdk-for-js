@@ -183,7 +183,8 @@ export class Items {
     queryBuilder: EncryptionQueryBuilder,
     options: FeedOptions = {},
   ): Promise<QueryIterator<T>> {
-    const encryptionSqlQuerySpec = queryBuilder.toEncryptionSqlQuerySpec();
+    const encryptionQueryBuilder = queryBuilder.copyQueryBuilder();
+    const encryptionSqlQuerySpec = encryptionQueryBuilder.toEncryptionSqlQuerySpec();
     const sqlQuerySpec = await this.buildSqlQuerySpec(encryptionSqlQuerySpec);
     const iterator = this.query<T>(sqlQuerySpec, options);
     return iterator;
@@ -381,6 +382,7 @@ export class Items {
       let partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
 
       if (this.clientContext.enableEncyption) {
+        body = JSON.parse(JSON.stringify(body));
         body = await this.container.encryptionProcessor.encrypt(body);
         partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
       }
@@ -469,6 +471,7 @@ export class Items {
       let partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
 
       if (this.clientContext.enableEncyption) {
+        body = JSON.parse(JSON.stringify(body));
         body = await this.container.encryptionProcessor.encrypt(body);
         partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
       }
@@ -556,6 +559,7 @@ export class Items {
       );
 
       if (this.clientContext.enableEncyption) {
+        operations = JSON.parse(JSON.stringify(operations));
         operations = await this.bulkBatchEncryptionHelper(operations);
       }
 
@@ -709,6 +713,7 @@ export class Items {
       }
 
       if (this.clientContext.enableEncyption) {
+        operations = JSON.parse(JSON.stringify(operations));
         if (partitionKey) {
           const partitionKeyInternal = convertToInternalPartitionKey(partitionKey);
           partitionKey =
