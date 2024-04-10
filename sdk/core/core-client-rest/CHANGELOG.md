@@ -1,14 +1,10 @@
 # Release History
 
-## 1.3.2 (Unreleased)
+## 1.3.2 (2024-04-09)
 
 ### Features Added
 
 - Support accept in headers.
-
-### Breaking Changes
-
-### Bugs Fixed
 
 ### Other Changes
 
