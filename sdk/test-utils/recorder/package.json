@@ -1,6 +1,6 @@
 {
   "name": "@azure-tools/test-recorder",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "sdk-type": "utility",
   "description": "This library provides interfaces and helper methods to provide recording and playback capabilities for the tests in Azure JS/TS SDKs",
   "main": "dist/index.js",
@@ -71,7 +71,7 @@
     "@azure/logger": "^1.0.0"
   },
   "devDependencies": {
-    "@azure/core-client": "^1.0.0",
+    "@azure/core-client": "^1.9.1",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@types/express": "^4.16.0",
