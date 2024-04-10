@@ -8,9 +8,9 @@
         "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "en-US,en;q=0.9",
         "Authorization": "Sanitized",
-        "client-request-id": "1185005d-a387-4961-8c37-ed6e2e03f904",
+        "client-request-id": "6d6750fa-5971-4b9c-9356-c63e9770b5a9",
         "Connection": "keep-alive",
-        "Content-Length": "287",
+        "Content-Length": "784",
         "Content-Type": "application/json; odata=minimalmetadata",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "\u0022Chromium\u0022;v=\u0022123\u0022, \u0022Not:A-Brand\u0022;v=\u00228\u0022",
@@ -23,33 +23,48 @@
         "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 OS/macOS"
       },
       "RequestBody": {
-        "id": "JSSDKTest-Pool-Datadisk-d588",
-        "vmSize": "Standard_A1_v2",
+        "id": "JSSDKTest-Pool-AutoOSUpgrade-134e",
+        "vmSize": "Standard_D2s_v3",
         "virtualMachineConfiguration": {
           "imageReference": {
             "publisher": "Canonical",
-            "offer": "UbuntuServer",
-            "sku": "18.04-LTS"
+            "offer": "0001-com-ubuntu-server-jammy",
+            "sku": "22_04-lts"
           },
-          "nodeAgentSKUId": "batch.node.ubuntu 18.04",
-          "dataDisks": [
-            {
-              "lun": 1,
-              "diskSizeGB": 50
-            }
-          ]
+          "nodeAgentSKUId": "batch.node.ubuntu 22.04",
+          "nodePlacementConfiguration": {
+            "policy": "zonal"
+          }
+        },
+        "upgradePolicy": {
+          "mode": "automatic",
+          "automaticOSUpgradePolicy": {
+            "disableAutomaticRollback": true,
+            "enableAutomaticOSUpgrade": true,
+            "useRollingUpgradePolicy": true,
+            "osRollingUpgradeDeferral": true
+          },
+          "rollingUpgradePolicy": {
+            "enableCrossZoneUpgrade": true,
+            "maxBatchInstancePercent": 20,
+            "maxUnhealthyInstancePercent": 20,
+            "maxUnhealthyUpgradedInstancePercent": 20,
+            "pauseTimeBetweenBatches": "PT0S",
+            "prioritizeUnhealthyInstances": false,
+            "rollbackFailedInstancesOnPolicyBreach": false
+          }
         },
         "targetDedicatedNodes": 0
       },
       "StatusCode": 201,
       "ResponseHeaders": {
-        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-Datadisk-d588",
+        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-AutoOSUpgrade-134e",
         "DataServiceVersion": "3.0",
-        "Date": "Wed, 10 Apr 2024 00:15:46 GMT",
-        "ETag": "0x8DC58F35E931D61",
-        "Last-Modified": "Wed, 10 Apr 2024 00:15:46 GMT",
-        "Location": "https://endpoint/pools/JSSDKTest-Pool-Datadisk-d588",
-        "request-id": "7cad145f-b730-41e8-90ca-b869b4db74ac",
+        "Date": "Wed, 10 Apr 2024 00:18:37 GMT",
+        "ETag": "0x8DC58F3C49B383B",
+        "Last-Modified": "Wed, 10 Apr 2024 00:18:37 GMT",
+        "Location": "https://endpoint/pools/JSSDKTest-Pool-AutoOSUpgrade-134e",
+        "request-id": "54120d8a-34fd-4738-93db-093c840a2569",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -58,14 +73,14 @@
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Datadisk-d588?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-AutoOSUpgrade-134e?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "en-US,en;q=0.9",
         "Authorization": "Sanitized",
-        "client-request-id": "cc04f388-54b3-45e1-9b55-97b4cdaf9f53",
+        "client-request-id": "e2bef1a5-a38b-4268-818c-a1572fc6f0c1",
         "Connection": "keep-alive",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "\u0022Chromium\u0022;v=\u0022123\u0022, \u0022Not:A-Brand\u0022;v=\u00228\u0022",
@@ -82,10 +97,10 @@
       "ResponseHeaders": {
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Wed, 10 Apr 2024 00:16:01 GMT",
-        "ETag": "0x8DC58F35E931D61",
-        "Last-Modified": "Wed, 10 Apr 2024 00:15:46 GMT",
-        "request-id": "3e9e85a4-a958-4aa2-8c6c-cf0c0ee0992a",
+        "Date": "Wed, 10 Apr 2024 00:18:37 GMT",
+        "ETag": "0x8DC58F3C49B383B",
+        "Last-Modified": "Wed, 10 Apr 2024 00:18:37 GMT",
+        "request-id": "fe072949-e366-4255-b9fd-4c426d7d99e3",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -93,16 +108,16 @@
       },
       "ResponseBody": {
         "odata.metadata": "https://endpoint/$metadata#pools/@Element",
-        "id": "JSSDKTest-Pool-Datadisk-d588",
-        "url": "https://endpoint/pools/JSSDKTest-Pool-Datadisk-d588",
-        "eTag": "0x8DC58F35E931D61",
-        "lastModified": "2024-04-10T00:15:46.6764641Z",
-        "creationTime": "2024-04-10T00:15:46.6764627Z",
+        "id": "JSSDKTest-Pool-AutoOSUpgrade-134e",
+        "url": "https://endpoint/pools/JSSDKTest-Pool-AutoOSUpgrade-134e",
+        "eTag": "0x8DC58F3C49B383B",
+        "lastModified": "2024-04-10T00:18:37.8571835Z",
+        "creationTime": "2024-04-10T00:18:37.8571819Z",
         "state": "active",
-        "stateTransitionTime": "2024-04-10T00:15:46.6764627Z",
-        "allocationState": "steady",
-        "allocationStateTransitionTime": "2024-04-10T00:15:47.9367575Z",
-        "vmSize": "standard_a1_v2",
+        "stateTransitionTime": "2024-04-10T00:18:37.8571819Z",
+        "allocationState": "resizing",
+        "allocationStateTransitionTime": "2024-04-10T00:18:37.8571835Z",
+        "vmSize": "standard_d2s_v3",
         "resizeTimeout": "PT15M",
         "currentDedicatedNodes": 0,
         "targetDedicatedNodes": 0,
@@ -117,31 +132,44 @@
         "virtualMachineConfiguration": {
           "imageReference": {
             "publisher": "Canonical",
-            "offer": "UbuntuServer",
-            "sku": "18.04-LTS",
+            "offer": "0001-com-ubuntu-server-jammy",
+            "sku": "22_04-lts",
             "version": "latest"
           },
-          "nodeAgentSKUId": "batch.node.ubuntu 18.04",
-          "dataDisks": [
-            {
-              "lun": 1,
-              "caching": "none",
-              "diskSizeGB": 50,
-              "storageAccountType": "standard_lrs"
-            }
-          ]
+          "nodeAgentSKUId": "batch.node.ubuntu 22.04",
+          "nodePlacementConfiguration": {
+            "policy": "Zonal"
+          }
+        },
+        "upgradePolicy": {
+          "mode": "automatic",
+          "automaticOSUpgradePolicy": {
+            "disableAutomaticRollback": true,
+            "enableAutomaticOSUpgrade": true,
+            "useRollingUpgradePolicy": true,
+            "osRollingUpgradeDeferral": true
+          },
+          "rollingUpgradePolicy": {
+            "enableCrossZoneUpgrade": true,
+            "maxBatchInstancePercent": 20,
+            "maxUnhealthyInstancePercent": 20,
+            "maxUnhealthyUpgradedInstancePercent": 20,
+            "pauseTimeBetweenBatches": "PT0S",
+            "prioritizeUnhealthyInstances": false,
+            "rollbackFailedInstancesOnPolicyBreach": false
+          }
         }
       }
     },
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Datadisk-d588?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-AutoOSUpgrade-134e?api-version=2024-02-01.19.0",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "en-US,en;q=0.9",
         "Authorization": "Sanitized",
-        "client-request-id": "cde521f4-ae98-4f15-8e41-80720b54f5f7",
+        "client-request-id": "39e00ae3-db3e-4b71-ba3f-ebd7992caf5a",
         "Connection": "keep-alive",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "\u0022Chromium\u0022;v=\u0022123\u0022, \u0022Not:A-Brand\u0022;v=\u00228\u0022",
@@ -157,8 +185,8 @@
       "StatusCode": 202,
       "ResponseHeaders": {
         "DataServiceVersion": "3.0",
-        "Date": "Wed, 10 Apr 2024 00:16:01 GMT",
-        "request-id": "b30b319a-2158-475d-a3e4-573e3029c4e0",
+        "Date": "Wed, 10 Apr 2024 00:18:38 GMT",
+        "request-id": "37ccee4d-3d14-42f3-ae88-926821ded007",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -168,6 +196,6 @@
     }
   ],
   "Variables": {
-    "DISK_POOL": "JSSDKTest-Pool-Datadisk-d588"
+    "AUTO_OS_UPGRADE_POOL": "JSSDKTest-Pool-AutoOSUpgrade-134e"
   }
 }

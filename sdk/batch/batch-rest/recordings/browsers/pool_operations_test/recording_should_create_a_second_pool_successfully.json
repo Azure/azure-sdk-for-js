@@ -5,39 +5,44 @@
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "en-US,en;q=0.9",
         "Authorization": "Sanitized",
-        "client-request-id": "69a60cbc-b215-4c7e-86dc-b0c790f35bc0",
+        "client-request-id": "dc21532d-30e7-4595-aa89-3ed062cba145",
         "Connection": "keep-alive",
-        "Content-Length": "92",
+        "Content-Length": "236",
         "Content-Type": "application/json; odata=minimalmetadata",
         "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "\u0022Not:A-Brand\u0022;v=\u002299\u0022, \u0022Chromium\u0022;v=\u0022112\u0022",
+        "sec-ch-ua": "\u0022Chromium\u0022;v=\u0022123\u0022, \u0022Not:A-Brand\u0022;v=\u00228\u0022",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022Windows\u0022",
+        "sec-ch-ua-platform": "\u0022macOS\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
-        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 OS/Windows"
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 OS/macOS"
       },
       "RequestBody": {
-        "id": "JSSDKTest-Pool-3-50e5",
-        "vmSize": "small",
-        "cloudServiceConfiguration": {
-          "osFamily": "4"
+        "id": "JSSDKTest-Pool-3-5ce1",
+        "vmSize": "Standard_A1_v2",
+        "virtualMachineConfiguration": {
+          "nodeAgentSKUId": "batch.node.windows amd64",
+          "imageReference": {
+            "publisher": "microsoftwindowsserver",
+            "offer": "windowsserver",
+            "sku": "2022-datacenter"
+          }
         }
       },
       "StatusCode": 201,
       "ResponseHeaders": {
-        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-3-50e5",
+        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-3-5ce1",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 07:16:03 GMT",
-        "ETag": "0x8DC0DBE2D91510E",
-        "Last-Modified": "Fri, 05 Jan 2024 07:16:03 GMT",
-        "Location": "https://endpoint/pools/JSSDKTest-Pool-3-50e5",
-        "request-id": "c7f7cb53-4d5c-4956-888f-d6cc635d0884",
+        "Date": "Wed, 10 Apr 2024 00:18:18 GMT",
+        "ETag": "0x8DC58F3B94D6A3E",
+        "Last-Modified": "Wed, 10 Apr 2024 00:18:18 GMT",
+        "Location": "https://endpoint/pools/JSSDKTest-Pool-3-5ce1",
+        "request-id": "24ff4a8e-2dd3-4fd5-8e30-daec67a85ad1",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -47,6 +52,6 @@
     }
   ],
   "Variables": {
-    "TEST_POOL3": "JSSDKTest-Pool-3-50e5"
+    "TEST_POOL3": "JSSDKTest-Pool-3-5ce1"
   }
 }

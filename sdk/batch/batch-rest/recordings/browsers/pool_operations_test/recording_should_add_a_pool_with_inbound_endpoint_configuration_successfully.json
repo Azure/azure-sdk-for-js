@@ -5,25 +5,25 @@
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "en-US,en;q=0.9",
         "Authorization": "Sanitized",
-        "client-request-id": "cf5cb0ca-2770-414c-a239-7b18c71cb7a2",
+        "client-request-id": "0a606a16-ece5-405e-9fad-d2123bfea50f",
         "Connection": "keep-alive",
         "Content-Length": "535",
         "Content-Type": "application/json; odata=minimalmetadata",
         "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "\u0022Not:A-Brand\u0022;v=\u002299\u0022, \u0022Chromium\u0022;v=\u0022112\u0022",
+        "sec-ch-ua": "\u0022Chromium\u0022;v=\u0022123\u0022, \u0022Not:A-Brand\u0022;v=\u00228\u0022",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022Windows\u0022",
+        "sec-ch-ua-platform": "\u0022macOS\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
-        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 OS/Windows"
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 OS/macOS"
       },
       "RequestBody": {
-        "id": "JSSDKTest-Pool-Endpoint-e07c",
+        "id": "JSSDKTest-Pool-Endpoint-4168",
         "vmSize": "Standard_A1_v2",
         "networkConfiguration": {
           "endpointConfiguration": {
@@ -57,13 +57,13 @@
       },
       "StatusCode": 201,
       "ResponseHeaders": {
-        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-e07c",
+        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-4168",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 07:13:36 GMT",
-        "ETag": "0x8DC0DBDD5D0D690",
-        "Last-Modified": "Fri, 05 Jan 2024 07:13:36 GMT",
-        "Location": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-e07c",
-        "request-id": "1e6e752d-c3dc-4239-a41f-a3867211a73d",
+        "Date": "Wed, 10 Apr 2024 00:16:02 GMT",
+        "ETag": "0x8DC58F3681E649E",
+        "Last-Modified": "Wed, 10 Apr 2024 00:16:02 GMT",
+        "Location": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-4168",
+        "request-id": "82da1e68-241e-4d0c-b7eb-d85fd2dafbc8",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -73,6 +73,6 @@
     }
   ],
   "Variables": {
-    "ENDPOINT_POOL": "JSSDKTest-Pool-Endpoint-e07c"
+    "ENDPOINT_POOL": "JSSDKTest-Pool-Endpoint-4168"
   }
 }

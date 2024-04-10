@@ -36,7 +36,7 @@
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:samples": "echo skipped.",
-    "build:test": "tsc -p . && dev-tool run bundle",
+    "build:test": "tsc -p . && dev-tool run bundle --browser-test=true",
     "build:debug": "tsc -p . && dev-tool run bundle && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"  \"test/**/*.ts\"",
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
@@ -115,6 +115,7 @@
     ]
   },
   "browser": {
-    "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
+    "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js",
+    "./dist-esm/src/credentials/batchSharedKeyCredentials.js": "./dist-esm/src/credentials/batchSharedKeyCredentials.browser.js"
   }
 }

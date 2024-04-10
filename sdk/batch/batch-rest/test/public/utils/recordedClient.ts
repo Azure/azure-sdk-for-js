@@ -3,7 +3,7 @@
 
 import { Context } from "mocha";
 import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder";
-import { ClientOptions } from "@azure-rest/core-client";
+import { ClientOptions} from "@azure-rest/core-client";
 // import { createTestCredential } from "@azure-tools/test-credential";
 import BatchServiceClient, { BatchClient } from "../../../src";
 import {
@@ -11,7 +11,9 @@ import {
   fakeAzureBatchAccount,
   fakeAzureBatchEndpoint,
 } from "./fakeTestSecrets";
-import { DefaultAzureCredential } from "@azure/identity";
+import { AzureCliCredential, InteractiveBrowserCredential } from "@azure/identity";
+import { isNode } from "@azure/test-utils";
+
 
 const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback: {
@@ -64,10 +66,10 @@ export function createBatchClient(
   recorder?: Recorder,
   options: ClientOptions = {}
 ): BatchClient {
-  // let credential;
+  let credential;
   switch (authMethod) {
     case "AAD": {
-      // credential = createTestCredential();
+      credential = isNode? new AzureCliCredential();
       break;
     }
     // case "DummyAPIKey": {
@@ -85,7 +87,13 @@ export function createBatchClient(
 
   return BatchServiceClient(
     env.AZURE_BATCH_ENDPOINT! || "https://dummy.eastus.batch.azure.com",
-    new DefaultAzureCredential(),
+    new InteractiveBrowserCredential({
+      clientId: "04b07795-8ddb-461a-bbee-02f9e1bf7b46",
+      tokenCachePersistenceOptions: {
+        enabled: true,
+        name: "batch-test-cache",
+      },
+    }),
     recorder ? recorder.configureClientOptions({ ...options }) : options
   );
 }

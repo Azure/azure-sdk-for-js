@@ -79,12 +79,12 @@ describe("Compute node operations", async () => {
     }
   });
 
-  beforeEach(async function (this: Context) {
+  before(async function (this: Context) {
     recorder = await createRecorder(this);
     batchClient = createBatchClient("AAD", recorder);
   });
 
-  afterEach(async function () {
+  after(async function () {
     await recorder.stop();
   });
 

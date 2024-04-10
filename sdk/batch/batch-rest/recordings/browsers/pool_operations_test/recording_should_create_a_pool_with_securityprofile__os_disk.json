@@ -8,9 +8,9 @@
         "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "en-US,en;q=0.9",
         "Authorization": "Sanitized",
-        "client-request-id": "1185005d-a387-4961-8c37-ed6e2e03f904",
+        "client-request-id": "9f5e3162-e9ed-46dc-bf08-e294ecfcb4f8",
         "Connection": "keep-alive",
-        "Content-Length": "287",
+        "Content-Length": "539",
         "Content-Type": "application/json; odata=minimalmetadata",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "\u0022Chromium\u0022;v=\u0022123\u0022, \u0022Not:A-Brand\u0022;v=\u00228\u0022",
@@ -23,33 +23,43 @@
         "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 OS/macOS"
       },
       "RequestBody": {
-        "id": "JSSDKTest-Pool-Datadisk-d588",
-        "vmSize": "Standard_A1_v2",
+        "id": "JSSDKTest-Pool-SecurityProfile-c4a9",
+        "vmSize": "Standard_D2s_v3",
         "virtualMachineConfiguration": {
           "imageReference": {
             "publisher": "Canonical",
-            "offer": "UbuntuServer",
-            "sku": "18.04-LTS"
+            "offer": "0001-com-ubuntu-server-jammy",
+            "sku": "22_04-lts"
           },
-          "nodeAgentSKUId": "batch.node.ubuntu 18.04",
-          "dataDisks": [
-            {
-              "lun": 1,
-              "diskSizeGB": 50
+          "nodeAgentSKUId": "batch.node.ubuntu 22.04",
+          "securityProfile": {
+            "securityType": "trustedLaunch",
+            "encryptionAtHost": true,
+            "uefiSettings": {
+              "secureBootEnabled": true,
+              "vTpmEnabled": true
             }
-          ]
+          },
+          "osDisk": {
+            "caching": "readwrite",
+            "managedDisk": {
+              "storageAccountType": "standard_lrs"
+            },
+            "diskSizeGB": 50,
+            "writeAcceleratorEnabled": true
+          }
         },
         "targetDedicatedNodes": 0
       },
       "StatusCode": 201,
       "ResponseHeaders": {
-        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-Datadisk-d588",
+        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-SecurityProfile-c4a9",
         "DataServiceVersion": "3.0",
-        "Date": "Wed, 10 Apr 2024 00:15:46 GMT",
-        "ETag": "0x8DC58F35E931D61",
-        "Last-Modified": "Wed, 10 Apr 2024 00:15:46 GMT",
-        "Location": "https://endpoint/pools/JSSDKTest-Pool-Datadisk-d588",
-        "request-id": "7cad145f-b730-41e8-90ca-b869b4db74ac",
+        "Date": "Wed, 10 Apr 2024 00:18:35 GMT",
+        "ETag": "0x8DC58F3C365C03E",
+        "Last-Modified": "Wed, 10 Apr 2024 00:18:35 GMT",
+        "Location": "https://endpoint/pools/JSSDKTest-Pool-SecurityProfile-c4a9",
+        "request-id": "fd0d5458-17e7-4729-b310-c0969789ded8",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -58,14 +68,14 @@
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Datadisk-d588?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-SecurityProfile-c4a9?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "en-US,en;q=0.9",
         "Authorization": "Sanitized",
-        "client-request-id": "cc04f388-54b3-45e1-9b55-97b4cdaf9f53",
+        "client-request-id": "7f792427-ab35-427a-b181-eb3f67b7da3d",
         "Connection": "keep-alive",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "\u0022Chromium\u0022;v=\u0022123\u0022, \u0022Not:A-Brand\u0022;v=\u00228\u0022",
@@ -82,10 +92,10 @@
       "ResponseHeaders": {
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Wed, 10 Apr 2024 00:16:01 GMT",
-        "ETag": "0x8DC58F35E931D61",
-        "Last-Modified": "Wed, 10 Apr 2024 00:15:46 GMT",
-        "request-id": "3e9e85a4-a958-4aa2-8c6c-cf0c0ee0992a",
+        "Date": "Wed, 10 Apr 2024 00:18:35 GMT",
+        "ETag": "0x8DC58F3C365C03E",
+        "Last-Modified": "Wed, 10 Apr 2024 00:18:35 GMT",
+        "request-id": "186c2a43-ebb6-4577-b059-039db37bf5d0",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -93,16 +103,16 @@
       },
       "ResponseBody": {
         "odata.metadata": "https://endpoint/$metadata#pools/@Element",
-        "id": "JSSDKTest-Pool-Datadisk-d588",
-        "url": "https://endpoint/pools/JSSDKTest-Pool-Datadisk-d588",
-        "eTag": "0x8DC58F35E931D61",
-        "lastModified": "2024-04-10T00:15:46.6764641Z",
-        "creationTime": "2024-04-10T00:15:46.6764627Z",
+        "id": "JSSDKTest-Pool-SecurityProfile-c4a9",
+        "url": "https://endpoint/pools/JSSDKTest-Pool-SecurityProfile-c4a9",
+        "eTag": "0x8DC58F3C365C03E",
+        "lastModified": "2024-04-10T00:18:35.8290494Z",
+        "creationTime": "2024-04-10T00:18:35.8290475Z",
         "state": "active",
-        "stateTransitionTime": "2024-04-10T00:15:46.6764627Z",
-        "allocationState": "steady",
-        "allocationStateTransitionTime": "2024-04-10T00:15:47.9367575Z",
-        "vmSize": "standard_a1_v2",
+        "stateTransitionTime": "2024-04-10T00:18:35.8290475Z",
+        "allocationState": "resizing",
+        "allocationStateTransitionTime": "2024-04-10T00:18:35.8290494Z",
+        "vmSize": "standard_d2s_v3",
         "resizeTimeout": "PT15M",
         "currentDedicatedNodes": 0,
         "targetDedicatedNodes": 0,
@@ -117,31 +127,40 @@
         "virtualMachineConfiguration": {
           "imageReference": {
             "publisher": "Canonical",
-            "offer": "UbuntuServer",
-            "sku": "18.04-LTS",
+            "offer": "0001-com-ubuntu-server-jammy",
+            "sku": "22_04-lts",
             "version": "latest"
           },
-          "nodeAgentSKUId": "batch.node.ubuntu 18.04",
-          "dataDisks": [
-            {
-              "lun": 1,
-              "caching": "none",
-              "diskSizeGB": 50,
+          "osDisk": {
+            "ephemeralOSDiskSettings": {},
+            "managedDisk": {
               "storageAccountType": "standard_lrs"
+            },
+            "diskSizeGB": 50,
+            "writeAcceleratorEnabled": true,
+            "caching": "ReadWrite"
+          },
+          "nodeAgentSKUId": "batch.node.ubuntu 22.04",
+          "securityProfile": {
+            "securityType": "trustedlaunch",
+            "encryptionAtHost": true,
+            "uefiSettings": {
+              "secureBootEnabled": true,
+              "vTpmEnabled": true
             }
-          ]
+          }
         }
       }
     },
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Datadisk-d588?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-SecurityProfile-c4a9?api-version=2024-02-01.19.0",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "en-US,en;q=0.9",
         "Authorization": "Sanitized",
-        "client-request-id": "cde521f4-ae98-4f15-8e41-80720b54f5f7",
+        "client-request-id": "b8d6246e-661b-40bf-979a-6cfa8765ae76",
         "Connection": "keep-alive",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "\u0022Chromium\u0022;v=\u0022123\u0022, \u0022Not:A-Brand\u0022;v=\u00228\u0022",
@@ -157,8 +176,8 @@
       "StatusCode": 202,
       "ResponseHeaders": {
         "DataServiceVersion": "3.0",
-        "Date": "Wed, 10 Apr 2024 00:16:01 GMT",
-        "request-id": "b30b319a-2158-475d-a3e4-573e3029c4e0",
+        "Date": "Wed, 10 Apr 2024 00:18:37 GMT",
+        "request-id": "cdd9fd22-a5fa-4bfb-9a64-966aa100895b",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -168,6 +187,6 @@
     }
   ],
   "Variables": {
-    "DISK_POOL": "JSSDKTest-Pool-Datadisk-d588"
+    "SECURITY_PROFILE_POOL": "JSSDKTest-Pool-SecurityProfile-c4a9"
   }
 }

@@ -1,32 +1,32 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-e07c/nodes?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-4168/nodes?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "en-US,en;q=0.9",
         "Authorization": "Sanitized",
-        "client-request-id": "23afa610-6fa3-4fa8-b50d-6af042c94b2d",
+        "client-request-id": "23d2687b-6b2a-40bb-8bac-8e6030a9b57f",
         "Connection": "keep-alive",
         "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "\u0022Not:A-Brand\u0022;v=\u002299\u0022, \u0022Chromium\u0022;v=\u0022112\u0022",
+        "sec-ch-ua": "\u0022Chromium\u0022;v=\u0022123\u0022, \u0022Not:A-Brand\u0022;v=\u00228\u0022",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022Windows\u0022",
+        "sec-ch-ua-platform": "\u0022macOS\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
-        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 OS/Windows"
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 OS/macOS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 07:13:36 GMT",
-        "request-id": "5bd5c258-1818-4220-a135-7d0b943c1859",
+        "Date": "Wed, 10 Apr 2024 00:16:02 GMT",
+        "request-id": "46026796-8dd7-4372-a5a7-02d016b27dfa",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -38,32 +38,32 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-e07c/nodes?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-4168/nodes?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "en-US,en;q=0.9",
         "Authorization": "Sanitized",
-        "client-request-id": "ef01f438-445e-4143-a9e3-f40cb28bf8a3",
+        "client-request-id": "f809ad3a-b3f7-48db-98c9-918c619c7a31",
         "Connection": "keep-alive",
         "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "\u0022Not:A-Brand\u0022;v=\u002299\u0022, \u0022Chromium\u0022;v=\u0022112\u0022",
+        "sec-ch-ua": "\u0022Chromium\u0022;v=\u0022123\u0022, \u0022Not:A-Brand\u0022;v=\u00228\u0022",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022Windows\u0022",
+        "sec-ch-ua-platform": "\u0022macOS\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
-        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 OS/Windows"
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 OS/macOS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 07:13:47 GMT",
-        "request-id": "5c8d2ec8-8d4c-4b98-8561-3c86aeaa1883",
+        "Date": "Wed, 10 Apr 2024 00:16:18 GMT",
+        "request-id": "a2b38e54-4e65-4a43-a675-665db3a9b7af",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -75,217 +75,32 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-e07c/nodes?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-4168/nodes?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "en-US,en;q=0.9",
         "Authorization": "Sanitized",
-        "client-request-id": "97aba2b2-ea96-43b1-bdc8-22c24c13a854",
+        "client-request-id": "9a4c776a-bd16-4916-b226-3bc021234ada",
         "Connection": "keep-alive",
         "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "\u0022Not:A-Brand\u0022;v=\u002299\u0022, \u0022Chromium\u0022;v=\u0022112\u0022",
+        "sec-ch-ua": "\u0022Chromium\u0022;v=\u0022123\u0022, \u0022Not:A-Brand\u0022;v=\u00228\u0022",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022Windows\u0022",
+        "sec-ch-ua-platform": "\u0022macOS\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
-        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 OS/Windows"
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 OS/macOS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 07:13:57 GMT",
-        "request-id": "789c4631-ea66-4f79-9991-8ee4cebda028",
-        "Server": "Microsoft-HTTPAPI/2.0",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "X-Content-Type-Options": "nosniff"
-      },
-      "ResponseBody": {
-        "odata.metadata": "https://endpoint/$metadata#nodes",
-        "value": []
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-e07c/nodes?api-version=2024-02-01.19.0",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US,en;q=0.9",
-        "Authorization": "Sanitized",
-        "client-request-id": "8238014c-aafb-4c8c-a3c6-9409856ff9b1",
-        "Connection": "keep-alive",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "\u0022Not:A-Brand\u0022;v=\u002299\u0022, \u0022Chromium\u0022;v=\u0022112\u0022",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022Windows\u0022",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
-        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 OS/Windows"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "Content-Type": "application/json; odata=minimalmetadata",
-        "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 07:14:06 GMT",
-        "request-id": "f62c9a83-4287-4151-b829-65a4410aa2f5",
-        "Server": "Microsoft-HTTPAPI/2.0",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "X-Content-Type-Options": "nosniff"
-      },
-      "ResponseBody": {
-        "odata.metadata": "https://endpoint/$metadata#nodes",
-        "value": []
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-e07c/nodes?api-version=2024-02-01.19.0",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US,en;q=0.9",
-        "Authorization": "Sanitized",
-        "client-request-id": "6010e569-745f-416d-b839-e29deb80391e",
-        "Connection": "keep-alive",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "\u0022Not:A-Brand\u0022;v=\u002299\u0022, \u0022Chromium\u0022;v=\u0022112\u0022",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022Windows\u0022",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
-        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 OS/Windows"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "Content-Type": "application/json; odata=minimalmetadata",
-        "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 07:14:17 GMT",
-        "request-id": "9dded88a-4a97-4087-8af2-83aa0768886d",
-        "Server": "Microsoft-HTTPAPI/2.0",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "X-Content-Type-Options": "nosniff"
-      },
-      "ResponseBody": {
-        "odata.metadata": "https://endpoint/$metadata#nodes",
-        "value": []
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-e07c/nodes?api-version=2024-02-01.19.0",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US,en;q=0.9",
-        "Authorization": "Sanitized",
-        "client-request-id": "0127c0c7-21ea-411d-ab0e-d5a6197b602d",
-        "Connection": "keep-alive",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "\u0022Not:A-Brand\u0022;v=\u002299\u0022, \u0022Chromium\u0022;v=\u0022112\u0022",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022Windows\u0022",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
-        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 OS/Windows"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "Content-Type": "application/json; odata=minimalmetadata",
-        "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 07:14:27 GMT",
-        "request-id": "484b9f05-85f7-4aa8-b576-a4330c96f50c",
-        "Server": "Microsoft-HTTPAPI/2.0",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "X-Content-Type-Options": "nosniff"
-      },
-      "ResponseBody": {
-        "odata.metadata": "https://endpoint/$metadata#nodes",
-        "value": []
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-e07c/nodes?api-version=2024-02-01.19.0",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US,en;q=0.9",
-        "Authorization": "Sanitized",
-        "client-request-id": "c3f55e7e-16fc-44a9-8dbf-041fa5da2f38",
-        "Connection": "keep-alive",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "\u0022Not:A-Brand\u0022;v=\u002299\u0022, \u0022Chromium\u0022;v=\u0022112\u0022",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022Windows\u0022",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
-        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 OS/Windows"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "Content-Type": "application/json; odata=minimalmetadata",
-        "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 07:14:37 GMT",
-        "request-id": "a729e34e-1baf-4aa1-a371-c034e4c823e6",
-        "Server": "Microsoft-HTTPAPI/2.0",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "X-Content-Type-Options": "nosniff"
-      },
-      "ResponseBody": {
-        "odata.metadata": "https://endpoint/$metadata#nodes",
-        "value": []
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-e07c/nodes?api-version=2024-02-01.19.0",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US,en;q=0.9",
-        "Authorization": "Sanitized",
-        "client-request-id": "52940996-c9b0-42cd-be36-25fedb3c32bc",
-        "Connection": "keep-alive",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "\u0022Not:A-Brand\u0022;v=\u002299\u0022, \u0022Chromium\u0022;v=\u0022112\u0022",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022Windows\u0022",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
-        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 OS/Windows"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "Content-Type": "application/json; odata=minimalmetadata",
-        "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 07:14:47 GMT",
-        "request-id": "34c67951-5bed-4a0a-b8f1-3e5b176a38e5",
+        "Date": "Wed, 10 Apr 2024 00:16:39 GMT",
+        "request-id": "f1398806-b31e-4b65-8def-b281831f6530",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -295,14 +110,14 @@
         "odata.metadata": "https://endpoint/$metadata#nodes",
         "value": [
           {
-            "id": "tvmps_32b47abf605cb9dc9fcc7ae54a83d29ec772464ba193f67dce6aa2dec74371ca_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-e07c/nodes/tvmps_32b47abf605cb9dc9fcc7ae54a83d29ec772464ba193f67dce6aa2dec74371ca_d",
-            "state": "creating",
+            "id": "tvmps_201cf613e9d4fba3c87847c31632ff85e1a080bd267dd63f433d0a2f643d2754_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-4168/nodes/tvmps_201cf613e9d4fba3c87847c31632ff85e1a080bd267dd63f433d0a2f643d2754_d",
+            "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T07:14:38.3755575Z",
-            "allocationTime": "2024-01-05T07:14:38.3755575Z",
+            "stateTransitionTime": "2024-04-10T00:16:39.8405988Z",
+            "allocationTime": "2024-04-10T00:16:29.5331886Z",
             "ipAddress": "10.0.0.4",
-            "affinityId": "TVM:tvmps_32b47abf605cb9dc9fcc7ae54a83d29ec772464ba193f67dce6aa2dec74371ca_d",
+            "affinityId": "TVM:tvmps_201cf613e9d4fba3c87847c31632ff85e1a080bd267dd63f433d0a2f643d2754_d",
             "vmSize": "standard_a1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -314,16 +129,16 @@
                 {
                   "name": "TestEndpointConfig.0",
                   "protocol": "udp",
-                  "publicIPAddress": "20.255.195.239",
-                  "publicFQDN": "dns32010d88-365f-41bc-b74e-dcdfca8d9da8-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "publicIPAddress": "20.255.45.81",
+                  "publicFQDN": "dnsfb11e003-bcc0-4639-954c-e2d9a4635910-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
                   "frontendPort": 60000,
                   "backendPort": 64444
                 },
                 {
                   "name": "SSHRule.0",
                   "protocol": "tcp",
-                  "publicIPAddress": "20.255.195.239",
-                  "publicFQDN": "dns32010d88-365f-41bc-b74e-dcdfca8d9da8-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "publicIPAddress": "20.255.45.81",
+                  "publicFQDN": "dnsfb11e003-bcc0-4639-954c-e2d9a4635910-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
                   "frontendPort": 50000,
                   "backendPort": 22
                 }
@@ -335,7 +150,7 @@
                 "offer": "UbuntuServer",
                 "sku": "18.04-LTS",
                 "version": "latest",
-                "exactVersion": "18.04.202306070"
+                "exactVersion": "18.04.202401161"
               }
             }
           }
@@ -344,6 +159,6 @@
     }
   ],
   "Variables": {
-    "ENDPOINT_POOL": "JSSDKTest-Pool-Endpoint-e07c"
+    "ENDPOINT_POOL": "JSSDKTest-Pool-Endpoint-4168"
   }
 }
