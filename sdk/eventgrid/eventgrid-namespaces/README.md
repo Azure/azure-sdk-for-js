@@ -1,20 +1,16 @@
-# Azure Event Grid client library for JavaScript
+# Azure Event Grid Namespaces client library for JavaScript
 
 [Azure Event Grid](https://azure.microsoft.com/services/event-grid/) is a cloud-based service that provides reliable event delivery at massive scale.
 
-Use the client library to:
-
-- Send events to Event Grid using either the Event Grid, Cloud Events 1.0 schemas, or a custom schema
-- Decode and process events which were delivered to an Event Grid handler
-- Generate Shared Access Signatures for Event Grid topics
+Use the client library to Send events to Event Grid Namespaces 
 
 Key links:
 
-- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid/)
-- [Package (NPM)](https://www.npmjs.com/package/@azure/eventgrid)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/eventgrid/)
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid-namespaces/)
+- [Package (NPM)](https://www.npmjs.com/package/@azure/eventgrid-namespaces)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/eventgrid-namespaces/)
 - [Product documentation](https://docs.microsoft.com/azure/event-grid/)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/eventgrid/samples)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/eventgrid-namespaces/samples)
 
 ## Getting started
 
@@ -44,17 +40,17 @@ az eventgrid topic create --location <location> --resource-group <your-resource-
 az eventgrid domain create --location <location> --resource-group <your-resource-group-name> --name <your-resource-name>
 ```
 
-### Install the `@azure/eventgrid` package
+### Install the `@azure/eventgrid-namespaces` package
 
 Install the Azure Event Grid client library for JavaScript with `npm`:
 
 ```bash
-npm install @azure/eventgrid
+npm install @azure/eventgrid-namespaces
 ```
 
-### Create and authenticate a `EventGridPublisherClient`
+### Create and authenticate a `EventGridNamespacesClient`
 
-To create a client object to access the Event Grid API, you will need the `endpoint` of your Event Grid topic and a `credential`. The Event Grid client can use either an Access Key or Shared Access Signature (SAS) created from an access key.
+To create a client object to access the Event Grid Namespaces API, you will need the `endpoint` of your Event Grid topic and a `credential`. The Event Grid client can use an Access Key.
 
 You can find the endpoint for your Event Grid topic either in the [Azure Portal][azure_portal] or by using the [Azure CLI][azure_cli] snippet below:
 
@@ -73,42 +69,13 @@ az eventgrid topic key list --resource-group <your-resource-group-name> --name <
 Once you have an API key and endpoint, you can use the `AzureKeyCredential` class to authenticate the client as follows:
 
 ```js
-const { EventGridPublisherClient, AzureKeyCredential } = require("@azure/eventgrid");
+const { EventGridNamespacesClient, AzureKeyCredential } = require("@azure/eventgrid-namespaces");
 
-const client = new EventGridPublisherClient(
+const client = new EventGridNamespacesClient(
   "<endpoint>",
-  "<endpoint schema>",
   new AzureKeyCredential("<Access Key>")
 );
 ```
-
-#### Using a SAS Token
-
-Like an access key, a SAS token allows access to sending events to an Event Grid topic. Unlike an access key, which can be used until it is regenerated, a SAS token has an experation time, at which point it is no longer valid. To use a SAS token for authentication, use the `AzureSASCredential` as follows:
-
-```js
-const { EventGridPublisherClient, AzureSASCredential } = require("@azure/eventgrid");
-
-const client = new EventGridPublisherClient(
-  "<endpoint>",
-  "<endpoint schema>",
-  new AzureSASCredential("<SAS Token>")
-);
-```
-
-You can generate a SAS token by using the `generateSharedAccessSigniture` function.
-
-```js
-const { generateSharedAccessSignature, AzureKeyCredential } = require("@azure/eventgrid");
-
-// Create a SAS Token which expires on 2020-01-01 at Midnight.
-const token = generateSharedAccessSignature(
-  "<endpoint>",
-  new AzureKeyCredential("<API key>"),
-  new Date("2020-01-01T00:00:00")
-);
-```
-
 #### Using Azure Active Directory (AAD)
 
 Azure EventGrid provides integration with Azure Active Directory (Azure AD) for identity-based authentication of requests. With Azure AD, you can use role-based access control (RBAC) to grant access to your Azure Event Grid resources to users, groups, or applications.
@@ -120,76 +87,27 @@ With the `@azure/identity` package, you can seamlessly authorize requests in bot
 For example, use can use `DefaultAzureCredential` to construct a client which will authenticate using Azure Active Directory:
 
 ```js
-const { EventGridPublisherClient } = require("@azure/eventgrid");
+const { EventGridNamespacesClient } = require("@azure/eventgrid-namespaces");
 const { DefaultAzureCredential } = require("@azure/identity");
 
-const client = new EventGridPublisherClient(
+const client = new EventGridNamespacesClient(
   "<endpoint>",
-  "<endpoint schema>",
   new DefaultAzureCredential()
 );
 ```
 
 ## Key concepts
 
-### EventGridPublisherClient
+### EventGridNamespacesClient
 
-`EventGridPublisherClient` is used sending events to an Event Grid Topic or an Event Grid Domain.
-
-### Event Schemas
-
-Event Grid supports multiple schemas for encoding events. When a Custom Topic or Domain is created, you specify the schema that will be used when publishing events. While you may configure your topic to use a _custom schema_ it is more common to use the already defined _Event Grid schema_ or _CloudEvents 1.0 schema_. [CloudEvents](https://cloudevents.io/) is a Cloud Native Computing Foundation project which produces a specification for describing event data in a common way. When you construct the EventGridPublisherClient you must specify which schema your topic is configured to use:
-
-If your topic is configured to use the Event Grid Schema, set "EventGrid" as the schema type:
+`EventGridNamespacesClient` is used sending events to an Event Grid. You can initialize it as:
 
 ```js
-const client = new EventGridPublisherClient(
+const client = new EventGridNamespacesClient(
   "<endpoint>",
-  "EventGrid",
   new AzureKeyCredential("<API Key>")
 );
 ```
-
-If your topic is configured to use the Cloud Event Schema, set "CloudEvent" as the schema type:
-
-```js
-const client = new EventGridPublisherClient(
-  "<endpoint>",
-  "CloudEvent",
-  new AzureKeyCredential("<API Key>")
-);
-```
-
-If your topic is configured to use a Custom Event Schema, set "Custom" as the schema type:
-
-```js
-const client = new EventGridPublisherClient(
-  "<endpoint>",
-  "Custom",
-  new AzureKeyCredential("<API Key>")
-);
-```
-
-Constructing the client with a different schema than what the topic is configured to expect will result in an error from the service and your events will not be published.
-
-You can see what input schema has been configured for an Event Grid topic by using the [Azure CLI][azure_cli] snippet below:
-
-```bash
-az eventgrid topic show --name <your-resource-name> --resource-group <your-resource-group-name> --query "inputSchema"
-```
-
-### EventGridDeserializer
-
-Events delivered to consumers by Event Grid are delivered as JSON. Depending on the type of consumer being delivered to, the Event Grid service may deliver one or more events as part of a single payload. While these events may be deserialized using normal JavaScript methods like `JSON.parse`, this library offers a helper type for deserializing events, called `EventGridDeserializer`.
-
-Compared with using `JSON.parse` directly, `EventGridDeserializer` does some additional conversions while deserializng events:
-
-1. `EventGridDeserializer` validates that the required properties of an event are present and are the right types.
-2. `EventGridDeserializer` converts the event time property into a JavaScript `Date` object.
-3. When using Cloud Events, binary data may be used for an event's data property (by using `Uint8Array`). When the event is sent through Event Grid, it is encoded in Base 64. `EventGridDeserializer` will decode this data back into an instance of `Uint8Array`.
-4. When deserilizing a _System Event_ (an event generated by another Azure service), `EventGridDeserializer` will do additional conversions so that the `data` object matches the corresponding interface which describes its data. When using TypeScript, these interfaces ensure you have strong typing when access properties of the data object for a system event.
-
-When creating an instance of `EventGridDeserializer` you may supply custom deserializers that are used to further convert the `data` object.
 
 ### Distributed Tracing and Cloud Events
 
@@ -201,89 +119,28 @@ This library has been tested and validated on [Kubernetes using Azure Arc][event
 
 ## Examples
 
-### Publish a Custom Event to an Event Grid Topic using the Event Grid Schema
+### Publish an Event to an Event Grid Topic
 
 ```js
-const { EventGridPublisherClient, AzureKeyCredential } = require("@azure/eventgrid");
+const { EventGridNamespacesClient, AzureKeyCredential } = require("@azure/eventgrid-namespaces");
 
-const client = new EventGridPublisherClient(
+const client = new EventGridNamespacesClient(
   "<endpoint>",
-  "EventGrid",
   new AzureKeyCredential("<API key>")
 );
 
-await client.send([
-  {
-    eventType: "Azure.Sdk.SampleEvent",
-    subject: "Event Subject",
-    dataVersion: "1.0",
-    data: {
-      hello: "world",
-    },
+const cloudEvent: CloudEvent = {
+  type: "example",
+  source: "https://example.com",
+  id: `singleEventIdV210001`,
+  time: new Date(),
+  data: {
+    resourceUri: "https://dummyurl.com",
   },
-]);
-```
-
-### Publish a Custom Event to a Topic in an Event Grid Domain using the Event Grid Schema
-
-Publishing events to an Event Grid Domain is similar to publish to an Event Grid Topic, except that when using the Event Grid schema for events, you must include the `topic` property. When publishing events in the Cloud Events 1.0 schema, the required `source` property is used as the name of the topic in the domain to publish to:
-
-```js
-const { EventGridPublisherClient, AzureKeyCredential } = require("@azure/eventgrid");
-
-const client = new EventGridPublisherClient(
-  "<endpoint>",
-  "EventGrid",
-  new AzureKeyCredential("<API key>")
-);
-
-await client.send([
-  {
-    topic: "my-sample-topic",
-    eventType: "Azure.Sdk.SampleEvent",
-    subject: "Event Subject",
-    dataVersion: "1.0",
-    data: {
-      hello: "world",
-    },
-  },
-]);
-```
-
-### Deserializing an Event
-
-`EventGridDeserializer` can be used to deserialize events delivered by Event Grid. In this example we have a cloud event that is deserialized using `EventGridDeserializer` and use `isSystemEvent` to detect what type of events they are.
-
-```js
-const { EventGridDeserializer, isSystemEvent } = require("@azure/eventgrid");
-
-async function main() {
-  const deserializer = new EventGridDeserializer();
-  const message = {
-    id: "5bc888aa-c2f4-11ea-b3de-0242ac130004",
-    source:
-      "/subscriptions/<subscriptionid>/resourceGroups/dummy-rg/providers/Microsoft.EventGrid/topics/dummy-topic",
-    specversion: "1.0",
-    type: "Microsoft.ContainerRegistry.ImagePushed",
-    subject: "Test Subject",
-    time: "2020-07-10T21:27:12.925Z",
-    data: {
-      hello: "world",
-    },
-  };
-  const deserializedMessage = await deserializer.deserializeCloudEvents(message);
-  console.log(deserializedMessage);
-
-  if (
-    deserializedMessage != null &&
-    deserializedMessage.length !== 0 &&
-    isSystemEvent("Microsoft.ContainerRegistry.ImagePushed", deserializedMessage[0])
-  ) {
-    console.log("This is a Microsoft.ContainerRegistry.ImagePushed event");
-  }
-}
-
-main();
+  specversion: "1.0",
+};
+// Publish the Cloud Event
+await client.publishCloudEvent(cloudEvent, topicName);
 ```
 
 ## Troubleshooting
@@ -303,7 +160,7 @@ For more detailed instructions on how to enable the logs, you can look at the [@
 ## Next steps
 
 Please take a look at the
-[samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/eventgrid/samples)
+[samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/eventgrid-namespaces/samples)
 directory for detailed examples on how to use this library.
 
 ## Contributing
