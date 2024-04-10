@@ -35,7 +35,7 @@ export async function main(): Promise<void> {
   // Receive the Published Cloud Event
   const receiveResult: ReceiveResult = await client.receiveCloudEvents(
     topicName,
-    eventSubscripionName,
+    eventSubscripionName
   );
   // The Received Cloud Event ID must be equal to the ID of the Event that was published.
   console.log(`Received Event ID: ${receiveResult.value[0].event.id}`);

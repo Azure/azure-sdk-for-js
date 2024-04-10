@@ -54,7 +54,7 @@ export class EventGridClient {
   constructor(
     endpoint: string,
     credential: KeyCredential | TokenCredential,
-    options: EventGridClientOptions = {},
+    options: EventGridClientOptions = {}
   ) {
     this._client = createEventGrid(endpoint, credential, options);
     this.pipeline = this._client.pipeline;
@@ -64,7 +64,7 @@ export class EventGridClient {
   publishCloudEvent(
     topicName: string,
     event: CloudEvent,
-    options: PublishCloudEventOptions = { requestOptions: {} },
+    options: PublishCloudEventOptions = { requestOptions: {} }
   ): Promise<PublishResult> {
     return publishCloudEvent(this._client, topicName, event, options);
   }
@@ -73,7 +73,7 @@ export class EventGridClient {
   publishCloudEvents(
     topicName: string,
     events: CloudEvent[],
-    options: PublishCloudEventsOptions = { requestOptions: {} },
+    options: PublishCloudEventsOptions = { requestOptions: {} }
   ): Promise<PublishResult> {
     return publishCloudEvents(this._client, topicName, events, options);
   }
@@ -82,7 +82,7 @@ export class EventGridClient {
   receiveCloudEvents(
     topicName: string,
     eventSubscriptionName: string,
-    options: ReceiveCloudEventsOptions = { requestOptions: {} },
+    options: ReceiveCloudEventsOptions = { requestOptions: {} }
   ): Promise<ReceiveResult> {
     return receiveCloudEvents(this._client, topicName, eventSubscriptionName, options);
   }
@@ -93,14 +93,14 @@ export class EventGridClient {
     eventSubscriptionName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     acknowledgeOptions: AcknowledgeOptions,
-    options: AcknowledgeCloudEventsOptions = { requestOptions: {} },
+    options: AcknowledgeCloudEventsOptions = { requestOptions: {} }
   ): Promise<AcknowledgeResult> {
     return acknowledgeCloudEvents(
       this._client,
       topicName,
       eventSubscriptionName,
       acknowledgeOptions,
-      options,
+      options
     );
   }
 
@@ -110,14 +110,14 @@ export class EventGridClient {
     eventSubscriptionName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     releaseOptions: ReleaseOptions,
-    options: ReleaseCloudEventsOptions = { requestOptions: {} },
+    options: ReleaseCloudEventsOptions = { requestOptions: {} }
   ): Promise<ReleaseResult> {
     return releaseCloudEvents(
       this._client,
       topicName,
       eventSubscriptionName,
       releaseOptions,
-      options,
+      options
     );
   }
 
@@ -127,14 +127,14 @@ export class EventGridClient {
     eventSubscriptionName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     rejectOptions: RejectOptions,
-    options: RejectCloudEventsOptions = { requestOptions: {} },
+    options: RejectCloudEventsOptions = { requestOptions: {} }
   ): Promise<RejectResult> {
     return rejectCloudEvents(
       this._client,
       topicName,
       eventSubscriptionName,
       rejectOptions,
-      options,
+      options
     );
   }
 
@@ -144,14 +144,14 @@ export class EventGridClient {
     eventSubscriptionName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     renewLockOptions: RenewLockOptions,
-    options: RenewCloudEventLocksOptions = { requestOptions: {} },
+    options: RenewCloudEventLocksOptions = { requestOptions: {} }
   ): Promise<RenewCloudEventLocksResult> {
     return renewCloudEventLocks(
       this._client,
       topicName,
       eventSubscriptionName,
       renewLockOptions,
-      options,
+      options
     );
   }
 }
