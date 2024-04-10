@@ -2355,56 +2355,56 @@ export interface AcsEmailEngagementTrackingReportReceivedEventData {
   engagement: AcsUserEngagement;
 }
 
-/** Advanced Message Media Content */
-export interface AcsAdvancedMessageMediaContent {
+/** Message Media Content */
+export interface AcsMessageMediaContent {
   /** The MIME type of the file this media represents */
   mimeType: string;
   /** The media identifier */
-  id: string;
+  mediaId: string;
   /** The filename of the underlying media file as specified when uploaded */
   fileName: string;
   /** The caption for the media object, if supported and provided */
   caption: string;
 }
 
-/** Advanced Message Context */
-export interface AcsAdvancedMessageContext {
+/** Message Context */
+export interface AcsMessageContext {
   /** The WhatsApp ID for the customer who replied to an inbound message. */
   from: string;
   /** The message ID for the sent message for an inbound reply */
-  id: string;
+  messageId: string;
 }
 
-/** Advanced Message Button Content */
-export interface AcsAdvancedMessageButtonContent {
+/** Message Button Content */
+export interface AcsMessageButtonContent {
   /** The Text of the button */
   text: string;
   /** The Payload of the button which was clicked by the user, setup by the business */
   payload: string;
 }
 
-/** Advanced Message Interactive Content */
-export interface AcsAdvancedMessageInteractiveContent {
+/** Message Interactive Content */
+export interface AcsMessageInteractiveContent {
   /** The Message interactive reply type */
-  type: AcsInteractiveReplyType;
+  replyKind: AcsInteractiveReplyKind;
   /** The Message Sent when a customer clicks a button */
-  buttonReply: AcsAdvancedMessageInteractiveButtonReplyContent;
+  buttonReply: AcsMessageInteractiveButtonReplyContent;
   /** The Message Sent when a customer selects an item from a list */
-  listReply: AcsAdvancedMessageInteractiveListReplyContent;
+  listReply: AcsMessageInteractiveListReplyContent;
 }
 
-/** Advanced Message Interactive button reply content for a user to business message */
-export interface AcsAdvancedMessageInteractiveButtonReplyContent {
+/** Message Interactive button reply content for a user to business message */
+export interface AcsMessageInteractiveButtonReplyContent {
   /** The ID of the button */
-  id: string;
+  buttonId: string;
   /** The title of the button */
   title: string;
 }
 
-/** Advanced Message Interactive list reply content for a user to business message */
-export interface AcsAdvancedMessageInteractiveListReplyContent {
+/** Message Interactive list reply content for a user to business message */
+export interface AcsMessageInteractiveListReplyContent {
   /** The ID of the selected list item */
-  id: string;
+  listItemId: string;
   /** The title of the selected list item */
   title: string;
   /** The sescription of the selected row */
@@ -2412,7 +2412,7 @@ export interface AcsAdvancedMessageInteractiveListReplyContent {
 }
 
 /** Schema of common properties of all chat thread events */
-export interface AcsAdvancedMessageEventData {
+export interface AcsMessageEventData {
   /** The message sender */
   from: string;
   /** The message recipient */
@@ -2420,11 +2420,11 @@ export interface AcsAdvancedMessageEventData {
   /** The time message was received */
   receivedTimestamp: string;
   /** The channel event error */
-  error: AcsAdvancedMessageChannelEventError;
+  error: AcsMessageChannelEventError;
 }
 
-/** Advanced Message Channel Event Error */
-export interface AcsAdvancedMessageChannelEventError {
+/** Message Channel Event Error */
+export interface AcsMessageChannelEventError {
   /** The channel error code */
   channelCode: string;
   /** The channel error message */
@@ -3094,29 +3094,29 @@ export type AcsSmsReceivedEventData = AcsSmsEventBase & {
 };
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.AdvancedMessageReceived event. */
-export type AcsAdvancedMessageReceivedEventData = AcsAdvancedMessageEventData & {
-  /** The The messaged received content */
+export type AcsMessageReceivedEventData = AcsMessageEventData & {
+  /** The received message content */
   content: string;
-  /** The The messaged received channel type */
-  channelType: AcsMessageChannelType;
-  /** The messaged received media content */
-  media: AcsAdvancedMessageMediaContent;
-  /** The The messaged received context */
-  context: AcsAdvancedMessageContext;
-  /** The The messaged received button content */
-  button: AcsAdvancedMessageButtonContent;
-  /** The The messaged received interactive content */
-  interactive: AcsAdvancedMessageInteractiveContent;
+  /** The received message channel Kind */
+  channelKind: AcsMessageChannelKind;
+  /** The received message media content */
+  mediaContent: AcsMessageMediaContent;
+  /** The received message context */
+  context: AcsMessageContext;
+  /** The received message button content */
+  button: AcsMessageButtonContent;
+  /** The received message interactive content */
+  interactiveContent: AcsMessageInteractiveContent;
 };
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.AdvancedMessageDeliveryStatusUpdated event. */
-export type AcsAdvancedMessageDeliveryStatusUpdatedEventData = AcsAdvancedMessageEventData & {
+export type AcsMessageDeliveryStatusUpdatedEventData = AcsMessageEventData & {
   /** The message id */
   messageId: string;
   /** The updated message status */
-  status: string;
+  status: AcsMessageDeliveryStatus;
   /** The updated message channel type */
-  channelType: AcsMessageChannelType;
+  channelKind: AcsMessageChannelKind;
 };
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerService.ClusterSupportEnded event */
@@ -3854,8 +3854,7 @@ export const enum KnownAcsRouterUpdatedWorkerProperty {
   QueueAssignments = "QueueAssignments",
   Labels = "Labels",
   Tags = "Tags",
-  ChannelConfigurations = "ChannelConfigurations",
-  MaxConcurrentOffers = "MaxConcurrentOffers"
+  ChannelConfigurations = "ChannelConfigurations"
 }
 
 /**
@@ -3868,8 +3867,7 @@ export const enum KnownAcsRouterUpdatedWorkerProperty {
  * **QueueAssignments** \
  * **Labels** \
  * **Tags** \
- * **ChannelConfigurations** \
- * **MaxConcurrentOffers**
+ * **ChannelConfigurations**
  */
 export type AcsRouterUpdatedWorkerProperty = string;
 
@@ -3969,23 +3967,23 @@ export const enum KnownAcsUserEngagement {
  */
 export type AcsUserEngagement = string;
 
-/** Known values of {@link AcsMessageChannelType} that the service accepts. */
-export const enum KnownAcsMessageChannelType {
-  /** Updated messaged channel type is Whatsapp */
+/** Known values of {@link AcsMessageChannelKind} that the service accepts. */
+export const enum KnownAcsMessageChannelKind {
+  /** Updated message channel type is Whatsapp */
   Whatsapp = "whatsapp"
 }
 
 /**
- * Defines values for AcsMessageChannelType. \
- * {@link KnownAcsMessageChannelType} can be used interchangeably with AcsMessageChannelType,
+ * Defines values for AcsMessageChannelKind. \
+ * {@link KnownAcsMessageChannelKind} can be used interchangeably with AcsMessageChannelKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **whatsapp**: Updated messaged channel type is Whatsapp
+ * **whatsapp**: Updated message channel type is Whatsapp
  */
-export type AcsMessageChannelType = string;
+export type AcsMessageChannelKind = string;
 
-/** Known values of {@link AcsInteractiveReplyType} that the service accepts. */
-export const enum KnownAcsInteractiveReplyType {
+/** Known values of {@link AcsInteractiveReplyKind} that the service accepts. */
+export const enum KnownAcsInteractiveReplyKind {
   /** Messaged interactive reply type is ButtonReply */
   ButtonReply = "buttonReply",
   /** Messaged interactive reply type is ListReply */
@@ -3995,15 +3993,39 @@ export const enum KnownAcsInteractiveReplyType {
 }
 
 /**
- * Defines values for AcsInteractiveReplyType. \
- * {@link KnownAcsInteractiveReplyType} can be used interchangeably with AcsInteractiveReplyType,
+ * Defines values for AcsInteractiveReplyKind. \
+ * {@link KnownAcsInteractiveReplyKind} can be used interchangeably with AcsInteractiveReplyKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **buttonReply**: Messaged interactive reply type is ButtonReply \
  * **listReply**: Messaged interactive reply type is ListReply \
  * **unknown**: Messaged interactive reply type is Unknown
  */
-export type AcsInteractiveReplyType = string;
+export type AcsInteractiveReplyKind = string;
+
+/** Known values of {@link AcsMessageDeliveryStatus} that the service accepts. */
+export const enum KnownAcsMessageDeliveryStatus {
+  Read = "read",
+  Delivered = "delivered",
+  Failed = "failed",
+  Sent = "sent",
+  Warning = "warning",
+  Unknown = "unknown"
+}
+
+/**
+ * Defines values for AcsMessageDeliveryStatus. \
+ * {@link KnownAcsMessageDeliveryStatus} can be used interchangeably with AcsMessageDeliveryStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **read** \
+ * **delivered** \
+ * **failed** \
+ * **sent** \
+ * **warning** \
+ * **unknown**
+ */
+export type AcsMessageDeliveryStatus = string;
 
 /** Known values of {@link HealthcareFhirResourceType} that the service accepts. */
 export const enum KnownHealthcareFhirResourceType {

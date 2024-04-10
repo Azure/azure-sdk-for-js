@@ -6880,10 +6880,10 @@ export const AcsEmailEngagementTrackingReportReceivedEventData: coreClient.Compo
   }
 };
 
-export const AcsAdvancedMessageMediaContent: coreClient.CompositeMapper = {
+export const AcsMessageMediaContent: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AcsAdvancedMessageMediaContent",
+    className: "AcsMessageMediaContent",
     modelProperties: {
       mimeType: {
         serializedName: "mimeType",
@@ -6892,7 +6892,7 @@ export const AcsAdvancedMessageMediaContent: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      id: {
+      mediaId: {
         serializedName: "id",
         required: true,
         type: {
@@ -6917,10 +6917,10 @@ export const AcsAdvancedMessageMediaContent: coreClient.CompositeMapper = {
   }
 };
 
-export const AcsAdvancedMessageContext: coreClient.CompositeMapper = {
+export const AcsMessageContext: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AcsAdvancedMessageContext",
+    className: "AcsMessageContext",
     modelProperties: {
       from: {
         serializedName: "from",
@@ -6929,7 +6929,7 @@ export const AcsAdvancedMessageContext: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      id: {
+      messageId: {
         serializedName: "id",
         required: true,
         type: {
@@ -6940,10 +6940,10 @@ export const AcsAdvancedMessageContext: coreClient.CompositeMapper = {
   }
 };
 
-export const AcsAdvancedMessageButtonContent: coreClient.CompositeMapper = {
+export const AcsMessageButtonContent: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AcsAdvancedMessageButtonContent",
+    className: "AcsMessageButtonContent",
     modelProperties: {
       text: {
         serializedName: "text",
@@ -6963,12 +6963,12 @@ export const AcsAdvancedMessageButtonContent: coreClient.CompositeMapper = {
   }
 };
 
-export const AcsAdvancedMessageInteractiveContent: coreClient.CompositeMapper = {
+export const AcsMessageInteractiveContent: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AcsAdvancedMessageInteractiveContent",
+    className: "AcsMessageInteractiveContent",
     modelProperties: {
-      type: {
+      replyKind: {
         serializedName: "type",
         required: true,
         type: {
@@ -6979,26 +6979,26 @@ export const AcsAdvancedMessageInteractiveContent: coreClient.CompositeMapper = 
         serializedName: "buttonReply",
         type: {
           name: "Composite",
-          className: "AcsAdvancedMessageInteractiveButtonReplyContent"
+          className: "AcsMessageInteractiveButtonReplyContent"
         }
       },
       listReply: {
         serializedName: "listReply",
         type: {
           name: "Composite",
-          className: "AcsAdvancedMessageInteractiveListReplyContent"
+          className: "AcsMessageInteractiveListReplyContent"
         }
       }
     }
   }
 };
 
-export const AcsAdvancedMessageInteractiveButtonReplyContent: coreClient.CompositeMapper = {
+export const AcsMessageInteractiveButtonReplyContent: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AcsAdvancedMessageInteractiveButtonReplyContent",
+    className: "AcsMessageInteractiveButtonReplyContent",
     modelProperties: {
-      id: {
+      buttonId: {
         serializedName: "id",
         required: true,
         type: {
@@ -7016,12 +7016,12 @@ export const AcsAdvancedMessageInteractiveButtonReplyContent: coreClient.Composi
   }
 };
 
-export const AcsAdvancedMessageInteractiveListReplyContent: coreClient.CompositeMapper = {
+export const AcsMessageInteractiveListReplyContent: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AcsAdvancedMessageInteractiveListReplyContent",
+    className: "AcsMessageInteractiveListReplyContent",
     modelProperties: {
-      id: {
+      listItemId: {
         serializedName: "id",
         required: true,
         type: {
@@ -7046,10 +7046,10 @@ export const AcsAdvancedMessageInteractiveListReplyContent: coreClient.Composite
   }
 };
 
-export const AcsAdvancedMessageEventData: coreClient.CompositeMapper = {
+export const AcsMessageEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AcsAdvancedMessageEventData",
+    className: "AcsMessageEventData",
     modelProperties: {
       from: {
         serializedName: "from",
@@ -7076,17 +7076,17 @@ export const AcsAdvancedMessageEventData: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "AcsAdvancedMessageChannelEventError"
+          className: "AcsMessageChannelEventError"
         }
       }
     }
   }
 };
 
-export const AcsAdvancedMessageChannelEventError: coreClient.CompositeMapper = {
+export const AcsMessageChannelEventError: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AcsAdvancedMessageChannelEventError",
+    className: "AcsMessageChannelEventError",
     modelProperties: {
       channelCode: {
         serializedName: "channelCode",
@@ -9155,12 +9155,12 @@ export const AcsSmsReceivedEventData: coreClient.CompositeMapper = {
   }
 };
 
-export const AcsAdvancedMessageReceivedEventData: coreClient.CompositeMapper = {
+export const AcsMessageReceivedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AcsAdvancedMessageReceivedEventData",
+    className: "AcsMessageReceivedEventData",
     modelProperties: {
-      ...AcsAdvancedMessageEventData.type.modelProperties,
+      ...AcsMessageEventData.type.modelProperties,
       content: {
         serializedName: "content",
         required: true,
@@ -9168,51 +9168,51 @@ export const AcsAdvancedMessageReceivedEventData: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      channelType: {
+      channelKind: {
         serializedName: "channelType",
         required: true,
         type: {
           name: "String"
         }
       },
-      media: {
+      mediaContent: {
         serializedName: "media",
         type: {
           name: "Composite",
-          className: "AcsAdvancedMessageMediaContent"
+          className: "AcsMessageMediaContent"
         }
       },
       context: {
         serializedName: "context",
         type: {
           name: "Composite",
-          className: "AcsAdvancedMessageContext"
+          className: "AcsMessageContext"
         }
       },
       button: {
         serializedName: "button",
         type: {
           name: "Composite",
-          className: "AcsAdvancedMessageButtonContent"
+          className: "AcsMessageButtonContent"
         }
       },
-      interactive: {
+      interactiveContent: {
         serializedName: "interactive",
         type: {
           name: "Composite",
-          className: "AcsAdvancedMessageInteractiveContent"
+          className: "AcsMessageInteractiveContent"
         }
       }
     }
   }
 };
 
-export const AcsAdvancedMessageDeliveryStatusUpdatedEventData: coreClient.CompositeMapper = {
+export const AcsMessageDeliveryStatusUpdatedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AcsAdvancedMessageDeliveryStatusUpdatedEventData",
+    className: "AcsMessageDeliveryStatusUpdatedEventData",
     modelProperties: {
-      ...AcsAdvancedMessageEventData.type.modelProperties,
+      ...AcsMessageEventData.type.modelProperties,
       messageId: {
         serializedName: "messageId",
         required: true,
@@ -9227,7 +9227,7 @@ export const AcsAdvancedMessageDeliveryStatusUpdatedEventData: coreClient.Compos
           name: "String"
         }
       },
-      channelType: {
+      channelKind: {
         serializedName: "channelType",
         required: true,
         type: {

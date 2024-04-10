@@ -13,77 +13,6 @@ import { SASCredential } from '@azure/core-auth';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AcsAdvancedMessageButtonContent {
-    payload: string;
-    text: string;
-}
-
-// @public
-export interface AcsAdvancedMessageChannelEventError {
-    channelCode: string;
-    channelMessage: string;
-}
-
-// @public
-export interface AcsAdvancedMessageContext {
-    from: string;
-    id: string;
-}
-
-// @public
-export type AcsAdvancedMessageDeliveryStatusUpdatedEventData = AcsAdvancedMessageEventData & {
-    messageId: string;
-    status: string;
-    channelType: AcsMessageChannelType;
-};
-
-// @public
-export interface AcsAdvancedMessageEventData {
-    error: AcsAdvancedMessageChannelEventError;
-    from: string;
-    receivedTimestamp: string;
-    to: string;
-}
-
-// @public
-export interface AcsAdvancedMessageInteractiveButtonReplyContent {
-    id: string;
-    title: string;
-}
-
-// @public
-export interface AcsAdvancedMessageInteractiveContent {
-    buttonReply: AcsAdvancedMessageInteractiveButtonReplyContent;
-    listReply: AcsAdvancedMessageInteractiveListReplyContent;
-    type: AcsInteractiveReplyType;
-}
-
-// @public
-export interface AcsAdvancedMessageInteractiveListReplyContent {
-    description: string;
-    id: string;
-    title: string;
-}
-
-// @public
-export interface AcsAdvancedMessageMediaContent {
-    caption: string;
-    fileName: string;
-    id: string;
-    mimeType: string;
-}
-
-// @public
-export type AcsAdvancedMessageReceivedEventData = AcsAdvancedMessageEventData & {
-    content: string;
-    channelType: AcsMessageChannelType;
-    media: AcsAdvancedMessageMediaContent;
-    context: AcsAdvancedMessageContext;
-    button: AcsAdvancedMessageButtonContent;
-    interactive: AcsAdvancedMessageInteractiveContent;
-};
-
-// @public
 export interface AcsChatEventBase {
     recipientCommunicationIdentifier: CommunicationIdentifierModel;
     threadId: string;
@@ -286,10 +215,81 @@ export interface AcsIncomingCallEventData {
 }
 
 // @public
-export type AcsInteractiveReplyType = string;
+export type AcsInteractiveReplyKind = string;
 
 // @public
-export type AcsMessageChannelType = string;
+export interface AcsMessageButtonContent {
+    payload: string;
+    text: string;
+}
+
+// @public
+export interface AcsMessageChannelEventError {
+    channelCode: string;
+    channelMessage: string;
+}
+
+// @public
+export type AcsMessageChannelKind = string;
+
+// @public
+export interface AcsMessageContext {
+    from: string;
+    messageId: string;
+}
+
+// @public
+export type AcsMessageDeliveryStatusUpdatedEventData = AcsMessageEventData & {
+    messageId: string;
+    status: AcsMessageDeliveryStatus;
+    channelKind: AcsMessageChannelKind;
+};
+
+// @public
+export interface AcsMessageEventData {
+    error: AcsMessageChannelEventError;
+    from: string;
+    receivedTimestamp: string;
+    to: string;
+}
+
+// @public
+export interface AcsMessageInteractiveButtonReplyContent {
+    buttonId: string;
+    title: string;
+}
+
+// @public
+export interface AcsMessageInteractiveContent {
+    buttonReply: AcsMessageInteractiveButtonReplyContent;
+    listReply: AcsMessageInteractiveListReplyContent;
+    replyKind: AcsInteractiveReplyKind;
+}
+
+// @public
+export interface AcsMessageInteractiveListReplyContent {
+    description: string;
+    listItemId: string;
+    title: string;
+}
+
+// @public
+export interface AcsMessageMediaContent {
+    caption: string;
+    fileName: string;
+    mediaId: string;
+    mimeType: string;
+}
+
+// @public
+export type AcsMessageReceivedEventData = AcsMessageEventData & {
+    content: string;
+    channelKind: AcsMessageChannelKind;
+    mediaContent: AcsMessageMediaContent;
+    context: AcsMessageContext;
+    button: AcsMessageButtonContent;
+    interactiveContent: AcsMessageInteractiveContent;
+};
 
 // @public
 export interface AcsRecordingChunkInfo {
@@ -1432,14 +1432,14 @@ export const enum KnownAcsEmailDeliveryReportStatus {
 }
 
 // @public
-export const enum KnownAcsInteractiveReplyType {
+export const enum KnownAcsInteractiveReplyKind {
     ButtonReply = "buttonReply",
     ListReply = "listReply",
     Unknown = "unknown"
 }
 
 // @public
-export const enum KnownAcsMessageChannelType {
+export const enum KnownAcsMessageChannelKind {
     Whatsapp = "whatsapp"
 }
 
@@ -1494,8 +1494,6 @@ export const enum KnownAcsRouterUpdatedWorkerProperty {
     ChannelConfigurations = "ChannelConfigurations",
     // (undocumented)
     Labels = "Labels",
-    // (undocumented)
-    MaxConcurrentOffers = "MaxConcurrentOffers",
     // (undocumented)
     QueueAssignments = "QueueAssignments",
     // (undocumented)
@@ -2662,8 +2660,8 @@ export interface SystemEventNameToEventData {
     "Microsoft.AVS.ScriptExecutionFailed": AvsScriptExecutionFailedEventData;
     "Microsoft.AVS.ScriptExecutionFinished": AvsScriptExecutionFinishedEventData;
     "Microsoft.AVS.ScriptExecutionStarted": AvsScriptExecutionStartedEventData;
-    "Microsoft.Communication.AdvancedMessageDeliveryStatusUpdated": AcsAdvancedMessageDeliveryStatusUpdatedEventData;
-    "Microsoft.Communication.AdvancedMessageReceived": AcsAdvancedMessageReceivedEventData;
+    "Microsoft.Communication.AdvancedMessageDeliveryStatusUpdated": AcsMessageDeliveryStatusUpdatedEventData;
+    "Microsoft.Communication.AdvancedMessageReceived": AcsMessageReceivedEventData;
     "Microsoft.Communication.ChatMessageDeleted": AcsChatMessageDeletedEventData;
     "Microsoft.Communication.ChatMessageDeletedInThread": AcsChatMessageDeletedInThreadEventData;
     "Microsoft.Communication.ChatMessageEdited": AcsChatMessageEditedEventData;
@@ -2979,6 +2977,10 @@ export interface WebSlotSwapWithPreviewStartedEventData {
     requestId: string;
     verb: string;
 }
+
+// Warnings were encountered during analysis:
+//
+// src/generated/models/index.ts:3117:3 - (ae-forgotten-export) The symbol "AcsMessageDeliveryStatus" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
