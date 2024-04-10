@@ -239,6 +239,9 @@ export interface AcsMessageContext {
 }
 
 // @public
+export type AcsMessageDeliveryStatus = string;
+
+// @public
 export type AcsMessageDeliveryStatusUpdatedEventData = AcsMessageEventData & {
     messageId: string;
     status: AcsMessageDeliveryStatus;
@@ -1441,6 +1444,22 @@ export const enum KnownAcsInteractiveReplyKind {
 // @public
 export const enum KnownAcsMessageChannelKind {
     Whatsapp = "whatsapp"
+}
+
+// @public
+export const enum KnownAcsMessageDeliveryStatus {
+    // (undocumented)
+    Delivered = "delivered",
+    // (undocumented)
+    Failed = "failed",
+    // (undocumented)
+    Read = "read",
+    // (undocumented)
+    Sent = "sent",
+    // (undocumented)
+    Unknown = "unknown",
+    // (undocumented)
+    Warning = "warning"
 }
 
 // @public
@@ -2977,10 +2996,6 @@ export interface WebSlotSwapWithPreviewStartedEventData {
     requestId: string;
     verb: string;
 }
-
-// Warnings were encountered during analysis:
-//
-// src/generated/models/index.ts:3117:3 - (ae-forgotten-export) The symbol "AcsMessageDeliveryStatus" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

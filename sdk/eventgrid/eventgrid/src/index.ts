@@ -357,4 +357,6 @@ export {
   AcsMessageInteractiveListReplyContent,
   AcsInteractiveReplyKind,
   KnownAcsInteractiveReplyKind,
+  AcsMessageDeliveryStatus,
+  KnownAcsMessageDeliveryStatus,
 } from "./generated/models";
