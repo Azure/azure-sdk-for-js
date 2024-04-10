@@ -233,6 +233,7 @@ export interface ChatCompletions {
     choices: ChatChoice[];
     created: Date;
     id: string;
+    model: string;
     promptFilterResults?: ContentFilterResultsForPrompt[];
     systemFingerprint?: string;
     usage?: CompletionsUsage;

@@ -1297,6 +1297,8 @@ export interface ChatCompletionsFunctionToolSelection {
 export interface ChatCompletions {
   /** A unique identifier associated with this chat completions response. */
   id: string;
+  /** The current model used for the chat completions request. */
+  model: string;
   /**
    * The first timestamp associated with generation activity for this completions response,
    * represented as seconds since the beginning of the Unix epoch of 00:00 on 1 Jan 1970.

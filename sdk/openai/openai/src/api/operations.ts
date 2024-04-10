@@ -264,10 +264,16 @@ export function getCompletionsResult(
 export async function getCompletions(
   context: Client,
   deploymentId: string,
-  body: CompletionsOptions,
+  prompt: string[],
   options: GetCompletionsOptions = { requestOptions: {} },
 ): Promise<Completions> {
-  const result = await _getCompletionsSend(context, deploymentId, body, options);
+  const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
+  const result = await _getCompletionsSend(
+    context,
+    deploymentId,
+    { prompt, ...rest },
+    { abortSignal, onResponse, requestOptions, tracingOptions },
+  );
   return _getCompletionsDeserialize(result);
 }
 
@@ -565,10 +571,16 @@ export async function _getImageGenerationsDeserialize(
 export async function getImageGenerations(
   context: Client,
   deploymentId: string,
-  body: ImageGenerationOptions,
+  prompt: string,
   options: GetImagesOptions = { requestOptions: {} },
 ): Promise<ImageGenerations> {
-  const result = await _getImageGenerationsSend(context, deploymentId, body, options);
+  const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
+  const result = await _getImageGenerationsSend(
+    context,
+    deploymentId,
+    { prompt, ...rest },
+    { abortSignal, onResponse, requestOptions, tracingOptions },
+  );
   return _getImageGenerationsDeserialize(result);
 }
 
@@ -612,10 +624,16 @@ export async function _getEmbeddingsDeserialize(
 export async function getEmbeddings(
   context: Client,
   deploymentId: string,
-  body: EmbeddingsOptions,
+  input: string[],
   options: GetEmbeddingsOptions = { requestOptions: {} },
 ): Promise<Embeddings> {
-  const result = await _getEmbeddingsSend(context, deploymentId, body, options);
+  const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
+  const result = await _getEmbeddingsSend(
+    context,
+    deploymentId,
+    { input, ...rest },
+    { abortSignal, onResponse, requestOptions, tracingOptions },
+  );
   return _getEmbeddingsDeserialize(result);
 }
 
