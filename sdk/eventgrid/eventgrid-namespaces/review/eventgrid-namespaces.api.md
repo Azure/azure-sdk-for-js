@@ -5,6 +5,7 @@
 ```ts
 
 import { AzureKeyCredential } from '@azure/core-auth';
+import { AzureSASCredential } from '@azure/core-auth';
 import { ClientOptions } from '@azure-rest/core-client';
 import { ErrorModel } from '@azure-rest/core-client';
 import { OperationOptions as OperationRestOptions } from '@azure-rest/core-client';
@@ -20,6 +21,8 @@ export interface AcknowledgeResult {
 }
 
 export { AzureKeyCredential }
+
+export { AzureSASCredential }
 
 // @public
 export interface BrokerProperties {

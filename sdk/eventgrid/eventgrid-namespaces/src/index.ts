@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { AzureKeyCredential } from "@azure/core-auth";
+export { AzureKeyCredential, AzureSASCredential } from "@azure/core-auth";
 
 export {
   CloudEvent,
