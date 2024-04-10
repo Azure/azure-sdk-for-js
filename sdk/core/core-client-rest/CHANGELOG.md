@@ -2,6 +2,14 @@
 
 ## 1.3.2 (2024-04-09)
 
+### Features Added
+
+- Support accept in headers.
+
+### Breaking Changes
+
+### Bugs Fixed
+
 ### Other Changes
 
 - Revert TypeScript output target to ES2017.
