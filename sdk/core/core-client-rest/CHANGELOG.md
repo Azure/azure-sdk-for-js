@@ -6,10 +6,6 @@
 
 - Support accept in headers.
 
-### Breaking Changes
-
-### Bugs Fixed
-
 ### Other Changes
 
 - Revert TypeScript output target to ES2017.
