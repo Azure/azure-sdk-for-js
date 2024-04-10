@@ -5,7 +5,6 @@
 ```ts
 
 import { AzureKeyCredential } from '@azure/core-auth';
-import { AzureSASCredential } from '@azure/core-auth';
 import { ClientOptions } from '@azure-rest/core-client';
 import { ErrorModel } from '@azure-rest/core-client';
 import { OperationOptions as OperationRestOptions } from '@azure-rest/core-client';
@@ -21,8 +20,6 @@ export interface AcknowledgeResult {
 }
 
 export { AzureKeyCredential }
-
-export { AzureSASCredential }
 
 // @public
 export interface BrokerProperties {
@@ -46,17 +43,6 @@ export interface CloudEvent {
 
 // @public (undocumented)
 export interface EventGridClientOptions extends ClientOptions {
-}
-
-// @public
-export interface EventGridEvent<T> {
-    data: T;
-    dataVersion: string;
-    eventTime: Date;
-    eventType: string;
-    id: string;
-    subject: string;
-    topic?: string;
 }
 
 // @public
@@ -143,30 +129,6 @@ export interface RenewCloudEventLocksOptions extends OperationRestOptions {
 export interface RenewCloudEventLocksResult {
     failedLockTokens: FailedLockToken[];
     succeededLockTokens: string[];
-}
-
-// @public
-export interface SendCloudEventInput<T> {
-    data?: T;
-    datacontenttype?: string;
-    dataschema?: string;
-    extensionAttributes?: Record<string, unknown>;
-    id?: string;
-    source: string;
-    subject?: string;
-    time?: Date;
-    type: string;
-}
-
-// @public
-export interface SendEventGridEventInput<T> {
-    data: T;
-    dataVersion: string;
-    eventTime?: Date;
-    eventType: string;
-    id?: string;
-    subject: string;
-    topic?: string;
 }
 
 // (No @packageDocumentation comment for this package)

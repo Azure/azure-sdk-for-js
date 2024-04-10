@@ -1,14 +1,17 @@
 # Release History
 
-## 5.1.0-beta.2 (Unreleased)
+## 1.0.0-beta.1 (2020-09-08)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Introduced the `EventGridNamespacesClient` class with the following APIs:
+  - `publishCloudEvent`
+  - `publishCloudEvents`
+  - `receiveCloudEvents`
+  - `acknowledgeCloudEvents`
+  - `releaseCloudEvents`
+  - `rejectCloudEvents`
+  - `renewCloudEventLocks`
 
 ## 5.1.0-beta.1 (2023-11-13)
 

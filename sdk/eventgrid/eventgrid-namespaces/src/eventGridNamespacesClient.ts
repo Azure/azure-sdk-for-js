@@ -24,7 +24,7 @@ import { PublishCloudEventOptions } from "./models";
 import { publishCloudEventBinaryMode } from "./eventGridNamespacesPublishBinaryMode";
 
 /**
- * Event Grid Client
+ * Event Grid Namespaces Client
  */
 export class EventGridNamespacesClient {
   private _client: EventGridClientGenerated;
