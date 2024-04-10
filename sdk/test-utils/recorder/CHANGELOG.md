@@ -1,5 +1,11 @@
 # Release History
 
+## 3.1.1 (2024-04-09)
+
+### Bugs Fixed
+
+- Minor bug where min version testing in min-max testing fails because the types of `@azure/core-client@1.0.0` is not extensive. Bumping the `@azure/core-client` version to latest. [#29247](https://github.com/Azure/azure-sdk-for-js/pull/29247)
+
 ## 3.1.0 (2023-03-14)
 
 ### Features Added
