@@ -11,7 +11,10 @@ import {
   OperationURLParameter,
   OperationQueryParameter
 } from "@azure/core-client";
-import { SendMessageRequest as SendMessageRequestMapper } from "../models/mappers";
+import {
+  MmsSendMessageRequest as MmsSendMessageRequestMapper,
+  SendMessageRequest as SendMessageRequestMapper
+} from "../models/mappers";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
@@ -25,9 +28,9 @@ export const contentType: OperationParameter = {
   }
 };
 
-export const sendMessageRequest: OperationParameter = {
-  parameterPath: "sendMessageRequest",
-  mapper: SendMessageRequestMapper
+export const body: OperationParameter = {
+  parameterPath: "body",
+  mapper: MmsSendMessageRequestMapper
 };
 
 export const accept: OperationParameter = {
@@ -57,11 +60,16 @@ export const endpoint: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-03-07",
+    defaultValue: "2024-01-14-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
       name: "String"
     }
   }
+};
+
+export const sendMessageRequest: OperationParameter = {
+  parameterPath: "sendMessageRequest",
+  mapper: SendMessageRequestMapper
 };

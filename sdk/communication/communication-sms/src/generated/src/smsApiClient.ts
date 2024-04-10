@@ -12,8 +12,8 @@ import {
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
-import { SmsImpl } from "./operations";
-import { Sms } from "./operationsInterfaces";
+import { MmsImpl, SmsImpl } from "./operations";
+import { Mms, Sms } from "./operationsInterfaces";
 import { SmsApiClientOptionalParams } from "./models";
 
 export class SmsApiClient extends coreClient.ServiceClient {
@@ -22,7 +22,7 @@ export class SmsApiClient extends coreClient.ServiceClient {
 
   /**
    * Initializes a new instance of the SmsApiClient class.
-   * @param endpoint The communication resource, for example https://my-resource.communication.azure.com
+   * @param endpoint The communication resource, for example https://resourcename.communication.azure.com
    * @param options The parameter options
    */
   constructor(endpoint: string, options?: SmsApiClientOptionalParams) {
@@ -38,7 +38,7 @@ export class SmsApiClient extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-communication-sms/1.1.1`;
+    const packageDetails = `azsdk-js-communication-sms/1.2.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -50,14 +50,15 @@ export class SmsApiClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri: options.endpoint ?? options.baseUri ?? "{endpoint}"
+      endpoint: options.endpoint ?? options.baseUri ?? "{endpoint}"
     };
     super(optionsWithDefaults);
     // Parameter assignments
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2021-03-07";
+    this.apiVersion = options.apiVersion || "2024-01-14-preview";
+    this.mms = new MmsImpl(this);
     this.sms = new SmsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -90,5 +91,6 @@ export class SmsApiClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  mms: Mms;
   sms: Sms;
 }
