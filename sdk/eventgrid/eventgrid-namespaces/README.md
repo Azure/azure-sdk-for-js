@@ -6,11 +6,11 @@ Use the client library to Send events to Event Grid Namespaces
 
 Key links:
 
-- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid-namespaces/)
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid/)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/eventgrid-namespaces)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/eventgrid-namespaces/)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/eventgrid/)
 - [Product documentation](https://docs.microsoft.com/azure/event-grid/)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/eventgrid-namespaces/samples)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/eventgrid/samples)
 
 ## Getting started
 
@@ -76,7 +76,6 @@ const client = new EventGridNamespacesClient(
   new AzureKeyCredential("<Access Key>")
 );
 ```
-#### Using Azure Active Directory (AAD)
 
 Azure EventGrid provides integration with Azure Active Directory (Azure AD) for identity-based authentication of requests. With Azure AD, you can use role-based access control (RBAC) to grant access to your Azure Event Grid resources to users, groups, or applications.
 
@@ -160,7 +159,7 @@ For more detailed instructions on how to enable the logs, you can look at the [@
 ## Next steps
 
 Please take a look at the
-[samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/eventgrid-namespaces/samples)
+[samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/eventgrid/samples)
 directory for detailed examples on how to use this library.
 
 ## Contributing
