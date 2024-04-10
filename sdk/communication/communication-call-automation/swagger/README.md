@@ -62,3 +62,20 @@ directive:
   - rename-model:
       from: CustomCallingContext
       to: CustomCallingContextInternal
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: "$.definitions.ExternalStorage"
+  transform: >
+    $["x-ms-client-name"] = "RecordingStorage";
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: "$.definitions.StartCallRecordingRequest.properties.externalStorage"
+  transform: >
+    $["x-ms-client-name"] = "recordingStorage";
+```

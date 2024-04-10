@@ -194,7 +194,7 @@ export interface ChannelAffinity {
 }
 
 /** The recording storage */
-export interface ExternalStorage {
+export interface RecordingStorage {
   /** Defines the kind of recording storage */
   recordingStorageKind: RecordingStorageKind;
   /** Uri of a container or a location within a container */

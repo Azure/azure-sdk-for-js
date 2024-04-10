@@ -396,12 +396,6 @@ export enum DtmfTone {
 }
 
 // @public
-export interface ExternalStorage {
-    recordingDestinationContainerUrl?: string;
-    recordingStorageKind: RecordingStorageKind;
-}
-
-// @public
 export interface FileSource extends PlaySource {
     // (undocumented)
     readonly kind: "fileSource";
@@ -573,6 +567,12 @@ export interface RecordingStateResult {
     recordingKind: RecordingKind_2;
     // (undocumented)
     recordingState: RecordingState;
+}
+
+// @public
+export interface RecordingStorage {
+    recordingDestinationContainerUrl?: string;
+    recordingStorageKind: RecordingStorageKind;
 }
 
 // @public
@@ -920,12 +920,12 @@ export interface StartRecordingOptions extends OperationOptions {
     audioChannelParticipantOrdering?: CommunicationIdentifier[];
     callLocator: CallLocator;
     channelAffinity?: ChannelAffinity[];
-    externalStorage?: ExternalStorage;
     pauseOnStart?: boolean;
     recordingChannel?: RecordingChannel;
     recordingContent?: RecordingContent;
     recordingFormat?: RecordingFormat;
     recordingStateCallbackEndpointUrl?: string;
+    recordingStorage?: RecordingStorage;
 }
 
 // @public
