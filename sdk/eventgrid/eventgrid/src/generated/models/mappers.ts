@@ -7946,6 +7946,89 @@ export const AvsScriptExecutionEventData: coreClient.CompositeMapper = {
   }
 };
 
+export const ApiCenterApiDefinitionAddedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiCenterApiDefinitionAddedEventData",
+    modelProperties: {
+      title: {
+        serializedName: "title",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      specification: {
+        serializedName: "specification",
+        type: {
+          name: "Composite",
+          className: "ApiCenterApiSpecification"
+        }
+      }
+    }
+  }
+};
+
+export const ApiCenterApiSpecification: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiCenterApiSpecification",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "version",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApiCenterApiDefinitionUpdatedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiCenterApiDefinitionUpdatedEventData",
+    modelProperties: {
+      title: {
+        serializedName: "title",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      specification: {
+        serializedName: "specification",
+        type: {
+          name: "Composite",
+          className: "ApiCenterApiSpecification"
+        }
+      }
+    }
+  }
+};
+
 export const EventGridMqttClientCreatedOrUpdatedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",

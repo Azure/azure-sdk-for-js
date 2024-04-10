@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { dump } from "wtfnode";
 import {
   InteractiveBrowserCredential,
   InteractiveBrowserCredentialNodeOptions,
@@ -102,7 +101,6 @@ describe("InteractiveBrowserCredential (internal)", function (this: Mocha.Suite)
         assert.equal(doGetTokenSpy.callCount, 1);
         const result = await doGetTokenSpy.lastCall.returnValue;
         assert.equal(result.fromNativeBroker, true);
-        dump();
       } catch (e) {
         console.log(e);
         assert.equal(doGetTokenSpy.callCount, 1);

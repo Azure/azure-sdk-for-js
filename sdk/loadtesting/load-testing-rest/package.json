@@ -48,7 +48,7 @@
     "build:test": "tsc -p . && dev-tool run bundle",
     "build:debug": "tsc -p . && dev-tool run bundle && api-extractor run --local",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "execute:samples": "echo skipped",
     "extract-api": "rimraf review && mkdirp ./review && api-extractor run --local",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
@@ -81,7 +81,7 @@
     "@azure/abort-controller": "^1.1.0"
   },
   "devDependencies": {
-    "@azure-tools/test-credential": "~1.0.0",
+    "@azure-tools/test-credential": "^1.0.4",
     "@azure-tools/test-recorder": "^3.0.0",
     "@azure/identity": "^4.0.1",
     "@microsoft/api-extractor": "^7.31.1",
@@ -108,8 +108,8 @@
     "karma-sourcemap-loader": "^0.3.8",
     "mkdirp": "^1.0.4",
     "mocha": "^10.0.0",
-    "c8": "^8.0.0",
-    "rimraf": "^3.0.0",
+    "c8": "^9.1.0",
+    "rimraf": "^5.0.5",
     "source-map-support": "^0.5.9",
     "uuid": "^9.0.0",
     "typescript": "~5.3.3",

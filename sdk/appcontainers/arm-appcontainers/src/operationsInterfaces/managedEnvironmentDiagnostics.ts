@@ -10,7 +10,7 @@ import {
   ManagedEnvironmentDiagnosticsListDetectorsOptionalParams,
   ManagedEnvironmentDiagnosticsListDetectorsResponse,
   ManagedEnvironmentDiagnosticsGetDetectorOptionalParams,
-  ManagedEnvironmentDiagnosticsGetDetectorResponse
+  ManagedEnvironmentDiagnosticsGetDetectorResponse,
 } from "../models";
 
 /** Interface representing a ManagedEnvironmentDiagnostics. */
@@ -24,7 +24,7 @@ export interface ManagedEnvironmentDiagnostics {
   listDetectors(
     resourceGroupName: string,
     environmentName: string,
-    options?: ManagedEnvironmentDiagnosticsListDetectorsOptionalParams
+    options?: ManagedEnvironmentDiagnosticsListDetectorsOptionalParams,
   ): Promise<ManagedEnvironmentDiagnosticsListDetectorsResponse>;
   /**
    * Get the diagnostics data for a Managed Environment used to host container apps.
@@ -37,6 +37,6 @@ export interface ManagedEnvironmentDiagnostics {
     resourceGroupName: string,
     environmentName: string,
     detectorName: string,
-    options?: ManagedEnvironmentDiagnosticsGetDetectorOptionalParams
+    options?: ManagedEnvironmentDiagnosticsGetDetectorOptionalParams,
   ): Promise<ManagedEnvironmentDiagnosticsGetDetectorResponse>;
 }

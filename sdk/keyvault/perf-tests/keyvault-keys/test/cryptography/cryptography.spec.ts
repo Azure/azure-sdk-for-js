@@ -1,4 +1,4 @@
-import { PerfOptionDictionary, PerfTest } from "@azure/test-utils-perf";
+import { PerfOptionDictionary, PerfTest } from "@azure-tools/test-perf";
 import { CryptographyClient, KeyClient } from "@azure/keyvault-keys";
 import { v4 as uuid } from "uuid";
 import { credential, keyVaultUri } from "../utils";

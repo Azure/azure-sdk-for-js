@@ -55,13 +55,19 @@ export type CapabilityType = string;
 
 // @public
 export interface Catalog extends TrackedResource {
-    readonly provisioningState?: ProvisioningState;
+    properties?: CatalogProperties;
 }
 
 // @public
 export interface CatalogListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: Catalog[];
+}
+
+// @public
+export interface CatalogProperties {
+    readonly provisioningState?: ProvisioningState;
+    readonly tenantId?: string;
 }
 
 // @public
@@ -70,6 +76,8 @@ export interface Catalogs {
     beginCreateOrUpdateAndWait(resourceGroupName: string, catalogName: string, resource: Catalog, options?: CatalogsCreateOrUpdateOptionalParams): Promise<CatalogsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, catalogName: string, options?: CatalogsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, catalogName: string, options?: CatalogsDeleteOptionalParams): Promise<void>;
+    beginUploadImage(resourceGroupName: string, catalogName: string, uploadImageRequest: Image_2, options?: CatalogsUploadImageOptionalParams): Promise<SimplePollerLike<OperationState<CatalogsUploadImageResponse>, CatalogsUploadImageResponse>>;
+    beginUploadImageAndWait(resourceGroupName: string, catalogName: string, uploadImageRequest: Image_2, options?: CatalogsUploadImageOptionalParams): Promise<CatalogsUploadImageResponse>;
     countDevices(resourceGroupName: string, catalogName: string, options?: CatalogsCountDevicesOptionalParams): Promise<CatalogsCountDevicesResponse>;
     get(resourceGroupName: string, catalogName: string, options?: CatalogsGetOptionalParams): Promise<CatalogsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: CatalogsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Catalog>;
@@ -86,7 +94,7 @@ export interface CatalogsCountDevicesOptionalParams extends coreClient.Operation
 }
 
 // @public
-export type CatalogsCountDevicesResponse = CountDeviceResponse;
+export type CatalogsCountDevicesResponse = CountDevicesResponse;
 
 // @public
 export interface CatalogsCreateOrUpdateHeaders {
@@ -229,6 +237,21 @@ export interface CatalogsUpdateOptionalParams extends coreClient.OperationOption
 export type CatalogsUpdateResponse = Catalog;
 
 // @public
+export interface CatalogsUploadImageHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface CatalogsUploadImageOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type CatalogsUploadImageResponse = CatalogsUploadImageHeaders;
+
+// @public
 export interface CatalogUpdate {
     tags?: {
         [propertyName: string]: string;
@@ -237,13 +260,7 @@ export interface CatalogUpdate {
 
 // @public
 export interface Certificate extends ProxyResource {
-    readonly certificate?: string;
-    readonly expiryUtc?: Date;
-    readonly notBeforeUtc?: Date;
-    readonly provisioningState?: ProvisioningState;
-    readonly status?: CertificateStatus;
-    readonly subject?: string;
-    readonly thumbprint?: string;
+    properties?: CertificateProperties;
 }
 
 // @public
@@ -253,7 +270,7 @@ export interface CertificateChainResponse {
 
 // @public
 export interface CertificateListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: Certificate[];
 }
 
@@ -328,6 +345,10 @@ export interface CountDeviceResponse extends CountElementsResponse {
 }
 
 // @public
+export interface CountDevicesResponse extends CountElementsResponse {
+}
+
+// @public
 export interface CountElementsResponse {
     value: number;
 }
@@ -337,16 +358,21 @@ export type CreatedByType = string;
 
 // @public
 export interface Deployment extends ProxyResource {
-    deployedImages?: Image_2[];
-    readonly deploymentDateUtc?: Date;
-    deploymentId?: string;
-    readonly provisioningState?: ProvisioningState;
+    properties?: DeploymentProperties;
 }
 
 // @public
 export interface DeploymentListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: Deployment[];
+}
+
+// @public
+export interface DeploymentProperties {
+    deployedImages?: Image_2[];
+    readonly deploymentDateUtc?: Date;
+    deploymentId?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -412,17 +438,22 @@ export type DeploymentsListByDeviceGroupResponse = DeploymentListResult;
 
 // @public
 export interface Device extends ProxyResource {
-    readonly chipSku?: string;
-    deviceId?: string;
-    readonly lastAvailableOsVersion?: string;
-    readonly lastInstalledOsVersion?: string;
-    readonly lastOsUpdateUtc?: Date;
-    readonly lastUpdateRequestUtc?: Date;
-    readonly provisioningState?: ProvisioningState;
+    properties?: DeviceProperties;
 }
 
 // @public
 export interface DeviceGroup extends ProxyResource {
+    properties?: DeviceGroupProperties;
+}
+
+// @public
+export interface DeviceGroupListResult {
+    readonly nextLink?: string;
+    value: DeviceGroup[];
+}
+
+// @public
+export interface DeviceGroupProperties {
     allowCrashDumpsCollection?: AllowCrashDumpCollection;
     description?: string;
     readonly hasDeployment?: boolean;
@@ -430,12 +461,6 @@ export interface DeviceGroup extends ProxyResource {
     readonly provisioningState?: ProvisioningState;
     regionalDataBoundary?: RegionalDataBoundary;
     updatePolicy?: UpdatePolicy;
-}
-
-// @public
-export interface DeviceGroupListResult {
-    nextLink?: string;
-    value: DeviceGroup[];
 }
 
 // @public
@@ -455,6 +480,7 @@ export interface DeviceGroups {
 
 // @public
 export interface DeviceGroupsClaimDevicesHeaders {
+    location?: string;
     retryAfter?: number;
 }
 
@@ -472,7 +498,7 @@ export interface DeviceGroupsCountDevicesOptionalParams extends coreClient.Opera
 }
 
 // @public
-export type DeviceGroupsCountDevicesResponse = CountDeviceResponse;
+export type DeviceGroupsCountDevicesResponse = CountDevicesResponse;
 
 // @public
 export interface DeviceGroupsCreateOrUpdateHeaders {
@@ -542,6 +568,11 @@ export type DeviceGroupsUpdateResponse = DeviceGroup;
 
 // @public
 export interface DeviceGroupUpdate {
+    properties?: DeviceGroupUpdateProperties;
+}
+
+// @public
+export interface DeviceGroupUpdateProperties {
     allowCrashDumpsCollection?: AllowCrashDumpCollection;
     description?: string;
     osFeedType?: OSFeedType;
@@ -563,13 +594,19 @@ export interface DeviceInsight {
 
 // @public
 export interface DeviceListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: Device[];
 }
 
 // @public
-export interface DevicePatchProperties {
-    deviceGroupId: string;
+export interface DeviceProperties {
+    readonly chipSku?: string;
+    deviceId?: string;
+    readonly lastAvailableOsVersion?: string;
+    readonly lastInstalledOsVersion?: string;
+    readonly lastOsUpdateUtc?: Date;
+    readonly lastUpdateRequestUtc?: Date;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -614,6 +651,7 @@ export interface DevicesDeleteOptionalParams extends coreClient.OperationOptions
 
 // @public
 export interface DevicesGenerateCapabilityImageHeaders {
+    location?: string;
     retryAfter?: number;
 }
 
@@ -663,6 +701,11 @@ export type DevicesUpdateResponse = Device;
 
 // @public
 export interface DeviceUpdate {
+    properties?: DeviceUpdateProperties;
+}
+
+// @public
+export interface DeviceUpdateProperties {
     deviceGroupId?: string;
 }
 
@@ -696,6 +739,18 @@ export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 interface Image_2 extends ProxyResource {
+    properties?: ImageProperties;
+}
+export { Image_2 as Image }
+
+// @public
+export interface ImageListResult {
+    readonly nextLink?: string;
+    value: Image_2[];
+}
+
+// @public
+export interface ImageProperties {
     readonly componentId?: string;
     readonly description?: string;
     image?: string;
@@ -705,13 +760,6 @@ interface Image_2 extends ProxyResource {
     readonly provisioningState?: ProvisioningState;
     regionalDataBoundary?: RegionalDataBoundary;
     readonly uri?: string;
-}
-export { Image_2 as Image }
-
-// @public
-export interface ImageListResult {
-    nextLink?: string;
-    value: Image_2[];
 }
 
 // @public
@@ -777,12 +825,6 @@ export type ImagesListByCatalogResponse = ImageListResult;
 
 // @public
 export type ImageType = string;
-
-// @public
-export interface ImageUploadRequestBody {
-    // (undocumented)
-    images: string;
-}
 
 // @public
 export enum KnownActionType {
@@ -936,20 +978,25 @@ export type OSFeedType = string;
 
 // @public
 export interface PagedDeviceInsight {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: DeviceInsight[];
 }
 
 // @public
 export interface Product extends ProxyResource {
-    description?: string;
-    readonly provisioningState?: ProvisioningState;
+    properties?: ProductProperties;
 }
 
 // @public
 export interface ProductListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: Product[];
+}
+
+// @public
+export interface ProductProperties {
+    description?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -971,7 +1018,7 @@ export interface ProductsCountDevicesOptionalParams extends coreClient.Operation
 }
 
 // @public
-export type ProductsCountDevicesResponse = CountDeviceResponse;
+export type ProductsCountDevicesResponse = CountDevicesResponse;
 
 // @public
 export interface ProductsCreateOrUpdateHeaders {
@@ -1051,6 +1098,11 @@ export type ProductsUpdateResponse = Product;
 
 // @public
 export interface ProductUpdate {
+    properties?: ProductUpdateProperties;
+}
+
+// @public
+export interface ProductUpdateProperties {
     description?: string;
 }
 

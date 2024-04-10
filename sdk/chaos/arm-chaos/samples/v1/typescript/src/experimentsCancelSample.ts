@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Cancel a running Experiment resource.
  *
  * @summary Cancel a running Experiment resource.
- * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2023-11-01/examples/CancelExperiment.json
+ * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/CancelExperiment.json
  */
 async function cancelARunningExperiment() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function cancelARunningExperiment() {
   const client = new ChaosManagementClient(credential, subscriptionId);
   const result = await client.experiments.beginCancelAndWait(
     resourceGroupName,
-    experimentName
+    experimentName,
   );
   console.log(result);
 }

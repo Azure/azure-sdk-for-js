@@ -13,12 +13,13 @@ import * as Parameters from "../models/parameters";
 import { NetworkManagementClient } from "../networkManagementClient";
 import {
   ApplicationGatewayWafDynamicManifestsDefaultGetOptionalParams,
-  ApplicationGatewayWafDynamicManifestsDefaultGetResponse
+  ApplicationGatewayWafDynamicManifestsDefaultGetResponse,
 } from "../models";
 
 /** Class containing ApplicationGatewayWafDynamicManifestsDefault operations. */
 export class ApplicationGatewayWafDynamicManifestsDefaultImpl
-  implements ApplicationGatewayWafDynamicManifestsDefault {
+  implements ApplicationGatewayWafDynamicManifestsDefault
+{
   private readonly client: NetworkManagementClient;
 
   /**
@@ -36,11 +37,11 @@ export class ApplicationGatewayWafDynamicManifestsDefaultImpl
    */
   get(
     location: string,
-    options?: ApplicationGatewayWafDynamicManifestsDefaultGetOptionalParams
+    options?: ApplicationGatewayWafDynamicManifestsDefaultGetOptionalParams,
   ): Promise<ApplicationGatewayWafDynamicManifestsDefaultGetResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -48,23 +49,22 @@ export class ApplicationGatewayWafDynamicManifestsDefaultImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/applicationGatewayWafDynamicManifests/dafault",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/applicationGatewayWafDynamicManifests/dafault",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationGatewayWafDynamicManifestResult
+      bodyMapper: Mappers.ApplicationGatewayWafDynamicManifestResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

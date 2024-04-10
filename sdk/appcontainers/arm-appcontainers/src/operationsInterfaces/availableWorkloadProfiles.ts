@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   AvailableWorkloadProfile,
-  AvailableWorkloadProfilesGetOptionalParams
+  AvailableWorkloadProfilesGetOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -22,6 +22,6 @@ export interface AvailableWorkloadProfiles {
    */
   list(
     location: string,
-    options?: AvailableWorkloadProfilesGetOptionalParams
+    options?: AvailableWorkloadProfilesGetOptionalParams,
   ): PagedAsyncIterableIterator<AvailableWorkloadProfile>;
 }

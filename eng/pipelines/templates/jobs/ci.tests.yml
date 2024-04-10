@@ -11,14 +11,17 @@ parameters:
   - name: Matrix
     type: string
   - name: DependsOn
-    type: string
-    default: ''
+    type: object
+    default: []
   - name: UsePlatformContainer
     type: boolean
     default: false
   - name: CloudConfig
     type: object
     default: {}
+  - name: OSName
+    type: string
+    default: ''
 
 jobs:
   - job:
@@ -39,10 +42,16 @@ jobs:
 
     pool:
       name: $(Pool)
-      vmImage: $(OSVmImage)
-    ${{ if eq(parameters.UsePlatformContainer, 'true') }}:
-      # Add a default so the job doesn't fail when the matrix is empty
-      container: $[ variables['Container'] ]
+      # 1es pipeline templates converts `image` to demands: ImageOverride under the hood
+      # which is incompatible with image selection in the default non-1es hosted pools
+      ${{ if eq(parameters.OSName, 'macOS') }}:
+        vmImage: $(OSVmImage)
+      ${{ else }}:
+        image: $(OSVmImage)
+      os: ${{ parameters.OSName }}
+      ${{ if eq(parameters.UsePlatformContainer, 'true') }}:
+        # Add a default so the job doesn't fail when the matrix is empty
+        container: $[ variables['Container'] ]
 
     variables:
       - template: ../variables/globals.yml
@@ -55,3 +64,4 @@ jobs:
           Artifacts: ${{ parameters.Artifacts }}
           ServiceDirectory: ${{ parameters.ServiceDirectory }}
           TestProxy: ${{ parameters.TestProxy }}
+          OSName: ${{ parameters.OSName }}

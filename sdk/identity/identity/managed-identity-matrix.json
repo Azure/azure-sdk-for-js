@@ -1,0 +1,19 @@
+{
+  "displayNames": {
+    "**/test-results.xml": ""
+  },
+  "include": [
+    {
+      "Agent": {
+        "msi_image": {
+          "OSVmImage": "env:LINUXNEXTVMIMAGE",
+          "Pool": "env:LINUXNEXTPOOL"
+        }
+      },
+      "ArmTemplateParameters": "@{deployMIResources = $true}",
+      "TestType": "managed-identity",
+      "NodeTestVersion": "18.x",
+      "TestResultsFiles": "**/test-results.xml"
+    }
+  ]
+}

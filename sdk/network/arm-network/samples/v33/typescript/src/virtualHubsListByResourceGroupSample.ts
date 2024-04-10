@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all the VirtualHubs in a resource group.
  *
  * @summary Lists all the VirtualHubs in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VirtualHubListByResourceGroup.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VirtualHubListByResourceGroup.json
  */
 async function virtualHubListByResourceGroup() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -27,7 +27,7 @@ async function virtualHubListByResourceGroup() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.virtualHubs.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

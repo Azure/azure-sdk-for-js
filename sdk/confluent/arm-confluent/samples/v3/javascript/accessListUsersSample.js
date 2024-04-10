@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Organization users details
  *
  * @summary Organization users details
- * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2023-08-22/examples/Access_UsersList.json
+ * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Access_UsersList.json
  */
 async function accessUsersList() {
   const subscriptionId =

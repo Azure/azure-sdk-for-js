@@ -18,11 +18,12 @@ dotenv.config();
  * This sample demonstrates how to Delete a NewRelicMonitorResource
  *
  * @summary Delete a NewRelicMonitorResource
- * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2022-07-01/examples/Monitors_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/Monitors_Delete_MaximumSet_Gen.json
  */
 async function monitorsDeleteMaximumSetGen() {
   const subscriptionId =
-    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "ddqonpqwjr";
+    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
     process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgopenapi";
   const userEmail = "ruxvg@xqkmdhrnoo.hlmbpm";
@@ -32,7 +33,7 @@ async function monitorsDeleteMaximumSetGen() {
   const result = await client.monitors.beginDeleteAndWait(
     resourceGroupName,
     userEmail,
-    monitorName
+    monitorName,
   );
   console.log(result);
 }
@@ -41,11 +42,12 @@ async function monitorsDeleteMaximumSetGen() {
  * This sample demonstrates how to Delete a NewRelicMonitorResource
  *
  * @summary Delete a NewRelicMonitorResource
- * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2022-07-01/examples/Monitors_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/Monitors_Delete_MinimumSet_Gen.json
  */
 async function monitorsDeleteMinimumSetGen() {
   const subscriptionId =
-    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "ddqonpqwjr";
+    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
     process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgopenapi";
   const userEmail = "ruxvg@xqkmdhrnoo.hlmbpm";
@@ -55,7 +57,7 @@ async function monitorsDeleteMinimumSetGen() {
   const result = await client.monitors.beginDeleteAndWait(
     resourceGroupName,
     userEmail,
-    monitorName
+    monitorName,
   );
   console.log(result);
 }
