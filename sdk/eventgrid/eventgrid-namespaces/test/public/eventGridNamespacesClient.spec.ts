@@ -18,12 +18,12 @@ import { Buffer } from "buffer";
 async function clearMessages(
   client: EventGridNamespacesClient,
   topicName: string,
-  eventSubscripionName: string
+  eventSubscripionName: string,
 ): Promise<void> {
   // Clear any messages that may be available in the topic.
   let receivedResult: ReceiveResult = await client.receiveCloudEvents(
     topicName,
-    eventSubscripionName
+    eventSubscripionName,
   );
   while (receivedResult && receivedResult.value.length > 0) {
     const lockToken = receivedResult.value[0].brokerProperties.lockToken;
@@ -43,7 +43,7 @@ describe("Event Grid Namespace Client", function (this: Suite) {
     ({ client, recorder } = await createRecordedClient(
       this.currentTest,
       "EVENT_GRID_NAMESPACES_ENDPOINT",
-      "EVENT_GRID_NAMESPACES_KEY"
+      "EVENT_GRID_NAMESPACES_KEY",
     ));
 
     eventSubscripionName = env["EVENT_SUBSCRIPTION_NAME"] ?? "testsubscription1";
@@ -75,7 +75,7 @@ describe("Event Grid Namespace Client", function (this: Suite) {
       // Receive the Published Cloud Event
       const receiveResult: ReceiveResult = await client.receiveCloudEvents(
         topicName,
-        eventSubscripionName
+        eventSubscripionName,
       );
       // The Received Cloud Event ID must be equal to the ID of the Event that was published.
       assert.equal(receiveResult.value[0].event.id, eventId);
@@ -113,7 +113,7 @@ describe("Event Grid Namespace Client", function (this: Suite) {
         eventSubscripionName,
         {
           maxEvents: 2,
-        }
+        },
       );
 
       assert.equal(2, receiveResult.value.length);
@@ -146,7 +146,7 @@ describe("Event Grid Namespace Client", function (this: Suite) {
         counter++;
         const receiveResult: ReceiveResult = await client.receiveCloudEvents(
           topicName,
-          eventSubscripionName
+          eventSubscripionName,
         );
 
         if (
@@ -182,13 +182,13 @@ describe("Event Grid Namespace Client", function (this: Suite) {
       // Receive the Published Cloud Event
       let receiveResult: ReceiveResult = await client.receiveCloudEvents(
         topicName,
-        eventSubscripionName
+        eventSubscripionName,
       );
       const lockToken = receiveResult.value[0].brokerProperties.lockToken;
       const rejectResult: RejectResult = await client.rejectCloudEvents(
         [lockToken],
         topicName,
-        eventSubscripionName
+        eventSubscripionName,
       );
       assert.equal(rejectResult.succeededLockTokens.length, 1);
       assert.equal(rejectResult.succeededLockTokens[0], lockToken);
@@ -212,15 +212,15 @@ describe("Event Grid Namespace Client", function (this: Suite) {
       // Publish the Cloud Event
       await client.publishCloudEvent(cloudEvent, topicName);
       // Receive the Published Cloud Event
-      let receiveResult: ReceiveResult = await client.receiveCloudEvents(
+      const receiveResult: ReceiveResult = await client.receiveCloudEvents(
         topicName,
-        eventSubscripionName
+        eventSubscripionName,
       );
       const lockToken = receiveResult.value[0].brokerProperties.lockToken;
       const renewResult: RenewCloudEventLocksResult = await client.renewCloudEventLocks(
         [lockToken],
         topicName,
-        eventSubscripionName
+        eventSubscripionName,
       );
       assert.equal(renewResult.succeededLockTokens.length, 1);
       assert.equal(renewResult.succeededLockTokens[0], lockToken);
@@ -277,7 +277,7 @@ describe("Event Grid Namespace Client", function (this: Suite) {
       // Receive the Published Cloud Event
       const receiveResult: ReceiveResult = await client.receiveCloudEvents(
         topicName,
-        eventSubscripionName
+        eventSubscripionName,
       );
       // The Received Cloud Event ID must be equal to the ID of the Event that was published.
       assert.equal(receiveResult.value[0].event.id, eventId);
@@ -285,7 +285,7 @@ describe("Event Grid Namespace Client", function (this: Suite) {
       const receivedData: any = receiveResult.value[0].event.data!;
       assert.equal(
         JSON.stringify(data),
-        JSON.stringify(JSON.parse(Buffer.from(receivedData).toString()))
+        JSON.stringify(JSON.parse(Buffer.from(receivedData).toString())),
       );
     });
   });
