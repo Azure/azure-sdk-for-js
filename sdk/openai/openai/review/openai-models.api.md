@@ -4,48 +4,37 @@
 
 ```ts
 
-import { AzureKeyCredential } from '@azure/core-auth';
-import { ClientOptions } from '@azure-rest/core-client';
 import { ErrorModel } from '@azure-rest/core-client';
-import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export type AudioResult<ResponseFormat extends AudioResultFormat> = {
-    json: AudioResultSimpleJson;
-    verbose_json: AudioResultVerboseJson;
-    vtt: string;
-    srt: string;
-    text: string;
-}[ResponseFormat];
+export type AudioTaskLabel = string;
 
 // @public
-export type AudioResultFormat = "json"
-/** This format will return an JSON structure containing an enriched structure with the transcription. */
-| "verbose_json"
-/** This will make the response return the transcription as plain/text. */
-| "text"
-/** The transcription will be provided in SRT format (SubRip Text) in the form of plain/text. */
-| "srt"
-/** The transcription will be provided in VTT format (Web Video Text Tracks) in the form of plain/text. */
-| "vtt";
-
-// @public
-export interface AudioResultSimpleJson {
+export interface AudioTranscription {
+    duration?: number;
+    language?: string;
+    segments?: AudioTranscriptionSegment[];
+    task?: AudioTaskLabel;
     text: string;
 }
 
 // @public
-export interface AudioResultVerboseJson extends AudioResultSimpleJson {
-    duration: number;
-    language: string;
-    segments: AudioSegment[];
-    task: AudioTranscriptionTask;
+export type AudioTranscriptionFormat = string;
+
+// @public
+export interface AudioTranscriptionOptions {
+    file: Uint8Array;
+    filename?: string;
+    language?: string;
+    model?: string;
+    prompt?: string;
+    responseFormat?: AudioTranscriptionFormat;
+    temperature?: number;
 }
 
 // @public
-export interface AudioSegment {
+export interface AudioTranscriptionSegment {
     avgLogprob: number;
     compressionRatio: number;
     end: number;
@@ -59,7 +48,40 @@ export interface AudioSegment {
 }
 
 // @public
-export type AudioTranscriptionTask = string;
+export interface AudioTranslation {
+    duration?: number;
+    language?: string;
+    segments?: AudioTranslationSegment[];
+    task?: AudioTaskLabel;
+    text: string;
+}
+
+// @public
+export type AudioTranslationFormat = string;
+
+// @public
+export interface AudioTranslationOptions {
+    file: Uint8Array;
+    filename?: string;
+    model?: string;
+    prompt?: string;
+    responseFormat?: AudioTranslationFormat;
+    temperature?: number;
+}
+
+// @public
+export interface AudioTranslationSegment {
+    avgLogprob: number;
+    compressionRatio: number;
+    end: number;
+    id: number;
+    noSpeechProb: number;
+    seek: number;
+    start: number;
+    temperature: number;
+    text: string;
+    tokens: number[];
+}
 
 // @public
 export interface AzureChatEnhancementConfiguration {
@@ -163,8 +185,6 @@ export interface AzureGroundingEnhancementLineSpan {
     polygon: AzureGroundingEnhancementCoordinatePoint[];
     text: string;
 }
-
-export { AzureKeyCredential }
 
 // @public
 export interface AzureMachineLearningIndexChatExtensionConfiguration {
@@ -456,6 +476,26 @@ export interface CompletionsLogProbabilityModel {
 }
 
 // @public
+export interface CompletionsOptions {
+    bestOf?: number;
+    echo?: boolean;
+    frequencyPenalty?: number;
+    logitBias?: Record<string, number>;
+    logprobs?: number;
+    maxTokens?: number;
+    model?: string;
+    n?: number;
+    presencePenalty?: number;
+    prompt: string[];
+    stop?: string[];
+    stream?: boolean;
+    suffix?: string;
+    temperature?: number;
+    topP?: number;
+    user?: string;
+}
+
+// @public
 export interface CompletionsUsage {
     completionTokens: number;
     promptTokens: number;
@@ -574,6 +614,14 @@ export interface Embeddings {
 }
 
 // @public
+export interface EmbeddingsOptions {
+    dimensions?: number;
+    input: string[];
+    model?: string;
+    user?: string;
+}
+
+// @public
 export interface EmbeddingsUsage {
     promptTokens: number;
     totalTokens: number;
@@ -602,19 +650,6 @@ export interface FunctionDefinition {
 // @public
 export interface FunctionName {
     name: string;
-}
-
-// @public
-export interface GetAudioTranscriptionOptions extends OperationOptions {
-    language?: string;
-    prompt?: string;
-    temperature?: number;
-}
-
-// @public
-export interface GetAudioTranslationOptions extends OperationOptions {
-    prompt?: string;
-    temperature?: number;
 }
 
 // @public
@@ -685,6 +720,18 @@ export interface ImageGenerationData {
     promptFilterResults?: ImageGenerationPromptFilterResults;
     revisedPrompt?: string;
     url?: string;
+}
+
+// @public
+export interface ImageGenerationOptions {
+    model?: string;
+    n?: number;
+    prompt: string;
+    quality?: ImageGenerationQuality;
+    responseFormat?: ImageGenerationResponseFormat;
+    size?: ImageSize;
+    style?: ImageGenerationStyle;
+    user?: string;
 }
 
 // @public
@@ -804,34 +851,6 @@ export type OnYourDataVectorizationSourceType = string;
 export type OnYourDataVectorizationSourceUnion = OnYourDataEndpointVectorizationSource | OnYourDataDeploymentNameVectorizationSource | OnYourDataModelIdVectorizationSource | OnYourDataVectorizationSource;
 
 // @public
-export class OpenAIClient {
-    constructor(endpoint: string, credential: KeyCredential, options?: OpenAIClientOptions);
-    constructor(endpoint: string, credential: TokenCredential, options?: OpenAIClientOptions);
-    constructor(openAiApiKey: KeyCredential, options?: OpenAIClientOptions);
-    getAudioTranscription(deploymentName: string, fileContent: Uint8Array, options?: GetAudioTranscriptionOptions): Promise<AudioResultSimpleJson>;
-    getAudioTranscription<Format extends AudioResultFormat>(deploymentName: string, fileContent: Uint8Array, format: Format, options?: GetAudioTranscriptionOptions): Promise<AudioResult<Format>>;
-    getAudioTranslation(deploymentName: string, fileContent: Uint8Array, options?: GetAudioTranslationOptions): Promise<AudioResultSimpleJson>;
-    getAudioTranslation<Format extends AudioResultFormat>(deploymentName: string, fileContent: Uint8Array, format: Format, options?: GetAudioTranslationOptions): Promise<AudioResult<Format>>;
-    getChatCompletions(deploymentName: string, messages: ChatRequestMessageUnion[], options?: GetChatCompletionsOptions): Promise<ChatCompletions>;
-    getCompletions(deploymentName: string, prompt: string[], options?: GetCompletionsOptions): Promise<Completions>;
-    getEmbeddings(deploymentName: string, input: string[], options?: GetEmbeddingsOptions): Promise<Embeddings>;
-    getImages(deploymentName: string, prompt: string, options?: GetImagesOptions): Promise<ImageGenerations>;
-    streamChatCompletions(deploymentName: string, messages: ChatRequestMessageUnion[], options?: GetChatCompletionsOptions): Promise<EventStream<ChatCompletions>>;
-    streamCompletions(deploymentName: string, prompt: string[], options?: GetCompletionsOptions): Promise<EventStream<Omit<Completions, "usage">>>;
-}
-
-// @public (undocumented)
-export interface OpenAIClientOptions extends ClientOptions {
-}
-
-// @public
-export class OpenAIKeyCredential implements KeyCredential {
-    constructor(key: string);
-    get key(): string;
-    update(newKey: string): void;
-}
-
-// @public
 export interface PineconeChatExtensionConfiguration {
     authentication?: OnYourDataAuthenticationOptions;
     embeddingDependency: OnYourDataVectorizationSourceUnion;
@@ -859,5 +878,7 @@ export interface StopFinishDetails extends ChatFinishDetails {
     stop: string;
     type: "stop";
 }
+
+// (No @packageDocumentation comment for this package)
 
 ```

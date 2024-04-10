@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0 (Unreleased)
+## 4.0.0 (2024-04-09)
 
 ### Features Added
 
@@ -22,11 +22,7 @@
   - The package has been simplified by removing the `dotenv` dependency and the `karma.conf` file, env shims for the browser. This streamlines the package dependencies and configuration files, respectively.
   - These changes introduce a new `env` strategy for all SDKs once they migrate to ESM and depend on `@azure-tools/test-recorder` version 4, as we employ `process.env` through vitest to access environment variables in both Node and browser environments.
 
-### Bugs Fixed
-
-### Other Changes
-
-## 3.1.0 (2023-03-14)
+## 3.1.0 (2024-03-14)
 
 ### Features Added
 
