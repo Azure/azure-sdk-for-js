@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Support accept in headers.
+
 ### Breaking Changes
 
 ### Bugs Fixed
