@@ -12,8 +12,8 @@ steps:
       pwsh: true
       Inline: |
         azcopy copy "https://azuresdkartifacts.blob.core.windows.net/policheck/${{ parameters.ExclusionDataBaseFileName }}.mdb" "$(Build.BinariesDirectory)"
-  env: 
-    AZCOPY_AUTO_LOGIN_TYPE: 'PSCRED'
+    env: 
+      AZCOPY_AUTO_LOGIN_TYPE: 'PSCRED'
 #  - task: AzureCLI@2
 #    displayName: 'Download Policheck Exclusion Database'
 #    inputs:
