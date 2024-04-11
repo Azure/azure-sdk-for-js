@@ -323,9 +323,9 @@ describe("ManagedIdentityCredential", function () {
         createResponse(404),
         createResponse(404),
         createResponse(404),
+        createResponse(404),
       ],
     });
-
     assert.ok(
       error!.message!.indexOf(
         `Failed to retrieve IMDS token after ${credential["msiRetryConfig"].maxRetries} retries.`,

@@ -43,6 +43,7 @@ export interface BrokerEnabledOptions {
 
   /**
    * If set to true, the credential will attempt to use the default broker account for authentication before falling back to interactive authentication.
+   * Default is set to false.
    */
   useDefaultBrokerAccount?: boolean;
 }
