@@ -12,7 +12,7 @@ import {
   createFileFromStream,
 } from "../src/index.js";
 import type { BodyPart, FormDataMap, MultipartRequestBody } from "../src/interfaces.js";
-import { isNode, stringToUint8Array } from "@azure/core-util";
+import { isBrowser, isNodeLike, stringToUint8Array } from "@azure/core-util";
 
 export async function performRequest(formData: FormDataMap): Promise<PipelineResponse> {
   const request = createPipelineRequest({
@@ -304,7 +304,7 @@ describe("formDataPolicy", function () {
   });
 
   describe("FormData request bodies", () => {
-    it.runIf(isNode)("should be processed by formDataPolicy in Node", async () => {
+    it.runIf(isNodeLike)("should be processed by formDataPolicy in Node", async () => {
       const request = createPipelineRequest({
         url: "https://bing.com",
         headers: createHttpHeaders({
@@ -334,7 +334,7 @@ describe("formDataPolicy", function () {
       );
     });
 
-    it.runIf(!isNode)("should be passed through in browser", async () => {
+    it.runIf(isBrowser)("should be passed through in browser", async () => {
       const request = createPipelineRequest({
         url: "https://bing.com",
         headers: createHttpHeaders({

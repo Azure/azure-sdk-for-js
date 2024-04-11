@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNode, stringToUint8Array } from "@azure/core-util";
+import { isNodeLike, stringToUint8Array } from "@azure/core-util";
 import { createHttpHeaders } from "../httpHeaders.js";
 import type {
   BodyPart,
@@ -34,7 +34,7 @@ export function formDataPolicy(): PipelinePolicy {
   return {
     name: formDataPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      if (isNode && typeof FormData !== "undefined" && request.body instanceof FormData) {
+      if (isNodeLike && typeof FormData !== "undefined" && request.body instanceof FormData) {
         request.formData = formDataToFormDataMap(request.body);
         request.body = undefined;
       }
