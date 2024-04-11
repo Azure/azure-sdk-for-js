@@ -28,6 +28,6 @@ export { EventGridClientOptions } from "./cadl-generated";
 
 export { PublishResultOutput } from "./cadl-generated/rest";
 
-export { OperationOptions as OperationRestOptions } from "@azure-rest/core-client";
+export { OperationOptions } from "@azure-rest/core-client";
 
 export { PublishCloudEventOptions } from "./models";

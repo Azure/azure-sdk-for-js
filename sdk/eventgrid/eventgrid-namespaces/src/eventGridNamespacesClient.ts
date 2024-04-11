@@ -19,7 +19,6 @@ import {
 import { randomUUID } from "@azure/core-util";
 import { EventGridClient as EventGridClientGenerated } from "./cadl-generated/EventGridClient";
 import { EventGridClientOptions } from "./cadl-generated/api";
-import { PublishResultOutput } from "./cadl-generated/rest";
 import { PublishCloudEventOptions } from "./models";
 import { publishCloudEventInBinaryMode } from "./eventGridNamespacesPublishBinaryMode";
 
@@ -51,17 +50,17 @@ export class EventGridNamespacesClient {
    * @param options - Options to publish
    *
    */
-  publishCloudEvent(
+  async publishCloudEvent(
     event: CloudEvent,
     topicName: string,
     options: PublishCloudEventOptions = { requestOptions: {} },
-  ): Promise<PublishResultOutput> {
+  ): Promise<void> {
     const cloudEventWireModel: CloudEvent = convertCloudEventToModelType(event);
 
     if (!options.binaryMode) {
-      return this._client.publishCloudEvent(topicName, event, options);
+      await this._client.publishCloudEvent(topicName, event, options);
     } else {
-      return publishCloudEventInBinaryMode(
+      await publishCloudEventInBinaryMode(
         this._client.getClient(),
         topicName,
         cloudEventWireModel,
@@ -85,16 +84,16 @@ export class EventGridNamespacesClient {
    * @param options - Options to publish
    *
    */
-  publishCloudEvents(
+  async publishCloudEvents(
     events: CloudEvent[],
     topicName: string,
     options: PublishCloudEventsOptions = { requestOptions: {} },
-  ): Promise<PublishResultOutput> {
+  ): Promise<void> {
     const eventsWireModel: Array<CloudEvent> = [];
     for (const individualevent of events) {
       eventsWireModel.push(convertCloudEventToModelType(individualevent));
     }
-    return this._client.publishCloudEvents(topicName, eventsWireModel, options);
+    await this._client.publishCloudEvents(topicName, eventsWireModel, options);
   }
 
   /**
