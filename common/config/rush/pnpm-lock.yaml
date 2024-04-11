@@ -11462,7 +11462,7 @@ packages:
     dev: false
 
   file:projects/api-management-custom-widgets-tools.tgz:
-    resolution: {integrity: sha512-fYGQJAY0yZKEqPk93FA5an7HN4E1Gh2AMynoMtlHI7l+Qhy2lI9YPe9o/yx3myfa+HtHJoHrLZ4nhk13e3Yy4A==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
+    resolution: {integrity: sha512-TwISdXEwl3VcFk8mOckvLvWLThI4G0q9a0D4t9OviV3xzYWAo36Fsl76gvzsd7b5Ksqqbsb7n9QkxZgH5qXCOg==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
     name: '@rush-temp/api-management-custom-widgets-tools'
     version: 0.0.0
     dependencies:
