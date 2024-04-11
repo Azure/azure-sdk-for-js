@@ -126,9 +126,10 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
 
       // Add long interval observable callbacks
       this.attachStatsbeatGauge.addCallback(this.attachCallback.bind(this));
-      this.longIntervalStatsbeatMeter.addBatchObservableCallback(this.getEnvironmentStatus.bind(this), [
-        this.featureStatsbeatGauge,
-      ]);
+      this.longIntervalStatsbeatMeter.addBatchObservableCallback(
+        this.getEnvironmentStatus.bind(this),
+        [this.featureStatsbeatGauge],
+      );
 
       // Export Feature/Attach Statsbeat once upon app initialization
       this.longIntervalAzureExporter.export(
