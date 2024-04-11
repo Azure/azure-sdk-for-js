@@ -41,12 +41,8 @@ export interface CloudEvent {
     type: string;
 }
 
-// @public (undocumented)
-export interface EventGridClientOptions extends ClientOptions {
-}
-
 // @public
-export class EventGridNamespacesClient {
+export class EventGridClient {
     constructor(endpoint: string, credential: AzureKeyCredential, options?: EventGridClientOptions);
     acknowledgeCloudEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: AcknowledgeCloudEventsOptions): Promise<AcknowledgeResult>;
     publishCloudEvent(event: CloudEvent, topicName: string, options?: PublishCloudEventOptions): Promise<PublishResultOutput>;
@@ -55,6 +51,10 @@ export class EventGridNamespacesClient {
     rejectCloudEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: RejectCloudEventsOptions): Promise<RejectResult>;
     releaseCloudEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: ReleaseCloudEventsOptions): Promise<ReleaseResult>;
     renewCloudEventLocks(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: RenewCloudEventLocksOptions): Promise<RenewCloudEventLocksResult>;
+}
+
+// @public (undocumented)
+export interface EventGridClientOptions extends ClientOptions {
 }
 
 // @public

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EventGridNamespacesClient, CloudEvent, ReceiveResult } from "@azure/eventgrid-namespaces";
+import { EventGridClient, CloudEvent, ReceiveResult } from "@azure/eventgrid-namespaces";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 import * as dotenv from "dotenv";
@@ -16,7 +16,7 @@ const topicName = process.env["TOPIC_NAME"] ?? "testtopic1";
 
 export async function main(): Promise<void> {
   // Create the client used to publish events
-  const client = new EventGridNamespacesClient(endpoint, new AzureKeyCredential(key));
+  const client = new EventGridClient(endpoint, new AzureKeyCredential(key));
 
   // publishes a single cloud event
   const eventId: string = `singleEventIdV210001`;

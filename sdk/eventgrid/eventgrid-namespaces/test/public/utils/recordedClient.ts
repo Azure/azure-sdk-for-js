@@ -9,7 +9,7 @@ import {
   RecorderStartOptions,
 } from "@azure-tools/test-recorder";
 
-import { EventGridNamespacesClient } from "../../../src";
+import { EventGridClient as EventGridNamespacesClient } from "../../../src";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { AdditionalPolicyConfig } from "@azure/core-client";
 

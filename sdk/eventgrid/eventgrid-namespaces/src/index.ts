@@ -22,7 +22,7 @@ export {
   RenewCloudEventLocksResult,
 } from "./cadl-generated/models";
 
-export { EventGridNamespacesClient } from "./eventGridNamespacesClient";
+export { EventGridNamespacesClient as EventGridClient } from "./eventGridNamespacesClient";
 
 export { EventGridClientOptions } from "./cadl-generated";
 

@@ -4,7 +4,7 @@ import { Suite, Context } from "mocha";
 import { assert } from "@azure/test-utils";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import {
-  EventGridNamespacesClient,
+  EventGridClient as EventGridNamespacesClient,
   CloudEvent,
   ReceiveResult,
   RejectResult,
