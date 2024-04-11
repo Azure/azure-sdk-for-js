@@ -70,7 +70,7 @@ npx cross-env EVENT_GRID_NAMESPACES_ENDPOINT="<event grid namespaces endpoint>" 
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[namespaceactivities]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid/samples/v1-beta/typescript/
+[namespaceactivities]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid/
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/eventgrid
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureeventgridcustomtopic,configuredtousetheeventgridschema]: https://docs.microsoft.com/azure/event-grid/scripts/event-grid-cli-create-custom-topic
