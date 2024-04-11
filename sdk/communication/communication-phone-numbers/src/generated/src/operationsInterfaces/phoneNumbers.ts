@@ -315,7 +315,7 @@ export interface PhoneNumbers {
     options?: PhoneNumbersReleasePhoneNumberOptionalParams,
   ): Promise<PhoneNumbersReleasePhoneNumberResponse>;
   /**
-   * Searches for number format and operator information for a given list of phone numbers.
+   * Searches for operator information for a given list of phone numbers.
    * @param phoneNumbers Phone number(s) whose operator information is being requested
    * @param options The options parameters.
    */

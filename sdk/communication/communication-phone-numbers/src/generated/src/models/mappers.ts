@@ -895,6 +895,18 @@ export const PurchasedPhoneNumber: coreClient.CompositeMapper = {
           className: "PhoneNumberCost",
         },
       },
+      operatorId: {
+        serializedName: "operatorId",
+        type: {
+          name: "String",
+        },
+      },
+      operatorName: {
+        serializedName: "operatorName",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
