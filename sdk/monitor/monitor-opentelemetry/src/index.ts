@@ -14,13 +14,14 @@ import {
   AzureMonitorOpenTelemetryOptions,
   InstrumentationOptions,
   BrowserSdkLoaderOptions,
+  StatsbeatOptions,
 } from "./types";
 import { BrowserSdkLoader } from "./browserSdkLoader/browserSdkLoader";
 import { setSdkPrefix } from "./metrics/quickpulse/utils";
 import { SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { LogRecordProcessor, LoggerProvider } from "@opentelemetry/sdk-logs";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
-import { setStatsbeatFeatures } from "./utils/statsbeat";
+import { getInstance } from "./utils/statsbeat";
 
 export { AzureMonitorOpenTelemetryOptions, InstrumentationOptions, BrowserSdkLoaderOptions };
 
@@ -35,11 +36,24 @@ let browserSdkLoader: BrowserSdkLoader | undefined;
  */
 export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
   const config = new InternalConfig(options);
+  const statsbeatOptions: StatsbeatOptions = {
+    // Instrumentations
+    azureSdk: config.instrumentationOptions?.azureSdk?.enabled,
+    mongoDb: config.instrumentationOptions?.mongoDb?.enabled,
+    mySql: config.instrumentationOptions?.mySql?.enabled,
+    postgreSql: config.instrumentationOptions?.postgreSql?.enabled,
+    redis: config.instrumentationOptions?.redis?.enabled,
+    bunyan: config.instrumentationOptions?.bunyan?.enabled,
+    // Features
+    browserSdkLoader: config.browserSdkLoaderOptions.enabled,
+    aadHandling: !!config.azureMonitorExporterOptions?.credential,
+    diskRetry: !config.azureMonitorExporterOptions?.disableOfflineStorage,
+  };
+  getInstance().setStatsbeatFeatures(statsbeatOptions);
 
   if (config.browserSdkLoaderOptions.enabled) {
     browserSdkLoader = new BrowserSdkLoader(config);
   }
-  setStatsbeatFeatures(config);
   // Remove global providers in OpenTelemetry, these would be overriden if present
   metrics.disable();
   trace.disable();

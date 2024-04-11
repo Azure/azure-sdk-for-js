@@ -58,6 +58,25 @@ export interface InstrumentationOptions {
 }
 
 /**
+ * Statsbeat Feature and Instrumentation Options interface
+ * @internal
+ */
+export interface StatsbeatOptions {
+  /** Instrumentations */
+  azureSdk?: boolean;
+  mongoDb?: boolean;
+  mySql?: boolean;
+  postgreSql?: boolean;
+  redis?: boolean;
+  bunyan?: boolean;
+  /** Features */
+  liveMetrics?: boolean;
+  browserSdkLoader?: boolean;
+  aadHandling?: boolean;
+  diskRetry?: boolean;
+}
+
+/**
  * Application Insights Web Instrumentation Configuration interface
  */
 export interface BrowserSdkLoaderOptions {

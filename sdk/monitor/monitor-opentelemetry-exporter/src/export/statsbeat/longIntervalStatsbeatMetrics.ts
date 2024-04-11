@@ -126,7 +126,7 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
 
       // Add long interval observable callbacks
       this.attachStatsbeatGauge.addCallback(this.attachCallback.bind(this));
-      this.longIntervalStatsbeatMeter.addBatchObservableCallback(this.featureCallback.bind(this), [
+      this.longIntervalStatsbeatMeter.addBatchObservableCallback(this.getEnvironmentStatus.bind(this), [
         this.featureStatsbeatGauge,
       ]);
 
@@ -144,7 +144,7 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
     }
   }
 
-  private featureCallback(observableResult: BatchObservableResult) {
+  private getEnvironmentStatus(observableResult: BatchObservableResult) {
     this.setFeatures();
     let attributes;
     if (this.instrumentation) {
