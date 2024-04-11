@@ -6,7 +6,7 @@ Azure Cosmos DB for PostgreSQL database service resource provider REST APIs
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-cosmosdbforpostgresql) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-cosmosdbforpostgresql) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-cosmosdbforpostgresql?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

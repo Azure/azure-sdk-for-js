@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all Virtual Router Peerings in a Virtual Router resource.
  *
  * @summary Lists all Virtual Router Peerings in a Virtual Router resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VirtualRouterPeeringList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VirtualRouterPeeringList.json
  */
 async function listAllVirtualRouterPeeringsForAGivenVirtualRouter() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -29,7 +29,7 @@ async function listAllVirtualRouterPeeringsForAGivenVirtualRouter() {
   const resArray = new Array();
   for await (let item of client.virtualRouterPeerings.list(
     resourceGroupName,
-    virtualRouterName
+    virtualRouterName,
   )) {
     resArray.push(item);
   }

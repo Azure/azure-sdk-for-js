@@ -28,7 +28,7 @@ async function workloadNetworksListVMGroups() {
   const resArray = new Array();
   for await (let item of client.workloadNetworks.listVMGroups(
     resourceGroupName,
-    privateCloudName
+    privateCloudName,
   )) {
     resArray.push(item);
   }

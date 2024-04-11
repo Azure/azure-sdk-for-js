@@ -4,13 +4,16 @@
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { EventHubConsumerClient, EventHubProducerClient } from "../../src";
 import { AbortController } from "@azure/abort-controller";
-import chai from "chai";
+import chai, { assert } from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { createMockServer } from "./utils/mockService";
 import { testWithServiceTypes } from "./utils/testWithServiceTypes";
+import { StandardAbortMessage } from "@azure/core-amqp";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
+
+const abortMsgRegex = new RegExp(StandardAbortMessage);
 
 testWithServiceTypes((serviceVersion) => {
   const env = getEnvVars();
@@ -87,7 +90,7 @@ testWithServiceTypes((serviceVersion) => {
             throw new Error(TEST_FAILURE);
           } catch (err: any) {
             should.equal(err.name, "AbortError");
-            should.equal(err.message, "The operation was aborted.");
+            assert.match(err.message, abortMsgRegex);
           }
         });
 
@@ -98,7 +101,7 @@ testWithServiceTypes((serviceVersion) => {
             throw new Error(TEST_FAILURE);
           } catch (err: any) {
             should.equal(err.name, "AbortError");
-            should.equal(err.message, "The operation was aborted.");
+            assert.match(err.message, abortMsgRegex);
           }
         });
 
@@ -109,7 +112,7 @@ testWithServiceTypes((serviceVersion) => {
             throw new Error(TEST_FAILURE);
           } catch (err: any) {
             should.equal(err.name, "AbortError");
-            should.equal(err.message, "The operation was aborted.");
+            assert.match(err.message, abortMsgRegex);
           }
         });
       }
@@ -133,7 +136,7 @@ testWithServiceTypes((serviceVersion) => {
             throw new Error(TEST_FAILURE);
           } catch (err: any) {
             should.equal(err.name, "AbortError");
-            should.equal(err.message, "The operation was aborted.");
+            assert.match(err.message, abortMsgRegex);
           }
         });
 
@@ -144,7 +147,7 @@ testWithServiceTypes((serviceVersion) => {
             throw new Error(TEST_FAILURE);
           } catch (err: any) {
             should.equal(err.name, "AbortError");
-            should.equal(err.message, "The operation was aborted.");
+            assert.match(err.message, abortMsgRegex);
           }
         });
 
@@ -155,7 +158,7 @@ testWithServiceTypes((serviceVersion) => {
             throw new Error(TEST_FAILURE);
           } catch (err: any) {
             should.equal(err.name, "AbortError");
-            should.equal(err.message, "The operation was aborted.");
+            assert.match(err.message, abortMsgRegex);
           }
         });
 
@@ -166,7 +169,7 @@ testWithServiceTypes((serviceVersion) => {
             throw new Error(TEST_FAILURE);
           } catch (err: any) {
             should.equal(err.name, "AbortError");
-            should.equal(err.message, "The operation was aborted.");
+            assert.match(err.message, abortMsgRegex);
           }
         });
 
@@ -177,7 +180,7 @@ testWithServiceTypes((serviceVersion) => {
             throw new Error(TEST_FAILURE);
           } catch (err: any) {
             should.equal(err.name, "AbortError");
-            should.equal(err.message, "The operation was aborted.");
+            assert.match(err.message, abortMsgRegex);
           }
         });
       }

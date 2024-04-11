@@ -18,7 +18,7 @@ import {
   DeploymentsCreateOrUpdateResponse,
   DeploymentsUpdateOptionalParams,
   DeploymentsUpdateResponse,
-  DeploymentsDeleteOptionalParams
+  DeploymentsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface Deployments {
    * @param options The options parameters.
    */
   list(
-    options?: DeploymentsListOptionalParams
+    options?: DeploymentsListOptionalParams,
   ): PagedAsyncIterableIterator<NginxDeployment>;
   /**
    * List all NGINX deployments under the specified resource group.
@@ -38,7 +38,7 @@ export interface Deployments {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: DeploymentsListByResourceGroupOptionalParams
+    options?: DeploymentsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<NginxDeployment>;
   /**
    * Get the NGINX deployment
@@ -49,7 +49,7 @@ export interface Deployments {
   get(
     resourceGroupName: string,
     deploymentName: string,
-    options?: DeploymentsGetOptionalParams
+    options?: DeploymentsGetOptionalParams,
   ): Promise<DeploymentsGetResponse>;
   /**
    * Create or update the NGINX deployment
@@ -60,7 +60,7 @@ export interface Deployments {
   beginCreateOrUpdate(
     resourceGroupName: string,
     deploymentName: string,
-    options?: DeploymentsCreateOrUpdateOptionalParams
+    options?: DeploymentsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeploymentsCreateOrUpdateResponse>,
@@ -76,7 +76,7 @@ export interface Deployments {
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     deploymentName: string,
-    options?: DeploymentsCreateOrUpdateOptionalParams
+    options?: DeploymentsCreateOrUpdateOptionalParams,
   ): Promise<DeploymentsCreateOrUpdateResponse>;
   /**
    * Update the NGINX deployment
@@ -87,7 +87,7 @@ export interface Deployments {
   beginUpdate(
     resourceGroupName: string,
     deploymentName: string,
-    options?: DeploymentsUpdateOptionalParams
+    options?: DeploymentsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeploymentsUpdateResponse>,
@@ -103,7 +103,7 @@ export interface Deployments {
   beginUpdateAndWait(
     resourceGroupName: string,
     deploymentName: string,
-    options?: DeploymentsUpdateOptionalParams
+    options?: DeploymentsUpdateOptionalParams,
   ): Promise<DeploymentsUpdateResponse>;
   /**
    * Delete the NGINX deployment resource
@@ -114,7 +114,7 @@ export interface Deployments {
   beginDelete(
     resourceGroupName: string,
     deploymentName: string,
-    options?: DeploymentsDeleteOptionalParams
+    options?: DeploymentsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the NGINX deployment resource
@@ -125,6 +125,6 @@ export interface Deployments {
   beginDeleteAndWait(
     resourceGroupName: string,
     deploymentName: string,
-    options?: DeploymentsDeleteOptionalParams
+    options?: DeploymentsDeleteOptionalParams,
   ): Promise<void>;
 }

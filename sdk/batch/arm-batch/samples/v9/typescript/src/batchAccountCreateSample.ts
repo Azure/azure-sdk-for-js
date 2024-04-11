@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   BatchAccountCreateParameters,
-  BatchManagementClient
+  BatchManagementClient,
 } from "@azure/arm-batch";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
  *
  * @summary Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/BatchAccountCreate_BYOS.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/BatchAccountCreate_BYOS.json
  */
 async function batchAccountCreateByos() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -31,22 +31,21 @@ async function batchAccountCreateByos() {
   const parameters: BatchAccountCreateParameters = {
     autoStorage: {
       storageAccountId:
-        "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage"
+        "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage",
     },
     keyVaultReference: {
-      id:
-        "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.KeyVault/vaults/sample",
-      url: "http://sample.vault.azure.net/"
+      id: "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.KeyVault/vaults/sample",
+      url: "http://sample.vault.azure.net/",
     },
     location: "japaneast",
-    poolAllocationMode: "UserSubscription"
+    poolAllocationMode: "UserSubscription",
   };
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
   const result = await client.batchAccountOperations.beginCreateAndWait(
     resourceGroupName,
     accountName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -55,7 +54,7 @@ async function batchAccountCreateByos() {
  * This sample demonstrates how to Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
  *
  * @summary Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/BatchAccountCreate_Default.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/BatchAccountCreate_Default.json
  */
 async function batchAccountCreateDefault() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -65,16 +64,16 @@ async function batchAccountCreateDefault() {
   const parameters: BatchAccountCreateParameters = {
     autoStorage: {
       storageAccountId:
-        "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage"
+        "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage",
     },
-    location: "japaneast"
+    location: "japaneast",
   };
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
   const result = await client.batchAccountOperations.beginCreateAndWait(
     resourceGroupName,
     accountName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -83,7 +82,7 @@ async function batchAccountCreateDefault() {
  * This sample demonstrates how to Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
  *
  * @summary Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/BatchAccountCreate_SystemAssignedIdentity.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/BatchAccountCreate_SystemAssignedIdentity.json
  */
 async function batchAccountCreateSystemAssignedIdentity() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -93,17 +92,17 @@ async function batchAccountCreateSystemAssignedIdentity() {
   const parameters: BatchAccountCreateParameters = {
     autoStorage: {
       storageAccountId:
-        "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage"
+        "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage",
     },
     identity: { type: "SystemAssigned" },
-    location: "japaneast"
+    location: "japaneast",
   };
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
   const result = await client.batchAccountOperations.beginCreateAndWait(
     resourceGroupName,
     accountName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -112,7 +111,7 @@ async function batchAccountCreateSystemAssignedIdentity() {
  * This sample demonstrates how to Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
  *
  * @summary Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/BatchAccountCreate_UserAssignedIdentity.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/BatchAccountCreate_UserAssignedIdentity.json
  */
 async function batchAccountCreateUserAssignedIdentity() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -122,22 +121,23 @@ async function batchAccountCreateUserAssignedIdentity() {
   const parameters: BatchAccountCreateParameters = {
     autoStorage: {
       storageAccountId:
-        "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage"
+        "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage",
     },
     identity: {
       type: "UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/subid/resourceGroups/defaultAzurebatchJapaneast/providers/MicrosoftManagedIdentity/userAssignedIdentities/id1": {}
-      }
+        "/subscriptions/subid/resourceGroups/defaultAzurebatchJapaneast/providers/MicrosoftManagedIdentity/userAssignedIdentities/id1":
+          {},
+      },
     },
-    location: "japaneast"
+    location: "japaneast",
   };
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
   const result = await client.batchAccountOperations.beginCreateAndWait(
     resourceGroupName,
     accountName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -146,7 +146,7 @@ async function batchAccountCreateUserAssignedIdentity() {
  * This sample demonstrates how to Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
  *
  * @summary Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PrivateBatchAccountCreate.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/PrivateBatchAccountCreate.json
  */
 async function privateBatchAccountCreate() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -156,22 +156,21 @@ async function privateBatchAccountCreate() {
   const parameters: BatchAccountCreateParameters = {
     autoStorage: {
       storageAccountId:
-        "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage"
+        "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage",
     },
     keyVaultReference: {
-      id:
-        "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.KeyVault/vaults/sample",
-      url: "http://sample.vault.azure.net/"
+      id: "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.KeyVault/vaults/sample",
+      url: "http://sample.vault.azure.net/",
     },
     location: "japaneast",
-    publicNetworkAccess: "Disabled"
+    publicNetworkAccess: "Disabled",
   };
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
   const result = await client.batchAccountOperations.beginCreateAndWait(
     resourceGroupName,
     accountName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

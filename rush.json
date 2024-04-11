@@ -326,6 +326,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/purview-datamap",
+      "projectFolder": "sdk/purview/purview-datamap-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/purview-scanning",
       "projectFolder": "sdk/purview/purview-scanning-rest",
       "versionPolicyName": "client"
@@ -416,11 +421,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure-rest/ai-personalizer",
-      "projectFolder": "sdk/personalizer/ai-personalizer-rest",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure/search-documents",
       "projectFolder": "sdk/search/search-documents",
       "versionPolicyName": "client"
@@ -458,11 +458,6 @@
     {
       "packageName": "@azure/communication-identity",
       "projectFolder": "sdk/communication/communication-identity",
-      "versionPolicyName": "client"
-    },
-    {
-      "packageName": "@azure/communication-network-traversal",
-      "projectFolder": "sdk/communication/communication-network-traversal",
       "versionPolicyName": "client"
     },
     {
@@ -643,9 +638,7 @@
     {
       "packageName": "@azure/identity",
       "projectFolder": "sdk/identity/identity",
-      "decoupledLocalDependencies": [
-        "@azure/keyvault-keys"
-      ],
+      "decoupledLocalDependencies": ["@azure/keyvault-keys"],
       "versionPolicyName": "client"
     },
     {
@@ -859,7 +852,7 @@
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure/test-utils-perf",
+      "packageName": "@azure-tools/test-perf",
       "projectFolder": "sdk/test-utils/perf",
       "versionPolicyName": "utility"
     },
@@ -1471,6 +1464,11 @@
     {
       "packageName": "@azure-rest/health-insights-clinicalmatching",
       "projectFolder": "sdk/healthinsights/health-insights-clinicalmatching-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/health-insights-radiologyinsights",
+      "projectFolder": "sdk/healthinsights/health-insights-radiologyinsights-rest",
       "versionPolicyName": "client"
     },
     {
@@ -2184,6 +2182,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-workloadssapvirtualinstance",
+      "projectFolder": "sdk/workloads/arm-workloadssapvirtualinstance",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-astro",
       "projectFolder": "sdk/astro/arm-astro",
       "versionPolicyName": "management"
@@ -2196,6 +2199,16 @@
     {
       "packageName": "@azure/arm-springappdiscovery",
       "projectFolder": "sdk/springappdiscovery/arm-springappdiscovery",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-migrationdiscoverysap",
+      "projectFolder": "sdk/migrationdiscovery/arm-migrationdiscoverysap",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storageactions",
+      "projectFolder": "sdk/storageactions/arm-storageactions",
       "versionPolicyName": "management"
     }
   ]

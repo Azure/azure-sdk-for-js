@@ -22,7 +22,7 @@ require("dotenv").config();
 async function main() {
   const client = DocumentIntelligence(
     process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"] || "<cognitive services endpoint>",
-    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" }
+    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" },
   );
 
   const initialResponse = await client

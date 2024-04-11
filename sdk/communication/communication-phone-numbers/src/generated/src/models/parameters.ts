@@ -265,13 +265,13 @@ export const top: OperationQueryParameter = {
 };
 
 export const phoneNumbers: OperationParameter = {
-  parameterPath: ["options", "phoneNumbers"],
+  parameterPath: "phoneNumbers",
   mapper: OperatorInformationRequestMapper,
 };
 
-export const phoneNumbers: OperationParameter = {
-  parameterPath: ["options", "phoneNumbers"],
-  mapper: OperatorInformationRequestMapper
+export const options: OperationParameter = {
+  parameterPath: ["options", "options"],
+  mapper: OperatorInformationRequestMapper,
 };
 
 export const nextLink: OperationURLParameter = {

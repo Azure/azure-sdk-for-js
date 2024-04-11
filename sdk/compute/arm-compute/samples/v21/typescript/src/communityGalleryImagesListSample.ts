@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List community gallery images inside a gallery.
  *
  * @summary List community gallery images inside a gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/communityGalleryExamples/CommunityGalleryImage_List.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/communityGalleryExamples/CommunityGalleryImage_List.json
  */
 async function listCommunityGalleryImages() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function listCommunityGalleryImages() {
   const resArray = new Array();
   for await (let item of client.communityGalleryImages.list(
     location,
-    publicGalleryName
+    publicGalleryName,
   )) {
     resArray.push(item);
   }

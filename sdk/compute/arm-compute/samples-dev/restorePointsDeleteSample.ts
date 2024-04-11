@@ -32,7 +32,7 @@ async function restorePointDeleteMaximumSetGen() {
   const result = await client.restorePoints.beginDeleteAndWait(
     resourceGroupName,
     restorePointCollectionName,
-    restorePointName
+    restorePointName,
   );
   console.log(result);
 }
@@ -55,7 +55,7 @@ async function restorePointDeleteMinimumSetGen() {
   const result = await client.restorePoints.beginDeleteAndWait(
     resourceGroupName,
     restorePointCollectionName,
-    restorePointName
+    restorePointName,
   );
   console.log(result);
 }

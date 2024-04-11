@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { drainStream, PerfOptionDictionary } from "@azure/test-utils-perf";
+import { drainStream, PerfOptionDictionary } from "@azure-tools/test-perf";
 import { StorageDFSTest } from "./storageTest.spec";
 import { DataLakeFileClient } from "@azure/storage-file-datalake";
 import { randomUUID } from "@azure/core-util";

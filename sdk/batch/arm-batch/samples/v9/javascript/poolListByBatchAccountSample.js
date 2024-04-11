@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all of the pools in the specified account.
  *
  * @summary Lists all of the pools in the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PoolList.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/PoolList.json
  */
 async function listPool() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -35,7 +35,7 @@ async function listPool() {
  * This sample demonstrates how to Lists all of the pools in the specified account.
  *
  * @summary Lists all of the pools in the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PoolListWithFilter.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/PoolListWithFilter.json
  */
 async function listPoolWithFilter() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";

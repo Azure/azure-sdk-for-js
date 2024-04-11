@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { PerfOptionDictionary } from "@azure/test-utils-perf";
+import { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { ContainerRegistryTest, ContainerRegistryTestOptions } from "./client.spec";
 
 export class RepositoryListTest extends ContainerRegistryTest<ContainerRegistryTestOptions> {

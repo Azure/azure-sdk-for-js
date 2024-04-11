@@ -198,7 +198,7 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
   if (updatedConfig.retryOptions.mode == undefined) {
     updatedConfig.retryOptions.mode = RetryMode.Fixed;
   }
-  let lastError: MessagingError | Error | undefined;
+  const errors: (MessagingError | Error)[] = [];
   let result: any;
   let success = false;
   const totalNumberOfAttempts = updatedConfig.retryOptions.maxRetries + 1;
@@ -249,8 +249,8 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
         err,
       );
 
-      lastError = err;
-      if ((lastError as any).retryable && totalNumberOfAttempts > i) {
+      errors.push(err);
+      if ((errors[errors?.length - 1] as MessagingError).retryable && totalNumberOfAttempts > i) {
         const targetDelayInMs = calculateDelay(
           i,
           updatedConfig.retryOptions.retryDelayInMs,
@@ -277,6 +277,17 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
   if (success) {
     return result;
   } else {
-    throw lastError;
+    throw compileErrors(errors);
   }
+}
+
+function compileErrors(errors: (MessagingError | Error)[]): MessagingError | Error {
+  if (!errors.length) {
+    throw new RangeError("Error array is empty");
+  }
+  let i = 0;
+  const str = errors.map((error) => `Error ${i++}: ${error}`).join("\n\n");
+  const lastError = errors[errors.length - 1];
+  lastError.message = str;
+  return lastError;
 }

@@ -41,7 +41,7 @@ async function createsOrUpdatesASqlVirtualMachineAndJoinsItToASqlVirtualMachineG
   const result = await client.sqlVirtualMachines.beginCreateOrUpdateAndWait(
     resourceGroupName,
     sqlVirtualMachineName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -108,7 +108,7 @@ async function createsOrUpdatesASqlVirtualMachineForAutomatedBackUpSettingsWithW
   const result = await client.sqlVirtualMachines.beginCreateOrUpdateAndWait(
     resourceGroupName,
     sqlVirtualMachineName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -138,7 +138,7 @@ async function createsOrUpdatesASqlVirtualMachineForStorageConfigurationSettings
   const result = await client.sqlVirtualMachines.beginCreateOrUpdateAndWait(
     resourceGroupName,
     sqlVirtualMachineName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -179,7 +179,7 @@ async function createsOrUpdatesASqlVirtualMachineForStorageConfigurationSettings
   const result = await client.sqlVirtualMachines.beginCreateOrUpdateAndWait(
     resourceGroupName,
     sqlVirtualMachineName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -270,7 +270,7 @@ async function createsOrUpdatesASqlVirtualMachineWithMaxParameters() {
   const result = await client.sqlVirtualMachines.beginCreateOrUpdateAndWait(
     resourceGroupName,
     sqlVirtualMachineName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -296,7 +296,7 @@ async function createsOrUpdatesASqlVirtualMachineWithMinParameters() {
   const result = await client.sqlVirtualMachines.beginCreateOrUpdateAndWait(
     resourceGroupName,
     sqlVirtualMachineName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

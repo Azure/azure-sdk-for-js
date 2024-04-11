@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for NetworkManagementClient.",
-  "version": "33.0.1",
+  "version": "33.1.1",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -78,7 +78,6 @@
     "pack": "npm pack 2>&1",
     "extract-api": "api-extractor run --local",
     "lint": "echo skipped",
-    "audit": "echo skipped",
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "build:node": "echo skipped",
     "build:browser": "echo skipped",
