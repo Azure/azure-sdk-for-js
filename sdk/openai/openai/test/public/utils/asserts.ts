@@ -321,6 +321,7 @@ function assertChatCompletionsNoUsage(
   ifDefined(completions.id, assert.isString, { defined: !allowEmptyId });
   assertContentFilterResultsForPrompt(completions.promptFilterResults ?? []);
   ifDefined(completions.systemFingerprint, assert.isString);
+  ifDefined(completions.model, assert.isString);
 }
 
 export function assertCompletions(completions: Completions): void {
