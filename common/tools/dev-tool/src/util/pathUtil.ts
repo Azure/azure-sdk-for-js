@@ -1,4 +1,7 @@
-import path from "path";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import path from "node:path";
 
 function toPosixWrapper<T extends (...args: any[]) => any>(f: T): T {
   const wrapped = (...args: Parameters<T>): ReturnType<T> => {

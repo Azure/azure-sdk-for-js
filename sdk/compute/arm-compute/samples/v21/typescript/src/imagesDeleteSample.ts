@@ -30,7 +30,7 @@ async function imageDeleteMaximumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.images.beginDeleteAndWait(
     resourceGroupName,
-    imageName
+    imageName,
   );
   console.log(result);
 }
@@ -51,7 +51,7 @@ async function imageDeleteMinimumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.images.beginDeleteAndWait(
     resourceGroupName,
-    imageName
+    imageName,
   );
   console.log(result);
 }

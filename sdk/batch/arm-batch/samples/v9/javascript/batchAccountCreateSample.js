@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
  *
  * @summary Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/BatchAccountCreate_BYOS.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/BatchAccountCreate_BYOS.json
  */
 async function batchAccountCreateByos() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -48,7 +48,7 @@ async function batchAccountCreateByos() {
  * This sample demonstrates how to Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
  *
  * @summary Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/BatchAccountCreate_Default.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/BatchAccountCreate_Default.json
  */
 async function batchAccountCreateDefault() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -75,7 +75,7 @@ async function batchAccountCreateDefault() {
  * This sample demonstrates how to Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
  *
  * @summary Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/BatchAccountCreate_SystemAssignedIdentity.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/BatchAccountCreate_SystemAssignedIdentity.json
  */
 async function batchAccountCreateSystemAssignedIdentity() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -103,7 +103,7 @@ async function batchAccountCreateSystemAssignedIdentity() {
  * This sample demonstrates how to Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
  *
  * @summary Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/BatchAccountCreate_UserAssignedIdentity.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/BatchAccountCreate_UserAssignedIdentity.json
  */
 async function batchAccountCreateUserAssignedIdentity() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -137,7 +137,7 @@ async function batchAccountCreateUserAssignedIdentity() {
  * This sample demonstrates how to Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
  *
  * @summary Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PrivateBatchAccountCreate.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/PrivateBatchAccountCreate.json
  */
 async function privateBatchAccountCreate() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";

@@ -17,7 +17,7 @@ import {
   LogProfilesCreateOrUpdateResponse,
   LogProfileResourcePatch,
   LogProfilesUpdateOptionalParams,
-  LogProfilesUpdateResponse
+  LogProfilesUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface LogProfiles {
    * @param options The options parameters.
    */
   list(
-    options?: LogProfilesListOptionalParams
+    options?: LogProfilesListOptionalParams,
   ): PagedAsyncIterableIterator<LogProfileResource>;
   /**
    * Deletes the log profile.
@@ -37,7 +37,7 @@ export interface LogProfiles {
    */
   delete(
     logProfileName: string,
-    options?: LogProfilesDeleteOptionalParams
+    options?: LogProfilesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the log profile.
@@ -46,7 +46,7 @@ export interface LogProfiles {
    */
   get(
     logProfileName: string,
-    options?: LogProfilesGetOptionalParams
+    options?: LogProfilesGetOptionalParams,
   ): Promise<LogProfilesGetResponse>;
   /**
    * Create or update a log profile in Azure Monitoring REST API.
@@ -57,7 +57,7 @@ export interface LogProfiles {
   createOrUpdate(
     logProfileName: string,
     parameters: LogProfileResource,
-    options?: LogProfilesCreateOrUpdateOptionalParams
+    options?: LogProfilesCreateOrUpdateOptionalParams,
   ): Promise<LogProfilesCreateOrUpdateResponse>;
   /**
    * Updates an existing LogProfilesResource. To update other fields use the CreateOrUpdate method.
@@ -68,6 +68,6 @@ export interface LogProfiles {
   update(
     logProfileName: string,
     logProfilesResource: LogProfileResourcePatch,
-    options?: LogProfilesUpdateOptionalParams
+    options?: LogProfilesUpdateOptionalParams,
   ): Promise<LogProfilesUpdateResponse>;
 }

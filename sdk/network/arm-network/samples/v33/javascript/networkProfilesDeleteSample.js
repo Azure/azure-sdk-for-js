@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes the specified network profile.
  *
  * @summary Deletes the specified network profile.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkProfileDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkProfileDelete.json
  */
 async function deleteNetworkProfile() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

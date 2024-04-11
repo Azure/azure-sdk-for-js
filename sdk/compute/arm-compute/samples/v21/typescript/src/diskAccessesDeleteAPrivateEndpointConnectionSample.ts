@@ -29,11 +29,12 @@ async function deleteAPrivateEndpointConnectionUnderADiskAccessResource() {
   const privateEndpointConnectionName = "myPrivateEndpointConnection";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.diskAccesses.beginDeleteAPrivateEndpointConnectionAndWait(
-    resourceGroupName,
-    diskAccessName,
-    privateEndpointConnectionName
-  );
+  const result =
+    await client.diskAccesses.beginDeleteAPrivateEndpointConnectionAndWait(
+      resourceGroupName,
+      diskAccessName,
+      privateEndpointConnectionName,
+    );
   console.log(result);
 }
 

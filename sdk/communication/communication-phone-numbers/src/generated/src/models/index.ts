@@ -159,6 +159,10 @@ export interface PhoneNumberSearchResult {
   cost: PhoneNumberCost;
   /** The date that this search result expires and phone numbers are no longer on hold. A search result expires in less than 15min, e.g. 2020-11-19T16:31:49.048Z. */
   searchExpiresBy: Date;
+  /** The error code of the search. */
+  errorCode?: number;
+  /** Mapping Error Messages to Codes */
+  error?: PhoneNumberSearchResultError;
 }
 
 export interface PhoneNumbersBrowseRequest {
@@ -348,7 +352,13 @@ export interface OperatorInformationOptions {
   includeAdditionalOperatorDetails?: boolean;
 }
 
-/** Represents a search result containing operator information associated with the requested phone numbers */
+/** Represents options to modify a search request for operator information */
+export interface OperatorInformationOptions {
+  /** Includes the fields operatorDetails, numberType, and isoCountryCode in the response.  Please note: use of this option will result in additional costs */
+  includeAdditionalOperatorDetails?: boolean;
+}
+
+/** Represents a search result containing format and operator information associated with the requested phone numbers */
 export interface OperatorInformationResult {
   /**
    * Results of a search.

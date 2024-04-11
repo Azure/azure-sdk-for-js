@@ -30,7 +30,7 @@ async function generalizeAVirtualMachine() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.generalize(
     resourceGroupName,
-    vmName
+    vmName,
   );
   console.log(result);
 }

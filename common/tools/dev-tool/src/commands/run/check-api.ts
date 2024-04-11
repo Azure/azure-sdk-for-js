@@ -1,10 +1,12 @@
-import { leafCommand, makeCommandInfo } from "../../framework/command";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
+import { leafCommand, makeCommandInfo } from "../../framework/command";
 import tsMin from "@_ts/min";
 import tsMax from "@_ts/max";
 import { createPrinter } from "../../util/printer";
 import { resolveProject } from "../../util/resolveProject";
-import path from "path";
+import path from "node:path";
 import semver from "semver";
 
 export const commandInfo = makeCommandInfo(

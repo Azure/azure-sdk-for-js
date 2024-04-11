@@ -29,7 +29,7 @@ async function workloadNetworksDeleteDhcp() {
   const result = await client.workloadNetworks.beginDeleteDhcpAndWait(
     resourceGroupName,
     privateCloudName,
-    dhcpId
+    dhcpId,
   );
   console.log(result);
 }
