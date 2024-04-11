@@ -4,28 +4,33 @@
 import {
   GetJob200Response,
   GetJobDefaultResponse,
-  CreateJob202Response,
+  CreateJob200Response,
+  CreateJob201Response,
   CreateJobLogicalResponse,
   CreateJobDefaultResponse,
 } from "./responses";
 
 const responseMap: Record<string, string[]> = {
   "GET /radiology-insights/jobs/{id}": ["200"],
-  "POST /radiology-insights/jobs": ["202"],
-  "GET /radiology-insights/jobs": ["200", "202"],
+  "PUT /radiology-insights/jobs/{id}": ["200", "201"],
 };
 
 export function isUnexpected(
   response: GetJob200Response | GetJobDefaultResponse,
 ): response is GetJobDefaultResponse;
 export function isUnexpected(
-  response: CreateJob202Response | CreateJobLogicalResponse | CreateJobDefaultResponse,
+  response:
+    | CreateJob200Response
+    | CreateJob201Response
+    | CreateJobLogicalResponse
+    | CreateJobDefaultResponse,
 ): response is CreateJobDefaultResponse;
 export function isUnexpected(
   response:
     | GetJob200Response
     | GetJobDefaultResponse
-    | CreateJob202Response
+    | CreateJob200Response
+    | CreateJob201Response
     | CreateJobLogicalResponse
     | CreateJobDefaultResponse,
 ): response is GetJobDefaultResponse | CreateJobDefaultResponse {
@@ -61,17 +66,24 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
-      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
+    for (
+      let i = candidateParts.length - 1, j = pathParts.length - 1;
+      i >= 1 && j >= 1;
+      i--, j--
+    ) {
+      if (
+        candidateParts[i]?.startsWith("{") &&
+        candidateParts[i]?.indexOf("}") !== -1
+      ) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || "",
-        );
+        const isMatched = new RegExp(
+          `${candidateParts[i]?.slice(start, end)}`,
+        ).test(pathParts[j] || "");
 
         if (!isMatched) {
           found = false;

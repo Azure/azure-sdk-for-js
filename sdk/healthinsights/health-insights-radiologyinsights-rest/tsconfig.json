@@ -4,8 +4,14 @@
     "outDir": "./dist-esm",
     "declarationDir": "./types",
     "paths": {
-      "@azure-rest/health-insights-radiologyinsights": ["./src/index"]
+      "@azure-rest/health-insights-radiologyinsights": [
+        "./src/index"
+      ]
     }
   },
-  "include": ["src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "./test/**/*.ts",
+    "samples-dev/**/*.ts"
+  ]
 }

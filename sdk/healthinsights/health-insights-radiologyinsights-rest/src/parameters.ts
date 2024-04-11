@@ -1,25 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import { RequestParameters } from "@azure-rest/core-client";
-import { RadiologyInsightsData } from "./models";
+import { RadiologyInsightsJob } from "./models";
 
-export type GetJobParameters = RequestParameters;
-
-export interface CreateJobHeaders {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  "Repeatability-Request-ID"?: string;
-  /** Specifies the date and time at which the request was first created. */
-  "Repeatability-First-Sent"?: string;
+export interface GetJobQueryParamProperties {
+  /** Expand the indicated resources into the response. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  expand?: string;
 }
+
+export interface GetJobQueryParam {
+  queryParameters?: GetJobQueryParamProperties;
+}
+
+export type GetJobParameters = GetJobQueryParam & RequestParameters;
 
 export interface CreateJobBodyParam {
-  body?: RadiologyInsightsData;
+  /** The resource instance. */
+  body: RadiologyInsightsJob;
 }
 
-export interface CreateJobHeaderParam {
-  headers?: RawHttpHeadersInput & CreateJobHeaders;
+export interface CreateJobQueryParamProperties {
+  /** Expand the indicated resources into the response. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  expand?: string;
 }
 
-export type CreateJobParameters = CreateJobHeaderParam & CreateJobBodyParam & RequestParameters;
+export interface CreateJobQueryParam {
+  queryParameters?: CreateJobQueryParamProperties;
+}
+
+export type CreateJobParameters = CreateJobQueryParam &
+  CreateJobBodyParam &
+  RequestParameters;

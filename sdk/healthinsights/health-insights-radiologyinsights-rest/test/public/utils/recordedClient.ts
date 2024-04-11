@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Context } from "mocha";
 import {
   assertEnvironmentVariable,
   Recorder,
   RecorderStartOptions,
 } from "@azure-tools/test-recorder";
-import "./env";
 import { AzureKeyCredential } from "@azure/core-auth";
+import { Context } from "mocha";
 import AHIClient, { AzureHealthInsightsClient } from "../../../src";
+import "./env";
 
 const envSetupForPlayback: Record<string, string> = {
   HEALTH_INSIGHTS_ENDPOINT: "https://endpoint",

@@ -18,8 +18,8 @@ export default function createClient(
   options: ClientOptions = {},
 ): AzureHealthInsightsClient {
   const baseUrl = options.baseUrl ?? `${endpoint}/health-insights`;
-  options.apiVersion = options.apiVersion ?? "2023-09-01-preview";
-  const userAgentInfo = `azsdk-js-health-insights-radiologyinsights-rest/1.0.0-beta.2`;
+  options.apiVersion = options.apiVersion ?? "2024-04-01";
+  const userAgentInfo = `azsdk-js-health-insights-radiologyinsights-rest/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
@@ -33,9 +33,16 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
+      apiKeyHeaderName:
+        options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
     },
   };
 
-  return getClient(baseUrl, credentials, options) as AzureHealthInsightsClient;
+  const client = getClient(
+    baseUrl,
+    credentials,
+    options,
+  ) as AzureHealthInsightsClient;
+
+  return client;
 }

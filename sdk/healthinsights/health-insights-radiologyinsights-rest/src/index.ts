@@ -11,5 +11,6 @@ export * from "./isUnexpected";
 export * from "./models";
 export * from "./outputModels";
 export * from "./pollingHelper";
+export * from "./serializeHelper";
 
 export default AzureHealthInsightsClient;
