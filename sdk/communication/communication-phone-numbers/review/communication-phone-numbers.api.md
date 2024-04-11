@@ -90,11 +90,6 @@ export interface OperatorInformation {
 }
 
 // @public
-export interface OperatorInformationOptions {
-    includeAdditionalOperatorDetails?: boolean;
-}
-
-// @public
 export interface OperatorInformationResult {
     values?: OperatorInformation[];
 }

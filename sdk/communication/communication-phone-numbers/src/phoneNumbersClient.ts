@@ -20,7 +20,6 @@ import {
   PhoneNumberLocality,
   PhoneNumberOffering,
   PhoneNumberSearchResult,
-  PhoneNumbersOperatorInformationSearchOptionalParams,
   PurchasedPhoneNumber,
 } from "./generated/src/models/";
 import {
