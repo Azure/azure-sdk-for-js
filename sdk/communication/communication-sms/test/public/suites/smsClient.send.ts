@@ -33,6 +33,7 @@ export default function testCases(): void {
       {
         enableDeliveryReport: true,
         tag: "SMS_LIVE_TEST",
+        deliveryReportTimeoutInSeconds: 300,
       },
     );
 
