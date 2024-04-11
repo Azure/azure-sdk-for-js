@@ -10,8 +10,8 @@ description: Phone number configuration client
 package-version: 1.3.0-beta.3
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: package-preview-2024-01
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/a443d2d3c562d91419d11bed6326b5907d38848c/specification/communication/data-plane/PhoneNumbers/readme.md
+tag: package-preview-2024-05
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/90ed80785885293a5f7401e1e2b03dc9ced63277/specification/communication/data-plane/PhoneNumbers/readme.md
 model-date-time-as-string: false
 optional-response-headers: true
 payload-flattening-threshold: 10
@@ -91,20 +91,4 @@ directive:
 directive:
   where-model: PurchasedPhoneNumber
   remove-property: phoneNumberSource
-```
-
-# Removed Models
-``` yaml
-directive:
-  - remove-operation-match: /.*Reservation.*/i
-  - remove-operation: PhoneNumbers_BrowseAvailableNumbers
-  - remove-model: PhoneNumbersReservation
-  - remove-model: PhoneNumbersReservations
-  - remove-model: PhoneNumbersBrowseRequest
-  - remove-model: PhoneNumbersBrowseResult
-  - remove-model: PhoneNumberBrowseCapabilitiesRequest
-  - remove-model: PhoneNumbersReservationPurchaseRequest
-  - remove-model: Error
-  - remove-model: AvailablePhoneNumber
-  - remove-model: AvailablePhoneNumberCost
 ```

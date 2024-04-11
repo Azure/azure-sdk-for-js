@@ -13,7 +13,10 @@ import {
 } from "@azure/core-client";
 import {
   PhoneNumberSearchRequest as PhoneNumberSearchRequestMapper,
+  PhoneNumbersBrowseRequest as PhoneNumbersBrowseRequestMapper,
   PhoneNumberPurchaseRequest as PhoneNumberPurchaseRequestMapper,
+  PhoneNumbersReservation as PhoneNumbersReservationMapper,
+  PhoneNumbersReservationPurchaseRequest as PhoneNumbersReservationPurchaseRequestMapper,
   PhoneNumberCapabilitiesRequest as PhoneNumberCapabilitiesRequestMapper,
   OperatorInformationRequest as OperatorInformationRequestMapper,
 } from "../models/mappers";
@@ -121,7 +124,7 @@ export const administrativeDivision: OperationQueryParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-01-31-preview",
+    defaultValue: "2024-05-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -188,6 +191,26 @@ export const quantity: OperationParameter = {
   mapper: PhoneNumberSearchRequestMapper,
 };
 
+export const phoneNumberType3: OperationParameter = {
+  parameterPath: "phoneNumberType",
+  mapper: PhoneNumbersBrowseRequestMapper,
+};
+
+export const capabilities1: OperationParameter = {
+  parameterPath: ["options", "capabilities"],
+  mapper: PhoneNumbersBrowseRequestMapper,
+};
+
+export const assignmentType2: OperationParameter = {
+  parameterPath: ["options", "assignmentType"],
+  mapper: PhoneNumbersBrowseRequestMapper,
+};
+
+export const phoneNumberPrefixes: OperationParameter = {
+  parameterPath: ["options", "phoneNumberPrefixes"],
+  mapper: PhoneNumbersBrowseRequestMapper,
+};
+
 export const searchId: OperationURLParameter = {
   parameterPath: "searchId",
   mapper: {
@@ -209,13 +232,13 @@ export const consentToNotResellNumbers: OperationParameter = {
   mapper: PhoneNumberPurchaseRequestMapper,
 };
 
-export const operationId: OperationURLParameter = {
-  parameterPath: "operationId",
+export const top: OperationQueryParameter = {
+  parameterPath: ["options", "top"],
   mapper: {
-    serializedName: "operationId",
-    required: true,
+    defaultValue: 100,
+    serializedName: "top",
     type: {
-      name: "String",
+      name: "Number",
     },
   },
 };
@@ -226,6 +249,38 @@ export const contentType1: OperationParameter = {
     defaultValue: "application/merge-patch+json",
     isConstant: true,
     serializedName: "Content-Type",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const phoneNumbers: OperationParameter = {
+  parameterPath: "phoneNumbers",
+  mapper: PhoneNumbersReservationMapper,
+};
+
+export const reservationId: OperationURLParameter = {
+  parameterPath: "reservationId",
+  mapper: {
+    serializedName: "reservationId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const consentToNotResellNumbers1: OperationParameter = {
+  parameterPath: ["options", "consentToNotResellNumbers"],
+  mapper: PhoneNumbersReservationPurchaseRequestMapper,
+};
+
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    serializedName: "operationId",
+    required: true,
     type: {
       name: "String",
     },
@@ -258,20 +313,14 @@ export const phoneNumber: OperationURLParameter = {
   },
 };
 
-export const top: OperationQueryParameter = {
-  parameterPath: ["options", "top"],
-  mapper: {
-    defaultValue: 100,
-    serializedName: "top",
-    type: {
-      name: "Number",
-    },
-  },
+export const phoneNumbers1: OperationParameter = {
+  parameterPath: "phoneNumbers",
+  mapper: OperatorInformationRequestMapper,
 };
 
-export const phoneNumbers: OperationParameter = {
-  parameterPath: ["options", "phoneNumbers"],
-  mapper: OperatorInformationRequestMapper
+export const options: OperationParameter = {
+  parameterPath: ["options", "options"],
+  mapper: OperatorInformationRequestMapper,
 };
 
 export const nextLink: OperationURLParameter = {
