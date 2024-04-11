@@ -3,7 +3,7 @@
 
 import { isNode } from "@azure/core-util";
 
-export const baseUri = "https://contoso.api.fake";
+export const baseUri = "https://nextpma.plat.skype.com:6448";
 
 export const MOCK_ENDPOINT = "https://REDACTED.communication.azure.com/";
 export const MOCK_CONNECTION_STRING = `endpoint=${MOCK_ENDPOINT};accesskey=eyJhbG`;

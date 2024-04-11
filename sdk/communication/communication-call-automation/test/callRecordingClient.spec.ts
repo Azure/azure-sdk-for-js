@@ -15,6 +15,7 @@ import {
   RECORDING_STATE,
 } from "./utils/connectionUtils";
 import { CallRecording } from "../src/callRecording";
+import { RecordingStorageKind } from "../src/models/models";
 import { StartRecordingOptions } from "../src/models/options";
 import { apiVersion } from "../src/generated/src/models/parameters";
 import { ChannelAffinity } from "@azure/communication-call-automation";
@@ -116,6 +117,46 @@ describe("CallRecording Unit Tests", async function () {
 
     assert.equal(data.callLocator.kind, "serverCallLocator");
     assert.equal(data.recordingStateCallbackUri, CALL_CALLBACK_URL);
+    assert.equal(request.method, "POST");
+    assert.equal(
+      request.url,
+      `${baseUri}/calling/recordings?api-version=${apiVersion.mapper.defaultValue}`
+    );
+  });
+
+  it("makes successful startRecording request with byos", async function () {
+    const mockResponse: RestModel.RecordingStateResponse = {
+      recordingId: RECORDING_ID,
+      recordingState: RECORDING_STATE,
+    };
+
+    const mockHttpClient = generateHttpClient(200, mockResponse);
+    callRecording = createRecordingClient(mockHttpClient);
+    
+    const recordingStorageKind: RecordingStorageKind = "azureBlobStorage"
+    const recordingStorage = {
+      recordingStorageKind: recordingStorageKind, 
+      recordingDestinationContainerUrl: "https://testurl"
+    };
+
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+
+    const recOptions: StartRecordingOptions = {
+      recordingStateCallbackEndpointUrl: CALL_CALLBACK_URL,
+      callLocator: { id: CALL_SERVER_CALL_ID, kind: "serverCallLocator" },
+      recordingChannel: "unmixed",
+      recordingFormat: "wav",
+      recordingContent: "audio",
+      recordingStorage: recordingStorage,
+    };
+
+    await callRecording.start(recOptions);
+    const request = spy.getCall(0).args[0];
+    const data = JSON.parse(request.body?.toString() || "");
+    
+    assert.equal(data.callLocator.kind, "serverCallLocator");
+    assert.equal(data.recordingStateCallbackUri, CALL_CALLBACK_URL);
+    assert.equal(data.externalStorage.recordingStorageKind, "azureBlobStorage");
     assert.equal(request.method, "POST");
     assert.equal(
       request.url,
