@@ -7,11 +7,11 @@
 import { AzureKeyCredential } from '@azure/core-auth';
 import { ClientOptions } from '@azure-rest/core-client';
 import { ErrorModel } from '@azure-rest/core-client';
-import { OperationOptions as OperationRestOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
-export interface AcknowledgeCloudEventsOptions extends OperationRestOptions {
+export interface AcknowledgeCloudEventsOptions extends OperationOptions {
 }
 
 // @public
@@ -64,16 +64,16 @@ export interface FailedLockToken {
     lockToken: string;
 }
 
-export { OperationRestOptions }
+export { OperationOptions }
 
 // @public (undocumented)
-export interface PublishCloudEventOptions extends OperationRestOptions {
+export interface PublishCloudEventOptions extends OperationOptions {
     binaryMode?: boolean;
     contentType?: string;
 }
 
 // @public (undocumented)
-export interface PublishCloudEventsOptions extends OperationRestOptions {
+export interface PublishCloudEventsOptions extends OperationOptions {
     contentType?: string;
 }
 
@@ -82,7 +82,7 @@ export interface PublishResultOutput {
 }
 
 // @public (undocumented)
-export interface ReceiveCloudEventsOptions extends OperationRestOptions {
+export interface ReceiveCloudEventsOptions extends OperationOptions {
     maxEvents?: number;
     maxWaitTime?: number;
 }
@@ -99,7 +99,7 @@ export interface ReceiveResult {
 }
 
 // @public (undocumented)
-export interface RejectCloudEventsOptions extends OperationRestOptions {
+export interface RejectCloudEventsOptions extends OperationOptions {
 }
 
 // @public
@@ -109,7 +109,7 @@ export interface RejectResult {
 }
 
 // @public (undocumented)
-export interface ReleaseCloudEventsOptions extends OperationRestOptions {
+export interface ReleaseCloudEventsOptions extends OperationOptions {
     releaseDelayInSeconds?: ReleaseDelay;
 }
 
@@ -123,7 +123,7 @@ export interface ReleaseResult {
 }
 
 // @public (undocumented)
-export interface RenewCloudEventLocksOptions extends OperationRestOptions {
+export interface RenewCloudEventLocksOptions extends OperationOptions {
 }
 
 // @public

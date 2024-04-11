@@ -10,8 +10,7 @@ import {
 } from "@azure-tools/test-recorder";
 
 import { EventGridClient as EventGridNamespacesClient } from "../../../src";
-import { AzureKeyCredential, TokenCredential } from "@azure/core-auth";
-import { ClientSecretCredential } from "@azure/identity";
+import { AzureKeyCredential } from "@azure/core-auth";
 import { AdditionalPolicyConfig } from "@azure/core-client";
 
 export interface RecordedV2Client {
@@ -32,7 +31,6 @@ export async function createRecordedClient(
   currentTest: Test | undefined,
   endpointEnv: string,
   apiKeyEnv: string,
-  azureKeyCredentialMode: boolean = true,
   options: {
     additionalPolicies?: AdditionalPolicyConfig[];
   } = {},
@@ -40,32 +38,14 @@ export async function createRecordedClient(
   const recorder = new Recorder(currentTest);
   await recorder.start(recorderOptions);
 
-  if (azureKeyCredentialMode) {
-    return {
-      client: new EventGridNamespacesClient(
-        assertEnvironmentVariable(endpointEnv),
-        new AzureKeyCredential(assertEnvironmentVariable(apiKeyEnv)),
-        recorder.configureClientOptions({
-          additionalPolicies: options.additionalPolicies,
-        }),
-      ),
-      recorder,
-    };
-  } else {
-    const tokenCredential: TokenCredential = new ClientSecretCredential(
-      assertEnvironmentVariable("AZURE_TENANT_ID"),
-      assertEnvironmentVariable("AZURE_CLIENT_ID"),
-      assertEnvironmentVariable("AZURE_CLIENT_SECRET"),
-    );
-    return {
-      client: new EventGridNamespacesClient(
-        assertEnvironmentVariable(endpointEnv),
-        tokenCredential,
-        recorder.configureClientOptions({
-          additionalPolicies: options.additionalPolicies,
-        }),
-      ),
-      recorder,
-    };
-  }
+  return {
+    client: new EventGridNamespacesClient(
+      assertEnvironmentVariable(endpointEnv),
+      new AzureKeyCredential(assertEnvironmentVariable(apiKeyEnv)),
+      recorder.configureClientOptions({
+        additionalPolicies: options.additionalPolicies,
+      }),
+    ),
+    recorder,
+  };
 }
