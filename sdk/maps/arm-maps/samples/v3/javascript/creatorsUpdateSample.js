@@ -34,7 +34,7 @@ async function updateCreatorResource() {
     resourceGroupName,
     accountName,
     creatorName,
-    creatorUpdateParameters
+    creatorUpdateParameters,
   );
   console.log(result);
 }

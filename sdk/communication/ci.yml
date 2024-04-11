@@ -43,8 +43,6 @@ extends:
         safeName: azurecommunicationidentity
       - name: azure-communication-phone-numbers
         safeName: azurecommunicationphonenumbers
-      - name: azure-communication-network-traversal
-        safeName: azurecommunicationnetworktraversal
       - name: azure-tools-communication-short-codes
         safeName: azuretoolscommunicationshortcodes
       - name: azure-tools-communication-alpha-ids
@@ -57,6 +55,8 @@ extends:
         safeName: azuretoolscommunicationtendlc
       - name: azure-rest-communication-job-router
         safeName: azurerestcommunicationjobrouter
+      - name: azure-rest-communication-messages
+        safeName: azurerestcommunicationmessages
       - name: azure-tools-communication-toll-free-verification
         safeName: azuretoolscommunicationtollfreeverification
       - name: azure-communication-call-automation
@@ -67,9 +67,5 @@ extends:
         skipPublishDocGithubIo: true
       - name: azure-tools-communication-tiering
         safeName: azuretoolscommunicationtiering
-        skipPublishDocMs: true
-        skipPublishDocGithubIo: true
-      - name: azure-rest-communication-messages
-        safeName: azurerestcommunicationmessages
         skipPublishDocMs: true
         skipPublishDocGithubIo: true

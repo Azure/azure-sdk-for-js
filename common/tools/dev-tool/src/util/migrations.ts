@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { mkdirp, readFile, rm, stat, Stats, writeFile } from "fs-extra";
-import { userInfo } from "os";
-import path from "path";
+import { userInfo } from "node:os";
+import path from "node:path";
 import { panic } from "./assert";
 import { findMatchingFiles } from "./findMatchingFiles";
 import { createPrinter, Printer } from "./printer";

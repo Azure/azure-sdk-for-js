@@ -20,7 +20,7 @@ import {
   SubvolumesUpdateResponse,
   SubvolumesDeleteOptionalParams,
   SubvolumesGetMetadataOptionalParams,
-  SubvolumesGetMetadataResponse
+  SubvolumesGetMetadataResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +39,7 @@ export interface Subvolumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: SubvolumesListByVolumeOptionalParams
+    options?: SubvolumesListByVolumeOptionalParams,
   ): PagedAsyncIterableIterator<SubvolumeInfo>;
   /**
    * Returns the path associated with the subvolumeName provided
@@ -56,7 +56,7 @@ export interface Subvolumes {
     poolName: string,
     volumeName: string,
     subvolumeName: string,
-    options?: SubvolumesGetOptionalParams
+    options?: SubvolumesGetOptionalParams,
   ): Promise<SubvolumesGetResponse>;
   /**
    * Creates a subvolume in the path or clones the subvolume mentioned in the parentPath
@@ -75,7 +75,7 @@ export interface Subvolumes {
     volumeName: string,
     subvolumeName: string,
     body: SubvolumeInfo,
-    options?: SubvolumesCreateOptionalParams
+    options?: SubvolumesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SubvolumesCreateResponse>,
@@ -99,7 +99,7 @@ export interface Subvolumes {
     volumeName: string,
     subvolumeName: string,
     body: SubvolumeInfo,
-    options?: SubvolumesCreateOptionalParams
+    options?: SubvolumesCreateOptionalParams,
   ): Promise<SubvolumesCreateResponse>;
   /**
    * Patch a subvolume
@@ -118,7 +118,7 @@ export interface Subvolumes {
     volumeName: string,
     subvolumeName: string,
     body: SubvolumePatchRequest,
-    options?: SubvolumesUpdateOptionalParams
+    options?: SubvolumesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SubvolumesUpdateResponse>,
@@ -142,7 +142,7 @@ export interface Subvolumes {
     volumeName: string,
     subvolumeName: string,
     body: SubvolumePatchRequest,
-    options?: SubvolumesUpdateOptionalParams
+    options?: SubvolumesUpdateOptionalParams,
   ): Promise<SubvolumesUpdateResponse>;
   /**
    * Delete subvolume
@@ -159,7 +159,7 @@ export interface Subvolumes {
     poolName: string,
     volumeName: string,
     subvolumeName: string,
-    options?: SubvolumesDeleteOptionalParams
+    options?: SubvolumesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete subvolume
@@ -176,7 +176,7 @@ export interface Subvolumes {
     poolName: string,
     volumeName: string,
     subvolumeName: string,
-    options?: SubvolumesDeleteOptionalParams
+    options?: SubvolumesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get details of the specified subvolume
@@ -193,7 +193,7 @@ export interface Subvolumes {
     poolName: string,
     volumeName: string,
     subvolumeName: string,
-    options?: SubvolumesGetMetadataOptionalParams
+    options?: SubvolumesGetMetadataOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SubvolumesGetMetadataResponse>,
@@ -215,6 +215,6 @@ export interface Subvolumes {
     poolName: string,
     volumeName: string,
     subvolumeName: string,
-    options?: SubvolumesGetMetadataOptionalParams
+    options?: SubvolumesGetMetadataOptionalParams,
   ): Promise<SubvolumesGetMetadataResponse>;
 }

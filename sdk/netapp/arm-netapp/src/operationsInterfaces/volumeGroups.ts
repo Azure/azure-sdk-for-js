@@ -16,7 +16,7 @@ import {
   VolumeGroupDetails,
   VolumeGroupsCreateOptionalParams,
   VolumeGroupsCreateResponse,
-  VolumeGroupsDeleteOptionalParams
+  VolumeGroupsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface VolumeGroups {
   listByNetAppAccount(
     resourceGroupName: string,
     accountName: string,
-    options?: VolumeGroupsListByNetAppAccountOptionalParams
+    options?: VolumeGroupsListByNetAppAccountOptionalParams,
   ): PagedAsyncIterableIterator<VolumeGroup>;
   /**
    * Get details of the specified volume group
@@ -44,7 +44,7 @@ export interface VolumeGroups {
     resourceGroupName: string,
     accountName: string,
     volumeGroupName: string,
-    options?: VolumeGroupsGetOptionalParams
+    options?: VolumeGroupsGetOptionalParams,
   ): Promise<VolumeGroupsGetResponse>;
   /**
    * Create a volume group along with specified volumes
@@ -59,7 +59,7 @@ export interface VolumeGroups {
     accountName: string,
     volumeGroupName: string,
     body: VolumeGroupDetails,
-    options?: VolumeGroupsCreateOptionalParams
+    options?: VolumeGroupsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VolumeGroupsCreateResponse>,
@@ -79,7 +79,7 @@ export interface VolumeGroups {
     accountName: string,
     volumeGroupName: string,
     body: VolumeGroupDetails,
-    options?: VolumeGroupsCreateOptionalParams
+    options?: VolumeGroupsCreateOptionalParams,
   ): Promise<VolumeGroupsCreateResponse>;
   /**
    * Delete the specified volume group only if there are no volumes under volume group.
@@ -92,7 +92,7 @@ export interface VolumeGroups {
     resourceGroupName: string,
     accountName: string,
     volumeGroupName: string,
-    options?: VolumeGroupsDeleteOptionalParams
+    options?: VolumeGroupsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the specified volume group only if there are no volumes under volume group.
@@ -105,6 +105,6 @@ export interface VolumeGroups {
     resourceGroupName: string,
     accountName: string,
     volumeGroupName: string,
-    options?: VolumeGroupsDeleteOptionalParams
+    options?: VolumeGroupsDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   GalleryApplicationVersion,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update a gallery Application Version.
  *
  * @summary Create or update a gallery Application Version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryApplicationVersion_Create.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/GalleryApplicationVersion_Create.json
  */
 async function createOrUpdateASimpleGalleryApplicationVersion() {
   const subscriptionId =
@@ -44,22 +44,22 @@ async function createOrUpdateASimpleGalleryApplicationVersion() {
               type: "String",
               description: "This is the description of the parameter",
               defaultValue: "default value of parameter.",
-              required: false
-            }
+              required: false,
+            },
           ],
-          script: "myCustomActionScript"
-        }
+          script: "myCustomActionScript",
+        },
       ],
       endOfLifeDate: new Date("2019-07-01T07:00:00Z"),
       manageActions: {
         install:
           'powershell -command "Expand-Archive -Path package.zip -DestinationPath C:\\package"',
-        remove: "del C:\\package "
+        remove: "del C:\\package ",
       },
       replicaCount: 1,
       source: {
         mediaLink:
-          "https://mystorageaccount.blob.core.windows.net/mycontainer/package.zip?{sasKey}"
+          "https://mystorageaccount.blob.core.windows.net/mycontainer/package.zip?{sasKey}",
       },
       storageAccountType: "Standard_LRS",
       targetRegions: [
@@ -67,21 +67,22 @@ async function createOrUpdateASimpleGalleryApplicationVersion() {
           name: "West US",
           excludeFromLatest: false,
           regionalReplicaCount: 1,
-          storageAccountType: "Standard_LRS"
-        }
-      ]
+          storageAccountType: "Standard_LRS",
+        },
+      ],
     },
-    safetyProfile: { allowDeletionOfReplicatedLocations: false }
+    safetyProfile: { allowDeletionOfReplicatedLocations: false },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.galleryApplicationVersions.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    galleryName,
-    galleryApplicationName,
-    galleryApplicationVersionName,
-    galleryApplicationVersion
-  );
+  const result =
+    await client.galleryApplicationVersions.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      galleryName,
+      galleryApplicationName,
+      galleryApplicationVersionName,
+      galleryApplicationVersion,
+    );
   console.log(result);
 }
 

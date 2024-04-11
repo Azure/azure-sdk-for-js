@@ -15,7 +15,7 @@ import {
   VirtualHubRouteTableV2SGetResponse,
   VirtualHubRouteTableV2SCreateOrUpdateOptionalParams,
   VirtualHubRouteTableV2SCreateOrUpdateResponse,
-  VirtualHubRouteTableV2SDeleteOptionalParams
+  VirtualHubRouteTableV2SDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface VirtualHubRouteTableV2S {
   list(
     resourceGroupName: string,
     virtualHubName: string,
-    options?: VirtualHubRouteTableV2SListOptionalParams
+    options?: VirtualHubRouteTableV2SListOptionalParams,
   ): PagedAsyncIterableIterator<VirtualHubRouteTableV2>;
   /**
    * Retrieves the details of a VirtualHubRouteTableV2.
@@ -43,7 +43,7 @@ export interface VirtualHubRouteTableV2S {
     resourceGroupName: string,
     virtualHubName: string,
     routeTableName: string,
-    options?: VirtualHubRouteTableV2SGetOptionalParams
+    options?: VirtualHubRouteTableV2SGetOptionalParams,
   ): Promise<VirtualHubRouteTableV2SGetResponse>;
   /**
    * Creates a VirtualHubRouteTableV2 resource if it doesn't exist else updates the existing
@@ -60,7 +60,7 @@ export interface VirtualHubRouteTableV2S {
     virtualHubName: string,
     routeTableName: string,
     virtualHubRouteTableV2Parameters: VirtualHubRouteTableV2,
-    options?: VirtualHubRouteTableV2SCreateOrUpdateOptionalParams
+    options?: VirtualHubRouteTableV2SCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualHubRouteTableV2SCreateOrUpdateResponse>,
@@ -82,7 +82,7 @@ export interface VirtualHubRouteTableV2S {
     virtualHubName: string,
     routeTableName: string,
     virtualHubRouteTableV2Parameters: VirtualHubRouteTableV2,
-    options?: VirtualHubRouteTableV2SCreateOrUpdateOptionalParams
+    options?: VirtualHubRouteTableV2SCreateOrUpdateOptionalParams,
   ): Promise<VirtualHubRouteTableV2SCreateOrUpdateResponse>;
   /**
    * Deletes a VirtualHubRouteTableV2.
@@ -95,7 +95,7 @@ export interface VirtualHubRouteTableV2S {
     resourceGroupName: string,
     virtualHubName: string,
     routeTableName: string,
-    options?: VirtualHubRouteTableV2SDeleteOptionalParams
+    options?: VirtualHubRouteTableV2SDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a VirtualHubRouteTableV2.
@@ -108,6 +108,6 @@ export interface VirtualHubRouteTableV2S {
     resourceGroupName: string,
     virtualHubName: string,
     routeTableName: string,
-    options?: VirtualHubRouteTableV2SDeleteOptionalParams
+    options?: VirtualHubRouteTableV2SDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CertificateCreateOrUpdateParameters,
-  BatchManagementClient
+  BatchManagementClient,
 } from "@azure/arm-batch";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Warning: This operation is deprecated and will be removed after February, 2024. Please use the [Azure KeyVault Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
  *
  * @summary Warning: This operation is deprecated and will be removed after February, 2024. Please use the [Azure KeyVault Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/CertificateCreate_Full.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/CertificateCreate_Full.json
  */
 async function createCertificateFull() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -34,7 +34,7 @@ async function createCertificateFull() {
     data: "MIIJsgIBAzCCCW4GCSqGSIb3DQE...",
     password: "<ExamplePassword>",
     thumbprint: "0a0e4f50d51beadeac1d35afc5116098e7902e6e",
-    thumbprintAlgorithm: "sha1"
+    thumbprintAlgorithm: "sha1",
   };
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
@@ -42,7 +42,7 @@ async function createCertificateFull() {
     resourceGroupName,
     accountName,
     certificateName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -51,7 +51,7 @@ async function createCertificateFull() {
  * This sample demonstrates how to Warning: This operation is deprecated and will be removed after February, 2024. Please use the [Azure KeyVault Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
  *
  * @summary Warning: This operation is deprecated and will be removed after February, 2024. Please use the [Azure KeyVault Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/CertificateCreate_MinimalCer.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/CertificateCreate_MinimalCer.json
  */
 async function createCertificateMinimalCer() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -61,7 +61,7 @@ async function createCertificateMinimalCer() {
   const certificateName = "sha1-0a0e4f50d51beadeac1d35afc5116098e7902e6e";
   const parameters: CertificateCreateOrUpdateParameters = {
     format: "Cer",
-    data: "MIICrjCCAZagAwI..."
+    data: "MIICrjCCAZagAwI...",
   };
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
@@ -69,7 +69,7 @@ async function createCertificateMinimalCer() {
     resourceGroupName,
     accountName,
     certificateName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -78,7 +78,7 @@ async function createCertificateMinimalCer() {
  * This sample demonstrates how to Warning: This operation is deprecated and will be removed after February, 2024. Please use the [Azure KeyVault Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
  *
  * @summary Warning: This operation is deprecated and will be removed after February, 2024. Please use the [Azure KeyVault Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/CertificateCreate_Minimal.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/CertificateCreate_Minimal.json
  */
 async function createCertificateMinimalPfx() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -88,7 +88,7 @@ async function createCertificateMinimalPfx() {
   const certificateName = "sha1-0a0e4f50d51beadeac1d35afc5116098e7902e6e";
   const parameters: CertificateCreateOrUpdateParameters = {
     data: "MIIJsgIBAzCCCW4GCSqGSIb3DQE...",
-    password: "<ExamplePassword>"
+    password: "<ExamplePassword>",
   };
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
@@ -96,7 +96,7 @@ async function createCertificateMinimalPfx() {
     resourceGroupName,
     accountName,
     certificateName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

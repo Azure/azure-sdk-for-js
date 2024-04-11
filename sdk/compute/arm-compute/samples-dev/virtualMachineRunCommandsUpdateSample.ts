@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VirtualMachineRunCommandUpdate,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -33,7 +33,7 @@ async function updateARunCommand() {
   const runCommand: VirtualMachineRunCommandUpdate = {
     asyncExecution: false,
     errorBlobManagedIdentity: {
-      objectId: "4231e4d2-33e4-4e23-96b2-17888afa6072"
+      objectId: "4231e4d2-33e4-4e23-96b2-17888afa6072",
     },
     errorBlobUri:
       "https://mystorageaccount.blob.core.windows.net/mycontainer/MyScriptError.txt",
@@ -41,14 +41,14 @@ async function updateARunCommand() {
       "https://mystorageaccount.blob.core.windows.net/myscriptoutputcontainer/outputUri",
     parameters: [
       { name: "param1", value: "value1" },
-      { name: "param2", value: "value2" }
+      { name: "param2", value: "value2" },
     ],
     runAsPassword: "<runAsPassword>",
     runAsUser: "user1",
     source: {
-      script: "Write-Host Hello World! ; Remove-Item C:\test\testFile.txt"
+      script: "Write-Host Hello World! ; Remove-Item C:\test\testFile.txt",
     },
-    timeoutInSeconds: 3600
+    timeoutInSeconds: 3600,
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -56,7 +56,7 @@ async function updateARunCommand() {
     resourceGroupName,
     vmName,
     runCommandName,
-    runCommand
+    runCommand,
   );
   console.log(result);
 }

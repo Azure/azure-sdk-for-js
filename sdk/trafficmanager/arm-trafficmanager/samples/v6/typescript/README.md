@@ -65,7 +65,7 @@ node dist/endpointsCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env TRAFFICMANAGER_SUBSCRIPTION_ID="<trafficmanager subscription id>" TRAFFICMANAGER_RESOURCE_GROUP="<trafficmanager resource group>" TRAFFICMANAGER_SUBSCRIPTION_ID="<trafficmanager subscription id>" TRAFFICMANAGER_RESOURCE_GROUP="<trafficmanager resource group>" TRAFFICMANAGER_SUBSCRIPTION_ID="<trafficmanager subscription id>" TRAFFICMANAGER_RESOURCE_GROUP="<trafficmanager resource group>" TRAFFICMANAGER_SUBSCRIPTION_ID="<trafficmanager subscription id>" TRAFFICMANAGER_RESOURCE_GROUP="<trafficmanager resource group>" TRAFFICMANAGER_SUBSCRIPTION_ID="<trafficmanager subscription id>" TRAFFICMANAGER_RESOURCE_GROUP="<trafficmanager resource group>" node dist/endpointsCreateOrUpdateSample.js
+npx cross-env TRAFFICMANAGER_SUBSCRIPTION_ID="<trafficmanager subscription id>" TRAFFICMANAGER_RESOURCE_GROUP="<trafficmanager resource group>" node dist/endpointsCreateOrUpdateSample.js
 ```
 
 ## Next Steps

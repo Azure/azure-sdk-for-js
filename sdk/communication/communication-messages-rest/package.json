@@ -2,7 +2,7 @@
   "name": "@azure-rest/communication-messages",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Azure client library for Azure Communication Messages services",
   "keywords": [
     "node",
@@ -100,7 +100,7 @@
     "karma-source-map-support": "~1.4.0",
     "karma-sourcemap-loader": "^0.4.0",
     "karma": "^6.2.0",
-    "c8": "^8.0.0",
+    "c8": "^9.1.0",
     "ts-node": "^10.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-messages-rest-rest/README.md",
@@ -120,8 +120,6 @@
     "productSlugs": [
       "azure",
       "azure-communication-services"
-    ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/communication-messages"
+    ]
   }
 }

@@ -1,6 +1,6 @@
 # Release History
 
-## 33.0.1 (Unreleased)
+## 33.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,15 @@
 
 ### Other Changes
 
+## 33.1.0 (2024-02-02)
+    
+**Features**
+
+  - Interface BastionHost has a new optional parameter zones
+  - Enum KnownVirtualNetworkPrivateEndpointNetworkPolicies has a new value NetworkSecurityGroupEnabled
+  - Enum KnownVirtualNetworkPrivateEndpointNetworkPolicies has a new value RouteTableEnabled
+    
+    
 ## 33.0.0 (2023-12-07)
     
 **Features**

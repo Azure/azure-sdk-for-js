@@ -108,7 +108,7 @@ function buildPipelineRequest(
 
   const headers = createHttpHeaders({
     ...(options.headers ? options.headers : {}),
-    accept: options.accept ?? "application/json",
+    accept: options.accept ?? options.headers?.accept ?? "application/json",
     ...(hasContent &&
       requestContentType && {
         "content-type": requestContentType,

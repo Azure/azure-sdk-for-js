@@ -15,7 +15,7 @@ import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
 import {
   RestorableTableResourcesGetResult,
   RestorableTableResourcesListOptionalParams,
-  RestorableTableResourcesListResponse
+  RestorableTableResourcesListResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -42,7 +42,7 @@ export class RestorableTableResourcesImpl implements RestorableTableResources {
   public list(
     location: string,
     instanceId: string,
-    options?: RestorableTableResourcesListOptionalParams
+    options?: RestorableTableResourcesListOptionalParams,
   ): PagedAsyncIterableIterator<RestorableTableResourcesGetResult> {
     const iter = this.listPagingAll(location, instanceId, options);
     return {
@@ -57,7 +57,7 @@ export class RestorableTableResourcesImpl implements RestorableTableResources {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(location, instanceId, options, settings);
-      }
+      },
     };
   }
 
@@ -65,7 +65,7 @@ export class RestorableTableResourcesImpl implements RestorableTableResources {
     location: string,
     instanceId: string,
     options?: RestorableTableResourcesListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<RestorableTableResourcesGetResult[]> {
     let result: RestorableTableResourcesListResponse;
     result = await this._list(location, instanceId, options);
@@ -75,12 +75,12 @@ export class RestorableTableResourcesImpl implements RestorableTableResources {
   private async *listPagingAll(
     location: string,
     instanceId: string,
-    options?: RestorableTableResourcesListOptionalParams
+    options?: RestorableTableResourcesListOptionalParams,
   ): AsyncIterableIterator<RestorableTableResourcesGetResult> {
     for await (const page of this.listPagingPage(
       location,
       instanceId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -97,11 +97,11 @@ export class RestorableTableResourcesImpl implements RestorableTableResources {
   private _list(
     location: string,
     instanceId: string,
-    options?: RestorableTableResourcesListOptionalParams
+    options?: RestorableTableResourcesListOptionalParams,
   ): Promise<RestorableTableResourcesListResponse> {
     return this.client.sendOperationRequest(
       { location, instanceId, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -109,28 +109,27 @@ export class RestorableTableResourcesImpl implements RestorableTableResources {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableTableResources",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableTableResources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RestorableTableResourcesListResult
+      bodyMapper: Mappers.RestorableTableResourcesListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.restoreLocation,
-    Parameters.restoreTimestampInUtc
+    Parameters.restoreTimestampInUtc,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location1,
-    Parameters.instanceId
+    Parameters.instanceId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -26,7 +26,7 @@ import { Tags } from "../../src/types";
 import { Context, getInstance } from "../../src/platform";
 
 const context = getInstance();
-const packageJsonPath = path.resolve(__dirname, "../../../", "./package.json");
+const packageJsonPath = path.resolve(__dirname, "../../", "./package.json");
 const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
 
 let testMetrics: ResourceMetrics;

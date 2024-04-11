@@ -11,7 +11,7 @@
 import {
   DataCollectionRuleResource,
   DataCollectionRulesCreateOptionalParams,
-  MonitorClient
+  MonitorClient,
 } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a data collection rule.
  *
  * @summary Creates or updates a data collection rule.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-09-01-preview/examples/DataCollectionRulesCreate.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/DataCollectionRulesCreate.json
  */
 async function createOrUpdateDataCollectionRule() {
   const subscriptionId =
@@ -38,9 +38,9 @@ async function createOrUpdateDataCollectionRule() {
         streams: [
           "Microsoft-Perf",
           "Microsoft-Syslog",
-          "Microsoft-WindowsEvent"
-        ]
-      }
+          "Microsoft-WindowsEvent",
+        ],
+      },
     ],
     dataSources: {
       performanceCounters: [
@@ -50,58 +50,58 @@ async function createOrUpdateDataCollectionRule() {
             "\\Processor(_Total)\\% Processor Time",
             "\\Memory\\Committed Bytes",
             "\\LogicalDisk(_Total)\\Free Megabytes",
-            "\\PhysicalDisk(_Total)\\Avg. Disk Queue Length"
+            "\\PhysicalDisk(_Total)\\Avg. Disk Queue Length",
           ],
           samplingFrequencyInSeconds: 15,
-          streams: ["Microsoft-Perf"]
+          streams: ["Microsoft-Perf"],
         },
         {
           name: "appTeamExtraCounters",
           counterSpecifiers: ["\\Process(_Total)\\Thread Count"],
           samplingFrequencyInSeconds: 30,
-          streams: ["Microsoft-Perf"]
-        }
+          streams: ["Microsoft-Perf"],
+        },
       ],
       syslog: [
         {
           name: "cronSyslog",
           facilityNames: ["cron"],
           logLevels: ["Debug", "Critical", "Emergency"],
-          streams: ["Microsoft-Syslog"]
+          streams: ["Microsoft-Syslog"],
         },
         {
           name: "syslogBase",
           facilityNames: ["syslog"],
           logLevels: ["Alert", "Critical", "Emergency"],
-          streams: ["Microsoft-Syslog"]
-        }
+          streams: ["Microsoft-Syslog"],
+        },
       ],
       windowsEventLogs: [
         {
           name: "cloudSecurityTeamEvents",
           streams: ["Microsoft-WindowsEvent"],
-          xPathQueries: ["Security!"]
+          xPathQueries: ["Security!"],
         },
         {
           name: "appTeam1AppEvents",
           streams: ["Microsoft-WindowsEvent"],
           xPathQueries: [
             "System![System[(Level = 1 or Level = 2 or Level = 3)]]",
-            "Application!*[System[(Level = 1 or Level = 2 or Level = 3)]]"
-          ]
-        }
-      ]
+            "Application!*[System[(Level = 1 or Level = 2 or Level = 3)]]",
+          ],
+        },
+      ],
     },
     destinations: {
       logAnalytics: [
         {
           name: "centralWorkspace",
           workspaceResourceId:
-            "/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.OperationalInsights/workspaces/centralTeamWorkspace"
-        }
-      ]
+            "/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.OperationalInsights/workspaces/centralTeamWorkspace",
+        },
+      ],
     },
-    location: "eastus"
+    location: "eastus",
   };
   const options: DataCollectionRulesCreateOptionalParams = { body };
   const credential = new DefaultAzureCredential();
@@ -109,7 +109,7 @@ async function createOrUpdateDataCollectionRule() {
   const result = await client.dataCollectionRules.create(
     resourceGroupName,
     dataCollectionRuleName,
-    options
+    options,
   );
   console.log(result);
 }

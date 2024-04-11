@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VirtualNetworksListDdosProtectionStatusOptionalParams,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the Ddos Protection Status of all IP Addresses under the Virtual Network
  *
  * @summary Gets the Ddos Protection Status of all IP Addresses under the Virtual Network
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VirtualNetworkGetDdosProtectionStatus.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VirtualNetworkGetDdosProtectionStatus.json
  */
 async function getDdosProtectionStatusOfAVirtualNetwork() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -29,7 +29,7 @@ async function getDdosProtectionStatusOfAVirtualNetwork() {
   const virtualNetworkName = "test-vnet";
   const top = 75;
   const options: VirtualNetworksListDdosProtectionStatusOptionalParams = {
-    top
+    top,
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -37,7 +37,7 @@ async function getDdosProtectionStatusOfAVirtualNetwork() {
   for await (let item of client.virtualNetworks.beginListDdosProtectionStatusAndWait(
     resourceGroupName,
     virtualNetworkName,
-    options
+    options,
   )) {
     resArray.push(item);
   }

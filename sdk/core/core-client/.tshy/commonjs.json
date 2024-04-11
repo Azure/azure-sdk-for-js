@@ -7,7 +7,8 @@
   ],
   "exclude": [
     "../src/**/*.mts",
-    "../src/base64-browser.mts"
+    "../src/base64-browser.mts",
+    "../src/state-browser.mts"
   ],
   "compilerOptions": {
     "outDir": "../.tshy-build/commonjs"

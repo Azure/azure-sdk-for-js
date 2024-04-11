@@ -16,7 +16,7 @@ import {
   FirewallRulesDeleteOptionalParams,
   FirewallRulesDeleteResponse,
   FirewallRulesGetOptionalParams,
-  FirewallRulesGetResponse
+  FirewallRulesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface FirewallRules {
   listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: FirewallRulesListByClusterOptionalParams
+    options?: FirewallRulesListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<FirewallRule>;
   /**
    * Creates a new cluster firewall rule or updates an existing cluster firewall rule.
@@ -46,7 +46,7 @@ export interface FirewallRules {
     clusterName: string,
     firewallRuleName: string,
     parameters: FirewallRule,
-    options?: FirewallRulesCreateOrUpdateOptionalParams
+    options?: FirewallRulesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<FirewallRulesCreateOrUpdateResponse>,
@@ -66,7 +66,7 @@ export interface FirewallRules {
     clusterName: string,
     firewallRuleName: string,
     parameters: FirewallRule,
-    options?: FirewallRulesCreateOrUpdateOptionalParams
+    options?: FirewallRulesCreateOrUpdateOptionalParams,
   ): Promise<FirewallRulesCreateOrUpdateResponse>;
   /**
    * Deletes a cluster firewall rule.
@@ -79,7 +79,7 @@ export interface FirewallRules {
     resourceGroupName: string,
     clusterName: string,
     firewallRuleName: string,
-    options?: FirewallRulesDeleteOptionalParams
+    options?: FirewallRulesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<FirewallRulesDeleteResponse>,
@@ -97,7 +97,7 @@ export interface FirewallRules {
     resourceGroupName: string,
     clusterName: string,
     firewallRuleName: string,
-    options?: FirewallRulesDeleteOptionalParams
+    options?: FirewallRulesDeleteOptionalParams,
   ): Promise<FirewallRulesDeleteResponse>;
   /**
    * Gets information about a cluster firewall rule.
@@ -110,6 +110,6 @@ export interface FirewallRules {
     resourceGroupName: string,
     clusterName: string,
     firewallRuleName: string,
-    options?: FirewallRulesGetOptionalParams
+    options?: FirewallRulesGetOptionalParams,
   ): Promise<FirewallRulesGetResponse>;
 }

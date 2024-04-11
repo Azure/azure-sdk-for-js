@@ -31,7 +31,7 @@ async function clustersCreateOrUpdate() {
     resourceGroupName,
     privateCloudName,
     clusterName,
-    cluster
+    cluster,
   );
   console.log(result);
 }

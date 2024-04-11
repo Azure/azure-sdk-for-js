@@ -38,7 +38,7 @@ async function endpointPatchExternalTarget() {
     profileName,
     endpointType,
     endpointName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

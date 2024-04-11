@@ -30,7 +30,7 @@ async function capacityReservationGroupDeleteMaximumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.capacityReservationGroups.delete(
     resourceGroupName,
-    capacityReservationGroupName
+    capacityReservationGroupName,
   );
   console.log(result);
 }
@@ -51,7 +51,7 @@ async function capacityReservationGroupDeleteMinimumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.capacityReservationGroups.delete(
     resourceGroupName,
-    capacityReservationGroupName
+    capacityReservationGroupName,
   );
   console.log(result);
 }

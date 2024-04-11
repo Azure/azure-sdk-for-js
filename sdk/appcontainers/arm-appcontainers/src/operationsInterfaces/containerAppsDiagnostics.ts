@@ -17,7 +17,7 @@ import {
   ContainerAppsDiagnosticsGetRevisionOptionalParams,
   ContainerAppsDiagnosticsGetRevisionResponse,
   ContainerAppsDiagnosticsGetRootOptionalParams,
-  ContainerAppsDiagnosticsGetRootResponse
+  ContainerAppsDiagnosticsGetRootResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface ContainerAppsDiagnostics {
   listDetectors(
     resourceGroupName: string,
     containerAppName: string,
-    options?: ContainerAppsDiagnosticsListDetectorsOptionalParams
+    options?: ContainerAppsDiagnosticsListDetectorsOptionalParams,
   ): PagedAsyncIterableIterator<Diagnostics>;
   /**
    * Get the Revisions for a given Container App.
@@ -43,7 +43,7 @@ export interface ContainerAppsDiagnostics {
   listRevisions(
     resourceGroupName: string,
     containerAppName: string,
-    options?: ContainerAppsDiagnosticsListRevisionsOptionalParams
+    options?: ContainerAppsDiagnosticsListRevisionsOptionalParams,
   ): PagedAsyncIterableIterator<Revision>;
   /**
    * Get a diagnostics result of a Container App.
@@ -56,7 +56,7 @@ export interface ContainerAppsDiagnostics {
     resourceGroupName: string,
     containerAppName: string,
     detectorName: string,
-    options?: ContainerAppsDiagnosticsGetDetectorOptionalParams
+    options?: ContainerAppsDiagnosticsGetDetectorOptionalParams,
   ): Promise<ContainerAppsDiagnosticsGetDetectorResponse>;
   /**
    * Get a revision of a Container App.
@@ -69,7 +69,7 @@ export interface ContainerAppsDiagnostics {
     resourceGroupName: string,
     containerAppName: string,
     revisionName: string,
-    options?: ContainerAppsDiagnosticsGetRevisionOptionalParams
+    options?: ContainerAppsDiagnosticsGetRevisionOptionalParams,
   ): Promise<ContainerAppsDiagnosticsGetRevisionResponse>;
   /**
    * Get the properties of a Container App.
@@ -80,6 +80,6 @@ export interface ContainerAppsDiagnostics {
   getRoot(
     resourceGroupName: string,
     containerAppName: string,
-    options?: ContainerAppsDiagnosticsGetRootOptionalParams
+    options?: ContainerAppsDiagnosticsGetRootOptionalParams,
   ): Promise<ContainerAppsDiagnosticsGetRootResponse>;
 }

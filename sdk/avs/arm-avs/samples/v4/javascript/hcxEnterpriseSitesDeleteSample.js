@@ -29,7 +29,7 @@ async function hcxEnterpriseSitesDelete() {
   const result = await client.hcxEnterpriseSites.delete(
     resourceGroupName,
     privateCloudName,
-    hcxEnterpriseSiteName
+    hcxEnterpriseSiteName,
   );
   console.log(result);
 }
