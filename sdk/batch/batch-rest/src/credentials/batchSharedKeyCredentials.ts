@@ -1,15 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { KeyCredential } from "@azure/core-auth";
 import { HttpHeaders, HttpMethods, PipelinePolicy } from "@azure/core-rest-pipeline";
 import { createHmac } from "crypto";
 
-export interface BatchSharedKeyCredentials extends KeyCredential {
+export interface BatchSharedKeyCredentials {
   /**
    * The batch account name.
    */
   accountName: string;
+
+  /**
+   * The batch account key.
+   */
+  accountKey: string;
 }
 
 export function createBatchSharedKeyCredentialsPolicy(
@@ -19,11 +23,11 @@ export function createBatchSharedKeyCredentialsPolicy(
     name: "BatchSharedKeyCredentialsPolicy",
     async sendRequest(request, next) {
       const accountName = credentials.accountName;
-      const accountKey = Buffer.from(credentials.key, "base64");
+      const accountKey = Buffer.from(credentials.accountKey, "base64");
 
-      const ocpDate = request.headers.get("x-ms-date");
+      const ocpDate = request.headers.get("ocp-date");
       if (!ocpDate) {
-        request.headers.set("x-ms-date", new Date().toUTCString());
+        request.headers.set("ocp-date", new Date().toUTCString());
       }
 
       let stringToSign =

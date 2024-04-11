@@ -3,17 +3,20 @@
 
 import { Context } from "mocha";
 import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder";
-import { ClientOptions} from "@azure-rest/core-client";
+import { ClientOptions } from "@azure-rest/core-client";
 // import { createTestCredential } from "@azure-tools/test-credential";
-import BatchServiceClient, { BatchClient } from "../../../src";
+import BatchServiceClient, { BatchClient, BatchSharedKeyCredentials } from "../../../src";
 import {
   fakeTestPasswordPlaceholder1,
   fakeAzureBatchAccount,
   fakeAzureBatchEndpoint,
 } from "./fakeTestSecrets";
-import { AzureCliCredential, InteractiveBrowserCredential } from "@azure/identity";
+import {
+  // AzureCliCredential,
+  InteractiveBrowserCredential,
+} from "@azure/identity";
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { isNode } from "@azure/test-utils";
-
 
 const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback: {
@@ -59,27 +62,20 @@ export async function createRecorder(context: Context): Promise<Recorder> {
   return recorder;
 }
 
-export type AuthMethod = "AAD" | "DummyAPIKey";
-
-export function createBatchClient(
-  authMethod: AuthMethod,
-  recorder?: Recorder,
-  options: ClientOptions = {}
-): BatchClient {
-  let credential;
-  switch (authMethod) {
-    case "AAD": {
-      credential = isNode? new AzureCliCredential();
-      break;
-    }
-    // case "DummyAPIKey": {
-    //   credential = new BatchSharedKeyCredentials("whatever", "whatever");
-    //   break;
-    // }
-    default: {
-      throw Error(`Unsupported authentication method: ${authMethod}`);
-    }
-  }
+export function createBatchClient(recorder?: Recorder, options: ClientOptions = {}): BatchClient {
+  const credential = isNode
+    ? // ? new AzureCliCredential()
+      ({
+        accountName: env.AZURE_BATCH_ACCOUNT!,
+        accountKey: env.AZURE_BATCH_KEY!,
+      } as BatchSharedKeyCredentials)
+    : new InteractiveBrowserCredential({
+        clientId: "04b07795-8ddb-461a-bbee-02f9e1bf7b46",
+        tokenCachePersistenceOptions: {
+          enabled: true,
+          name: "batch-test-cache",
+        },
+      });
 
   // if (!isPlaybackMode() && env.AZURE_BATCH_ENDPOINT) {
   //   throw Error("AZURE_BATCH_ENDPOINT env variable should be set in live mode");
@@ -87,13 +83,7 @@ export function createBatchClient(
 
   return BatchServiceClient(
     env.AZURE_BATCH_ENDPOINT! || "https://dummy.eastus.batch.azure.com",
-    new InteractiveBrowserCredential({
-      clientId: "04b07795-8ddb-461a-bbee-02f9e1bf7b46",
-      tokenCachePersistenceOptions: {
-        enabled: true,
-        name: "batch-test-cache",
-      },
-    }),
+    credential,
     recorder ? recorder.configureClientOptions({ ...options }) : options
   );
 }

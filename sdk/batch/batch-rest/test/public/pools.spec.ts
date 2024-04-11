@@ -52,7 +52,7 @@ describe("Pool Operations Test", () => {
    * Provision helper resources needed for testing pools
    */
   // before(async function () {
-  // const batchClient = createBatchClient("AAD");
+  // const batchClient = createBatchClient();
 
   // const cert: CertificatesAddParameters = {
   //       body: {thumbprint: certThumb,
@@ -76,7 +76,7 @@ describe("Pool Operations Test", () => {
    * Unprovision helper resources after all tests ran
    */
   // after(async function () {
-  // const batchClient = createBatchClient("AAD");
+  // const batchClient = createBatchClient();
 
   //   const certResponse = await batchClient.path("/certificates(thumbprintAlgorithm={thumbprintAlgorithm},thumbprint={thumbprint})", certAlgorithm, certThumb).delete();
   //   if (isUnexpected(certResponse)) {
@@ -89,7 +89,7 @@ describe("Pool Operations Test", () => {
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
-    batchClient = createBatchClient("AAD", recorder);
+    batchClient = createBatchClient(recorder);
   });
 
   afterEach(async function () {

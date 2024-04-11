@@ -45,14 +45,14 @@ export default function createClient(
     },
   };
 
-  const client = getClient(baseUrl, credentials, options) as BatchClient;
+  if (isTokenCredential(credentials)) {
+    return getClient(baseUrl, credentials, options) as BatchClient;
+  }
 
   // Customization for BatchClient, shouldn't be overwritten codegen
   // If the credentials are not a TokenCredential, we need to add a policy to handle the shared key auth.
-  if (!isTokenCredential(credentials)) {
-    const authPolicy = createBatchSharedKeyCredentialsPolicy(credentials);
-    client.pipeline.addPolicy(authPolicy);
-  }
-
+  const client = getClient(baseUrl, options) as BatchClient;
+  const authPolicy = createBatchSharedKeyCredentialsPolicy(credentials);
+  client.pipeline.addPolicy(authPolicy);
   return client;
 }

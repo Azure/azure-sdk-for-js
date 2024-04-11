@@ -5,19 +5,21 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "80e96cb6-ace2-4abf-a449-c28e3d11bfe8",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "client-request-id": "637b8302-5b26-4e93-887a-3a90b6364b08",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 00:50:09 GMT",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 05:59:03 GMT",
-        "request-id": "0e6eb467-972f-4540-96eb-992471568afe",
+        "Date": "Thu, 11 Apr 2024 00:50:10 GMT",
+        "request-id": "bfc00a65-12f5-4830-87c5-d195ea35400f",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -52,7 +54,7 @@
             "osType": "linux"
           }
         ],
-        "odata.nextLink": "https://endpoint/supportedimages?maxresults=2\u0026api-version=2024-02-01.19.0\u0026$skiptoken=WATV2:dC2Zw0OCOECJStP4LBh4CA6yxeZKUghorz20jwxzQJUXPP2E5AKF4evXQUqhT5E56ogXB0KQvqEp3h1eDSc59miz6IfUHPLZlKt4eeZwoRBt/pxGSDAQ2UgLaYPjZS6YpOkGIHXw84k/dMNwrBiDEJnHejOETFwy7jMSKWFaogAESzGBWo4dfA8q^Lb5hnW0:1$1"
+        "odata.nextLink": "https://endpoint/supportedimages?maxresults=2\u0026api-version=2024-02-01.19.0\u0026$skiptoken=WATV2:ABy86THLHnzcT8KRpakwfMBFQ21A0p9t/M^4YMlkuruo/mQN^x1Jn1UYBxO64M4xWXYjLe/iO8QDlKNfXqUnLj4UZYP7i0p1lrP^KBXkQSW8BeeNkyOoNCp7ctOVLeNSS7uz/3s68RfiKNJnbi6CKgAmoz489pfF4YVq0bUQzShCVT0Zfe9Ps6esl0loY9f3:1$1"
       }
     }
   ],

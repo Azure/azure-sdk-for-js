@@ -5,24 +5,40 @@
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "76f5610a-2938-493c-b65a-3ffb7426c28b",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "client-request-id": "fd970235-143e-4e60-b660-eb5b69216307",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 00:50:13 GMT",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
-      "StatusCode": 202,
+      "StatusCode": 403,
       "ResponseHeaders": {
+        "Connection": "close",
+        "Content-Length": "872",
+        "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 05:59:06 GMT",
-        "request-id": "326a59ce-fca4-4b12-b56f-a4097058f820",
+        "Date": "Thu, 11 Apr 2024 00:50:13 GMT",
+        "request-id": "fe3ece3d-7267-408d-a2ee-188cc73bd8e4",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff"
       },
-      "ResponseBody": null
+      "ResponseBody": {
+        "odata.metadata": "https://endpoint/$metadata#Microsoft.Azure.Batch.Protocol.Entities.Container.errors/@Element",
+        "code": "AuthenticationFailed",
+        "message": {
+          "lang": "en-US",
+          "value": "Server failed to authenticate the request. Make sure the value of Authorization header is formed correctly including the signature.\nRequestId:fe3ece3d-7267-408d-a2ee-188cc73bd8e4\nTime:2024-04-11T00:50:14.0734194Z"
+        },
+        "values": [
+          {
+            "key": "AuthenticationErrorDetail",
+            "value": "The MAC signature found in the HTTP request \u0027UB\u002Bt\u002BIEAhsILAZBF7fkol\u002BzPGQ/lCgvxikpoljqVzGY=\u0027 is not the same as any computed signature. Server used following string to sign: \u0027DELETE\n\n\n\n\n\n\n\n\n\n\n\nocp-date:Thu, 11 Apr 2024 00:50:13 GMT\n/batch_account/certificates(thumbprintAlgorithm=sha1,thumbprint=cff2ab63c8c955aaf71989efa641b906558d9fb7)\napi-version:2024-02-01.19.0\u0027."
+          }
+        ]
+      }
     }
   ],
   "Variables": {}

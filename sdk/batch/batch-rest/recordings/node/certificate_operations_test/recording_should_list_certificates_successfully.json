@@ -5,19 +5,21 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "ced71380-3143-41a4-b6dc-bf9f58dce338",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "client-request-id": "cd2d4ac7-3ce8-4241-b152-bc5a4985e57d",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 00:50:11 GMT",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 05:59:05 GMT",
-        "request-id": "75caa1b8-2396-415a-bb09-46a8c7d40473",
+        "Date": "Thu, 11 Apr 2024 00:50:11 GMT",
+        "request-id": "ac7cf4e8-b6ec-42e1-919f-e6b6567a43da",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -25,16 +27,7 @@
       },
       "ResponseBody": {
         "odata.metadata": "https://endpoint/$metadata#certificates",
-        "value": [
-          {
-            "thumbprint": "cff2ab63c8c955aaf71989efa641b906558d9fb7",
-            "thumbprintAlgorithm": "sha1",
-            "url": "https://endpoint/certificates(thumbprintAlgorithm=sha1,thumbprint=cff2ab63c8c955aaf71989efa641b906558d9fb7)",
-            "state": "active",
-            "stateTransitionTime": "2024-01-05T05:59:05.4861409Z",
-            "publicData": "MIIBrzCCAV2gAwIBAgIQHZGt2k0LCLFKYYCFxlJnkTAJBgUrDgMCHQUAMBYxFDASBgNVBAMTC1Jvb3QgQWdlbmN5MB4XDTE2MDEwMTA3MDAwMFoXDTE4MDEwMTA3MDAwMFowEjEQMA4GA1UEAxMHbm9kZXNkazCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAuX4XMWyR8cQRCA81TjHOerNOFOpOBj2O8jEdZvqwRlUYgMleEY2OlPd\u002BnalxwlQ9\u002BqbNkNGfjnhIMgiJ5CMlXgdRMF3E6DnMnktmHFG9L0VmQ6Lgt7bhXR8IitRHeYlvy5LJlw6Lcle5Kas2j4ThYjLQbjBMDSXD4HvZNe4UYEUCAwEAAaNLMEkwRwYDVR0BBEAwPoAQEuQJLQYdHU8AjWEh3BZkY6EYMBYxFDASBgNVBAMTC1Jvb3QgQWdlbmN5ghAGN2wAqgBkihHPuNSqXDX0MAkGBSsOAwIdBQADQQB5djPe0G6c3Z8DuR6EQbIhBMTnC0zYPhigq\u002Bx1LG83761Ir8PiSy\u002B6oxwCHOaYZyvheW0PByntC/WFwUipfn78"
-          }
-        ]
+        "value": []
       }
     }
   ],

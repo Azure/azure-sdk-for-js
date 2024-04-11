@@ -18,7 +18,7 @@ describe("Certificate Operations Test", () => {
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
-    batchClient = createBatchClient("AAD", recorder);
+    batchClient = createBatchClient(recorder);
   });
 
   afterEach(async function () {

@@ -36,7 +36,7 @@ describe("Task Operations Test", () => {
    */
   before(async function () {
     if (!isPlaybackMode()) {
-      batchClient = createBatchClient("AAD");
+      batchClient = createBatchClient();
 
       const poolParams: CreatePoolParameters = {
         body: {
@@ -89,7 +89,7 @@ describe("Task Operations Test", () => {
     if (!isPlaybackMode()) {
       type resourceDeleteErr = { id: string; error: any };
       const failedDeletedResources: resourceDeleteErr[] = [];
-      batchClient = createBatchClient("AAD");
+      batchClient = createBatchClient();
 
       const poolDeleteResponse = await batchClient.path("/pools/{poolId}", BASIC_POOL).delete();
       if (isUnexpected(poolDeleteResponse)) {
@@ -114,7 +114,7 @@ describe("Task Operations Test", () => {
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
-    batchClient = createBatchClient("AAD", recorder);
+    batchClient = createBatchClient(recorder);
   });
 
   afterEach(async function () {

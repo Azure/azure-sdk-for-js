@@ -31,7 +31,7 @@ describe("Job Schedule Operations Test", () => {
    */
   before(async function () {
     if (!isPlaybackMode()) {
-      batchClient = createBatchClient("AAD");
+      batchClient = createBatchClient();
 
       const poolParams: CreatePoolParameters = {
         body: {
@@ -67,7 +67,7 @@ describe("Job Schedule Operations Test", () => {
    */
   after(async function () {
     if (!isPlaybackMode()) {
-      batchClient = createBatchClient("AAD");
+      batchClient = createBatchClient();
 
       const poolId = recorder.variable("BASIC_POOL", BASIC_POOL);
       const poolDeleteResponse = await batchClient.path("/pools/{poolId}", poolId).delete();
@@ -80,7 +80,7 @@ describe("Job Schedule Operations Test", () => {
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
-    batchClient = createBatchClient("AAD", recorder);
+    batchClient = createBatchClient(recorder);
   });
 
   afterEach(async function () {

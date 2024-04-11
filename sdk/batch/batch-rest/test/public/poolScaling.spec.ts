@@ -31,7 +31,7 @@ describe("Autoscale operations", async () => {
    */
   before(async function () {
     if (!isPlaybackMode()) {
-      batchClient = createBatchClient("AAD");
+      batchClient = createBatchClient();
 
       const poolParams: CreatePoolParameters = {
         body: {
@@ -80,7 +80,7 @@ describe("Autoscale operations", async () => {
    */
   after(async function () {
     if (!isPlaybackMode()) {
-      batchClient = createBatchClient("AAD");
+      batchClient = createBatchClient();
 
       const poolDeleteResponse = await batchClient.path("/pools/{poolId}", BASIC_POOL).delete();
       if (isUnexpected(poolDeleteResponse)) {
@@ -92,7 +92,7 @@ describe("Autoscale operations", async () => {
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
-    batchClient = createBatchClient("AAD", recorder);
+    batchClient = createBatchClient(recorder);
   });
 
   afterEach(async function () {

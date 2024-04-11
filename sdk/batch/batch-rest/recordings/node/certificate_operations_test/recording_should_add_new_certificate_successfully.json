@@ -5,13 +5,14 @@
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "335329b4-4f15-4f0c-ab5a-ff7a6de7a908",
-        "Connection": "keep-alive",
+        "client-request-id": "650ee316-3368-4574-af0a-5276d62b5f8d",
+        "Connection": "close",
         "Content-Length": "2273",
         "Content-Type": "application/json; odata=minimalmetadata",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "ocp-date": "Thu, 11 Apr 2024 00:50:10 GMT",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": {
         "thumbprint": "cff2ab63c8c955aaf71989efa641b906558d9fb7",
@@ -20,19 +21,32 @@
         "certificateFormat": "pfx",
         "data": "MIIGMQIBAzCCBe0GCSqGSIb3DQEHAaCCBd4EggXaMIIF1jCCA8AGCSqGSIb3DQEHAaCCA7EEggOtMIIDqTCCA6UGCyqGSIb3DQEMCgECoIICtjCCArIwHAYKKoZIhvcNAQwBAzAOBAhyd3xCtln3iQICB9AEggKQhe5P10V9iV1BsDlwWT561Yu2hVq3JT8ae/ebx1ZR/gMApVereDKkS9Zg4vFyssusHebbK5pDpU8vfAqle0TM4m7wGsRj453ZorSPUfMpHvQnAOn\u002B2pEpWdMThU7xvZ6DVpwhDOQk9166z\u002BKnKdHGuJKh4haMT7Rw/6xZ1rsBt2423cwTrQVMQyACrEkianpuujubKltN99qRoFAxhQcnYE2KlYKw7lRcExq6mDSYAyk5xJZ1ZFdLj6MAryZroQit/0g5eyhoNEKwWbi8px5j71pRTf7yjN\u002BdeMGQKwbGl\u002B3OgaL1UZ5fCjypbVL60kpIBxLZwIJ7p3jJ\u002Bq9pbq9zSdzshPYor5lxyUfXqaso/0/91ayNoBzg4hQGh618PhFI6RMGjwkzhB9xk74iweJ9HQyIHf8yx2RCSI22JuCMitPMWSGvOszhbNx3AEDLuiiAOHg391mprEtKZguOIr9LrJwem/YmcHbwyz5YAbZmiseKPkllfC7dafFfCFEkj6R2oegIsZo0pEKYisAXBqT0g\u002B6/jGwuhlZcBo0f7UIZm88iA3MrJCjlXEgV5OcQdoWj\u002Bhq0lKEdnhtCKr03AIfukN6\u002B4vjjarZeW1bs0swq0l3XFf5RHa11otshMS4mpewshB9iO9MuKWpRxuxeng4PlKZ/zuBqmPeUrjJ9454oK35Pq\u002Bdghfemt7AUpBH/KycDNIZgfdEWUZrRKBGnc519C\u002BRTqxyt5hWL18nJk4LvSd3QKlJ1iyJxClhhb/NWEzPqNdyA5cxen\u002B2T9bd/EqJ2KzRv5/BPVwTQkHH9W/TZElFyvFfOFIW2\u002B03RKbVGw72Mr/0xKZ\u002BawAnEfoU\u002BSL/2Gj2m6PHkqFX2sOCi/tN9EA4xgdswEwYJKoZIhvcNAQkVMQYEBAEAAAAwXQYJKwYBBAGCNxEBMVAeTgBNAGkAYwByAG8AcwBvAGYAdAAgAFMAdAByAG8AbgBnACAAQwByAHkAcAB0AG8AZwByAGEAcABoAGkAYwAgAFAAcgBvAHYAaQBkAGUAcjBlBgkqhkiG9w0BCRQxWB5WAFAAdgBrAFQAbQBwADoANABjAGUANgAwADQAZABhAC0AMAA2ADgAMQAtADQANAAxADUALQBhADIAYwBhAC0ANQA3ADcAMwAwADgAZQA2AGQAOQBhAGMwggIOBgkqhkiG9w0BBwGgggH/BIIB\u002BzCCAfcwggHzBgsqhkiG9w0BDAoBA6CCAcswggHHBgoqhkiG9w0BCRYBoIIBtwSCAbMwggGvMIIBXaADAgECAhAdka3aTQsIsUphgIXGUmeRMAkGBSsOAwIdBQAwFjEUMBIGA1UEAxMLUm9vdCBBZ2VuY3kwHhcNMTYwMTAxMDcwMDAwWhcNMTgwMTAxMDcwMDAwWjASMRAwDgYDVQQDEwdub2Rlc2RrMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC5fhcxbJHxxBEIDzVOMc56s04U6k4GPY7yMR1m\u002BrBGVRiAyV4RjY6U936dqXHCVD36ps2Q0Z\u002BOeEgyCInkIyVeB1EwXcToOcyeS2YcUb0vRWZDouC3tuFdHwiK1Ed5iW/LksmXDotyV7kpqzaPhOFiMtBuMEwNJcPge9k17hRgRQIDAQABo0swSTBHBgNVHQEEQDA\u002BgBAS5AktBh0dTwCNYSHcFmRjoRgwFjEUMBIGA1UEAxMLUm9vdCBBZ2VuY3mCEAY3bACqAGSKEc\u002B41KpcNfQwCQYFKw4DAh0FAANBAHl2M97QbpzdnwO5HoRBsiEExOcLTNg\u002BGKCr7HUsbzfvrUivw\u002BJLL7qjHAIc5phnK\u002BF5bQ8HKe0L9YXBSKl\u002BfvwxFTATBgkqhkiG9w0BCRUxBgQEAQAAADA7MB8wBwYFKw4DAhoEFGVtyGMqiBd32fGpzlGZQoRM6UQwBBTI0YHFFqTS4Go8CoLgswn29EiuUQICB9A="
       },
-      "StatusCode": 201,
+      "StatusCode": 403,
       "ResponseHeaders": {
-        "DataServiceId": "https://endpoint/certificates(ThumbprintAlgorithm=sha1,Thumbprint=cff2ab63c8c955aaf71989efa641b906558d9fb7)",
+        "Connection": "close",
+        "Content-Length": "835",
+        "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 05:59:04 GMT",
-        "Location": "https://endpoint/certificates(ThumbprintAlgorithm=sha1,Thumbprint=cff2ab63c8c955aaf71989efa641b906558d9fb7)",
-        "request-id": "abf98a6a-b3c6-45c3-bd7c-b0e5b165083b",
+        "Date": "Thu, 11 Apr 2024 00:50:11 GMT",
+        "request-id": "69644b50-2de0-4567-9d05-5b5f40e5d0ee",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff"
       },
-      "ResponseBody": null
+      "ResponseBody": {
+        "odata.metadata": "https://endpoint/$metadata#Microsoft.Azure.Batch.Protocol.Entities.Container.errors/@Element",
+        "code": "AuthenticationFailed",
+        "message": {
+          "lang": "en-US",
+          "value": "Server failed to authenticate the request. Make sure the value of Authorization header is formed correctly including the signature.\nRequestId:69644b50-2de0-4567-9d05-5b5f40e5d0ee\nTime:2024-04-11T00:50:11.3720175Z"
+        },
+        "values": [
+          {
+            "key": "AuthenticationErrorDetail",
+            "value": "The MAC signature found in the HTTP request \u0027P4Mp6pUnITytIRHGH\u002B7\u002BMMmuW27/l66/pWRY2lK2Uu0=\u0027 is not the same as any computed signature. Server used following string to sign: \u0027POST\n\n\n2263\n\napplication/json; odata=minimalmetadata\n\n\n\n\n\n\nocp-date:Thu, 11 Apr 2024 00:50:10 GMT\n/batch_account/certificates\napi-version:2024-02-01.19.0\u0027."
+          }
+        ]
+      }
     }
   ],
   "Variables": {}
