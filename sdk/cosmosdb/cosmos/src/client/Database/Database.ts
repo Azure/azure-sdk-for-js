@@ -215,7 +215,7 @@ export class Database {
 
     await ProtectedDataEncryptionKey.getOrCreate(id, keyEncryptionKey, wrappedDataEncryptionKey);
 
-    let body: ClientEncryptionKeyRequest = {
+    const body: ClientEncryptionKeyRequest = {
       id: id,
       encryptionAlgorithm: encryptionAlgorithm,
       keyWrapMetadata: keyWrapMetadata,
@@ -224,17 +224,18 @@ export class Database {
 
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       const path = getPathFromLink(this.url, ResourceType.clientencryptionkey);
-      const id = getIdFromLink(this.url);
+      const databaseId = getIdFromLink(this.url);
       const response = await this.clientContext.create<ClientEncryptionKeyRequest>({
         body,
         path: path,
         resourceType: ResourceType.clientencryptionkey,
-        resourceId: id,
+        resourceId: databaseId,
         diagnosticNode,
       });
       const ref = new ClientEncryptionKeyProperties(
         response.result.id,
         response.result.encryptionAlgorithm,
+        response.result._etag,
         Buffer.from(response.result.wrappedDataEncryptionKey, "base64"),
         response.result.keyWrapMetadata,
       );
@@ -264,6 +265,7 @@ export class Database {
       const ref = new ClientEncryptionKeyProperties(
         response.result.id,
         response.result.encryptionAlgorithm,
+        response.result._etag,
         Buffer.from(response.result.wrappedDataEncryptionKey, "base64"),
         response.result.keyWrapMetadata,
       );

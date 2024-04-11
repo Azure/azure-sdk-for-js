@@ -44,4 +44,6 @@ export interface RequestOptions extends SharedOptions {
   urlConnection?: string;
   /** Disable automatic id generation (will cause creates to fail if id isn't on the definition) */
   disableAutomaticIdGeneration?: boolean;
+  /** database rid for setting DatabaseRidHeader */
+  databaseRid?: string;
 }

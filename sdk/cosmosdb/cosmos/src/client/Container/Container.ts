@@ -99,7 +99,7 @@ export class Container {
     return createDocumentCollectionUri(this.database.id, this.id);
   }
   /**
-   * handles encryption and decryption of items in container
+   * @internal
    */
   public encryptionProcessor: EncryptionProcessor;
 
@@ -118,7 +118,7 @@ export class Container {
       this.encryptionProcessor = new EncryptionProcessor(
         this.id,
         this.database.id,
-        this.clientContext.encryptionKeyStoreProvider,
+        this.clientContext,
       );
     }
   }

@@ -147,6 +147,12 @@ export class ClientContext {
       });
 
       request.headers = await this.buildHeaders(request);
+      if (resourceType === ResourceType.clientencryptionkey) {
+        request.headers[HttpHeaders.AllowCachedReadsHeader] = true;
+        if (options.databaseRid) {
+          request.headers[HttpHeaders.DatabaseRidHeader] = options.databaseRid;
+        }
+      }
       this.applySessionToken(request);
 
       // read will use ReadEndpoint since it uses GET operation

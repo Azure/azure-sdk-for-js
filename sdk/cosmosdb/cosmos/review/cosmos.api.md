@@ -327,7 +327,7 @@ export interface ClientEncryptionKeyDefinition {
 
 // @public (undocumented)
 export class ClientEncryptionKeyProperties {
-    constructor(id: string, encryptionAlgorithm: string, wrappedDataEncryptionKey: Buffer, encryptionKeyWrapMetadata: EncryptionKeyWrapMetadata);
+    constructor(id: string, encryptionAlgorithm: string, etag: string, wrappedDataEncryptionKey: Buffer, encryptionKeyWrapMetadata: EncryptionKeyWrapMetadata);
     // (undocumented)
     encryptionAlgorithm: string;
     // (undocumented)
@@ -654,8 +654,6 @@ export class Container {
     readonly database: Database;
     delete(options?: RequestOptions): Promise<ContainerResponse>;
     deleteAllItemsForPartitionKey(partitionKey: PartitionKey, options?: RequestOptions): Promise<ContainerResponse>;
-    // Warning: (ae-forgotten-export) The symbol "EncryptionProcessor" needs to be exported by the entry point index.d.ts
-    encryptionProcessor: EncryptionProcessor;
     // (undocumented)
     getFeedRanges(): Promise<ReadonlyArray<FeedRange>>;
     // @deprecated
@@ -2013,6 +2011,7 @@ export interface RequestOptions extends SharedOptions {
         condition: string;
     };
     consistencyLevel?: string;
+    databaseRid?: string;
     disableAutomaticIdGeneration?: boolean;
     disableRUPerMinuteUsage?: boolean;
     enableScriptLogging?: boolean;
