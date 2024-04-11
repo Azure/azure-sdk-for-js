@@ -26,7 +26,7 @@ steps:
       inlineScript: |
         azcopy copy "https://azuresdkartifacts.blob.core.windows.net/policheck/${{ parameters.ExclusionDataBaseFileName }}.mdb" "$(Build.BinariesDirectory)"
     env:
-      AZCOPY_AUTO_LOGIN_TYPE: 'azcli'
+      AZCOPY_AUTO_LOGIN_TYPE: 'AZCLI'
       
 #        az storage blob download --account-name 'azuresdkartifacts' --container-name 'policheck' --name '${{ parameters.ExclusionDataBaseFileName }}.mdb' --file '$(Build.BinariesDirectory)/${{ parameters.ExclusionDataBaseFileName }}.mdb'
 #  - pwsh: |
