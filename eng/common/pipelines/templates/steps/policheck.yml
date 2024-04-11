@@ -5,23 +5,29 @@ parameters:
   ExclusionFilePath: "$(Build.SourcesDirectory)/eng/guardian-tools/policheck/PolicheckExclusions.xml"
 
 steps:
-  - task: AzurePowerShell@5
-    inputs:
-      azureSubscription: 'Azure SDK Artifacts'
-      ScriptType: 'InlineScript'
-      azurePowerShellVersion: LatestVersion 
-      pwsh: true
-      Inline: |
-        azcopy copy "https://azuresdkartifacts.blob.core.windows.net/policheck/${{ parameters.ExclusionDataBaseFileName }}.mdb" "$(Build.BinariesDirectory)"
-    env: 
-      AZCOPY_AUTO_LOGIN_TYPE: 'PSCRED'
-#  - task: AzureCLI@2
+
+# - task: AzurePowerShell@5
 #    displayName: 'Download Policheck Exclusion Database'
 #    inputs:
 #      azureSubscription: 'Azure SDK Artifacts'
-#      scriptType: pscore
-#      scriptLocation: inlineScript
-#      inlineScript: |
+#      ScriptType: 'InlineScript'
+#      azurePowerShellVersion: LatestVersion 
+#      pwsh: true
+#      Inline: |
+#        azcopy copy "https://azuresdkartifacts.blob.core.windows.net/policheck/${{ parameters.ExclusionDataBaseFileName }}.mdb" "$(Build.BinariesDirectory)"
+#    env: 
+#      AZCOPY_AUTO_LOGIN_TYPE: 'PSCRED'
+  - task: AzureCLI@2
+    displayName: 'Download Policheck Exclusion Database'
+    inputs:
+      azureSubscription: 'Azure SDK Artifacts'
+      scriptType: pscore
+      scriptLocation: inlineScript
+      inlineScript: |
+        azcopy copy "https://azuresdkartifacts.blob.core.windows.net/policheck/${{ parameters.ExclusionDataBaseFileName }}.mdb" "$(Build.BinariesDirectory)"
+    env:
+      AZCOPY_AUTO_LOGIN_TYPE: 'azcli'
+      
 #        az storage blob download --account-name 'azuresdkartifacts' --container-name 'policheck' --name '${{ parameters.ExclusionDataBaseFileName }}.mdb' --file '$(Build.BinariesDirectory)/${{ parameters.ExclusionDataBaseFileName }}.mdb'
 #  - pwsh: |
 #      azcopy copy "https://azuresdkartifacts.blob.core.windows.net/policheck/${{ parameters.ExclusionDataBaseFileName }}.mdb" "$(Build.BinariesDirectory)"
