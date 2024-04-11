@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/operatorInformation/:search?api-version=2024-01-31-preview",
+      "RequestUri": "https://endpoint/operatorInformation/:search?api-version=2024-05-01-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
