@@ -5,7 +5,7 @@ parameters:
   ExclusionFilePath: "$(Build.SourcesDirectory)/eng/guardian-tools/policheck/PolicheckExclusions.xml"
 
 steps:
- - task: AzurePowerShell@5
+  - task: AzurePowerShell@5
     displayName: 'Download Policheck Exclusion Database'
     inputs:
       azureSubscription: 'Azure SDK Artifacts'
