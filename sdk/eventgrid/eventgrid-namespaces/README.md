@@ -42,7 +42,7 @@ az eventgrid domain create --location <location> --resource-group <your-resource
 
 ### Install the `@azure/eventgrid-namespaces` package
 
-Install the Azure Event Grid client library for JavaScript with `npm`:
+Install the Azure Event Grid Namespaces client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/eventgrid-namespaces
