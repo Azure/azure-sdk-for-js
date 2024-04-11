@@ -1,26 +1,28 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/jobschedules/JSSDKTest-JobSchedule-Basic-9c25/terminate?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/jobschedules/JSSDKTest-JobSchedule-Basic-aadf/terminate?api-version=2024-02-01.19.0",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "1a1ce3e4-ee5e-47a6-9e40-05790cfe34d6",
-        "Connection": "keep-alive",
+        "client-request-id": "f2b79b4e-7489-4282-b2f6-22b95089fe11",
+        "Connection": "close",
         "Content-Length": "0",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "ocp-date": "Thu, 11 Apr 2024 18:46:40 GMT",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 202,
       "ResponseHeaders": {
-        "DataServiceId": "https://endpoint/jobschedules/JSSDKTest-JobSchedule-Basic-9c25/terminate",
+        "Connection": "close",
+        "DataServiceId": "https://endpoint/jobschedules/JSSDKTest-JobSchedule-Basic-aadf/terminate",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 06:00:04 GMT",
-        "ETag": "0x8DC0DB390A5BB65",
-        "Last-Modified": "Fri, 05 Jan 2024 06:00:05 GMT",
-        "request-id": "a745bf00-2226-4ac2-8fdb-e775e6351b65",
+        "Date": "Thu, 11 Apr 2024 18:46:40 GMT",
+        "ETag": "0x8DC5A57BA2A24E4",
+        "Last-Modified": "Thu, 11 Apr 2024 18:46:41 GMT",
+        "request-id": "7ff6dc8e-2439-4ff4-a0f2-d89aaaf9b7ae",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -30,6 +32,6 @@
     }
   ],
   "Variables": {
-    "JOB_SCHEDULE": "JSSDKTest-JobSchedule-Basic-9c25"
+    "JOB_SCHEDULE": "JSSDKTest-JobSchedule-Basic-aadf"
   }
 }

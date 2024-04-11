@@ -1,17 +1,18 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/jobs/JSSDKTest-Job-Basic-4a55/tasks/JSSDKTest-Job-Basic-4a55-task1?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/jobs/JSSDKTest-Job-Basic-3af3/tasks/JSSDKTest-Job-Basic-3af3-task1?api-version=2024-02-01.19.0",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "198cb25e-6afc-428d-a850-c12f83871edb",
-        "Connection": "keep-alive",
+        "client-request-id": "5f56defb-214b-4675-afc8-f2f2d3fb7b51",
+        "Connection": "close",
         "Content-Length": "39",
         "Content-Type": "application/json; odata=minimalmetadata",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "ocp-date": "Thu, 11 Apr 2024 19:15:48 GMT",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": {
         "constraints": {
@@ -20,12 +21,13 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "DataServiceId": "https://endpoint/jobs/JSSDKTest-Job-Basic-4a55/tasks/JSSDKTest-Job-Basic-4a55-task1",
+        "Connection": "close",
+        "DataServiceId": "https://endpoint/jobs/JSSDKTest-Job-Basic-3af3/tasks/JSSDKTest-Job-Basic-3af3-task1",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 05:43:07 GMT",
-        "ETag": "0x8DC0DB131AC52D0",
-        "Last-Modified": "Fri, 05 Jan 2024 05:43:07 GMT",
-        "request-id": "1ac45435-2bd8-4874-81f8-666855567a89",
+        "Date": "Thu, 11 Apr 2024 19:15:48 GMT",
+        "ETag": "0x8DC5A5BCC3E7C30",
+        "Last-Modified": "Thu, 11 Apr 2024 19:15:49 GMT",
+        "request-id": "25e9d208-eb47-4279-a9b3-623d99b9ad19",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -35,7 +37,7 @@
     }
   ],
   "Variables": {
-    "JOB_NAME": "JSSDKTest-Job-Basic-4a55",
-    "TASK_NAME": "JSSDKTest-Job-Basic-4a55-task1"
+    "JOB_NAME": "JSSDKTest-Job-Basic-3af3",
+    "TASK_NAME": "JSSDKTest-Job-Basic-3af3-task1"
   }
 }

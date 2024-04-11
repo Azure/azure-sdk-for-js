@@ -5,16 +5,17 @@
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "2576f127-9f48-422a-9f3e-3ed93545241c",
-        "Connection": "keep-alive",
+        "client-request-id": "209b124d-f1ad-45c0-a7f3-57c1a0a111b8",
+        "Connection": "close",
         "Content-Length": "784",
         "Content-Type": "application/json; odata=minimalmetadata",
+        "ocp-date": "Thu, 11 Apr 2024 19:08:56 GMT",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": {
-        "id": "JSSDKTest-Pool-AutoOSUpgrade-3457",
+        "id": "JSSDKTest-Pool-AutoOSUpgrade-d7e3",
         "vmSize": "Standard_D2s_v3",
         "virtualMachineConfiguration": {
           "imageReference": {
@@ -49,13 +50,14 @@
       },
       "StatusCode": 201,
       "ResponseHeaders": {
-        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-AutoOSUpgrade-3457",
+        "Connection": "close",
+        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-AutoOSUpgrade-d7e3",
         "DataServiceVersion": "3.0",
-        "Date": "Wed, 27 Mar 2024 19:51:25 GMT",
-        "ETag": "0x8DC4E97494ED9EE",
-        "Last-Modified": "Wed, 27 Mar 2024 19:51:25 GMT",
-        "Location": "https://endpoint/pools/JSSDKTest-Pool-AutoOSUpgrade-3457",
-        "request-id": "dd7e8f34-46db-494a-9a8e-5905f817e2de",
+        "Date": "Thu, 11 Apr 2024 19:08:56 GMT",
+        "ETag": "0x8DC5A5AD6422C44",
+        "Last-Modified": "Thu, 11 Apr 2024 19:08:56 GMT",
+        "Location": "https://endpoint/pools/JSSDKTest-Pool-AutoOSUpgrade-d7e3",
+        "request-id": "bf09c5e6-fa85-4d15-8885-66315c13cf75",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -64,25 +66,27 @@
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-AutoOSUpgrade-3457?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-AutoOSUpgrade-d7e3?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "5e784dd3-31e0-427c-80ba-e8dc72f3b19d",
-        "Connection": "keep-alive",
+        "client-request-id": "2ab68198-61d2-4287-8d50-0af485d3b277",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 19:08:56 GMT",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Wed, 27 Mar 2024 19:51:26 GMT",
-        "ETag": "0x8DC4E97494ED9EE",
-        "Last-Modified": "Wed, 27 Mar 2024 19:51:25 GMT",
-        "request-id": "f3f632bc-82a6-45c8-aa8e-efc77c4fcc28",
+        "Date": "Thu, 11 Apr 2024 19:08:57 GMT",
+        "ETag": "0x8DC5A5AD6422C44",
+        "Last-Modified": "Thu, 11 Apr 2024 19:08:56 GMT",
+        "request-id": "e2b84cbc-9577-4555-849d-ad295c4119df",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -90,15 +94,15 @@
       },
       "ResponseBody": {
         "odata.metadata": "https://endpoint/$metadata#pools/@Element",
-        "id": "JSSDKTest-Pool-AutoOSUpgrade-3457",
-        "url": "https://endpoint/pools/JSSDKTest-Pool-AutoOSUpgrade-3457",
-        "eTag": "0x8DC4E97494ED9EE",
-        "lastModified": "2024-03-27T19:51:25.6700398Z",
-        "creationTime": "2024-03-27T19:51:25.6700383Z",
+        "id": "JSSDKTest-Pool-AutoOSUpgrade-d7e3",
+        "url": "https://endpoint/pools/JSSDKTest-Pool-AutoOSUpgrade-d7e3",
+        "eTag": "0x8DC5A5AD6422C44",
+        "lastModified": "2024-04-11T19:08:56.798522Z",
+        "creationTime": "2024-04-11T19:08:56.7985205Z",
         "state": "active",
-        "stateTransitionTime": "2024-03-27T19:51:25.6700383Z",
+        "stateTransitionTime": "2024-04-11T19:08:56.7985205Z",
         "allocationState": "resizing",
-        "allocationStateTransitionTime": "2024-03-27T19:51:25.6700398Z",
+        "allocationStateTransitionTime": "2024-04-11T19:08:56.798522Z",
         "vmSize": "standard_d2s_v3",
         "resizeTimeout": "PT15M",
         "currentDedicatedNodes": 0,
@@ -144,22 +148,24 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-AutoOSUpgrade-3457?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-AutoOSUpgrade-d7e3?api-version=2024-02-01.19.0",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "586004db-87f5-499c-9614-89e61fc7d5a7",
-        "Connection": "keep-alive",
+        "client-request-id": "012ccb6c-4e40-477c-85a5-394350046d24",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 19:08:57 GMT",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 202,
       "ResponseHeaders": {
+        "Connection": "close",
         "DataServiceVersion": "3.0",
-        "Date": "Wed, 27 Mar 2024 19:51:27 GMT",
-        "request-id": "dfbda47c-65bb-4ec8-8692-bf4cd2fbcd62",
+        "Date": "Thu, 11 Apr 2024 19:08:58 GMT",
+        "request-id": "5dfccad7-f667-48b9-9d46-876afa230d2c",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -169,6 +175,6 @@
     }
   ],
   "Variables": {
-    "AUTO_OS_UPGRADE_POOL": "JSSDKTest-Pool-AutoOSUpgrade-3457"
+    "AUTO_OS_UPGRADE_POOL": "JSSDKTest-Pool-AutoOSUpgrade-d7e3"
   }
 }

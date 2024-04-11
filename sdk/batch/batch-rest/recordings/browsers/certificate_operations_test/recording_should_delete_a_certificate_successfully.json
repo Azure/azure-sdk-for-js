@@ -8,7 +8,7 @@
         "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "en-US,en;q=0.9",
         "Authorization": "Sanitized",
-        "client-request-id": "2034433f-3200-45d5-894a-9fb6c2f56208",
+        "client-request-id": "b53d731a-7772-44e6-90e1-bbf13f8b6e12",
         "Connection": "keep-alive",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "\u0022Chromium\u0022;v=\u0022123\u0022, \u0022Not:A-Brand\u0022;v=\u00228\u0022",
@@ -21,25 +21,19 @@
         "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 OS/macOS"
       },
       "RequestBody": null,
-      "StatusCode": 409,
+      "StatusCode": 202,
       "ResponseHeaders": {
-        "Content-Length": "359",
-        "Content-Type": "application/json; odata=minimalmetadata",
+        "Connection": "keep-alive",
         "DataServiceVersion": "3.0",
-        "Date": "Wed, 10 Apr 2024 00:14:51 GMT",
-        "request-id": "acbd1d88-90d9-4293-9c6e-6814b9e805f3",
+        "Date": "Thu, 11 Apr 2024 19:25:30 GMT",
+        "Keep-Alive": "timeout=5",
+        "request-id": "bbe3bce4-e085-4024-8919-e03997760445",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff"
       },
-      "ResponseBody": {
-        "odata.metadata": "https://endpoint/$metadata#Microsoft.Azure.Batch.Protocol.Entities.Container.errors/@Element",
-        "code": "CertificateBeingDeleted",
-        "message": {
-          "lang": "en-US",
-          "value": "The specified certificate has been marked for deletion and is being deleted.\nRequestId:acbd1d88-90d9-4293-9c6e-6814b9e805f3\nTime:2024-04-10T00:14:52.0939685Z"
-        }
-      }
+      "ResponseBody": null
     }
   ],
   "Variables": {}

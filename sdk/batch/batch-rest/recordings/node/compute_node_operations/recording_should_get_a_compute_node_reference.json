@@ -1,23 +1,25 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "f8fb78fb-ebf3-4396-8f85-785bac4e2379",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "client-request-id": "b5a1ab42-6b69-4c21-b9b6-4442e654532b",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 18:37:05 GMT",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 04:21:38 GMT",
-        "request-id": "a81cdf09-d862-4721-bf82-e0628804662a",
+        "Date": "Thu, 11 Apr 2024 18:37:05 GMT",
+        "request-id": "1cd0a9eb-eacb-4a84-8266-87d3d6f68941",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -25,15 +27,15 @@
       },
       "ResponseBody": {
         "odata.metadata": "https://endpoint/$metadata#nodes/@Element",
-        "id": "tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
-        "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
+        "id": "tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
+        "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
         "state": "idle",
         "schedulingState": "enabled",
-        "stateTransitionTime": "2024-01-05T04:21:09.883747Z",
-        "lastBootTime": "2024-01-05T04:21:09.008803Z",
-        "allocationTime": "2024-01-05T04:19:29.1379318Z",
-        "ipAddress": "10.218.0.7",
-        "affinityId": "TVM:tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
+        "stateTransitionTime": "2024-04-11T18:36:41.755866Z",
+        "lastBootTime": "2024-04-11T18:36:35.39597Z",
+        "allocationTime": "2024-04-11T18:33:07.6069629Z",
+        "ipAddress": "10.0.0.4",
+        "affinityId": "TVM:tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
         "vmSize": "standard_d1_v2",
         "totalTasksRun": 0,
         "totalTasksSucceeded": 0,
@@ -52,8 +54,8 @@
         },
         "startTaskInfo": {
           "state": "completed",
-          "startTime": "2024-01-05T04:21:09.790001Z",
-          "endTime": "2024-01-05T04:21:09.868123Z",
+          "startTime": "2024-04-11T18:36:41.568348Z",
+          "endTime": "2024-04-11T18:36:41.740238Z",
           "exitCode": 0,
           "result": "success",
           "retryCount": 0
@@ -63,22 +65,32 @@
         "endpointConfiguration": {
           "inboundEndpoints": [
             {
-              "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+              "name": "SSHRule.0",
               "protocol": "tcp",
-              "frontendPort": 3389,
-              "backendPort": 20000
+              "publicIPAddress": "4.191.75.214",
+              "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+              "frontendPort": 50000,
+              "backendPort": 3389
             }
           ]
         },
         "nodeAgentInfo": {
-          "lastUpdateTime": "2024-01-05T04:21:09.008803Z",
-          "version": "1.11.7"
+          "lastUpdateTime": "2024-04-11T18:36:35.39597Z",
+          "version": "1.11.10"
         },
-        "virtualMachineInfo": {}
+        "virtualMachineInfo": {
+          "imageReference": {
+            "publisher": "microsoftwindowsserver",
+            "offer": "windowsserver",
+            "sku": "2022-datacenter",
+            "version": "latest",
+            "exactVersion": "20348.2402.240405"
+          }
+        }
       }
     }
   ],
   "Variables": {
-    "BASIC_POOL": "JSSDKTest-Pool-Basic-82a4"
+    "BASIC_POOL": "JSSDKTest-Pool-Basic-daf4"
   }
 }

@@ -8,7 +8,7 @@
         "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "en-US,en;q=0.9",
         "Authorization": "Sanitized",
-        "client-request-id": "53f0a932-8577-48cf-bfd3-79bb94945ab2",
+        "client-request-id": "3db42cdb-2233-4cfe-a4a2-e40095d2adb0",
         "Connection": "keep-alive",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "\u0022Chromium\u0022;v=\u0022123\u0022, \u0022Not:A-Brand\u0022;v=\u00228\u0022",
@@ -23,10 +23,12 @@
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "keep-alive",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Wed, 10 Apr 2024 00:14:51 GMT",
-        "request-id": "da01fdba-1bb7-4664-8b61-1bc40a60c4df",
+        "Date": "Thu, 11 Apr 2024 19:25:29 GMT",
+        "Keep-Alive": "timeout=5",
+        "request-id": "011089c0-16e6-4010-aadc-aa3b85f887bf",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -39,10 +41,8 @@
             "thumbprint": "cff2ab63c8c955aaf71989efa641b906558d9fb7",
             "thumbprintAlgorithm": "sha1",
             "url": "https://endpoint/certificates(thumbprintAlgorithm=sha1,thumbprint=cff2ab63c8c955aaf71989efa641b906558d9fb7)",
-            "state": "deleting",
-            "stateTransitionTime": "2024-04-10T00:14:48.6237807Z",
-            "previousState": "active",
-            "previousStateTransitionTime": "2024-04-10T00:14:48.0165697Z",
+            "state": "active",
+            "stateTransitionTime": "2024-04-11T19:25:29.1774431Z",
             "publicData": "MIIBrzCCAV2gAwIBAgIQHZGt2k0LCLFKYYCFxlJnkTAJBgUrDgMCHQUAMBYxFDASBgNVBAMTC1Jvb3QgQWdlbmN5MB4XDTE2MDEwMTA3MDAwMFoXDTE4MDEwMTA3MDAwMFowEjEQMA4GA1UEAxMHbm9kZXNkazCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAuX4XMWyR8cQRCA81TjHOerNOFOpOBj2O8jEdZvqwRlUYgMleEY2OlPd\u002BnalxwlQ9\u002BqbNkNGfjnhIMgiJ5CMlXgdRMF3E6DnMnktmHFG9L0VmQ6Lgt7bhXR8IitRHeYlvy5LJlw6Lcle5Kas2j4ThYjLQbjBMDSXD4HvZNe4UYEUCAwEAAaNLMEkwRwYDVR0BBEAwPoAQEuQJLQYdHU8AjWEh3BZkY6EYMBYxFDASBgNVBAMTC1Jvb3QgQWdlbmN5ghAGN2wAqgBkihHPuNSqXDX0MAkGBSsOAwIdBQADQQB5djPe0G6c3Z8DuR6EQbIhBMTnC0zYPhigq\u002Bx1LG83761Ir8PiSy\u002B6oxwCHOaYZyvheW0PByntC/WFwUipfn78"
           }
         ]

@@ -1,17 +1,18 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d/users?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d/users?api-version=2024-02-01.19.0",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "1bff4c97-6936-46a0-a114-c6d32cd1e948",
-        "Connection": "keep-alive",
+        "client-request-id": "6adc905d-7f7b-47e9-b73d-7a210649f166",
+        "Connection": "close",
         "Content-Length": "71",
         "Content-Type": "application/json; odata=minimalmetadata",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "ocp-date": "Thu, 11 Apr 2024 18:37:05 GMT",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": {
         "name": "JSSDKTestUser",
@@ -20,11 +21,12 @@
       },
       "StatusCode": 201,
       "ResponseHeaders": {
-        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d/users/JSSDKTestUser",
+        "Connection": "close",
+        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d/users/JSSDKTestUser",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 04:21:38 GMT",
-        "Location": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d/users/JSSDKTestUser",
-        "request-id": "60049c94-2bca-4a68-bb80-34da4248f63d",
+        "Date": "Thu, 11 Apr 2024 18:37:08 GMT",
+        "Location": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d/users/JSSDKTestUser",
+        "request-id": "3c21541f-829d-4fba-a794-6bd4160b4073",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -34,6 +36,6 @@
     }
   ],
   "Variables": {
-    "BASIC_POOL": "JSSDKTest-Pool-Basic-82a4"
+    "BASIC_POOL": "JSSDKTest-Pool-Basic-daf4"
   }
 }

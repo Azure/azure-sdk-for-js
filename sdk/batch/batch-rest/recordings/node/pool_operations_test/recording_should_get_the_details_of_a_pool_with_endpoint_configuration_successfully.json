@@ -1,23 +1,25 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-bd08/nodes?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-1c50/nodes?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "71f1f5e1-a6ba-4c00-a947-e961ee7b67c7",
-        "Connection": "keep-alive",
+        "client-request-id": "2c148a6c-2fac-45f4-ac45-40434f81ae34",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 19:05:40 GMT",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Tue, 26 Mar 2024 02:02:33 GMT",
-        "request-id": "88d543f2-7160-465a-b3e7-4b1dc8d25b34",
+        "Date": "Thu, 11 Apr 2024 19:05:41 GMT",
+        "request-id": "8342fe62-34c0-47fb-b833-41d1ab235f76",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -29,23 +31,25 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-bd08/nodes?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-1c50/nodes?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "f71f5be8-9496-4338-882a-60b8c34d0830",
-        "Connection": "keep-alive",
+        "client-request-id": "ee17d63a-6141-4e7f-9b38-b31457f61335",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 19:05:56 GMT",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Tue, 26 Mar 2024 02:02:48 GMT",
-        "request-id": "5d092389-be17-4901-b9d5-f50f13ebfbb8",
+        "Date": "Thu, 11 Apr 2024 19:05:56 GMT",
+        "request-id": "2e98eebc-07c8-41a4-a34f-fc3eb9414961",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -57,23 +61,25 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-bd08/nodes?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-1c50/nodes?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "743fa813-569e-4496-8504-a45e9571e371",
-        "Connection": "keep-alive",
+        "client-request-id": "adbc33c4-3725-464f-9727-3a69ac655ebe",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 19:06:12 GMT",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Tue, 26 Mar 2024 02:03:04 GMT",
-        "request-id": "75fc48fc-1c31-47af-9c02-f1be6cb0553b",
+        "Date": "Thu, 11 Apr 2024 19:06:12 GMT",
+        "request-id": "76c0eba6-4673-4c9a-a093-3ae9d8c951a8",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -85,23 +91,25 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-bd08/nodes?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-1c50/nodes?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "752bbf85-7067-4324-a240-9cf024965892",
-        "Connection": "keep-alive",
+        "client-request-id": "e4c677fb-0793-47ae-bd4c-9e077a35454d",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 19:06:27 GMT",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Tue, 26 Mar 2024 02:03:18 GMT",
-        "request-id": "e01a27b7-fa7d-46cc-b227-07a6bdbc9e22",
+        "Date": "Thu, 11 Apr 2024 19:06:28 GMT",
+        "request-id": "8af716db-d6b6-4205-a321-f5ed5700991f",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -111,14 +119,14 @@
         "odata.metadata": "https://endpoint/$metadata#nodes",
         "value": [
           {
-            "id": "tvmps_30c62987914bd681f4c877455836150c0d9e9b47ad7dde10e6da817c4435dd0a_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-bd08/nodes/tvmps_30c62987914bd681f4c877455836150c0d9e9b47ad7dde10e6da817c4435dd0a_d",
+            "id": "tvmps_f6190afcc364804baaeab5b7423819e488042912e7115e77d36416e4338a5fd4_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-1c50/nodes/tvmps_f6190afcc364804baaeab5b7423819e488042912e7115e77d36416e4338a5fd4_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-03-26T02:03:15.9699294Z",
-            "allocationTime": "2024-03-26T02:03:05.463688Z",
+            "stateTransitionTime": "2024-04-11T19:06:18.1207566Z",
+            "allocationTime": "2024-04-11T19:06:16.9544672Z",
             "ipAddress": "10.0.0.4",
-            "affinityId": "TVM:tvmps_30c62987914bd681f4c877455836150c0d9e9b47ad7dde10e6da817c4435dd0a_d",
+            "affinityId": "TVM:tvmps_f6190afcc364804baaeab5b7423819e488042912e7115e77d36416e4338a5fd4_d",
             "vmSize": "standard_a1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -130,16 +138,16 @@
                 {
                   "name": "TestEndpointConfig.0",
                   "protocol": "udp",
-                  "publicIPAddress": "20.255.220.173",
-                  "publicFQDN": "dnsf8510460-d6d4-480b-9f6e-6a334082ff19-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "publicIPAddress": "4.144.57.66",
+                  "publicFQDN": "dnsa7df1ced-2e10-41e7-8af0-21a167666693-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
                   "frontendPort": 60000,
                   "backendPort": 64444
                 },
                 {
                   "name": "SSHRule.0",
                   "protocol": "tcp",
-                  "publicIPAddress": "20.255.220.173",
-                  "publicFQDN": "dnsf8510460-d6d4-480b-9f6e-6a334082ff19-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "publicIPAddress": "4.144.57.66",
+                  "publicFQDN": "dnsa7df1ced-2e10-41e7-8af0-21a167666693-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
                   "frontendPort": 50000,
                   "backendPort": 22
                 }
@@ -160,6 +168,6 @@
     }
   ],
   "Variables": {
-    "ENDPOINT_POOL": "JSSDKTest-Pool-Endpoint-bd08"
+    "ENDPOINT_POOL": "JSSDKTest-Pool-Endpoint-1c50"
   }
 }

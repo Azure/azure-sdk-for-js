@@ -7,31 +7,32 @@
         "Accept": "application/json",
         "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "b9e6d6c5-7004-4772-8892-2ad5bab22bcf",
+        "client-request-id": "6ba56a90-89e9-4273-9297-8f0dd3874f66",
         "Connection": "close",
-        "ocp-date": "Thu, 11 Apr 2024 00:50:12 GMT",
+        "ocp-date": "Thu, 11 Apr 2024 18:28:27 GMT",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
-      "StatusCode": 404,
+      "StatusCode": 200,
       "ResponseHeaders": {
         "Connection": "close",
-        "Content-Length": "320",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Thu, 11 Apr 2024 00:50:12 GMT",
-        "request-id": "81ac61b4-bdb0-41f8-a869-6bd92ef9239c",
+        "Date": "Thu, 11 Apr 2024 18:28:27 GMT",
+        "request-id": "65dce077-5ab6-405f-8838-b9c2ab7eba14",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff"
       },
       "ResponseBody": {
-        "odata.metadata": "https://endpoint/$metadata#Microsoft.Azure.Batch.Protocol.Entities.Container.errors/@Element",
-        "code": "CertificateNotFound",
-        "message": {
-          "lang": "en-US",
-          "value": "The specified certificate does not exist.\nRequestId:81ac61b4-bdb0-41f8-a869-6bd92ef9239c\nTime:2024-04-11T00:50:13.1487216Z"
-        }
+        "odata.metadata": "https://endpoint/$metadata#certificates/@Element",
+        "thumbprint": "cff2ab63c8c955aaf71989efa641b906558d9fb7",
+        "thumbprintAlgorithm": "sha1",
+        "url": "https://endpoint/certificates(thumbprintAlgorithm=sha1,thumbprint=cff2ab63c8c955aaf71989efa641b906558d9fb7)",
+        "state": "active",
+        "stateTransitionTime": "2024-04-11T18:28:26.721489Z",
+        "publicData": "MIIBrzCCAV2gAwIBAgIQHZGt2k0LCLFKYYCFxlJnkTAJBgUrDgMCHQUAMBYxFDASBgNVBAMTC1Jvb3QgQWdlbmN5MB4XDTE2MDEwMTA3MDAwMFoXDTE4MDEwMTA3MDAwMFowEjEQMA4GA1UEAxMHbm9kZXNkazCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAuX4XMWyR8cQRCA81TjHOerNOFOpOBj2O8jEdZvqwRlUYgMleEY2OlPd\u002BnalxwlQ9\u002BqbNkNGfjnhIMgiJ5CMlXgdRMF3E6DnMnktmHFG9L0VmQ6Lgt7bhXR8IitRHeYlvy5LJlw6Lcle5Kas2j4ThYjLQbjBMDSXD4HvZNe4UYEUCAwEAAaNLMEkwRwYDVR0BBEAwPoAQEuQJLQYdHU8AjWEh3BZkY6EYMBYxFDASBgNVBAMTC1Jvb3QgQWdlbmN5ghAGN2wAqgBkihHPuNSqXDX0MAkGBSsOAwIdBQADQQB5djPe0G6c3Z8DuR6EQbIhBMTnC0zYPhigq\u002Bx1LG83761Ir8PiSy\u002B6oxwCHOaYZyvheW0PByntC/WFwUipfn78"
       }
     }
   ],

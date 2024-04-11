@@ -7,9 +7,9 @@
         "Accept": "application/json",
         "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "cd2d4ac7-3ce8-4241-b152-bc5a4985e57d",
+        "client-request-id": "f0a851ed-1a01-4af4-92b0-c239f888fafa",
         "Connection": "close",
-        "ocp-date": "Thu, 11 Apr 2024 00:50:11 GMT",
+        "ocp-date": "Thu, 11 Apr 2024 18:28:26 GMT",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
@@ -18,8 +18,8 @@
         "Connection": "close",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Thu, 11 Apr 2024 00:50:11 GMT",
-        "request-id": "ac7cf4e8-b6ec-42e1-919f-e6b6567a43da",
+        "Date": "Thu, 11 Apr 2024 18:28:26 GMT",
+        "request-id": "a53e4706-ca17-4958-a6d0-3b256d52b1a7",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -27,7 +27,16 @@
       },
       "ResponseBody": {
         "odata.metadata": "https://endpoint/$metadata#certificates",
-        "value": []
+        "value": [
+          {
+            "thumbprint": "cff2ab63c8c955aaf71989efa641b906558d9fb7",
+            "thumbprintAlgorithm": "sha1",
+            "url": "https://endpoint/certificates(thumbprintAlgorithm=sha1,thumbprint=cff2ab63c8c955aaf71989efa641b906558d9fb7)",
+            "state": "active",
+            "stateTransitionTime": "2024-04-11T18:28:26.721489Z",
+            "publicData": "MIIBrzCCAV2gAwIBAgIQHZGt2k0LCLFKYYCFxlJnkTAJBgUrDgMCHQUAMBYxFDASBgNVBAMTC1Jvb3QgQWdlbmN5MB4XDTE2MDEwMTA3MDAwMFoXDTE4MDEwMTA3MDAwMFowEjEQMA4GA1UEAxMHbm9kZXNkazCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAuX4XMWyR8cQRCA81TjHOerNOFOpOBj2O8jEdZvqwRlUYgMleEY2OlPd\u002BnalxwlQ9\u002BqbNkNGfjnhIMgiJ5CMlXgdRMF3E6DnMnktmHFG9L0VmQ6Lgt7bhXR8IitRHeYlvy5LJlw6Lcle5Kas2j4ThYjLQbjBMDSXD4HvZNe4UYEUCAwEAAaNLMEkwRwYDVR0BBEAwPoAQEuQJLQYdHU8AjWEh3BZkY6EYMBYxFDASBgNVBAMTC1Jvb3QgQWdlbmN5ghAGN2wAqgBkihHPuNSqXDX0MAkGBSsOAwIdBQADQQB5djPe0G6c3Z8DuR6EQbIhBMTnC0zYPhigq\u002Bx1LG83761Ir8PiSy\u002B6oxwCHOaYZyvheW0PByntC/WFwUipfn78"
+          }
+        ]
       }
     }
   ],

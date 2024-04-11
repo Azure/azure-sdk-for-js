@@ -5,16 +5,17 @@
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "597c9015-0b7a-44cb-8628-d1a55195110d",
-        "Connection": "keep-alive",
+        "client-request-id": "a433f4e9-4742-4d08-aebb-a682a1ee0c76",
+        "Connection": "close",
         "Content-Length": "287",
         "Content-Type": "application/json; odata=minimalmetadata",
+        "ocp-date": "Thu, 11 Apr 2024 19:05:22 GMT",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": {
-        "id": "JSSDKTest-Pool-Datadisk-60cc",
+        "id": "JSSDKTest-Pool-Datadisk-f2ee",
         "vmSize": "Standard_A1_v2",
         "virtualMachineConfiguration": {
           "imageReference": {
@@ -34,13 +35,14 @@
       },
       "StatusCode": 201,
       "ResponseHeaders": {
-        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-Datadisk-60cc",
+        "Connection": "close",
+        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-Datadisk-f2ee",
         "DataServiceVersion": "3.0",
-        "Date": "Tue, 26 Mar 2024 02:02:16 GMT",
-        "ETag": "0x8DC4D38C3465FF7",
-        "Last-Modified": "Tue, 26 Mar 2024 02:02:16 GMT",
-        "Location": "https://endpoint/pools/JSSDKTest-Pool-Datadisk-60cc",
-        "request-id": "808fefa5-1512-4590-a57d-7479535c1463",
+        "Date": "Thu, 11 Apr 2024 19:05:22 GMT",
+        "ETag": "0x8DC5A5A56EFEBA9",
+        "Last-Modified": "Thu, 11 Apr 2024 19:05:23 GMT",
+        "Location": "https://endpoint/pools/JSSDKTest-Pool-Datadisk-f2ee",
+        "request-id": "61833736-f0b8-44bf-9082-807cb704f083",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -49,25 +51,27 @@
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Datadisk-60cc?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Datadisk-f2ee?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "79358087-528b-431e-b215-4968f1dc4097",
-        "Connection": "keep-alive",
+        "client-request-id": "35334426-4c20-427f-a35f-4225425f09f9",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 19:05:38 GMT",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Tue, 26 Mar 2024 02:02:32 GMT",
-        "ETag": "0x8DC4D38C3465FF7",
-        "Last-Modified": "Tue, 26 Mar 2024 02:02:16 GMT",
-        "request-id": "99295e72-40d6-4627-bd9d-82f72773db13",
+        "Date": "Thu, 11 Apr 2024 19:05:38 GMT",
+        "ETag": "0x8DC5A5A56EFEBA9",
+        "Last-Modified": "Thu, 11 Apr 2024 19:05:23 GMT",
+        "request-id": "0223929a-48d6-40fe-987c-f7569cc3a1e8",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -75,15 +79,15 @@
       },
       "ResponseBody": {
         "odata.metadata": "https://endpoint/$metadata#pools/@Element",
-        "id": "JSSDKTest-Pool-Datadisk-60cc",
-        "url": "https://endpoint/pools/JSSDKTest-Pool-Datadisk-60cc",
-        "eTag": "0x8DC4D38C3465FF7",
-        "lastModified": "2024-03-26T02:02:16.9444343Z",
-        "creationTime": "2024-03-26T02:02:16.944433Z",
+        "id": "JSSDKTest-Pool-Datadisk-f2ee",
+        "url": "https://endpoint/pools/JSSDKTest-Pool-Datadisk-f2ee",
+        "eTag": "0x8DC5A5A56EFEBA9",
+        "lastModified": "2024-04-11T19:05:23.1888297Z",
+        "creationTime": "2024-04-11T19:05:23.1888283Z",
         "state": "active",
-        "stateTransitionTime": "2024-03-26T02:02:16.944433Z",
+        "stateTransitionTime": "2024-04-11T19:05:23.1888283Z",
         "allocationState": "steady",
-        "allocationStateTransitionTime": "2024-03-26T02:02:18.1721039Z",
+        "allocationStateTransitionTime": "2024-04-11T19:05:24.5655756Z",
         "vmSize": "standard_a1_v2",
         "resizeTimeout": "PT15M",
         "currentDedicatedNodes": 0,
@@ -116,22 +120,24 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Datadisk-60cc?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Datadisk-f2ee?api-version=2024-02-01.19.0",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "3927c777-c40d-4b0d-9567-fd604fe9318e",
-        "Connection": "keep-alive",
+        "client-request-id": "3c8ca34a-3e82-4720-abc3-7bb6aa64edc3",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 19:05:39 GMT",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 202,
       "ResponseHeaders": {
+        "Connection": "close",
         "DataServiceVersion": "3.0",
-        "Date": "Tue, 26 Mar 2024 02:02:32 GMT",
-        "request-id": "d0be304a-b5dd-4658-94a4-c4bcb52b4782",
+        "Date": "Thu, 11 Apr 2024 19:05:39 GMT",
+        "request-id": "a9d69f09-6031-4c63-b0b4-50e67c80ce86",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -141,6 +147,6 @@
     }
   ],
   "Variables": {
-    "DISK_POOL": "JSSDKTest-Pool-Datadisk-60cc"
+    "DISK_POOL": "JSSDKTest-Pool-Datadisk-f2ee"
   }
 }

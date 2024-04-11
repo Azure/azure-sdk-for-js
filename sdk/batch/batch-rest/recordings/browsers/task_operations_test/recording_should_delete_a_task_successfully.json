@@ -1,31 +1,33 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/jobs/JSSDKTest-Job-Basic-adf2/tasks/JSSDKTest-Job-Basic-adf2-task1?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/jobs/JSSDKTest-Job-Basic-fcc0/tasks/JSSDKTest-Job-Basic-fcc0-task1?api-version=2024-02-01.19.0",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "en-US,en;q=0.9",
         "Authorization": "Sanitized",
-        "client-request-id": "06869c8c-2fb6-4966-8f7d-8394d704dfef",
+        "client-request-id": "01dfd6bc-dc52-4dd6-ac66-efb537952017",
         "Connection": "keep-alive",
         "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "\u0022Not:A-Brand\u0022;v=\u002299\u0022, \u0022Chromium\u0022;v=\u0022112\u0022",
+        "sec-ch-ua": "\u0022Chromium\u0022;v=\u0022123\u0022, \u0022Not:A-Brand\u0022;v=\u00228\u0022",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022Windows\u0022",
+        "sec-ch-ua-platform": "\u0022macOS\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
-        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 OS/Windows"
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 OS/macOS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "keep-alive",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 07:22:26 GMT",
-        "request-id": "ad29c3ad-2709-4876-bc64-8f3121f9dc7c",
+        "Date": "Thu, 11 Apr 2024 19:42:16 GMT",
+        "Keep-Alive": "timeout=5",
+        "request-id": "ab248cba-6cbd-4e79-9463-c1622c7982d0",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -35,7 +37,7 @@
     }
   ],
   "Variables": {
-    "JOB_NAME": "JSSDKTest-Job-Basic-adf2",
-    "TASK_NAME": "JSSDKTest-Job-Basic-adf2-task1"
+    "JOB_NAME": "JSSDKTest-Job-Basic-fcc0",
+    "TASK_NAME": "JSSDKTest-Job-Basic-fcc0-task1"
   }
 }

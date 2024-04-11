@@ -2,23 +2,12 @@
 // Licensed under the MIT license.
 // BatchSharedKeyCredentials is not supported in browser environment.
 
-import { KeyCredential } from "@azure/core-auth";
+import { type AzureNamedKeyCredential } from "@azure/core-auth";
 import { PipelinePolicy } from "@azure/core-rest-pipeline";
 
-export interface BatchSharedKeyCredentials extends KeyCredential {
-  /**
-   * The batch account name.
-   */
-  accountName: string;
-}
-
 export function createBatchSharedKeyCredentialsPolicy(
-  _credentials: BatchSharedKeyCredentials
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
+  _credentials: AzureNamedKeyCredential
 ): PipelinePolicy {
-  return {
-    name: "BatchSharedKeyCredentialsPolicy",
-    async sendRequest(request, next) {
-      return next(request);
-    },
-  };
+  throw new Error("Batch Shared Key authentication is not supported in browser environment.");
 }

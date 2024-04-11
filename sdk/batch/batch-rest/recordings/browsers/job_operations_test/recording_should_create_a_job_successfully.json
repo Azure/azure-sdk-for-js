@@ -5,38 +5,40 @@
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "en-US,en;q=0.9",
         "Authorization": "Sanitized",
-        "client-request-id": "cfa7e603-b527-4858-b27c-0e8aedc50727",
+        "client-request-id": "ec434cc5-c468-4b16-a82f-7ef8f72d76ef",
         "Connection": "keep-alive",
         "Content-Length": "83",
         "Content-Type": "application/json; odata=minimalmetadata",
         "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "\u0022Not:A-Brand\u0022;v=\u002299\u0022, \u0022Chromium\u0022;v=\u0022112\u0022",
+        "sec-ch-ua": "\u0022Chromium\u0022;v=\u0022123\u0022, \u0022Not:A-Brand\u0022;v=\u00228\u0022",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022Windows\u0022",
+        "sec-ch-ua-platform": "\u0022macOS\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
-        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 OS/Windows"
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 OS/macOS"
       },
       "RequestBody": {
-        "id": "JSSDKTest-Job-Basic-aff2",
+        "id": "JSSDKTest-Job-Basic-5252",
         "poolInfo": {
-          "poolId": "JSSDKTest-Pool-Basic-a65a"
+          "poolId": "JSSDKTest-Pool-Basic-e9a8"
         }
       },
       "StatusCode": 201,
       "ResponseHeaders": {
+        "Connection": "keep-alive",
         "DataServiceId": "https://endpoint/jobs/job-1",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 07:10:19 GMT",
-        "ETag": "0x8DC0DBD60A3310F",
-        "Last-Modified": "Fri, 05 Jan 2024 07:10:20 GMT",
+        "Date": "Thu, 11 Apr 2024 19:25:43 GMT",
+        "ETag": "0x8DC5A5D2E5B906D",
+        "Keep-Alive": "timeout=5",
+        "Last-Modified": "Thu, 11 Apr 2024 19:25:43 GMT",
         "Location": "https://endpoint/jobs/job-1",
-        "request-id": "5fc47d56-a904-4f6c-8a9b-16c5d862b31c",
+        "request-id": "3191fcc1-0173-491f-8b35-978f9b25aa8d",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -45,34 +47,36 @@
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/jobs/JSSDKTest-Job-Basic-aff2?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/jobs/JSSDKTest-Job-Basic-5252?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "en-US,en;q=0.9",
         "Authorization": "Sanitized",
-        "client-request-id": "ee12a242-1fef-4dc4-9cbf-70eca7124f76",
+        "client-request-id": "8bf79caa-82b9-4e0f-b868-1657eb861abc",
         "Connection": "keep-alive",
         "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "\u0022Not:A-Brand\u0022;v=\u002299\u0022, \u0022Chromium\u0022;v=\u0022112\u0022",
+        "sec-ch-ua": "\u0022Chromium\u0022;v=\u0022123\u0022, \u0022Not:A-Brand\u0022;v=\u00228\u0022",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022Windows\u0022",
+        "sec-ch-ua-platform": "\u0022macOS\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
-        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 OS/Windows"
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 OS/macOS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "keep-alive",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 07:10:19 GMT",
-        "ETag": "0x8DC0DBD60A3310F",
-        "Last-Modified": "Fri, 05 Jan 2024 07:10:20 GMT",
-        "request-id": "d742097c-a422-42d4-9a05-b1feb9c9521a",
+        "Date": "Thu, 11 Apr 2024 19:25:43 GMT",
+        "ETag": "0x8DC5A5D2E5B906D",
+        "Keep-Alive": "timeout=5",
+        "Last-Modified": "Thu, 11 Apr 2024 19:25:43 GMT",
+        "request-id": "734237b0-09a4-4812-8d3f-96b6fea45ca8",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -80,13 +84,13 @@
       },
       "ResponseBody": {
         "odata.metadata": "https://endpoint/$metadata#jobs/@Element",
-        "id": "JSSDKTest-Job-Basic-aff2",
-        "url": "https://endpoint/jobs/JSSDKTest-Job-Basic-aff2",
-        "eTag": "0x8DC0DBD60A3310F",
-        "lastModified": "2024-01-05T07:10:20.1055503Z",
-        "creationTime": "2024-01-05T07:10:20.0862243Z",
+        "id": "JSSDKTest-Job-Basic-5252",
+        "url": "https://endpoint/jobs/JSSDKTest-Job-Basic-5252",
+        "eTag": "0x8DC5A5D2E5B906D",
+        "lastModified": "2024-04-11T19:25:43.5978861Z",
+        "creationTime": "2024-04-11T19:25:43.5838857Z",
         "state": "active",
-        "stateTransitionTime": "2024-01-05T07:10:20.1055503Z",
+        "stateTransitionTime": "2024-04-11T19:25:43.5978861Z",
         "priority": 0,
         "maxParallelTasks": -1,
         "usesTaskDependencies": false,
@@ -96,11 +100,11 @@
           "maxTaskRetryCount": 0
         },
         "poolInfo": {
-          "poolId": "JSSDKTest-Pool-Basic-a65a"
+          "poolId": "JSSDKTest-Pool-Basic-e9a8"
         },
         "executionInfo": {
-          "startTime": "2024-01-05T07:10:20.1055503Z",
-          "poolId": "JSSDKTest-Pool-Basic-a65a"
+          "startTime": "2024-04-11T19:25:43.5978861Z",
+          "poolId": "JSSDKTest-Pool-Basic-e9a8"
         },
         "onAllTasksComplete": "noaction",
         "onTaskFailure": "noaction"
@@ -108,7 +112,7 @@
     }
   ],
   "Variables": {
-    "BASIC_POOL": "JSSDKTest-Pool-Basic-a65a",
-    "JOB_NAME": "JSSDKTest-Job-Basic-aff2"
+    "BASIC_POOL": "JSSDKTest-Pool-Basic-e9a8",
+    "JOB_NAME": "JSSDKTest-Job-Basic-5252"
   }
 }

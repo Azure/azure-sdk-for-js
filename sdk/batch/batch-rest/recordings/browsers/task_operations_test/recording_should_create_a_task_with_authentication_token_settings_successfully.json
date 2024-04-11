@@ -1,26 +1,26 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/jobs/JSSDKTest-Job-Basic-adf2/tasks?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/jobs/JSSDKTest-Job-Basic-fcc0/tasks?api-version=2024-02-01.19.0",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "en-US,en;q=0.9",
         "Authorization": "Sanitized",
-        "client-request-id": "a335d3d9-21a3-4d49-bcd3-cd2c6b7efbe0",
+        "client-request-id": "a3287128-dcb9-41cd-b1d1-65e0083bf462",
         "Connection": "keep-alive",
         "Content-Length": "123",
         "Content-Type": "application/json; odata=minimalmetadata",
         "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "\u0022Not:A-Brand\u0022;v=\u002299\u0022, \u0022Chromium\u0022;v=\u0022112\u0022",
+        "sec-ch-ua": "\u0022Chromium\u0022;v=\u0022123\u0022, \u0022Not:A-Brand\u0022;v=\u00228\u0022",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022Windows\u0022",
+        "sec-ch-ua-platform": "\u0022macOS\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
-        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 OS/Windows"
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 OS/macOS"
       },
       "RequestBody": {
         "id": "TaskWithAuthTokenSettings",
@@ -33,13 +33,15 @@
       },
       "StatusCode": 201,
       "ResponseHeaders": {
-        "DataServiceId": "https://endpoint/jobs/JSSDKTest-Job-Basic-adf2/tasks/TaskWithAuthTokenSettings",
+        "Connection": "keep-alive",
+        "DataServiceId": "https://endpoint/jobs/JSSDKTest-Job-Basic-fcc0/tasks/TaskWithAuthTokenSettings",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 07:16:41 GMT",
-        "ETag": "0x8DC0DBE44129BA2",
-        "Last-Modified": "Fri, 05 Jan 2024 07:16:41 GMT",
-        "Location": "https://endpoint/jobs/JSSDKTest-Job-Basic-adf2/tasks/TaskWithAuthTokenSettings",
-        "request-id": "e891ff9a-abd1-4c8c-bc54-1fcfa05be031",
+        "Date": "Thu, 11 Apr 2024 19:37:32 GMT",
+        "ETag": "0x8DC5A5ED517DC8A",
+        "Keep-Alive": "timeout=5",
+        "Last-Modified": "Thu, 11 Apr 2024 19:37:32 GMT",
+        "Location": "https://endpoint/jobs/JSSDKTest-Job-Basic-fcc0/tasks/TaskWithAuthTokenSettings",
+        "request-id": "0e10dff4-422e-46a8-9613-ad81426d88b0",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -48,34 +50,36 @@
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/jobs/JSSDKTest-Job-Basic-adf2/tasks/TaskWithAuthTokenSettings?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/jobs/JSSDKTest-Job-Basic-fcc0/tasks/TaskWithAuthTokenSettings?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "en-US,en;q=0.9",
         "Authorization": "Sanitized",
-        "client-request-id": "0adb30c9-286c-46fe-85a8-49ce100573fb",
+        "client-request-id": "ecda4d9d-9ef5-40eb-81b1-a482b9980fc5",
         "Connection": "keep-alive",
         "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "\u0022Not:A-Brand\u0022;v=\u002299\u0022, \u0022Chromium\u0022;v=\u0022112\u0022",
+        "sec-ch-ua": "\u0022Chromium\u0022;v=\u0022123\u0022, \u0022Not:A-Brand\u0022;v=\u00228\u0022",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022Windows\u0022",
+        "sec-ch-ua-platform": "\u0022macOS\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
-        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 OS/Windows"
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 OS/macOS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "keep-alive",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 07:16:41 GMT",
-        "ETag": "0x8DC0DBE44129BA2",
-        "Last-Modified": "Fri, 05 Jan 2024 07:16:41 GMT",
-        "request-id": "3996b6cd-af7e-4120-bf80-948345a2107c",
+        "Date": "Thu, 11 Apr 2024 19:37:33 GMT",
+        "ETag": "0x8DC5A5ED517DC8A",
+        "Keep-Alive": "timeout=5",
+        "Last-Modified": "Thu, 11 Apr 2024 19:37:32 GMT",
+        "request-id": "8ee39dd2-662c-478d-9909-fd1669854918",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -84,12 +88,12 @@
       "ResponseBody": {
         "odata.metadata": "https://endpoint/$metadata#tasks/@Element",
         "id": "TaskWithAuthTokenSettings",
-        "url": "https://endpoint/jobs/JSSDKTest-Job-Basic-adf2/tasks/TaskWithAuthTokenSettings",
-        "eTag": "0x8DC0DBE44129BA2",
-        "creationTime": "2024-01-05T07:16:41.6785314Z",
-        "lastModified": "2024-01-05T07:16:41.6785314Z",
+        "url": "https://endpoint/jobs/JSSDKTest-Job-Basic-fcc0/tasks/TaskWithAuthTokenSettings",
+        "eTag": "0x8DC5A5ED517DC8A",
+        "creationTime": "2024-04-11T19:37:32.8304266Z",
+        "lastModified": "2024-04-11T19:37:32.8304266Z",
         "state": "active",
-        "stateTransitionTime": "2024-01-05T07:16:41.6785314Z",
+        "stateTransitionTime": "2024-04-11T19:37:32.8304266Z",
         "commandLine": "cmd /c echo Hello World",
         "userIdentity": {
           "autoUser": {
@@ -116,6 +120,6 @@
     }
   ],
   "Variables": {
-    "JOB_NAME": "JSSDKTest-Job-Basic-adf2"
+    "JOB_NAME": "JSSDKTest-Job-Basic-fcc0"
   }
 }

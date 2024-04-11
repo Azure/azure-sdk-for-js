@@ -38,7 +38,14 @@ describe("Compute node operations", async () => {
         body: {
           id: BASIC_POOL,
           vmSize: "Standard_D1_v2",
-          cloudServiceConfiguration: { osFamily: "4" },
+          virtualMachineConfiguration: {
+            nodeAgentSKUId: "batch.node.windows amd64",
+            imageReference: {
+              publisher: "microsoftwindowsserver",
+              offer: "windowsserver",
+              sku: "2022-datacenter",
+            },
+          },
           targetDedicatedNodes: BASIC_POOL_NUM_VMS,
           // Ensures there's a compute node file we can reference later
           startTask: { commandLine: "cmd /c echo hello > hello.txt" },
@@ -175,22 +182,6 @@ describe("Compute node operations", async () => {
       )
       .put(updateUserOptions);
     assert.equal(updateUserResult.status, "200");
-  });
-
-  it("should get a remote desktop file successfully", async () => {
-    const getRDPFileResult = await batchClient
-      .path(
-        "/pools/{poolId}/nodes/{nodeId}/rdp",
-        recorder.variable("BASIC_POOL", BASIC_POOL),
-        computeNodes[0]
-      )
-      .get();
-    if (isUnexpected(getRDPFileResult)) {
-      fail(`Received unexpected status code from getting compute node RDP file: ${getRDPFileResult.status}
-              Response Body: ${getRDPFileResult.body.message}`);
-    }
-
-    assert.isDefined(getRDPFileResult.body);
   });
 
   it("should delete a compute node user successfully", async () => {

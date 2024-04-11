@@ -15,7 +15,6 @@ import {
 import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets";
 import { fail } from "assert";
 import { getResourceName, waitForNotNull } from "./utils/helpers";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { duration } from "moment";
 
 const BASIC_POOL = getResourceName("Pool-Basic");
@@ -37,7 +36,14 @@ describe("Autoscale operations", async () => {
         body: {
           id: BASIC_POOL,
           vmSize: "Standard_D1_v2",
-          cloudServiceConfiguration: { osFamily: "4" },
+          virtualMachineConfiguration: {
+            nodeAgentSKUId: "batch.node.windows amd64",
+            imageReference: {
+              publisher: "microsoftwindowsserver",
+              offer: "windowsserver",
+              sku: "2022-datacenter",
+            },
+          },
           targetDedicatedNodes: 4,
           // Ensures there's a compute node file we can reference later
           startTask: { commandLine: "cmd /c echo hello > hello.txt" },

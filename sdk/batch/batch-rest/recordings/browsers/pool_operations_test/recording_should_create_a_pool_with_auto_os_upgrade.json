@@ -8,7 +8,7 @@
         "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "en-US,en;q=0.9",
         "Authorization": "Sanitized",
-        "client-request-id": "6d6750fa-5971-4b9c-9356-c63e9770b5a9",
+        "client-request-id": "34cc4441-2fd6-4b68-81e5-1dc6cc46e356",
         "Connection": "keep-alive",
         "Content-Length": "784",
         "Content-Type": "application/json; odata=minimalmetadata",
@@ -23,7 +23,7 @@
         "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 OS/macOS"
       },
       "RequestBody": {
-        "id": "JSSDKTest-Pool-AutoOSUpgrade-134e",
+        "id": "JSSDKTest-Pool-AutoOSUpgrade-b410",
         "vmSize": "Standard_D2s_v3",
         "virtualMachineConfiguration": {
           "imageReference": {
@@ -58,13 +58,15 @@
       },
       "StatusCode": 201,
       "ResponseHeaders": {
-        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-AutoOSUpgrade-134e",
+        "Connection": "keep-alive",
+        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-AutoOSUpgrade-b410",
         "DataServiceVersion": "3.0",
-        "Date": "Wed, 10 Apr 2024 00:18:37 GMT",
-        "ETag": "0x8DC58F3C49B383B",
-        "Last-Modified": "Wed, 10 Apr 2024 00:18:37 GMT",
-        "Location": "https://endpoint/pools/JSSDKTest-Pool-AutoOSUpgrade-134e",
-        "request-id": "54120d8a-34fd-4738-93db-093c840a2569",
+        "Date": "Thu, 11 Apr 2024 19:36:03 GMT",
+        "ETag": "0x8DC5A5EA08632ED",
+        "Keep-Alive": "timeout=5",
+        "Last-Modified": "Thu, 11 Apr 2024 19:36:04 GMT",
+        "Location": "https://endpoint/pools/JSSDKTest-Pool-AutoOSUpgrade-b410",
+        "request-id": "ea02376c-e1b5-4a05-895c-2077786064ed",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -73,14 +75,14 @@
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-AutoOSUpgrade-134e?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-AutoOSUpgrade-b410?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "en-US,en;q=0.9",
         "Authorization": "Sanitized",
-        "client-request-id": "e2bef1a5-a38b-4268-818c-a1572fc6f0c1",
+        "client-request-id": "fc636fd1-217c-4e16-a284-f36b40a34cb8",
         "Connection": "keep-alive",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "\u0022Chromium\u0022;v=\u0022123\u0022, \u0022Not:A-Brand\u0022;v=\u00228\u0022",
@@ -95,12 +97,14 @@
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "keep-alive",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Wed, 10 Apr 2024 00:18:37 GMT",
-        "ETag": "0x8DC58F3C49B383B",
-        "Last-Modified": "Wed, 10 Apr 2024 00:18:37 GMT",
-        "request-id": "fe072949-e366-4255-b9fd-4c426d7d99e3",
+        "Date": "Thu, 11 Apr 2024 19:36:05 GMT",
+        "ETag": "0x8DC5A5EA08632ED",
+        "Keep-Alive": "timeout=5",
+        "Last-Modified": "Thu, 11 Apr 2024 19:36:04 GMT",
+        "request-id": "e4b79622-a30b-44d6-8db3-ebec49e9871e",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -108,15 +112,15 @@
       },
       "ResponseBody": {
         "odata.metadata": "https://endpoint/$metadata#pools/@Element",
-        "id": "JSSDKTest-Pool-AutoOSUpgrade-134e",
-        "url": "https://endpoint/pools/JSSDKTest-Pool-AutoOSUpgrade-134e",
-        "eTag": "0x8DC58F3C49B383B",
-        "lastModified": "2024-04-10T00:18:37.8571835Z",
-        "creationTime": "2024-04-10T00:18:37.8571819Z",
+        "id": "JSSDKTest-Pool-AutoOSUpgrade-b410",
+        "url": "https://endpoint/pools/JSSDKTest-Pool-AutoOSUpgrade-b410",
+        "eTag": "0x8DC5A5EA08632ED",
+        "lastModified": "2024-04-11T19:36:04.6342893Z",
+        "creationTime": "2024-04-11T19:36:04.6342879Z",
         "state": "active",
-        "stateTransitionTime": "2024-04-10T00:18:37.8571819Z",
+        "stateTransitionTime": "2024-04-11T19:36:04.6342879Z",
         "allocationState": "resizing",
-        "allocationStateTransitionTime": "2024-04-10T00:18:37.8571835Z",
+        "allocationStateTransitionTime": "2024-04-11T19:36:04.6342893Z",
         "vmSize": "standard_d2s_v3",
         "resizeTimeout": "PT15M",
         "currentDedicatedNodes": 0,
@@ -162,14 +166,14 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-AutoOSUpgrade-134e?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-AutoOSUpgrade-b410?api-version=2024-02-01.19.0",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "en-US,en;q=0.9",
         "Authorization": "Sanitized",
-        "client-request-id": "39e00ae3-db3e-4b71-ba3f-ebd7992caf5a",
+        "client-request-id": "a5d200bb-5085-4075-8105-774e0d170389",
         "Connection": "keep-alive",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "\u0022Chromium\u0022;v=\u0022123\u0022, \u0022Not:A-Brand\u0022;v=\u00228\u0022",
@@ -184,9 +188,11 @@
       "RequestBody": null,
       "StatusCode": 202,
       "ResponseHeaders": {
+        "Connection": "keep-alive",
         "DataServiceVersion": "3.0",
-        "Date": "Wed, 10 Apr 2024 00:18:38 GMT",
-        "request-id": "37ccee4d-3d14-42f3-ae88-926821ded007",
+        "Date": "Thu, 11 Apr 2024 19:36:05 GMT",
+        "Keep-Alive": "timeout=5",
+        "request-id": "eaf591d0-06a0-4771-a1b4-776d6412ebc3",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -196,6 +202,6 @@
     }
   ],
   "Variables": {
-    "AUTO_OS_UPGRADE_POOL": "JSSDKTest-Pool-AutoOSUpgrade-134e"
+    "AUTO_OS_UPGRADE_POOL": "JSSDKTest-Pool-AutoOSUpgrade-b410"
   }
 }

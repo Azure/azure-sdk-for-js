@@ -1,23 +1,25 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/jobschedules/JSSDKTest-JobSchedule-Basic-9c25/jobs?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/jobschedules/JSSDKTest-JobSchedule-Basic-aadf/jobs?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "14a5dd76-ca05-44ea-8698-0e125b9cf7ae",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "client-request-id": "0cb6a8cf-5017-4d7f-8337-e57bd63513d8",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 18:46:35 GMT",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 06:00:01 GMT",
-        "request-id": "3fa6e43e-399f-493d-ac17-2320d1ad9a83",
+        "Date": "Thu, 11 Apr 2024 18:46:35 GMT",
+        "request-id": "4f34d7f8-cf60-43ba-a907-2030fd83fd84",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -27,14 +29,14 @@
         "odata.metadata": "https://endpoint/$metadata#jobs",
         "value": [
           {
-            "id": "JSSDKTest-JobSchedule-Basic-9c25:job-1",
+            "id": "JSSDKTest-JobSchedule-Basic-aadf:job-1",
             "displayName": "JobSchedule-1",
-            "url": "https://endpoint/jobs/JSSDKTest-JobSchedule-Basic-9c25:job-1",
-            "eTag": "0x8DC0DB38D329229",
-            "lastModified": "2024-01-05T05:59:59.8976553Z",
-            "creationTime": "2024-01-05T05:59:59.8806541Z",
+            "url": "https://endpoint/jobs/JSSDKTest-JobSchedule-Basic-aadf:job-1",
+            "eTag": "0x8DC5A57B6137C50",
+            "lastModified": "2024-04-11T18:46:34.315272Z",
+            "creationTime": "2024-04-11T18:46:34.2992744Z",
             "state": "active",
-            "stateTransitionTime": "2024-01-05T05:59:59.8976553Z",
+            "stateTransitionTime": "2024-04-11T18:46:34.315272Z",
             "priority": 0,
             "maxParallelTasks": -1,
             "usesTaskDependencies": false,
@@ -44,11 +46,11 @@
               "maxTaskRetryCount": 0
             },
             "poolInfo": {
-              "poolId": "JSSDKTest-Pool-Basic-9d92"
+              "poolId": "JSSDKTest-Pool-Basic-4c6d"
             },
             "executionInfo": {
-              "startTime": "2024-01-05T05:59:59.8976553Z",
-              "poolId": "JSSDKTest-Pool-Basic-9d92"
+              "startTime": "2024-04-11T18:46:34.315272Z",
+              "poolId": "JSSDKTest-Pool-Basic-4c6d"
             },
             "onAllTasksComplete": "noaction",
             "onTaskFailure": "noaction"
@@ -58,6 +60,6 @@
     }
   ],
   "Variables": {
-    "JOB_SCHEDULE": "JSSDKTest-JobSchedule-Basic-9c25"
+    "JOB_SCHEDULE": "JSSDKTest-JobSchedule-Basic-aadf"
   }
 }

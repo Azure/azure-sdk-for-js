@@ -1,33 +1,35 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-d0af/nodes/tvmps_32b52f225466ce1ca2199db6467a4628fa8ceb9ca61b0e4c6455758e3f092ef9_d/reboot?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-0949/nodes/tvmps_a9e7d270a70ae5f42bdaca229b72455587466fff7750b7fb81b188cbfe385f1f_d/reboot?api-version=2024-02-01.19.0",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "en-US,en;q=0.9",
         "Authorization": "Sanitized",
-        "client-request-id": "938c4842-b06e-4491-8191-0d24a640a938",
+        "client-request-id": "7c12a970-ab8a-43cd-b03e-dc91e26c7a19",
         "Connection": "keep-alive",
         "Content-Length": "0",
         "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "\u0022Not:A-Brand\u0022;v=\u002299\u0022, \u0022Chromium\u0022;v=\u0022112\u0022",
+        "sec-ch-ua": "\u0022Chromium\u0022;v=\u0022123\u0022, \u0022Not:A-Brand\u0022;v=\u00228\u0022",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022Windows\u0022",
+        "sec-ch-ua-platform": "\u0022macOS\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
-        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 OS/Windows"
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 OS/macOS"
       },
       "RequestBody": null,
       "StatusCode": 202,
       "ResponseHeaders": {
-        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-Basic-d0af/nodes/tvmps_32b52f225466ce1ca2199db6467a4628fa8ceb9ca61b0e4c6455758e3f092ef9_d/reboot",
+        "Connection": "keep-alive",
+        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-Basic-0949/nodes/tvmps_a9e7d270a70ae5f42bdaca229b72455587466fff7750b7fb81b188cbfe385f1f_d/reboot",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 07:10:16 GMT",
-        "request-id": "b3d37c73-98f9-4285-8d36-c290513503b7",
+        "Date": "Thu, 11 Apr 2024 19:32:04 GMT",
+        "Keep-Alive": "timeout=5",
+        "request-id": "6557ac96-0e58-4a1c-a752-2ed940ae32af",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -37,6 +39,6 @@
     }
   ],
   "Variables": {
-    "BASIC_POOL": "JSSDKTest-Pool-Basic-d0af"
+    "BASIC_POOL": "JSSDKTest-Pool-Basic-0949"
   }
 }

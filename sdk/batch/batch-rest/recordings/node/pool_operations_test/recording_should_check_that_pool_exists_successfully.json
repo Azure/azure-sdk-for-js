@@ -1,23 +1,25 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-28c0?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-851a?api-version=2024-02-01.19.0",
       "RequestMethod": "HEAD",
       "RequestHeaders": {
         "Accept": "application/json",
         "Authorization": "Sanitized",
-        "client-request-id": "4770df6e-44a3-40e8-85de-98e2c96d34f5",
-        "Connection": "keep-alive",
+        "client-request-id": "ac7b3396-1201-47e8-b494-d95e99a24d3f",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 19:05:21 GMT",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "close",
         "DataServiceVersion": "3.0",
-        "Date": "Tue, 26 Mar 2024 02:02:15 GMT",
-        "ETag": "0x8DC4D38C14F261E",
-        "Last-Modified": "Tue, 26 Mar 2024 02:02:13 GMT",
-        "request-id": "4d91d547-1dcf-4afc-9bb0-7a1e715f1f5e",
+        "Date": "Thu, 11 Apr 2024 19:05:22 GMT",
+        "ETag": "0x8DC5A5A53675522",
+        "Last-Modified": "Thu, 11 Apr 2024 19:05:17 GMT",
+        "request-id": "59076f8b-eee6-4617-a4e8-ce6e4d32555f",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -27,6 +29,6 @@
     }
   ],
   "Variables": {
-    "BASIC_POOL": "JSSDKTest-Pool-Basic-28c0"
+    "BASIC_POOL": "JSSDKTest-Pool-Basic-851a"
   }
 }

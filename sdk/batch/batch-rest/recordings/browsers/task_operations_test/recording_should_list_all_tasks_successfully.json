@@ -1,32 +1,34 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/jobs/JSSDKTest-Job-Basic-adf2/tasks?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/jobs/JSSDKTest-Job-Basic-fcc0/tasks?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "en-US,en;q=0.9",
         "Authorization": "Sanitized",
-        "client-request-id": "7fd33093-25ec-492c-afdd-d1a6d9edf512",
+        "client-request-id": "bd1e0192-f904-4449-ad08-7a292a29dec5",
         "Connection": "keep-alive",
         "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "\u0022Not:A-Brand\u0022;v=\u002299\u0022, \u0022Chromium\u0022;v=\u0022112\u0022",
+        "sec-ch-ua": "\u0022Chromium\u0022;v=\u0022123\u0022, \u0022Not:A-Brand\u0022;v=\u00228\u0022",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022Windows\u0022",
+        "sec-ch-ua-platform": "\u0022macOS\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
-        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 OS/Windows"
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 OS/macOS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "keep-alive",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 07:16:39 GMT",
-        "request-id": "9af1dcdb-90e5-4001-8c06-e8275447deab",
+        "Date": "Thu, 11 Apr 2024 19:37:29 GMT",
+        "Keep-Alive": "timeout=5",
+        "request-id": "ffad26c1-801f-4f04-965e-a3e6b1f8f819",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -36,15 +38,15 @@
         "odata.metadata": "https://endpoint/$metadata#tasks",
         "value": [
           {
-            "id": "JSSDKTest-Job-Basic-adf2-task1",
-            "url": "https://endpoint/jobs/JSSDKTest-Job-Basic-adf2/tasks/JSSDKTest-Job-Basic-adf2-task1",
-            "eTag": "0x8DC0DBE42D1E1FE",
-            "creationTime": "2024-01-05T07:16:37.5685707Z",
-            "lastModified": "2024-01-05T07:16:39.576627Z",
+            "id": "JSSDKTest-Job-Basic-fcc0-task1",
+            "url": "https://endpoint/jobs/JSSDKTest-Job-Basic-fcc0/tasks/JSSDKTest-Job-Basic-fcc0-task1",
+            "eTag": "0x8DC5A5ED2C37A8E",
+            "creationTime": "2024-04-11T19:37:24.6153677Z",
+            "lastModified": "2024-04-11T19:37:28.9219726Z",
             "state": "active",
-            "stateTransitionTime": "2024-01-05T07:16:39.0464032Z",
+            "stateTransitionTime": "2024-04-11T19:37:28.1149069Z",
             "previousState": "completed",
-            "previousStateTransitionTime": "2024-01-05T07:16:38.0552208Z",
+            "previousStateTransitionTime": "2024-04-11T19:37:25.3759117Z",
             "commandLine": "cmd /c echo hello \u003E taskHello.txt",
             "userIdentity": {
               "autoUser": {
@@ -64,13 +66,13 @@
             }
           },
           {
-            "id": "JSSDKTest-Job-Basic-adf2-task2",
-            "url": "https://endpoint/jobs/JSSDKTest-Job-Basic-adf2/tasks/JSSDKTest-Job-Basic-adf2-task2",
-            "eTag": "0x8DC0DBE4228170A",
-            "creationTime": "2024-01-05T07:16:38.463873Z",
-            "lastModified": "2024-01-05T07:16:38.463873Z",
+            "id": "JSSDKTest-Job-Basic-fcc0-task2",
+            "url": "https://endpoint/jobs/JSSDKTest-Job-Basic-fcc0/tasks/JSSDKTest-Job-Basic-fcc0-task2",
+            "eTag": "0x8DC5A5ED13B032B",
+            "creationTime": "2024-04-11T19:37:26.3499051Z",
+            "lastModified": "2024-04-11T19:37:26.3499051Z",
             "state": "active",
-            "stateTransitionTime": "2024-01-05T07:16:38.463873Z",
+            "stateTransitionTime": "2024-04-11T19:37:26.3499051Z",
             "commandLine": "cmd /c echo hello world",
             "outputFiles": [
               {
@@ -130,6 +132,6 @@
     }
   ],
   "Variables": {
-    "JOB_NAME": "JSSDKTest-Job-Basic-adf2"
+    "JOB_NAME": "JSSDKTest-Job-Basic-fcc0"
   }
 }

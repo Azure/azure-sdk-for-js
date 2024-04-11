@@ -1,35 +1,37 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/jobs/JSSDKTest-Job-Basic-adf2/tasks/JSSDKTest-Job-Basic-adf2-task1/reactivate?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/jobs/JSSDKTest-Job-Basic-fcc0/tasks/JSSDKTest-Job-Basic-fcc0-task1/reactivate?api-version=2024-02-01.19.0",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "en-US,en;q=0.9",
         "Authorization": "Sanitized",
-        "client-request-id": "289e1b53-509b-49dd-8ed8-0b8638d9a0e0",
+        "client-request-id": "bc36fdd6-8dd2-47ee-9036-737d33235933",
         "Connection": "keep-alive",
         "Content-Length": "0",
         "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "\u0022Not:A-Brand\u0022;v=\u002299\u0022, \u0022Chromium\u0022;v=\u0022112\u0022",
+        "sec-ch-ua": "\u0022Chromium\u0022;v=\u0022123\u0022, \u0022Not:A-Brand\u0022;v=\u00228\u0022",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022Windows\u0022",
+        "sec-ch-ua-platform": "\u0022macOS\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
-        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 OS/Windows"
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 OS/macOS"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
+        "Connection": "keep-alive",
         "Content-Length": "0",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 07:16:38 GMT",
-        "ETag": "0x8DC0DBE4280FA20",
-        "Last-Modified": "Fri, 05 Jan 2024 07:16:39 GMT",
-        "request-id": "2b1e3178-f7db-40a1-a98b-8bf06540a856",
+        "Date": "Thu, 11 Apr 2024 19:37:27 GMT",
+        "ETag": "0x8DC5A5ED248548D",
+        "Keep-Alive": "timeout=5",
+        "Last-Modified": "Thu, 11 Apr 2024 19:37:28 GMT",
+        "request-id": "eb41bf8d-8ebf-48fe-91a2-1f9d7fecff9e",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff"
@@ -38,7 +40,7 @@
     }
   ],
   "Variables": {
-    "JOB_NAME": "JSSDKTest-Job-Basic-adf2",
-    "TASK_NAME": "JSSDKTest-Job-Basic-adf2-task1"
+    "JOB_NAME": "JSSDKTest-Job-Basic-fcc0",
+    "TASK_NAME": "JSSDKTest-Job-Basic-fcc0-task1"
   }
 }

@@ -1,17 +1,18 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d/uploadbatchservicelogs?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d/uploadbatchservicelogs?api-version=2024-02-01.19.0",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "a26186f0-aa23-40e3-a7bd-ba7d18220f78",
-        "Connection": "keep-alive",
+        "client-request-id": "4e5d9100-1b3c-4fe5-bb38-3659f158f1a2",
+        "Connection": "close",
         "Content-Length": "113",
         "Content-Type": "application/json; odata=minimalmetadata",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "ocp-date": "Thu, 11 Apr 2024 18:37:16 GMT",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": {
         "containerUrl": "https://teststorage.blob.core.windows.net/fakecontainer",
@@ -19,10 +20,11 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 04:21:42 GMT",
-        "request-id": "c17ca9e1-b4f7-4d36-bff0-a6852d00eb0d",
+        "Date": "Thu, 11 Apr 2024 18:37:16 GMT",
+        "request-id": "f6a1fbe9-bdd0-4ec2-a516-55ca2a4f4fd7",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -30,12 +32,12 @@
       },
       "ResponseBody": {
         "odata.metadata": "https://endpoint/$metadata#Microsoft.Azure.Batch.Protocol.Entities.UploadBatchServiceLogsResult",
-        "virtualDirectoryName": "batch_account-22EE1B6FCE49EEEE/jssdktest-pool-basic-82a4/tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d/c17ca9e1-b4f7-4d36-bff0-a6852d00eb0d",
+        "virtualDirectoryName": "batch_account-22EDE031362CAF34/jssdktest-pool-basic-daf4/tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d/f6a1fbe9-bdd0-4ec2-a516-55ca2a4f4fd7",
         "numberOfFilesUploaded": 4
       }
     }
   ],
   "Variables": {
-    "BASIC_POOL": "JSSDKTest-Pool-Basic-82a4"
+    "BASIC_POOL": "JSSDKTest-Pool-Basic-daf4"
   }
 }

@@ -1,23 +1,25 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "431dbac4-8b12-419c-9a0d-9075e91638f3",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "client-request-id": "070c1568-9850-4ee9-8edc-1e5dbf9473ec",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 18:32:36 GMT",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 04:18:13 GMT",
-        "request-id": "09c0600f-8679-4f1f-81a3-3fd1bf4c4cfa",
+        "Date": "Thu, 11 Apr 2024 18:32:36 GMT",
+        "request-id": "88a490e4-52a0-4461-b02f-c6d7d08919a7",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -29,23 +31,25 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "6ef0fa5a-33fd-4a86-91c5-983014ede54b",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "client-request-id": "4c8ec54f-f1c4-43f5-88df-a94b3f3c4929",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 18:32:52 GMT",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 04:18:23 GMT",
-        "request-id": "14ff98a1-adac-4317-94e6-de008cdda572",
+        "Date": "Thu, 11 Apr 2024 18:32:52 GMT",
+        "request-id": "65cf9531-e377-482d-8a90-b9509eaa5122",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -57,191 +61,25 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "5f4a0dac-76a8-42b4-853a-2eb1574e9a59",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "client-request-id": "9660aac3-e1d7-46e6-8018-09fc00437a10",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 18:33:07 GMT",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 04:18:33 GMT",
-        "request-id": "9005568d-d88e-4f59-a63c-b7e112e19e41",
-        "Server": "Microsoft-HTTPAPI/2.0",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "X-Content-Type-Options": "nosniff"
-      },
-      "ResponseBody": {
-        "odata.metadata": "https://endpoint/$metadata#nodes",
-        "value": []
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes?api-version=2024-02-01.19.0",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "client-request-id": "34e2addf-467c-4dec-ae06-7418d1e9de82",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "Content-Type": "application/json; odata=minimalmetadata",
-        "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 04:18:43 GMT",
-        "request-id": "f11a77ce-8b34-4e9f-9bd5-67cb8847e088",
-        "Server": "Microsoft-HTTPAPI/2.0",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "X-Content-Type-Options": "nosniff"
-      },
-      "ResponseBody": {
-        "odata.metadata": "https://endpoint/$metadata#nodes",
-        "value": []
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes?api-version=2024-02-01.19.0",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "client-request-id": "c0654741-9dbb-4bc8-a613-91781fcd7120",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "Content-Type": "application/json; odata=minimalmetadata",
-        "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 04:18:53 GMT",
-        "request-id": "5f03f691-a399-4ea7-92c6-4c7d3040a6ff",
-        "Server": "Microsoft-HTTPAPI/2.0",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "X-Content-Type-Options": "nosniff"
-      },
-      "ResponseBody": {
-        "odata.metadata": "https://endpoint/$metadata#nodes",
-        "value": []
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes?api-version=2024-02-01.19.0",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "client-request-id": "2637943d-dbb3-478d-8c49-35c25f82e489",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "Content-Type": "application/json; odata=minimalmetadata",
-        "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 04:19:04 GMT",
-        "request-id": "6b2394bc-69ce-4b77-a3c7-a6dc0f19b05f",
-        "Server": "Microsoft-HTTPAPI/2.0",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "X-Content-Type-Options": "nosniff"
-      },
-      "ResponseBody": {
-        "odata.metadata": "https://endpoint/$metadata#nodes",
-        "value": []
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes?api-version=2024-02-01.19.0",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "client-request-id": "1dc58f16-d099-4a56-b77a-82e78eb38114",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "Content-Type": "application/json; odata=minimalmetadata",
-        "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 04:19:14 GMT",
-        "request-id": "3e74575d-5278-4c53-97a0-5ad97ad59dd5",
-        "Server": "Microsoft-HTTPAPI/2.0",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "X-Content-Type-Options": "nosniff"
-      },
-      "ResponseBody": {
-        "odata.metadata": "https://endpoint/$metadata#nodes",
-        "value": []
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes?api-version=2024-02-01.19.0",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "client-request-id": "5ccb2c5b-6313-47d8-b258-33cae9e54f94",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "Content-Type": "application/json; odata=minimalmetadata",
-        "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 04:19:24 GMT",
-        "request-id": "180a64aa-05fa-4a48-807b-2656d93acba9",
-        "Server": "Microsoft-HTTPAPI/2.0",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "X-Content-Type-Options": "nosniff"
-      },
-      "ResponseBody": {
-        "odata.metadata": "https://endpoint/$metadata#nodes",
-        "value": []
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes?api-version=2024-02-01.19.0",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "client-request-id": "f815c40c-f55a-44ba-b816-77e4519f36bd",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "Content-Type": "application/json; odata=minimalmetadata",
-        "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 04:19:33 GMT",
-        "request-id": "2ddc10fd-d858-40ba-8a18-a01a377b32aa",
+        "Date": "Thu, 11 Apr 2024 18:33:08 GMT",
+        "request-id": "d8331e02-ef8d-42e3-83fc-811860685a8b",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -251,14 +89,14 @@
         "odata.metadata": "https://endpoint/$metadata#nodes",
         "value": [
           {
-            "id": "tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
+            "id": "tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
             "state": "creating",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:29.1379318Z",
-            "allocationTime": "2024-01-05T04:19:29.1379318Z",
-            "ipAddress": "10.218.0.7",
-            "affinityId": "TVM:tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
+            "stateTransitionTime": "2024-04-11T18:33:07.6069619Z",
+            "allocationTime": "2024-04-11T18:33:07.6069629Z",
+            "ipAddress": "10.0.0.4",
+            "affinityId": "TVM:tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -268,24 +106,34 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.0",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50000,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
+            "id": "tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
             "state": "creating",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:29.1379318Z",
-            "allocationTime": "2024-01-05T04:19:29.1379318Z",
-            "ipAddress": "10.218.0.4",
-            "affinityId": "TVM:tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
+            "stateTransitionTime": "2024-04-11T18:33:07.6069443Z",
+            "allocationTime": "2024-04-11T18:33:07.6069453Z",
+            "ipAddress": "10.0.0.7",
+            "affinityId": "TVM:tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -295,24 +143,34 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.3",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50003,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
+            "id": "tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
             "state": "creating",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:29.1389298Z",
-            "allocationTime": "2024-01-05T04:19:29.1389298Z",
-            "ipAddress": "10.218.0.5",
-            "affinityId": "TVM:tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
+            "stateTransitionTime": "2024-04-11T18:33:07.6069272Z",
+            "allocationTime": "2024-04-11T18:33:07.6069284Z",
+            "ipAddress": "10.0.0.6",
+            "affinityId": "TVM:tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -322,24 +180,34 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.2",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50002,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
+            "id": "tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
             "state": "creating",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:29.1389298Z",
-            "allocationTime": "2024-01-05T04:19:29.1389298Z",
-            "ipAddress": "10.218.0.6",
-            "affinityId": "TVM:tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
+            "stateTransitionTime": "2024-04-11T18:33:07.606877Z",
+            "allocationTime": "2024-04-11T18:33:07.6068868Z",
+            "ipAddress": "10.0.0.5",
+            "affinityId": "TVM:tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -349,36 +217,48 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.1",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50001,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           }
         ]
       }
     },
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "6887e813-5457-4872-9742-1191dd807940",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "client-request-id": "efc64c22-2285-4387-9d24-e75eb0ad7bcf",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 18:33:23 GMT",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 04:19:44 GMT",
-        "request-id": "95c3e089-8397-4f81-84fa-41c647551e8c",
+        "Date": "Thu, 11 Apr 2024 18:33:23 GMT",
+        "request-id": "f67d4a13-e659-4115-b4d8-aa13075a7f48",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -388,14 +268,14 @@
         "odata.metadata": "https://endpoint/$metadata#nodes",
         "value": [
           {
-            "id": "tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
+            "id": "tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1379318Z",
-            "ipAddress": "10.218.0.7",
-            "affinityId": "TVM:tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069629Z",
+            "ipAddress": "10.0.0.4",
+            "affinityId": "TVM:tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -405,24 +285,34 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.0",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50000,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
+            "id": "tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1379318Z",
-            "ipAddress": "10.218.0.4",
-            "affinityId": "TVM:tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069453Z",
+            "ipAddress": "10.0.0.7",
+            "affinityId": "TVM:tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -432,24 +322,34 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.3",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50003,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
+            "id": "tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1389298Z",
-            "ipAddress": "10.218.0.5",
-            "affinityId": "TVM:tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069284Z",
+            "ipAddress": "10.0.0.6",
+            "affinityId": "TVM:tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -459,24 +359,34 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.2",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50002,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
+            "id": "tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1389298Z",
-            "ipAddress": "10.218.0.6",
-            "affinityId": "TVM:tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6068868Z",
+            "ipAddress": "10.0.0.5",
+            "affinityId": "TVM:tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -486,36 +396,48 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.1",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50001,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           }
         ]
       }
     },
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "8de697c6-bc1c-49f6-ba0b-381c76370fb2",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "client-request-id": "11e207bf-80ce-4a55-94bb-d03e6d44e9ae",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 18:33:39 GMT",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 04:19:54 GMT",
-        "request-id": "bfafac70-e447-460c-8e6f-c5e7788e3d60",
+        "Date": "Thu, 11 Apr 2024 18:33:39 GMT",
+        "request-id": "168f92c4-7639-443c-ac89-b5e2ccf6a7c1",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -525,14 +447,14 @@
         "odata.metadata": "https://endpoint/$metadata#nodes",
         "value": [
           {
-            "id": "tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
+            "id": "tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1379318Z",
-            "ipAddress": "10.218.0.7",
-            "affinityId": "TVM:tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069629Z",
+            "ipAddress": "10.0.0.4",
+            "affinityId": "TVM:tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -542,24 +464,34 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.0",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50000,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
+            "id": "tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1379318Z",
-            "ipAddress": "10.218.0.4",
-            "affinityId": "TVM:tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069453Z",
+            "ipAddress": "10.0.0.7",
+            "affinityId": "TVM:tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -569,24 +501,34 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.3",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50003,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
+            "id": "tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1389298Z",
-            "ipAddress": "10.218.0.5",
-            "affinityId": "TVM:tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069284Z",
+            "ipAddress": "10.0.0.6",
+            "affinityId": "TVM:tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -596,24 +538,34 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.2",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50002,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
+            "id": "tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1389298Z",
-            "ipAddress": "10.218.0.6",
-            "affinityId": "TVM:tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6068868Z",
+            "ipAddress": "10.0.0.5",
+            "affinityId": "TVM:tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -623,36 +575,48 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.1",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50001,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           }
         ]
       }
     },
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "978190de-8b73-451e-970c-0b55fab6f7bf",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "client-request-id": "336f2940-3202-4a72-9992-c3cddfc2c5b1",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 18:33:55 GMT",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 04:20:04 GMT",
-        "request-id": "937c1a5d-e952-4d18-9904-82e42a948d49",
+        "Date": "Thu, 11 Apr 2024 18:33:55 GMT",
+        "request-id": "3548f22b-7253-4724-b29c-b07f29c709cb",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -662,14 +626,14 @@
         "odata.metadata": "https://endpoint/$metadata#nodes",
         "value": [
           {
-            "id": "tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
+            "id": "tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1379318Z",
-            "ipAddress": "10.218.0.7",
-            "affinityId": "TVM:tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069629Z",
+            "ipAddress": "10.0.0.4",
+            "affinityId": "TVM:tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -679,24 +643,34 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.0",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50000,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
+            "id": "tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1379318Z",
-            "ipAddress": "10.218.0.4",
-            "affinityId": "TVM:tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069453Z",
+            "ipAddress": "10.0.0.7",
+            "affinityId": "TVM:tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -706,24 +680,34 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.3",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50003,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
+            "id": "tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1389298Z",
-            "ipAddress": "10.218.0.5",
-            "affinityId": "TVM:tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069284Z",
+            "ipAddress": "10.0.0.6",
+            "affinityId": "TVM:tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -733,24 +717,34 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.2",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50002,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
+            "id": "tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1389298Z",
-            "ipAddress": "10.218.0.6",
-            "affinityId": "TVM:tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6068868Z",
+            "ipAddress": "10.0.0.5",
+            "affinityId": "TVM:tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -760,36 +754,48 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.1",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50001,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           }
         ]
       }
     },
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "1301582e-cc13-400d-b598-5b50237e2bcb",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "client-request-id": "33330097-fb3d-486f-8f46-0d735a600c73",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 18:34:11 GMT",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 04:20:14 GMT",
-        "request-id": "b1b98777-81dc-40fb-b436-f79518d4a9f0",
+        "Date": "Thu, 11 Apr 2024 18:34:11 GMT",
+        "request-id": "b37c2315-583b-4784-a822-6153e82006c6",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -799,14 +805,14 @@
         "odata.metadata": "https://endpoint/$metadata#nodes",
         "value": [
           {
-            "id": "tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
+            "id": "tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1379318Z",
-            "ipAddress": "10.218.0.7",
-            "affinityId": "TVM:tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069629Z",
+            "ipAddress": "10.0.0.4",
+            "affinityId": "TVM:tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -816,24 +822,34 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.0",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50000,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
+            "id": "tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1379318Z",
-            "ipAddress": "10.218.0.4",
-            "affinityId": "TVM:tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069453Z",
+            "ipAddress": "10.0.0.7",
+            "affinityId": "TVM:tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -843,24 +859,34 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.3",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50003,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
+            "id": "tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1389298Z",
-            "ipAddress": "10.218.0.5",
-            "affinityId": "TVM:tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069284Z",
+            "ipAddress": "10.0.0.6",
+            "affinityId": "TVM:tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -870,24 +896,34 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.2",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50002,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
+            "id": "tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1389298Z",
-            "ipAddress": "10.218.0.6",
-            "affinityId": "TVM:tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6068868Z",
+            "ipAddress": "10.0.0.5",
+            "affinityId": "TVM:tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -897,36 +933,48 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.1",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50001,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           }
         ]
       }
     },
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "50e45f7d-ccd2-45e5-badf-76b598cb8b19",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "client-request-id": "aec976ba-1080-4f0e-a32b-1f4fab1093c8",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 18:34:26 GMT",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 04:20:24 GMT",
-        "request-id": "8853da21-6dfd-497a-b190-3f3376de23fe",
+        "Date": "Thu, 11 Apr 2024 18:34:27 GMT",
+        "request-id": "d03b6b1d-b8de-4f79-9aad-83ed81996a29",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -936,14 +984,14 @@
         "odata.metadata": "https://endpoint/$metadata#nodes",
         "value": [
           {
-            "id": "tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
+            "id": "tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1379318Z",
-            "ipAddress": "10.218.0.7",
-            "affinityId": "TVM:tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069629Z",
+            "ipAddress": "10.0.0.4",
+            "affinityId": "TVM:tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -953,24 +1001,34 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.0",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50000,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
+            "id": "tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1379318Z",
-            "ipAddress": "10.218.0.4",
-            "affinityId": "TVM:tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069453Z",
+            "ipAddress": "10.0.0.7",
+            "affinityId": "TVM:tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -980,24 +1038,34 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.3",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50003,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
+            "id": "tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1389298Z",
-            "ipAddress": "10.218.0.5",
-            "affinityId": "TVM:tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069284Z",
+            "ipAddress": "10.0.0.6",
+            "affinityId": "TVM:tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -1007,24 +1075,34 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.2",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50002,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
+            "id": "tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1389298Z",
-            "ipAddress": "10.218.0.6",
-            "affinityId": "TVM:tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6068868Z",
+            "ipAddress": "10.0.0.5",
+            "affinityId": "TVM:tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -1034,36 +1112,48 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.1",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50001,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           }
         ]
       }
     },
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "3a75ed93-6393-444d-a890-33daa5c297ce",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "client-request-id": "63b174e6-d137-46cd-a905-6e40b52f1fe7",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 18:34:42 GMT",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 04:20:35 GMT",
-        "request-id": "658fc17e-ee69-425f-ae98-5ad527ff1390",
+        "Date": "Thu, 11 Apr 2024 18:34:43 GMT",
+        "request-id": "c48d5e93-36ca-4625-8b3f-47a88297f292",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -1073,14 +1163,14 @@
         "odata.metadata": "https://endpoint/$metadata#nodes",
         "value": [
           {
-            "id": "tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
+            "id": "tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1379318Z",
-            "ipAddress": "10.218.0.7",
-            "affinityId": "TVM:tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069629Z",
+            "ipAddress": "10.0.0.4",
+            "affinityId": "TVM:tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -1090,24 +1180,34 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.0",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50000,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
+            "id": "tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1379318Z",
-            "ipAddress": "10.218.0.4",
-            "affinityId": "TVM:tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069453Z",
+            "ipAddress": "10.0.0.7",
+            "affinityId": "TVM:tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -1117,24 +1217,34 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.3",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50003,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
+            "id": "tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1389298Z",
-            "ipAddress": "10.218.0.5",
-            "affinityId": "TVM:tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069284Z",
+            "ipAddress": "10.0.0.6",
+            "affinityId": "TVM:tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -1144,24 +1254,34 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.2",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50002,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
+            "id": "tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1389298Z",
-            "ipAddress": "10.218.0.6",
-            "affinityId": "TVM:tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6068868Z",
+            "ipAddress": "10.0.0.5",
+            "affinityId": "TVM:tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -1171,36 +1291,48 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.1",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50001,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           }
         ]
       }
     },
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "968a65ad-186d-4b99-8ffa-a38d1a485bb4",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "client-request-id": "c9e70b77-8c74-4909-9836-ac46eb9ffb09",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 18:34:58 GMT",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 04:20:45 GMT",
-        "request-id": "b1a2d2de-c15a-4ffc-b9f7-34f4ada69e1d",
+        "Date": "Thu, 11 Apr 2024 18:34:58 GMT",
+        "request-id": "17b09883-cb7d-46fc-aa56-eab46f230985",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -1210,14 +1342,14 @@
         "odata.metadata": "https://endpoint/$metadata#nodes",
         "value": [
           {
-            "id": "tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
+            "id": "tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1379318Z",
-            "ipAddress": "10.218.0.7",
-            "affinityId": "TVM:tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069629Z",
+            "ipAddress": "10.0.0.4",
+            "affinityId": "TVM:tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -1227,24 +1359,34 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.0",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50000,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
+            "id": "tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1379318Z",
-            "ipAddress": "10.218.0.4",
-            "affinityId": "TVM:tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069453Z",
+            "ipAddress": "10.0.0.7",
+            "affinityId": "TVM:tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -1254,24 +1396,34 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.3",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50003,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
+            "id": "tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1389298Z",
-            "ipAddress": "10.218.0.5",
-            "affinityId": "TVM:tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069284Z",
+            "ipAddress": "10.0.0.6",
+            "affinityId": "TVM:tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -1281,24 +1433,34 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.2",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50002,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
+            "id": "tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1389298Z",
-            "ipAddress": "10.218.0.6",
-            "affinityId": "TVM:tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6068868Z",
+            "ipAddress": "10.0.0.5",
+            "affinityId": "TVM:tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -1308,36 +1470,48 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.1",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50001,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           }
         ]
       }
     },
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "db56fc72-c47d-4e8a-ad58-1db5807f1b35",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "client-request-id": "f99c3c80-4f49-42bb-9960-258c3be630c4",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 18:35:13 GMT",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 04:20:54 GMT",
-        "request-id": "e3fc41ce-740d-4f33-992d-ef3f86e55ec6",
+        "Date": "Thu, 11 Apr 2024 18:35:14 GMT",
+        "request-id": "3623cbfa-69c4-4677-bdff-187dc6737ecf",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -1347,14 +1521,14 @@
         "odata.metadata": "https://endpoint/$metadata#nodes",
         "value": [
           {
-            "id": "tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
+            "id": "tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1379318Z",
-            "ipAddress": "10.218.0.7",
-            "affinityId": "TVM:tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069629Z",
+            "ipAddress": "10.0.0.4",
+            "affinityId": "TVM:tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -1364,24 +1538,34 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.0",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50000,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
+            "id": "tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1379318Z",
-            "ipAddress": "10.218.0.4",
-            "affinityId": "TVM:tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069453Z",
+            "ipAddress": "10.0.0.7",
+            "affinityId": "TVM:tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -1391,24 +1575,34 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.3",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50003,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
+            "id": "tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1389298Z",
-            "ipAddress": "10.218.0.5",
-            "affinityId": "TVM:tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069284Z",
+            "ipAddress": "10.0.0.6",
+            "affinityId": "TVM:tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -1418,24 +1612,34 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.2",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50002,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
+            "id": "tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1389298Z",
-            "ipAddress": "10.218.0.6",
-            "affinityId": "TVM:tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6068868Z",
+            "ipAddress": "10.0.0.5",
+            "affinityId": "TVM:tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -1445,36 +1649,48 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.1",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50001,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           }
         ]
       }
     },
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "fd6b6999-1d77-4c27-a630-2cbd98848ce0",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "client-request-id": "d493b992-163b-44a2-996c-fa1735d81aaf",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 18:35:29 GMT",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 04:21:05 GMT",
-        "request-id": "71e0f6f7-d04a-4818-8199-a97a26a670bc",
+        "Date": "Thu, 11 Apr 2024 18:35:29 GMT",
+        "request-id": "b5228ae2-5c6e-4811-ab22-bede3d3e9c8d",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -1484,14 +1700,14 @@
         "odata.metadata": "https://endpoint/$metadata#nodes",
         "value": [
           {
-            "id": "tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
+            "id": "tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1379318Z",
-            "ipAddress": "10.218.0.7",
-            "affinityId": "TVM:tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069629Z",
+            "ipAddress": "10.0.0.4",
+            "affinityId": "TVM:tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -1501,24 +1717,34 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.0",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50000,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
+            "id": "tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1379318Z",
-            "ipAddress": "10.218.0.4",
-            "affinityId": "TVM:tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069453Z",
+            "ipAddress": "10.0.0.7",
+            "affinityId": "TVM:tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -1528,24 +1754,34 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.3",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50003,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
+            "id": "tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1389298Z",
-            "ipAddress": "10.218.0.5",
-            "affinityId": "TVM:tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069284Z",
+            "ipAddress": "10.0.0.6",
+            "affinityId": "TVM:tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -1555,24 +1791,34 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.2",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50002,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
+            "id": "tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1389298Z",
-            "ipAddress": "10.218.0.6",
-            "affinityId": "TVM:tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6068868Z",
+            "ipAddress": "10.0.0.5",
+            "affinityId": "TVM:tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -1582,36 +1828,48 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.1",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50001,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           }
         ]
       }
     },
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "3e0d2861-abc0-4bd6-9c0f-f163e0ed63b0",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "client-request-id": "a9a10ff8-121a-489a-b34c-f664c2d88b8a",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 18:35:45 GMT",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 04:21:15 GMT",
-        "request-id": "060ea428-c6f4-4e65-903b-2fc279277f3f",
+        "Date": "Thu, 11 Apr 2024 18:35:45 GMT",
+        "request-id": "4f3a569b-66af-416b-9742-de0b21e2f867",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -1621,15 +1879,589 @@
         "odata.metadata": "https://endpoint/$metadata#nodes",
         "value": [
           {
-            "id": "tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
+            "id": "tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
+            "state": "starting",
+            "schedulingState": "enabled",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069629Z",
+            "ipAddress": "10.0.0.4",
+            "affinityId": "TVM:tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
+            "vmSize": "standard_d1_v2",
+            "totalTasksRun": 0,
+            "totalTasksSucceeded": 0,
+            "runningTasksCount": 0,
+            "runningTaskSlotsCount": 0,
+            "isDedicated": true,
+            "endpointConfiguration": {
+              "inboundEndpoints": [
+                {
+                  "name": "SSHRule.0",
+                  "protocol": "tcp",
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50000,
+                  "backendPort": 3389
+                }
+              ]
+            },
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
+          },
+          {
+            "id": "tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
+            "state": "starting",
+            "schedulingState": "enabled",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069453Z",
+            "ipAddress": "10.0.0.7",
+            "affinityId": "TVM:tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
+            "vmSize": "standard_d1_v2",
+            "totalTasksRun": 0,
+            "totalTasksSucceeded": 0,
+            "runningTasksCount": 0,
+            "runningTaskSlotsCount": 0,
+            "isDedicated": true,
+            "endpointConfiguration": {
+              "inboundEndpoints": [
+                {
+                  "name": "SSHRule.3",
+                  "protocol": "tcp",
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50003,
+                  "backendPort": 3389
+                }
+              ]
+            },
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
+          },
+          {
+            "id": "tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
+            "state": "starting",
+            "schedulingState": "enabled",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069284Z",
+            "ipAddress": "10.0.0.6",
+            "affinityId": "TVM:tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
+            "vmSize": "standard_d1_v2",
+            "totalTasksRun": 0,
+            "totalTasksSucceeded": 0,
+            "runningTasksCount": 0,
+            "runningTaskSlotsCount": 0,
+            "isDedicated": true,
+            "endpointConfiguration": {
+              "inboundEndpoints": [
+                {
+                  "name": "SSHRule.2",
+                  "protocol": "tcp",
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50002,
+                  "backendPort": 3389
+                }
+              ]
+            },
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
+          },
+          {
+            "id": "tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
+            "state": "starting",
+            "schedulingState": "enabled",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6068868Z",
+            "ipAddress": "10.0.0.5",
+            "affinityId": "TVM:tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
+            "vmSize": "standard_d1_v2",
+            "totalTasksRun": 0,
+            "totalTasksSucceeded": 0,
+            "runningTasksCount": 0,
+            "runningTaskSlotsCount": 0,
+            "isDedicated": true,
+            "endpointConfiguration": {
+              "inboundEndpoints": [
+                {
+                  "name": "SSHRule.1",
+                  "protocol": "tcp",
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50001,
+                  "backendPort": 3389
+                }
+              ]
+            },
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes?api-version=2024-02-01.19.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip",
+        "Authorization": "Sanitized",
+        "client-request-id": "6c2af0df-f8b0-4a64-9306-a95b9ce7f8e2",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 18:36:01 GMT",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Connection": "close",
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "DataServiceVersion": "3.0",
+        "Date": "Thu, 11 Apr 2024 18:36:01 GMT",
+        "request-id": "c97b87bf-2226-4407-8a26-8c26380d480a",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://endpoint/$metadata#nodes",
+        "value": [
+          {
+            "id": "tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
+            "state": "starting",
+            "schedulingState": "enabled",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069629Z",
+            "ipAddress": "10.0.0.4",
+            "affinityId": "TVM:tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
+            "vmSize": "standard_d1_v2",
+            "totalTasksRun": 0,
+            "totalTasksSucceeded": 0,
+            "runningTasksCount": 0,
+            "runningTaskSlotsCount": 0,
+            "isDedicated": true,
+            "endpointConfiguration": {
+              "inboundEndpoints": [
+                {
+                  "name": "SSHRule.0",
+                  "protocol": "tcp",
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50000,
+                  "backendPort": 3389
+                }
+              ]
+            },
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
+          },
+          {
+            "id": "tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
+            "state": "starting",
+            "schedulingState": "enabled",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069453Z",
+            "ipAddress": "10.0.0.7",
+            "affinityId": "TVM:tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
+            "vmSize": "standard_d1_v2",
+            "totalTasksRun": 0,
+            "totalTasksSucceeded": 0,
+            "runningTasksCount": 0,
+            "runningTaskSlotsCount": 0,
+            "isDedicated": true,
+            "endpointConfiguration": {
+              "inboundEndpoints": [
+                {
+                  "name": "SSHRule.3",
+                  "protocol": "tcp",
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50003,
+                  "backendPort": 3389
+                }
+              ]
+            },
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
+          },
+          {
+            "id": "tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
+            "state": "starting",
+            "schedulingState": "enabled",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069284Z",
+            "ipAddress": "10.0.0.6",
+            "affinityId": "TVM:tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
+            "vmSize": "standard_d1_v2",
+            "totalTasksRun": 0,
+            "totalTasksSucceeded": 0,
+            "runningTasksCount": 0,
+            "runningTaskSlotsCount": 0,
+            "isDedicated": true,
+            "endpointConfiguration": {
+              "inboundEndpoints": [
+                {
+                  "name": "SSHRule.2",
+                  "protocol": "tcp",
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50002,
+                  "backendPort": 3389
+                }
+              ]
+            },
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
+          },
+          {
+            "id": "tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
+            "state": "starting",
+            "schedulingState": "enabled",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6068868Z",
+            "ipAddress": "10.0.0.5",
+            "affinityId": "TVM:tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
+            "vmSize": "standard_d1_v2",
+            "totalTasksRun": 0,
+            "totalTasksSucceeded": 0,
+            "runningTasksCount": 0,
+            "runningTaskSlotsCount": 0,
+            "isDedicated": true,
+            "endpointConfiguration": {
+              "inboundEndpoints": [
+                {
+                  "name": "SSHRule.1",
+                  "protocol": "tcp",
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50001,
+                  "backendPort": 3389
+                }
+              ]
+            },
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes?api-version=2024-02-01.19.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip",
+        "Authorization": "Sanitized",
+        "client-request-id": "0074ced8-4616-4b22-8567-1bccb522715c",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 18:36:16 GMT",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Connection": "close",
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "DataServiceVersion": "3.0",
+        "Date": "Thu, 11 Apr 2024 18:36:17 GMT",
+        "request-id": "ec531060-22cd-4008-bb1d-576a4f6ba555",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://endpoint/$metadata#nodes",
+        "value": [
+          {
+            "id": "tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
+            "state": "starting",
+            "schedulingState": "enabled",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069629Z",
+            "ipAddress": "10.0.0.4",
+            "affinityId": "TVM:tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
+            "vmSize": "standard_d1_v2",
+            "totalTasksRun": 0,
+            "totalTasksSucceeded": 0,
+            "runningTasksCount": 0,
+            "runningTaskSlotsCount": 0,
+            "isDedicated": true,
+            "endpointConfiguration": {
+              "inboundEndpoints": [
+                {
+                  "name": "SSHRule.0",
+                  "protocol": "tcp",
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50000,
+                  "backendPort": 3389
+                }
+              ]
+            },
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
+          },
+          {
+            "id": "tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
+            "state": "starting",
+            "schedulingState": "enabled",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069453Z",
+            "ipAddress": "10.0.0.7",
+            "affinityId": "TVM:tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
+            "vmSize": "standard_d1_v2",
+            "totalTasksRun": 0,
+            "totalTasksSucceeded": 0,
+            "runningTasksCount": 0,
+            "runningTaskSlotsCount": 0,
+            "isDedicated": true,
+            "endpointConfiguration": {
+              "inboundEndpoints": [
+                {
+                  "name": "SSHRule.3",
+                  "protocol": "tcp",
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50003,
+                  "backendPort": 3389
+                }
+              ]
+            },
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
+          },
+          {
+            "id": "tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
+            "state": "starting",
+            "schedulingState": "enabled",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069284Z",
+            "ipAddress": "10.0.0.6",
+            "affinityId": "TVM:tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
+            "vmSize": "standard_d1_v2",
+            "totalTasksRun": 0,
+            "totalTasksSucceeded": 0,
+            "runningTasksCount": 0,
+            "runningTaskSlotsCount": 0,
+            "isDedicated": true,
+            "endpointConfiguration": {
+              "inboundEndpoints": [
+                {
+                  "name": "SSHRule.2",
+                  "protocol": "tcp",
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50002,
+                  "backendPort": 3389
+                }
+              ]
+            },
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
+          },
+          {
+            "id": "tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
+            "state": "starting",
+            "schedulingState": "enabled",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6068868Z",
+            "ipAddress": "10.0.0.5",
+            "affinityId": "TVM:tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
+            "vmSize": "standard_d1_v2",
+            "totalTasksRun": 0,
+            "totalTasksSucceeded": 0,
+            "runningTasksCount": 0,
+            "runningTaskSlotsCount": 0,
+            "isDedicated": true,
+            "endpointConfiguration": {
+              "inboundEndpoints": [
+                {
+                  "name": "SSHRule.1",
+                  "protocol": "tcp",
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50001,
+                  "backendPort": 3389
+                }
+              ]
+            },
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes?api-version=2024-02-01.19.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip",
+        "Authorization": "Sanitized",
+        "client-request-id": "c129b227-d995-4ba9-b724-43c6c3a7c4c2",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 18:36:32 GMT",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Connection": "close",
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "DataServiceVersion": "3.0",
+        "Date": "Thu, 11 Apr 2024 18:36:33 GMT",
+        "request-id": "e3927761-af25-413e-bd14-4ec53b87b4b6",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://endpoint/$metadata#nodes",
+        "value": [
+          {
+            "id": "tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
+            "state": "starting",
+            "schedulingState": "enabled",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6069629Z",
+            "ipAddress": "10.0.0.4",
+            "affinityId": "TVM:tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
+            "vmSize": "standard_d1_v2",
+            "totalTasksRun": 0,
+            "totalTasksSucceeded": 0,
+            "runningTasksCount": 0,
+            "runningTaskSlotsCount": 0,
+            "isDedicated": true,
+            "endpointConfiguration": {
+              "inboundEndpoints": [
+                {
+                  "name": "SSHRule.0",
+                  "protocol": "tcp",
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50000,
+                  "backendPort": 3389
+                }
+              ]
+            },
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
+          },
+          {
+            "id": "tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
             "state": "idle",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:21:09.883747Z",
-            "lastBootTime": "2024-01-05T04:21:09.008803Z",
-            "allocationTime": "2024-01-05T04:19:29.1379318Z",
-            "ipAddress": "10.218.0.7",
-            "affinityId": "TVM:tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
+            "stateTransitionTime": "2024-04-11T18:36:29.791296Z",
+            "lastBootTime": "2024-04-11T18:36:23.275499Z",
+            "allocationTime": "2024-04-11T18:33:07.6069453Z",
+            "ipAddress": "10.0.0.7",
+            "affinityId": "TVM:tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -1648,8 +2480,8 @@
             },
             "startTaskInfo": {
               "state": "completed",
-              "startTime": "2024-01-05T04:21:09.790001Z",
-              "endTime": "2024-01-05T04:21:09.868123Z",
+              "startTime": "2024-04-11T18:36:29.541291Z",
+              "endTime": "2024-04-11T18:36:29.775669Z",
               "exitCode": 0,
               "result": "success",
               "retryCount": 0
@@ -1659,28 +2491,100 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.3",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50003,
+                  "backendPort": 3389
                 }
               ]
             },
             "nodeAgentInfo": {
-              "lastUpdateTime": "2024-01-05T04:21:09.008803Z",
-              "version": "1.11.7"
+              "lastUpdateTime": "2024-04-11T18:36:23.275499Z",
+              "version": "1.11.10"
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
+            "id": "tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
+            "state": "idle",
+            "schedulingState": "enabled",
+            "stateTransitionTime": "2024-04-11T18:36:22.315604Z",
+            "lastBootTime": "2024-04-11T18:36:15.236841Z",
+            "allocationTime": "2024-04-11T18:33:07.6069284Z",
+            "ipAddress": "10.0.0.6",
+            "affinityId": "TVM:tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
+            "vmSize": "standard_d1_v2",
+            "totalTasksRun": 0,
+            "totalTasksSucceeded": 0,
+            "runningTasksCount": 0,
+            "runningTaskSlotsCount": 0,
+            "startTask": {
+              "commandLine": "cmd /c echo hello \u003E hello.txt",
+              "userIdentity": {
+                "autoUser": {
+                  "scope": "pool",
+                  "elevationLevel": "nonadmin"
+                }
+              },
+              "maxTaskRetryCount": 0,
+              "waitForSuccess": true
+            },
+            "startTaskInfo": {
+              "state": "completed",
+              "startTime": "2024-04-11T18:36:22.096837Z",
+              "endTime": "2024-04-11T18:36:22.299979Z",
+              "exitCode": 0,
+              "result": "success",
+              "retryCount": 0
+            },
+            "certificateReferences": [],
+            "isDedicated": true,
+            "endpointConfiguration": {
+              "inboundEndpoints": [
+                {
+                  "name": "SSHRule.2",
+                  "protocol": "tcp",
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50002,
+                  "backendPort": 3389
+                }
+              ]
+            },
+            "nodeAgentInfo": {
+              "lastUpdateTime": "2024-04-11T18:36:15.236841Z",
+              "version": "1.11.10"
+            },
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
+          },
+          {
+            "id": "tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1379318Z",
-            "ipAddress": "10.218.0.4",
-            "affinityId": "TVM:tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6068868Z",
+            "ipAddress": "10.0.0.5",
+            "affinityId": "TVM:tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -1690,90 +2594,48 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.1",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50001,
+                  "backendPort": 3389
                 }
               ]
             },
-            "virtualMachineInfo": {}
-          },
-          {
-            "id": "tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
-            "state": "starting",
-            "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1389298Z",
-            "ipAddress": "10.218.0.5",
-            "affinityId": "TVM:tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
-            "vmSize": "standard_d1_v2",
-            "totalTasksRun": 0,
-            "totalTasksSucceeded": 0,
-            "runningTasksCount": 0,
-            "runningTaskSlotsCount": 0,
-            "isDedicated": true,
-            "endpointConfiguration": {
-              "inboundEndpoints": [
-                {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
-                  "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
-                }
-              ]
-            },
-            "virtualMachineInfo": {}
-          },
-          {
-            "id": "tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
-            "state": "starting",
-            "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "allocationTime": "2024-01-05T04:19:29.1389298Z",
-            "ipAddress": "10.218.0.6",
-            "affinityId": "TVM:tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
-            "vmSize": "standard_d1_v2",
-            "totalTasksRun": 0,
-            "totalTasksSucceeded": 0,
-            "runningTasksCount": 0,
-            "runningTaskSlotsCount": 0,
-            "isDedicated": true,
-            "endpointConfiguration": {
-              "inboundEndpoints": [
-                {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
-                  "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
-                }
-              ]
-            },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           }
         ]
       }
     },
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "f8c1c3c7-3b52-40ca-ac53-afcc25826ecd",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "client-request-id": "7ecb5435-8574-485f-b49e-abcda1762c64",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 18:36:48 GMT",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 04:21:26 GMT",
-        "request-id": "7a4ed4d8-388c-42e7-9f0b-b5dbd0a4faec",
+        "Date": "Thu, 11 Apr 2024 18:36:48 GMT",
+        "request-id": "c2684f45-fb79-42c2-bc80-c931362fa645",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -1783,15 +2645,15 @@
         "odata.metadata": "https://endpoint/$metadata#nodes",
         "value": [
           {
-            "id": "tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
+            "id": "tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
             "state": "idle",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:21:09.883747Z",
-            "lastBootTime": "2024-01-05T04:21:09.008803Z",
-            "allocationTime": "2024-01-05T04:19:29.1379318Z",
-            "ipAddress": "10.218.0.7",
-            "affinityId": "TVM:tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
+            "stateTransitionTime": "2024-04-11T18:36:41.755866Z",
+            "lastBootTime": "2024-04-11T18:36:35.39597Z",
+            "allocationTime": "2024-04-11T18:33:07.6069629Z",
+            "ipAddress": "10.0.0.4",
+            "affinityId": "TVM:tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -1810,8 +2672,8 @@
             },
             "startTaskInfo": {
               "state": "completed",
-              "startTime": "2024-01-05T04:21:09.790001Z",
-              "endTime": "2024-01-05T04:21:09.868123Z",
+              "startTime": "2024-04-11T18:36:41.568348Z",
+              "endTime": "2024-04-11T18:36:41.740238Z",
               "exitCode": 0,
               "result": "success",
               "retryCount": 0
@@ -1821,78 +2683,39 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.0",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50000,
+                  "backendPort": 3389
                 }
               ]
             },
             "nodeAgentInfo": {
-              "lastUpdateTime": "2024-01-05T04:21:09.008803Z",
-              "version": "1.11.7"
+              "lastUpdateTime": "2024-04-11T18:36:35.39597Z",
+              "version": "1.11.10"
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
-            "state": "waitingforstarttask",
-            "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:21:26.228097Z",
-            "lastBootTime": "2024-01-05T04:21:25.321711Z",
-            "allocationTime": "2024-01-05T04:19:29.1379318Z",
-            "ipAddress": "10.218.0.4",
-            "affinityId": "TVM:tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
-            "vmSize": "standard_d1_v2",
-            "totalTasksRun": 0,
-            "totalTasksSucceeded": 0,
-            "runningTasksCount": 0,
-            "runningTaskSlotsCount": 0,
-            "startTask": {
-              "commandLine": "cmd /c echo hello \u003E hello.txt",
-              "userIdentity": {
-                "autoUser": {
-                  "scope": "pool",
-                  "elevationLevel": "nonadmin"
-                }
-              },
-              "maxTaskRetryCount": 0,
-              "waitForSuccess": true
-            },
-            "startTaskInfo": {
-              "state": "running",
-              "startTime": "2024-01-05T04:21:26.228097Z",
-              "retryCount": 0
-            },
-            "certificateReferences": [],
-            "isDedicated": true,
-            "endpointConfiguration": {
-              "inboundEndpoints": [
-                {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
-                  "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
-                }
-              ]
-            },
-            "nodeAgentInfo": {
-              "lastUpdateTime": "2024-01-05T04:21:25.321711Z",
-              "version": "1.11.7"
-            },
-            "virtualMachineInfo": {}
-          },
-          {
-            "id": "tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
+            "id": "tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
             "state": "idle",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:21:24.968215Z",
-            "lastBootTime": "2024-01-05T04:21:24.311965Z",
-            "allocationTime": "2024-01-05T04:19:29.1389298Z",
-            "ipAddress": "10.218.0.5",
-            "affinityId": "TVM:tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
+            "stateTransitionTime": "2024-04-11T18:36:29.791296Z",
+            "lastBootTime": "2024-04-11T18:36:23.275499Z",
+            "allocationTime": "2024-04-11T18:33:07.6069453Z",
+            "ipAddress": "10.0.0.7",
+            "affinityId": "TVM:tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -1911,8 +2734,8 @@
             },
             "startTaskInfo": {
               "state": "completed",
-              "startTime": "2024-01-05T04:21:24.905717Z",
-              "endTime": "2024-01-05T04:21:24.968215Z",
+              "startTime": "2024-04-11T18:36:29.541291Z",
+              "endTime": "2024-04-11T18:36:29.775669Z",
               "exitCode": 0,
               "result": "success",
               "retryCount": 0
@@ -1922,89 +2745,151 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.3",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50003,
+                  "backendPort": 3389
                 }
               ]
             },
             "nodeAgentInfo": {
-              "lastUpdateTime": "2024-01-05T04:21:24.311965Z",
-              "version": "1.11.7"
+              "lastUpdateTime": "2024-04-11T18:36:23.275499Z",
+              "version": "1.11.10"
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
+            "id": "tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
+            "state": "idle",
+            "schedulingState": "enabled",
+            "stateTransitionTime": "2024-04-11T18:36:22.315604Z",
+            "lastBootTime": "2024-04-11T18:36:15.236841Z",
+            "allocationTime": "2024-04-11T18:33:07.6069284Z",
+            "ipAddress": "10.0.0.6",
+            "affinityId": "TVM:tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
+            "vmSize": "standard_d1_v2",
+            "totalTasksRun": 0,
+            "totalTasksSucceeded": 0,
+            "runningTasksCount": 0,
+            "runningTaskSlotsCount": 0,
+            "startTask": {
+              "commandLine": "cmd /c echo hello \u003E hello.txt",
+              "userIdentity": {
+                "autoUser": {
+                  "scope": "pool",
+                  "elevationLevel": "nonadmin"
+                }
+              },
+              "maxTaskRetryCount": 0,
+              "waitForSuccess": true
+            },
+            "startTaskInfo": {
+              "state": "completed",
+              "startTime": "2024-04-11T18:36:22.096837Z",
+              "endTime": "2024-04-11T18:36:22.299979Z",
+              "exitCode": 0,
+              "result": "success",
+              "retryCount": 0
+            },
+            "certificateReferences": [],
+            "isDedicated": true,
+            "endpointConfiguration": {
+              "inboundEndpoints": [
+                {
+                  "name": "SSHRule.2",
+                  "protocol": "tcp",
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50002,
+                  "backendPort": 3389
+                }
+              ]
+            },
+            "nodeAgentInfo": {
+              "lastUpdateTime": "2024-04-11T18:36:15.236841Z",
+              "version": "1.11.10"
+            },
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
+          },
+          {
+            "id": "tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
             "state": "starting",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:19:39.8665776Z",
-            "lastBootTime": "2024-01-05T04:21:25.662804Z",
-            "allocationTime": "2024-01-05T04:19:29.1389298Z",
-            "ipAddress": "10.218.0.6",
-            "affinityId": "TVM:tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
+            "stateTransitionTime": "2024-04-11T18:33:17.9000684Z",
+            "allocationTime": "2024-04-11T18:33:07.6068868Z",
+            "ipAddress": "10.0.0.5",
+            "affinityId": "TVM:tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
             "runningTasksCount": 0,
             "runningTaskSlotsCount": 0,
-            "startTask": {
-              "commandLine": "cmd /c echo hello \u003E hello.txt",
-              "userIdentity": {
-                "autoUser": {
-                  "scope": "pool",
-                  "elevationLevel": "nonadmin"
-                }
-              },
-              "maxTaskRetryCount": 0,
-              "waitForSuccess": true
-            },
-            "startTaskInfo": {
-              "state": "running",
-              "startTime": "2024-01-05T04:21:26.290084Z",
-              "retryCount": 0
-            },
-            "certificateReferences": [],
             "isDedicated": true,
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.1",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50001,
+                  "backendPort": 3389
                 }
               ]
             },
-            "nodeAgentInfo": {
-              "lastUpdateTime": "2024-01-05T04:21:25.662804Z",
-              "version": "1.11.7"
-            },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           }
         ]
       }
     },
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "52eed48f-d7f8-4cca-ba1c-7e99837cc16a",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "client-request-id": "d0e2e79a-eefc-4742-a1f7-195da44f8160",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 18:37:04 GMT",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 04:21:36 GMT",
-        "request-id": "ce612d6c-7f47-4648-b4be-40971fe015f5",
+        "Date": "Thu, 11 Apr 2024 18:37:04 GMT",
+        "request-id": "d1b2a20f-a57b-478a-9274-a6f555b29ca6",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -2014,15 +2899,15 @@
         "odata.metadata": "https://endpoint/$metadata#nodes",
         "value": [
           {
-            "id": "tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
+            "id": "tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
             "state": "idle",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:21:09.883747Z",
-            "lastBootTime": "2024-01-05T04:21:09.008803Z",
-            "allocationTime": "2024-01-05T04:19:29.1379318Z",
-            "ipAddress": "10.218.0.7",
-            "affinityId": "TVM:tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
+            "stateTransitionTime": "2024-04-11T18:36:41.755866Z",
+            "lastBootTime": "2024-04-11T18:36:35.39597Z",
+            "allocationTime": "2024-04-11T18:33:07.6069629Z",
+            "ipAddress": "10.0.0.4",
+            "affinityId": "TVM:tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -2041,8 +2926,8 @@
             },
             "startTaskInfo": {
               "state": "completed",
-              "startTime": "2024-01-05T04:21:09.790001Z",
-              "endTime": "2024-01-05T04:21:09.868123Z",
+              "startTime": "2024-04-11T18:36:41.568348Z",
+              "endTime": "2024-04-11T18:36:41.740238Z",
               "exitCode": 0,
               "result": "success",
               "retryCount": 0
@@ -2052,29 +2937,39 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.0",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50000,
+                  "backendPort": 3389
                 }
               ]
             },
             "nodeAgentInfo": {
-              "lastUpdateTime": "2024-01-05T04:21:09.008803Z",
-              "version": "1.11.7"
+              "lastUpdateTime": "2024-04-11T18:36:35.39597Z",
+              "version": "1.11.10"
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
+            "id": "tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
             "state": "idle",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:21:26.415597Z",
-            "lastBootTime": "2024-01-05T04:21:25.321711Z",
-            "allocationTime": "2024-01-05T04:19:29.1379318Z",
-            "ipAddress": "10.218.0.4",
-            "affinityId": "TVM:tvmps_5b7d927615996d82c00c8cbe44cb005eaee6956d408441b79b6a6bfca5b78a2c_d",
+            "stateTransitionTime": "2024-04-11T18:36:29.791296Z",
+            "lastBootTime": "2024-04-11T18:36:23.275499Z",
+            "allocationTime": "2024-04-11T18:33:07.6069453Z",
+            "ipAddress": "10.0.0.7",
+            "affinityId": "TVM:tvmps_4e9fba96ac64e270b7a54008604e85a17b97df4afa39693cc154ec89a918cf55_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -2093,8 +2988,8 @@
             },
             "startTaskInfo": {
               "state": "completed",
-              "startTime": "2024-01-05T04:21:26.228097Z",
-              "endTime": "2024-01-05T04:21:26.399973Z",
+              "startTime": "2024-04-11T18:36:29.541291Z",
+              "endTime": "2024-04-11T18:36:29.775669Z",
               "exitCode": 0,
               "result": "success",
               "retryCount": 0
@@ -2104,29 +2999,39 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.3",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50003,
+                  "backendPort": 3389
                 }
               ]
             },
             "nodeAgentInfo": {
-              "lastUpdateTime": "2024-01-05T04:21:25.321711Z",
-              "version": "1.11.7"
+              "lastUpdateTime": "2024-04-11T18:36:23.275499Z",
+              "version": "1.11.10"
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
+            "id": "tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
             "state": "idle",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:21:24.968215Z",
-            "lastBootTime": "2024-01-05T04:21:24.311965Z",
-            "allocationTime": "2024-01-05T04:19:29.1389298Z",
-            "ipAddress": "10.218.0.5",
-            "affinityId": "TVM:tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d",
+            "stateTransitionTime": "2024-04-11T18:36:22.315604Z",
+            "lastBootTime": "2024-04-11T18:36:15.236841Z",
+            "allocationTime": "2024-04-11T18:33:07.6069284Z",
+            "ipAddress": "10.0.0.6",
+            "affinityId": "TVM:tvmps_8a1bda55842e95a3236adf37908f27b5414a5f9a25dd541a88fbc27e80efd11b_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -2145,8 +3050,8 @@
             },
             "startTaskInfo": {
               "state": "completed",
-              "startTime": "2024-01-05T04:21:24.905717Z",
-              "endTime": "2024-01-05T04:21:24.968215Z",
+              "startTime": "2024-04-11T18:36:22.096837Z",
+              "endTime": "2024-04-11T18:36:22.299979Z",
               "exitCode": 0,
               "result": "success",
               "retryCount": 0
@@ -2156,29 +3061,39 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.2",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50002,
+                  "backendPort": 3389
                 }
               ]
             },
             "nodeAgentInfo": {
-              "lastUpdateTime": "2024-01-05T04:21:24.311965Z",
-              "version": "1.11.7"
+              "lastUpdateTime": "2024-04-11T18:36:15.236841Z",
+              "version": "1.11.10"
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           },
           {
-            "id": "tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
+            "id": "tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
             "state": "idle",
             "schedulingState": "enabled",
-            "stateTransitionTime": "2024-01-05T04:21:26.399461Z",
-            "lastBootTime": "2024-01-05T04:21:25.662804Z",
-            "allocationTime": "2024-01-05T04:19:29.1389298Z",
-            "ipAddress": "10.218.0.6",
-            "affinityId": "TVM:tvmps_e67c688ebbcdf1c86f04b9ad4cfc4700ede15a3fa1decd9da4c7dad62aab481c_d",
+            "stateTransitionTime": "2024-04-11T18:36:58.375326Z",
+            "lastBootTime": "2024-04-11T18:36:50.484345Z",
+            "allocationTime": "2024-04-11T18:33:07.6068868Z",
+            "ipAddress": "10.0.0.5",
+            "affinityId": "TVM:tvmps_a343cd92e19403db839e4dbb92c92f331e145600c60a86504991b65004e8cec3_d",
             "vmSize": "standard_d1_v2",
             "totalTasksRun": 0,
             "totalTasksSucceeded": 0,
@@ -2197,8 +3112,8 @@
             },
             "startTaskInfo": {
               "state": "completed",
-              "startTime": "2024-01-05T04:21:26.321334Z",
-              "endTime": "2024-01-05T04:21:26.383835Z",
+              "startTime": "2024-04-11T18:36:58.10968Z",
+              "endTime": "2024-04-11T18:36:58.359694Z",
               "exitCode": 0,
               "result": "success",
               "retryCount": 0
@@ -2208,24 +3123,34 @@
             "endpointConfiguration": {
               "inboundEndpoints": [
                 {
-                  "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+                  "name": "SSHRule.1",
                   "protocol": "tcp",
-                  "frontendPort": 3389,
-                  "backendPort": 20000
+                  "publicIPAddress": "4.191.75.214",
+                  "publicFQDN": "dnse2cd6732-33de-4128-aa0a-44e306d6a90c-azurebatch-cloudservice.eastasia.cloudapp.azure.com",
+                  "frontendPort": 50001,
+                  "backendPort": 3389
                 }
               ]
             },
             "nodeAgentInfo": {
-              "lastUpdateTime": "2024-01-05T04:21:25.662804Z",
-              "version": "1.11.7"
+              "lastUpdateTime": "2024-04-11T18:36:50.484345Z",
+              "version": "1.11.10"
             },
-            "virtualMachineInfo": {}
+            "virtualMachineInfo": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest",
+                "exactVersion": "20348.2402.240405"
+              }
+            }
           }
         ]
       }
     }
   ],
   "Variables": {
-    "BASIC_POOL": "JSSDKTest-Pool-Basic-82a4"
+    "BASIC_POOL": "JSSDKTest-Pool-Basic-daf4"
   }
 }

@@ -1,14 +1,14 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-5e2c?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-7f93?api-version=2024-02-01.19.0",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "en-US,en;q=0.9",
         "Authorization": "Sanitized",
-        "client-request-id": "df69424c-15c7-46d3-a4c4-70aa6dcff5a0",
+        "client-request-id": "2c03adb6-55ab-4ded-bf5a-01993ac17dd4",
         "Connection": "keep-alive",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "\u0022Chromium\u0022;v=\u0022123\u0022, \u0022Not:A-Brand\u0022;v=\u00228\u0022",
@@ -23,9 +23,11 @@
       "RequestBody": null,
       "StatusCode": 202,
       "ResponseHeaders": {
+        "Connection": "keep-alive",
         "DataServiceVersion": "3.0",
-        "Date": "Wed, 10 Apr 2024 00:18:35 GMT",
-        "request-id": "fbb4a093-d739-476b-a974-3aeed58147ef",
+        "Date": "Thu, 11 Apr 2024 19:35:59 GMT",
+        "Keep-Alive": "timeout=5",
+        "request-id": "31bba551-e255-4aa5-b021-0db8d5f66879",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -35,6 +37,6 @@
     }
   ],
   "Variables": {
-    "ENDPOINT_POOL": "JSSDKTest-Pool-Endpoint-5e2c"
+    "ENDPOINT_POOL": "JSSDKTest-Pool-Endpoint-7f93"
   }
 }

@@ -1,23 +1,25 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/jobs/JSSDKTest-Job-Basic-4a55/tasks?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/jobs/JSSDKTest-Job-Basic-3af3/tasks?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "f2b27932-4f12-4871-9404-d74e6b37ad50",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "client-request-id": "4a5e5f40-4adb-4889-8d35-90e620a4ca73",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 19:15:49 GMT",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 05:43:07 GMT",
-        "request-id": "db3e1c99-8ec3-4806-8cde-adabb8e0bdb7",
+        "Date": "Thu, 11 Apr 2024 19:15:50 GMT",
+        "request-id": "6f4c7a37-4901-4417-85bd-d474df461e85",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -27,15 +29,15 @@
         "odata.metadata": "https://endpoint/$metadata#tasks",
         "value": [
           {
-            "id": "JSSDKTest-Job-Basic-4a55-task1",
-            "url": "https://endpoint/jobs/JSSDKTest-Job-Basic-4a55/tasks/JSSDKTest-Job-Basic-4a55-task1",
-            "eTag": "0x8DC0DB131AC52D0",
-            "creationTime": "2024-01-05T05:43:05.1729007Z",
-            "lastModified": "2024-01-05T05:43:07.3517264Z",
+            "id": "JSSDKTest-Job-Basic-3af3-task1",
+            "url": "https://endpoint/jobs/JSSDKTest-Job-Basic-3af3/tasks/JSSDKTest-Job-Basic-3af3-task1",
+            "eTag": "0x8DC5A5BCC3E7C30",
+            "creationTime": "2024-04-11T19:15:45.5891186Z",
+            "lastModified": "2024-04-11T19:15:49.4938672Z",
             "state": "active",
-            "stateTransitionTime": "2024-01-05T05:43:06.8133576Z",
+            "stateTransitionTime": "2024-04-11T19:15:48.6133631Z",
             "previousState": "completed",
-            "previousStateTransitionTime": "2024-01-05T05:43:05.6229111Z",
+            "previousStateTransitionTime": "2024-04-11T19:15:46.3157204Z",
             "commandLine": "cmd /c echo hello \u003E taskHello.txt",
             "userIdentity": {
               "autoUser": {
@@ -55,13 +57,13 @@
             }
           },
           {
-            "id": "JSSDKTest-Job-Basic-4a55-task2",
-            "url": "https://endpoint/jobs/JSSDKTest-Job-Basic-4a55/tasks/JSSDKTest-Job-Basic-4a55-task2",
-            "eTag": "0x8DC0DB130EC2827",
-            "creationTime": "2024-01-05T05:43:06.0923431Z",
-            "lastModified": "2024-01-05T05:43:06.0923431Z",
+            "id": "JSSDKTest-Job-Basic-3af3-task2",
+            "url": "https://endpoint/jobs/JSSDKTest-Job-Basic-3af3/tasks/JSSDKTest-Job-Basic-3af3-task2",
+            "eTag": "0x8DC5A5BCAD12F62",
+            "creationTime": "2024-04-11T19:15:47.099837Z",
+            "lastModified": "2024-04-11T19:15:47.099837Z",
             "state": "active",
-            "stateTransitionTime": "2024-01-05T05:43:06.0923431Z",
+            "stateTransitionTime": "2024-04-11T19:15:47.099837Z",
             "commandLine": "cmd /c echo hello world",
             "outputFiles": [
               {
@@ -121,6 +123,6 @@
     }
   ],
   "Variables": {
-    "JOB_NAME": "JSSDKTest-Job-Basic-4a55"
+    "JOB_NAME": "JSSDKTest-Job-Basic-3af3"
   }
 }

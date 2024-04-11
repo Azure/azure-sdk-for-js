@@ -5,19 +5,21 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "1c5a46a5-582c-4dc3-b3e8-445cfd4e0b6b",
-        "Connection": "keep-alive",
+        "client-request-id": "c3073153-cced-4c96-8b12-8afb9ec79703",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 19:06:29 GMT",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Tue, 26 Mar 2024 02:03:20 GMT",
-        "request-id": "bc2d6e18-fca3-435e-ad59-9210077419d4",
+        "Date": "Thu, 11 Apr 2024 19:06:29 GMT",
+        "request-id": "6150904b-07c4-4ae4-b7bd-b73bc83d6170",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -27,7 +29,7 @@
         "odata.metadata": "https://endpoint/$metadata#poolnodecounts",
         "value": [
           {
-            "poolId": "JSSDKTest-Pool-Basic-28c0",
+            "poolId": "JSSDKTest-Pool-Basic-851a",
             "dedicated": {
               "creating": 0,
               "idle": 0,
@@ -64,7 +66,44 @@
             }
           },
           {
-            "poolId": "JSSDKTest-Pool-Endpoint-bd08",
+            "poolId": "JSSDKTest-Pool-Basic-b838",
+            "dedicated": {
+              "creating": 0,
+              "idle": 4,
+              "leavingPool": 0,
+              "offline": 0,
+              "preempted": 0,
+              "rebooting": 0,
+              "reimaging": 0,
+              "running": 0,
+              "starting": 0,
+              "startTaskFailed": 0,
+              "unusable": 0,
+              "unknown": 0,
+              "upgradingOS": 0,
+              "waitingForStartTask": 0,
+              "total": 4
+            },
+            "lowPriority": {
+              "creating": 0,
+              "idle": 0,
+              "leavingPool": 0,
+              "offline": 0,
+              "preempted": 0,
+              "rebooting": 0,
+              "reimaging": 0,
+              "running": 0,
+              "starting": 0,
+              "startTaskFailed": 0,
+              "unusable": 0,
+              "unknown": 0,
+              "upgradingOS": 0,
+              "waitingForStartTask": 0,
+              "total": 0
+            }
+          },
+          {
+            "poolId": "JSSDKTest-Pool-Endpoint-1c50",
             "dedicated": {
               "creating": 0,
               "idle": 0,
@@ -99,6 +138,43 @@
               "waitingForStartTask": 0,
               "total": 0
             }
+          },
+          {
+            "poolId": "JSSDKTest-Pool-Endpoint-4168",
+            "dedicated": {
+              "creating": 0,
+              "idle": 1,
+              "leavingPool": 0,
+              "offline": 0,
+              "preempted": 0,
+              "rebooting": 0,
+              "reimaging": 0,
+              "running": 0,
+              "starting": 0,
+              "startTaskFailed": 0,
+              "unusable": 0,
+              "unknown": 0,
+              "upgradingOS": 0,
+              "waitingForStartTask": 0,
+              "total": 1
+            },
+            "lowPriority": {
+              "creating": 0,
+              "idle": 0,
+              "leavingPool": 0,
+              "offline": 0,
+              "preempted": 0,
+              "rebooting": 0,
+              "reimaging": 0,
+              "running": 0,
+              "starting": 0,
+              "startTaskFailed": 0,
+              "unusable": 0,
+              "unknown": 0,
+              "upgradingOS": 0,
+              "waitingForStartTask": 0,
+              "total": 0
+            }
           }
         ]
       }
@@ -108,19 +184,21 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "e5a3a48a-be12-4017-95a7-6d8435653606",
-        "Connection": "keep-alive",
+        "client-request-id": "81e34d95-25b4-4b0f-9b89-d03a6a785a2d",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 19:07:30 GMT",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Tue, 26 Mar 2024 02:04:21 GMT",
-        "request-id": "b97b670a-6727-4f91-84a5-dce1af7f2b58",
+        "Date": "Thu, 11 Apr 2024 19:07:30 GMT",
+        "request-id": "4f6aec8c-e836-424d-9c80-d3416ab40ce7",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -130,7 +208,7 @@
         "odata.metadata": "https://endpoint/$metadata#poolnodecounts",
         "value": [
           {
-            "poolId": "JSSDKTest-Pool-Basic-28c0",
+            "poolId": "JSSDKTest-Pool-Basic-851a",
             "dedicated": {
               "creating": 0,
               "idle": 0,
@@ -167,7 +245,44 @@
             }
           },
           {
-            "poolId": "JSSDKTest-Pool-Endpoint-bd08",
+            "poolId": "JSSDKTest-Pool-Basic-b838",
+            "dedicated": {
+              "creating": 0,
+              "idle": 4,
+              "leavingPool": 0,
+              "offline": 0,
+              "preempted": 0,
+              "rebooting": 0,
+              "reimaging": 0,
+              "running": 0,
+              "starting": 0,
+              "startTaskFailed": 0,
+              "unusable": 0,
+              "unknown": 0,
+              "upgradingOS": 0,
+              "waitingForStartTask": 0,
+              "total": 4
+            },
+            "lowPriority": {
+              "creating": 0,
+              "idle": 0,
+              "leavingPool": 0,
+              "offline": 0,
+              "preempted": 0,
+              "rebooting": 0,
+              "reimaging": 0,
+              "running": 0,
+              "starting": 0,
+              "startTaskFailed": 0,
+              "unusable": 0,
+              "unknown": 0,
+              "upgradingOS": 0,
+              "waitingForStartTask": 0,
+              "total": 0
+            }
+          },
+          {
+            "poolId": "JSSDKTest-Pool-Endpoint-1c50",
             "dedicated": {
               "creating": 0,
               "idle": 0,
@@ -202,6 +317,43 @@
               "waitingForStartTask": 0,
               "total": 0
             }
+          },
+          {
+            "poolId": "JSSDKTest-Pool-Endpoint-4168",
+            "dedicated": {
+              "creating": 0,
+              "idle": 1,
+              "leavingPool": 0,
+              "offline": 0,
+              "preempted": 0,
+              "rebooting": 0,
+              "reimaging": 0,
+              "running": 0,
+              "starting": 0,
+              "startTaskFailed": 0,
+              "unusable": 0,
+              "unknown": 0,
+              "upgradingOS": 0,
+              "waitingForStartTask": 0,
+              "total": 1
+            },
+            "lowPriority": {
+              "creating": 0,
+              "idle": 0,
+              "leavingPool": 0,
+              "offline": 0,
+              "preempted": 0,
+              "rebooting": 0,
+              "reimaging": 0,
+              "running": 0,
+              "starting": 0,
+              "startTaskFailed": 0,
+              "unusable": 0,
+              "unknown": 0,
+              "upgradingOS": 0,
+              "waitingForStartTask": 0,
+              "total": 0
+            }
           }
         ]
       }
@@ -211,19 +363,21 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "aa12ceaa-2f5c-4470-a190-91b33b6aa4ea",
-        "Connection": "keep-alive",
+        "client-request-id": "a36cedb9-2f08-4677-b402-41351e188ff6",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 19:08:30 GMT",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Tue, 26 Mar 2024 02:05:21 GMT",
-        "request-id": "abfdc43a-6abe-41d0-8579-2fa219681d5c",
+        "Date": "Thu, 11 Apr 2024 19:08:31 GMT",
+        "request-id": "13616374-3d09-4ef2-b06c-f89e472ad586",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -233,7 +387,7 @@
         "odata.metadata": "https://endpoint/$metadata#poolnodecounts",
         "value": [
           {
-            "poolId": "JSSDKTest-Pool-Basic-28c0",
+            "poolId": "JSSDKTest-Pool-Basic-851a",
             "dedicated": {
               "creating": 0,
               "idle": 0,
@@ -270,7 +424,81 @@
             }
           },
           {
-            "poolId": "JSSDKTest-Pool-Endpoint-bd08",
+            "poolId": "JSSDKTest-Pool-Basic-b838",
+            "dedicated": {
+              "creating": 0,
+              "idle": 4,
+              "leavingPool": 0,
+              "offline": 0,
+              "preempted": 0,
+              "rebooting": 0,
+              "reimaging": 0,
+              "running": 0,
+              "starting": 0,
+              "startTaskFailed": 0,
+              "unusable": 0,
+              "unknown": 0,
+              "upgradingOS": 0,
+              "waitingForStartTask": 0,
+              "total": 4
+            },
+            "lowPriority": {
+              "creating": 0,
+              "idle": 0,
+              "leavingPool": 0,
+              "offline": 0,
+              "preempted": 0,
+              "rebooting": 0,
+              "reimaging": 0,
+              "running": 0,
+              "starting": 0,
+              "startTaskFailed": 0,
+              "unusable": 0,
+              "unknown": 0,
+              "upgradingOS": 0,
+              "waitingForStartTask": 0,
+              "total": 0
+            }
+          },
+          {
+            "poolId": "JSSDKTest-Pool-Endpoint-1c50",
+            "dedicated": {
+              "creating": 0,
+              "idle": 1,
+              "leavingPool": 0,
+              "offline": 0,
+              "preempted": 0,
+              "rebooting": 0,
+              "reimaging": 0,
+              "running": 0,
+              "starting": 0,
+              "startTaskFailed": 0,
+              "unusable": 0,
+              "unknown": 0,
+              "upgradingOS": 0,
+              "waitingForStartTask": 0,
+              "total": 1
+            },
+            "lowPriority": {
+              "creating": 0,
+              "idle": 0,
+              "leavingPool": 0,
+              "offline": 0,
+              "preempted": 0,
+              "rebooting": 0,
+              "reimaging": 0,
+              "running": 0,
+              "starting": 0,
+              "startTaskFailed": 0,
+              "unusable": 0,
+              "unknown": 0,
+              "upgradingOS": 0,
+              "waitingForStartTask": 0,
+              "total": 0
+            }
+          },
+          {
+            "poolId": "JSSDKTest-Pool-Endpoint-4168",
             "dedicated": {
               "creating": 0,
               "idle": 1,
@@ -311,6 +539,6 @@
     }
   ],
   "Variables": {
-    "ENDPOINT_POOL": "JSSDKTest-Pool-Endpoint-bd08"
+    "ENDPOINT_POOL": "JSSDKTest-Pool-Endpoint-1c50"
   }
 }

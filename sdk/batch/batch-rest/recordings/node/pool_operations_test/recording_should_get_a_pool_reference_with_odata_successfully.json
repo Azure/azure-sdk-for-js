@@ -1,25 +1,27 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-28c0?%24select=id%2Cstate\u0026%24expand=stats\u0026api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-851a?%24select=id%2Cstate\u0026%24expand=stats\u0026api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "b66d4dcf-9248-44aa-9ae6-38a9dbaf763a",
-        "Connection": "keep-alive",
+        "client-request-id": "46760859-d3fa-409d-869f-de1c3eeeaf5c",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 19:05:18 GMT",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Tue, 26 Mar 2024 02:02:13 GMT",
-        "ETag": "0x8DC4D38C14F261E",
-        "Last-Modified": "Tue, 26 Mar 2024 02:02:13 GMT",
-        "request-id": "328d2e53-c052-4275-9f60-8088e272b4ad",
+        "Date": "Thu, 11 Apr 2024 19:05:18 GMT",
+        "ETag": "0x8DC5A5A53675522",
+        "Last-Modified": "Thu, 11 Apr 2024 19:05:17 GMT",
+        "request-id": "7c8a166a-903a-41af-a347-61606b4584b4",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -27,12 +29,12 @@
       },
       "ResponseBody": {
         "odata.metadata": "https://endpoint/$metadata#pools/@Element",
-        "id": "JSSDKTest-Pool-Basic-28c0",
+        "id": "JSSDKTest-Pool-Basic-851a",
         "state": "active"
       }
     }
   ],
   "Variables": {
-    "BASIC_POOL": "JSSDKTest-Pool-Basic-28c0"
+    "BASIC_POOL": "JSSDKTest-Pool-Basic-851a"
   }
 }

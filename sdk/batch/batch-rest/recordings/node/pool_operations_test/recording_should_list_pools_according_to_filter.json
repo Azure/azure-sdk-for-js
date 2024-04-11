@@ -1,23 +1,25 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/pools?%24filter=startswith%28id%2C%27JSSDKTest-Pool-Basic-28c0%27%29\u0026%24select=id%2Cstate\u0026%24expand=stats\u0026api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools?%24filter=startswith%28id%2C%27JSSDKTest-Pool-Basic-851a%27%29\u0026%24select=id%2Cstate\u0026%24expand=stats\u0026api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "f80f2dd7-b343-4c61-8826-7fab65779242",
-        "Connection": "keep-alive",
+        "client-request-id": "87c8e49d-de5f-4457-988e-134d9d07c78d",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 19:05:21 GMT",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Tue, 26 Mar 2024 02:02:15 GMT",
-        "request-id": "d4188bc4-ed37-4088-bfc0-0c777d7f2786",
+        "Date": "Thu, 11 Apr 2024 19:05:20 GMT",
+        "request-id": "53740d02-44aa-4a3c-8949-2589fab09afd",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -27,7 +29,7 @@
         "odata.metadata": "https://endpoint/$metadata#pools",
         "value": [
           {
-            "id": "JSSDKTest-Pool-Basic-28c0",
+            "id": "JSSDKTest-Pool-Basic-851a",
             "state": "active"
           }
         ]
@@ -35,6 +37,6 @@
     }
   ],
   "Variables": {
-    "BASIC_POOL": "JSSDKTest-Pool-Basic-28c0"
+    "BASIC_POOL": "JSSDKTest-Pool-Basic-851a"
   }
 }

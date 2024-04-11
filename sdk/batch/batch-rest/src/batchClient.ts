@@ -3,12 +3,9 @@
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { logger } from "./logger";
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { AzureNamedKeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { BatchClient } from "./clientDefinitions";
-import {
-  BatchSharedKeyCredentials,
-  createBatchSharedKeyCredentialsPolicy,
-} from "./credentials/batchSharedKeyCredentials";
+import { createBatchSharedKeyCredentialsPolicy } from "./credentials/batchSharedKeyCredentials";
 
 /**
  * Initialize a new instance of `BatchClient`
@@ -18,7 +15,7 @@ import {
  */
 export default function createClient(
   endpoint: string,
-  credentials: TokenCredential | BatchSharedKeyCredentials,
+  credentials: TokenCredential | AzureNamedKeyCredential,
   options: ClientOptions = {}
 ): BatchClient {
   const baseUrl = options.baseUrl ?? `${endpoint}`;

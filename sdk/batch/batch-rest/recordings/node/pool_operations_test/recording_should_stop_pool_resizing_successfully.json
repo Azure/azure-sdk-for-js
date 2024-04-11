@@ -1,26 +1,28 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-3-0da3/stopresize?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-3-0b1a/stopresize?api-version=2024-02-01.19.0",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "11cf86a2-e4d1-480f-b432-996bfb9a9837",
-        "Connection": "keep-alive",
+        "client-request-id": "efffa1cc-2914-4edb-8460-7295de0a8545",
+        "Connection": "close",
         "Content-Length": "0",
+        "ocp-date": "Thu, 11 Apr 2024 19:08:49 GMT",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 202,
       "ResponseHeaders": {
-        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-3-0da3/stopresize",
+        "Connection": "close",
+        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-3-0b1a/stopresize",
         "DataServiceVersion": "3.0",
-        "Date": "Tue, 26 Mar 2024 02:05:38 GMT",
-        "ETag": "0x8DC4D393BB45F8D",
-        "Last-Modified": "Tue, 26 Mar 2024 02:05:38 GMT",
-        "request-id": "f0c246b4-7b82-4f40-bf9d-c841e1cfa444",
+        "Date": "Thu, 11 Apr 2024 19:08:49 GMT",
+        "ETag": "0x8DC5A5AD1FACBFB",
+        "Last-Modified": "Thu, 11 Apr 2024 19:08:49 GMT",
+        "request-id": "47ff9140-4aca-4365-a7f1-504a5e66bbcd",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -30,6 +32,6 @@
     }
   ],
   "Variables": {
-    "TEST_POOL3": "JSSDKTest-Pool-3-0da3"
+    "TEST_POOL3": "JSSDKTest-Pool-3-0b1a"
   }
 }

@@ -1,24 +1,26 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/pools?maxResults=-5\u0026api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools?maxresults=-5\u0026api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "6c997c8d-a77f-4e16-aad3-4b3f761135ae",
-        "Connection": "keep-alive",
+        "client-request-id": "3f60feb4-cdca-43f6-aeb5-11d829d0c205",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 19:05:20 GMT",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 400,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Length": "580",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Tue, 26 Mar 2024 02:02:15 GMT",
-        "request-id": "c3bc82de-01cf-4f50-9be8-36b641a45bc5",
+        "Date": "Thu, 11 Apr 2024 19:05:21 GMT",
+        "request-id": "35fc9ba4-9c13-44bf-becc-e2db630c1d81",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff"
@@ -28,7 +30,7 @@
         "code": "InvalidQueryParameterValue",
         "message": {
           "lang": "en-US",
-          "value": "Value for one of the query parameters specified in the request URI is invalid.\nRequestId:c3bc82de-01cf-4f50-9be8-36b641a45bc5\nTime:2024-03-26T02:02:15.6333594Z"
+          "value": "Value for one of the query parameters specified in the request URI is invalid.\nRequestId:35fc9ba4-9c13-44bf-becc-e2db630c1d81\nTime:2024-04-11T19:05:21.0295868Z"
         },
         "values": [
           {

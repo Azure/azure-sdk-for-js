@@ -1,29 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { type AzureNamedKeyCredential } from "@azure/core-auth";
 import { HttpHeaders, HttpMethods, PipelinePolicy } from "@azure/core-rest-pipeline";
 import { createHmac } from "crypto";
 
-export interface BatchSharedKeyCredentials {
-  /**
-   * The batch account name.
-   */
-  accountName: string;
-
-  /**
-   * The batch account key.
-   */
-  accountKey: string;
-}
-
 export function createBatchSharedKeyCredentialsPolicy(
-  credentials: BatchSharedKeyCredentials
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
+  credentials: AzureNamedKeyCredential
 ): PipelinePolicy {
   return {
     name: "BatchSharedKeyCredentialsPolicy",
     async sendRequest(request, next) {
-      const accountName = credentials.accountName;
-      const accountKey = Buffer.from(credentials.accountKey, "base64");
+      const accountName = credentials.name;
+      const accountKey = Buffer.from(credentials.key, "base64");
 
       const ocpDate = request.headers.get("ocp-date");
       if (!ocpDate) {
@@ -68,7 +58,7 @@ export function createBatchSharedKeyCredentialsPolicy(
  * @returns The header value
  */
 function getHeaderToAppend(headers: HttpHeaders, headerName: string): string {
-  return headers.get(headerName) ?? "" + "\n";
+  return (headers.get(headerName) ?? "") + "\n";
 }
 
 /**
@@ -89,12 +79,12 @@ function getContentLengthToAppend(headers: HttpHeaders, method: HttpMethods, bod
     return Buffer.byteLength(body) + "\n";
   }
 
-  // For GET verb, do not add content-length
-  if (method === "GET") {
-    return "\n";
+  // For POST verb, add 0 content-length
+  if (method === "POST") {
+    return "0\n";
   }
 
-  return "0\n";
+  return "\n";
 }
 /**
  * Constructs the Canonicalized Headers string.

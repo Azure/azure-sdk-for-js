@@ -1,14 +1,14 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/pools?maxResults=-5\u0026api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools?maxresults=-5\u0026api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "en-US,en;q=0.9",
         "Authorization": "Sanitized",
-        "client-request-id": "62068ae8-7d9a-48f4-91cd-cfbc17ad36a9",
+        "client-request-id": "f98eb295-2a66-42fa-8425-b64ad9e4fab1",
         "Connection": "keep-alive",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "\u0022Chromium\u0022;v=\u0022123\u0022, \u0022Not:A-Brand\u0022;v=\u00228\u0022",
@@ -23,11 +23,13 @@
       "RequestBody": null,
       "StatusCode": 400,
       "ResponseHeaders": {
+        "Connection": "keep-alive",
         "Content-Length": "580",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Wed, 10 Apr 2024 00:15:45 GMT",
-        "request-id": "ad3e00ad-5ea0-4016-ab5c-bc79cef2e5cb",
+        "Date": "Thu, 11 Apr 2024 19:33:09 GMT",
+        "Keep-Alive": "timeout=5",
+        "request-id": "9714ae43-d46a-4c62-8877-a3049bd516d2",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff"
@@ -37,7 +39,7 @@
         "code": "InvalidQueryParameterValue",
         "message": {
           "lang": "en-US",
-          "value": "Value for one of the query parameters specified in the request URI is invalid.\nRequestId:ad3e00ad-5ea0-4016-ab5c-bc79cef2e5cb\nTime:2024-04-10T00:15:46.0463698Z"
+          "value": "Value for one of the query parameters specified in the request URI is invalid.\nRequestId:9714ae43-d46a-4c62-8877-a3049bd516d2\nTime:2024-04-11T19:33:10.4574051Z"
         },
         "values": [
           {

@@ -1,14 +1,14 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/pools?maxResults=1\u0026api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools?maxresults=1\u0026api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "en-US,en;q=0.9",
         "Authorization": "Sanitized",
-        "client-request-id": "cc027227-57e7-4850-9cd5-7e7d74aef7f9",
+        "client-request-id": "82367b3b-07c0-4b67-91cf-9d42a0e85e6a",
         "Connection": "keep-alive",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "\u0022Chromium\u0022;v=\u0022123\u0022, \u0022Not:A-Brand\u0022;v=\u00228\u0022",
@@ -23,10 +23,12 @@
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "keep-alive",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Wed, 10 Apr 2024 00:15:45 GMT",
-        "request-id": "ff605cf1-eff0-4488-aa38-fcd9f7b33895",
+        "Date": "Thu, 11 Apr 2024 19:33:08 GMT",
+        "Keep-Alive": "timeout=5",
+        "request-id": "bf4d7a40-7e65-4b54-9564-ddccde983f3e",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -36,19 +38,19 @@
         "odata.metadata": "https://endpoint/$metadata#pools",
         "value": [
           {
-            "id": "JSSDKTest-Pool-Basic-81dc",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-81dc",
-            "eTag": "0x8DC58F3534C1D58",
-            "lastModified": "2024-04-10T00:15:27.75622Z",
-            "creationTime": "2024-04-10T00:14:51.5100804Z",
-            "state": "active",
-            "stateTransitionTime": "2024-04-10T00:14:51.5100804Z",
-            "allocationState": "steady",
-            "allocationStateTransitionTime": "2024-04-10T00:15:23.6448423Z",
+            "id": "JSSDKTest-Pool-Basic-0949",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-0949",
+            "eTag": "0x8DC5A5E12FC1DE2",
+            "lastModified": "2024-04-11T19:32:07.1706082Z",
+            "creationTime": "2024-04-11T19:25:51.9509547Z",
+            "state": "deleting",
+            "stateTransitionTime": "2024-04-11T19:32:07.1706082Z",
+            "allocationState": "resizing",
+            "allocationStateTransitionTime": "2024-04-11T19:32:07.1794434Z",
             "vmSize": "standard_d1_v2",
-            "resizeTimeout": "PT15M",
+            "resizeTimeout": "PT7M9.497S",
             "currentDedicatedNodes": 4,
-            "targetDedicatedNodes": 4,
+            "targetDedicatedNodes": 0,
             "currentLowPriorityNodes": 0,
             "targetLowPriorityNodes": 0,
             "enableAutoScale": false,
@@ -73,13 +75,6 @@
                 }
               }
             ],
-            "certificateReferences": [],
-            "metadata": [
-              {
-                "name": "foo",
-                "value": "bar"
-              }
-            ],
             "taskSlotsPerNode": 1,
             "taskSchedulingPolicy": {
               "nodeFillType": "Spread"
@@ -91,27 +86,12 @@
                 "sku": "2022-datacenter",
                 "version": "latest"
               },
-              "nodeAgentSKUId": "batch.node.windows amd64",
-              "extensions": [
-                {
-                  "name": "batchextension1",
-                  "publisher": "Microsoft.Azure.Geneva",
-                  "type": "GenevaMonitoring",
-                  "typeHandlerVersion": "2.0",
-                  "autoUpgradeMinorVersion": true,
-                  "enableAutomaticUpgrade": true
-                }
-              ]
+              "nodeAgentSKUId": "batch.node.windows amd64"
             },
-            "networkConfiguration": {
-              "dynamicVNetAssignmentScope": "none",
-              "enableAcceleratedNetworking": true
-            },
-            "targetNodeCommunicationMode": "default",
             "currentNodeCommunicationMode": "classic"
           }
         ],
-        "odata.nextLink": "https://endpoint/pools?maxResults=1\u0026api-version=2024-02-01.19.0\u0026$skiptoken=WATV2:vT6wP3WunrsdaERsfcM3vd/sgtH27BCJ2pFp6dOah9k^m^DgdFi4mPBFWyu5Vb3xPO1hIgdGKR1IIt1qcPjYusNHPzOAzkrWq4yxjZEqBJcD4ryEePkO0fldrXaPcJLE86PKcRglbgdY97MmgZQBES^kL0m74nnjIeRC9775otZvAygOYpwaxwIwIzjQZVHhUy7R82MlvjbQDS0/RxzkXS06N0ysOXbZLLEYpeLEbdxf9lb7lXnFZ0x/eC1AfrMVqSZm0LJVB81FFsrfNmkxasvcpbt0dtC8pvWJXQ777pocmMsDbyOUPRMuBiAJCKO0:1$1"
+        "odata.nextLink": "https://endpoint/pools?maxresults=1\u0026api-version=2024-02-01.19.0\u0026$skiptoken=WATV2:yJ4zx0sehwCw4p5ooz2ewQEQP6c278TvHWe082uNYBLt8P7BmdvWSUXNRQp/^zG6NcXdg4wbX0MD/FdaD4x2UrGOH2yDPeoc/2LdW/SS4Q0jahX7pTpBF6GBWP3ZLvq0hvp1Tda2r4MW7yDzoINi1tAi3panMXeRcl4essAKxpFSHoQPGnCvDdJ5^U7n^1QrpqADg0e3tFC0MNJxJ3nck4BMpic1D1qdbjr03vkr74tpZUGAhiCfBik4^1GFivhGpY34541kZJbTaVX2FA67/mJ/hnJ/q60jg6QkoNZxf4K9DtryXW69pMmau0vb3e0w:1$1"
       }
     }
   ],

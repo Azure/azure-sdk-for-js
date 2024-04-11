@@ -5,16 +5,17 @@
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "0fbd0df5-21a6-4a42-9bac-8264a91d7dc5",
-        "Connection": "keep-alive",
+        "client-request-id": "c8645d6a-ec35-449e-882a-ec1b59b71511",
+        "Connection": "close",
         "Content-Length": "535",
         "Content-Type": "application/json; odata=minimalmetadata",
+        "ocp-date": "Thu, 11 Apr 2024 19:05:39 GMT",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": {
-        "id": "JSSDKTest-Pool-Endpoint-bd08",
+        "id": "JSSDKTest-Pool-Endpoint-1c50",
         "vmSize": "Standard_A1_v2",
         "networkConfiguration": {
           "endpointConfiguration": {
@@ -48,13 +49,14 @@
       },
       "StatusCode": 201,
       "ResponseHeaders": {
-        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-bd08",
+        "Connection": "close",
+        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-1c50",
         "DataServiceVersion": "3.0",
-        "Date": "Tue, 26 Mar 2024 02:02:32 GMT",
-        "ETag": "0x8DC4D38CD2018E9",
-        "Last-Modified": "Tue, 26 Mar 2024 02:02:33 GMT",
-        "Location": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-bd08",
-        "request-id": "b61591fe-7cfd-4bf1-9bb7-aba8990a2130",
+        "Date": "Thu, 11 Apr 2024 19:05:40 GMT",
+        "ETag": "0x8DC5A5A613EEE58",
+        "Last-Modified": "Thu, 11 Apr 2024 19:05:40 GMT",
+        "Location": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-1c50",
+        "request-id": "2deb2a09-3a76-45a1-bf54-b9473c1847bd",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -64,6 +66,6 @@
     }
   ],
   "Variables": {
-    "ENDPOINT_POOL": "JSSDKTest-Pool-Endpoint-bd08"
+    "ENDPOINT_POOL": "JSSDKTest-Pool-Endpoint-1c50"
   }
 }

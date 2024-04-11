@@ -8,7 +8,7 @@
         "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "en-US,en;q=0.9",
         "Authorization": "Sanitized",
-        "client-request-id": "cf1d57ba-0337-43aa-bb54-ad856dfcecc8",
+        "client-request-id": "a86de999-875f-41fd-956f-cf80ec864e7c",
         "Connection": "keep-alive",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "\u0022Chromium\u0022;v=\u0022123\u0022, \u0022Not:A-Brand\u0022;v=\u00228\u0022",
@@ -23,10 +23,12 @@
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "keep-alive",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Wed, 10 Apr 2024 00:15:45 GMT",
-        "request-id": "e49a1d31-92b6-4ec7-a21c-49c7859b65ef",
+        "Date": "Thu, 11 Apr 2024 19:33:07 GMT",
+        "Keep-Alive": "timeout=5",
+        "request-id": "352af433-9ccc-4cea-813b-3f6a18f64be2",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -36,15 +38,68 @@
         "odata.metadata": "https://endpoint/$metadata#pools",
         "value": [
           {
-            "id": "JSSDKTest-Pool-Basic-81dc",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-81dc",
-            "eTag": "0x8DC58F3534C1D58",
-            "lastModified": "2024-04-10T00:15:27.75622Z",
-            "creationTime": "2024-04-10T00:14:51.5100804Z",
+            "id": "JSSDKTest-Pool-Basic-0949",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-0949",
+            "eTag": "0x8DC5A5E12FC1DE2",
+            "lastModified": "2024-04-11T19:32:07.1706082Z",
+            "creationTime": "2024-04-11T19:25:51.9509547Z",
+            "state": "deleting",
+            "stateTransitionTime": "2024-04-11T19:32:07.1706082Z",
+            "allocationState": "resizing",
+            "allocationStateTransitionTime": "2024-04-11T19:32:07.1794434Z",
+            "vmSize": "standard_d1_v2",
+            "resizeTimeout": "PT7M9.497S",
+            "currentDedicatedNodes": 4,
+            "targetDedicatedNodes": 0,
+            "currentLowPriorityNodes": 0,
+            "targetLowPriorityNodes": 0,
+            "enableAutoScale": false,
+            "enableInterNodeCommunication": false,
+            "startTask": {
+              "commandLine": "cmd /c echo hello \u003E hello.txt",
+              "userIdentity": {
+                "autoUser": {
+                  "scope": "pool",
+                  "elevationLevel": "nonadmin"
+                }
+              },
+              "maxTaskRetryCount": 0,
+              "waitForSuccess": true
+            },
+            "userAccounts": [
+              {
+                "name": "nonAdminUser",
+                "elevationLevel": "nonadmin",
+                "windowsUserConfiguration": {
+                  "loginMode": "batch"
+                }
+              }
+            ],
+            "taskSlotsPerNode": 1,
+            "taskSchedulingPolicy": {
+              "nodeFillType": "Spread"
+            },
+            "virtualMachineConfiguration": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest"
+              },
+              "nodeAgentSKUId": "batch.node.windows amd64"
+            },
+            "currentNodeCommunicationMode": "classic"
+          },
+          {
+            "id": "JSSDKTest-Pool-Basic-a802",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-a802",
+            "eTag": "0x8DC5A5E35CA497E",
+            "lastModified": "2024-04-11T19:33:05.5643006Z",
+            "creationTime": "2024-04-11T19:32:07.9459376Z",
             "state": "active",
-            "stateTransitionTime": "2024-04-10T00:14:51.5100804Z",
+            "stateTransitionTime": "2024-04-11T19:32:07.9459376Z",
             "allocationState": "steady",
-            "allocationStateTransitionTime": "2024-04-10T00:15:23.6448423Z",
+            "allocationStateTransitionTime": "2024-04-11T19:32:40.0545996Z",
             "vmSize": "standard_d1_v2",
             "resizeTimeout": "PT15M",
             "currentDedicatedNodes": 4,
@@ -186,18 +241,18 @@
             "currentNodeCommunicationMode": "classic"
           },
           {
-            "id": "JSSDKTest-Pool-Endpoint-5e2c",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-5e2c",
-            "eTag": "0x8DC58F35DC93F83",
-            "lastModified": "2024-04-10T00:15:45.3535107Z",
-            "creationTime": "2024-04-10T00:15:45.3535093Z",
+            "id": "JSSDKTest-Pool-Endpoint-4168",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-4168",
+            "eTag": "0x8DC58F3681E649E",
+            "lastModified": "2024-04-10T00:16:02.6887326Z",
+            "creationTime": "2024-04-10T00:16:02.688731Z",
             "state": "active",
-            "stateTransitionTime": "2024-04-10T00:15:45.3535093Z",
-            "allocationState": "resizing",
-            "allocationStateTransitionTime": "2024-04-10T00:15:45.3535108Z",
+            "stateTransitionTime": "2024-04-10T00:16:02.688731Z",
+            "allocationState": "steady",
+            "allocationStateTransitionTime": "2024-04-10T00:16:29.9050728Z",
             "vmSize": "standard_a1_v2",
             "resizeTimeout": "PT15M",
-            "currentDedicatedNodes": 0,
+            "currentDedicatedNodes": 1,
             "targetDedicatedNodes": 1,
             "currentLowPriorityNodes": 0,
             "targetLowPriorityNodes": 0,
@@ -240,7 +295,8 @@
                 ]
               },
               "enableAcceleratedNetworking": false
-            }
+            },
+            "currentNodeCommunicationMode": "classic"
           }
         ]
       }

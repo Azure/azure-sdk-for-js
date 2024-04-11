@@ -1,33 +1,35 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/jobs/JSSDKTest-Job-Basic-aff2/jobpreparationandreleasetaskstatus?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/jobs/JSSDKTest-Job-Basic-5252/jobpreparationandreleasetaskstatus?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "en-US,en;q=0.9",
         "Authorization": "Sanitized",
-        "client-request-id": "7c10f4a7-dc6a-47be-a89e-9349275f88aa",
+        "client-request-id": "90055811-b72c-458d-978c-c48ea70ed0ef",
         "Connection": "keep-alive",
         "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "\u0022Not:A-Brand\u0022;v=\u002299\u0022, \u0022Chromium\u0022;v=\u0022112\u0022",
+        "sec-ch-ua": "\u0022Chromium\u0022;v=\u0022123\u0022, \u0022Not:A-Brand\u0022;v=\u00228\u0022",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022Windows\u0022",
+        "sec-ch-ua-platform": "\u0022macOS\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
-        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 OS/Windows"
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 OS/macOS"
       },
       "RequestBody": null,
       "StatusCode": 409,
       "ResponseHeaders": {
+        "Connection": "keep-alive",
         "Content-Length": "383",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 07:10:21 GMT",
-        "request-id": "a6da6a26-9115-425c-af41-5241ed66f789",
+        "Date": "Thu, 11 Apr 2024 19:25:47 GMT",
+        "Keep-Alive": "timeout=5",
+        "request-id": "12086952-649c-4cf4-84d4-bd6485520ed7",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff"
@@ -37,12 +39,12 @@
         "code": "JobPreparationTaskOrReleaseTaskNotSpecified",
         "message": {
           "lang": "en-US",
-          "value": "The specified job does not have either job preparation task or job release task.\nRequestId:a6da6a26-9115-425c-af41-5241ed66f789\nTime:2024-01-05T07:10:22.4342943Z"
+          "value": "The specified job does not have either job preparation task or job release task.\nRequestId:12086952-649c-4cf4-84d4-bd6485520ed7\nTime:2024-04-11T19:25:48.3141088Z"
         }
       }
     }
   ],
   "Variables": {
-    "JOB_NAME": "JSSDKTest-Job-Basic-aff2"
+    "JOB_NAME": "JSSDKTest-Job-Basic-5252"
   }
 }

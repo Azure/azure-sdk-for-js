@@ -8,7 +8,7 @@
         "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "en-US,en;q=0.9",
         "Authorization": "Sanitized",
-        "client-request-id": "4d10159c-aabd-4c52-a89b-ae55617dbe5b",
+        "client-request-id": "c6a9d12b-f2ba-4bf5-829b-8d7af79aa5d1",
         "Connection": "keep-alive",
         "Content-Length": "678",
         "Content-Type": "application/json; odata=minimalmetadata",
@@ -23,7 +23,7 @@
         "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 OS/macOS"
       },
       "RequestBody": {
-        "id": "JSSDKTest-Pool-Basic-b838",
+        "id": "JSSDKTest-Pool-Basic-a802",
         "vmSize": "Standard_D1_v2",
         "virtualMachineConfiguration": {
           "nodeAgentSKUId": "batch.node.windows amd64",
@@ -60,13 +60,15 @@
       },
       "StatusCode": 201,
       "ResponseHeaders": {
-        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-Basic-b838",
+        "Connection": "keep-alive",
+        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-Basic-a802",
         "DataServiceVersion": "3.0",
-        "Date": "Wed, 10 Apr 2024 00:14:52 GMT",
-        "ETag": "0x8DC58F33EE5691F",
-        "Last-Modified": "Wed, 10 Apr 2024 00:14:53 GMT",
-        "Location": "https://endpoint/pools/JSSDKTest-Pool-Basic-b838",
-        "request-id": "d391330c-6766-42a1-857e-c1b66d7ce2f9",
+        "Date": "Thu, 11 Apr 2024 19:32:07 GMT",
+        "ETag": "0x8DC5A5E13726C43",
+        "Keep-Alive": "timeout=5",
+        "Last-Modified": "Thu, 11 Apr 2024 19:32:07 GMT",
+        "Location": "https://endpoint/pools/JSSDKTest-Pool-Basic-a802",
+        "request-id": "f246bccb-5d93-41a1-b692-15dbad46deeb",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -76,6 +78,6 @@
     }
   ],
   "Variables": {
-    "BASIC_POOL": "JSSDKTest-Pool-Basic-b838"
+    "BASIC_POOL": "JSSDKTest-Pool-Basic-a802"
   }
 }

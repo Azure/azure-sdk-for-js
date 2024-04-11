@@ -1,34 +1,36 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/jobs/JSSDKTest-Job-Basic-aff2?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/jobs/JSSDKTest-Job-Basic-5252?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "en-US,en;q=0.9",
         "Authorization": "Sanitized",
-        "client-request-id": "c3057384-20d4-488c-85c1-811915620cfc",
+        "client-request-id": "b4bf567d-a050-4701-ba32-57b3dca90aab",
         "Connection": "keep-alive",
         "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "\u0022Not:A-Brand\u0022;v=\u002299\u0022, \u0022Chromium\u0022;v=\u0022112\u0022",
+        "sec-ch-ua": "\u0022Chromium\u0022;v=\u0022123\u0022, \u0022Not:A-Brand\u0022;v=\u00228\u0022",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022Windows\u0022",
+        "sec-ch-ua-platform": "\u0022macOS\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
-        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 OS/Windows"
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 OS/macOS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "keep-alive",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 07:10:20 GMT",
-        "ETag": "0x8DC0DBD613E8088",
-        "Last-Modified": "Fri, 05 Jan 2024 07:10:21 GMT",
-        "request-id": "9fde56c8-ae15-4d18-9627-6f6d58a09bd1",
+        "Date": "Thu, 11 Apr 2024 19:25:46 GMT",
+        "ETag": "0x8DC5A5D2FBC9670",
+        "Keep-Alive": "timeout=5",
+        "Last-Modified": "Thu, 11 Apr 2024 19:25:45 GMT",
+        "request-id": "a135f1c5-72ce-4bb7-8eb7-22f65bf42026",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -36,13 +38,13 @@
       },
       "ResponseBody": {
         "odata.metadata": "https://endpoint/$metadata#jobs/@Element",
-        "id": "JSSDKTest-Job-Basic-aff2",
-        "url": "https://endpoint/jobs/JSSDKTest-Job-Basic-aff2",
-        "eTag": "0x8DC0DBD613E8088",
-        "lastModified": "2024-01-05T07:10:21.1233928Z",
-        "creationTime": "2024-01-05T07:10:20.0862243Z",
+        "id": "JSSDKTest-Job-Basic-5252",
+        "url": "https://endpoint/jobs/JSSDKTest-Job-Basic-5252",
+        "eTag": "0x8DC5A5D2FBC9670",
+        "lastModified": "2024-04-11T19:25:45.9114608Z",
+        "creationTime": "2024-04-11T19:25:43.5838857Z",
         "state": "active",
-        "stateTransitionTime": "2024-01-05T07:10:20.1055503Z",
+        "stateTransitionTime": "2024-04-11T19:25:43.5978861Z",
         "priority": 600,
         "maxParallelTasks": -1,
         "usesTaskDependencies": false,
@@ -52,11 +54,11 @@
           "maxTaskRetryCount": 3
         },
         "poolInfo": {
-          "poolId": "JSSDKTest-Pool-Basic-a65a"
+          "poolId": "JSSDKTest-Pool-Basic-e9a8"
         },
         "executionInfo": {
-          "startTime": "2024-01-05T07:10:20.1055503Z",
-          "poolId": "JSSDKTest-Pool-Basic-a65a"
+          "startTime": "2024-04-11T19:25:43.5978861Z",
+          "poolId": "JSSDKTest-Pool-Basic-e9a8"
         },
         "onAllTasksComplete": "noaction",
         "onTaskFailure": "noaction"
@@ -64,7 +66,7 @@
     }
   ],
   "Variables": {
-    "BASIC_POOL": "JSSDKTest-Pool-Basic-a65a",
-    "JOB_NAME": "JSSDKTest-Job-Basic-aff2"
+    "BASIC_POOL": "JSSDKTest-Pool-Basic-e9a8",
+    "JOB_NAME": "JSSDKTest-Job-Basic-5252"
   }
 }

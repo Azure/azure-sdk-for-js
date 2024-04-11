@@ -1,37 +1,39 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-2aab/evaluateautoscale?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-8e17/evaluateautoscale?api-version=2024-02-01.19.0",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "en-US,en;q=0.9",
         "Authorization": "Sanitized",
-        "client-request-id": "11f47ac7-3f86-4155-b83d-df6afd3bee85",
+        "client-request-id": "8818f6c6-40ee-4322-a8e7-7fcb75f3d882",
         "Connection": "keep-alive",
         "Content-Length": "41",
         "Content-Type": "application/json; odata=minimalmetadata",
         "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "\u0022Not:A-Brand\u0022;v=\u002299\u0022, \u0022Chromium\u0022;v=\u0022112\u0022",
+        "sec-ch-ua": "\u0022Chromium\u0022;v=\u0022123\u0022, \u0022Not:A-Brand\u0022;v=\u00228\u0022",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022Windows\u0022",
+        "sec-ch-ua-platform": "\u0022macOS\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
-        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 OS/Windows"
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 OS/macOS"
       },
       "RequestBody": {
         "autoScaleFormula": "$something_useless"
       },
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "keep-alive",
         "Content-Type": "application/json; odata=minimalmetadata",
-        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-Basic-2aab/evaluateautoscale",
+        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-Basic-8e17/evaluateautoscale",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 07:12:07 GMT",
-        "request-id": "2dfc714d-32d5-4447-8f62-2888d634e06e",
+        "Date": "Thu, 11 Apr 2024 19:37:15 GMT",
+        "Keep-Alive": "timeout=5",
+        "request-id": "f2161f80-81eb-4695-b192-50c2ccbd0f38",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -39,7 +41,7 @@
       },
       "ResponseBody": {
         "odata.metadata": "https://endpoint/$metadata#Microsoft.Azure.Batch.Protocol.Entities.AutoScaleRun",
-        "timestamp": "2024-01-05T07:12:07.5637005Z",
+        "timestamp": "2024-04-11T19:37:16.1539805Z",
         "results": "$TargetDedicatedNodes=2;$TargetLowPriorityNodes=0;$NodeDeallocationOption=requeue",
         "error": {
           "code": "AutoScalingFormulaEvaluationError",
@@ -55,6 +57,6 @@
     }
   ],
   "Variables": {
-    "BASIC_POOL": "JSSDKTest-Pool-Basic-2aab"
+    "BASIC_POOL": "JSSDKTest-Pool-Basic-8e17"
   }
 }

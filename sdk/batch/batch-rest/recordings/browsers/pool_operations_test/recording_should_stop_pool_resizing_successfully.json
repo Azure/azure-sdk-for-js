@@ -1,14 +1,14 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-3-5ce1/stopresize?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-3-f913/stopresize?api-version=2024-02-01.19.0",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "en-US,en;q=0.9",
         "Authorization": "Sanitized",
-        "client-request-id": "8931aa89-462a-40e8-a54a-c7714217e562",
+        "client-request-id": "f1d7fad5-7f5b-45cc-be30-c09b1f83c265",
         "Connection": "keep-alive",
         "Content-Length": "0",
         "Referer": "http://localhost:9876/",
@@ -24,12 +24,14 @@
       "RequestBody": null,
       "StatusCode": 202,
       "ResponseHeaders": {
-        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-3-5ce1/stopresize",
+        "Connection": "keep-alive",
+        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-3-f913/stopresize",
         "DataServiceVersion": "3.0",
-        "Date": "Wed, 10 Apr 2024 00:18:34 GMT",
-        "ETag": "0x8DC58F3C2948478",
-        "Last-Modified": "Wed, 10 Apr 2024 00:18:34 GMT",
-        "request-id": "66ba000d-7165-416d-99a6-f328624d8aa3",
+        "Date": "Thu, 11 Apr 2024 19:35:58 GMT",
+        "ETag": "0x8DC5A5E9C2BCC88",
+        "Keep-Alive": "timeout=5",
+        "Last-Modified": "Thu, 11 Apr 2024 19:35:57 GMT",
+        "request-id": "124928b1-3e6b-4a6b-ba76-7e2061ad9e5c",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -39,6 +41,6 @@
     }
   ],
   "Variables": {
-    "TEST_POOL3": "JSSDKTest-Pool-3-5ce1"
+    "TEST_POOL3": "JSSDKTest-Pool-3-f913"
   }
 }

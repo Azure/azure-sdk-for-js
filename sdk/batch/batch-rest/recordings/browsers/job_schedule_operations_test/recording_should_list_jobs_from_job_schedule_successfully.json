@@ -1,32 +1,34 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/jobschedules/JSSDKTest-JobSchedule-Basic-0f7d/jobs?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/jobschedules/JSSDKTest-JobSchedule-Basic-7284/jobs?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
         "Accept-Language": "en-US,en;q=0.9",
         "Authorization": "Sanitized",
-        "client-request-id": "8708c6e4-0677-4ac6-a45d-5bd931f1a8ef",
+        "client-request-id": "a65081f5-84f5-43fe-a64c-777aef4ecc4d",
         "Connection": "keep-alive",
         "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "\u0022Not:A-Brand\u0022;v=\u002299\u0022, \u0022Chromium\u0022;v=\u0022112\u0022",
+        "sec-ch-ua": "\u0022Chromium\u0022;v=\u0022123\u0022, \u0022Not:A-Brand\u0022;v=\u00228\u0022",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022Windows\u0022",
+        "sec-ch-ua-platform": "\u0022macOS\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
-        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 OS/Windows"
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 OS/macOS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "keep-alive",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 07:16:29 GMT",
-        "request-id": "486a5ae4-1ca4-41c7-badc-64bb9e00c68a",
+        "Date": "Thu, 11 Apr 2024 19:25:35 GMT",
+        "Keep-Alive": "timeout=5",
+        "request-id": "4137ed83-66a9-4383-b8c3-315a22f81414",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -36,14 +38,14 @@
         "odata.metadata": "https://endpoint/$metadata#jobs",
         "value": [
           {
-            "id": "JSSDKTest-JobSchedule-Basic-0f7d:job-1",
+            "id": "JSSDKTest-JobSchedule-Basic-7284:job-1",
             "displayName": "JobSchedule-1",
-            "url": "https://endpoint/jobs/JSSDKTest-JobSchedule-Basic-0f7d:job-1",
-            "eTag": "0x8DC0DBE3C60FC12",
-            "lastModified": "2024-01-05T07:16:28.7704082Z",
-            "creationTime": "2024-01-05T07:16:28.7244094Z",
+            "url": "https://endpoint/jobs/JSSDKTest-JobSchedule-Basic-7284:job-1",
+            "eTag": "0x8DC5A5D28CF63D5",
+            "lastModified": "2024-04-11T19:25:34.2906325Z",
+            "creationTime": "2024-04-11T19:25:34.2746326Z",
             "state": "active",
-            "stateTransitionTime": "2024-01-05T07:16:28.7704082Z",
+            "stateTransitionTime": "2024-04-11T19:25:34.2906325Z",
             "priority": 0,
             "maxParallelTasks": -1,
             "usesTaskDependencies": false,
@@ -53,11 +55,11 @@
               "maxTaskRetryCount": 0
             },
             "poolInfo": {
-              "poolId": "JSSDKTest-Pool-Basic-1b13"
+              "poolId": "JSSDKTest-Pool-Basic-f6d6"
             },
             "executionInfo": {
-              "startTime": "2024-01-05T07:16:28.7704082Z",
-              "poolId": "JSSDKTest-Pool-Basic-1b13"
+              "startTime": "2024-04-11T19:25:34.2906325Z",
+              "poolId": "JSSDKTest-Pool-Basic-f6d6"
             },
             "onAllTasksComplete": "noaction",
             "onTaskFailure": "noaction"
@@ -67,6 +69,6 @@
     }
   ],
   "Variables": {
-    "JOB_SCHEDULE": "JSSDKTest-JobSchedule-Basic-0f7d"
+    "JOB_SCHEDULE": "JSSDKTest-JobSchedule-Basic-7284"
   }
 }

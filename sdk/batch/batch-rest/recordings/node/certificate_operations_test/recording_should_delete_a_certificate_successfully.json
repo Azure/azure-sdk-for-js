@@ -7,38 +7,24 @@
         "Accept": "application/json",
         "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "fd970235-143e-4e60-b660-eb5b69216307",
+        "client-request-id": "abb4ee4a-9c84-45b8-a130-6016a9c58b82",
         "Connection": "close",
-        "ocp-date": "Thu, 11 Apr 2024 00:50:13 GMT",
+        "ocp-date": "Thu, 11 Apr 2024 18:28:28 GMT",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
-      "StatusCode": 403,
+      "StatusCode": 202,
       "ResponseHeaders": {
         "Connection": "close",
-        "Content-Length": "872",
-        "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Thu, 11 Apr 2024 00:50:13 GMT",
-        "request-id": "fe3ece3d-7267-408d-a2ee-188cc73bd8e4",
+        "Date": "Thu, 11 Apr 2024 18:28:29 GMT",
+        "request-id": "b314b63b-19c8-45cc-a2de-0400a0361d94",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff"
       },
-      "ResponseBody": {
-        "odata.metadata": "https://endpoint/$metadata#Microsoft.Azure.Batch.Protocol.Entities.Container.errors/@Element",
-        "code": "AuthenticationFailed",
-        "message": {
-          "lang": "en-US",
-          "value": "Server failed to authenticate the request. Make sure the value of Authorization header is formed correctly including the signature.\nRequestId:fe3ece3d-7267-408d-a2ee-188cc73bd8e4\nTime:2024-04-11T00:50:14.0734194Z"
-        },
-        "values": [
-          {
-            "key": "AuthenticationErrorDetail",
-            "value": "The MAC signature found in the HTTP request \u0027UB\u002Bt\u002BIEAhsILAZBF7fkol\u002BzPGQ/lCgvxikpoljqVzGY=\u0027 is not the same as any computed signature. Server used following string to sign: \u0027DELETE\n\n\n\n\n\n\n\n\n\n\n\nocp-date:Thu, 11 Apr 2024 00:50:13 GMT\n/batch_account/certificates(thumbprintAlgorithm=sha1,thumbprint=cff2ab63c8c955aaf71989efa641b906558d9fb7)\napi-version:2024-02-01.19.0\u0027."
-          }
-        ]
-      }
+      "ResponseBody": null
     }
   ],
   "Variables": {}

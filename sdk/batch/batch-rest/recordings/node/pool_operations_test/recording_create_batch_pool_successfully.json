@@ -5,16 +5,17 @@
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "cba36915-90cc-4706-b46b-27a3a8a3198a",
-        "Connection": "keep-alive",
+        "client-request-id": "06c09dd5-568a-486c-a07f-0c29c49f215c",
+        "Connection": "close",
         "Content-Length": "678",
         "Content-Type": "application/json; odata=minimalmetadata",
+        "ocp-date": "Thu, 11 Apr 2024 19:04:37 GMT",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": {
-        "id": "JSSDKTest-Pool-Basic-28c0",
+        "id": "JSSDKTest-Pool-Basic-851a",
         "vmSize": "Standard_D1_v2",
         "virtualMachineConfiguration": {
           "nodeAgentSKUId": "batch.node.windows amd64",
@@ -51,13 +52,14 @@
       },
       "StatusCode": 201,
       "ResponseHeaders": {
-        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-Basic-28c0",
+        "Connection": "close",
+        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-Basic-851a",
         "DataServiceVersion": "3.0",
-        "Date": "Tue, 26 Mar 2024 02:01:36 GMT",
-        "ETag": "0x8DC4D38AB257B22",
-        "Last-Modified": "Tue, 26 Mar 2024 02:01:36 GMT",
-        "Location": "https://endpoint/pools/JSSDKTest-Pool-Basic-28c0",
-        "request-id": "90ee997f-75e3-42a8-a1b6-d2585aad44e7",
+        "Date": "Thu, 11 Apr 2024 19:04:37 GMT",
+        "ETag": "0x8DC5A5A3C104B86",
+        "Last-Modified": "Thu, 11 Apr 2024 19:04:38 GMT",
+        "Location": "https://endpoint/pools/JSSDKTest-Pool-Basic-851a",
+        "request-id": "46cf672e-8332-4148-8d59-f11a327534e8",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -67,6 +69,6 @@
     }
   ],
   "Variables": {
-    "BASIC_POOL": "JSSDKTest-Pool-Basic-28c0"
+    "BASIC_POOL": "JSSDKTest-Pool-Basic-851a"
   }
 }

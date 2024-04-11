@@ -1,27 +1,29 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d/users/JSSDKTestUser?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d/users/JSSDKTestUser?api-version=2024-02-01.19.0",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "2c83e257-e301-4ec4-8337-67a4b2359a9b",
-        "Connection": "keep-alive",
+        "client-request-id": "05e2d2a6-0c4c-44d6-ad2c-0b4f139354a4",
+        "Connection": "close",
         "Content-Length": "32",
         "Content-Type": "application/json; odata=minimalmetadata",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "ocp-date": "Thu, 11 Apr 2024 18:37:08 GMT",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": {
         "password": "fakePasswordValue"
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d/users/JSSDKTestUser",
+        "Connection": "close",
+        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-Basic-daf4/nodes/tvmps_093df203eb1135d5ce97d6dcb5f38b5b82089853341bd271f0f883f367689796_d/users/JSSDKTestUser",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 04:21:39 GMT",
-        "request-id": "231b7ad4-ff3d-4050-a353-9bfab5ce9d8f",
+        "Date": "Thu, 11 Apr 2024 18:37:09 GMT",
+        "request-id": "cb81e87b-8c71-4a04-80b6-10d0dd2575da",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -31,6 +33,6 @@
     }
   ],
   "Variables": {
-    "BASIC_POOL": "JSSDKTest-Pool-Basic-82a4"
+    "BASIC_POOL": "JSSDKTest-Pool-Basic-daf4"
   }
 }

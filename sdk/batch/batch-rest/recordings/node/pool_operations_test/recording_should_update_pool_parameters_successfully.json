@@ -1,16 +1,17 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-28c0/updateproperties?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-851a/updateproperties?api-version=2024-02-01.19.0",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "ab6731fa-70b0-4e13-a29a-3191e749894a",
-        "Connection": "keep-alive",
+        "client-request-id": "e0b05ee7-396b-4449-b99e-b65f5d5eb93c",
+        "Connection": "close",
         "Content-Length": "164",
         "Content-Type": "application/json; odata=minimalmetadata",
+        "ocp-date": "Thu, 11 Apr 2024 19:05:16 GMT",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": {
@@ -28,13 +29,14 @@
       },
       "StatusCode": 204,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Length": "0",
-        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-Basic-28c0/updateproperties",
+        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-Basic-851a/updateproperties",
         "DataServiceVersion": "3.0",
-        "Date": "Tue, 26 Mar 2024 02:02:13 GMT",
-        "ETag": "0x8DC4D38C14F261E",
-        "Last-Modified": "Tue, 26 Mar 2024 02:02:13 GMT",
-        "request-id": "f81cf8e7-5c71-4f4b-bb9d-fb61ae37e321",
+        "Date": "Thu, 11 Apr 2024 19:05:16 GMT",
+        "ETag": "0x8DC5A5A53675522",
+        "Last-Modified": "Thu, 11 Apr 2024 19:05:17 GMT",
+        "request-id": "0472e2f1-5fc9-492e-8c04-177a94452249",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff"
@@ -42,25 +44,27 @@
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-28c0?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-851a?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip",
         "Authorization": "Sanitized",
-        "client-request-id": "1e796210-9c41-4754-8618-5eeab8626265",
-        "Connection": "keep-alive",
+        "client-request-id": "f8a8ddfd-4452-4001-bed8-87408364a50a",
+        "Connection": "close",
+        "ocp-date": "Thu, 11 Apr 2024 19:05:17 GMT",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Connection": "close",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Tue, 26 Mar 2024 02:02:13 GMT",
-        "ETag": "0x8DC4D38C14F261E",
-        "Last-Modified": "Tue, 26 Mar 2024 02:02:13 GMT",
-        "request-id": "812e19ec-8999-445f-8048-fc11d51055b6",
+        "Date": "Thu, 11 Apr 2024 19:05:17 GMT",
+        "ETag": "0x8DC5A5A53675522",
+        "Last-Modified": "Thu, 11 Apr 2024 19:05:17 GMT",
+        "request-id": "abdbfc16-407d-493c-bcf2-89cd395833a6",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -68,15 +72,15 @@
       },
       "ResponseBody": {
         "odata.metadata": "https://endpoint/$metadata#pools/@Element",
-        "id": "JSSDKTest-Pool-Basic-28c0",
-        "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-28c0",
-        "eTag": "0x8DC4D38C14F261E",
-        "lastModified": "2024-03-26T02:02:13.6464926Z",
-        "creationTime": "2024-03-26T02:01:36.4635408Z",
+        "id": "JSSDKTest-Pool-Basic-851a",
+        "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-851a",
+        "eTag": "0x8DC5A5A53675522",
+        "lastModified": "2024-04-11T19:05:17.2605218Z",
+        "creationTime": "2024-04-11T19:04:38.1025136Z",
         "state": "active",
-        "stateTransitionTime": "2024-03-26T02:01:36.4635408Z",
+        "stateTransitionTime": "2024-04-11T19:04:38.1025136Z",
         "allocationState": "steady",
-        "allocationStateTransitionTime": "2024-03-26T02:02:08.1651258Z",
+        "allocationStateTransitionTime": "2024-04-11T19:05:04.8513498Z",
         "vmSize": "standard_d1_v2",
         "resizeTimeout": "PT15M",
         "currentDedicatedNodes": 4,
@@ -145,6 +149,6 @@
     }
   ],
   "Variables": {
-    "BASIC_POOL": "JSSDKTest-Pool-Basic-28c0"
+    "BASIC_POOL": "JSSDKTest-Pool-Basic-851a"
   }
 }

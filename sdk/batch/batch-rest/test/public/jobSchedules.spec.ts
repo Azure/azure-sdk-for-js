@@ -37,7 +37,14 @@ describe("Job Schedule Operations Test", () => {
         body: {
           id: BASIC_POOL,
           vmSize: "Standard_D1_v2",
-          cloudServiceConfiguration: { osFamily: "4" },
+          virtualMachineConfiguration: {
+            nodeAgentSKUId: "batch.node.windows amd64",
+            imageReference: {
+              publisher: "microsoftwindowsserver",
+              offer: "windowsserver",
+              sku: "2022-datacenter",
+            },
+          },
           targetDedicatedNodes: 4,
           // Ensures there's a compute node file we can reference later
           startTask: { commandLine: "cmd /c echo hello > hello.txt" },

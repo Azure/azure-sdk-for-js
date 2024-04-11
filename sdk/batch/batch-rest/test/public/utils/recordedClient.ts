@@ -2,10 +2,9 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
-import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder";
+import { Recorder, RecorderStartOptions, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { ClientOptions } from "@azure-rest/core-client";
-// import { createTestCredential } from "@azure-tools/test-credential";
-import BatchServiceClient, { BatchClient, BatchSharedKeyCredentials } from "../../../src";
+import BatchServiceClient, { BatchClient } from "../../../src";
 import {
   fakeTestPasswordPlaceholder1,
   fakeAzureBatchAccount,
@@ -17,6 +16,8 @@ import {
 } from "@azure/identity";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { isNode } from "@azure/test-utils";
+import { NoOpCredential } from "@azure-tools/test-credential";
+import { AzureNamedKeyCredential } from "@azure/core-auth";
 
 const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback: {
@@ -56,19 +57,17 @@ const recorderEnvSetup: RecorderStartOptions = {
 export async function createRecorder(context: Context): Promise<Recorder> {
   const recorder = new Recorder(context.currentTest);
   await recorder.setMatcher("CustomDefaultMatcher", {
-    excludedHeaders: ["client-request-id"],
+    excludedHeaders: ["client-request-id", "ocp-date"],
   });
   await recorder.start(recorderEnvSetup);
   return recorder;
 }
 
 export function createBatchClient(recorder?: Recorder, options: ClientOptions = {}): BatchClient {
-  const credential = isNode
-    ? // ? new AzureCliCredential()
-      ({
-        accountName: env.AZURE_BATCH_ACCOUNT!,
-        accountKey: env.AZURE_BATCH_KEY!,
-      } as BatchSharedKeyCredentials)
+  const credential = isPlaybackMode()
+    ? new NoOpCredential()
+    : isNode
+    ? new AzureNamedKeyCredential(env.AZURE_BATCH_ACCOUNT!, env.AZURE_BATCH_ACCESS_KEY!)
     : new InteractiveBrowserCredential({
         clientId: "04b07795-8ddb-461a-bbee-02f9e1bf7b46",
         tokenCachePersistenceOptions: {
@@ -77,9 +76,9 @@ export function createBatchClient(recorder?: Recorder, options: ClientOptions = 
         },
       });
 
-  // if (!isPlaybackMode() && env.AZURE_BATCH_ENDPOINT) {
-  //   throw Error("AZURE_BATCH_ENDPOINT env variable should be set in live mode");
-  // }
+  if (!isPlaybackMode() && env.AZURE_BATCH_ENDPOINT) {
+    throw Error("AZURE_BATCH_ENDPOINT env variable should be set in live mode");
+  }
 
   return BatchServiceClient(
     env.AZURE_BATCH_ENDPOINT! || "https://dummy.eastus.batch.azure.com",

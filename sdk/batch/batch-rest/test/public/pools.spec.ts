@@ -38,9 +38,6 @@ const ENDPOINT_POOL = getResourceName("Pool-Endpoint");
 const TEST_POOL3 = getResourceName("Pool-3");
 const SECURITY_PROFILE_POOL = getResourceName("Pool-SecurityProfile");
 const AUTO_OS_UPGRADE_POOL = getResourceName("Pool-AutoOSUpgrade");
-// const VMSIZE_SMALL = "small";
-// const certThumb = "cff2ab63c8c955aaf71989efa641b906558d9fb7";
-// const certAlgorithm = "sha1";
 
 describe("Pool Operations Test", () => {
   let recorder: Recorder;
@@ -51,41 +48,6 @@ describe("Pool Operations Test", () => {
   /**
    * Provision helper resources needed for testing pools
    */
-  // before(async function () {
-  // const batchClient = createBatchClient();
-
-  // const cert: CertificatesAddParameters = {
-  //       body: {thumbprint: certThumb,
-  //       thumbprintAlgorithm: certAlgorithm,
-  //       password: "nodesdk",
-  //       certificateFormat: "pfx",
-  //       data:
-  //         "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"
-  //     },
-  //     contentType: "application/json; odata=minimalmetadata"
-  //   };
-
-  //   const certResponse = await batchClient.path("/certificates").post(cert);
-  //   if (isUnexpected(certResponse)) {
-  //       fail(`Received unexpected status code from creating certificate: ${certResponse.status}
-  //             Unable to provision resource needed for Pool Testing`)
-  //     }
-  // })
-
-  /**
-   * Unprovision helper resources after all tests ran
-   */
-  // after(async function () {
-  // const batchClient = createBatchClient();
-
-  //   const certResponse = await batchClient.path("/certificates(thumbprintAlgorithm={thumbprintAlgorithm},thumbprint={thumbprint})", certAlgorithm, certThumb).delete();
-  //   if (isUnexpected(certResponse)) {
-  //       fail(`Received unexpected status code from deleting certificate: ${certResponse.status}. Certificate Resource Leaked`);
-  //     }
-
-  //     let routePath = "/certificates(thumbprintAlgorithm={thumbprintAlgorithm},thumbprint={thumbprint})";
-  //     routePath.replace
-  // })
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
@@ -289,7 +251,7 @@ describe("Pool Operations Test", () => {
   });
 
   it("should list a maximum number of pools", async () => {
-    const listOptions = { queryParameters: { maxResults: 1 } };
+    const listOptions = { queryParameters: { maxresults: 1 } };
     const listPoolResult = await batchClient.path("/pools").get(listOptions);
 
     if (isUnexpected(listPoolResult)) {
@@ -299,23 +261,22 @@ describe("Pool Operations Test", () => {
 
     assert.isAtLeast(
       listPoolResult.body.value?.length ?? 0,
-      listOptions.queryParameters.maxResults
+      listOptions.queryParameters.maxresults
     );
   });
 
   it("should fail to list pools with invalid max", async () => {
-    const listOptions = { queryParameters: { maxResults: -5 } };
+    const listOptions = { queryParameters: { maxresults: -5 } };
     const listPoolResult = await batchClient.path("/pools").get(listOptions);
 
     if (!isUnexpected(listPoolResult)) {
       fail(`Received successful list pool result when expected an error reply`);
     }
 
-    // TODO Once Error Responses are fixed, modify assertion below
-    // assert.isDefined(listPoolResult.body.error);
-    // TODO Remove console statement
-    // console.log(listPoolResult.body.error);
-    // assert.equal(listPoolResult.body.message, '"options.poolListOptions.maxResults" with value "-5" should satisfy the constraint "InclusiveMinimum": 1.'))
+    expect(listPoolResult.body.code).to.equal("InvalidQueryParameterValue");
+    expect(listPoolResult.body.values?.[0].value).to.equal("maxresults");
+    expect(listPoolResult.body.values?.[1].value).to.equal("-5");
+    expect(listPoolResult.body.values?.[2].value).to.equal("MaxResults cannot be less than 1");
   });
 
   it("should list pools according to filter", async () => {
@@ -497,51 +458,6 @@ describe("Pool Operations Test", () => {
     assert.equal(endpointPoolObj[0].dedicated!.idle, 1);
     assert.equal(endpointPoolObj[0].lowPriority!.total, 0);
   }).timeout(LONG_TEST_TIMEOUT);
-
-  // it("should add a pool with vnet and get expected error", async () => {
-  //     const pool: Pool = {
-  //       id: recorder.variable("VNET_POOL", VNET_POOL),
-  //       vmSize: VMSIZE_A1,
-  //       cloudServiceConfiguration: { osFamily: "4" },
-  //       targetDedicatedNodes: 0,
-  //       networkConfiguration: {
-  //         subnetId:
-  //           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1"
-  //       }
-  //     };
-
-  //     try {
-  //       await batchClient.pool.add(pool);
-  //       assert.fail("Expected error to be thrown");
-  //     } catch (error: any) {
-  //       assert.equal(error.statusCode, 403);
-  //       assert.equal(error.details.code, "Forbidden");
-  //     }
-  //   });
-
-  //   it("should add a pool with a custom image and get expected error", async () => {
-  //     const pool: Pool = {
-  //       id: recorder.variable("IMAGE_POOL", IMAGE_POOL),
-  //       vmSize: VMSIZE_A1,
-  //       virtualMachineConfiguration: {
-  //         imageReference: {
-  //           virtualMachineImageId:
-  //             "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test/providers/Microsoft.Compute/images/FakeImage"
-  //         },
-  //         nodeAgentSKUId: "batch.node.ubuntu 16.04"
-  //       },
-  //       targetDedicatedNodes: 0
-  //     };
-
-  //     try {
-  //       await batchClient.pool.add(pool);
-  //       assert.fail("Expected error to be thrown");
-  //     } catch (error: any) {
-  //       assert.equal(error.statusCode, 400);
-  //       assert.equal(error.details.code, "InvalidPropertyValue");
-  //       assert.equal(error.details.values[0].value, "virtualMachineImageId");
-  //     }
-  //   });
 
   it("should create a second pool successfully", async () => {
     const poolAddParams: CreatePoolParameters = {
