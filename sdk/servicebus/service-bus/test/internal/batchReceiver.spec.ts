@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import chai from "chai";
-const expect = char.expect;
 import Long from "long";
 import chaiAsPromised from "chai-as-promised";
 import { ServiceBusMessage, delay, ServiceBusSender, ServiceBusReceivedMessage } from "../../src";
@@ -32,6 +31,7 @@ import { testLogger } from "./utils/misc";
 const should = chai.should();
 chai.use(chaiAsPromised);
 const assert = chai.assert;
+const expect = chai.expect;
 
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
 const withSessionTestClientType = getRandomTestClientTypeWithSessions();
