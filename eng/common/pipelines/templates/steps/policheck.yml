@@ -9,6 +9,7 @@ steps:
     inputs:
       azureSubscription: 'Azure SDK Artifacts'
       ScriptType: 'InlineScript'
+      azurePowerShellVersion: LatestVersion 
       pwsh: true
       Inline: |
         azcopy copy "https://azuresdkartifacts.blob.core.windows.net/policheck/${{ parameters.ExclusionDataBaseFileName }}.mdb" "$(Build.BinariesDirectory)"
