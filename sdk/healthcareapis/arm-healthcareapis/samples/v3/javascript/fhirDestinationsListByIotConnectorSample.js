@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all FHIR destinations for the given IoT Connector
  *
  * @summary Lists all FHIR destinations for the given IoT Connector
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/iotconnectors/iotconnector_fhirdestination_List.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/iotconnectors/iotconnector_fhirdestination_List.json
  */
 async function listIoTConnectors() {
   const subscriptionId = process.env["HEALTHCAREAPIS_SUBSCRIPTION_ID"] || "subid";
