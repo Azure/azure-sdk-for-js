@@ -16,7 +16,7 @@ import { NginxManagementClient } from "../nginxManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,7 +29,7 @@ import {
   CertificatesCreateOrUpdateOptionalParams,
   CertificatesCreateOrUpdateResponse,
   CertificatesDeleteOptionalParams,
-  CertificatesListNextResponse
+  CertificatesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,7 +54,7 @@ export class CertificatesImpl implements Certificates {
   public list(
     resourceGroupName: string,
     deploymentName: string,
-    options?: CertificatesListOptionalParams
+    options?: CertificatesListOptionalParams,
   ): PagedAsyncIterableIterator<NginxCertificate> {
     const iter = this.listPagingAll(resourceGroupName, deploymentName, options);
     return {
@@ -72,9 +72,9 @@ export class CertificatesImpl implements Certificates {
           resourceGroupName,
           deploymentName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -82,7 +82,7 @@ export class CertificatesImpl implements Certificates {
     resourceGroupName: string,
     deploymentName: string,
     options?: CertificatesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NginxCertificate[]> {
     let result: CertificatesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +98,7 @@ export class CertificatesImpl implements Certificates {
         resourceGroupName,
         deploymentName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -110,12 +110,12 @@ export class CertificatesImpl implements Certificates {
   private async *listPagingAll(
     resourceGroupName: string,
     deploymentName: string,
-    options?: CertificatesListOptionalParams
+    options?: CertificatesListOptionalParams,
   ): AsyncIterableIterator<NginxCertificate> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       deploymentName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -132,11 +132,11 @@ export class CertificatesImpl implements Certificates {
     resourceGroupName: string,
     deploymentName: string,
     certificateName: string,
-    options?: CertificatesGetOptionalParams
+    options?: CertificatesGetOptionalParams,
   ): Promise<CertificatesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, deploymentName, certificateName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -151,7 +151,7 @@ export class CertificatesImpl implements Certificates {
     resourceGroupName: string,
     deploymentName: string,
     certificateName: string,
-    options?: CertificatesCreateOrUpdateOptionalParams
+    options?: CertificatesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CertificatesCreateOrUpdateResponse>,
@@ -160,21 +160,20 @@ export class CertificatesImpl implements Certificates {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CertificatesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -183,8 +182,8 @@ export class CertificatesImpl implements Certificates {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -192,15 +191,15 @@ export class CertificatesImpl implements Certificates {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, deploymentName, certificateName, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       CertificatesCreateOrUpdateResponse,
@@ -208,7 +207,7 @@ export class CertificatesImpl implements Certificates {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -225,13 +224,13 @@ export class CertificatesImpl implements Certificates {
     resourceGroupName: string,
     deploymentName: string,
     certificateName: string,
-    options?: CertificatesCreateOrUpdateOptionalParams
+    options?: CertificatesCreateOrUpdateOptionalParams,
   ): Promise<CertificatesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       deploymentName,
       certificateName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -247,25 +246,24 @@ export class CertificatesImpl implements Certificates {
     resourceGroupName: string,
     deploymentName: string,
     certificateName: string,
-    options?: CertificatesDeleteOptionalParams
+    options?: CertificatesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -274,8 +272,8 @@ export class CertificatesImpl implements Certificates {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -283,19 +281,19 @@ export class CertificatesImpl implements Certificates {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, deploymentName, certificateName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -312,13 +310,13 @@ export class CertificatesImpl implements Certificates {
     resourceGroupName: string,
     deploymentName: string,
     certificateName: string,
-    options?: CertificatesDeleteOptionalParams
+    options?: CertificatesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       deploymentName,
       certificateName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -332,11 +330,11 @@ export class CertificatesImpl implements Certificates {
   private _list(
     resourceGroupName: string,
     deploymentName: string,
-    options?: CertificatesListOptionalParams
+    options?: CertificatesListOptionalParams,
   ): Promise<CertificatesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, deploymentName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -351,11 +349,11 @@ export class CertificatesImpl implements Certificates {
     resourceGroupName: string,
     deploymentName: string,
     nextLink: string,
-    options?: CertificatesListNextOptionalParams
+    options?: CertificatesListNextOptionalParams,
   ): Promise<CertificatesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, deploymentName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -363,16 +361,15 @@ export class CertificatesImpl implements Certificates {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/certificates/{certificateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/certificates/{certificateName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NginxCertificate
+      bodyMapper: Mappers.NginxCertificate,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -380,31 +377,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.deploymentName,
-    Parameters.certificateName
+    Parameters.certificateName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/certificates/{certificateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/certificates/{certificateName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.NginxCertificate
+      bodyMapper: Mappers.NginxCertificate,
     },
     201: {
-      bodyMapper: Mappers.NginxCertificate
+      bodyMapper: Mappers.NginxCertificate,
     },
     202: {
-      bodyMapper: Mappers.NginxCertificate
+      bodyMapper: Mappers.NginxCertificate,
     },
     204: {
-      bodyMapper: Mappers.NginxCertificate
+      bodyMapper: Mappers.NginxCertificate,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion],
@@ -413,15 +409,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.deploymentName,
-    Parameters.certificateName
+    Parameters.certificateName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/certificates/{certificateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/certificates/{certificateName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -429,8 +424,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -438,51 +433,50 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.deploymentName,
-    Parameters.certificateName
+    Parameters.certificateName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/certificates",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/certificates",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NginxCertificateListResponse
+      bodyMapper: Mappers.NginxCertificateListResponse,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deploymentName
+    Parameters.deploymentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NginxCertificateListResponse
+      bodyMapper: Mappers.NginxCertificateListResponse,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.deploymentName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

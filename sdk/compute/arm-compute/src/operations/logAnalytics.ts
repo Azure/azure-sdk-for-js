@@ -14,7 +14,7 @@ import { ComputeManagementClient } from "../computeManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -23,7 +23,7 @@ import {
   LogAnalyticsExportRequestRateByIntervalResponse,
   ThrottledRequestsInput,
   LogAnalyticsExportThrottledRequestsOptionalParams,
-  LogAnalyticsExportThrottledRequestsResponse
+  LogAnalyticsExportThrottledRequestsResponse,
 } from "../models";
 
 /** Class containing LogAnalytics operations. */
@@ -48,7 +48,7 @@ export class LogAnalyticsImpl implements LogAnalytics {
   async beginExportRequestRateByInterval(
     location: string,
     parameters: RequestRateByIntervalInput,
-    options?: LogAnalyticsExportRequestRateByIntervalOptionalParams
+    options?: LogAnalyticsExportRequestRateByIntervalOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LogAnalyticsExportRequestRateByIntervalResponse>,
@@ -57,21 +57,20 @@ export class LogAnalyticsImpl implements LogAnalytics {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<LogAnalyticsExportRequestRateByIntervalResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -80,8 +79,8 @@ export class LogAnalyticsImpl implements LogAnalytics {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -89,15 +88,15 @@ export class LogAnalyticsImpl implements LogAnalytics {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { location, parameters, options },
-      spec: exportRequestRateByIntervalOperationSpec
+      spec: exportRequestRateByIntervalOperationSpec,
     });
     const poller = await createHttpPoller<
       LogAnalyticsExportRequestRateByIntervalResponse,
@@ -105,7 +104,7 @@ export class LogAnalyticsImpl implements LogAnalytics {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -121,12 +120,12 @@ export class LogAnalyticsImpl implements LogAnalytics {
   async beginExportRequestRateByIntervalAndWait(
     location: string,
     parameters: RequestRateByIntervalInput,
-    options?: LogAnalyticsExportRequestRateByIntervalOptionalParams
+    options?: LogAnalyticsExportRequestRateByIntervalOptionalParams,
   ): Promise<LogAnalyticsExportRequestRateByIntervalResponse> {
     const poller = await this.beginExportRequestRateByInterval(
       location,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -140,7 +139,7 @@ export class LogAnalyticsImpl implements LogAnalytics {
   async beginExportThrottledRequests(
     location: string,
     parameters: ThrottledRequestsInput,
-    options?: LogAnalyticsExportThrottledRequestsOptionalParams
+    options?: LogAnalyticsExportThrottledRequestsOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LogAnalyticsExportThrottledRequestsResponse>,
@@ -149,21 +148,20 @@ export class LogAnalyticsImpl implements LogAnalytics {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<LogAnalyticsExportThrottledRequestsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -172,8 +170,8 @@ export class LogAnalyticsImpl implements LogAnalytics {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -181,15 +179,15 @@ export class LogAnalyticsImpl implements LogAnalytics {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { location, parameters, options },
-      spec: exportThrottledRequestsOperationSpec
+      spec: exportThrottledRequestsOperationSpec,
     });
     const poller = await createHttpPoller<
       LogAnalyticsExportThrottledRequestsResponse,
@@ -197,7 +195,7 @@ export class LogAnalyticsImpl implements LogAnalytics {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -212,12 +210,12 @@ export class LogAnalyticsImpl implements LogAnalytics {
   async beginExportThrottledRequestsAndWait(
     location: string,
     parameters: ThrottledRequestsInput,
-    options?: LogAnalyticsExportThrottledRequestsOptionalParams
+    options?: LogAnalyticsExportThrottledRequestsOptionalParams,
   ): Promise<LogAnalyticsExportThrottledRequestsResponse> {
     const poller = await this.beginExportThrottledRequests(
       location,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -226,66 +224,64 @@ export class LogAnalyticsImpl implements LogAnalytics {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const exportRequestRateByIntervalOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/logAnalytics/apiAccess/getRequestRateByInterval",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/logAnalytics/apiAccess/getRequestRateByInterval",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.LogAnalyticsOperationResult
+      bodyMapper: Mappers.LogAnalyticsOperationResult,
     },
     201: {
-      bodyMapper: Mappers.LogAnalyticsOperationResult
+      bodyMapper: Mappers.LogAnalyticsOperationResult,
     },
     202: {
-      bodyMapper: Mappers.LogAnalyticsOperationResult
+      bodyMapper: Mappers.LogAnalyticsOperationResult,
     },
     204: {
-      bodyMapper: Mappers.LogAnalyticsOperationResult
+      bodyMapper: Mappers.LogAnalyticsOperationResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters31,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.location,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const exportThrottledRequestsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/logAnalytics/apiAccess/getThrottledRequests",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/logAnalytics/apiAccess/getThrottledRequests",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.LogAnalyticsOperationResult
+      bodyMapper: Mappers.LogAnalyticsOperationResult,
     },
     201: {
-      bodyMapper: Mappers.LogAnalyticsOperationResult
+      bodyMapper: Mappers.LogAnalyticsOperationResult,
     },
     202: {
-      bodyMapper: Mappers.LogAnalyticsOperationResult
+      bodyMapper: Mappers.LogAnalyticsOperationResult,
     },
     204: {
-      bodyMapper: Mappers.LogAnalyticsOperationResult
+      bodyMapper: Mappers.LogAnalyticsOperationResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters32,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.location,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

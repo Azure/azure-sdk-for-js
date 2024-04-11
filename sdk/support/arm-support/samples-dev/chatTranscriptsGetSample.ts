@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns chatTranscript details for a support ticket under a subscription.
  *
  * @summary Returns chatTranscript details for a support ticket under a subscription.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/GetchatTranscriptDetailsForSubscriptionSupportTicket.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/GetchatTranscriptDetailsForSubscriptionSupportTicket.json
  */
 async function getChatTranscriptDetailsForASubscriptionSupportTicket() {
   const subscriptionId = process.env["SUPPORT_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function getChatTranscriptDetailsForASubscriptionSupportTicket() {
   const client = new MicrosoftSupport(credential, subscriptionId);
   const result = await client.chatTranscripts.get(
     supportTicketName,
-    chatTranscriptName
+    chatTranscriptName,
   );
   console.log(result);
 }

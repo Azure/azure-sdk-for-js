@@ -18,7 +18,7 @@ import {
   AttachedDataNetworksCreateOrUpdateResponse,
   TagsObject,
   AttachedDataNetworksUpdateTagsOptionalParams,
-  AttachedDataNetworksUpdateTagsResponse
+  AttachedDataNetworksUpdateTagsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface AttachedDataNetworks {
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
-    options?: AttachedDataNetworksListByPacketCoreDataPlaneOptionalParams
+    options?: AttachedDataNetworksListByPacketCoreDataPlaneOptionalParams,
   ): PagedAsyncIterableIterator<AttachedDataNetwork>;
   /**
    * Deletes the specified attached data network.
@@ -50,7 +50,7 @@ export interface AttachedDataNetworks {
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
     attachedDataNetworkName: string,
-    options?: AttachedDataNetworksDeleteOptionalParams
+    options?: AttachedDataNetworksDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified attached data network.
@@ -65,7 +65,7 @@ export interface AttachedDataNetworks {
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
     attachedDataNetworkName: string,
-    options?: AttachedDataNetworksDeleteOptionalParams
+    options?: AttachedDataNetworksDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets information about the specified attached data network.
@@ -80,7 +80,7 @@ export interface AttachedDataNetworks {
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
     attachedDataNetworkName: string,
-    options?: AttachedDataNetworksGetOptionalParams
+    options?: AttachedDataNetworksGetOptionalParams,
   ): Promise<AttachedDataNetworksGetResponse>;
   /**
    * Creates or updates an attached data network. Must be created in the same location as its parent
@@ -98,7 +98,7 @@ export interface AttachedDataNetworks {
     packetCoreDataPlaneName: string,
     attachedDataNetworkName: string,
     parameters: AttachedDataNetwork,
-    options?: AttachedDataNetworksCreateOrUpdateOptionalParams
+    options?: AttachedDataNetworksCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AttachedDataNetworksCreateOrUpdateResponse>,
@@ -121,7 +121,7 @@ export interface AttachedDataNetworks {
     packetCoreDataPlaneName: string,
     attachedDataNetworkName: string,
     parameters: AttachedDataNetwork,
-    options?: AttachedDataNetworksCreateOrUpdateOptionalParams
+    options?: AttachedDataNetworksCreateOrUpdateOptionalParams,
   ): Promise<AttachedDataNetworksCreateOrUpdateResponse>;
   /**
    * Updates an attached data network tags.
@@ -138,6 +138,6 @@ export interface AttachedDataNetworks {
     packetCoreDataPlaneName: string,
     attachedDataNetworkName: string,
     parameters: TagsObject,
-    options?: AttachedDataNetworksUpdateTagsOptionalParams
+    options?: AttachedDataNetworksUpdateTagsOptionalParams,
   ): Promise<AttachedDataNetworksUpdateTagsResponse>;
 }

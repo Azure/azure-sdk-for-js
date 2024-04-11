@@ -12,7 +12,7 @@ import {
   VirtualMachineExtensionImagesListTypesOptionalParams,
   VirtualMachineExtensionImagesListTypesResponse,
   VirtualMachineExtensionImagesListVersionsOptionalParams,
-  VirtualMachineExtensionImagesListVersionsResponse
+  VirtualMachineExtensionImagesListVersionsResponse,
 } from "../models";
 
 /** Interface representing a VirtualMachineExtensionImages. */
@@ -30,7 +30,7 @@ export interface VirtualMachineExtensionImages {
     publisherName: string,
     typeParam: string,
     version: string,
-    options?: VirtualMachineExtensionImagesGetOptionalParams
+    options?: VirtualMachineExtensionImagesGetOptionalParams,
   ): Promise<VirtualMachineExtensionImagesGetResponse>;
   /**
    * Gets a list of virtual machine extension image types.
@@ -41,7 +41,7 @@ export interface VirtualMachineExtensionImages {
   listTypes(
     location: string,
     publisherName: string,
-    options?: VirtualMachineExtensionImagesListTypesOptionalParams
+    options?: VirtualMachineExtensionImagesListTypesOptionalParams,
   ): Promise<VirtualMachineExtensionImagesListTypesResponse>;
   /**
    * Gets a list of virtual machine extension image versions.
@@ -54,6 +54,6 @@ export interface VirtualMachineExtensionImages {
     location: string,
     publisherName: string,
     typeParam: string,
-    options?: VirtualMachineExtensionImagesListVersionsOptionalParams
+    options?: VirtualMachineExtensionImagesListVersionsOptionalParams,
   ): Promise<VirtualMachineExtensionImagesListVersionsResponse>;
 }

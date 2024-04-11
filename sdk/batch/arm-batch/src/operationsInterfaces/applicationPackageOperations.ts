@@ -17,7 +17,7 @@ import {
   ApplicationPackageCreateResponse,
   ApplicationPackageDeleteOptionalParams,
   ApplicationPackageGetOptionalParams,
-  ApplicationPackageGetResponse
+  ApplicationPackageGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface ApplicationPackageOperations {
     resourceGroupName: string,
     accountName: string,
     applicationName: string,
-    options?: ApplicationPackageListOptionalParams
+    options?: ApplicationPackageListOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationPackage>;
   /**
    * Activates the specified application package. This should be done after the `ApplicationPackage` was
@@ -53,7 +53,7 @@ export interface ApplicationPackageOperations {
     applicationName: string,
     versionName: string,
     parameters: ActivateApplicationPackageParameters,
-    options?: ApplicationPackageActivateOptionalParams
+    options?: ApplicationPackageActivateOptionalParams,
   ): Promise<ApplicationPackageActivateResponse>;
   /**
    * Creates an application package record. The record contains a storageUrl where the package should be
@@ -71,7 +71,7 @@ export interface ApplicationPackageOperations {
     accountName: string,
     applicationName: string,
     versionName: string,
-    options?: ApplicationPackageCreateOptionalParams
+    options?: ApplicationPackageCreateOptionalParams,
   ): Promise<ApplicationPackageCreateResponse>;
   /**
    * Deletes an application package record and its associated binary file.
@@ -86,7 +86,7 @@ export interface ApplicationPackageOperations {
     accountName: string,
     applicationName: string,
     versionName: string,
-    options?: ApplicationPackageDeleteOptionalParams
+    options?: ApplicationPackageDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets information about the specified application package.
@@ -101,6 +101,6 @@ export interface ApplicationPackageOperations {
     accountName: string,
     applicationName: string,
     versionName: string,
-    options?: ApplicationPackageGetOptionalParams
+    options?: ApplicationPackageGetOptionalParams,
   ): Promise<ApplicationPackageGetResponse>;
 }

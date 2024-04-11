@@ -12,6 +12,22 @@
 
 ### Other Changes
 
+## 1.15.2 (2024-04-09)
+
+### Other Changes
+
+- Revert TypeScript output target to ES2017.
+
+## 1.15.1 (2024-03-20)
+
+### Bugs Fixed
+
+- Fixed an issue where `proxyPolicy` was ignoring a custom port setting. [PR #28974](https://github.com/Azure/azure-sdk-for-js/pull/28974)
+
+### Other Changes
+
+- Add top-level `browser` field to `package.json` as fallback for legacy bundlers that do not support the `exports` field.
+
 ## 1.15.0 (2024-03-12)
 
 ### Bugs Fixed

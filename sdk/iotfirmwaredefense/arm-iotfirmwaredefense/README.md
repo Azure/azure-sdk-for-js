@@ -2,11 +2,11 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure IoTFirmwareDefense client.
 
-The definitions and parameters in this swagger specification will be used to manage the IoT Firmware Defense resources.
+Firmware & IoT Security REST API
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/iotfirmwaredefense/arm-iotfirmwaredefense) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-iotfirmwaredefense) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-iotfirmwaredefense?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-iotfirmwaredefense) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

@@ -31,7 +31,7 @@ async function listsAllAvailableVirtualMachineSizesToWhichTheSpecifiedVirtualMac
   const resArray = new Array();
   for await (let item of client.virtualMachines.listAvailableSizes(
     resourceGroupName,
-    vmName
+    vmName,
   )) {
     resArray.push(item);
   }

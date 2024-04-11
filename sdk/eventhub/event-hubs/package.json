@@ -1,7 +1,7 @@
 {
   "name": "@azure/event-hubs",
   "sdk-type": "client",
-  "version": "5.11.4",
+  "version": "5.11.5",
   "description": "Azure Event Hubs SDK for JS.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -150,7 +150,7 @@
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^10.0.0",
     "moment": "^2.24.0",
-    "c8": "^8.0.0",
+    "c8": "^9.1.0",
     "puppeteer": "^22.2.0",
     "rimraf": "^5.0.5",
     "sinon": "^17.0.0",

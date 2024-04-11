@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CapacityReservationGroupUpdate,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -31,14 +31,14 @@ async function capacityReservationGroupUpdateMaximumSetGen() {
   const capacityReservationGroupName = "aaaaaaaaaaaaaaaaaaaaaa";
   const parameters: CapacityReservationGroupUpdate = {
     instanceView: {},
-    tags: { key5355: "aaa" }
+    tags: { key5355: "aaa" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.capacityReservationGroups.update(
     resourceGroupName,
     capacityReservationGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -61,7 +61,7 @@ async function capacityReservationGroupUpdateMinimumSetGen() {
   const result = await client.capacityReservationGroups.update(
     resourceGroupName,
     capacityReservationGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

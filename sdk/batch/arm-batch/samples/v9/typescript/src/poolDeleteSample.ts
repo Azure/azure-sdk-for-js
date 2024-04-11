@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified pool.
  *
  * @summary Deletes the specified pool.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PoolDelete.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/PoolDelete.json
  */
 async function deletePool() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -31,7 +31,7 @@ async function deletePool() {
   const result = await client.poolOperations.beginDeleteAndWait(
     resourceGroupName,
     accountName,
-    poolName
+    poolName,
   );
   console.log(result);
 }

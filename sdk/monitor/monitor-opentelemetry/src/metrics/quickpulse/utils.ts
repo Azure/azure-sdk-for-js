@@ -7,7 +7,7 @@ import {
   DocumentIngress,
   Exception,
   KeyValuePairString,
-  KnownDocumentIngressDocumentType,
+  KnownDocumentType,
   MetricPoint,
   MonitoringDataPoint,
   RemoteDependency,
@@ -151,6 +151,8 @@ export function resourceMetricsToQuickpulseDataPoint(
       metric.dataPoints.forEach((dataPoint) => {
         let metricPoint: MetricPoint = {
           weight: 4,
+          name: "",
+          value: 0,
         };
 
         // Update name to expected value in Quickpulse, needed because those names are invalid in OTel
@@ -214,7 +216,7 @@ function getIso8601Duration(milliseconds: number) {
 
 export function getSpanDocument(span: ReadableSpan): Request | RemoteDependency {
   let document: Request | RemoteDependency = {
-    documentType: KnownDocumentIngressDocumentType.Request,
+    documentType: KnownDocumentType.Request,
   };
   const httpMethod = span.attributes[SEMATTRS_HTTP_METHOD];
   const grpcStatusCode = span.attributes[SEMATTRS_RPC_GRPC_STATUS_CODE];
@@ -232,7 +234,7 @@ export function getSpanDocument(span: ReadableSpan): Request | RemoteDependency 
     }
 
     document = {
-      documentType: KnownDocumentIngressDocumentType.Request,
+      documentType: KnownDocumentType.Request,
       name: span.name,
       url: url,
       responseCode: code,
@@ -246,7 +248,7 @@ export function getSpanDocument(span: ReadableSpan): Request | RemoteDependency 
     }
 
     document = {
-      documentType: KnownDocumentIngressDocumentType.RemoteDependency,
+      documentType: KnownDocumentType.RemoteDependency,
       name: span.name,
       commandName: url,
       resultCode: code,
@@ -259,19 +261,19 @@ export function getSpanDocument(span: ReadableSpan): Request | RemoteDependency 
 
 export function getLogDocument(logRecord: LogRecord): Trace | Exception {
   let document: Trace | Exception = {
-    documentType: KnownDocumentIngressDocumentType.Exception,
+    documentType: KnownDocumentType.Exception,
   };
   const exceptionType = String(logRecord.attributes[SEMATTRS_EXCEPTION_TYPE]);
   if (exceptionType) {
     const exceptionMessage = String(logRecord.attributes[SEMATTRS_EXCEPTION_MESSAGE]);
     document = {
-      documentType: KnownDocumentIngressDocumentType.Exception,
+      documentType: KnownDocumentType.Exception,
       exceptionType: exceptionType,
       exceptionMessage: exceptionMessage,
     };
   } else {
     document = {
-      documentType: KnownDocumentIngressDocumentType.Trace,
+      documentType: KnownDocumentType.Trace,
       message: String(logRecord.body),
     };
   }

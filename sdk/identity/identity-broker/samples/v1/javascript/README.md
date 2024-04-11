@@ -14,7 +14,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 
 | **File Name**     | **Description**       |
 | ----------------- | --------------------- |
-| [index.js][index] | Demonstrates [WAM broker authentication](https://learn.microsoft.com/azure/active-directory/develop/scenario-desktop-acquire-token-wam) scenario on electron app with the usage of identity broker plugin package along with the InteractiveBrowserCredential from the identity package. |
+| [index.js][index] | Demonstrates [WAM broker authentication](https://learn.microsoft.com/entra/identity-platform/scenario-desktop-acquire-token-wam) scenario on electron app with the usage of identity broker plugin package along with the InteractiveBrowserCredential from the identity package. |
 
 ## Prerequisites
 
@@ -60,6 +60,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [index]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity-broker/samples/v1/javascript/index.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/identity
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azureactivedirectoryappregistration]: https://learn.microsoft.com/azure/active-directory/develop/quickstart-register-app
+[createinstance_azureactivedirectoryappregistration]: https://learn.microsoft.com/entra/identity-platform/quickstart-register-app
 [createinstance_azurekeyvault]: https://learn.microsoft.com/azure/key-vault/quick-create-portal
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-broker
