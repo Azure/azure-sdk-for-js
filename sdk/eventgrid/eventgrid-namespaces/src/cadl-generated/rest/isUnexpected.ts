@@ -30,22 +30,22 @@ export function isUnexpected(
   response:
     | PublishCloudEvent200Response
     | PublishCloudEvents200Response
-    | PublishCloudEventDefaultResponse
+    | PublishCloudEventDefaultResponse,
 ): response is PublishCloudEventDefaultResponse;
 export function isUnexpected(
-  response: ReceiveCloudEvents200Response | ReceiveCloudEventsDefaultResponse
+  response: ReceiveCloudEvents200Response | ReceiveCloudEventsDefaultResponse,
 ): response is ReceiveCloudEventsDefaultResponse;
 export function isUnexpected(
-  response: AcknowledgeCloudEvents200Response | AcknowledgeCloudEventsDefaultResponse
+  response: AcknowledgeCloudEvents200Response | AcknowledgeCloudEventsDefaultResponse,
 ): response is AcknowledgeCloudEventsDefaultResponse;
 export function isUnexpected(
-  response: ReleaseCloudEvents200Response | ReleaseCloudEventsDefaultResponse
+  response: ReleaseCloudEvents200Response | ReleaseCloudEventsDefaultResponse,
 ): response is ReleaseCloudEventsDefaultResponse;
 export function isUnexpected(
-  response: RejectCloudEvents200Response | RejectCloudEventsDefaultResponse
+  response: RejectCloudEvents200Response | RejectCloudEventsDefaultResponse,
 ): response is RejectCloudEventsDefaultResponse;
 export function isUnexpected(
-  response: RenewCloudEventLocks200Response | RenewCloudEventLocksDefaultResponse
+  response: RenewCloudEventLocks200Response | RenewCloudEventLocksDefaultResponse,
 ): response is RenewCloudEventLocksDefaultResponse;
 export function isUnexpected(
   response:
@@ -61,7 +61,7 @@ export function isUnexpected(
     | RejectCloudEvents200Response
     | RejectCloudEventsDefaultResponse
     | RenewCloudEventLocks200Response
-    | RenewCloudEventLocksDefaultResponse
+    | RenewCloudEventLocksDefaultResponse,
 ): response is
   | PublishCloudEventDefaultResponse
   | ReceiveCloudEventsDefaultResponse
@@ -110,7 +110,7 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
         // {guid} ==> $
         // {guid}:export ==> :export$
         const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || ""
+          pathParts[j] || "",
         );
 
         if (!isMatched) {

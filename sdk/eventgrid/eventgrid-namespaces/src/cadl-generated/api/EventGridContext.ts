@@ -14,7 +14,7 @@ export { EventGridContext } from "../rest/index";
 export function createEventGrid(
   endpoint: string,
   credential: KeyCredential | TokenCredential,
-  options: EventGridClientOptions = {}
+  options: EventGridClientOptions = {},
 ): EventGridContext {
   const clientContext = getClient(endpoint, credential, options);
   return clientContext;

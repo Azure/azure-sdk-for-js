@@ -33,7 +33,7 @@ export class EventGridNamespacesClient {
   constructor(
     endpoint: string,
     credential: AzureKeyCredential | TokenCredential,
-    options: EventGridClientOptions = {}
+    options: EventGridClientOptions = {},
   ) {
     // credential.update(`SharedAccessKey ${credential.key}`);
     this._client = new EventGridClientGenerated(endpoint, credential, options);
@@ -54,7 +54,7 @@ export class EventGridNamespacesClient {
   publishCloudEvent(
     event: CloudEvent,
     topicName: string,
-    options: PublishCloudEventOptions = { requestOptions: {} }
+    options: PublishCloudEventOptions = { requestOptions: {} },
   ): Promise<PublishResultOutput> {
     const cloudEventWireModel: CloudEvent = convertCloudEventToModelType(event);
 
@@ -83,7 +83,7 @@ export class EventGridNamespacesClient {
   publishCloudEvents(
     events: CloudEvent[],
     topicName: string,
-    options: PublishCloudEventsOptions = { requestOptions: {} }
+    options: PublishCloudEventsOptions = { requestOptions: {} },
   ): Promise<PublishResultOutput> {
     const eventsWireModel: Array<CloudEvent> = [];
     for (const individualevent of events) {
@@ -103,7 +103,7 @@ export class EventGridNamespacesClient {
   receiveCloudEvents(
     topicName: string,
     eventSubscriptionName: string,
-    options: ReceiveCloudEventsOptions = { requestOptions: {} }
+    options: ReceiveCloudEventsOptions = { requestOptions: {} },
   ): Promise<ReceiveResult> {
     return this._client.receiveCloudEvents(topicName, eventSubscriptionName, options);
   }
@@ -124,13 +124,13 @@ export class EventGridNamespacesClient {
     lockTokens: string[],
     topicName: string,
     eventSubscriptionName: string,
-    options: AcknowledgeCloudEventsOptions = { requestOptions: {} }
+    options: AcknowledgeCloudEventsOptions = { requestOptions: {} },
   ): Promise<AcknowledgeResult> {
     return this._client.acknowledgeCloudEvents(
       topicName,
       eventSubscriptionName,
       { lockTokens },
-      options
+      options,
     );
   }
 
@@ -149,13 +149,13 @@ export class EventGridNamespacesClient {
     lockTokens: string[],
     topicName: string,
     eventSubscriptionName: string,
-    options: ReleaseCloudEventsOptions = { requestOptions: {} }
+    options: ReleaseCloudEventsOptions = { requestOptions: {} },
   ): Promise<ReleaseResult> {
     return this._client.releaseCloudEvents(
       topicName,
       eventSubscriptionName,
       { lockTokens },
-      options
+      options,
     );
   }
 
@@ -172,13 +172,13 @@ export class EventGridNamespacesClient {
     lockTokens: string[],
     topicName: string,
     eventSubscriptionName: string,
-    options: RejectCloudEventsOptions = { requestOptions: {} }
+    options: RejectCloudEventsOptions = { requestOptions: {} },
   ): Promise<RejectResult> {
     return this._client.rejectCloudEvents(
       topicName,
       eventSubscriptionName,
       { lockTokens },
-      options
+      options,
     );
   }
 
@@ -194,13 +194,13 @@ export class EventGridNamespacesClient {
     lockTokens: string[],
     topicName: string,
     eventSubscriptionName: string,
-    options: RenewCloudEventLocksOptions = { requestOptions: {} }
+    options: RenewCloudEventLocksOptions = { requestOptions: {} },
   ): Promise<RenewCloudEventLocksResult> {
     return this._client.renewCloudEventLocks(
       topicName,
       eventSubscriptionName,
       { lockTokens },
-      options
+      options,
     );
   }
 }
@@ -234,7 +234,7 @@ export function convertCloudEventToModelType(event: CloudEvent): CloudEvent {
   if (event.data instanceof Uint8Array) {
     if (!event.datacontenttype) {
       throw new Error(
-        "a data content type must be provided when sending an event with binary data"
+        "a data content type must be provided when sending an event with binary data",
       );
     }
 

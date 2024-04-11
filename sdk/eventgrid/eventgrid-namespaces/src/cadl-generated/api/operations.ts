@@ -52,7 +52,7 @@ export function _publishCloudEventSend(
   context: Client,
   topicName: string,
   event: CloudEvent,
-  options: PublishCloudEventOptions = { requestOptions: {} }
+  options: PublishCloudEventOptions = { requestOptions: {} },
 ): StreamableMethod<PublishCloudEvent200Response | PublishCloudEventDefaultResponse> {
   return context.path("/topics/{topicName}:publish", topicName).post({
     ...operationOptionsToRequestParameters(options),
@@ -76,7 +76,7 @@ export function _publishCloudEventSend(
 }
 
 export async function _publishCloudEventDeserialize(
-  result: PublishCloudEvent200Response | PublishCloudEventDefaultResponse
+  result: PublishCloudEvent200Response | PublishCloudEventDefaultResponse,
 ): Promise<PublishResult> {
   if (isUnexpected(result)) {
     throw createRestError(result);
@@ -90,7 +90,7 @@ export async function publishCloudEvent(
   context: Client,
   topicName: string,
   event: CloudEvent,
-  options: PublishCloudEventOptions = { requestOptions: {} }
+  options: PublishCloudEventOptions = { requestOptions: {} },
 ): Promise<PublishResult> {
   const result = await _publishCloudEventSend(context, topicName, event, options);
   return _publishCloudEventDeserialize(result);
@@ -100,7 +100,7 @@ export function _publishCloudEventsSend(
   context: Client,
   topicName: string,
   events: CloudEvent[],
-  options: PublishCloudEventsOptions = { requestOptions: {} }
+  options: PublishCloudEventsOptions = { requestOptions: {} },
 ): StreamableMethod<PublishCloudEvents200Response | PublishCloudEventsDefaultResponse> {
   return context.path("/topics/{topicName}:publish", topicName).post({
     ...operationOptionsToRequestParameters(options),
@@ -125,7 +125,7 @@ export function _publishCloudEventsSend(
 }
 
 export async function _publishCloudEventsDeserialize(
-  result: PublishCloudEvents200Response | PublishCloudEventsDefaultResponse
+  result: PublishCloudEvents200Response | PublishCloudEventsDefaultResponse,
 ): Promise<PublishResult> {
   if (isUnexpected(result)) {
     throw createRestError(result);
@@ -139,7 +139,7 @@ export async function publishCloudEvents(
   context: Client,
   topicName: string,
   events: CloudEvent[],
-  options: PublishCloudEventsOptions = { requestOptions: {} }
+  options: PublishCloudEventsOptions = { requestOptions: {} },
 ): Promise<PublishResult> {
   const result = await _publishCloudEventsSend(context, topicName, events, options);
   return _publishCloudEventsDeserialize(result);
@@ -149,13 +149,13 @@ export function _receiveCloudEventsSend(
   context: Client,
   topicName: string,
   eventSubscriptionName: string,
-  options: ReceiveCloudEventsOptions = { requestOptions: {} }
+  options: ReceiveCloudEventsOptions = { requestOptions: {} },
 ): StreamableMethod<ReceiveCloudEvents200Response | ReceiveCloudEventsDefaultResponse> {
   return context
     .path(
       "/topics/{topicName}/eventsubscriptions/{eventSubscriptionName}:receive",
       topicName,
-      eventSubscriptionName
+      eventSubscriptionName,
     )
     .post({
       ...operationOptionsToRequestParameters(options),
@@ -167,7 +167,7 @@ export function _receiveCloudEventsSend(
 }
 
 export async function _receiveCloudEventsDeserialize(
-  result: ReceiveCloudEvents200Response | ReceiveCloudEventsDefaultResponse
+  result: ReceiveCloudEvents200Response | ReceiveCloudEventsDefaultResponse,
 ): Promise<ReceiveResult> {
   if (isUnexpected(result)) {
     throw createRestError(result);
@@ -203,7 +203,7 @@ export async function receiveCloudEvents(
   context: Client,
   topicName: string,
   eventSubscriptionName: string,
-  options: ReceiveCloudEventsOptions = { requestOptions: {} }
+  options: ReceiveCloudEventsOptions = { requestOptions: {} },
 ): Promise<ReceiveResult> {
   const result = await _receiveCloudEventsSend(context, topicName, eventSubscriptionName, options);
   return _receiveCloudEventsDeserialize(result);
@@ -214,13 +214,13 @@ export function _acknowledgeCloudEventsSend(
   topicName: string,
   eventSubscriptionName: string,
   acknowledgeOptions: AcknowledgeOptions,
-  options: AcknowledgeCloudEventsOptions = { requestOptions: {} }
+  options: AcknowledgeCloudEventsOptions = { requestOptions: {} },
 ): StreamableMethod<AcknowledgeCloudEvents200Response | AcknowledgeCloudEventsDefaultResponse> {
   return context
     .path(
       "/topics/{topicName}/eventsubscriptions/{eventSubscriptionName}:acknowledge",
       topicName,
-      eventSubscriptionName
+      eventSubscriptionName,
     )
     .post({
       ...operationOptionsToRequestParameters(options),
@@ -229,7 +229,7 @@ export function _acknowledgeCloudEventsSend(
 }
 
 export async function _acknowledgeCloudEventsDeserialize(
-  result: AcknowledgeCloudEvents200Response | AcknowledgeCloudEventsDefaultResponse
+  result: AcknowledgeCloudEvents200Response | AcknowledgeCloudEventsDefaultResponse,
 ): Promise<AcknowledgeResult> {
   if (isUnexpected(result)) {
     throw createRestError(result);
@@ -250,14 +250,14 @@ export async function acknowledgeCloudEvents(
   topicName: string,
   eventSubscriptionName: string,
   acknowledgeOptions: AcknowledgeOptions,
-  options: AcknowledgeCloudEventsOptions = { requestOptions: {} }
+  options: AcknowledgeCloudEventsOptions = { requestOptions: {} },
 ): Promise<AcknowledgeResult> {
   const result = await _acknowledgeCloudEventsSend(
     context,
     topicName,
     eventSubscriptionName,
     acknowledgeOptions,
-    options
+    options,
   );
   return _acknowledgeCloudEventsDeserialize(result);
 }
@@ -267,7 +267,7 @@ export function _releaseCloudEventsSend(
   topicName: string,
   eventSubscriptionName: string,
   releaseOptions: ReleaseOptions,
-  options: ReleaseCloudEventsOptions = { requestOptions: {} }
+  options: ReleaseCloudEventsOptions = { requestOptions: {} },
 ): StreamableMethod<ReleaseCloudEvents200Response | ReleaseCloudEventsDefaultResponse> {
   let releaseDelayInSeconds: number | undefined = undefined;
   if (options?.releaseDelayInSeconds) {
@@ -278,7 +278,7 @@ export function _releaseCloudEventsSend(
     .path(
       "/topics/{topicName}/eventsubscriptions/{eventSubscriptionName}:release",
       topicName,
-      eventSubscriptionName
+      eventSubscriptionName,
     )
     .post({
       ...operationOptionsToRequestParameters(options),
@@ -290,7 +290,7 @@ export function _releaseCloudEventsSend(
 }
 
 export async function _releaseCloudEventsDeserialize(
-  result: ReleaseCloudEvents200Response | ReleaseCloudEventsDefaultResponse
+  result: ReleaseCloudEvents200Response | ReleaseCloudEventsDefaultResponse,
 ): Promise<ReleaseResult> {
   if (isUnexpected(result)) {
     throw createRestError(result);
@@ -311,14 +311,14 @@ export async function releaseCloudEvents(
   topicName: string,
   eventSubscriptionName: string,
   releaseOptions: ReleaseOptions,
-  options: ReleaseCloudEventsOptions = { requestOptions: {} }
+  options: ReleaseCloudEventsOptions = { requestOptions: {} },
 ): Promise<ReleaseResult> {
   const result = await _releaseCloudEventsSend(
     context,
     topicName,
     eventSubscriptionName,
     releaseOptions,
-    options
+    options,
   );
   return _releaseCloudEventsDeserialize(result);
 }
@@ -328,13 +328,13 @@ export function _rejectCloudEventsSend(
   topicName: string,
   eventSubscriptionName: string,
   rejectOptions: RejectOptions,
-  options: RejectCloudEventsOptions = { requestOptions: {} }
+  options: RejectCloudEventsOptions = { requestOptions: {} },
 ): StreamableMethod<RejectCloudEvents200Response | RejectCloudEventsDefaultResponse> {
   return context
     .path(
       "/topics/{topicName}/eventsubscriptions/{eventSubscriptionName}:reject",
       topicName,
-      eventSubscriptionName
+      eventSubscriptionName,
     )
     .post({
       ...operationOptionsToRequestParameters(options),
@@ -343,7 +343,7 @@ export function _rejectCloudEventsSend(
 }
 
 export async function _rejectCloudEventsDeserialize(
-  result: RejectCloudEvents200Response | RejectCloudEventsDefaultResponse
+  result: RejectCloudEvents200Response | RejectCloudEventsDefaultResponse,
 ): Promise<RejectResult> {
   if (isUnexpected(result)) {
     throw createRestError(result);
@@ -364,14 +364,14 @@ export async function rejectCloudEvents(
   topicName: string,
   eventSubscriptionName: string,
   rejectOptions: RejectOptions,
-  options: RejectCloudEventsOptions = { requestOptions: {} }
+  options: RejectCloudEventsOptions = { requestOptions: {} },
 ): Promise<RejectResult> {
   const result = await _rejectCloudEventsSend(
     context,
     topicName,
     eventSubscriptionName,
     rejectOptions,
-    options
+    options,
   );
   return _rejectCloudEventsDeserialize(result);
 }
@@ -381,13 +381,13 @@ export function _renewCloudEventLocksSend(
   topicName: string,
   eventSubscriptionName: string,
   renewLockOptions: RenewLockOptions,
-  options: RenewCloudEventLocksOptions = { requestOptions: {} }
+  options: RenewCloudEventLocksOptions = { requestOptions: {} },
 ): StreamableMethod<RenewCloudEventLocks200Response | RenewCloudEventLocksDefaultResponse> {
   return context
     .path(
       "/topics/{topicName}/eventsubscriptions/{eventSubscriptionName}:renewLock",
       topicName,
-      eventSubscriptionName
+      eventSubscriptionName,
     )
     .post({
       ...operationOptionsToRequestParameters(options),
@@ -396,7 +396,7 @@ export function _renewCloudEventLocksSend(
 }
 
 export async function _renewCloudEventLocksDeserialize(
-  result: RenewCloudEventLocks200Response | RenewCloudEventLocksDefaultResponse
+  result: RenewCloudEventLocks200Response | RenewCloudEventLocksDefaultResponse,
 ): Promise<RenewCloudEventLocksResult> {
   if (isUnexpected(result)) {
     throw createRestError(result);
@@ -417,14 +417,14 @@ export async function renewCloudEventLocks(
   topicName: string,
   eventSubscriptionName: string,
   renewLockOptions: RenewLockOptions,
-  options: RenewCloudEventLocksOptions = { requestOptions: {} }
+  options: RenewCloudEventLocksOptions = { requestOptions: {} },
 ): Promise<RenewCloudEventLocksResult> {
   const result = await _renewCloudEventLocksSend(
     context,
     topicName,
     eventSubscriptionName,
     renewLockOptions,
-    options
+    options,
   );
   return _renewCloudEventLocksDeserialize(result);
 }

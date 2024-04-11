@@ -17,14 +17,14 @@ export async function publishCloudEventBinaryMode(
   context: Client,
   topicName: string,
   event: CloudEvent,
-  options: PublishCloudEventOptions = { requestOptions: {} }
+  options: PublishCloudEventOptions = { requestOptions: {} },
 ): Promise<Record<string, any>> {
   const result = await _publishCloudEventSendBinaryMode(context, topicName, event, options);
   return _publishCloudEventDeserialize(result);
 }
 
 export async function _publishCloudEventDeserialize(
-  result: PublishCloudEvent200Response | PublishCloudEventDefaultResponse
+  result: PublishCloudEvent200Response | PublishCloudEventDefaultResponse,
 ): Promise<Record<string, any>> {
   if (isUnexpected(result)) {
     throw result.body;
@@ -37,7 +37,7 @@ export function _publishCloudEventSendBinaryMode(
   context: Client,
   topicName: string,
   event: CloudEvent,
-  options: PublishCloudEventOptions = { requestOptions: {} }
+  options: PublishCloudEventOptions = { requestOptions: {} },
 ): StreamableMethod<PublishCloudEvent200Response | PublishCloudEventDefaultResponse> {
   const headers: RawHttpHeadersInput = {
     "ce-id": event.id,
