@@ -20959,7 +20959,7 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-8oR3YX6KPtFnqsYNVrktY+IoxPGPG6Se9QfES0nNlUypUQGpXuee+fmkl0JmNGapn5YX+7zaldlEqDXvbldbBg==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-GGCvRnQ4urmpNlsfXYDjVgI1kVXZ0uloTquniM4jiGuFKOAKjACNdk/BRXTiYBpb5NCmBML+pC0lKIxZRWCl8Q==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
@@ -20968,6 +20968,8 @@ packages:
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
+      '@vitest/browser': 1.4.0(playwright@1.43.0)(vitest@1.4.0)
+      '@vitest/coverage-istanbul': 1.4.0(vitest@1.4.0)
       c8: 9.1.0
       chai: 4.3.10
       dotenv: 16.4.5
@@ -20984,16 +20986,29 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.3)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
+      playwright: 1.43.0
+      prettier: 3.2.5
       puppeteer: 22.6.3(typescript@5.3.3)
       rimraf: 5.0.5
+      tshy: 1.13.1
       tslib: 2.6.2
       tsx: 4.7.2
       typescript: 5.3.3
+      vitest: 1.4.0(@types/node@18.19.31)(@vitest/browser@1.4.0)
     transitivePeerDependencies:
-      - bufferutil
-      - debug
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - stylus
+      - sugarss
       - supports-color
-      - utf-8-validate
+      - terser
+      - webdriverio
     dev: false
 
   file:projects/openai-1.tgz:
