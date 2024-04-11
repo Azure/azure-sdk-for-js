@@ -722,6 +722,42 @@ export interface FunctionName {
 }
 
 // @public (undocumented)
+export interface GenerateSpeechFromText {
+    post(options?: GenerateSpeechFromTextParameters): StreamableMethod<GenerateSpeechFromText200Response | GenerateSpeechFromTextDefaultResponse>;
+}
+
+// @public
+export interface GenerateSpeechFromText200Response extends HttpResponse {
+    body: Uint8Array;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface GenerateSpeechFromTextBodyParam {
+    // (undocumented)
+    body?: SpeechGenerationOptions;
+}
+
+// @public (undocumented)
+export interface GenerateSpeechFromTextDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface GenerateSpeechFromTextDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & GenerateSpeechFromTextDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type GenerateSpeechFromTextParameters = GenerateSpeechFromTextBodyParam & RequestParameters;
+
+// @public (undocumented)
 export interface GetAudioTranscriptionAsPlainText {
     post(options: GetAudioTranscriptionAsPlainTextParameters): StreamableMethod<GetAudioTranscriptionAsPlainText200Response | GetAudioTranscriptionAsPlainTextDefaultResponse>;
     post(options: GetAudioTranscriptionAsResponseObjectParameters): StreamableMethod<GetAudioTranscriptionAsResponseObject200Response | GetAudioTranscriptionAsResponseObjectDefaultResponse>;
@@ -1126,6 +1162,9 @@ export function isUnexpected(response: GetChatCompletions200Response | GetChatCo
 export function isUnexpected(response: GetImageGenerations200Response | GetImageGenerationsDefaultResponse): response is GetImageGenerationsDefaultResponse;
 
 // @public (undocumented)
+export function isUnexpected(response: GenerateSpeechFromText200Response | GenerateSpeechFromTextDefaultResponse): response is GenerateSpeechFromTextDefaultResponse;
+
+// @public (undocumented)
 export function isUnexpected(response: GetEmbeddings200Response | GetEmbeddingsDefaultResponse): response is GetEmbeddingsDefaultResponse;
 
 // @public
@@ -1258,7 +1297,17 @@ export interface Routes {
     (path: "/deployments/{deploymentId}/completions", deploymentId: string): GetCompletions;
     (path: "/deployments/{deploymentId}/chat/completions", deploymentId: string): GetChatCompletions;
     (path: "/deployments/{deploymentId}/images/generations", deploymentId: string): GetImageGenerations;
+    (path: "/deployments/{deploymentId}/audio/speech", deploymentId: string): GenerateSpeechFromText;
     (path: "/deployments/{deploymentId}/embeddings", deploymentId: string): GetEmbeddings;
+}
+
+// @public
+export interface SpeechGenerationOptions {
+    input: string;
+    model?: string;
+    response_format?: string;
+    speed?: number;
+    voice: string;
 }
 
 // @public

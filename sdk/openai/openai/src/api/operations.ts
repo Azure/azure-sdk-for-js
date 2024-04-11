@@ -16,6 +16,7 @@ import {
   ContentFilterResultDetailsForPrompt,
   ContentFilterResultsForPrompt,
   SpeechGenerationOptions,
+  SpeechVoice,
 } from "../models/models.js";
 import {
   serializeChatRequestMessageUnion,
@@ -617,14 +618,18 @@ export async function _generateSpeechFromTextDeserialize(
 }
 
 /** Generates text-to-speech audio from the input text. */
-export async function generateSpeechFromText(
+export async function streamSpeechFromText(
   context: Client,
   deploymentId: string,
-  body: SpeechGenerationOptions,
+  input: string,
+  voice: SpeechVoice,
   options: GenerateSpeechFromTextOptions = { requestOptions: {} },
-): Promise<Uint8Array> {
-  const result = await _generateSpeechFromTextSend(context, deploymentId, body, options);
-  return _generateSpeechFromTextDeserialize(result);
+): Promise<EventStream<Uint8Array>> {
+  const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
+  const response = _generateSpeechFromTextSend(context, deploymentId,
+    { input, voice, ...rest },
+    { abortSignal, onResponse, requestOptions, tracingOptions });
+  return getOaiSSEs(response, (result) => result.body);
 }
 
 export function _getEmbeddingsSend(

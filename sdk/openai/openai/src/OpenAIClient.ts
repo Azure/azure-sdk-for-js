@@ -26,7 +26,7 @@ import {
   getEmbeddings,
   getAudioTranscription,
   getAudioTranslation,
-  generateSpeechFromText,
+  streamSpeechFromText,
 } from "./api/operations.js";
 import { nonAzurePolicy } from "./api/policies/nonAzure.js";
 import { streamChatCompletions, streamCompletions } from "./api/operations.js";
@@ -326,23 +326,6 @@ export class OpenAIClient {
     return getImageGenerations(this._client, deploymentName, prompt, rest);
   }
 
-  /** Generate speech from an input text */
-  generateSpeechFromText(
-    deploymentName: string,
-    input: string,
-    voice: SpeechVoice,
-    options: GenerateSpeechFromTextOptions = { requestOptions: {} },
-  ): Promise<Uint8Array> {
-    this.setModel(deploymentName, options);
-    const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
-    return generateSpeechFromText(
-      this._client,
-      deploymentName,
-      { model: deploymentName, input, voice, ...rest },
-      { abortSignal, onResponse, requestOptions, tracingOptions },
-    );
-  }
-
   /** Return the embeddings for a given prompt. */
   getEmbeddings(
     deploymentName: string,
@@ -351,5 +334,15 @@ export class OpenAIClient {
   ): Promise<Embeddings> {
     this.setModel(deploymentName, options);
     return getEmbeddings(this._client, deploymentName, input, options);
+  }
+
+  streamSpeechFromText(
+    deploymentName: string,
+    input: string,
+    voice: SpeechVoice,
+    options: GenerateSpeechFromTextOptions = { requestOptions: {} },
+  ): Promise<EventStream<Uint8Array>> {
+    this.setModel(deploymentName, options);
+    return streamSpeechFromText(this._client, deploymentName, input, voice, options);
   }
 }

@@ -808,9 +808,6 @@ export class OpenAIClient {
     constructor(endpoint: string, credential: KeyCredential, options?: OpenAIClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: OpenAIClientOptions);
     constructor(openAiApiKey: KeyCredential, options?: OpenAIClientOptions);
-    // Warning: (ae-forgotten-export) The symbol "SpeechVoice" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "GenerateSpeechFromTextOptions" needs to be exported by the entry point index.d.ts
-    generateSpeechFromText(deploymentName: string, input: string, voice: SpeechVoice, options?: GenerateSpeechFromTextOptions): Promise<Uint8Array>;
     getAudioTranscription(deploymentName: string, fileContent: Uint8Array, options?: GetAudioTranscriptionOptions): Promise<AudioResultSimpleJson>;
     getAudioTranscription<Format extends AudioResultFormat>(deploymentName: string, fileContent: Uint8Array, format: Format, options?: GetAudioTranscriptionOptions): Promise<AudioResult<Format>>;
     getAudioTranslation(deploymentName: string, fileContent: Uint8Array, options?: GetAudioTranslationOptions): Promise<AudioResultSimpleJson>;
@@ -821,6 +818,11 @@ export class OpenAIClient {
     getImages(deploymentName: string, prompt: string, options?: GetImagesOptions): Promise<ImageGenerations>;
     streamChatCompletions(deploymentName: string, messages: ChatRequestMessageUnion[], options?: GetChatCompletionsOptions): Promise<EventStream<ChatCompletions>>;
     streamCompletions(deploymentName: string, prompt: string[], options?: GetCompletionsOptions): Promise<EventStream<Omit<Completions, "usage">>>;
+    // Warning: (ae-forgotten-export) The symbol "SpeechVoice" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "GenerateSpeechFromTextOptions" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    streamSpeechFromText(deploymentName: string, input: string, voice: SpeechVoice, options?: GenerateSpeechFromTextOptions): Promise<EventStream<Uint8Array>>;
 }
 
 // @public (undocumented)

@@ -874,6 +874,9 @@ export interface PineconeFieldMappingOptions {
 }
 
 // @public
+export type SpeechVoice = string;
+
+// @public
 export interface StopFinishDetails extends ChatFinishDetails {
     stop: string;
     type: "stop";
