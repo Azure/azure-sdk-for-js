@@ -13,7 +13,7 @@ import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import { Buffer } from "buffer";
 import { CloudEvent } from "./cadl-generated";
 
-export async function publishCloudEventBinaryMode(
+export async function publishCloudEventInBinaryMode(
   context: Client,
   topicName: string,
   event: CloudEvent,

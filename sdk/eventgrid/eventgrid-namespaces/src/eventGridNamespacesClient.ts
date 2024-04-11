@@ -16,12 +16,12 @@ import {
   RenewCloudEventLocksResult,
   CloudEvent,
 } from "./cadl-generated/models";
-import { v4 as uuidv4 } from "uuid";
+import { randomUUID } from "@azure/core-util";
 import { EventGridClient as EventGridClientGenerated } from "./cadl-generated/EventGridClient";
 import { EventGridClientOptions } from "./cadl-generated/api";
 import { PublishResultOutput } from "./cadl-generated/rest";
 import { PublishCloudEventOptions } from "./models";
-import { publishCloudEventBinaryMode } from "./eventGridNamespacesPublishBinaryMode";
+import { publishCloudEventInBinaryMode } from "./eventGridNamespacesPublishBinaryMode";
 
 /**
  * Event Grid Namespaces Client
@@ -61,10 +61,15 @@ export class EventGridNamespacesClient {
     if (!options.binaryMode) {
       return this._client.publishCloudEvent(topicName, event, options);
     } else {
-      return publishCloudEventBinaryMode(this._client.getClient(), topicName, cloudEventWireModel, {
-        contentType: options.contentType,
-        ...options,
-      });
+      return publishCloudEventInBinaryMode(
+        this._client.getClient(),
+        topicName,
+        cloudEventWireModel,
+        {
+          contentType: options.contentType,
+          ...options,
+        },
+      );
     }
   }
 
@@ -206,29 +211,14 @@ export class EventGridNamespacesClient {
 }
 
 export function convertCloudEventToModelType(event: CloudEvent): CloudEvent {
-  // if (event.extensionAttributes) {
-  //   for (const propName in event.extensionAttributes) {
-  //     // Per the cloud events spec: "CloudEvents attribute names MUST consist of lower-case letters ('a' to 'z') or digits ('0' to '9') from the ASCII character set"
-  //     // they also can not match an existing defined property name.
-
-  //     if (
-  //       !/^[a-z0-9]*$/.test(propName) ||
-  //       cloudEventReservedPropertyNames.indexOf(propName) !== -1
-  //     ) {
-  //       throw new Error(`invalid extension attribute name: ${propName}`);
-  //     }
-  //   }
-  // }
-
   const converted: CloudEvent = {
     specversion: event.specversion ?? "1.0",
     type: event.type,
     source: event.source,
-    id: event.id ?? uuidv4(),
+    id: event.id ?? randomUUID(),
     time: event.time ?? new Date(),
     subject: event.subject,
     dataschema: event.dataschema,
-    // ...(event.extensionAttributes ?? []),
   };
 
   if (event.data instanceof Uint8Array) {

@@ -224,10 +224,6 @@ describe("Event Grid Namespace Client", function (this: Suite) {
       );
       assert.equal(renewResult.succeededLockTokens.length, 1);
       assert.equal(renewResult.succeededLockTokens[0], lockToken);
-
-      // receiveResult = await client.receiveCloudEvents(topicName, eventSubscripionName);
-      // console.log(`Receive Result: ${JSON.stringify(receiveResult)}`);
-      // assert.equal(receiveResult.value.length, 1);
     });
   });
 

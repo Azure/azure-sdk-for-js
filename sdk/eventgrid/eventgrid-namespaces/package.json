@@ -43,22 +43,6 @@
       "Azure Service Bus Queue": "https://docs.microsoft.com/azure/service-bus-messaging/service-bus-quickstart-portal"
     }
   },
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "swagger/README.md",
-        "prefix": "package-version"
-      },
-      {
-        "path": "src/generated/generatedClientContext.ts",
-        "prefix": "packageDetails"
-      },
-      {
-        "path": "src/tracing.ts",
-        "prefix": "packageVersion"
-      }
-    ]
-  },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && dev-tool run bundle",
@@ -94,8 +78,7 @@
     "@azure/logger": "^1.0.0",
     "@azure/core-util": "^1.6.1",
     "buffer": "^6.0.0",
-    "tslib": "^2.2.0",
-    "uuid": "^8.3.0"
+    "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@azure/identity": "^4.1.0",
