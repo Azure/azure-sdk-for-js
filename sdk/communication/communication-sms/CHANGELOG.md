@@ -6,6 +6,16 @@
 
 - Added DeliveryReportTimeoutInSeconds to smsSendOptions.
 
+## 1.1.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.1.0 (2023-11-30)
 
 ### Features Added
