@@ -40,7 +40,7 @@ export interface CommonScriptModelOutput {
 }
 
 // @public
-function createClient(endpoint: undefined | string, credential?: undefined | TranslatorCredential | KeyCredential | TokenCredential, options?: ClientOptions): TextTranslationClient;
+function createClient(endpoint: undefined | string, credential?: undefined | TranslatorCredential | TranslatorTokenCredential | KeyCredential | TokenCredential, options?: ClientOptions): TextTranslationClient;
 export default createClient;
 
 // @public
@@ -544,6 +544,16 @@ export interface TranslatorCredential {
     key: string;
     // (undocumented)
     region: string;
+}
+
+// @public (undocumented)
+export interface TranslatorTokenCredential {
+    // (undocumented)
+    azureResourceId: string;
+    // (undocumented)
+    region: string;
+    // (undocumented)
+    tokenCredential: TokenCredential;
 }
 
 // @public

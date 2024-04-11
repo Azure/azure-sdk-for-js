@@ -11,6 +11,6 @@ export * from "./isUnexpected";
 export * from "./models";
 export * from "./outputModels";
 export * from "./serializeHelper";
-export { TranslatorCredential } from "./custom/authentication";
+export { TranslatorCredential, TranslatorTokenCredential } from "./custom/authentication";
 
 export default TextTranslationClient;
