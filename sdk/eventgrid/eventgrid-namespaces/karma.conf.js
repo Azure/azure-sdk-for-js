@@ -46,6 +46,9 @@ module.exports = function (config) {
     envPreprocessor: [
       "TEST_MODE",
       "RECORDINGS_RELATIVE_PATH",
+      "AZURE_TENANT_ID",
+      "AZURE_CLIENT_ID",
+      "AZURE_CLIENT_SECRET",
       "EVENT_GRID_NAMESPACES_ENDPOINT",
       "EVENT_GRID_NAMESPACES_KEY",
       "EVENT_SUBSCRIPTION_NAME",

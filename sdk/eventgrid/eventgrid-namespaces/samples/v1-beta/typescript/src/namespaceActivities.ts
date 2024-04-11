@@ -3,7 +3,6 @@
 
 /**
  * @summary Publish and Receive events to Event Grid.
- * @azsdk-weight 3
  */
 
 import { EventGridClient, CloudEvent, ReceiveResult } from "@azure/eventgrid-namespaces";

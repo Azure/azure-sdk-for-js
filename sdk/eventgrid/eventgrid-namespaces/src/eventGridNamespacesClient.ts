@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AzureKeyCredential } from "@azure/core-auth";
+import { AzureKeyCredential, TokenCredential } from "@azure/core-auth";
 import {
   ReceiveResult,
   AcknowledgeResult,
@@ -32,7 +32,7 @@ export class EventGridNamespacesClient {
   /** Azure Messaging EventGrid Client */
   constructor(
     endpoint: string,
-    credential: AzureKeyCredential,
+    credential: AzureKeyCredential | TokenCredential,
     options: EventGridClientOptions = {}
   ) {
     // credential.update(`SharedAccessKey ${credential.key}`);

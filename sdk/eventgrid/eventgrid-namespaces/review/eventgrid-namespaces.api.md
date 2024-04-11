@@ -8,6 +8,7 @@ import { AzureKeyCredential } from '@azure/core-auth';
 import { ClientOptions } from '@azure-rest/core-client';
 import { ErrorModel } from '@azure-rest/core-client';
 import { OperationOptions as OperationRestOptions } from '@azure-rest/core-client';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
 export interface AcknowledgeCloudEventsOptions extends OperationRestOptions {
@@ -43,7 +44,7 @@ export interface CloudEvent {
 
 // @public
 export class EventGridClient {
-    constructor(endpoint: string, credential: AzureKeyCredential, options?: EventGridClientOptions);
+    constructor(endpoint: string, credential: AzureKeyCredential | TokenCredential, options?: EventGridClientOptions);
     acknowledgeCloudEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: AcknowledgeCloudEventsOptions): Promise<AcknowledgeResult>;
     publishCloudEvent(event: CloudEvent, topicName: string, options?: PublishCloudEventOptions): Promise<PublishResultOutput>;
     publishCloudEvents(events: CloudEvent[], topicName: string, options?: PublishCloudEventsOptions): Promise<PublishResultOutput>;
