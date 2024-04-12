@@ -4568,25 +4568,6 @@ packages:
     engines: {node: '>= 0.8'}
     dev: false
 
-  /c8@8.0.1:
-    resolution: {integrity: sha512-EINpopxZNH1mETuI0DzRA4MZpAUH+IFiRhnmFD3vFr3vdrgxqi3VfE3KL0AIL+zDq8rC9bZqwM/VDmmoe04y7w==}
-    engines: {node: '>=12'}
-    hasBin: true
-    dependencies:
-      '@bcoe/v8-coverage': 0.2.3
-      '@istanbuljs/schema': 0.1.3
-      find-up: 5.0.0
-      foreground-child: 2.0.0
-      istanbul-lib-coverage: 3.2.2
-      istanbul-lib-report: 3.0.1
-      istanbul-reports: 3.1.7
-      rimraf: 3.0.2
-      test-exclude: 6.0.0
-      v8-to-istanbul: 9.2.0
-      yargs: 17.7.2
-      yargs-parser: 21.1.1
-    dev: false
-
   /c8@9.1.0:
     resolution: {integrity: sha512-mBWcT5iqNir1zIkzSPyI3NCR9EZCVI3WUD+AVO17MVWTSFNyUueXE82qTeampNtTr+ilN/5Ua3j24LgbCKjDVg==}
     engines: {node: '>=14.14.0'}
@@ -19705,7 +19686,7 @@ packages:
     dev: false
 
   file:projects/health-insights-radiologyinsights.tgz:
-    resolution: {integrity: sha512-MgqSqs4TL6lf77N+K1LLcTc0OArMhm7942eyZq4LOE5RQoYx+STFg+wOpncRL0oYlXQ5mLl0XjISd/DmTXb7Hg==, tarball: file:projects/health-insights-radiologyinsights.tgz}
+    resolution: {integrity: sha512-FMUKMDoQgT3rZJvgSj8MsBoV7mxrpOUJpjK0aFLca9tY8G6lVtYT63QzPVely5oxWjz6bKbp0K5FMZKSSXh9MA==, tarball: file:projects/health-insights-radiologyinsights.tgz}
     name: '@rush-temp/health-insights-radiologyinsights'
     version: 0.0.0
     dependencies:
@@ -19716,7 +19697,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.26
       autorest: 3.7.1
-      c8: 8.0.1
+      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
@@ -19739,6 +19720,7 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.26)(typescript@5.3.3)
       tslib: 2.6.2
       typescript: 5.3.3
+      uuid: 9.0.1
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'

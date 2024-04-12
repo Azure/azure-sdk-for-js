@@ -31,7 +31,7 @@ const clinicInfoData = {
   resourceType: "Observation",
   status: "unknown",
   code: code,
-  valueBoolean: true,
+  valueBoolean: "true",
 };
 
 const patientInfo = {
@@ -51,7 +51,7 @@ const encounterData = {
 
 const authorData = {
   id: "authorid1",
-  name: "authorname1",
+  fullName: "authorname1",
 };
 
 const orderedProceduresData = {
@@ -78,13 +78,12 @@ const patientDocumentData = {
   specialtyType: "radiology",
   administrativeMetadata: administrativeMetadata,
   content: content,
-  createdDateTime: new Date("2021-05-31T22:00:00.000Z"),
-  orderedProceduresAsCsv: "CT ABD/PELVIS",
+  createdAt: new Date("2021-05-31T22:00:00.000Z"),
 };
 
 const patientData = {
   id: "Samantha Jones",
-  info: patientInfo,
+  details: patientInfo,
   encounters: [encounterData],
   patientDocuments: [patientDocumentData],
 };
@@ -127,13 +126,15 @@ const configuration = {
 };
 
 // create RI Data
-const radiologyInsightsData = {
-  patients: [patientData],
-  configuration: configuration,
+const RadiologyInsightsJob = {
+  jobData: {
+    patients: [patientData],
+    configuration: configuration,
+  }
 };
 
-const radiologyInsightsParameter = {
-  body: radiologyInsightsData,
+const param = {
+  body: RadiologyInsightsJob,
 };
 
 describe("Radiology Insights Test", () => {
@@ -150,10 +151,13 @@ describe("Radiology Insights Test", () => {
   });
 
   it("radiology Insights test", async function () {
-    const result = await client.path("/radiology-insights/jobs").post(radiologyInsightsParameter);
+    const dateString = Date.now();
+    const jobID = "jobId-" + dateString;
+    const result = await client.path("/radiology-insights/jobs/{id}", jobID).put(param);
     const poller = await getLongRunningPoller(client, result);
     const res = await poller.pollUntilDone();
     console.log(res);
+    console.log("Error details:" + JSON.stringify(res.body.error?.details));
     assert.equal(res.status, "200");
   });
 });
