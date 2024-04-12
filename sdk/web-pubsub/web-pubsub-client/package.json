@@ -16,14 +16,15 @@
     "./dist-esm/src/websocket/websocketClient.js": "./dist-esm/src/websocket/websocketClient.browser.js",
     "events": "eventemitter3"
   },
+  "jsdelivr": "./dist-browser/index.browser.js",
   "types": "types/web-pubsub-client.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:browser": "tsc -p . && dev-tool run bundle",
+    "build:browser": "tsc -p . && dev-tool run bundle && webpack-cli --mode=production",
     "build:node": "tsc -p . && dev-tool run bundle",
     "build:samples": "dev-tool samples publish -f",
     "build:test": "tsc -p . && dev-tool run bundle",
-    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local",
+    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local && webpack-cli --mode=production",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist dist-esm test-dist temp types *.tgz *.log",
@@ -114,7 +115,9 @@
     "mock-socket": "^9.1.5",
     "util": "^0.12.1",
     "@types/ws": "^7.4.5",
-    "ts-node": "^10.0.0"
+    "ts-node": "^10.0.0",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
   },
   "//sampleConfiguration": {
     "productName": "Azure Web PubSub Client",
