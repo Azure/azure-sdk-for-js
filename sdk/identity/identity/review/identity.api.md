@@ -445,7 +445,6 @@ export class WorkloadIdentityCredential implements TokenCredential {
 // @public
 export interface WorkloadIdentityCredentialKubernetesOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
     clientId?: string;
-    // (undocumented)
     serviceConnectionId?: never;
     tenantId?: string;
     tokenFilePath?: string;
@@ -459,7 +458,6 @@ export interface WorkloadIdentityCredentialServiceConnectionOptions extends Mult
     clientId?: string;
     serviceConnectionId?: string;
     tenantId?: string;
-    // (undocumented)
     tokenFilePath?: never;
 }
 
