@@ -2494,16 +2494,6 @@ packages:
       lodash: 4.17.21
     dev: false
 
-  /@microsoft/api-extractor-model@7.28.14(@types/node@16.18.96):
-    resolution: {integrity: sha512-Bery/c8A8SsKPSvA82cTTuy/+OcxZbLRmKhPkk91/AJOQzxZsShcrmHFAGeiEqSIrv1nPZ3tKq9kfMLdCHmsqg==}
-    dependencies:
-      '@microsoft/tsdoc': 0.14.2
-      '@microsoft/tsdoc-config': 0.16.2
-      '@rushstack/node-core-library': 4.1.0(@types/node@16.18.96)
-    transitivePeerDependencies:
-      - '@types/node'
-    dev: false
-
   /@microsoft/api-extractor-model@7.28.14(@types/node@18.19.31):
     resolution: {integrity: sha512-Bery/c8A8SsKPSvA82cTTuy/+OcxZbLRmKhPkk91/AJOQzxZsShcrmHFAGeiEqSIrv1nPZ3tKq9kfMLdCHmsqg==}
     dependencies:
@@ -2540,27 +2530,6 @@ packages:
       semver: 7.5.4
       source-map: 0.6.1
       typescript: 5.3.3
-    transitivePeerDependencies:
-      - '@types/node'
-    dev: false
-
-  /@microsoft/api-extractor@7.43.1(@types/node@16.18.96):
-    resolution: {integrity: sha512-ohg40SsvFFgzHFAtYq5wKJc8ZDyY46bphjtnSvhSSlXpPTG7GHwyyXkn48UZiUCBwr2WC7TRC1Jfwz7nreuiyQ==}
-    hasBin: true
-    dependencies:
-      '@microsoft/api-extractor-model': 7.28.14(@types/node@16.18.96)
-      '@microsoft/tsdoc': 0.14.2
-      '@microsoft/tsdoc-config': 0.16.2
-      '@rushstack/node-core-library': 4.1.0(@types/node@16.18.96)
-      '@rushstack/rig-package': 0.5.2
-      '@rushstack/terminal': 0.10.1(@types/node@16.18.96)
-      '@rushstack/ts-command-line': 4.19.2(@types/node@16.18.96)
-      lodash: 4.17.21
-      minimatch: 3.0.8
-      resolve: 1.22.8
-      semver: 7.5.4
-      source-map: 0.6.1
-      typescript: 5.4.2
     transitivePeerDependencies:
       - '@types/node'
     dev: false
@@ -3332,23 +3301,6 @@ packages:
       z-schema: 5.0.5
     dev: false
 
-  /@rushstack/node-core-library@4.1.0(@types/node@16.18.96):
-    resolution: {integrity: sha512-qz4JFBZJCf1YN5cAXa1dP6Mki/HrsQxc/oYGAGx29dF2cwF2YMxHoly0FBhMw3IEnxo5fMj0boVfoHVBkpkx/w==}
-    peerDependencies:
-      '@types/node': '*'
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-    dependencies:
-      '@types/node': 16.18.96
-      fs-extra: 7.0.1
-      import-lazy: 4.0.0
-      jju: 1.4.0
-      resolve: 1.22.8
-      semver: 7.5.4
-      z-schema: 5.0.5
-    dev: false
-
   /@rushstack/node-core-library@4.1.0(@types/node@18.19.31):
     resolution: {integrity: sha512-qz4JFBZJCf1YN5cAXa1dP6Mki/HrsQxc/oYGAGx29dF2cwF2YMxHoly0FBhMw3IEnxo5fMj0boVfoHVBkpkx/w==}
     peerDependencies:
@@ -3380,19 +3332,6 @@ packages:
       strip-json-comments: 3.1.1
     dev: false
 
-  /@rushstack/terminal@0.10.1(@types/node@16.18.96):
-    resolution: {integrity: sha512-C6Vi/m/84IYJTkfzmXr1+W8Wi3MmBjVF/q3za91Gb3VYjKbpALHVxY6FgH625AnDe5Z0Kh4MHKWA3Z7bqgAezA==}
-    peerDependencies:
-      '@types/node': '*'
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-    dependencies:
-      '@rushstack/node-core-library': 4.1.0(@types/node@16.18.96)
-      '@types/node': 16.18.96
-      supports-color: 8.1.1
-    dev: false
-
   /@rushstack/terminal@0.10.1(@types/node@18.19.31):
     resolution: {integrity: sha512-C6Vi/m/84IYJTkfzmXr1+W8Wi3MmBjVF/q3za91Gb3VYjKbpALHVxY6FgH625AnDe5Z0Kh4MHKWA3Z7bqgAezA==}
     peerDependencies:
@@ -3413,17 +3352,6 @@ packages:
       argparse: 1.0.10
       colors: 1.2.5
       string-argv: 0.3.2
-    dev: false
-
-  /@rushstack/ts-command-line@4.19.2(@types/node@16.18.96):
-    resolution: {integrity: sha512-cqmXXmBEBlzo9WtyUrHtF9e6kl0LvBY7aTSVX4jfnBfXWZQWnPq9JTFPlQZ+L/ZwjZ4HrNwQsOVvhe9oOucZkw==}
-    dependencies:
-      '@rushstack/terminal': 0.10.1(@types/node@16.18.96)
-      '@types/argparse': 1.0.38
-      argparse: 1.0.10
-      string-argv: 0.3.2
-    transitivePeerDependencies:
-      - '@types/node'
     dev: false
 
   /@rushstack/ts-command-line@4.19.2(@types/node@18.19.31):
@@ -3451,12 +3379,6 @@ packages:
     resolution: {integrity: sha512-K3mCHKQ9sVh8o1C9cxkwxaOmXoAMlDxC1mYyHrjqOWEcBjYr76t96zL2zlj5dUGZ3HSw240X1qgH3Mjf1yJWpQ==}
     dependencies:
       type-detect: 4.0.8
-    dev: false
-
-  /@sinonjs/fake-timers@10.3.0:
-    resolution: {integrity: sha512-V4BG07kuYSUkTCSBHG8G8TNhM+F19jXFWnQtzj+we8DrkpSBCee9Z3Ms8yiGer/dlmhe35/Xdgyo3/0rQKg7YA==}
-    dependencies:
-      '@sinonjs/commons': 3.0.1
     dev: false
 
   /@sinonjs/fake-timers@11.2.2:
@@ -3737,10 +3659,6 @@ packages:
       form-data: 4.0.0
     dev: false
 
-  /@types/node@16.18.96:
-    resolution: {integrity: sha512-84iSqGXoO+Ha16j8pRZ/L90vDMKX04QTYMTfYeE1WrjWaZXuchBehGUZEpNgx7JnmlrIHdnABmpjrQjhCnNldQ==}
-    dev: false
-
   /@types/node@18.19.31:
     resolution: {integrity: sha512-ArgCD39YpyyrtFKIqMDvjz79jto5fcI/SVUs2HwB+f0dAzq68yqOdyaSivLiLugSziTpNXLQrVb7RZFmdZzbhA==}
     dependencies:
@@ -3818,12 +3736,6 @@ packages:
 
   /@types/shimmer@1.0.5:
     resolution: {integrity: sha512-9Hp0ObzwwO57DpLFF0InUjUm/II8GmKAvzbefxQTihCb7KI6yc9yzf0nLc4mVdby5N4DRCgQM2wCup9KTieeww==}
-    dev: false
-
-  /@types/sinon@10.0.20:
-    resolution: {integrity: sha512-2APKKruFNCAZgx3daAyACGzWuJ028VVCUDk6o2rw/Z4PXT0ogwdV4KUegW0MwVs0Zu59auPXbbuBJHF12Sx1Eg==}
-    dependencies:
-      '@types/sinonjs__fake-timers': 8.1.5
     dev: false
 
   /@types/sinon@17.0.3:
@@ -9523,18 +9435,6 @@ packages:
       simple-concat: 1.0.1
     dev: false
 
-  /sinon@15.2.0:
-    resolution: {integrity: sha512-nPS85arNqwBXaIsFCkolHjGIkFo+Oxu9vbgmBJizLAhqe6P2o3Qmj3KCUoRkfhHtvgDhZdWD3risLHAUJ8npjw==}
-    deprecated: 16.1.1
-    dependencies:
-      '@sinonjs/commons': 3.0.1
-      '@sinonjs/fake-timers': 10.3.0
-      '@sinonjs/samsam': 8.0.0
-      diff: 5.2.0
-      nise: 5.1.9
-      supports-color: 7.2.0
-    dev: false
-
   /sinon@17.0.1:
     resolution: {integrity: sha512-wmwE19Lie0MLT+ZYNpDymasPHUKTaZHUH/pKEubRXIzySv9Atnlw+BUMGCzWgV7b7wO+Hw6f1TEOr0IUnmU8/g==}
     dependencies:
@@ -10052,37 +9952,6 @@ packages:
     dependencies:
       '@ts-morph/common': 0.23.0
       code-block-writer: 13.0.1
-    dev: false
-
-  /ts-node@10.9.2(@types/node@16.18.96)(typescript@5.2.2):
-    resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
-    hasBin: true
-    peerDependencies:
-      '@swc/core': '>=1.2.50'
-      '@swc/wasm': '>=1.2.50'
-      '@types/node': '*'
-      typescript: '>=2.7'
-    peerDependenciesMeta:
-      '@swc/core':
-        optional: true
-      '@swc/wasm':
-        optional: true
-    dependencies:
-      '@cspotcode/source-map-support': 0.8.1
-      '@tsconfig/node10': 1.0.11
-      '@tsconfig/node12': 1.0.11
-      '@tsconfig/node14': 1.0.3
-      '@tsconfig/node16': 1.0.4
-      '@types/node': 16.18.96
-      acorn: 8.11.3
-      acorn-walk: 8.3.2
-      arg: 4.1.3
-      create-require: 1.1.1
-      diff: 4.0.2
-      make-error: 1.3.6
-      typescript: 5.2.2
-      v8-compile-cache-lib: 3.0.1
-      yn: 3.1.1
     dev: false
 
   /ts-node@10.9.2(@types/node@18.19.31)(typescript@5.2.2):
@@ -19808,19 +19677,20 @@ packages:
     dev: false
 
   file:projects/eventgrid-namespaces.tgz:
-    resolution: {integrity: sha512-u1HHRR9WI+jYJtRkf4yT6B79elag61awHV5eSZQHDjV+DrrJaXjkDJ8lLgFr4fCD9BObdJchB1C6M4fzKiYhIw==, tarball: file:projects/eventgrid-namespaces.tgz}
+    resolution: {integrity: sha512-DOOyIJuo+blGBLvrHYmVGQbjwq+fF0CRTVNrqmAFXgo7l4nNhiOq7j0hII9peIK0mfa4PnY0aAoa8+OqeU1ZWg==, tarball: file:projects/eventgrid-namespaces.tgz}
     name: '@rush-temp/eventgrid-namespaces'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 3.1.2
-      '@microsoft/api-extractor': 7.43.1(@types/node@16.18.96)
+      '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.6
-      '@types/node': 16.18.96
-      '@types/sinon': 10.0.20
+      '@types/node': 18.19.31
+      '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
       buffer: 6.0.3
+      c8: 9.1.0
       chai: 4.3.10
       chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
@@ -19839,12 +19709,12 @@ packages:
       mocha-junit-reporter: 2.2.1(mocha@10.4.0)
       nyc: 15.1.0
       prettier: 2.8.8
-      rimraf: 3.0.2
-      sinon: 15.2.0
+      rimraf: 5.0.5
+      sinon: 17.0.1
       source-map-support: 0.5.21
-      ts-node: 10.9.2(@types/node@16.18.96)(typescript@5.2.2)
+      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
       tslib: 2.6.2
-      typescript: 5.2.2
+      typescript: 5.3.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'

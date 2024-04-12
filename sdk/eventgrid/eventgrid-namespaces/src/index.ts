@@ -4,7 +4,6 @@
 export { AzureKeyCredential } from "@azure/core-auth";
 
 export {
-  CloudEvent,
   ReceiveResult,
   ReceiveDetails,
   BrokerProperties,
@@ -30,4 +29,4 @@ export { PublishResultOutput } from "./cadl-generated/rest";
 
 export { OperationOptions } from "@azure-rest/core-client";
 
-export { PublishCloudEventOptions } from "./models";
+export { CloudEvent, PublishCloudEventOptions } from "./models";

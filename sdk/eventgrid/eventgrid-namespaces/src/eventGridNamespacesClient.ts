@@ -14,12 +14,12 @@ import {
   RejectCloudEventsOptions,
   RenewCloudEventLocksOptions,
   RenewCloudEventLocksResult,
-  CloudEvent,
+  CloudEvent as CloudEventWireModel,
 } from "./cadl-generated/models";
 import { randomUUID } from "@azure/core-util";
 import { EventGridClient as EventGridClientGenerated } from "./cadl-generated/EventGridClient";
 import { EventGridClientOptions } from "./cadl-generated/api";
-import { PublishCloudEventOptions } from "./models";
+import { PublishCloudEventOptions, CloudEvent, cloudEventReservedPropertyNames } from "./models";
 import { publishCloudEventInBinaryMode } from "./eventGridNamespacesPublishBinaryMode";
 
 /**
@@ -50,15 +50,15 @@ export class EventGridNamespacesClient {
    * @param options - Options to publish
    *
    */
-  async publishCloudEvent(
-    event: CloudEvent,
+  async publishCloudEvent<T>(
+    event: CloudEvent<T>,
     topicName: string,
     options: PublishCloudEventOptions = { requestOptions: {} },
   ): Promise<void> {
-    const cloudEventWireModel: CloudEvent = convertCloudEventToModelType(event);
+    const cloudEventWireModel: CloudEventWireModel = convertCloudEventToModelType(event);
 
     if (!options.binaryMode) {
-      await this._client.publishCloudEvent(topicName, event, options);
+      await this._client.publishCloudEvent(topicName, cloudEventWireModel, options);
     } else {
       await publishCloudEventInBinaryMode(
         this._client.getClient(),
@@ -84,12 +84,12 @@ export class EventGridNamespacesClient {
    * @param options - Options to publish
    *
    */
-  async publishCloudEvents(
-    events: CloudEvent[],
+  async publishCloudEvents<T>(
+    events: CloudEvent<T>[],
     topicName: string,
     options: PublishCloudEventsOptions = { requestOptions: {} },
   ): Promise<void> {
-    const eventsWireModel: Array<CloudEvent> = [];
+    const eventsWireModel: Array<CloudEventWireModel> = [];
     for (const individualevent of events) {
       eventsWireModel.push(convertCloudEventToModelType(individualevent));
     }
@@ -209,8 +209,22 @@ export class EventGridNamespacesClient {
   }
 }
 
-export function convertCloudEventToModelType(event: CloudEvent): CloudEvent {
-  const converted: CloudEvent = {
+export function convertCloudEventToModelType<T>(event: CloudEvent<T>): CloudEventWireModel {
+  if (event.extensionAttributes) {
+    for (const propName in event.extensionAttributes) {
+      // Per the cloud events spec: "CloudEvents attribute names MUST consist of lower-case letters ('a' to 'z') or digits ('0' to '9') from the ASCII character set"
+      // they also can not match an existing defined property name.
+
+      if (
+        !/^[a-z0-9]*$/.test(propName) ||
+        cloudEventReservedPropertyNames.indexOf(propName) !== -1
+      ) {
+        throw new Error(`invalid extension attribute name: ${propName}`);
+      }
+    }
+  }
+
+  const converted: CloudEventWireModel = {
     specversion: event.specversion ?? "1.0",
     type: event.type,
     source: event.source,
@@ -218,6 +232,7 @@ export function convertCloudEventToModelType(event: CloudEvent): CloudEvent {
     time: event.time ?? new Date(),
     subject: event.subject,
     dataschema: event.dataschema,
+    ...(event.extensionAttributes ?? []),
   };
 
   if (event.data instanceof Uint8Array) {

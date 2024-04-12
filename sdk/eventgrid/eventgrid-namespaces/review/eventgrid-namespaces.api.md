@@ -29,14 +29,14 @@ export interface BrokerProperties {
 }
 
 // @public
-export interface CloudEvent {
-    data?: unknown;
-    dataBase64?: Uint8Array;
+export interface CloudEvent<T> {
+    data?: T;
     datacontenttype?: string;
     dataschema?: string;
+    extensionAttributes?: Record<string, unknown>;
     id: string;
     source: string;
-    specversion: string;
+    specversion?: string | "1.0";
     subject?: string;
     time?: Date;
     type: string;
@@ -46,8 +46,8 @@ export interface CloudEvent {
 export class EventGridClient {
     constructor(endpoint: string, credential: AzureKeyCredential | TokenCredential, options?: EventGridClientOptions);
     acknowledgeCloudEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: AcknowledgeCloudEventsOptions): Promise<AcknowledgeResult>;
-    publishCloudEvent(event: CloudEvent, topicName: string, options?: PublishCloudEventOptions): Promise<void>;
-    publishCloudEvents(events: CloudEvent[], topicName: string, options?: PublishCloudEventsOptions): Promise<void>;
+    publishCloudEvent<T>(event: CloudEvent<T>, topicName: string, options?: PublishCloudEventOptions): Promise<void>;
+    publishCloudEvents<T>(events: CloudEvent<T>[], topicName: string, options?: PublishCloudEventsOptions): Promise<void>;
     receiveCloudEvents(topicName: string, eventSubscriptionName: string, options?: ReceiveCloudEventsOptions): Promise<ReceiveResult>;
     rejectCloudEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: RejectCloudEventsOptions): Promise<RejectResult>;
     releaseCloudEvents(lockTokens: string[], topicName: string, eventSubscriptionName: string, options?: ReleaseCloudEventsOptions): Promise<ReleaseResult>;
@@ -90,7 +90,8 @@ export interface ReceiveCloudEventsOptions extends OperationOptions {
 // @public
 export interface ReceiveDetails {
     brokerProperties: BrokerProperties;
-    event: CloudEvent;
+    // Warning: (ae-forgotten-export) The symbol "CloudEvent_2" needs to be exported by the entry point index.d.ts
+    event: CloudEvent_2;
 }
 
 // @public

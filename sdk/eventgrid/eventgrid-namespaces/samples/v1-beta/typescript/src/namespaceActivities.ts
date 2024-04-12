@@ -24,7 +24,7 @@ export async function main(): Promise<void> {
 
   // publishes a single cloud event
   const eventId: string = `singleEventIdV210001`;
-  const cloudEvent: CloudEvent = {
+  const cloudEvent: CloudEvent<any> = {
     type: "example",
     source: "https://example.com",
     id: eventId,

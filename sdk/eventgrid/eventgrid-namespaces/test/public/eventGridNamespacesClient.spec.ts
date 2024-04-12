@@ -60,7 +60,7 @@ describe("Event Grid Namespace Client", function (this: Suite) {
   describe("Non Binary Mode Publishing", function () {
     it("publishes a single cloud event", async () => {
       const eventId: string = `singleEventIdV210001`;
-      const cloudEvent: CloudEvent = {
+      const cloudEvent: CloudEvent<any> = {
         type: "example",
         source: "https://example.com",
         id: recorder.variable("singleEventId", eventId),
@@ -84,7 +84,7 @@ describe("Event Grid Namespace Client", function (this: Suite) {
     it("publishes multiple cloud events", async () => {
       const eventIds: string[] = [`MultipleEventId110002`, `MultipleEventId210003`];
 
-      const cloudEvents: CloudEvent[] = [
+      const cloudEvents: CloudEvent<any>[] = [
         {
           type: "example",
           source: "https://example.com",
@@ -127,7 +127,7 @@ describe("Event Grid Namespace Client", function (this: Suite) {
 
     it("releases a cloud event", async () => {
       const eventId: string = `singleEventIdV210004`;
-      const cloudEvent: CloudEvent = {
+      const cloudEvent: CloudEvent<any> = {
         type: "example",
         source: "https://example.com",
         id: recorder.variable("singleEventId", eventId),
@@ -167,7 +167,7 @@ describe("Event Grid Namespace Client", function (this: Suite) {
 
     it("rejects a cloud event", async () => {
       const eventId: string = `singleEventIdV210005`;
-      const cloudEvent: CloudEvent = {
+      const cloudEvent: CloudEvent<any> = {
         type: "example",
         source: "https://example.com",
         id: recorder.variable("singleEventId", eventId),
@@ -199,7 +199,7 @@ describe("Event Grid Namespace Client", function (this: Suite) {
 
     it("renews a cloud event", async () => {
       const eventId: string = `singleEventIdV210008`;
-      const cloudEvent: CloudEvent = {
+      const cloudEvent: CloudEvent<any> = {
         type: "example",
         source: "https://example.com",
         id: recorder.variable("singleEventId", eventId),
@@ -233,7 +233,7 @@ describe("Event Grid Namespace Client", function (this: Suite) {
       const data = {
         resourceUri: "https://dummyurl.com",
       };
-      const cloudEvent: CloudEvent = {
+      const cloudEvent: CloudEvent<any> = {
         type: "example",
         source: "https://example.com",
         id: recorder.variable("singleEventId", eventId),
@@ -257,7 +257,7 @@ describe("Event Grid Namespace Client", function (this: Suite) {
       const data = {
         resourceUri: "https://dummyurl.com",
       };
-      const cloudEvent: CloudEvent = {
+      const cloudEvent: CloudEvent<any> = {
         type: "example",
         source: "https://example.com",
         id: recorder.variable("singleEventId", eventId),
