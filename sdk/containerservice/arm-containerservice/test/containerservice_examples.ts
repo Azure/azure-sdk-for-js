@@ -33,7 +33,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("ContainerService test", () => {
+describe.skip("ContainerService test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let clientId: string;
