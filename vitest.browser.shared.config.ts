@@ -8,6 +8,12 @@ import { relativeRecordingsPath } from "@azure-tools/test-recorder";
 process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
 
 export default defineConfig({
+  define: {
+    "process.env": process.env,
+  },
+  optimizeDeps: {
+    include: ["@azure-tools/test-recorder"],
+  },
   test: {
     reporters: ["basic", "junit"],
     outputFile: {
