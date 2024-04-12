@@ -4,8 +4,8 @@
 
 import { AmqpError, AmqpResponseStatusCode, isAmqpError as rheaIsAmqpError } from "rhea-promise";
 import { isDefined, isObjectWithProperties } from "@azure/core-util";
-import { isNode, isNumber, isString } from "../src/util/utils";
-import { isError } from "@azure/core-util";
+import { isNumber, isString } from "../src/util/utils.js";
+import { isError, isNodeLike } from "@azure/core-util";
 
 /**
  * Maps the conditions to the numeric AMQP Response status codes.
@@ -623,7 +623,12 @@ export function isSystemError(err: unknown): err is NetworkSystemError {
  */
 function isBrowserWebsocketError(err: any): boolean {
   let result: boolean = false;
-  if (!isNode && self && err.type === "error" && err.target instanceof (self as any).WebSocket) {
+  if (
+    !isNodeLike &&
+    self &&
+    err.type === "error" &&
+    err.target instanceof (self as any).WebSocket
+  ) {
     result = true;
   }
   return result;

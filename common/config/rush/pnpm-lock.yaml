@@ -18806,7 +18806,7 @@ packages:
     dev: false
 
   file:projects/core-amqp.tgz:
-    resolution: {integrity: sha512-NJUzWuyAqDCk06/wS2uzPdGBD6HZDiovO//Tk5p/15t01KH1rfStBCMOt6gSVYJyjizZsy1WjOoI6u+GDBRn/w==, tarball: file:projects/core-amqp.tgz}
+    resolution: {integrity: sha512-lZBvrVpvgGUW6u9XdtTsqxbLonekvkr1eouKsHKEOqUjo0wy/H7jtZRwDIF4c5SXKBNuWllfz7W56VQWQ4QhBQ==, tarball: file:projects/core-amqp.tgz}
     name: '@rush-temp/core-amqp'
     version: 0.0.0
     dependencies:
@@ -18817,6 +18817,8 @@ packages:
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
       '@types/ws': 7.4.7
+      '@vitest/browser': 1.5.0(playwright@1.43.0)(vitest@1.5.0)
+      '@vitest/coverage-istanbul': 1.5.0(vitest@1.5.0)
       buffer: 6.0.3
       c8: 9.1.0
       chai: 4.3.10
@@ -18835,16 +18837,29 @@ packages:
       rimraf: 5.0.5
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
+      tshy: 1.13.1
       tslib: 2.6.2
       typescript: 5.4.5
       util: 0.12.5
+      vitest: 1.5.0(@types/node@18.19.31)(@vitest/browser@1.5.0)
       ws: 8.16.0
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - playwright
+      - safaridriver
+      - sass
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - webdriverio
     dev: false
 
   file:projects/core-auth.tgz:

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { Connection, EventContext, Message as RheaMessage, generate_uuid } from "rhea-promise";
 import {
@@ -11,17 +12,32 @@ import {
   RetryOperationType,
   StandardAbortMessage,
   retry,
-} from "../src";
+} from "../src/index.js";
 import {
   DeferredPromiseWithCallback,
   getCodeDescriptionAndError,
   onMessageReceived,
-} from "../src/requestResponseLink";
-import { SinonSpy, fake, stub } from "sinon";
+} from "../src/requestResponseLink.js";
 import EventEmitter from "events";
-import { assert } from "chai";
-import { createConnectionStub } from "./utils/createConnectionStub";
+import { createConnectionStub } from "./utils/createConnectionStub.js";
 import { isError } from "@azure/core-util";
+
+vi.mock("rhea-promise", async () => {
+  const actual = await vi.importActual("rhea-promise");
+  // eslint-disable-next-line @typescript-eslint/no-shadow
+  const Connection = vi.fn();
+  Connection.prototype.open = vi.fn();
+  Connection.prototype.createSession = vi.fn();
+  Object.defineProperty(Connection.prototype, "id", {
+    get: vi.fn(),
+  });
+
+  return {
+    __esModule: true,
+    ...actual,
+    Connection,
+  };
+});
 
 const assertItemsLengthInResponsesMap = (
   _responsesMap: Map<string, DeferredPromiseWithCallback>,
@@ -80,10 +96,10 @@ describe("RequestResponseLink", function () {
   });
 
   it("should send a request and receive a response correctly", async function () {
-    const connectionStub = stub(new Connection());
+    const connectionStub = new Connection();
     const rcvr = new EventEmitter();
     let req: any = {};
-    connectionStub.createSession.resolves({
+    vi.mocked(connectionStub.createSession).mockResolvedValue({
       connection: {
         id: "connection-1",
       },
@@ -129,10 +145,10 @@ describe("RequestResponseLink", function () {
   });
 
   it("should send parallel requests and receive responses correctly", async function () {
-    const connectionStub = stub(new Connection());
+    const connectionStub = new Connection();
     const rcvr = new EventEmitter();
     const reqs: RheaMessage[] = [];
-    connectionStub.createSession.resolves({
+    vi.mocked(connectionStub.createSession).mockResolvedValue({
       connection: {
         id: "connection-1",
       },
@@ -199,10 +215,10 @@ describe("RequestResponseLink", function () {
   });
 
   it("request without `message_id` gets a new `message_id`", async function () {
-    const connectionStub = stub(new Connection());
+    const connectionStub = new Connection();
     const rcvr = new EventEmitter();
     const reqs: RheaMessage[] = [];
-    connectionStub.createSession.resolves({
+    vi.mocked(connectionStub.createSession).mockResolvedValue({
       connection: {
         id: "connection-1",
       },
@@ -246,10 +262,10 @@ describe("RequestResponseLink", function () {
   });
 
   it("should send parallel requests and receive responses correctly (one failure)", async function () {
-    const connectionStub = stub(new Connection());
+    const connectionStub = new Connection();
     const rcvr = new EventEmitter();
     const reqs: RheaMessage[] = [];
-    connectionStub.createSession.resolves({
+    vi.mocked(connectionStub.createSession).mockResolvedValue({
       connection: {
         id: "connection-1",
       },
@@ -318,7 +334,7 @@ describe("RequestResponseLink", function () {
       throw new Error("Test failure");
     } catch (err) {
       assert.ok(isError(err));
-      (err as Error).message.should.not.equal("Test failure");
+      assert.notEqual((err as Error).message, "Test failure");
     }
 
     // ensure the other request succeeds
@@ -328,11 +344,11 @@ describe("RequestResponseLink", function () {
   });
 
   it("should surface error up through retry", async function () {
-    const connectionStub = stub(new Connection());
+    const connectionStub = new Connection();
     const rcvr = new EventEmitter();
     let messageId: string = "";
     let count = 0;
-    connectionStub.createSession.resolves({
+    vi.mocked(connectionStub.createSession).mockResolvedValue({
       connection: {
         id: "connection-1",
       },
@@ -411,10 +427,10 @@ describe("RequestResponseLink", function () {
   });
 
   it("should abort a request and response correctly", async function () {
-    const connectionStub = stub(new Connection());
+    const connectionStub = new Connection();
     const rcvr = new EventEmitter();
     let req: any = {};
-    connectionStub.createSession.resolves({
+    vi.mocked(connectionStub.createSession).mockResolvedValue({
       connection: {
         id: "connection-1",
       },
@@ -474,10 +490,10 @@ describe("RequestResponseLink", function () {
   });
 
   it("should abort a request and response correctly when abort signal is fired after sometime", async function () {
-    const connectionStub = stub(new Connection());
+    const connectionStub = new Connection();
     const rcvr = new EventEmitter();
     let req: any = {};
-    connectionStub.createSession.resolves({
+    vi.mocked(connectionStub.createSession).mockResolvedValue({
       connection: {
         id: "connection-1",
       },
@@ -548,10 +564,10 @@ describe("RequestResponseLink", function () {
   });
 
   it("should abort a request and response correctly when abort signal is already fired", async function () {
-    const connectionStub = stub(new Connection());
+    const connectionStub = new Connection();
     const rcvr = new EventEmitter();
     let req: any = {};
-    connectionStub.createSession.resolves({
+    vi.mocked(connectionStub.createSession).mockResolvedValue({
       connection: {
         id: "connection-1",
       },
@@ -627,10 +643,10 @@ describe("RequestResponseLink", function () {
     });
 
     it("sendRequest clears timeout after error message", async function () {
-      const connectionStub = stub(new Connection());
+      const connectionStub = new Connection();
       const rcvr = new EventEmitter();
       let req: any = {};
-      connectionStub.createSession.resolves({
+      vi.mocked(connectionStub.createSession).mockResolvedValue({
         connection: {
           id: "connection-1",
         },
@@ -684,10 +700,10 @@ describe("RequestResponseLink", function () {
     });
 
     it("sendRequest clears timeout after successful message", async function () {
-      const connectionStub = stub(new Connection());
+      const connectionStub = new Connection();
       const rcvr = new EventEmitter();
       let req: any = {};
-      connectionStub.createSession.resolves({
+      vi.mocked(connectionStub.createSession).mockResolvedValue({
         connection: {
           id: "connection-1",
         },
@@ -736,18 +752,18 @@ describe("RequestResponseLink", function () {
 
   describe("close", () => {
     it("signals receiver and sender to now close the session", async () => {
-      const connectionStub = stub(new Connection());
-      connectionStub.createSession.resolves({
+      const connectionStub = new Connection();
+      vi.mocked(connectionStub.createSession).mockResolvedValue({
         connection: {
           id: "connection-1",
         },
-        close: fake(),
+        close: vi.fn(),
         createSender: () => {
           return Promise.resolve({
             send: () => {
               /* no op */
             },
-            close: fake(),
+            close: vi.fn(),
             on: () => {
               /* no_op */
             },
@@ -755,7 +771,7 @@ describe("RequestResponseLink", function () {
         },
         createReceiver: () => {
           return Promise.resolve({
-            close: fake(),
+            close: vi.fn(),
             on: () => {
               /** Empty function on purpose for the sake of mocking */
             },
@@ -773,18 +789,9 @@ describe("RequestResponseLink", function () {
 
       await link.close();
 
-      assert(
-        (senderStub.close as SinonSpy).calledOnceWith({ closeSession: false }),
-        "Sender.close() should have been called once.",
-      );
-      assert(
-        (receiverStub.close as SinonSpy).calledOnceWith({ closeSession: false }),
-        "Receiver.close() should have been called once.",
-      );
-      assert(
-        (sessionStub.close as SinonSpy).calledOnceWithExactly(),
-        "Session.close() should have been called once.",
-      );
+      expect(sessionStub.close).toHaveBeenCalledWith({ closeSession: false });
+      expect(receiverStub.close).toHaveBeenCalledWith({ closeSession: false });
+      expect(senderStub.close).toHaveBeenCalledWith({ closeSession: false });
     });
   });
 
@@ -875,8 +882,8 @@ describe("RequestResponseLink", function () {
         false,
         "Unexpected - cleanupBeforeResolveOrReject is called",
       );
-      assert.equal(isRejected, false, "Unexpected - promise is rejected");
-      assert.equal(isResolved, false, "Unexpected - promise is resolved");
+      assert.isFalse(isRejected, "Unexpected - promise is rejected");
+      assert.isFalse(isResolved, "Unexpected - promise is resolved");
     });
 
     it("returns if the correlation-id does not match, map is un-edited", () => {
@@ -888,8 +895,8 @@ describe("RequestResponseLink", function () {
         false,
         "Unexpected - cleanupBeforeResolveOrReject is called",
       );
-      assert.equal(isRejected, false, "Unexpected - promise is rejected");
-      assert.equal(isResolved, false, "Unexpected - promise is resolved");
+      assert.isFalse(isRejected, "Unexpected - promise is rejected");
+      assert.isFalse(isResolved, "Unexpected - promise is resolved");
     });
 
     it("returns if the correlation-id is not a string, map is un-edited", () => {
@@ -901,8 +908,8 @@ describe("RequestResponseLink", function () {
         false,
         "Unexpected - cleanupBeforeResolveOrReject is called",
       );
-      assert.equal(isRejected, false, "Unexpected - promise is rejected");
-      assert.equal(isResolved, false, "Unexpected - promise is resolved");
+      assert.isFalse(isRejected, "Unexpected - promise is rejected");
+      assert.isFalse(isResolved, "Unexpected - promise is resolved");
     });
 
     it("calls the cleanup callback and deletes the id from the map for the success case - (status code > 199 and < 300)", () => {
@@ -914,8 +921,8 @@ describe("RequestResponseLink", function () {
         true,
         "Unexpected - cleanupBeforeResolveOrReject is not called",
       );
-      assert.equal(isResolved, true, "Unexpected - promise is not resolved");
-      assert.equal(isRejected, false, "Unexpected - promise is rejected");
+      assert.isTrue(isResolved, "Unexpected - promise is not resolved");
+      assert.isFalse(isRejected, "Unexpected - promise is rejected");
     });
 
     it("deletes the only the single matched id from the map for the success case - (status code > 199 and < 300)", () => {
@@ -935,13 +942,12 @@ describe("RequestResponseLink", function () {
       assertItemsLengthInResponsesMap(responsesMap, 2);
       onMessageReceived(context, defaultConnectionId, responsesMap);
       assertItemsLengthInResponsesMap(responsesMap, 1);
-      assert.equal(
+      assert.isTrue(
         cleanupBeforeResolveOrRejectIsCalled,
-        true,
         "Unexpected - cleanupBeforeResolveOrReject is not called",
       );
-      assert.equal(isResolved, true, "Unexpected - promise is not resolved");
-      assert.equal(isRejected, false, "Unexpected - promise is rejected");
+      assert.isTrue(isResolved, "Unexpected - promise is not resolved");
+      assert.isFalse(isRejected, "Unexpected - promise is rejected");
     });
 
     it("calls the cleanup callback and deletes the id from the map for the failure case - (status code is not > 199 and <300)", () => {
@@ -949,13 +955,12 @@ describe("RequestResponseLink", function () {
       assertItemsLengthInResponsesMap(responsesMap, 1);
       onMessageReceived(context, defaultConnectionId, responsesMap);
       assertItemsLengthInResponsesMap(responsesMap, 0);
-      assert.equal(
+      assert.isTrue(
         cleanupBeforeResolveOrRejectIsCalled,
-        true,
         "Unexpected - cleanupBeforeResolveOrReject is not called",
       );
-      assert.equal(isResolved, false, "Unexpected - promise is resolved");
-      assert.equal(isRejected, true, "Unexpected - promise is not rejected");
+      assert.isFalse(isResolved, "Unexpected - promise is resolved");
+      assert.isTrue(isRejected, "Unexpected - promise is not rejected");
     });
 
     it("calls the cleanup callback and deletes the id from the map and rejects if there is no status code", () => {
@@ -963,13 +968,12 @@ describe("RequestResponseLink", function () {
       assertItemsLengthInResponsesMap(responsesMap, 1);
       onMessageReceived(context, defaultConnectionId, responsesMap);
       assertItemsLengthInResponsesMap(responsesMap, 0);
-      assert.equal(
+      assert.isTrue(
         cleanupBeforeResolveOrRejectIsCalled,
-        true,
         "Unexpected - cleanupBeforeResolveOrReject is not called",
       );
-      assert.equal(isResolved, false, "Unexpected - promise is resolved");
-      assert.equal(isRejected, true, "Unexpected - promise is not rejected");
+      assert.isFalse(isResolved, "Unexpected - promise is resolved");
+      assert.isTrue(isRejected, "Unexpected - promise is not rejected");
     });
   });
 });
