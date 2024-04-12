@@ -42,7 +42,7 @@ const TASK1_NAME = `${JOB_NAME}-task1`;
 const TASK2_NAME = `${JOB_NAME}-task2`;
 const TASK3_NAME = `${JOB_NAME}-task3`;
 
-const POLLING_INTERVAL = 0;
+const POLLING_INTERVAL = 5000;
 const LONG_TEST_TIMEOUT = 1000000;
 
 function getPoolName(type: string) {

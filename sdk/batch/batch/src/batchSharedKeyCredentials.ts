@@ -104,7 +104,7 @@ export class BatchSharedKeyCredentials implements ServiceClientCredentials {
       getvalueToAppend(webResource.headers, "If-Match") +
       getvalueToAppend(webResource.headers, "If-None-Match") +
       getvalueToAppend(webResource.headers, "If-Unmodified-Since") +
-      getvalueToAppend(webResource.h  eaders, "Range");
+      getvalueToAppend(webResource.headers, "Range");
 
     // Add customize HTTP header
     stringToSign += this._getCanonicalizedHeaders(webResource);
