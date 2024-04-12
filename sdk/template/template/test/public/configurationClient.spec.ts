@@ -85,10 +85,11 @@ describe("[AAD] ConfigurationClient functional tests", function () {
       assert.equal(expectedValue, setting.value);
     });
 
+    // TODO: Waiting on https://github.com/Azure/azure-sdk-for-js/issues/29287
     // The supportsTracing assertion from chaiAzure can be used to verify that
     // the `getConfigurationSetting` method is being traced correctly, that the
     // tracing span is properly parented and closed.
-    it("supports tracing", async () => {
+    it.skip("supports tracing", async () => {
       // Playback fails in the browser without the "HeaderlessMatcher"
       //
       // If-Modified-Since & If-None-Match headers are not present in the recording and the request in playback has these headers
