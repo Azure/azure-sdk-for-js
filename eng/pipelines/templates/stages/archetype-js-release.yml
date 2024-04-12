@@ -98,6 +98,8 @@ stages:
                                 Artifact: ${{artifact}}
                                 Registry: ${{parameters.Registry}}
                                 PathToArtifacts: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
+                                Tag: "$(Tag)"
+                                AdditionalTag: "$(AdditionalTag)"
                             - pwsh: >
                                 write-host "$(Package.Archive)"
 
@@ -248,13 +250,13 @@ stages:
                       echo "##vso[task.setvariable variable=NpmToken]$npmToken"
                       echo "##vso[task.setvariable variable=Registry]$registry"
                     displayName: Detecting package archive_${{artifact.name}}
-                  # Todo: add back daily package publishing
-                  # - template: /eng/pipelines/templates/steps/npm-release-task.yml
-                  #   parameters:
-                  #     ArtifactName: ${{parameters.ArtifactName}}
-                  #     Artifact: ${{artifact}}
-                  #     Registry: ${{parameters.Registry}}
-                  #     PathToArtifacts: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
+                  - template: /eng/pipelines/templates/steps/npm-release-task.yml
+                    parameters:
+                      ArtifactName: ${{parameters.ArtifactName}}
+                      Artifact: ${{artifact}}
+                      Registry: ${{parameters.Registry}}
+                      PathToArtifacts: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
+                      Tag: "dev"
                     
       - job: PublishDocsToNightlyBranch
         condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal'),  ne(variables['Skip.PublishDocs'], 'true')))
