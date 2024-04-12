@@ -8,9 +8,9 @@
   - New `uploadImage(...)` to upload an image.
   - New `deleteImage(...)` to delete an image.
   - Updated `SendMessageOptions` and `UpdateMessageOptions` to include `attachments`.
-- Added Data Retention feature for threads
+- Supported Data Retention feature for threads. 
   - New `RetentionPolicy` property in `ChatThreadProperties`.
-  - Updated `CreateChatThreadOptions` to include `retentionPolicy` and `metadata`.
+  - Updated `CreateChatThreadOptions` to include `retentionPolicy` .
   - New `updateProperties(...)` to update `ChatThreadProperties` including `retentionPolicy`.
 
 ### Other Changes
