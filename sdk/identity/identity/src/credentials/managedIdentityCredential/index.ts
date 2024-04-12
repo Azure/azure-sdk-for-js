@@ -71,7 +71,7 @@ export class ManagedIdentityCredential implements TokenCredential {
   private confidentialApp: ConfidentialClientApplication;
   private isAppTokenProviderInitialized: boolean = false;
   private msiRetryConfig: MSIConfiguration["retryConfig"] = {
-    maxRetries: 3,
+    maxRetries: 5,
     startDelayInMs: 800,
     intervalIncrement: 2,
   };

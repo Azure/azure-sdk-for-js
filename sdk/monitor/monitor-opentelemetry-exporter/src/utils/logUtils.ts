@@ -188,19 +188,19 @@ function getLegacyApplicationInsightsBaseData(log: ReadableLogRecord): MonitorDo
     try {
       switch (log.attributes[ApplicationInsightsBaseType]) {
         case ApplicationInsightsAvailabilityBaseType:
-          baseData = JSON.parse(log.body) as AvailabilityData;
+          baseData = log.body as AvailabilityData;
           break;
         case ApplicationInsightsExceptionBaseType:
-          baseData = JSON.parse(log.body) as TelemetryExceptionData;
+          baseData = log.body as TelemetryExceptionData;
           break;
         case ApplicationInsightsMessageBaseType:
-          baseData = JSON.parse(log.body) as MessageData;
+          baseData = log.body as MessageData;
           break;
         case ApplicationInsightsPageViewBaseType:
-          baseData = JSON.parse(log.body) as PageViewData;
+          baseData = log.body as PageViewData;
           break;
         case ApplicationInsightsEventBaseType:
-          baseData = JSON.parse(log.body) as TelemetryEventData;
+          baseData = log.body as TelemetryEventData;
           break;
       }
       if (typeof baseData?.message === "object") {
