@@ -1614,7 +1614,7 @@ packages:
 
   /@azure/msal-node-extensions@1.0.12:
     resolution: {integrity: sha512-i/ejhY5Q1D0FhkLKTa5tDxwgWqz3LDerrhEwk52qNfpZ70t6jgHCqGX0RGjofVuofzklwFlxA7ACecZ6ywZGWg==}
-    engines: {node: '>=16'}
+    engines: {node: '>=0.8.0'}
     dependencies:
       '@azure/msal-common': 14.7.1
       '@azure/msal-node-runtime': 0.13.6-alpha.0
