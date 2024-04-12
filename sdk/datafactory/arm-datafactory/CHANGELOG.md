@@ -1,15 +1,33 @@
 # Release History
+    
+## 15.0.0 (2024-04-12)
+    
+**Features**
 
-## 14.1.1 (Unreleased)
+  - Added Interface ServicePrincipalCredentialResource
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Operation CredentialOperations.createOrUpdate has a new signature
+  - Interface ManagedIdentityCredential no longer has parameter resourceId
+  - Type of parameter headers of interface AzureFunctionActivity is changed from {
+        [propertyName: string]: string;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter value of interface CredentialListResponse is changed from ManagedIdentityCredentialResource[] to CredentialResource[]
+  - Type of parameter headers of interface WebActivity is changed from {
+        [propertyName: string]: string;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter headers of interface WebHookActivity is changed from {
+        [propertyName: string]: string;
+    } to {
+        [propertyName: string]: any;
+    }
+    
+    
 ## 14.1.0 (2024-03-11)
     
 **Features**
