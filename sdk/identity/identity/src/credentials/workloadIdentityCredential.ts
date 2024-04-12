@@ -50,8 +50,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
    *
    * @param options - The identity client options to use for authentication.
    */
-  constructor(options?: WorkloadIdentityCredentialOptions)
-  {
+  constructor(options?: WorkloadIdentityCredentialOptions) {
     // Logging environment variables for error details
     const assignedEnv = processEnvVars(SupportedWorkloadEnvironmentVariables).assigned.join(", ");
     logger.info(`Found the following environment variables: ${assignedEnv}`);
@@ -60,20 +59,20 @@ export class WorkloadIdentityCredential implements TokenCredential {
     const tenantId = workloadIdentityCredentialOptions.tenantId || process.env.AZURE_TENANT_ID;
     const clientId = workloadIdentityCredentialOptions.clientId || process.env.AZURE_CLIENT_ID;
 
-    this.federatedTokenFilePath = 
+    this.federatedTokenFilePath =
       workloadIdentityCredentialOptions?.tokenFilePath || process.env.AZURE_FEDERATED_TOKEN_FILE;
     this.serviceConnectionId = workloadIdentityCredentialOptions.serviceConnectionId;
 
     if (tenantId) {
       checkTenantId(logger, tenantId);
     }
-    if(this.federatedTokenFilePath && this.serviceConnectionId){
+    if (this.federatedTokenFilePath && this.serviceConnectionId) {
       const errorMessage = `${credentialName}: ambiguous. serviceConnectionId and federatedTokenFilePath cannot be provided at the same time. These are used for supporting WorkloadIdentity for different environments. 
       The federatedTokenFilePath is used for Kubernetes while serviceConnectionId is used for Azure Devops.`;
       logger.info(errorMessage);
       throw new CredentialUnavailableError(errorMessage);
     }
-    
+
     if (clientId && tenantId && this.federatedTokenFilePath) {
       logger.info(
         `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${workloadIdentityCredentialOptions.clientId} and federated token path: [REDACTED]`,
@@ -84,22 +83,21 @@ export class WorkloadIdentityCredential implements TokenCredential {
         this.readFileContents.bind(this),
         options,
       );
-    }
-    else{
-      if(clientId && tenantId && this.serviceConnectionId){
+    } else {
+      if (clientId && tenantId && this.serviceConnectionId) {
         //Ensure all system env vars are there to form the request uri for OIDC token
-        if(this.checkDevopsSystemVars()){
-            const oidcRequestUrl = `${process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI}${process.env.SYSTEM_TEAMPROJECTID}/_apis/distributedtask/hubs/build/plans/${process.env.SYSTEM_PLANID}/jobs/${process.env.SYSTEM_JOBID}/oidctoken?api-version=7.1-preview.1&serviceConnectionId=${this.serviceConnectionId}`
-            const systemAccessToken = `${process.env.SECRET_SYSTEM_ACCESSTOKEN}`;
-            logger.info(
-              `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${workloadIdentityCredentialOptions.clientId} and service connection id: ${workloadIdentityCredentialOptions.serviceConnectionId}`,
-            );
-            this.client = new ClientAssertionCredential(
-              tenantId,
-              clientId,
-              this.requestOidcToken.bind(this,oidcRequestUrl,systemAccessToken),
-              options,
-            );
+        if (this.checkDevopsSystemVars()) {
+          const oidcRequestUrl = `${process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI}${process.env.SYSTEM_TEAMPROJECTID}/_apis/distributedtask/hubs/build/plans/${process.env.SYSTEM_PLANID}/jobs/${process.env.SYSTEM_JOBID}/oidctoken?api-version=7.1-preview.1&serviceConnectionId=${this.serviceConnectionId}`;
+          const systemAccessToken = `${process.env.SECRET_SYSTEM_ACCESSTOKEN}`;
+          logger.info(
+            `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${workloadIdentityCredentialOptions.clientId} and service connection id: ${workloadIdentityCredentialOptions.serviceConnectionId}`,
+          );
+          this.client = new ClientAssertionCredential(
+            tenantId,
+            clientId,
+            this.requestOidcToken.bind(this, oidcRequestUrl, systemAccessToken),
+            options,
+          );
         }
       }
     }
@@ -162,10 +160,13 @@ export class WorkloadIdentityCredential implements TokenCredential {
     return this.azureFederatedTokenFileContent;
   }
 
-  private async requestOidcToken(oidcRequestUrl: string, systemAccessToken: string): Promise<string> {
+  private async requestOidcToken(
+    oidcRequestUrl: string,
+    systemAccessToken: string,
+  ): Promise<string> {
     console.log("Requesting OIDC token from Azure DevOps...");
     console.debug(oidcRequestUrl);
-  
+
     const requestOptions = {
       method: "POST",
       headers: {
@@ -173,34 +174,40 @@ export class WorkloadIdentityCredential implements TokenCredential {
         Authorization: `Bearer ${systemAccessToken}`,
       },
     };
-  
+
     const response = await fetch(oidcRequestUrl, requestOptions);
     const result = await response.json();
     return result;
   }
 
-  private checkDevopsSystemVars(): boolean{
-    if(process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI && process.env.SYSTEM_TEAMPROJECTID && process.env.SYSTEM_PLANID && process.env.SYSTEM_JOBID && process.env.SECRET_SYSTEM_ACCESSTOKEN){
-      return true
+  private checkDevopsSystemVars(): boolean {
+    if (
+      process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI &&
+      process.env.SYSTEM_TEAMPROJECTID &&
+      process.env.SYSTEM_PLANID &&
+      process.env.SYSTEM_JOBID &&
+      process.env.SECRET_SYSTEM_ACCESSTOKEN
+    ) {
+      return true;
     }
-    if(!process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI){
-      this.systemError = "SYSTEM_TEAMFOUNDATIONCOLLECTIONURI,"
+    if (!process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI) {
+      this.systemError = "SYSTEM_TEAMFOUNDATIONCOLLECTIONURI,";
     }
-    if(!process.env.SYSTEM_TEAMPROJECTID){
-      this.systemError += "SYSTEM_TEAMPROJECTID,"
+    if (!process.env.SYSTEM_TEAMPROJECTID) {
+      this.systemError += "SYSTEM_TEAMPROJECTID,";
     }
-    if(!process.env.SYSTEM_PLANID){
-      this.systemError += "SYSTEM_PLANID,"
+    if (!process.env.SYSTEM_PLANID) {
+      this.systemError += "SYSTEM_PLANID,";
     }
-    if(!process.env.SYSTEM_JOBID){
-      this.systemError += "SYSTEM_JOBID,"
+    if (!process.env.SYSTEM_JOBID) {
+      this.systemError += "SYSTEM_JOBID,";
     }
-    if(!process.env.SECRET_SYSTEM_ACCESSTOKEN){
-      this.systemError += "SECRET_SYSTEM_ACCESSTOKEN"
+    if (!process.env.SECRET_SYSTEM_ACCESSTOKEN) {
+      this.systemError += "SECRET_SYSTEM_ACCESSTOKEN";
     }
-    if(this.systemError ){
-      this.systemError = `Missing system variable(s) - ${this.systemError}.`
+    if (this.systemError) {
+      this.systemError = `Missing system variable(s) - ${this.systemError}.`;
     }
-    return false
+    return false;
   }
 }
