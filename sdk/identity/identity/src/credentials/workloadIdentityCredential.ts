@@ -43,6 +43,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
   private cacheDate: number | undefined = undefined;
   private federatedTokenFilePath: string | undefined;
   private serviceConnectionId: string | undefined;
+  private systemError: string | undefined;
 
   /**
    * WorkloadIdentityCredential supports Microsoft Entra Workload ID on Kubernetes.
@@ -58,14 +59,21 @@ export class WorkloadIdentityCredential implements TokenCredential {
     const workloadIdentityCredentialOptions = options ?? {};
     const tenantId = workloadIdentityCredentialOptions.tenantId || process.env.AZURE_TENANT_ID;
     const clientId = workloadIdentityCredentialOptions.clientId || process.env.AZURE_CLIENT_ID;
-    this.federatedTokenFilePath =
-      workloadIdentityCredentialOptions.tokenFilePath || process.env.AZURE_FEDERATED_TOKEN_FILE;
-    // Qs - Do we want to detect the env var of the pattern "ENDPOINT_AUTH_[0-9a-zA-Z]+" AND EXTRACT THE ID OR LET THE USERS PROVIDE?
+
+    this.federatedTokenFilePath = 
+      workloadIdentityCredentialOptions?.tokenFilePath || process.env.AZURE_FEDERATED_TOKEN_FILE;
     this.serviceConnectionId = workloadIdentityCredentialOptions.serviceConnectionId;
 
     if (tenantId) {
       checkTenantId(logger, tenantId);
     }
+    if(this.federatedTokenFilePath && this.serviceConnectionId){
+      const errorMessage = `${credentialName}: ambiguous. serviceConnectionId and federatedTokenFilePath cannot be provided at the same time. These are used for supporting WorkloadIdentity for different environments. 
+      The federatedTokenFilePath is used for Kubernetes while serviceConnectionId is used for Azure Devops.`;
+      logger.info(errorMessage);
+      throw new CredentialUnavailableError(errorMessage);
+    }
+    
     if (clientId && tenantId && this.federatedTokenFilePath) {
       logger.info(
         `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${workloadIdentityCredentialOptions.clientId} and federated token path: [REDACTED]`,
@@ -79,12 +87,10 @@ export class WorkloadIdentityCredential implements TokenCredential {
     }
     else{
       if(clientId && tenantId && this.serviceConnectionId){
-        //Ensure other env vars are there to form the request uri for OIDC token
-        if(process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI && process.env.SYSTEM_TEAMPROJECTID && process.env.SYSTEM_PLANID && process.env.SYSTEM_JOBID){
-          
-          if(process.env.SECRET_SYSTEM_ACCESSTOKEN){
+        //Ensure all system env vars are there to form the request uri for OIDC token
+        if(this.checkDevopsSystemVars()){
             const oidcRequestUrl = `${process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI}${process.env.SYSTEM_TEAMPROJECTID}/_apis/distributedtask/hubs/build/plans/${process.env.SYSTEM_PLANID}/jobs/${process.env.SYSTEM_JOBID}/oidctoken?api-version=7.1-preview.1&serviceConnectionId=${this.serviceConnectionId}`
-            const systemAccessToken = process.env.SECRET_SYSTEM_ACCESSTOKEN
+            const systemAccessToken = `${process.env.SECRET_SYSTEM_ACCESSTOKEN}`;
             logger.info(
               `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${workloadIdentityCredentialOptions.clientId} and service connection id: ${workloadIdentityCredentialOptions.serviceConnectionId}`,
             );
@@ -94,10 +100,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
               this.requestOidcToken.bind(this,oidcRequestUrl,systemAccessToken),
               options,
             );
-          }
         }
-        
-
       }
     }
   }
@@ -115,12 +118,18 @@ export class WorkloadIdentityCredential implements TokenCredential {
     options?: GetTokenOptions,
   ): Promise<AccessToken | null> {
     if (!this.client) {
-      //ToDo: Add another error message here depending on which WI it was - AKS Or Azure Devops??
-      const errorMessage = `${credentialName}: is unavailable. tenantId, clientId, and federatedTokenFilePath are required parameters. 
-      In DefaultAzureCredential and ManagedIdentityCredential, these can be provided as environment variables - 
+      const errorMessage = `${credentialName}: is unavailable. tenantId, clientId, and either federatedTokenFilePath or serviceConnectionId are required parameters. 
+      To enable Workload Identity Federation please provide following environment variables based on the environment.
+      For Azure Devops env, in WorkloadIdentityCredential, these are required as inputs / env variables - 
       "AZURE_TENANT_ID",
       "AZURE_CLIENT_ID",
-      "AZURE_FEDERATED_TOKEN_FILE". See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/workloadidentitycredential/troubleshoot  `;
+      serviceConnectionId.
+      ${this.systemError}
+      For Kubernetes env, in DefaultAzureCredential and ManagedIdentityCredential, these can be provided as environment variables - 
+      "AZURE_TENANT_ID",
+      "AZURE_CLIENT_ID",
+      "AZURE_FEDERATED_TOKEN_FILE". 
+      See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/workloadidentitycredential/troubleshoot  `;
       logger.info(errorMessage);
       throw new CredentialUnavailableError(errorMessage);
     }
@@ -168,5 +177,30 @@ export class WorkloadIdentityCredential implements TokenCredential {
     const response = await fetch(oidcRequestUrl, requestOptions);
     const result = await response.json();
     return result;
+  }
+
+  private checkDevopsSystemVars(): boolean{
+    if(process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI && process.env.SYSTEM_TEAMPROJECTID && process.env.SYSTEM_PLANID && process.env.SYSTEM_JOBID && process.env.SECRET_SYSTEM_ACCESSTOKEN){
+      return true
+    }
+    if(!process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI){
+      this.systemError = "SYSTEM_TEAMFOUNDATIONCOLLECTIONURI,"
+    }
+    if(!process.env.SYSTEM_TEAMPROJECTID){
+      this.systemError += "SYSTEM_TEAMPROJECTID,"
+    }
+    if(!process.env.SYSTEM_PLANID){
+      this.systemError += "SYSTEM_PLANID,"
+    }
+    if(!process.env.SYSTEM_JOBID){
+      this.systemError += "SYSTEM_JOBID,"
+    }
+    if(!process.env.SECRET_SYSTEM_ACCESSTOKEN){
+      this.systemError += "SECRET_SYSTEM_ACCESSTOKEN"
+    }
+    if(this.systemError ){
+      this.systemError = `Missing system variable(s) - ${this.systemError}.`
+    }
+    return false
   }
 }

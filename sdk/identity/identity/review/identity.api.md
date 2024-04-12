@@ -233,7 +233,6 @@ export interface DefaultAzureCredentialClientIdOptions extends DefaultAzureCrede
 // @public
 export interface DefaultAzureCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
     processTimeoutInMs?: number;
-    serviceConnectionId?: string;
     tenantId?: string;
 }
 
@@ -431,13 +430,11 @@ export class WorkloadIdentityCredential implements TokenCredential {
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
 }
 
+// Warning: (ae-forgotten-export) The symbol "WorkloadIdentityCredentialKubernetesOptions" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "WorkloadIdentityCredentialServiceConnectionOptions" needs to be exported by the entry point index.d.ts
+//
 // @public
-export interface WorkloadIdentityCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
-    clientId?: string;
-    serviceConnectionId?: string;
-    tenantId?: string;
-    tokenFilePath?: string;
-}
+export type WorkloadIdentityCredentialOptions = WorkloadIdentityCredentialKubernetesOptions | WorkloadIdentityCredentialServiceConnectionOptions;
 
 // (No @packageDocumentation comment for this package)
 

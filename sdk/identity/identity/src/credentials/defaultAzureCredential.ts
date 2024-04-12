@@ -101,20 +101,30 @@ function createDefaultWorkloadIdentityCredential(
   const workloadFile = process.env.AZURE_FEDERATED_TOKEN_FILE;
   const tenantId = options?.tenantId ?? process.env.AZURE_TENANT_ID;
   if (workloadFile && workloadIdentityClientId) {
-    const workloadIdentityCredentialOptions: WorkloadIdentityCredentialOptions = {
+    if(options){
+      //serviceConnectionId and workloadFile
+      const workloadIdentityCredentialOptions: WorkloadIdentityCredentialOptions = {
       ...options,
       tenantId,
       clientId: workloadIdentityClientId,
       tokenFilePath: workloadFile,
     };
     return new WorkloadIdentityCredential(workloadIdentityCredentialOptions);
+    }
+    else{
+      const workloadIdentityCredentialOptions: WorkloadIdentityCredentialOptions = {
+      tenantId,
+      clientId: workloadIdentityClientId,
+      tokenFilePath: workloadFile,
+    };
+    return new WorkloadIdentityCredential(workloadIdentityCredentialOptions);
+    }    
   }
-  if(options?.serviceConnectionId && workloadIdentityClientId){
+  if(workloadIdentityClientId){
     const workloadIdentityCredentialOptions: WorkloadIdentityCredentialOptions = {
       ...options,
       tenantId,
       clientId: workloadIdentityClientId,
-      serviceConnectionId: options?.serviceConnectionId,
     };
     return new WorkloadIdentityCredential(workloadIdentityCredentialOptions);
 

@@ -54,10 +54,4 @@ export interface DefaultAzureCredentialOptions
    * Process timeout for credentials should be provided in milliseconds.
    */
   processTimeoutInMs?: number;
-
-  /**
-   * For Azure Devops WI 
-   * //should we detect using 
-   */
-  serviceConnectionId?: string
 }
