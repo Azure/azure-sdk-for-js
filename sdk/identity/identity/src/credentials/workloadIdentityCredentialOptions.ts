@@ -30,6 +30,10 @@ export interface WorkloadIdentityCredentialKubernetesOptions
    * The path to a file containing a Kubernetes service account token that authenticates the identity.
    */
   tokenFilePath?: string;
+  /**
+   * Mutually exclusive field.
+   * The service connection id for Azure Devops WI.
+   */
   serviceConnectionId?: never;
 }
 
@@ -52,5 +56,9 @@ export interface WorkloadIdentityCredentialServiceConnectionOptions
    * The service connection id for Azure Devops WI.
    */
   serviceConnectionId?: string;
+  /** 
+   * Mutually exclusive field
+   * The path to a file containing a Kubernetes service account token that authenticates the identity.
+   */
   tokenFilePath?: never;
 }
