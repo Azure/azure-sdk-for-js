@@ -113,7 +113,7 @@
     "puppeteer": "^22.2.0",
     "rimraf": "^5.0.5",
     "tsx": "^4.7.1",
-    "typescript": "~5.3.3"
+    "typescript": "~5.4.5"
   },
   "dependencies": {
     "@azure/core-auth": "^1.7.0",
