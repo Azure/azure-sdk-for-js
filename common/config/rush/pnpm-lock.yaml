@@ -1184,7 +1184,7 @@ packages:
     engines: {node: '>=18.0.0'}
     dependencies:
       '@azure-tools/test-recorder': 3.1.2
-      '@azure/core-auth': 1.7.1
+      '@azure/core-auth': 1.7.2
       '@azure/identity': 4.1.0
     transitivePeerDependencies:
       - supports-color
@@ -1194,10 +1194,10 @@ packages:
     resolution: {integrity: sha512-116XdbMzedsUcVQa7yCm1p/yCNuiq5XHc2vn0Q0P6c7/Tzrjgjo19eq2Lrea2gIo8+n1mDtQcm3zPzLb9C4CoQ==}
     engines: {node: '>=18.0.0'}
     dependencies:
-      '@azure/core-auth': 1.7.1
-      '@azure/core-rest-pipeline': 1.15.1
-      '@azure/core-util': 1.8.1
-      '@azure/logger': 1.1.1
+      '@azure/core-auth': 1.7.2
+      '@azure/core-rest-pipeline': 1.15.2
+      '@azure/core-util': 1.9.0
+      '@azure/logger': 1.1.2
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -1209,8 +1209,8 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@azure/abort-controller@2.1.1:
-    resolution: {integrity: sha512-NhzeNm5zu2fPlwGXPUjzsRCRuPx5demaZyNcyNYJDqpa/Sbxzvo/RYt9IwUaAOnDW5+r7J9UOE6f22TQnb9nhQ==}
+  /@azure/abort-controller@2.1.2:
+    resolution: {integrity: sha512-nBrLsEWm4J2u5LpAPjxADTlq3trDgVZZXHNKabeXZtpq3d3AbN/KGO82R87rdDz5/lYB024rtEf10/q0urNgsA==}
     engines: {node: '>=18.0.0'}
     dependencies:
       tslib: 2.6.2
@@ -1221,15 +1221,15 @@ packages:
     engines: {node: '>=16.0.0'}
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@azure/core-auth': 1.7.1
-      '@azure/core-client': 1.9.1
-      '@azure/core-http-compat': 2.1.1
-      '@azure/core-lro': 2.7.1
-      '@azure/core-paging': 1.6.1
-      '@azure/core-rest-pipeline': 1.15.1
-      '@azure/core-tracing': 1.1.1
-      '@azure/core-util': 1.8.1
-      '@azure/logger': 1.1.1
+      '@azure/core-auth': 1.7.2
+      '@azure/core-client': 1.9.2
+      '@azure/core-http-compat': 2.1.2
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.15.2
+      '@azure/core-tracing': 1.1.2
+      '@azure/core-util': 1.9.0
+      '@azure/logger': 1.1.2
       tslib: 2.6.2
     transitivePeerDependencies:
       - supports-color
@@ -1240,11 +1240,11 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@azure/core-auth': 1.7.1
-      '@azure/core-client': 1.9.1
-      '@azure/core-lro': 2.7.1
-      '@azure/core-paging': 1.6.1
-      '@azure/core-rest-pipeline': 1.15.1
+      '@azure/core-auth': 1.7.2
+      '@azure/core-client': 1.9.2
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.15.2
       tslib: 2.6.2
     transitivePeerDependencies:
       - supports-color
@@ -1255,11 +1255,11 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@azure/core-auth': 1.7.1
-      '@azure/core-client': 1.9.1
-      '@azure/core-lro': 2.7.1
-      '@azure/core-paging': 1.6.1
-      '@azure/core-rest-pipeline': 1.15.1
+      '@azure/core-auth': 1.7.2
+      '@azure/core-client': 1.9.2
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.15.2
       tslib: 2.6.2
     transitivePeerDependencies:
       - supports-color
@@ -1270,10 +1270,10 @@ packages:
     engines: {node: '>=18.0.0'}
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@azure/core-auth': 1.7.1
-      '@azure/core-rest-pipeline': 1.15.1
-      '@azure/core-tracing': 1.1.1
-      '@azure/core-util': 1.8.1
+      '@azure/core-auth': 1.7.2
+      '@azure/core-rest-pipeline': 1.15.2
+      '@azure/core-tracing': 1.1.2
+      '@azure/core-util': 1.9.0
       events: 3.3.0
       jwt-decode: 4.0.0
       tslib: 2.6.2
@@ -1287,13 +1287,13 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/communication-common': 2.3.1
-      '@azure/core-auth': 1.7.1
-      '@azure/core-client': 1.9.1
-      '@azure/core-lro': 2.7.1
-      '@azure/core-paging': 1.6.1
-      '@azure/core-rest-pipeline': 1.15.1
-      '@azure/core-tracing': 1.1.1
-      '@azure/logger': 1.1.1
+      '@azure/core-auth': 1.7.2
+      '@azure/core-client': 1.9.2
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.15.2
+      '@azure/core-tracing': 1.1.2
+      '@azure/logger': 1.1.2
       events: 3.3.0
       tslib: 2.6.2
       uuid: 8.3.2
@@ -1314,37 +1314,37 @@ packages:
       - encoding
     dev: false
 
-  /@azure/core-auth@1.7.1:
-    resolution: {integrity: sha512-dyeQwvgthqs/SlPVQbZQetpslXceHd4i5a7M/7z/lGEAVwnSluabnQOjF2/dk/hhWgMISusv1Ytp4mQ8JNy62A==}
+  /@azure/core-auth@1.7.2:
+    resolution: {integrity: sha512-Igm/S3fDYmnMq1uKS38Ae1/m37B3zigdlZw+kocwEhh5GjyKjPrXKO2J6rzpC1wAxrNil/jX9BJRqBshyjnF3g==}
     engines: {node: '>=18.0.0'}
     dependencies:
-      '@azure/abort-controller': 2.1.1
-      '@azure/core-util': 1.8.1
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-util': 1.9.0
       tslib: 2.6.2
     dev: false
 
-  /@azure/core-client@1.9.1:
-    resolution: {integrity: sha512-hHYFx9lz0ZpbO5W+iotU9tmIX1jPcoIjYUEUaWGuMi1628LCQ/z05TUR4P+NRtMgyoHQuyVYyGQiD3PC47kaIA==}
+  /@azure/core-client@1.9.2:
+    resolution: {integrity: sha512-kRdry/rav3fUKHl/aDLd/pDLcB+4pOFwPPTVEExuMyaI5r+JBbMWqRbCY1pn5BniDaU3lRxO9eaQ1AmSMehl/w==}
     engines: {node: '>=18.0.0'}
     dependencies:
-      '@azure/abort-controller': 2.1.1
-      '@azure/core-auth': 1.7.1
-      '@azure/core-rest-pipeline': 1.15.1
-      '@azure/core-tracing': 1.1.1
-      '@azure/core-util': 1.8.1
-      '@azure/logger': 1.1.1
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.7.2
+      '@azure/core-rest-pipeline': 1.15.2
+      '@azure/core-tracing': 1.1.2
+      '@azure/core-util': 1.9.0
+      '@azure/logger': 1.1.2
       tslib: 2.6.2
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /@azure/core-http-compat@2.1.1:
-    resolution: {integrity: sha512-QGSDBkKpDbVOmbqlVPdlPE1JalHWmJjLyZhL+9zZN9gj4X1pTksEbDR77P+qWCJ5NGaSWyKvAW+3Q6hNX8/W+Q==}
+  /@azure/core-http-compat@2.1.2:
+    resolution: {integrity: sha512-5MnV1yqzZwgNLLjlizsU3QqOeQChkIXw781Fwh1xdAqJR5AA32IUaq6xv1BICJvfbHoa+JYcaij2HFkhLbNTJQ==}
     engines: {node: '>=18.0.0'}
     dependencies:
-      '@azure/abort-controller': 2.1.1
-      '@azure/core-client': 1.9.1
-      '@azure/core-rest-pipeline': 1.15.1
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-client': 1.9.2
+      '@azure/core-rest-pipeline': 1.15.2
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -1354,10 +1354,10 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@azure/core-auth': 1.7.1
+      '@azure/core-auth': 1.7.2
       '@azure/core-tracing': 1.0.0-preview.13
-      '@azure/core-util': 1.8.1
-      '@azure/logger': 1.0.4
+      '@azure/core-util': 1.9.0
+      '@azure/logger': 1.1.2
       '@types/node-fetch': 2.6.11
       '@types/tunnel': 0.0.3
       form-data: 4.0.0
@@ -1377,10 +1377,10 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@azure/core-auth': 1.7.1
+      '@azure/core-auth': 1.7.2
       '@azure/core-tracing': 1.0.0-preview.13
-      '@azure/core-util': 1.8.1
-      '@azure/logger': 1.1.1
+      '@azure/core-util': 1.9.0
+      '@azure/logger': 1.1.2
       '@types/node-fetch': 2.6.11
       '@types/tunnel': 0.0.3
       form-data: 4.0.0
@@ -1394,32 +1394,32 @@ packages:
       - encoding
     dev: false
 
-  /@azure/core-lro@2.7.1:
-    resolution: {integrity: sha512-kXSlrNHOCTVZMxpXNRqzgh9/j4cnNXU5Hf2YjMyjddRhCXFiFRzmNaqwN+XO9rGTsCOIaaG7M67zZdyliXZG9g==}
+  /@azure/core-lro@2.7.2:
+    resolution: {integrity: sha512-0YIpccoX8m/k00O7mDDMdJpbr6mf1yWo2dfmxt5A8XVZVVMz2SSKaEbMCeJRvgQ0IaSlqhjT47p4hVIRRy90xw==}
     engines: {node: '>=18.0.0'}
     dependencies:
-      '@azure/abort-controller': 2.1.1
-      '@azure/core-util': 1.8.1
-      '@azure/logger': 1.1.1
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-util': 1.9.0
+      '@azure/logger': 1.1.2
       tslib: 2.6.2
     dev: false
 
-  /@azure/core-paging@1.6.1:
-    resolution: {integrity: sha512-3tKIQXSU3mlN+ITz0m2pXLnKK3oQ6/EVcW8ud011Iq+M0rx6Wnm7NUEpoMeOAEedeKlPtemrQzO6YWoDR71O5w==}
+  /@azure/core-paging@1.6.2:
+    resolution: {integrity: sha512-YKWi9YuCU04B55h25cnOYZHxXYtEvQEbKST5vqRga7hWY9ydd3FZHdeQF8pyh+acWZvppw13M/LMGx0LABUVMA==}
     engines: {node: '>=18.0.0'}
     dependencies:
       tslib: 2.6.2
     dev: false
 
-  /@azure/core-rest-pipeline@1.15.1:
-    resolution: {integrity: sha512-ZxS6i3eHxh86u+1eWZJiYywoN2vxvsSoAUx60Mny8cZ4nTwvt7UzVVBJO+m2PW2KIJfNiXMt59xBa59htOWL4g==}
+  /@azure/core-rest-pipeline@1.15.2:
+    resolution: {integrity: sha512-BmWfpjc/QXc2ipHOh6LbUzp3ONCaa6xzIssTU0DwH9bbYNXJlGUL6tujx5TrbVd/QQknmS+vlQJGrCq2oL1gZA==}
     engines: {node: '>=18.0.0'}
     dependencies:
-      '@azure/abort-controller': 2.1.1
-      '@azure/core-auth': 1.7.1
-      '@azure/core-tracing': 1.1.1
-      '@azure/core-util': 1.8.1
-      '@azure/logger': 1.1.1
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.7.2
+      '@azure/core-tracing': 1.1.2
+      '@azure/core-util': 1.9.0
+      '@azure/logger': 1.1.2
       http-proxy-agent: 7.0.0
       https-proxy-agent: 7.0.2
       tslib: 2.6.2
@@ -1435,18 +1435,18 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@azure/core-tracing@1.1.1:
-    resolution: {integrity: sha512-qPbYhN1pE5XQ2jPKIHP33x8l3oBu1UqIWnYqZZ3OYnYjzY0xqIHjn49C+ptsPD9yC7uyWI9Zm7iZUZLs2R4DhQ==}
+  /@azure/core-tracing@1.1.2:
+    resolution: {integrity: sha512-dawW9ifvWAWmUm9/h+/UQ2jrdvjCJ7VJEuCJ6XVNudzcOwm53BFZH4Q845vjfgoUAM8ZxokvVNxNxAITc502YA==}
     engines: {node: '>=18.0.0'}
     dependencies:
       tslib: 2.6.2
     dev: false
 
-  /@azure/core-util@1.8.1:
-    resolution: {integrity: sha512-L3voj0StUdJ+YKomvwnTv7gHzguJO+a6h30pmmZdRprJCM+RJlGMPxzuh4R7lhQu1jNmEtaHX5wvTgWLDAmbGQ==}
+  /@azure/core-util@1.9.0:
+    resolution: {integrity: sha512-AfalUQ1ZppaKuxPPMsFEUdX6GZPB3d9paR9d/TTL7Ow2De8cJaC7ibi7kWVlFAVPCYo31OcnGymc0R89DX8Oaw==}
     engines: {node: '>=18.0.0'}
     dependencies:
-      '@azure/abort-controller': 2.1.1
+      '@azure/abort-controller': 2.1.2
       tslib: 2.6.2
     dev: false
 
@@ -1463,14 +1463,14 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@azure/core-auth': 1.7.1
-      '@azure/core-client': 1.9.1
-      '@azure/core-rest-pipeline': 1.15.1
-      '@azure/core-tracing': 1.1.1
-      '@azure/core-util': 1.8.1
-      '@azure/logger': 1.1.1
-      '@azure/msal-browser': 3.11.1
-      '@azure/msal-node': 2.6.6
+      '@azure/core-auth': 1.7.2
+      '@azure/core-client': 1.9.2
+      '@azure/core-rest-pipeline': 1.15.2
+      '@azure/core-tracing': 1.1.2
+      '@azure/core-util': 1.9.0
+      '@azure/logger': 1.1.2
+      '@azure/msal-browser': 3.13.0
+      '@azure/msal-node': 2.7.0
       events: 3.3.0
       jws: 4.0.0
       open: 8.4.2
@@ -1485,14 +1485,14 @@ packages:
     engines: {node: '>=18.0.0'}
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@azure/core-auth': 1.7.1
-      '@azure/core-client': 1.9.1
-      '@azure/core-rest-pipeline': 1.15.1
-      '@azure/core-tracing': 1.1.1
-      '@azure/core-util': 1.8.1
-      '@azure/logger': 1.1.1
-      '@azure/msal-browser': 3.11.1
-      '@azure/msal-node': 2.6.6
+      '@azure/core-auth': 1.7.2
+      '@azure/core-client': 1.9.2
+      '@azure/core-rest-pipeline': 1.15.2
+      '@azure/core-tracing': 1.1.2
+      '@azure/core-util': 1.9.0
+      '@azure/logger': 1.1.2
+      '@azure/msal-browser': 3.13.0
+      '@azure/msal-node': 2.7.0
       events: 3.3.0
       jws: 4.0.0
       open: 8.4.2
@@ -1507,15 +1507,15 @@ packages:
     engines: {node: '>=18.0.0'}
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@azure/core-auth': 1.7.1
-      '@azure/core-client': 1.9.1
-      '@azure/core-http-compat': 2.1.1
-      '@azure/core-lro': 2.7.1
-      '@azure/core-paging': 1.6.1
-      '@azure/core-rest-pipeline': 1.15.1
-      '@azure/core-tracing': 1.1.1
-      '@azure/core-util': 1.8.1
-      '@azure/logger': 1.1.1
+      '@azure/core-auth': 1.7.2
+      '@azure/core-client': 1.9.2
+      '@azure/core-http-compat': 2.1.2
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.15.2
+      '@azure/core-tracing': 1.1.2
+      '@azure/core-util': 1.9.0
+      '@azure/logger': 1.1.2
       tslib: 2.6.2
     transitivePeerDependencies:
       - supports-color
@@ -1528,8 +1528,8 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@azure/logger@1.1.1:
-    resolution: {integrity: sha512-/+4TtokaGgC+MnThdf6HyIH9Wrjp+CnCn3Nx3ggevN7FFjjNyjqg0yLlc2i9S+Z2uAzI8GYOo35Nzb1MhQ89MA==}
+  /@azure/logger@1.1.2:
+    resolution: {integrity: sha512-l170uE7bsKpIU6B/giRc9i4NI0Mj+tANMMMxf7Zi/5cKzEqPayP7+X1WPrG7e+91JgY8N+7K7nF2WOi7iVhXvg==}
     engines: {node: '>=18.0.0'}
     dependencies:
       tslib: 2.6.2
@@ -1540,19 +1540,19 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@azure/core-auth': 1.7.1
-      '@azure/core-client': 1.9.1
-      '@azure/core-lro': 2.7.1
-      '@azure/core-rest-pipeline': 1.15.1
+      '@azure/core-auth': 1.7.2
+      '@azure/core-client': 1.9.2
+      '@azure/core-lro': 2.7.2
+      '@azure/core-rest-pipeline': 1.15.2
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /@azure/msal-browser@3.11.1:
-    resolution: {integrity: sha512-tZFJnP5ZpgkmazSriEDW+Xl3/4WI823uhnYhWCHPkGywFWEZoPA5VkiCK8x4x8ECXp3mGr5qEI82MU43PBiaKA==}
+  /@azure/msal-browser@3.13.0:
+    resolution: {integrity: sha512-fD906nmJei3yE7la6DZTdUtXKvpwzJURkfsiz9747Icv4pit77cegSm6prJTKLQ1fw4iiZzrrWwxnhMLrTf5gQ==}
     engines: {node: '>=0.8.0'}
     dependencies:
-      '@azure/msal-common': 14.8.1
+      '@azure/msal-common': 14.9.0
     dev: false
 
   /@azure/msal-common@13.3.1:
@@ -1560,16 +1560,17 @@ packages:
     engines: {node: '>=0.8.0'}
     dev: false
 
-  /@azure/msal-common@14.8.1:
-    resolution: {integrity: sha512-9HfBMDTIgtFFkils+o6gO/aGEoLLuc4z+QLLfhy/T1bTNPiVsX/9CjaBPMZGnMltN/IlMkU5SGGNggGh55p5xA==}
+  /@azure/msal-common@14.9.0:
+    resolution: {integrity: sha512-yzBPRlWPnTBeixxLNI3BBIgF5/bHpbhoRVuuDBnYjCyWRavaPUsKAHUDYLqpGkBLDciA6TCc6GOxN4/S3WiSxg==}
     engines: {node: '>=0.8.0'}
     dev: false
 
-  /@azure/msal-node-extensions@1.0.14:
-    resolution: {integrity: sha512-nM12ssTDIEuDmoIZ+R5ulFswEj1V3j8UocJKNYGTKtZ0E7fTNuEe88+K0m7pAMet9zrQ7EZ42AubFO9GepluMA==}
+  /@azure/msal-node-extensions@1.0.15:
+    resolution: {integrity: sha512-LFcCdi+CwqivShoR5dH4b91/wFSxu5vKZNES6Apfxedla8OVrN7VlAEUmeDam4604JUgy1TNAgvZpwTQhqjNqg==}
     engines: {node: '>=16'}
+    requiresBuild: true
     dependencies:
-      '@azure/msal-common': 14.8.1
+      '@azure/msal-common': 14.9.0
       '@azure/msal-node-runtime': 0.13.6-alpha.0
       keytar: 7.9.0
     dev: false
@@ -1589,11 +1590,11 @@ packages:
       uuid: 8.3.2
     dev: false
 
-  /@azure/msal-node@2.6.6:
-    resolution: {integrity: sha512-j+1hW81ccglIYWukXufzRA4O71BCmpbmCO66ECDyE9FuPno6SjiR+K+mIk4tg6aQ7/UO2QA/EnRmT6YN0EF1Hw==}
+  /@azure/msal-node@2.7.0:
+    resolution: {integrity: sha512-wXD8LkUvHICeSWZydqg6o8Yvv+grlBEcmLGu+QEI4FcwFendbTEZrlSygnAXXSOCVaGAirWLchca35qrgpO6Jw==}
     engines: {node: '>=16'}
     dependencies:
-      '@azure/msal-common': 14.8.1
+      '@azure/msal-common': 14.9.0
       jsonwebtoken: 9.0.2
       uuid: 8.3.2
     dev: false
@@ -1602,11 +1603,11 @@ packages:
     resolution: {integrity: sha512-c0941sREjSPE6/KMVd3vrLYKwwjrKZabOP/i1YOoBS4RquFIi3aA4wUPBvsVhOs4JzN79Ztcn7/ZvO4HyzrSVQ==}
     engines: {node: '>=12.0.0'}
     dependencies:
-      '@azure/core-auth': 1.7.1
-      '@azure/core-client': 1.9.1
-      '@azure/core-rest-pipeline': 1.15.1
-      '@azure/core-tracing': 1.1.1
-      '@azure/logger': 1.1.1
+      '@azure/core-auth': 1.7.2
+      '@azure/core-client': 1.9.2
+      '@azure/core-rest-pipeline': 1.15.2
+      '@azure/core-tracing': 1.1.2
+      '@azure/logger': 1.1.2
       tslib: 2.6.2
     transitivePeerDependencies:
       - supports-color
@@ -1616,13 +1617,13 @@ packages:
     resolution: {integrity: sha512-t4fExKXnbBBCQCStJLt+QoIyb0NGvyqfPO5p9ZlwU89HTyky+2A9vxc/DMPtl4DAM6YrZPUT2ky0uqXFHpADIQ==}
     engines: {node: '>=16.0.0'}
     dependencies:
-      '@azure/core-auth': 1.7.1
-      '@azure/core-client': 1.9.1
-      '@azure/core-http-compat': 2.1.1
-      '@azure/core-paging': 1.6.1
-      '@azure/core-rest-pipeline': 1.15.1
-      '@azure/core-tracing': 1.1.1
-      '@azure/logger': 1.1.1
+      '@azure/core-auth': 1.7.2
+      '@azure/core-client': 1.9.2
+      '@azure/core-http-compat': 2.1.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.15.2
+      '@azure/core-tracing': 1.1.2
+      '@azure/logger': 1.1.2
       events: 3.3.0
       tslib: 2.6.2
     transitivePeerDependencies:
@@ -1635,10 +1636,10 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/core-http': 3.0.4
-      '@azure/core-lro': 2.7.1
-      '@azure/core-paging': 1.6.1
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
       '@azure/core-tracing': 1.0.0-preview.13
-      '@azure/logger': 1.1.1
+      '@azure/logger': 1.1.2
       events: 3.3.0
       tslib: 2.6.2
     transitivePeerDependencies:
@@ -1651,9 +1652,9 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/core-http': 3.0.4
-      '@azure/core-paging': 1.6.1
+      '@azure/core-paging': 1.6.2
       '@azure/core-tracing': 1.0.0-preview.13
-      '@azure/logger': 1.1.1
+      '@azure/logger': 1.1.2
       '@azure/storage-blob': 12.17.0
       events: 3.3.0
       tslib: 2.6.2
@@ -1667,9 +1668,9 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/core-http': 3.0.4
-      '@azure/core-paging': 1.6.1
+      '@azure/core-paging': 1.6.2
       '@azure/core-tracing': 1.0.0-preview.13
-      '@azure/logger': 1.1.1
+      '@azure/logger': 1.1.2
       events: 3.3.0
       tslib: 2.6.2
     transitivePeerDependencies:
@@ -1681,8 +1682,8 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@azure/core-util': 1.8.1
-      '@azure/logger': 1.1.1
+      '@azure/core-util': 1.9.0
+      '@azure/logger': 1.1.2
       buffer: 6.0.3
       tslib: 2.6.2
       ws: 7.5.9
@@ -3536,13 +3537,13 @@ packages:
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.31
+      '@types/node': 20.10.8
     dev: false
 
   /@types/fs-extra@8.1.5:
     resolution: {integrity: sha512-0dzKcwO+S8s2kuF5Z9oUWatQJj5Uq/iqphEtE3GQJVRRYm/tD1LglU2UnXi2A8jLq5umkGouOXOR9y0n613ZwQ==}
     dependencies:
-      '@types/node': 18.19.31
+      '@types/node': 20.10.8
     dev: false
 
   /@types/fs-extra@9.0.13:
@@ -3589,13 +3590,13 @@ packages:
   /@types/jsonwebtoken@9.0.6:
     resolution: {integrity: sha512-/5hndP5dCjloafCXns6SZyESp3Ldq7YjH3zwzwczYnjxIT0Fqzk5ROSYVGfFyczIue7IUEj8hkvLbPoLQ18vQw==}
     dependencies:
-      '@types/node': 18.19.31
+      '@types/node': 20.10.8
     dev: false
 
   /@types/jws@3.2.10:
     resolution: {integrity: sha512-cOevhttJmssERB88/+XvZXvsq5m9JLKZNUiGfgjUb5lcPRdV2ZQciU6dU76D/qXXFYpSqkP3PrSg4hMTiafTZw==}
     dependencies:
-      '@types/node': 18.19.31
+      '@types/node': 20.10.8
     dev: false
 
   /@types/linkify-it@3.0.5:
@@ -3621,13 +3622,6 @@ packages:
 
   /@types/mime@1.3.5:
     resolution: {integrity: sha512-/pyBZWSLD2n0dcHE3hq8s8ZvcETHtEuF+3E7XVt0Ig2nvsVQXdghHVcEkIWjy9A0wKfTn97a/PSDYohKIlnP/w==}
-    dev: false
-
-  /@types/mime@4.0.0:
-    resolution: {integrity: sha512-5eEkJZ/BLvTE3vXGKkWlyTSUVZuzj23Wj8PoyOq2lt5I3CYbiLBOPb3XmCW6QcuOibIUE6emHXHt9E/F/rCa6w==}
-    deprecated: This is a stub types definition. mime provides its own type definitions, so you do not need this installed.
-    dependencies:
-      mime: 4.0.1
     dev: false
 
   /@types/minimist@1.2.5:
@@ -3751,13 +3745,13 @@ packages:
   /@types/stoppable@1.1.3:
     resolution: {integrity: sha512-7wGKIBJGE4ZxFjk9NkjAxZMLlIXroETqP1FJCdoSvKmEznwmBxQFmTB1dsCkAvVcNemuSZM5qkkd9HE/NL2JTw==}
     dependencies:
-      '@types/node': 18.19.31
+      '@types/node': 20.10.8
     dev: false
 
   /@types/through@0.0.33:
     resolution: {integrity: sha512-HsJ+z3QuETzP3cswwtzt2vEIiHBk/dCcHGhbmG5X3ecnwFD/lPrMpliGXxSCg03L9AhrdwA4Oz/qfspkDW+xGQ==}
     dependencies:
-      '@types/node': 20.10.8
+      '@types/node': 18.19.31
     dev: false
 
   /@types/trusted-types@2.0.7:
@@ -4040,12 +4034,12 @@ packages:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
     dev: false
 
-  /@vitest/browser@1.4.0(playwright@1.43.0)(vitest@1.4.0):
-    resolution: {integrity: sha512-kC44DzuqPZZrqe2P7SX2a3zHDAt919WtpkUMAxzv9eP5uPfVXtpk2Ipms2NXJGY5190aJc1uY+ambfJ3rwDJRA==}
+  /@vitest/browser@1.5.0(playwright@1.43.0)(vitest@1.5.0):
+    resolution: {integrity: sha512-tJLV8j8sufAT2a3eONnfgIclaqx4RqC8sA3xH8uXwxFw7CNwWCPeJ0czVkUzCE/15bHRoGxwsHC+Ycch6zDb1Q==}
     peerDependencies:
       playwright: '*'
       safaridriver: '*'
-      vitest: 1.4.0
+      vitest: 1.5.0
       webdriverio: '*'
     peerDependenciesMeta:
       playwright:
@@ -4055,17 +4049,17 @@ packages:
       webdriverio:
         optional: true
     dependencies:
-      '@vitest/utils': 1.4.0
+      '@vitest/utils': 1.5.0
       magic-string: 0.30.9
       playwright: 1.43.0
       sirv: 2.0.4
-      vitest: 1.4.0(@types/node@18.19.31)(@vitest/browser@1.4.0)
+      vitest: 1.5.0(@types/node@18.19.31)(@vitest/browser@1.5.0)
     dev: false
 
-  /@vitest/coverage-istanbul@1.4.0(vitest@1.4.0):
-    resolution: {integrity: sha512-39TjURYyAY6CLDx8M1RNYGoAuWicPWoofk+demJbAZROLCwUgGPgMRSg51GN+snbmQRTpSizuS9XC3cMSdQH2Q==}
+  /@vitest/coverage-istanbul@1.5.0(vitest@1.5.0):
+    resolution: {integrity: sha512-mEbVTIAPKhMkszO0lwOwWiG8Cvkj7rdMgdmCNUDnmcSZYUWGIqM8+4O1bcQ1WMHkejpcwvED5oU6ZFm3syVb6A==}
     peerDependencies:
-      vitest: 1.4.0
+      vitest: 1.5.0
     dependencies:
       debug: 4.3.4(supports-color@8.1.1)
       istanbul-lib-coverage: 3.2.2
@@ -4076,43 +4070,43 @@ packages:
       magicast: 0.3.3
       picocolors: 1.0.0
       test-exclude: 6.0.0
-      vitest: 1.4.0(@types/node@18.19.31)(@vitest/browser@1.4.0)
+      vitest: 1.5.0(@types/node@18.19.31)(@vitest/browser@1.5.0)
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /@vitest/expect@1.4.0:
-    resolution: {integrity: sha512-Jths0sWCJZ8BxjKe+p+eKsoqev1/T8lYcrjavEaz8auEJ4jAVY0GwW3JKmdVU4mmNPLPHixh4GNXP7GFtAiDHA==}
+  /@vitest/expect@1.5.0:
+    resolution: {integrity: sha512-0pzuCI6KYi2SIC3LQezmxujU9RK/vwC1U9R0rLuGlNGcOuDWxqWKu6nUdFsX9tH1WU0SXtAxToOsEjeUn1s3hA==}
     dependencies:
-      '@vitest/spy': 1.4.0
-      '@vitest/utils': 1.4.0
+      '@vitest/spy': 1.5.0
+      '@vitest/utils': 1.5.0
       chai: 4.3.10
     dev: false
 
-  /@vitest/runner@1.4.0:
-    resolution: {integrity: sha512-EDYVSmesqlQ4RD2VvWo3hQgTJ7ZrFQ2VSJdfiJiArkCerDAGeyF1i6dHkmySqk573jLp6d/cfqCN+7wUB5tLgg==}
+  /@vitest/runner@1.5.0:
+    resolution: {integrity: sha512-7HWwdxXP5yDoe7DTpbif9l6ZmDwCzcSIK38kTSIt6CFEpMjX4EpCgT6wUmS0xTXqMI6E/ONmfgRKmaujpabjZQ==}
     dependencies:
-      '@vitest/utils': 1.4.0
+      '@vitest/utils': 1.5.0
       p-limit: 5.0.0
       pathe: 1.1.2
     dev: false
 
-  /@vitest/snapshot@1.4.0:
-    resolution: {integrity: sha512-saAFnt5pPIA5qDGxOHxJ/XxhMFKkUSBJmVt5VgDsAqPTX6JP326r5C/c9UuCMPoXNzuudTPsYDZCoJ5ilpqG2A==}
+  /@vitest/snapshot@1.5.0:
+    resolution: {integrity: sha512-qpv3fSEuNrhAO3FpH6YYRdaECnnRjg9VxbhdtPwPRnzSfHVXnNzzrpX4cJxqiwgRMo7uRMWDFBlsBq4Cr+rO3A==}
     dependencies:
       magic-string: 0.30.9
       pathe: 1.1.2
       pretty-format: 29.7.0
     dev: false
 
-  /@vitest/spy@1.4.0:
-    resolution: {integrity: sha512-Ywau/Qs1DzM/8Uc+yA77CwSegizMlcgTJuYGAi0jujOteJOUf1ujunHThYo243KG9nAyWT3L9ifPYZ5+As/+6Q==}
+  /@vitest/spy@1.5.0:
+    resolution: {integrity: sha512-vu6vi6ew5N5MMHJjD5PoakMRKYdmIrNJmyfkhRpQt5d9Ewhw9nZ5Aqynbi3N61bvk9UvZ5UysMT6ayIrZ8GA9w==}
     dependencies:
       tinyspy: 2.2.1
     dev: false
 
-  /@vitest/utils@1.4.0:
-    resolution: {integrity: sha512-mx3Yd1/6e2Vt/PUC98DcqTirtfxUyAZ32uK82r8rZzbtBeBo+nqgnjx/LvqQdWsrvNtm14VmurNgcf4nqY5gJg==}
+  /@vitest/utils@1.5.0:
+    resolution: {integrity: sha512-BDU0GNL8MWkRkSRdNFvCUCAVOeHaUlVJ9Tx0TYBZyXaaOTmGtUFObzchCivIBrIwKzvZA7A9sCejVhXM2aY98A==}
     dependencies:
       diff-sequences: 29.6.3
       estree-walker: 3.0.3
@@ -4548,7 +4542,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001608
-      electron-to-chromium: 1.4.733
+      electron-to-chromium: 1.4.734
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.23.0)
     dev: false
@@ -4796,8 +4790,8 @@ packages:
     resolution: {integrity: sha512-jJ0bqzaylmJtVnNgzTeSOs8DPavpbYgEr/b0YL8/2GO3xJEhInFmhKMUnEJQjZumK7KXGFhUy89PrsJWlakBVg==}
     dev: false
 
-  /chromium-bidi@0.5.16(devtools-protocol@0.0.1262051):
-    resolution: {integrity: sha512-IT5lnR44h/qZQ4GaCHvBxYIl4cQL2i9UvFyYeRyVdcpY04hx5H720HQfe/7Oz7ndxaYVLQFGpCO71J4X2Ye/Gw==}
+  /chromium-bidi@0.5.17(devtools-protocol@0.0.1262051):
+    resolution: {integrity: sha512-BqOuIWUgTPj8ayuBFJUYCCuwIcwjBsb3/614P7tt1bEPJ4i1M0kCdIl0Wi9xhtswBXnfO2bTpTMkHD71H8rJMg==}
     peerDependencies:
       devtools-protocol: '*'
     dependencies:
@@ -5384,8 +5378,8 @@ packages:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
     dev: false
 
-  /electron-to-chromium@1.4.733:
-    resolution: {integrity: sha512-gUI9nhI2iBGF0OaYYLKOaOtliFMl+Bt1rY7VmEjwxOxqoYLub/D9xmduPEhbw2imE6gYkJKhIE5it+KE2ulVxQ==}
+  /electron-to-chromium@1.4.734:
+    resolution: {integrity: sha512-pYfGUc+ll8AOzLbLC0lfgwkvCZIV+sKGuFFsSNuF3K3ujrmem8jIjg/t6DNq0J7biTSS1hCt/Hts0nmA3ZyprQ==}
     dev: false
 
   /emitter-component@1.1.2:
@@ -8844,12 +8838,12 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /puppeteer-core@22.6.3:
-    resolution: {integrity: sha512-YrTAak5zCTWVTnVaCK1b7FD1qFCCT9bSvQhLzamnIsJ57/tfuXiT8ZvPJR2SBfahyFTYFCcaZAd/Npow3lmDGA==}
+  /puppeteer-core@22.6.4:
+    resolution: {integrity: sha512-QtfJwPmqQec3EHc6LqbEz03vSiuVAr9bYp0TV87dLoreev6ZevsXdLgOfQgoA3GocrsSe/eUf7NRPQ1lQfsc3w==}
     engines: {node: '>=18'}
     dependencies:
       '@puppeteer/browsers': 2.2.1
-      chromium-bidi: 0.5.16(devtools-protocol@0.0.1262051)
+      chromium-bidi: 0.5.17(devtools-protocol@0.0.1262051)
       debug: 4.3.4(supports-color@8.1.1)
       devtools-protocol: 0.0.1262051
       ws: 8.16.0
@@ -8859,8 +8853,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /puppeteer@22.6.3(typescript@5.3.3):
-    resolution: {integrity: sha512-KZOnthMbvr4+7cPKFeeOCJPe8DzOKGC0GbMXmZKOP/YusXQ6sqxA0vt6frstZq3rUJ277qXHlZNFf01VVwdHKw==}
+  /puppeteer@22.6.4(typescript@5.3.3):
+    resolution: {integrity: sha512-J9hXNwZmuqKDmNMj6kednZH8jzbdX9735NQfQJrq5LRD4nHisAMyW9pCD7glKi+iM7RV9JkesI1MYhdsN+0ZSQ==}
     engines: {node: '>=18'}
     hasBin: true
     requiresBuild: true
@@ -8868,7 +8862,7 @@ packages:
       '@puppeteer/browsers': 2.2.1
       cosmiconfig: 9.0.0(typescript@5.3.3)
       devtools-protocol: 0.0.1262051
-      puppeteer-core: 22.6.3
+      puppeteer-core: 22.6.4
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -10358,8 +10352,8 @@ packages:
     engines: {node: '>= 0.8'}
     dev: false
 
-  /vite-node@1.4.0(@types/node@18.19.31):
-    resolution: {integrity: sha512-VZDAseqjrHgNd4Kh8icYHWzTKSCZMhia7GyHfhtzLW33fZlG9SwsB6CEhgyVOWkJfJ2pFLrp/Gj1FSfAiqH9Lw==}
+  /vite-node@1.5.0(@types/node@18.19.31):
+    resolution: {integrity: sha512-tV8h6gMj6vPzVCa7l+VGq9lwoJjW8Y79vst8QZZGiuRAfijU+EEWuc0kFpmndQrWhMMhet1jdSF+40KSZUqIIw==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
     dependencies:
@@ -10415,15 +10409,15 @@ packages:
       fsevents: 2.3.3
     dev: false
 
-  /vitest@1.4.0(@types/node@18.19.31)(@vitest/browser@1.4.0):
-    resolution: {integrity: sha512-gujzn0g7fmwf83/WzrDTnncZt2UiXP41mHuFYFrdwaLRVQ6JYQEiME2IfEjU3vcFL3VKa75XhI3lFgn+hfVsQw==}
+  /vitest@1.5.0(@types/node@18.19.31)(@vitest/browser@1.5.0):
+    resolution: {integrity: sha512-d8UKgR0m2kjdxDWX6911uwxout6GHS0XaGH1cksSIVVG8kRlE7G7aBw7myKQCvDI5dT4j7ZMa+l706BIORMDLw==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
     peerDependencies:
       '@edge-runtime/vm': '*'
       '@types/node': ^18.0.0 || >=20.0.0
-      '@vitest/browser': 1.4.0
-      '@vitest/ui': 1.4.0
+      '@vitest/browser': 1.5.0
+      '@vitest/ui': 1.5.0
       happy-dom: '*'
       jsdom: '*'
     peerDependenciesMeta:
@@ -10441,12 +10435,12 @@ packages:
         optional: true
     dependencies:
       '@types/node': 18.19.31
-      '@vitest/browser': 1.4.0(playwright@1.43.0)(vitest@1.4.0)
-      '@vitest/expect': 1.4.0
-      '@vitest/runner': 1.4.0
-      '@vitest/snapshot': 1.4.0
-      '@vitest/spy': 1.4.0
-      '@vitest/utils': 1.4.0
+      '@vitest/browser': 1.5.0(playwright@1.43.0)(vitest@1.5.0)
+      '@vitest/expect': 1.5.0
+      '@vitest/runner': 1.5.0
+      '@vitest/snapshot': 1.5.0
+      '@vitest/spy': 1.5.0
+      '@vitest/utils': 1.5.0
       acorn-walk: 8.3.2
       chai: 4.3.10
       debug: 4.3.4(supports-color@8.1.1)
@@ -10460,7 +10454,7 @@ packages:
       tinybench: 2.6.0
       tinypool: 0.8.3
       vite: 5.2.8(@types/node@18.19.31)
-      vite-node: 1.4.0(@types/node@18.19.31)
+      vite-node: 1.5.0(@types/node@18.19.31)
       why-is-node-running: 2.2.2
     transitivePeerDependencies:
       - less
@@ -10823,8 +10817,8 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/node': 18.19.31
-      '@vitest/browser': 1.4.0(playwright@1.43.0)(vitest@1.4.0)
-      '@vitest/coverage-istanbul': 1.4.0(vitest@1.4.0)
+      '@vitest/browser': 1.5.0(playwright@1.43.0)(vitest@1.5.0)
+      '@vitest/coverage-istanbul': 1.5.0(vitest@1.5.0)
       eslint: 8.57.0
       playwright: 1.43.0
       prettier: 3.2.5
@@ -10832,7 +10826,7 @@ packages:
       tshy: 1.13.1
       tslib: 2.6.2
       typescript: 5.3.3
-      vitest: 1.4.0(@types/node@18.19.31)(@vitest/browser@1.4.0)
+      vitest: 1.5.0(@types/node@18.19.31)(@vitest/browser@1.5.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -11470,10 +11464,9 @@ packages:
     dependencies:
       '@azure/storage-blob': 12.17.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
-      '@types/mime': 4.0.0
       '@types/node': 18.19.31
-      '@vitest/browser': 1.4.0(playwright@1.43.0)(vitest@1.4.0)
-      '@vitest/coverage-istanbul': 1.4.0(vitest@1.4.0)
+      '@vitest/browser': 1.5.0(playwright@1.43.0)(vitest@1.5.0)
+      '@vitest/coverage-istanbul': 1.5.0(vitest@1.5.0)
       eslint: 8.57.0
       mime: 4.0.1
       playwright: 1.43.0
@@ -11482,7 +11475,7 @@ packages:
       tshy: 1.13.1
       tslib: 2.6.2
       typescript: 5.3.3
-      vitest: 1.4.0(@types/node@18.19.31)(@vitest/browser@1.4.0)
+      vitest: 1.5.0(@types/node@18.19.31)(@vitest/browser@1.5.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -18842,7 +18835,7 @@ packages:
       karma-mocha: 2.0.1
       mocha: 10.4.0
       process: 0.11.10
-      puppeteer: 22.6.3(typescript@5.3.3)
+      puppeteer: 22.6.4(typescript@5.3.3)
       rhea: 3.0.2
       rhea-promise: 3.0.1
       rimraf: 5.0.5
@@ -18867,8 +18860,8 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/node': 18.19.31
-      '@vitest/browser': 1.4.0(playwright@1.43.0)(vitest@1.4.0)
-      '@vitest/coverage-istanbul': 1.4.0(vitest@1.4.0)
+      '@vitest/browser': 1.5.0(playwright@1.43.0)(vitest@1.5.0)
+      '@vitest/coverage-istanbul': 1.5.0(vitest@1.5.0)
       eslint: 8.57.0
       playwright: 1.43.0
       prettier: 3.2.5
@@ -18876,7 +18869,7 @@ packages:
       tshy: 1.13.1
       tslib: 2.6.2
       typescript: 5.3.3
-      vitest: 1.4.0(@types/node@18.19.31)(@vitest/browser@1.4.0)
+      vitest: 1.5.0(@types/node@18.19.31)(@vitest/browser@1.5.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -18900,8 +18893,8 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/node': 18.19.31
-      '@vitest/browser': 1.4.0(playwright@1.43.0)(vitest@1.4.0)
-      '@vitest/coverage-istanbul': 1.4.0(vitest@1.4.0)
+      '@vitest/browser': 1.5.0(playwright@1.43.0)(vitest@1.5.0)
+      '@vitest/coverage-istanbul': 1.5.0(vitest@1.5.0)
       eslint: 8.57.0
       playwright: 1.43.0
       prettier: 3.2.5
@@ -18909,7 +18902,7 @@ packages:
       tshy: 1.13.1
       tslib: 2.6.2
       typescript: 5.3.3
-      vitest: 1.4.0(@types/node@18.19.31)(@vitest/browser@1.4.0)
+      vitest: 1.5.0(@types/node@18.19.31)(@vitest/browser@1.5.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -18933,8 +18926,8 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/node': 18.19.31
-      '@vitest/browser': 1.4.0(playwright@1.43.0)(vitest@1.4.0)
-      '@vitest/coverage-istanbul': 1.4.0(vitest@1.4.0)
+      '@vitest/browser': 1.5.0(playwright@1.43.0)(vitest@1.5.0)
+      '@vitest/coverage-istanbul': 1.5.0(vitest@1.5.0)
       eslint: 8.57.0
       playwright: 1.43.0
       prettier: 3.2.5
@@ -18942,7 +18935,7 @@ packages:
       tshy: 1.13.1
       tslib: 2.6.2
       typescript: 5.3.3
-      vitest: 1.4.0(@types/node@18.19.31)(@vitest/browser@1.4.0)
+      vitest: 1.5.0(@types/node@18.19.31)(@vitest/browser@1.5.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -18966,15 +18959,15 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/node': 18.19.31
-      '@vitest/browser': 1.4.0(playwright@1.43.0)(vitest@1.4.0)
-      '@vitest/coverage-istanbul': 1.4.0(vitest@1.4.0)
+      '@vitest/browser': 1.5.0(playwright@1.43.0)(vitest@1.5.0)
+      '@vitest/coverage-istanbul': 1.5.0(vitest@1.5.0)
       eslint: 8.57.0
       playwright: 1.43.0
       prettier: 3.2.5
       rimraf: 5.0.5
       tshy: 1.13.1
       typescript: 5.3.3
-      vitest: 1.4.0(@types/node@18.19.31)(@vitest/browser@1.4.0)
+      vitest: 1.5.0(@types/node@18.19.31)(@vitest/browser@1.5.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -18998,8 +18991,8 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/node': 18.19.31
-      '@vitest/browser': 1.4.0(playwright@1.43.0)(vitest@1.4.0)
-      '@vitest/coverage-istanbul': 1.4.0(vitest@1.4.0)
+      '@vitest/browser': 1.5.0(playwright@1.43.0)(vitest@1.5.0)
+      '@vitest/coverage-istanbul': 1.5.0(vitest@1.5.0)
       eslint: 8.57.0
       playwright: 1.43.0
       prettier: 3.2.5
@@ -19007,7 +19000,7 @@ packages:
       tshy: 1.13.1
       tslib: 2.6.2
       typescript: 5.3.3
-      vitest: 1.4.0(@types/node@18.19.31)(@vitest/browser@1.4.0)
+      vitest: 1.5.0(@types/node@18.19.31)(@vitest/browser@1.5.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -19031,8 +19024,8 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/node': 18.19.31
-      '@vitest/browser': 1.4.0(playwright@1.43.0)(vitest@1.4.0)
-      '@vitest/coverage-istanbul': 1.4.0(vitest@1.4.0)
+      '@vitest/browser': 1.5.0(playwright@1.43.0)(vitest@1.5.0)
+      '@vitest/coverage-istanbul': 1.5.0(vitest@1.5.0)
       eslint: 8.57.0
       playwright: 1.43.0
       prettier: 3.2.5
@@ -19040,7 +19033,7 @@ packages:
       tshy: 1.13.1
       tslib: 2.6.2
       typescript: 5.3.3
-      vitest: 1.4.0(@types/node@18.19.31)(@vitest/browser@1.4.0)
+      vitest: 1.5.0(@types/node@18.19.31)(@vitest/browser@1.5.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -19064,8 +19057,8 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/node': 18.19.31
-      '@vitest/browser': 1.4.0(playwright@1.43.0)(vitest@1.4.0)
-      '@vitest/coverage-istanbul': 1.4.0(vitest@1.4.0)
+      '@vitest/browser': 1.5.0(playwright@1.43.0)(vitest@1.5.0)
+      '@vitest/coverage-istanbul': 1.5.0(vitest@1.5.0)
       eslint: 8.57.0
       http-proxy-agent: 7.0.0
       https-proxy-agent: 7.0.2
@@ -19075,7 +19068,7 @@ packages:
       tshy: 1.13.1
       tslib: 2.6.2
       typescript: 5.3.3
-      vitest: 1.4.0(@types/node@18.19.31)(@vitest/browser@1.4.0)
+      vitest: 1.5.0(@types/node@18.19.31)(@vitest/browser@1.5.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -19099,8 +19092,8 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/node': 18.19.31
-      '@vitest/browser': 1.4.0(playwright@1.43.0)(vitest@1.4.0)
-      '@vitest/coverage-istanbul': 1.4.0(vitest@1.4.0)
+      '@vitest/browser': 1.5.0(playwright@1.43.0)(vitest@1.5.0)
+      '@vitest/coverage-istanbul': 1.5.0(vitest@1.5.0)
       dotenv: 16.4.5
       eslint: 8.57.0
       playwright: 1.43.0
@@ -19109,7 +19102,7 @@ packages:
       tshy: 1.13.1
       tslib: 2.6.2
       typescript: 5.2.2
-      vitest: 1.4.0(@types/node@18.19.31)(@vitest/browser@1.4.0)
+      vitest: 1.5.0(@types/node@18.19.31)(@vitest/browser@1.5.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -19133,8 +19126,8 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/node': 18.19.31
-      '@vitest/browser': 1.4.0(playwright@1.43.0)(vitest@1.4.0)
-      '@vitest/coverage-istanbul': 1.4.0(vitest@1.4.0)
+      '@vitest/browser': 1.5.0(playwright@1.43.0)(vitest@1.5.0)
+      '@vitest/coverage-istanbul': 1.5.0(vitest@1.5.0)
       eslint: 8.57.0
       playwright: 1.43.0
       prettier: 3.2.5
@@ -19142,7 +19135,7 @@ packages:
       tshy: 1.13.1
       tslib: 2.6.2
       typescript: 5.3.3
-      vitest: 1.4.0(@types/node@18.19.31)(@vitest/browser@1.4.0)
+      vitest: 1.5.0(@types/node@18.19.31)(@vitest/browser@1.5.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -19166,8 +19159,8 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/node': 18.19.31
-      '@vitest/browser': 1.4.0(playwright@1.43.0)(vitest@1.4.0)
-      '@vitest/coverage-istanbul': 1.4.0(vitest@1.4.0)
+      '@vitest/browser': 1.5.0(playwright@1.43.0)(vitest@1.5.0)
+      '@vitest/coverage-istanbul': 1.5.0(vitest@1.5.0)
       eslint: 8.57.0
       playwright: 1.43.0
       prettier: 3.2.5
@@ -19175,7 +19168,7 @@ packages:
       tshy: 1.13.1
       tslib: 2.6.2
       typescript: 5.3.3
-      vitest: 1.4.0(@types/node@18.19.31)(@vitest/browser@1.4.0)
+      vitest: 1.5.0(@types/node@18.19.31)(@vitest/browser@1.5.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -19200,8 +19193,8 @@ packages:
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/node': 18.19.31
       '@types/trusted-types': 2.0.7
-      '@vitest/browser': 1.4.0(playwright@1.43.0)(vitest@1.4.0)
-      '@vitest/coverage-istanbul': 1.4.0(vitest@1.4.0)
+      '@vitest/browser': 1.5.0(playwright@1.43.0)(vitest@1.5.0)
+      '@vitest/coverage-istanbul': 1.5.0(vitest@1.5.0)
       eslint: 8.57.0
       fast-xml-parser: 4.3.6
       playwright: 1.43.0
@@ -19210,7 +19203,7 @@ packages:
       tshy: 1.13.1
       tslib: 2.6.2
       typescript: 5.3.3
-      vitest: 1.4.0(@types/node@18.19.31)(@vitest/browser@1.4.0)
+      vitest: 1.5.0(@types/node@18.19.31)(@vitest/browser@1.5.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -19376,7 +19369,7 @@ packages:
       '@types/minimist': 1.2.5
       '@types/node': 18.19.31
       '@types/semver': 7.5.8
-      '@vitest/coverage-istanbul': 1.4.0(vitest@1.4.0)
+      '@vitest/coverage-istanbul': 1.5.0(vitest@1.5.0)
       archiver: 7.0.1
       autorest: 3.7.1
       builtin-modules: 3.3.0
@@ -19401,7 +19394,7 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
       tslib: 2.6.2
       typescript: 5.3.3
-      vitest: 1.4.0(@types/node@18.19.31)(@vitest/browser@1.4.0)
+      vitest: 1.5.0(@types/node@18.19.31)(@vitest/browser@1.5.0)
       yaml: 2.4.1
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -19545,7 +19538,7 @@ packages:
       '@typescript-eslint/parser': 5.57.1(eslint@8.57.0)(typescript@5.3.3)
       '@typescript-eslint/rule-tester': 7.6.0(@eslint/eslintrc@3.0.2)(eslint@8.57.0)(typescript@5.3.3)
       '@typescript-eslint/typescript-estree': 5.57.1(typescript@5.3.3)
-      '@vitest/coverage-istanbul': 1.4.0(vitest@1.4.0)
+      '@vitest/coverage-istanbul': 1.5.0(vitest@1.5.0)
       cross-env: 7.0.3
       eslint: 8.57.0
       eslint-config-prettier: 9.1.0(eslint@8.57.0)
@@ -19561,7 +19554,7 @@ packages:
       source-map-support: 0.5.21
       tslib: 2.6.2
       typescript: 5.3.3
-      vitest: 1.4.0(@types/node@18.19.31)(@vitest/browser@1.4.0)
+      vitest: 1.5.0(@types/node@18.19.31)(@vitest/browser@1.5.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/browser'
@@ -19621,7 +19614,7 @@ packages:
       mocha: 10.4.0
       moment: 2.30.1
       process: 0.11.10
-      puppeteer: 22.6.3(typescript@5.3.3)
+      puppeteer: 22.6.4(typescript@5.3.3)
       rhea-promise: 3.0.1
       rimraf: 5.0.5
       sinon: 17.0.1
@@ -20010,8 +20003,8 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 3.1.2
       '@azure/abort-controller': 1.1.0
-      '@azure/msal-node': 2.6.6
-      '@azure/msal-node-extensions': 1.0.14
+      '@azure/msal-node': 2.7.0
+      '@azure/msal-node-extensions': 1.0.15
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
@@ -20019,7 +20012,7 @@ packages:
       cross-env: 7.0.3
       eslint: 8.57.0
       mocha: 10.4.0
-      puppeteer: 22.6.3(typescript@5.3.3)
+      puppeteer: 22.6.4(typescript@5.3.3)
       rimraf: 5.0.5
       sinon: 17.0.1
       tslib: 2.6.2
@@ -20036,8 +20029,8 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 3.1.2
-      '@azure/msal-node': 2.6.6
-      '@azure/msal-node-extensions': 1.0.14
+      '@azure/msal-node': 2.7.0
+      '@azure/msal-node-extensions': 1.0.15
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/jws': 3.2.10
       '@types/mocha': 10.0.6
@@ -20050,7 +20043,7 @@ packages:
       inherits: 2.0.4
       keytar: 7.9.0
       mocha: 10.4.0
-      puppeteer: 22.6.3(typescript@5.3.3)
+      puppeteer: 22.6.4(typescript@5.3.3)
       rimraf: 5.0.5
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
@@ -20084,7 +20077,7 @@ packages:
       inherits: 2.0.4
       keytar: 7.9.0
       mocha: 10.4.0
-      puppeteer: 22.6.3(typescript@5.3.3)
+      puppeteer: 22.6.4(typescript@5.3.3)
       rimraf: 5.0.5
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
@@ -20107,8 +20100,8 @@ packages:
       '@azure-tools/test-recorder': 3.1.2
       '@azure/abort-controller': 1.1.0
       '@azure/keyvault-keys': 4.8.0
-      '@azure/msal-browser': 3.11.1
-      '@azure/msal-node': 2.6.6
+      '@azure/msal-browser': 3.13.0
+      '@azure/msal-node': 2.7.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/jsonwebtoken': 9.0.6
@@ -20139,7 +20132,7 @@ packages:
       mocha: 10.4.0
       ms: 2.1.3
       open: 8.4.2
-      puppeteer: 22.6.3(typescript@5.3.3)
+      puppeteer: 22.6.4(typescript@5.3.3)
       rimraf: 5.0.5
       sinon: 17.0.1
       stoppable: 1.1.0
@@ -20309,7 +20302,7 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.3)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
-      puppeteer: 22.6.3(typescript@5.3.3)
+      puppeteer: 22.6.4(typescript@5.3.3)
       rimraf: 5.0.5
       sinon: 17.0.1
       source-map-support: 0.5.21
@@ -20339,7 +20332,7 @@ packages:
       eslint: 8.57.0
       esm: 3.2.25
       mocha: 10.4.0
-      puppeteer: 22.6.3(typescript@5.3.3)
+      puppeteer: 22.6.4(typescript@5.3.3)
       rimraf: 5.0.5
       sinon: 17.0.1
       source-map-support: 0.5.21
@@ -20384,7 +20377,7 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.3)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
-      puppeteer: 22.6.3(typescript@5.3.3)
+      puppeteer: 22.6.4(typescript@5.3.3)
       rimraf: 5.0.5
       sinon: 17.0.1
       source-map-support: 0.5.21
@@ -20427,7 +20420,7 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.3)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
-      puppeteer: 22.6.3(typescript@5.3.3)
+      puppeteer: 22.6.4(typescript@5.3.3)
       rimraf: 5.0.5
       sinon: 17.0.1
       source-map-support: 0.5.21
@@ -20497,8 +20490,8 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/node': 18.19.31
-      '@vitest/browser': 1.4.0(playwright@1.43.0)(vitest@1.4.0)
-      '@vitest/coverage-istanbul': 1.4.0(vitest@1.4.0)
+      '@vitest/browser': 1.5.0(playwright@1.43.0)(vitest@1.5.0)
+      '@vitest/coverage-istanbul': 1.5.0(vitest@1.5.0)
       dotenv: 16.4.5
       eslint: 8.57.0
       playwright: 1.43.0
@@ -20507,7 +20500,7 @@ packages:
       tshy: 1.13.1
       tslib: 2.6.2
       typescript: 5.3.3
-      vitest: 1.4.0(@types/node@18.19.31)(@vitest/browser@1.4.0)
+      vitest: 1.5.0(@types/node@18.19.31)(@vitest/browser@1.5.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -21033,7 +21026,7 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.3)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
-      puppeteer: 22.6.3(typescript@5.3.3)
+      puppeteer: 22.6.4(typescript@5.3.3)
       rimraf: 5.0.5
       tslib: 2.6.2
       tsx: 4.7.2
@@ -21075,7 +21068,7 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.3)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
-      puppeteer: 22.6.3(typescript@5.3.3)
+      puppeteer: 22.6.4(typescript@5.3.3)
       rimraf: 3.0.2
       ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
       tslib: 2.6.2
@@ -22182,7 +22175,7 @@ packages:
       moment: 2.30.1
       process: 0.11.10
       promise: 8.3.0
-      puppeteer: 22.6.3(typescript@5.3.3)
+      puppeteer: 22.6.4(typescript@5.3.3)
       rhea-promise: 3.0.1
       rimraf: 5.0.5
       sinon: 17.0.1
@@ -22232,7 +22225,7 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.3)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
-      puppeteer: 22.6.3(typescript@5.3.3)
+      puppeteer: 22.6.4(typescript@5.3.3)
       rimraf: 5.0.5
       sinon: 17.0.1
       source-map-support: 0.5.21
@@ -22280,7 +22273,7 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.3)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
-      puppeteer: 22.6.3(typescript@5.3.3)
+      puppeteer: 22.6.4(typescript@5.3.3)
       rimraf: 5.0.5
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
@@ -22330,7 +22323,7 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.3)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
-      puppeteer: 22.6.3(typescript@5.3.3)
+      puppeteer: 22.6.4(typescript@5.3.3)
       rimraf: 5.0.5
       sinon: 17.0.1
       source-map-support: 0.5.21
@@ -22379,7 +22372,7 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.3)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
-      puppeteer: 22.6.3(typescript@5.3.3)
+      puppeteer: 22.6.4(typescript@5.3.3)
       rimraf: 5.0.5
       sinon: 17.0.1
       source-map-support: 0.5.21
@@ -22424,7 +22417,7 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.3)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
-      puppeteer: 22.6.3(typescript@5.3.3)
+      puppeteer: 22.6.4(typescript@5.3.3)
       rimraf: 5.0.5
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
@@ -22469,7 +22462,7 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.3)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
-      puppeteer: 22.6.3(typescript@5.3.3)
+      puppeteer: 22.6.4(typescript@5.3.3)
       rimraf: 5.0.5
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
@@ -22779,7 +22772,7 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.3)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
-      puppeteer: 22.6.3(typescript@5.3.3)
+      puppeteer: 22.6.4(typescript@5.3.3)
       rimraf: 3.0.2
       ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
       tslib: 2.6.2
@@ -22891,8 +22884,8 @@ packages:
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/fs-extra': 8.1.5
       '@types/node': 18.19.31
-      '@vitest/browser': 1.4.0(playwright@1.43.0)(vitest@1.4.0)
-      '@vitest/coverage-istanbul': 1.4.0(vitest@1.4.0)
+      '@vitest/browser': 1.5.0(playwright@1.43.0)(vitest@1.5.0)
+      '@vitest/coverage-istanbul': 1.5.0(vitest@1.5.0)
       concurrently: 8.2.2
       cross-env: 7.0.3
       eslint: 8.57.0
@@ -22904,7 +22897,7 @@ packages:
       tshy: 1.13.1
       tslib: 2.6.2
       typescript: 5.3.3
-      vitest: 1.4.0(@types/node@18.19.31)(@vitest/browser@1.4.0)
+      vitest: 1.5.0(@types/node@18.19.31)(@vitest/browser@1.5.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -22965,8 +22958,8 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/node': 18.19.31
-      '@vitest/browser': 1.4.0(playwright@1.43.0)(vitest@1.4.0)
-      '@vitest/coverage-istanbul': 1.4.0(vitest@1.4.0)
+      '@vitest/browser': 1.5.0(playwright@1.43.0)(vitest@1.5.0)
+      '@vitest/coverage-istanbul': 1.5.0(vitest@1.5.0)
       cross-env: 7.0.3
       eslint: 8.57.0
       http-proxy-agent: 7.0.0
@@ -22977,7 +22970,7 @@ packages:
       tshy: 1.13.1
       tslib: 2.6.2
       typescript: 5.3.3
-      vitest: 1.4.0(@types/node@18.19.31)(@vitest/browser@1.4.0)
+      vitest: 1.5.0(@types/node@18.19.31)(@vitest/browser@1.5.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -23051,7 +23044,7 @@ packages:
       mock-socket: 9.3.1
       protobufjs: 7.2.6
       protobufjs-cli: 1.1.2(protobufjs@7.2.6)
-      puppeteer: 22.6.3(typescript@5.3.3)
+      puppeteer: 22.6.4(typescript@5.3.3)
       rimraf: 5.0.5
       rollup: 4.14.1
       sinon: 17.0.1
@@ -23106,7 +23099,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
       mock-socket: 9.3.1
-      puppeteer: 22.6.3(typescript@5.3.3)
+      puppeteer: 22.6.4(typescript@5.3.3)
       rimraf: 5.0.5
       sinon: 17.0.1
       source-map-support: 0.5.21
@@ -23145,7 +23138,7 @@ packages:
       esm: 3.2.25
       express: 4.19.2
       mocha: 10.4.0
-      puppeteer: 22.6.3(typescript@5.3.3)
+      puppeteer: 22.6.4(typescript@5.3.3)
       rimraf: 5.0.5
       sinon: 17.0.1
       source-map-support: 0.5.21
@@ -23191,7 +23184,7 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.3)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
-      puppeteer: 22.6.3(typescript@5.3.3)
+      puppeteer: 22.6.4(typescript@5.3.3)
       rimraf: 5.0.5
       sinon: 17.0.1
       source-map-support: 0.5.21
