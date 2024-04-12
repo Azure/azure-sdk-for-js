@@ -66,8 +66,9 @@ describe("Errors", function () {
           errno: "-3008",
           syscall: "getaddrinfo",
           message: "getaddrinfo ENOTFOUND example.invalid",
-          stack: "'Error: getaddrinfo ENOTFOUND example.invalid\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)\n    at GetAddrInfoReqWrap.callbackTrampoline (node:internal/async_hooks:130:17)'",
-        }
+          stack:
+            "'Error: getaddrinfo ENOTFOUND example.invalid\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)\n    at GetAddrInfoReqWrap.callbackTrampoline (node:internal/async_hooks:130:17)'",
+        },
       };
       const translatedError = Errors.translate(testError) as Errors.MessagingError;
       translatedError.message.should.equal(testError.error.message);
@@ -78,7 +79,6 @@ describe("Errors", function () {
       translatedError.stack!.should.equal(testError.error.stack);
       translatedError.retryable.should.equal(false);
     });
-
 
     it("Sets retryable to true, if input is custom error and name is OperationTimeoutError", function () {
       const err = new Error("error message");

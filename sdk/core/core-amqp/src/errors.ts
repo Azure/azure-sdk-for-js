@@ -634,7 +634,7 @@ function isBrowserWebsocketError(err: any): boolean {
  * Checks whether a object is an ErrorEvent or not. https://html.spec.whatwg.org/multipage/webappapis.html#errorevent
  * @param err - object that may contain error information
  */
-function isErrorEvent(err: any): err is { message: string; error: any }{
+function isErrorEvent(err: any): err is { message: string; error: any } {
   let result: boolean = false;
   if (typeof err.error === "object" && typeof err.message === "string") {
     result = true;
