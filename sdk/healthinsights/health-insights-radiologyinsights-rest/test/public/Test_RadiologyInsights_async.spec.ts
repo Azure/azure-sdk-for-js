@@ -79,6 +79,7 @@ const patientDocumentData = {
   administrativeMetadata: administrativeMetadata,
   content: content,
   createdAt: new Date("2021-05-31T22:00:00.000Z"),
+  orderedProceduresAsCsv: "US PELVIS COMPLETE",
 };
 
 const patientData = {
@@ -157,7 +158,6 @@ describe("Radiology Insights Test", () => {
     const poller = await getLongRunningPoller(client, result);
     const res = await poller.pollUntilDone();
     console.log(res);
-    console.log("Error details:" + JSON.stringify(res.body.error?.details));
     assert.equal(res.status, "200");
   });
 });

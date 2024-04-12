@@ -32,8 +32,8 @@ const encounterData = {
 };
 
 const authorData = {
-  "id": "authorid1",
-  "name": "authorname1"
+  id: "authorid1",
+  fullName: "authorname1",
 };
 
 const orderedProceduresData = {
@@ -79,14 +79,14 @@ const patientDocumentData = {
   specialtyType: "radiology",
   administrativeMetadata: administrativeMetadata,
   content: content,
-  createdDateTime: new Date("2021-06-01T00:00:00.000"),
+  createdAt: new Date("2021-06-01T00:00:00.000"),
   orderedProceduresAsCsv: "US PELVIS COMPLETE"
 };
 
 
 const patientData = {
   id: "Samantha Jones",
-  info: patientInfo,
+  details: patientInfo,
   encounters: [encounterData],
   patientDocuments: [patientDocumentData]
 };
@@ -129,13 +129,15 @@ const configuration = {
 };
 
 // create RI Data
-const radiologyInsightsData = {
-  patients: [patientData],
-  configuration: configuration
+const RadiologyInsightsJob = {
+  jobData: {
+    patients: [patientData],
+    configuration: configuration,
+  }
 };
 
-const radiologyInsightsParameter = {
-  body: radiologyInsightsData
+const param = {
+  body: RadiologyInsightsJob,
 };
 
 /**
@@ -153,17 +155,17 @@ function findCompleteOrderDiscrep(res: any): void {
             console.log("Complete Order Discrepancy Inference found: ");
             if ("orderType" in inference) {
               console.log("   Ordertype: ");
-              displayCodes({ codableConcept: inference.orderType });
+              displayCodes(inference.orderType);
             };
 
             inference.missingBodyParts?.forEach((bodyparts: any) => {
               console.log("   Missing Body Parts: ");
-              displayCodes({ codableConcept: bodyparts });
+              displayCodes(bodyparts);
             });
 
             inference.missingBodyPartMeasurements?.forEach((bodymeasure: any) => {
               console.log("   Missing Body Part Measurements: ");
-              displayCodes({ codableConcept: bodymeasure });
+              displayCodes(bodymeasure);
             });
           }
         });
@@ -171,10 +173,10 @@ function findCompleteOrderDiscrep(res: any): void {
     });
   }
 
-  function displayCodes({ codableConcept }: { codableConcept: any; }): void {
-    codableConcept.coding?.forEach((coding: any) => {
-      if ("code" in coding) {
-        console.log("      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
+  function displayCodes(codableConcept: any[]) {
+    (codableConcept as { coding?: any[] }).coding?.forEach((coding) => {
+      if ("code" in coding && "display" in coding && "system" in coding) {
+        console.log("   Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
       }
     });
   }
@@ -194,7 +196,9 @@ describe("Complete Order Discrepancy Inference Test", () => {
   });
 
   it("complete order discrepancy inference test", async function () {
-    const result = await client.path("/radiology-insights/jobs").post(radiologyInsightsParameter);
+    const dateString = Date.now();
+    const jobID = "jobId-" + dateString;
+    const result = await client.path("/radiology-insights/jobs/{id}", jobID).put(param);
     const poller = await getLongRunningPoller(client, result);
     const res = await poller.pollUntilDone();
     console.log(res);

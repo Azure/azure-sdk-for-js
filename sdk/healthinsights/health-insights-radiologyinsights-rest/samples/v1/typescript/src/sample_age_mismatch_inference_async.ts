@@ -8,7 +8,7 @@ import { AzureKeyCredential } from "@azure/core-auth";
 
 import AzureHealthInsightsClient, {
   CreateJobParameters,
-  RadiologyInsightsResultOutput,
+  RadiologyInsightsJobOutput,
   getLongRunningPoller,
   isUnexpected
 } from "@azure-rest/health-insights-radiologyinsights";
@@ -24,7 +24,7 @@ const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
     * Print the age mismatch inference
  */
 
-function printResults(radiologyInsightsResult: RadiologyInsightsResultOutput, content: string): void {
+function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput, content: string): void {
   if (radiologyInsightsResult.status === "succeeded") {
     const results = radiologyInsightsResult.result;
     if (results !== undefined) {
@@ -99,8 +99,8 @@ function createRequestBody(): CreateJobParameters {
   };
 
   const authorData = {
-    "id": "authorid1",
-    "name": "authorname1"
+    id: "authorid1",
+    fullName: "authorname1",
   };
 
   const orderedProceduresData = {
@@ -147,14 +147,14 @@ function createRequestBody(): CreateJobParameters {
     specialtyType: "radiology",
     administrativeMetadata: administrativeMetadata,
     content: content,
-    createdDateTime: new Date("2021-06-01T00:00:00.000"),
+    createdAt: new Date("2021-06-01T00:00:00.000"),
     orderedProceduresAsCsv: "US PELVIS COMPLETE"
   };
 
 
   const patientData = {
     id: "Samantha Jones",
-    info: patientInfo,
+    details: patientInfo,
     encounters: [encounterData],
     patientDocuments: [patientDocumentData]
   };
@@ -197,14 +197,16 @@ function createRequestBody(): CreateJobParameters {
   };
 
   // create RI Data
-  const radiologyInsightsData = {
-    patients: [patientData],
-    configuration: configuration
+  const RadiologyInsightsJob = {
+    jobData: {
+      patients: [patientData],
+      configuration: configuration,
+    }
   };
 
-  return {
-    body: radiologyInsightsData
-  }
+  const param = {
+    body: RadiologyInsightsJob,
+  };
 
 }
 
@@ -216,7 +218,9 @@ export async function main() {
   const radiologyInsightsParameter = createRequestBody();
 
   // Initiate radiology insights job and retrieve results
-  const initialResponse = await client.path("/radiology-insights/jobs").post(radiologyInsightsParameter);
+  const dateString = Date.now();
+  const jobID = "jobId-" + dateString;
+  const initialResponse = await client.path("/radiology-insights/jobs/{id}", jobID).put(radiologyInsightsParameter);
   if (isUnexpected(initialResponse)) {
     throw initialResponse;
   }
@@ -226,7 +230,7 @@ export async function main() {
     throw RadiologyInsightsResult;
   }
   const resultBody = RadiologyInsightsResult.body;
-  const content = radiologyInsightsParameter?.body?.patients?.[0]?.patientDocuments?.[0]?.content?.value ?? '';
+  const content = radiologyInsightsParameter?.body?.jobData?.patients?.[0]?.patientDocuments?.[0]?.content?.value ?? '';
   printResults(resultBody, content);
 }
 

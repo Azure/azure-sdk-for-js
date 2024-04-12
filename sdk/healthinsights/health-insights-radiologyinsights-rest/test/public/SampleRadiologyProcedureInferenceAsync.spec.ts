@@ -32,8 +32,8 @@ const encounterData = {
 };
 
 const authorData = {
-  "id": "authorid1",
-  "name": "authorname1"
+  id: "authorid1",
+  fullName: "authorname1",
 };
 
 const orderedProceduresData = {
@@ -67,14 +67,14 @@ const patientDocumentData = {
   specialtyType: "radiology",
   administrativeMetadata: administrativeMetadata,
   content: content,
-  createdDateTime: new Date("2021-06-01T00:00:00.000"),
+  createdAt: new Date("2021-06-01T00:00:00.000"),
   orderedProceduresAsCsv: "CT HEAD W CONTRAST IV"
 };
 
 
 const patientData = {
   id: "Samantha Jones",
-  info: patientInfo,
+  details: patientInfo,
   encounters: [encounterData],
   patientDocuments: [patientDocumentData]
 };
@@ -117,13 +117,15 @@ const configuration = {
 };
 
 // create RI Data
-const radiologyInsightsData = {
-  patients: [patientData],
-  configuration: configuration
+const RadiologyInsightsJob = {
+  jobData: {
+    patients: [patientData],
+    configuration: configuration,
+  }
 };
 
-const radiologyInsightsParameter = {
-  body: radiologyInsightsData
+const param = {
+  body: RadiologyInsightsJob,
 };
 
 /**
@@ -211,7 +213,9 @@ describe("Radiology Procedure Inference Test", () => {
   });
 
   it("radiology procedure inference test", async function () {
-    const result = await client.path("/radiology-insights/jobs").post(radiologyInsightsParameter);
+    const dateString = Date.now();
+    const jobID = "jobId-" + dateString;
+    const result = await client.path("/radiology-insights/jobs/{id}", jobID).put(param);
     const poller = await getLongRunningPoller(client, result);
     const res = await poller.pollUntilDone();
     console.log(res);

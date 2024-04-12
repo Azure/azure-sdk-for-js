@@ -79,8 +79,8 @@ function createRequestBody() {
   };
 
   const authorData = {
-    "id": "authorid1",
-    "name": "authorname1"
+    id: "authorid1",
+    fullName: "authorname1",
   };
 
   const orderedProceduresData = {
@@ -127,14 +127,14 @@ function createRequestBody() {
     specialtyType: "radiology",
     administrativeMetadata: administrativeMetadata,
     content: content,
-    createdDateTime: new Date("2021-06-01T00:00:00.000"),
+    createdAt: new Date("2021-06-01T00:00:00.000"),
     orderedProceduresAsCsv: "US PELVIS COMPLETE"
   };
 
 
   const patientData = {
     id: "Samantha Jones",
-    info: patientInfo,
+    details: patientInfo,
     encounters: [encounterData],
     patientDocuments: [patientDocumentData]
   };
@@ -176,15 +176,14 @@ function createRequestBody() {
     includeEvidence: true
   };
 
-  // create RI Data
-  const radiologyInsightsData = {
-    patients: [patientData],
-    configuration: configuration
+  const RadiologyInsightsJob = {
+    jobData: {
+      patients: [patientData],
+      configuration: configuration,
+    }
   };
 
-  const radiologyInsightsParameter = {
-    body: radiologyInsightsData
-  };
+
 
   return {
     body: radiologyInsightsData
@@ -200,7 +199,9 @@ async function main() {
   const radiologyInsightsParameter = createRequestBody();
 
   // Initiate radiology insights job and retrieve results
-  const initialResponse = await client.path("/radiology-insights/jobs").post(radiologyInsightsParameter);
+  const dateString = Date.now();
+  const jobID = "jobId-" + dateString;
+  const initialResponse = await client.path("/radiology-insights/jobs/{id}", jobID).put(radiologyInsightsParameter);
   if (isUnexpected(initialResponse)) {
     throw initialResponse;
   }
