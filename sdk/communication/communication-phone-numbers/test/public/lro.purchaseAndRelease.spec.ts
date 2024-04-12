@@ -39,8 +39,8 @@ matrix([[true, false]], async function (useAad) {
         phoneNumberType: "tollFree",
         assignmentType: "application",
         capabilities: {
-          sms: "none",
           calling: "inbound",
+          sms: "none",
         },
       };
       const searchPoller = await client.beginSearchAvailablePhoneNumbers(searchRequest);
