@@ -442,11 +442,26 @@ export class WorkloadIdentityCredential implements TokenCredential {
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
 }
 
-// Warning: (ae-forgotten-export) The symbol "WorkloadIdentityCredentialKubernetesOptions" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "WorkloadIdentityCredentialServiceConnectionOptions" needs to be exported by the entry point index.d.ts
-//
+// @public
+export interface WorkloadIdentityCredentialKubernetesOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
+    clientId?: string;
+    // (undocumented)
+    serviceConnectionId?: never;
+    tenantId?: string;
+    tokenFilePath?: string;
+}
+
 // @public
 export type WorkloadIdentityCredentialOptions = WorkloadIdentityCredentialKubernetesOptions | WorkloadIdentityCredentialServiceConnectionOptions;
+
+// @public
+export interface WorkloadIdentityCredentialServiceConnectionOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
+    clientId?: string;
+    serviceConnectionId?: string;
+    tenantId?: string;
+    // (undocumented)
+    tokenFilePath?: never;
+}
 
 // (No @packageDocumentation comment for this package)
 
