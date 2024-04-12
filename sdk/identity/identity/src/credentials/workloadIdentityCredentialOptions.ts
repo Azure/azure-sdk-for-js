@@ -8,7 +8,9 @@ import { WorkloadIdentityCredential } from "./workloadIdentityCredential";
 /**
  * Options for the {@link WorkloadIdentityCredential}
  */
-export type WorkloadIdentityCredentialOptions = WorkloadIdentityCredentialKubernetesOptions | WorkloadIdentityCredentialServiceConnectionOptions;
+export type WorkloadIdentityCredentialOptions =
+  | WorkloadIdentityCredentialKubernetesOptions
+  | WorkloadIdentityCredentialServiceConnectionOptions;
 export interface WorkloadIdentityCredentialKubernetesOptions
   extends MultiTenantTokenCredentialOptions,
     AuthorityValidationOptions {
@@ -25,7 +27,7 @@ export interface WorkloadIdentityCredentialKubernetesOptions
    */
   tokenFilePath?: string;
   serviceConnectionId?: never;
-} 
+}
 
 /**
  * Options for the {@link WorkloadIdentityCredential}
