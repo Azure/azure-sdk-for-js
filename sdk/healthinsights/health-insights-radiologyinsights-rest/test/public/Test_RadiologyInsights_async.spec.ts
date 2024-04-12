@@ -31,7 +31,7 @@ const clinicInfoData = {
   resourceType: "Observation",
   status: "unknown",
   code: code,
-  valueBoolean: "true",
+  valueBoolean: true,
 };
 
 const patientInfo = {
