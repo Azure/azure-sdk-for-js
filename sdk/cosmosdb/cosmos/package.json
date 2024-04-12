@@ -117,13 +117,13 @@
     "esm": "^3.2.18",
     "execa": "^5.0.0",
     "mocha": "^10.0.0",
-    "nock": "^12.0.3",
+    "nock": "^13.5.4",
     "requirejs": "^2.3.5",
     "rimraf": "^5.0.5",
     "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typescript": "~5.3.3"
+    "typescript": "~5.4.5"
   },
   "//sampleConfiguration": {
     "skip": [
