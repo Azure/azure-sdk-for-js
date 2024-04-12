@@ -11,6 +11,10 @@ import { WorkloadIdentityCredential } from "./workloadIdentityCredential";
 export type WorkloadIdentityCredentialOptions =
   | WorkloadIdentityCredentialKubernetesOptions
   | WorkloadIdentityCredentialServiceConnectionOptions;
+
+/**
+ * Options for the {@link WorkloadIdentityCredential} for Kubernetes environment
+ */
 export interface WorkloadIdentityCredentialKubernetesOptions
   extends MultiTenantTokenCredentialOptions,
     AuthorityValidationOptions {
@@ -30,7 +34,7 @@ export interface WorkloadIdentityCredentialKubernetesOptions
 }
 
 /**
- * Options for the {@link WorkloadIdentityCredential}
+ * Options for the {@link WorkloadIdentityCredential} for Service Connections in Azure Devops
  */
 export interface WorkloadIdentityCredentialServiceConnectionOptions
   extends MultiTenantTokenCredentialOptions,
