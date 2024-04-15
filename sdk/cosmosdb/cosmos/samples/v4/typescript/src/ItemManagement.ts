@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation.
+﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 /**
@@ -231,7 +231,6 @@ async function run(): Promise<void> {
       console.log(`Patched ${JSON.stringify(patchSource)} to new ${JSON.stringify(patchSource3)}.`);
     }
   }
-
   logStep("Delete item '" + item.id + "'");
   await item.delete();
 
