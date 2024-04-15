@@ -341,7 +341,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     certificate: CertificateParts,
     options: GetTokenOptions = {},
   ): Promise<AccessToken> {
-    msalLogger.getToken.info(`Attempting to acquire token using client assertion`);
+    msalLogger.getToken.info(`Attempting to acquire token using client certificate`);
 
     state.msalConfig.auth.clientCertificate = certificate;
 
