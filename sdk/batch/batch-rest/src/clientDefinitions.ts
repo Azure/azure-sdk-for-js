@@ -65,11 +65,9 @@ import {
   ReplaceNodeUserParameters,
   GetNodeParameters,
   RebootNodeParameters,
-  ReimageNodeParameters,
   DisableNodeSchedulingParameters,
   EnableNodeSchedulingParameters,
   GetNodeRemoteLoginSettingsParameters,
-  GetNodeRemoteDesktopFileParameters,
   UploadNodeLogsParameters,
   ListNodesParameters,
   GetNodeExtensionParameters,
@@ -78,7 +76,7 @@ import {
   GetNodeFileParameters,
   GetNodeFilePropertiesParameters,
   ListNodeFilesParameters,
-} from "./parameters";
+} from "./parameters.js";
 import {
   ListApplications200Response,
   ListApplicationsDefaultResponse,
@@ -208,16 +206,12 @@ import {
   GetNodeDefaultResponse,
   RebootNode202Response,
   RebootNodeDefaultResponse,
-  ReimageNode202Response,
-  ReimageNodeDefaultResponse,
   DisableNodeScheduling200Response,
   DisableNodeSchedulingDefaultResponse,
   EnableNodeScheduling200Response,
   EnableNodeSchedulingDefaultResponse,
   GetNodeRemoteLoginSettings200Response,
   GetNodeRemoteLoginSettingsDefaultResponse,
-  GetNodeRemoteDesktopFile200Response,
-  GetNodeRemoteDesktopFileDefaultResponse,
   UploadNodeLogs200Response,
   UploadNodeLogsDefaultResponse,
   ListNodes200Response,
@@ -234,7 +228,7 @@ import {
   GetNodeFilePropertiesDefaultResponse,
   ListNodeFiles200Response,
   ListNodeFilesDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface ListApplications {
@@ -924,17 +918,6 @@ export interface RebootNode {
   ): StreamableMethod<RebootNode202Response | RebootNodeDefaultResponse>;
 }
 
-export interface ReimageNode {
-  /**
-   * You can reinstall the operating system on a Compute Node only if it is in an
-   * idle or running state. This API can be invoked only on Pools created with the
-   * cloud service configuration property.
-   */
-  post(
-    options: ReimageNodeParameters,
-  ): StreamableMethod<ReimageNode202Response | ReimageNodeDefaultResponse>;
-}
-
 export interface DisableNodeScheduling {
   /**
    * You can disable Task scheduling on a Compute Node only if its current
@@ -964,29 +947,12 @@ export interface GetNodeRemoteLoginSettings {
    * Before you can remotely login to a Compute Node using the remote login
    * settings, you must create a user Account on the Compute Node. This API can be
    * invoked only on Pools created with the virtual machine configuration property.
-   * For Pools created with a cloud service configuration, see the GetRemoteDesktop
-   * API.
    */
   get(
     options?: GetNodeRemoteLoginSettingsParameters,
   ): StreamableMethod<
     | GetNodeRemoteLoginSettings200Response
     | GetNodeRemoteLoginSettingsDefaultResponse
-  >;
-}
-
-export interface GetNodeRemoteDesktopFile {
-  /**
-   * Before you can access a Compute Node by using the RDP file, you must create a
-   * user Account on the Compute Node. This API can only be invoked on Pools created
-   * with a cloud service configuration. For Pools created with a virtual machine
-   * configuration, see the GetRemoteLoginSettings API.
-   */
-  get(
-    options?: GetNodeRemoteDesktopFileParameters,
-  ): StreamableMethod<
-    | GetNodeRemoteDesktopFile200Response
-    | GetNodeRemoteDesktopFileDefaultResponse
   >;
 }
 
@@ -1226,12 +1192,6 @@ export interface Routes {
     poolId: string,
     nodeId: string,
   ): RebootNode;
-  /** Resource for '/pools/\{poolId\}/nodes/\{nodeId\}/reimage' has methods for the following verbs: post */
-  (
-    path: "/pools/{poolId}/nodes/{nodeId}/reimage",
-    poolId: string,
-    nodeId: string,
-  ): ReimageNode;
   /** Resource for '/pools/\{poolId\}/nodes/\{nodeId\}/disablescheduling' has methods for the following verbs: post */
   (
     path: "/pools/{poolId}/nodes/{nodeId}/disablescheduling",
@@ -1250,12 +1210,6 @@ export interface Routes {
     poolId: string,
     nodeId: string,
   ): GetNodeRemoteLoginSettings;
-  /** Resource for '/pools/\{poolId\}/nodes/\{nodeId\}/rdp' has methods for the following verbs: get */
-  (
-    path: "/pools/{poolId}/nodes/{nodeId}/rdp",
-    poolId: string,
-    nodeId: string,
-  ): GetNodeRemoteDesktopFile;
   /** Resource for '/pools/\{poolId\}/nodes/\{nodeId\}/uploadbatchservicelogs' has methods for the following verbs: post */
   (
     path: "/pools/{poolId}/nodes/{nodeId}/uploadbatchservicelogs",

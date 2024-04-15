@@ -26,10 +26,9 @@ import {
   BatchNodeUserCreateContent,
   BatchNodeUserUpdateContent,
   BatchNodeRebootContent,
-  BatchNodeReimageContent,
   BatchNodeDisableSchedulingContent,
   UploadBatchServiceLogsContent,
-} from "./models";
+} from "./models.js";
 
 export interface ListApplicationsHeaders {
   /**
@@ -3262,51 +3261,6 @@ export type RebootNodeParameters = RebootNodeQueryParam &
   RebootNodeBodyParam &
   RequestParameters;
 
-export interface ReimageNodeHeaders {
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration
-   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  "client-request-id"?: string;
-  /** Whether the server should return the client-request-id in the response. */
-  "return-client-request-id"?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the
-   * current system clock time; set it explicitly if you are calling the REST API
-   * directly.
-   */
-  "ocp-date"?: string;
-}
-
-export interface ReimageNodeBodyParam {
-  /** The options to use for reimaging the Compute Node. */
-  body?: BatchNodeReimageContent;
-}
-
-export interface ReimageNodeQueryParamProperties {
-  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
-  timeOut?: number;
-}
-
-export interface ReimageNodeQueryParam {
-  queryParameters?: ReimageNodeQueryParamProperties;
-}
-
-export interface ReimageNodeHeaderParam {
-  headers?: RawHttpHeadersInput & ReimageNodeHeaders;
-}
-
-export interface ReimageNodeMediaTypesParam {
-  /** Type of content */
-  contentType: "application/json; odata=minimalmetadata";
-}
-
-export type ReimageNodeParameters = ReimageNodeQueryParam &
-  ReimageNodeHeaderParam &
-  ReimageNodeMediaTypesParam &
-  ReimageNodeBodyParam &
-  RequestParameters;
-
 export interface DisableNodeSchedulingHeaders {
   /**
    * The caller-generated request identity, in the form of a GUID with no decoration
@@ -3417,40 +3371,6 @@ export interface GetNodeRemoteLoginSettingsHeaderParam {
 export type GetNodeRemoteLoginSettingsParameters =
   GetNodeRemoteLoginSettingsQueryParam &
     GetNodeRemoteLoginSettingsHeaderParam &
-    RequestParameters;
-
-export interface GetNodeRemoteDesktopFileHeaders {
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration
-   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  "client-request-id"?: string;
-  /** Whether the server should return the client-request-id in the response. */
-  "return-client-request-id"?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the
-   * current system clock time; set it explicitly if you are calling the REST API
-   * directly.
-   */
-  "ocp-date"?: string;
-}
-
-export interface GetNodeRemoteDesktopFileQueryParamProperties {
-  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
-  timeOut?: number;
-}
-
-export interface GetNodeRemoteDesktopFileQueryParam {
-  queryParameters?: GetNodeRemoteDesktopFileQueryParamProperties;
-}
-
-export interface GetNodeRemoteDesktopFileHeaderParam {
-  headers?: RawHttpHeadersInput & GetNodeRemoteDesktopFileHeaders;
-}
-
-export type GetNodeRemoteDesktopFileParameters =
-  GetNodeRemoteDesktopFileQueryParam &
-    GetNodeRemoteDesktopFileHeaderParam &
     RequestParameters;
 
 export interface UploadNodeLogsHeaders {

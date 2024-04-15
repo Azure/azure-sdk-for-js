@@ -68,29 +68,6 @@ export interface BatchPoolUsageMetricsOutput {
 }
 
 /**
- * The configuration for Compute Nodes in a Pool based on the Azure Cloud Services
- * platform.
- */
-export interface CloudServiceConfigurationOutput {
-  /**
-   * Possible values are:
-   * 2 - OS Family 2, equivalent to Windows Server 2008 R2
-   * SP1.
-   * 3 - OS Family 3, equivalent to Windows Server 2012.
-   * 4 - OS Family 4,
-   * equivalent to Windows Server 2012 R2.
-   * 5 - OS Family 5, equivalent to Windows
-   * Server 2016.
-   * 6 - OS Family 6, equivalent to Windows Server 2019. For more
-   * information, see Azure Guest OS Releases
-   * (https://azure.microsoft.com/documentation/articles/cloud-services-guestos-update-matrix/#releases).
-   */
-  osFamily: string;
-  /** The Azure Guest OS version to be installed on the virtual machines in the Pool. The default value is * which specifies the latest operating system version for the specified OS family. */
-  osVersion?: string;
-}
-
-/**
  * The configuration for Compute Nodes in a Pool based on the Azure Virtual
  * Machines infrastructure.
  */
@@ -304,7 +281,7 @@ export interface ServiceArtifactReferenceOutput {
 
 /** The network configuration for a Pool. */
 export interface NetworkConfigurationOutput {
-  /** The ARM resource identifier of the virtual network subnet which the Compute Nodes of the Pool will join. This is of the form /subscriptions/{subscription}/resourceGroups/{group}/providers/{provider}/virtualNetworks/{network}/subnets/{subnet}. The virtual network must be in the same region and subscription as the Azure Batch Account. The specified subnet should have enough free IP addresses to accommodate the number of Compute Nodes in the Pool. If the subnet doesn't have enough free IP addresses, the Pool will partially allocate Nodes and a resize error will occur. The 'MicrosoftAzureBatch' service principal must have the 'Classic Virtual Machine Contributor' Role-Based Access Control (RBAC) role for the specified VNet. The specified subnet must allow communication from the Azure Batch service to be able to schedule Tasks on the Nodes. This can be verified by checking if the specified VNet has any associated Network Security Groups (NSG). If communication to the Nodes in the specified subnet is denied by an NSG, then the Batch service will set the state of the Compute Nodes to unusable. For Pools created with virtualMachineConfiguration only ARM virtual networks ('Microsoft.Network/virtualNetworks') are supported, but for Pools created with cloudServiceConfiguration both ARM and classic virtual networks are supported. If the specified VNet has any associated Network Security Groups (NSG), then a few reserved system ports must be enabled for inbound communication. For Pools created with a virtual machine configuration, enable ports 29876 and 29877, as well as port 22 for Linux and port 3389 for Windows. For Pools created with a cloud service configuration, enable ports 10100, 20100, and 30100. Also enable outbound connections to Azure Storage on port 443. For more details see: https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration. */
+  /** The ARM resource identifier of the virtual network subnet which the Compute Nodes of the Pool will join. This is of the form /subscriptions/{subscription}/resourceGroups/{group}/providers/{provider}/virtualNetworks/{network}/subnets/{subnet}. The virtual network must be in the same region and subscription as the Azure Batch Account. The specified subnet should have enough free IP addresses to accommodate the number of Compute Nodes in the Pool. If the subnet doesn't have enough free IP addresses, the Pool will partially allocate Nodes and a resize error will occur. The 'MicrosoftAzureBatch' service principal must have the 'Classic Virtual Machine Contributor' Role-Based Access Control (RBAC) role for the specified VNet. The specified subnet must allow communication from the Azure Batch service to be able to schedule Tasks on the Nodes. This can be verified by checking if the specified VNet has any associated Network Security Groups (NSG). If communication to the Nodes in the specified subnet is denied by an NSG, then the Batch service will set the state of the Compute Nodes to unusable. For Pools created with virtualMachineConfiguration only ARM virtual networks ('Microsoft.Network/virtualNetworks') are supported. If the specified VNet has any associated Network Security Groups (NSG), then a few reserved system ports must be enabled for inbound communication. For Pools created with a virtual machine configuration, enable ports 29876 and 29877, as well as port 22 for Linux and port 3389 for Windows. Also enable outbound connections to Azure Storage on port 443. For more details see: https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration. */
   subnetId?: string;
   /** The scope of dynamic vnet assignment. */
   dynamicVNetAssignmentScope?: DynamicVNetAssignmentScopeOutput;
@@ -504,7 +481,7 @@ export interface LinuxUserConfigurationOutput {
 
 /** Properties used to create a user Account on a Windows Compute Node. */
 export interface WindowsUserConfigurationOutput {
-  /** The login mode for the user. The default value for VirtualMachineConfiguration Pools is 'batch' and for CloudServiceConfiguration Pools is 'interactive'. */
+  /** The login mode for the user. The default value for VirtualMachineConfiguration Pools is 'batch'. */
   loginMode?: LoginModeOutput;
 }
 
@@ -659,9 +636,7 @@ export interface BatchPoolOutput {
   readonly allocationStateTransitionTime?: string;
   /** The size of virtual machines in the Pool. All virtual machines in a Pool are the same size. For information about available sizes of virtual machines in Pools, see Choose a VM size for Compute Nodes in an Azure Batch Pool (https://docs.microsoft.com/azure/batch/batch-pool-vm-sizes). */
   readonly vmSize?: string;
-  /** The cloud service configuration for the Pool. This property and virtualMachineConfiguration are mutually exclusive and one of the properties must be specified. This property cannot be specified if the Batch Account was created with its poolAllocationMode property set to 'UserSubscription'. */
-  readonly cloudServiceConfiguration?: CloudServiceConfigurationOutput;
-  /** The virtual machine configuration for the Pool. This property and cloudServiceConfiguration are mutually exclusive and one of the properties must be specified. */
+  /** The virtual machine configuration for the Pool. This property must be specified. */
   readonly virtualMachineConfiguration?: VirtualMachineConfigurationOutput;
   /** The timeout for allocation of Compute Nodes to the Pool. This is the timeout for the most recent resize operation. (The initial sizing when the Pool is created counts as a resize.) The default value is 15 minutes. */
   readonly resizeTimeout?: string;
@@ -700,8 +675,6 @@ export interface BatchPoolOutput {
   readonly certificateReferences?: Array<BatchCertificateReferenceOutput>;
   /** The list of Packages to be installed on each Compute Node in the Pool. Changes to Package references affect all new Nodes joining the Pool, but do not affect Compute Nodes that are already in the Pool until they are rebooted or reimaged. There is a maximum of 10 Package references on any given Pool. */
   readonly applicationPackageReferences?: Array<BatchApplicationPackageReferenceOutput>;
-  /** The list of application licenses the Batch service will make available on each Compute Node in the Pool. The list of application licenses must be a subset of available Batch service application licenses. If a license is requested which is not supported, Pool creation will fail. */
-  readonly applicationLicenses?: string[];
   /** The number of task slots that can be used to run concurrent tasks on a single compute node in the pool. The default value is 1. The maximum value is the smaller of 4 times the number of cores of the vmSize of the pool or 256. */
   readonly taskSlotsPerNode?: number;
   /** How Tasks are distributed across Compute Nodes in a Pool. If not specified, the default is spread. */
@@ -1229,9 +1202,7 @@ export interface BatchPoolSpecificationOutput {
   displayName?: string;
   /** The size of the virtual machines in the Pool. All virtual machines in a Pool are the same size. For information about available sizes of virtual machines in Pools, see Choose a VM size for Compute Nodes in an Azure Batch Pool (https://docs.microsoft.com/azure/batch/batch-pool-vm-sizes). */
   vmSize: string;
-  /** The cloud service configuration for the Pool. This property must be specified if the Pool needs to be created with Azure PaaS VMs. This property and virtualMachineConfiguration are mutually exclusive and one of the properties must be specified. If neither is specified then the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). This property cannot be specified if the Batch Account was created with its poolAllocationMode property set to 'UserSubscription'. */
-  cloudServiceConfiguration?: CloudServiceConfigurationOutput;
-  /** The virtual machine configuration for the Pool. This property must be specified if the Pool needs to be created with Azure IaaS VMs. This property and cloudServiceConfiguration are mutually exclusive and one of the properties must be specified. If neither is specified then the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). */
+  /** The virtual machine configuration for the Pool. This property must be specified if the Pool needs to be created with Azure IaaS VMs. If it is not specified then the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). */
   virtualMachineConfiguration?: VirtualMachineConfigurationOutput;
   /** The number of task slots that can be used to run concurrent tasks on a single compute node in the pool. The default value is 1. The maximum value is the smaller of 4 times the number of cores of the vmSize of the pool or 256. */
   taskSlotsPerNode?: number;
@@ -1265,8 +1236,6 @@ export interface BatchPoolSpecificationOutput {
   certificateReferences?: Array<BatchCertificateReferenceOutput>;
   /** The list of Packages to be installed on each Compute Node in the Pool. When creating a pool, the package's application ID must be fully qualified (/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}). Changes to Package references affect all new Nodes joining the Pool, but do not affect Compute Nodes that are already in the Pool until they are rebooted or reimaged. There is a maximum of 10 Package references on any given Pool. */
   applicationPackageReferences?: Array<BatchApplicationPackageReferenceOutput>;
-  /** The list of application licenses the Batch service will make available on each Compute Node in the Pool. The list of application licenses must be a subset of available Batch service application licenses. If a license is requested which is not supported, Pool creation will fail. The permitted licenses available on the Pool are 'maya', 'vray', '3dsmax', 'arnold'. An additional charge applies for each application license added to the Pool. */
-  applicationLicenses?: string[];
   /** The list of user Accounts to be created on each Compute Node in the Pool. */
   userAccounts?: Array<UserAccountOutput>;
   /** A list of name-value pairs associated with the Pool as metadata. The Batch service does not assign any meaning to metadata; it is solely for the use of user code. */

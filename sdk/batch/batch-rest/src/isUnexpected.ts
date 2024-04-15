@@ -130,16 +130,12 @@ import {
   GetNodeDefaultResponse,
   RebootNode202Response,
   RebootNodeDefaultResponse,
-  ReimageNode202Response,
-  ReimageNodeDefaultResponse,
   DisableNodeScheduling200Response,
   DisableNodeSchedulingDefaultResponse,
   EnableNodeScheduling200Response,
   EnableNodeSchedulingDefaultResponse,
   GetNodeRemoteLoginSettings200Response,
   GetNodeRemoteLoginSettingsDefaultResponse,
-  GetNodeRemoteDesktopFile200Response,
-  GetNodeRemoteDesktopFileDefaultResponse,
   UploadNodeLogs200Response,
   UploadNodeLogsDefaultResponse,
   ListNodes200Response,
@@ -156,7 +152,7 @@ import {
   GetNodeFilePropertiesDefaultResponse,
   ListNodeFiles200Response,
   ListNodeFilesDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /applications": ["200"],
@@ -225,11 +221,9 @@ const responseMap: Record<string, string[]> = {
   "PUT /pools/{poolId}/nodes/{nodeId}/users/{userName}": ["200"],
   "GET /pools/{poolId}/nodes/{nodeId}": ["200"],
   "POST /pools/{poolId}/nodes/{nodeId}/reboot": ["202"],
-  "POST /pools/{poolId}/nodes/{nodeId}/reimage": ["202"],
   "POST /pools/{poolId}/nodes/{nodeId}/disablescheduling": ["200"],
   "POST /pools/{poolId}/nodes/{nodeId}/enablescheduling": ["200"],
   "GET /pools/{poolId}/nodes/{nodeId}/remoteloginsettings": ["200"],
-  "GET /pools/{poolId}/nodes/{nodeId}/rdp": ["200"],
   "POST /pools/{poolId}/nodes/{nodeId}/uploadbatchservicelogs": ["200"],
   "GET /pools/{poolId}/nodes": ["200"],
   "GET /pools/{poolId}/nodes/{nodeId}/extensions/{extensionName}": ["200"],
@@ -456,9 +450,6 @@ export function isUnexpected(
   response: RebootNode202Response | RebootNodeDefaultResponse,
 ): response is RebootNodeDefaultResponse;
 export function isUnexpected(
-  response: ReimageNode202Response | ReimageNodeDefaultResponse,
-): response is ReimageNodeDefaultResponse;
-export function isUnexpected(
   response:
     | DisableNodeScheduling200Response
     | DisableNodeSchedulingDefaultResponse,
@@ -473,11 +464,6 @@ export function isUnexpected(
     | GetNodeRemoteLoginSettings200Response
     | GetNodeRemoteLoginSettingsDefaultResponse,
 ): response is GetNodeRemoteLoginSettingsDefaultResponse;
-export function isUnexpected(
-  response:
-    | GetNodeRemoteDesktopFile200Response
-    | GetNodeRemoteDesktopFileDefaultResponse,
-): response is GetNodeRemoteDesktopFileDefaultResponse;
 export function isUnexpected(
   response: UploadNodeLogs200Response | UploadNodeLogsDefaultResponse,
 ): response is UploadNodeLogsDefaultResponse;
@@ -634,16 +620,12 @@ export function isUnexpected(
     | GetNodeDefaultResponse
     | RebootNode202Response
     | RebootNodeDefaultResponse
-    | ReimageNode202Response
-    | ReimageNodeDefaultResponse
     | DisableNodeScheduling200Response
     | DisableNodeSchedulingDefaultResponse
     | EnableNodeScheduling200Response
     | EnableNodeSchedulingDefaultResponse
     | GetNodeRemoteLoginSettings200Response
     | GetNodeRemoteLoginSettingsDefaultResponse
-    | GetNodeRemoteDesktopFile200Response
-    | GetNodeRemoteDesktopFileDefaultResponse
     | UploadNodeLogs200Response
     | UploadNodeLogsDefaultResponse
     | ListNodes200Response
@@ -724,11 +706,9 @@ export function isUnexpected(
   | ReplaceNodeUserDefaultResponse
   | GetNodeDefaultResponse
   | RebootNodeDefaultResponse
-  | ReimageNodeDefaultResponse
   | DisableNodeSchedulingDefaultResponse
   | EnableNodeSchedulingDefaultResponse
   | GetNodeRemoteLoginSettingsDefaultResponse
-  | GetNodeRemoteDesktopFileDefaultResponse
   | UploadNodeLogsDefaultResponse
   | ListNodesDefaultResponse
   | GetNodeExtensionDefaultResponse

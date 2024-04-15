@@ -2,23 +2,23 @@
 // Licensed under the MIT license.
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { logger } from "./logger";
-import { AzureNamedKeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { BatchClient } from "./clientDefinitions";
+import { logger } from "./logger.js";
+import { TokenCredential, AzureNamedKeyCredential, isTokenCredential } from "@azure/core-auth";
+import { BatchClient } from "./clientDefinitions.js";
 import { createBatchSharedKeyCredentialsPolicy } from "./credentials/batchSharedKeyCredentials";
 
 /**
  * Initialize a new instance of `BatchClient`
- * @param endpoint - Batch account endpoint (for example: https://batchaccount.eastus2.batch.azure.com).
+ * @param endpointParam - Batch account endpoint (for example: https://batchaccount.eastus2.batch.azure.com).
  * @param credentials - uniquely identify client credential
  * @param options - the parameter for all optional parameters
  */
 export default function createClient(
-  endpoint: string,
+  endpointParam: string,
   credentials: TokenCredential | AzureNamedKeyCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): BatchClient {
-  const baseUrl = options.baseUrl ?? `${endpoint}`;
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
   options.apiVersion = options.apiVersion ?? "2024-02-01.19.0";
   const userAgentInfo = `azsdk-js-batch-rest/1.0.0-beta.1`;
   const userAgentPrefix =
@@ -43,12 +43,11 @@ export default function createClient(
   };
 
   if (isTokenCredential(credentials)) {
-    return getClient(baseUrl, credentials, options) as BatchClient;
+    return getClient(endpointUrl, credentials, options) as BatchClient;
   }
-
   // Customization for BatchClient, shouldn't be overwritten codegen
   // If the credentials are not a TokenCredential, we need to add a policy to handle the shared key auth.
-  const client = getClient(baseUrl, options) as BatchClient;
+  const client = getClient(endpointUrl, options) as BatchClient;
   const authPolicy = createBatchSharedKeyCredentialsPolicy(credentials);
   client.pipeline.addPolicy(authPolicy);
   return client;
