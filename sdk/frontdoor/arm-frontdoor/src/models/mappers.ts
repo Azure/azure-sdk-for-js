@@ -83,7 +83,6 @@ export const PolicySettings: coreClient.CompositeMapper = {
         },
       },
       javascriptChallengeExpirationInMinutes: {
-        defaultValue: 30,
         constraints: {
           InclusiveMaximum: 1440,
           InclusiveMinimum: 5,

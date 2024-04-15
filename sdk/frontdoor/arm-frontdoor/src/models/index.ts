@@ -38,7 +38,7 @@ export interface PolicySettings {
   customBlockResponseBody?: string;
   /** Describes if policy managed rules will inspect the request body content. */
   requestBodyCheck?: PolicyRequestBodyCheck;
-  /** Defines the JavaScript challenge cookie validity lifetime in minutes. Value must be an integer between 5 and 1440 with the default value being 30. */
+  /** Defines the JavaScript challenge cookie validity lifetime in minutes. This setting is only applicable to Premium_AzureFrontDoor. Value must be an integer between 5 and 1440 with the default value being 30. */
   javascriptChallengeExpirationInMinutes?: number;
   /** State of the log scrubbing config. Default value is Enabled. */
   state?: WebApplicationFirewallScrubbingState;
