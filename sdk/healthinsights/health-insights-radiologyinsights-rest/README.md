@@ -67,7 +67,8 @@ export async function main() {
   const radiologyInsightsParameter = createRequestBody();
 
   // Initiate radiology insights job and retrieve results
-   const dateString = Date.now();
+  // The jobID can be adapted by preference of the client, there are restrictions in size and it cannot contain spaces
+    const dateString = Date.now();
     const jobID = "jobId-" + dateString;
     const initialResponse = await client.path("/radiology-insights/jobs/{id}", jobID).put(radiologyInsightsParameter);
   if (isUnexpected(initialResponse)) {
@@ -260,7 +261,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 [radiology_insights_docs]: https://learn.microsoft.com/azure/azure-health-insights/radiology-insights/
 [Source code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest
 [Package (NPM)]: https://www.npmjs.com/package/@azure-rest/health-insights-radiologyinsights
-[API reference documentation]: https://learn.microsoft.com/rest/api/cognitiveservices/healthinsights/operation-groups?view=rest-cognitiveservices-healthinsights-2023-03-01-preview
+[API reference documentation]: https://learn.microsoft.com/rest/api/cognitiveservices/healthinsights/operation-groups?view=rest-cognitiveservices-healthinsights-2024-04-01
 [Product Information]: https://learn.microsoft.com/azure/azure-health-insights/radiology-insights/overview
 [Samples]:https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1-beta
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity
