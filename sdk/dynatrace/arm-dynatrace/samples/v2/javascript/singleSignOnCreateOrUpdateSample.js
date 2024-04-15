@@ -37,7 +37,7 @@ async function singleSignOnCreateOrUpdateMaximumSetGen() {
     resourceGroupName,
     monitorName,
     configurationName,
-    resource
+    resource,
   );
   console.log(result);
 }
@@ -64,7 +64,7 @@ async function singleSignOnCreateOrUpdateMinimumSetGen() {
     resourceGroupName,
     monitorName,
     configurationName,
-    resource
+    resource,
   );
   console.log(result);
 }

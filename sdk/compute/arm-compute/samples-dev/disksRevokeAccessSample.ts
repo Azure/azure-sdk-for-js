@@ -30,7 +30,7 @@ async function revokeAccessToAManagedDisk() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.disks.beginRevokeAccessAndWait(
     resourceGroupName,
-    diskName
+    diskName,
   );
   console.log(result);
 }

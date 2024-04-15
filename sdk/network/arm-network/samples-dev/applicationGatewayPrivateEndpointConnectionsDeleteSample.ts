@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified private endpoint connection on application gateway.
  *
  * @summary Deletes the specified private endpoint connection on application gateway.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/ApplicationGatewayPrivateEndpointConnectionDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/ApplicationGatewayPrivateEndpointConnectionDelete.json
  */
 async function deleteApplicationGatewayPrivateEndpointConnection() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -27,11 +27,12 @@ async function deleteApplicationGatewayPrivateEndpointConnection() {
   const connectionName = "connection1";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.applicationGatewayPrivateEndpointConnections.beginDeleteAndWait(
-    resourceGroupName,
-    applicationGatewayName,
-    connectionName
-  );
+  const result =
+    await client.applicationGatewayPrivateEndpointConnections.beginDeleteAndWait(
+      resourceGroupName,
+      applicationGatewayName,
+      connectionName,
+    );
   console.log(result);
 }
 

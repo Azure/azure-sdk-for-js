@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   RecoveryPlanTestFailoverInput,
-  SiteRecoveryManagementClient
+  SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to start the test failover of a recovery plan.
  *
  * @summary The operation to start the test failover of a recovery plan.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationRecoveryPlans_TestFailover.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationRecoveryPlans_TestFailover.json
  */
 async function executeTestFailoverOfTheRecoveryPlan() {
   const subscriptionId =
@@ -38,8 +38,8 @@ async function executeTestFailoverOfTheRecoveryPlan() {
       networkId:
         "/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/siterecoveryProd1/providers/Microsoft.Network/virtualNetworks/vnetavrai",
       networkType: "VmNetworkAsInput",
-      providerSpecificDetails: [{ instanceType: "HyperVReplicaAzure" }]
-    }
+      providerSpecificDetails: [{ instanceType: "HyperVReplicaAzure" }],
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
@@ -47,7 +47,7 @@ async function executeTestFailoverOfTheRecoveryPlan() {
     resourceName,
     resourceGroupName,
     recoveryPlanName,
-    input
+    input,
   );
   console.log(result);
 }

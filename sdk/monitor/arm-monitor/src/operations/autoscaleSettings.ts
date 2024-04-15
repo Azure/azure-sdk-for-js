@@ -30,7 +30,7 @@ import {
   AutoscaleSettingsUpdateOptionalParams,
   AutoscaleSettingsUpdateResponse,
   AutoscaleSettingsListByResourceGroupNextResponse,
-  AutoscaleSettingsListBySubscriptionNextResponse
+  AutoscaleSettingsListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -53,7 +53,7 @@ export class AutoscaleSettingsImpl implements AutoscaleSettings {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: AutoscaleSettingsListByResourceGroupOptionalParams
+    options?: AutoscaleSettingsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AutoscaleSettingResource> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -70,16 +70,16 @@ export class AutoscaleSettingsImpl implements AutoscaleSettings {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: AutoscaleSettingsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AutoscaleSettingResource[]> {
     let result: AutoscaleSettingsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +94,7 @@ export class AutoscaleSettingsImpl implements AutoscaleSettings {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -105,11 +105,11 @@ export class AutoscaleSettingsImpl implements AutoscaleSettings {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: AutoscaleSettingsListByResourceGroupOptionalParams
+    options?: AutoscaleSettingsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<AutoscaleSettingResource> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -120,7 +120,7 @@ export class AutoscaleSettingsImpl implements AutoscaleSettings {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: AutoscaleSettingsListBySubscriptionOptionalParams
+    options?: AutoscaleSettingsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<AutoscaleSettingResource> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -135,13 +135,13 @@ export class AutoscaleSettingsImpl implements AutoscaleSettings {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: AutoscaleSettingsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AutoscaleSettingResource[]> {
     let result: AutoscaleSettingsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -162,7 +162,7 @@ export class AutoscaleSettingsImpl implements AutoscaleSettings {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: AutoscaleSettingsListBySubscriptionOptionalParams
+    options?: AutoscaleSettingsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<AutoscaleSettingResource> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -176,11 +176,11 @@ export class AutoscaleSettingsImpl implements AutoscaleSettings {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: AutoscaleSettingsListByResourceGroupOptionalParams
+    options?: AutoscaleSettingsListByResourceGroupOptionalParams,
   ): Promise<AutoscaleSettingsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -195,11 +195,11 @@ export class AutoscaleSettingsImpl implements AutoscaleSettings {
     resourceGroupName: string,
     autoscaleSettingName: string,
     parameters: AutoscaleSettingResource,
-    options?: AutoscaleSettingsCreateOrUpdateOptionalParams
+    options?: AutoscaleSettingsCreateOrUpdateOptionalParams,
   ): Promise<AutoscaleSettingsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, autoscaleSettingName, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -212,11 +212,11 @@ export class AutoscaleSettingsImpl implements AutoscaleSettings {
   delete(
     resourceGroupName: string,
     autoscaleSettingName: string,
-    options?: AutoscaleSettingsDeleteOptionalParams
+    options?: AutoscaleSettingsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, autoscaleSettingName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -229,11 +229,11 @@ export class AutoscaleSettingsImpl implements AutoscaleSettings {
   get(
     resourceGroupName: string,
     autoscaleSettingName: string,
-    options?: AutoscaleSettingsGetOptionalParams
+    options?: AutoscaleSettingsGetOptionalParams,
   ): Promise<AutoscaleSettingsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, autoscaleSettingName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -248,16 +248,16 @@ export class AutoscaleSettingsImpl implements AutoscaleSettings {
     resourceGroupName: string,
     autoscaleSettingName: string,
     autoscaleSettingResource: AutoscaleSettingResourcePatch,
-    options?: AutoscaleSettingsUpdateOptionalParams
+    options?: AutoscaleSettingsUpdateOptionalParams,
   ): Promise<AutoscaleSettingsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         autoscaleSettingName,
         autoscaleSettingResource,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -266,11 +266,11 @@ export class AutoscaleSettingsImpl implements AutoscaleSettings {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: AutoscaleSettingsListBySubscriptionOptionalParams
+    options?: AutoscaleSettingsListBySubscriptionOptionalParams,
   ): Promise<AutoscaleSettingsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -283,11 +283,11 @@ export class AutoscaleSettingsImpl implements AutoscaleSettings {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: AutoscaleSettingsListByResourceGroupNextOptionalParams
+    options?: AutoscaleSettingsListByResourceGroupNextOptionalParams,
   ): Promise<AutoscaleSettingsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -298,11 +298,11 @@ export class AutoscaleSettingsImpl implements AutoscaleSettings {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: AutoscaleSettingsListBySubscriptionNextOptionalParams
+    options?: AutoscaleSettingsListBySubscriptionNextOptionalParams,
   ): Promise<AutoscaleSettingsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -310,173 +310,167 @@ export class AutoscaleSettingsImpl implements AutoscaleSettings {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/autoscalesettings",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/autoscalesettings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AutoscaleSettingResourceCollection
+      bodyMapper: Mappers.AutoscaleSettingResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.AutoscaleErrorResponse
-    }
+      bodyMapper: Mappers.AutoscaleErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/autoscalesettings/{autoscaleSettingName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/autoscalesettings/{autoscaleSettingName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AutoscaleSettingResource
+      bodyMapper: Mappers.AutoscaleSettingResource,
     },
     201: {
-      bodyMapper: Mappers.AutoscaleSettingResource
+      bodyMapper: Mappers.AutoscaleSettingResource,
     },
     default: {
-      bodyMapper: Mappers.AutoscaleErrorResponse
-    }
+      bodyMapper: Mappers.AutoscaleErrorResponse,
+    },
   },
   requestBody: Parameters.parameters,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.autoscaleSettingName
+    Parameters.resourceGroupName,
+    Parameters.autoscaleSettingName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/autoscalesettings/{autoscaleSettingName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/autoscalesettings/{autoscaleSettingName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.AutoscaleErrorResponse
-    }
+      bodyMapper: Mappers.AutoscaleErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.autoscaleSettingName
+    Parameters.resourceGroupName,
+    Parameters.autoscaleSettingName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/autoscalesettings/{autoscaleSettingName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/autoscalesettings/{autoscaleSettingName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AutoscaleSettingResource
+      bodyMapper: Mappers.AutoscaleSettingResource,
     },
     default: {
-      bodyMapper: Mappers.AutoscaleErrorResponse
-    }
+      bodyMapper: Mappers.AutoscaleErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.autoscaleSettingName
+    Parameters.resourceGroupName,
+    Parameters.autoscaleSettingName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/autoscalesettings/{autoscaleSettingName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/autoscalesettings/{autoscaleSettingName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.AutoscaleSettingResource
+      bodyMapper: Mappers.AutoscaleSettingResource,
     },
     default: {
-      bodyMapper: Mappers.AutoscaleErrorResponse
-    }
+      bodyMapper: Mappers.AutoscaleErrorResponse,
+    },
   },
   requestBody: Parameters.autoscaleSettingResource,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.autoscaleSettingName
+    Parameters.resourceGroupName,
+    Parameters.autoscaleSettingName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Insights/autoscalesettings",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Insights/autoscalesettings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AutoscaleSettingResourceCollection
+      bodyMapper: Mappers.AutoscaleSettingResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.AutoscaleErrorResponse
-    }
+      bodyMapper: Mappers.AutoscaleErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AutoscaleSettingResourceCollection
+      bodyMapper: Mappers.AutoscaleSettingResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.AutoscaleErrorResponse
-    }
+      bodyMapper: Mappers.AutoscaleErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.resourceGroupName,
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AutoscaleSettingResourceCollection
+      bodyMapper: Mappers.AutoscaleSettingResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.AutoscaleErrorResponse
-    }
+      bodyMapper: Mappers.AutoscaleErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

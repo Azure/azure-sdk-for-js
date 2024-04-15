@@ -9,7 +9,7 @@ import {
   SharedKeyCredential,
   StorageURL,
 } from "@azure/storage-blob";
-import { PerfTest, getEnvVar } from "@azure/test-utils-perf";
+import { PerfTest, getEnvVar } from "@azure-tools/test-perf";
 
 // Expects the .env file at the same level
 import * as dotenv from "dotenv";

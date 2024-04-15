@@ -18,7 +18,7 @@ import * as dotenv from "dotenv";
 import {
   NotificationDetails,
   NotificationOutcomeState,
-  createFcmLegacyNotification,
+  createFcmV1Notification,
 } from "@azure/notification-hubs/models";
 import {
   NotificationHubsClientContext,
@@ -54,7 +54,7 @@ async function main(): Promise<void> {
 	}
 }`;
 
-  const notification = createFcmLegacyNotification({
+  const notification = createFcmV1Notification({
     body: messageBody,
   });
 

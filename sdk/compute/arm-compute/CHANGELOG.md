@@ -1,6 +1,6 @@
 # Release History
 
-## 21.4.1 (Unreleased)
+## 21.5.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,13 @@
 
 ### Other Changes
 
+## 21.5.0 (2024-03-01)
+    
+**Features**
+
+  - Interface GalleryArtifactVersionFullSource has a new optional parameter virtualMachineId
+    
+    
 ## 21.4.0 (2023-12-28)
     
 **Features**

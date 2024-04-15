@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "npm run clean && tsc && cp index.html ./dist",
-    "clean": "rimraf dist",
+    "clean": "rimraf --glob dist",
     "lint": "eslint -c .eslintrc --ext .ts ./src",
     "start": "electron ./dist/index.js"
   },
@@ -38,7 +38,7 @@
     "@typescript-eslint/eslint-plugin": "^6.9.0",
     "@typescript-eslint/parser": "^6.9.0",
     "eslint": "^8.52.0",
-    "typescript": "~5.3.3",
+    "typescript": "~5.4.5",
     "rimraf": "^5.0.0"
   }
 }

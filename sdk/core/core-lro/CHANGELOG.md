@@ -10,19 +10,24 @@
 
 ### Other Changes
 
-## 3.0.0-beta.1 (2024-02-25)
+## 2.7.2 (2024-04-09)
 
-Initial implementation of next-generation for Long Running Operations (LROs) in which we deprecate the `LroEngine` support and change poller creation to a synchronized way.
+### Other Changes
 
-- `LroEngine` is deprecated and no long supported
-- The return type of `createHttpPoller` is changed from `Promise<SimplePollerLike>` to `PollerLike`
-- Some interfaces are renamed. `SimplePollerLike` is renamed as `PollerLike`, `LroResponse` is renamed as `OperationResponse` and `LroResourceLocationConfig` is to `ResourceLocationConfig`
-- Functions `getOperationState()`, `getResult()`, `isDone()` and `isStopped()` is changed to read-only attributes `operationState`, `result`, `isDone` and `isStopped`
-- Deprecated the attributes `requestMethod` and `requestPath` in `LongRunningOperation`
-- Added a new function `serialize` to help serialize the poller
-- Added a new function `submitted` to help wait for the poller submitted succesffully
-- Added a new parameter `TRequest` for `OperationResponse` to accept the raw request
-- Export the function `deserializeState` to the public
+- Revert TypeScript output target to ES2017.
+
+## 2.7.1 (2024-03-20)
+
+### Other Changes
+
+- Add top-level `browser` field to `package.json` as fallback for legacy bundlers that do not support the `exports` field.
+
+## 2.7.0 (2024-03-12)
+
+### Other Changes
+
+- Migrated the codebase to ESM. This change is internal and should not affect customers.
+- Migrated unit tests to vitest.
 
 ## 2.6.0 (2024-02-01)
 

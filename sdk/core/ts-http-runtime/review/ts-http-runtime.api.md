@@ -36,7 +36,7 @@ export interface AccessToken {
 }
 
 // @public
-export function addCredentialPipelinePolicy(pipeline: Pipeline, baseUrl: string, options?: AddCredentialPipelinePolicyOptions): void;
+export function addCredentialPipelinePolicy(pipeline: Pipeline, endpoint: string, options?: AddCredentialPipelinePolicyOptions): void;
 
 // @public
 export interface AddCredentialPipelinePolicyOptions {
@@ -129,6 +129,7 @@ export type ClientOptions = PipelineOptions & {
         apiKeyHeaderName?: string;
     };
     baseUrl?: string;
+    endpoint?: string;
     apiVersion?: string;
     allowInsecureConnection?: boolean;
     additionalPolicies?: AdditionalPolicyConfig[];
@@ -262,12 +263,12 @@ export interface FullOperationResponse extends PipelineResponse {
 }
 
 // @public
-export function getClient(baseUrl: string, options?: ClientOptions): Client;
+export function getClient(endpoint: string, options?: ClientOptions): Client;
 
 // @public
-export function getClient(baseUrl: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client;
+export function getClient(endpoint: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client;
 
-// @public
+// @public @deprecated
 export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined;
 
 // @public
@@ -372,7 +373,16 @@ export const isDeno: boolean;
 export function isError(e: unknown): e is Error;
 
 // @public
+export function isKeyCredential(credential: unknown): credential is KeyCredential;
+
+// @public @deprecated
 export const isNode: boolean;
+
+// @public
+export const isNodeLike: boolean;
+
+// @public
+export const isNodeRuntime: boolean;
 
 // @public
 export function isObject(input: unknown): input is UnknownObject;
@@ -574,7 +584,7 @@ export interface PipelineRetryOptions {
 }
 
 // @public
-export function proxyPolicy(proxySettings?: ProxySettings | undefined, options?: {
+export function proxyPolicy(proxySettings?: ProxySettings, options?: {
     customNoProxyList?: string[];
 }): PipelinePolicy;
 

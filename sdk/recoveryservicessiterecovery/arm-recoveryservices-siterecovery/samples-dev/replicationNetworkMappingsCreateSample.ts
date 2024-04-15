@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CreateNetworkMappingInput,
-  SiteRecoveryManagementClient
+  SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to create an ASR network mapping.
  *
  * @summary The operation to create an ASR network mapping.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationNetworkMappings_Create.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationNetworkMappings_Create.json
  */
 async function createsNetworkMapping() {
   const subscriptionId =
@@ -40,8 +40,8 @@ async function createsNetworkMapping() {
       fabricSpecificDetails: { instanceType: "VmmToAzure" },
       recoveryFabricName: "Microsoft Azure",
       recoveryNetworkId:
-        "/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/siterecoveryProd1/providers/Microsoft.Network/virtualNetworks/vnetavrai"
-    }
+        "/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/siterecoveryProd1/providers/Microsoft.Network/virtualNetworks/vnetavrai",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
@@ -51,7 +51,7 @@ async function createsNetworkMapping() {
     fabricName,
     networkName,
     networkMappingName,
-    input
+    input,
   );
   console.log(result);
 }

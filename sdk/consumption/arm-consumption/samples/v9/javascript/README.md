@@ -65,7 +65,7 @@ node aggregatedCostGetByManagementGroupSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env CONSUMPTION_SUBSCRIPTION_ID="<consumption subscription id>" CONSUMPTION_SUBSCRIPTION_ID="<consumption subscription id>" node aggregatedCostGetByManagementGroupSample.js
+npx cross-env CONSUMPTION_SUBSCRIPTION_ID="<consumption subscription id>" node aggregatedCostGetByManagementGroupSample.js
 ```
 
 ## Next Steps

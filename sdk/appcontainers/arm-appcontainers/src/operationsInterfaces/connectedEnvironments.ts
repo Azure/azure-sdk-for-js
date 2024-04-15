@@ -21,7 +21,7 @@ import {
   ConnectedEnvironmentsUpdateResponse,
   CheckNameAvailabilityRequest,
   ConnectedEnvironmentsCheckNameAvailabilityOptionalParams,
-  ConnectedEnvironmentsCheckNameAvailabilityResponse
+  ConnectedEnvironmentsCheckNameAvailabilityResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface ConnectedEnvironments {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: ConnectedEnvironmentsListBySubscriptionOptionalParams
+    options?: ConnectedEnvironmentsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ConnectedEnvironment>;
   /**
    * Get all connectedEnvironments in a resource group.
@@ -41,7 +41,7 @@ export interface ConnectedEnvironments {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ConnectedEnvironmentsListByResourceGroupOptionalParams
+    options?: ConnectedEnvironmentsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ConnectedEnvironment>;
   /**
    * Get the properties of an connectedEnvironment.
@@ -52,7 +52,7 @@ export interface ConnectedEnvironments {
   get(
     resourceGroupName: string,
     connectedEnvironmentName: string,
-    options?: ConnectedEnvironmentsGetOptionalParams
+    options?: ConnectedEnvironmentsGetOptionalParams,
   ): Promise<ConnectedEnvironmentsGetResponse>;
   /**
    * Creates or updates an connectedEnvironment.
@@ -65,7 +65,7 @@ export interface ConnectedEnvironments {
     resourceGroupName: string,
     connectedEnvironmentName: string,
     environmentEnvelope: ConnectedEnvironment,
-    options?: ConnectedEnvironmentsCreateOrUpdateOptionalParams
+    options?: ConnectedEnvironmentsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConnectedEnvironmentsCreateOrUpdateResponse>,
@@ -83,7 +83,7 @@ export interface ConnectedEnvironments {
     resourceGroupName: string,
     connectedEnvironmentName: string,
     environmentEnvelope: ConnectedEnvironment,
-    options?: ConnectedEnvironmentsCreateOrUpdateOptionalParams
+    options?: ConnectedEnvironmentsCreateOrUpdateOptionalParams,
   ): Promise<ConnectedEnvironmentsCreateOrUpdateResponse>;
   /**
    * Delete an connectedEnvironment.
@@ -94,7 +94,7 @@ export interface ConnectedEnvironments {
   beginDelete(
     resourceGroupName: string,
     connectedEnvironmentName: string,
-    options?: ConnectedEnvironmentsDeleteOptionalParams
+    options?: ConnectedEnvironmentsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete an connectedEnvironment.
@@ -105,7 +105,7 @@ export interface ConnectedEnvironments {
   beginDeleteAndWait(
     resourceGroupName: string,
     connectedEnvironmentName: string,
-    options?: ConnectedEnvironmentsDeleteOptionalParams
+    options?: ConnectedEnvironmentsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Patches a Managed Environment. Only patching of tags is supported currently
@@ -116,7 +116,7 @@ export interface ConnectedEnvironments {
   update(
     resourceGroupName: string,
     connectedEnvironmentName: string,
-    options?: ConnectedEnvironmentsUpdateOptionalParams
+    options?: ConnectedEnvironmentsUpdateOptionalParams,
   ): Promise<ConnectedEnvironmentsUpdateResponse>;
   /**
    * Checks if resource connectedEnvironmentName is available.
@@ -129,6 +129,6 @@ export interface ConnectedEnvironments {
     resourceGroupName: string,
     connectedEnvironmentName: string,
     checkNameAvailabilityRequest: CheckNameAvailabilityRequest,
-    options?: ConnectedEnvironmentsCheckNameAvailabilityOptionalParams
+    options?: ConnectedEnvironmentsCheckNameAvailabilityOptionalParams,
   ): Promise<ConnectedEnvironmentsCheckNameAvailabilityResponse>;
 }

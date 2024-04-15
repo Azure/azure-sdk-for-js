@@ -12,4 +12,3 @@ export * from "./redisEnterprise";
 export * from "./databases";
 export * from "./privateEndpointConnections";
 export * from "./privateLinkResources";
-export * from "./skus";
