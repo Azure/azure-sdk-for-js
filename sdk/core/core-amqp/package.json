@@ -31,7 +31,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "bundle": "tsc -p . && dev-tool run bundle --polyfill-node false --inject-node-polyfills false --ignore-missing-node-builtins true",
+    "bundle": "tsc -p . && dev-tool run bundle --polyfill-node false --inject-node-polyfills true --ignore-missing-node-builtins true",
     "build:samples": "echo Obsolete",
     "build:test": "tsc -p . && npm run bundle",
     "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local",
