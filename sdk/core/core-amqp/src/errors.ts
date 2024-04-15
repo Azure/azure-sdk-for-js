@@ -635,11 +635,7 @@ function isBrowserWebsocketError(err: any): boolean {
  * @param err - object that may contain error information
  */
 function isErrorEvent(err: any): err is { message: string; error: any } {
-  let result: boolean = false;
-  if (typeof err.error === "object" && typeof err.message === "string") {
-    result = true;
-  }
-  return result;
+  return typeof err.error === "object" && typeof err.message === "string";
 }
 
 /**
