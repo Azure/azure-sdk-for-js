@@ -8892,6 +8892,7 @@ packages:
 
   /queue-tick@1.0.1:
     resolution: {integrity: sha512-kJt5qhMxoszgU/62PLP1CJytzd2NKetjSRnyuj31fDd3Rlcz3fzlFdFLD1SItunPwyqEOkca6GbV612BWfaBag==}
+    requiresBuild: true
     dev: false
 
   /randombytes@2.1.0:
@@ -12320,7 +12321,7 @@ packages:
     dev: false
 
   file:projects/arm-cdn.tgz:
-    resolution: {integrity: sha512-rUe9tQpJD3t/GPK9tfofJ4fyMLw0Hu0WFWS3clg1swPN7TpfF8nKjShy3qeTIh1RjrcoqMdTHAf1rxi7a1xyLg==, tarball: file:projects/arm-cdn.tgz}
+    resolution: {integrity: sha512-7U7PlBFPJGOS2F3D23IkvpzttDtmHmAJ1faqi89EK8qjCb1nSW02PXEsPXsIpLoXNuUcNzhO9BXLRBawSymgHg==, tarball: file:projects/arm-cdn.tgz}
     name: '@rush-temp/arm-cdn'
     version: 0.0.0
     dependencies:
@@ -12334,7 +12335,8 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      mkdirp: 1.0.4
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.4.0
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)

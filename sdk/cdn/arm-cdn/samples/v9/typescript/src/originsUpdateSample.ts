@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates an existing origin within an endpoint.
  *
  * @summary Updates an existing origin within an endpoint.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/Origins_Update.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Origins_Update.json
  */
 async function originsUpdate() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -34,7 +34,7 @@ async function originsUpdate() {
     priority: 1,
     privateLinkAlias:
       "APPSERVER.d84e61f0-0870-4d24-9746-7438fa0019d1.westus2.azure.privatelinkservice",
-    weight: 50
+    weight: 50,
   };
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
@@ -43,7 +43,7 @@ async function originsUpdate() {
     profileName,
     endpointName,
     originName,
-    originUpdateProperties
+    originUpdateProperties,
   );
   console.log(result);
 }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get log analytics ranking report for AFD profile
  *
  * @summary Get log analytics ranking report for AFD profile
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/LogAnalytics_GetLogAnalyticsRankings.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/LogAnalytics_GetLogAnalyticsRankings.json
  */
 async function logAnalyticsGetLogAnalyticsRankings() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
