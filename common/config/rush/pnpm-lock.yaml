@@ -14029,7 +14029,7 @@ packages:
     dev: false
 
   file:projects/arm-frontdoor.tgz:
-    resolution: {integrity: sha512-OUPua1m7gNUkg4OwBvXRvHZYKJ/Cna5Kc0vDCt+gkgAFhXUDWhrwI4+Hh0+AyxDRXg2jO4am92RbzMPBmankdg==, tarball: file:projects/arm-frontdoor.tgz}
+    resolution: {integrity: sha512-fEq89urdAdhY4AetZzS9aG5oIg+thmETS2Nk6NE4dvtXYQ42SBbGS4Gm08xd5E4Cfdfa7CCcRczmcxXqoxJtow==, tarball: file:projects/arm-frontdoor.tgz}
     name: '@rush-temp/arm-frontdoor'
     version: 0.0.0
     dependencies:
@@ -14043,12 +14043,13 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.4.0
       rimraf: 5.0.5
-      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
       tslib: 2.6.2
-      typescript: 5.4.5
+      typescript: 5.3.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - '@swc/core'
