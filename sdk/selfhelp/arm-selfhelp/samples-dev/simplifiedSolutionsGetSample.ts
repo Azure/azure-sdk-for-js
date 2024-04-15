@@ -15,18 +15,21 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Get the solution using the applicable solutionResourceName while creating the solution.
+ * This sample demonstrates how to Get the simplified Solutions using the applicable solutionResourceName while creating the simplified Solutions.
  *
- * @summary Get the solution using the applicable solutionResourceName while creating the solution.
- * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/preview/2023-09-01-preview/examples/Solution_Get.json
+ * @summary Get the simplified Solutions using the applicable solutionResourceName while creating the simplified Solutions.
+ * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/preview/2024-03-01-preview/examples/SimplifiedSolutions_Get.json
  */
 async function solutionGet() {
   const scope =
     "subscriptions/mySubscription/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-rp";
-  const solutionResourceName = "SolutionResource1";
+  const simplifiedSolutionsResourceName = "simplifiedSolutionsResourceName1";
   const credential = new DefaultAzureCredential();
   const client = new HelpRP(credential);
-  const result = await client.solution.get(scope, solutionResourceName);
+  const result = await client.simplifiedSolutions.get(
+    scope,
+    simplifiedSolutionsResourceName,
+  );
   console.log(result);
 }
 

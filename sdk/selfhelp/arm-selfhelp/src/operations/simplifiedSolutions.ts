@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Diagnostics } from "../operationsInterfaces";
+import { SimplifiedSolutions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -18,18 +18,18 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  DiagnosticsCreateOptionalParams,
-  DiagnosticsCreateResponse,
-  DiagnosticsGetOptionalParams,
-  DiagnosticsGetResponse,
+  SimplifiedSolutionsCreateOptionalParams,
+  SimplifiedSolutionsCreateResponse,
+  SimplifiedSolutionsGetOptionalParams,
+  SimplifiedSolutionsGetResponse,
 } from "../models";
 
-/** Class containing Diagnostics operations. */
-export class DiagnosticsImpl implements Diagnostics {
+/** Class containing SimplifiedSolutions operations. */
+export class SimplifiedSolutionsImpl implements SimplifiedSolutions {
   private readonly client: HelpRP;
 
   /**
-   * Initialize a new instance of the class Diagnostics class.
+   * Initialize a new instance of the class SimplifiedSolutions class.
    * @param client Reference to the service client
    */
   constructor(client: HelpRP) {
@@ -37,29 +37,32 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * Creates a diagnostic for the specific resource using solutionId from discovery solutions.
-   * <br/>Diagnostics are powerful solutions that access product resources or other relevant data and
-   * provide the root cause of the issue and the steps to address the issue.<br/><br/>
+   * Creates Simplified Solutions for an Azure subscription using 'solutionId' from Discovery Solutions
+   * as the input. <br/><br/> Simplified Solutions API makes the consumption of solutions APIs easier
+   * while still providing access to the same powerful solutions rendered in Solutions API. With
+   * Simplified Solutions, users don't have to worry about stitching together the article using
+   * replacement maps and can use the content in the API response to directly render as HTML
+   * content.<br/>
    * @param scope scope = resourceUri of affected resource.<br/> For example:
    *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
    *
-   * @param diagnosticsResourceName Unique resource name for insight resources
+   * @param simplifiedSolutionsResourceName Simplified Solutions Resource Name.
    * @param options The options parameters.
    */
   async beginCreate(
     scope: string,
-    diagnosticsResourceName: string,
-    options?: DiagnosticsCreateOptionalParams,
+    simplifiedSolutionsResourceName: string,
+    options?: SimplifiedSolutionsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<DiagnosticsCreateResponse>,
-      DiagnosticsCreateResponse
+      OperationState<SimplifiedSolutionsCreateResponse>,
+      SimplifiedSolutionsCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<DiagnosticsCreateResponse> => {
+    ): Promise<SimplifiedSolutionsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -96,12 +99,12 @@ export class DiagnosticsImpl implements Diagnostics {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { scope, diagnosticsResourceName, options },
+      args: { scope, simplifiedSolutionsResourceName, options },
       spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
-      DiagnosticsCreateResponse,
-      OperationState<DiagnosticsCreateResponse>
+      SimplifiedSolutionsCreateResponse,
+      OperationState<SimplifiedSolutionsCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -112,43 +115,47 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * Creates a diagnostic for the specific resource using solutionId from discovery solutions.
-   * <br/>Diagnostics are powerful solutions that access product resources or other relevant data and
-   * provide the root cause of the issue and the steps to address the issue.<br/><br/>
+   * Creates Simplified Solutions for an Azure subscription using 'solutionId' from Discovery Solutions
+   * as the input. <br/><br/> Simplified Solutions API makes the consumption of solutions APIs easier
+   * while still providing access to the same powerful solutions rendered in Solutions API. With
+   * Simplified Solutions, users don't have to worry about stitching together the article using
+   * replacement maps and can use the content in the API response to directly render as HTML
+   * content.<br/>
    * @param scope scope = resourceUri of affected resource.<br/> For example:
    *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
    *
-   * @param diagnosticsResourceName Unique resource name for insight resources
+   * @param simplifiedSolutionsResourceName Simplified Solutions Resource Name.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
     scope: string,
-    diagnosticsResourceName: string,
-    options?: DiagnosticsCreateOptionalParams,
-  ): Promise<DiagnosticsCreateResponse> {
+    simplifiedSolutionsResourceName: string,
+    options?: SimplifiedSolutionsCreateOptionalParams,
+  ): Promise<SimplifiedSolutionsCreateResponse> {
     const poller = await this.beginCreate(
       scope,
-      diagnosticsResourceName,
+      simplifiedSolutionsResourceName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Get the diagnostics using the 'diagnosticsResourceName' you chose while creating the diagnostic.
+   * Get the simplified Solutions using the applicable solutionResourceName while creating the simplified
+   * Solutions.
    * @param scope scope = resourceUri of affected resource.<br/> For example:
    *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
    *
-   * @param diagnosticsResourceName Unique resource name for insight resources
+   * @param simplifiedSolutionsResourceName Simplified Solutions Resource Name.
    * @param options The options parameters.
    */
   get(
     scope: string,
-    diagnosticsResourceName: string,
-    options?: DiagnosticsGetOptionalParams,
-  ): Promise<DiagnosticsGetResponse> {
+    simplifiedSolutionsResourceName: string,
+    options?: SimplifiedSolutionsGetOptionalParams,
+  ): Promise<SimplifiedSolutionsGetResponse> {
     return this.client.sendOperationRequest(
-      { scope, diagnosticsResourceName, options },
+      { scope, simplifiedSolutionsResourceName, options },
       getOperationSpec,
     );
   }
@@ -157,42 +164,42 @@ export class DiagnosticsImpl implements Diagnostics {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path: "/{scope}/providers/Microsoft.Help/diagnostics/{diagnosticsResourceName}",
+  path: "/{scope}/providers/Microsoft.Help/simplifiedSolutions/{simplifiedSolutionsResourceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DiagnosticResource,
+      bodyMapper: Mappers.SimplifiedSolutionsResource,
     },
     201: {
-      bodyMapper: Mappers.DiagnosticResource,
+      bodyMapper: Mappers.SimplifiedSolutionsResource,
     },
     202: {
-      bodyMapper: Mappers.DiagnosticResource,
+      bodyMapper: Mappers.SimplifiedSolutionsResource,
     },
     204: {
-      bodyMapper: Mappers.DiagnosticResource,
+      bodyMapper: Mappers.SimplifiedSolutionsResource,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.diagnosticResourceRequest,
+  requestBody: Parameters.simplifiedSolutionsRequestBody,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
-    Parameters.diagnosticsResourceName,
+    Parameters.simplifiedSolutionsResourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/{scope}/providers/Microsoft.Help/diagnostics/{diagnosticsResourceName}",
+  path: "/{scope}/providers/Microsoft.Help/simplifiedSolutions/{simplifiedSolutionsResourceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DiagnosticResource,
+      bodyMapper: Mappers.SimplifiedSolutionsResource,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -202,7 +209,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
-    Parameters.diagnosticsResourceName,
+    Parameters.simplifiedSolutionsResourceName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
