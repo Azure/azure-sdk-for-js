@@ -2783,6 +2783,18 @@ packages:
       - supports-color
     dev: false
 
+  /@opentelemetry/instrumentation-winston@0.36.0(@opentelemetry/api@1.8.0):
+    resolution: {integrity: sha512-NTuGpUA9AGC7EmKQyMn3ABiqJ3XvHihRcxdvqhs8E72nHmIU3n6om+DCYYE3fpEQwbC9N14ir8fqA5Oxn0Ynag==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': ^1.3.0
+    dependencies:
+      '@opentelemetry/api': 1.8.0
+      '@opentelemetry/instrumentation': 0.50.0(@opentelemetry/api@1.8.0)
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@opentelemetry/instrumentation@0.50.0(@opentelemetry/api@1.8.0):
     resolution: {integrity: sha512-bhGhbJiZKpuu7wTaSak4hyZcFPlnDeuSF/2vglze8B4w2LubcSbbOnkVTzTs5SXtzh4Xz8eRjaNnAm+u2GYufQ==}
     engines: {node: '>=14'}
@@ -8894,6 +8906,7 @@ packages:
 
   /queue-tick@1.0.1:
     resolution: {integrity: sha512-kJt5qhMxoszgU/62PLP1CJytzd2NKetjSRnyuj31fDd3Rlcz3fzlFdFLD1SItunPwyqEOkca6GbV612BWfaBag==}
+    requiresBuild: true
     dev: false
 
   /randombytes@2.1.0:
@@ -20911,7 +20924,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-exd5IkzkbLXv2uUmxQKH1r8NJRFw28GerQSb8+xwIoKf0tM14cVGtnENL3UjqlDAqQFo/BthIFKFi5Q8hsmymw==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-p7DpuBW6A+JyNstrdmHlAll0oyyerVOjKXjU1wXSEx6JXplm9dJQlpHXi7+DQS2rTVPMaVwCSmn4txD1njrRwg==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -20929,6 +20942,7 @@ packages:
       '@opentelemetry/instrumentation-pg': 0.40.0(@opentelemetry/api@1.8.0)
       '@opentelemetry/instrumentation-redis': 0.38.0(@opentelemetry/api@1.8.0)
       '@opentelemetry/instrumentation-redis-4': 0.38.0(@opentelemetry/api@1.8.0)
+      '@opentelemetry/instrumentation-winston': 0.36.0(@opentelemetry/api@1.8.0)
       '@opentelemetry/resource-detector-azure': 0.2.6(@opentelemetry/api@1.8.0)
       '@opentelemetry/resources': 1.23.0(@opentelemetry/api@1.8.0)
       '@opentelemetry/sdk-logs': 0.50.0(@opentelemetry/api-logs@0.50.0)(@opentelemetry/api@1.8.0)
