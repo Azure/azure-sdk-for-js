@@ -18,7 +18,7 @@ import {
   RuleUpdateParameters,
   RulesUpdateOptionalParams,
   RulesUpdateResponse,
-  RulesDeleteOptionalParams
+  RulesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,7 +36,7 @@ export interface Rules {
     resourceGroupName: string,
     profileName: string,
     ruleSetName: string,
-    options?: RulesListByRuleSetOptionalParams
+    options?: RulesListByRuleSetOptionalParams,
   ): PagedAsyncIterableIterator<Rule>;
   /**
    * Gets an existing delivery rule within a rule set.
@@ -52,7 +52,7 @@ export interface Rules {
     profileName: string,
     ruleSetName: string,
     ruleName: string,
-    options?: RulesGetOptionalParams
+    options?: RulesGetOptionalParams,
   ): Promise<RulesGetResponse>;
   /**
    * Creates a new delivery rule within the specified rule set.
@@ -70,7 +70,7 @@ export interface Rules {
     ruleSetName: string,
     ruleName: string,
     rule: Rule,
-    options?: RulesCreateOptionalParams
+    options?: RulesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<RulesCreateResponse>, RulesCreateResponse>
   >;
@@ -90,7 +90,7 @@ export interface Rules {
     ruleSetName: string,
     ruleName: string,
     rule: Rule,
-    options?: RulesCreateOptionalParams
+    options?: RulesCreateOptionalParams,
   ): Promise<RulesCreateResponse>;
   /**
    * Updates an existing delivery rule within a rule set.
@@ -108,7 +108,7 @@ export interface Rules {
     ruleSetName: string,
     ruleName: string,
     ruleUpdateProperties: RuleUpdateParameters,
-    options?: RulesUpdateOptionalParams
+    options?: RulesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<RulesUpdateResponse>, RulesUpdateResponse>
   >;
@@ -128,7 +128,7 @@ export interface Rules {
     ruleSetName: string,
     ruleName: string,
     ruleUpdateProperties: RuleUpdateParameters,
-    options?: RulesUpdateOptionalParams
+    options?: RulesUpdateOptionalParams,
   ): Promise<RulesUpdateResponse>;
   /**
    * Deletes an existing delivery rule within a rule set.
@@ -144,7 +144,7 @@ export interface Rules {
     profileName: string,
     ruleSetName: string,
     ruleName: string,
-    options?: RulesDeleteOptionalParams
+    options?: RulesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing delivery rule within a rule set.
@@ -160,6 +160,6 @@ export interface Rules {
     profileName: string,
     ruleSetName: string,
     ruleName: string,
-    options?: RulesDeleteOptionalParams
+    options?: RulesDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -12369,7 +12369,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       esm: 3.2.25
-      mkdirp: 1.0.4
+      mkdirp: 2.1.6
       mocha: 10.4.0
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
