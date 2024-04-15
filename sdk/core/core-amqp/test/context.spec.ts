@@ -27,12 +27,12 @@ describe("ConnectionContextBase", function () {
     should.exist(context.connectionLock);
     should.exist(context.negotiateClaimLock);
     context.wasConnectionCloseCalled.should.equal(false);
-    context.connection.should.instanceOf(Connection);
+    context.connection.should.be.instanceOf(Connection);
     context.connection.options.transport!.should.equal("tls");
     context.connection.options.properties!.product.should.equal("MSJSClient");
     context.connection.options.properties!["user-agent"].should.equal("/js-amqp-client");
     context.connection.options.properties!.version.should.equal("1.0.0");
-    context.cbsSession.should.instanceOf(CbsClient);
+    context.cbsSession.should.be.instanceOf(CbsClient);
     done();
   });
 
@@ -58,11 +58,11 @@ describe("ConnectionContextBase", function () {
     const tlsConnectionOptions = context.connection.options as TlsConnectionOptions;
     tlsConnectionOptions.host!.should.equal("hostname.servicebus.windows.net");
     context.wasConnectionCloseCalled.should.equal(false);
-    context.connection.should.instanceOf(Connection);
+    context.connection.should.be.instanceOf(Connection);
     context.connection.options.properties!.product.should.equal("MSJSClient");
     context.connection.options.properties!["user-agent"].should.equal("/js-amqp-client");
     context.connection.options.properties!.version.should.equal("1.0.0");
-    context.cbsSession.should.instanceOf(CbsClient);
+    context.cbsSession.should.be.instanceOf(CbsClient);
   });
 
   it("should allow setting host and hostname to different values", function () {
@@ -88,11 +88,11 @@ describe("ConnectionContextBase", function () {
     const tlsConnectionOptions = context.connection.options as TlsConnectionOptions;
     tlsConnectionOptions.host!.should.equal("hostname.servicebus.windows.net");
     context.wasConnectionCloseCalled.should.equal(false);
-    context.connection.should.instanceOf(Connection);
+    context.connection.should.be.instanceOf(Connection);
     context.connection.options.properties!.product.should.equal("MSJSClient");
     context.connection.options.properties!["user-agent"].should.equal("/js-amqp-client");
     context.connection.options.properties!.version.should.equal("1.0.0");
-    context.cbsSession.should.instanceOf(CbsClient);
+    context.cbsSession.should.be.instanceOf(CbsClient);
   });
 
   it("should allow specifying a port", function () {
@@ -117,11 +117,11 @@ describe("ConnectionContextBase", function () {
     const tlsConnectionOptions = context.connection.options as TlsConnectionOptions;
     tlsConnectionOptions.port!.should.equal(1111);
     context.wasConnectionCloseCalled.should.equal(false);
-    context.connection.should.instanceOf(Connection);
+    context.connection.should.be.instanceOf(Connection);
     context.connection.options.properties!.product.should.equal("MSJSClient");
     context.connection.options.properties!["user-agent"].should.equal("/js-amqp-client");
     context.connection.options.properties!.version.should.equal("1.0.0");
-    context.cbsSession.should.instanceOf(CbsClient);
+    context.cbsSession.should.be.instanceOf(CbsClient);
   });
 
   it("should have a default port (5671)", function () {
@@ -145,11 +145,11 @@ describe("ConnectionContextBase", function () {
     const tlsConnectionOptions = context.connection.options as TlsConnectionOptions;
     tlsConnectionOptions.port!.should.equal(5671);
     context.wasConnectionCloseCalled.should.equal(false);
-    context.connection.should.instanceOf(Connection);
+    context.connection.should.be.instanceOf(Connection);
     context.connection.options.properties!.product.should.equal("MSJSClient");
     context.connection.options.properties!["user-agent"].should.equal("/js-amqp-client");
     context.connection.options.properties!.version.should.equal("1.0.0");
-    context.cbsSession.should.instanceOf(CbsClient);
+    context.cbsSession.should.be.instanceOf(CbsClient);
   });
 
   it("should allow setting host and hostname to different values when using websockets", function () {
@@ -180,12 +180,12 @@ describe("ConnectionContextBase", function () {
     tlsConnectionOptions.host!.should.equal("127.0.0.1");
     context.connection.options.hostname!.should.equal("hostname.servicebus.windows.net");
     context.wasConnectionCloseCalled.should.equal(false);
-    context.connection.should.instanceOf(Connection);
+    context.connection.should.be.instanceOf(Connection);
     context.connection.options.properties!.product.should.equal("MSJSClient");
     context.connection.options.properties!["user-agent"].should.equal("/js-amqp-client");
     context.connection.options.properties!.version.should.equal("1.0.0");
     context.connection.options.webSocketOptions!.url.should.equal(`wss://127.0.0.1:443/`);
-    context.cbsSession.should.instanceOf(CbsClient);
+    context.cbsSession.should.be.instanceOf(CbsClient);
   });
 
   it("should have a default port when using websockets (443)", function () {
@@ -211,14 +211,14 @@ describe("ConnectionContextBase", function () {
     should.exist(context.connectionLock);
     should.exist(context.negotiateClaimLock);
     context.wasConnectionCloseCalled.should.equal(false);
-    context.connection.should.instanceOf(Connection);
+    context.connection.should.be.instanceOf(Connection);
     context.connection.options.properties!.product.should.equal("MSJSClient");
     context.connection.options.properties!["user-agent"].should.equal("/js-amqp-client");
     context.connection.options.properties!.version.should.equal("1.0.0");
     context.connection.options.webSocketOptions!.url.should.equal(
       `wss://hostname.servicebus.windows.net:443/`,
     );
-    context.cbsSession.should.instanceOf(CbsClient);
+    context.cbsSession.should.be.instanceOf(CbsClient);
   });
 
   it("should allow specifying a port when using websockets", function () {
@@ -247,14 +247,14 @@ describe("ConnectionContextBase", function () {
     const tlsConnectionOptions = context.connection.options as TlsConnectionOptions;
     tlsConnectionOptions.port!.should.equal(1111);
     context.wasConnectionCloseCalled.should.equal(false);
-    context.connection.should.instanceOf(Connection);
+    context.connection.should.be.instanceOf(Connection);
     context.connection.options.properties!.product.should.equal("MSJSClient");
     context.connection.options.properties!["user-agent"].should.equal("/js-amqp-client");
     context.connection.options.properties!.version.should.equal("1.0.0");
     context.connection.options.webSocketOptions!.url.should.equal(
       `wss://hostname.servicebus.windows.net:1111/`,
     );
-    context.cbsSession.should.instanceOf(CbsClient);
+    context.cbsSession.should.be.instanceOf(CbsClient);
   });
 
   it("Throws error if user-agent string length is greater than 512 characters", function (done) {
@@ -294,7 +294,7 @@ describe("ConnectionContextBase", function () {
       },
     });
     should.exist(context.connection);
-    context.connection.should.instanceOf(Connection);
+    context.connection.should.be.instanceOf(Connection);
     context.connection.options.transport!.should.equal("tcp");
   });
 
@@ -329,7 +329,7 @@ describe("ConnectionContextBase", function () {
       should.exist(context.connectionLock);
       should.exist(context.negotiateClaimLock);
       context.wasConnectionCloseCalled.should.equal(false);
-      context.cbsSession.should.instanceOf(CbsClient);
+      context.cbsSession.should.be.instanceOf(CbsClient);
 
       // update wasConnectionCloseCalled so we can make sure it refreshes
       context.wasConnectionCloseCalled = true;
