@@ -293,6 +293,16 @@ describe("sendRequest", () => {
     await sendRequest("POST", mockBaseUrl, mockPipeline, { accept: "testContent" });
   });
 
+  it("should set custom accept via headers", async () => {
+    const mockPipeline: Pipeline = createEmptyPipeline();
+    mockPipeline.sendRequest = async (_client, request) => {
+      assert.equal(request.headers.get("accept"), "testContent");
+      return { headers: createHttpHeaders() } as PipelineResponse;
+    };
+
+    await sendRequest("POST", mockBaseUrl, mockPipeline, { headers: { accept: "testContent" } });
+  });
+
   it("should set custom headers", async () => {
     const mockPipeline: Pipeline = createEmptyPipeline();
     mockPipeline.sendRequest = async (_client, request) => {

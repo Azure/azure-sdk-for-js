@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Starts an existing CDN endpoint that is on a stopped state.
  *
  * @summary Starts an existing CDN endpoint that is on a stopped state.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/Endpoints_Start.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Endpoints_Start.json
  */
 async function endpointsStart() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";

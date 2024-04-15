@@ -29,7 +29,7 @@ async function listFrontendEndpointsInAFrontDoor() {
   const resArray = new Array();
   for await (let item of client.frontendEndpoints.listByFrontDoor(
     resourceGroupName,
-    frontDoorName
+    frontDoorName,
   )) {
     resArray.push(item);
   }

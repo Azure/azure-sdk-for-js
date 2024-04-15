@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a new Secret within the specified profile.
  *
  * @summary Creates a new Secret within the specified profile.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/Secrets_Create.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Secrets_Create.json
  */
 async function secretsCreate() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -29,12 +29,11 @@ async function secretsCreate() {
     parameters: {
       type: "CustomerCertificate",
       secretSource: {
-        id:
-          "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.KeyVault/vault/kvName/secrets/certificatename"
+        id: "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.KeyVault/vault/kvName/secrets/certificatename",
       },
       secretVersion: "abcdef1234578900abcdef1234567890",
-      useLatestVersion: false
-    }
+      useLatestVersion: false,
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
@@ -42,7 +41,7 @@ async function secretsCreate() {
     resourceGroupName,
     profileName,
     secretName,
-    secret
+    secret,
   );
   console.log(result);
 }

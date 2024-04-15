@@ -9,7 +9,7 @@
 import {
   CheckNameAvailabilityInput,
   FrontDoorNameAvailabilityCheckOptionalParams,
-  FrontDoorNameAvailabilityCheckResponse
+  FrontDoorNameAvailabilityCheckResponse,
 } from "../models";
 
 /** Interface representing a FrontDoorNameAvailability. */
@@ -21,6 +21,6 @@ export interface FrontDoorNameAvailability {
    */
   check(
     checkFrontDoorNameAvailabilityInput: CheckNameAvailabilityInput,
-    options?: FrontDoorNameAvailabilityCheckOptionalParams
+    options?: FrontDoorNameAvailabilityCheckOptionalParams,
   ): Promise<FrontDoorNameAvailabilityCheckResponse>;
 }
