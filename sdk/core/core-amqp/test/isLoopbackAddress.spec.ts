@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { isLoopbackAddress } from "../src/util/utils";
-import { assert } from "@azure/test-utils";
+import { assert } from "chai";
 
 describe("isLoopbackAddress", () => {
   it("returns true for localhost", () => {
