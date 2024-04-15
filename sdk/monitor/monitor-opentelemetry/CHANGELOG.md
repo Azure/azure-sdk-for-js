@@ -15,6 +15,7 @@
 ### Features Added
 
 - Add support for Trace based sampling for logs.
+- Add support for Winston log instrumentation.
 
 ## 1.3.0 (2024-02-13)
 
