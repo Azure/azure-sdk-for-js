@@ -55,7 +55,7 @@ import {
   GeneratedGetChatCompletionsOptions,
   GenerateSpeechFromTextOptions,
 } from "../models/options.js";
-import { getOaiSSEs } from "./oaiSse.js";
+import { getOAISpeechSSE, getOaiSSEs } from "./oaiSse.js";
 import { createFile } from "@azure/core-rest-pipeline";
 import {
   GetAudioTranscriptionOptions,
@@ -602,7 +602,7 @@ export function _generateSpeechFromTextSend(
       voice: body["voice"],
       response_format: body["responseFormat"],
       speed: body["speed"],
-      model: body["model"],
+      model: deploymentId,
     },
   });
 }
@@ -629,7 +629,7 @@ export async function streamSpeechFromText(
   const response = _generateSpeechFromTextSend(context, deploymentId,
     { input, voice, ...rest },
     { abortSignal, onResponse, requestOptions, tracingOptions });
-  return getOaiSSEs(response, (result) => result.body);
+  return getOAISpeechSSE(response);
 }
 
 export function _getEmbeddingsSend(

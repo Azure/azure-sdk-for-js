@@ -33,6 +33,9 @@ export function nonAzurePolicy(): PipelinePolicy {
         case "translations":
           obj.pathname = `${parts[1]}/audio/translations`;
           break;
+        case "speech":
+          obj.pathname = `${parts[1]}/audio/speech`;
+          break;
       }
       obj.searchParams.delete("api-version");
       request.url = obj.toString();

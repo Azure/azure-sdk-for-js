@@ -12,8 +12,6 @@ import {
   OpenAIClient,
 } from "../../src/index.js";
 import { createClient, startRecorder } from "./utils/recordedClient.js";
-import path from "path";
-import fs from "fs";
 
 describe("README samples", () => {
   let recorder: Recorder;
@@ -207,23 +205,6 @@ describe("README samples", () => {
 
       const result = await client.getChatCompletions(deploymentName, messages);
       assert.isString(result.choices[0].message?.content);
-    });
-  });
-  
-  describe.only("Text to Speech", function () {
-    beforeEach(async function (this: Context) {
-      recorder = new Recorder(this.currentTest);
-      recorder = await startRecorder(this.currentTest);
-      client = createClient("AzureAPIKey", "dalle", { recorder });
-    });
-
-    it("Simple text to speech request", async function () {
-      const prompt = "a monkey eating a banana";
-
-      const result = await client.generateSpeechFromText("tts", prompt, "onyx")
-      const speechFile = path.resolve("./speech.mp3");
-      console.log(result)
-      await fs.promises.writeFile(speechFile, result);
     });
   });
 });

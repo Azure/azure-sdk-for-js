@@ -5,7 +5,7 @@ import { StreamableMethod } from "@azure-rest/core-client";
 import { getStream } from "./getSSEs.js";
 import { wrapError } from "./util.js";
 import { EventStream } from "../models/models.js";
-import { EventMessage, createSseStream } from "@azure/core-sse";
+import { EventMessage, createSseStream, createUint8Array } from "@azure/core-sse";
 import { polyfillStream } from "./readableStreamUtils.js";
 
 export async function getOaiSSEs<TEvent, O extends Record<string, any>>(
@@ -31,4 +31,15 @@ export async function getOaiSSEs<TEvent, O extends Record<string, any>>(
   });
   /** TODO: remove these polyfills once all supported runtimes support them */
   return polyfillStream(eventStream.pipeThrough(jsonParser));
+}
+
+
+export async function getOAISpeechSSE(
+  response: StreamableMethod<unknown>,
+): Promise<EventStream<Uint8Array>> {
+  console.log("OpenaiSSE")
+  const stringStream = await getStream(response);
+  const eventStream = createUint8Array(stringStream);
+  /** TODO: remove these polyfills once all supported runtimes support them */
+  return polyfillStream(eventStream);
 }

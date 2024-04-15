@@ -14,6 +14,14 @@ export function createSseStream(chunkStream: ReadableStream<Uint8Array>): EventM
 // @public
 export function createSseStream(chunkStream: IncomingMessage): EventMessageStream;
 
+// Warning: (ae-forgotten-export) The symbol "AsyncIterableIteratorStream" needs to be exported by the entry point index.d.ts
+//
+// @public
+export function createUint8Array(chunkStream: ReadableStream<Uint8Array>): AsyncIterableIteratorStream;
+
+// @public
+export function createUint8Array(chunkStream: IncomingMessage): AsyncIterableIteratorStream;
+
 // @public
 export interface EventMessage {
     data: string;
