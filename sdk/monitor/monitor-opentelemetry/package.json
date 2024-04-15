@@ -109,7 +109,8 @@
     "@opentelemetry/sdk-trace-base": "^1.23.0",
     "@opentelemetry/sdk-trace-node": "^1.23.0",
     "@opentelemetry/semantic-conventions": "^1.23.0",
-    "tslib": "^2.6.2"
+    "tslib": "^2.6.2",
+    "@opentelemetry/instrumentation-winston": "~0.36.0"
   },
   "sideEffects": false,
   "keywords": [

@@ -55,6 +55,8 @@ export interface InstrumentationOptions {
   redis4?: InstrumentationConfig;
   /** Bunyan Instrumentation Config */
   bunyan?: InstrumentationConfig;
+  /** Winston Instrumentation Config */
+  winston?: InstrumentationConfig;
 }
 
 /**
@@ -69,6 +71,7 @@ export interface StatsbeatOptions {
   postgreSql?: boolean;
   redis?: boolean;
   bunyan?: boolean;
+  winston?: boolean;
   /** Features */
   liveMetrics?: boolean;
   browserSdkLoader?: boolean;
@@ -130,4 +133,5 @@ export enum StatsbeatInstrumentation {
   REDIS = 8,
   POSTGRES = 16,
   BUNYAN = 32,
+  WINSTON = 64,
 }
