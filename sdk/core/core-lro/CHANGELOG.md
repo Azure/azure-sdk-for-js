@@ -1,14 +1,10 @@
 # Release History
 
-## 3.0.0-beta.2 (Unreleased)
+## 3.0.0 (Unreleased)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Change the return type of `createHttpPoller` to `PollerLike`
 
 ## 2.7.2 (2024-04-09)
 
