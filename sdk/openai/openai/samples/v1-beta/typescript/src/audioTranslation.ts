@@ -23,7 +23,7 @@ export async function main() {
 
   const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
   const deploymentName = "whisper";
-  const audio = await readFile("./assets/audio/countdown.wav");
+  const audio = await readFile("<insert the path to the audio file>");
   const result = await client.getAudioTranslation(deploymentName, audio);
 
   console.log(`Translation: ${result.text}`);
