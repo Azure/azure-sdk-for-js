@@ -34,6 +34,7 @@ export interface BrowserSdkLoaderOptions {
 export interface InstrumentationOptions {
     azureSdk?: InstrumentationConfig;
     bunyan?: InstrumentationConfig;
+    winston?: InstrumentationConfig;
     http?: InstrumentationConfig;
     mongoDb?: InstrumentationConfig;
     mySql?: InstrumentationConfig;
