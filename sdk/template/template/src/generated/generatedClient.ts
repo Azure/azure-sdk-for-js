@@ -7,9 +7,11 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
-import { GeneratedClientContext } from "./generatedClientContext";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "./lroImpl.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
+import { GeneratedClientContext } from "./generatedClientContext.js";
 import {
   GeneratedClientOptionalParams,
   GetKeysOptionalParams,
@@ -28,6 +30,20 @@ import {
   DeleteKeyValueResponse,
   CheckKeyValueOptionalParams,
   CheckKeyValueResponse,
+  GetSnapshotsOptionalParams,
+  GetSnapshotsResponse,
+  CheckSnapshotsOptionalParams,
+  CheckSnapshotsResponse,
+  GetSnapshotOptionalParams,
+  GetSnapshotResponse,
+  Snapshot,
+  CreateSnapshotOptionalParams,
+  CreateSnapshotResponse,
+  SnapshotUpdateParameters,
+  UpdateSnapshotOptionalParams,
+  UpdateSnapshotResponse,
+  CheckSnapshotOptionalParams,
+  CheckSnapshotResponse,
   GetLabelsOptionalParams,
   GetLabelsResponse,
   CheckLabelsOptionalParams,
@@ -40,15 +56,19 @@ import {
   GetRevisionsResponse,
   CheckRevisionsOptionalParams,
   CheckRevisionsResponse,
+  GetOperationDetailsOptionalParams,
+  GetOperationDetailsResponse,
   GetKeysNextOptionalParams,
   GetKeysNextResponse,
   GetKeyValuesNextOptionalParams,
   GetKeyValuesNextResponse,
+  GetSnapshotsNextOptionalParams,
+  GetSnapshotsNextResponse,
   GetLabelsNextOptionalParams,
   GetLabelsNextResponse,
   GetRevisionsNextOptionalParams,
   GetRevisionsNextResponse
-} from "./models";
+} from "./models/index.js";
 
 /** @internal */
 export class GeneratedClient extends GeneratedClientContext {
@@ -158,6 +178,154 @@ export class GeneratedClient extends GeneratedClientContext {
   }
 
   /**
+   * Gets a list of key-value snapshots.
+   * @param options The options parameters.
+   */
+  getSnapshots(
+    options?: GetSnapshotsOptionalParams
+  ): Promise<GetSnapshotsResponse> {
+    return this.sendOperationRequest({ options }, getSnapshotsOperationSpec);
+  }
+
+  /**
+   * Requests the headers and status of the given resource.
+   * @param options The options parameters.
+   */
+  checkSnapshots(
+    options?: CheckSnapshotsOptionalParams
+  ): Promise<CheckSnapshotsResponse> {
+    return this.sendOperationRequest({ options }, checkSnapshotsOperationSpec);
+  }
+
+  /**
+   * Gets a single key-value snapshot.
+   * @param name The name of the key-value snapshot to retrieve.
+   * @param options The options parameters.
+   */
+  getSnapshot(
+    name: string,
+    options?: GetSnapshotOptionalParams
+  ): Promise<GetSnapshotResponse> {
+    return this.sendOperationRequest(
+      { name, options },
+      getSnapshotOperationSpec
+    );
+  }
+
+  /**
+   * Creates a key-value snapshot.
+   * @param name The name of the key-value snapshot to create.
+   * @param entity The key-value snapshot to create.
+   * @param options The options parameters.
+   */
+  async beginCreateSnapshot(
+    name: string,
+    entity: Snapshot,
+    options?: CreateSnapshotOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<CreateSnapshotResponse>,
+      CreateSnapshotResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<CreateSnapshotResponse> => {
+      return this.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { name, entity, options },
+      createSnapshotOperationSpec
+    );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+  }
+
+  /**
+   * Creates a key-value snapshot.
+   * @param name The name of the key-value snapshot to create.
+   * @param entity The key-value snapshot to create.
+   * @param options The options parameters.
+   */
+  async beginCreateSnapshotAndWait(
+    name: string,
+    entity: Snapshot,
+    options?: CreateSnapshotOptionalParams
+  ): Promise<CreateSnapshotResponse> {
+    const poller = await this.beginCreateSnapshot(name, entity, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Updates the state of a key-value snapshot.
+   * @param name The name of the key-value snapshot to update.
+   * @param entity The parameters used to update the snapshot.
+   * @param options The options parameters.
+   */
+  updateSnapshot(
+    name: string,
+    entity: SnapshotUpdateParameters,
+    options?: UpdateSnapshotOptionalParams
+  ): Promise<UpdateSnapshotResponse> {
+    return this.sendOperationRequest(
+      { name, entity, options },
+      updateSnapshotOperationSpec
+    );
+  }
+
+  /**
+   * Requests the headers and status of the given resource.
+   * @param name The name of the key-value snapshot to check.
+   * @param options The options parameters.
+   */
+  checkSnapshot(
+    name: string,
+    options?: CheckSnapshotOptionalParams
+  ): Promise<CheckSnapshotResponse> {
+    return this.sendOperationRequest(
+      { name, options },
+      checkSnapshotOperationSpec
+    );
+  }
+
+  /**
    * Gets a list of labels.
    * @param options The options parameters.
    */
@@ -220,6 +388,21 @@ export class GeneratedClient extends GeneratedClientContext {
   }
 
   /**
+   * Gets the state of a long running operation.
+   * @param snapshot Snapshot identifier for the long running operation.
+   * @param options The options parameters.
+   */
+  getOperationDetails(
+    snapshot: string,
+    options?: GetOperationDetailsOptionalParams
+  ): Promise<GetOperationDetailsResponse> {
+    return this.sendOperationRequest(
+      { snapshot, options },
+      getOperationDetailsOperationSpec
+    );
+  }
+
+  /**
    * GetKeysNext
    * @param nextLink The nextLink from the previous successful call to the GetKeys method.
    * @param options The options parameters.
@@ -246,6 +429,21 @@ export class GeneratedClient extends GeneratedClientContext {
     return this.sendOperationRequest(
       { nextLink, options },
       getKeyValuesNextOperationSpec
+    );
+  }
+
+  /**
+   * GetSnapshotsNext
+   * @param nextLink The nextLink from the previous successful call to the GetSnapshots method.
+   * @param options The options parameters.
+   */
+  getSnapshotsNext(
+    nextLink: string,
+    options?: GetSnapshotsNextOptionalParams
+  ): Promise<GetSnapshotsNextResponse> {
+    return this.sendOperationRequest(
+      { nextLink, options },
+      getSnapshotsNextOperationSpec
     );
   }
 
@@ -334,13 +532,16 @@ const getKeyValuesOperationSpec: coreClient.OperationSpec = {
     Parameters.after,
     Parameters.key,
     Parameters.label,
-    Parameters.select
+    Parameters.select,
+    Parameters.snapshot
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [
     Parameters.syncToken,
     Parameters.acceptDatetime,
-    Parameters.accept1
+    Parameters.accept1,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch
   ],
   serializer
 };
@@ -358,10 +559,16 @@ const checkKeyValuesOperationSpec: coreClient.OperationSpec = {
     Parameters.after,
     Parameters.key,
     Parameters.label,
-    Parameters.select
+    Parameters.select,
+    Parameters.snapshot
   ],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.syncToken, Parameters.acceptDatetime],
+  headerParameters: [
+    Parameters.syncToken,
+    Parameters.acceptDatetime,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch
+  ],
   serializer
 };
 const getKeyValueOperationSpec: coreClient.OperationSpec = {
@@ -381,9 +588,9 @@ const getKeyValueOperationSpec: coreClient.OperationSpec = {
   headerParameters: [
     Parameters.syncToken,
     Parameters.acceptDatetime,
-    Parameters.accept2,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
+    Parameters.accept2
   ],
   serializer
 };
@@ -404,9 +611,9 @@ const putKeyValueOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.endpoint, Parameters.key1],
   headerParameters: [
     Parameters.syncToken,
-    Parameters.accept2,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
+    Parameters.accept2,
     Parameters.contentType
   ],
   mediaType: "json",
@@ -431,8 +638,8 @@ const deleteKeyValueOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.endpoint, Parameters.key1],
   headerParameters: [
     Parameters.syncToken,
-    Parameters.accept2,
-    Parameters.ifMatch
+    Parameters.ifMatch,
+    Parameters.accept2
   ],
   serializer
 };
@@ -455,6 +662,143 @@ const checkKeyValueOperationSpec: coreClient.OperationSpec = {
   ],
   serializer
 };
+const getSnapshotsOperationSpec: coreClient.OperationSpec = {
+  path: "/snapshots",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SnapshotListResult,
+      headersMapper: Mappers.GeneratedClientGetSnapshotsHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  queryParameters: [
+    Parameters.name,
+    Parameters.apiVersion,
+    Parameters.after,
+    Parameters.select1,
+    Parameters.status
+  ],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.syncToken, Parameters.accept3],
+  serializer
+};
+const checkSnapshotsOperationSpec: coreClient.OperationSpec = {
+  path: "/snapshots",
+  httpMethod: "HEAD",
+  responses: {
+    200: {
+      headersMapper: Mappers.GeneratedClientCheckSnapshotsHeaders
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.after],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.syncToken],
+  serializer
+};
+const getSnapshotOperationSpec: coreClient.OperationSpec = {
+  path: "/snapshots/{name}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Snapshot,
+      headersMapper: Mappers.GeneratedClientGetSnapshotHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.select1],
+  urlParameters: [Parameters.endpoint, Parameters.name1],
+  headerParameters: [
+    Parameters.syncToken,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
+    Parameters.accept4
+  ],
+  serializer
+};
+const createSnapshotOperationSpec: coreClient.OperationSpec = {
+  path: "/snapshots/{name}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Snapshot,
+      headersMapper: Mappers.GeneratedClientCreateSnapshotHeaders
+    },
+    201: {
+      bodyMapper: Mappers.Snapshot,
+      headersMapper: Mappers.GeneratedClientCreateSnapshotHeaders
+    },
+    202: {
+      bodyMapper: Mappers.Snapshot,
+      headersMapper: Mappers.GeneratedClientCreateSnapshotHeaders
+    },
+    204: {
+      bodyMapper: Mappers.Snapshot,
+      headersMapper: Mappers.GeneratedClientCreateSnapshotHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  requestBody: Parameters.entity1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.name2],
+  headerParameters: [
+    Parameters.syncToken,
+    Parameters.accept4,
+    Parameters.contentType1
+  ],
+  mediaType: "json",
+  serializer
+};
+const updateSnapshotOperationSpec: coreClient.OperationSpec = {
+  path: "/snapshots/{name}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Snapshot,
+      headersMapper: Mappers.GeneratedClientUpdateSnapshotHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  requestBody: Parameters.entity2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.name1],
+  headerParameters: [
+    Parameters.syncToken,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
+    Parameters.accept4,
+    Parameters.contentType2
+  ],
+  mediaType: "json",
+  serializer
+};
+const checkSnapshotOperationSpec: coreClient.OperationSpec = {
+  path: "/snapshots/{name}",
+  httpMethod: "HEAD",
+  responses: {
+    200: {
+      headersMapper: Mappers.GeneratedClientCheckSnapshotHeaders
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.name1],
+  headerParameters: [
+    Parameters.syncToken,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch
+  ],
+  serializer
+};
 const getLabelsOperationSpec: coreClient.OperationSpec = {
   path: "/labels",
   httpMethod: "GET",
@@ -471,13 +815,13 @@ const getLabelsOperationSpec: coreClient.OperationSpec = {
     Parameters.name,
     Parameters.apiVersion,
     Parameters.after,
-    Parameters.select1
+    Parameters.select2
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [
     Parameters.syncToken,
     Parameters.acceptDatetime,
-    Parameters.accept3
+    Parameters.accept5
   ],
   serializer
 };
@@ -494,7 +838,7 @@ const checkLabelsOperationSpec: coreClient.OperationSpec = {
     Parameters.name,
     Parameters.apiVersion,
     Parameters.after,
-    Parameters.select1
+    Parameters.select2
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.syncToken, Parameters.acceptDatetime],
@@ -516,9 +860,9 @@ const putLockOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.endpoint, Parameters.key1],
   headerParameters: [
     Parameters.syncToken,
-    Parameters.accept2,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
+    Parameters.accept2
   ],
   serializer
 };
@@ -538,9 +882,9 @@ const deleteLockOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.endpoint, Parameters.key1],
   headerParameters: [
     Parameters.syncToken,
-    Parameters.accept2,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
+    Parameters.accept2
   ],
   serializer
 };
@@ -591,6 +935,22 @@ const checkRevisionsOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.syncToken, Parameters.acceptDatetime],
   serializer
 };
+const getOperationDetailsOperationSpec: coreClient.OperationSpec = {
+  path: "/operations",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OperationDetails
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.snapshot1],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept6],
+  serializer
+};
 const getKeysNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -629,14 +989,40 @@ const getKeyValuesNextOperationSpec: coreClient.OperationSpec = {
     Parameters.after,
     Parameters.key,
     Parameters.label,
-    Parameters.select
+    Parameters.select,
+    Parameters.snapshot
   ],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [
     Parameters.syncToken,
     Parameters.acceptDatetime,
-    Parameters.accept1
+    Parameters.accept1,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch
   ],
+  serializer
+};
+const getSnapshotsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SnapshotListResult,
+      headersMapper: Mappers.GeneratedClientGetSnapshotsNextHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  queryParameters: [
+    Parameters.name,
+    Parameters.apiVersion,
+    Parameters.after,
+    Parameters.select1,
+    Parameters.status
+  ],
+  urlParameters: [Parameters.endpoint, Parameters.nextLink],
+  headerParameters: [Parameters.syncToken, Parameters.accept3],
   serializer
 };
 const getLabelsNextOperationSpec: coreClient.OperationSpec = {
@@ -655,13 +1041,13 @@ const getLabelsNextOperationSpec: coreClient.OperationSpec = {
     Parameters.name,
     Parameters.apiVersion,
     Parameters.after,
-    Parameters.select1
+    Parameters.select2
   ],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [
     Parameters.syncToken,
     Parameters.acceptDatetime,
-    Parameters.accept3
+    Parameters.accept5
   ],
   serializer
 };
