@@ -98,10 +98,10 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [querythroughput]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/QueryThroughput.ts
 [sastokenauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/SasTokenAuth.ts
 [serversidescripts]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/ServerSideScripts.ts
-[changefeediterator_changefeedhierarchicalpartitionkey]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/ChangeFeedIterator\ChangeFeedHierarchicalPartitionKey.ts
-[changefeediterator_changefeediteratorentirecontainer]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/ChangeFeedIterator\ChangeFeedIteratorEntireContainer.ts
-[changefeediterator_changefeediteratorepkrange]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/ChangeFeedIterator\ChangeFeedIteratorEpkRange.ts
-[changefeediterator_changefeedpartitionkey]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/ChangeFeedIterator\ChangeFeedPartitionKey.ts
+[changefeediterator_changefeedhierarchicalpartitionkey]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/ChangeFeedIterator/ChangeFeedHierarchicalPartitionKey.ts
+[changefeediterator_changefeediteratorentirecontainer]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/ChangeFeedIterator/ChangeFeedIteratorEntireContainer.ts
+[changefeediterator_changefeediteratorepkrange]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/ChangeFeedIterator/ChangeFeedIteratorEpkRange.ts
+[changefeediterator_changefeedpartitionkey]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/ChangeFeedIterator/ChangeFeedPartitionKey.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/cosmos
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecosmosdbaccount]: https://docs.microsoft.com/azure/cosmos-db/how-to-manage-database-account#create-an-account
