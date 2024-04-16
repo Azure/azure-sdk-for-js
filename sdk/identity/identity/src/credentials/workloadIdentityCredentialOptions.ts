@@ -32,13 +32,13 @@ export interface WorkloadIdentityCredentialKubernetesOptions
   tokenFilePath?: string;
   /**
    * Mutually exclusive field.
-   * The service connection id for Azure Devops WI.
+   * The service connection ID for Azure Pipelines Workload Identity.
    */
   serviceConnectionId?: never;
 }
 
 /**
- * Options for the {@link WorkloadIdentityCredential} for Service Connections in Azure Devops
+ * Options for the {@link WorkloadIdentityCredential} for Service Connections in Azure Pipelines
  */
 export interface WorkloadIdentityCredentialServiceConnectionOptions
   extends MultiTenantTokenCredentialOptions,
@@ -53,7 +53,7 @@ export interface WorkloadIdentityCredentialServiceConnectionOptions
   clientId?: string;
 
   /**
-   * The service connection id for Azure Devops WI.
+   * The service connection ID for Azure Pipelines Workload Identity.
    */
   serviceConnectionId?: string;
   /** 
