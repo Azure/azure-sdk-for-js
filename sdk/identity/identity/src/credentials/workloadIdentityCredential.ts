@@ -67,8 +67,8 @@ export class WorkloadIdentityCredential implements TokenCredential {
       checkTenantId(logger, tenantId);
     }
     if (this.federatedTokenFilePath && this.serviceConnectionId) {
-      const errorMessage = `${credentialName}: ambiguous. serviceConnectionId and federatedTokenFilePath cannot be provided at the same time. These are used for supporting WorkloadIdentity for different environments. 
-      The federatedTokenFilePath is used for Kubernetes while serviceConnectionId is used for Azure Devops.`;
+      const errorMessage = `${credentialName}: ambiguous. serviceConnectionId and tokenFilePath cannot be provided at the same time. These are used for supporting WorkloadIdentity for different environments. 
+      The tokenFilePath is used for Kubernetes while serviceConnectionId is used for Azure Devops.`;
       logger.info(errorMessage);
       throw new CredentialUnavailableError(errorMessage);
     }
@@ -116,7 +116,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
     options?: GetTokenOptions,
   ): Promise<AccessToken | null> {
     if (!this.client) {
-      const errorMessage = `${credentialName}: is unavailable. tenantId, clientId, and either federatedTokenFilePath or serviceConnectionId are required parameters. 
+      const errorMessage = `${credentialName}: is unavailable. tenantId, clientId, and either tokenFilePath or serviceConnectionId are required parameters. 
       To enable Workload Identity Federation please provide following environment variables based on the environment.
       For Azure Devops env, in WorkloadIdentityCredential, these are required as inputs / env variables - 
       "AZURE_TENANT_ID",
@@ -164,8 +164,8 @@ export class WorkloadIdentityCredential implements TokenCredential {
     oidcRequestUrl: string,
     systemAccessToken: string,
   ): Promise<string> {
-    console.log("Requesting OIDC token from Azure DevOps...");
-    console.debug(oidcRequestUrl);
+    logger.info("Requesting OIDC token from Azure DevOps...");
+    logger.info(oidcRequestUrl);
 
     const requestOptions = {
       method: "POST",
@@ -190,24 +190,14 @@ export class WorkloadIdentityCredential implements TokenCredential {
     ) {
       return true;
     }
-    if (!process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI) {
-      this.systemError = "SYSTEM_TEAMFOUNDATIONCOLLECTIONURI,";
-    }
-    if (!process.env.SYSTEM_TEAMPROJECTID) {
-      this.systemError += "SYSTEM_TEAMPROJECTID,";
-    }
-    if (!process.env.SYSTEM_PLANID) {
-      this.systemError += "SYSTEM_PLANID,";
-    }
-    if (!process.env.SYSTEM_JOBID) {
-      this.systemError += "SYSTEM_JOBID,";
-    }
-    if (!process.env.SECRET_SYSTEM_ACCESSTOKEN) {
-      this.systemError += "SECRET_SYSTEM_ACCESSTOKEN";
-    }
-    if (this.systemError) {
-      this.systemError = `Missing system variable(s) - ${this.systemError}.`;
-    }
+    const missingEnvVars = []
+    if (!process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI) missingEnvVars.push("SYSTEM_TEAMFOUNDATIONCOLLECTIONURI");
+    if (!process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI) missingEnvVars.push("SYSTEM_TEAMFOUNDATIONCOLLECTIONURI");
+    if (!process.env.SYSTEM_TEAMPROJECTID) missingEnvVars.push("SYSTEM_TEAMPROJECTID");    
+    if (!process.env.SYSTEM_PLANID) missingEnvVars.push("SYSTEM_PLANID");
+    if (!process.env.SYSTEM_JOBID) missingEnvVars.push("SYSTEM_JOBID");
+    if (!process.env.SECRET_SYSTEM_ACCESSTOKEN) missingEnvVars.push("SECRET_SYSTEM_ACCESSTOKEN")  
+    if (missingEnvVars.length > 0) this.systemError = `Missing system variable(s) - ${missingEnvVars.join(', ')}`;
     return false;
   }
 }
