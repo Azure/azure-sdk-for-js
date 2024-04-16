@@ -133,7 +133,7 @@ export interface DeadLetterOptions {
 export { delay }
 
 // @public
-export interface deleteMessagesOptions extends OperationOptionsBase {
+export interface DeleteMessagesOptions extends OperationOptionsBase {
     beforeEnqueueTime?: Date;
     maxMessageCount?: number;
 }
@@ -491,7 +491,7 @@ export interface ServiceBusReceiver {
     deferMessage(message: ServiceBusReceivedMessage, propertiesToModify?: {
         [key: string]: number | boolean | string | Date | null;
     }): Promise<void>;
-    deleteMessages(options?: deleteMessagesOptions): Promise<number>;
+    deleteMessages(options?: DeleteMessagesOptions): Promise<number>;
     entityPath: string;
     getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ServiceBusReceivedMessage>;
     identifier: string;
