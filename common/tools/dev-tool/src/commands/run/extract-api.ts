@@ -48,6 +48,7 @@ interface ExportEntry {
   isSubpath: boolean;
   /**
    * The name with leading "./" and trailing extension removed, e.g. "./models" -> "models".
+   * For nested exports, "/" are replaced with hyphens since "/" is an invalid character for APIView
    */
   baseName: string;
   /**
@@ -77,7 +78,10 @@ function buildExportConfiguration(packageJson: any, options: any): ExportEntry[]
       return {
         path: exportPath,
         isSubpath: exportPath !== ".",
-        baseName: path.parse(exportPath).name,
+        baseName: exportPath
+          .replace(/^\.\//, "") // remove leading "./"
+          .replace(/\//g, "-"), // replace slashes with hyphens
+
         generateDocModel: exportPath === "." || options["subpath-doc-model"],
         // Take either the top-level "types" filepath or - for packages that use tshy - the ESM "types" filepath
         mainEntryPointFilePath: exports[exportPath].types || exports[exportPath]?.import?.types,
