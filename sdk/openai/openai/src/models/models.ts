@@ -1748,6 +1748,7 @@ export class OpenAIError extends RestError {
     options?: RestErrorOptions,
   ) {
     super(message, { code: options?.code ?? undefined, ...options });
+    this.name = "OpenAIError";
     this.type = type;
     this.param = param;
   }

@@ -717,6 +717,9 @@ export type ImageGenerationStyle = string;
 export type ImageSize = string;
 
 // @public
+export function isOpenAIError(e: unknown): e is OpenAIError;
+
+// @public
 export interface MaxTokensFinishDetails extends ChatFinishDetails {
     type: "max_tokens";
 }

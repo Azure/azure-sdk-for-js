@@ -4,6 +4,7 @@
 import { PathUncheckedResponse } from "@azure-rest/core-client";
 import { OpenAIError } from "../models/models.js";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { isError } from "@azure/core-util";
 
 type CamelCase<S extends string> = S extends `${infer P1}_${infer P2}`
   ? `${Lowercase<P1>}${Capitalize<CamelCase<P2>>}`
@@ -113,4 +114,15 @@ export function createOpenAIError(result: PathUncheckedResponse): OpenAIError {
       status: statusCode ?? -1,
     },
   });
+}
+
+/**
+ * Typeguard for RestError
+ * @param e - Something caught by a catch clause.
+ */
+export function isOpenAIError(e: unknown): e is OpenAIError {
+  if (e instanceof OpenAIError) {
+    return true;
+  }
+  return isError(e) && e.name === "OpenAIError";
 }
