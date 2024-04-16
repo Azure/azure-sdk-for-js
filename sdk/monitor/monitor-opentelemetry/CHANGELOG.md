@@ -14,7 +14,7 @@
 
 ### Other Changes
 
-- When log sampling, check for spanId instead of traeId.
+- When log sampling, check for spanId instead of traceId.
 - Update OpenTelemetry depdendencies.
 
 ## 1.3.0 (2024-02-13)
