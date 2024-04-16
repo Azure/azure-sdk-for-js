@@ -52,7 +52,7 @@
     "eslint": "^8.0.0",
     "karma": "^6.2.0",
     "karma-env-preprocessor": "^0.1.1",
-    "mkdirp": "^1.0.4",
+    "mkdirp": "^3.0.1",
     "mocha": "^10.0.0",
     "c8": "^9.1.0",
     "rimraf": "^5.0.5",
