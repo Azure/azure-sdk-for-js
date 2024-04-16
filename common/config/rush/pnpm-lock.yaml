@@ -8000,6 +8000,12 @@ packages:
     hasBin: true
     dev: false
 
+  /mkdirp@2.1.6:
+    resolution: {integrity: sha512-+hEnITedc8LAtIP9u3HJDFIdcLV2vXP33sqLLIzkv1Db1zO/1OxbvYf0Y1OC/S/Qo5dxHXepofhmxL02PsKe+A==}
+    engines: {node: '>=10'}
+    hasBin: true
+    dev: false
+
   /mkdirp@3.0.1:
     resolution: {integrity: sha512-+NsyUUAZDmo6YVHzL/stxSu3t9YS1iljliy3BSDrXJ/dkn1KYdmtZODGGjLcc9XLgVVpH4KshHB8XmZgMhaBXg==}
     engines: {node: '>=10'}
@@ -12674,7 +12680,7 @@ packages:
     dev: false
 
   file:projects/arm-confidentialledger.tgz:
-    resolution: {integrity: sha512-q2B73OWxu31kNy6b6nuvQ+5WkX17wMcxSwCJX9qksekbLXfwux9Af7kR+FBoQIpBKmEBcxHRRlZvC+2Q6mhI6Q==, tarball: file:projects/arm-confidentialledger.tgz}
+    resolution: {integrity: sha512-8wNLlv+zgvsE/gSv+WEto3ityF2dsYbEwRGZMQLP7wtnfX0aBOY8V4hDxI0XXm8t3pI+7m85cK0VUZ24dUCJGQ==, tarball: file:projects/arm-confidentialledger.tgz}
     name: '@rush-temp/arm-confidentialledger'
     version: 0.0.0
     dependencies:
@@ -12688,12 +12694,13 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      mkdirp: 3.0.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.4.0
       rimraf: 5.0.5
-      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
       tslib: 2.6.2
-      typescript: 5.4.5
+      typescript: 5.3.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - '@swc/core'
