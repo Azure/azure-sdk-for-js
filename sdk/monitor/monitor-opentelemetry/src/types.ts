@@ -58,6 +58,25 @@ export interface InstrumentationOptions {
 }
 
 /**
+ * Statsbeat Feature and Instrumentation Options interface
+ * @internal
+ */
+export interface StatsbeatOptions {
+  /** Instrumentations */
+  azureSdk?: boolean;
+  mongoDb?: boolean;
+  mySql?: boolean;
+  postgreSql?: boolean;
+  redis?: boolean;
+  bunyan?: boolean;
+  /** Features */
+  liveMetrics?: boolean;
+  browserSdkLoader?: boolean;
+  aadHandling?: boolean;
+  diskRetry?: boolean;
+}
+
+/**
  * Application Insights Web Instrumentation Configuration interface
  */
 export interface BrowserSdkLoaderOptions {
@@ -100,6 +119,7 @@ export enum StatsbeatFeature {
   AAD_HANDLING = 2,
   BROWSER_SDK_LOADER = 4,
   DISTRO = 8,
+  LIVE_METRICS = 16,
 }
 
 export enum StatsbeatInstrumentation {

@@ -16,7 +16,7 @@ import { CdnManagementClient } from "../cdnManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -32,7 +32,7 @@ import {
   PoliciesUpdateOptionalParams,
   PoliciesUpdateResponse,
   PoliciesDeleteOptionalParams,
-  PoliciesListNextResponse
+  PoliciesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -55,7 +55,7 @@ export class PoliciesImpl implements Policies {
    */
   public list(
     resourceGroupName: string,
-    options?: PoliciesListOptionalParams
+    options?: PoliciesListOptionalParams,
   ): PagedAsyncIterableIterator<CdnWebApplicationFirewallPolicy> {
     const iter = this.listPagingAll(resourceGroupName, options);
     return {
@@ -70,14 +70,14 @@ export class PoliciesImpl implements Policies {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceGroupName, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
     options?: PoliciesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CdnWebApplicationFirewallPolicy[]> {
     let result: PoliciesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +92,7 @@ export class PoliciesImpl implements Policies {
       result = await this._listNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -103,7 +103,7 @@ export class PoliciesImpl implements Policies {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    options?: PoliciesListOptionalParams
+    options?: PoliciesListOptionalParams,
   ): AsyncIterableIterator<CdnWebApplicationFirewallPolicy> {
     for await (const page of this.listPagingPage(resourceGroupName, options)) {
       yield* page;
@@ -117,11 +117,11 @@ export class PoliciesImpl implements Policies {
    */
   private _list(
     resourceGroupName: string,
-    options?: PoliciesListOptionalParams
+    options?: PoliciesListOptionalParams,
   ): Promise<PoliciesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -134,11 +134,11 @@ export class PoliciesImpl implements Policies {
   get(
     resourceGroupName: string,
     policyName: string,
-    options?: PoliciesGetOptionalParams
+    options?: PoliciesGetOptionalParams,
   ): Promise<PoliciesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, policyName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -153,7 +153,7 @@ export class PoliciesImpl implements Policies {
     resourceGroupName: string,
     policyName: string,
     cdnWebApplicationFirewallPolicy: CdnWebApplicationFirewallPolicy,
-    options?: PoliciesCreateOrUpdateOptionalParams
+    options?: PoliciesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PoliciesCreateOrUpdateResponse>,
@@ -162,21 +162,20 @@ export class PoliciesImpl implements Policies {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<PoliciesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -185,8 +184,8 @@ export class PoliciesImpl implements Policies {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -194,8 +193,8 @@ export class PoliciesImpl implements Policies {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -205,16 +204,16 @@ export class PoliciesImpl implements Policies {
         resourceGroupName,
         policyName,
         cdnWebApplicationFirewallPolicy,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       PoliciesCreateOrUpdateResponse,
       OperationState<PoliciesCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -231,13 +230,13 @@ export class PoliciesImpl implements Policies {
     resourceGroupName: string,
     policyName: string,
     cdnWebApplicationFirewallPolicy: CdnWebApplicationFirewallPolicy,
-    options?: PoliciesCreateOrUpdateOptionalParams
+    options?: PoliciesCreateOrUpdateOptionalParams,
   ): Promise<PoliciesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       policyName,
       cdnWebApplicationFirewallPolicy,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -255,7 +254,7 @@ export class PoliciesImpl implements Policies {
     resourceGroupName: string,
     policyName: string,
     cdnWebApplicationFirewallPolicyPatchParameters: CdnWebApplicationFirewallPolicyPatchParameters,
-    options?: PoliciesUpdateOptionalParams
+    options?: PoliciesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PoliciesUpdateResponse>,
@@ -264,21 +263,20 @@ export class PoliciesImpl implements Policies {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<PoliciesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -287,8 +285,8 @@ export class PoliciesImpl implements Policies {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -296,8 +294,8 @@ export class PoliciesImpl implements Policies {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -307,16 +305,16 @@ export class PoliciesImpl implements Policies {
         resourceGroupName,
         policyName,
         cdnWebApplicationFirewallPolicyPatchParameters,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       PoliciesUpdateResponse,
       OperationState<PoliciesUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -335,13 +333,13 @@ export class PoliciesImpl implements Policies {
     resourceGroupName: string,
     policyName: string,
     cdnWebApplicationFirewallPolicyPatchParameters: CdnWebApplicationFirewallPolicyPatchParameters,
-    options?: PoliciesUpdateOptionalParams
+    options?: PoliciesUpdateOptionalParams,
   ): Promise<PoliciesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       policyName,
       cdnWebApplicationFirewallPolicyPatchParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -355,11 +353,11 @@ export class PoliciesImpl implements Policies {
   delete(
     resourceGroupName: string,
     policyName: string,
-    options?: PoliciesDeleteOptionalParams
+    options?: PoliciesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, policyName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -372,11 +370,11 @@ export class PoliciesImpl implements Policies {
   private _listNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: PoliciesListNextOptionalParams
+    options?: PoliciesListNextOptionalParams,
   ): Promise<PoliciesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -384,68 +382,65 @@ export class PoliciesImpl implements Policies {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/cdnWebApplicationFirewallPolicies",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/cdnWebApplicationFirewallPolicies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CdnWebApplicationFirewallPolicyList
+      bodyMapper: Mappers.CdnWebApplicationFirewallPolicyList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/cdnWebApplicationFirewallPolicies/{policyName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CdnWebApplicationFirewallPolicy
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName1,
-    Parameters.policyName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/cdnWebApplicationFirewallPolicies/{policyName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CdnWebApplicationFirewallPolicy,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName1,
+    Parameters.policyName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/cdnWebApplicationFirewallPolicies/{policyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/cdnWebApplicationFirewallPolicies/{policyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.CdnWebApplicationFirewallPolicy
+      bodyMapper: Mappers.CdnWebApplicationFirewallPolicy,
     },
     201: {
-      bodyMapper: Mappers.CdnWebApplicationFirewallPolicy
+      bodyMapper: Mappers.CdnWebApplicationFirewallPolicy,
     },
     202: {
-      bodyMapper: Mappers.CdnWebApplicationFirewallPolicy
+      bodyMapper: Mappers.CdnWebApplicationFirewallPolicy,
     },
     204: {
-      bodyMapper: Mappers.CdnWebApplicationFirewallPolicy
+      bodyMapper: Mappers.CdnWebApplicationFirewallPolicy,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.cdnWebApplicationFirewallPolicy,
   queryParameters: [Parameters.apiVersion],
@@ -453,32 +448,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName1,
-    Parameters.policyName
+    Parameters.policyName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/cdnWebApplicationFirewallPolicies/{policyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/cdnWebApplicationFirewallPolicies/{policyName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.CdnWebApplicationFirewallPolicy
+      bodyMapper: Mappers.CdnWebApplicationFirewallPolicy,
     },
     201: {
-      bodyMapper: Mappers.CdnWebApplicationFirewallPolicy
+      bodyMapper: Mappers.CdnWebApplicationFirewallPolicy,
     },
     202: {
-      bodyMapper: Mappers.CdnWebApplicationFirewallPolicy
+      bodyMapper: Mappers.CdnWebApplicationFirewallPolicy,
     },
     204: {
-      bodyMapper: Mappers.CdnWebApplicationFirewallPolicy
+      bodyMapper: Mappers.CdnWebApplicationFirewallPolicy,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.cdnWebApplicationFirewallPolicyPatchParameters,
   queryParameters: [Parameters.apiVersion],
@@ -486,50 +480,49 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName1,
-    Parameters.policyName
+    Parameters.policyName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/cdnWebApplicationFirewallPolicies/{policyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/cdnWebApplicationFirewallPolicies/{policyName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName1,
-    Parameters.policyName
+    Parameters.policyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CdnWebApplicationFirewallPolicyList
+      bodyMapper: Mappers.CdnWebApplicationFirewallPolicyList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceGroupName1
+    Parameters.resourceGroupName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

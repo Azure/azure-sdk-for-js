@@ -16,7 +16,7 @@ import { CdnManagementClient } from "../cdnManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -36,7 +36,7 @@ import {
   ProfileUpgradeParameters,
   AfdProfilesUpgradeOptionalParams,
   AfdProfilesUpgradeResponse,
-  AfdProfilesListResourceUsageNextResponse
+  AfdProfilesListResourceUsageNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -62,12 +62,12 @@ export class AfdProfilesImpl implements AfdProfiles {
   public listResourceUsage(
     resourceGroupName: string,
     profileName: string,
-    options?: AfdProfilesListResourceUsageOptionalParams
+    options?: AfdProfilesListResourceUsageOptionalParams,
   ): PagedAsyncIterableIterator<Usage> {
     const iter = this.listResourceUsagePagingAll(
       resourceGroupName,
       profileName,
-      options
+      options,
     );
     return {
       next() {
@@ -84,9 +84,9 @@ export class AfdProfilesImpl implements AfdProfiles {
           resourceGroupName,
           profileName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -94,7 +94,7 @@ export class AfdProfilesImpl implements AfdProfiles {
     resourceGroupName: string,
     profileName: string,
     options?: AfdProfilesListResourceUsageOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Usage[]> {
     let result: AfdProfilesListResourceUsageResponse;
     let continuationToken = settings?.continuationToken;
@@ -102,7 +102,7 @@ export class AfdProfilesImpl implements AfdProfiles {
       result = await this._listResourceUsage(
         resourceGroupName,
         profileName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -114,7 +114,7 @@ export class AfdProfilesImpl implements AfdProfiles {
         resourceGroupName,
         profileName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -126,12 +126,12 @@ export class AfdProfilesImpl implements AfdProfiles {
   private async *listResourceUsagePagingAll(
     resourceGroupName: string,
     profileName: string,
-    options?: AfdProfilesListResourceUsageOptionalParams
+    options?: AfdProfilesListResourceUsageOptionalParams,
   ): AsyncIterableIterator<Usage> {
     for await (const page of this.listResourceUsagePagingPage(
       resourceGroupName,
       profileName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -149,16 +149,16 @@ export class AfdProfilesImpl implements AfdProfiles {
     resourceGroupName: string,
     profileName: string,
     checkEndpointNameAvailabilityInput: CheckEndpointNameAvailabilityInput,
-    options?: AfdProfilesCheckEndpointNameAvailabilityOptionalParams
+    options?: AfdProfilesCheckEndpointNameAvailabilityOptionalParams,
   ): Promise<AfdProfilesCheckEndpointNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         profileName,
         checkEndpointNameAvailabilityInput,
-        options
+        options,
       },
-      checkEndpointNameAvailabilityOperationSpec
+      checkEndpointNameAvailabilityOperationSpec,
     );
   }
 
@@ -172,11 +172,11 @@ export class AfdProfilesImpl implements AfdProfiles {
   private _listResourceUsage(
     resourceGroupName: string,
     profileName: string,
-    options?: AfdProfilesListResourceUsageOptionalParams
+    options?: AfdProfilesListResourceUsageOptionalParams,
   ): Promise<AfdProfilesListResourceUsageResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, options },
-      listResourceUsageOperationSpec
+      listResourceUsageOperationSpec,
     );
   }
 
@@ -193,16 +193,16 @@ export class AfdProfilesImpl implements AfdProfiles {
     resourceGroupName: string,
     profileName: string,
     checkHostNameAvailabilityInput: CheckHostNameAvailabilityInput,
-    options?: AfdProfilesCheckHostNameAvailabilityOptionalParams
+    options?: AfdProfilesCheckHostNameAvailabilityOptionalParams,
   ): Promise<AfdProfilesCheckHostNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         profileName,
         checkHostNameAvailabilityInput,
-        options
+        options,
       },
-      checkHostNameAvailabilityOperationSpec
+      checkHostNameAvailabilityOperationSpec,
     );
   }
 
@@ -218,11 +218,11 @@ export class AfdProfilesImpl implements AfdProfiles {
     resourceGroupName: string,
     profileName: string,
     validateSecretInput: ValidateSecretInput,
-    options?: AfdProfilesValidateSecretOptionalParams
+    options?: AfdProfilesValidateSecretOptionalParams,
   ): Promise<AfdProfilesValidateSecretResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, validateSecretInput, options },
-      validateSecretOperationSpec
+      validateSecretOperationSpec,
     );
   }
 
@@ -238,7 +238,7 @@ export class AfdProfilesImpl implements AfdProfiles {
     resourceGroupName: string,
     profileName: string,
     profileUpgradeParameters: ProfileUpgradeParameters,
-    options?: AfdProfilesUpgradeOptionalParams
+    options?: AfdProfilesUpgradeOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AfdProfilesUpgradeResponse>,
@@ -247,21 +247,20 @@ export class AfdProfilesImpl implements AfdProfiles {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AfdProfilesUpgradeResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -270,8 +269,8 @@ export class AfdProfilesImpl implements AfdProfiles {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -279,8 +278,8 @@ export class AfdProfilesImpl implements AfdProfiles {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -290,9 +289,9 @@ export class AfdProfilesImpl implements AfdProfiles {
         resourceGroupName,
         profileName,
         profileUpgradeParameters,
-        options
+        options,
       },
-      spec: upgradeOperationSpec
+      spec: upgradeOperationSpec,
     });
     const poller = await createHttpPoller<
       AfdProfilesUpgradeResponse,
@@ -300,7 +299,7 @@ export class AfdProfilesImpl implements AfdProfiles {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -318,13 +317,13 @@ export class AfdProfilesImpl implements AfdProfiles {
     resourceGroupName: string,
     profileName: string,
     profileUpgradeParameters: ProfileUpgradeParameters,
-    options?: AfdProfilesUpgradeOptionalParams
+    options?: AfdProfilesUpgradeOptionalParams,
   ): Promise<AfdProfilesUpgradeResponse> {
     const poller = await this.beginUpgrade(
       resourceGroupName,
       profileName,
       profileUpgradeParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -341,11 +340,11 @@ export class AfdProfilesImpl implements AfdProfiles {
     resourceGroupName: string,
     profileName: string,
     nextLink: string,
-    options?: AfdProfilesListResourceUsageNextOptionalParams
+    options?: AfdProfilesListResourceUsageNextOptionalParams,
   ): Promise<AfdProfilesListResourceUsageNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, nextLink, options },
-      listResourceUsageNextOperationSpec
+      listResourceUsageNextOperationSpec,
     );
   }
 }
@@ -353,16 +352,15 @@ export class AfdProfilesImpl implements AfdProfiles {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkEndpointNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/checkEndpointNameAvailability",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/checkEndpointNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckEndpointNameAvailabilityOutput
+      bodyMapper: Mappers.CheckEndpointNameAvailabilityOutput,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse
-    }
+      bodyMapper: Mappers.AfdErrorResponse,
+    },
   },
   requestBody: Parameters.checkEndpointNameAvailabilityInput,
   queryParameters: [Parameters.apiVersion],
@@ -370,45 +368,43 @@ const checkEndpointNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName
+    Parameters.profileName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listResourceUsageOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/usages",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/usages",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.UsagesListResult
+      bodyMapper: Mappers.UsagesListResult,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse
-    }
+      bodyMapper: Mappers.AfdErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const checkHostNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/checkHostNameAvailability",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/checkHostNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameAvailabilityOutput
+      bodyMapper: Mappers.CheckNameAvailabilityOutput,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse
-    }
+      bodyMapper: Mappers.AfdErrorResponse,
+    },
   },
   requestBody: Parameters.checkHostNameAvailabilityInput,
   queryParameters: [Parameters.apiVersion],
@@ -416,23 +412,22 @@ const checkHostNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const validateSecretOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/validateSecret",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/validateSecret",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ValidateSecretOutput
+      bodyMapper: Mappers.ValidateSecretOutput,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse
-    }
+      bodyMapper: Mappers.AfdErrorResponse,
+    },
   },
   requestBody: Parameters.validateSecretInput,
   queryParameters: [Parameters.apiVersion],
@@ -440,32 +435,31 @@ const validateSecretOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName
+    Parameters.profileName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const upgradeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/upgrade",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/upgrade",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.Profile
+      bodyMapper: Mappers.Profile,
     },
     201: {
-      bodyMapper: Mappers.Profile
+      bodyMapper: Mappers.Profile,
     },
     202: {
-      bodyMapper: Mappers.Profile
+      bodyMapper: Mappers.Profile,
     },
     204: {
-      bodyMapper: Mappers.Profile
+      bodyMapper: Mappers.Profile,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse
-    }
+      bodyMapper: Mappers.AfdErrorResponse,
+    },
   },
   requestBody: Parameters.profileUpgradeParameters,
   queryParameters: [Parameters.apiVersion],
@@ -473,30 +467,30 @@ const upgradeOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName
+    Parameters.profileName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listResourceUsageNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UsagesListResult
+      bodyMapper: Mappers.UsagesListResult,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse
-    }
+      bodyMapper: Mappers.AfdErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName1,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

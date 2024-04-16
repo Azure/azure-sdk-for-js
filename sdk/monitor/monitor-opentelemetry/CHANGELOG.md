@@ -2,6 +2,8 @@
 
 ## 1.4.0 (2024-04-05)
 
+- Capture live metrics and live metrics activation in statsbeat.
+
 ### Features Added
 
 - Add support for Trace based sampling for logs.
