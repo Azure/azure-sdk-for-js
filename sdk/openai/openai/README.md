@@ -417,7 +417,7 @@ async function main(){
         {
           type: "azure_search",
           endpoint: "<Azure Search endpoint>",
-          indexName: "<Azure Search index name>,
+          indexName: "<Azure Search index name>",
           authentication: {
             type: "api_key",
             key: "<Azure Search admin key>",
