@@ -32,22 +32,17 @@ export async function createRecordedClientContext(
 ): Promise<NotificationHubsClientContext> {
   await recorder.start(recorderOptions);
   if (isBrowser) {
-    // there seems to be timestamps in the body, so do not match body
-    await recorder.setMatcher("BodilessMatcher");
-    await recorder.addSanitizers(
-      {
-        // looks like the registration id seems to be dynamic, redacting it instead
-        generalSanitizers: [
-          {
-            regex: true,
-            target: "registrations/(?<secret>.*?)?api-version=",
-            value: "registration-id-redacted",
-            groupForReplace: "secret",
-          },
-        ],
-      },
-      ["record", "playback"],
-    );
+    // there are timestamps in the body, so do not match body
+    await recorder.setMatcher("BodilessMatcher")
+    await recorder.addSanitizers({
+      // looks like the registration id is dynamic, redacting it instead
+      generalSanitizers: [{
+        regex: true,
+        target: "registrations/(?<secret>.*?)?api-version=",
+        value: "registration-id-redacted",
+        groupForReplace: "secret"
+      }]
+    }, ["record", "playback"])
   }
 
   if (!env.NOTIFICATION_HUB_CONNECTION_STRING || !env.NOTIFICATION_HUB_NAME) {
