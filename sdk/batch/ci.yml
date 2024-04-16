@@ -3,25 +3,27 @@
 trigger:
   branches:
     include:
-    - main
-    - hotfix/*
-    - release/*
-    - restapi*
+      - main
+      - hotfix/*
+      - release/*
+      - restapi*
   paths:
     include:
-    - sdk/batch/
+      - sdk/batch/ci.yml
+      - sdk/batch/batch-rest
 
 pr:
   branches:
     include:
-    - main
-    - feature/*
-    - hotfix/*
-    - release/*
-    - restapi*
+      - main
+      - feature/*
+      - hotfix/*
+      - release/*
+      - restapi*
   paths:
     include:
-    - sdk/batch/
+      - sdk/batch/ci.yml
+      - sdk/batch/batch-rest
 
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
