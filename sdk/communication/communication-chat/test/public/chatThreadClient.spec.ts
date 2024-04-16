@@ -4,7 +4,13 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { ChatClient, ChatMessage, ChatThreadClient } from "../../src";
+import {
+  ChatClient,
+  ChatMessage,
+  ChatThreadClient,
+  NoneRetentionPolicy,
+  ThreadCreationDateRetentionPolicy,
+} from "../../src";
 import { createChatClient, createRecorder, createTestUser } from "./utils/recordedClient";
 import { CommunicationIdentifier, getIdentifierKind } from "@azure/communication-common";
 import { Context } from "mocha";
@@ -46,8 +52,17 @@ describe("ChatThreadClient", function () {
 
     // Create a thread
     const request = { topic: "test topic" };
+    const retentionPolicy: ThreadCreationDateRetentionPolicy = {
+      kind: "threadCreationDate",
+      deleteThreadAfterDays: 60,
+    };
     const options = {
       participants: [{ id: testUser }, { id: testUser2 }],
+      metadata: {
+        threadType: "primary",
+        secondaryThread: "test-id",
+      },
+      retentionPolicy: retentionPolicy,
     };
 
     const chatThreadResult = await chatClient.createChatThread(request, options);
@@ -66,6 +81,45 @@ describe("ChatThreadClient", function () {
 
     const thread = await chatThreadClient.getProperties();
     assert.equal(topic, thread.topic);
+  });
+
+  it("successfully updates the thread metadata", async function () {
+    const metadata = { threadType: "secondary" };
+    await chatThreadClient.updateProperties({ metadata: metadata });
+
+    const thread = await chatThreadClient.getProperties();
+    assert.equal(metadata.threadType, thread.metadata?.threadType);
+  });
+
+  it("successfully updates the thread retention policy to none retention plicy", async function () {
+    const retentionPolicy: NoneRetentionPolicy = { kind: "none" };
+
+    await chatThreadClient.updateProperties({ retentionPolicy: retentionPolicy });
+
+    const thread = await chatThreadClient.getProperties();
+    assert.deepEqual(thread.retentionPolicy, { kind: "none" });
+  });
+
+  it("successfully updates the thread retention policy", async function () {
+    const retentionPolicy: ThreadCreationDateRetentionPolicy = {
+      kind: "threadCreationDate",
+      deleteThreadAfterDays: 90,
+    };
+    await chatThreadClient.updateProperties({ retentionPolicy: retentionPolicy });
+
+    const thread = await chatThreadClient.getProperties();
+    assert.equal(retentionPolicy.kind, thread.retentionPolicy?.kind);
+    assert.equal(
+      retentionPolicy.deleteThreadAfterDays,
+      (thread.retentionPolicy as ThreadCreationDateRetentionPolicy).deleteThreadAfterDays,
+    );
+  });
+
+  it("successfully updates the thread retention policy to none retention plicy by setting null", async function () {
+    await chatThreadClient.updateProperties({ retentionPolicy: null as any });
+
+    const thread = await chatThreadClient.getProperties();
+    assert.deepEqual(thread.retentionPolicy, { kind: "none" });
   });
 
   it("successfully sends a message", async function () {
@@ -125,7 +179,17 @@ describe("ChatThreadClient", function () {
   it("successfully adds participants", async function () {
     testUser3 = (await createTestUser(recorder)).user;
 
-    const request = { participants: [{ id: testUser3 }] };
+    const request = {
+      participants: [
+        {
+          id: testUser3,
+          metadata: {
+            userType: "C2",
+          },
+        },
+      ],
+    };
+
     await chatThreadClient.addParticipants(request);
   });
 

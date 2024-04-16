@@ -9,6 +9,7 @@
 import { tracingClient } from "../tracing";
 import { ChatThread } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ChatApiClient } from "../chatApiClient";
@@ -39,6 +40,12 @@ import {
   ChatThreadGetChatThreadPropertiesOptionalParams,
   ChatThreadGetChatThreadPropertiesResponse,
   ChatThreadSendTypingNotificationOptionalParams,
+  ChatThreadUploadChatImageOptionalParams,
+  ChatThreadUploadChatImageResponse,
+  ImageViewType,
+  ChatThreadGetChatImageOptionalParams,
+  ChatThreadGetChatImageResponse,
+  ChatThreadDeleteChatImageOptionalParams,
   ChatThreadListChatReadReceiptsNextOptionalParams,
   ChatThreadListChatReadReceiptsNextResponse,
   ChatThreadListChatMessagesNextOptionalParams,
@@ -345,6 +352,77 @@ export class ChatThreadImpl implements ChatThread {
         return this.client.sendOperationRequest(
           { chatThreadId, options },
           sendTypingNotificationOperationSpec,
+        ) as Promise<void>;
+      },
+    );
+  }
+
+  /**
+   * Upload an image in a thread, on behalf of a user.
+   * @param chatThreadId Thread id where the uploaded image belongs to. (Teams meeting only)
+   * @param chatImageFile Image binary data, allowed image formats: jpeg, png, gif, heic, webp
+   * @param options The options parameters.
+   */
+  async uploadChatImage(
+    chatThreadId: string,
+    chatImageFile: coreRestPipeline.RequestBodyType,
+    options?: ChatThreadUploadChatImageOptionalParams,
+  ): Promise<ChatThreadUploadChatImageResponse> {
+    return tracingClient.withSpan(
+      "ChatApiClient.uploadChatImage",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { chatThreadId, chatImageFile, options },
+          uploadChatImageOperationSpec,
+        ) as Promise<ChatThreadUploadChatImageResponse>;
+      },
+    );
+  }
+
+  /**
+   * Get an image by view type.
+   * @param chatThreadId The thread id to which the message was sent.
+   * @param imageId The image id.
+   * @param imageViewType The view type of image.
+   * @param options The options parameters.
+   */
+  async getChatImage(
+    chatThreadId: string,
+    imageId: string,
+    imageViewType: ImageViewType,
+    options?: ChatThreadGetChatImageOptionalParams,
+  ): Promise<ChatThreadGetChatImageResponse> {
+    return tracingClient.withSpan(
+      "ChatApiClient.getChatImage",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { chatThreadId, imageId, imageViewType, options },
+          getChatImageOperationSpec,
+        ) as Promise<ChatThreadGetChatImageResponse>;
+      },
+    );
+  }
+
+  /**
+   * Deletes a image.
+   * @param chatThreadId The thread id to which the message was sent.
+   * @param imageId The image id.
+   * @param options The options parameters.
+   */
+  async deleteChatImage(
+    chatThreadId: string,
+    imageId: string,
+    options?: ChatThreadDeleteChatImageOptionalParams,
+  ): Promise<void> {
+    return tracingClient.withSpan(
+      "ChatApiClient.deleteChatImage",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { chatThreadId, imageId, options },
+          deleteChatImageOperationSpec,
         ) as Promise<void>;
       },
     );
@@ -823,6 +901,70 @@ const sendTypingNotificationOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer,
+};
+const uploadChatImageOperationSpec: coreClient.OperationSpec = {
+  path: "/chat/threads/{chatThreadId}/images",
+  httpMethod: "POST",
+  responses: {
+    201: {
+      bodyMapper: Mappers.UploadChatImageResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.chatImageFile,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
+  headerParameters: [
+    Parameters.contentType2,
+    Parameters.accept1,
+    Parameters.imageFilename,
+  ],
+  mediaType: "binary",
+  serializer,
+};
+const getChatImageOperationSpec: coreClient.OperationSpec = {
+  path: "/chat/threads/{chatThreadId}/images/{imageId}/view/{imageViewType}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: { name: "Stream" },
+        serializedName: "parsedResponse",
+      },
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.chatThreadId,
+    Parameters.imageId,
+    Parameters.imageViewType,
+  ],
+  headerParameters: [Parameters.accept2],
+  serializer,
+};
+const deleteChatImageOperationSpec: coreClient.OperationSpec = {
+  path: "/chat/threads/{chatThreadId}/images/{imageId}",
+  httpMethod: "DELETE",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.chatThreadId,
+    Parameters.imageId,
+  ],
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const listChatReadReceiptsNextOperationSpec: coreClient.OperationSpec = {

@@ -3,7 +3,7 @@
 
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { ChatClient, ChatThreadClient } from "../../src";
+import { ChatClient, ChatThreadClient, ThreadCreationDateRetentionPolicy } from "../../src";
 import { createChatClient, createRecorder, createTestUser } from "./utils/recordedClient";
 import { isNode } from "@azure/core-util";
 import sinon from "sinon";
@@ -45,12 +45,27 @@ describe("ChatClient", function () {
       testUser2 = (await createTestUser(recorder)).user;
 
       const request = { topic: "test topic" };
+      const retentionPolicy: ThreadCreationDateRetentionPolicy = {
+        kind: "threadCreationDate",
+        deleteThreadAfterDays: 90,
+      };
       const options = {
-        participants: [{ id: testUser }, { id: testUser2 }],
+        participants: [
+          {
+            id: testUser,
+          },
+          {
+            id: testUser2,
+          },
+        ],
+        metadata: {
+          threadType: "primary",
+          secondaryThread: "test-id",
+        },
+        retentionPolicy: retentionPolicy,
       };
 
       const chatThreadResult = await chatClient.createChatThread(request, options);
-
       const chatThread = chatThreadResult.chatThread;
       if (chatThread) {
         threadId = chatThread.id!;
@@ -58,6 +73,9 @@ describe("ChatClient", function () {
 
       assert.isDefined(chatThread);
       assert.isDefined(chatThread?.id);
+      assert.equal(chatThread?.topic, request.topic);
+      assert.deepEqual(chatThread?.metadata, options.metadata);
+      assert.deepEqual(chatThread?.retentionPolicy, retentionPolicy);
     }).timeout(8000);
 
     it("successfully retrieves a thread client", async function () {

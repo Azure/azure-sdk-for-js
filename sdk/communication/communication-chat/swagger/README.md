@@ -10,13 +10,13 @@ title: ChatApiClient
 description: Chat Client
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: package-chat-2024-03-07
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/72d4c8cae964a12dc27ad4684b0bddf493225338/specification/communication/data-plane/Chat/readme.md
+tag: package-2024-03-15-preview
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/3fb73ef5a3af2c138b53e3cced182095b671a679/specification/communication/data-plane/Chat/readme.md
 model-date-time-as-string: false
 optional-response-headers: true
 add-credentials: false
 disable-async-iterators: true
-package-version: 1.5.0
+package-version: 1.6.0-beta.1
 use-extension:
   "@autorest/typescript": "latest"
 tracing-info:
@@ -54,6 +54,16 @@ directive:
 directive:
   from: swagger-document
   where: "$.definitions.ChatAttachmentType"
+  transform: >
+    $["x-ms-enum"].modelAsString = false;
+```
+
+### Set RetentionPolicyKind Model as string false
+
+```yaml
+directive:
+  from: swagger-document
+  where: "$.definitions.ChatRetentionPolicy.properties.kind"
   transform: >
     $["x-ms-enum"].modelAsString = false;
 ```

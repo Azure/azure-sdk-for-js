@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   ChatThreadListChatReadReceiptsOptionalParams,
   ChatThreadListChatReadReceiptsResponse,
@@ -33,6 +34,12 @@ import {
   ChatThreadGetChatThreadPropertiesOptionalParams,
   ChatThreadGetChatThreadPropertiesResponse,
   ChatThreadSendTypingNotificationOptionalParams,
+  ChatThreadUploadChatImageOptionalParams,
+  ChatThreadUploadChatImageResponse,
+  ImageViewType,
+  ChatThreadGetChatImageOptionalParams,
+  ChatThreadGetChatImageResponse,
+  ChatThreadDeleteChatImageOptionalParams,
   ChatThreadListChatReadReceiptsNextOptionalParams,
   ChatThreadListChatReadReceiptsNextResponse,
   ChatThreadListChatMessagesNextOptionalParams,
@@ -177,6 +184,41 @@ export interface ChatThread {
   sendTypingNotification(
     chatThreadId: string,
     options?: ChatThreadSendTypingNotificationOptionalParams,
+  ): Promise<void>;
+  /**
+   * Upload an image in a thread, on behalf of a user.
+   * @param chatThreadId Thread id where the uploaded image belongs to. (Teams meeting only)
+   * @param chatImageFile Image binary data, allowed image formats: jpeg, png, gif, heic, webp
+   * @param options The options parameters.
+   */
+  uploadChatImage(
+    chatThreadId: string,
+    chatImageFile: coreRestPipeline.RequestBodyType,
+    options?: ChatThreadUploadChatImageOptionalParams,
+  ): Promise<ChatThreadUploadChatImageResponse>;
+  /**
+   * Get an image by view type.
+   * @param chatThreadId The thread id to which the message was sent.
+   * @param imageId The image id.
+   * @param imageViewType The view type of image.
+   * @param options The options parameters.
+   */
+  getChatImage(
+    chatThreadId: string,
+    imageId: string,
+    imageViewType: ImageViewType,
+    options?: ChatThreadGetChatImageOptionalParams,
+  ): Promise<ChatThreadGetChatImageResponse>;
+  /**
+   * Deletes a image.
+   * @param chatThreadId The thread id to which the message was sent.
+   * @param imageId The image id.
+   * @param options The options parameters.
+   */
+  deleteChatImage(
+    chatThreadId: string,
+    imageId: string,
+    options?: ChatThreadDeleteChatImageOptionalParams,
   ): Promise<void>;
   /**
    * ListChatReadReceiptsNext

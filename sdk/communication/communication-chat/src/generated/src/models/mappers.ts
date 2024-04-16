@@ -318,6 +318,60 @@ export const SendChatMessageRequest: coreClient.CompositeMapper = {
           value: { type: { name: "String" } },
         },
       },
+      attachments: {
+        serializedName: "attachments",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ChatAttachment",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const ChatAttachment: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ChatAttachment",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      attachmentType: {
+        serializedName: "attachmentType",
+        required: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["image", "file"],
+        },
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String",
+        },
+      },
+      url: {
+        serializedName: "url",
+        type: {
+          name: "String",
+        },
+      },
+      previewUrl: {
+        serializedName: "previewUrl",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -533,46 +587,11 @@ export const ChatParticipant: coreClient.CompositeMapper = {
           name: "DateTime",
         },
       },
-    },
-  },
-};
-
-export const ChatAttachment: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ChatAttachment",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        required: true,
+      metadata: {
+        serializedName: "metadata",
         type: {
-          name: "String",
-        },
-      },
-      attachmentType: {
-        serializedName: "attachmentType",
-        required: true,
-        type: {
-          name: "Enum",
-          allowedValues: ["image", "file"],
-        },
-      },
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String",
-        },
-      },
-      url: {
-        serializedName: "url",
-        type: {
-          name: "String",
-        },
-      },
-      previewUrl: {
-        serializedName: "previewUrl",
-        type: {
-          name: "String",
+          name: "Dictionary",
+          value: { type: { name: "String" } },
         },
       },
     },
@@ -595,6 +614,18 @@ export const UpdateChatMessageRequest: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } },
+        },
+      },
+      attachments: {
+        serializedName: "attachments",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ChatAttachment",
+            },
+          },
         },
       },
     },
@@ -698,6 +729,42 @@ export const CreateChatThreadRequest: coreClient.CompositeMapper = {
           },
         },
       },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+      retentionPolicy: {
+        serializedName: "retentionPolicy",
+        type: {
+          name: "Composite",
+          className: "ChatRetentionPolicy",
+        },
+      },
+    },
+  },
+};
+
+export const ChatRetentionPolicy: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ChatRetentionPolicy",
+    uberParent: "ChatRetentionPolicy",
+    polymorphicDiscriminator: {
+      serializedName: "kind",
+      clientName: "kind",
+    },
+    modelProperties: {
+      kind: {
+        serializedName: "kind",
+        required: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["threadCreationDate", "none"],
+        },
+      },
     },
   },
 };
@@ -768,6 +835,20 @@ export const ChatThreadProperties: coreClient.CompositeMapper = {
         serializedName: "deletedOn",
         type: {
           name: "DateTime",
+        },
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+      retentionPolicy: {
+        serializedName: "retentionPolicy",
+        type: {
+          name: "Composite",
+          className: "ChatRetentionPolicy",
         },
       },
     },
@@ -850,6 +931,20 @@ export const UpdateChatThreadRequest: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+      retentionPolicy: {
+        serializedName: "retentionPolicy",
+        type: {
+          name: "Composite",
+          className: "ChatRetentionPolicy",
+        },
+      },
     },
   },
 };
@@ -867,4 +962,146 @@ export const SendTypingNotificationRequest: coreClient.CompositeMapper = {
       },
     },
   },
+};
+
+export const UploadChatImageResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UploadChatImageResult",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      attachmentType: {
+        serializedName: "attachmentType",
+        type: {
+          name: "Enum",
+          allowedValues: ["image", "file"],
+        },
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorModel",
+        },
+      },
+    },
+  },
+};
+
+export const ErrorModel: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorModel",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      message: {
+        serializedName: "message",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      details: {
+        serializedName: "details",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorDetail",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const ErrorDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorDetail",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      message: {
+        serializedName: "message",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ThreadCreationDateRetentionPolicy: coreClient.CompositeMapper = {
+  serializedName: "threadCreationDate",
+  type: {
+    name: "Composite",
+    className: "ThreadCreationDateRetentionPolicy",
+    uberParent: "ChatRetentionPolicy",
+    polymorphicDiscriminator: ChatRetentionPolicy.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ChatRetentionPolicy.type.modelProperties,
+      deleteThreadAfterDays: {
+        serializedName: "deleteThreadAfterDays",
+        required: true,
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const NoneRetentionPolicy: coreClient.CompositeMapper = {
+  serializedName: "none",
+  type: {
+    name: "Composite",
+    className: "NoneRetentionPolicy",
+    uberParent: "ChatRetentionPolicy",
+    polymorphicDiscriminator: ChatRetentionPolicy.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ChatRetentionPolicy.type.modelProperties,
+    },
+  },
+};
+
+export let discriminators = {
+  ChatRetentionPolicy: ChatRetentionPolicy,
+  "ChatRetentionPolicy.threadCreationDate": ThreadCreationDateRetentionPolicy,
+  "ChatRetentionPolicy.none": NoneRetentionPolicy,
 };

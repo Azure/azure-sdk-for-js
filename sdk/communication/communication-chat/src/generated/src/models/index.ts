@@ -8,6 +8,11 @@
 
 import * as coreClient from "@azure/core-client";
 
+export type ChatRetentionPolicyUnion =
+  | ChatRetentionPolicy
+  | ThreadCreationDateRetentionPolicy
+  | NoneRetentionPolicy;
+
 /** A paged collection of chat message read receipts. */
 export interface ChatMessageReadReceiptsCollection {
   /** Collection of chat message read receipts. */
@@ -120,6 +125,22 @@ export interface SendChatMessageRequest {
   type?: ChatMessageType;
   /** Message metadata. */
   metadata?: { [propertyName: string]: string };
+  /** The array of attachments */
+  attachments?: ChatAttachment[];
+}
+
+/** An attachment in a chat message. Currently only supported in Teams Interop scenarios. */
+export interface ChatAttachment {
+  /** Id of the attachment */
+  id: string;
+  /** The type of attachment. */
+  attachmentType: ChatAttachmentType;
+  /** The name of the attachment content. */
+  name?: string;
+  /** The URL where the attachment can be downloaded */
+  url?: string;
+  /** The URL where the preview of attachment can be downloaded */
+  previewUrl?: string;
 }
 
 /** Result of the send message operation. */
@@ -187,20 +208,8 @@ export interface ChatParticipant {
   displayName?: string;
   /** Time from which the chat history is shared with the participant. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   shareHistoryTime?: Date;
-}
-
-/** An attachment in a chat message. */
-export interface ChatAttachment {
-  /** Id of the attachment */
-  id: string;
-  /** The type of attachment. */
-  attachmentType: ChatAttachmentType;
-  /** The name of the attachment content. */
-  name?: string;
-  /** The URL where the attachment can be downloaded */
-  url?: string;
-  /** The URL where the preview of attachment can be downloaded */
-  previewUrl?: string;
+  /** Contextual metadata for the chat participant. The metadata consists of name/value pairs. The total size of all metadata pairs can be up to 1KB in size. */
+  metadata?: { [propertyName: string]: string };
 }
 
 /** Request payload for updating a chat message. */
@@ -209,6 +218,8 @@ export interface UpdateChatMessageRequest {
   content?: string;
   /** Message metadata. */
   metadata?: { [propertyName: string]: string };
+  /** The array of attachments */
+  attachments?: ChatAttachment[];
 }
 
 /** Collection of participants belong to a particular thread. */
@@ -243,6 +254,16 @@ export interface CreateChatThreadRequest {
   topic: string;
   /** Participants to be added to the chat thread. */
   participants?: ChatParticipant[];
+  /** Contextual metadata for the thread. The metadata consists of name/value pairs. The total size of all metadata pairs can be up to 1KB in size. */
+  metadata?: { [propertyName: string]: string };
+  /** Data retention policy for auto deletion. */
+  retentionPolicy?: ChatRetentionPolicyUnion;
+}
+
+/** Data retention policy for auto deletion. */
+export interface ChatRetentionPolicy {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "threadCreationDate" | "none";
 }
 
 /** Result of the create chat thread operation. */
@@ -268,6 +289,10 @@ export interface ChatThreadProperties {
   createdByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   deletedOn?: Date;
+  /** Contextual metadata for the thread. The metadata consists of name/value pairs. The total size of all metadata pairs can be up to 1KB in size. */
+  metadata?: { [propertyName: string]: string };
+  /** Data retention policy for auto deletion. */
+  retentionPolicy?: ChatRetentionPolicyUnion;
 }
 
 /** Collection of chat threads. */
@@ -300,12 +325,64 @@ export interface ChatThreadItem {
 export interface UpdateChatThreadRequest {
   /** Chat thread topic. */
   topic?: string;
+  /** Contextual metadata for the thread. The metadata consists of name/value pairs. The total size of all metadata pairs can be up to 1KB in size. */
+  metadata?: { [propertyName: string]: string };
+  /** Data retention policy for auto deletion. */
+  retentionPolicy?: ChatRetentionPolicyUnion;
 }
 
 /** Request payload for typing notifications. */
 export interface SendTypingNotificationRequest {
   /** The display name of the typing notification sender. This property is used to populate sender name for push notifications. */
   senderDisplayName?: string;
+}
+
+/** Result payload for uploading an image. */
+export interface UploadChatImageResult {
+  /** A server-generated image id. */
+  id: string;
+  /** The type of attachment. */
+  attachmentType?: ChatAttachmentType;
+  /** The name including file extension type of the attachment. */
+  name?: string;
+}
+
+/** Wrapper for error response to follow ARM guidelines. */
+export interface ErrorResponse {
+  /** The error response. */
+  error?: ErrorModel;
+}
+
+/** Error response information. */
+export interface ErrorModel {
+  /** Error code. */
+  code: string;
+  /** Error message. */
+  message: string;
+  /** An array of error detail objects. */
+  details?: ErrorDetail[];
+}
+
+/** Error detail information. */
+export interface ErrorDetail {
+  /** Error code. */
+  code: string;
+  /** Error message. */
+  message: string;
+}
+
+/** Thread retention policy based on thread creation date. */
+export interface ThreadCreationDateRetentionPolicy extends ChatRetentionPolicy {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "threadCreationDate";
+  /** Indicates how many days after the thread creation the thread will be deleted. */
+  deleteThreadAfterDays: number;
+}
+
+/** No thread retention policy. */
+export interface NoneRetentionPolicy extends ChatRetentionPolicy {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "none";
 }
 
 /** Known values of {@link CommunicationIdentifierModelKind} that the service accepts. */
@@ -355,6 +432,24 @@ export enum KnownCommunicationCloudEnvironmentModel {
  * **gcch**
  */
 export type CommunicationCloudEnvironmentModel = string;
+
+/** Known values of {@link ImageViewType} that the service accepts. */
+export enum KnownImageViewType {
+  /** Original */
+  Original = "original",
+  /** Small */
+  Small = "small",
+}
+
+/**
+ * Defines values for ImageViewType. \
+ * {@link KnownImageViewType} can be used interchangeably with ImageViewType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **original** \
+ * **small**
+ */
+export type ImageViewType = string;
 /** Defines values for ChatMessageType. */
 export type ChatMessageType =
   | "text"
@@ -364,6 +459,8 @@ export type ChatMessageType =
   | "participantRemoved";
 /** Defines values for ChatAttachmentType. */
 export type ChatAttachmentType = "image" | "file";
+/** Defines values for RetentionPolicyKind. */
+export type RetentionPolicyKind = "threadCreationDate" | "none";
 
 /** Optional parameters. */
 export interface ChatThreadListChatReadReceiptsOptionalParams
@@ -394,7 +491,7 @@ export interface ChatThreadListChatMessagesOptionalParams
   extends coreClient.OperationOptions {
   /** The maximum number of messages to be returned per page. */
   maxPageSize?: number;
-  /** The earliest point in time to get messages up to. The timestamp should be in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
+  /** The earliest point in time to get messages after. The timestamp should be in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   startTime?: Date;
 }
 
@@ -456,6 +553,42 @@ export interface ChatThreadSendTypingNotificationOptionalParams
   /** Details of the typing notification request. */
   sendTypingNotificationRequest?: SendTypingNotificationRequest;
 }
+
+/** Optional parameters. */
+export interface ChatThreadUploadChatImageOptionalParams
+  extends coreClient.OperationOptions {
+  /** The file name of the image. */
+  imageFilename?: string;
+}
+
+/** Contains response data for the uploadChatImage operation. */
+export type ChatThreadUploadChatImageResponse = UploadChatImageResult;
+
+/** Optional parameters. */
+export interface ChatThreadGetChatImageOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getChatImage operation. */
+export type ChatThreadGetChatImageResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeJS.ReadableStream;
+};
+
+/** Optional parameters. */
+export interface ChatThreadDeleteChatImageOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ChatThreadListChatReadReceiptsNextOptionalParams

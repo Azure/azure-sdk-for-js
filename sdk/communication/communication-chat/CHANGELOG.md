@@ -11,6 +11,19 @@
 
 - Updated @azure/core-client and @azure/core-rest-pipeline version.
 
+## 1.6.0-beta.1 (2024-04-17)
+
+### Features Added
+
+- Added Upload Image feature for TeamsInterops scenario
+  - New `uploadImage(...)` to upload an image.
+  - New `deleteImage(...)` to delete an image.
+  - Updated `SendMessageOptions` and `UpdateMessageOptions` to include `attachments`.
+- Supported Data Retention feature for threads. 
+  - New `RetentionPolicy` property in `ChatThreadProperties`.
+  - Updated `CreateChatThreadOptions` to include `retentionPolicy` .
+  - New `updateProperties(...)` to update `ChatThreadProperties` including `retentionPolicy`.
+
 ## 1.5.0 (2024-04-15)
 
 ### Features Added
