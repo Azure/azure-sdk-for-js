@@ -4,6 +4,7 @@
 import {
   CommunicationIdentifier,
   CommunicationUserIdentifier,
+  MicrosoftTeamsAppIdentifier,
   MicrosoftTeamsUserIdentifier,
   PhoneNumberIdentifier,
 } from "@azure/communication-common";
@@ -156,7 +157,8 @@ export interface CallInvite {
   readonly targetParticipant:
     | PhoneNumberIdentifier
     | CommunicationUserIdentifier
-    | MicrosoftTeamsUserIdentifier;
+    | MicrosoftTeamsUserIdentifier
+    | MicrosoftTeamsAppIdentifier;
   /** Caller's phone number identifier. */
   readonly sourceCallIdNumber?: PhoneNumberIdentifier;
   sourceDisplayName?: string;
