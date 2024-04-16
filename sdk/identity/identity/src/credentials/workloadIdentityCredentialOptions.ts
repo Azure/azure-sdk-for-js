@@ -56,7 +56,7 @@ export interface WorkloadIdentityCredentialServiceConnectionOptions
    * The service connection ID for Azure Pipelines Workload Identity.
    */
   serviceConnectionId?: string;
-  /** 
+  /**
    * Mutually exclusive field
    * The path to a file containing a Kubernetes service account token that authenticates the identity.
    */
