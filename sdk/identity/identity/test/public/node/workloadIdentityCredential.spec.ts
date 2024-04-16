@@ -108,6 +108,17 @@ describe.skip("WorkloadIdentityCredential", function () {
     }
   });
 
+  it.only("authenticates with a valid service connection", async function(){
+    const credential = new WorkloadIdentityCredential({serviceConnectionId: "d267d7b2-a67e-4f43-8a8a-bdff194d7233"});
+    try {
+      const token = await credential.getToken(scope);
+      assert.ok(token?.token);
+      assert.ok(token?.expiresOnTimestamp! > Date.now());
+    } catch (e) {
+      console.log(e);
+    }
+  })
+
   async function setupFileandEnv(testName: string): Promise<FileDirectory> {
     const testTitle = testName + Date.now().toString();
     const tempDir = mkdtempSync(join(tmpdir(), testTitle));
