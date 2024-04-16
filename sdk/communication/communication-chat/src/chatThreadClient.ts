@@ -22,6 +22,7 @@ import {
   ChatThreadProperties,
   ListPageSettings,
   SendChatMessageResult,
+  UploadChatImageResult,
 } from "./models/models";
 import {
   mapToAddChatParticipantsRequestRestModel,
@@ -29,6 +30,8 @@ import {
   mapToChatParticipantSdkModel,
   mapToChatThreadPropertiesSdkModel,
   mapToReadReceiptSdkModel,
+  mapToSendChatMessageRequestRestModel,
+  mapToUpdateChatMessageRequestRestModel,
 } from "./models/mappers";
 import {
   AddParticipantsOptions,
@@ -45,9 +48,27 @@ import {
   SendTypingNotificationOptions,
   UpdateMessageOptions,
   UpdateTopicOptions,
+  UpdateChatThreadPropertiesOptions,
+  DeleteImageOptions,
+  UploadImageOptions,
+  UploadImageStreamOptions,
 } from "./models/options";
-import { ChatApiClient } from "./generated/src";
+import {
+  ChatApiClient,
+  ChatThreadGetChatThreadPropertiesOptionalParams,
+  ChatThreadUpdateChatThreadPropertiesOptionalParams,
+  ChatThreadSendChatMessageOptionalParams,
+  ChatThreadGetChatMessageOptionalParams,
+  ChatThreadDeleteChatMessageOptionalParams,
+  ChatThreadUpdateChatMessageOptionalParams,
+  ChatThreadAddChatParticipantsOptionalParams,
+  ChatThreadRemoveChatParticipantOptionalParams,
+  ChatThreadSendChatReadReceiptOptionalParams,
+  ChatThreadUploadChatImageOptionalParams,
+  ChatThreadDeleteChatImageOptionalParams,
+} from "./generated/src";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import { createXhrHttpClient, isReadableStream, isBlob } from "./xhrHttpClient";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
 import { tracingClient } from "./generated/src/tracing";
 
@@ -64,6 +85,7 @@ export class ChatThreadClient {
 
   private readonly tokenCredential: CommunicationTokenCredential;
   private readonly client: ChatApiClient;
+  private readonly xhrClient?: ChatApiClient;
 
   private timeOfLastTypingRequest: Date | undefined = undefined;
 
@@ -92,6 +114,15 @@ export class ChatThreadClient {
 
     const authPolicy = createCommunicationTokenCredentialPolicy(this.tokenCredential);
     this.client.pipeline.addPolicy(authPolicy);
+
+    if (typeof XMLHttpRequest !== "undefined") {
+      this.xhrClient = new ChatApiClient(this.endpoint, {
+        endpoint: this.endpoint,
+        ...internalPipelineOptions,
+        httpClient: createXhrHttpClient(),
+      });
+      this.xhrClient.pipeline.addPolicy(authPolicy);
+    }
   }
 
   /**
@@ -100,13 +131,17 @@ export class ChatThreadClient {
    * @param options -  Operation options.
    */
   public getProperties(options: GetPropertiesOptions = {}): Promise<ChatThreadProperties> {
-    return tracingClient.withSpan("ChatClient-GetProperties", options, async (updatedOptions) => {
-      const result = await this.client.chatThread.getChatThreadProperties(
-        this.threadId,
-        updatedOptions,
-      );
-      return mapToChatThreadPropertiesSdkModel(result);
-    });
+    return tracingClient.withSpan(
+      "ChatClient-GetProperties",
+      options,
+      async (updatedOptions: ChatThreadGetChatThreadPropertiesOptionalParams | undefined) => {
+        const result = await this.client.chatThread.getChatThreadProperties(
+          this.threadId,
+          updatedOptions,
+        );
+        return mapToChatThreadPropertiesSdkModel(result);
+      },
+    );
   }
 
   /**
@@ -118,10 +153,28 @@ export class ChatThreadClient {
     return tracingClient.withSpan(
       "ChatThreadClient-UpdateTopic",
       options,
-      async (updatedOptions) => {
+      async (updatedOptions: ChatThreadUpdateChatThreadPropertiesOptionalParams | undefined) => {
         await this.client.chatThread.updateChatThreadProperties(
           this.threadId,
           { topic: topic },
+          updatedOptions,
+        );
+      },
+    );
+  }
+
+  /**
+   * Updates a thread's properties.
+   * @param options - Operation options.
+   */
+  public updateProperties(options: UpdateChatThreadPropertiesOptions = {}): Promise<void> {
+    return tracingClient.withSpan(
+      "ChatThreadClient-UpdateProperties",
+      options,
+      async (updatedOptions: ChatThreadUpdateChatThreadPropertiesOptionalParams | undefined) => {
+        await this.client.chatThread.updateChatThreadProperties(
+          this.threadId,
+          options,
           updatedOptions,
         );
       },
@@ -141,13 +194,13 @@ export class ChatThreadClient {
     return tracingClient.withSpan(
       "ChatThreadClient-SendMessage",
       options,
-      async (updatedOptions) => {
+      async (updatedOptions: ChatThreadSendChatMessageOptionalParams | undefined) => {
         // reset typing notification clock
         this.timeOfLastTypingRequest = undefined;
 
         const result = await this.client.chatThread.sendChatMessage(
           this.threadId,
-          { ...request, ...options },
+          mapToSendChatMessageRequestRestModel(request, options),
           updatedOptions,
         );
         return result;
@@ -165,7 +218,7 @@ export class ChatThreadClient {
     return tracingClient.withSpan(
       "ChatThreadClient-GetMessage",
       options,
-      async (updatedOptions) => {
+      async (updatedOptions: ChatThreadGetChatMessageOptionalParams | undefined) => {
         const result = await this.client.chatThread.getChatMessage(
           this.threadId,
           messageId,
@@ -256,7 +309,7 @@ export class ChatThreadClient {
     return tracingClient.withSpan(
       "ChatThreadClient-DeleteMessage",
       options,
-      async (updatedOptions) => {
+      async (updatedOptions: ChatThreadDeleteChatMessageOptionalParams | undefined) => {
         await this.client.chatThread.deleteChatMessage(this.threadId, messageId, updatedOptions);
       },
     );
@@ -271,11 +324,11 @@ export class ChatThreadClient {
     return tracingClient.withSpan(
       "ChatThreadClient-UpdateMessage",
       options,
-      async (updatedOptions) => {
+      async (updatedOptions: ChatThreadUpdateChatMessageOptionalParams | undefined) => {
         await this.client.chatThread.updateChatMessage(
           this.threadId,
           messageId,
-          options,
+          mapToUpdateChatMessageRequestRestModel(options),
           updatedOptions,
         );
       },
@@ -294,7 +347,7 @@ export class ChatThreadClient {
     return tracingClient.withSpan(
       "ChatThreadClient-AddParticipants",
       options,
-      async (updatedOptions) => {
+      async (updatedOptions: ChatThreadAddChatParticipantsOptionalParams | undefined) => {
         const result = await this.client.chatThread.addChatParticipants(
           this.threadId,
           mapToAddChatParticipantsRequestRestModel(request),
@@ -392,7 +445,7 @@ export class ChatThreadClient {
     return tracingClient.withSpan(
       "ChatThreadClient-RemoveParticipant",
       options,
-      async (updatedOptions) => {
+      async (updatedOptions: ChatThreadRemoveChatParticipantOptionalParams | undefined) => {
         await this.client.chatThread.removeChatParticipant(
           this.threadId,
           serializeCommunicationIdentifier(participant),
@@ -414,7 +467,7 @@ export class ChatThreadClient {
     return tracingClient.withSpan(
       "ChatThreadClient-SendTypingNotification",
       options,
-      async (updatedOptions) => {
+      async (updatedOptions: SendTypingNotificationOptions) => {
         const dateNow = new Date();
         const { senderDisplayName, ...restOptions } = updatedOptions;
 
@@ -446,7 +499,7 @@ export class ChatThreadClient {
     return tracingClient.withSpan(
       "ChatThreadClient-SendReadReceipt",
       options,
-      async (updatedOptions) => {
+      async (updatedOptions: ChatThreadSendChatReadReceiptOptionalParams | undefined) => {
         await this.client.chatThread.sendChatReadReceipt(this.threadId, request, updatedOptions);
       },
     );
@@ -539,5 +592,129 @@ export class ChatThreadClient {
     }
 
     return true;
+  }
+
+  /**
+   * Uploads an chat image to a thread identified by threadId.
+   * Allowed image types "jpg", "png", "gif", "heic", "webp".
+   * Returns the id of the uploaded image.
+   * @param image - Request for uploading an image.
+   * @param imageFilename - The image's file name with file extension.
+   * @param options - Operation options.
+   */
+  public async uploadImage(
+    image: ArrayBuffer | Blob,
+    imageFilename: string,
+    options?: UploadImageOptions,
+  ): Promise<UploadChatImageResult>;
+
+  /**
+   * Uploads an chat image stream to a thread identified by threadId.
+   * Allowed image types "jpg", "png", "gif", "heic", "webp".
+   * Returns the id of the uploaded image.
+   * @param image - Request for uploading an image.
+   * @param imageFileName - The image's file name with file extension.
+   * @param imageBytesLength - The image's file length in bytes.
+   * @param options - Operation options.
+   */
+  public async uploadImage(
+    image: ReadableStream<Uint8Array> | NodeJS.ReadableStream,
+    imageFileName: string,
+    imageBytesLength: number,
+    // eslint-disable-next-line
+    options?: UploadImageStreamOptions,
+  ): Promise<UploadChatImageResult>;
+
+  async uploadImage(
+    image: ArrayBuffer | Blob | ReadableStream<Uint8Array> | NodeJS.ReadableStream,
+    imageFilename: string,
+    imageBytesLengthOrOptions?: number | UploadImageOptions,
+    options: UploadImageStreamOptions = {},
+  ): Promise<UploadChatImageResult> {
+    let uploadImageOptions = {};
+    if (imageBytesLengthOrOptions !== undefined) {
+      if (typeof imageBytesLengthOrOptions === "number") {
+        uploadImageOptions = { ...options, imageBytesLength: imageBytesLengthOrOptions };
+      } else {
+        uploadImageOptions = { ...options, ...imageBytesLengthOrOptions };
+      }
+    }
+
+    return tracingClient.withSpan(
+      "ChatThreadClient-UploadImage",
+      uploadImageOptions,
+      async (updatedOptions: ChatThreadUploadChatImageOptionalParams | undefined) => {
+        let result: UploadChatImageResult;
+        if (
+          this.xhrClient && // is browser
+          ((!this.supportsReadableStream() && isReadableStream(image)) || // is readable stream but no support, need to convert
+            !isReadableStream(image))
+        ) {
+          // use xhrClient if (to support onUploadProgress)
+          // - is readable stream but no support => convert to ArrayBuffer (so will have content-length)
+          // - is not readable stream
+          result = await this.xhrClient.chatThread.uploadChatImage(
+            this.threadId,
+            isReadableStream(image) ? await this.getArrayBufferFromReadableStream(image) : image,
+            { imageFilename, ...updatedOptions },
+          );
+        } else {
+          // backend (node fetch client) or readable readable stream
+          // Backend (no browser) need to convert Blob/ReadableStream to ArrayBuffer
+          let chatImageFile = image;
+          if (isBlob(image)) {
+            chatImageFile = await this.getArrayBufferFromBlob(image);
+          } else if (isReadableStream(image)) {
+            chatImageFile = await this.getArrayBufferFromReadableStream(image);
+          }
+          result = await this.client.chatThread.uploadChatImage(this.threadId, chatImageFile, {
+            imageFilename,
+            ...updatedOptions,
+          });
+        }
+        return result;
+      },
+    );
+  }
+
+  /**
+   * Deletes an image identified by threadId and imageId
+   * @param imageId - The image id of the image.
+   * @param options - Operation options.
+   */
+  public deleteImage(imageId: string, options: DeleteImageOptions = {}): Promise<void> {
+    return tracingClient.withSpan(
+      "ChatThreadClient-DeleteImage",
+      options,
+      async (updatedOptions: ChatThreadDeleteChatImageOptionalParams | undefined) => {
+        await this.client.chatThread.deleteChatImage(this.threadId, imageId, updatedOptions);
+      },
+    );
+  }
+
+  private supportsReadableStream(): boolean {
+    let duplexAccessed = false;
+    const hasContentType = new Request("", {
+      body: new ReadableStream(),
+      method: "POST",
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      get duplex() {
+        duplexAccessed = true;
+        return "half";
+      },
+    }).headers.has("Content-Type");
+    return duplexAccessed && !hasContentType;
+  }
+
+  private async getArrayBufferFromReadableStream(
+    body: ReadableStream<Uint8Array>,
+  ): Promise<ArrayBuffer> {
+    const arrayBuffer = await new Response(body).arrayBuffer();
+    return new Uint8Array(arrayBuffer);
+  }
+
+  private async getArrayBufferFromBlob(body: Blob): Promise<ArrayBuffer> {
+    return new Uint8Array(await body.arrayBuffer());
   }
 }

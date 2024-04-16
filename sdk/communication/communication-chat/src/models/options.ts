@@ -8,7 +8,7 @@ import {
   ChatThreadListChatParticipantsOptionalParams as RestListParticipantsOptions,
   ChatThreadListChatReadReceiptsOptionalParams as RestListReadReceiptsOptions,
 } from "../generated/src/models";
-import { ChatParticipant } from "./models";
+import { ChatAttachment, ChatParticipant, ChatRetentionPolicy } from "./models";
 
 export {
   RestListMessagesOptions,
@@ -33,6 +33,18 @@ export interface ChatThreadClientOptions extends ChatClientOptions {}
 export interface UpdateTopicOptions extends OperationOptions {}
 
 /**
+ * Options to update a chat thread.
+ */
+export interface UpdateChatThreadPropertiesOptions extends OperationOptions {
+  /** Thread topic. */
+  topic?: string;
+  /** Thread metadata. */
+  metadata?: Record<string, string>;
+  /** Data retention policy for auto deletion. */
+  retentionPolicy?: ChatRetentionPolicy;
+}
+
+/**
  * Options to get chat threads.
  */
 export type ListChatThreadsOptions = RestListChatThreadsOptions;
@@ -47,6 +59,8 @@ export interface SendMessageOptions extends OperationOptions {
   type?: ChatMessageType;
   /** Message metadata. */
   metadata?: Record<string, string>;
+  /** Message attachments. */
+  attachments?: ChatAttachment[];
 }
 
 /**
@@ -57,6 +71,8 @@ export interface UpdateMessageOptions extends OperationOptions {
   content?: string;
   /** Message metadata. */
   metadata?: Record<string, string>;
+  /** Message attachments. */
+  attachments?: ChatAttachment[];
 }
 
 /**
@@ -72,6 +88,10 @@ export interface CreateChatThreadOptions extends OperationOptions {
   participants?: ChatParticipant[];
   /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Idempotency-Token and get back an appropriate response without the server executing the request multiple times. The value of the Idempotency-Token is an opaque string representing a client-generated, globally unique for all time, identifier for the request. It is recommended to use version 4 (random) UUIDs. */
   idempotencyToken?: string;
+  /** metadata */
+  metadata?: Record<string, string>;
+  /** Data retention policy for auto deletion. */
+  retentionPolicy?: ChatRetentionPolicy;
 }
 
 /**
@@ -126,3 +146,21 @@ export type SendReadReceiptOptions = OperationOptions;
  * Options to list read receipts.
  */
 export type ListReadReceiptsOptions = RestListReadReceiptsOptions;
+
+/**
+ * Options to upload a chat image.
+ */
+export interface UploadImageOptions extends OperationOptions {
+  /** Image blob size in bytes. */
+  imageBytesLength?: number;
+}
+
+/**
+ * Options to upload a chat image stream.
+ */
+export type UploadImageStreamOptions = OperationOptions;
+
+/**
+ * Options to delete a chat image.
+ */
+export type DeleteImageOptions = OperationOptions;

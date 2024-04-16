@@ -8,4 +8,3 @@
 interface Navigator {
     readonly product: string;
 }
-declare let navigator: Navigator;

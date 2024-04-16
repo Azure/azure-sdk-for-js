@@ -80,7 +80,7 @@ export const skip: OperationQueryParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-03-07",
+    defaultValue: "2024-03-15-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -167,6 +167,86 @@ export const updateChatThreadRequest: OperationParameter = {
 export const sendTypingNotificationRequest: OperationParameter = {
   parameterPath: ["options", "sendTypingNotificationRequest"],
   mapper: SendTypingNotificationRequestMapper,
+};
+
+export const contentType2: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/octet-stream",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const chatImageFile: OperationParameter = {
+  parameterPath: "chatImageFile",
+  mapper: {
+    serializedName: "chatImageFile",
+    required: true,
+    type: {
+      name: "Stream",
+    },
+  },
+};
+
+export const accept1: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const imageFilename: OperationParameter = {
+  parameterPath: ["options", "imageFilename"],
+  mapper: {
+    serializedName: "image-filename",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const accept2: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue:
+      "application/json, image/gif, image/jpeg, image/png, image/bmp, image/tiff",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const imageId: OperationURLParameter = {
+  parameterPath: "imageId",
+  mapper: {
+    serializedName: "imageId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const imageViewType: OperationURLParameter = {
+  parameterPath: "imageViewType",
+  mapper: {
+    serializedName: "imageViewType",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
