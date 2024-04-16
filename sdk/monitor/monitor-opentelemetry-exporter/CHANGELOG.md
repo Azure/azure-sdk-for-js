@@ -1,5 +1,15 @@
 # Release History
 
+## 1.0.0-beta.22 (2024-04-16)
+
+### Features Added
+
+- Add support for more Azure Monitor part A/tags.
+
+### Other Changes
+
+- Update README Code Snippets.
+
 ## 1.0.0-beta.21 (2024-03-08)
 
 ### Bugs Fixed
