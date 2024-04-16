@@ -73,7 +73,7 @@ node dist/audioTranscription.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ENDPOINT="<endpoint>" AZURE_API_KEY="<azure api key>" node dist/audioTranscription.js
+npx cross-env ENDPOINT="<endpoint>" AZURE_API_KEY="<azure api key>" AUDIO_FILE_PATH="<audio file path>" node dist/audioTranscription.js
 ```
 
 ## Next Steps
