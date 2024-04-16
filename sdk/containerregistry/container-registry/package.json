@@ -118,8 +118,7 @@
     "rimraf": "^5.0.5",
     "typescript": "~5.4.5",
     "util": "^0.12.1",
-    "ts-node": "^10.0.0",
-    "esm": "^3.2.18"
+    "ts-node": "^10.0.0"
   },
   "//sampleConfiguration": {
     "skipFolder": true,

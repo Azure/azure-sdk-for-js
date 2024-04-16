@@ -121,7 +121,6 @@
     "rimraf": "^5.0.5",
     "source-map-support": "^0.5.9",
     "typescript": "~5.4.5",
-    "ts-node": "^10.0.0",
-    "esm": "^3.2.18"
+    "ts-node": "^10.0.0"
   }
 }

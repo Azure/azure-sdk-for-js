@@ -83,7 +83,6 @@
     "@azure/core-tracing": "^1.0.0",
     "@azure/core-util": "^1.6.1",
     "@azure/logger": "^1.0.0",
-    "esm": "^3.2.18",
     "events": "^3.0.0",
     "tslib": "^2.2.0"
   },
@@ -121,7 +120,6 @@
     "sinon": "^17.0.0",
     "ts-node": "^10.0.0",
     "typescript": "~5.4.5",
-    "util": "^0.12.1",
-    "esm": "^3.2.18"
+    "util": "^0.12.1"
   }
 }

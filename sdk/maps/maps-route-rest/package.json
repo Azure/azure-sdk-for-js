@@ -123,8 +123,7 @@
     "karma": "^6.2.0",
     "c8": "^9.1.0",
     "@types/mocha": "^10.0.0",
-    "ts-node": "^10.0.0",
-    "esm": "^3.2.18"
+    "ts-node": "^10.0.0"
   },
   "browser": {
     "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
