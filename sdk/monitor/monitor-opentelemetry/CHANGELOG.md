@@ -1,6 +1,6 @@
 # Release History
 
-## 1.4.0 (2024-04-05)
+## 1.4.0 (2024-04-16)
 
 - Capture live metrics and live metrics activation in statsbeat.
 
