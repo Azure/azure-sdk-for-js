@@ -35,6 +35,7 @@ import { decodeBase64 } from "./utils/encoding.js";
 import { AdditionalPolicyConfig } from "@azure/core-client";
 import { isVitestTestContext, TestInfo, VitestSuite } from "./testInfo.js";
 import { env } from "./utils/env.js";
+import { fallbackSanitizers } from "./utils/fallbackSanitizers.js";
 
 /**
  * Caculates session file path and JSON assets path from test context
@@ -264,9 +265,8 @@ export class Recorder {
     logger.info(`[Recorder#start] Starting the recorder in ${getTestMode()} mode`);
     this.stateManager.state = "started";
     if (this.recordingId === undefined) {
-      const startUri = `${Recorder.url}${isPlaybackMode() ? paths.playback : paths.record}${
-        paths.start
-      }`;
+      const startUri = `${Recorder.url}${isPlaybackMode() ? paths.playback : paths.record}${paths.start
+        }`;
 
       const req = createRecordingRequest(
         startUri,
@@ -355,6 +355,9 @@ export class Recorder {
           options.envSetupForPlayback,
         );
 
+        // Add fallback sanitizers
+        await fallbackSanitizers(this.httpClient, Recorder.url, this.recordingId);
+
         // Sanitizers to be added only in record mode
         if (isRecordMode() && options.sanitizerOptions) {
           // Makes a call to the proxy-tool to add the sanitizers for the current recording id
@@ -376,9 +379,8 @@ export class Recorder {
     this.stateManager.state = "stopped";
     if (this.recordingId !== undefined) {
       logger.info("[Recorder#stop] Stopping recording", this.recordingId);
-      const stopUri = `${Recorder.url}${isPlaybackMode() ? paths.playback : paths.record}${
-        paths.stop
-      }`;
+      const stopUri = `${Recorder.url}${isPlaybackMode() ? paths.playback : paths.record}${paths.stop
+        }`;
 
       const req = createRecordingRequest(stopUri, undefined, this.recordingId);
       req.headers.set("x-recording-save", "true");
