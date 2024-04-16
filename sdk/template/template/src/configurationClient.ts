@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { GeneratedClient } from "./generated/index.js";
-import { ConfigurationSetting } from "./generated/models/index.js";
+import { GeneratedClient, ConfigurationSetting } from "./generated/index.js";
 import {
   CommonClientOptions,
   OperationOptions,

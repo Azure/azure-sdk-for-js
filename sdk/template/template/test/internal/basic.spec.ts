@@ -7,7 +7,6 @@
 import { assert } from "@azure/test-utils";
 import { describe, it } from "vitest";
 
-
 // Import the internal function to be tested using the normal relative import
 // syntax.
 import { quoteETag } from "../../src/util.js";
