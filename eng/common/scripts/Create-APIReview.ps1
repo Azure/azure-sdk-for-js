@@ -12,7 +12,7 @@ Param (
   [string] $BuildId,
   [string] $PackageName = "",
   [string] $ConfigFileDir = "",
-  [string] $APIViewUri = "https://apiview.dev/AutoReview",
+  [string] $APIViewUri = "https://apiviewstaging.azurewebsites.net/AutoReview",
   [string] $ArtifactName = "packages",
   [bool] $MarkPackageAsShipped = $false
 )
@@ -78,6 +78,7 @@ function Upload-SourceArtifact($filePath, $apiLabel, $releaseStatus, $packageVer
     try
     {
         $Response = Invoke-WebRequest -Method 'POST' -Uri $uri -Body $multipartContent -Headers $headers
+        Write-Host "URL to review: $($Response.Content)"
         $StatusCode = $Response.StatusCode
     }
     catch
@@ -115,6 +116,7 @@ function Upload-ReviewTokenFile($packageName, $apiLabel, $releaseStatus, $review
     {
         $Response = Invoke-WebRequest -Method 'GET' -Uri $uri -Headers $headers
         $StatusCode = $Response.StatusCode
+        Write-Host "URL to review: $($Response.Content)"
     }
     catch
     {
