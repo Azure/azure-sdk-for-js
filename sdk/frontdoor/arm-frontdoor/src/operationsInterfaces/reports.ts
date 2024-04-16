@@ -13,7 +13,7 @@ import {
   TimeseriesAggregationInterval,
   TimeseriesType,
   ReportsGetTimeseriesOptionalParams,
-  ReportsGetTimeseriesResponse
+  ReportsGetTimeseriesResponse,
 } from "../models";
 
 /** Interface representing a Reports. */
@@ -31,7 +31,7 @@ export interface Reports {
     profileName: string,
     experimentName: string,
     aggregationInterval: LatencyScorecardAggregationInterval,
-    options?: ReportsGetLatencyScorecardsOptionalParams
+    options?: ReportsGetLatencyScorecardsOptionalParams,
   ): Promise<ReportsGetLatencyScorecardsResponse>;
   /**
    * Gets a Timeseries for a given Experiment
@@ -52,6 +52,6 @@ export interface Reports {
     endDateTimeUTC: Date,
     aggregationInterval: TimeseriesAggregationInterval,
     timeseriesType: TimeseriesType,
-    options?: ReportsGetTimeseriesOptionalParams
+    options?: ReportsGetTimeseriesOptionalParams,
   ): Promise<ReportsGetTimeseriesResponse>;
 }

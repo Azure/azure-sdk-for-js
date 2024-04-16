@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Capture live metrics and live metrics activation in statsbeat.
+
 ### Features Added
 
 - Add support for Trace based sampling for logs.

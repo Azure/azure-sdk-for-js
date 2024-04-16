@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ExperimentUpdateModel,
-  FrontDoorManagementClient
+  FrontDoorManagementClient,
 } from "@azure/arm-frontdoor";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -31,7 +31,7 @@ async function updatesAnExperiment() {
   const experimentName = "MyExperiment";
   const parameters: ExperimentUpdateModel = {
     description: "string",
-    enabledState: "Enabled"
+    enabledState: "Enabled",
   };
   const credential = new DefaultAzureCredential();
   const client = new FrontDoorManagementClient(credential, subscriptionId);
@@ -39,7 +39,7 @@ async function updatesAnExperiment() {
     resourceGroupName,
     profileName,
     experimentName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
