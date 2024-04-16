@@ -70,21 +70,21 @@ npx cross-env  node dist/managementAssociationsCreateOrUpdateSample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[managementassociationscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4-beta/typescript/src/managementAssociationsCreateOrUpdateSample.ts
-[managementassociationsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4-beta/typescript/src/managementAssociationsDeleteSample.ts
-[managementassociationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4-beta/typescript/src/managementAssociationsGetSample.ts
-[managementassociationslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4-beta/typescript/src/managementAssociationsListBySubscriptionSample.ts
-[managementconfigurationscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4-beta/typescript/src/managementConfigurationsCreateOrUpdateSample.ts
-[managementconfigurationsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4-beta/typescript/src/managementConfigurationsDeleteSample.ts
-[managementconfigurationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4-beta/typescript/src/managementConfigurationsGetSample.ts
-[managementconfigurationslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4-beta/typescript/src/managementConfigurationsListBySubscriptionSample.ts
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4-beta/typescript/src/operationsListSample.ts
-[solutionscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4-beta/typescript/src/solutionsCreateOrUpdateSample.ts
-[solutionsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4-beta/typescript/src/solutionsDeleteSample.ts
-[solutionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4-beta/typescript/src/solutionsGetSample.ts
-[solutionslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4-beta/typescript/src/solutionsListByResourceGroupSample.ts
-[solutionslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4-beta/typescript/src/solutionsListBySubscriptionSample.ts
-[solutionsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4-beta/typescript/src/solutionsUpdateSample.ts
+[managementassociationscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4/typescript/src/managementAssociationsCreateOrUpdateSample.ts
+[managementassociationsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4/typescript/src/managementAssociationsDeleteSample.ts
+[managementassociationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4/typescript/src/managementAssociationsGetSample.ts
+[managementassociationslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4/typescript/src/managementAssociationsListBySubscriptionSample.ts
+[managementconfigurationscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4/typescript/src/managementConfigurationsCreateOrUpdateSample.ts
+[managementconfigurationsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4/typescript/src/managementConfigurationsDeleteSample.ts
+[managementconfigurationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4/typescript/src/managementConfigurationsGetSample.ts
+[managementconfigurationslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4/typescript/src/managementConfigurationsListBySubscriptionSample.ts
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4/typescript/src/operationsListSample.ts
+[solutionscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4/typescript/src/solutionsCreateOrUpdateSample.ts
+[solutionsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4/typescript/src/solutionsDeleteSample.ts
+[solutionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4/typescript/src/solutionsGetSample.ts
+[solutionslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4/typescript/src/solutionsListByResourceGroupSample.ts
+[solutionslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4/typescript/src/solutionsListBySubscriptionSample.ts
+[solutionsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4/typescript/src/solutionsUpdateSample.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-operations?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/operationsmanagement/arm-operations/README.md

@@ -58,21 +58,21 @@ npx cross-env  node managementAssociationsCreateOrUpdateSample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[managementassociationscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4-beta/javascript/managementAssociationsCreateOrUpdateSample.js
-[managementassociationsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4-beta/javascript/managementAssociationsDeleteSample.js
-[managementassociationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4-beta/javascript/managementAssociationsGetSample.js
-[managementassociationslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4-beta/javascript/managementAssociationsListBySubscriptionSample.js
-[managementconfigurationscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4-beta/javascript/managementConfigurationsCreateOrUpdateSample.js
-[managementconfigurationsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4-beta/javascript/managementConfigurationsDeleteSample.js
-[managementconfigurationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4-beta/javascript/managementConfigurationsGetSample.js
-[managementconfigurationslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4-beta/javascript/managementConfigurationsListBySubscriptionSample.js
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4-beta/javascript/operationsListSample.js
-[solutionscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4-beta/javascript/solutionsCreateOrUpdateSample.js
-[solutionsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4-beta/javascript/solutionsDeleteSample.js
-[solutionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4-beta/javascript/solutionsGetSample.js
-[solutionslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4-beta/javascript/solutionsListByResourceGroupSample.js
-[solutionslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4-beta/javascript/solutionsListBySubscriptionSample.js
-[solutionsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4-beta/javascript/solutionsUpdateSample.js
+[managementassociationscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4/javascript/managementAssociationsCreateOrUpdateSample.js
+[managementassociationsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4/javascript/managementAssociationsDeleteSample.js
+[managementassociationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4/javascript/managementAssociationsGetSample.js
+[managementassociationslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4/javascript/managementAssociationsListBySubscriptionSample.js
+[managementconfigurationscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4/javascript/managementConfigurationsCreateOrUpdateSample.js
+[managementconfigurationsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4/javascript/managementConfigurationsDeleteSample.js
+[managementconfigurationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4/javascript/managementConfigurationsGetSample.js
+[managementconfigurationslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4/javascript/managementConfigurationsListBySubscriptionSample.js
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4/javascript/operationsListSample.js
+[solutionscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4/javascript/solutionsCreateOrUpdateSample.js
+[solutionsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4/javascript/solutionsDeleteSample.js
+[solutionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4/javascript/solutionsGetSample.js
+[solutionslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4/javascript/solutionsListByResourceGroupSample.js
+[solutionslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4/javascript/solutionsListBySubscriptionSample.js
+[solutionsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4/javascript/solutionsUpdateSample.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-operations?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/operationsmanagement/arm-operations/README.md
