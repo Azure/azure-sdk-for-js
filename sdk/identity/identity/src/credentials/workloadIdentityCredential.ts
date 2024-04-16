@@ -67,8 +67,8 @@ export class WorkloadIdentityCredential implements TokenCredential {
       checkTenantId(logger, tenantId);
     }
     if (this.federatedTokenFilePath && this.serviceConnectionId) {
-      const errorMessage = `${credentialName}: ambiguous. serviceConnectionId and tokenFilePath cannot be provided at the same time. These are used for supporting WorkloadIdentity for different environments. 
-      The tokenFilePath is used for Kubernetes while serviceConnectionId is used for Azure Devops.`;
+      const errorMessage = `${credentialName}: ambiguous. serviceConnectionId and tokenFilePath cannot be provided at the same time. These are used for supporting Workload Identity for different environments. 
+      The tokenFilePath is used for Kubernetes while serviceConnectionId is used for Azure Pipelines.`;
       logger.info(errorMessage);
       throw new CredentialUnavailableError(errorMessage);
     }
@@ -86,7 +86,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
     } else {
       if (clientId && tenantId && this.serviceConnectionId) {
         //Ensure all system env vars are there to form the request uri for OIDC token
-        if (this.checkDevopsSystemVars()) {
+        if (this.checkPipelinesSystemVars()) {
           const oidcRequestUrl = `${process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI}${process.env.SYSTEM_TEAMPROJECTID}/_apis/distributedtask/hubs/build/plans/${process.env.SYSTEM_PLANID}/jobs/${process.env.SYSTEM_JOBID}/oidctoken?api-version=7.1-preview.1&serviceConnectionId=${this.serviceConnectionId}`;
           const systemAccessToken = `${process.env.SECRET_SYSTEM_ACCESSTOKEN}`;
           logger.info(
@@ -118,7 +118,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
     if (!this.client) {
       const errorMessage = `${credentialName}: is unavailable. tenantId, clientId, and either tokenFilePath or serviceConnectionId are required parameters. 
       To enable Workload Identity Federation please provide following environment variables based on the environment.
-      For Azure Devops env, in WorkloadIdentityCredential, these are required as inputs / env variables - 
+      For Azure Pipelines env, in WorkloadIdentityCredential, these are required as inputs / env variables - 
       "AZURE_TENANT_ID",
       "AZURE_CLIENT_ID",
       serviceConnectionId.
@@ -164,7 +164,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
     oidcRequestUrl: string,
     systemAccessToken: string,
   ): Promise<string> {
-    logger.info("Requesting OIDC token from Azure DevOps...");
+    logger.info("Requesting OIDC token from Azure Pipelines...");
     logger.info(oidcRequestUrl);
 
     const requestOptions = {
@@ -180,7 +180,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
     return result;
   }
 
-  private checkDevopsSystemVars(): boolean {
+  private checkPipelinesSystemVars(): boolean {
     if (
       process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI &&
       process.env.SYSTEM_TEAMPROJECTID &&
