@@ -355,7 +355,7 @@ export class Recorder {
           options.envSetupForPlayback,
         );
 
-        // Add fallback sanitizers
+        // Fallback sanitizers to be added in both record/playback modes
         await fallbackSanitizers(this.httpClient, Recorder.url, this.recordingId);
 
         // Sanitizers to be added only in record mode
