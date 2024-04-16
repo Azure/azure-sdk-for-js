@@ -43,7 +43,6 @@ export class WorkloadIdentityCredential implements TokenCredential {
   private cacheDate: number | undefined = undefined;
   private federatedTokenFilePath: string | undefined;
   private serviceConnectionId: string | undefined;
-  private systemError: string | undefined;
 
   /**
    * WorkloadIdentityCredential supports Microsoft Entra Workload ID on Kubernetes.
@@ -62,14 +61,19 @@ export class WorkloadIdentityCredential implements TokenCredential {
     this.federatedTokenFilePath =
       workloadIdentityCredentialOptions?.tokenFilePath || process.env.AZURE_FEDERATED_TOKEN_FILE;
     this.serviceConnectionId = workloadIdentityCredentialOptions.serviceConnectionId;
-
+    if (!tenantId || !clientId) {
+      throw new CredentialUnavailableError(
+        `${credentialName}: is Unavailable. clientId and tenantId are required parameters/ environment varables - AZURE_TENANT_ID, AZURE_CLIENT_ID`,
+      );
+    }
     if (tenantId) {
       checkTenantId(logger, tenantId);
     }
     if (this.federatedTokenFilePath && this.serviceConnectionId) {
       const errorMessage = `${credentialName}: ambiguous. serviceConnectionId and tokenFilePath cannot be provided at the same time. These are used for supporting Workload Identity for different environments. 
-      The tokenFilePath is used for Kubernetes while serviceConnectionId is used for Azure Pipelines.`;
-      logger.info(errorMessage);
+      The tokenFilePath is used for Kubernetes while serviceConnectionId is used for Azure Pipelines.
+      See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/workloadidentitycredential/troubleshoot`;
+      logger.error(errorMessage);
       throw new CredentialUnavailableError(errorMessage);
     }
 
@@ -86,19 +90,32 @@ export class WorkloadIdentityCredential implements TokenCredential {
     } else {
       if (clientId && tenantId && this.serviceConnectionId) {
         //Ensure all system env vars are there to form the request uri for OIDC token
-        if (this.checkPipelinesSystemVars()) {
-          const oidcRequestUrl = `${process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI}${process.env.SYSTEM_TEAMPROJECTID}/_apis/distributedtask/hubs/build/plans/${process.env.SYSTEM_PLANID}/jobs/${process.env.SYSTEM_JOBID}/oidctoken?api-version=7.1-preview.1&serviceConnectionId=${this.serviceConnectionId}`;
-          const systemAccessToken = `${process.env.SECRET_SYSTEM_ACCESSTOKEN}`;
-          logger.info(
-            `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${workloadIdentityCredentialOptions.clientId} and service connection id: ${workloadIdentityCredentialOptions.serviceConnectionId}`,
-          );
-          this.client = new ClientAssertionCredential(
-            tenantId,
-            clientId,
-            this.requestOidcToken.bind(this, oidcRequestUrl, systemAccessToken),
-            options,
-          );
-        }
+        this.ensurePipelinesSystemVars();
+        const oidcRequestUrl = `${process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI}${process.env.SYSTEM_TEAMPROJECTID}/_apis/distributedtask/hubs/build/plans/${process.env.SYSTEM_PLANID}/jobs/${process.env.SYSTEM_JOBID}/oidctoken?api-version=7.1-preview.1&serviceConnectionId=${this.serviceConnectionId}`;
+        const systemAccessToken = `${process.env.SECRET_SYSTEM_ACCESSTOKEN}`;
+        logger.info(
+          `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${workloadIdentityCredentialOptions.clientId} and service connection id: ${workloadIdentityCredentialOptions.serviceConnectionId}`,
+        );
+        this.client = new ClientAssertionCredential(
+          tenantId,
+          clientId,
+          this.requestOidcToken.bind(this, oidcRequestUrl, systemAccessToken),
+          options,
+        );
+      } else {
+        const errorMessage = `${credentialName}: is unavailable. tenantId, clientId, and either tokenFilePath or serviceConnectionId are required parameters. 
+      To enable Workload Identity Federation please provide following environment variables based on the environment.
+      For Azure Pipelines env, in WorkloadIdentityCredential, these are required as inputs / env variables - 
+      "AZURE_TENANT_ID",
+      "AZURE_CLIENT_ID",
+      serviceConnectionId.
+      For Kubernetes env, in DefaultAzureCredential and ManagedIdentityCredential, these can be provided as environment variables - 
+      "AZURE_TENANT_ID",
+      "AZURE_CLIENT_ID",
+      "AZURE_FEDERATED_TOKEN_FILE". 
+      See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/workloadidentitycredential/troubleshoot`;
+        logger.error(errorMessage);
+        throw new CredentialUnavailableError(errorMessage);
       }
     }
   }
@@ -122,13 +139,12 @@ export class WorkloadIdentityCredential implements TokenCredential {
       "AZURE_TENANT_ID",
       "AZURE_CLIENT_ID",
       serviceConnectionId.
-      ${this.systemError}
       For Kubernetes env, in DefaultAzureCredential and ManagedIdentityCredential, these can be provided as environment variables - 
       "AZURE_TENANT_ID",
       "AZURE_CLIENT_ID",
       "AZURE_FEDERATED_TOKEN_FILE". 
-      See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/workloadidentitycredential/troubleshoot  `;
-      logger.info(errorMessage);
+      See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/workloadidentitycredential/troubleshoot`;
+      logger.error(errorMessage);
       throw new CredentialUnavailableError(errorMessage);
     }
     logger.info("Invoking getToken() of Client Assertion Credential");
@@ -180,7 +196,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
     return result;
   }
 
-  private checkPipelinesSystemVars(): boolean {
+  private ensurePipelinesSystemVars(): void {
     if (
       process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI &&
       process.env.SYSTEM_TEAMPROJECTID &&
@@ -188,16 +204,25 @@ export class WorkloadIdentityCredential implements TokenCredential {
       process.env.SYSTEM_JOBID &&
       process.env.SECRET_SYSTEM_ACCESSTOKEN
     ) {
-      return true;
+      return;
     }
-    const missingEnvVars = []
-    if (!process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI) missingEnvVars.push("SYSTEM_TEAMFOUNDATIONCOLLECTIONURI");
-    if (!process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI) missingEnvVars.push("SYSTEM_TEAMFOUNDATIONCOLLECTIONURI");
-    if (!process.env.SYSTEM_TEAMPROJECTID) missingEnvVars.push("SYSTEM_TEAMPROJECTID");    
+    const missingEnvVars = [];
+    if (!process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI)
+      missingEnvVars.push("SYSTEM_TEAMFOUNDATIONCOLLECTIONURI");
+    if (!process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI)
+      missingEnvVars.push("SYSTEM_TEAMFOUNDATIONCOLLECTIONURI");
+    if (!process.env.SYSTEM_TEAMPROJECTID) missingEnvVars.push("SYSTEM_TEAMPROJECTID");
     if (!process.env.SYSTEM_PLANID) missingEnvVars.push("SYSTEM_PLANID");
     if (!process.env.SYSTEM_JOBID) missingEnvVars.push("SYSTEM_JOBID");
-    if (!process.env.SECRET_SYSTEM_ACCESSTOKEN) missingEnvVars.push("SECRET_SYSTEM_ACCESSTOKEN")  
-    if (missingEnvVars.length > 0) this.systemError = `Missing system variable(s) - ${missingEnvVars.join(', ')}`;
-    return false;
+    if (!process.env.SECRET_SYSTEM_ACCESSTOKEN) missingEnvVars.push("SECRET_SYSTEM_ACCESSTOKEN");
+    if (missingEnvVars.length > 0)
+      throw new CredentialUnavailableError(
+        `${credentialName}: is unavailable. Missing system variable(s) - ${missingEnvVars.join(", ")}`,
+      );
   }
 }
+
+// should we skip this check? https://microsoft.visualstudio.com/Edge/_git/edgeinternal.es?path=/UtilityLibraries/Microsoft.Edge.ES.Azure.Identity/AzureDevOpsFederatedTokenCredential.cs&version=GBmaster&line=124&lineEnd=125&lineStartColumn=1&lineEndColumn=1&lineStyle=plain&_a=contents
+// to not to tightly couple to Devops implememntation in case they make changes in host support
+
+// check if system variables can be overridden
