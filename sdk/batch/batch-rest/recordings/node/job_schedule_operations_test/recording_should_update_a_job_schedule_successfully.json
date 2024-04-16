@@ -5,7 +5,7 @@
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "client-request-id": "4158d07b-44fc-4b95-b9e8-a50133ee2af4",
         "Connection": "close",

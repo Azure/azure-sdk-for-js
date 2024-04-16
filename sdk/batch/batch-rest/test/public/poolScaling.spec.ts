@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { createBatchClient, createRecorder } from "./utils/recordedClient";
-import { Context } from "mocha";
+import { Recorder, VitestTestContext, isPlaybackMode } from "@azure-tools/test-recorder";
+import { createBatchClient, createRecorder } from "./utils/recordedClient.js";
 import {
   BatchClient,
   CreatePoolParameters,
   EnablePoolAutoScaleParameters,
   EvaluatePoolAutoScaleParameters,
   isUnexpected,
-} from "../../src";
-import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets";
+} from "../../src/index.js";
+import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets.js";
 import { fail } from "assert";
-import { getResourceName, waitForNotNull } from "./utils/helpers";
+import { getResourceName, waitForNotNull } from "./utils/helpers.js";
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { duration } from "moment";
+import { describe, it, beforeAll, afterAll, beforeEach, afterEach, assert } from "vitest";
 
 const BASIC_POOL = getResourceName("Pool-Basic");
 // const JOB_NAME = getResourceName("Job-Basic");
@@ -28,7 +28,7 @@ describe("Autoscale operations", async () => {
   /**
    * Provision helper resources needed for testing jobs
    */
-  before(async function () {
+  beforeAll(async function () {
     if (!isPlaybackMode()) {
       batchClient = createBatchClient();
 
@@ -84,7 +84,7 @@ describe("Autoscale operations", async () => {
   /**
    * Unprovision helper resources after all tests ran
    */
-  after(async function () {
+  afterAll(async function () {
     if (!isPlaybackMode()) {
       batchClient = createBatchClient();
 
@@ -96,8 +96,8 @@ describe("Autoscale operations", async () => {
     }
   });
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async function (ctx: VitestTestContext) {
+    recorder = await createRecorder(ctx);
     batchClient = createBatchClient(recorder);
   });
 
@@ -140,7 +140,7 @@ describe("Autoscale operations", async () => {
     assert.isUndefined(evaluateAutoScaleResult.body.error);
     assert.equal(
       evaluateAutoScaleResult.body.results,
-      "$TargetDedicatedNodes=3;$TargetLowPriorityNodes=0;$NodeDeallocationOption=requeue"
+      "$TargetDedicatedNodes=3;$TargetLowPriorityNodes=0;$NodeDeallocationOption=requeue",
     );
   });
 
@@ -166,7 +166,7 @@ describe("Autoscale operations", async () => {
 
     assert.equal(
       evaluateAutoScaleResult.body.results,
-      "$TargetDedicatedNodes=2;$TargetLowPriorityNodes=0;$NodeDeallocationOption=requeue"
+      "$TargetDedicatedNodes=2;$TargetLowPriorityNodes=0;$NodeDeallocationOption=requeue",
     );
   });
 

@@ -5,7 +5,7 @@
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "client-request-id": "2eb9e9f2-04a9-4047-812a-075f68eb1b93",
         "Connection": "close",

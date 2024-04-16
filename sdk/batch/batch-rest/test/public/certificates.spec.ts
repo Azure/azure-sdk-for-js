@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { createBatchClient, createRecorder } from "./utils/recordedClient";
-import { Context } from "mocha";
-import { BatchClient, CreateCertificateParameters, isUnexpected } from "../../src";
+import { Recorder, VitestTestContext, isPlaybackMode } from "@azure-tools/test-recorder";
+import { createBatchClient, createRecorder } from "./utils/recordedClient.js";
+import { BatchClient, CreateCertificateParameters, isUnexpected } from "../../src/index.js";
 import { fail } from "assert";
-import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets";
+import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets.js";
+import { describe, it, beforeEach, afterEach, assert } from "vitest";
 
 describe("Certificate Operations Test", () => {
   const certThumb = "cff2ab63c8c955aaf71989efa641b906558d9fb7";
@@ -16,8 +15,8 @@ describe("Certificate Operations Test", () => {
   let recorder: Recorder;
   let batchClient: BatchClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx: VitestTestContext) => {
+    recorder = await createRecorder(ctx);
     batchClient = createBatchClient(recorder);
   });
 
@@ -32,7 +31,7 @@ describe("Certificate Operations Test", () => {
 
     if (isUnexpected(imagesResult)) {
       fail(
-        `Received unexpected status code from listSupportedImages response: ${imagesResult.status}`
+        `Received unexpected status code from listSupportedImages response: ${imagesResult.status}`,
       );
     }
     const supportedImages = imagesResult.body.value!;
@@ -78,7 +77,7 @@ describe("Certificate Operations Test", () => {
       .path(
         "/certificates(thumbprintAlgorithm={thumbprintAlgorithm},thumbprint={thumbprint})",
         certAlgorithm,
-        certThumb
+        certThumb,
       )
       .get({
         contentType: "application/json; odata=minimalmetadata",
@@ -98,7 +97,7 @@ describe("Certificate Operations Test", () => {
       .path(
         "/certificates(thumbprintAlgorithm={thumbprintAlgorithm},thumbprint={thumbprint})",
         certAlgorithm,
-        certThumb
+        certThumb,
       )
       .delete({
         contentType: "application/json; odata=minimalmetadata",

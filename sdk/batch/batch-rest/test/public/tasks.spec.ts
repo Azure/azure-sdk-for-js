@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { createBatchClient, createRecorder } from "./utils/recordedClient";
+import { Recorder, VitestTestContext, isPlaybackMode } from "@azure-tools/test-recorder";
+import { createBatchClient, createRecorder } from "./utils/recordedClient.js";
 import {
   BatchClient,
   BatchTask,
@@ -12,11 +11,11 @@ import {
   CreateTaskParameters,
   isUnexpected,
   paginate,
-} from "../../src";
-import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets";
+} from "../../src/index.js";
+import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets.js";
 import { fail } from "assert";
-import { getResourceName, LONG_TEST_TIMEOUT, waitForNotNull } from "./utils/helpers";
-import { Context } from "mocha";
+import { getResourceName, waitForNotNull } from "./utils/helpers.js";
+import { describe, it, beforeAll, afterAll, beforeEach, afterEach, assert } from "vitest";
 
 const BASIC_POOL = getResourceName("Pool-Basic");
 const JOB_NAME = getResourceName("Job-Basic");
@@ -34,7 +33,7 @@ describe("Task Operations Test", () => {
   /**
    * Provision helper resources needed for testing Batch tasks
    */
-  before(async function () {
+  beforeAll(async function () {
     if (!isPlaybackMode()) {
       batchClient = createBatchClient();
 
@@ -92,7 +91,7 @@ describe("Task Operations Test", () => {
   /**
    * Unprovision helper resources after all tests ran
    */
-  after(async function () {
+  afterAll(async function () {
     if (!isPlaybackMode()) {
       type resourceDeleteErr = { id: string; error: any };
       const failedDeletedResources: resourceDeleteErr[] = [];
@@ -110,17 +109,17 @@ describe("Task Operations Test", () => {
 
       if (failedDeletedResources.length > 0) {
         console.log(
-          "Failed to unprovision helper resources for Task Test. The following resources may be leaked:"
+          "Failed to unprovision helper resources for Task Test. The following resources may be leaked:",
         );
         failedDeletedResources.forEach((resource) =>
-          console.log(`Failed to delete ${resource.id} Error Response: ${resource.error}`)
+          console.log(`Failed to delete ${resource.id} Error Response: ${resource.error}`),
         );
       }
     }
   });
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async function (ctx: VitestTestContext) {
+    recorder = await createRecorder(ctx);
     batchClient = createBatchClient(recorder);
   });
 
@@ -152,7 +151,7 @@ describe("Task Operations Test", () => {
 
     assert.equal(
       getTaskResult.body.containerSettings?.imageName,
-      taskSettings.containerSettings.imageName
+      taskSettings.containerSettings.imageName,
     );
     assert.equal(getTaskResult.body.commandLine, taskSettings.commandLine);
 
@@ -217,7 +216,7 @@ describe("Task Operations Test", () => {
     assert.equal(getTaskResult.body.exitConditions!.exitCodes![0].exitOptions.jobAction, "none");
     assert.equal(
       getTaskResult.body.exitConditions!.exitCodes![0].exitOptions.dependencyAction,
-      "block"
+      "block",
     );
 
     const deleteJobResult = await batchClient.path("/jobs/{jobId}", jobId).delete();
@@ -246,7 +245,7 @@ describe("Task Operations Test", () => {
       .path(
         "/jobs/{jobId}/tasks/{taskId}/terminate",
         recorder.variable("JOB_NAME", JOB_NAME),
-        recorder.variable("TASK_NAME", TASK_NAME)
+        recorder.variable("TASK_NAME", TASK_NAME),
       )
       .post({ contentType: "application/json; odata=minimalmetadata" });
     assert.equal(terminateTaskResult.status, "204");
@@ -306,12 +305,12 @@ describe("Task Operations Test", () => {
     assert.equal(batchTaskOutput!.outputFiles![0].filePattern, outputs[0].filePattern);
     assert.equal(
       batchTaskOutput!.outputFiles![0].destination.container?.containerUrl,
-      outputs[0].destination.container.containerUrl
+      outputs[0].destination.container.containerUrl,
     );
     assert.equal(batchTaskOutput!.outputFiles![1].filePattern, outputs[1].filePattern);
     assert.equal(
       batchTaskOutput!.outputFiles![1].destination.container?.containerUrl,
-      outputs[1].destination.container.containerUrl
+      outputs[1].destination.container.containerUrl,
     );
   });
 
@@ -320,7 +319,7 @@ describe("Task Operations Test", () => {
       .path(
         "/jobs/{jobId}/tasks/{taskId}/reactivate",
         recorder.variable("JOB_NAME", JOB_NAME),
-        recorder.variable("TASK_NAME", TASK_NAME)
+        recorder.variable("TASK_NAME", TASK_NAME),
       )
       .post({ contentType: "application/json; odata=minimalmetadata" });
     assert.equal(reactivateTaskResult.status, "204");
@@ -331,7 +330,7 @@ describe("Task Operations Test", () => {
       .path(
         "/jobs/{jobId}/tasks/{taskId}",
         recorder.variable("JOB_NAME", JOB_NAME),
-        recorder.variable("TASK_NAME", TASK_NAME)
+        recorder.variable("TASK_NAME", TASK_NAME),
       )
       .put({
         body: TASK_UPDATE_OPTIONS,
@@ -373,7 +372,7 @@ describe("Task Operations Test", () => {
     assert.equal(getTaskResult.body.id, taskId);
     assert.equal(
       getTaskResult.body.constraints?.maxTaskRetryCount,
-      TASK_UPDATE_OPTIONS!.constraints!.maxTaskRetryCount
+      TASK_UPDATE_OPTIONS!.constraints!.maxTaskRetryCount,
     );
   });
 
@@ -406,7 +405,7 @@ describe("Task Operations Test", () => {
     assert.isDefined(getTaskResult.body.applicationPackageReferences);
     assert.equal(
       getTaskResult.body.applicationPackageReferences![0].applicationId,
-      taskAddParams.body.applicationPackageReferences![0].applicationId
+      taskAddParams.body.applicationPackageReferences![0].applicationId,
     );
   });
 
@@ -484,7 +483,7 @@ describe("Task Operations Test", () => {
     assert.isDefined(taskRes.body.executionInfo);
     assert.equal(taskRes.body.executionInfo!.result, "failure");
     assert.notEqual(taskRes.body.executionInfo!.exitCode, 0);
-  }).timeout(LONG_TEST_TIMEOUT);
+  });
 
   it("should count tasks sucessfully", async () => {
     const getTaskCountsResult = await batchClient
@@ -513,7 +512,7 @@ describe("Task Operations Test", () => {
       .path(
         "/jobs/{jobId}/tasks/{taskId}",
         recorder.variable("JOB_NAME", JOB_NAME),
-        recorder.variable("TASK_NAME", TASK_NAME)
+        recorder.variable("TASK_NAME", TASK_NAME),
       )
       .delete();
     assert.equal(deleteTaskResult.status, "200");
@@ -524,7 +523,7 @@ describe("Task Operations Test", () => {
       .path(
         "/jobs/{jobId}/tasks/{taskId}",
         recorder.variable("JOB_NAME", JOB_NAME),
-        recorder.variable("TASK2_NAME", TASK2_NAME)
+        recorder.variable("TASK2_NAME", TASK2_NAME),
       )
       .delete();
     assert.equal(deleteTaskResult.status, "200");

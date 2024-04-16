@@ -5,7 +5,7 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "client-request-id": "8e9dcbf8-3185-44e7-8b56-4f6b89a02511",
         "Connection": "close",

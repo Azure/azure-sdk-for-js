@@ -5,7 +5,7 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "client-request-id": "c3073153-cced-4c96-8b12-8afb9ec79703",
         "Connection": "close",
@@ -184,7 +184,7 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "client-request-id": "81e34d95-25b4-4b0f-9b89-d03a6a785a2d",
         "Connection": "close",
@@ -363,7 +363,7 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "client-request-id": "a36cedb9-2f08-4677-b402-41351e188ff6",
         "Connection": "close",

@@ -5,7 +5,7 @@
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "client-request-id": "f98019c5-55bb-47c8-b0fb-baab33a970a1",
         "Connection": "close",

@@ -927,14 +927,6 @@ export interface BatchNodeRebootContent {
 export type BatchNodeRebootOption = string | "requeue" | "terminate" | "taskcompletion" | "retaineddata";
 
 // @public
-export interface BatchNodeReimageContent {
-    nodeReimageOption?: BatchNodeReimageOption;
-}
-
-// @public
-export type BatchNodeReimageOption = string | "requeue" | "terminate" | "taskcompletion" | "retaineddata";
-
-// @public
 export interface BatchNodeRemoteLoginSettingsOutput {
     remoteLoginIPAddress: string;
     remoteLoginPort: number;
@@ -981,12 +973,10 @@ export interface BatchNodeVMExtensionOutput {
 
 // @public
 export interface BatchPoolCreateContent {
-    applicationLicenses?: string[];
     applicationPackageReferences?: Array<BatchApplicationPackageReference>;
     autoScaleEvaluationInterval?: string;
     autoScaleFormula?: string;
     certificateReferences?: Array<BatchCertificateReference>;
-    cloudServiceConfiguration?: CloudServiceConfiguration;
     displayName?: string;
     enableAutoScale?: boolean;
     enableInterNodeCommunication?: boolean;
@@ -1090,13 +1080,11 @@ export interface BatchPoolNodeCountsOutput {
 export interface BatchPoolOutput {
     readonly allocationState?: AllocationStateOutput;
     readonly allocationStateTransitionTime?: string;
-    readonly applicationLicenses?: string[];
     readonly applicationPackageReferences?: Array<BatchApplicationPackageReferenceOutput>;
     readonly autoScaleEvaluationInterval?: string;
     readonly autoScaleFormula?: string;
     readonly autoScaleRun?: AutoScaleRunOutput;
     readonly certificateReferences?: Array<BatchCertificateReferenceOutput>;
-    readonly cloudServiceConfiguration?: CloudServiceConfigurationOutput;
     readonly creationTime?: string;
     readonly currentDedicatedNodes?: number;
     readonly currentLowPriorityNodes?: number;
@@ -1166,12 +1154,10 @@ export interface BatchPoolResourceStatisticsOutput {
 
 // @public
 export interface BatchPoolSpecification {
-    applicationLicenses?: string[];
     applicationPackageReferences?: Array<BatchApplicationPackageReference>;
     autoScaleEvaluationInterval?: string;
     autoScaleFormula?: string;
     certificateReferences?: Array<BatchCertificateReference>;
-    cloudServiceConfiguration?: CloudServiceConfiguration;
     displayName?: string;
     enableAutoScale?: boolean;
     enableInterNodeCommunication?: boolean;
@@ -1194,12 +1180,10 @@ export interface BatchPoolSpecification {
 
 // @public
 export interface BatchPoolSpecificationOutput {
-    applicationLicenses?: string[];
     applicationPackageReferences?: Array<BatchApplicationPackageReferenceOutput>;
     autoScaleEvaluationInterval?: string;
     autoScaleFormula?: string;
     certificateReferences?: Array<BatchCertificateReferenceOutput>;
-    cloudServiceConfiguration?: CloudServiceConfigurationOutput;
     displayName?: string;
     enableAutoScale?: boolean;
     enableInterNodeCommunication?: boolean;
@@ -1710,18 +1694,6 @@ export interface CifsMountConfigurationOutput {
 }
 
 // @public
-export interface CloudServiceConfiguration {
-    osFamily: string;
-    osVersion?: string;
-}
-
-// @public
-export interface CloudServiceConfigurationOutput {
-    osFamily: string;
-    osVersion?: string;
-}
-
-// @public
 export interface ContainerConfiguration {
     containerImageNames?: string[];
     containerRegistries?: Array<ContainerRegistry>;
@@ -1835,7 +1807,7 @@ export interface CreateCertificateQueryParamProperties {
 }
 
 // @public
-function createClient(endpoint: string, credentials: TokenCredential | AzureNamedKeyCredential, options?: ClientOptions): BatchClient;
+function createClient(endpointParam: string, credentials: TokenCredential | AzureNamedKeyCredential, options?: ClientOptions): BatchClient;
 export default createClient;
 
 // @public (undocumented)
@@ -3975,63 +3947,6 @@ export interface GetNodeQueryParamProperties {
 }
 
 // @public (undocumented)
-export interface GetNodeRemoteDesktopFile {
-    get(options?: GetNodeRemoteDesktopFileParameters): StreamableMethod<GetNodeRemoteDesktopFile200Response | GetNodeRemoteDesktopFileDefaultResponse>;
-}
-
-// @public (undocumented)
-export interface GetNodeRemoteDesktopFile200Headers {
-    "client-request-id"?: string;
-    "last-modified"?: string;
-    "request-id"?: string;
-    etag?: string;
-}
-
-// @public
-export interface GetNodeRemoteDesktopFile200Response extends HttpResponse {
-    body: Uint8Array;
-    // (undocumented)
-    headers: RawHttpHeaders & GetNodeRemoteDesktopFile200Headers;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface GetNodeRemoteDesktopFileDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: BatchErrorOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface GetNodeRemoteDesktopFileHeaderParam {
-    // (undocumented)
-    headers?: RawHttpHeadersInput & GetNodeRemoteDesktopFileHeaders;
-}
-
-// @public (undocumented)
-export interface GetNodeRemoteDesktopFileHeaders {
-    "client-request-id"?: string;
-    "ocp-date"?: string;
-    "return-client-request-id"?: boolean;
-}
-
-// @public (undocumented)
-export type GetNodeRemoteDesktopFileParameters = GetNodeRemoteDesktopFileQueryParam & GetNodeRemoteDesktopFileHeaderParam & RequestParameters;
-
-// @public (undocumented)
-export interface GetNodeRemoteDesktopFileQueryParam {
-    // (undocumented)
-    queryParameters?: GetNodeRemoteDesktopFileQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface GetNodeRemoteDesktopFileQueryParamProperties {
-    timeOut?: number;
-}
-
-// @public (undocumented)
 export interface GetNodeRemoteLoginSettings {
     get(options?: GetNodeRemoteLoginSettingsParameters): StreamableMethod<GetNodeRemoteLoginSettings200Response | GetNodeRemoteLoginSettingsDefaultResponse>;
 }
@@ -4617,9 +4532,6 @@ export function isUnexpected(response: GetNode200Response | GetNodeDefaultRespon
 export function isUnexpected(response: RebootNode202Response | RebootNodeDefaultResponse): response is RebootNodeDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ReimageNode202Response | ReimageNodeDefaultResponse): response is ReimageNodeDefaultResponse;
-
-// @public (undocumented)
 export function isUnexpected(response: DisableNodeScheduling200Response | DisableNodeSchedulingDefaultResponse): response is DisableNodeSchedulingDefaultResponse;
 
 // @public (undocumented)
@@ -4627,9 +4539,6 @@ export function isUnexpected(response: EnableNodeScheduling200Response | EnableN
 
 // @public (undocumented)
 export function isUnexpected(response: GetNodeRemoteLoginSettings200Response | GetNodeRemoteLoginSettingsDefaultResponse): response is GetNodeRemoteLoginSettingsDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: GetNodeRemoteDesktopFile200Response | GetNodeRemoteDesktopFileDefaultResponse): response is GetNodeRemoteDesktopFileDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: UploadNodeLogs200Response | UploadNodeLogsDefaultResponse): response is UploadNodeLogsDefaultResponse;
@@ -6131,73 +6040,6 @@ export interface RecentBatchJobOutput {
 }
 
 // @public (undocumented)
-export interface ReimageNode {
-    post(options: ReimageNodeParameters): StreamableMethod<ReimageNode202Response | ReimageNodeDefaultResponse>;
-}
-
-// @public (undocumented)
-export interface ReimageNode202Headers {
-    "client-request-id"?: string;
-    "last-modified"?: string;
-    "request-id"?: string;
-    dataserviceid: string;
-    etag?: string;
-}
-
-// @public
-export interface ReimageNode202Response extends HttpResponse {
-    // (undocumented)
-    headers: RawHttpHeaders & ReimageNode202Headers;
-    // (undocumented)
-    status: "202";
-}
-
-// @public (undocumented)
-export interface ReimageNodeBodyParam {
-    body?: BatchNodeReimageContent;
-}
-
-// @public (undocumented)
-export interface ReimageNodeDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: BatchErrorOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface ReimageNodeHeaderParam {
-    // (undocumented)
-    headers?: RawHttpHeadersInput & ReimageNodeHeaders;
-}
-
-// @public (undocumented)
-export interface ReimageNodeHeaders {
-    "client-request-id"?: string;
-    "ocp-date"?: string;
-    "return-client-request-id"?: boolean;
-}
-
-// @public (undocumented)
-export interface ReimageNodeMediaTypesParam {
-    contentType: "application/json; odata=minimalmetadata";
-}
-
-// @public (undocumented)
-export type ReimageNodeParameters = ReimageNodeQueryParam & ReimageNodeHeaderParam & ReimageNodeMediaTypesParam & ReimageNodeBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface ReimageNodeQueryParam {
-    // (undocumented)
-    queryParameters?: ReimageNodeQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface ReimageNodeQueryParamProperties {
-    timeOut?: number;
-}
-
-// @public (undocumented)
 export interface RemoveNodes {
     post(options: RemoveNodesParameters): StreamableMethod<RemoveNodes202Response | RemoveNodesDefaultResponse>;
 }
@@ -6761,11 +6603,9 @@ export interface Routes {
     (path: "/pools/{poolId}/nodes/{nodeId}/users/{userName}", poolId: string, nodeId: string, userName: string): DeleteNodeUser;
     (path: "/pools/{poolId}/nodes/{nodeId}", poolId: string, nodeId: string): GetNode;
     (path: "/pools/{poolId}/nodes/{nodeId}/reboot", poolId: string, nodeId: string): RebootNode;
-    (path: "/pools/{poolId}/nodes/{nodeId}/reimage", poolId: string, nodeId: string): ReimageNode;
     (path: "/pools/{poolId}/nodes/{nodeId}/disablescheduling", poolId: string, nodeId: string): DisableNodeScheduling;
     (path: "/pools/{poolId}/nodes/{nodeId}/enablescheduling", poolId: string, nodeId: string): EnableNodeScheduling;
     (path: "/pools/{poolId}/nodes/{nodeId}/remoteloginsettings", poolId: string, nodeId: string): GetNodeRemoteLoginSettings;
-    (path: "/pools/{poolId}/nodes/{nodeId}/rdp", poolId: string, nodeId: string): GetNodeRemoteDesktopFile;
     (path: "/pools/{poolId}/nodes/{nodeId}/uploadbatchservicelogs", poolId: string, nodeId: string): UploadNodeLogs;
     (path: "/pools/{poolId}/nodes", poolId: string): ListNodes;
     (path: "/pools/{poolId}/nodes/{nodeId}/extensions/{extensionName}", poolId: string, nodeId: string, extensionName: string): GetNodeExtension;

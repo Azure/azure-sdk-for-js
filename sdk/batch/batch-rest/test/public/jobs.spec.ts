@@ -1,10 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { createBatchClient, createRecorder } from "./utils/recordedClient";
-import { Context } from "mocha";
+import { Recorder, VitestTestContext, isPlaybackMode } from "@azure-tools/test-recorder";
+import { createBatchClient, createRecorder } from "./utils/recordedClient.js";
 import {
   BatchClient,
   BatchJobCreateContent,
@@ -12,10 +10,11 @@ import {
   CreatePoolParameters,
   UpdateJobParameters,
   isUnexpected,
-} from "../../src";
-import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets";
+} from "../../src/index.js";
+import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets.js";
 import { fail } from "assert";
-import { getResourceName } from "./utils/helpers";
+import { getResourceName } from "./utils/helpers.js";
+import { describe, it, beforeAll, afterAll, beforeEach, afterEach, assert } from "vitest";
 
 const BASIC_POOL = getResourceName("Pool-Basic");
 const JOB_NAME = getResourceName("Job-Basic");
@@ -28,7 +27,7 @@ describe("Job Operations Test", () => {
   /**
    * Provision helper resources needed for testing jobs
    */
-  before(async function () {
+  beforeAll(async function () {
     if (!isPlaybackMode()) {
       batchClient = createBatchClient();
 
@@ -72,7 +71,7 @@ describe("Job Operations Test", () => {
   /**
    * Unprovision helper resources after all tests ran
    */
-  after(async function () {
+  afterAll(async function () {
     if (!isPlaybackMode()) {
       batchClient = createBatchClient();
 
@@ -84,8 +83,8 @@ describe("Job Operations Test", () => {
     }
   });
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async function (ctx: VitestTestContext) {
+    recorder = await createRecorder(ctx);
     batchClient = createBatchClient(recorder);
   });
 
@@ -189,7 +188,7 @@ describe("Job Operations Test", () => {
     const getJobPrepResult = await batchClient
       .path(
         "/jobs/{jobId}/jobpreparationandreleasetaskstatus",
-        recorder.variable("JOB_NAME", JOB_NAME)
+        recorder.variable("JOB_NAME", JOB_NAME),
       )
       .get();
     if (!isUnexpected(getJobPrepResult)) {

@@ -1,10 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { createBatchClient, createRecorder } from "./utils/recordedClient";
-import { Context } from "mocha";
+import { Recorder, VitestTestContext, isPlaybackMode } from "@azure-tools/test-recorder";
+import { createBatchClient, createRecorder } from "./utils/recordedClient.js";
 import {
   BatchClient,
   isUnexpected,
@@ -13,10 +11,11 @@ import {
   ReplaceNodeUserParameters,
   UploadBatchServiceLogsContent,
   UploadNodeLogsParameters,
-} from "../../src";
-import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets";
+} from "../../src/index.js";
+import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets.js";
 import { fail } from "assert";
-import { getResourceName, LONG_TEST_TIMEOUT, waitForNotNull } from "./utils/helpers";
+import { getResourceName, waitForNotNull } from "./utils/helpers.js";
+import { describe, it, beforeAll, afterAll, beforeEach, afterEach, assert } from "vitest";
 
 const BASIC_POOL = getResourceName("Pool-Basic");
 const BASIC_POOL_NUM_VMS = 4;
@@ -30,7 +29,7 @@ describe("Compute node operations", async () => {
   /**
    * Provision helper resources needed for testing jobs
    */
-  before(async function () {
+  beforeAll(async function () {
     if (!isPlaybackMode()) {
       batchClient = createBatchClient();
 
@@ -74,7 +73,7 @@ describe("Compute node operations", async () => {
   /**
    * Unprovision helper resources after all tests ran
    */
-  after(async function () {
+  afterAll(async function () {
     if (!isPlaybackMode()) {
       batchClient = createBatchClient();
 
@@ -86,8 +85,8 @@ describe("Compute node operations", async () => {
     }
   });
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async function (ctx: VitestTestContext) {
+    recorder = await createRecorder(ctx);
     batchClient = createBatchClient(recorder);
   });
 
@@ -107,7 +106,7 @@ describe("Compute node operations", async () => {
       if (
         (res.body.value?.length ?? 0) > 0 &&
         res.body.value!.filter((node) =>
-          ["starting", "waitingforstarttask", "creating"].includes(node.state!)
+          ["starting", "waitingforstarttask", "creating"].includes(node.state!),
         ).length === 0
       ) {
         return res;
@@ -124,14 +123,14 @@ describe("Compute node operations", async () => {
     assert.equal(nodeList[0].schedulingState, "enabled");
     assert.isTrue(nodeList[0].isDedicated);
     assert.equal(listNodesResult.body.value?.length, BASIC_POOL_NUM_VMS);
-  }).timeout(LONG_TEST_TIMEOUT);
+  });
 
   it("should get a compute node reference", async () => {
     const getNodeResult = await batchClient
       .path(
         "/pools/{poolId}/nodes/{nodeId}",
         recorder.variable("BASIC_POOL", BASIC_POOL),
-        computeNodes[0]
+        computeNodes[0],
       )
       .get();
     if (isUnexpected(getNodeResult)) {
@@ -159,7 +158,7 @@ describe("Compute node operations", async () => {
       .path(
         "/pools/{poolId}/nodes/{nodeId}/users",
         recorder.variable("BASIC_POOL", BASIC_POOL),
-        computeNodes[0]
+        computeNodes[0],
       )
       .post(addUserOptions);
     assert.equal(addUserResult.status, "201");
@@ -178,7 +177,7 @@ describe("Compute node operations", async () => {
         "/pools/{poolId}/nodes/{nodeId}/users/{userName}",
         recorder.variable("BASIC_POOL", BASIC_POOL),
         computeNodes[0],
-        TEST_USER
+        TEST_USER,
       )
       .put(updateUserOptions);
     assert.equal(updateUserResult.status, "200");
@@ -190,7 +189,7 @@ describe("Compute node operations", async () => {
         "/pools/{poolId}/nodes/{nodeId}/users/{userName}",
         recorder.variable("BASIC_POOL", BASIC_POOL),
         computeNodes[0],
-        TEST_USER
+        TEST_USER,
       )
       .delete();
     assert.equal(updateUserResult.status, "200");
@@ -201,7 +200,7 @@ describe("Compute node operations", async () => {
       .path(
         "/pools/{poolId}/nodes/{nodeId}/disablescheduling",
         recorder.variable("BASIC_POOL", BASIC_POOL),
-        computeNodes[1]
+        computeNodes[1],
       )
       .post({ contentType: "application/json; odata=minimalmetadata" });
     assert.equal(disableSchedulingResult.status, "200");
@@ -212,7 +211,7 @@ describe("Compute node operations", async () => {
       .path(
         "/pools/{poolId}/nodes/{nodeId}/enablescheduling",
         recorder.variable("BASIC_POOL", BASIC_POOL),
-        computeNodes[1]
+        computeNodes[1],
       )
       .post({ contentType: "application/json; odata=minimalmetadata" });
     assert.equal(enableSchedulingResult.status, "200");
@@ -223,7 +222,7 @@ describe("Compute node operations", async () => {
       .path(
         "/pools/{poolId}/nodes/{nodeId}/reboot",
         recorder.variable("BASIC_POOL", BASIC_POOL),
-        computeNodes[0]
+        computeNodes[0],
       )
       .post({ contentType: "application/json; odata=minimalmetadata" });
     assert.equal(rebootNodeResult.status, "202");
@@ -234,7 +233,7 @@ describe("Compute node operations", async () => {
       .path(
         "/pools/{poolId}/nodes/{nodeId}/reboot",
         recorder.variable("BASIC_POOL", BASIC_POOL),
-        computeNodes[1]
+        computeNodes[1],
       )
       .post({ contentType: "application/json; odata=minimalmetadata" });
     assert.equal(reimageNodeResult.status, "202");
@@ -256,7 +255,7 @@ describe("Compute node operations", async () => {
       .path(
         "/pools/{poolId}/nodes/{nodeId}/uploadbatchservicelogs",
         recorder.variable("BASIC_POOL", BASIC_POOL),
-        computeNodes[2]
+        computeNodes[2],
       )
       .post(uploadLogBody);
     if (isUnexpected(uploadLogResult)) {

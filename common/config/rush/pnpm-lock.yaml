@@ -18024,7 +18024,7 @@ packages:
     dev: false
 
   file:projects/batch.tgz:
-    resolution: {integrity: sha512-awdc9CDhGvn3ih8SHa4Knpn30fTqFNPDoAnh8fSa0naSPPWcFWZapCr6SM9oD1bA/gaDpJuTfMfv42emz+GC3g==, tarball: file:projects/batch.tgz}
+    resolution: {integrity: sha512-paMCKJFK7qAdPQitAlSCOnHOb8vflGawukXYhwqr38ebwAsP30RQ0f1CfTIanNXIBGvLIXdg7rGosD1Wl32XbQ==, tarball: file:projects/batch.tgz}
     name: '@rush-temp/batch'
     version: 0.0.0
     dependencies:
@@ -18037,6 +18037,7 @@ packages:
       dotenv: 16.4.5
       eslint: 8.57.0
       mkdirp: 2.1.6
+      moment: 2.30.1
       playwright: 1.43.1
       prettier: 3.2.5
       rimraf: 5.0.5

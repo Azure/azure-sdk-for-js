@@ -5,7 +5,7 @@
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "client-request-id": "3fd085d5-e35a-4d18-97b1-fd2ceb1ff5f7",
         "Connection": "close",
@@ -43,7 +43,7 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "client-request-id": "d63d1a98-0903-4c3e-ab96-6192684388cd",
         "Connection": "close",
@@ -95,7 +95,7 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "client-request-id": "e36cd2ce-a336-4571-aecd-33d42ae06f47",
         "Connection": "close",
@@ -147,7 +147,7 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "client-request-id": "cd910063-3702-421f-9fde-48650230f00c",
         "Connection": "close",
@@ -199,7 +199,7 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "client-request-id": "1c773bf4-00e4-466c-91ed-d3aeb2810492",
         "Connection": "close",
@@ -251,7 +251,7 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "client-request-id": "91c020e9-2bc5-4954-b0d0-506dd54cdd18",
         "Connection": "close",
@@ -303,7 +303,7 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "client-request-id": "9f8b3126-5f59-43ca-9548-dd0a99caac26",
         "Connection": "close",
@@ -355,7 +355,7 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "client-request-id": "572d4f79-39e7-40fa-a155-7000c56ea83f",
         "Connection": "close",
@@ -407,7 +407,7 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "client-request-id": "945d9508-5bda-4074-bb6e-db2351b6ba2d",
         "Connection": "close",
@@ -459,7 +459,7 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "client-request-id": "25651f76-a675-49b6-bdaf-f705eab601cc",
         "Connection": "close",
@@ -511,7 +511,7 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "client-request-id": "e33344a0-a99c-4e22-8a04-40424380ac22",
         "Connection": "close",
@@ -563,7 +563,7 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "client-request-id": "1b8bbd4e-230c-4a7d-9c5c-29984f076e5b",
         "Connection": "close",
@@ -615,7 +615,7 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "client-request-id": "830ab05c-b56b-4484-b099-dfd81286a75a",
         "Connection": "close",
@@ -667,7 +667,7 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "client-request-id": "cad8da3e-1b49-4b5f-a0d9-b42a91438896",
         "Connection": "close",
@@ -719,7 +719,7 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "client-request-id": "852a9619-9a99-449a-a234-0ab011238fea",
         "Connection": "close",
@@ -771,7 +771,7 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "client-request-id": "4034f4df-db68-493a-99b0-0910491c1e07",
         "Connection": "close",
@@ -823,7 +823,7 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "client-request-id": "6393ef3e-1a31-4c71-8ab7-22a9afeb52ad",
         "Connection": "close",
@@ -875,7 +875,7 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "client-request-id": "c5a8cfb7-6e7e-4c41-a3a5-cfb70ed7039d",
         "Connection": "close",
@@ -938,7 +938,7 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "client-request-id": "78d6aaea-45e6-4163-b2cf-95d06f9bbe15",
         "Connection": "close",

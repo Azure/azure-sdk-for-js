@@ -5,7 +5,7 @@ import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { logger } from "./logger.js";
 import { TokenCredential, AzureNamedKeyCredential, isTokenCredential } from "@azure/core-auth";
 import { BatchClient } from "./clientDefinitions.js";
-import { createBatchSharedKeyCredentialsPolicy } from "./credentials/batchSharedKeyCredentials";
+import { createBatchSharedKeyCredentialsPolicy } from "./credentials/batchSharedKeyCredentials.js";
 
 /**
  * Initialize a new instance of `BatchClient`

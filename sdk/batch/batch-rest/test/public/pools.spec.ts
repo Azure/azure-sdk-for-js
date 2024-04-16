@@ -2,10 +2,8 @@
 // Licensed under the MIT license.
 /* eslint-disable no-unused-expressions */
 
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
-import { assert, expect } from "chai";
-import { createBatchClient, createRecorder } from "./utils/recordedClient";
-import { Context } from "mocha";
+import { Recorder, VitestTestContext, isPlaybackMode } from "@azure-tools/test-recorder";
+import { createBatchClient, createRecorder } from "./utils/recordedClient.js";
 import {
   BatchClient,
   BatchPoolResizeContent,
@@ -17,16 +15,12 @@ import {
   ResizePoolParameters,
   isUnexpected,
   paginate,
-} from "../../src";
-import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets";
-import { wait } from "./utils/wait";
+} from "../../src/index.js";
+import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets.js";
+import { wait } from "./utils/wait.js";
 import { fail } from "assert";
-import {
-  getResourceName,
-  LONG_TEST_TIMEOUT,
-  POLLING_INTERVAL,
-  waitForNotNull,
-} from "./utils/helpers";
+import { getResourceName, POLLING_INTERVAL, waitForNotNull } from "./utils/helpers.js";
+import { describe, it, beforeEach, afterEach, assert, expect } from "vitest";
 
 const BASIC_POOL = getResourceName("Pool-Basic");
 const VMSIZE_D1 = "Standard_D1_v2";
@@ -49,8 +43,8 @@ describe("Pool Operations Test", () => {
    * Provision helper resources needed for testing pools
    */
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async function (ctx: VitestTestContext) {
+    recorder = await createRecorder(ctx);
     batchClient = createBatchClient(recorder);
   });
 
@@ -163,7 +157,7 @@ describe("Pool Operations Test", () => {
     assert.isDefined(getResult.body.virtualMachineConfiguration);
     assert.equal(
       getResult.body.virtualMachineConfiguration!.imageReference!.sku,
-      "2022-datacenter"
+      "2022-datacenter",
     );
     assert.equal(getResult.body.vmSize?.toLowerCase(), VMSIZE_D1.toLowerCase());
     assert.equal(getResult.body.targetDedicatedNodes, BASIC_POOL_NUM_VMS);
@@ -182,9 +176,9 @@ describe("Pool Operations Test", () => {
     expect(getResult.body.virtualMachineConfiguration?.extensions?.[0].enableAutomaticUpgrade).to.be
       .true;
     expect(getResult.body.virtualMachineConfiguration?.extensions?.[0].name).to.equal(
-      "batchextension1"
+      "batchextension1",
     );
-  }).timeout(LONG_TEST_TIMEOUT);
+  });
 
   it("should update pool parameters successfully", async function () {
     const updateOptions: ReplacePoolPropertiesParameters = {
@@ -261,7 +255,7 @@ describe("Pool Operations Test", () => {
 
     assert.isAtLeast(
       listPoolResult.body.value?.length ?? 0,
-      listOptions.queryParameters.maxresults
+      listOptions.queryParameters.maxresults,
     );
   });
 
@@ -420,10 +414,10 @@ describe("Pool Operations Test", () => {
     assert.lengthOf(nodeList[0].endpointConfiguration!.inboundEndpoints, 2);
     assert.equal(
       nodeList[0].endpointConfiguration!.inboundEndpoints[0].name,
-      "TestEndpointConfig.0"
+      "TestEndpointConfig.0",
     );
     assert.equal(nodeList[0].endpointConfiguration!.inboundEndpoints[0].protocol, "udp");
-  }).timeout(LONG_TEST_TIMEOUT);
+  });
 
   it("should get pool node counts successfully", async () => {
     // let poolList = [];
@@ -457,7 +451,7 @@ describe("Pool Operations Test", () => {
     assert.isAbove(endpointPoolObj.length, 0, `Pool with Pool Id ${poolId} not found`);
     assert.equal(endpointPoolObj[0].dedicated!.idle, 1);
     assert.equal(endpointPoolObj[0].lowPriority!.total, 0);
-  }).timeout(LONG_TEST_TIMEOUT);
+  });
 
   it("should create a second pool successfully", async () => {
     const poolAddParams: CreatePoolParameters = {

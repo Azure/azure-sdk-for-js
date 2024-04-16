@@ -1,22 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { createBatchClient, createRecorder } from "./utils/recordedClient";
-import { Context } from "mocha";
+import { Recorder, VitestTestContext, isPlaybackMode } from "@azure-tools/test-recorder";
+import { createBatchClient, createRecorder } from "./utils/recordedClient.js";
 import {
   isUnexpected,
   BatchJobSchedule,
   CreateJobScheduleParameters,
   BatchClient,
   CreatePoolParameters,
-} from "../../src";
-import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets";
+} from "../../src/index.js";
+import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets.js";
 import { fail } from "assert";
-import { getResourceName } from "./utils/helpers";
+import { getResourceName } from "./utils/helpers.js";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import moment, { duration } from "moment";
+import { describe, it, beforeAll, afterAll, beforeEach, afterEach, assert } from "vitest";
 
 const BASIC_POOL = getResourceName("Pool-Basic");
 const JOB_SCHEDULE = getResourceName("JobSchedule-Basic");
@@ -29,7 +28,7 @@ describe("Job Schedule Operations Test", () => {
   /**
    * Provision helper resources needed for testing jobs
    */
-  before(async function () {
+  beforeAll(async function () {
     if (!isPlaybackMode()) {
       batchClient = createBatchClient();
 
@@ -72,7 +71,7 @@ describe("Job Schedule Operations Test", () => {
   /**
    * Unprovision helper resources after all tests ran
    */
-  after(async function () {
+  afterAll(async function () {
     if (!isPlaybackMode()) {
       batchClient = createBatchClient();
 
@@ -85,8 +84,8 @@ describe("Job Schedule Operations Test", () => {
     }
   });
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async function (ctx: VitestTestContext) {
+    recorder = await createRecorder(ctx);
     batchClient = createBatchClient(recorder);
   });
 
@@ -104,7 +103,7 @@ describe("Job Schedule Operations Test", () => {
         },
         schedule: {
           doNotRunAfter: new Date(
-            recorder.variable("JOB_SCHEDULE_RUN_DATE", moment().add(1, "days").toISOString())
+            recorder.variable("JOB_SCHEDULE_RUN_DATE", moment().add(1, "days").toISOString()),
           ),
           recurrenceInterval: duration({ minutes: 2 }).toISOString(),
         },
@@ -203,7 +202,7 @@ describe("Job Schedule Operations Test", () => {
     const disableScheduleResult = await batchClient
       .path(
         "/jobschedules/{jobScheduleId}/disable",
-        recorder.variable("JOB_SCHEDULE", JOB_SCHEDULE)
+        recorder.variable("JOB_SCHEDULE", JOB_SCHEDULE),
       )
       .post({ contentType: "application/json; odata=minimalmetadata" });
     assert.equal(disableScheduleResult.status, "204");
@@ -220,7 +219,7 @@ describe("Job Schedule Operations Test", () => {
     const terminateScheduleResult = await batchClient
       .path(
         "/jobschedules/{jobScheduleId}/terminate",
-        recorder.variable("JOB_SCHEDULE", JOB_SCHEDULE)
+        recorder.variable("JOB_SCHEDULE", JOB_SCHEDULE),
       )
       .post({ contentType: "application/json; odata=minimalmetadata" });
     assert.equal(terminateScheduleResult.status, "202");

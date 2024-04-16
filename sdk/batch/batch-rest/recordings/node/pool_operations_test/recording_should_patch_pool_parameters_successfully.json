@@ -5,7 +5,7 @@
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "client-request-id": "cda1386a-1f43-4ec0-a919-ec586f882afe",
         "Connection": "close",
@@ -43,7 +43,7 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "client-request-id": "acecd89f-dbcf-481a-9181-9a1c6ffc110b",
         "Connection": "close",
