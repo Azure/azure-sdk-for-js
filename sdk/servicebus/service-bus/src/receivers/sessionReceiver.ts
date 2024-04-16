@@ -8,6 +8,7 @@ import {
   GetMessageIteratorOptions,
   SubscribeOptions,
   DeleteMessagesOptions,
+  PurgeMessagesOptions,
 } from "../models";
 import { MessageSession } from "../session/messageSession";
 import {
@@ -30,7 +31,11 @@ import {
   getMessageIterator,
   wrapProcessErrorHandler,
 } from "./receiverCommon";
-import { defaultMaxTimeAfterFirstMessageForBatchingMs, ServiceBusReceiver } from "./receiver";
+import {
+  defaultMaxTimeAfterFirstMessageForBatchingMs,
+  MaxDeleteMessageCount,
+  ServiceBusReceiver,
+} from "./receiver";
 import Long from "long";
 import { ServiceBusMessageImpl, DeadLetterOptions } from "../serviceBusMessage";
 import {
@@ -409,13 +414,13 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
     return retry<ServiceBusReceivedMessage[]>(config);
   }
 
-  async deleteMessages(options?: DeleteMessagesOptions): Promise<number> {
+  async deleteMessages(options: DeleteMessagesOptions): Promise<number> {
     this._throwIfReceiverOrConnectionClosed();
 
     const deleteMessagesOperationPromise = (): Promise<number> => {
       return this._context
         .getManagementClient(this.entityPath)
-        .deleteMessages(options?.maxMessageCount, options?.beforeEnqueueTime, this.sessionId, {
+        .deleteMessages(options.maxMessageCount, options?.beforeEnqueueTime, this.sessionId, {
           ...options,
           associatedLinkName: this._messageSession.name,
           requestName: "deleteMessages",
@@ -430,6 +435,24 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       abortSignal: options?.abortSignal,
     };
     return retry<number>(config);
+  }
+
+  async purgeMessages(options?: PurgeMessagesOptions): Promise<number> {
+    let deletedCount = await this.deleteMessages({
+      maxMessageCount: MaxDeleteMessageCount,
+      beforeEnqueueTime: options?.beforeEnqueueTime,
+    });
+    if (deletedCount === MaxDeleteMessageCount) {
+      let batchCount = MaxDeleteMessageCount;
+      while (batchCount === MaxDeleteMessageCount) {
+        batchCount = await this.deleteMessages({
+          maxMessageCount: MaxDeleteMessageCount,
+          beforeEnqueueTime: options?.beforeEnqueueTime,
+        });
+        deletedCount += batchCount;
+      }
+    }
+    return deletedCount;
   }
 
   async receiveMessages(

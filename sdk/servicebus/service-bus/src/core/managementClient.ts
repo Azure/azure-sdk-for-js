@@ -978,7 +978,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * @returns number of messages deleted.
    */
   async deleteMessages(
-    messageCount?: number,
+    messageCount: number,
     enqueueTimeUtcOlderThan?: Date,
     sessionId?: string,
     options: OperationOptionsBase & SendManagementRequestOptions = {},
@@ -991,31 +991,13 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       "number",
     );
 
-    messageCount ??= Number.POSITIVE_INFINITY;
-    enqueueTimeUtcOlderThan ??= new Date();
-
     if (isNaN(messageCount) || messageCount < 1) {
       throw new TypeError("'messageCount' must be a number greater than 0.");
     }
 
-    if (messageCount === Number.POSITIVE_INFINITY) {
-      // TODO: read the max number of deletable messages from management link.
-      messageCount = 4000;
-      let deletedCount = Number.POSITIVE_INFINITY,
-        totalDeletedCount = 0;
-      while (deletedCount > 0) {
-        deletedCount = await this._deleteMessages(
-          messageCount,
-          enqueueTimeUtcOlderThan,
-          sessionId,
-          options,
-        );
-        totalDeletedCount += messageCount;
-      }
-      return totalDeletedCount;
-    } else {
-      return this._deleteMessages(messageCount, enqueueTimeUtcOlderThan, sessionId, options);
-    }
+    enqueueTimeUtcOlderThan ??= new Date();
+
+    return this._deleteMessages(messageCount, enqueueTimeUtcOlderThan, sessionId, options);
   }
 
   /**

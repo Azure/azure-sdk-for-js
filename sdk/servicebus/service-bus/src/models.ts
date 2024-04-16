@@ -336,7 +336,17 @@ export interface DeleteMessagesOptions extends OperationOptionsBase {
    */
   beforeEnqueueTime?: Date;
   /**
-   * If specified, up to `maxMessageCount` messages will be deleted.
+   * Up to `maxMessageCount` messages will be deleted.
    */
-  maxMessageCount?: number;
+  maxMessageCount: number;
+}
+
+/**
+ * Options to configure deletion of all messages in an entity.
+ */
+export interface PurgeMessagesOptions extends OperationOptionsBase {
+  /**
+   * If specified, only messages enqueued before this time are deleted.
+   */
+  beforeEnqueueTime?: Date;
 }

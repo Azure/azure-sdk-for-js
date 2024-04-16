@@ -19,6 +19,7 @@ export { ServiceBusClientOptions } from "./constructorHelpers";
 export { CorrelationRuleFilter } from "./core/managementClient";
 export {
   DeleteMessagesOptions,
+  PurgeMessagesOptions,
   CreateMessageBatchOptions,
   GetMessageIteratorOptions,
   MessageHandlers,
