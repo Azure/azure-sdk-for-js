@@ -55,7 +55,7 @@ export async function main() {
     // This time specifying a filter on messages to batch-delete
     deletedCount = await queueReceiver.deleteMessages({
       maxMessageCount: 10,
-      beforeEnqueueTimeUtc: new Date(1970, 1, 1),
+      beforeEnqueueTime: new Date(1970, 1, 1),
     });
     console.log(`${deletedCount} messages has been deleted this time.`); // Should be 0
 

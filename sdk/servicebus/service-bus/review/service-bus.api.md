@@ -134,7 +134,7 @@ export { delay }
 
 // @public
 export interface deleteMessagesOptions extends OperationOptionsBase {
-    beforeEnqueueTimeUtc?: Date;
+    beforeEnqueueTime?: Date;
     maxMessageCount?: number;
 }
 

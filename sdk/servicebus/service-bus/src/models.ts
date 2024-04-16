@@ -334,7 +334,7 @@ export interface DeleteMessagesOptions extends OperationOptionsBase {
   /**
    * If specified, only messages enqueued before this time are deleted.
    */
-  beforeEnqueueTimeUtc?: Date;
+  beforeEnqueueTime?: Date;
   /**
    * If specified, up to `maxMessageCount` messages will be deleted.
    */

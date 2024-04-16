@@ -415,7 +415,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
     const deleteMessagesOperationPromise = (): Promise<number> => {
       return this._context
         .getManagementClient(this.entityPath)
-        .deleteMessages(options?.maxMessageCount, options?.beforeEnqueueTimeUtc, this.sessionId, {
+        .deleteMessages(options?.maxMessageCount, options?.beforeEnqueueTime, this.sessionId, {
           ...options,
           associatedLinkName: this._messageSession.name,
           requestName: "deleteMessages",
