@@ -200,7 +200,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
               result.headers[Constants.HttpHeaders.ContinuationToken] =
                 this.generateContinuationToken();
 
-              if (this.clientContext.enableEncyption) {
+              if (this.clientContext.enableEncryption) {
                 for (let item of result.result) {
                   item = await this.container.encryptionProcessor.decrypt(item);
                 }

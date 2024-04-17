@@ -226,7 +226,7 @@ export class ClientContext {
     // (undocumented)
     diagnosticLevel: CosmosDbDiagnosticLevel;
     // (undocumented)
-    enableEncyption: boolean;
+    enableEncryption: boolean;
     // Warning: (ae-forgotten-export) The symbol "EncryptionKeyStoreProvider" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
@@ -326,7 +326,7 @@ export class ClientContext {
 
 // @public (undocumented)
 export class ClientEncryptionIncludedPath {
-    constructor(path: string, clientEncryptionKeyId: string, encryptionType: EncryptionType, encryptionAlgortihm: EncryptionAlgorithm);
+    constructor(path: string, clientEncryptionKeyId: string, encryptionType: EncryptionType, encryptionAlgorithm: EncryptionAlgorithm);
     // (undocumented)
     clientEncryptionKeyId: string;
     // (undocumented)

@@ -87,7 +87,7 @@ export class Item {
       let path = getPathFromLink(this.url);
       let id = getIdFromLink(this.url);
 
-      if (this.clientContext.enableEncyption) {
+      if (this.clientContext.enableEncryption) {
         this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
           this.partitionKey,
         );
@@ -113,7 +113,7 @@ export class Item {
         response = error;
       }
 
-      if (this.clientContext.enableEncyption) {
+      if (this.clientContext.enableEncryption) {
         response.result = await this.container.encryptionProcessor.decrypt(response.result);
       }
 
@@ -173,7 +173,7 @@ export class Item {
       let path = getPathFromLink(this.url);
       let id = getIdFromLink(this.url);
 
-      if (this.clientContext.enableEncyption) {
+      if (this.clientContext.enableEncryption) {
         body = copyObject(body);
         body = await this.container.encryptionProcessor.encrypt(body);
         this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
@@ -193,7 +193,7 @@ export class Item {
         diagnosticNode,
       });
 
-      if (this.clientContext.enableEncyption) {
+      if (this.clientContext.enableEncryption) {
         response.result = await this.container.encryptionProcessor.decrypt(response.result);
       }
       return new ItemResponse(
@@ -228,7 +228,7 @@ export class Item {
       let path = getPathFromLink(this.url);
       let id = getIdFromLink(this.url);
 
-      if (this.clientContext.enableEncyption) {
+      if (this.clientContext.enableEncryption) {
         this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
           this.partitionKey,
         );
@@ -246,7 +246,7 @@ export class Item {
         diagnosticNode,
       });
 
-      if (this.clientContext.enableEncyption) {
+      if (this.clientContext.enableEncryption) {
         response.result = await this.container.encryptionProcessor.decrypt(response.result);
       }
 
@@ -283,7 +283,7 @@ export class Item {
       let path = getPathFromLink(this.url);
       let id = getIdFromLink(this.url);
 
-      if (this.clientContext.enableEncyption) {
+      if (this.clientContext.enableEncryption) {
         body = copyObject(body);
         const operations = Array.isArray(body) ? body : body.operations;
         for (const operation of operations) {
@@ -312,7 +312,7 @@ export class Item {
         diagnosticNode,
       });
 
-      if (this.clientContext.enableEncyption) {
+      if (this.clientContext.enableEncryption) {
         response.result = await this.container.encryptionProcessor.decrypt(response.result);
       }
 

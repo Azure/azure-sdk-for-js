@@ -214,7 +214,7 @@ export class Database {
     if (keyWrapMetadata.algorithm !== KeyEncryptionKeyAlgorithm.RSA_OAEP) {
       throw new Error(`Invalid key wrap algorithm '${keyWrapMetadata.algorithm}' passed.`);
     }
-    if (!this.clientContext.enableEncyption) {
+    if (!this.clientContext.enableEncryption) {
       throw new Error(
         "Creating a client encryption key requires the use of an encryption-enabled client.",
       );
@@ -333,7 +333,7 @@ export class Database {
     if (newKeyWrapMetadata.algorithm !== KeyEncryptionKeyAlgorithm.RSA_OAEP) {
       throw new Error(`Invalid key wrap algorithm '${newKeyWrapMetadata.algorithm}' passed.`);
     }
-    if (!this.clientContext.enableEncyption) {
+    if (!this.clientContext.enableEncryption) {
       throw new Error(
         "Creating a client encryption key requires the use of an encryption-enabled client.",
       );

@@ -114,7 +114,7 @@ export class Container {
     public readonly id: string,
     private readonly clientContext: ClientContext,
   ) {
-    if (this.clientContext.enableEncyption) {
+    if (this.clientContext.enableEncryption) {
       this.encryptionProcessor = new EncryptionProcessor(
         this.id,
         this.database.id,
@@ -385,7 +385,7 @@ export class Container {
    * Warms up encryption related caches for the container.
    */
   public async initializeEncryption(): Promise<void> {
-    if (!this.clientContext.enableEncyption) {
+    if (!this.clientContext.enableEncryption) {
       throw new ErrorResponse("Encryption is not enabled for the client.");
     } else {
       await withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {

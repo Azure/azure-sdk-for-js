@@ -16,11 +16,11 @@ export class ClientEncryptionIncludedPath {
     path: string,
     clientEncryptionKeyId: string,
     encryptionType: EncryptionType,
-    encryptionAlgortihm: EncryptionAlgorithm,
+    encryptionAlgorithm: EncryptionAlgorithm,
   ) {
     this.path = path;
     this.clientEncryptionKeyId = clientEncryptionKeyId;
     this.encryptionType = encryptionType;
-    this.encryptionAlgorithm = encryptionAlgortihm;
+    this.encryptionAlgorithm = encryptionAlgorithm;
   }
 }

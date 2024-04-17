@@ -37,7 +37,7 @@ export class Containers {
   constructor(
     public readonly database: Database,
     private readonly clientContext: ClientContext,
-  ) {}
+  ) { }
 
   /**
    * Queries all containers.
@@ -183,7 +183,7 @@ export class Containers {
       };
     }
 
-    if (this.clientContext.enableEncyption && body.clientEncryptionPolicy) {
+    if (this.clientContext.enableEncryption && body.clientEncryptionPolicy) {
       // TODO: add checks for checking partition key paths
     }
 
