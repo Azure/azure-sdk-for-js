@@ -201,13 +201,23 @@ export class WorkloadIdentityCredential implements TokenCredential {
 
     const response = await httpClient.sendRequest(request);
     const text = response.bodyAsText;
-    if (text === null) {
+    if (!text) {
       throw new CredentialUnavailableError(
         `${credentialName}: is unavailable. Received null token from OIDC request. Response status = ${response.status}`
       );
     }
-    const result = JSON.parse(text!);
-    return result;
+    const result = JSON.parse(text);
+    console.dir(result);
+    if (result?.oidctoken) {
+      console.log(result?.OidcToken);
+    } else {
+      throw new CredentialUnavailableError(
+        `${credentialName}: is unavailable. oidc token field not detected in the response. Response = ${JSON.stringify(
+          result
+        )}`
+      );
+    }
+    return result.oidctoken;
   }
 
   private ensurePipelinesSystemVars(): void {
