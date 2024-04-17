@@ -63,7 +63,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
     this.serviceConnectionId = workloadIdentityCredentialOptions.serviceConnectionId;
     if (!tenantId || !clientId) {
       throw new CredentialUnavailableError(
-        `${credentialName}: is Unavailable. clientId and tenantId are required parameters/ environment varables - AZURE_TENANT_ID, AZURE_CLIENT_ID`,
+        `${credentialName}: is Unavailable. clientId and tenantId are required parameters/ environment varables - AZURE_TENANT_ID, AZURE_CLIENT_ID`
       );
     }
     if (tenantId) {
@@ -79,28 +79,28 @@ export class WorkloadIdentityCredential implements TokenCredential {
 
     if (clientId && tenantId && this.federatedTokenFilePath) {
       logger.info(
-        `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${workloadIdentityCredentialOptions.clientId} and federated token path: [REDACTED]`,
+        `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${workloadIdentityCredentialOptions.clientId} and federated token path: [REDACTED]`
       );
       this.client = new ClientAssertionCredential(
         tenantId,
         clientId,
         this.readFileContents.bind(this),
-        options,
+        options
       );
     } else {
       if (clientId && tenantId && this.serviceConnectionId) {
         //Ensure all system env vars are there to form the request uri for OIDC token
         this.ensurePipelinesSystemVars();
         const oidcRequestUrl = `${process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI}${process.env.SYSTEM_TEAMPROJECTID}/_apis/distributedtask/hubs/build/plans/${process.env.SYSTEM_PLANID}/jobs/${process.env.SYSTEM_JOBID}/oidctoken?api-version=7.1-preview.1&serviceConnectionId=${this.serviceConnectionId}`;
-        const systemAccessToken = `${process.env.SECRET_SYSTEM_ACCESSTOKEN}`;
+        const systemAccessToken = `${process.env.SYSTEM_ACCESSTOKEN}`;
         logger.info(
-          `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${workloadIdentityCredentialOptions.clientId} and service connection id: ${workloadIdentityCredentialOptions.serviceConnectionId}`,
+          `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${workloadIdentityCredentialOptions.clientId} and service connection id: ${workloadIdentityCredentialOptions.serviceConnectionId}`
         );
         this.client = new ClientAssertionCredential(
           tenantId,
           clientId,
           this.requestOidcToken.bind(this, oidcRequestUrl, systemAccessToken),
-          options,
+          options
         );
       } else {
         const errorMessage = `${credentialName}: is unavailable. tenantId, clientId, and either tokenFilePath or serviceConnectionId are required parameters. 
@@ -130,7 +130,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
    */
   public async getToken(
     scopes: string | string[],
-    options?: GetTokenOptions,
+    options?: GetTokenOptions
   ): Promise<AccessToken | null> {
     if (!this.client) {
       const errorMessage = `${credentialName}: is unavailable. tenantId, clientId, and either tokenFilePath or serviceConnectionId are required parameters. 
@@ -158,7 +158,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
     }
     if (!this.federatedTokenFilePath) {
       throw new CredentialUnavailableError(
-        `${credentialName}: is unavailable. Invalid file path provided ${this.federatedTokenFilePath}.`,
+        `${credentialName}: is unavailable. Invalid file path provided ${this.federatedTokenFilePath}.`
       );
     }
     if (!this.azureFederatedTokenFileContent) {
@@ -166,7 +166,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
       const value = file.trim();
       if (!value) {
         throw new CredentialUnavailableError(
-          `${credentialName}: is unavailable. No content on the file ${this.federatedTokenFilePath}.`,
+          `${credentialName}: is unavailable. No content on the file ${this.federatedTokenFilePath}.`
         );
       } else {
         this.azureFederatedTokenFileContent = value;
@@ -178,7 +178,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
 
   private async requestOidcToken(
     oidcRequestUrl: string,
-    systemAccessToken: string,
+    systemAccessToken: string
   ): Promise<string> {
     logger.info("Requesting OIDC token from Azure Pipelines...");
     logger.info(oidcRequestUrl);
@@ -202,7 +202,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
       process.env.SYSTEM_TEAMPROJECTID &&
       process.env.SYSTEM_PLANID &&
       process.env.SYSTEM_JOBID &&
-      process.env.SECRET_SYSTEM_ACCESSTOKEN
+      process.env.SYSTEM_ACCESSTOKEN
     ) {
       return;
     }
@@ -214,10 +214,12 @@ export class WorkloadIdentityCredential implements TokenCredential {
     if (!process.env.SYSTEM_TEAMPROJECTID) missingEnvVars.push("SYSTEM_TEAMPROJECTID");
     if (!process.env.SYSTEM_PLANID) missingEnvVars.push("SYSTEM_PLANID");
     if (!process.env.SYSTEM_JOBID) missingEnvVars.push("SYSTEM_JOBID");
-    if (!process.env.SECRET_SYSTEM_ACCESSTOKEN) missingEnvVars.push("SECRET_SYSTEM_ACCESSTOKEN");
+    if (!process.env.SYSTEM_ACCESSTOKEN) missingEnvVars.push("SYSTEM_ACCESSTOKEN");
     if (missingEnvVars.length > 0)
       throw new CredentialUnavailableError(
-        `${credentialName}: is unavailable. Missing system variable(s) - ${missingEnvVars.join(", ")}`,
+        `${credentialName}: is unavailable. Missing system variable(s) - ${missingEnvVars.join(
+          ", "
+        )}`
       );
   }
 }
