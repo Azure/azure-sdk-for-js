@@ -112,7 +112,7 @@ const config = await relayClient.getRelayConfiguration(user, "nearest");
 ## Next steps
 
 Please take a look at the
-[samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-network-traversal/samples)
+samples
 directory for detailed examples on how to use this library.
 
 ## Contributing

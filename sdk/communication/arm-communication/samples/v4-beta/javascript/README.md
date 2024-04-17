@@ -109,14 +109,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [senderusernamesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4/javascript/senderUsernamesDeleteSample.js
 [senderusernamesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4/javascript/senderUsernamesGetSample.js
 [senderusernameslistbydomainssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4/javascript/senderUsernamesListByDomainsSample.js
-[suppressionlistaddressescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4/javascript/suppressionListAddressesCreateOrUpdateSample.js
-[suppressionlistaddressesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4/javascript/suppressionListAddressesDeleteSample.js
-[suppressionlistaddressesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4/javascript/suppressionListAddressesGetSample.js
-[suppressionlistaddresseslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4/javascript/suppressionListAddressesListSample.js
-[suppressionlistscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4/javascript/suppressionListsCreateOrUpdateSample.js
-[suppressionlistsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4/javascript/suppressionListsDeleteSample.js
-[suppressionlistsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4/javascript/suppressionListsGetSample.js
-[suppressionlistslistbydomainsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/arm-communication/samples/v4/javascript/suppressionListsListByDomainSample.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-communication?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/arm-communication/README.md
