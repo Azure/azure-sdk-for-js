@@ -15,14 +15,12 @@ import {
 import { ClientEncryptionKeyPropertiesCache, EncryptionSettingsCache } from "./Cache";
 import { PartitionKeyInternal } from "../documents";
 import { TypeMarker } from "./enums/TypeMarker";
-import {
-  ClientContext,
-  ClientEncryptionKeyProperties,
-  ClientEncryptionKeyRequest,
-  DiagnosticNodeInternal,
-  RequestOptions,
-  ResourceType,
-} from "..";
+import { ClientContext } from "../ClientContext";
+import { ClientEncryptionKeyRequest, ClientEncryptionKeyProperties } from "./ClientEncryptionKey";
+import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
+import { ResourceType } from "../common";
+import { RequestOptions } from "../request";
+
 import { withDiagnostics } from "../utils/diagnostics";
 
 export class EncryptionProcessor {
