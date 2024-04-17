@@ -109,7 +109,7 @@ export class QueryIterator<T> {
       }
 
       if (
-        this.clientContext.enableEncyption &&
+        this.clientContext.enableEncryption &&
         this.resourceType === ResourceType.item &&
         response.result &&
         response.result.length
@@ -153,7 +153,7 @@ export class QueryIterator<T> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       const response = await this.fetchAllInternal(diagnosticNode);
       if (
-        this.clientContext.enableEncyption &&
+        this.clientContext.enableEncryption &&
         this.resourceType === ResourceType.item &&
         response.resources &&
         response.resources.length > 0
@@ -216,7 +216,7 @@ export class QueryIterator<T> {
         }
       }
       if (
-        this.clientContext.enableEncyption &&
+        this.clientContext.enableEncryption &&
         this.resourceType === ResourceType.item &&
         response.result &&
         response.result.length
