@@ -207,17 +207,15 @@ export class WorkloadIdentityCredential implements TokenCredential {
       );
     }
     const result = JSON.parse(text);
-    console.dir(result);
-    if (result?.oidctoken) {
-      console.log(result?.oidctoken);
+    if (result?.oidcToken) {
+      return result.oidcToken;
     } else {
       throw new CredentialUnavailableError(
-        `${credentialName}: is unavailable. oidc token field not detected in the response. Response = ${JSON.stringify(
+        `${credentialName}: is unavailable. oidcToken field not detected in the response. Response = ${JSON.stringify(
           result
         )}`
       );
     }
-    return result.oidctoken;
   }
 
   private ensurePipelinesSystemVars(): void {
