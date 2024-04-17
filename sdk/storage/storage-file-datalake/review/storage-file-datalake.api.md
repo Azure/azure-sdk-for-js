@@ -646,6 +646,8 @@ export interface FileReadHeaders {
     // (undocumented)
     acceptRanges?: string;
     // (undocumented)
+    acl: PathAccessControlItem[];
+    // (undocumented)
     cacheControl?: string;
     // (undocumented)
     clientRequestId?: string;
@@ -1524,6 +1526,8 @@ export interface PathGetPropertiesHeaders {
     accessTierChangedOn?: Date;
     // (undocumented)
     accessTierInferred?: boolean;
+    // (undocumented)
+    acl: PathAccessControlItem[];
     // (undocumented)
     archiveStatus?: string;
     // (undocumented)

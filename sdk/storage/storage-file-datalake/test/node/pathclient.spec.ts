@@ -7,6 +7,8 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import { join } from "path";
 
+import * as fs from "fs";
+
 import {
   AccessControlChangeCounters,
   AccessControlChanges,
@@ -237,6 +239,7 @@ describe("DataLakePathClient Node.js only", () => {
         execute: false,
       },
     });
+    assert.deepStrictEqual(permissions.acl, acl);
 
     const readResult = await testFileClient.read();
 
@@ -261,6 +264,34 @@ describe("DataLakePathClient Node.js only", () => {
         execute: false,
       },
     });
+    assert.deepStrictEqual(readResult.acl, acl);
+
+    const readFilePath = recorder.getUniqueName("readFilePath");
+    const readToFileResponse = await testFileClient.readToFile(readFilePath);
+    fs.unlinkSync(readFilePath);
+
+    assert.deepStrictEqual(readToFileResponse.owner, "$superuser");
+    assert.deepStrictEqual(readToFileResponse.group, "$superuser");
+    assert.deepStrictEqual(readToFileResponse.permissions, {
+      extendedAcls: false,
+      stickyBit: false,
+      owner: {
+        read: true,
+        write: true,
+        execute: true,
+      },
+      group: {
+        read: true,
+        write: false,
+        execute: true,
+      },
+      other: {
+        read: false,
+        write: true,
+        execute: false,
+      },
+    });
+    assert.deepStrictEqual(readToFileResponse.acl, acl);
   });
 
   it("DataLakeFileClient createIfNotExists with owner", async () => {
@@ -439,6 +470,7 @@ describe("DataLakePathClient Node.js only", () => {
     assert.deepStrictEqual(propertiesResult.owner, "$superuser");
     assert.deepStrictEqual(propertiesResult.group, "$superuser");
     assert.deepStrictEqual(propertiesResult.permissions, permissions);
+    assert.deepStrictEqual(aclResult.acl, acl);
   });
 
   it("DataLakeDirectoryClient createIfNotExists with owner", async () => {

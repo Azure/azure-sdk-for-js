@@ -996,6 +996,7 @@ export interface PathGetPropertiesHeaders {
   owner?: string;
   group?: string;
   permissions?: PathPermissions;
+  acl: PathAccessControlItem[];
 }
 
 export type PathGetPropertiesResponse = PathGetPropertiesHeaders & {
@@ -1229,6 +1230,7 @@ export interface FileReadHeaders {
   owner?: string;
   group?: string;
   permissions?: PathPermissions;
+  acl: PathAccessControlItem[];
 }
 
 export type FileReadResponse = FileReadHeaders & {
