@@ -22,7 +22,7 @@ describe("WorkloadIdentityCredential", function () {
   const tenantId = env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!;
   const clientId = env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!;
 
-  it("authenticates with a valid service connection", async function () {
+  it.only("authenticates with a valid service connection", async function () {
     if (!isLiveMode()) {
       this.skip();
     }
