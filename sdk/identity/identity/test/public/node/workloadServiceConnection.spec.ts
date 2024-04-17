@@ -29,7 +29,7 @@ describe("WorkloadIdentityCredential", function () {
     const credential = new WorkloadIdentityCredential({
       tenantId,
       clientId,
-      serviceConnectionId: "d267d7b2-a67e-4f43-8a8a-bdff194d7233",
+      serviceConnectionId: "0dec29c2-a766-4121-9c2e-1894f5aca5cb",
     });
     try {
       const token = await credential.getToken(scope);

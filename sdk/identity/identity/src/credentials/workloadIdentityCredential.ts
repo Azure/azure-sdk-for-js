@@ -209,7 +209,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
     const result = JSON.parse(text);
     console.dir(result);
     if (result?.oidctoken) {
-      console.log(result?.OidcToken);
+      console.log(result?.oidctoken);
     } else {
       throw new CredentialUnavailableError(
         `${credentialName}: is unavailable. oidc token field not detected in the response. Response = ${JSON.stringify(
