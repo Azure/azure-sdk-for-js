@@ -63,10 +63,10 @@ npx cross-env AZURE_MANAGEDHSM_URI="<azure managedhsm uri>" CLIENT_OBJECT_ID="<c
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[accesscontrolhelloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/samples/v4-beta/javascript/accessControlHelloWorld.js
-[backuprestorehelloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/samples/v4-beta/javascript/backupRestoreHelloWorld.js
-[backupselectivekeyrestore]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/samples/v4-beta/javascript/backupSelectiveKeyRestore.js
-[updatesettings]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/samples/v4-beta/javascript/updateSettings.js
+[accesscontrolhelloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/samples/v4/javascript/accessControlHelloWorld.js
+[backuprestorehelloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/samples/v4/javascript/backupRestoreHelloWorld.js
+[backupselectivekeyrestore]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/samples/v4/javascript/backupSelectiveKeyRestore.js
+[updatesettings]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/samples/v4/javascript/updateSettings.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/keyvault-admin
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurekeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal

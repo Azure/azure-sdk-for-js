@@ -53,16 +53,16 @@ npx cross-env  node operationsListSample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hanaonazure/arm-hanaonazure/samples/v4-beta/javascript/operationsListSample.js
-[providerinstancescreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hanaonazure/arm-hanaonazure/samples/v4-beta/javascript/providerInstancesCreateSample.js
-[providerinstancesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hanaonazure/arm-hanaonazure/samples/v4-beta/javascript/providerInstancesDeleteSample.js
-[providerinstancesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hanaonazure/arm-hanaonazure/samples/v4-beta/javascript/providerInstancesGetSample.js
-[providerinstanceslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hanaonazure/arm-hanaonazure/samples/v4-beta/javascript/providerInstancesListSample.js
-[sapmonitorscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hanaonazure/arm-hanaonazure/samples/v4-beta/javascript/sapMonitorsCreateSample.js
-[sapmonitorsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hanaonazure/arm-hanaonazure/samples/v4-beta/javascript/sapMonitorsDeleteSample.js
-[sapmonitorsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hanaonazure/arm-hanaonazure/samples/v4-beta/javascript/sapMonitorsGetSample.js
-[sapmonitorslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hanaonazure/arm-hanaonazure/samples/v4-beta/javascript/sapMonitorsListSample.js
-[sapmonitorsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hanaonazure/arm-hanaonazure/samples/v4-beta/javascript/sapMonitorsUpdateSample.js
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hanaonazure/arm-hanaonazure/samples/v4/javascript/operationsListSample.js
+[providerinstancescreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hanaonazure/arm-hanaonazure/samples/v4/javascript/providerInstancesCreateSample.js
+[providerinstancesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hanaonazure/arm-hanaonazure/samples/v4/javascript/providerInstancesDeleteSample.js
+[providerinstancesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hanaonazure/arm-hanaonazure/samples/v4/javascript/providerInstancesGetSample.js
+[providerinstanceslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hanaonazure/arm-hanaonazure/samples/v4/javascript/providerInstancesListSample.js
+[sapmonitorscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hanaonazure/arm-hanaonazure/samples/v4/javascript/sapMonitorsCreateSample.js
+[sapmonitorsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hanaonazure/arm-hanaonazure/samples/v4/javascript/sapMonitorsDeleteSample.js
+[sapmonitorsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hanaonazure/arm-hanaonazure/samples/v4/javascript/sapMonitorsGetSample.js
+[sapmonitorslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hanaonazure/arm-hanaonazure/samples/v4/javascript/sapMonitorsListSample.js
+[sapmonitorsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hanaonazure/arm-hanaonazure/samples/v4/javascript/sapMonitorsUpdateSample.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-hanaonazure?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hanaonazure/arm-hanaonazure/README.md
