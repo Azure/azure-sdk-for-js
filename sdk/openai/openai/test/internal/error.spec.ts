@@ -8,9 +8,9 @@ import { RestError } from "@azure/core-rest-pipeline";
 
 describe("isOpenAIError", () => {
   it("should recognize OpenAI Error", () => {
-    const openAIError = new OpenAIError("An OpenAI error message", "error_param", "error_type")
-    const restError = new RestError("A rest error message")
-    assert.isTrue(isOpenAIError(openAIError))
-    assert.isFalse(isOpenAIError(restError))
+    const openAIError = new OpenAIError("An OpenAI error message", "error_param", "error_type");
+    const restError = new RestError("A rest error message");
+    assert.isTrue(isOpenAIError(openAIError));
+    assert.isFalse(isOpenAIError(restError));
   });
 });
