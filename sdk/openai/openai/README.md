@@ -34,8 +34,6 @@ Key links:
 - [Product documentation](https://learn.microsoft.com/azure/cognitive-services/openai)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai/samples/v1-beta)
 
-Note: The latest release version of @azure/openai at 1.0.0-beta.12 upgraded the default API version to `2024-03-01-preview`. This has many breaking changes for Bring Your Own Data features. Please refer to the [changelog][changelog] for a list of the breaking changes and follow the [Azure OpenAI sample][byod_sample] to use your own data.
-
 ## Getting started
 
 ```javascript
@@ -391,7 +389,7 @@ main().catch((err) => {
 
 ### Analyze Business Data
 
-This example generates chat responses to input chat questions about your business data. The business data is provided through an Azure Search index. To learn more about how to setup an Azure Search index as a data source, see [Quickstart: Chat with Azure OpenAI models using your own data][msdocs_quickstart_byod]. 
+This example generates chat responses to input chat questions about your business data. The business data is provided through an Azure Cognitive Search index. To learn more about how to setup an Azure Cognitive Search index as a data source, see [Quickstart: Chat with Azure OpenAI models using your own data][msdocs_quickstart_byod].
 
 
 ```javascript
@@ -415,13 +413,10 @@ async function main(){
     azureExtensionOptions: {
       extensions: [
         {
-          type: "azure_search",
-          endpoint: "<Azure Search endpoint>",
-          indexName: "<Azure Search index name>",
-          authentication: {
-            type: "api_key",
-            key: "<Azure Search admin key>",
-          },
+          type: "AzureCognitiveSearch",
+          endpoint: "<Azure Cognitive Search endpoint>",
+          key: "<Azure Cognitive Search admin key>",
+          indexName: "<Azure Cognitive Search index name>",
         },
       ],
     },
@@ -521,4 +516,3 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 [azure_cli]: https://docs.microsoft.com/cli/azure
 [azure_portal]: https://portal.azure.com
 [msdocs_quickstart_byod]: https://learn.microsoft.com/azure/ai-services/openai/use-your-data-quickstart
-[changelog]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/CHANGELOG.md#breaking-changes
