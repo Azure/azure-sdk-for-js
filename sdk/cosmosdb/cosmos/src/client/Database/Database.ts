@@ -25,6 +25,8 @@ import {
   ProtectedDataEncryptionKey,
   EncryptionAlgorithm,
   EncryptionKeyWrapMetadata,
+  KeyEncryptionKeyAlgorithm,
+  EncryptionKeyResolverName,
 } from "../../encryption";
 
 /**
@@ -200,6 +202,37 @@ export class Database {
     encryptionAlgorithm: EncryptionAlgorithm,
     keyWrapMetadata: EncryptionKeyWrapMetadata,
   ): Promise<ClientEncryptionKeyResponse> {
+    if (id == null || !id.trim()) {
+      throw new Error("encryption key id cannot be null or empty");
+    }
+    if (encryptionAlgorithm !== EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256) {
+      throw new Error(`Invalid encryption algorithm '${encryptionAlgorithm}' passed.`);
+    }
+    if (!keyWrapMetadata) {
+      throw new Error("encryptionKeyWrapMetadata cannot be null.");
+    }
+    if (keyWrapMetadata.algorithm !== KeyEncryptionKeyAlgorithm.RSA_OAEP) {
+      throw new Error(`Invalid key wrap algorithm '${keyWrapMetadata.algorithm}' passed.`);
+    }
+    if (!this.clientContext.enableEncyption) {
+      throw new Error(
+        "Creating a client encryption key requires the use of an encryption-enabled client.",
+      );
+    }
+    // if (keyWrapMetadata.type !== this.clientContext.encryptionKeyStoreProvider.providerName) {
+    //   throw new Error(
+    //     `The Type of the EncryptionKeyWrapMetadata '${keyWrapMetadata.type}' does not match with the encryption key provider Name '${this.clientContext.encryptionKeyStoreProvider.providerName}' configured`,
+    //   );
+    // }
+
+    if (keyWrapMetadata.type === EncryptionKeyResolverName.AzureKeyVault) {
+      // https://KEYVAULTNAME.vault.azure.net/keys/KEYNAME/KEYVERSION
+      const keyVaultUriSegments: string[] = new URL(keyWrapMetadata.value).pathname.split("/");
+
+      if (keyVaultUriSegments.length !== 4 || keyVaultUriSegments[1] !== "keys") {
+        throw new Error(`Invalid Key Vault URI '${keyWrapMetadata.value}' passed.`);
+      }
+    }
     const keyEncryptionKey: KeyEncryptionKey = KeyEncryptionKey.getOrCreate(
       keyWrapMetadata.name,
       keyWrapMetadata.value,
@@ -215,7 +248,7 @@ export class Database {
 
     await ProtectedDataEncryptionKey.getOrCreate(id, keyEncryptionKey, wrappedDataEncryptionKey);
 
-    let body: ClientEncryptionKeyRequest = {
+    const body: ClientEncryptionKeyRequest = {
       id: id,
       encryptionAlgorithm: encryptionAlgorithm,
       keyWrapMetadata: keyWrapMetadata,
@@ -224,17 +257,18 @@ export class Database {
 
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       const path = getPathFromLink(this.url, ResourceType.clientencryptionkey);
-      const id = getIdFromLink(this.url);
+      const databaseId = getIdFromLink(this.url);
       const response = await this.clientContext.create<ClientEncryptionKeyRequest>({
         body,
         path: path,
         resourceType: ResourceType.clientencryptionkey,
-        resourceId: id,
+        resourceId: databaseId,
         diagnosticNode,
       });
       const ref = new ClientEncryptionKeyProperties(
         response.result.id,
         response.result.encryptionAlgorithm,
+        response.result._etag,
         Buffer.from(response.result.wrappedDataEncryptionKey, "base64"),
         response.result.keyWrapMetadata,
       );
@@ -252,6 +286,9 @@ export class Database {
    * Read Encryption key for database account
    */
   public async readClientEncryptionKey(id: string): Promise<ClientEncryptionKeyResponse> {
+    if (id == null || !id.trim()) {
+      throw new Error("encryption key id cannot be null or empty");
+    }
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       const path = getPathFromLink(this.url, ResourceType.clientencryptionkey);
       const resourceid = getIdFromLink(this.url);
@@ -264,6 +301,101 @@ export class Database {
       const ref = new ClientEncryptionKeyProperties(
         response.result.id,
         response.result.encryptionAlgorithm,
+        response.result._etag,
+        Buffer.from(response.result.wrappedDataEncryptionKey, "base64"),
+        response.result.keyWrapMetadata,
+      );
+      return new ClientEncryptionKeyResponse(
+        response.result,
+        response.headers,
+        response.code,
+        ref,
+        getEmptyCosmosDiagnostics(),
+      );
+    }, this.clientContext);
+  }
+  /**
+   *
+   * @param id - client encryption key id
+   * @param newKeyWrapMetadata - new encryption key wrap metadata
+   * @returns rewrapped client encryption key with new customer managed key
+   */
+  public async rewrapClientEncryptionKey(
+    id: string,
+    newKeyWrapMetadata: EncryptionKeyWrapMetadata,
+  ): Promise<ClientEncryptionKeyResponse> {
+    if (id == null || !id.trim()) {
+      throw new Error("encryption key id cannot be null or empty");
+    }
+    if (!newKeyWrapMetadata) {
+      throw new Error("encryptionKeyWrapMetadata cannot be null.");
+    }
+    if (newKeyWrapMetadata.algorithm !== KeyEncryptionKeyAlgorithm.RSA_OAEP) {
+      throw new Error(`Invalid key wrap algorithm '${newKeyWrapMetadata.algorithm}' passed.`);
+    }
+    if (!this.clientContext.enableEncyption) {
+      throw new Error(
+        "Creating a client encryption key requires the use of an encryption-enabled client.",
+      );
+    }
+    if (newKeyWrapMetadata.type === EncryptionKeyResolverName.AzureKeyVault) {
+      // https://KEYVAULTNAME.vault.azure.net/keys/KEYNAME/KEYVERSION
+      const keyVaultUriSegments: string[] = new URL(newKeyWrapMetadata.value).pathname.split("/");
+
+      if (keyVaultUriSegments.length !== 4 || keyVaultUriSegments[1] !== "keys") {
+        throw new Error(`Invalid Key Vault URI '${newKeyWrapMetadata.value}' passed.`);
+      }
+    }
+
+    const res = await this.readClientEncryptionKey(id);
+    let clientEncryptionKeyProperties = res.clientEncryptionKeyProperties;
+
+    let keyEncryptionKey = KeyEncryptionKey.getOrCreate(
+      clientEncryptionKeyProperties.encryptionKeyWrapMetadata.name,
+      clientEncryptionKeyProperties.encryptionKeyWrapMetadata.value,
+      this.clientContext.encryptionKeyStoreProvider,
+    );
+    const unwrappedKey = await keyEncryptionKey.unwrapEncryptionKey(
+      clientEncryptionKeyProperties.wrappedDataEncryptionKey,
+    );
+    keyEncryptionKey = KeyEncryptionKey.getOrCreate(
+      newKeyWrapMetadata.name,
+      newKeyWrapMetadata.value,
+      this.clientContext.encryptionKeyStoreProvider,
+    );
+    const rewrappedKey = await keyEncryptionKey.wrapEncryptionKey(unwrappedKey);
+    clientEncryptionKeyProperties = new ClientEncryptionKeyProperties(
+      id,
+      clientEncryptionKeyProperties.encryptionAlgorithm,
+      clientEncryptionKeyProperties.etag,
+      rewrappedKey,
+      newKeyWrapMetadata,
+    );
+    const body: ClientEncryptionKeyRequest = {
+      id: id,
+      encryptionAlgorithm: clientEncryptionKeyProperties.encryptionAlgorithm,
+      keyWrapMetadata: newKeyWrapMetadata,
+      wrappedDataEncryptionKey: rewrappedKey.toString("base64"),
+    };
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const path = getPathFromLink(this.url, ResourceType.clientencryptionkey);
+      const resourceid = getIdFromLink(this.url);
+      const options = {
+        accessCondition: { type: "IfMatch", condition: clientEncryptionKeyProperties.etag },
+      };
+      const response = await this.clientContext.replace<ClientEncryptionKeyRequest>({
+        body,
+        path: path + `/${id}`,
+        resourceType: ResourceType.clientencryptionkey,
+        resourceId: resourceid + `/${ResourceType.clientencryptionkey}/${id}`,
+        options,
+        diagnosticNode,
+      });
+
+      const ref = new ClientEncryptionKeyProperties(
+        response.result.id,
+        response.result.encryptionAlgorithm,
+        response.result._etag,
         Buffer.from(response.result.wrappedDataEncryptionKey, "base64"),
         response.result.keyWrapMetadata,
       );

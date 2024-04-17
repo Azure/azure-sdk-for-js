@@ -360,3 +360,12 @@ export function parseConnectionString(connectionString: string): CosmosClientOpt
     key: AccountKey,
   };
 }
+
+/**
+ * returns copy of object to avoid encryption of original object passed
+ * in the CRUD methods.
+ * @hidden
+ */
+export function copyObject(obj: any): any {
+  return JSON.parse(JSON.stringify(obj));
+}

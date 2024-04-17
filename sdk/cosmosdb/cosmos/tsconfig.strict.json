@@ -208,6 +208,8 @@
     "test/public/functional/udf.spec.ts",
     "test/public/functional/user.spec.ts",
     "test/public/functional/queryIterator.spec.ts",
+    "test/public/functional/clientSideEncryption.spec.ts",
+    "test/public/functional/dotnetcse.spec.ts",
     "test/public/integration/aggregateQuery.spec.ts",
     "test/public/integration/authorization.spec.ts",
     "test/public/integration/changeFeed.spec.ts",

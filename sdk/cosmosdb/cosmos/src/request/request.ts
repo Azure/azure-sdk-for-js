@@ -218,6 +218,10 @@ export async function getHeaders({
     headers[Constants.HttpHeaders.PopulateIndexMetrics] = options.populateIndexMetrics;
   }
 
+  if (clientOptions.enableEncryption) {
+    headers[Constants.HttpHeaders.IsClientEncryptedHeader] = true;
+  }
+
   if (
     clientOptions.key ||
     clientOptions.resourceTokens ||
