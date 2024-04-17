@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get all available location names for AFD log analytics report.
  *
  * @summary Get all available location names for AFD log analytics report.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/LogAnalytics_GetLogAnalyticsLocations.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/LogAnalytics_GetLogAnalyticsLocations.json
  */
 async function logAnalyticsGetLogAnalyticsLocations() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function logAnalyticsGetLogAnalyticsLocations() {
   const client = new CdnManagementClient(credential, subscriptionId);
   const result = await client.logAnalytics.getLogAnalyticsLocations(
     resourceGroupName,
-    profileName
+    profileName,
   );
   console.log(result);
 }

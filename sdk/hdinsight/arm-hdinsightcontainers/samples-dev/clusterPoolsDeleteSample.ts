@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a Cluster Pool.
  *
  * @summary Deletes a Cluster Pool.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-06-01-preview/examples/DeleteClusterPool.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-11-01-preview/examples/DeleteClusterPool.json
  */
 async function clusterPoolDelete() {
   const subscriptionId =
@@ -29,11 +29,11 @@ async function clusterPoolDelete() {
   const credential = new DefaultAzureCredential();
   const client = new HDInsightContainersManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.clusterPools.beginDeleteAndWait(
     resourceGroupName,
-    clusterPoolName
+    clusterPoolName,
   );
   console.log(result);
 }

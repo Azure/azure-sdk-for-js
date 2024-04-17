@@ -18,7 +18,7 @@ import {
   ExperimentUpdateModel,
   ExperimentsUpdateOptionalParams,
   ExperimentsUpdateResponse,
-  ExperimentsDeleteOptionalParams
+  ExperimentsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface Experiments {
   listByProfile(
     resourceGroupName: string,
     profileName: string,
-    options?: ExperimentsListByProfileOptionalParams
+    options?: ExperimentsListByProfileOptionalParams,
   ): PagedAsyncIterableIterator<Experiment>;
   /**
    * Gets an Experiment by ExperimentName
@@ -46,7 +46,7 @@ export interface Experiments {
     resourceGroupName: string,
     profileName: string,
     experimentName: string,
-    options?: ExperimentsGetOptionalParams
+    options?: ExperimentsGetOptionalParams,
   ): Promise<ExperimentsGetResponse>;
   /**
    * Creates or updates an Experiment
@@ -61,7 +61,7 @@ export interface Experiments {
     profileName: string,
     experimentName: string,
     parameters: Experiment,
-    options?: ExperimentsCreateOrUpdateOptionalParams
+    options?: ExperimentsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ExperimentsCreateOrUpdateResponse>,
@@ -81,7 +81,7 @@ export interface Experiments {
     profileName: string,
     experimentName: string,
     parameters: Experiment,
-    options?: ExperimentsCreateOrUpdateOptionalParams
+    options?: ExperimentsCreateOrUpdateOptionalParams,
   ): Promise<ExperimentsCreateOrUpdateResponse>;
   /**
    * Updates an Experiment
@@ -96,7 +96,7 @@ export interface Experiments {
     profileName: string,
     experimentName: string,
     parameters: ExperimentUpdateModel,
-    options?: ExperimentsUpdateOptionalParams
+    options?: ExperimentsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ExperimentsUpdateResponse>,
@@ -116,7 +116,7 @@ export interface Experiments {
     profileName: string,
     experimentName: string,
     parameters: ExperimentUpdateModel,
-    options?: ExperimentsUpdateOptionalParams
+    options?: ExperimentsUpdateOptionalParams,
   ): Promise<ExperimentsUpdateResponse>;
   /**
    * Deletes an Experiment
@@ -129,7 +129,7 @@ export interface Experiments {
     resourceGroupName: string,
     profileName: string,
     experimentName: string,
-    options?: ExperimentsDeleteOptionalParams
+    options?: ExperimentsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an Experiment
@@ -142,6 +142,6 @@ export interface Experiments {
     resourceGroupName: string,
     profileName: string,
     experimentName: string,
-    options?: ExperimentsDeleteOptionalParams
+    options?: ExperimentsDeleteOptionalParams,
   ): Promise<void>;
 }

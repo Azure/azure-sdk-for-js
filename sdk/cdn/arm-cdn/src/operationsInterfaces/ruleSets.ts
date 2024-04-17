@@ -17,7 +17,7 @@ import {
   RuleSetsGetResponse,
   RuleSetsCreateOptionalParams,
   RuleSetsCreateResponse,
-  RuleSetsDeleteOptionalParams
+  RuleSetsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface RuleSets {
   listByProfile(
     resourceGroupName: string,
     profileName: string,
-    options?: RuleSetsListByProfileOptionalParams
+    options?: RuleSetsListByProfileOptionalParams,
   ): PagedAsyncIterableIterator<RuleSet>;
   /**
    * Checks the quota and actual usage of endpoints under the given Azure Front Door profile..
@@ -47,7 +47,7 @@ export interface RuleSets {
     resourceGroupName: string,
     profileName: string,
     ruleSetName: string,
-    options?: RuleSetsListResourceUsageOptionalParams
+    options?: RuleSetsListResourceUsageOptionalParams,
   ): PagedAsyncIterableIterator<Usage>;
   /**
    * Gets an existing AzureFrontDoor rule set with the specified rule set name under the specified
@@ -62,7 +62,7 @@ export interface RuleSets {
     resourceGroupName: string,
     profileName: string,
     ruleSetName: string,
-    options?: RuleSetsGetOptionalParams
+    options?: RuleSetsGetOptionalParams,
   ): Promise<RuleSetsGetResponse>;
   /**
    * Creates a new rule set within the specified profile.
@@ -76,7 +76,7 @@ export interface RuleSets {
     resourceGroupName: string,
     profileName: string,
     ruleSetName: string,
-    options?: RuleSetsCreateOptionalParams
+    options?: RuleSetsCreateOptionalParams,
   ): Promise<RuleSetsCreateResponse>;
   /**
    * Deletes an existing AzureFrontDoor rule set with the specified rule set name under the specified
@@ -91,7 +91,7 @@ export interface RuleSets {
     resourceGroupName: string,
     profileName: string,
     ruleSetName: string,
-    options?: RuleSetsDeleteOptionalParams
+    options?: RuleSetsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing AzureFrontDoor rule set with the specified rule set name under the specified
@@ -106,6 +106,6 @@ export interface RuleSets {
     resourceGroupName: string,
     profileName: string,
     ruleSetName: string,
-    options?: RuleSetsDeleteOptionalParams
+    options?: RuleSetsDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNode } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import { isNodeReadableStream } from "./typeGuards.js";
 
 /**
@@ -153,7 +153,7 @@ export function createFile(
   name: string,
   options: CreateFileOptions = {},
 ): File {
-  if (isNode) {
+  if (isNodeLike) {
     return {
       ...unimplementedMethods,
       type: options.type ?? "",

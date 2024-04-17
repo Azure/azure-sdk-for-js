@@ -10,7 +10,7 @@
  */
 /** The request details to use when creating a new assistant. */
 export interface AssistantCreationOptions {
-  /** The ID of the model to use. */
+  /** The ID of the model to use. (In Azure AI Studio, corresponds to "Deployment name") */
   model: string;
   /** The name of the new assistant. */
   name?: string | null;
