@@ -8,6 +8,11 @@ import { readFile } from "fs/promises";
 import { CredentialUnavailableError } from "../errors";
 import { credentialLogger, processEnvVars } from "../util/logging";
 import { checkTenantId } from "../util/tenantIdUtils";
+import {
+  createDefaultHttpClient,
+  createHttpHeaders,
+  createPipelineRequest,
+} from "@azure/core-rest-pipeline";
 
 const credentialName = "WorkloadIdentityCredential";
 /**
@@ -183,16 +188,25 @@ export class WorkloadIdentityCredential implements TokenCredential {
     logger.info("Requesting OIDC token from Azure Pipelines...");
     logger.info(oidcRequestUrl);
 
-    const requestOptions = {
+    const httpClient = createDefaultHttpClient();
+
+    const request = createPipelineRequest({
+      url: oidcRequestUrl,
       method: "POST",
-      headers: {
+      headers: createHttpHeaders({
         "Content-Type": "application/json",
         Authorization: `Bearer ${systemAccessToken}`,
-      },
-    };
+      }),
+    });
 
-    const response = await fetch(oidcRequestUrl, requestOptions);
-    const result = await response.json();
+    const response = await httpClient.sendRequest(request);
+    const text = response.bodyAsText;
+    if (text === null) {
+      throw new CredentialUnavailableError(
+        `${credentialName}: is unavailable. Received null token from OIDC request. Response status = ${response.status}`
+      );
+    }
+    const result = JSON.parse(text!);
     return result;
   }
 
