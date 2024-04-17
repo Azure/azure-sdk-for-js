@@ -25,7 +25,7 @@ import {
   LogAnalyticsGetWafLogAnalyticsMetricsResponse,
   WafRankingType,
   LogAnalyticsGetWafLogAnalyticsRankingsOptionalParams,
-  LogAnalyticsGetWafLogAnalyticsRankingsResponse
+  LogAnalyticsGetWafLogAnalyticsRankingsResponse,
 } from "../models";
 
 /** Interface representing a LogAnalytics. */
@@ -52,7 +52,7 @@ export interface LogAnalytics {
     granularity: LogMetricsGranularity,
     customDomains: string[],
     protocols: string[],
-    options?: LogAnalyticsGetLogAnalyticsMetricsOptionalParams
+    options?: LogAnalyticsGetLogAnalyticsMetricsOptionalParams,
   ): Promise<LogAnalyticsGetLogAnalyticsMetricsResponse>;
   /**
    * Get log analytics ranking report for AFD profile
@@ -74,7 +74,7 @@ export interface LogAnalytics {
     maxRanking: number,
     dateTimeBegin: Date,
     dateTimeEnd: Date,
-    options?: LogAnalyticsGetLogAnalyticsRankingsOptionalParams
+    options?: LogAnalyticsGetLogAnalyticsRankingsOptionalParams,
   ): Promise<LogAnalyticsGetLogAnalyticsRankingsResponse>;
   /**
    * Get all available location names for AFD log analytics report.
@@ -86,7 +86,7 @@ export interface LogAnalytics {
   getLogAnalyticsLocations(
     resourceGroupName: string,
     profileName: string,
-    options?: LogAnalyticsGetLogAnalyticsLocationsOptionalParams
+    options?: LogAnalyticsGetLogAnalyticsLocationsOptionalParams,
   ): Promise<LogAnalyticsGetLogAnalyticsLocationsResponse>;
   /**
    * Get all endpoints and custom domains available for AFD log report
@@ -98,7 +98,7 @@ export interface LogAnalytics {
   getLogAnalyticsResources(
     resourceGroupName: string,
     profileName: string,
-    options?: LogAnalyticsGetLogAnalyticsResourcesOptionalParams
+    options?: LogAnalyticsGetLogAnalyticsResourcesOptionalParams,
   ): Promise<LogAnalyticsGetLogAnalyticsResourcesResponse>;
   /**
    * Get Waf related log analytics report for AFD profile.
@@ -118,7 +118,7 @@ export interface LogAnalytics {
     dateTimeBegin: Date,
     dateTimeEnd: Date,
     granularity: WafGranularity,
-    options?: LogAnalyticsGetWafLogAnalyticsMetricsOptionalParams
+    options?: LogAnalyticsGetWafLogAnalyticsMetricsOptionalParams,
   ): Promise<LogAnalyticsGetWafLogAnalyticsMetricsResponse>;
   /**
    * Get WAF log analytics charts for AFD profile
@@ -140,6 +140,6 @@ export interface LogAnalytics {
     dateTimeEnd: Date,
     maxRanking: number,
     rankings: WafRankingType[],
-    options?: LogAnalyticsGetWafLogAnalyticsRankingsOptionalParams
+    options?: LogAnalyticsGetWafLogAnalyticsRankingsOptionalParams,
   ): Promise<LogAnalyticsGetWafLogAnalyticsRankingsResponse>;
 }

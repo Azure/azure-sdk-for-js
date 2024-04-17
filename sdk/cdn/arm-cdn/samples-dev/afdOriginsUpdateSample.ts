@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates an existing origin within an origin group.
  *
  * @summary Updates an existing origin within an origin group.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/AFDOrigins_Update.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/AFDOrigins_Update.json
  */
 async function afdOriginsUpdate() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function afdOriginsUpdate() {
     enabledState: "Enabled",
     hostName: "host1.blob.core.windows.net",
     httpPort: 80,
-    httpsPort: 443
+    httpsPort: 443,
   };
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
@@ -39,7 +39,7 @@ async function afdOriginsUpdate() {
     profileName,
     originGroupName,
     originName,
-    originUpdateProperties
+    originUpdateProperties,
   );
   console.log(result);
 }

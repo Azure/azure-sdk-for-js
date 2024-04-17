@@ -1,21 +1,29 @@
 # Release History
 
-## 4.1.0-beta.2 (Unreleased)
+## 4.1.1 (Unreleased)
 
 ### Features Added
 
-- `InteractiveBrowserCredential`: Added support for using the default broker account. [#28979](https://github.com/Azure/azure-sdk-for-js/pull/28979)
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 4.1.0 (2024-04-09)
+
+### Features Added
+
+- `InteractiveBrowserCredential`: Added support for using the default broker account. [#28979](https://github.com/Azure/azure-sdk-for-js/pull/28979).
 
 ### Breaking Changes
 
-- IMDS probing retry configuration updated for `DefaultAzureCredential`, with `maxRetryCount` increased to 5.
+- IMDS probing retry configuration updated for `DefaultAzureCredential` and `ManagedIdentityCredential`, with `maxRetryCount` increased to 5. For more information, see [BREAKING_CHANGES.md](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/BREAKING_CHANGES.md#410).
 
 ### Bugs Fixed
 
 - msal cache files are properly named when the user does not pass in a custom file name [#29039](https://github.com/Azure/azure-sdk-for-js/pull/29039)
-- Allow IMDS probing retry options in `ManagedIdentityCredential` to be overridden by customers
-
-### Other Changes
+- Allow IMDS probing retry options in `ManagedIdentityCredential` and `DefaultAzureCredential` to be overridden by customers.
 
 ## 4.1.0-beta.1 (2024-02-06)
 

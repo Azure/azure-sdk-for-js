@@ -18,7 +18,7 @@ import {
   OriginGroupUpdateParameters,
   OriginGroupsUpdateOptionalParams,
   OriginGroupsUpdateResponse,
-  OriginGroupsDeleteOptionalParams
+  OriginGroupsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface OriginGroups {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: OriginGroupsListByEndpointOptionalParams
+    options?: OriginGroupsListByEndpointOptionalParams,
   ): PagedAsyncIterableIterator<OriginGroup>;
   /**
    * Gets an existing origin group within an endpoint.
@@ -50,7 +50,7 @@ export interface OriginGroups {
     profileName: string,
     endpointName: string,
     originGroupName: string,
-    options?: OriginGroupsGetOptionalParams
+    options?: OriginGroupsGetOptionalParams,
   ): Promise<OriginGroupsGetResponse>;
   /**
    * Creates a new origin group within the specified endpoint.
@@ -67,7 +67,7 @@ export interface OriginGroups {
     endpointName: string,
     originGroupName: string,
     originGroup: OriginGroup,
-    options?: OriginGroupsCreateOptionalParams
+    options?: OriginGroupsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<OriginGroupsCreateResponse>,
@@ -89,7 +89,7 @@ export interface OriginGroups {
     endpointName: string,
     originGroupName: string,
     originGroup: OriginGroup,
-    options?: OriginGroupsCreateOptionalParams
+    options?: OriginGroupsCreateOptionalParams,
   ): Promise<OriginGroupsCreateResponse>;
   /**
    * Updates an existing origin group within an endpoint.
@@ -106,7 +106,7 @@ export interface OriginGroups {
     endpointName: string,
     originGroupName: string,
     originGroupUpdateProperties: OriginGroupUpdateParameters,
-    options?: OriginGroupsUpdateOptionalParams
+    options?: OriginGroupsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<OriginGroupsUpdateResponse>,
@@ -128,7 +128,7 @@ export interface OriginGroups {
     endpointName: string,
     originGroupName: string,
     originGroupUpdateProperties: OriginGroupUpdateParameters,
-    options?: OriginGroupsUpdateOptionalParams
+    options?: OriginGroupsUpdateOptionalParams,
   ): Promise<OriginGroupsUpdateResponse>;
   /**
    * Deletes an existing origin group within an endpoint.
@@ -143,7 +143,7 @@ export interface OriginGroups {
     profileName: string,
     endpointName: string,
     originGroupName: string,
-    options?: OriginGroupsDeleteOptionalParams
+    options?: OriginGroupsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing origin group within an endpoint.
@@ -158,6 +158,6 @@ export interface OriginGroups {
     profileName: string,
     endpointName: string,
     originGroupName: string,
-    options?: OriginGroupsDeleteOptionalParams
+    options?: OriginGroupsDeleteOptionalParams,
   ): Promise<void>;
 }
