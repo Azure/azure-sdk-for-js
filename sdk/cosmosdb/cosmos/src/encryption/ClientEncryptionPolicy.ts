@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ErrorResponse } from "..";
+import { ErrorResponse } from "../request";
 import { ClientEncryptionIncludedPath } from "./ClientEncryptionIncludedPath";
 import { EncryptionAlgorithm } from "./enums";
 
