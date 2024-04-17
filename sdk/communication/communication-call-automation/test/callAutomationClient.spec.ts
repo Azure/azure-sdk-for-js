@@ -51,7 +51,7 @@ describe("Call Automation Client Unit Tests", () => {
     };
     // stub CallAutomationClient
     client = Sinon.createStubInstance(
-      CallAutomationClient
+      CallAutomationClient,
     ) as SinonStubbedInstance<CallAutomationClient> & CallAutomationClient;
   });
 
@@ -76,7 +76,7 @@ describe("Call Automation Client Unit Tests", () => {
     client.createCall.returns(
       new Promise((resolve) => {
         resolve(createCallResultMock);
-      })
+      }),
     );
 
     const promiseResult = client.createCall(target, CALL_CALLBACK_URL);
@@ -101,7 +101,7 @@ describe("Call Automation Client Unit Tests", () => {
     client.createGroupCall.returns(
       new Promise((resolve) => {
         resolve(createGroupCallResultMock);
-      })
+      }),
     );
 
     const promiseResult = client.createGroupCall(targets, CALL_CALLBACK_URL);
@@ -126,7 +126,7 @@ describe("Call Automation Client Unit Tests", () => {
     client.answerCall.returns(
       new Promise((resolve) => {
         resolve(answerCallResultMock);
-      })
+      }),
     );
 
     const promiseResult = client.answerCall(CALL_INCOMING_CALL_CONTEXT, CALL_CALLBACK_URL);
@@ -147,7 +147,7 @@ describe("Call Automation Client Unit Tests", () => {
     client.redirectCall.returns(
       new Promise((resolve) => {
         resolve(undefined);
-      })
+      }),
     );
 
     const promiseResult = client.redirectCall(CALL_INCOMING_CALL_CONTEXT, target);
@@ -166,7 +166,7 @@ describe("Call Automation Client Unit Tests", () => {
     client.rejectCall.returns(
       new Promise((resolve) => {
         resolve(undefined);
-      })
+      }),
     );
 
     const promiseResult = client.rejectCall(CALL_INCOMING_CALL_CONTEXT);

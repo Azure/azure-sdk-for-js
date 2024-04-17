@@ -32,7 +32,7 @@ export const createMediaClient = (mockHttpClient: HttpClient): CallMedia => {
     { key: generateToken() },
     {
       httpClient: mockHttpClient,
-    }
+    },
   );
 };
 
@@ -42,6 +42,6 @@ export const createRecordingClient = (mockHttpClient: HttpClient): CallRecording
     { key: generateToken() },
     {
       httpClient: mockHttpClient,
-    }
+    },
   );
 };

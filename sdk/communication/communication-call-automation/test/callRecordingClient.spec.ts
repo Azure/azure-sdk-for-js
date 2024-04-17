@@ -88,7 +88,7 @@ describe("CallRecording Unit Tests", async function () {
     assert.equal(request.method, "POST");
     assert.equal(
       request.url,
-      `${baseUri}/calling/recordings?api-version=${apiVersion.mapper.defaultValue}`
+      `${baseUri}/calling/recordings?api-version=${apiVersion.mapper.defaultValue}`,
     );
   });
 
@@ -119,7 +119,7 @@ describe("CallRecording Unit Tests", async function () {
     assert.equal(request.method, "POST");
     assert.equal(
       request.url,
-      `${baseUri}/calling/recordings?api-version=${apiVersion.mapper.defaultValue}`
+      `${baseUri}/calling/recordings?api-version=${apiVersion.mapper.defaultValue}`,
     );
   });
 
@@ -139,7 +139,7 @@ describe("CallRecording Unit Tests", async function () {
     assert.equal(request.method, "GET");
     assert.equal(
       request.url,
-      `${baseUri}/calling/recordings/${RECORDING_ID}?api-version=${apiVersion.mapper.defaultValue}`
+      `${baseUri}/calling/recordings/${RECORDING_ID}?api-version=${apiVersion.mapper.defaultValue}`,
     );
   });
 
@@ -152,7 +152,7 @@ describe("CallRecording Unit Tests", async function () {
 
     assert.equal(
       request.url,
-      `${baseUri}/calling/recordings/${RECORDING_ID}?api-version=${apiVersion.mapper.defaultValue}`
+      `${baseUri}/calling/recordings/${RECORDING_ID}?api-version=${apiVersion.mapper.defaultValue}`,
     );
     assert.equal(request.method, "DELETE");
   });
@@ -166,7 +166,7 @@ describe("CallRecording Unit Tests", async function () {
 
     assert.equal(
       request.url,
-      `${baseUri}/calling/recordings/${RECORDING_ID}:pause?api-version=${apiVersion.mapper.defaultValue}`
+      `${baseUri}/calling/recordings/${RECORDING_ID}:pause?api-version=${apiVersion.mapper.defaultValue}`,
     );
     assert.equal(request.method, "POST");
   });
@@ -180,7 +180,7 @@ describe("CallRecording Unit Tests", async function () {
 
     assert.equal(
       request.url,
-      `${baseUri}/calling/recordings/${RECORDING_ID}:resume?api-version=${apiVersion.mapper.defaultValue}`
+      `${baseUri}/calling/recordings/${RECORDING_ID}:resume?api-version=${apiVersion.mapper.defaultValue}`,
     );
     assert.equal(request.method, "POST");
   });

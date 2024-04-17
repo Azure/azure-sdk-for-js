@@ -82,13 +82,13 @@ export class CallAutomationClient {
   constructor(
     endpoint: string,
     credential: TokenCredential | KeyCredential,
-    options?: CallAutomationClientOptions
+    options?: CallAutomationClientOptions,
   );
 
   constructor(
     connectionStringOrUrl: string,
     credentialOrOptions?: KeyCredential | TokenCredential | CallAutomationClientOptions,
-    maybeOptions: CallAutomationClientOptions = {}
+    maybeOptions: CallAutomationClientOptions = {},
   ) {
     const options = isCallAutomationClientOptions(credentialOrOptions)
       ? credentialOrOptions
@@ -125,7 +125,7 @@ export class CallAutomationClient {
       callConnectionId,
       this.callAutomationApiClient.endpoint,
       this.credential,
-      this.internalPipelineOptions
+      this.internalPipelineOptions,
     );
   }
 
@@ -136,7 +136,7 @@ export class CallAutomationClient {
     return new CallRecording(
       this.callAutomationApiClient.endpoint,
       this.credential,
-      this.internalPipelineOptions
+      this.internalPipelineOptions,
     );
   }
 
@@ -149,7 +149,7 @@ export class CallAutomationClient {
 
   private async createCallInternal(
     request: CreateCallRequest,
-    options?: CreateCallOptions
+    options?: CreateCallOptions,
   ): Promise<CreateCallResult> {
     const optionsInternal = {
       ...options,
@@ -166,7 +166,7 @@ export class CallAutomationClient {
         source: source ? communicationIdentifierConverter(source) : undefined,
         answeredby: communicationUserIdentifierConverter(answeredBy),
         targetParticipants: targets?.map((returnedTarget) =>
-          communicationIdentifierConverter(returnedTarget)
+          communicationIdentifierConverter(returnedTarget),
         ),
         sourceCallerIdNumber: sourceCallerIdNumber
           ? phoneNumberIdentifierConverter(sourceCallerIdNumber)
@@ -176,7 +176,7 @@ export class CallAutomationClient {
         callConnectionId,
         this.callAutomationApiClient.endpoint,
         this.credential,
-        this.internalPipelineOptions
+        this.internalPipelineOptions,
       );
       const createCallResult: CreateCallResult = {
         callConnectionProperties: callConnectionPropertiesDto,
@@ -196,7 +196,7 @@ export class CallAutomationClient {
   public async createCall(
     targetParticipant: CallInvite,
     callbackUrl: string,
-    options: CreateCallOptions = {}
+    options: CreateCallOptions = {},
   ): Promise<CreateCallResult> {
     const request: CreateCallRequest = {
       source: this.sourceIdentity,
@@ -205,7 +205,7 @@ export class CallAutomationClient {
       operationContext: options.operationContext,
       callIntelligenceOptions: options.callIntelligenceOptions,
       sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(
-        targetParticipant.sourceCallIdNumber
+        targetParticipant.sourceCallIdNumber,
       ),
       sourceDisplayName: targetParticipant.sourceDisplayName,
     };
@@ -222,7 +222,7 @@ export class CallAutomationClient {
   public async createGroupCall(
     targetParticipants: CommunicationIdentifier[],
     callbackUrl: string,
-    options: CreateCallOptions = {}
+    options: CreateCallOptions = {},
   ): Promise<CreateCallResult> {
     const request: CreateCallRequest = {
       source: this.sourceIdentity,
@@ -246,7 +246,7 @@ export class CallAutomationClient {
   public async answerCall(
     incomingCallContext: string,
     callbackUrl: string,
-    options: AnswerCallOptions = {}
+    options: AnswerCallOptions = {},
   ): Promise<AnswerCallResult> {
     const { callIntelligenceOptions, operationContext, ...operationOptions } = options;
     const request: AnswerCallRequest = {
@@ -279,7 +279,7 @@ export class CallAutomationClient {
         callConnectionId,
         this.callAutomationApiClient.endpoint,
         this.credential,
-        this.internalPipelineOptions
+        this.internalPipelineOptions,
       );
       const answerCallResult: AnswerCallResult = {
         callConnectionProperties: callConnectionProperties,
@@ -300,7 +300,7 @@ export class CallAutomationClient {
   public async redirectCall(
     incomingCallContext: string,
     targetParticipant: CallInvite,
-    options: RedirectCallOptions = {}
+    options: RedirectCallOptions = {},
   ): Promise<void> {
     const request: RedirectCallRequest = {
       incomingCallContext: incomingCallContext,
@@ -323,7 +323,7 @@ export class CallAutomationClient {
    */
   public async rejectCall(
     incomingCallContext: string,
-    options: RejectCallOptions = {}
+    options: RejectCallOptions = {},
   ): Promise<void> {
     const request: RejectCallRequest = {
       incomingCallContext: incomingCallContext,

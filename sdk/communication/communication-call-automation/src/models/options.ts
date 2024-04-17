@@ -17,7 +17,7 @@ import {
   ChannelAffinity,
   CallIntelligenceOptions,
   CustomCallingContext,
-  RecordingStorage
+  RecordingStorage,
 } from "./models";
 
 /** Options to configure the recognize operation. */
