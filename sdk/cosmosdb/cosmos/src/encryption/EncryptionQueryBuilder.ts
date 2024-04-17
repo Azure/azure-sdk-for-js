@@ -3,11 +3,8 @@
 
 import { SqlQuerySpec, SqlParameter } from "../queryExecutionContext";
 import { TypeMarker } from "./enums/TypeMarker";
-/**
- * A wrapper class containing the info about the client encryption key and key store provider to wrap and unwrap the key.
- */
 
-interface EncryptionSqlParameter extends SqlParameter {
+export interface EncryptionSqlParameter extends SqlParameter {
   type: TypeMarker;
   path: string;
 }
@@ -21,19 +18,17 @@ export class EncryptionQueryBuilder {
     this.parameters = [];
   }
 
-  public addBooleanParameter(name: string, value: boolean, path: string) {
+  public addBooleanParameter(name: string, value: boolean, path: string): void {
     this.parameters.push({ name: name, value: value, type: TypeMarker.Boolean, path: path });
   }
-
-  public addIntegerParameter(name: string, value: number, path: string) {
-    this.parameters.push({ name: name, value: value, type: TypeMarker.Double, path: path });
-  }
-
-  public addFloatParameter(name: string, value: number, path: string) {
+  public addIntegerParameter(name: string, value: number, path: string): void {
     this.parameters.push({ name: name, value: value, type: TypeMarker.Long, path: path });
   }
 
-  public addStringParameter(name: string, value: string, path: string) {
+  public addFloatParameter(name: string, value: number, path: string): void {
+    this.parameters.push({ name: name, value: value, type: TypeMarker.Double, path: path });
+  }
+  public addStringParameter(name: string, value: string, path: string): void {
     this.parameters.push({ name: name, value: value, type: TypeMarker.String, path: path });
   }
   /*

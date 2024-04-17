@@ -146,4 +146,12 @@ export {
   ClientEncryptionKeyProperties,
   EncryptionKeyWrapMetadata,
   EncryptionQueryBuilder,
+  ClientEncryptionKeyRequest,
+  ClientEncryptionKeyResponse,
+  ClientEncryptionKeyDefinition,
+  EncryptionKeyResolver,
+  AzureKeyVaultEncryptionKeyResolver,
+  EncryptionType,
+  EncryptionAlgorithm,
+  EncryptionKeyResolverName,
 } from "./encryption";

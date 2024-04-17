@@ -8,9 +8,9 @@ import { Constants, ResourceType, StatusCodes } from "../../common";
 import type { FeedOptions, Response } from "../../request";
 import { ErrorResponse } from "../../request";
 import { ContinuationTokenForPartitionKey } from "./ContinuationTokenForPartitionKey";
-import type { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
-import type { PartitionKey } from "../../documents";
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
+import { PartitionKey, convertToInternalPartitionKey } from "../../documents";
+import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
 import { ChangeFeedMode } from "./ChangeFeedMode";
 /**
@@ -103,6 +103,14 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
         await this.instantiateIterator(diagnosticNode);
       }
       const result = await this.fetchNext(diagnosticNode);
+
+      if (result.statusCode === StatusCodes.Ok) {
+        if (this.clientContext.enableEncyption) {
+          for (let item of result.result) {
+            item = await this.container.encryptionProcessor.decrypt(item);
+          }
+        }
+      }
       return result;
     }, this.clientContext);
   }
@@ -157,6 +165,11 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
     ) {
       feedOptions.useAllVersionsAndDeletesFeed = true;
       feedOptions.useLatestVersionFeed = false;
+    }
+    if (this.clientContext.enableEncyption) {
+      this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
+        convertToInternalPartitionKey(this.partitionKey),
+      );
     }
     try {
       const response: Response<Array<T & Resource>> = await (this.clientContext.queryFeed<T>({
