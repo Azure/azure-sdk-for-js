@@ -180,6 +180,12 @@ export const Constants = {
 
     // Priority Based throttling header
     PriorityLevel: "x-ms-cosmos-priority-level",
+
+    // Encryption Headers
+    IsClientEncryptedHeader: "x-ms-cosmos-is-client-encrypted",
+    IntendedCollectionHeader: "x-ms-cosmos-intended-collection-rid",
+    DatabaseRidHeader: "x-ms-cosmos-database-rid",
+    AllowCachedReadsHeader: "x-ms-cosmos-allow-cachedreads",
   },
 
   // GlobalDB related constants

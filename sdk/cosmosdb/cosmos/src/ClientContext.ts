@@ -50,6 +50,7 @@ import {
   EncryptionSettingsCache,
   ClientEncryptionKeyPropertiesCache,
   ProtectedDataEncryptionKey,
+  EncryptionKeyResolverName,
 } from "./encryption";
 const logger: AzureLogger = createClientLogger("ClientContext");
 
@@ -104,11 +105,9 @@ export class ClientContext {
     if (this.enableEncyption) {
       this.encryptionKeyStoreProvider = new EncryptionKeyStoreProvider(
         cosmosClientOptions.keyEncryptionKeyResolver,
-        "AzureKeyVault",
+        EncryptionKeyResolverName.AzureKeyVault,
         this.encryptionKeyTimeToLiveInHours,
       );
-      this.encryptionSettingsCache = new EncryptionSettingsCache();
-      this.clientEncryptionKeyPropertiesCache = new ClientEncryptionKeyPropertiesCache();
       this.encryptionKeyTimeToLiveInHours = cosmosClientOptions.encryptionKeyTimeToLiveInHours
         ? cosmosClientOptions.encryptionKeyTimeToLiveInHours
         : 2;
@@ -149,6 +148,12 @@ export class ClientContext {
       });
 
       request.headers = await this.buildHeaders(request);
+      if (resourceType === ResourceType.clientencryptionkey) {
+        request.headers[HttpHeaders.AllowCachedReadsHeader] = true;
+        if (options.databaseRid) {
+          request.headers[HttpHeaders.DatabaseRidHeader] = options.databaseRid;
+        }
+      }
       this.applySessionToken(request);
 
       // read will use ReadEndpoint since it uses GET operation

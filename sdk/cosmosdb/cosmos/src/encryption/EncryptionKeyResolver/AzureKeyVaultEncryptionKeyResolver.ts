@@ -37,7 +37,7 @@ export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver
     const res = await cryptographyClient.unwrapKey(algorithm as KeyWrapAlgorithm, wrappedKey);
     return Buffer.from(res.result);
   }
-  //TODO: improve this
+  // TODO: improve this
   private getKeyDetails(encryptionKeyId: string): [string, string] {
     const url = new URL(encryptionKeyId);
     const parts = url.pathname.split("/");

@@ -32,7 +32,12 @@ import {
   withMetadataDiagnostics,
 } from "../../utils/diagnostics";
 import { MetadataLookUpType } from "../../CosmosDiagnostics";
-import { EncryptionSettings } from "../../encryption";
+import {
+  ClientEncryptionKeyPropertiesCache,
+  EncryptionProcessor,
+  EncryptionSettings,
+  EncryptionSettingsCache,
+} from "../../encryption";
 
 /**
  * Operations for reading, replacing, or deleting a specific, existing container by id.
@@ -93,6 +98,10 @@ export class Container {
   public get url(): string {
     return createDocumentCollectionUri(this.database.id, this.id);
   }
+  /**
+   * @internal
+   */
+  public encryptionProcessor: EncryptionProcessor;
 
   /**
    * Returns a container instance. Note: You should get this from `database.container(id)`, rather than creating your own object.
@@ -104,7 +113,15 @@ export class Container {
     public readonly database: Database,
     public readonly id: string,
     private readonly clientContext: ClientContext,
-  ) {}
+  ) {
+    if (this.clientContext.enableEncyption) {
+      this.encryptionProcessor = new EncryptionProcessor(
+        this.id,
+        this.database.id,
+        this.clientContext,
+      );
+    }
+  }
 
   /**
    * Used to read, replace, or delete a specific, existing {@link Item} by id.
@@ -371,17 +388,19 @@ export class Container {
     if (!this.clientContext.enableEncyption) {
       throw new ErrorResponse("Encryption is not enabled for the client.");
     } else {
-      withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      await withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
         const readResponse = await this.readInternal(diagnosticNode);
         const clientEncryptionPolicy = readResponse.resource.clientEncryptionPolicy;
         const partitionKeyPaths = readResponse.resource.partitionKey.paths;
         const key = this.database.id + "/" + this.id;
-        const enryptionSettings = EncryptionSettings.create(
+
+        const encryptionSettings = EncryptionSettings.create(
           key,
           partitionKeyPaths,
           clientEncryptionPolicy,
         );
-        this.clientContext.encryptionSettingsCache.setEncryptionSettings(key, enryptionSettings);
+        const encryptionSettingsCache = EncryptionSettingsCache.getInstance();
+        encryptionSettingsCache.setEncryptionSettings(key, encryptionSettings);
         const clientEncryptionKeyIds = [
           ...new Set(
             clientEncryptionPolicy.includedPaths.map((item) => item.clientEncryptionKeyId),
@@ -390,10 +409,12 @@ export class Container {
         // fetch and set clientEncryptionKeys in the cache
         for (const clientEncryptionKeyId of clientEncryptionKeyIds) {
           const res = await this.database.readClientEncryptionKey(clientEncryptionKeyId);
-          let encryptionKeyProperties = res.clientEncryptionKeyProperties;
-          const key = this.database.id + "/" + clientEncryptionKeyId;
-          this.clientContext.clientEncryptionKeyPropertiesCache.setClientEncryptionKeyProperties(
-            key,
+          const encryptionKeyProperties = res.clientEncryptionKeyProperties;
+          const key1 = this.database.id + "/" + clientEncryptionKeyId;
+          const clientEncryptionKeyPropertiesCache =
+            ClientEncryptionKeyPropertiesCache.getInstance();
+          clientEncryptionKeyPropertiesCache.setClientEncryptionKeyProperties(
+            key1,
             encryptionKeyProperties,
           );
         }

@@ -26,6 +26,7 @@ import {
 } from "./utils/diagnostics";
 import { MetadataLookUpType } from "./CosmosDiagnostics";
 import { randomUUID } from "@azure/core-util";
+import { EncryptionProcessor } from "./encryption";
 
 /**
  * Represents a QueryIterator Object, an implementation of feed or query response that enables
@@ -39,6 +40,7 @@ export class QueryIterator<T> {
   private queryPlanPromise: Promise<Response<PartitionedQueryExecutionInfo>>;
   private isInitialized: boolean;
   private correlatedActivityId: string;
+  private encryptionProcessor: EncryptionProcessor;
   /**
    * @hidden
    */
@@ -106,6 +108,17 @@ export class QueryIterator<T> {
         }
       }
 
+      if (
+        this.clientContext.enableEncyption &&
+        this.resourceType === ResourceType.item &&
+        response.result &&
+        response.result.length
+      ) {
+        for (let item of response.result) {
+          item = await this.encryptionProcessor.decrypt(item);
+        }
+      }
+
       const feedResponse = new FeedResponse<T>(
         response.result,
         response.headers,
@@ -138,7 +151,18 @@ export class QueryIterator<T> {
 
   public async fetchAll(): Promise<FeedResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
-      return this.fetchAllInternal(diagnosticNode);
+      const response = await this.fetchAllInternal(diagnosticNode);
+      if (
+        this.clientContext.enableEncyption &&
+        this.resourceType === ResourceType.item &&
+        response.resources &&
+        response.resources.length > 0
+      ) {
+        for (let result of response.resources) {
+          result = await this.encryptionProcessor.decrypt(result);
+        }
+      }
+      return response;
     }, this.clientContext);
   }
 
@@ -189,6 +213,16 @@ export class QueryIterator<T> {
           }
         } else {
           throw error;
+        }
+      }
+      if (
+        this.clientContext.enableEncyption &&
+        this.resourceType === ResourceType.item &&
+        response.result &&
+        response.result.length
+      ) {
+        for (let result of response.result) {
+          result = await this.encryptionProcessor.decrypt(result);
         }
       }
       return new FeedResponse<T>(
@@ -337,5 +371,12 @@ export class QueryIterator<T> {
     } else {
       throw err;
     }
+  }
+
+  /**
+   * @internal
+   */
+  public addEncryptionProcessor(encryptionProcessor: EncryptionProcessor): void {
+    this.encryptionProcessor = encryptionProcessor;
   }
 }
