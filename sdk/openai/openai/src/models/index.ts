@@ -116,7 +116,7 @@ export {
   Embeddings,
   EmbeddingItem,
   EmbeddingsUsage,
-  EventStream,
+  StreamOf as EventStream,
   ChatRequestMessageUnion,
   ChatMessageContentItemUnion,
   ChatCompletionsToolCallUnion,

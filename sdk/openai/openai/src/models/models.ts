@@ -1809,4 +1809,4 @@ export type ChatCompletionsNamedToolSelectionUnion =
 /** Alias for ChatFinishDetailsUnion */
 export type ChatFinishDetailsUnion = StopFinishDetails | MaxTokensFinishDetails | ChatFinishDetails;
 /** A readable stream that is iterable and disposable. */
-export interface EventStream<T> extends ReadableStream<T>, AsyncIterable<T> {}
+export interface StreamOf<T> extends ReadableStream<T>, AsyncIterable<T> {}

@@ -53,10 +53,10 @@ export type OpenAIContext = Client & {
 };
 
 // @public (undocumented)
-export function streamChatCompletions(context: OpenAIContext, deploymentName: string, messages: ChatRequestMessageUnion[], options?: GetChatCompletionsOptions): Promise<EventStream<ChatCompletions>>;
+export function streamChatCompletions(context: OpenAIContext, deploymentName: string, messages: ChatRequestMessageUnion[], options?: GetChatCompletionsOptions): Promise<StreamOf<ChatCompletions>>;
 
 // @public (undocumented)
-export function streamCompletions(context: OpenAIContext, deploymentName: string, prompt: string[], options?: GetCompletionsOptions): Promise<EventStream<Omit<Completions, "usage">>>;
+export function streamCompletions(context: OpenAIContext, deploymentName: string, prompt: string[], options?: GetCompletionsOptions): Promise<StreamOf<Omit<Completions, "usage">>>;
 
 // (No @packageDocumentation comment for this package)
 

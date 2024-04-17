@@ -11,7 +11,7 @@ import {
   EmbeddingsOptions,
   Embeddings,
   ChatRequestMessageUnion,
-  EventStream,
+  StreamOf,
   ContentFilterResultsForChoice,
   ContentFilterResultDetailsForPrompt,
   ContentFilterResultsForPrompt,
@@ -55,7 +55,7 @@ import {
   GeneratedGetChatCompletionsOptions,
   GenerateSpeechFromTextOptions,
 } from "../models/options.js";
-import { getOAISpeechSSE, getOaiSSEs } from "./oaiSse.js";
+import { getOAISpeechStream, getOaiSSEs } from "./oaiSse.js";
 import { createFile } from "@azure/core-rest-pipeline";
 import {
   GetAudioTranscriptionOptions,
@@ -287,7 +287,7 @@ export function streamCompletions(
   deploymentName: string,
   prompt: string[],
   options: GetCompletionsOptions = { requestOptions: {} },
-): Promise<EventStream<Omit<Completions, "usage">>> {
+): Promise<StreamOf<Omit<Completions, "usage">>> {
   const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
   const response = _getCompletionsSend(
     context,
@@ -458,7 +458,7 @@ export function streamChatCompletions(
   deploymentName: string,
   messages: ChatRequestMessageUnion[],
   options: GetChatCompletionsOptions = { requestOptions: {} },
-): Promise<EventStream<ChatCompletions>> {
+): Promise<StreamOf<ChatCompletions>> {
   const response = _getChatCompletionsSendX(context, deploymentName, messages, {
     ...options,
     stream: true,
@@ -624,12 +624,15 @@ export async function streamSpeechFromText(
   input: string,
   voice: SpeechVoice,
   options: GenerateSpeechFromTextOptions = { requestOptions: {} },
-): Promise<EventStream<Uint8Array>> {
+): Promise<StreamOf<Uint8Array>> {
   const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
-  const response = _generateSpeechFromTextSend(context, deploymentId,
+  const response = _generateSpeechFromTextSend(
+    context,
+    deploymentId,
     { input, voice, ...rest },
-    { abortSignal, onResponse, requestOptions, tracingOptions });
-  return getOAISpeechSSE(response);
+    { abortSignal, onResponse, requestOptions, tracingOptions },
+  );
+  return getOAISpeechStream(response);
 }
 
 export function _getEmbeddingsSend(

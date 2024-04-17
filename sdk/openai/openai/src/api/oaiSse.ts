@@ -2,16 +2,16 @@
 // Licensed under the MIT license.
 
 import { StreamableMethod } from "@azure-rest/core-client";
-import { getStream } from "./getSSEs.js";
+import { getSpeechStream, getStream } from "./getSSEs.js";
 import { wrapError } from "./util.js";
-import { EventStream } from "../models/models.js";
-import { EventMessage, createSseStream, createUint8Array } from "@azure/core-sse";
-import { polyfillStream } from "./readableStreamUtils.js";
+import { StreamOf } from "../models/models.js";
+import { EventMessage, createSseStream } from "@azure/core-sse";
+import { polyfillDisposableStream, polyfillStream } from "./readableStreamUtils.js";
 
 export async function getOaiSSEs<TEvent, O extends Record<string, any>>(
   response: StreamableMethod<unknown>,
   toEvent: (obj: O) => TEvent,
-): Promise<EventStream<TEvent>> {
+): Promise<StreamOf<TEvent>> {
   const stringStream = await getStream(response);
   const eventStream = createSseStream(stringStream);
   const jsonParser = new TransformStream<EventMessage, TEvent>({
@@ -33,13 +33,10 @@ export async function getOaiSSEs<TEvent, O extends Record<string, any>>(
   return polyfillStream(eventStream.pipeThrough(jsonParser));
 }
 
-
-export async function getOAISpeechSSE(
+export async function getOAISpeechStream(
   response: StreamableMethod<unknown>,
-): Promise<EventStream<Uint8Array>> {
-  console.log("OpenaiSSE")
-  const stringStream = await getStream(response);
-  const eventStream = createUint8Array(stringStream);
+): Promise<StreamOf<Uint8Array>> {
+  const stringStream = await getSpeechStream(response);
   /** TODO: remove these polyfills once all supported runtimes support them */
-  return polyfillStream(eventStream);
+  return polyfillDisposableStream(stringStream);
 }

@@ -69,3 +69,21 @@ function concatBuffers(buffers: Uint8Array[], len?: number): Uint8Array {
 
   return res;
 }
+
+function makeAsyncDisposable<T>(
+  webStream: any,
+  dispose: () => PromiseLike<void>,
+): asserts webStream is ReadableStream<T> & AsyncDisposable {
+  (Symbol.asyncDispose as any) ??= Symbol("Symbol.asyncDispose");
+  if (!webStream[Symbol.asyncDispose]) {
+    webStream[Symbol.asyncDispose] = () => dispose();
+  }
+}
+
+export function polyfillDisposableStream<T>(
+  webstream: ReadableStream<T> | NodeJS.ReadableStream,
+): ReadableStream<T> & AsyncIterable<T> & AsyncDisposable {
+  makeAsyncIterable<T>(webstream);
+  makeAsyncDisposable<T>(webstream, () => webstream.cancel());
+  return webstream;
+}

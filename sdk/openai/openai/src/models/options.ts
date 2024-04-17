@@ -21,7 +21,7 @@ export interface GeneratedGetChatCompletionsOptions extends OperationOptions {}
 
 export interface GetImageGenerationsOptions extends OperationOptions {}
 
-export interface GenerateSpeechFromTextOptions extends OperationOptions{}
+export interface GenerateSpeechFromTextOptions extends OperationOptions {}
 
 /** Represents the request data used to generate images. */
 export interface GetImagesOptions extends OperationOptions {
@@ -50,12 +50,12 @@ export interface GetImagesOptions extends OperationOptions {
 }
 
 export interface GenerateSpeechFromTextOptions extends OperationOptions {
-    /** The audio output format for the spoken text. By default, the MP3 format will be used. */
-    responseFormat?: SpeechGenerationResponseFormat;
-    /** The speed of speech for generated audio. Values are valid in the range from 0.25 to 4.0, with 1.0 the default and higher values corresponding to faster speech. */
-    speed?: number;
-    /** The model to use for this text-to-speech request. */
-    model?: string;
+  /** The audio output format for the spoken text. By default, the MP3 format will be used. */
+  responseFormat?: SpeechGenerationResponseFormat;
+  /** The speed of speech for generated audio. Values are valid in the range from 0.25 to 4.0, with 1.0 the default and higher values corresponding to faster speech. */
+  speed?: number;
+  /** The model to use for this text-to-speech request. */
+  model?: string;
 }
 
 /** Options for to custom embeddings request */

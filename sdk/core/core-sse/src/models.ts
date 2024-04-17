@@ -24,8 +24,4 @@ export interface EventMessageStream
     AsyncDisposable,
     AsyncIterable<EventMessage> {}
 
-export interface AsyncIterableIteratorStream extends ReadableStream<Uint8Array>, AsyncDisposable, AsyncIterable<Uint8Array> {} 
-
-export interface GenericStream<T> extends ReadableStream<T>, AsyncDisposable, AsyncIterable<T> { } 
-
 export type PartialSome<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;

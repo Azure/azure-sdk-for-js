@@ -8,7 +8,7 @@ import {
   ImageGenerations,
   Embeddings,
   ChatRequestMessageUnion,
-  EventStream,
+  StreamOf,
   SpeechVoice,
 } from "./models/models.js";
 import {
@@ -280,7 +280,7 @@ export class OpenAIClient {
     deploymentName: string,
     prompt: string[],
     options: GetCompletionsOptions = {},
-  ): Promise<EventStream<Omit<Completions, "usage">>> {
+  ): Promise<StreamOf<Omit<Completions, "usage">>> {
     this.setModel(deploymentName, options);
     return streamCompletions(this._client, deploymentName, prompt, options);
   }
@@ -310,7 +310,7 @@ export class OpenAIClient {
     deploymentName: string,
     messages: ChatRequestMessageUnion[],
     options: GetChatCompletionsOptions = { requestOptions: {} },
-  ): Promise<EventStream<ChatCompletions>> {
+  ): Promise<StreamOf<ChatCompletions>> {
     this.setModel(deploymentName, options);
     return streamChatCompletions(this._client, deploymentName, messages, options);
   }
@@ -341,7 +341,7 @@ export class OpenAIClient {
     input: string,
     voice: SpeechVoice,
     options: GenerateSpeechFromTextOptions = { requestOptions: {} },
-  ): Promise<EventStream<Uint8Array>> {
+  ): Promise<StreamOf<Uint8Array>> {
     this.setModel(deploymentName, options);
     return streamSpeechFromText(this._client, deploymentName, input, voice, options);
   }

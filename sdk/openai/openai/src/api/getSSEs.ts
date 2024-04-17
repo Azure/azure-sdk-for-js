@@ -19,6 +19,14 @@ export async function getStream<TResponse>(
   return body as IncomingMessage;
 }
 
+export async function getSpeechStream<TResponse>(
+  response: StreamableMethod<TResponse>,
+): Promise<NodeJS.ReadableStream> {
+  const { body } = await response.asNodeStream();
+  if (!body) throw new Error("No stream found in response.");
+  return body;
+}
+
 function streamToText(stream: NodeJS.ReadableStream): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     const buffer: Buffer[] = [];

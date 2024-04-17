@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import type { IncomingMessage } from "node:http";
-import { AsyncIterableIteratorStream, EventMessage, EventMessageStream, PartialSome } from "./models.js";
+import { EventMessage, EventMessageStream, PartialSome } from "./models.js";
 import { createStream, ensureAsyncIterable } from "./utils.js";
 
 enum ControlChars {
@@ -31,24 +31,6 @@ export function createSseStream(
   const asyncIter = toMessage(toLine(iterable));
   return createStream(asyncIter, cancel);
 }
-/**
- * Processes a response stream into a stream of events.
- * @param chunkStream - A stream of Uint8Array chunks
- * @returns An async iterable of EventMessage objects
- */
-export function createUint8Array(chunkStream: ReadableStream<Uint8Array>): AsyncIterableIteratorStream;
-/**
- * Processes a response stream into a stream of events.
- * @param chunkStream - An async iterable of Uint8Array chunks
- * @returns An async iterable of EventMessage objects
- */
-export function createUint8Array(chunkStream: IncomingMessage): AsyncIterableIteratorStream;
-export function createUint8Array(
-  chunkStream: IncomingMessage | ReadableStream<Uint8Array>,
-): AsyncIterableIteratorStream {
-  const { cancel, iterable } = ensureAsyncIterable(chunkStream);
-  return createStream(toAsyncIterableIterator(iterable), cancel);
-}
 
 function concatBuffer(a: Uint8Array, b: Uint8Array): Uint8Array {
   const res = new Uint8Array(a.length + b.length);
@@ -64,12 +46,6 @@ function createMessage(): PartialSome<EventMessage, "data"> {
     id: "",
     retry: undefined,
   };
-}
-
-async function* toAsyncIterableIterator<T>(iter: AsyncIterable<T>): AsyncIterableIterator<T> {
-  for await (const chunk of iter){
-    yield chunk;
-  }
 }
 
 async function* toLine(
