@@ -100,7 +100,9 @@ export default leafCommand(commandInfo, async (options) => {
       };
 
       // Place the subpath export rollup file in the directory from which it is exported
-      let publicTrimmedFilePath = path.parse(extractorConfigObject.dtsRollup.publicTrimmedFilePath);
+      const publicTrimmedFilePath = path.parse(
+        extractorConfigObject.dtsRollup.publicTrimmedFilePath,
+      );
       const newPublicTrimmedPath = path.join(
         publicTrimmedFilePath.dir,
         exportPath,
