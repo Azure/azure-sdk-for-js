@@ -393,7 +393,7 @@ export class Items {
       );
       let partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
 
-      if (this.clientContext.enableEncyption) {
+      if (this.clientContext.enableEncryption) {
         body = copyObject(body);
         body = await this.container.encryptionProcessor.encrypt(body);
         partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
@@ -417,7 +417,7 @@ export class Items {
         partitionKey,
       });
 
-      if (this.clientContext.enableEncyption) {
+      if (this.clientContext.enableEncryption) {
         response.result = await this.container.encryptionProcessor.decrypt(response.result);
         partitionKey = extractPartitionKeys(response.result, partitionKeyDefinition);
       }
@@ -482,7 +482,7 @@ export class Items {
       );
       let partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
 
-      if (this.clientContext.enableEncyption) {
+      if (this.clientContext.enableEncryption) {
         body = copyObject(body);
         body = await this.container.encryptionProcessor.encrypt(body);
         partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
@@ -506,7 +506,7 @@ export class Items {
         diagnosticNode,
       });
 
-      if (this.clientContext.enableEncyption) {
+      if (this.clientContext.enableEncryption) {
         response.result = await this.container.encryptionProcessor.decrypt(response.result);
         partitionKey = extractPartitionKeys(response.result, partitionKeyDefinition);
       }
@@ -571,7 +571,7 @@ export class Items {
         this.container,
       );
 
-      if (this.clientContext.enableEncyption) {
+      if (this.clientContext.enableEncryption) {
         operations = copyObject(operations);
         operations = await this.bulkBatchEncryptionHelper(operations);
       }
@@ -827,7 +827,7 @@ export class Items {
         throw new Error("Cannot run batch request with more than 100 operations per partition");
       }
 
-      if (this.clientContext.enableEncyption) {
+      if (this.clientContext.enableEncryption) {
         operations = copyObject(operations);
         if (partitionKey) {
           const partitionKeyInternal = convertToInternalPartitionKey(partitionKey);
@@ -849,7 +849,7 @@ export class Items {
           diagnosticNode,
         });
 
-        if (this.clientContext.enableEncyption) {
+        if (this.clientContext.enableEncryption) {
           for (const result of response.result) {
             if (result.resourceBody) {
               result.resourceBody = await this.container.encryptionProcessor.decrypt(
