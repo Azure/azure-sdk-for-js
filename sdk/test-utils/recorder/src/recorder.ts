@@ -35,6 +35,7 @@ import { isBrowser, isNode } from "@azure/core-util";
 import { env } from "./utils/env";
 import { decodeBase64 } from "./utils/encoding";
 import { AdditionalPolicyConfig } from "@azure/core-client";
+import { fallbackSanitizers } from "./utils/fallbackSanitizers";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -322,6 +323,8 @@ export class Recorder {
           this.recordingId,
           options.envSetupForPlayback,
         );
+        // Fallback sanitizers to be added in both record/playback modes
+        await fallbackSanitizers(this.httpClient, Recorder.url, this.recordingId);
 
         // Sanitizers to be added only in record mode
         if (isRecordMode() && options.sanitizerOptions) {

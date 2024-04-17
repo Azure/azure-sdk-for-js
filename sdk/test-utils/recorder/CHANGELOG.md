@@ -1,5 +1,16 @@
 # Release History
 
+## 3.2.0 (2024-04-17)
+
+### Features Added
+
+- Introduced fallback sanitizers into the test recorder to handle potential secret leaks.
+  - The new sanitizers are designed to work in conjunction with the existing `handleEnvSetup` mechanism and the fake secrets.
+  - The sanitizers include:
+    - `BodyKeySanitizers` that redact sensitive information in the JSON body of the requests.
+    - `FindReplaceSanitizers` that redact sensitive information based on provided regular expressions.
+    - `HeaderSanitizers` that redact sensitive information in the headers of the requests.
+
 ## 3.1.2 (2024-04-10)
 
 ### Bugs Fixed
