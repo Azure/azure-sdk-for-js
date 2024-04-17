@@ -254,9 +254,9 @@ export class ClientContext {
     this.applySessionToken(request);
     logger.info(
       "query " +
-      requestId +
-      " started" +
-      (request.partitionKeyRangeId ? " pkrid: " + request.partitionKeyRangeId : ""),
+        requestId +
+        " started" +
+        (request.partitionKeyRangeId ? " pkrid: " + request.partitionKeyRangeId : ""),
     );
     logger.verbose(request);
     const start = Date.now();
