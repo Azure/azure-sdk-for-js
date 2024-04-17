@@ -56,9 +56,7 @@ const result = await httpPoller;
 
 ## Poller API
 
-Also the return type for `createHttpPoller` is renamed from `SimplePollerLike` to `PollerLike` and with following changes.
-
-The following table compares `SimplePollerLike` and `PollerLike`:
+Also the return type for `createHttpPoller` is renamed from `SimplePollerLike` to `PollerLike`.The following table compares `SimplePollerLike` and `PollerLike`:
 
 | operation                                                                  | `SimplePollerLike`    | `PollerLike`      |
 | -------------------------------------------------------------------------- | --------------------- | ----------------- |
