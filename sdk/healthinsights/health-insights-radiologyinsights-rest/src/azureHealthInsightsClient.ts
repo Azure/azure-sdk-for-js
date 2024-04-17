@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { logger } from "./logger";
+import { ClientOptions, getClient } from "@azure-rest/core-client";
 import { KeyCredential } from "@azure/core-auth";
 import { AzureHealthInsightsClient } from "./clientDefinitions";
+import { logger } from "./logger";
 
 /**
  * Initialize a new instance of `AzureHealthInsightsClient`
@@ -19,7 +19,7 @@ export default function createClient(
 ): AzureHealthInsightsClient {
   const baseUrl = options.baseUrl ?? `${endpoint}/health-insights`;
   options.apiVersion = options.apiVersion ?? "2024-04-01";
-  const userAgentInfo = `azsdk-js-health-insights-radiologyinsights-rest/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-health-insights-radiologyinsights-rest/1.0.0`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

@@ -40,7 +40,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.main = void 0;
 /**
- * Displays the critical results of the Radiology Insights request.
+ * Displays the follow up recommendation of the Radiology Insights request.
  */
 var core_auth_1 = require("@azure/core-auth");
 var dotenv = require("dotenv");
@@ -50,22 +50,44 @@ dotenv.config();
 var apiKey = process.env["HEALTH_INSIGHTS_KEY"] || "";
 var endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 /**
-    * Print the critical result inference
+    * Print the follow up recommendation inference
  */
 function printResults(radiologyInsightsResult) {
     if (radiologyInsightsResult.status === "succeeded") {
         var results = radiologyInsightsResult.result;
         if (results !== undefined) {
             results.patientResults.forEach(function (patientResult) {
-                if (patientResult.inferences) {
-                    patientResult.inferences.forEach(function (inference) {
-                        if (inference.kind === "criticalResult") {
-                            if ("result" in inference) {
-                                console.log("Critical Result Inference found: " + inference.result.description);
+                patientResult.inferences.forEach(function (inference) {
+                    var _a, _b;
+                    if (inference.kind === "followupRecommendation") {
+                        console.log("Follow Up Recommendation Inference found");
+                        console.log("   Is conditional: ", inference.isConditional);
+                        console.log("   Is guidline: ", inference.isGuideline);
+                        console.log("   Is hedging: ", inference.isHedging);
+                        console.log("   Is option: ", inference.isOption);
+                        var procedure = inference.recommendedProcedure;
+                        if ("kind" in procedure && procedure.kind === "genericProcedureRecommendation") {
+                            if ("code" in procedure) {
+                                console.log("   Recommended Generic Procedure: ", procedure.code);
+                            }
+                            if ("description" in procedure) {
+                                console.log("   Description: ", procedure.description);
                             }
                         }
-                    });
-                }
+                        else if ("kind" in procedure && procedure.kind === "imagingProcedureRecommendation") {
+                            (_a = procedure.procedureCodes) === null || _a === void 0 ? void 0 : _a.forEach(function (procedureCode) {
+                                console.log("   Recommended Procedure Codes: ");
+                                displayCodes(procedureCode);
+                            });
+                            if ("imagingProcedures" in procedure) {
+                                (_b = procedure.imagingProcedures) === null || _b === void 0 ? void 0 : _b.forEach(function (imagingProcedure) {
+                                    console.log("   Recommended Imaging Procedure Codes: ");
+                                    displayImaging(imagingProcedure);
+                                });
+                            }
+                        }
+                    }
+                });
             });
         }
     }
@@ -73,6 +95,32 @@ function printResults(radiologyInsightsResult) {
         var error = radiologyInsightsResult.error;
         if (error) {
             console.log(error.code, ":", error.message);
+        }
+    }
+    function displayCodes(codableConcept) {
+        var _a;
+        (_a = codableConcept.coding) === null || _a === void 0 ? void 0 : _a.forEach(function (coding) {
+            if ("code" in coding) {
+                console.log("      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
+            }
+        });
+    }
+    function displayImaging(images) {
+        console.log("   Modality Codes: ");
+        displayCodes(images.modality);
+        console.log("   Anatomy Codes: ");
+        displayCodes(images.anatomy);
+        if ("laterality" in images) {
+            console.log("   Laterality Codes: ");
+            displayCodes(images.laterality);
+        }
+        if ("contrast" in images) {
+            console.log("   Contrast Codes: ");
+            displayCodes(images.contrast.code);
+        }
+        if ("view" in images) {
+            console.log("   View Codes: ");
+            displayCodes(images.view.code);
         }
     }
 }
@@ -231,5 +279,5 @@ function main() {
 }
 exports.main = main;
 main().catch(function (err) {
-    console.error("The critical result encountered an error:", err);
+    console.error("The follow up recommendation encountered an error:", err);
 });

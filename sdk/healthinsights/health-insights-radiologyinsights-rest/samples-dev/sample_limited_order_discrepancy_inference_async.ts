@@ -12,7 +12,7 @@ import AzureHealthInsightsClient, {
   RadiologyInsightsJobOutput,
   getLongRunningPoller,
   isUnexpected
-} from "@azure-rest/health-insights-radiologyinsights";
+} from "../src";
 
 dotenv.config();
 
@@ -74,8 +74,8 @@ function createRequestBody(): CreateJobParameters {
 
   const codingData = {
     system: "Http://hl7.org/fhir/ValueSet/cpt-all",
-    code: "USPELVIS",
-    display: "US PELVIS COMPLETE"
+    code: "30704-1",
+    display: "US ABDOMEN LIMITED"
   };
 
   const code = {
@@ -103,7 +103,7 @@ function createRequestBody(): CreateJobParameters {
 
   const orderedProceduresData = {
     code: code,
-    description: "US PELVIS COMPLETE"
+    description: "US ABDOMEN LIMITED"
   };
 
   const administrativeMetadata = {
@@ -113,27 +113,34 @@ function createRequestBody(): CreateJobParameters {
 
   const content = {
     sourceType: "inline",
-    value: "CLINICAL HISTORY:   "
-      + "\r\n20-year-old female presenting with abdominal pain. Surgical history significant for appendectomy."
-      + "\r\n "
-      + "\r\nCOMPARISON:   "
-      + "\r\nRight upper quadrant sonographic performed 1 day prior."
-      + "\r\n "
-      + "\r\nTECHNIQUE:   "
-      + "\r\nTransabdominal grayscale pelvic sonography with duplex color Doppler "
-      + "\r\nand spectral waveform analysis of the ovaries."
-      + "\r\n "
-      + "\r\nFINDINGS:   "
-      + "\r\nThe uterus is unremarkable given the transabdominal technique with "
-      + "\r\nendometrial echo complex within physiologic normal limits. The "
-      + "\r\novaries are symmetric in size, measuring 2.5 x 1.2 x 3.0 cm and the "
-      + "\r\nleft measuring 2.8 x 1.5 x 1.9 cm.\n \r\nOn duplex imaging, Doppler signal is symmetric."
-      + "\r\n "
-      + "\r\nIMPRESSION:   "
-      + "\r\n1. Normal pelvic sonography. Findings of testicular torsion."
-      + "\r\n\nA new US pelvis within the next 6 months is recommended."
-      + "\n\nThese results have been discussed with Dr. Jones at 3 PM on November 5 2020.\n "
-      + "\r\n"
+    value: "\\nHISTORY: 49-year-old male with a history of tuberous sclerosis presenting with epigastric pain and diffuse tenderness."
+      + "\r\n The patient was found to have pericholecystic haziness on CT; evaluation for acute cholecystitis."
+      + "\r\n TECHNIQUE: Ultrasound evaluation of the abdomen was performed. "
+      + "\r\n Comparison is made to the prior abdominal ultrasound (2004) and to the enhanced CT of the abdomen and pelvis (2014)."
+      + "\r\n FINDINGS:"
+      + "\r\n The liver is elongated, measuring 19.3 cm craniocaudally, and is homogeneous in echotexture without evidence of focal mass lesion. "
+      + "\r\n The liver contour is smooth on high resolution images."
+      + "\r\n There is no appreciable intra- or extrahepatic biliary ductal dilatation, with the visualized extrahepatic bile duct measuring up to 6 mm."
+      + "\r\n There are multiple shadowing gallstones, including within the gallbladder neck, which do not appear particularly mobile."
+      + "\r\n In addition, there is thickening of the gallbladder wall up to approximately 7 mm with probable mild mural edema."
+      + "\r\n There is no pericholecystic fluid. No sonographic Murphy's sign was elicited; however the patient reportedly received pain medications in the emergency department."
+      + "\r\n The pancreatic head, body and visualized portions of the tail are unremarkable."
+      + "\r\n The spleen is normal in size, measuring 9.9 cm in length."
+      + "\r\n The kidneys are normal in size."
+      + "\r\n The right kidney measures 11.5 x 5.2 x 4.3 cm and the left kidney measuring 11.8 x 5.3 x 5.1 cm."
+      + "\r\n There are again multiple bilateral echogenic renal masses consistent with angiomyolipomas, in keeping with the patient's history of tuberous sclerosis."
+      + "\r\n The largest echogenic mass on the right is located in the upper pole and measures 1.2 x 1.3 x 1.3 cm."
+      + "\r\n The largest echogenic mass on the left is located within the renal sinus and measures approximately 2.6 x 2.7 x 4.6 cm."
+      + "\r\n Additional indeterminate renal lesions are present bilaterally and are better characterized on CT."
+      + "\r\n There is no hydronephrosis.\\n\\nNo ascites is identified within the upper abdomen."
+      + "\r\n The visualized portions of the upper abdominal aorta and IVC are normal in caliber."
+      + "\r\n IMPRESSION: "
+      + "\r\n 1. Numerous gallstones associated with gallbladder wall thickening and probable gallbladder mural edema, highly suspicious for acute cholecystitis in this patient presenting with epigastric pain and pericholecystic hazy density identified on CT."
+      + "\r\n Although no sonographic Murphy sign was elicited, evaluation is limited secondary to reported prior administration of pain medication."
+      + "\r\n Thus, clinical correlation is required. No evidence of biliary ductal dilation."
+      + "\r\n 2. There are again multiple bilateral echogenic renal masses consistent with angiomyolipomas, in keeping with the patient's history of tuberous sclerosis."
+      + "\r\n Additional indeterminate renal lesions are present bilaterally and are better characterized on CT and MR."
+      + "\r\n These findings were discussed with Dr. Doe at 5:05 p.m. on 1/1/15."
   };
 
   const patientDocumentData = {
@@ -146,10 +153,8 @@ function createRequestBody(): CreateJobParameters {
     administrativeMetadata: administrativeMetadata,
     content: content,
     createdAt: new Date("2021-06-01T00:00:00.000"),
-    orderedProceduresAsCsv: "US PELVIS COMPLETE"
+    orderedProceduresAsCsv: "US ABDOMEN LIMITED"
   };
-
-
   const patientData = {
     id: "Samantha Jones",
     details: patientInfo,

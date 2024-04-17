@@ -40,7 +40,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.main = void 0;
 /**
- * Displays the critical results of the Radiology Insights request.
+ * Displays the complete order discrepancy of the Radiology Insights request.
  */
 var core_auth_1 = require("@azure/core-auth");
 var dotenv = require("dotenv");
@@ -50,7 +50,7 @@ dotenv.config();
 var apiKey = process.env["HEALTH_INSIGHTS_KEY"] || "";
 var endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 /**
-    * Print the critical result inference
+    * Print the complete order discrepancy inference
  */
 function printResults(radiologyInsightsResult) {
     if (radiologyInsightsResult.status === "succeeded") {
@@ -59,10 +59,22 @@ function printResults(radiologyInsightsResult) {
             results.patientResults.forEach(function (patientResult) {
                 if (patientResult.inferences) {
                     patientResult.inferences.forEach(function (inference) {
-                        if (inference.kind === "criticalResult") {
-                            if ("result" in inference) {
-                                console.log("Critical Result Inference found: " + inference.result.description);
+                        var _a, _b;
+                        if (inference.kind === "completeOrderDiscrepancy") {
+                            console.log("Complete Order Discrepancy Inference found: ");
+                            if ("orderType" in inference) {
+                                console.log("   Ordertype: ");
+                                displayCodes({ codableConcept: inference.orderType });
                             }
+                            ;
+                            (_a = inference.missingBodyParts) === null || _a === void 0 ? void 0 : _a.forEach(function (bodyparts) {
+                                console.log("   Missing Body Parts: ");
+                                displayCodes({ codableConcept: bodyparts });
+                            });
+                            (_b = inference.missingBodyPartMeasurements) === null || _b === void 0 ? void 0 : _b.forEach(function (bodymeasure) {
+                                console.log("   Missing Body Part Measurements: ");
+                                displayCodes({ codableConcept: bodymeasure });
+                            });
                         }
                     });
                 }
@@ -74,6 +86,15 @@ function printResults(radiologyInsightsResult) {
         if (error) {
             console.log(error.code, ":", error.message);
         }
+    }
+    function displayCodes(_a) {
+        var _b;
+        var codableConcept = _a.codableConcept;
+        (_b = codableConcept.coding) === null || _b === void 0 ? void 0 : _b.forEach(function (coding) {
+            if ("code" in coding) {
+                console.log("      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
+            }
+        });
     }
 }
 // Create request body for radiology insights
@@ -231,5 +252,5 @@ function main() {
 }
 exports.main = main;
 main().catch(function (err) {
-    console.error("The critical result encountered an error:", err);
+    console.error("The complete order encountered an error:", err);
 });

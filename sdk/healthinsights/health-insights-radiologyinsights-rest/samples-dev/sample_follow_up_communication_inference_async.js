@@ -40,7 +40,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.main = void 0;
 /**
- * Displays the critical results of the Radiology Insights request.
+ * Displays the follow up communication of the Radiology Insights request.
  */
 var core_auth_1 = require("@azure/core-auth");
 var dotenv = require("dotenv");
@@ -50,22 +50,25 @@ dotenv.config();
 var apiKey = process.env["HEALTH_INSIGHTS_KEY"] || "";
 var endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 /**
-    * Print the critical result inference
+    * Print the follow up communication inference
  */
 function printResults(radiologyInsightsResult) {
     if (radiologyInsightsResult.status === "succeeded") {
         var results = radiologyInsightsResult.result;
         if (results !== undefined) {
             results.patientResults.forEach(function (patientResult) {
-                if (patientResult.inferences) {
-                    patientResult.inferences.forEach(function (inference) {
-                        if (inference.kind === "criticalResult") {
-                            if ("result" in inference) {
-                                console.log("Critical Result Inference found: " + inference.result.description);
-                            }
+                patientResult.inferences.forEach(function (inference) {
+                    if (inference.kind === "followupCommunication") {
+                        console.log("Followup Communication Inference found");
+                        if ("dateTime" in inference) {
+                            console.log("Date Time: " + inference.dateTime.join(" "));
                         }
-                    });
-                }
+                        if ("recipient" in inference) {
+                            console.log("Recipient: " + inference.recipient.join(" "));
+                        }
+                        console.log("   Aknowledged: " + inference.wasAcknowledged);
+                    }
+                });
             });
         }
     }
@@ -231,5 +234,5 @@ function main() {
 }
 exports.main = main;
 main().catch(function (err) {
-    console.error("The critical result encountered an error:", err);
+    console.error("The follow up communication encountered an error:", err);
 });

@@ -12,7 +12,7 @@ import AzureHealthInsightsClient, {
   RadiologyInsightsJobOutput,
   getLongRunningPoller,
   isUnexpected
-} from "@azure-rest/health-insights-radiologyinsights";
+} from "../src";
 
 dotenv.config();
 
@@ -39,7 +39,7 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
               });
 
               if ("imagingProcedures" in inference) {
-                inference.imagingProcedures.forEach((imagingProcedure: any) => {
+                inference.imagingProcedures?.forEach((imagingProcedure: any) => {
                   console.log("   Imaging Procedure Codes: ");
                   displayImaging(imagingProcedure);
                 });
@@ -70,27 +70,27 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
   function displayCodes(codableConcept: any): void {
     codableConcept.coding?.forEach((coding: any) => {
       if ("code" in coding) {
-        console.log("   Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
+        console.log("      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
       }
     });
   }
 
   function displayImaging(images: any): void {
     console.log("   Modality Codes: ");
-    displayCodes(images.modality.coding);
+    displayCodes(images.modality);
     console.log("   Anatomy Codes: ");
-    displayCodes(images.anatomy.coding);
+    displayCodes(images.anatomy);
     if ("laterality" in images) {
       console.log("   Laterality Codes: ");
-      displayCodes(images.laterality.coding);
+      displayCodes(images.laterality);
     }
     if ("contrast" in images) {
       console.log("   Contrast Codes: ");
-      displayCodes(images.contrast.code.coding);
+      displayCodes(images.contrast.code);
     }
     if ("view" in images) {
       console.log("   View Codes: ");
-      displayCodes(images.view.code.coding);
+      displayCodes(images.view.code);
     }
   }
 
@@ -101,8 +101,8 @@ function createRequestBody(): CreateJobParameters {
 
   const codingData = {
     system: "Http://hl7.org/fhir/ValueSet/cpt-all",
-    code: "USPELVIS",
-    display: "US PELVIS COMPLETE"
+    code: "24727-0",
+    display: "CT HEAD W CONTRAST IV"
   };
 
   const code = {
@@ -130,7 +130,7 @@ function createRequestBody(): CreateJobParameters {
 
   const orderedProceduresData = {
     code: code,
-    description: "US PELVIS COMPLETE"
+    description: "CT HEAD W CONTRAST IV"
   };
 
   const administrativeMetadata = {
@@ -140,27 +140,14 @@ function createRequestBody(): CreateJobParameters {
 
   const content = {
     sourceType: "inline",
-    value: "CLINICAL HISTORY:   "
-      + "\r\n20-year-old female presenting with abdominal pain. Surgical history significant for appendectomy."
-      + "\r\n "
-      + "\r\nCOMPARISON:   "
-      + "\r\nRight upper quadrant sonographic performed 1 day prior."
-      + "\r\n "
-      + "\r\nTECHNIQUE:   "
-      + "\r\nTransabdominal grayscale pelvic sonography with duplex color Doppler "
-      + "\r\nand spectral waveform analysis of the ovaries."
-      + "\r\n "
-      + "\r\nFINDINGS:   "
-      + "\r\nThe uterus is unremarkable given the transabdominal technique with "
-      + "\r\nendometrial echo complex within physiologic normal limits. The "
-      + "\r\novaries are symmetric in size, measuring 2.5 x 1.2 x 3.0 cm and the "
-      + "\r\nleft measuring 2.8 x 1.5 x 1.9 cm.\n \r\nOn duplex imaging, Doppler signal is symmetric."
-      + "\r\n "
-      + "\r\nIMPRESSION:   "
-      + "\r\n1. Normal pelvic sonography. Findings of testicular torsion."
-      + "\r\n\nA new US pelvis within the next 6 months is recommended."
-      + "\n\nThese results have been discussed with Dr. Jones at 3 PM on November 5 2020.\n "
-      + "\r\n"
+    value: " Exam:  Head CT with Contrast"
+      + "\r\n History:  Headaches for 2 months"
+      + "\r\n Technique: Axial, sagittal, and coronal images were reconstructed from helical CT through the head without IV contrast."
+      + "\r\n IV contrast:  100 mL IV Omnipaque 300."
+      + "\r\n Findings: There is no mass effect. There is no abnormal enhancement of the brain or within injuries with IV contrast."
+      + "\r\n However, there is no evidence of enhancing lesion in either internal auditory canal."
+      + "\r\n Impression: Negative CT of the brain without IV contrast."
+      + "\r\n I recommend a new brain CT within nine months."
   };
 
   const patientDocumentData = {
@@ -173,7 +160,7 @@ function createRequestBody(): CreateJobParameters {
     administrativeMetadata: administrativeMetadata,
     content: content,
     createdAt: new Date("2021-06-01T00:00:00.000"),
-    orderedProceduresAsCsv: "US PELVIS COMPLETE"
+    orderedProceduresAsCsv: "CT HEAD W CONTRAST IV"
   };
 
 

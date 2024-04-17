@@ -6,13 +6,13 @@
  */
 import { AzureKeyCredential } from "@azure/core-auth";
 
+import * as dotenv from "dotenv";
 import AzureHealthInsightsClient, {
   CreateJobParameters,
   RadiologyInsightsJobOutput,
   getLongRunningPoller,
   isUnexpected
-} from "@azure-rest/health-insights-radiologyinsights";
-import * as dotenv from "dotenv";
+} from "../src";
 
 dotenv.config();
 

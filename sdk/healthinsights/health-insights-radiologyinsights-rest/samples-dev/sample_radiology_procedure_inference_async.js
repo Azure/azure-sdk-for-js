@@ -40,7 +40,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.main = void 0;
 /**
- * Displays the critical results of the Radiology Insights request.
+ * Displays the radiology procedure of the Radiology Insights request.
  */
 var core_auth_1 = require("@azure/core-auth");
 var dotenv = require("dotenv");
@@ -50,7 +50,7 @@ dotenv.config();
 var apiKey = process.env["HEALTH_INSIGHTS_KEY"] || "";
 var endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 /**
-    * Print the critical result inference
+    * Print the radiology procedure inference
  */
 function printResults(radiologyInsightsResult) {
     if (radiologyInsightsResult.status === "succeeded") {
@@ -59,9 +59,27 @@ function printResults(radiologyInsightsResult) {
             results.patientResults.forEach(function (patientResult) {
                 if (patientResult.inferences) {
                     patientResult.inferences.forEach(function (inference) {
-                        if (inference.kind === "criticalResult") {
-                            if ("result" in inference) {
-                                console.log("Critical Result Inference found: " + inference.result.description);
+                        var _a, _b;
+                        if (inference.kind === "radiologyProcedure") {
+                            console.log("Radiology Procedure Inference found");
+                            (_a = inference.procedureCodes) === null || _a === void 0 ? void 0 : _a.forEach(function (procedureCode) {
+                                console.log("   Procedure Codes: ");
+                                displayCodes(procedureCode);
+                            });
+                            if ("imagingProcedures" in inference) {
+                                (_b = inference.imagingProcedures) === null || _b === void 0 ? void 0 : _b.forEach(function (imagingProcedure) {
+                                    console.log("   Imaging Procedure Codes: ");
+                                    displayImaging(imagingProcedure);
+                                });
+                            }
+                            if ("orderedProcedure" in inference) {
+                                console.log("   Ordered procedures: ");
+                                if ("code" in inference.orderedProcedure) {
+                                    displayCodes(inference.orderedProcedure.code);
+                                }
+                            }
+                            if ("description" in inference.orderedProcedure) {
+                                console.log("   Description: " + inference.orderedProcedure.description);
                             }
                         }
                     });
@@ -75,13 +93,39 @@ function printResults(radiologyInsightsResult) {
             console.log(error.code, ":", error.message);
         }
     }
+    function displayCodes(codableConcept) {
+        var _a;
+        (_a = codableConcept.coding) === null || _a === void 0 ? void 0 : _a.forEach(function (coding) {
+            if ("code" in coding) {
+                console.log("      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
+            }
+        });
+    }
+    function displayImaging(images) {
+        console.log("   Modality Codes: ");
+        displayCodes(images.modality);
+        console.log("   Anatomy Codes: ");
+        displayCodes(images.anatomy);
+        if ("laterality" in images) {
+            console.log("   Laterality Codes: ");
+            displayCodes(images.laterality);
+        }
+        if ("contrast" in images) {
+            console.log("   Contrast Codes: ");
+            displayCodes(images.contrast.code);
+        }
+        if ("view" in images) {
+            console.log("   View Codes: ");
+            displayCodes(images.view.code);
+        }
+    }
 }
 // Create request body for radiology insights
 function createRequestBody() {
     var codingData = {
         system: "Http://hl7.org/fhir/ValueSet/cpt-all",
-        code: "USPELVIS",
-        display: "US PELVIS COMPLETE"
+        code: "24727-0",
+        display: "CT HEAD W CONTRAST IV"
     };
     var code = {
         coding: [codingData]
@@ -104,7 +148,7 @@ function createRequestBody() {
     };
     var orderedProceduresData = {
         code: code,
-        description: "US PELVIS COMPLETE"
+        description: "CT HEAD W CONTRAST IV"
     };
     var administrativeMetadata = {
         orderedProcedures: [orderedProceduresData],
@@ -112,27 +156,14 @@ function createRequestBody() {
     };
     var content = {
         sourceType: "inline",
-        value: "CLINICAL HISTORY:   "
-            + "\r\n20-year-old female presenting with abdominal pain. Surgical history significant for appendectomy."
-            + "\r\n "
-            + "\r\nCOMPARISON:   "
-            + "\r\nRight upper quadrant sonographic performed 1 day prior."
-            + "\r\n "
-            + "\r\nTECHNIQUE:   "
-            + "\r\nTransabdominal grayscale pelvic sonography with duplex color Doppler "
-            + "\r\nand spectral waveform analysis of the ovaries."
-            + "\r\n "
-            + "\r\nFINDINGS:   "
-            + "\r\nThe uterus is unremarkable given the transabdominal technique with "
-            + "\r\nendometrial echo complex within physiologic normal limits. The "
-            + "\r\novaries are symmetric in size, measuring 2.5 x 1.2 x 3.0 cm and the "
-            + "\r\nleft measuring 2.8 x 1.5 x 1.9 cm.\n \r\nOn duplex imaging, Doppler signal is symmetric."
-            + "\r\n "
-            + "\r\nIMPRESSION:   "
-            + "\r\n1. Normal pelvic sonography. Findings of testicular torsion."
-            + "\r\n\nA new US pelvis within the next 6 months is recommended."
-            + "\n\nThese results have been discussed with Dr. Jones at 3 PM on November 5 2020.\n "
-            + "\r\n"
+        value: " Exam:  Head CT with Contrast"
+            + "\r\n History:  Headaches for 2 months"
+            + "\r\n Technique: Axial, sagittal, and coronal images were reconstructed from helical CT through the head without IV contrast."
+            + "\r\n IV contrast:  100 mL IV Omnipaque 300."
+            + "\r\n Findings: There is no mass effect. There is no abnormal enhancement of the brain or within injuries with IV contrast."
+            + "\r\n However, there is no evidence of enhancing lesion in either internal auditory canal."
+            + "\r\n Impression: Negative CT of the brain without IV contrast."
+            + "\r\n I recommend a new brain CT within nine months."
     };
     var patientDocumentData = {
         type: "note",
@@ -144,7 +175,7 @@ function createRequestBody() {
         administrativeMetadata: administrativeMetadata,
         content: content,
         createdAt: new Date("2021-06-01T00:00:00.000"),
-        orderedProceduresAsCsv: "US PELVIS COMPLETE"
+        orderedProceduresAsCsv: "CT HEAD W CONTRAST IV"
     };
     var patientData = {
         id: "Samantha Jones",
@@ -231,5 +262,5 @@ function main() {
 }
 exports.main = main;
 main().catch(function (err) {
-    console.error("The critical result encountered an error:", err);
+    console.error("The radiology procedure encountered an error:", err);
 });

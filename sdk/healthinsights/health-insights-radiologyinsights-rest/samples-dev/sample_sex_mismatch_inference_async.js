@@ -40,7 +40,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.main = void 0;
 /**
- * Displays the critical results of the Radiology Insights request.
+ * Displays the sex mismatch of the Radiology Insights request.
  */
 var core_auth_1 = require("@azure/core-auth");
 var dotenv = require("dotenv");
@@ -50,7 +50,7 @@ dotenv.config();
 var apiKey = process.env["HEALTH_INSIGHTS_KEY"] || "";
 var endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 /**
-    * Print the critical result inference
+    * Print the sex mismatch inference
  */
 function printResults(radiologyInsightsResult) {
     if (radiologyInsightsResult.status === "succeeded") {
@@ -59,9 +59,10 @@ function printResults(radiologyInsightsResult) {
             results.patientResults.forEach(function (patientResult) {
                 if (patientResult.inferences) {
                     patientResult.inferences.forEach(function (inference) {
-                        if (inference.kind === "criticalResult") {
-                            if ("result" in inference) {
-                                console.log("Critical Result Inference found: " + inference.result.description);
+                        if (inference.kind === "sexMismatch") {
+                            console.log("Sex Mismatch Inference found: ");
+                            if ("sexIndication" in inference) {
+                                displayCodes(inference.sexIndication);
                             }
                         }
                     });
@@ -74,6 +75,14 @@ function printResults(radiologyInsightsResult) {
         if (error) {
             console.log(error.code, ":", error.message);
         }
+    }
+    function displayCodes(codableConcept) {
+        var _a;
+        (_a = codableConcept.coding) === null || _a === void 0 ? void 0 : _a.forEach(function (coding) {
+            if ("code" in coding) {
+                console.log("      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
+            }
+        });
     }
 }
 // Create request body for radiology insights
@@ -231,5 +240,5 @@ function main() {
 }
 exports.main = main;
 main().catch(function (err) {
-    console.error("The critical result encountered an error:", err);
+    console.error("The sex mismatch encountered an error:", err);
 });

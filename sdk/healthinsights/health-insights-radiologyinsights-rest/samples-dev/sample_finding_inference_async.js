@@ -40,7 +40,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.main = void 0;
 /**
- * Displays the critical results of the Radiology Insights request.
+ * Displays the finding of the Radiology Insights request.
  */
 var core_auth_1 = require("@azure/core-auth");
 var dotenv = require("dotenv");
@@ -50,7 +50,7 @@ dotenv.config();
 var apiKey = process.env["HEALTH_INSIGHTS_KEY"] || "";
 var endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 /**
-    * Print the critical result inference
+    * Print the finding inference
  */
 function printResults(radiologyInsightsResult) {
     if (radiologyInsightsResult.status === "succeeded") {
@@ -59,10 +59,31 @@ function printResults(radiologyInsightsResult) {
             results.patientResults.forEach(function (patientResult) {
                 if (patientResult.inferences) {
                     patientResult.inferences.forEach(function (inference) {
-                        if (inference.kind === "criticalResult") {
-                            if ("result" in inference) {
-                                console.log("Critical Result Inference found: " + inference.result.description);
+                        var _a, _b;
+                        if (inference.kind === "finding") {
+                            console.log("Finding Inference found: ");
+                            var find = inference.finding;
+                            if ("code" in find) {
+                                var fcode = find.code;
+                                console.log("   Code: ");
+                                displayCodes(fcode);
                             }
+                            (_a = find.interpretation) === null || _a === void 0 ? void 0 : _a.forEach(function (inter) {
+                                console.log("   Interpretation: ");
+                                displayCodes(inter);
+                            });
+                            (_b = inference.finding.component) === null || _b === void 0 ? void 0 : _b.forEach(function (comp) {
+                                console.log("   Component code: ");
+                                displayCodes(comp.code);
+                                if ("valueCodeableConcept" in comp) {
+                                    console.log("     Value component codeable concept: ");
+                                    displayCodes(comp.valueCodeableConcept);
+                                }
+                            });
+                            if ("extension" in inference) {
+                                displaySectionInfo(inference);
+                            }
+                            ;
                         }
                     });
                 }
@@ -75,20 +96,42 @@ function printResults(radiologyInsightsResult) {
             console.log(error.code, ":", error.message);
         }
     }
+    function displayCodes(codableConcept) {
+        var _a;
+        (_a = codableConcept.coding) === null || _a === void 0 ? void 0 : _a.forEach(function (coding) {
+            if ("code" in coding) {
+                console.log("      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
+            }
+        });
+    }
+    function displaySectionInfo(inference) {
+        var _a;
+        (_a = inference.extension) === null || _a === void 0 ? void 0 : _a.forEach(function (ext) {
+            var _a;
+            if ("url" in ext && ext.url === "section") {
+                console.log("   Section:");
+                (_a = ext.extension) === null || _a === void 0 ? void 0 : _a.forEach(function (subextension) {
+                    if ("url" in subextension && "valueString" in subextension) {
+                        console.log("      " + subextension.url + ": " + subextension.valueString);
+                    }
+                });
+            }
+        });
+    }
 }
 // Create request body for radiology insights
 function createRequestBody() {
     var codingData = {
         system: "Http://hl7.org/fhir/ValueSet/cpt-all",
-        code: "USPELVIS",
-        display: "US PELVIS COMPLETE"
+        code: "ANG366",
+        display: "XA VENACAVA FILTER INSERTION"
     };
     var code = {
         coding: [codingData]
     };
     var patientInfo = {
-        sex: "female",
-        birthDate: new Date("1959-11-11T19:00:00+00:00"),
+        sex: "male",
+        birthDate: new Date("1980-04-22T02:00:00+00:00")
     };
     var encounterData = {
         id: "encounterid1",
@@ -104,7 +147,7 @@ function createRequestBody() {
     };
     var orderedProceduresData = {
         code: code,
-        description: "US PELVIS COMPLETE"
+        description: "XA VENACAVA FILTER INSERTION"
     };
     var administrativeMetadata = {
         orderedProcedures: [orderedProceduresData],
@@ -112,27 +155,11 @@ function createRequestBody() {
     };
     var content = {
         sourceType: "inline",
-        value: "CLINICAL HISTORY:   "
-            + "\r\n20-year-old female presenting with abdominal pain. Surgical history significant for appendectomy."
-            + "\r\n "
-            + "\r\nCOMPARISON:   "
-            + "\r\nRight upper quadrant sonographic performed 1 day prior."
-            + "\r\n "
-            + "\r\nTECHNIQUE:   "
-            + "\r\nTransabdominal grayscale pelvic sonography with duplex color Doppler "
-            + "\r\nand spectral waveform analysis of the ovaries."
-            + "\r\n "
-            + "\r\nFINDINGS:   "
-            + "\r\nThe uterus is unremarkable given the transabdominal technique with "
-            + "\r\nendometrial echo complex within physiologic normal limits. The "
-            + "\r\novaries are symmetric in size, measuring 2.5 x 1.2 x 3.0 cm and the "
-            + "\r\nleft measuring 2.8 x 1.5 x 1.9 cm.\n \r\nOn duplex imaging, Doppler signal is symmetric."
-            + "\r\n "
-            + "\r\nIMPRESSION:   "
-            + "\r\n1. Normal pelvic sonography. Findings of testicular torsion."
-            + "\r\n\nA new US pelvis within the next 6 months is recommended."
-            + "\n\nThese results have been discussed with Dr. Jones at 3 PM on November 5 2020.\n "
-            + "\r\n"
+        value: "FINDINGS:" +
+            "\n\n1. Inferior vena cavagram using CO2 contrast shows the IVC is normal" +
+            "\nin course and caliber without filling defects to indicate clot. It" +
+            "\nmeasures 19.8 mm. in diameter infrarenally." +
+            "\n\n2. Successful placement of IVC filter in infrarenal location."
     };
     var patientDocumentData = {
         type: "note",
@@ -144,10 +171,10 @@ function createRequestBody() {
         administrativeMetadata: administrativeMetadata,
         content: content,
         createdAt: new Date("2021-06-01T00:00:00.000"),
-        orderedProceduresAsCsv: "US PELVIS COMPLETE"
+        orderedProceduresAsCsv: "XA VENACAVA FILTER INSERTION"
     };
     var patientData = {
-        id: "Samantha Jones",
+        id: "Roberto Lewis",
         details: patientInfo,
         encounters: [encounterData],
         patientDocuments: [patientDocumentData]
@@ -231,5 +258,5 @@ function main() {
 }
 exports.main = main;
 main().catch(function (err) {
-    console.error("The critical result encountered an error:", err);
+    console.error("The finding encountered an error:", err);
 });
