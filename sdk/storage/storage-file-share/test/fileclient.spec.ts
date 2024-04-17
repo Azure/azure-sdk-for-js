@@ -821,9 +821,87 @@ describe("FileClient", () => {
 
     const fileClientWithShareSnapShot = fileClient.withShareSnapshot(snapshotRes2.snapshot!);
     const result = await fileClientWithShareSnapShot.getRangeListDiff(snapshotRes.snapshot!);
-    console.log(result.clearRanges);
-    console.log(result.ranges);
-    console.log(result.requestId);
+
+    assert.ok(result.clearRanges);
+    assert.deepStrictEqual(result.clearRanges!.length, 1);
+    assert.deepStrictEqual(result.clearRanges![0], { start: 0, end: 511 });
+
+    assert.ok(result.ranges);
+    assert.deepStrictEqual(result.ranges!.length, 1);
+    assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
+  });
+
+  it("getRangeListDiff with rename", async function (this: Context) {
+    if (isLiveMode()) {
+      // Skipped for now as the result is not stable.
+      this.skip();
+    }
+    await fileClient.create(512 * 4 + 1);
+    await fileClient.uploadRange("Hello", 0, 5);
+
+    const snapshotRes = await shareClient.createSnapshot();
+    assert.ok(snapshotRes.snapshot);
+
+    const newFileName = recorder.getUniqueName("rename_file");
+    const renamedFileClient = (await fileClient.rename(newFileName)).destinationFileClient;
+
+    await renamedFileClient.clearRange(0, 1024);
+    await renamedFileClient.uploadRange("World", 1023, 5);
+    try {
+      await renamedFileClient.getRangeListDiff(snapshotRes.snapshot!);
+      assert.fail(
+        "getRangeListDiff against a renamed file with a snapshot before renaming should failed."
+      );
+    } catch (err) {
+      assert.equal((err as any).statusCode, 409);
+    }
+    const result = await renamedFileClient.getRangeListDiff(snapshotRes.snapshot!, {
+      includeRenames: true,
+    });
+
+    assert.ok(result.clearRanges);
+    assert.deepStrictEqual(result.clearRanges!.length, 1);
+    assert.deepStrictEqual(result.clearRanges![0], { start: 0, end: 511 });
+
+    assert.ok(result.ranges);
+    assert.deepStrictEqual(result.ranges!.length, 1);
+    assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
+  });
+
+  it("getRangeListDiff with share snapshot and rename", async function (this: Context) {
+    if (isLiveMode()) {
+      // Skipped for now as the result is not stable.
+      this.skip();
+    }
+    await fileClient.create(512 * 4 + 1);
+    await fileClient.uploadRange("Hello", 0, 5);
+
+    const snapshotRes = await shareClient.createSnapshot();
+    assert.ok(snapshotRes.snapshot);
+
+    await fileClient.clearRange(0, 1024);
+    await fileClient.uploadRange("World", 1023, 5);
+
+    const newFileName = recorder.getUniqueName("rename_file");
+    const renamedFileClient = (await fileClient.rename(newFileName)).destinationFileClient;
+
+    const snapshotRes2 = await shareClient.createSnapshot();
+    assert.ok(snapshotRes2.snapshot);
+
+    await renamedFileClient.uploadRange("Hello", 0, 5);
+
+    const fileClientWithShareSnapShot = renamedFileClient.withShareSnapshot(snapshotRes2.snapshot!);
+    try {
+      await fileClientWithShareSnapShot.getRangeListDiff(snapshotRes.snapshot!);
+      assert.fail(
+        "getRangeListDiff against a renamed file with a snapshot before renaming should failed."
+      );
+    } catch (err) {
+      assert.equal((err as any).statusCode, 409);
+    }
+    const result = await fileClientWithShareSnapShot.getRangeListDiff(snapshotRes.snapshot!, {
+      includeRenames: true,
+    });
 
     assert.ok(result.clearRanges);
     assert.deepStrictEqual(result.clearRanges!.length, 1);
@@ -929,6 +1007,7 @@ describe("FileClient", () => {
       assert.notDeepEqual(handle.path, undefined);
       assert.notDeepEqual(handle.fileId, undefined);
       assert.notDeepEqual(handle.sessionId, undefined);
+      assert.notDeepEqual(handle.clientName, undefined);
       assert.notDeepEqual(handle.clientIp, undefined);
       assert.notDeepEqual(handle.openTime, undefined);
     }
@@ -939,6 +1018,7 @@ describe("FileClient", () => {
       // Skipped for now as the generating new version SAS token is not supported in pipeline yet.
       this.skip();
     }
+
     const fileNameWithInvalidChar = recorder.getUniqueName("file\uFFFE");
     const fileWithInvalidChar = shareClient
       .getDirectoryClient("")
@@ -952,6 +1032,7 @@ describe("FileClient", () => {
       assert.notDeepEqual(handle.path, undefined);
       assert.notDeepEqual(handle.fileId, undefined);
       assert.notDeepEqual(handle.sessionId, undefined);
+      assert.notDeepEqual(handle.clientName, undefined);
       assert.notDeepEqual(handle.clientIp, undefined);
       assert.notDeepEqual(handle.openTime, undefined);
     }

@@ -100,7 +100,7 @@ export const timeoutInSeconds: OperationQueryParameter = {
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2023-11-03",
+    defaultValue: "2024-05-04",
     isConstant: true,
     serializedName: "x-ms-version",
     type: {
@@ -1208,6 +1208,17 @@ export const prevsharesnapshot: OperationQueryParameter = {
     xmlName: "prevsharesnapshot",
     type: {
       name: "String"
+    }
+  }
+};
+
+export const supportRename: OperationParameter = {
+  parameterPath: ["options", "supportRename"],
+  mapper: {
+    serializedName: "x-ms-file-support-rename",
+    xmlName: "x-ms-file-support-rename",
+    type: {
+      name: "Boolean"
     }
   }
 };

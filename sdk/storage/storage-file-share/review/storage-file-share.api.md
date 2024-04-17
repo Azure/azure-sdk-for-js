@@ -780,6 +780,7 @@ export interface FileGetRangeListHeaders {
 // @public
 export interface FileGetRangeListOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    includeRenames?: boolean;
     leaseAccessConditions?: LeaseAccessConditions;
     range?: Range_2;
 }
@@ -1097,6 +1098,7 @@ export interface FileUploadRangeFromURLOptionalParams extends coreHttp.Operation
     allowTrailingDot?: boolean;
     copySourceAuthorization?: string;
     fileLastWrittenMode?: FileLastWrittenMode;
+    fileRequestIntent?: ShareTokenIntent;
     leaseAccessConditions?: LeaseAccessConditions;
     sourceContentCrc64?: Uint8Array;
     sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
@@ -1174,6 +1176,7 @@ export interface HandleItem {
     // (undocumented)
     accessRightList?: ShareFileHandleAccessRights[];
     clientIp: string;
+    clientName: string;
     fileId: string;
     handleId: string;
     lastReconnectTime?: Date;
