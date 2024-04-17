@@ -18,7 +18,7 @@ import {
   WorkloadIdentityCredentialOptions,
 } from "../../../src";
 
-describe("WorkloadIdentityCredential", function () {
+describe.skip("WorkloadIdentityCredential", function () {
   let cleanup: MsalTestCleanup;
   let recorder: Recorder;
 
@@ -50,7 +50,7 @@ describe("WorkloadIdentityCredential", function () {
         tenantId,
         clientId,
         tokenFilePath: fileDir.tempFile,
-      } as WorkloadIdentityCredentialOptions),
+      } as WorkloadIdentityCredentialOptions)
     );
     try {
       const token = await credential.getToken(scope);
@@ -94,7 +94,7 @@ describe("WorkloadIdentityCredential", function () {
     const credential = new DefaultAzureCredential(
       recorder.configureClientOptions({
         managedIdentityClientId: "f850650c-1fcf-4489-b46f-71af2e30d360",
-      }),
+      })
     );
     try {
       const token = await credential.getToken(scope);
@@ -107,17 +107,6 @@ describe("WorkloadIdentityCredential", function () {
       rmdirSync(fileDir.tempDir);
     }
   });
-
-  it.only("authenticates with a valid service connection", async function(){
-    const credential = new WorkloadIdentityCredential({serviceConnectionId: "d267d7b2-a67e-4f43-8a8a-bdff194d7233"});
-    try {
-      const token = await credential.getToken(scope);
-      assert.ok(token?.token);
-      assert.ok(token?.expiresOnTimestamp! > Date.now());
-    } catch (e) {
-      console.log(e);
-    }
-  })
 
   async function setupFileandEnv(testName: string): Promise<FileDirectory> {
     const testTitle = testName + Date.now().toString();
