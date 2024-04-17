@@ -52,11 +52,5 @@ export interface Index {
 
 export interface VectorIndex {
   path: string;
-  type: VectorIndexType;
-}
-
-export enum VectorIndexType {
-  Flat = "flat",
-  DiskANN = "diskANN",
-  QuantizedFlat = "quantizedFlat",
+  type: "flat" | "diskANN" | "quantizedFlat";
 }
