@@ -18,7 +18,7 @@ import {
   WorkloadIdentityCredentialOptions,
 } from "../../../src";
 
-describe.skip("WorkloadIdentityCredential", function () {
+describe("WorkloadIdentityCredential", function () {
   let cleanup: MsalTestCleanup;
   let recorder: Recorder;
 
