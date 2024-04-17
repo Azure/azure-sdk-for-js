@@ -194,7 +194,7 @@ export async function delay<T>(
  * @returns true if the address is localhost, false otherwise.
  */
 export function isLoopbackAddress(address: string): boolean {
-  return /^(127\.[\d.]+|[0:]+1|localhost)/.test(address.toLowerCase());
+  return /^(.*:\/\/)?(127\.[\d.]+|[0:]+1|localhost)/.test(address.toLowerCase());
 }
 
 /**

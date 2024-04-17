@@ -281,7 +281,7 @@ describe("ConnectionContextBase", function () {
 
   it("disables tls when connecting to the development emulator", async function () {
     const connectionString =
-      "Endpoint=localhost;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep;UseDevelopmentEmulator=true";
+      "Endpoint=sb://localhost;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep;UseDevelopmentEmulator=true";
     const path = "mypath";
     const config = ConnectionConfig.create(connectionString, path);
     console.log(config);

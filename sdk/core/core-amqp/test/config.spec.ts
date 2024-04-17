@@ -100,7 +100,7 @@ describe("ConnectionConfig", function () {
 
     it("Parses the connection string for the development emulator", async function () {
       const config = ConnectionConfig.create(
-        "Endpoint=localhost:6765;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true",
+        "Endpoint=sb://localhost:6765;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true",
       );
       config.should.have.property("endpoint").that.equals("localhost:6765/");
       config.should.have.property("useDevelopmentEmulator").that.equals(true);
@@ -247,11 +247,11 @@ describe("ConnectionConfig", function () {
     describe("Development Emulator Validation", function () {
       it("Accepts localhost", async function () {
         const connectionString =
-          "Endpoint=localhost:6765;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true";
+          "Endpoint=sb://localhost:6765;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true";
         const config: ConnectionConfig = {
           connectionString,
           endpoint: "localhost:6765/",
-          host: "localhost:6765/",
+          host: "sb://localhost:6765/",
           sharedAccessKeyName: "sakName",
           sharedAccessKey: "abcd",
           useDevelopmentEmulator: true,
@@ -261,11 +261,11 @@ describe("ConnectionConfig", function () {
 
       it("Accepts 127.0.0.1", async function () {
         const connectionString =
-          "Endpoint=127.0.0.1:6765;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true";
+          "Endpoint=sb://127.0.0.1:6765;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true";
         const config: ConnectionConfig = {
           connectionString,
           endpoint: "127.0.0.1:6765/",
-          host: "127.0.0.1:6765",
+          host: "sb://127.0.0.1:6765",
           sharedAccessKeyName: "sakName",
           sharedAccessKey: "abcd",
           useDevelopmentEmulator: true,
@@ -275,11 +275,11 @@ describe("ConnectionConfig", function () {
 
       it("Accepts 0:0:0:0:0:0:0:1", async function () {
         const connectionString =
-          "Endpoint=0:0:0:0:0:0:0:1;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true";
+          "Endpoint=sb://0:0:0:0:0:0:0:1;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true";
         const config: ConnectionConfig = {
           connectionString,
           endpoint: "0:0:0:0:0:0:0:1/",
-          host: "0:0:0:0:0:0:0:1",
+          host: "sb://0:0:0:0:0:0:0:1",
           sharedAccessKeyName: "sakName",
           sharedAccessKey: "abcd",
           useDevelopmentEmulator: true,
@@ -289,11 +289,25 @@ describe("ConnectionConfig", function () {
 
       it("Accepts ::1", async function () {
         const connectionString =
-          "Endpoint=::1;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true";
+          "Endpoint=sb://::1;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true";
         const config: ConnectionConfig = {
           connectionString,
           endpoint: "::1/",
-          host: "::1",
+          host: "sb://::1",
+          sharedAccessKeyName: "sakName",
+          sharedAccessKey: "abcd",
+          useDevelopmentEmulator: true,
+        };
+        ConnectionConfig.validate(config);
+      });
+
+      it("Accepts localhost with missing scheme", async function () {
+        const connectionString =
+          "Endpoint=localhost:6765;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true";
+        const config: ConnectionConfig = {
+          connectionString,
+          endpoint: "localhost:6765/",
+          host: "localhost:6765/",
           sharedAccessKeyName: "sakName",
           sharedAccessKey: "abcd",
           useDevelopmentEmulator: true,
