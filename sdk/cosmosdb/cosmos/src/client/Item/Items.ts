@@ -630,7 +630,7 @@ export class Items {
               if (err.code === 410) {
                 throw new Error(
                   "Partition key error. Either the partitions have split or an operation has an unsupported partitionKey type" +
-                  err.message,
+                    err.message,
                 );
               }
               throw new Error(`Bulk request errored with: ${err.message}`);

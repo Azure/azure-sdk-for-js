@@ -37,7 +37,7 @@ export class Containers {
   constructor(
     public readonly database: Database,
     private readonly clientContext: ClientContext,
-  ) { }
+  ) {}
 
   /**
    * Queries all containers.
