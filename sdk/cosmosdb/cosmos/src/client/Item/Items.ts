@@ -5,7 +5,13 @@ const uuid = v4;
 import { ChangeFeedIterator } from "../../ChangeFeedIterator";
 import { ChangeFeedOptions } from "../../ChangeFeedOptions";
 import { ClientContext } from "../../ClientContext";
-import { getIdFromLink, getPathFromLink, isItemResourceValid, ResourceType } from "../../common";
+import {
+  copyObject,
+  getIdFromLink,
+  getPathFromLink,
+  isItemResourceValid,
+  ResourceType,
+} from "../../common";
 import { extractPartitionKeys } from "../../extractPartitionKey";
 import { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
@@ -183,8 +189,7 @@ export class Items {
     queryBuilder: EncryptionQueryBuilder,
     options: FeedOptions = {},
   ): Promise<QueryIterator<T>> {
-    const encryptionQueryBuilder = queryBuilder.copyQueryBuilder();
-    const encryptionSqlQuerySpec = encryptionQueryBuilder.toEncryptionSqlQuerySpec();
+    const encryptionSqlQuerySpec = queryBuilder.toEncryptionSqlQuerySpec();
     const sqlQuerySpec = await this.buildSqlQuerySpec(encryptionSqlQuerySpec);
     const iterator = this.query<T>(sqlQuerySpec, options);
     return iterator;
@@ -192,16 +197,20 @@ export class Items {
 
   private async buildSqlQuerySpec(encryptionSqlQuerySpec: SqlQuerySpec): Promise<SqlQuerySpec> {
     const encryptionParameters = encryptionSqlQuerySpec.parameters as EncryptionSqlParameter[];
-
+    const sqlQuerySpec: SqlQuerySpec = {
+      query: encryptionSqlQuerySpec.query,
+      parameters: [],
+    };
     for (const parameter of encryptionParameters) {
-      parameter.value = await this.container.encryptionProcessor.serializeAndEncryptQueryParameter(
+      const value = await this.container.encryptionProcessor.serializeAndEncryptQueryParameter(
         parameter.path,
         parameter.value,
         parameter.type,
         parameter.path === "/id",
       );
+      sqlQuerySpec.parameters.push({ name: parameter.name, value: value });
     }
-    return encryptionSqlQuerySpec;
+    return sqlQuerySpec;
   }
 
   /**
@@ -382,7 +391,7 @@ export class Items {
       let partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
 
       if (this.clientContext.enableEncyption) {
-        body = JSON.parse(JSON.stringify(body));
+        body = copyObject(body);
         body = await this.container.encryptionProcessor.encrypt(body);
         partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
       }
@@ -471,7 +480,7 @@ export class Items {
       let partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
 
       if (this.clientContext.enableEncyption) {
-        body = JSON.parse(JSON.stringify(body));
+        body = copyObject(body);
         body = await this.container.encryptionProcessor.encrypt(body);
         partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
       }
@@ -559,7 +568,7 @@ export class Items {
       );
 
       if (this.clientContext.enableEncyption) {
-        operations = JSON.parse(JSON.stringify(operations));
+        operations = copyObject(operations);
         operations = await this.bulkBatchEncryptionHelper(operations);
       }
 
@@ -713,7 +722,7 @@ export class Items {
       }
 
       if (this.clientContext.enableEncyption) {
-        operations = JSON.parse(JSON.stringify(operations));
+        operations = copyObject(operations);
         if (partitionKey) {
           const partitionKeyInternal = convertToInternalPartitionKey(partitionKey);
           partitionKey =

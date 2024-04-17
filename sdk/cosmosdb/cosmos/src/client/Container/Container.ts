@@ -393,6 +393,7 @@ export class Container {
         const clientEncryptionPolicy = readResponse.resource.clientEncryptionPolicy;
         const partitionKeyPaths = readResponse.resource.partitionKey.paths;
         const key = this.database.id + "/" + this.id;
+
         const encryptionSettings = EncryptionSettings.create(
           key,
           partitionKeyPaths,

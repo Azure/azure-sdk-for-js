@@ -3,6 +3,7 @@
 import { ClientContext } from "../../ClientContext";
 import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import {
+  copyObject,
   createDocumentUri,
   getIdFromLink,
   getPathFromLink,
@@ -180,7 +181,7 @@ export class Item {
       let id = getIdFromLink(this.url);
 
       if (this.clientContext.enableEncyption) {
-        body = JSON.parse(JSON.stringify(body));
+        body = copyObject(body);
         body = await this.container.encryptionProcessor.encrypt(body);
         this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
           this.partitionKey,
@@ -189,7 +190,6 @@ export class Item {
         path = getPathFromLink(url);
         id = getIdFromLink(url);
       }
-
       const response = await this.clientContext.replace<T>({
         body,
         path,
@@ -295,7 +295,7 @@ export class Item {
       let id = getIdFromLink(this.url);
 
       if (this.clientContext.enableEncyption) {
-        body = JSON.parse(JSON.stringify(body));
+        body = copyObject(body);
         const operations = Array.isArray(body) ? body : body.operations;
         for (const operation of operations) {
           if ("value" in operation) {

@@ -839,6 +839,8 @@ export class Database {
     // (undocumented)
     readInternal(diagnosticNode: DiagnosticNodeInternal, options?: RequestOptions): Promise<DatabaseResponse>;
     readOffer(options?: RequestOptions): Promise<OfferResponse>;
+    // (undocumented)
+    rewrapClientEncryptionKey(id: string, newKeyWrapMetadata: EncryptionKeyWrapMetadata): Promise<ClientEncryptionKeyResponse>;
     get url(): string;
     user(id: string): User;
     readonly users: Users;

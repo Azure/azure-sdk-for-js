@@ -40,18 +40,4 @@ export class EncryptionQueryBuilder {
       parameters: this.parameters,
     };
   }
-
-  /**
-   * @internal
-   * @returns deep copy of queryBuilder object to avoid modification in queryBuilder passed by the user
-   */
-  public copyQueryBuilder(): EncryptionQueryBuilder {
-    const copiedQueryBuilder = new EncryptionQueryBuilder(this.query);
-    if (this.parameters) {
-      this.parameters.forEach((param) => {
-        copiedQueryBuilder.parameters.push({ ...param });
-      });
-    }
-    return copiedQueryBuilder;
-  }
 }

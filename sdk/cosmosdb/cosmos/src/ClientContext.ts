@@ -50,6 +50,7 @@ import {
   EncryptionSettingsCache,
   ClientEncryptionKeyPropertiesCache,
   ProtectedDataEncryptionKey,
+  EncryptionKeyResolverName,
 } from "./encryption";
 const logger: AzureLogger = createClientLogger("ClientContext");
 
@@ -104,7 +105,7 @@ export class ClientContext {
     if (this.enableEncyption) {
       this.encryptionKeyStoreProvider = new EncryptionKeyStoreProvider(
         cosmosClientOptions.keyEncryptionKeyResolver,
-        "AzureKeyVault",
+        EncryptionKeyResolverName.AzureKeyVault,
         this.encryptionKeyTimeToLiveInHours,
       );
       this.encryptionKeyTimeToLiveInHours = cosmosClientOptions.encryptionKeyTimeToLiveInHours

@@ -37,7 +37,7 @@ export class EncryptionProcessor {
       throw new Error("Input body is null or undefined.");
     }
 
-    const encryptionSettings = await this.getEncryptionSettings();
+    const encryptionSettings = await this.getEncryptionSetting();
     for (const pathToEncrypt of encryptionSettings.pathsToEncrypt) {
       const propertyName = pathToEncrypt.slice(1);
       if (!Object.prototype.hasOwnProperty.call(body, propertyName)) {
@@ -59,7 +59,7 @@ export class EncryptionProcessor {
   }
 
   async encryptProperty(path: string, value: any): Promise<any> {
-    const encryptionSettings = await this.getEncryptionSettings();
+    const encryptionSettings = await this.getEncryptionSetting();
     const settingForProperty = encryptionSettings.getEncryptionSettingForProperty(path);
     if (!settingForProperty) {
       return value;
@@ -72,7 +72,7 @@ export class EncryptionProcessor {
   async getEncryptedPartitionKeyValue(
     partitionKeyList: PartitionKeyInternal,
   ): Promise<PartitionKeyInternal> {
-    const encryptionSettings = await this.getEncryptionSettings();
+    const encryptionSettings = await this.getEncryptionSetting();
     const partitionKeyPaths = encryptionSettings.partitionKeyPaths;
     for (let i = 0; i < partitionKeyPaths.length; i++) {
       const partitionKeyPath = EncryptionProcessor.extractPartitionKeyPath(partitionKeyPaths[i]);
@@ -98,7 +98,7 @@ export class EncryptionProcessor {
   }
 
   async getEncryptedId(id: string): Promise<string> {
-    const encryptionSettings = await this.getEncryptionSettings();
+    const encryptionSettings = await this.getEncryptionSetting();
     const settingForProperty = encryptionSettings.getEncryptionSettingForProperty("/id");
 
     if (!settingForProperty) return id;
@@ -149,7 +149,7 @@ export class EncryptionProcessor {
     if (value === null) {
       return value;
     }
-    const encryptionSettings = await this.getEncryptionSettings();
+    const encryptionSettings = await this.getEncryptionSetting();
     const settingForProperty = encryptionSettings.getEncryptionSettingForProperty(path);
     if (!settingForProperty) {
       return value;
@@ -249,7 +249,7 @@ export class EncryptionProcessor {
     if (body == null) {
       return body;
     }
-    const encryptionSettings = await this.getEncryptionSettings();
+    const encryptionSettings = await this.getEncryptionSetting();
     for (const pathToEncrypt of encryptionSettings.pathsToEncrypt) {
       const propertyName = pathToEncrypt.slice(1);
       if (!Object.prototype.hasOwnProperty.call(body, propertyName)) {
@@ -344,14 +344,14 @@ export class EncryptionProcessor {
     }
   }
 
-  private async getEncryptionSettings(): Promise<EncryptionSettings> {
+  private async getEncryptionSetting(): Promise<EncryptionSettings> {
     const key = this.databaseId + "/" + this.containerId;
     const encryptionSettingsCache = EncryptionSettingsCache.getInstance();
     const encryptionSetting = encryptionSettingsCache.getEncryptionSettings(key);
     if (!encryptionSetting) {
-      await withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
-        const path = "/dbs/" + this.databaseId + "/colls/" + this.containerId;
-        const id = "dbs/" + this.databaseId + "/colls/" + this.containerId;
+      return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+        const path = `/dbs/${this.databaseId}/colls/${this.containerId}`;
+        const id = `dbs/${this.databaseId}/colls/${this.containerId}`;
         const response = await this.clientContext.read<ContainerDefinition>({
           path,
           resourceType: ResourceType.container,
@@ -380,7 +380,9 @@ export class EncryptionProcessor {
     let clientEncryptionKeyProperties =
       clientEncryptionKeyPropertiesCache.getClientEncryptionKeyProperties(key);
     if (!clientEncryptionKeyProperties) {
-      clientEncryptionKeyProperties = await this.fetchClientEncryptionKey(key);
+      clientEncryptionKeyProperties = await this.fetchClientEncryptionKey(
+        propertySetting.encryptionKeyId,
+      );
     }
     let encryptionAlgorithm: AeadAes256CbcHmacSha256Algorithm;
     try {
@@ -390,7 +392,9 @@ export class EncryptionProcessor {
       );
     } catch {
       // stale value in local cache
-      clientEncryptionKeyProperties = await this.fetchClientEncryptionKey(key);
+      clientEncryptionKeyProperties = await this.fetchClientEncryptionKey(
+        propertySetting.encryptionKeyId,
+      );
       try {
         encryptionAlgorithm = await propertySetting.buildEncryptionAlgorithm(
           clientEncryptionKeyProperties,
@@ -399,7 +403,7 @@ export class EncryptionProcessor {
       } catch {
         // stale value in gateway cache. fetch from backend
         clientEncryptionKeyProperties = await this.fetchClientEncryptionKey(
-          key,
+          propertySetting.encryptionKeyId,
           clientEncryptionKeyProperties.etag,
         );
         try {
@@ -423,21 +427,21 @@ export class EncryptionProcessor {
   }
 
   private async fetchClientEncryptionKey(
-    key: string,
+    cekId: string,
     cekEtag?: string,
   ): Promise<ClientEncryptionKeyProperties> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
-      const path = "/dbs/" + this.databaseId + "/clientencryptionkeys";
-      const id = "dbs/" + this.databaseId;
+      const path = `/dbs/${this.databaseId}/clientencryptionkeys/${cekId}`;
+      const id = `dbs/${this.databaseId}/clientencryptionkeys/${cekId}`;
       let options: RequestOptions;
       if (cekEtag) {
         options.accessCondition.type = "IfNoneMatch";
         options.accessCondition.condition = cekEtag;
       }
       const response = await this.clientContext.read<ClientEncryptionKeyRequest>({
-        path: path + `/${id}`,
+        path: path,
         resourceType: ResourceType.clientencryptionkey,
-        resourceId: id + `/${ResourceType.clientencryptionkey}/${id}`,
+        resourceId: id,
         options: {},
         diagnosticNode,
       });
@@ -449,6 +453,7 @@ export class EncryptionProcessor {
         Buffer.from(response.result.wrappedDataEncryptionKey, "base64"),
         response.result.keyWrapMetadata,
       );
+      const key = this.databaseId + "/" + cekId;
       clientEncryptionKeyPropertiesCache.setClientEncryptionKeyProperties(
         key,
         clientEncryptionKeyProperties,
