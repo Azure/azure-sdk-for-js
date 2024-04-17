@@ -3,22 +3,30 @@
 
 import { EncryptionSettings } from "../EncryptionSettings";
 /**
- * @hidden
  * The cache used to store encryption settings for a container.
+ * @hidden
  */
 export class EncryptionSettingsCache {
-  //key is databaseId + '/' + containerId
+  // key is databaseId + '/' + containerId
   private encryptionSettingsCache: Map<string, EncryptionSettings>;
+  private static instance: EncryptionSettingsCache;
 
-  constructor() {
+  private constructor() {
     this.encryptionSettingsCache = new Map<string, EncryptionSettings>();
   }
 
-  public getEncryptionSettings(key: string): EncryptionSettings | undefined {
+  public static getInstance(): EncryptionSettingsCache {
+    if (!EncryptionSettingsCache.instance) {
+      EncryptionSettingsCache.instance = new EncryptionSettingsCache();
+    }
+    return EncryptionSettingsCache.instance;
+  }
+
+  getEncryptionSettings(key: string): EncryptionSettings | undefined {
     return this.encryptionSettingsCache.get(key);
   }
 
-  public setEncryptionSettings(key: string, encryptionSettings: EncryptionSettings): void {
+  setEncryptionSettings(key: string, encryptionSettings: EncryptionSettings): void {
     this.encryptionSettingsCache.set(key, encryptionSettings);
   }
 }

@@ -59,7 +59,7 @@ export class ClientEncryptionPolicy {
     if (includedPath.encryptionAlgorithm !== EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256) {
       throw new ErrorResponse("Invalid encryption algorithm in ClientEncryptionIncludedPath.");
     }
-    //TODO: add check for checking encryption type
+    // TODO: add check for checking encryption type
     if (includedPath.path[0] !== "/") {
       throw new ErrorResponse("Path in ClientEncryptionIncludedPath needs to start with '/'.");
       console.log(policyFormatVersion);
@@ -67,5 +67,5 @@ export class ClientEncryptionPolicy {
     // TODO: place further checks for path
   }
 
-  //TODO: add checks for checking partition key paths
+  // TODO: add checks for checking partition key paths
 }

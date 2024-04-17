@@ -21,7 +21,6 @@ export class EncryptionSettingForProperty {
   }
 
   public async buildEncryptionAlgorithm(
-    encryptionType: EncryptionType,
     clientEncryptionKeyProperties: ClientEncryptionKeyProperties,
     encryptionKeyStoreProvider: EncryptionKeyStoreProvider,
   ): Promise<AeadAes256CbcHmacSha256Algorithm> {
@@ -31,7 +30,7 @@ export class EncryptionSettingForProperty {
     );
     const encryptionAlgorithm = new AeadAes256CbcHmacSha256Algorithm(
       protectedDataEncryptionKey,
-      encryptionType,
+      this.encryptionType,
     );
 
     return encryptionAlgorithm;
@@ -53,5 +52,5 @@ export class EncryptionSettingForProperty {
     );
     return protectedDataEncryptionKey;
   }
-  //TODO: in class calling these functions, implement methods to get the latest clientEncryptionKeyProperties if any thing goes wrong. EncryptionProcessor in our case.
+  // TODO: in class calling these functions, implement methods to get the latest clientEncryptionKeyProperties if any thing goes wrong. EncryptionProcessor in our case.
 }

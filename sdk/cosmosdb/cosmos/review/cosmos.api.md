@@ -344,7 +344,7 @@ export interface ClientEncryptionKeyDefinition {
 
 // @public (undocumented)
 export class ClientEncryptionKeyProperties {
-    constructor(id: string, encryptionAlgorithm: string, wrappedDataEncryptionKey: Buffer, encryptionKeyWrapMetadata: EncryptionKeyWrapMetadata);
+    constructor(id: string, encryptionAlgorithm: string, etag: string, wrappedDataEncryptionKey: Buffer, encryptionKeyWrapMetadata: EncryptionKeyWrapMetadata);
     // (undocumented)
     encryptionAlgorithm: string;
     // (undocumented)
@@ -625,6 +625,10 @@ export const Constants: {
         DedicatedGatewayPerRequestBypassCache: string;
         ForceRefresh: string;
         PriorityLevel: string;
+        IsClientEncryptedHeader: string;
+        IntendedCollectionHeader: string;
+        DatabaseRidHeader: string;
+        AllowCachedReadsHeader: string;
     };
     ThrottledRequestMaxRetryAttemptCount: number;
     ThrottledRequestMaxWaitTimeInSeconds: number;
@@ -883,6 +887,8 @@ export class Database {
     // (undocumented)
     readInternal(diagnosticNode: DiagnosticNodeInternal, options?: RequestOptions): Promise<DatabaseResponse>;
     readOffer(options?: RequestOptions): Promise<OfferResponse>;
+    // (undocumented)
+    rewrapClientEncryptionKey(id: string, newKeyWrapMetadata: EncryptionKeyWrapMetadata): Promise<ClientEncryptionKeyResponse>;
     get url(): string;
     user(id: string): User;
     readonly users: Users;
@@ -2095,6 +2101,7 @@ export interface RequestOptions extends SharedOptions {
         condition: string;
     };
     contentResponseOnWriteEnabled?: boolean;
+    databaseRid?: string;
     disableAutomaticIdGeneration?: boolean;
     enableScriptLogging?: boolean;
     indexingDirective?: string;

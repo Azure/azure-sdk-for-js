@@ -5,6 +5,7 @@ import { ChangeFeedIterator } from "../../ChangeFeedIterator";
 import type { ChangeFeedOptions } from "../../ChangeFeedOptions";
 import type { ClientContext } from "../../ClientContext";
 import {
+  copyObject,
   getIdFromLink,
   getPathFromLink,
   isItemResourceValid,
@@ -33,12 +34,17 @@ import {
   prepareOperations,
   decorateBatchOperation,
   splitBatchBasedOnBodySize,
+  BulkOperationType,
 } from "../../utils/batch";
 import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks";
 import { hashPartitionKey } from "../../utils/hashing/hash";
-import type { PartitionKey, PartitionKeyDefinition } from "../../documents";
 import { PartitionKeyRangeCache, QueryRange } from "../../routing";
-import type {
+import {
+  convertToInternalPartitionKey,
+  PartitionKey,
+  PartitionKeyDefinition,
+} from "../../documents";
+import {
   ChangeFeedPullModelIterator,
   ChangeFeedIteratorOptions,
 } from "../../client/ChangeFeed";
@@ -54,6 +60,7 @@ import { randomUUID } from "@azure/core-util";
 import { readPartitionKeyDefinition } from "../ClientUtils";
 import { ChangeFeedIteratorBuilder } from "../ChangeFeed/ChangeFeedIteratorBuilder";
 import { EncryptionQueryBuilder } from "../../encryption";
+import { EncryptionSqlParameter } from "../../encryption/EncryptionQueryBuilder";
 
 /**
  * @hidden
@@ -138,7 +145,7 @@ export class Items {
       return response;
     };
 
-    return new QueryIterator(
+    const iterator = new QueryIterator<T>(
       this.clientContext,
       query,
       options,
@@ -146,6 +153,8 @@ export class Items {
       this.container.url,
       ResourceType.item,
     );
+    iterator.addEncryptionProcessor(this.container.encryptionProcessor);
+    return iterator;
   }
   /**
    * Queries all items in an encrypted container.
@@ -154,7 +163,7 @@ export class Items {
    * @example Read all items to array.
    * ```typescript
    * const queryBuilder = new EncryptionQueryBuilder("SELECT firstname FROM Families f WHERE f.lastName = @lastName");
-   * queryBuilder.addStringParameter("@lastName", "Hendricks");
+   * queryBuilder.addStringParameter("@lastName", "Hendricks", "/lastname");
    * const queryIterator = await items.getEncryptionQueryIterator(queryBuilder);
    * const {result: items} = await queryIterator.fetchAll();
    * ```
@@ -170,7 +179,7 @@ export class Items {
    * @example Read all items to array.
    * ```typescript
    * const queryBuilder = new EncryptionQueryBuilder("SELECT firstname FROM Families f WHERE f.lastName = @lastName");
-   * queryBuilder.addStringParameter("@lastName", "Hendricks");
+   * queryBuilder.addStringParameter("@lastName", "Hendricks", "/lastname");
    * const queryIterator = await items.getEncryptionQueryIterator<{firstName: string}>(queryBuilder);
    * const {result: items} = await queryIterator.fetchAll();
    * ```
@@ -184,13 +193,27 @@ export class Items {
     options: FeedOptions = {},
   ): Promise<QueryIterator<T>> {
     const encryptionSqlQuerySpec = queryBuilder.toEncryptionSqlQuerySpec();
-    const SqlQuerySpec = await this.buildSqlQuerySpec(encryptionSqlQuerySpec);
-    return this.query<T>(SqlQuerySpec, options);
+    const sqlQuerySpec = await this.buildSqlQuerySpec(encryptionSqlQuerySpec);
+    const iterator = this.query<T>(sqlQuerySpec, options);
+    return iterator;
   }
 
   private async buildSqlQuerySpec(encryptionSqlQuerySpec: SqlQuerySpec): Promise<SqlQuerySpec> {
-    // TODO: iterate over each parameter, find its encrypted value.
-    return encryptionSqlQuerySpec;
+    const encryptionParameters = encryptionSqlQuerySpec.parameters as EncryptionSqlParameter[];
+    const sqlQuerySpec: SqlQuerySpec = {
+      query: encryptionSqlQuerySpec.query,
+      parameters: [],
+    };
+    for (const parameter of encryptionParameters) {
+      const value = await this.container.encryptionProcessor.serializeAndEncryptQueryParameter(
+        parameter.path,
+        parameter.value,
+        parameter.type,
+        parameter.path === "/id",
+      );
+      sqlQuerySpec.parameters.push({ name: parameter.name, value: value });
+    }
+    return sqlQuerySpec;
   }
 
   /**
@@ -371,7 +394,13 @@ export class Items {
         diagnosticNode,
         this.container,
       );
-      const partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
+      let partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
+
+      if (this.clientContext.enableEncyption) {
+        body = copyObject(body);
+        body = await this.container.encryptionProcessor.encrypt(body);
+        partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
+      }
 
       const err = {};
       if (!isItemResourceValid(body, err)) {
@@ -391,6 +420,10 @@ export class Items {
         partitionKey,
       });
 
+      if (this.clientContext.enableEncyption) {
+        response.result = await this.container.encryptionProcessor.decrypt(response.result);
+        partitionKey = extractPartitionKeys(response.result, partitionKeyDefinition);
+      }
       const ref = new Item(
         this.container,
         this.clientContext,
@@ -450,7 +483,13 @@ export class Items {
         diagnosticNode,
         this.container,
       );
-      const partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
+      let partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
+
+      if (this.clientContext.enableEncyption) {
+        body = copyObject(body);
+        body = await this.container.encryptionProcessor.encrypt(body);
+        partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
+      }
 
       const err = {};
       if (!isItemResourceValid(body, err)) {
@@ -469,6 +508,11 @@ export class Items {
         partitionKey,
         diagnosticNode,
       });
+
+      if (this.clientContext.enableEncyption) {
+        response.result = await this.container.encryptionProcessor.decrypt(response.result);
+        partitionKey = extractPartitionKeys(response.result, partitionKeyDefinition);
+      }
 
       const ref = new Item(
         this.container,
@@ -529,6 +573,12 @@ export class Items {
         diagnosticNode,
         this.container,
       );
+
+      if (this.clientContext.enableEncyption) {
+        operations = copyObject(operations);
+        operations = await this.bulkBatchEncryptionHelper(operations);
+      }
+
       const batches: Batch[] = partitionKeyRanges.map((keyRange: PartitionKeyRange) => {
         return {
           min: keyRange.minInclusive,
@@ -594,6 +644,13 @@ export class Items {
           diagnosticNode,
           DiagnosticNodeType.BATCH_REQUEST,
         );
+        if (this.clientContext.enableEncyption) {
+          for (const result of response.result) {
+            result.resourceBody = await this.container.encryptionProcessor.decrypt(
+              result.resourceBody,
+            );
+          }
+        }
         response.result.forEach((operationResponse: OperationResponse, index: number) => {
           orderedResponses[batch.indexes[index]] = operationResponse;
         });
@@ -772,6 +829,19 @@ export class Items {
       if (operations.length > 100) {
         throw new Error("Cannot run batch request with more than 100 operations per partition");
       }
+
+      if (this.clientContext.enableEncyption) {
+        operations = copyObject(operations);
+        if (partitionKey) {
+          const partitionKeyInternal = convertToInternalPartitionKey(partitionKey);
+          partitionKey =
+            await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
+              partitionKeyInternal,
+            );
+        }
+        operations = await this.bulkBatchEncryptionHelper(operations);
+      }
+
       try {
         const response: Response<OperationResponse[]> = await this.clientContext.batch({
           body: operations,
@@ -781,10 +851,65 @@ export class Items {
           options,
           diagnosticNode,
         });
+
+        if (this.clientContext.enableEncyption) {
+          for (const result of response.result) {
+            if (result.resourceBody) {
+              result.resourceBody = await this.container.encryptionProcessor.decrypt(
+                result.resourceBody,
+              );
+            }
+          }
+        }
+
         return response;
       } catch (err: any) {
         throw new Error(`Batch request error: ${err.message}`);
       }
     }, this.clientContext);
+  }
+
+  private async bulkBatchEncryptionHelper(operations: OperationInput[]): Promise<OperationInput[]> {
+    for (const operation of operations) {
+      if (Object.prototype.hasOwnProperty.call(operation, "partitionKey")) {
+        const partitionKeyInternal = convertToInternalPartitionKey(operation.partitionKey);
+        operation.partitionKey =
+          await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
+            partitionKeyInternal,
+          );
+      }
+      switch (operation.operationType) {
+        case BulkOperationType.Create:
+        case BulkOperationType.Upsert:
+          operation.resourceBody = await this.container.encryptionProcessor.encrypt(
+            operation.resourceBody,
+          );
+          break;
+        case BulkOperationType.Read:
+        case BulkOperationType.Delete:
+          operation.id = await this.container.encryptionProcessor.getEncryptedId(operation.id);
+          break;
+        case BulkOperationType.Replace:
+          operation.id = await this.container.encryptionProcessor.getEncryptedId(operation.id);
+          operation.resourceBody = await this.container.encryptionProcessor.encrypt(
+            operation.resourceBody,
+          );
+          break;
+        case BulkOperationType.Patch:
+          operation.id = await this.container.encryptionProcessor.getEncryptedId(operation.id);
+          const body = operation.resourceBody;
+          const patchRequestBody = Array.isArray(body) ? body : body.operations;
+          for (const patchOperation of patchRequestBody) {
+            if ("value" in patchOperation) {
+              patchOperation.value = await this.container.encryptionProcessor.encryptProperty(
+                patchOperation.path,
+                patchOperation.value,
+              );
+            }
+          }
+          break;
+      }
+    }
+    return operations;
   }
 }

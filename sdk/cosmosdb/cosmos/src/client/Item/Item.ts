@@ -3,6 +3,7 @@
 import type { ClientContext } from "../../ClientContext";
 import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import {
+  copyObject,
   createDocumentUri,
   getIdFromLink,
   getPathFromLink,
@@ -84,8 +85,18 @@ export class Item {
         this.container,
         this.partitionKey,
       );
-      const path = getPathFromLink(this.url);
-      const id = getIdFromLink(this.url);
+      let path = getPathFromLink(this.url);
+      let id = getIdFromLink(this.url);
+
+      if (this.clientContext.enableEncyption) {
+        this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
+          this.partitionKey,
+        );
+        const url = await this.container.encryptionProcessor.getEncryptedUrl(this.url);
+        path = getPathFromLink(url);
+        id = getIdFromLink(url);
+      }
+
       let response: Response<T & Resource>;
       try {
         response = await this.clientContext.read<T>({
@@ -101,6 +112,10 @@ export class Item {
           throw error;
         }
         response = error;
+      }
+
+      if (this.clientContext.enableEncyption) {
+        response.result = await this.container.encryptionProcessor.decrypt(response.result);
       }
 
       return new ItemResponse(
@@ -156,9 +171,19 @@ export class Item {
         throw err;
       }
 
-      const path = getPathFromLink(this.url);
-      const id = getIdFromLink(this.url);
+      let path = getPathFromLink(this.url);
+      let id = getIdFromLink(this.url);
 
+      if (this.clientContext.enableEncyption) {
+        body = copyObject(body);
+        body = await this.container.encryptionProcessor.encrypt(body);
+        this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
+          this.partitionKey,
+        );
+        const url = await this.container.encryptionProcessor.getEncryptedUrl(this.url);
+        path = getPathFromLink(url);
+        id = getIdFromLink(url);
+      }
       const response = await this.clientContext.replace<T>({
         body,
         path,
@@ -168,6 +193,10 @@ export class Item {
         partitionKey: this.partitionKey,
         diagnosticNode,
       });
+
+      if (this.clientContext.enableEncyption) {
+        response.result = await this.container.encryptionProcessor.decrypt(response.result);
+      }
       return new ItemResponse(
         response.result,
         response.headers,
@@ -197,8 +226,17 @@ export class Item {
         this.partitionKey,
       );
 
-      const path = getPathFromLink(this.url);
-      const id = getIdFromLink(this.url);
+      let path = getPathFromLink(this.url);
+      let id = getIdFromLink(this.url);
+
+      if (this.clientContext.enableEncyption) {
+        this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
+          this.partitionKey,
+        );
+        const url = await this.container.encryptionProcessor.getEncryptedUrl(this.url);
+        path = getPathFromLink(url);
+        id = getIdFromLink(url);
+      }
 
       const response = await this.clientContext.delete<T>({
         path,
@@ -208,6 +246,10 @@ export class Item {
         partitionKey: this.partitionKey,
         diagnosticNode,
       });
+
+      if (this.clientContext.enableEncyption) {
+        response.result = await this.container.encryptionProcessor.decrypt(response.result);
+      }
 
       return new ItemResponse(
         response.result,
@@ -238,8 +280,28 @@ export class Item {
         this.container,
         this.partitionKey,
       );
-      const path = getPathFromLink(this.url);
-      const id = getIdFromLink(this.url);
+
+      let path = getPathFromLink(this.url);
+      let id = getIdFromLink(this.url);
+
+      if (this.clientContext.enableEncyption) {
+        body = copyObject(body);
+        const operations = Array.isArray(body) ? body : body.operations;
+        for (const operation of operations) {
+          if ("value" in operation) {
+            operation.value = await this.container.encryptionProcessor.encryptProperty(
+              operation.path,
+              operation.value,
+            );
+          }
+        }
+        this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
+          this.partitionKey,
+        );
+        const url = await this.container.encryptionProcessor.getEncryptedUrl(this.url);
+        path = getPathFromLink(url);
+        id = getIdFromLink(url);
+      }
 
       const response = await this.clientContext.patch<T>({
         body,
@@ -250,6 +312,10 @@ export class Item {
         partitionKey: this.partitionKey,
         diagnosticNode,
       });
+
+      if (this.clientContext.enableEncyption) {
+        response.result = await this.container.encryptionProcessor.decrypt(response.result);
+      }
 
       return new ItemResponse(
         response.result,
