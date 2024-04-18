@@ -6,12 +6,6 @@
 
 - Introduced `EventGridDeserializer` class.
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
 ## 1.0.0-beta.1 (2024-04-12)
 
 ### Features Added
