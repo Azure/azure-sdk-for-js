@@ -3,7 +3,6 @@
 
 export interface VectorEmbeddingPolicy {
   vectorEmbeddings: VectorEmbedding[];
-  additionalProperties?: { [key: string]: any };
 }
 export interface VectorEmbedding {
   /**
