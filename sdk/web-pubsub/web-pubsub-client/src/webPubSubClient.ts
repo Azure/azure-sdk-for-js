@@ -671,8 +671,8 @@ export class WebPubSubClient {
 
         const handleGroupDataMessage = (message: GroupDataMessage): void => {
           if (message.sequenceId != null) {
-            let diff = this._sequenceId.tryUpdate(message.sequenceId);
-            if (diff == 0) {
+            const diff = this._sequenceId.tryUpdate(message.sequenceId);
+            if (diff === 0) {
               // drop duplicated message
               return;
             }
@@ -688,8 +688,8 @@ export class WebPubSubClient {
 
         const handleServerDataMessage = (message: ServerDataMessage): void => {
           if (message.sequenceId != null) {
-            let diff = this._sequenceId.tryUpdate(message.sequenceId);
-            if (diff == 0) {
+            const diff = this._sequenceId.tryUpdate(message.sequenceId);
+            if (diff === 0) {
               // drop duplicated message
               return;
             }
@@ -812,7 +812,7 @@ export class WebPubSubClient {
     this._safeEmitStopped();
   }
 
-  private _getActiveKeepaliveTask(): AbortableTask{
+  private _getActiveKeepaliveTask(): AbortableTask {
     return new AbortableTask(async () => {
       this._sequenceId.tryUpdate(0); // force update
     }, this._activeTimeoutInMs);
@@ -1185,7 +1185,7 @@ class SequenceId {
   public tryUpdate(sequenceId: number): number {
     this._isUpdate = true;
     if (sequenceId > this._sequenceId) {
-      let diff = sequenceId - this._sequenceId;
+      const diff = sequenceId - this._sequenceId;
       this._sequenceId = sequenceId;
       return diff;
     }
