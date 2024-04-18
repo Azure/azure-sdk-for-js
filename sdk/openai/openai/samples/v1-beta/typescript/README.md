@@ -21,6 +21,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [chatCompletions.ts][chatcompletions]                                               | get chat completions.                                                        |
 | [completions.ts][completions]                                                       | get completions.                                                             |
 | [functions.ts][functions]                                                           | get chat completions with functions.                                         |
+| [generateSpeechFromText.ts][generatespeechfromtext]                                 | list completions.                                                            |
 | [getEmbeddings.ts][getembeddings]                                                   | generates embedding vectors from a prompt using Azure OpenAI Get Embeddings. |
 | [getImages.ts][getimages]                                                           | generates images from prompts using Azure OpenAI Batch Image Generation.     |
 | [streamChatCompletions.ts][streamchatcompletions]                                   | list chat completions.                                                       |
@@ -86,6 +87,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [chatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/chatCompletions.ts
 [completions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/completions.ts
 [functions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/functions.ts
+[generatespeechfromtext]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/generateSpeechFromText.ts
 [getembeddings]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/getEmbeddings.ts
 [getimages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/getImages.ts
 [streamchatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/streamChatCompletions.ts

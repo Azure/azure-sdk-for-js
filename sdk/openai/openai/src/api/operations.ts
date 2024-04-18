@@ -618,7 +618,7 @@ export async function _generateSpeechFromTextDeserialize(
 }
 
 /** Generates text-to-speech audio from the input text. */
-export async function streamSpeechFromText(
+export async function generateSpeechFromText(
   context: Client,
   deploymentId: string,
   input: string,

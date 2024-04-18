@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import { StreamableMethod } from "@azure-rest/core-client";
-import { getSpeechStream, getStream } from "./getSSEs.js";
+import { getStream } from "./getSSEs.js";
 import { wrapError } from "./util.js";
 import { StreamOf } from "../models/models.js";
 import { EventMessage, createSseStream } from "@azure/core-sse";
-import { polyfillDisposableStream, polyfillStream } from "./readableStreamUtils.js";
+import { polyfillStream } from "./readableStreamUtils.js";
 
 export async function getOaiSSEs<TEvent, O extends Record<string, any>>(
   response: StreamableMethod<unknown>,
@@ -36,7 +36,7 @@ export async function getOaiSSEs<TEvent, O extends Record<string, any>>(
 export async function getOAISpeechStream(
   response: StreamableMethod<unknown>,
 ): Promise<StreamOf<Uint8Array>> {
-  const stringStream = await getSpeechStream(response);
+  const stringStream = await getStream(response);
   /** TODO: remove these polyfills once all supported runtimes support them */
-  return polyfillDisposableStream(stringStream);
+  return polyfillStream(stringStream);
 }

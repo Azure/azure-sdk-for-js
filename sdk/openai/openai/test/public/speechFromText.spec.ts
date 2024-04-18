@@ -8,7 +8,6 @@ import { createClient, startRecorder } from "./utils/recordedClient.js";
 import { OpenAIClient } from "../../src/index.js";
 import { AuthMethod } from "./types.js";
 import { assert } from "@azure/test-utils";
-
 describe("OpenAI", function () {
   matrix([["AzureAPIKey", "OpenAIKey", "AAD"]] as const, async function (authMethod: AuthMethod) {
     describe(`[${authMethod}] Client`, () => {
@@ -35,7 +34,7 @@ describe("OpenAI", function () {
           } else {
             model = "tts-hd";
           }
-          const result = await client.streamSpeechFromText(model, prompt, "onyx");
+          const result = await client.generateSpeechFromText(model, prompt, "onyx");
           assert.isDefined(result);
           for await (const chunk of result) {
             assert.isNotEmpty(chunk);

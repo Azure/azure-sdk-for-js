@@ -133,4 +133,5 @@ export {
   GetImagesOptions,
   GetChatCompletionsOptions,
   GetEmbeddingsOptions,
+  GenerateSpeechFromTextOptions,
 } from "./options.js";

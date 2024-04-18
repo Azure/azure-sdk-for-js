@@ -5,11 +5,10 @@
  * Demonstrates how to list completions for the provided prompt.
  *
  * @summary list completions.
- * @azsdk-weight 100
  */
 
 import { OpenAIClient, AzureKeyCredential } from "@azure/openai";
-import * as fs from "fs";
+import { writeFile } from "fs/promises";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -26,15 +25,8 @@ export async function main() {
 
   const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
   const deploymentId = "tts-1-hd";
-  const result = await client.streamSpeechFromText(deploymentId, prompt, "onyx");
-
-  for await (const chunk of result) {
-    fs.writeFile(`audioFile.mp3`, chunk, (err: any) => {
-      if (err) {
-        throw new Error(err);
-      }
-    });
-  }
+  const result = await client.generateSpeechFromText(deploymentId, prompt, "onyx");
+  await writeFile(`audioFile.mp3`, result);
 }
 
 main().catch((err) => {

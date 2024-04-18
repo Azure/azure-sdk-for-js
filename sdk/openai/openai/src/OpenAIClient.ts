@@ -26,7 +26,7 @@ import {
   getEmbeddings,
   getAudioTranscription,
   getAudioTranslation,
-  streamSpeechFromText,
+  generateSpeechFromText,
 } from "./api/operations.js";
 import { nonAzurePolicy } from "./api/policies/nonAzure.js";
 import { streamChatCompletions, streamCompletions } from "./api/operations.js";
@@ -336,13 +336,22 @@ export class OpenAIClient {
     return getEmbeddings(this._client, deploymentName, input, options);
   }
 
-  streamSpeechFromText(
+  /**
+   * Return the speech audio for a given prompt
+   *
+   * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
+   * @param input - The prompt to use for this request.
+   * @param voice - The voice to use for this request.
+   * @param options - The options for this  request.
+   * @returns An asynchronous iterable of completions tokens.
+   */
+  generateSpeechFromText(
     deploymentName: string,
     input: string,
     voice: SpeechVoice,
     options: GenerateSpeechFromTextOptions = { requestOptions: {} },
   ): Promise<StreamOf<Uint8Array>> {
     this.setModel(deploymentName, options);
-    return streamSpeechFromText(this._client, deploymentName, input, voice, options);
+    return generateSpeechFromText(this._client, deploymentName, input, voice, options);
   }
 }

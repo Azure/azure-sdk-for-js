@@ -17,11 +17,3 @@ export async function getStream<TResponse>(
   if (!body) throw new Error("No stream found in response. Did you enable the stream option?");
   return body;
 }
-
-export async function getSpeechStream<TResponse>(
-  response: StreamableMethod<TResponse>,
-): Promise<ReadableStream<Uint8Array>> {
-  const { body } = await response.asBrowserStream();
-  if (!body) throw new Error("No stream found in response");
-  return body;
-}

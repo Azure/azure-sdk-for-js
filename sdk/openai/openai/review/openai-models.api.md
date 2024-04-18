@@ -653,6 +653,13 @@ export interface FunctionName {
 }
 
 // @public
+export interface GenerateSpeechFromTextOptions extends OperationOptions {
+    model?: string;
+    responseFormat?: SpeechGenerationResponseFormat;
+    speed?: number;
+}
+
+// @public
 export interface GetChatCompletionsOptions extends OperationOptions {
     azureExtensionOptions?: AzureExtensionsOptions;
     frequencyPenalty?: number;

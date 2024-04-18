@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export function polyfillStream<T>(stream: ReadableStream<T>): ReadableStream<T> & AsyncIterable<T> {
+export function polyfillStream<T>(
+  stream: ReadableStream<T> | NodeJS.ReadableStream,
+): ReadableStream<T> & AsyncIterable<T> {
   makeAsyncIterable<T>(stream);
   return stream;
 }
@@ -68,22 +70,4 @@ function concatBuffers(buffers: Uint8Array[], len?: number): Uint8Array {
   }
 
   return res;
-}
-
-function makeAsyncDisposable<T>(
-  webStream: any,
-  dispose: () => PromiseLike<void>,
-): asserts webStream is ReadableStream<T> & AsyncDisposable {
-  (Symbol.asyncDispose as any) ??= Symbol("Symbol.asyncDispose");
-  if (!webStream[Symbol.asyncDispose]) {
-    webStream[Symbol.asyncDispose] = () => dispose();
-  }
-}
-
-export function polyfillDisposableStream<T>(
-  webstream: ReadableStream<T> | NodeJS.ReadableStream,
-): ReadableStream<T> & AsyncIterable<T> & AsyncDisposable {
-  makeAsyncIterable<T>(webstream);
-  makeAsyncDisposable<T>(webstream, () => webstream.cancel());
-  return webstream;
 }

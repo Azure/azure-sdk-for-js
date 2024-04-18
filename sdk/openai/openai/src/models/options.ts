@@ -21,8 +21,6 @@ export interface GeneratedGetChatCompletionsOptions extends OperationOptions {}
 
 export interface GetImageGenerationsOptions extends OperationOptions {}
 
-export interface GenerateSpeechFromTextOptions extends OperationOptions {}
-
 /** Represents the request data used to generate images. */
 export interface GetImagesOptions extends OperationOptions {
   /**
@@ -49,6 +47,9 @@ export interface GetImagesOptions extends OperationOptions {
   user?: string;
 }
 
+/**
+ * Options for generating speech from text method.
+ */
 export interface GenerateSpeechFromTextOptions extends OperationOptions {
   /** The audio output format for the spoken text. By default, the MP3 format will be used. */
   responseFormat?: SpeechGenerationResponseFormat;

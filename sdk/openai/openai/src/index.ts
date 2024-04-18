@@ -128,9 +128,11 @@ export {
   ChatCompletionsToolDefinitionUnion,
   ChatCompletionsNamedToolSelectionUnion,
   ChatFinishDetailsUnion,
+  SpeechVoice,
   GetCompletionsOptions,
   GetChatCompletionsOptions,
   GetImagesOptions,
   GetEmbeddingsOptions,
+  GenerateSpeechFromTextOptions,
   EventStream,
 } from "./models/index.js";
