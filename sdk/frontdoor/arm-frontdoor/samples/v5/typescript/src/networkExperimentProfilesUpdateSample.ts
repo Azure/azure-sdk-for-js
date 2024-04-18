@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ProfileUpdateModel,
-  FrontDoorManagementClient
+  FrontDoorManagementClient,
 } from "@azure/arm-frontdoor";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -30,14 +30,14 @@ async function updatesAnExperiment() {
   const profileName = "MyProfile";
   const parameters: ProfileUpdateModel = {
     enabledState: "Enabled",
-    tags: { key1: "value1", key2: "value2" }
+    tags: { key1: "value1", key2: "value2" },
   };
   const credential = new DefaultAzureCredential();
   const client = new FrontDoorManagementClient(credential, subscriptionId);
   const result = await client.networkExperimentProfiles.beginUpdateAndWait(
     resourceGroupName,
     profileName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

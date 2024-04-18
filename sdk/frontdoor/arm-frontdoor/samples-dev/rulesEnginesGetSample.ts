@@ -30,7 +30,7 @@ async function getRulesEngineConfiguration() {
   const result = await client.rulesEngines.get(
     resourceGroupName,
     frontDoorName,
-    rulesEngineName
+    rulesEngineName,
   );
   console.log(result);
 }

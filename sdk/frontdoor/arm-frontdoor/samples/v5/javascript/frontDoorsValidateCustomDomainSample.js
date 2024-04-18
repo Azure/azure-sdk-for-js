@@ -30,7 +30,7 @@ async function frontDoorValidateCustomDomain() {
   const result = await client.frontDoors.validateCustomDomain(
     resourceGroupName,
     frontDoorName,
-    customDomainProperties
+    customDomainProperties,
   );
   console.log(result);
 }

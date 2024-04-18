@@ -35,6 +35,7 @@ import { decodeBase64 } from "./utils/encoding.js";
 import { AdditionalPolicyConfig } from "@azure/core-client";
 import { isVitestTestContext, TestInfo, VitestSuite } from "./testInfo.js";
 import { env } from "./utils/env.js";
+import { fallbackSanitizers } from "./utils/fallbackSanitizers.js";
 
 /**
  * Caculates session file path and JSON assets path from test context
@@ -354,6 +355,9 @@ export class Recorder {
           this.recordingId,
           options.envSetupForPlayback,
         );
+
+        // Fallback sanitizers to be added in both record/playback modes
+        await fallbackSanitizers(this.httpClient, Recorder.url, this.recordingId);
 
         // Sanitizers to be added only in record mode
         if (isRecordMode() && options.sanitizerOptions) {

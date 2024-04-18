@@ -28,7 +28,7 @@ async function deleteRulesEngineConfiguration() {
   const result = await client.rulesEngines.beginDeleteAndWait(
     resourceGroupName,
     frontDoorName,
-    rulesEngineName
+    rulesEngineName,
   );
   console.log(result);
 }
