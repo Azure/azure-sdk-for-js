@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Deletes a custom domain.
  *
  * @summary Description for Deletes a custom domain.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/DeleteStaticSiteCustomDomain.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/DeleteStaticSiteCustomDomain.json
  */
 async function deleteACustomDomainForAStaticSite() {
   const subscriptionId =

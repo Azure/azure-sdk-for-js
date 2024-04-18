@@ -1,5 +1,31 @@
 # Release History
 
+## 5.11.5 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 5.11.4 (2024-03-21)
+
+### Other Changes
+
+- The minimum value of timeout for all operations is no longer 60 seconds. The user can now set the timeout to lower values if needed. The default timeout value is still 60 seconds.
+
+## 5.11.3 (2023-11-07)
+
+### Bugs Fixed
+
+- Improve event prefetching to not overload the internal queue.
+
+### Other Changes
+
+- NodeJS v18 is now the minimum version supported. Check out the [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule) for more information on NodeJS support timelines. And check out the [Microsoft Support Policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md#microsoft-support-policy) for more information on Microsoft support timelines.
+
 ## 5.11.2 (2023-09-25)
 
 ### Bugs Fixed

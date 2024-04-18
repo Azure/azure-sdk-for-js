@@ -66,7 +66,7 @@ export interface CancellableAsyncLock {
   acquire<T = void>(
     key: string,
     task: (...args: any[]) => Promise<T>,
-    properties: AcquireLockProperties
+    properties: AcquireLockProperties,
   ): Promise<T>;
 }
 
@@ -96,7 +96,7 @@ export class CancellableAsyncLockImpl {
   acquire<T = void>(
     key: string,
     task: (...args: any[]) => Promise<T>,
-    properties: AcquireLockProperties
+    properties: AcquireLockProperties,
   ): Promise<T> {
     const { abortSignal, timeoutInMs } = properties;
     // Fast exit if the operation is already cancelled.
@@ -122,7 +122,7 @@ export class CancellableAsyncLockImpl {
       const tid = setTimeout(() => {
         this._removeTaskDetails(key, taskDetails);
         rejecter(
-          new OperationTimeoutError(`The task timed out waiting to acquire a lock for ${key}`)
+          new OperationTimeoutError(`The task timed out waiting to acquire a lock for ${key}`),
         );
       }, timeoutInMs);
       taskDetails.tid = tid;
@@ -142,7 +142,7 @@ export class CancellableAsyncLockImpl {
     // Enqueue the task!
     taskQueue.push(taskDetails);
     logger.verbose(
-      `Called acquire() for lock "${key}". Lock "${key}" has ${taskQueue.length} pending tasks.`
+      `Called acquire() for lock "${key}". Lock "${key}" has ${taskQueue.length} pending tasks.`,
     );
 
     // Start a loop to iterate over the task queue.
@@ -193,7 +193,7 @@ export class CancellableAsyncLockImpl {
         taskDetails.reject(err);
       }
       logger.verbose(
-        `Task completed for lock "${key}". Lock "${key}" has ${taskQueue.length} pending tasks.`
+        `Task completed for lock "${key}". Lock "${key}" has ${taskQueue.length} pending tasks.`,
       );
     }
 

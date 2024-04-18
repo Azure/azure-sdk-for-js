@@ -14,7 +14,7 @@ import {
   CapabilitiesGetResponse,
   CapabilitiesDeleteOptionalParams,
   CapabilitiesCreateOrUpdateOptionalParams,
-  CapabilitiesCreateOrUpdateResponse
+  CapabilitiesCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface Capabilities {
     parentResourceType: string,
     parentResourceName: string,
     targetName: string,
-    options?: CapabilitiesListOptionalParams
+    options?: CapabilitiesListOptionalParams,
   ): PagedAsyncIterableIterator<Capability>;
   /**
    * Get a Capability resource that extends a Target resource.
@@ -54,7 +54,7 @@ export interface Capabilities {
     parentResourceName: string,
     targetName: string,
     capabilityName: string,
-    options?: CapabilitiesGetOptionalParams
+    options?: CapabilitiesGetOptionalParams,
   ): Promise<CapabilitiesGetResponse>;
   /**
    * Delete a Capability that extends a Target resource.
@@ -73,7 +73,7 @@ export interface Capabilities {
     parentResourceName: string,
     targetName: string,
     capabilityName: string,
-    options?: CapabilitiesDeleteOptionalParams
+    options?: CapabilitiesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Create or update a Capability resource that extends a Target resource.
@@ -94,6 +94,6 @@ export interface Capabilities {
     targetName: string,
     capabilityName: string,
     capability: Capability,
-    options?: CapabilitiesCreateOrUpdateOptionalParams
+    options?: CapabilitiesCreateOrUpdateOptionalParams,
   ): Promise<CapabilitiesCreateOrUpdateResponse>;
 }

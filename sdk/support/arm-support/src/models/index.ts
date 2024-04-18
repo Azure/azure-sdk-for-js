@@ -49,29 +49,14 @@ export interface OperationDisplay {
   readonly resource?: string;
 }
 
-/** The API error. */
-export interface ExceptionResponse {
-  /** The API error details. */
-  error?: ServiceError;
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
 }
 
-/** The API error details. */
-export interface ServiceError {
-  /** The error code. */
-  code?: string;
-  /** The error message. */
-  message?: string;
-  /** The target of the error. */
-  target?: string;
-  /**
-   * The list of error details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: ServiceErrorDetail[];
-}
-
-/** The error details. */
-export interface ServiceErrorDetail {
+/** The error detail. */
+export interface ErrorDetail {
   /**
    * The error code.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -82,8 +67,35 @@ export interface ServiceErrorDetail {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly message?: string;
-  /** The target of the error. */
-  target?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
 }
 
 /** Collection of Service resources. */
@@ -113,6 +125,98 @@ export interface Service {
   displayName?: string;
   /** ARM Resource types. */
   resourceTypes?: string[];
+  /**
+   * Metadata about the service, only visible for 1P clients
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly metadata?: { [propertyName: string]: string };
+}
+
+/** Input to problem classification Classification API. */
+export interface ServiceClassificationRequest {
+  /** Natural language description of the customer’s issue. */
+  issueSummary?: string;
+  /** ARM resource Id of the resource that is having the issue. */
+  resourceId?: string;
+  /** Additional information in the form of a string. */
+  additionalContext?: string;
+}
+
+/** Output of the service classification API. */
+export interface ServiceClassificationOutput {
+  /** Set of problem classification objects classified. */
+  serviceClassificationResults?: ServiceClassificationAnswer[];
+}
+
+/** Service Classification result object. */
+export interface ClassificationService {
+  /**
+   * Azure resource Id of the service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serviceId?: string;
+  /**
+   * Localized name of the azure service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /** List of applicable ARM resource types for this service. */
+  resourceTypes?: string[];
+}
+
+/** Input to problem classification Classification API. */
+export interface ProblemClassificationsClassificationInput {
+  /** Natural language description of the customer’s issue. */
+  issueSummary: string;
+  /** ARM resource Id of the resource that is having the issue. */
+  resourceId?: string;
+}
+
+/** Output of the problem classification Classification API. */
+export interface ProblemClassificationsClassificationOutput {
+  /** Set of problem classification objects classified. */
+  problemClassificationResults?: ProblemClassificationsClassificationResult[];
+}
+
+/** ProblemClassification Classification result object. */
+export interface ProblemClassificationsClassificationResult {
+  /**
+   * Identifier that may be used for solution discovery or some other purposes.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly problemId?: string;
+  /**
+   * Title of the problem classification result.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly title?: string;
+  /**
+   * Description of the problem classification result.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * Identifier of the service associated with this problem classification result.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serviceId?: string;
+  /**
+   * Identifier that may be used for support ticket creation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly problemClassificationId?: string;
+  /**
+   * Azure resource Id of the service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serviceIdRelatedServiceId?: string;
+  /**
+   * Localized name of the azure service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /** List of applicable ARM resource types for this service. */
+  resourceTypes?: string[];
 }
 
 /** Collection of ProblemClassification resources. */
@@ -140,6 +244,23 @@ export interface ProblemClassification {
   readonly type?: string;
   /** Localized name of problem classification. */
   displayName?: string;
+  /** This property indicates whether secondary consent is present for problem classification */
+  secondaryConsentEnabled?: SecondaryConsentEnabled[];
+  /**
+   * String-to-string dictionary for additional metadata.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly metadata?: { [propertyName: string]: string };
+  /** Reference to the parent problem classification which has same structure as problem classification */
+  parentProblemClassification?: ProblemClassification;
+}
+
+/** This property indicates whether secondary consent is present for problem classification. */
+export interface SecondaryConsentEnabled {
+  /** User consent description. */
+  description?: string;
+  /** The Azure service for which secondary consent is needed for case creation. */
+  type?: string;
 }
 
 /** Input of CheckNameAvailability API. */
@@ -207,13 +328,16 @@ export interface SupportTicketDetails {
   readonly problemClassificationDisplayName?: string;
   /** A value that indicates the urgency of the case, which in turn determines the response time according to the service level agreement of the technical support plan you have with Azure. Note: 'Highest critical impact', also known as the 'Emergency - Severe impact' level in the Azure portal is reserved only for our Premium customers. */
   severity?: SeverityLevel;
-  /**
-   * Enrollment Id associated with the support ticket.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly enrollmentId?: string;
+  /** Enrollment Id associated with the support ticket. */
+  enrollmentId?: string;
   /** Indicates if this requires a 24x7 response from Azure. */
   require24X7Response?: boolean;
+  /** Advanced diagnostic consent to be updated on the support ticket. */
+  advancedDiagnosticConsent?: Consent;
+  /** Problem scoping questions associated with the support ticket. */
+  problemScopingQuestions?: string;
+  /** Support plan id associated with the support ticket. */
+  supportPlanId?: string;
   /** Contact information of the user requesting to create a support ticket. */
   contactDetails?: ContactProfile;
   /** Service Level Agreement information for this support ticket. */
@@ -225,6 +349,11 @@ export interface SupportTicketDetails {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly supportPlanType?: string;
+  /**
+   * Support plan type associated with the support ticket.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly supportPlanDisplayName?: string;
   /** Title of the support ticket. */
   title?: string;
   /** Time in UTC (ISO 8601 format) when the problem started. */
@@ -251,10 +380,19 @@ export interface SupportTicketDetails {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly modifiedDate?: Date;
+  /** File workspace name. */
+  fileWorkspaceName?: string;
+  /**
+   * This property indicates if support ticket is a temporary ticket.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isTemporaryTicket?: IsTemporaryTicket;
   /** Additional ticket details associated with a technical support ticket request. */
   technicalTicketDetails?: TechnicalTicketDetails;
   /** Additional ticket details associated with a quota support ticket request. */
   quotaTicketDetails?: QuotaTicketDetails;
+  /** This property indicates secondary consents for the support ticket */
+  secondaryConsent?: SecondaryConsent[];
 }
 
 /** Contact information associated with the support ticket. */
@@ -331,6 +469,14 @@ export interface QuotaChangeRequest {
   payload?: string;
 }
 
+/** This property indicates secondary consent for the support ticket. */
+export interface SecondaryConsent {
+  /** User consent value provided */
+  userConsent?: UserConsent;
+  /** The service name for which the secondary consent is being provided. The value needs to be retrieved from the Problem Classification API response. */
+  type?: string;
+}
+
 /** Updates severity, ticket status, and contact details in the support ticket. */
 export interface UpdateSupportTicket {
   /** Severity level. */
@@ -339,6 +485,10 @@ export interface UpdateSupportTicket {
   status?: Status;
   /** Contact details to be updated on the support ticket. */
   contactDetails?: UpdateContactProfile;
+  /** Advanced diagnostic consent to be updated on the support ticket. */
+  advancedDiagnosticConsent?: Consent;
+  /** This property indicates secondary consents for the support ticket */
+  secondaryConsent?: SecondaryConsent[];
 }
 
 /** Contact information associated with the support ticket. */
@@ -411,6 +561,166 @@ export interface CommunicationDetails {
   readonly createdDate?: Date;
 }
 
+/** Collection of Chat Transcripts resources. */
+export interface ChatTranscriptsListResult {
+  /** List of Chat Transcripts resources. */
+  value?: ChatTranscriptDetails[];
+  /** The URI to fetch the next page of Chat Transcripts resources. */
+  nextLink?: string;
+}
+
+/** Describes the properties of a Message Details resource. */
+export interface MessageProperties {
+  /**
+   * Content type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly contentType?: TranscriptContentType;
+  /**
+   * Direction of communication.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly communicationDirection?: CommunicationDirection;
+  /** Name of the sender. */
+  sender?: string;
+  /** Body of the communication. */
+  body: string;
+  /**
+   * Time in UTC (ISO 8601 format) when the communication was created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdDate?: Date;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** Object that represents a collection of File resources. */
+export interface FilesListResult {
+  /** List of File resources. */
+  value?: FileDetails[];
+  /** The URI to fetch the next page of File resources. */
+  nextLink?: string;
+}
+
+/** File content associated with the file under a workspace. */
+export interface UploadFile {
+  /** File Content in base64 encoded format */
+  content?: string;
+  /** Index of the uploaded chunk (Index starts at 0) */
+  chunkIndex?: number;
+}
+
+/** The look up resource Id request body */
+export interface LookUpResourceIdRequest {
+  /** The System generated Id that is unique. Use supportTicketId property for Microsoft.Support/supportTickets resource type. */
+  identifier?: string;
+  /** The type of resource. */
+  type?: "Microsoft.Support/supportTickets";
+}
+
+/** The look up resource id response */
+export interface LookUpResourceIdResponse {
+  /** The resource Id of support resource type. */
+  resourceId?: string;
+}
+
+/** Service Classification result object. */
+export interface ServiceClassificationAnswer extends ClassificationService {
+  /** Child service. */
+  childService?: ClassificationService;
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+/** Object that represents a Chat Transcript resource. */
+export interface ChatTranscriptDetails extends ProxyResource {
+  /** List of chat transcript communication resources. */
+  messages?: MessageProperties[];
+  /**
+   * Time in UTC (ISO 8601 format) when the chat began.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTime?: Date;
+}
+
+/** Object that represents FileWorkspaceDetails resource */
+export interface FileWorkspaceDetails extends ProxyResource {
+  /**
+   * Time in UTC (ISO 8601 format) when file workspace was created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdOn?: Date;
+  /**
+   * Time in UTC (ISO 8601 format) when file workspace is going to expire.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expirationTime?: Date;
+}
+
+/** Object that represents File Details resource */
+export interface FileDetails extends ProxyResource {
+  /**
+   * Time in UTC (ISO 8601 format) when file workspace was created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdOn?: Date;
+  /** Size of each chunk */
+  chunkSize?: number;
+  /** Size of the file to be uploaded */
+  fileSize?: number;
+  /** Number of chunks to be uploaded */
+  numberOfChunks?: number;
+}
+
+/** Defines headers for SupportTicketsNoSubscription_create operation. */
+export interface SupportTicketsNoSubscriptionCreateHeaders {
+  location?: string;
+}
+
+/** Defines headers for CommunicationsNoSubscription_create operation. */
+export interface CommunicationsNoSubscriptionCreateHeaders {
+  location?: string;
+}
+
 /** Known values of {@link SeverityLevel} that the service accepts. */
 export enum KnownSeverityLevel {
   /** Minimal */
@@ -420,7 +730,7 @@ export enum KnownSeverityLevel {
   /** Critical */
   Critical = "critical",
   /** Highestcriticalimpact */
-  Highestcriticalimpact = "highestcriticalimpact"
+  Highestcriticalimpact = "highestcriticalimpact",
 }
 
 /**
@@ -435,12 +745,30 @@ export enum KnownSeverityLevel {
  */
 export type SeverityLevel = string;
 
+/** Known values of {@link Consent} that the service accepts. */
+export enum KnownConsent {
+  /** Yes */
+  Yes = "Yes",
+  /** No */
+  No = "No",
+}
+
+/**
+ * Defines values for Consent. \
+ * {@link KnownConsent} can be used interchangeably with Consent,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Yes** \
+ * **No**
+ */
+export type Consent = string;
+
 /** Known values of {@link PreferredContactMethod} that the service accepts. */
 export enum KnownPreferredContactMethod {
   /** Email */
   Email = "email",
   /** Phone */
-  Phone = "phone"
+  Phone = "phone",
 }
 
 /**
@@ -453,12 +781,48 @@ export enum KnownPreferredContactMethod {
  */
 export type PreferredContactMethod = string;
 
+/** Known values of {@link IsTemporaryTicket} that the service accepts. */
+export enum KnownIsTemporaryTicket {
+  /** Yes */
+  Yes = "Yes",
+  /** No */
+  No = "No",
+}
+
+/**
+ * Defines values for IsTemporaryTicket. \
+ * {@link KnownIsTemporaryTicket} can be used interchangeably with IsTemporaryTicket,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Yes** \
+ * **No**
+ */
+export type IsTemporaryTicket = string;
+
+/** Known values of {@link UserConsent} that the service accepts. */
+export enum KnownUserConsent {
+  /** Yes */
+  Yes = "Yes",
+  /** No */
+  No = "No",
+}
+
+/**
+ * Defines values for UserConsent. \
+ * {@link KnownUserConsent} can be used interchangeably with UserConsent,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Yes** \
+ * **No**
+ */
+export type UserConsent = string;
+
 /** Known values of {@link Status} that the service accepts. */
 export enum KnownStatus {
   /** Open */
   Open = "open",
   /** Closed */
-  Closed = "closed"
+  Closed = "closed",
 }
 
 /**
@@ -476,7 +840,7 @@ export enum KnownCommunicationType {
   /** Web */
   Web = "web",
   /** Phone */
-  Phone = "phone"
+  Phone = "phone",
 }
 
 /**
@@ -494,7 +858,7 @@ export enum KnownCommunicationDirection {
   /** Inbound */
   Inbound = "inbound",
   /** Outbound */
-  Outbound = "outbound"
+  Outbound = "outbound",
 }
 
 /**
@@ -506,6 +870,42 @@ export enum KnownCommunicationDirection {
  * **outbound**
  */
 export type CommunicationDirection = string;
+
+/** Known values of {@link TranscriptContentType} that the service accepts. */
+export enum KnownTranscriptContentType {}
+
+/**
+ * Defines values for TranscriptContentType. \
+ * {@link KnownTranscriptContentType} can be used interchangeably with TranscriptContentType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ *
+ */
+export type TranscriptContentType = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
 /** Defines values for Type. */
 export type Type =
   | "Microsoft.Support/supportTickets"
@@ -533,11 +933,44 @@ export interface ServicesGetOptionalParams
 export type ServicesGetResponse = Service;
 
 /** Optional parameters. */
+export interface ServiceClassificationsNoSubscriptionClassifyServicesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the classifyServices operation. */
+export type ServiceClassificationsNoSubscriptionClassifyServicesResponse =
+  ServiceClassificationOutput;
+
+/** Optional parameters. */
+export interface ServiceClassificationsClassifyServicesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the classifyServices operation. */
+export type ServiceClassificationsClassifyServicesResponse =
+  ServiceClassificationOutput;
+
+/** Optional parameters. */
+export interface ProblemClassificationsNoSubscriptionClassifyProblemsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the classifyProblems operation. */
+export type ProblemClassificationsNoSubscriptionClassifyProblemsResponse =
+  ProblemClassificationsClassificationOutput;
+
+/** Optional parameters. */
+export interface ProblemClassificationsClassifyProblemsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the classifyProblems operation. */
+export type ProblemClassificationsClassifyProblemsResponse =
+  ProblemClassificationsClassificationOutput;
+
+/** Optional parameters. */
 export interface ProblemClassificationsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ProblemClassificationsListResponse = ProblemClassificationsListResult;
+export type ProblemClassificationsListResponse =
+  ProblemClassificationsListResult;
 
 /** Optional parameters. */
 export interface ProblemClassificationsGetOptionalParams
@@ -551,14 +984,15 @@ export interface SupportTicketsCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type SupportTicketsCheckNameAvailabilityResponse = CheckNameAvailabilityOutput;
+export type SupportTicketsCheckNameAvailabilityResponse =
+  CheckNameAvailabilityOutput;
 
 /** Optional parameters. */
 export interface SupportTicketsListOptionalParams
   extends coreClient.OperationOptions {
   /** The number of values to return in the collection. Default is 25 and max is 100. */
   top?: number;
-  /** The filter to apply on the operation. We support 'odata v4.0' filter semantics. [Learn more](https://docs.microsoft.com/odata/concepts/queryoptions-overview). _Status_ filter can only be used with Equals ('eq') operator. For _CreatedDate_ filter, the supported operators are Greater Than ('gt') and Greater Than or Equals ('ge'). When using both filters, combine them using the logical 'AND'. */
+  /** The filter to apply on the operation. We support 'odata v4.0' filter semantics. [Learn more](https://docs.microsoft.com/odata/concepts/queryoptions-overview). _Status_, _ServiceId_, and _ProblemClassificationId_ filters can only be used with Equals ('eq') operator. For _CreatedDate_ filter, the supported operators are Greater Than ('gt') and Greater Than or Equals ('ge'). When using both filters, combine them using the logical 'AND'. */
   filter?: string;
 }
 
@@ -599,11 +1033,66 @@ export interface SupportTicketsListNextOptionalParams
 export type SupportTicketsListNextResponse = SupportTicketsListResult;
 
 /** Optional parameters. */
+export interface SupportTicketsNoSubscriptionCheckNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkNameAvailability operation. */
+export type SupportTicketsNoSubscriptionCheckNameAvailabilityResponse =
+  CheckNameAvailabilityOutput;
+
+/** Optional parameters. */
+export interface SupportTicketsNoSubscriptionListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The number of values to return in the collection. Default is 25 and max is 100. */
+  top?: number;
+  /** The filter to apply on the operation. We support 'odata v4.0' filter semantics. <a target='_blank' href='https://docs.microsoft.com/odata/concepts/queryoptions-overview'>Learn more</a> <br/><i>Status</i> , <i>ServiceId</i>, and <i>ProblemClassificationId</i> filters can only be used with 'eq' operator. For <i>CreatedDate</i> filter, the supported operators are 'gt' and 'ge'. When using both filters, combine them using the logical 'AND'. */
+  filter?: string;
+}
+
+/** Contains response data for the list operation. */
+export type SupportTicketsNoSubscriptionListResponse = SupportTicketsListResult;
+
+/** Optional parameters. */
+export interface SupportTicketsNoSubscriptionGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SupportTicketsNoSubscriptionGetResponse = SupportTicketDetails;
+
+/** Optional parameters. */
+export interface SupportTicketsNoSubscriptionUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type SupportTicketsNoSubscriptionUpdateResponse = SupportTicketDetails;
+
+/** Optional parameters. */
+export interface SupportTicketsNoSubscriptionCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type SupportTicketsNoSubscriptionCreateResponse = SupportTicketDetails;
+
+/** Optional parameters. */
+export interface SupportTicketsNoSubscriptionListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SupportTicketsNoSubscriptionListNextResponse =
+  SupportTicketsListResult;
+
+/** Optional parameters. */
 export interface CommunicationsCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type CommunicationsCheckNameAvailabilityResponse = CheckNameAvailabilityOutput;
+export type CommunicationsCheckNameAvailabilityResponse =
+  CheckNameAvailabilityOutput;
 
 /** Optional parameters. */
 export interface CommunicationsListOptionalParams
@@ -642,6 +1131,194 @@ export interface CommunicationsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type CommunicationsListNextResponse = CommunicationsListResult;
+
+/** Optional parameters. */
+export interface CommunicationsNoSubscriptionCheckNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkNameAvailability operation. */
+export type CommunicationsNoSubscriptionCheckNameAvailabilityResponse =
+  CheckNameAvailabilityOutput;
+
+/** Optional parameters. */
+export interface CommunicationsNoSubscriptionListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The number of values to return in the collection. Default is 10 and max is 10. */
+  top?: number;
+  /** The filter to apply on the operation. You can filter by communicationType and createdDate properties. CommunicationType supports Equals ('eq') operator and createdDate supports Greater Than ('gt') and Greater Than or Equals ('ge') operators. You may combine the CommunicationType and CreatedDate filters by Logical And ('and') operator. */
+  filter?: string;
+}
+
+/** Contains response data for the list operation. */
+export type CommunicationsNoSubscriptionListResponse = CommunicationsListResult;
+
+/** Optional parameters. */
+export interface CommunicationsNoSubscriptionGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type CommunicationsNoSubscriptionGetResponse = CommunicationDetails;
+
+/** Optional parameters. */
+export interface CommunicationsNoSubscriptionCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type CommunicationsNoSubscriptionCreateResponse = CommunicationDetails;
+
+/** Optional parameters. */
+export interface CommunicationsNoSubscriptionListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type CommunicationsNoSubscriptionListNextResponse =
+  CommunicationsListResult;
+
+/** Optional parameters. */
+export interface ChatTranscriptsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ChatTranscriptsListResponse = ChatTranscriptsListResult;
+
+/** Optional parameters. */
+export interface ChatTranscriptsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ChatTranscriptsGetResponse = ChatTranscriptDetails;
+
+/** Optional parameters. */
+export interface ChatTranscriptsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ChatTranscriptsListNextResponse = ChatTranscriptsListResult;
+
+/** Optional parameters. */
+export interface ChatTranscriptsNoSubscriptionListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ChatTranscriptsNoSubscriptionListResponse =
+  ChatTranscriptsListResult;
+
+/** Optional parameters. */
+export interface ChatTranscriptsNoSubscriptionGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ChatTranscriptsNoSubscriptionGetResponse = ChatTranscriptDetails;
+
+/** Optional parameters. */
+export interface ChatTranscriptsNoSubscriptionListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ChatTranscriptsNoSubscriptionListNextResponse =
+  ChatTranscriptsListResult;
+
+/** Optional parameters. */
+export interface FileWorkspacesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type FileWorkspacesGetResponse = FileWorkspaceDetails;
+
+/** Optional parameters. */
+export interface FileWorkspacesCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type FileWorkspacesCreateResponse = FileWorkspaceDetails;
+
+/** Optional parameters. */
+export interface FileWorkspacesNoSubscriptionGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type FileWorkspacesNoSubscriptionGetResponse = FileWorkspaceDetails;
+
+/** Optional parameters. */
+export interface FileWorkspacesNoSubscriptionCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type FileWorkspacesNoSubscriptionCreateResponse = FileWorkspaceDetails;
+
+/** Optional parameters. */
+export interface FilesListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type FilesListResponse = FilesListResult;
+
+/** Optional parameters. */
+export interface FilesGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type FilesGetResponse = FileDetails;
+
+/** Optional parameters. */
+export interface FilesCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type FilesCreateResponse = FileDetails;
+
+/** Optional parameters. */
+export interface FilesUploadOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface FilesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type FilesListNextResponse = FilesListResult;
+
+/** Optional parameters. */
+export interface FilesNoSubscriptionListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type FilesNoSubscriptionListResponse = FilesListResult;
+
+/** Optional parameters. */
+export interface FilesNoSubscriptionGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type FilesNoSubscriptionGetResponse = FileDetails;
+
+/** Optional parameters. */
+export interface FilesNoSubscriptionCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type FilesNoSubscriptionCreateResponse = FileDetails;
+
+/** Optional parameters. */
+export interface FilesNoSubscriptionUploadOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface FilesNoSubscriptionListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type FilesNoSubscriptionListNextResponse = FilesListResult;
+
+/** Optional parameters. */
+export interface LookUpResourceIdPostOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the post operation. */
+export type LookUpResourceIdPostResponse = LookUpResourceIdResponse;
 
 /** Optional parameters. */
 export interface MicrosoftSupportOptionalParams

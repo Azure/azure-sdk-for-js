@@ -16,7 +16,7 @@ import { FrontDoorManagementClient } from "../frontDoorManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -32,7 +32,7 @@ import {
   ExperimentsUpdateOptionalParams,
   ExperimentsUpdateResponse,
   ExperimentsDeleteOptionalParams,
-  ExperimentsListByProfileNextResponse
+  ExperimentsListByProfileNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,12 +57,12 @@ export class ExperimentsImpl implements Experiments {
   public listByProfile(
     resourceGroupName: string,
     profileName: string,
-    options?: ExperimentsListByProfileOptionalParams
+    options?: ExperimentsListByProfileOptionalParams,
   ): PagedAsyncIterableIterator<Experiment> {
     const iter = this.listByProfilePagingAll(
       resourceGroupName,
       profileName,
-      options
+      options,
     );
     return {
       next() {
@@ -79,9 +79,9 @@ export class ExperimentsImpl implements Experiments {
           resourceGroupName,
           profileName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -89,7 +89,7 @@ export class ExperimentsImpl implements Experiments {
     resourceGroupName: string,
     profileName: string,
     options?: ExperimentsListByProfileOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Experiment[]> {
     let result: ExperimentsListByProfileResponse;
     let continuationToken = settings?.continuationToken;
@@ -97,7 +97,7 @@ export class ExperimentsImpl implements Experiments {
       result = await this._listByProfile(
         resourceGroupName,
         profileName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -109,7 +109,7 @@ export class ExperimentsImpl implements Experiments {
         resourceGroupName,
         profileName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -121,12 +121,12 @@ export class ExperimentsImpl implements Experiments {
   private async *listByProfilePagingAll(
     resourceGroupName: string,
     profileName: string,
-    options?: ExperimentsListByProfileOptionalParams
+    options?: ExperimentsListByProfileOptionalParams,
   ): AsyncIterableIterator<Experiment> {
     for await (const page of this.listByProfilePagingPage(
       resourceGroupName,
       profileName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -141,11 +141,11 @@ export class ExperimentsImpl implements Experiments {
   private _listByProfile(
     resourceGroupName: string,
     profileName: string,
-    options?: ExperimentsListByProfileOptionalParams
+    options?: ExperimentsListByProfileOptionalParams,
   ): Promise<ExperimentsListByProfileResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, options },
-      listByProfileOperationSpec
+      listByProfileOperationSpec,
     );
   }
 
@@ -160,11 +160,11 @@ export class ExperimentsImpl implements Experiments {
     resourceGroupName: string,
     profileName: string,
     experimentName: string,
-    options?: ExperimentsGetOptionalParams
+    options?: ExperimentsGetOptionalParams,
   ): Promise<ExperimentsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, experimentName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -181,7 +181,7 @@ export class ExperimentsImpl implements Experiments {
     profileName: string,
     experimentName: string,
     parameters: Experiment,
-    options?: ExperimentsCreateOrUpdateOptionalParams
+    options?: ExperimentsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ExperimentsCreateOrUpdateResponse>,
@@ -190,21 +190,20 @@ export class ExperimentsImpl implements Experiments {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ExperimentsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -213,8 +212,8 @@ export class ExperimentsImpl implements Experiments {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -222,8 +221,8 @@ export class ExperimentsImpl implements Experiments {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -234,16 +233,16 @@ export class ExperimentsImpl implements Experiments {
         profileName,
         experimentName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ExperimentsCreateOrUpdateResponse,
       OperationState<ExperimentsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -262,14 +261,14 @@ export class ExperimentsImpl implements Experiments {
     profileName: string,
     experimentName: string,
     parameters: Experiment,
-    options?: ExperimentsCreateOrUpdateOptionalParams
+    options?: ExperimentsCreateOrUpdateOptionalParams,
   ): Promise<ExperimentsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       profileName,
       experimentName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -287,7 +286,7 @@ export class ExperimentsImpl implements Experiments {
     profileName: string,
     experimentName: string,
     parameters: ExperimentUpdateModel,
-    options?: ExperimentsUpdateOptionalParams
+    options?: ExperimentsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ExperimentsUpdateResponse>,
@@ -296,21 +295,20 @@ export class ExperimentsImpl implements Experiments {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ExperimentsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -319,8 +317,8 @@ export class ExperimentsImpl implements Experiments {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -328,8 +326,8 @@ export class ExperimentsImpl implements Experiments {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -340,16 +338,16 @@ export class ExperimentsImpl implements Experiments {
         profileName,
         experimentName,
         parameters,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       ExperimentsUpdateResponse,
       OperationState<ExperimentsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -368,14 +366,14 @@ export class ExperimentsImpl implements Experiments {
     profileName: string,
     experimentName: string,
     parameters: ExperimentUpdateModel,
-    options?: ExperimentsUpdateOptionalParams
+    options?: ExperimentsUpdateOptionalParams,
   ): Promise<ExperimentsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       profileName,
       experimentName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -391,25 +389,24 @@ export class ExperimentsImpl implements Experiments {
     resourceGroupName: string,
     profileName: string,
     experimentName: string,
-    options?: ExperimentsDeleteOptionalParams
+    options?: ExperimentsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -418,8 +415,8 @@ export class ExperimentsImpl implements Experiments {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -427,19 +424,19 @@ export class ExperimentsImpl implements Experiments {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, profileName, experimentName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -456,13 +453,13 @@ export class ExperimentsImpl implements Experiments {
     resourceGroupName: string,
     profileName: string,
     experimentName: string,
-    options?: ExperimentsDeleteOptionalParams
+    options?: ExperimentsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       profileName,
       experimentName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -478,11 +475,11 @@ export class ExperimentsImpl implements Experiments {
     resourceGroupName: string,
     profileName: string,
     nextLink: string,
-    options?: ExperimentsListByProfileNextOptionalParams
+    options?: ExperimentsListByProfileNextOptionalParams,
   ): Promise<ExperimentsListByProfileNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, nextLink, options },
-      listByProfileNextOperationSpec
+      listByProfileNextOperationSpec,
     );
   }
 }
@@ -490,38 +487,15 @@ export class ExperimentsImpl implements Experiments {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByProfileOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExperimentList
+      bodyMapper: Mappers.ExperimentList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion2],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.profileName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Experiment
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
@@ -529,31 +503,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.profileName,
-    Parameters.experimentName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Experiment,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion2],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.profileName,
+    Parameters.experimentName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Experiment
+      bodyMapper: Mappers.Experiment,
     },
     201: {
-      bodyMapper: Mappers.Experiment
+      bodyMapper: Mappers.Experiment,
     },
     202: {
-      bodyMapper: Mappers.Experiment
+      bodyMapper: Mappers.Experiment,
     },
     204: {
-      bodyMapper: Mappers.Experiment
+      bodyMapper: Mappers.Experiment,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion2],
@@ -562,32 +556,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.profileName,
-    Parameters.experimentName
+    Parameters.experimentName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Experiment
+      bodyMapper: Mappers.Experiment,
     },
     201: {
-      bodyMapper: Mappers.Experiment
+      bodyMapper: Mappers.Experiment,
     },
     202: {
-      bodyMapper: Mappers.Experiment
+      bodyMapper: Mappers.Experiment,
     },
     204: {
-      bodyMapper: Mappers.Experiment
+      bodyMapper: Mappers.Experiment,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion2],
@@ -596,15 +589,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.profileName,
-    Parameters.experimentName
+    Parameters.experimentName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -612,8 +604,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
@@ -621,29 +613,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.profileName,
-    Parameters.experimentName
+    Parameters.experimentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByProfileNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExperimentList
+      bodyMapper: Mappers.ExperimentList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.profileName
+    Parameters.profileName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

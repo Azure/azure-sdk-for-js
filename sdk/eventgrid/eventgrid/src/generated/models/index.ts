@@ -299,6 +299,28 @@ export interface StorageTaskCompletedEventData {
   summaryReportBlobUrl: string;
 }
 
+/** Schema of the Data property of an EventGridEvent for an Microsoft.Storage.StorageTaskAssignmentQueued event. */
+export interface StorageTaskAssignmentQueuedEventData {
+  /** The time at which a storage task was queued. */
+  queuedOn: string;
+  /** The execution id for a storage task. */
+  taskExecutionId: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for an Microsoft.Storage.StorageTaskAssignmentCompleted event. */
+export interface StorageTaskAssignmentCompletedEventData {
+  /** The status for a storage task. */
+  status: StorageTaskAssignmentCompletedStatus;
+  /** The time at which a storage task was completed. */
+  completedOn: string;
+  /** The execution id for a storage task. */
+  taskExecutionId: string;
+  /** The task name for a storage task. */
+  taskName: string;
+  /** The summary report blob url for a storage task */
+  summaryReportBlobUri: string;
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.EventHub.CaptureFileCreated event. */
 export interface EventHubCaptureFileCreatedEventData {
   /** The path to the capture file. */
@@ -2045,8 +2067,10 @@ export interface AcsIncomingCallEventData {
   correlationId: string;
 }
 
-/** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set. */
+/** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
 export interface CommunicationIdentifierModel {
+  /** The identifier kind. Only required in responses. */
+  kind?: CommunicationIdentifierModelKind;
   /** Raw Id of the identifier. Optional in requests, required in responses. */
   rawId: string;
   /** The communication user. */
@@ -2055,6 +2079,8 @@ export interface CommunicationIdentifierModel {
   phoneNumber?: PhoneNumberIdentifierModel;
   /** The Microsoft Teams user. */
   microsoftTeamsUser?: MicrosoftTeamsUserIdentifierModel;
+  /** The Microsoft Teams application. */
+  microsoftTeamsApp?: MicrosoftTeamsAppIdentifierModel;
 }
 
 /** A user that got created with an Azure Communication Services resource. */
@@ -2079,6 +2105,14 @@ export interface MicrosoftTeamsUserIdentifierModel {
   cloud?: CommunicationCloudEnvironmentModel;
 }
 
+/** A Microsoft Teams application. */
+export interface MicrosoftTeamsAppIdentifierModel {
+  /** The Id of the Microsoft Teams application. */
+  appId: string;
+  /** The cloud that the Microsoft Teams application belongs to. By default 'public' if missing. */
+  cloud?: CommunicationCloudEnvironmentModel;
+}
+
 /** Custom Context of Incoming Call */
 export interface AcsIncomingCallCustomContext {
   /** Sip Headers for incoming call */
@@ -2091,6 +2125,106 @@ export interface AcsIncomingCallCustomContext {
 export interface AcsUserDisconnectedEventData {
   /** The communication identifier of the user who was disconnected */
   userCommunicationIdentifier: CommunicationIdentifierModel;
+}
+
+/** Schema of common properties of all Router events */
+export interface AcsRouterEventData {
+  /** Router Event Job ID */
+  jobId: string;
+  /** Router Event Channel Reference */
+  channelReference: string;
+  /** Router Event Channel ID */
+  channelId: string;
+}
+
+/** Router Communication Error */
+export interface AcsRouterCommunicationError {
+  /** Router Communication Error Code */
+  code: string;
+  /** Router Communication Error Message */
+  message: string;
+  /** Router Communication Error Target */
+  target: string;
+  /** Router Communication Inner Error */
+  innererror: AcsRouterCommunicationError;
+  /** List of Router Communication Errors */
+  details: AcsRouterCommunicationError[];
+}
+
+/** Router Queue Details */
+export interface AcsRouterQueueDetails {
+  /** Router Queue Id */
+  id: string;
+  /** Router Queue Name */
+  name: string;
+  /** Router Queue Labels */
+  labels: { [propertyName: string]: string };
+}
+
+/** Router Job Worker Selector */
+export interface AcsRouterWorkerSelector {
+  /** Router Job Worker Selector Key */
+  key: string;
+  /** Router Job Worker Selector Label Operator */
+  labelOperator: AcsRouterLabelOperator;
+  /** Router Job Worker Selector Value */
+  labelValue: any;
+  /** Router Job Worker Selector Time to Live in Seconds */
+  ttlSeconds: number;
+  /** Router Job Worker Selector State */
+  state: AcsRouterWorkerSelectorState;
+  /** Router Job Worker Selector Expiration Time */
+  expirationTime: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterWorkerDeregistered event */
+export interface AcsRouterWorkerDeregisteredEventData {
+  /** Router Worker Deregistered Worker Id */
+  workerId: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterWorkerRegistered event */
+export interface AcsRouterWorkerRegisteredEventData {
+  /** Router Worker Registered Worker Id */
+  workerId: string;
+  /** Router Worker Registered Queue Info */
+  queueAssignments: AcsRouterQueueDetails[];
+  /** Router Worker Registered Channel Configuration */
+  channelConfigurations: AcsRouterChannelConfiguration[];
+  /** Router Worker Register Total Capacity */
+  totalCapacity: number;
+  /** Router Worker Registered Labels */
+  labels: { [propertyName: string]: string };
+  /** Router Worker Registered Tags */
+  tags: { [propertyName: string]: string };
+}
+
+/** Router Channel Configuration */
+export interface AcsRouterChannelConfiguration {
+  /** Channel ID for Router Job */
+  channelId: string;
+  /** Capacity Cost Per Job for Router Job */
+  capacityCostPerJob: number;
+  /** Max Number of Jobs for Router Job */
+  maxNumberOfJobs: number;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterWorkerUpdated event */
+export interface AcsRouterWorkerUpdatedEventData {
+  /** Router Worker Updated Worker Id */
+  workerId: string;
+  /** Router Worker Updated Queue Info */
+  queueAssignments: AcsRouterQueueDetails[];
+  /** Router Worker Updated Channel Configuration */
+  channelConfigurations: AcsRouterChannelConfiguration[];
+  /** Router Worker Updated Total Capacity */
+  totalCapacity: number;
+  /** Router Worker Updated Labels */
+  labels: { [propertyName: string]: string };
+  /** Router Worker Updated Tags */
+  tags: { [propertyName: string]: string };
+  /** Router Worker Properties Updated */
+  updatedWorkerProperties: AcsRouterUpdatedWorkerProperty[];
 }
 
 /** Schema of common properties of all chat events */
@@ -2117,6 +2251,8 @@ export interface AcsChatThreadParticipant {
   displayName: string;
   /** The communication identifier of the user */
   participantCommunicationIdentifier: CommunicationIdentifierModel;
+  /** The metadata of the user */
+  metadata: { [propertyName: string]: string };
 }
 
 /** Schema for details of a delivery attempt */
@@ -2217,6 +2353,82 @@ export interface AcsEmailEngagementTrackingReportReceivedEventData {
   userAgent: string;
   /** The type of engagement user have with email */
   engagement: AcsUserEngagement;
+}
+
+/** Message Media Content */
+export interface AcsMessageMediaContent {
+  /** The MIME type of the file this media represents */
+  mimeType: string;
+  /** The media identifier */
+  mediaId: string;
+  /** The filename of the underlying media file as specified when uploaded */
+  fileName: string;
+  /** The caption for the media object, if supported and provided */
+  caption: string;
+}
+
+/** Message Context */
+export interface AcsMessageContext {
+  /** The WhatsApp ID for the customer who replied to an inbound message. */
+  from: string;
+  /** The message ID for the sent message for an inbound reply */
+  messageId: string;
+}
+
+/** Message Button Content */
+export interface AcsMessageButtonContent {
+  /** The Text of the button */
+  text: string;
+  /** The Payload of the button which was clicked by the user, setup by the business */
+  payload: string;
+}
+
+/** Message Interactive Content */
+export interface AcsMessageInteractiveContent {
+  /** The Message interactive reply type */
+  replyKind: AcsInteractiveReplyKind;
+  /** The Message Sent when a customer clicks a button */
+  buttonReply: AcsMessageInteractiveButtonReplyContent;
+  /** The Message Sent when a customer selects an item from a list */
+  listReply: AcsMessageInteractiveListReplyContent;
+}
+
+/** Message Interactive button reply content for a user to business message */
+export interface AcsMessageInteractiveButtonReplyContent {
+  /** The ID of the button */
+  buttonId: string;
+  /** The title of the button */
+  title: string;
+}
+
+/** Message Interactive list reply content for a user to business message */
+export interface AcsMessageInteractiveListReplyContent {
+  /** The ID of the selected list item */
+  listItemId: string;
+  /** The title of the selected list item */
+  title: string;
+  /** The sescription of the selected row */
+  description: string;
+}
+
+/** Schema of common properties of all chat thread events */
+export interface AcsMessageEventData {
+  /** The message sender */
+  from: string;
+  /** The message recipient */
+  to: string;
+  /** The time message was received */
+  receivedTimestamp: string;
+  /** The channel event error */
+  error: AcsMessageChannelEventError;
+}
+
+/** Message Channel Event Error */
+export interface AcsMessageChannelEventError {
+  /** The channel error code */
+  channelCode: string;
+  /** The channel error message */
+  channelMessage: string;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.PolicyInsights.PolicyStateCreated event. */
@@ -2537,6 +2749,112 @@ export interface HealthcareDicomImageDeletedEventData {
   sequenceNumber: number;
 }
 
+/** Describes the schema of the properties under resource info which are common across all ARN system topic events */
+export interface ResourceNotificationsResourceUpdatedDetails {
+  /** id of the resource for which the event is being emitted */
+  id: string;
+  /** name of the resource for which the event is being emitted */
+  name: string;
+  /** the type of the resource for which the event is being emitted */
+  type: string;
+  /** the location of the resource for which the event is being emitted */
+  location: string;
+  /** the tags on the resource for which the event is being emitted */
+  tags: { [propertyName: string]: string };
+  /** properties in the payload of the resource for which the event is being emitted */
+  properties: { [propertyName: string]: any };
+}
+
+/** details of operational info */
+export interface ResourceNotificationsOperationalDetails {
+  /** Date and Time when resource was updated */
+  resourceEventTime: string;
+}
+
+/** Describes the schema of the common properties across all ARN system topic events */
+export interface ResourceNotificationsResourceUpdatedEventData {
+  /** resourceInfo details for update event */
+  resourceDetails: ResourceNotificationsResourceUpdatedDetails;
+  /** details about operational info */
+  operationalDetails: ResourceNotificationsOperationalDetails;
+  /** api version of the resource properties bag */
+  apiVersion: string;
+}
+
+/** Describes the schema of the properties under resource info which are common across all ARN system topic delete events */
+export interface ResourceNotificationsResourceDeletedDetails {
+  /** id of the resource for which the event is being emitted */
+  id: string;
+  /** name of the resource for which the event is being emitted */
+  name: string;
+  /** the type of the resource for which the event is being emitted */
+  type: string;
+}
+
+/** Describes the schema of the common properties across all ARN system topic delete events */
+export interface ResourceNotificationsResourceDeletedEventData {
+  /** resourceInfo details for delete event */
+  resourceDetails: ResourceNotificationsResourceDeletedDetails;
+  /** details about operational info */
+  operationalDetails: ResourceNotificationsOperationalDetails;
+}
+
+/** Schema of the Data property of an EventGridEvent for Microsoft.AVS/privateClouds events. */
+export interface AvsPrivateCloudEventData {
+  /** Id of the operation that caused this event. */
+  operationId: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for Microsoft.AVS/clusters events. */
+export interface AvsClusterEventData {
+  /** Id of the operation that caused this event. */
+  operationId: string;
+  /** Hosts added to the cluster in this event, if any. */
+  addedHostNames: string[];
+  /** Hosts removed to the cluster in this event, if any. */
+  removedHostNames: string[];
+  /** Hosts in Maintenance mode in the cluster, if any. */
+  inMaintenanceHostNames: string[];
+}
+
+/** Schema of the Data property of an EventGridEvent for Microsoft.AVS/scriptExecutions events. */
+export interface AvsScriptExecutionEventData {
+  /** Id of the operation that caused this event. */
+  operationId: string;
+  /** Cmdlet referenced in the execution that caused this event. */
+  cmdletId: string;
+  /** Stdout outputs from the execution, if any. */
+  output: string[];
+}
+
+/** Schema of the data property of an EventGridEvent for a Microsoft.ApiCenter.ApiDefinitionAdded event. */
+export interface ApiCenterApiDefinitionAddedEventData {
+  /** API definition title. */
+  title: string;
+  /** API definition description. */
+  description: string;
+  /** API specification details. */
+  specification: ApiCenterApiSpecification;
+}
+
+/** API specification details. */
+export interface ApiCenterApiSpecification {
+  /** Specification name. */
+  name: string;
+  /** Specification version. */
+  version: string;
+}
+
+/** Schema of the data property of an EventGridEvent for a Microsoft.ApiCenter.ApiDefinitionUpdated event. */
+export interface ApiCenterApiDefinitionUpdatedEventData {
+  /** API definition title. */
+  title: string;
+  /** API definition description. */
+  description: string;
+  /** API specification details. */
+  specification: ApiCenterApiSpecification;
+}
+
 /** Event data for Microsoft.EventGrid.MQTTClientCreatedOrUpdated event. */
 export type EventGridMqttClientCreatedOrUpdatedEventData = EventGridMqttClientEventData & {
   /** Configured state of the client. The value could be Enabled or Disabled */
@@ -2665,6 +2983,22 @@ export type AppConfigurationSnapshotCreatedEventData = AppConfigurationSnapshotE
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AppConfiguration.SnapshotModified event. */
 export type AppConfigurationSnapshotModifiedEventData = AppConfigurationSnapshotEventData & {};
 
+/** Schema of common properties of all Router Job events */
+export type AcsRouterJobEventData = AcsRouterEventData & {
+  /** Router Job events Queue Id */
+  queueId: string;
+  /** Router Job events Labels */
+  labels: { [propertyName: string]: string };
+  /** Router Jobs events Tags */
+  tags: { [propertyName: string]: string };
+};
+
+/** Schema of common properties of all Router Worker events */
+export type AcsRouterWorkerEventData = AcsRouterEventData & {
+  /** Router Worker events Worker Id */
+  workerId: string;
+};
+
 /** Schema of common properties of all chat message events */
 export type AcsChatMessageEventBase = AcsChatEventBase & {
   /** The chat message id */
@@ -2759,6 +3093,32 @@ export type AcsSmsReceivedEventData = AcsSmsEventBase & {
   receivedTimestamp: string;
 };
 
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.AdvancedMessageReceived event. */
+export type AcsMessageReceivedEventData = AcsMessageEventData & {
+  /** The received message content */
+  content: string;
+  /** The received message channel Kind */
+  channelKind: AcsMessageChannelKind;
+  /** The received message media content */
+  mediaContent: AcsMessageMediaContent;
+  /** The received message context */
+  context: AcsMessageContext;
+  /** The received message button content */
+  button: AcsMessageButtonContent;
+  /** The received message interactive content */
+  interactiveContent: AcsMessageInteractiveContent;
+};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.AdvancedMessageDeliveryStatusUpdated event. */
+export type AcsMessageDeliveryStatusUpdatedEventData = AcsMessageEventData & {
+  /** The message id */
+  messageId: string;
+  /** The updated message status */
+  status: AcsMessageDeliveryStatus;
+  /** The updated message channel type */
+  channelKind: AcsMessageChannelKind;
+};
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerService.ClusterSupportEnded event */
 export type ContainerServiceClusterSupportEndedEventData = ContainerServiceClusterSupportEventData & {};
 
@@ -2773,6 +3133,262 @@ export type ContainerServiceNodePoolRollingSucceededEventData = ContainerService
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerService.NodePoolRollingFailed event */
 export type ContainerServiceNodePoolRollingFailedEventData = ContainerServiceNodePoolRollingEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ResourceNotifications.HealthResources.AvailabilityStatusChanged event. */
+export type ResourceNotificationsHealthResourcesAvailabilityStatusChangedEventData = ResourceNotificationsResourceUpdatedEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ResourceNotifications.HealthResources.ResourceAnnotated event. */
+export type ResourceNotificationsHealthResourcesAnnotatedEventData = ResourceNotificationsResourceUpdatedEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ResourceNotifications.Resources.CreatedOrUpdated event. */
+export type ResourceNotificationsResourceManagementCreatedOrUpdatedEventData = ResourceNotificationsResourceUpdatedEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ResourceNotifications.Resources.Deleted event. */
+export type ResourceNotificationsResourceManagementDeletedEventData = ResourceNotificationsResourceDeletedEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.PrivateCloudUpdating event. */
+export type AvsPrivateCloudUpdatingEventData = AvsPrivateCloudEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.PrivateCloudUpdated event. */
+export type AvsPrivateCloudUpdatedEventData = AvsPrivateCloudEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.PrivateCloudFailed event. */
+export type AvsPrivateCloudFailedEventData = AvsPrivateCloudEventData & {
+  /** Failure reason of an event. */
+  failureMessage: string;
+};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ClusterCreated event. */
+export type AvsClusterCreatedEventData = AvsClusterEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ClusterDeleted event. */
+export type AvsClusterDeletedEventData = AvsClusterEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ClusterUpdating event. */
+export type AvsClusterUpdatingEventData = AvsClusterEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ClusterUpdated event. */
+export type AvsClusterUpdatedEventData = AvsClusterEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ClusterFailed event. */
+export type AvsClusterFailedEventData = AvsClusterEventData & {
+  /** Failure reason of an event. */
+  failureMessage: string;
+};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ScriptExecutionStarted event. */
+export type AvsScriptExecutionStartedEventData = AvsScriptExecutionEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ScriptExecutionFinished event. */
+export type AvsScriptExecutionFinishedEventData = AvsScriptExecutionEventData & {
+  /** Named outputs of completed execution, if any. */
+  namedOutputs: { [propertyName: string]: string };
+};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ScriptExecutionCancelled event. */
+export type AvsScriptExecutionCancelledEventData = AvsScriptExecutionEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ScriptExecutionFailed event. */
+export type AvsScriptExecutionFailedEventData = AvsScriptExecutionEventData & {
+  /** Failure reason of an event. */
+  failureMessage: string;
+};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobCancelled event */
+export type AcsRouterJobCancelledEventData = AcsRouterJobEventData & {
+  /** Router Job Note */
+  note: string;
+  /** Router Job Disposition Code */
+  dispositionCode: string;
+};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobClassificationFailed event */
+export type AcsRouterJobClassificationFailedEventData = AcsRouterJobEventData & {
+  /** Router Job Classification Policy Id */
+  classificationPolicyId: string;
+  /** Router Job Classification Failed Errors */
+  errors: AcsRouterCommunicationError[];
+};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobClassified event */
+export type AcsRouterJobClassifiedEventData = AcsRouterJobEventData & {
+  /** Router Job Queue Info */
+  queueDetails: AcsRouterQueueDetails;
+  /** Router Job Classification Policy Id */
+  classificationPolicyId: string;
+  /** Router Job Priority */
+  priority: number;
+  /** Router Job Attached Worker Selector */
+  attachedWorkerSelectors: AcsRouterWorkerSelector[];
+};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobClosed event */
+export type AcsRouterJobClosedEventData = AcsRouterJobEventData & {
+  /** Router Job Closed Assignment Id */
+  assignmentId: string;
+  /** Router Job Closed Worker Id */
+  workerId: string;
+  /** Router Job Closed Disposition Code */
+  dispositionCode: string;
+};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobCompleted event */
+export type AcsRouterJobCompletedEventData = AcsRouterJobEventData & {
+  /** Router Job Completed Assignment Id */
+  assignmentId: string;
+  /** Router Job Completed Worker Id */
+  workerId: string;
+};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobDeleted event */
+export type AcsRouterJobDeletedEventData = AcsRouterJobEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobExceptionTriggered event */
+export type AcsRouterJobExceptionTriggeredEventData = AcsRouterJobEventData & {
+  /** Router Job Exception Triggered Rule Key */
+  ruleKey: string;
+  /** Router Job Exception Triggered Rule Id */
+  exceptionRuleId: string;
+};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobQueued event */
+export type AcsRouterJobQueuedEventData = AcsRouterJobEventData & {
+  /** Router Job Priority */
+  priority: number;
+  /** Router Job Queued Attached Worker Selector */
+  attachedWorkerSelectors: AcsRouterWorkerSelector[];
+  /** Router Job Queued Requested Worker Selector */
+  requestedWorkerSelectors: AcsRouterWorkerSelector[];
+};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobReceived event */
+export type AcsRouterJobReceivedEventData = AcsRouterJobEventData & {
+  /** Router Job Received Job Status */
+  jobStatus?: AcsRouterJobStatus;
+  /** Router Job Classification Policy Id */
+  classificationPolicyId?: string;
+  /** Router Job Priority */
+  priority?: number;
+  /** Router Job Received Requested Worker Selectors */
+  requestedWorkerSelectors?: AcsRouterWorkerSelector[];
+  /** Router Job Received Scheduled Time in UTC */
+  scheduledOn?: string;
+  /** Unavailable For Matching for Router Job Received */
+  unavailableForMatching: boolean;
+};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobSchedulingFailed event */
+export type AcsRouterJobSchedulingFailedEventData = AcsRouterJobEventData & {
+  /** Router Job Priority */
+  priority: number;
+  /** Router Job Scheduling Failed Attached Worker Selector Expired */
+  expiredAttachedWorkerSelectors: AcsRouterWorkerSelector[];
+  /** Router Job Scheduling Failed Requested Worker Selector Expired */
+  expiredRequestedWorkerSelectors: AcsRouterWorkerSelector[];
+  /** Router Job Scheduling Failed Scheduled Time in UTC */
+  scheduledOn: string;
+  /** Router Job Scheduling Failed Reason */
+  failureReason: string;
+};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobUnassigned event */
+export type AcsRouterJobUnassignedEventData = AcsRouterJobEventData & {
+  /** Router Job Unassigned Assignment Id */
+  assignmentId: string;
+  /** Router Job Unassigned Worker Id */
+  workerId: string;
+};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobWaitingForActivation event */
+export type AcsRouterJobWaitingForActivationEventData = AcsRouterJobEventData & {
+  /** Router Job Waiting For Activation Priority */
+  priority?: number;
+  /** Router Job Waiting For Activation Worker Selector Expired */
+  expiredAttachedWorkerSelectors?: AcsRouterWorkerSelector[];
+  /** Router Job Waiting For Activation Requested Worker Selector Expired */
+  expiredRequestedWorkerSelectors?: AcsRouterWorkerSelector[];
+  /** Router Job Waiting For Activation Scheduled Time in UTC */
+  scheduledOn?: string;
+  /** Router Job Waiting For Activation Unavailable For Matching */
+  unavailableForMatching: boolean;
+};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobWorkerSelectorsExpired event */
+export type AcsRouterJobWorkerSelectorsExpiredEventData = AcsRouterJobEventData & {
+  /** Router Job Worker Selectors Expired Requested Worker Selectors */
+  expiredRequestedWorkerSelectors: AcsRouterWorkerSelector[];
+  /** Router Job Worker Selectors Expired Attached Worker Selectors */
+  expiredAttachedWorkerSelectors: AcsRouterWorkerSelector[];
+};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterWorkerDeleted event */
+export type AcsRouterWorkerDeletedEventData = AcsRouterWorkerEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterWorkerOfferAccepted event */
+export type AcsRouterWorkerOfferAcceptedEventData = AcsRouterWorkerEventData & {
+  /** Router Worker Offer Accepted Queue Id */
+  queueId: string;
+  /** Router Worker Offer Accepted Offer Id */
+  offerId: string;
+  /** Router Worker Offer Accepted Assignment Id */
+  assignmentId: string;
+  /** Router Worker Offer Accepted Job Priority */
+  jobPriority: number;
+  /** Router Worker Offer Accepted Worker Labels */
+  workerLabels: { [propertyName: string]: string };
+  /** Router Worker Offer Accepted Worker Tags */
+  workerTags: { [propertyName: string]: string };
+  /** Router Worker Offer Accepted Job Labels */
+  jobLabels: { [propertyName: string]: string };
+  /** Router Worker Offer Accepted Job Tags */
+  jobTags: { [propertyName: string]: string };
+};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterWorkerOfferDeclined event */
+export type AcsRouterWorkerOfferDeclinedEventData = AcsRouterWorkerEventData & {
+  /** Router Worker Offer Declined Queue Id */
+  queueId: string;
+  /** Router Worker Offer Declined Offer Id */
+  offerId: string;
+};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterWorkerOfferExpired event */
+export type AcsRouterWorkerOfferExpiredEventData = AcsRouterWorkerEventData & {
+  /** Router Worker Offer Expired Queue Id */
+  queueId: string;
+  /** Router Worker Offer Expired Offer Id */
+  offerId: string;
+};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterWorkerOfferIssued event */
+export type AcsRouterWorkerOfferIssuedEventData = AcsRouterWorkerEventData & {
+  /** Router Worker Offer Issued Queue Id */
+  queueId: string;
+  /** Router Worker Offer Issued Offer Id */
+  offerId: string;
+  /** Router Worker Offer Issued Job Priority */
+  jobPriority: number;
+  /** Router Worker Offer Issued Worker Labels */
+  workerLabels: { [propertyName: string]: string };
+  /** Router Worker Offer Issued Time in UTC */
+  offeredOn: string;
+  /** Router Worker Offer Issued Expiration Time in UTC */
+  expiresOn: string;
+  /** Router Worker Offer Issued Worker Tags */
+  workerTags: { [propertyName: string]: string };
+  /** Router Worker Offer Issued Job Labels */
+  jobLabels: { [propertyName: string]: string };
+  /** Router Worker Offer Issued Job Tags */
+  jobTags: { [propertyName: string]: string };
+};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterWorkerOfferRevoked event */
+export type AcsRouterWorkerOfferRevokedEventData = AcsRouterWorkerEventData & {
+  /** Router Worker Offer Revoked Queue Id */
+  queueId: string;
+  /** Router Worker Offer Revoked Offer Id */
+  offerId: string;
+};
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatMessageReceived event. */
 export type AcsChatMessageReceivedEventData = AcsChatMessageEventBase & {
@@ -2804,6 +3420,8 @@ export type AcsChatThreadCreatedWithUserEventData = AcsChatThreadEventBase & {
   createdByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The thread properties */
   properties: { [propertyName: string]: any };
+  /** The thread metadata */
+  metadata: { [propertyName: string]: string };
   /** The list of properties of participants who are part of the thread */
   participants: AcsChatThreadParticipant[];
 };
@@ -2822,6 +3440,8 @@ export type AcsChatThreadPropertiesUpdatedPerUserEventData = AcsChatThreadEventB
   editedByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The time at which the properties of the thread were updated */
   editTime: string;
+  /** The thread metadata */
+  metadata: { [propertyName: string]: string };
   /** The updated thread properties */
   properties: { [propertyName: string]: any };
 };
@@ -2876,6 +3496,8 @@ export type AcsChatThreadCreatedEventData = AcsChatThreadEventInThreadBase & {
   createdByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The thread properties */
   properties: { [propertyName: string]: any };
+  /** The chat thread created metadata */
+  metadata: { [propertyName: string]: string };
   /** The list of properties of participants who are part of the thread */
   participants: AcsChatThreadParticipant[];
 };
@@ -2896,6 +3518,8 @@ export type AcsChatThreadPropertiesUpdatedEventData = AcsChatThreadEventInThread
   editTime: string;
   /** The updated thread properties */
   properties: { [propertyName: string]: any };
+  /** The thread metadata */
+  metadata: { [propertyName: string]: string };
 };
 
 /** Known values of {@link StorageTaskCompletedStatus} that the service accepts. */
@@ -2913,6 +3537,22 @@ export const enum KnownStorageTaskCompletedStatus {
  * **Failed**
  */
 export type StorageTaskCompletedStatus = string;
+
+/** Known values of {@link StorageTaskAssignmentCompletedStatus} that the service accepts. */
+export const enum KnownStorageTaskAssignmentCompletedStatus {
+  Succeeded = "Succeeded",
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for StorageTaskAssignmentCompletedStatus. \
+ * {@link KnownStorageTaskAssignmentCompletedStatus} can be used interchangeably with StorageTaskAssignmentCompletedStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed**
+ */
+export type StorageTaskAssignmentCompletedStatus = string;
 
 /** Known values of {@link EventGridMqttClientState} that the service accepts. */
 export const enum KnownEventGridMqttClientState {
@@ -3083,6 +3723,28 @@ export const enum KnownAsyncStatus {
  */
 export type AsyncStatus = string;
 
+/** Known values of {@link CommunicationIdentifierModelKind} that the service accepts. */
+export const enum KnownCommunicationIdentifierModelKind {
+  Unknown = "unknown",
+  CommunicationUser = "communicationUser",
+  PhoneNumber = "phoneNumber",
+  MicrosoftTeamsUser = "microsoftTeamsUser",
+  MicrosoftTeamsApp = "microsoftTeamsApp"
+}
+
+/**
+ * Defines values for CommunicationIdentifierModelKind. \
+ * {@link KnownCommunicationIdentifierModelKind} can be used interchangeably with CommunicationIdentifierModelKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **unknown** \
+ * **communicationUser** \
+ * **phoneNumber** \
+ * **microsoftTeamsUser** \
+ * **microsoftTeamsApp**
+ */
+export type CommunicationIdentifierModelKind = string;
+
 /** Known values of {@link CommunicationCloudEnvironmentModel} that the service accepts. */
 export const enum KnownCommunicationCloudEnvironmentModel {
   Public = "public",
@@ -3100,6 +3762,114 @@ export const enum KnownCommunicationCloudEnvironmentModel {
  * **gcch**
  */
 export type CommunicationCloudEnvironmentModel = string;
+
+/** Known values of {@link AcsRouterLabelOperator} that the service accepts. */
+export const enum KnownAcsRouterLabelOperator {
+  /** = */
+  Equal = "Equal",
+  /** != */
+  NotEqual = "NotEqual",
+  /** > */
+  Greater = "Greater",
+  /** < */
+  Less = "Less",
+  /** >= */
+  GreaterThanOrEqual = "GreaterThanOrEqual",
+  /** <= */
+  LessThanOrEqual = "LessThanOrEqual"
+}
+
+/**
+ * Defines values for AcsRouterLabelOperator. \
+ * {@link KnownAcsRouterLabelOperator} can be used interchangeably with AcsRouterLabelOperator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Equal**: = \
+ * **NotEqual**: != \
+ * **Greater**: > \
+ * **Less**: < \
+ * **GreaterThanOrEqual**: >= \
+ * **LessThanOrEqual**: <=
+ */
+export type AcsRouterLabelOperator = string;
+
+/** Known values of {@link AcsRouterWorkerSelectorState} that the service accepts. */
+export const enum KnownAcsRouterWorkerSelectorState {
+  /** Router Job Worker Selector is Active */
+  Active = "active",
+  /** Router Job Worker Selector has Expire */
+  Expired = "expired"
+}
+
+/**
+ * Defines values for AcsRouterWorkerSelectorState. \
+ * {@link KnownAcsRouterWorkerSelectorState} can be used interchangeably with AcsRouterWorkerSelectorState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **active**: Router Job Worker Selector is Active \
+ * **expired**: Router Job Worker Selector has Expire
+ */
+export type AcsRouterWorkerSelectorState = string;
+
+/** Known values of {@link AcsRouterJobStatus} that the service accepts. */
+export const enum KnownAcsRouterJobStatus {
+  PendingClassification = "PendingClassification",
+  Queued = "Queued",
+  Assigned = "Assigned",
+  Completed = "Completed",
+  Closed = "Closed",
+  Cancelled = "Cancelled",
+  ClassificationFailed = "ClassificationFailed",
+  Created = "Created",
+  PendingSchedule = "PendingSchedule",
+  Scheduled = "Scheduled",
+  ScheduleFailed = "ScheduleFailed",
+  WaitingForActivation = "WaitingForActivation"
+}
+
+/**
+ * Defines values for AcsRouterJobStatus. \
+ * {@link KnownAcsRouterJobStatus} can be used interchangeably with AcsRouterJobStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PendingClassification** \
+ * **Queued** \
+ * **Assigned** \
+ * **Completed** \
+ * **Closed** \
+ * **Cancelled** \
+ * **ClassificationFailed** \
+ * **Created** \
+ * **PendingSchedule** \
+ * **Scheduled** \
+ * **ScheduleFailed** \
+ * **WaitingForActivation**
+ */
+export type AcsRouterJobStatus = string;
+
+/** Known values of {@link AcsRouterUpdatedWorkerProperty} that the service accepts. */
+export const enum KnownAcsRouterUpdatedWorkerProperty {
+  AvailableForOffers = "AvailableForOffers",
+  TotalCapacity = "TotalCapacity",
+  QueueAssignments = "QueueAssignments",
+  Labels = "Labels",
+  Tags = "Tags",
+  ChannelConfigurations = "ChannelConfigurations"
+}
+
+/**
+ * Defines values for AcsRouterUpdatedWorkerProperty. \
+ * {@link KnownAcsRouterUpdatedWorkerProperty} can be used interchangeably with AcsRouterUpdatedWorkerProperty,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AvailableForOffers** \
+ * **TotalCapacity** \
+ * **QueueAssignments** \
+ * **Labels** \
+ * **Tags** \
+ * **ChannelConfigurations**
+ */
+export type AcsRouterUpdatedWorkerProperty = string;
 
 /** Known values of {@link RecordingContentType} that the service accepts. */
 export const enum KnownRecordingContentType {
@@ -3196,6 +3966,66 @@ export const enum KnownAcsUserEngagement {
  * **click**
  */
 export type AcsUserEngagement = string;
+
+/** Known values of {@link AcsMessageChannelKind} that the service accepts. */
+export const enum KnownAcsMessageChannelKind {
+  /** Updated message channel type is Whatsapp */
+  Whatsapp = "whatsapp"
+}
+
+/**
+ * Defines values for AcsMessageChannelKind. \
+ * {@link KnownAcsMessageChannelKind} can be used interchangeably with AcsMessageChannelKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **whatsapp**: Updated message channel type is Whatsapp
+ */
+export type AcsMessageChannelKind = string;
+
+/** Known values of {@link AcsInteractiveReplyKind} that the service accepts. */
+export const enum KnownAcsInteractiveReplyKind {
+  /** Messaged interactive reply type is ButtonReply */
+  ButtonReply = "buttonReply",
+  /** Messaged interactive reply type is ListReply */
+  ListReply = "listReply",
+  /** Messaged interactive reply type is Unknown */
+  Unknown = "unknown"
+}
+
+/**
+ * Defines values for AcsInteractiveReplyKind. \
+ * {@link KnownAcsInteractiveReplyKind} can be used interchangeably with AcsInteractiveReplyKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **buttonReply**: Messaged interactive reply type is ButtonReply \
+ * **listReply**: Messaged interactive reply type is ListReply \
+ * **unknown**: Messaged interactive reply type is Unknown
+ */
+export type AcsInteractiveReplyKind = string;
+
+/** Known values of {@link AcsMessageDeliveryStatus} that the service accepts. */
+export const enum KnownAcsMessageDeliveryStatus {
+  Read = "read",
+  Delivered = "delivered",
+  Failed = "failed",
+  Sent = "sent",
+  Warning = "warning",
+  Unknown = "unknown"
+}
+
+/**
+ * Defines values for AcsMessageDeliveryStatus. \
+ * {@link KnownAcsMessageDeliveryStatus} can be used interchangeably with AcsMessageDeliveryStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **read** \
+ * **delivered** \
+ * **failed** \
+ * **sent** \
+ * **warning** \
+ * **unknown**
+ */
+export type AcsMessageDeliveryStatus = string;
 
 /** Known values of {@link HealthcareFhirResourceType} that the service accepts. */
 export const enum KnownHealthcareFhirResourceType {

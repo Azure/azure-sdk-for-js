@@ -22,13 +22,14 @@ import {
   AvailablePrivateEndpointTypesListByResourceGroupOptionalParams,
   AvailablePrivateEndpointTypesListByResourceGroupResponse,
   AvailablePrivateEndpointTypesListNextResponse,
-  AvailablePrivateEndpointTypesListByResourceGroupNextResponse
+  AvailablePrivateEndpointTypesListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AvailablePrivateEndpointTypes operations. */
 export class AvailablePrivateEndpointTypesImpl
-  implements AvailablePrivateEndpointTypes {
+  implements AvailablePrivateEndpointTypes
+{
   private readonly client: NetworkManagementClient;
 
   /**
@@ -47,7 +48,7 @@ export class AvailablePrivateEndpointTypesImpl
    */
   public list(
     location: string,
-    options?: AvailablePrivateEndpointTypesListOptionalParams
+    options?: AvailablePrivateEndpointTypesListOptionalParams,
   ): PagedAsyncIterableIterator<AvailablePrivateEndpointType> {
     const iter = this.listPagingAll(location, options);
     return {
@@ -62,14 +63,14 @@ export class AvailablePrivateEndpointTypesImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(location, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     location: string,
     options?: AvailablePrivateEndpointTypesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AvailablePrivateEndpointType[]> {
     let result: AvailablePrivateEndpointTypesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -91,7 +92,7 @@ export class AvailablePrivateEndpointTypesImpl
 
   private async *listPagingAll(
     location: string,
-    options?: AvailablePrivateEndpointTypesListOptionalParams
+    options?: AvailablePrivateEndpointTypesListOptionalParams,
   ): AsyncIterableIterator<AvailablePrivateEndpointType> {
     for await (const page of this.listPagingPage(location, options)) {
       yield* page;
@@ -108,12 +109,12 @@ export class AvailablePrivateEndpointTypesImpl
   public listByResourceGroup(
     location: string,
     resourceGroupName: string,
-    options?: AvailablePrivateEndpointTypesListByResourceGroupOptionalParams
+    options?: AvailablePrivateEndpointTypesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AvailablePrivateEndpointType> {
     const iter = this.listByResourceGroupPagingAll(
       location,
       resourceGroupName,
-      options
+      options,
     );
     return {
       next() {
@@ -130,9 +131,9 @@ export class AvailablePrivateEndpointTypesImpl
           location,
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -140,7 +141,7 @@ export class AvailablePrivateEndpointTypesImpl
     location: string,
     resourceGroupName: string,
     options?: AvailablePrivateEndpointTypesListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AvailablePrivateEndpointType[]> {
     let result: AvailablePrivateEndpointTypesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -148,7 +149,7 @@ export class AvailablePrivateEndpointTypesImpl
       result = await this._listByResourceGroup(
         location,
         resourceGroupName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -160,7 +161,7 @@ export class AvailablePrivateEndpointTypesImpl
         location,
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -172,12 +173,12 @@ export class AvailablePrivateEndpointTypesImpl
   private async *listByResourceGroupPagingAll(
     location: string,
     resourceGroupName: string,
-    options?: AvailablePrivateEndpointTypesListByResourceGroupOptionalParams
+    options?: AvailablePrivateEndpointTypesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<AvailablePrivateEndpointType> {
     for await (const page of this.listByResourceGroupPagingPage(
       location,
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -191,11 +192,11 @@ export class AvailablePrivateEndpointTypesImpl
    */
   private _list(
     location: string,
-    options?: AvailablePrivateEndpointTypesListOptionalParams
+    options?: AvailablePrivateEndpointTypesListOptionalParams,
   ): Promise<AvailablePrivateEndpointTypesListResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -209,11 +210,11 @@ export class AvailablePrivateEndpointTypesImpl
   private _listByResourceGroup(
     location: string,
     resourceGroupName: string,
-    options?: AvailablePrivateEndpointTypesListByResourceGroupOptionalParams
+    options?: AvailablePrivateEndpointTypesListByResourceGroupOptionalParams,
   ): Promise<AvailablePrivateEndpointTypesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { location, resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -226,11 +227,11 @@ export class AvailablePrivateEndpointTypesImpl
   private _listNext(
     location: string,
     nextLink: string,
-    options?: AvailablePrivateEndpointTypesListNextOptionalParams
+    options?: AvailablePrivateEndpointTypesListNextOptionalParams,
   ): Promise<AvailablePrivateEndpointTypesListNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -245,11 +246,11 @@ export class AvailablePrivateEndpointTypesImpl
     location: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: AvailablePrivateEndpointTypesListByResourceGroupNextOptionalParams
+    options?: AvailablePrivateEndpointTypesListByResourceGroupNextOptionalParams,
   ): Promise<AvailablePrivateEndpointTypesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { location, resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -257,86 +258,84 @@ export class AvailablePrivateEndpointTypesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/availablePrivateEndpointTypes",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/availablePrivateEndpointTypes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailablePrivateEndpointTypesResult
+      bodyMapper: Mappers.AvailablePrivateEndpointTypesResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/availablePrivateEndpointTypes",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/availablePrivateEndpointTypes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailablePrivateEndpointTypesResult
+      bodyMapper: Mappers.AvailablePrivateEndpointTypesResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailablePrivateEndpointTypesResult
+      bodyMapper: Mappers.AvailablePrivateEndpointTypesResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailablePrivateEndpointTypesResult
+      bodyMapper: Mappers.AvailablePrivateEndpointTypesResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

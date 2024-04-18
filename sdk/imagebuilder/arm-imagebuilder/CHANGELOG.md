@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.1 (Unreleased)
+## 4.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,26 @@
 
 ### Other Changes
 
+## 4.0.0 (2023-12-21)
+    
+**Features**
+
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ImageTemplatePropertiesErrorHandling
+  - Added Interface ImageTemplateUpdateParametersProperties
+  - Added Type Alias OnBuildError
+  - Added Type Alias TriggersDeleteResponse
+  - Added Type Alias VirtualMachineImageTemplatesDeleteResponse
+  - Interface ImageTemplate has a new optional parameter errorHandling
+  - Interface ImageTemplateUpdateParameters has a new optional parameter properties
+  - Added Enum KnownOnBuildError
+    
+**Breaking Changes**
+
+  - Changed interface CloudError to ErrorResponse
+  - Changed interface CloudErrorBody ErrorDetail
+
+  
 ## 3.0.0 (2023-03-24)
     
 **Features**
@@ -122,4 +142,4 @@
     
 ## 1.0.0 (2022-01-10)
 
-The package of @azure/arm-imagebuilder is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+The package of @azure/arm-imagebuilder is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

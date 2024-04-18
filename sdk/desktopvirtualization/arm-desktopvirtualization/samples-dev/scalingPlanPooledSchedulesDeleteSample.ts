@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Remove a ScalingPlanPooledSchedule.
  *
  * @summary Remove a ScalingPlanPooledSchedule.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2022-09-09/examples/ScalingPlanPooledSchedule_Delete.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/ScalingPlanPooledSchedule_Delete.json
  */
 async function scalingPlanPooledSchedulesDelete() {
   const subscriptionId =

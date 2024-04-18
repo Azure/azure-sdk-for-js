@@ -18,7 +18,7 @@ import {
   TimeseriesAggregationInterval,
   TimeseriesType,
   ReportsGetTimeseriesOptionalParams,
-  ReportsGetTimeseriesResponse
+  ReportsGetTimeseriesResponse,
 } from "../models";
 
 /** Class containing Reports operations. */
@@ -46,7 +46,7 @@ export class ReportsImpl implements Reports {
     profileName: string,
     experimentName: string,
     aggregationInterval: LatencyScorecardAggregationInterval,
-    options?: ReportsGetLatencyScorecardsOptionalParams
+    options?: ReportsGetLatencyScorecardsOptionalParams,
   ): Promise<ReportsGetLatencyScorecardsResponse> {
     return this.client.sendOperationRequest(
       {
@@ -54,9 +54,9 @@ export class ReportsImpl implements Reports {
         profileName,
         experimentName,
         aggregationInterval,
-        options
+        options,
       },
-      getLatencyScorecardsOperationSpec
+      getLatencyScorecardsOperationSpec,
     );
   }
 
@@ -79,7 +79,7 @@ export class ReportsImpl implements Reports {
     endDateTimeUTC: Date,
     aggregationInterval: TimeseriesAggregationInterval,
     timeseriesType: TimeseriesType,
-    options?: ReportsGetTimeseriesOptionalParams
+    options?: ReportsGetTimeseriesOptionalParams,
   ): Promise<ReportsGetTimeseriesResponse> {
     return this.client.sendOperationRequest(
       {
@@ -90,9 +90,9 @@ export class ReportsImpl implements Reports {
         endDateTimeUTC,
         aggregationInterval,
         timeseriesType,
-        options
+        options,
       },
-      getTimeseriesOperationSpec
+      getTimeseriesOperationSpec,
     );
   }
 }
@@ -100,44 +100,42 @@ export class ReportsImpl implements Reports {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getLatencyScorecardsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}/LatencyScorecard",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}/LatencyScorecard",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LatencyScorecard
+      bodyMapper: Mappers.LatencyScorecard,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion2,
     Parameters.endDateTimeUTC,
     Parameters.country,
-    Parameters.aggregationInterval
+    Parameters.aggregationInterval,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.profileName,
-    Parameters.experimentName
+    Parameters.experimentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getTimeseriesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}/Timeseries",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments/{experimentName}/Timeseries",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Timeseries
+      bodyMapper: Mappers.Timeseries,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion2,
@@ -146,15 +144,15 @@ const getTimeseriesOperationSpec: coreClient.OperationSpec = {
     Parameters.endDateTimeUTC1,
     Parameters.aggregationInterval1,
     Parameters.timeseriesType,
-    Parameters.endpoint
+    Parameters.endpoint,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.profileName,
-    Parameters.experimentName
+    Parameters.experimentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

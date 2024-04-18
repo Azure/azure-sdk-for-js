@@ -17,7 +17,7 @@ const diagnosticLevelFromEnv =
   undefined;
 
 const acceptableDiagnosticLevelValues = Object.values(CosmosDbDiagnosticLevel).map((x) =>
-  x.toString()
+  x.toString(),
 );
 
 let cosmosDiagnosticLevel: CosmosDbDiagnosticLevel | undefined;
@@ -31,8 +31,8 @@ if (isNonEmptyString(diagnosticLevelFromEnv)) {
       `${
         Constants.CosmosDbDiagnosticLevelEnvVarName
       } set to unknown diagnostic level '${diagnosticLevelFromEnv}'; Setting Cosmos Db diagnostic level to info. Acceptable values: ${acceptableDiagnosticLevelValues.join(
-        ", "
-      )}.`
+        ", ",
+      )}.`,
     );
   }
 }
@@ -41,8 +41,8 @@ export function setDiagnosticLevel(level?: CosmosDbDiagnosticLevel): void {
   if (level && !isCosmosDiagnosticLevel(level)) {
     throw new Error(
       `Unknown diagnostic level '${level}'. Acceptable values: ${acceptableDiagnosticLevelValues.join(
-        ","
-      )}`
+        ",",
+      )}`,
     );
   }
   cosmosDiagnosticLevel = level;
@@ -53,14 +53,14 @@ export function getDiagnosticLevelFromEnvironment(): CosmosDbDiagnosticLevel | u
 }
 
 function isCosmosDiagnosticLevel(
-  diagnosticLevel: string
+  diagnosticLevel: string,
 ): diagnosticLevel is CosmosDbDiagnosticLevel {
   return acceptableDiagnosticLevelValues.includes(diagnosticLevel);
 }
 
 export function determineDiagnosticLevel(
   diagnosticLevelFromClientConfig: CosmosDbDiagnosticLevel,
-  diagnosticLevelFromEnvironment: CosmosDbDiagnosticLevel
+  diagnosticLevelFromEnvironment: CosmosDbDiagnosticLevel,
 ): CosmosDbDiagnosticLevel {
   const diagnosticLevelFromEnvOrClient =
     diagnosticLevelFromEnvironment ?? diagnosticLevelFromClientConfig; // Diagnostic Setting from environment gets first priority.

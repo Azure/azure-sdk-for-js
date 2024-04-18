@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.1 (Unreleased)
+## 5.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,77 @@
 
 ### Other Changes
 
+## 5.0.0 (2024-03-21)
+    
+**Features**
+
+  - Added operation group ExtendedUeInformation
+  - Added operation group UeInformation
+  - Added Interface DnnIpPair
+  - Added Interface ExtendedUeInfo
+  - Added Interface ExtendedUeInfoProperties
+  - Added Interface ExtendedUeInformationGetOptionalParams
+  - Added Interface HomeNetworkPrivateKeysProvisioning
+  - Added Interface HomeNetworkPublicKey
+  - Added Interface PublicLandMobileNetwork
+  - Added Interface PublicLandMobileNetworkHomeNetworkPublicKeys
+  - Added Interface UeInfo
+  - Added Interface UeInfo4G
+  - Added Interface UeInfo5G
+  - Added Interface UeInfoList
+  - Added Interface UeInformationListNextOptionalParams
+  - Added Interface UeInformationListOptionalParams
+  - Added Interface UeQOSFlow
+  - Added Interface UeSessionInfo4G
+  - Added Interface UeSessionInfo5G
+  - Added Type Alias ExtendedUeInfoPropertiesUnion
+  - Added Type Alias ExtendedUeInformationGetResponse
+  - Added Type Alias HomeNetworkPrivateKeysProvisioningState
+  - Added Type Alias PdnType
+  - Added Type Alias RatType
+  - Added Type Alias RrcEstablishmentCause
+  - Added Type Alias UeInformationListNextResponse
+  - Added Type Alias UeInformationListResponse
+  - Added Type Alias UeState
+  - Added Type Alias UeUsageSetting
+  - Interface MobileNetwork has a new optional parameter identity
+  - Interface MobileNetwork has a new optional parameter publicLandMobileNetworks
+  - Interface PacketCoreControlPlane has a new optional parameter homeNetworkPrivateKeysProvisioning
+  - Added Enum KnownHomeNetworkPrivateKeysProvisioningState
+  - Added Enum KnownPdnType
+  - Added Enum KnownRatType
+  - Added Enum KnownRrcEstablishmentCause
+  - Added Enum KnownUeState
+  - Added Enum KnownUeUsageSetting
+
+**Breaking Changes**
+
+  - Operation MobileNetworks.updateTags has a new signature
+    
+    
+## 4.0.0 (2023-10-31)
+    
+**Features**
+
+  - Added Interface EventHubConfiguration
+  - Added Interface NASRerouteConfiguration
+  - Added Interface SignalingConfiguration
+  - Interface PacketCapture has a new optional parameter outputFiles
+  - Interface PacketCoreControlPlane has a new optional parameter controlPlaneAccessVirtualIpv4Addresses
+  - Interface PacketCoreControlPlane has a new optional parameter eventHub
+  - Interface PacketCoreControlPlane has a new optional parameter signaling
+  - Interface PacketCoreDataPlane has a new optional parameter userPlaneAccessVirtualIpv4Addresses
+  - Enum KnownInstallationReason has a new value ControlPlaneAccessInterfaceHasChanged
+  - Enum KnownInstallationReason has a new value ControlPlaneAccessVirtualIpv4AddressesHasChanged
+  - Enum KnownInstallationReason has a new value PublicLandMobileNetworkIdentifierHasChanged
+  - Enum KnownInstallationReason has a new value UserPlaneAccessInterfaceHasChanged
+  - Enum KnownInstallationReason has a new value UserPlaneAccessVirtualIpv4AddressesHasChanged
+  - Enum KnownInstallationReason has a new value UserPlaneDataInterfaceHasChanged
+    
+**Breaking Changes**
+
+  - Parameter totalBytesPerSession has a more constraining minimum value
+    
 ## 3.0.0 (2023-07-05)
     
 **Features**
@@ -123,4 +194,4 @@
     
 ## 1.0.0 (2022-12-15)
 
-The package of @azure/arm-mobilenetwork is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+The package of @azure/arm-mobilenetwork is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).

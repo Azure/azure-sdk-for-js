@@ -11,7 +11,8 @@
 
 import { ClientOptions } from "@azure-rest/core-client";
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
-import getClient, { WidgetServiceContext } from "../rest/index.js";
+import { WidgetServiceContext } from "../rest/index.js";
+import getClient from "../rest/widgetServiceClient.js";
 
 export { WidgetServiceContext } from "../rest/index.js";
 
@@ -22,17 +23,17 @@ export interface WidgetServiceClientOptions extends ClientOptions {}
  */
 export function createWidgetService(
   endpoint: string,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): WidgetServiceContext;
 export function createWidgetService(
   endpoint: string,
   credential: TokenCredential,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): WidgetServiceContext;
 export function createWidgetService(
   endpoint: string,
   credentialOrOptions?: TokenCredential | ClientOptions,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): WidgetServiceContext {
   const baseUrl = endpoint;
   if (isTokenCredential(credentialOrOptions)) {

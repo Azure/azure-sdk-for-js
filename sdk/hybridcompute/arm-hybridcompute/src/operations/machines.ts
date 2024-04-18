@@ -14,6 +14,12 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { HybridComputeManagementClient } from "../hybridComputeManagementClient";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
   Machine,
   MachinesListByResourceGroupNextOptionalParams,
   MachinesListByResourceGroupOptionalParams,
@@ -24,6 +30,11 @@ import {
   MachinesDeleteOptionalParams,
   MachinesGetOptionalParams,
   MachinesGetResponse,
+  MachinesAssessPatchesOptionalParams,
+  MachinesAssessPatchesResponse,
+  MachineInstallPatchesParameters,
+  MachinesInstallPatchesOptionalParams,
+  MachinesInstallPatchesResponse,
   MachinesListByResourceGroupNextResponse,
   MachinesListBySubscriptionNextResponse
 } from "../models";
@@ -167,7 +178,7 @@ export class MachinesImpl implements Machines {
   }
 
   /**
-   * The operation to remove a hybrid machine identity in Azure.
+   * The operation to delete a hybrid machine.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param machineName The name of the hybrid machine.
    * @param options The options parameters.
@@ -198,6 +209,193 @@ export class MachinesImpl implements Machines {
       { resourceGroupName, machineName, options },
       getOperationSpec
     );
+  }
+
+  /**
+   * The operation to assess patches on a hybrid machine identity in Azure.
+   * @param resourceGroupName The name of the resource group.
+   * @param name The name of the hybrid machine.
+   * @param options The options parameters.
+   */
+  async beginAssessPatches(
+    resourceGroupName: string,
+    name: string,
+    options?: MachinesAssessPatchesOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MachinesAssessPatchesResponse>,
+      MachinesAssessPatchesResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<MachinesAssessPatchesResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, name, options },
+      spec: assessPatchesOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MachinesAssessPatchesResponse,
+      OperationState<MachinesAssessPatchesResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * The operation to assess patches on a hybrid machine identity in Azure.
+   * @param resourceGroupName The name of the resource group.
+   * @param name The name of the hybrid machine.
+   * @param options The options parameters.
+   */
+  async beginAssessPatchesAndWait(
+    resourceGroupName: string,
+    name: string,
+    options?: MachinesAssessPatchesOptionalParams
+  ): Promise<MachinesAssessPatchesResponse> {
+    const poller = await this.beginAssessPatches(
+      resourceGroupName,
+      name,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * The operation to install patches on a hybrid machine identity in Azure.
+   * @param resourceGroupName The name of the resource group.
+   * @param name The name of the hybrid machine.
+   * @param installPatchesInput Input for InstallPatches as directly received by the API
+   * @param options The options parameters.
+   */
+  async beginInstallPatches(
+    resourceGroupName: string,
+    name: string,
+    installPatchesInput: MachineInstallPatchesParameters,
+    options?: MachinesInstallPatchesOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MachinesInstallPatchesResponse>,
+      MachinesInstallPatchesResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<MachinesInstallPatchesResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, name, installPatchesInput, options },
+      spec: installPatchesOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MachinesInstallPatchesResponse,
+      OperationState<MachinesInstallPatchesResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * The operation to install patches on a hybrid machine identity in Azure.
+   * @param resourceGroupName The name of the resource group.
+   * @param name The name of the hybrid machine.
+   * @param installPatchesInput Input for InstallPatches as directly received by the API
+   * @param options The options parameters.
+   */
+  async beginInstallPatchesAndWait(
+    resourceGroupName: string,
+    name: string,
+    installPatchesInput: MachineInstallPatchesParameters,
+    options?: MachinesInstallPatchesOptionalParams
+  ): Promise<MachinesInstallPatchesResponse> {
+    const poller = await this.beginInstallPatches(
+      resourceGroupName,
+      name,
+      installPatchesInput,
+      options
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -308,6 +506,70 @@ const getOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const assessPatchesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{name}/assessPatches",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MachineAssessPatchesResult
+    },
+    201: {
+      bodyMapper: Mappers.MachineAssessPatchesResult
+    },
+    202: {
+      bodyMapper: Mappers.MachineAssessPatchesResult
+    },
+    204: {
+      bodyMapper: Mappers.MachineAssessPatchesResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName1,
+    Parameters.name
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const installPatchesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{name}/installPatches",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MachineInstallPatchesResult
+    },
+    201: {
+      bodyMapper: Mappers.MachineInstallPatchesResult
+    },
+    202: {
+      bodyMapper: Mappers.MachineInstallPatchesResult
+    },
+    204: {
+      bodyMapper: Mappers.MachineInstallPatchesResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.installPatchesInput,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName1,
+    Parameters.name
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines",
@@ -320,7 +582,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.expand1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -357,7 +619,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -378,7 +639,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

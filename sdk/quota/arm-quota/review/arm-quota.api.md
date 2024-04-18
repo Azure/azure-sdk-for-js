@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public (undocumented)
 export class AzureQuotaExtensionAPI extends coreClient.ServiceClient {
@@ -141,9 +141,9 @@ export interface OperationResponse {
 
 // @public
 export interface Quota {
-    beginCreateOrUpdate(resourceName: string, scope: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<QuotaCreateOrUpdateResponse>, QuotaCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceName: string, scope: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<QuotaCreateOrUpdateResponse>, QuotaCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceName: string, scope: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaCreateOrUpdateOptionalParams): Promise<QuotaCreateOrUpdateResponse>;
-    beginUpdate(resourceName: string, scope: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaUpdateOptionalParams): Promise<PollerLike<PollOperationState<QuotaUpdateResponse>, QuotaUpdateResponse>>;
+    beginUpdate(resourceName: string, scope: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaUpdateOptionalParams): Promise<SimplePollerLike<OperationState<QuotaUpdateResponse>, QuotaUpdateResponse>>;
     beginUpdateAndWait(resourceName: string, scope: string, createQuotaRequest: CurrentQuotaLimitBase, options?: QuotaUpdateOptionalParams): Promise<QuotaUpdateResponse>;
     get(resourceName: string, scope: string, options?: QuotaGetOptionalParams): Promise<QuotaGetResponse>;
     list(scope: string, options?: QuotaListOptionalParams): PagedAsyncIterableIterator<CurrentQuotaLimitBase>;
@@ -241,14 +241,10 @@ export interface QuotaProperties {
 
 // @public
 export interface QuotaRequestDetails {
-    error?: ServiceErrorDetail;
     readonly id?: string;
-    readonly message?: string;
     readonly name?: string;
-    readonly provisioningState?: QuotaRequestState;
-    readonly requestSubmitTime?: Date;
+    properties?: QuotaRequestProperties;
     readonly type?: string;
-    value?: SubRequest[];
 }
 
 // @public
@@ -258,22 +254,27 @@ export interface QuotaRequestDetailsList {
 }
 
 // @public
-export interface QuotaRequestOneResourceSubmitResponse {
+export interface QuotaRequestOneResourceProperties {
     readonly currentValue?: number;
     error?: ServiceErrorDetail;
-    readonly id?: string;
     readonly isQuotaApplicable?: boolean;
     limit?: LimitObject;
     readonly message?: string;
-    readonly name?: string;
-    namePropertiesName?: ResourceName;
+    name?: ResourceName;
     properties?: Record<string, unknown>;
     readonly provisioningState?: QuotaRequestState;
     readonly quotaPeriod?: string;
     readonly requestSubmitTime?: Date;
     resourceType?: string;
-    readonly type?: string;
     unit?: string;
+}
+
+// @public
+export interface QuotaRequestOneResourceSubmitResponse {
+    readonly id?: string;
+    readonly name?: string;
+    properties?: QuotaRequestOneResourceProperties;
+    readonly type?: string;
 }
 
 // @public
@@ -295,6 +296,18 @@ export interface QuotaRequestStatus {
 }
 
 // @public
+export interface QuotaRequestStatusDetails {
+    limit?: LimitObject;
+    readonly message?: string;
+    name?: ResourceName;
+    properties?: Record<string, unknown>;
+    readonly provisioningState?: QuotaRequestState;
+    readonly quotaPeriod?: string;
+    resourceType?: string;
+    unit?: string;
+}
+
+// @public
 export interface QuotaRequestStatusGetOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -303,9 +316,6 @@ export type QuotaRequestStatusGetResponse = QuotaRequestDetails;
 
 // @public
 export interface QuotaRequestStatusListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skiptoken?: string;
-    top?: number;
 }
 
 // @public
@@ -332,16 +342,9 @@ export interface QuotaRequestSubmitResponse {
 // @public
 export interface QuotaRequestSubmitResponse202 {
     readonly id?: string;
-    limit?: LimitObject;
-    readonly message?: string;
     readonly name?: string;
-    namePropertiesName?: ResourceName;
-    properties?: Record<string, unknown>;
-    readonly provisioningState?: QuotaRequestState;
-    readonly quotaPeriod?: string;
-    resourceType?: string;
+    properties?: QuotaRequestStatusDetails;
     readonly type?: string;
-    unit?: string;
 }
 
 // @public

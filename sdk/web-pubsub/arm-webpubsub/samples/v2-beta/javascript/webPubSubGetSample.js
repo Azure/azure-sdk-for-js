@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the resource and its properties.
  *
  * @summary Get the resource and its properties.
- * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/preview/2023-06-01-preview/examples/WebPubSub_Get.json
+ * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/preview/2023-08-01-preview/examples/WebPubSub_Get.json
  */
 async function webPubSubGet() {
   const subscriptionId =

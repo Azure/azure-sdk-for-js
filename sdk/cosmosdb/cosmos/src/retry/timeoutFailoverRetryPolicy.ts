@@ -32,7 +32,7 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     private methodType: HTTPMethod,
     private resourceType: ResourceType,
     private operationType: OperationType,
-    private enableEndPointDiscovery: boolean
+    private enableEndPointDiscovery: boolean,
   ) {}
 
   /**
@@ -53,7 +53,7 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     err: ErrorResponse,
     diagnosticNode: DiagnosticNodeInternal,
     retryContext?: RetryContext,
-    locationEndpoint?: string
+    locationEndpoint?: string,
   ): Promise<boolean> {
     if (!err) {
       return false;
@@ -79,7 +79,7 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     }
     const canUseMultipleWriteLocations = this.globalEndpointManager.canUseMultipleWriteLocations(
       this.resourceType,
-      this.operationType
+      this.operationType,
     );
     const readRequest = isReadRequest(this.operationType);
 

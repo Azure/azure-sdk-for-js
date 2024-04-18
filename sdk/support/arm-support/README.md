@@ -6,7 +6,7 @@ Microsoft Azure Support Resource Provider.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/support/arm-support) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-support) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-support) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-support?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

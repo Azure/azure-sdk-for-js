@@ -20,12 +20,12 @@ const instrumenter = new MockInstrumenter();
  */
 export async function supportsTracing<
   Options extends { tracingOptions?: OperationTracingOptions },
-  Callback extends (options: Options) => Promise<unknown>
+  Callback extends (options: Options) => Promise<unknown>,
 >(
   callback: Callback,
   expectedSpanNames: string[],
   options?: Options,
-  thisArg?: ThisParameterType<Callback>
+  thisArg?: ThisParameterType<Callback>,
 ) {
   useInstrumenter(instrumenter);
   instrumenter.reset();
@@ -50,7 +50,7 @@ export async function supportsTracing<
     assert.strictEqual(
       rootSpan,
       instrumenter.startedSpans[0],
-      "The root span should match what was passed in."
+      "The root span should match what was passed in.",
     );
 
     const directChildren = spanGraph.roots[0].children.map((child) => child.name);
@@ -60,7 +60,7 @@ export async function supportsTracing<
     assert.equal(
       openSpans.length,
       0,
-      `All spans should have been closed, but found ${openSpans.map((s) => s.name)} open spans.`
+      `All spans should have been closed, but found ${openSpans.map((s) => s.name)} open spans.`,
     );
   } finally {
     // By resetting the instrumenter to undefined, we force the next call to instantiate the
@@ -95,7 +95,7 @@ function getSpanGraph(traceId: string, instrumenter: MockInstrumenter): SpanGrap
       const parent = nodeMap.get(parentSpan!);
       if (!parent) {
         throw new Error(
-          `Span with name ${node.name} has an unknown parentSpan with id ${parentSpan}`
+          `Span with name ${node.name} has an unknown parentSpan with id ${parentSpan}`,
         );
       }
       parent.children.push(node);

@@ -22,7 +22,7 @@ export async function createPersistence(options: MsalPersistenceOptions): Promis
 }
 
 export async function createPersistenceCachePlugin(
-  options?: MsalPersistenceOptions
+  options?: MsalPersistenceOptions,
 ): Promise<CachePlugin> {
   const persistence = await createPersistence(options ?? {});
 

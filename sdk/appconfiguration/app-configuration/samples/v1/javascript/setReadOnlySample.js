@@ -7,8 +7,7 @@
 const { AppConfigurationClient } = require("@azure/app-configuration");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   console.log("Running setReadOnly sample");
@@ -24,7 +23,7 @@ async function main() {
   await client.addConfigurationSetting({
     key: readOnlySampleKey,
     label: "a label",
-    value: "Initial value"
+    value: "Initial value",
   });
 
   // now we'd like to prevent future modifications - let's set the key/label to read-only
@@ -37,7 +36,7 @@ async function main() {
     await client.setConfigurationSetting({
       key: readOnlySampleKey,
       label: "a label",
-      value: "new value"
+      value: "new value",
     });
   } catch (err) {
     console.log(`Error gets thrown - can't modify a read-only setting`);
@@ -54,7 +53,7 @@ async function main() {
   const updatedSetting = await client.setConfigurationSetting({
     key: readOnlySampleKey,
     label: "a label",
-    value: "new value"
+    value: "new value",
   });
   console.log(`Updated value is ${updatedSetting.value}`);
 
@@ -63,7 +62,7 @@ async function main() {
 
 async function cleanupSampleValues(keys, client) {
   const existingSettings = client.listConfigurationSettings({
-    keyFilter: keys.join(",")
+    keyFilter: keys.join(","),
   });
 
   for await (const setting of existingSettings) {
@@ -76,3 +75,5 @@ main().catch((err) => {
   console.error("Failed to run sample:", err);
   process.exit(1);
 });
+
+module.exports = { main };

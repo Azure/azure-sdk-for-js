@@ -47,7 +47,7 @@ describe(`TollFreeVerificationClient - Campaign Brief`, function () {
     // before test begins, make sure campaign brief does not exist, clean up if necessary
     if (await doesCampaignBriefExist(client, uscb.id)) {
       console.warn(
-        "Campaign brief should not exist, it has not yet been created. Cleaning up campaign brief."
+        "Campaign brief should not exist, it has not yet been created. Cleaning up campaign brief.",
       );
       await client.deleteCampaignBrief(uscb.id, "US");
       if (await doesCampaignBriefExist(client, uscb.id)) {
@@ -83,7 +83,7 @@ describe(`TollFreeVerificationClient - Campaign Brief`, function () {
     }
     assert.isTrue(
       foundTestCampaignBrief,
-      "Test campaign brief was not returned in list of all campaign briefs"
+      "Test campaign brief was not returned in list of all campaign briefs",
     );
 
     // delete campaign brief, ensure it was removed
@@ -91,7 +91,7 @@ describe(`TollFreeVerificationClient - Campaign Brief`, function () {
     assert.isOk(delRes, "Deleting campaign brief failed");
     assert.isFalse(
       await doesCampaignBriefExist(client, uscb.id),
-      "Delete campaign brief was unsuccessful, campaign brief is still returned"
+      "Delete campaign brief was unsuccessful, campaign brief is still returned",
     );
   }).timeout(35000);
 });

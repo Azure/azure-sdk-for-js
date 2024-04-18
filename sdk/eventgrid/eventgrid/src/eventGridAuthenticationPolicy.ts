@@ -31,7 +31,7 @@ export const eventGridCredentialPolicyName = "eventGridCredentialPolicy";
  * using the appropriate header for Event Grid
  */
 export function eventGridCredentialPolicy(
-  credential: KeyCredential | SASCredential
+  credential: KeyCredential | SASCredential,
 ): PipelinePolicy {
   return {
     name: eventGridCredentialPolicyName,

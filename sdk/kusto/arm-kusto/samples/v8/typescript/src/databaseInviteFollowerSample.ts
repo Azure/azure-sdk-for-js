@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Generates an invitation token that allows attaching a follower database to this database.
  *
  * @summary Generates an invitation token that allows attaching a follower database to this database.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-05-02/examples/KustoDatabaseInviteFollower.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDatabaseInviteFollower.json
  */
 async function kustoDatabaseInviteFollower() {
   const subscriptionId =

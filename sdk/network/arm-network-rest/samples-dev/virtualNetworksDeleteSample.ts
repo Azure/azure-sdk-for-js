@@ -32,7 +32,7 @@ async function deleteVirtualNetwork() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName
+      virtualNetworkName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

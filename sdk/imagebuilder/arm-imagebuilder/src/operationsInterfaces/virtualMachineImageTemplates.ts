@@ -22,6 +22,7 @@ import {
   VirtualMachineImageTemplatesGetOptionalParams,
   VirtualMachineImageTemplatesGetResponse,
   VirtualMachineImageTemplatesDeleteOptionalParams,
+  VirtualMachineImageTemplatesDeleteResponse,
   VirtualMachineImageTemplatesRunOptionalParams,
   VirtualMachineImageTemplatesCancelOptionalParams,
   VirtualMachineImageTemplatesGetRunOutputOptionalParams,
@@ -141,7 +142,12 @@ export interface VirtualMachineImageTemplates {
     resourceGroupName: string,
     imageTemplateName: string,
     options?: VirtualMachineImageTemplatesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachineImageTemplatesDeleteResponse>,
+      VirtualMachineImageTemplatesDeleteResponse
+    >
+  >;
   /**
    * Delete a virtual machine image template
    * @param resourceGroupName The name of the resource group.
@@ -152,7 +158,7 @@ export interface VirtualMachineImageTemplates {
     resourceGroupName: string,
     imageTemplateName: string,
     options?: VirtualMachineImageTemplatesDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<VirtualMachineImageTemplatesDeleteResponse>;
   /**
    * Create artifacts from a existing image template
    * @param resourceGroupName The name of the resource group.

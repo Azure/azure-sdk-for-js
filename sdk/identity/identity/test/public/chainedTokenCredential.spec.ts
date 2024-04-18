@@ -27,11 +27,11 @@ describe("ChainedTokenCredential", function () {
           new AuthenticationRequiredError({
             scopes: ["https://vault.azure.net/.default"],
             message: "authentication-required.",
-          })
-        )
+          }),
+        ),
       ),
       mockCredential(Promise.resolve({ token: "firstToken", expiresOnTimestamp: 0 })),
-      mockCredential(Promise.resolve({ token: "secondToken", expiresOnTimestamp: 0 }))
+      mockCredential(Promise.resolve({ token: "secondToken", expiresOnTimestamp: 0 })),
     );
     const accessToken = await chainedTokenCredential.getToken("scope");
     assert.notStrictEqual(accessToken, null);
@@ -41,18 +41,18 @@ describe("ChainedTokenCredential", function () {
   it("returns an AggregateAuthenticationError when no token is returned and one credential returned an error", async () => {
     const chainedTokenCredential = new ChainedTokenCredential(
       mockCredential(Promise.reject(new CredentialUnavailableError("unavailable."))),
-      mockCredential(Promise.reject(new CredentialUnavailableError("unavailable.")))
+      mockCredential(Promise.reject(new CredentialUnavailableError("unavailable."))),
     );
 
     const error = await getError<AggregateAuthenticationError>(
-      chainedTokenCredential.getToken("scope")
+      chainedTokenCredential.getToken("scope"),
     );
     assert.deepEqual(error.errors.length, 2);
     assert.deepEqual(
       error.message,
       `ChainedTokenCredential authentication failed.
 CredentialUnavailableError: unavailable.
-CredentialUnavailableError: unavailable.`
+CredentialUnavailableError: unavailable.`,
     );
   });
 });

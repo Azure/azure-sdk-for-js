@@ -97,7 +97,7 @@ export class LogsQueryClient {
     query: string,
     timespan: QueryTimeInterval,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options: LogsQueryOptions = {}
+    options: LogsQueryOptions = {},
   ): Promise<LogsQueryResult> {
     let timeInterval: string = "";
     return tracingClient.withSpan(
@@ -116,7 +116,7 @@ export class LogsQueryClient {
                 timespan: timeInterval,
                 workspaces: options?.additionalWorkspaces,
               },
-              paramOptions
+              paramOptions,
             ),
           {
             ...updatedOptions,
@@ -125,7 +125,7 @@ export class LogsQueryClient {
                 ...formatPreferHeader(options),
               },
             },
-          }
+          },
         );
 
         const parsedBody = JSON.parse(rawResponse.bodyAsText!);
@@ -156,7 +156,7 @@ export class LogsQueryClient {
           };
           return result;
         }
-      }
+      },
     );
   }
 
@@ -168,13 +168,13 @@ export class LogsQueryClient {
    */
   async queryBatch(
     batch: QueryBatch[],
-    options: LogsQueryBatchOptions = {}
+    options: LogsQueryBatchOptions = {},
   ): Promise<LogsQueryBatchResult> {
     return tracingClient.withSpan("LogsQueryClient.queryBatch", options, async (updatedOptions) => {
       const generatedRequest = convertRequestForQueryBatch(batch);
       const { flatResponse, rawResponse } = await getRawResponse(
         (paramOptions) => this._logAnalytics.query.batch(generatedRequest, paramOptions),
-        updatedOptions || {}
+        updatedOptions || {},
       );
       const result: LogsQueryBatchResult = convertResponseForQueryBatch(flatResponse, rawResponse);
       return result;
@@ -197,7 +197,7 @@ export class LogsQueryClient {
     query: string,
     timespan: QueryTimeInterval,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options: LogsQueryOptions = {}
+    options: LogsQueryOptions = {},
   ): Promise<LogsQueryResult> {
     let timeInterval: string = "";
     return tracingClient.withSpan(
@@ -218,7 +218,7 @@ export class LogsQueryClient {
                 timespan: timeInterval,
                 workspaces: options?.additionalWorkspaces,
               },
-              paramOptions
+              paramOptions,
             ),
           {
             ...updatedOptions,
@@ -227,7 +227,7 @@ export class LogsQueryClient {
                 ...formatPreferHeader(options),
               },
             },
-          }
+          },
         );
 
         const parsedBody = JSON.parse(rawResponse.bodyAsText!);
@@ -258,7 +258,7 @@ export class LogsQueryClient {
           };
           return result;
         }
-      }
+      },
     );
   }
 }
@@ -270,7 +270,7 @@ interface ReturnType<T> {
 
 async function getRawResponse<TOptions extends OperationOptions, TResult>(
   f: (options: TOptions) => Promise<TResult>,
-  options: TOptions
+  options: TOptions,
 ): Promise<ReturnType<TResult>> {
   // renaming onResponse received from customer to customerProvidedCallback
   const { onResponse: customerProvidedCallback } = options || {};

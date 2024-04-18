@@ -157,7 +157,7 @@ async function main() {
 
     if (missingUserVisibleMessages > 0 || missingInternalMessages > 0) {
       console.log(
-        `Messages were missing: user:${missingUserVisibleMessages}, internal:${missingInternalMessages}`
+        `Messages were missing: user:${missingUserVisibleMessages}, internal:${missingInternalMessages}`,
       );
       process.exit(1);
     } else {
@@ -180,7 +180,7 @@ async function main() {
 
   function assertAndAddMessageNumber(
     message: ServiceBusReceivedMessage,
-    receivedMessageIndices: Set<number>
+    receivedMessageIndices: Set<number>,
   ) {
     const messageNumber = message.applicationProperties?.[messageNumberPropertyName];
 
@@ -193,21 +193,21 @@ async function main() {
       console.log(
         `Message with id of ${
           message.messageId
-        } had a messageNumber property with an incorrect type (${typeof messageNumber})`
+        } had a messageNumber property with an incorrect type (${typeof messageNumber})`,
       );
       throw new TypeError(
         `Message with id of ${
           message.messageId
-        } had a messageNumber property with an incorrect type (${typeof messageNumber})`
+        } had a messageNumber property with an incorrect type (${typeof messageNumber})`,
       );
     }
 
     if (receivedMessageIndices.has(messageNumber)) {
       console.log(
-        `Message with id of ${message.messageId} and message number ${messageNumber} has already been received`
+        `Message with id of ${message.messageId} and message number ${messageNumber} has already been received`,
       );
       throw new Error(
-        `Message with id of ${message.messageId} and message number ${messageNumber} has already been received`
+        `Message with id of ${message.messageId} and message number ${messageNumber} has already been received`,
       );
     }
 
@@ -238,7 +238,7 @@ main().catch((err) => {
  */
 async function addValidatingListener(
   receiver: ServiceBusReceiver,
-  rawMessageNumbers: Set<number>
+  rawMessageNumbers: Set<number>,
 ): Promise<void> {
   // warm up the receiver so the batching receiver will be available (and we can install our 'raw messages' hook
   // for some bookkeeping.
@@ -254,7 +254,7 @@ async function addValidatingListener(
 
   if (linkEntity == null) {
     console.log(
-      "[raw message callback] Couldn't get a receiver._batchingReceiver._link property in the passed in receiver"
+      "[raw message callback] Couldn't get a receiver._batchingReceiver._link property in the passed in receiver",
     );
     process.exit(1);
   }
@@ -264,7 +264,7 @@ async function addValidatingListener(
 
     if (message == null) {
       console.log(
-        "[raw message callback] Fatal test error - no message was on EventContext, but we got a message callback."
+        "[raw message callback] Fatal test error - no message was on EventContext, but we got a message callback.",
       );
       process.exit(1);
     }
@@ -273,14 +273,14 @@ async function addValidatingListener(
 
     if (messageNumber == null || typeof messageNumber !== "number") {
       console.log(
-        `[raw message callback] Fatal test error - message arrived, but without the '${messageNumberPropertyName}' property, type: ${typeof messageNumber}`
+        `[raw message callback] Fatal test error - message arrived, but without the '${messageNumberPropertyName}' property, type: ${typeof messageNumber}`,
       );
       process.exit(1);
     }
 
     if (rawMessageNumbers.has(messageNumber)) {
       console.log(
-        `[raw message callback] Fatal test error - ${messageNumber} was already received - we're receiving duplicates in our raw message callback`
+        `[raw message callback] Fatal test error - ${messageNumber} was already received - we're receiving duplicates in our raw message callback`,
       );
       process.exit(1);
     }
@@ -297,7 +297,7 @@ async function addValidatingListener(
 async function sendTestMessages(
   serviceBusClient: ServiceBusClient,
   queueName: string,
-  numMessagesToSend: number
+  numMessagesToSend: number,
 ): Promise<void> {
   console.log(`Starting to send ${numMessagesToSend} messages to ${queueName}`);
 

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists associations for the specified data collection rule.
  *
  * @summary Lists associations for the specified data collection rule.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-09-01-preview/examples/DataCollectionRuleAssociationsListByRule.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/DataCollectionRuleAssociationsListByRule.json
  */
 async function listAssociationsForSpecifiedDataCollectionRule() {
   const subscriptionId =
@@ -28,7 +28,7 @@ async function listAssociationsForSpecifiedDataCollectionRule() {
   const resArray = new Array();
   for await (let item of client.dataCollectionRuleAssociations.listByRule(
     resourceGroupName,
-    dataCollectionRuleName
+    dataCollectionRuleName,
   )) {
     resArray.push(item);
   }

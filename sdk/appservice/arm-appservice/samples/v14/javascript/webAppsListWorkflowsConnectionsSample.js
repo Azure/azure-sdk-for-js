@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists logic app's connections for web site, or a deployment slot.
  *
  * @summary Lists logic app's connections for web site, or a deployment slot.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/ListWorkflowsConfigurationConnections.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/ListWorkflowsConfigurationConnections.json
  */
 async function listTheInstanceWorkflowsConfigurationConnections() {
   const subscriptionId =

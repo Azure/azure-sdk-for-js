@@ -35,7 +35,7 @@ describe("Secrets client - Long Running Operations - delete", () => {
 
   it("can wait until a secret is deleted", async function (this: Context) {
     const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
     );
     await client.setSecret(secretName, "value");
     const poller = await client.beginDeleteSecret(secretName, testPollerProperties);
@@ -54,7 +54,7 @@ describe("Secrets client - Long Running Operations - delete", () => {
 
   it("can resume from a stopped poller", async function (this: Context) {
     const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
     );
     await client.setSecret(secretName, "value");
     const poller = await client.beginDeleteSecret(secretName, testPollerProperties);

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Renew a domain.
  *
  * @summary Description for Renew a domain.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2022-09-01/examples/RenewDomain.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2023-01-01/examples/RenewDomain.json
  */
 async function renewAnExistingDomain() {
   const subscriptionId =

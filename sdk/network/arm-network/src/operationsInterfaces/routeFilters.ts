@@ -19,7 +19,7 @@ import {
   RouteFiltersCreateOrUpdateResponse,
   TagsObject,
   RouteFiltersUpdateTagsOptionalParams,
-  RouteFiltersUpdateTagsResponse
+  RouteFiltersUpdateTagsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,14 +32,14 @@ export interface RouteFilters {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: RouteFiltersListByResourceGroupOptionalParams
+    options?: RouteFiltersListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<RouteFilter>;
   /**
    * Gets all route filters in a subscription.
    * @param options The options parameters.
    */
   list(
-    options?: RouteFiltersListOptionalParams
+    options?: RouteFiltersListOptionalParams,
   ): PagedAsyncIterableIterator<RouteFilter>;
   /**
    * Deletes the specified route filter.
@@ -50,7 +50,7 @@ export interface RouteFilters {
   beginDelete(
     resourceGroupName: string,
     routeFilterName: string,
-    options?: RouteFiltersDeleteOptionalParams
+    options?: RouteFiltersDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified route filter.
@@ -61,7 +61,7 @@ export interface RouteFilters {
   beginDeleteAndWait(
     resourceGroupName: string,
     routeFilterName: string,
-    options?: RouteFiltersDeleteOptionalParams
+    options?: RouteFiltersDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the specified route filter.
@@ -72,7 +72,7 @@ export interface RouteFilters {
   get(
     resourceGroupName: string,
     routeFilterName: string,
-    options?: RouteFiltersGetOptionalParams
+    options?: RouteFiltersGetOptionalParams,
   ): Promise<RouteFiltersGetResponse>;
   /**
    * Creates or updates a route filter in a specified resource group.
@@ -85,7 +85,7 @@ export interface RouteFilters {
     resourceGroupName: string,
     routeFilterName: string,
     routeFilterParameters: RouteFilter,
-    options?: RouteFiltersCreateOrUpdateOptionalParams
+    options?: RouteFiltersCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<RouteFiltersCreateOrUpdateResponse>,
@@ -103,7 +103,7 @@ export interface RouteFilters {
     resourceGroupName: string,
     routeFilterName: string,
     routeFilterParameters: RouteFilter,
-    options?: RouteFiltersCreateOrUpdateOptionalParams
+    options?: RouteFiltersCreateOrUpdateOptionalParams,
   ): Promise<RouteFiltersCreateOrUpdateResponse>;
   /**
    * Updates tags of a route filter.
@@ -116,6 +116,6 @@ export interface RouteFilters {
     resourceGroupName: string,
     routeFilterName: string,
     parameters: TagsObject,
-    options?: RouteFiltersUpdateTagsOptionalParams
+    options?: RouteFiltersUpdateTagsOptionalParams,
   ): Promise<RouteFiltersUpdateTagsResponse>;
 }

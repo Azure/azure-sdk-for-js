@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { describe, it, assert } from "vitest";
 import { createWindowsBadgeNotificationBody } from "../../../src/models/notificationBodyBuilder.js";
-import { assert } from "@azure/test-utils";
 
 describe("createWindowsBadgeNotificationBody", () => {
   it("should handle a notification count", () => {
@@ -12,7 +12,7 @@ describe("createWindowsBadgeNotificationBody", () => {
 
     assert.equal(
       body,
-      `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><badge value="99"/>`
+      `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><badge value="99"/>`,
     );
   });
 
@@ -23,7 +23,7 @@ describe("createWindowsBadgeNotificationBody", () => {
 
     assert.equal(
       body,
-      `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><badge value="newMessage"/>`
+      `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><badge value="newMessage"/>`,
     );
   });
 });

@@ -7,34 +7,59 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Usage,
   AfdProfilesListResourceUsageOptionalParams,
+  CheckEndpointNameAvailabilityInput,
+  AfdProfilesCheckEndpointNameAvailabilityOptionalParams,
+  AfdProfilesCheckEndpointNameAvailabilityResponse,
   CheckHostNameAvailabilityInput,
   AfdProfilesCheckHostNameAvailabilityOptionalParams,
-  AfdProfilesCheckHostNameAvailabilityResponse
+  AfdProfilesCheckHostNameAvailabilityResponse,
+  ValidateSecretInput,
+  AfdProfilesValidateSecretOptionalParams,
+  AfdProfilesValidateSecretResponse,
+  ProfileUpgradeParameters,
+  AfdProfilesUpgradeOptionalParams,
+  AfdProfilesUpgradeResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AfdProfiles. */
 export interface AfdProfiles {
   /**
-   * Checks the quota and actual usage of AzureFrontDoor endpoints under the given CDN profile.
+   * Checks the quota and actual usage of endpoints under the given Azure Front Door profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
-   *                    which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param options The options parameters.
    */
   listResourceUsage(
     resourceGroupName: string,
     profileName: string,
-    options?: AfdProfilesListResourceUsageOptionalParams
+    options?: AfdProfilesListResourceUsageOptionalParams,
   ): PagedAsyncIterableIterator<Usage>;
   /**
-   * Check the name availability of a host name.
+   * Check the availability of an afdx endpoint name, and return the globally unique endpoint host name.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
-   *                    which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
+   * @param checkEndpointNameAvailabilityInput Input to check.
+   * @param options The options parameters.
+   */
+  checkEndpointNameAvailability(
+    resourceGroupName: string,
+    profileName: string,
+    checkEndpointNameAvailabilityInput: CheckEndpointNameAvailabilityInput,
+    options?: AfdProfilesCheckEndpointNameAvailabilityOptionalParams,
+  ): Promise<AfdProfilesCheckEndpointNameAvailabilityResponse>;
+  /**
+   * Validates the custom domain mapping to ensure it maps to the correct Azure Front Door endpoint in
+   * DNS.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param checkHostNameAvailabilityInput Custom domain to be validated.
    * @param options The options parameters.
    */
@@ -42,6 +67,53 @@ export interface AfdProfiles {
     resourceGroupName: string,
     profileName: string,
     checkHostNameAvailabilityInput: CheckHostNameAvailabilityInput,
-    options?: AfdProfilesCheckHostNameAvailabilityOptionalParams
+    options?: AfdProfilesCheckHostNameAvailabilityOptionalParams,
   ): Promise<AfdProfilesCheckHostNameAvailabilityResponse>;
+  /**
+   * Validate a Secret in the profile.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
+   * @param validateSecretInput The Secret source.
+   * @param options The options parameters.
+   */
+  validateSecret(
+    resourceGroupName: string,
+    profileName: string,
+    validateSecretInput: ValidateSecretInput,
+    options?: AfdProfilesValidateSecretOptionalParams,
+  ): Promise<AfdProfilesValidateSecretResponse>;
+  /**
+   * Upgrade a profile from Standard_AzureFrontDoor to Premium_AzureFrontDoor.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
+   * @param profileUpgradeParameters Profile upgrade input parameter.
+   * @param options The options parameters.
+   */
+  beginUpgrade(
+    resourceGroupName: string,
+    profileName: string,
+    profileUpgradeParameters: ProfileUpgradeParameters,
+    options?: AfdProfilesUpgradeOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AfdProfilesUpgradeResponse>,
+      AfdProfilesUpgradeResponse
+    >
+  >;
+  /**
+   * Upgrade a profile from Standard_AzureFrontDoor to Premium_AzureFrontDoor.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
+   * @param profileUpgradeParameters Profile upgrade input parameter.
+   * @param options The options parameters.
+   */
+  beginUpgradeAndWait(
+    resourceGroupName: string,
+    profileName: string,
+    profileUpgradeParameters: ProfileUpgradeParameters,
+    options?: AfdProfilesUpgradeOptionalParams,
+  ): Promise<AfdProfilesUpgradeResponse>;
 }

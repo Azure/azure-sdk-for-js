@@ -29,7 +29,8 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     private collectionLink: string,
     private query: string | SqlQuerySpec,
     private options: FeedOptions,
-    private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo
+    private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
+    correlatedActivityId: string,
   ) {
     this.endpoint = null;
     this.pageSize = options["maxItemCount"];
@@ -48,8 +49,9 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           this.collectionLink,
           this.query,
           this.options,
-          this.partitionedQueryExecutionInfo
-        )
+          this.partitionedQueryExecutionInfo,
+          correlatedActivityId,
+        ),
       );
     } else {
       this.endpoint = new ParallelQueryExecutionContext(
@@ -57,7 +59,8 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         this.collectionLink,
         this.query,
         this.options,
-        this.partitionedQueryExecutionInfo
+        this.partitionedQueryExecutionInfo,
+        correlatedActivityId,
       );
     }
     if (
@@ -68,12 +71,12 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       if (partitionedQueryExecutionInfo.queryInfo.hasSelectValue) {
         this.endpoint = new GroupByValueEndpointComponent(
           this.endpoint,
-          partitionedQueryExecutionInfo.queryInfo
+          partitionedQueryExecutionInfo.queryInfo,
         );
       } else {
         this.endpoint = new GroupByEndpointComponent(
           this.endpoint,
-          partitionedQueryExecutionInfo.queryInfo
+          partitionedQueryExecutionInfo.queryInfo,
         );
       }
     }
@@ -122,7 +125,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   }
 
   private async _fetchMoreImplementation(
-    diagnosticNode: DiagnosticNodeInternal
+    diagnosticNode: DiagnosticNodeInternal,
   ): Promise<Response<any>> {
     try {
       const { result: item, headers } = await this.endpoint.nextItem(diagnosticNode);

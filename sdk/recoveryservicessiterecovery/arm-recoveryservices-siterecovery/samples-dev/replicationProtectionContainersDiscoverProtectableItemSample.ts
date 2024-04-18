@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   DiscoverProtectableItemRequest,
-  SiteRecoveryManagementClient
+  SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to a add a protectable item to a protection container(Add physical server).
  *
  * @summary The operation to a add a protectable item to a protection container(Add physical server).
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectionContainers_DiscoverProtectableItem.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectionContainers_DiscoverProtectableItem.json
  */
 async function addsAProtectableItemToTheReplicationProtectionContainer() {
   const subscriptionId =
@@ -36,18 +36,19 @@ async function addsAProtectableItemToTheReplicationProtectionContainer() {
     properties: {
       friendlyName: "Test",
       ipAddress: "10.150.2.3",
-      osType: "Windows"
-    }
+      osType: "Windows",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
-  const result = await client.replicationProtectionContainers.beginDiscoverProtectableItemAndWait(
-    resourceName,
-    resourceGroupName,
-    fabricName,
-    protectionContainerName,
-    discoverProtectableItemRequest
-  );
+  const result =
+    await client.replicationProtectionContainers.beginDiscoverProtectableItemAndWait(
+      resourceName,
+      resourceGroupName,
+      fabricName,
+      protectionContainerName,
+      discoverProtectableItemRequest,
+    );
   console.log(result);
 }
 

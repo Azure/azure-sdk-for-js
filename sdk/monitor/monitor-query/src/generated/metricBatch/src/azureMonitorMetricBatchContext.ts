@@ -8,23 +8,31 @@
 
 import * as coreClient from "@azure/core-client";
 import {
-  ApiVersion20230501Preview,
+  ApiVersion20240201,
   AzureMonitorMetricBatchOptionalParams
 } from "./models";
 
 /** @internal */
 export class AzureMonitorMetricBatchContext extends coreClient.ServiceClient {
-  apiVersion: ApiVersion20230501Preview;
+  endpoint: string;
+  apiVersion: ApiVersion20240201;
 
   /**
    * Initializes a new instance of the AzureMonitorMetricBatchContext class.
+   * @param endpoint The regional endpoint to use, for example https://eastus.metrics.monitor.azure.com.
+   *                 The region should match the region of the requested resources. For global resources, the region
+   *                 should be 'global'.
    * @param apiVersion Api Version
    * @param options The parameter options
    */
   constructor(
-    apiVersion: ApiVersion20230501Preview,
+    endpoint: string,
+    apiVersion: ApiVersion20240201,
     options?: AzureMonitorMetricBatchOptionalParams
   ) {
+    if (endpoint === undefined) {
+      throw new Error("'endpoint' cannot be null");
+    }
     if (apiVersion === undefined) {
       throw new Error("'apiVersion' cannot be null");
     }
@@ -37,7 +45,7 @@ export class AzureMonitorMetricBatchContext extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-monitor-metric-batch/1.0.1`;
+    const packageDetails = `azsdk-js-monitor-metric-batch/1.2.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -49,10 +57,11 @@ export class AzureMonitorMetricBatchContext extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri: options.endpoint || "{baseUrl}"
+      baseUri: options.endpoint || "{endpoint}"
     };
     super(optionsWithDefaults);
     // Parameter assignments
+    this.endpoint = endpoint;
     this.apiVersion = apiVersion;
   }
 }

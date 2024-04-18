@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a workflow trigger history.
  *
  * @summary Gets a workflow trigger history.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/WorkflowTriggerHistories_Get.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/WorkflowTriggerHistories_Get.json
  */
 async function getAWorkflowTriggerHistory() {
   const subscriptionId =

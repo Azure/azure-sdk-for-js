@@ -18,7 +18,7 @@ import {
   PlansListNextOptionalParams,
   PlansListOptionalParams,
   PlansListResponse,
-  PlansListNextResponse
+  PlansListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +39,7 @@ export class PlansImpl implements Plans {
    * @param options The options parameters.
    */
   public list(
-    options?: PlansListOptionalParams
+    options?: PlansListOptionalParams,
   ): PagedAsyncIterableIterator<PlanDataResource> {
     const iter = this.listPagingAll(options);
     return {
@@ -54,13 +54,13 @@ export class PlansImpl implements Plans {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: PlansListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PlanDataResource[]> {
     let result: PlansListResponse;
     let continuationToken = settings?.continuationToken;
@@ -81,7 +81,7 @@ export class PlansImpl implements Plans {
   }
 
   private async *listPagingAll(
-    options?: PlansListOptionalParams
+    options?: PlansListOptionalParams,
   ): AsyncIterableIterator<PlanDataResource> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -103,11 +103,11 @@ export class PlansImpl implements Plans {
    */
   private _listNext(
     nextLink: string,
-    options?: PlansListNextOptionalParams
+    options?: PlansListNextOptionalParams,
   ): Promise<PlansListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -115,42 +115,41 @@ export class PlansImpl implements Plans {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/NewRelic.Observability/plans",
+  path: "/subscriptions/{subscriptionId}/providers/NewRelic.Observability/plans",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PlanDataListResponse
+      bodyMapper: Mappers.PlanDataListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.accountId,
-    Parameters.organizationId
+    Parameters.organizationId,
   ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PlanDataListResponse
+      bodyMapper: Mappers.PlanDataListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

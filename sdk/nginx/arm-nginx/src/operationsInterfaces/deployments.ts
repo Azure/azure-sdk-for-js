@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   NginxDeployment,
   DeploymentsListOptionalParams,
@@ -18,113 +18,113 @@ import {
   DeploymentsCreateOrUpdateResponse,
   DeploymentsUpdateOptionalParams,
   DeploymentsUpdateResponse,
-  DeploymentsDeleteOptionalParams
+  DeploymentsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Deployments. */
 export interface Deployments {
   /**
-   * List the Nginx deployments resources
+   * List the NGINX deployments resources
    * @param options The options parameters.
    */
   list(
-    options?: DeploymentsListOptionalParams
+    options?: DeploymentsListOptionalParams,
   ): PagedAsyncIterableIterator<NginxDeployment>;
   /**
-   * List all Nginx deployments under the specified resource group.
+   * List all NGINX deployments under the specified resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: DeploymentsListByResourceGroupOptionalParams
+    options?: DeploymentsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<NginxDeployment>;
   /**
-   * Get the Nginx deployment
+   * Get the NGINX deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted Nginx deployment
+   * @param deploymentName The name of targeted NGINX deployment
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     deploymentName: string,
-    options?: DeploymentsGetOptionalParams
+    options?: DeploymentsGetOptionalParams,
   ): Promise<DeploymentsGetResponse>;
   /**
-   * Create or update the Nginx deployment
+   * Create or update the NGINX deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted Nginx deployment
+   * @param deploymentName The name of targeted NGINX deployment
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     deploymentName: string,
-    options?: DeploymentsCreateOrUpdateOptionalParams
+    options?: DeploymentsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<DeploymentsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DeploymentsCreateOrUpdateResponse>,
       DeploymentsCreateOrUpdateResponse
     >
   >;
   /**
-   * Create or update the Nginx deployment
+   * Create or update the NGINX deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted Nginx deployment
+   * @param deploymentName The name of targeted NGINX deployment
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     deploymentName: string,
-    options?: DeploymentsCreateOrUpdateOptionalParams
+    options?: DeploymentsCreateOrUpdateOptionalParams,
   ): Promise<DeploymentsCreateOrUpdateResponse>;
   /**
-   * Update the Nginx deployment
+   * Update the NGINX deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted Nginx deployment
+   * @param deploymentName The name of targeted NGINX deployment
    * @param options The options parameters.
    */
   beginUpdate(
     resourceGroupName: string,
     deploymentName: string,
-    options?: DeploymentsUpdateOptionalParams
+    options?: DeploymentsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<DeploymentsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DeploymentsUpdateResponse>,
       DeploymentsUpdateResponse
     >
   >;
   /**
-   * Update the Nginx deployment
+   * Update the NGINX deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted Nginx deployment
+   * @param deploymentName The name of targeted NGINX deployment
    * @param options The options parameters.
    */
   beginUpdateAndWait(
     resourceGroupName: string,
     deploymentName: string,
-    options?: DeploymentsUpdateOptionalParams
+    options?: DeploymentsUpdateOptionalParams,
   ): Promise<DeploymentsUpdateResponse>;
   /**
-   * Delete the Nginx deployment resource
+   * Delete the NGINX deployment resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted Nginx deployment
+   * @param deploymentName The name of targeted NGINX deployment
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     deploymentName: string,
-    options?: DeploymentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: DeploymentsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Delete the Nginx deployment resource
+   * Delete the NGINX deployment resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted Nginx deployment
+   * @param deploymentName The name of targeted NGINX deployment
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     deploymentName: string,
-    options?: DeploymentsDeleteOptionalParams
+    options?: DeploymentsDeleteOptionalParams,
   ): Promise<void>;
 }

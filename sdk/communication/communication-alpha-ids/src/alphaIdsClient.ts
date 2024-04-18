@@ -42,13 +42,13 @@ export class AlphaIdsClient {
   public constructor(
     endpoint: string,
     credential: TokenCredential,
-    options?: AlphaIdsClientOptions
+    options?: AlphaIdsClientOptions,
   );
 
   public constructor(
     connectionStringOrUrl: string,
     credentialOrOptions?: KeyCredential | TokenCredential | AlphaIdsClientOptions,
-    maybeOptions: AlphaIdsClientOptions = {}
+    maybeOptions: AlphaIdsClientOptions = {},
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
     const options = isAlphaIdsClientOptions(credentialOrOptions)
@@ -73,34 +73,34 @@ export class AlphaIdsClient {
   }
 
   public getDynamicAlphaIdConfiguration(
-    options: GetConfigurationOptions = {}
+    options: GetConfigurationOptions = {},
   ): Promise<DynamicAlphaIdConfiguration> {
     return tracingClient.withSpan(
       "AlphaIdsClient-getConfiguration",
       options,
       async (updatedOptions) => {
         return this.client.alphaIds.getDynamicAlphaIdConfiguration(updatedOptions);
-      }
+      },
     );
   }
 
   public upsertDynamicAlphaIdConfiguration(
     enabled: boolean,
-    options: UpsertConfigurationOptions = {}
+    options: UpsertConfigurationOptions = {},
   ): Promise<DynamicAlphaIdConfiguration> {
     return tracingClient.withSpan(
       "AlphaIdsClient-upsertConfiguration",
       options,
       async (updatedOptions) => {
         return this.client.alphaIds.upsertDynamicAlphaIdConfiguration(enabled, updatedOptions);
-      }
+      },
     );
   }
 
   public getAlphaIds(options: ListAlphaIdsOptions = {}): PagedAsyncIterableIterator<AlphaId> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "AlphaIdsClient-listAlphaIds",
-      options
+      options,
     );
     try {
       return this.client.alphaIds.listAlphaIds(updatedOptions);
@@ -116,11 +116,11 @@ export class AlphaIdsClient {
   }
 
   public getDynamicAlphaIdCountries(
-    options: GetDynamicAlphaIdCountriesOptions = {}
+    options: GetDynamicAlphaIdCountriesOptions = {},
   ): Promise<SupportedCountries> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "AlphaIdsClient-getDynamicAlphaIdCountries",
-      options
+      options,
     );
     try {
       return this.client.alphaIds.getDynamicAlphaIdCountries(updatedOptions);
@@ -136,11 +136,11 @@ export class AlphaIdsClient {
   }
 
   public getPreRegisteredAlphaIdCountries(
-    options: GetPreRegisteredAlphaIdCountriesOptions = {}
+    options: GetPreRegisteredAlphaIdCountriesOptions = {},
   ): Promise<SupportedCountries> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "AlphaIdsClient-getPreRegisteredAlphaIdCountries",
-      options
+      options,
     );
     try {
       return this.client.alphaIds.getPreRegisteredAlphaIdCountries(updatedOptions);

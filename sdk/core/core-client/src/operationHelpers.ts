@@ -9,7 +9,9 @@ import {
   OperationRequest,
   OperationRequestInfo,
   ParameterPath,
-} from "./interfaces";
+} from "./interfaces.js";
+
+import { state } from "./state.js";
 
 /**
  * @internal
@@ -22,7 +24,7 @@ import {
 export function getOperationArgumentValueFromParameter(
   operationArguments: OperationArguments,
   parameter: OperationParameter,
-  fallbackObject?: { [parameterName: string]: any }
+  fallbackObject?: { [parameterName: string]: any },
 ): any {
   let parameterPath = parameter.parameterPath;
   const parameterMapper = parameter.mapper;
@@ -66,7 +68,7 @@ export function getOperationArgumentValueFromParameter(
           parameterPath: propertyPath,
           mapper: propertyMapper,
         },
-        fallbackObject
+        fallbackObject,
       );
       if (propertyValue !== undefined) {
         if (!value) {
@@ -86,7 +88,7 @@ interface PropertySearchResult {
 
 function getPropertyFromParameterPath(
   parent: { [parameterName: string]: any },
-  parameterPath: string[]
+  parameterPath: string[],
 ): PropertySearchResult {
   const result: PropertySearchResult = { propertyFound: false };
   let i = 0;
@@ -106,11 +108,10 @@ function getPropertyFromParameterPath(
   return result;
 }
 
-const operationRequestMap = new WeakMap<OperationRequest, OperationRequestInfo>();
 const originalRequestSymbol = Symbol.for("@azure/core-client original request");
 
 function hasOriginalRequest(
-  request: OperationRequest
+  request: OperationRequest,
 ): request is OperationRequest & { [originalRequestSymbol]: OperationRequest } {
   return originalRequestSymbol in request;
 }
@@ -119,11 +120,11 @@ export function getOperationRequestInfo(request: OperationRequest): OperationReq
   if (hasOriginalRequest(request)) {
     return getOperationRequestInfo(request[originalRequestSymbol]);
   }
-  let info = operationRequestMap.get(request);
+  let info = state.operationRequestMap.get(request);
 
   if (!info) {
     info = {};
-    operationRequestMap.set(request, info);
+    state.operationRequestMap.set(request, info);
   }
   return info;
 }

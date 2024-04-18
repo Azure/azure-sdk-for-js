@@ -1,4 +1,7 @@
-import { createPerfProgram } from "@azure/test-utils-perf";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { createPerfProgram } from "@azure-tools/test-perf";
 import { CreateSimpleEntityTest } from "./createSimpleEntity.spec";
 import { CreateSimpleEntityBatchTest } from "./createSimpleEntityBatchTest.spec";
 import { CreateComplexEntityTest } from "./createComplexEntity.spec";
@@ -17,7 +20,7 @@ const perfProgram = createPerfProgram(
   CreateComplexEntityTest,
   CreateComplexEntityBatchTest,
   ListSimpleEntitiesTest,
-  ListComplexEntitiesTest
+  ListComplexEntitiesTest,
 );
 
 perfProgram.run();

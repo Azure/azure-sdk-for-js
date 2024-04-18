@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { MsalClient, createMsalClient } from "../msal/nodeFlows/msalClient";
 import {
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
+
 import { ClientAssertionCredentialOptions } from "./clientAssertionCredentialOptions";
-import { MsalClientAssertion } from "../msal/nodeFlows/msalClientAssertion";
-import { MsalFlow } from "../msal/flows";
 import { credentialLogger } from "../util/logging";
 import { tracingClient } from "../util/tracing";
 
@@ -18,18 +18,18 @@ const logger = credentialLogger("ClientAssertionCredential");
  * Authenticates a service principal with a JWT assertion.
  */
 export class ClientAssertionCredential implements TokenCredential {
-  private msalFlow: MsalFlow;
+  private msalClient: MsalClient;
   private tenantId: string;
   private additionallyAllowedTenantIds: string[];
-  private clientId: string;
+  private getAssertion: () => Promise<string>;
   private options: ClientAssertionCredentialOptions;
 
   /**
    * Creates an instance of the ClientAssertionCredential with the details
-   * needed to authenticate against Azure Active Directory with a client
+   * needed to authenticate against Microsoft Entra ID with a client
    * assertion provided by the developer through the `getAssertion` function parameter.
    *
-   * @param tenantId - The Azure Active Directory tenant (directory) ID.
+   * @param tenantId - The Microsoft Entra tenant (directory) ID.
    * @param clientId - The client (application) ID of an App Registration in the tenant.
    * @param getAssertion - A function that retrieves the assertion for the credential to use.
    * @param options - Options for configuring the client which makes the authentication request.
@@ -38,31 +38,29 @@ export class ClientAssertionCredential implements TokenCredential {
     tenantId: string,
     clientId: string,
     getAssertion: () => Promise<string>,
-    options: ClientAssertionCredentialOptions = {}
+    options: ClientAssertionCredentialOptions = {},
   ) {
     if (!tenantId || !clientId || !getAssertion) {
       throw new Error(
-        "ClientAssertionCredential: tenantId, clientId, and clientAssertion are required parameters."
+        "ClientAssertionCredential: tenantId, clientId, and clientAssertion are required parameters.",
       );
     }
     this.tenantId = tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
-      options?.additionallyAllowedTenants
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
+      options?.additionallyAllowedTenants,
     );
-    this.clientId = clientId;
+
     this.options = options;
-    this.msalFlow = new MsalClientAssertion({
+    this.getAssertion = getAssertion;
+    this.msalClient = createMsalClient(clientId, tenantId, {
       ...options,
       logger,
-      clientId: this.clientId,
-      tenantId: this.tenantId,
       tokenCredentialOptions: this.options,
-      getAssertion,
     });
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
    * @param scopes - The list of scopes for which the token will have access.
@@ -78,12 +76,13 @@ export class ClientAssertionCredential implements TokenCredential {
           this.tenantId,
           newOptions,
           this.additionallyAllowedTenantIds,
-          logger
+          logger,
         );
 
+        const clientAssertion = await this.getAssertion();
         const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
-        return this.msalFlow.getToken(arrayScopes, newOptions);
-      }
+        return this.msalClient.getTokenByClientAssertion(arrayScopes, clientAssertion, newOptions);
+      },
     );
   }
 }

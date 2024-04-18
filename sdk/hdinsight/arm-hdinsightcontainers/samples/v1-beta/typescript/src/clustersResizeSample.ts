@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ClusterResizeData,
-  HDInsightContainersManagementClient
+  HDInsightContainersManagementClient,
 } from "@azure/arm-hdinsightcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Resize an existing Cluster.
  *
  * @summary Resize an existing Cluster.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-06-01-preview/examples/ResizeCluster.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-11-01-preview/examples/ResizeCluster.json
  */
 async function hdInsightClusterResize() {
   const subscriptionId =
@@ -33,18 +33,18 @@ async function hdInsightClusterResize() {
   const clusterName = "cluster1";
   const clusterResizeRequest: ClusterResizeData = {
     location: "West US 2",
-    targetWorkerNodeCount: 5
+    properties: { targetWorkerNodeCount: 5 },
   };
   const credential = new DefaultAzureCredential();
   const client = new HDInsightContainersManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.clusters.beginResizeAndWait(
     resourceGroupName,
     clusterPoolName,
     clusterName,
-    clusterResizeRequest
+    clusterResizeRequest,
   );
   console.log(result);
 }

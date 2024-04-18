@@ -132,7 +132,7 @@ export const caCertificateName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-06-01-preview",
+    defaultValue: "2023-12-15-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -579,6 +579,55 @@ export const partnerTopicInfo: OperationParameter = {
 export const partnerTopicUpdateParameters: OperationParameter = {
   parameterPath: "partnerTopicUpdateParameters",
   mapper: PartnerTopicUpdateParametersMapper
+};
+
+export const resourceType: OperationURLParameter = {
+  parameterPath: "resourceType",
+  mapper: {
+    serializedName: "resourceType",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const resourceName1: OperationURLParameter = {
+  parameterPath: "resourceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]*$"),
+      MaxLength: 50,
+      MinLength: 3
+    },
+    serializedName: "resourceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const perimeterGuid: OperationURLParameter = {
+  parameterPath: "perimeterGuid",
+  mapper: {
+    serializedName: "perimeterGuid",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const associationName: OperationURLParameter = {
+  parameterPath: "associationName",
+  mapper: {
+    serializedName: "associationName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const permissionBindingName: OperationURLParameter = {

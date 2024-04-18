@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { HealthcareApisManagementClient } from "../healthcareApisManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DicomService,
   DicomServicesListByWorkspaceNextOptionalParams,
@@ -179,8 +183,8 @@ export class DicomServicesImpl implements DicomServices {
     dicomservice: DicomService,
     options?: DicomServicesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DicomServicesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DicomServicesCreateOrUpdateResponse>,
       DicomServicesCreateOrUpdateResponse
     >
   > {
@@ -190,7 +194,7 @@ export class DicomServicesImpl implements DicomServices {
     ): Promise<DicomServicesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -223,19 +227,22 @@ export class DicomServicesImpl implements DicomServices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         dicomServiceName,
         dicomservice,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DicomServicesCreateOrUpdateResponse,
+      OperationState<DicomServicesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -282,8 +289,8 @@ export class DicomServicesImpl implements DicomServices {
     dicomservicePatchResource: DicomServicePatchResource,
     options?: DicomServicesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DicomServicesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DicomServicesUpdateResponse>,
       DicomServicesUpdateResponse
     >
   > {
@@ -293,7 +300,7 @@ export class DicomServicesImpl implements DicomServices {
     ): Promise<DicomServicesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -326,19 +333,22 @@ export class DicomServicesImpl implements DicomServices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         dicomServiceName,
         workspaceName,
         dicomservicePatchResource,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DicomServicesUpdateResponse,
+      OperationState<DicomServicesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -382,14 +392,14 @@ export class DicomServicesImpl implements DicomServices {
     dicomServiceName: string,
     workspaceName: string,
     options?: DicomServicesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -422,13 +432,13 @@ export class DicomServicesImpl implements DicomServices {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, dicomServiceName, workspaceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, dicomServiceName, workspaceName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -627,7 +637,6 @@ const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorDetails
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

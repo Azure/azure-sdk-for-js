@@ -25,12 +25,12 @@ describe("utils", () => {
   describe("waitForTimeoutAbortOrResolve", () => {
     let abortController: AbortController;
     let abortSignal: ReturnType<typeof getAbortSignalWithTracking>;
-    let ourTimerId: NodeJS.Timer | undefined;
+    let ourTimerId: NodeJS.Timeout | undefined;
     let timerWasCleared: boolean;
 
     let timeoutFunctions: {
       setTimeoutFn: (callback: (...args: any[]) => void, ms: number, ...args: any[]) => any;
-      clearTimeoutFn: (timeoutId: NodeJS.Timer) => void;
+      clearTimeoutFn: (timeoutId: NodeJS.Timeout) => void;
     };
 
     const neverFireMs = 10 * 1000;
@@ -50,14 +50,14 @@ describe("utils", () => {
 
         assert.notExists(
           ourTimerId,
-          "Definitely shouldn't schedule our timeout callback more than once"
+          "Definitely shouldn't schedule our timeout callback more than once",
         );
 
         ourTimerId = id;
         return id;
       };
 
-      const clearTimeoutFn = (timerIdToClear: NodeJS.Timer): any => {
+      const clearTimeoutFn = (timerIdToClear: NodeJS.Timeout): any => {
         assert.exists(timerIdToClear);
         assert.isFalse(timerWasCleared, "Timer should not be cleared multiple times");
         timerWasCleared = true;
@@ -95,7 +95,7 @@ describe("utils", () => {
 
       assert.isTrue(
         abortSignal.ourListenersWereRemoved(),
-        "All paths should properly clean up any event listeners on the signal"
+        "All paths should properly clean up any event listeners on the signal",
       );
       assert.isTrue(timerWasCleared);
     });
@@ -122,7 +122,7 @@ describe("utils", () => {
 
       assert.isTrue(
         abortSignal.ourListenersWereRemoved(),
-        "All paths should properly clean up any event listeners on the signal"
+        "All paths should properly clean up any event listeners on the signal",
       );
       // the abort signal is checked early, so the timeout never gets set up here.
       assert.notExists(ourTimerId);
@@ -168,7 +168,7 @@ describe("utils", () => {
 
       assert.isTrue(
         abortSignal.ourListenersWereRemoved(),
-        "All paths should properly clean up any event listeners on the signal"
+        "All paths should properly clean up any event listeners on the signal",
       );
       assert.isTrue(timerWasCleared);
     });
@@ -188,7 +188,7 @@ describe("utils", () => {
       assert.equal(result, 100);
       assert.isTrue(
         abortSignal.ourListenersWereRemoved(),
-        "All paths should properly clean up any event listeners on the signal"
+        "All paths should properly clean up any event listeners on the signal",
       );
       assert.isTrue(timerWasCleared);
     });
@@ -212,7 +212,7 @@ describe("utils", () => {
 
       assert.isTrue(
         abortSignal.ourListenersWereRemoved(),
-        "All paths should properly clean up any event listeners on the signal"
+        "All paths should properly clean up any event listeners on the signal",
       );
       assert.isTrue(timerWasCleared);
     });
@@ -356,14 +356,14 @@ describe("utils", () => {
 
       assert.notExists(
         spanContext,
-        `Missing property "${TRACEPARENT_PROPERTY}" should return undefined spanContext.`
+        `Missing property "${TRACEPARENT_PROPERTY}" should return undefined spanContext.`,
       );
     });
   });
 });
 
 function getAbortSignalWithTracking(
-  abortController: AbortController
+  abortController: AbortController,
 ): AbortSignalLike & { ourListenersWereRemoved(): boolean } {
   const signal = abortController.signal as any as ReturnType<typeof getAbortSignalWithTracking>;
 

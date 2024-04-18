@@ -4,18 +4,15 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { matrix } from "@azure/test-utils";
 import { Context } from "mocha";
-import { AuthMethod, createClient, startRecorder } from "../utils/recordedClient.js";
+import { createClient, startRecorder } from "../utils/recordedClient.js";
 import { OpenAIClient } from "../../../src/index.js";
 import * as fs from "fs/promises";
 import { AudioResultFormat } from "../../../src/models/audio.js";
-import {
-  formDataPolicyName,
-  formDataWithFileUploadPolicy,
-} from "../../../src/api/policies/formDataPolicy.js";
 import { assertAudioResult } from "../utils/asserts.js";
+import { AuthMethod } from "../types.js";
 
 function getModel(authMethod: AuthMethod): string {
-  return authMethod === "OpenAIKey" ? "whisper-1" : "whisper-deployment";
+  return authMethod === "OpenAIKey" ? "whisper-1" : "whisper";
 }
 
 describe("OpenAI", function () {
@@ -26,15 +23,29 @@ describe("OpenAI", function () {
 
       beforeEach(async function (this: Context) {
         recorder = await startRecorder(this.currentTest);
-        client = createClient(authMethod, { recorder });
-        client["_client"].pipeline.removePolicy({ name: formDataPolicyName });
-        client["_client"].pipeline.addPolicy(formDataWithFileUploadPolicy("6ceck6po4ai0tb2u"));
+        client = createClient(authMethod, "whisper", { recorder });
       });
 
       afterEach(async function () {
         if (recorder) {
           await recorder.stop();
         }
+      });
+
+      describe("getAudioTranscription", function () {
+        it(`returns json transcription if responseFormat wasn't specified`, async function () {
+          const file = await fs.readFile(`./assets/audio/countdown.mp3`);
+          const res = await client.getAudioTranscription(getModel(authMethod), file);
+          assertAudioResult("json", res);
+        });
+      });
+
+      describe("getAudioTranslation", function () {
+        it(`returns json translation if responseFormat wasn't specified`, async function () {
+          const file = await fs.readFile(`./assets/audio/countdown.mp3`);
+          const res = await client.getAudioTranslation(getModel(authMethod), file);
+          assertAudioResult("json", res);
+        });
       });
 
       matrix(
@@ -58,7 +69,7 @@ describe("OpenAI", function () {
               assertAudioResult(format, res);
             });
           });
-        }
+        },
       );
     });
   });

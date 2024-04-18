@@ -6,28 +6,32 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { MetricsImpl } from "./operations";
-import { Metrics } from "./operationsInterfaces";
+import { MetricsBatchImpl } from "./operations";
+import { MetricsBatch } from "./operationsInterfaces";
 import { AzureMonitorMetricBatchContext } from "./azureMonitorMetricBatchContext";
 import {
   AzureMonitorMetricBatchOptionalParams,
-  ApiVersion20230501Preview
+  ApiVersion20240201
 } from "./models";
 
 /** @internal */
 export class AzureMonitorMetricBatch extends AzureMonitorMetricBatchContext {
   /**
    * Initializes a new instance of the AzureMonitorMetricBatch class.
+   * @param endpoint The regional endpoint to use, for example https://eastus.metrics.monitor.azure.com.
+   *                 The region should match the region of the requested resources. For global resources, the region
+   *                 should be 'global'.
    * @param apiVersion Api Version
    * @param options The parameter options
    */
   constructor(
-    apiVersion: ApiVersion20230501Preview,
+    endpoint: string,
+    apiVersion: ApiVersion20240201,
     options?: AzureMonitorMetricBatchOptionalParams
   ) {
-    super(apiVersion, options);
-    this.metrics = new MetricsImpl(this);
+    super(endpoint, apiVersion, options);
+    this.metricsBatch = new MetricsBatchImpl(this);
   }
 
-  metrics: Metrics;
+  metricsBatch: MetricsBatch;
 }

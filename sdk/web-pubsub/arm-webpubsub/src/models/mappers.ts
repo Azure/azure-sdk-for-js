@@ -838,6 +838,21 @@ export const WebPubSubNetworkACLs: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      ipRules: {
+        constraints: {
+          MaxItems: 30
+        },
+        serializedName: "ipRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IPRule"
+            }
+          }
+        }
       }
     }
   }
@@ -868,6 +883,27 @@ export const NetworkACL: coreClient.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const IPRule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IPRule",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      },
+      action: {
+        serializedName: "action",
+        type: {
+          name: "String"
         }
       }
     }
@@ -2008,6 +2044,20 @@ export const WebPubSubResource: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      regionEndpointEnabled: {
+        defaultValue: "Enabled",
+        serializedName: "properties.regionEndpointEnabled",
+        type: {
+          name: "String"
+        }
+      },
+      resourceStopped: {
+        defaultValue: "false",
+        serializedName: "properties.resourceStopped",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2029,6 +2079,20 @@ export const Replica: coreClient.CompositeMapper = {
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      regionEndpointEnabled: {
+        defaultValue: "Enabled",
+        serializedName: "properties.regionEndpointEnabled",
+        type: {
+          name: "String"
+        }
+      },
+      resourceStopped: {
+        defaultValue: "false",
+        serializedName: "properties.resourceStopped",
         type: {
           name: "String"
         }

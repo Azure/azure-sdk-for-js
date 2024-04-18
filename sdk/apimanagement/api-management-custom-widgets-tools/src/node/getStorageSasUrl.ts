@@ -3,14 +3,14 @@
 
 import {
   InteractiveBrowserCredential,
-  InteractiveBrowserCredentialNodeOptions as IBCNOptions,
+  type InteractiveBrowserCredentialNodeOptions as IBCNOptions,
 } from "@azure/identity";
-import { ServiceInformation } from "./deploy";
+import { ServiceInformation } from "./deploy.js";
 import { getClient } from "@azure-rest/core-client";
 
 async function getAccessToken(
   managementApiEndpoint: string,
-  options?: IBCNOptions
+  options: IBCNOptions = {},
 ): Promise<string> {
   const credentials = new InteractiveBrowserCredential(options);
   const scope = `${managementApiEndpoint}/user_impersonation`;
@@ -30,7 +30,7 @@ async function getStorageSasUrl(
     apiVersion = "2019-01-01",
     tokenOverride,
   }: ServiceInformation,
-  interactiveBrowserCredentialOptions?: IBCNOptions
+  interactiveBrowserCredentialOptions?: IBCNOptions,
 ): Promise<string> {
   const httpClient = getClient(`${managementApiEndpoint}/${resourceId}`, { apiVersion });
   const response = await httpClient

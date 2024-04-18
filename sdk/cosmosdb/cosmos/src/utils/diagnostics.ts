@@ -9,8 +9,8 @@ import {
 } from "../diagnostics/DiagnosticNodeInternal";
 import { ClientContext } from "../ClientContext";
 import { getCurrentTimestampInMs } from "./time";
-import { v4 } from "uuid";
 import { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel";
+import { randomUUID } from "@azure/core-util";
 
 /**
  * @hidden
@@ -33,13 +33,13 @@ export function getEmptyCosmosDiagnostics(): CosmosDiagnostics {
       gatewayStatistics: [],
     },
     {
-      id: v4(),
+      id: randomUUID(),
       nodeType: DiagnosticNodeType.CLIENT_REQUEST_NODE,
       children: [],
       data: {},
       startTimeUTCInMs: getCurrentTimestampInMs(),
       durationInMs: 0,
-    }
+    },
   );
 }
 
@@ -55,12 +55,12 @@ export type ExtractPromise<T> = T extends Promise<infer U> ? U : never;
  * @hidden
  */
 export async function addDignosticChild<
-  Callback extends (node: DiagnosticNodeInternal) => Promise<any>
+  Callback extends (node: DiagnosticNodeInternal) => Promise<any>,
 >(
   callback: Callback,
   node: DiagnosticNodeInternal,
   type: DiagnosticNodeType,
-  data: Partial<DiagnosticDataValue> = {}
+  data: Partial<DiagnosticDataValue> = {},
 ): Promise<ExtractPromise<ReturnType<Callback>>> {
   const childNode = node.initializeChildNode(type, CosmosDbDiagnosticLevel.debug, data);
   try {
@@ -86,16 +86,16 @@ export async function addDignosticChild<
  * @hidden
  */
 export async function withMetadataDiagnostics<
-  Callback extends (node: DiagnosticNodeInternal) => Promise<any>
+  Callback extends (node: DiagnosticNodeInternal) => Promise<any>,
 >(
   callback: Callback,
   node: DiagnosticNodeInternal,
-  type: MetadataLookUpType
+  type: MetadataLookUpType,
 ): Promise<ExtractPromise<ReturnType<Callback>>> {
   const diagnosticNodeForMetadataCall = new DiagnosticNodeInternal(
     node.diagnosticLevel,
     DiagnosticNodeType.METADATA_REQUEST_NODE,
-    null
+    null,
   );
   try {
     const response: any = await callback(diagnosticNodeForMetadataCall);
@@ -128,11 +128,11 @@ export async function withMetadataDiagnostics<
  * @hidden
  */
 export async function withDiagnostics<
-  Callback extends (node: DiagnosticNodeInternal) => Promise<any>
+  Callback extends (node: DiagnosticNodeInternal) => Promise<any>,
 >(
   callback: Callback,
   clientContext: ClientContext,
-  type: DiagnosticNodeType = DiagnosticNodeType.CLIENT_REQUEST_NODE
+  type: DiagnosticNodeType = DiagnosticNodeType.CLIENT_REQUEST_NODE,
 ): Promise<ExtractPromise<ReturnType<Callback>>> {
   const diagnosticNode = new DiagnosticNodeInternal(clientContext.diagnosticLevel, type, null);
   try {

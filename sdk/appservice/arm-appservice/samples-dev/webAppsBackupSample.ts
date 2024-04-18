@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Creates a backup of an app.
  *
  * @summary Description for Creates a backup of an app.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/BackupWebApp.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/BackupWebApp.json
  */
 async function backupWebApp() {
   const subscriptionId =

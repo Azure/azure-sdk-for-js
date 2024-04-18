@@ -38,6 +38,7 @@ const config = {
       extensions: [".ts", ".js"],
       fallback: {
         "child_process": false,
+        "stream": false,
         // and also other packages that are not found
       }
     },

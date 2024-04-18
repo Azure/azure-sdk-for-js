@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ContinuousBackupRestoreLocation,
-  CosmosDBManagementClient
+  CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves continuous backup information for a gremlin graph.
  *
  * @summary Retrieves continuous backup information for a gremlin graph.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBGremlinGraphBackupInformation.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBGremlinGraphBackupInformation.json
  */
 async function cosmosDbGremlinGraphBackupInformation() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -30,17 +30,18 @@ async function cosmosDbGremlinGraphBackupInformation() {
   const databaseName = "databaseName";
   const graphName = "graphName";
   const location: ContinuousBackupRestoreLocation = {
-    location: "North Europe"
+    location: "North Europe",
   };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.gremlinResources.beginRetrieveContinuousBackupInformationAndWait(
-    resourceGroupName,
-    accountName,
-    databaseName,
-    graphName,
-    location
-  );
+  const result =
+    await client.gremlinResources.beginRetrieveContinuousBackupInformationAndWait(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      graphName,
+      location,
+    );
   console.log(result);
 }
 

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a msixpackage.
  *
  * @summary Get a msixpackage.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2022-09-09/examples/MsixPackage_Get.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/MsixPackage_Get.json
  */
 async function msixPackageGet() {
   const subscriptionId =

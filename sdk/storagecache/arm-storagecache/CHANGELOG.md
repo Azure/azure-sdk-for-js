@@ -1,6 +1,6 @@
 # Release History
 
-## 7.0.1 (Unreleased)
+## 7.1.0-beta.2 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,17 @@
 
 ### Other Changes
 
+## 7.1.0-beta.1 (2024-02-01)
+    
+**Features**
+
+  - Added Interface AmlFilesystemRootSquashSettings
+  - Added Type Alias AmlFilesystemSquashMode
+  - Interface AmlFilesystem has a new optional parameter rootSquashSettings
+  - Interface AmlFilesystemUpdate has a new optional parameter rootSquashSettings
+  - Added Enum KnownAmlFilesystemSquashMode
+    
+    
 ## 7.0.0 (2023-06-09)
     
 **Features**

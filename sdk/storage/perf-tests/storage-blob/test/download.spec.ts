@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { drainStream, PerfOptionDictionary } from "@azure/test-utils-perf";
+import { drainStream, PerfOptionDictionary } from "@azure-tools/test-perf";
 import { StorageBlobTest } from "./storageTest.spec";
 import { BlockBlobClient } from "@azure/storage-blob";
 import { randomUUID } from "@azure/core-util";
@@ -27,7 +27,7 @@ export class StorageBlobDownloadTest extends StorageBlobTest<StorageBlobDownload
   constructor() {
     super();
     this.blockBlobClient = this.containerClient.getBlockBlobClient(
-      StorageBlobDownloadTest.blobName
+      StorageBlobDownloadTest.blobName,
     );
   }
 
@@ -37,7 +37,7 @@ export class StorageBlobDownloadTest extends StorageBlobTest<StorageBlobDownload
     // Create a blob
     await this.blockBlobClient.upload(
       Buffer.alloc(this.parsedOptions.size.value),
-      this.parsedOptions.size.value
+      this.parsedOptions.size.value,
     );
   }
 

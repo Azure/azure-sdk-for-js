@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfOptionDictionary } from "@azure/test-utils-perf";
+import { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { StorageDFSTest } from "./storageTest.spec";
 import { DataLakeFileClient } from "@azure/storage-file-datalake";
-import { v4 as generateUuid } from "uuid";
+import { randomUUID } from "@azure/core-util";
+
 interface StorageDFSAppendTestOptions {
   size: number;
 }
@@ -24,7 +25,7 @@ export class StorageDFSAppendTest extends StorageDFSTest<StorageDFSAppendTestOpt
 
   constructor() {
     super();
-    this.fileClient = this.directoryClient.getFileClient(generateUuid());
+    this.fileClient = this.directoryClient.getFileClient(randomUUID());
     this.buffer = Buffer.alloc(this.parsedOptions.size.value!);
   }
 

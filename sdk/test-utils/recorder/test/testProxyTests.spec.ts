@@ -3,11 +3,10 @@
 
 import { ServiceClient } from "@azure/core-client";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
-import assert from "assert";
-import { expect } from "chai";
-import { CustomMatcherOptions, isPlaybackMode, Recorder } from "../src";
-import { isLiveMode, TestMode } from "../src/utils/utils";
-import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils";
+import { CustomMatcherOptions, isPlaybackMode, Recorder } from "../src/index.js";
+import { isLiveMode, TestMode } from "../src/utils/utils.js";
+import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils.js";
+import { describe, it, assert, expect, beforeEach, afterEach, beforeAll } from "vitest";
 
 // These tests require the following to be running in parallel
 // - utils/server.ts (to serve requests to act as a service)
@@ -17,16 +16,16 @@ import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./ut
     let recorder: Recorder;
     let client: ServiceClient;
 
-    before(() => {
+    beforeAll(() => {
       setTestMode(mode);
     });
 
-    beforeEach(async function () {
-      recorder = new Recorder(this.currentTest);
+    beforeEach(async function (context) {
+      recorder = new Recorder(context);
       client = new ServiceClient(recorder.configureClientOptions({ baseUri: TEST_SERVER_URL }));
     });
 
-    afterEach(async () => {
+    afterEach(async function () {
       await recorder.stop();
     });
 
@@ -35,27 +34,27 @@ import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./ut
       await makeRequestAndVerifyResponse(
         client,
         { path: `/sample_response`, method: "GET" },
-        { val: "abc" }
+        { val: "abc" },
       );
     });
 
-    it("redirect (redirect location has host)", async function (this: Mocha.Context) {
+    it("redirect (redirect location has host)", async function () {
       await recorder.start({ envSetupForPlayback: {} });
 
       await makeRequestAndVerifyResponse(
         client,
         { path: `/redirectWithHost`, method: "GET" },
-        { val: "abc" }
+        { val: "abc" },
       );
     });
 
-    it("redirect (redirect location is relative)", async function (this: Mocha.Context) {
+    it("redirect (redirect location is relative)", async function () {
       await recorder.start({ envSetupForPlayback: {} });
 
       await makeRequestAndVerifyResponse(
         client,
         { path: `/redirectWithoutHost`, method: "GET" },
-        { val: "abc" }
+        { val: "abc" },
       );
     });
 
@@ -64,7 +63,7 @@ import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./ut
       await makeRequestAndVerifyResponse(
         client,
         { path: "/reset_retry", method: "GET" },
-        undefined
+        undefined,
       );
       await makeRequestAndVerifyResponse(client, { path: "/retry", method: "GET" }, { val: "abc" });
     });
@@ -77,11 +76,11 @@ import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./ut
         {
           path: `/sample_response/${recorder.variable(
             "random-1",
-            `random-${Math.ceil(Math.random() * 1000 + 1000)}`
+            `random-${Math.ceil(Math.random() * 1000 + 1000)}`,
           )}`,
           method: "GET",
         },
-        { val: "I am the answer!" }
+        { val: "I am the answer!" },
       );
       await makeRequestAndVerifyResponse(
         client,
@@ -89,7 +88,7 @@ import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./ut
           path: `/sample_response/${recorder.variable("random-2", "known-string")}`,
           method: "GET",
         },
-        { val: "I am the answer!" }
+        { val: "I am the answer!" },
       );
     });
 
@@ -105,7 +104,7 @@ import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./ut
 
           const rsp = await client.sendRequest(req);
           expect(rsp.status).to.be.within(200, 299);
-        })
+        }),
       ));
 
     it("allows multiple consecutive slashes at the start of the path", async () => {
@@ -113,7 +112,7 @@ import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./ut
       await makeRequestAndVerifyResponse(
         client,
         { path: "///multiple_slashes", method: "GET" },
-        { val: "abc" }
+        { val: "abc" },
       );
     });
 
@@ -128,7 +127,7 @@ import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./ut
       assert.strictEqual(
         req.url,
         TEST_SERVER_URL + "/sample_response",
-        "Looks like the url is not the same"
+        "Looks like the url is not the same",
       );
     });
 
@@ -150,7 +149,7 @@ import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./ut
             method: "POST",
             headers: [{ headerName: "Content-Type", value: "text/plain" }],
           },
-          { val: "abc" }
+          { val: "abc" },
         );
       });
 
@@ -171,7 +170,7 @@ import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./ut
             method: "POST",
             headers: [{ headerName: "Content-Type", value: "text/plain" }, testHeader],
           },
-          { val: "abc" }
+          { val: "abc" },
         );
       });
 
@@ -196,7 +195,7 @@ import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./ut
               method: "POST",
               headers: [{ headerName: "Content-Type", value: "text/plain" }, testHeader],
             },
-            { val: "abc" }
+            { val: "abc" },
           );
         });
 
@@ -219,10 +218,10 @@ import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./ut
               body: "body",
               method: "POST",
               headers: [{ headerName: "Content-Type", value: "text/plain" }].concat(
-                !isPlaybackMode() ? [testHeader] : []
+                !isPlaybackMode() ? [testHeader] : [],
               ),
             },
-            { val: "abc" }
+            { val: "abc" },
           );
         });
 
@@ -246,7 +245,7 @@ import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./ut
               method: "POST",
               headers: [{ headerName: "Content-Type", value: "text/plain" }, testHeader],
             },
-            { val: "abc" }
+            { val: "abc" },
           );
         });
 
@@ -269,7 +268,7 @@ import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./ut
               method: "POST",
               headers: [{ headerName: "Content-Type", value: "text/plain" }],
             },
-            { val: "abc" }
+            { val: "abc" },
           );
         });
 
@@ -289,7 +288,7 @@ import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./ut
               method: "POST",
               headers: [{ headerName: "Content-Type", value: "text/plain" }],
             },
-            { val: "abc" }
+            { val: "abc" },
           );
         });
       });
@@ -314,7 +313,7 @@ import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./ut
             ],
           },
           { val: "abc" },
-          isPlaybackMode() ? { "api-version": "myapiversion" } : {}
+          isPlaybackMode() ? { "api-version": "myapiversion" } : {},
         );
       });
 
@@ -334,7 +333,7 @@ import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./ut
             ],
           },
           { val: "abc" },
-          isPlaybackMode() ? { "x-ms-client-id": "myclientid" } : {}
+          isPlaybackMode() ? { "x-ms-client-id": "myclientid" } : {},
         );
       });
 
@@ -354,7 +353,7 @@ import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./ut
             headers: [{ headerName: "Content-Type", value: "text/plain" }],
           },
           { val: "abc" },
-          isPlaybackMode() ? { "x-test-header": "test-value" } : {}
+          isPlaybackMode() ? { "x-test-header": "test-value" } : {},
         );
       });
 
@@ -374,7 +373,7 @@ import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./ut
             ],
           },
           { val: "abc" },
-          isPlaybackMode() ? { "x-ms-client-request-id": "requestid" } : {}
+          isPlaybackMode() ? { "x-ms-client-request-id": "requestid" } : {},
         );
       });
     });

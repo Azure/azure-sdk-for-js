@@ -35,7 +35,7 @@ async function getVirtualMachineScaleSetVMExtension() {
       resourceGroupName,
       vmScaleSetName,
       instanceId,
-      vmExtensionName
+      vmExtensionName,
     )
     .get(options);
   console.log(result);

@@ -1,6 +1,40 @@
 # Release History
 
-## 4.0.0 (Unreleased)
+## 4.2.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Handle translation of ErrorEvent properly [PR #29297](https://github.com/Azure/azure-sdk-for-js/pull/29297)
+
+### Other Changes
+
+## 4.2.1 (2024-03-04)
+
+### Other Changes
+
+- Update the message of the error thrown from `retry` to include all errors occurred between retries.
+
+## 4.2.0 (2024-02-01)
+
+### Bugs Fixed
+
+- Correct timeToLive calculation to use absolute expiry time.
+
+### Other Changes
+
+- Upgrade dependency `@azure/abort-controller` version to `^2.0.0`.
+
+## 4.1.0 (2023-11-07)
+
+### Other Changes
+
+- Add a retryable client error that is thrown when the sender link is not ready.
+
+## 4.0.0 (2023-10-10)
 
 ### Features Added
 
@@ -9,10 +43,6 @@
 ### Breaking Changes
 
 - The `TokenProvider` and the `getToken` method has been changed to be async as it uses the underlying native crypto which is async.
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 3.3.0 (2023-04-06)
 

@@ -14,7 +14,7 @@ export interface CreateTestSerializerOptions<T> {
 }
 
 export async function createTestSerializer<T>(
-  options: CreateTestSerializerOptions<T> = {}
+  options: CreateTestSerializerOptions<T> = {},
 ): Promise<JsonSerializer<T>> {
   const {
     serializerOptions = { groupName: testGroup },

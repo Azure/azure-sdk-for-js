@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the Gremlin databases under an existing Azure Cosmos DB database account.
  *
  * @summary Lists the Gremlin databases under an existing Azure Cosmos DB database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBGremlinDatabaseList.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBGremlinDatabaseList.json
  */
 async function cosmosDbGremlinDatabaseList() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -29,7 +29,7 @@ async function cosmosDbGremlinDatabaseList() {
   const resArray = new Array();
   for await (let item of client.gremlinResources.listGremlinDatabases(
     resourceGroupName,
-    accountName
+    accountName,
   )) {
     resArray.push(item);
   }

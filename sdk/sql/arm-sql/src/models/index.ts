@@ -589,40 +589,6 @@ export interface FirewallRuleList {
   values?: FirewallRule[];
 }
 
-/** An ARM Resource SKU. */
-export interface Sku {
-  /** The name of the SKU, typically, a letter + Number code, e.g. P3. */
-  name: string;
-  /** The tier or edition of the particular SKU, e.g. Basic, Premium. */
-  tier?: string;
-  /** Size of the particular SKU */
-  size?: string;
-  /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
-  family?: string;
-  /** Capacity of the particular SKU. */
-  capacity?: number;
-}
-
-/** An update to an Instance pool. */
-export interface InstancePoolUpdate {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-}
-
-/** A list of Azure SQL instance pools. */
-export interface InstancePoolListResult {
-  /**
-   * Array of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: InstancePool[];
-  /**
-   * Link to retrieve next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
 /** A list of Azure SQL job agents. */
 export interface JobAgentListResult {
   /**
@@ -635,6 +601,20 @@ export interface JobAgentListResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
+}
+
+/** An ARM Resource SKU. */
+export interface Sku {
+  /** The name of the SKU, typically, a letter + Number code, e.g. P3. */
+  name: string;
+  /** The tier or edition of the particular SKU, e.g. Basic, Premium. */
+  tier?: string;
+  /** Size of the particular SKU */
+  size?: string;
+  /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
+  family?: string;
+  /** Capacity of the particular SKU. */
+  capacity?: number;
 }
 
 /** An update to an Azure SQL job agent. */
@@ -688,6 +668,20 @@ export interface JobExecutionTarget {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly databaseName?: string;
+}
+
+/** A list of job agent private endpoints. */
+export interface JobPrivateEndpointListResult {
+  /**
+   * Array of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: JobPrivateEndpoint[];
+  /**
+   * Link to retrieve next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
 /** A list of jobs. */
@@ -1528,20 +1522,6 @@ export interface InstancePoolVcoresCapability {
   readonly status?: CapabilityStatus;
   /** The reason for the capability not being available. */
   reason?: string;
-}
-
-/** A list of long term retention policies. */
-export interface LongTermRetentionPolicyListResult {
-  /**
-   * Array of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: LongTermRetentionPolicy[];
-  /**
-   * Link to retrieve next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
 }
 
 /** Maintenance window time range. */
@@ -2797,42 +2777,6 @@ export interface Name {
   value?: string;
   /** Usage name localized value. */
   localizedValue?: string;
-}
-
-/** Contains the information necessary to perform long term retention backup copy operation. */
-export interface CopyLongTermRetentionBackupParameters {
-  /** The subscription that owns the target server */
-  targetSubscriptionId?: string;
-  /** The resource group that owns the target server */
-  targetResourceGroup?: string;
-  /** The resource Id of the target server that owns the database */
-  targetServerResourceId?: string;
-  /** The fully qualified domain name of the target server */
-  targetServerFullyQualifiedDomainName?: string;
-  /** The name of the database owns the copied backup. */
-  targetDatabaseName?: string;
-  /** The storage redundancy type of the copied backup */
-  targetBackupStorageRedundancy?: BackupStorageRedundancy;
-}
-
-/** Contains the information necessary to perform long term retention backup update operation. */
-export interface UpdateLongTermRetentionBackupParameters {
-  /** The storage redundancy type of the copied backup */
-  requestedBackupStorageRedundancy?: BackupStorageRedundancy;
-}
-
-/** A list of long term retention backups. */
-export interface LongTermRetentionBackupListResult {
-  /**
-   * Array of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: LongTermRetentionBackup[];
-  /**
-   * Link to retrieve next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
 }
 
 /** A list of long term retention backups for managed database(s). */
@@ -4387,6 +4331,208 @@ export interface SqlVulnerabilityAssessmentListResult {
   readonly nextLink?: string;
 }
 
+/** A list of failover groups. */
+export interface FailoverGroupListResult {
+  /**
+   * Array of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: FailoverGroup[];
+  /**
+   * Link to retrieve next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Read-write endpoint of the failover group instance. */
+export interface FailoverGroupReadWriteEndpoint {
+  /** Failover policy of the read-write endpoint for the failover group. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required. */
+  failoverPolicy: ReadWriteEndpointFailoverPolicy;
+  /** Grace period before failover with data loss is attempted for the read-write endpoint. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required. */
+  failoverWithDataLossGracePeriodMinutes?: number;
+}
+
+/** Read-only endpoint of the failover group instance. */
+export interface FailoverGroupReadOnlyEndpoint {
+  /** Failover policy of the read-only endpoint for the failover group. */
+  failoverPolicy?: ReadOnlyEndpointFailoverPolicy;
+  /** The target partner server where the read-only endpoint points to. */
+  targetServer?: string;
+}
+
+/** Partner server information for the failover group. */
+export interface PartnerInfo {
+  /** Resource identifier of the partner server. */
+  id: string;
+  /**
+   * Geo location of the partner server.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly location?: string;
+  /**
+   * Replication role of the partner server.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly replicationRole?: FailoverGroupReplicationRole;
+}
+
+/** A failover group update request. */
+export interface FailoverGroupUpdate {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Read-write endpoint of the failover group instance. */
+  readWriteEndpoint?: FailoverGroupReadWriteEndpoint;
+  /** Read-only endpoint of the failover group instance. */
+  readOnlyEndpoint?: FailoverGroupReadOnlyEndpoint;
+  /** List of databases in the failover group. */
+  databases?: string[];
+  /** List of partner server information for the failover group. */
+  partnerServers?: PartnerInfo[];
+}
+
+/** A list of Azure SQL instance pools. */
+export interface InstancePoolListResult {
+  /**
+   * Array of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: InstancePool[];
+  /**
+   * Link to retrieve next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** An update to an Instance pool. */
+export interface InstancePoolUpdate {
+  /** The name and tier of the SKU. */
+  sku?: Sku;
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Resource ID of the subnet to place this instance pool in. */
+  subnetId?: string;
+  /** Count of vCores belonging to this instance pool. */
+  vCores?: number;
+  /** The license type. Possible values are 'LicenseIncluded' (price for SQL license is included) and 'BasePrice' (without SQL license price). */
+  licenseType?: InstancePoolLicenseType;
+  /**
+   * The Dns Zone that the managed instance pool is in.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dnsZone?: string;
+  /** Specifies maintenance configuration id to apply to this managed instance. */
+  maintenanceConfigurationId?: string;
+}
+
+/** A list of long term retention backups. */
+export interface LongTermRetentionBackupListResult {
+  /**
+   * Array of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: LongTermRetentionBackup[];
+  /**
+   * Link to retrieve next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** Contains the information necessary to change long term retention backup access tier and related operation mode. */
+export interface ChangeLongTermRetentionBackupAccessTierParameters {
+  /** The long term retention backup storage access tier */
+  backupStorageAccessTier: string;
+  /** The operation mode when updating ltr backup storage access tier */
+  operationMode: string;
+}
+
+/** Contains the information necessary to perform long term retention backup copy operation. */
+export interface CopyLongTermRetentionBackupParameters {
+  /** The subscription that owns the target server */
+  targetSubscriptionId?: string;
+  /** The resource group that owns the target server */
+  targetResourceGroup?: string;
+  /** The resource Id of the target server that owns the database */
+  targetServerResourceId?: string;
+  /** The fully qualified domain name of the target server */
+  targetServerFullyQualifiedDomainName?: string;
+  /** The name of the database owns the copied backup. */
+  targetDatabaseName?: string;
+  /** The storage redundancy type of the copied backup */
+  targetBackupStorageRedundancy?: BackupStorageRedundancy;
+}
+
+/** Contains the information necessary to perform long term retention backup update operation. */
+export interface UpdateLongTermRetentionBackupParameters {
+  /** The storage redundancy type of the copied backup */
+  requestedBackupStorageRedundancy?: BackupStorageRedundancy;
+}
+
+/** A list of long term retention policies. */
+export interface LongTermRetentionPolicyListResult {
+  /**
+   * Array of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: LongTermRetentionPolicy[];
+  /**
+   * Link to retrieve next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
 /** A request to check whether the specified name for a resource is available. */
 export interface CheckNameAvailabilityRequest {
   name: string;
@@ -4488,8 +4634,8 @@ export interface ServerUpdate {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: ServerPrivateEndpointConnection[];
-  /** Minimal TLS version. Allowed values: 'None', '1.0', '1.1', '1.2' */
-  minimalTlsVersion?: string;
+  /** Minimal TLS version. Allowed values: 'None', 1.0', '1.1', '1.2', '1.3' */
+  minimalTlsVersion?: MinimalTlsVersion;
   /** Whether or not public endpoint access is allowed for this server.  Value is optional but if passed in, must be 'Enabled' or 'Disabled' or 'SecuredByPerimeter' */
   publicNetworkAccess?: ServerPublicNetworkAccessFlag;
   /**
@@ -4540,66 +4686,6 @@ export interface ImportNewDatabaseDefinition {
   authenticationType?: string;
   /** Optional resource information to enable network isolation for request. */
   networkIsolation?: NetworkIsolationSettings;
-}
-
-/** A list of failover groups. */
-export interface FailoverGroupListResult {
-  /**
-   * Array of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: FailoverGroup[];
-  /**
-   * Link to retrieve next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Read-write endpoint of the failover group instance. */
-export interface FailoverGroupReadWriteEndpoint {
-  /** Failover policy of the read-write endpoint for the failover group. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required. */
-  failoverPolicy: ReadWriteEndpointFailoverPolicy;
-  /** Grace period before failover with data loss is attempted for the read-write endpoint. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required. */
-  failoverWithDataLossGracePeriodMinutes?: number;
-}
-
-/** Read-only endpoint of the failover group instance. */
-export interface FailoverGroupReadOnlyEndpoint {
-  /** Failover policy of the read-only endpoint for the failover group. */
-  failoverPolicy?: ReadOnlyEndpointFailoverPolicy;
-  /** The target partner server where the read-only endpoint points to. */
-  targetServer?: string;
-}
-
-/** Partner server information for the failover group. */
-export interface PartnerInfo {
-  /** Resource identifier of the partner server. */
-  id: string;
-  /**
-   * Geo location of the partner server.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly location?: string;
-  /**
-   * Replication role of the partner server.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly replicationRole?: FailoverGroupReplicationRole;
-}
-
-/** A failover group update request. */
-export interface FailoverGroupUpdate {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** Read-write endpoint of the failover group instance. */
-  readWriteEndpoint?: FailoverGroupReadWriteEndpoint;
-  /** Read-only endpoint of the failover group instance. */
-  readOnlyEndpoint?: FailoverGroupReadOnlyEndpoint;
-  /** List of databases in the failover group. */
-  databases?: string[];
-  /** List of partner server information for the failover group. */
-  partnerServers?: PartnerInfo[];
 }
 
 /** A Slo Usage Metric. */
@@ -5515,6 +5601,17 @@ export interface JobExecution extends ProxyResource {
   readonly target?: JobExecutionTarget;
 }
 
+/** A job agent private endpoint. */
+export interface JobPrivateEndpoint extends ProxyResource {
+  /** ARM resource id of the server the private endpoint will target. */
+  targetServerAzureResourceId?: string;
+  /**
+   * Private endpoint id of the private endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointId?: string;
+}
+
 /** A job. */
 export interface Job extends ProxyResource {
   /** User-defined description of the job. */
@@ -5552,18 +5649,6 @@ export interface JobTargetGroup extends ProxyResource {
 
 /** A job version. */
 export interface JobVersion extends ProxyResource {}
-
-/** A long term retention policy. */
-export interface LongTermRetentionPolicy extends ProxyResource {
-  /** The weekly retention policy for an LTR backup in an ISO 8601 format. */
-  weeklyRetention?: string;
-  /** The monthly retention policy for an LTR backup in an ISO 8601 format. */
-  monthlyRetention?: string;
-  /** The yearly retention policy for an LTR backup in an ISO 8601 format. */
-  yearlyRetention?: string;
-  /** The week of year to take the yearly backup in an ISO 8601 format. */
-  weekOfYear?: number;
-}
 
 /** Maintenance window options. */
 export interface MaintenanceWindowOptions extends ProxyResource {
@@ -6649,86 +6734,6 @@ export interface OutboundFirewallRule extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-}
-
-/** A LongTermRetentionBackup operation result resource. */
-export interface LongTermRetentionBackupOperationResult extends ProxyResource {
-  /**
-   * Request Id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly requestId?: string;
-  /**
-   * Operation type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operationType?: string;
-  /**
-   * Source backup resource id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fromBackupResourceId?: string;
-  /**
-   * Target backup resource id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly toBackupResourceId?: string;
-  /**
-   * The storage redundancy type of the copied backup
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetBackupStorageRedundancy?: BackupStorageRedundancy;
-  /**
-   * Operation status
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: string;
-  /**
-   * Progress message
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-}
-
-/** A long term retention backup. */
-export interface LongTermRetentionBackup extends ProxyResource {
-  /**
-   * The server name that the backup database belong to.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serverName?: string;
-  /**
-   * The create time of the server.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serverCreateTime?: Date;
-  /**
-   * The name of the database the backup belong to
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly databaseName?: string;
-  /**
-   * The delete time of the database
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly databaseDeletionTime?: Date;
-  /**
-   * The time the backup was taken
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly backupTime?: Date;
-  /**
-   * The time the long term retention backup will expire.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly backupExpirationTime?: Date;
-  /**
-   * The storage redundancy type of the backup
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly backupStorageRedundancy?: BackupStorageRedundancy;
-  /** The storage redundancy type of the backup */
-  requestedBackupStorageRedundancy?: BackupStorageRedundancy;
 }
 
 /** A long term retention backup for a managed database. */
@@ -8157,6 +8162,138 @@ export interface SqlVulnerabilityAssessment extends ProxyResource {
   state?: SqlVulnerabilityAssessmentState;
 }
 
+/** A failover group. */
+export interface FailoverGroup extends ProxyResource {
+  /**
+   * Resource location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly location?: string;
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Read-write endpoint of the failover group instance. */
+  readWriteEndpoint?: FailoverGroupReadWriteEndpoint;
+  /** Read-only endpoint of the failover group instance. */
+  readOnlyEndpoint?: FailoverGroupReadOnlyEndpoint;
+  /**
+   * Local replication role of the failover group instance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly replicationRole?: FailoverGroupReplicationRole;
+  /**
+   * Replication state of the failover group instance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly replicationState?: string;
+  /** List of partner server information for the failover group. */
+  partnerServers?: PartnerInfo[];
+  /** List of databases in the failover group. */
+  databases?: string[];
+}
+
+/** A long term retention backup. */
+export interface LongTermRetentionBackup extends ProxyResource {
+  /**
+   * The server name that the backup database belong to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverName?: string;
+  /**
+   * The create time of the server.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverCreateTime?: Date;
+  /**
+   * The name of the database the backup belong to
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly databaseName?: string;
+  /**
+   * The delete time of the database
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly databaseDeletionTime?: Date;
+  /**
+   * The time the backup was taken
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly backupTime?: Date;
+  /**
+   * The time the long term retention backup will expire.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly backupExpirationTime?: Date;
+  /**
+   * The storage redundancy type of the backup
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly backupStorageRedundancy?: BackupStorageRedundancy;
+  /** The storage redundancy type of the backup */
+  requestedBackupStorageRedundancy?: BackupStorageRedundancy;
+  /** The setting whether the LTR backup is immutable */
+  isBackupImmutable?: boolean;
+  /**
+   * The BackupStorageAccessTier for the LTR backup
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly backupStorageAccessTier?: BackupStorageAccessTier;
+}
+
+/** A LongTermRetentionBackup operation result resource. */
+export interface LongTermRetentionBackupOperationResult extends ProxyResource {
+  /**
+   * Request Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requestId?: string;
+  /**
+   * Operation type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationType?: string;
+  /**
+   * Source backup resource id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fromBackupResourceId?: string;
+  /**
+   * Target backup resource id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly toBackupResourceId?: string;
+  /**
+   * The storage redundancy type of the copied backup
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetBackupStorageRedundancy?: BackupStorageRedundancy;
+  /**
+   * Operation status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+  /**
+   * Progress message
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+}
+
+/** A long term retention policy. */
+export interface LongTermRetentionPolicy extends ProxyResource {
+  /** The setting whether to make LTR backups immutable */
+  makeBackupsImmutable?: boolean;
+  /** The BackupStorageAccessTier for the LTR backups */
+  backupStorageAccessTier?: BackupStorageAccessTier;
+  /** The weekly retention policy for an LTR backup in an ISO 8601 format. */
+  weeklyRetention?: string;
+  /** The monthly retention policy for an LTR backup in an ISO 8601 format. */
+  monthlyRetention?: string;
+  /** The yearly retention policy for an LTR backup in an ISO 8601 format. */
+  yearlyRetention?: string;
+  /** The week of year to take the yearly backup in an ISO 8601 format. */
+  weekOfYear?: number;
+}
+
 /** An RefreshExternalGovernanceStatus operation result resource. */
 export interface RefreshExternalGovernanceStatusOperationResult
   extends ProxyResource {
@@ -8190,47 +8327,6 @@ export interface RefreshExternalGovernanceStatusOperationResult
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly errorMessage?: string;
-}
-
-/** A failover group. */
-export interface FailoverGroup extends ProxyResource {
-  /**
-   * Resource location.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly location?: string;
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** Read-write endpoint of the failover group instance. */
-  readWriteEndpoint?: FailoverGroupReadWriteEndpoint;
-  /** Read-only endpoint of the failover group instance. */
-  readOnlyEndpoint?: FailoverGroupReadOnlyEndpoint;
-  /**
-   * Local replication role of the failover group instance.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly replicationRole?: FailoverGroupReplicationRole;
-  /**
-   * Replication state of the failover group instance.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly replicationState?: string;
-  /** List of partner server information for the failover group. */
-  partnerServers?: PartnerInfo[];
-  /** List of databases in the failover group. */
-  databases?: string[];
-}
-
-/** An Azure SQL instance pool. */
-export interface InstancePool extends TrackedResource {
-  /** The name and tier of the SKU. */
-  sku?: Sku;
-  /** Resource ID of the subnet to place this instance pool in. */
-  subnetId?: string;
-  /** Count of vCores belonging to this instance pool. */
-  vCores?: number;
-  /** The license type. Possible values are 'LicenseIncluded' (price for SQL license is included) and 'BasePrice' (without SQL license price). */
-  licenseType?: InstancePoolLicenseType;
 }
 
 /** An Azure SQL job agent. */
@@ -8714,6 +8810,25 @@ export interface ManagedInstance extends TrackedResource {
   servicePrincipal?: ServicePrincipal;
 }
 
+/** An Azure SQL instance pool. */
+export interface InstancePool extends TrackedResource {
+  /** The name and tier of the SKU. */
+  sku?: Sku;
+  /** Resource ID of the subnet to place this instance pool in. */
+  subnetId?: string;
+  /** Count of vCores belonging to this instance pool. */
+  vCores?: number;
+  /** The license type. Possible values are 'LicenseIncluded' (price for SQL license is included) and 'BasePrice' (without SQL license price). */
+  licenseType?: InstancePoolLicenseType;
+  /**
+   * The Dns Zone that the managed instance pool is in.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dnsZone?: string;
+  /** Specifies maintenance configuration id to apply to this managed instance. */
+  maintenanceConfigurationId?: string;
+}
+
 /** An Azure SQL Database server. */
 export interface Server extends TrackedResource {
   /** The Azure Active Directory identity of the server. */
@@ -8744,8 +8859,8 @@ export interface Server extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: ServerPrivateEndpointConnection[];
-  /** Minimal TLS version. Allowed values: 'None', '1.0', '1.1', '1.2' */
-  minimalTlsVersion?: string;
+  /** Minimal TLS version. Allowed values: 'None', 1.0', '1.1', '1.2', '1.3' */
+  minimalTlsVersion?: MinimalTlsVersion;
   /** Whether or not public endpoint access is allowed for this server.  Value is optional but if passed in, must be 'Enabled' or 'Disabled' or 'SecuredByPerimeter' */
   publicNetworkAccess?: ServerPublicNetworkAccessFlag;
   /**
@@ -9231,24 +9346,6 @@ export enum KnownEncryptionProtectorName {
  */
 export type EncryptionProtectorName = string;
 
-/** Known values of {@link InstancePoolLicenseType} that the service accepts. */
-export enum KnownInstancePoolLicenseType {
-  /** LicenseIncluded */
-  LicenseIncluded = "LicenseIncluded",
-  /** BasePrice */
-  BasePrice = "BasePrice"
-}
-
-/**
- * Defines values for InstancePoolLicenseType. \
- * {@link KnownInstancePoolLicenseType} can be used interchangeably with InstancePoolLicenseType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **LicenseIncluded** \
- * **BasePrice**
- */
-export type InstancePoolLicenseType = string;
-
 /** Known values of {@link JobAgentState} that the service accepts. */
 export enum KnownJobAgentState {
   /** Creating */
@@ -9548,21 +9645,6 @@ export enum KnownStorageCapabilityStorageAccountType {
  * **ZRS**
  */
 export type StorageCapabilityStorageAccountType = string;
-
-/** Known values of {@link LongTermRetentionPolicyName} that the service accepts. */
-export enum KnownLongTermRetentionPolicyName {
-  /** Default */
-  Default = "default"
-}
-
-/**
- * Defines values for LongTermRetentionPolicyName. \
- * {@link KnownLongTermRetentionPolicyName} can be used interchangeably with LongTermRetentionPolicyName,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **default**
- */
-export type LongTermRetentionPolicyName = string;
 
 /** Known values of {@link DayOfWeek} that the service accepts. */
 export enum KnownDayOfWeek {
@@ -11427,6 +11509,102 @@ export enum KnownSqlVulnerabilityAssessmentName {
  */
 export type SqlVulnerabilityAssessmentName = string;
 
+/** Known values of {@link FailoverGroupReplicationRole} that the service accepts. */
+export enum KnownFailoverGroupReplicationRole {
+  /** Primary */
+  Primary = "Primary",
+  /** Secondary */
+  Secondary = "Secondary"
+}
+
+/**
+ * Defines values for FailoverGroupReplicationRole. \
+ * {@link KnownFailoverGroupReplicationRole} can be used interchangeably with FailoverGroupReplicationRole,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Primary** \
+ * **Secondary**
+ */
+export type FailoverGroupReplicationRole = string;
+
+/** Known values of {@link InstancePoolLicenseType} that the service accepts. */
+export enum KnownInstancePoolLicenseType {
+  /** LicenseIncluded */
+  LicenseIncluded = "LicenseIncluded",
+  /** BasePrice */
+  BasePrice = "BasePrice"
+}
+
+/**
+ * Defines values for InstancePoolLicenseType. \
+ * {@link KnownInstancePoolLicenseType} can be used interchangeably with InstancePoolLicenseType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **LicenseIncluded** \
+ * **BasePrice**
+ */
+export type InstancePoolLicenseType = string;
+
+/** Known values of {@link BackupStorageAccessTier} that the service accepts. */
+export enum KnownBackupStorageAccessTier {
+  /** Hot */
+  Hot = "Hot",
+  /** Archive */
+  Archive = "Archive"
+}
+
+/**
+ * Defines values for BackupStorageAccessTier. \
+ * {@link KnownBackupStorageAccessTier} can be used interchangeably with BackupStorageAccessTier,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Hot** \
+ * **Archive**
+ */
+export type BackupStorageAccessTier = string;
+
+/** Known values of {@link LongTermRetentionPolicyName} that the service accepts. */
+export enum KnownLongTermRetentionPolicyName {
+  /** Default */
+  Default = "default"
+}
+
+/**
+ * Defines values for LongTermRetentionPolicyName. \
+ * {@link KnownLongTermRetentionPolicyName} can be used interchangeably with LongTermRetentionPolicyName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **default**
+ */
+export type LongTermRetentionPolicyName = string;
+
+/** Known values of {@link MinimalTlsVersion} that the service accepts. */
+export enum KnownMinimalTlsVersion {
+  /** None */
+  None = "None",
+  /** One0 */
+  One0 = "1.0",
+  /** One1 */
+  One1 = "1.1",
+  /** One2 */
+  One2 = "1.2",
+  /** One3 */
+  One3 = "1.3"
+}
+
+/**
+ * Defines values for MinimalTlsVersion. \
+ * {@link KnownMinimalTlsVersion} can be used interchangeably with MinimalTlsVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **1.0** \
+ * **1.1** \
+ * **1.2** \
+ * **1.3**
+ */
+export type MinimalTlsVersion = string;
+
 /** Known values of {@link ServerPublicNetworkAccessFlag} that the service accepts. */
 export enum KnownServerPublicNetworkAccessFlag {
   /** Enabled */
@@ -11501,24 +11679,6 @@ export enum KnownExternalGovernanceStatus {
  * **Disabled**
  */
 export type ExternalGovernanceStatus = string;
-
-/** Known values of {@link FailoverGroupReplicationRole} that the service accepts. */
-export enum KnownFailoverGroupReplicationRole {
-  /** Primary */
-  Primary = "Primary",
-  /** Secondary */
-  Secondary = "Secondary"
-}
-
-/**
- * Defines values for FailoverGroupReplicationRole. \
- * {@link KnownFailoverGroupReplicationRole} can be used interchangeably with FailoverGroupReplicationRole,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Primary** \
- * **Secondary**
- */
-export type FailoverGroupReplicationRole = string;
 
 /** Known values of {@link ServiceObjectiveName} that the service accepts. */
 export enum KnownServiceObjectiveName {
@@ -12643,74 +12803,6 @@ export interface FirewallRulesListByServerNextOptionalParams
 export type FirewallRulesListByServerNextResponse = FirewallRuleListResult;
 
 /** Optional parameters. */
-export interface InstancePoolsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type InstancePoolsGetResponse = InstancePool;
-
-/** Optional parameters. */
-export interface InstancePoolsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type InstancePoolsCreateOrUpdateResponse = InstancePool;
-
-/** Optional parameters. */
-export interface InstancePoolsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface InstancePoolsUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type InstancePoolsUpdateResponse = InstancePool;
-
-/** Optional parameters. */
-export interface InstancePoolsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type InstancePoolsListByResourceGroupResponse = InstancePoolListResult;
-
-/** Optional parameters. */
-export interface InstancePoolsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type InstancePoolsListResponse = InstancePoolListResult;
-
-/** Optional parameters. */
-export interface InstancePoolsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type InstancePoolsListByResourceGroupNextResponse = InstancePoolListResult;
-
-/** Optional parameters. */
-export interface InstancePoolsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type InstancePoolsListNextResponse = InstancePoolListResult;
-
-/** Optional parameters. */
 export interface JobAgentsListByServerOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -12888,6 +12980,48 @@ export interface JobExecutionsListByJobNextOptionalParams
 
 /** Contains response data for the listByJobNext operation. */
 export type JobExecutionsListByJobNextResponse = JobExecutionListResult;
+
+/** Optional parameters. */
+export interface JobPrivateEndpointsListByAgentOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByAgent operation. */
+export type JobPrivateEndpointsListByAgentResponse = JobPrivateEndpointListResult;
+
+/** Optional parameters. */
+export interface JobPrivateEndpointsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type JobPrivateEndpointsGetResponse = JobPrivateEndpoint;
+
+/** Optional parameters. */
+export interface JobPrivateEndpointsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type JobPrivateEndpointsCreateOrUpdateResponse = JobPrivateEndpoint;
+
+/** Optional parameters. */
+export interface JobPrivateEndpointsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface JobPrivateEndpointsListByAgentNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByAgentNext operation. */
+export type JobPrivateEndpointsListByAgentNextResponse = JobPrivateEndpointListResult;
 
 /** Optional parameters. */
 export interface JobsListByAgentOptionalParams
@@ -13135,39 +13269,6 @@ export interface CapabilitiesListByLocationOptionalParams
 
 /** Contains response data for the listByLocation operation. */
 export type CapabilitiesListByLocationResponse = LocationCapabilities;
-
-/** Optional parameters. */
-export interface LongTermRetentionPoliciesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type LongTermRetentionPoliciesGetResponse = LongTermRetentionPolicy;
-
-/** Optional parameters. */
-export interface LongTermRetentionPoliciesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type LongTermRetentionPoliciesCreateOrUpdateResponse = LongTermRetentionPolicy;
-
-/** Optional parameters. */
-export interface LongTermRetentionPoliciesListByDatabaseOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByDatabase operation. */
-export type LongTermRetentionPoliciesListByDatabaseResponse = LongTermRetentionPolicyListResult;
-
-/** Optional parameters. */
-export interface LongTermRetentionPoliciesListByDatabaseNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByDatabaseNext operation. */
-export type LongTermRetentionPoliciesListByDatabaseNextResponse = LongTermRetentionPolicyListResult;
 
 /** Optional parameters. */
 export interface MaintenanceWindowOptionsGetOptionalParams
@@ -15114,200 +15215,6 @@ export interface UsagesListByInstancePoolNextOptionalParams
 export type UsagesListByInstancePoolNextResponse = UsageListResult;
 
 /** Optional parameters. */
-export interface LongTermRetentionBackupsCopyOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the copy operation. */
-export type LongTermRetentionBackupsCopyResponse = LongTermRetentionBackupOperationResult;
-
-/** Optional parameters. */
-export interface LongTermRetentionBackupsUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type LongTermRetentionBackupsUpdateResponse = LongTermRetentionBackupOperationResult;
-
-/** Optional parameters. */
-export interface LongTermRetentionBackupsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type LongTermRetentionBackupsGetResponse = LongTermRetentionBackup;
-
-/** Optional parameters. */
-export interface LongTermRetentionBackupsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface LongTermRetentionBackupsListByDatabaseOptionalParams
-  extends coreClient.OperationOptions {
-  /** Whether or not to only get the latest backup for each database. */
-  onlyLatestPerDatabase?: boolean;
-  /** Whether to query against just live databases, just deleted databases, or all databases. */
-  databaseState?: DatabaseState;
-}
-
-/** Contains response data for the listByDatabase operation. */
-export type LongTermRetentionBackupsListByDatabaseResponse = LongTermRetentionBackupListResult;
-
-/** Optional parameters. */
-export interface LongTermRetentionBackupsListByLocationOptionalParams
-  extends coreClient.OperationOptions {
-  /** Whether or not to only get the latest backup for each database. */
-  onlyLatestPerDatabase?: boolean;
-  /** Whether to query against just live databases, just deleted databases, or all databases. */
-  databaseState?: DatabaseState;
-}
-
-/** Contains response data for the listByLocation operation. */
-export type LongTermRetentionBackupsListByLocationResponse = LongTermRetentionBackupListResult;
-
-/** Optional parameters. */
-export interface LongTermRetentionBackupsListByServerOptionalParams
-  extends coreClient.OperationOptions {
-  /** Whether or not to only get the latest backup for each database. */
-  onlyLatestPerDatabase?: boolean;
-  /** Whether to query against just live databases, just deleted databases, or all databases. */
-  databaseState?: DatabaseState;
-}
-
-/** Contains response data for the listByServer operation. */
-export type LongTermRetentionBackupsListByServerResponse = LongTermRetentionBackupListResult;
-
-/** Optional parameters. */
-export interface LongTermRetentionBackupsCopyByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the copyByResourceGroup operation. */
-export type LongTermRetentionBackupsCopyByResourceGroupResponse = LongTermRetentionBackupOperationResult;
-
-/** Optional parameters. */
-export interface LongTermRetentionBackupsUpdateByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the updateByResourceGroup operation. */
-export type LongTermRetentionBackupsUpdateByResourceGroupResponse = LongTermRetentionBackupOperationResult;
-
-/** Optional parameters. */
-export interface LongTermRetentionBackupsGetByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getByResourceGroup operation. */
-export type LongTermRetentionBackupsGetByResourceGroupResponse = LongTermRetentionBackup;
-
-/** Optional parameters. */
-export interface LongTermRetentionBackupsDeleteByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface LongTermRetentionBackupsListByResourceGroupDatabaseOptionalParams
-  extends coreClient.OperationOptions {
-  /** Whether or not to only get the latest backup for each database. */
-  onlyLatestPerDatabase?: boolean;
-  /** Whether to query against just live databases, just deleted databases, or all databases. */
-  databaseState?: DatabaseState;
-}
-
-/** Contains response data for the listByResourceGroupDatabase operation. */
-export type LongTermRetentionBackupsListByResourceGroupDatabaseResponse = LongTermRetentionBackupListResult;
-
-/** Optional parameters. */
-export interface LongTermRetentionBackupsListByResourceGroupLocationOptionalParams
-  extends coreClient.OperationOptions {
-  /** Whether or not to only get the latest backup for each database. */
-  onlyLatestPerDatabase?: boolean;
-  /** Whether to query against just live databases, just deleted databases, or all databases. */
-  databaseState?: DatabaseState;
-}
-
-/** Contains response data for the listByResourceGroupLocation operation. */
-export type LongTermRetentionBackupsListByResourceGroupLocationResponse = LongTermRetentionBackupListResult;
-
-/** Optional parameters. */
-export interface LongTermRetentionBackupsListByResourceGroupServerOptionalParams
-  extends coreClient.OperationOptions {
-  /** Whether or not to only get the latest backup for each database. */
-  onlyLatestPerDatabase?: boolean;
-  /** Whether to query against just live databases, just deleted databases, or all databases. */
-  databaseState?: DatabaseState;
-}
-
-/** Contains response data for the listByResourceGroupServer operation. */
-export type LongTermRetentionBackupsListByResourceGroupServerResponse = LongTermRetentionBackupListResult;
-
-/** Optional parameters. */
-export interface LongTermRetentionBackupsListByDatabaseNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByDatabaseNext operation. */
-export type LongTermRetentionBackupsListByDatabaseNextResponse = LongTermRetentionBackupListResult;
-
-/** Optional parameters. */
-export interface LongTermRetentionBackupsListByLocationNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByLocationNext operation. */
-export type LongTermRetentionBackupsListByLocationNextResponse = LongTermRetentionBackupListResult;
-
-/** Optional parameters. */
-export interface LongTermRetentionBackupsListByServerNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByServerNext operation. */
-export type LongTermRetentionBackupsListByServerNextResponse = LongTermRetentionBackupListResult;
-
-/** Optional parameters. */
-export interface LongTermRetentionBackupsListByResourceGroupDatabaseNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupDatabaseNext operation. */
-export type LongTermRetentionBackupsListByResourceGroupDatabaseNextResponse = LongTermRetentionBackupListResult;
-
-/** Optional parameters. */
-export interface LongTermRetentionBackupsListByResourceGroupLocationNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupLocationNext operation. */
-export type LongTermRetentionBackupsListByResourceGroupLocationNextResponse = LongTermRetentionBackupListResult;
-
-/** Optional parameters. */
-export interface LongTermRetentionBackupsListByResourceGroupServerNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupServerNext operation. */
-export type LongTermRetentionBackupsListByResourceGroupServerNextResponse = LongTermRetentionBackupListResult;
-
-/** Optional parameters. */
 export interface LongTermRetentionManagedInstanceBackupsGetOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -17141,6 +17048,415 @@ export interface DatabaseSqlVulnerabilityAssessmentsSettingsListByDatabaseNextOp
 export type DatabaseSqlVulnerabilityAssessmentsSettingsListByDatabaseNextResponse = SqlVulnerabilityAssessmentListResult;
 
 /** Optional parameters. */
+export interface FailoverGroupsListByServerOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServer operation. */
+export type FailoverGroupsListByServerResponse = FailoverGroupListResult;
+
+/** Optional parameters. */
+export interface FailoverGroupsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type FailoverGroupsGetResponse = FailoverGroup;
+
+/** Optional parameters. */
+export interface FailoverGroupsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type FailoverGroupsCreateOrUpdateResponse = FailoverGroup;
+
+/** Optional parameters. */
+export interface FailoverGroupsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface FailoverGroupsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type FailoverGroupsUpdateResponse = FailoverGroup;
+
+/** Optional parameters. */
+export interface FailoverGroupsFailoverOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the failover operation. */
+export type FailoverGroupsFailoverResponse = FailoverGroup;
+
+/** Optional parameters. */
+export interface FailoverGroupsForceFailoverAllowDataLossOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the forceFailoverAllowDataLoss operation. */
+export type FailoverGroupsForceFailoverAllowDataLossResponse = FailoverGroup;
+
+/** Optional parameters. */
+export interface FailoverGroupsTryPlannedBeforeForcedFailoverOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the tryPlannedBeforeForcedFailover operation. */
+export type FailoverGroupsTryPlannedBeforeForcedFailoverResponse = FailoverGroup;
+
+/** Optional parameters. */
+export interface FailoverGroupsListByServerNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServerNext operation. */
+export type FailoverGroupsListByServerNextResponse = FailoverGroupListResult;
+
+/** Optional parameters. */
+export interface InstancePoolsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type InstancePoolsListResponse = InstancePoolListResult;
+
+/** Optional parameters. */
+export interface InstancePoolsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type InstancePoolsListByResourceGroupResponse = InstancePoolListResult;
+
+/** Optional parameters. */
+export interface InstancePoolsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type InstancePoolsGetResponse = InstancePool;
+
+/** Optional parameters. */
+export interface InstancePoolsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type InstancePoolsCreateOrUpdateResponse = InstancePool;
+
+/** Optional parameters. */
+export interface InstancePoolsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface InstancePoolsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type InstancePoolsUpdateResponse = InstancePool;
+
+/** Optional parameters. */
+export interface InstancePoolsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type InstancePoolsListNextResponse = InstancePoolListResult;
+
+/** Optional parameters. */
+export interface InstancePoolsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type InstancePoolsListByResourceGroupNextResponse = InstancePoolListResult;
+
+/** Optional parameters. */
+export interface LongTermRetentionBackupsListByLocationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Whether or not to only get the latest backup for each database. */
+  onlyLatestPerDatabase?: boolean;
+  /** Whether to query against just live databases, just deleted databases, or all databases. */
+  databaseState?: DatabaseState;
+}
+
+/** Contains response data for the listByLocation operation. */
+export type LongTermRetentionBackupsListByLocationResponse = LongTermRetentionBackupListResult;
+
+/** Optional parameters. */
+export interface LongTermRetentionBackupsListByServerOptionalParams
+  extends coreClient.OperationOptions {
+  /** Whether or not to only get the latest backup for each database. */
+  onlyLatestPerDatabase?: boolean;
+  /** Whether to query against just live databases, just deleted databases, or all databases. */
+  databaseState?: DatabaseState;
+}
+
+/** Contains response data for the listByServer operation. */
+export type LongTermRetentionBackupsListByServerResponse = LongTermRetentionBackupListResult;
+
+/** Optional parameters. */
+export interface LongTermRetentionBackupsListByDatabaseOptionalParams
+  extends coreClient.OperationOptions {
+  /** Whether or not to only get the latest backup for each database. */
+  onlyLatestPerDatabase?: boolean;
+  /** Whether to query against just live databases, just deleted databases, or all databases. */
+  databaseState?: DatabaseState;
+}
+
+/** Contains response data for the listByDatabase operation. */
+export type LongTermRetentionBackupsListByDatabaseResponse = LongTermRetentionBackupListResult;
+
+/** Optional parameters. */
+export interface LongTermRetentionBackupsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type LongTermRetentionBackupsGetResponse = LongTermRetentionBackup;
+
+/** Optional parameters. */
+export interface LongTermRetentionBackupsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface LongTermRetentionBackupsChangeAccessTierOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the changeAccessTier operation. */
+export type LongTermRetentionBackupsChangeAccessTierResponse = LongTermRetentionBackup;
+
+/** Optional parameters. */
+export interface LongTermRetentionBackupsCopyOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the copy operation. */
+export type LongTermRetentionBackupsCopyResponse = LongTermRetentionBackupOperationResult;
+
+/** Optional parameters. */
+export interface LongTermRetentionBackupsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type LongTermRetentionBackupsUpdateResponse = LongTermRetentionBackupOperationResult;
+
+/** Optional parameters. */
+export interface LongTermRetentionBackupsListByResourceGroupLocationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Whether or not to only get the latest backup for each database. */
+  onlyLatestPerDatabase?: boolean;
+  /** Whether to query against just live databases, just deleted databases, or all databases. */
+  databaseState?: DatabaseState;
+}
+
+/** Contains response data for the listByResourceGroupLocation operation. */
+export type LongTermRetentionBackupsListByResourceGroupLocationResponse = LongTermRetentionBackupListResult;
+
+/** Optional parameters. */
+export interface LongTermRetentionBackupsListByResourceGroupServerOptionalParams
+  extends coreClient.OperationOptions {
+  /** Whether or not to only get the latest backup for each database. */
+  onlyLatestPerDatabase?: boolean;
+  /** Whether to query against just live databases, just deleted databases, or all databases. */
+  databaseState?: DatabaseState;
+}
+
+/** Contains response data for the listByResourceGroupServer operation. */
+export type LongTermRetentionBackupsListByResourceGroupServerResponse = LongTermRetentionBackupListResult;
+
+/** Optional parameters. */
+export interface LongTermRetentionBackupsListByResourceGroupDatabaseOptionalParams
+  extends coreClient.OperationOptions {
+  /** Whether or not to only get the latest backup for each database. */
+  onlyLatestPerDatabase?: boolean;
+  /** Whether to query against just live databases, just deleted databases, or all databases. */
+  databaseState?: DatabaseState;
+}
+
+/** Contains response data for the listByResourceGroupDatabase operation. */
+export type LongTermRetentionBackupsListByResourceGroupDatabaseResponse = LongTermRetentionBackupListResult;
+
+/** Optional parameters. */
+export interface LongTermRetentionBackupsGetByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getByResourceGroup operation. */
+export type LongTermRetentionBackupsGetByResourceGroupResponse = LongTermRetentionBackup;
+
+/** Optional parameters. */
+export interface LongTermRetentionBackupsDeleteByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface LongTermRetentionBackupsChangeAccessTierByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the changeAccessTierByResourceGroup operation. */
+export type LongTermRetentionBackupsChangeAccessTierByResourceGroupResponse = LongTermRetentionBackup;
+
+/** Optional parameters. */
+export interface LongTermRetentionBackupsCopyByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the copyByResourceGroup operation. */
+export type LongTermRetentionBackupsCopyByResourceGroupResponse = LongTermRetentionBackupOperationResult;
+
+/** Optional parameters. */
+export interface LongTermRetentionBackupsUpdateByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updateByResourceGroup operation. */
+export type LongTermRetentionBackupsUpdateByResourceGroupResponse = LongTermRetentionBackupOperationResult;
+
+/** Optional parameters. */
+export interface LongTermRetentionBackupsListByLocationNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByLocationNext operation. */
+export type LongTermRetentionBackupsListByLocationNextResponse = LongTermRetentionBackupListResult;
+
+/** Optional parameters. */
+export interface LongTermRetentionBackupsListByServerNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServerNext operation. */
+export type LongTermRetentionBackupsListByServerNextResponse = LongTermRetentionBackupListResult;
+
+/** Optional parameters. */
+export interface LongTermRetentionBackupsListByDatabaseNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByDatabaseNext operation. */
+export type LongTermRetentionBackupsListByDatabaseNextResponse = LongTermRetentionBackupListResult;
+
+/** Optional parameters. */
+export interface LongTermRetentionBackupsListByResourceGroupLocationNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupLocationNext operation. */
+export type LongTermRetentionBackupsListByResourceGroupLocationNextResponse = LongTermRetentionBackupListResult;
+
+/** Optional parameters. */
+export interface LongTermRetentionBackupsListByResourceGroupServerNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupServerNext operation. */
+export type LongTermRetentionBackupsListByResourceGroupServerNextResponse = LongTermRetentionBackupListResult;
+
+/** Optional parameters. */
+export interface LongTermRetentionBackupsListByResourceGroupDatabaseNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupDatabaseNext operation. */
+export type LongTermRetentionBackupsListByResourceGroupDatabaseNextResponse = LongTermRetentionBackupListResult;
+
+/** Optional parameters. */
+export interface LongTermRetentionPoliciesListByDatabaseOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByDatabase operation. */
+export type LongTermRetentionPoliciesListByDatabaseResponse = LongTermRetentionPolicyListResult;
+
+/** Optional parameters. */
+export interface LongTermRetentionPoliciesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type LongTermRetentionPoliciesGetResponse = LongTermRetentionPolicy;
+
+/** Optional parameters. */
+export interface LongTermRetentionPoliciesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type LongTermRetentionPoliciesCreateOrUpdateResponse = LongTermRetentionPolicy;
+
+/** Optional parameters. */
+export interface LongTermRetentionPoliciesListByDatabaseNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByDatabaseNext operation. */
+export type LongTermRetentionPoliciesListByDatabaseNextResponse = LongTermRetentionPolicyListResult;
+
+/** Optional parameters. */
 export interface ServersCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -17245,96 +17561,6 @@ export interface ServersListByResourceGroupNextOptionalParams
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type ServersListByResourceGroupNextResponse = ServerListResult;
-
-/** Optional parameters. */
-export interface FailoverGroupsListByServerOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByServer operation. */
-export type FailoverGroupsListByServerResponse = FailoverGroupListResult;
-
-/** Optional parameters. */
-export interface FailoverGroupsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type FailoverGroupsGetResponse = FailoverGroup;
-
-/** Optional parameters. */
-export interface FailoverGroupsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type FailoverGroupsCreateOrUpdateResponse = FailoverGroup;
-
-/** Optional parameters. */
-export interface FailoverGroupsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface FailoverGroupsUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type FailoverGroupsUpdateResponse = FailoverGroup;
-
-/** Optional parameters. */
-export interface FailoverGroupsFailoverOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the failover operation. */
-export type FailoverGroupsFailoverResponse = FailoverGroup;
-
-/** Optional parameters. */
-export interface FailoverGroupsForceFailoverAllowDataLossOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the forceFailoverAllowDataLoss operation. */
-export type FailoverGroupsForceFailoverAllowDataLossResponse = FailoverGroup;
-
-/** Optional parameters. */
-export interface FailoverGroupsTryPlannedBeforeForcedFailoverOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the tryPlannedBeforeForcedFailover operation. */
-export type FailoverGroupsTryPlannedBeforeForcedFailoverResponse = FailoverGroup;
-
-/** Optional parameters. */
-export interface FailoverGroupsListByServerNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByServerNext operation. */
-export type FailoverGroupsListByServerNextResponse = FailoverGroupListResult;
 
 /** Optional parameters. */
 export interface SqlManagementClientOptionalParams

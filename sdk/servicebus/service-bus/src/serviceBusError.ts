@@ -83,6 +83,7 @@ export const wellKnownMessageCodesToServiceBusCodes: Map<string, ServiceBusError
   ["ServerBusyError", "ServiceBusy"],
 
   ["OperationTimeoutError", "ServiceTimeout"],
+  ["ServiceUnavailableError", "ServiceTimeout"],
   ["ServiceCommunicationError", "ServiceCommunicationProblem"],
   ["SessionCannotBeLockedError", "SessionCannotBeLocked"],
   ["SessionLockLostError", "SessionLockLost"],

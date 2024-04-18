@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { SearchManagementClient } = require("@azure/arm-search");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets a list of all private endpoint connections in the given service.
  *
  * @summary Gets a list of all private endpoint connections in the given service.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/ListPrivateEndpointConnectionsByService.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/ListPrivateEndpointConnectionsByService.json
  */
 async function listPrivateEndpointConnectionsByService() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
   const searchServiceName = "mysearchservice";
   const credential = new DefaultAzureCredential();
   const client = new SearchManagementClient(credential, subscriptionId);
@@ -33,4 +34,8 @@ async function listPrivateEndpointConnectionsByService() {
   console.log(resArray);
 }
 
-listPrivateEndpointConnectionsByService().catch(console.error);
+async function main() {
+  listPrivateEndpointConnectionsByService();
+}
+
+main().catch(console.error);

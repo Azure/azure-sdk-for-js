@@ -6,7 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./arcSettings";
-export * from "./clusters";
-export * from "./extensions";
+export * from "./galleryImagesOperations";
 export * from "./operations";
+export * from "./logicalNetworksOperations";
+export * from "./marketplaceGalleryImagesOperations";
+export * from "./networkInterfacesOperations";
+export * from "./storageContainersOperations";
+export * from "./virtualHardDisksOperations";
+export * from "./virtualMachineInstances";
+export * from "./hybridIdentityMetadataOperations";
+export * from "./guestAgentOperations";
+export * from "./guestAgents";

@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SearchManagementClient } from "../searchManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   SharedPrivateLinkResource,
   SharedPrivateLinkResourcesListByServiceNextOptionalParams,
@@ -25,13 +29,14 @@ import {
   SharedPrivateLinkResourcesGetOptionalParams,
   SharedPrivateLinkResourcesGetResponse,
   SharedPrivateLinkResourcesDeleteOptionalParams,
-  SharedPrivateLinkResourcesListByServiceNextResponse
+  SharedPrivateLinkResourcesListByServiceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SharedPrivateLinkResources operations. */
 export class SharedPrivateLinkResourcesImpl
-  implements SharedPrivateLinkResources {
+  implements SharedPrivateLinkResources
+{
   private readonly client: SearchManagementClient;
 
   /**
@@ -46,19 +51,19 @@ export class SharedPrivateLinkResourcesImpl
    * Gets a list of all shared private link resources managed by the given service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
    * @param options The options parameters.
    */
   public listByService(
     resourceGroupName: string,
     searchServiceName: string,
-    options?: SharedPrivateLinkResourcesListByServiceOptionalParams
+    options?: SharedPrivateLinkResourcesListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<SharedPrivateLinkResource> {
     const iter = this.listByServicePagingAll(
       resourceGroupName,
       searchServiceName,
-      options
+      options,
     );
     return {
       next() {
@@ -75,9 +80,9 @@ export class SharedPrivateLinkResourcesImpl
           resourceGroupName,
           searchServiceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -85,7 +90,7 @@ export class SharedPrivateLinkResourcesImpl
     resourceGroupName: string,
     searchServiceName: string,
     options?: SharedPrivateLinkResourcesListByServiceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SharedPrivateLinkResource[]> {
     let result: SharedPrivateLinkResourcesListByServiceResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,7 +98,7 @@ export class SharedPrivateLinkResourcesImpl
       result = await this._listByService(
         resourceGroupName,
         searchServiceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -105,7 +110,7 @@ export class SharedPrivateLinkResourcesImpl
         resourceGroupName,
         searchServiceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,12 +122,12 @@ export class SharedPrivateLinkResourcesImpl
   private async *listByServicePagingAll(
     resourceGroupName: string,
     searchServiceName: string,
-    options?: SharedPrivateLinkResourcesListByServiceOptionalParams
+    options?: SharedPrivateLinkResourcesListByServiceOptionalParams,
   ): AsyncIterableIterator<SharedPrivateLinkResource> {
     for await (const page of this.listByServicePagingPage(
       resourceGroupName,
       searchServiceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -133,10 +138,10 @@ export class SharedPrivateLinkResourcesImpl
    * the given resource group.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
    * @param sharedPrivateLinkResourceName The name of the shared private link resource managed by the
-   *                                      Azure Cognitive Search service within the specified resource group.
+   *                                      Azure AI Search service within the specified resource group.
    * @param sharedPrivateLinkResource The definition of the shared private link resource to create or
    *                                  update.
    * @param options The options parameters.
@@ -146,30 +151,29 @@ export class SharedPrivateLinkResourcesImpl
     searchServiceName: string,
     sharedPrivateLinkResourceName: string,
     sharedPrivateLinkResource: SharedPrivateLinkResource,
-    options?: SharedPrivateLinkResourcesCreateOrUpdateOptionalParams
+    options?: SharedPrivateLinkResourcesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SharedPrivateLinkResourcesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SharedPrivateLinkResourcesCreateOrUpdateResponse>,
       SharedPrivateLinkResourcesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SharedPrivateLinkResourcesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -178,8 +182,8 @@ export class SharedPrivateLinkResourcesImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -187,26 +191,29 @@ export class SharedPrivateLinkResourcesImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         searchServiceName,
         sharedPrivateLinkResourceName,
         sharedPrivateLinkResource,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      SharedPrivateLinkResourcesCreateOrUpdateResponse,
+      OperationState<SharedPrivateLinkResourcesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -217,10 +224,10 @@ export class SharedPrivateLinkResourcesImpl
    * the given resource group.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
    * @param sharedPrivateLinkResourceName The name of the shared private link resource managed by the
-   *                                      Azure Cognitive Search service within the specified resource group.
+   *                                      Azure AI Search service within the specified resource group.
    * @param sharedPrivateLinkResource The definition of the shared private link resource to create or
    *                                  update.
    * @param options The options parameters.
@@ -230,14 +237,14 @@ export class SharedPrivateLinkResourcesImpl
     searchServiceName: string,
     sharedPrivateLinkResourceName: string,
     sharedPrivateLinkResource: SharedPrivateLinkResource,
-    options?: SharedPrivateLinkResourcesCreateOrUpdateOptionalParams
+    options?: SharedPrivateLinkResourcesCreateOrUpdateOptionalParams,
   ): Promise<SharedPrivateLinkResourcesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       searchServiceName,
       sharedPrivateLinkResourceName,
       sharedPrivateLinkResource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -247,26 +254,26 @@ export class SharedPrivateLinkResourcesImpl
    * resource group.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
    * @param sharedPrivateLinkResourceName The name of the shared private link resource managed by the
-   *                                      Azure Cognitive Search service within the specified resource group.
+   *                                      Azure AI Search service within the specified resource group.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     searchServiceName: string,
     sharedPrivateLinkResourceName: string,
-    options?: SharedPrivateLinkResourcesGetOptionalParams
+    options?: SharedPrivateLinkResourcesGetOptionalParams,
   ): Promise<SharedPrivateLinkResourcesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         searchServiceName,
         sharedPrivateLinkResourceName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -274,35 +281,34 @@ export class SharedPrivateLinkResourcesImpl
    * Initiates the deletion of the shared private link resource from the search service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
    * @param sharedPrivateLinkResourceName The name of the shared private link resource managed by the
-   *                                      Azure Cognitive Search service within the specified resource group.
+   *                                      Azure AI Search service within the specified resource group.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     searchServiceName: string,
     sharedPrivateLinkResourceName: string,
-    options?: SharedPrivateLinkResourcesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: SharedPrivateLinkResourcesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -311,8 +317,8 @@ export class SharedPrivateLinkResourcesImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -320,25 +326,25 @@ export class SharedPrivateLinkResourcesImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         searchServiceName,
         sharedPrivateLinkResourceName,
-        options
+        options,
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -348,23 +354,23 @@ export class SharedPrivateLinkResourcesImpl
    * Initiates the deletion of the shared private link resource from the search service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
    * @param sharedPrivateLinkResourceName The name of the shared private link resource managed by the
-   *                                      Azure Cognitive Search service within the specified resource group.
+   *                                      Azure AI Search service within the specified resource group.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     searchServiceName: string,
     sharedPrivateLinkResourceName: string,
-    options?: SharedPrivateLinkResourcesDeleteOptionalParams
+    options?: SharedPrivateLinkResourcesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       searchServiceName,
       sharedPrivateLinkResourceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -373,18 +379,18 @@ export class SharedPrivateLinkResourcesImpl
    * Gets a list of all shared private link resources managed by the given service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
    * @param options The options parameters.
    */
   private _listByService(
     resourceGroupName: string,
     searchServiceName: string,
-    options?: SharedPrivateLinkResourcesListByServiceOptionalParams
+    options?: SharedPrivateLinkResourcesListByServiceOptionalParams,
   ): Promise<SharedPrivateLinkResourcesListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, searchServiceName, options },
-      listByServiceOperationSpec
+      listByServiceOperationSpec,
     );
   }
 
@@ -392,8 +398,8 @@ export class SharedPrivateLinkResourcesImpl
    * ListByServiceNext
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
    * @param nextLink The nextLink from the previous successful call to the ListByService method.
    * @param options The options parameters.
    */
@@ -401,11 +407,11 @@ export class SharedPrivateLinkResourcesImpl
     resourceGroupName: string,
     searchServiceName: string,
     nextLink: string,
-    options?: SharedPrivateLinkResourcesListByServiceNextOptionalParams
+    options?: SharedPrivateLinkResourcesListByServiceNextOptionalParams,
   ): Promise<SharedPrivateLinkResourcesListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, searchServiceName, nextLink, options },
-      listByServiceNextOperationSpec
+      listByServiceNextOperationSpec,
     );
   }
 }
@@ -413,25 +419,24 @@ export class SharedPrivateLinkResourcesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SharedPrivateLinkResource
+      bodyMapper: Mappers.SharedPrivateLinkResource,
     },
     201: {
-      bodyMapper: Mappers.SharedPrivateLinkResource
+      bodyMapper: Mappers.SharedPrivateLinkResource,
     },
     202: {
-      bodyMapper: Mappers.SharedPrivateLinkResource
+      bodyMapper: Mappers.SharedPrivateLinkResource,
     },
     204: {
-      bodyMapper: Mappers.SharedPrivateLinkResource
+      bodyMapper: Mappers.SharedPrivateLinkResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.sharedPrivateLinkResource,
   queryParameters: [Parameters.apiVersion],
@@ -440,27 +445,26 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.searchServiceName,
     Parameters.subscriptionId,
-    Parameters.sharedPrivateLinkResourceName
+    Parameters.sharedPrivateLinkResourceName,
   ],
   headerParameters: [
     Parameters.accept,
     Parameters.clientRequestId,
-    Parameters.contentType
+    Parameters.contentType,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SharedPrivateLinkResource
+      bodyMapper: Mappers.SharedPrivateLinkResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -468,14 +472,13 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.searchServiceName,
     Parameters.subscriptionId,
-    Parameters.sharedPrivateLinkResourceName
+    Parameters.sharedPrivateLinkResourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.clientRequestId],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -483,8 +486,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -492,51 +495,50 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.searchServiceName,
     Parameters.subscriptionId,
-    Parameters.sharedPrivateLinkResourceName
+    Parameters.sharedPrivateLinkResourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.clientRequestId],
-  serializer
+  serializer,
 };
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/sharedPrivateLinkResources",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/sharedPrivateLinkResources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SharedPrivateLinkResourceListResult
+      bodyMapper: Mappers.SharedPrivateLinkResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.searchServiceName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.clientRequestId],
-  serializer
+  serializer,
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SharedPrivateLinkResourceListResult
+      bodyMapper: Mappers.SharedPrivateLinkResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.searchServiceName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept, Parameters.clientRequestId],
-  serializer
+  serializer,
 };

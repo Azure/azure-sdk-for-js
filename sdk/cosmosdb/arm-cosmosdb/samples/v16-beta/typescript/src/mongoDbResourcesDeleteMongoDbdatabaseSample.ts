@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes an existing Azure Cosmos DB MongoDB database.
  *
  * @summary Deletes an existing Azure Cosmos DB MongoDB database.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBMongoDBDatabaseDelete.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBMongoDBDatabaseDelete.json
  */
 async function cosmosDbMongoDbdatabaseDelete() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -27,11 +27,12 @@ async function cosmosDbMongoDbdatabaseDelete() {
   const databaseName = "databaseName";
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.mongoDBResources.beginDeleteMongoDBDatabaseAndWait(
-    resourceGroupName,
-    accountName,
-    databaseName
-  );
+  const result =
+    await client.mongoDBResources.beginDeleteMongoDBDatabaseAndWait(
+      resourceGroupName,
+      accountName,
+      databaseName,
+    );
   console.log(result);
 }
 

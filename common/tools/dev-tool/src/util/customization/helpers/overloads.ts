@@ -12,13 +12,13 @@ import {
 } from "ts-morph";
 
 export function isOverload(
-  method: ConstructorDeclarationStructure | ConstructorDeclarationOverloadStructure
+  method: ConstructorDeclarationStructure | ConstructorDeclarationOverloadStructure,
 ): method is ConstructorDeclarationOverloadStructure;
 export function isOverload(
-  method: FunctionDeclarationStructure | FunctionDeclarationOverloadStructure
+  method: FunctionDeclarationStructure | FunctionDeclarationOverloadStructure,
 ): method is FunctionDeclarationOverloadStructure;
 export function isOverload(
-  method: MethodDeclarationStructure | MethodDeclarationOverloadStructure
+  method: MethodDeclarationStructure | MethodDeclarationOverloadStructure,
 ): method is MethodDeclarationOverloadStructure;
 export function isOverload(
   method:
@@ -27,7 +27,7 @@ export function isOverload(
     | MethodDeclarationStructure
     | MethodDeclarationOverloadStructure
     | FunctionDeclarationStructure
-    | FunctionDeclarationOverloadStructure
+    | FunctionDeclarationOverloadStructure,
 ): method is FunctionDeclarationOverloadStructure | MethodDeclarationOverloadStructure {
   return (
     method.kind === StructureKind.MethodOverload ||

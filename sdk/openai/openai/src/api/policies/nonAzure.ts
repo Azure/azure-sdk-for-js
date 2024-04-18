@@ -1,14 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
- *
- * Any changes you make here may be lost.
- *
- * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
- */
-
 import { PipelinePolicy } from "@azure/core-rest-pipeline";
 
 export function nonAzurePolicy(): PipelinePolicy {
@@ -28,8 +20,12 @@ export function nonAzurePolicy(): PipelinePolicy {
         case "embeddings":
           obj.pathname = `${parts[1]}/embeddings`;
           break;
-        case "generations:submit":
-          obj.pathname = `${parts[1]}/images/generations`;
+        case "generations":
+          if (parts[parts.length - 2] === "images") {
+            obj.pathname = `${parts[1]}/images/generations`;
+          } else {
+            throw new Error("Unexpected path");
+          }
           break;
         case "transcriptions":
           obj.pathname = `${parts[1]}/audio/transcriptions`;

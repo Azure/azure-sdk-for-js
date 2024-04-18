@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List the two keys used to publish to a topic.
  *
  * @summary List the two keys used to publish to a topic.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-06-01-preview/examples/Topics_ListSharedAccessKeys.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/Topics_ListSharedAccessKeys.json
  */
 async function topicsListSharedAccessKeys() {
   const subscriptionId =

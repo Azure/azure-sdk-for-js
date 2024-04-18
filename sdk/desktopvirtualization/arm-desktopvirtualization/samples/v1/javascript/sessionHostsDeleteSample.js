@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Remove a SessionHost.
  *
  * @summary Remove a SessionHost.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2022-09-09/examples/SessionHost_Delete.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/SessionHost_Delete.json
  */
 async function sessionHostDelete() {
   const subscriptionId =

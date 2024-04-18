@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Merges the partitions of a SQL Container
  *
  * @summary Merges the partitions of a SQL Container
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBSqlContainerPartitionMerge.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBSqlContainerPartitionMerge.json
  */
 async function cosmosDbSqlContainerPartitionMerge() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -32,7 +32,7 @@ async function cosmosDbSqlContainerPartitionMerge() {
     accountName,
     databaseName,
     containerName,
-    mergeParameters
+    mergeParameters,
   );
   console.log(result);
 }

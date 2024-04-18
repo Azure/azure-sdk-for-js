@@ -24,7 +24,7 @@ async function createOrReplaceSentShare(
   client: PurviewSharingClient,
   sentShareId: string,
   storageAccountResourceId: string,
-  storeKind: "BlobAccount" | "AdlsGen2Account"
+  storeKind: "BlobAccount" | "AdlsGen2Account",
 ): Promise<InPlaceSentShareOutput> {
   const options: SentSharesCreateOrReplaceParameters = {
     body: {
@@ -73,7 +73,7 @@ async function createOrReplaceSentShare(
 async function createSentShareServiceInvitation(
   client: PurviewSharingClient,
   sentShareId: string,
-  sentShareInvitationId: string
+  sentShareInvitationId: string,
 ): Promise<SentShareInvitationOutput> {
   const options: SentSharesCreateSentShareInvitationParameters = {
     body: {
@@ -90,7 +90,7 @@ async function createSentShareServiceInvitation(
     .path(
       "/sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}",
       sentShareId,
-      sentShareInvitationId
+      sentShareInvitationId,
     )
     .put(options);
 
@@ -111,7 +111,7 @@ async function createSentShareServiceInvitation(
 async function createSentShareUserInvitation(
   client: PurviewSharingClient,
   sentShareId: string,
-  sentShareInvitationId: string
+  sentShareInvitationId: string,
 ): Promise<SentShareInvitationOutput> {
   const options: SentSharesCreateSentShareInvitationParameters = {
     body: {
@@ -128,7 +128,7 @@ async function createSentShareUserInvitation(
     .path(
       "/sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}",
       sentShareId,
-      sentShareInvitationId
+      sentShareInvitationId,
     )
     .put(options);
 
@@ -155,7 +155,7 @@ async function main() {
     client,
     "42ea5cf2-e5f3-430f-9ca8-f50401399821",
     blobStorageAccountResourceId,
-    "BlobAccount"
+    "BlobAccount",
   );
   console.log(sentShareForBlobAsset);
 
@@ -163,7 +163,7 @@ async function main() {
     client,
     "9e41d39d-3223-4941-a636-d83264a0e660",
     adlsgen2StorageAccountResourceId,
-    "AdlsGen2Account"
+    "AdlsGen2Account",
   );
   console.log(sentShareForAdlsGen2Asset);
 
@@ -171,14 +171,14 @@ async function main() {
   const serviceInvitation = await createSentShareServiceInvitation(
     client,
     sentShareForBlobAsset.id ?? "42ea5cf2-e5f3-430f-9ca8-f50401399821",
-    "6cdc69a2-40b6-4fcc-9231-5791f645e54d"
+    "6cdc69a2-40b6-4fcc-9231-5791f645e54d",
   );
   console.log(serviceInvitation);
 
   const userInvitation = await createSentShareUserInvitation(
     client,
     sentShareForAdlsGen2Asset.id ?? "9e41d39d-3223-4941-a636-d83264a0e660",
-    "4199f6d6-81bc-4d96-bab1-af66c5c7b048"
+    "4199f6d6-81bc-4d96-bab1-af66c5c7b048",
   );
 
   console.log(userInvitation);

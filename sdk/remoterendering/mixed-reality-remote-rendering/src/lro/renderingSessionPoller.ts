@@ -130,7 +130,7 @@ class RenderingSessionOperation
   constructor(
     accountId: string,
     operations: RemoteRendering,
-    state: RenderingSessionOperationState
+    state: RenderingSessionOperationState,
   ) {
     this.accountId = accountId;
     this.operations = operations;
@@ -145,7 +145,7 @@ class RenderingSessionOperation
       this.accountId,
       this.operations,
       this.state.latestResponse.sessionId,
-      "RenderingSessionOperation-Update"
+      "RenderingSessionOperation-Update",
     );
     return this;
   }
@@ -165,7 +165,7 @@ class RenderingSessionOperation
       this.operations,
       this.state.latestResponse.sessionId,
       "RenderingSessionOperation-Cancel",
-      options
+      options,
     );
     return this;
   }
@@ -195,14 +195,14 @@ export class RenderingSessionPoller extends Poller<
     accountId: string,
     operations: RemoteRendering,
     renderingSession: RenderingSession,
-    options: RenderingSessionPollerOptions
+    options: RenderingSessionPollerOptions,
   ) {
     super(
       new RenderingSessionOperation(
         accountId,
         operations,
-        new RenderingSessionOperationStateImpl(renderingSession)
-      )
+        new RenderingSessionOperationStateImpl(renderingSession),
+      ),
     );
     if (options.intervalInMs) {
       this.intervalInMs = options.intervalInMs;

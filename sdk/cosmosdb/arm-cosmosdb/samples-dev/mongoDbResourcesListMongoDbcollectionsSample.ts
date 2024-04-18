@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the MongoDB collection under an existing Azure Cosmos DB database account.
  *
  * @summary Lists the MongoDB collection under an existing Azure Cosmos DB database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBMongoDBCollectionList.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBMongoDBCollectionList.json
  */
 async function cosmosDbMongoDbcollectionList() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -31,7 +31,7 @@ async function cosmosDbMongoDbcollectionList() {
   for await (let item of client.mongoDBResources.listMongoDBCollections(
     resourceGroupName,
     accountName,
-    databaseName
+    databaseName,
   )) {
     resArray.push(item);
   }

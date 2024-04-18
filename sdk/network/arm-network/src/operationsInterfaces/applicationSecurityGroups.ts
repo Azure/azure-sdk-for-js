@@ -19,7 +19,7 @@ import {
   ApplicationSecurityGroupsCreateOrUpdateResponse,
   TagsObject,
   ApplicationSecurityGroupsUpdateTagsOptionalParams,
-  ApplicationSecurityGroupsUpdateTagsResponse
+  ApplicationSecurityGroupsUpdateTagsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface ApplicationSecurityGroups {
    * @param options The options parameters.
    */
   listAll(
-    options?: ApplicationSecurityGroupsListAllOptionalParams
+    options?: ApplicationSecurityGroupsListAllOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationSecurityGroup>;
   /**
    * Gets all the application security groups in a resource group.
@@ -39,7 +39,7 @@ export interface ApplicationSecurityGroups {
    */
   list(
     resourceGroupName: string,
-    options?: ApplicationSecurityGroupsListOptionalParams
+    options?: ApplicationSecurityGroupsListOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationSecurityGroup>;
   /**
    * Deletes the specified application security group.
@@ -50,7 +50,7 @@ export interface ApplicationSecurityGroups {
   beginDelete(
     resourceGroupName: string,
     applicationSecurityGroupName: string,
-    options?: ApplicationSecurityGroupsDeleteOptionalParams
+    options?: ApplicationSecurityGroupsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified application security group.
@@ -61,7 +61,7 @@ export interface ApplicationSecurityGroups {
   beginDeleteAndWait(
     resourceGroupName: string,
     applicationSecurityGroupName: string,
-    options?: ApplicationSecurityGroupsDeleteOptionalParams
+    options?: ApplicationSecurityGroupsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets information about the specified application security group.
@@ -72,7 +72,7 @@ export interface ApplicationSecurityGroups {
   get(
     resourceGroupName: string,
     applicationSecurityGroupName: string,
-    options?: ApplicationSecurityGroupsGetOptionalParams
+    options?: ApplicationSecurityGroupsGetOptionalParams,
   ): Promise<ApplicationSecurityGroupsGetResponse>;
   /**
    * Creates or updates an application security group.
@@ -85,7 +85,7 @@ export interface ApplicationSecurityGroups {
     resourceGroupName: string,
     applicationSecurityGroupName: string,
     parameters: ApplicationSecurityGroup,
-    options?: ApplicationSecurityGroupsCreateOrUpdateOptionalParams
+    options?: ApplicationSecurityGroupsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ApplicationSecurityGroupsCreateOrUpdateResponse>,
@@ -103,7 +103,7 @@ export interface ApplicationSecurityGroups {
     resourceGroupName: string,
     applicationSecurityGroupName: string,
     parameters: ApplicationSecurityGroup,
-    options?: ApplicationSecurityGroupsCreateOrUpdateOptionalParams
+    options?: ApplicationSecurityGroupsCreateOrUpdateOptionalParams,
   ): Promise<ApplicationSecurityGroupsCreateOrUpdateResponse>;
   /**
    * Updates an application security group's tags.
@@ -116,6 +116,6 @@ export interface ApplicationSecurityGroups {
     resourceGroupName: string,
     applicationSecurityGroupName: string,
     parameters: TagsObject,
-    options?: ApplicationSecurityGroupsUpdateTagsOptionalParams
+    options?: ApplicationSecurityGroupsUpdateTagsOptionalParams,
   ): Promise<ApplicationSecurityGroupsUpdateTagsResponse>;
 }

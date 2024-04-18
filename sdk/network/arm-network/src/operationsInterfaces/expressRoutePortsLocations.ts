@@ -11,7 +11,7 @@ import {
   ExpressRoutePortsLocation,
   ExpressRoutePortsLocationsListOptionalParams,
   ExpressRoutePortsLocationsGetOptionalParams,
-  ExpressRoutePortsLocationsGetResponse
+  ExpressRoutePortsLocationsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -23,7 +23,7 @@ export interface ExpressRoutePortsLocations {
    * @param options The options parameters.
    */
   list(
-    options?: ExpressRoutePortsLocationsListOptionalParams
+    options?: ExpressRoutePortsLocationsListOptionalParams,
   ): PagedAsyncIterableIterator<ExpressRoutePortsLocation>;
   /**
    * Retrieves a single ExpressRoutePort peering location, including the list of available bandwidths
@@ -33,6 +33,6 @@ export interface ExpressRoutePortsLocations {
    */
   get(
     locationName: string,
-    options?: ExpressRoutePortsLocationsGetOptionalParams
+    options?: ExpressRoutePortsLocationsGetOptionalParams,
   ): Promise<ExpressRoutePortsLocationsGetResponse>;
 }

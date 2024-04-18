@@ -31,6 +31,7 @@ import { testLogger } from "./utils/misc";
 const should = chai.should();
 chai.use(chaiAsPromised);
 const assert = chai.assert;
+const expect = chai.expect;
 
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
 const withSessionTestClientType = getRandomTestClientTypeWithSessions();
@@ -44,7 +45,7 @@ let deadLetterReceiver: ServiceBusReceiver;
 
 async function beforeEachTest(
   entityType: TestClientType,
-  receiveMode: "peekLock" | "receiveAndDelete" = "peekLock"
+  receiveMode: "peekLock" | "receiveAndDelete" = "peekLock",
 ): Promise<void> {
   entityNames = await serviceBusClient.test.createTestEntities(entityType);
   if (receiveMode === "receiveAndDelete") {
@@ -54,7 +55,7 @@ async function beforeEachTest(
   }
 
   sender = serviceBusClient.test.addToCleanup(
-    serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+    serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!),
   );
 
   deadLetterReceiver = serviceBusClient.test.createDeadLetterReceiver(entityNames);
@@ -81,7 +82,7 @@ describe("Batching Receiver", () => {
     });
 
     async function sendReceiveMsg(
-      testMessages: ServiceBusMessage
+      testMessages: ServiceBusMessage,
     ): Promise<ServiceBusReceivedMessage> {
       await sender.sendMessages(testMessages);
       const msgs = await receiver.receiveMessages(1);
@@ -92,7 +93,7 @@ describe("Batching Receiver", () => {
       should.equal(
         msgs[0].messageId,
         testMessages.messageId,
-        "MessageId is different than expected"
+        "MessageId is different than expected",
       );
       should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
 
@@ -120,7 +121,7 @@ describe("Batching Receiver", () => {
       async function (): Promise<void> {
         await beforeEachTest(withSessionTestClientType);
         await testComplete();
-      }
+      },
     );
 
     async function testAbandon(): Promise<void> {
@@ -139,7 +140,7 @@ describe("Batching Receiver", () => {
       should.equal(
         messageBatch[0].messageId,
         testMessages.messageId,
-        "MessageId is different than expected"
+        "MessageId is different than expected",
       );
 
       await receiver.completeMessage(messageBatch[0]);
@@ -152,7 +153,7 @@ describe("Batching Receiver", () => {
       async function (): Promise<void> {
         await beforeEachTest(noSessionTestClientType);
         await testAbandon();
-      }
+      },
     );
 
     it(
@@ -160,7 +161,7 @@ describe("Batching Receiver", () => {
       async function (): Promise<void> {
         await beforeEachTest(withSessionTestClientType);
         await testAbandon();
-      }
+      },
     );
 
     async function testAbandonMsgsTillMaxDeliveryCount(): Promise<void> {
@@ -177,12 +178,12 @@ describe("Batching Receiver", () => {
         should.equal(
           batch[0].messageId,
           testMessages.messageId,
-          "MessageId is different than expected"
+          "MessageId is different than expected",
         );
         should.equal(
           batch[0].deliveryCount,
           abandonMsgCount,
-          "DeliveryCount is different than expected"
+          "DeliveryCount is different than expected",
         );
         abandonMsgCount++;
 
@@ -196,18 +197,18 @@ describe("Batching Receiver", () => {
       should.equal(
         Array.isArray(deadLetterMsgsBatch),
         true,
-        "`ReceivedMessages` from Deadletter is not an array"
+        "`ReceivedMessages` from Deadletter is not an array",
       );
       should.equal(deadLetterMsgsBatch.length, 1, "Unexpected number of messages");
       should.equal(
         deadLetterMsgsBatch[0].body,
         testMessages.body,
-        "MessageBody is different than expected"
+        "MessageBody is different than expected",
       );
       should.equal(
         deadLetterMsgsBatch[0].messageId,
         testMessages.messageId,
-        "MessageId is different than expected"
+        "MessageId is different than expected",
       );
 
       await receiver.completeMessage(deadLetterMsgsBatch[0]);
@@ -220,7 +221,7 @@ describe("Batching Receiver", () => {
       async function (): Promise<void> {
         await beforeEachTest(noSessionTestClientType);
         await testAbandonMsgsTillMaxDeliveryCount();
-      }
+      },
     );
 
     it(
@@ -228,7 +229,7 @@ describe("Batching Receiver", () => {
       async function (): Promise<void> {
         await beforeEachTest(withSessionTestClientType);
         await testAbandonMsgsTillMaxDeliveryCount();
-      }
+      },
     );
 
     async function testDefer(): Promise<void> {
@@ -251,7 +252,7 @@ describe("Batching Receiver", () => {
       should.equal(
         deferredMsg.messageId,
         testMessages.messageId,
-        "MessageId is different than expected"
+        "MessageId is different than expected",
       );
       should.equal(deferredMsg.deliveryCount, 1, "DeliveryCount is different than expected");
 
@@ -265,7 +266,7 @@ describe("Batching Receiver", () => {
       async function (): Promise<void> {
         await beforeEachTest(noSessionTestClientType);
         await testDefer();
-      }
+      },
     );
 
     it(
@@ -273,7 +274,7 @@ describe("Batching Receiver", () => {
       async function (): Promise<void> {
         await beforeEachTest(withSessionTestClientType);
         await testDefer();
-      }
+      },
     );
 
     async function testDeadletter(): Promise<void> {
@@ -290,18 +291,18 @@ describe("Batching Receiver", () => {
       should.equal(
         Array.isArray(deadLetterMsgsBatch),
         true,
-        "`ReceivedMessages` from Deadletter is not an array"
+        "`ReceivedMessages` from Deadletter is not an array",
       );
       should.equal(deadLetterMsgsBatch.length, 1, "Unexpected number of messages");
       should.equal(
         deadLetterMsgsBatch[0].body,
         testMessages.body,
-        "MessageBody is different than expected"
+        "MessageBody is different than expected",
       );
       should.equal(
         deadLetterMsgsBatch[0].messageId,
         testMessages.messageId,
-        "MessageId is different than expected"
+        "MessageId is different than expected",
       );
 
       await receiver.completeMessage(deadLetterMsgsBatch[0]);
@@ -314,7 +315,7 @@ describe("Batching Receiver", () => {
       async function (): Promise<void> {
         await beforeEachTest(noSessionTestClientType);
         await testDeadletter();
-      }
+      },
     );
 
     it(
@@ -322,7 +323,7 @@ describe("Batching Receiver", () => {
       async function (): Promise<void> {
         await beforeEachTest(withSessionTestClientType);
         await testDeadletter();
-      }
+      },
     );
 
     async function testPeek(): Promise<void> {
@@ -343,7 +344,7 @@ describe("Batching Receiver", () => {
       should.equal(
         !peekedMsg.lockToken,
         true,
-        "Peeked msg was not meant to have lockToken! We use this assumption to differentiate between peeked msg and other messages."
+        "Peeked msg was not meant to have lockToken! We use this assumption to differentiate between peeked msg and other messages.",
       );
 
       const expectedErrorMsg = InvalidOperationForPeekedMessage;
@@ -380,7 +381,7 @@ describe("Batching Receiver", () => {
       async function (): Promise<void> {
         await beforeEachTest(noSessionTestClientType);
         await testPeek();
-      }
+      },
     );
 
     it(
@@ -388,7 +389,7 @@ describe("Batching Receiver", () => {
       async function (): Promise<void> {
         await beforeEachTest(withSessionTestClientType);
         await testPeek();
-      }
+      },
     );
   });
 
@@ -406,7 +407,7 @@ describe("Batching Receiver", () => {
     });
 
     async function deadLetterMessage(
-      testMessage: ServiceBusMessage
+      testMessage: ServiceBusMessage,
     ): Promise<ServiceBusReceivedMessage> {
       await sender.sendMessages(testMessage);
       const batch = await receiver.receiveMessages(1);
@@ -416,7 +417,7 @@ describe("Batching Receiver", () => {
       should.equal(
         batch[0].messageId,
         testMessage.messageId,
-        "MessageId is different than expected"
+        "MessageId is different than expected",
       );
       should.equal(batch[0].deliveryCount, 0, "DeliveryCount is different than expected");
 
@@ -430,17 +431,17 @@ describe("Batching Receiver", () => {
       should.equal(
         deadLetterMsgsBatch[0].body,
         testMessage.body,
-        "MessageBody is different than expected"
+        "MessageBody is different than expected",
       );
       should.equal(
         deadLetterMsgsBatch[0].messageId,
         testMessage.messageId,
-        "MessageId is different than expected"
+        "MessageId is different than expected",
       );
       should.equal(
         deadLetterMsgsBatch[0].deliveryCount,
         0,
-        "DeliveryCount is different than expected"
+        "DeliveryCount is different than expected",
       );
 
       return deadLetterMsgsBatch[0];
@@ -449,7 +450,7 @@ describe("Batching Receiver", () => {
     async function completeDeadLetteredMessage(
       testMessage: ServiceBusMessage,
       deadletterClient: ServiceBusReceiver,
-      expectedDeliverCount: number
+      expectedDeliverCount: number,
     ): Promise<void> {
       const deadLetterMsgsBatch = await deadLetterReceiver.receiveMessages(1);
 
@@ -457,17 +458,17 @@ describe("Batching Receiver", () => {
       should.equal(
         deadLetterMsgsBatch[0].body,
         testMessage.body,
-        "MessageBody is different than expected"
+        "MessageBody is different than expected",
       );
       should.equal(
         deadLetterMsgsBatch[0].messageId,
         testMessage.messageId,
-        "MessageId is different than expected"
+        "MessageId is different than expected",
       );
       should.equal(
         deadLetterMsgsBatch[0].deliveryCount,
         expectedDeliverCount,
-        "DeliveryCount is different than expected"
+        "DeliveryCount is different than expected",
       );
 
       await receiver.completeMessage(deadLetterMsgsBatch[0]);
@@ -496,7 +497,7 @@ describe("Batching Receiver", () => {
       async function (): Promise<void> {
         await beforeEachTest(anyRandomTestClientType);
         await testDeadletter();
-      }
+      },
     );
 
     async function testAbandon(): Promise<void> {
@@ -515,7 +516,7 @@ describe("Batching Receiver", () => {
       async function (): Promise<void> {
         await beforeEachTest(anyRandomTestClientType);
         await testAbandon();
-      }
+      },
     );
 
     async function testDefer(): Promise<void> {
@@ -539,7 +540,7 @@ describe("Batching Receiver", () => {
       should.equal(
         deferredMsg.messageId,
         testMessage.messageId,
-        "MessageId is different than expected"
+        "MessageId is different than expected",
       );
 
       await deadLetterReceiver.completeMessage(deferredMsg);
@@ -557,7 +558,7 @@ describe("Batching Receiver", () => {
       async function (): Promise<void> {
         await beforeEachTest(noSessionTestClientType);
         await testDefer();
-      }
+      },
     );
   });
 
@@ -622,12 +623,12 @@ describe("Batching Receiver", () => {
       should.equal(
         testMessages.some((x) => x.messageId === msgs1[0].messageId),
         true,
-        "MessageId is different than expected"
+        "MessageId is different than expected",
       );
       should.equal(
         testMessages.some((x) => x.messageId === msgs2[0].messageId),
         true,
-        "MessageId is different than expected"
+        "MessageId is different than expected",
       );
 
       await receiver.completeMessage(msgs1[0]);
@@ -639,7 +640,7 @@ describe("Batching Receiver", () => {
       async function (): Promise<void> {
         await beforeEachTest(noSessionTestClientType);
         await testSequentialReceiveBatchCalls();
-      }
+      },
     );
 
     it(
@@ -647,7 +648,7 @@ describe("Batching Receiver", () => {
       async function (): Promise<void> {
         await beforeEachTest(withSessionTestClientType);
         await testSequentialReceiveBatchCalls();
-      }
+      },
     );
   });
 
@@ -679,7 +680,7 @@ describe("Batching Receiver", () => {
           testMessages.sessionId!,
           {
             maxAutoLockRenewalDurationInMs: 0,
-          }
+          },
         );
       } else {
         receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames, {
@@ -694,7 +695,7 @@ describe("Batching Receiver", () => {
       should.equal(
         batch[0].messageId,
         testMessages.messageId,
-        "MessageId is different than expected"
+        "MessageId is different than expected",
       );
 
       await testPeekMsgsLength(receiver, 1);
@@ -708,7 +709,7 @@ describe("Batching Receiver", () => {
           testMessages.sessionId!,
           {
             maxAutoLockRenewalDurationInMs: 0,
-          }
+          },
         );
       }
 
@@ -719,7 +720,7 @@ describe("Batching Receiver", () => {
       should.equal(
         batch[0].messageId,
         testMessages.messageId,
-        "MessageId is different than expected"
+        "MessageId is different than expected",
       );
 
       await receiver.completeMessage(batch[0]);
@@ -731,7 +732,7 @@ describe("Batching Receiver", () => {
       async function (): Promise<void> {
         await beforeEachTest(noSessionTestClientType);
         await testNoSettlement();
-      }
+      },
     );
 
     it(
@@ -740,7 +741,7 @@ describe("Batching Receiver", () => {
       async function (): Promise<void> {
         await beforeEachTest(withSessionTestClientType);
         await testNoSettlement();
-      }
+      },
     );
 
     async function testAskForMore(): Promise<void> {
@@ -755,7 +756,7 @@ describe("Batching Receiver", () => {
       should.equal(
         batch[0].messageId,
         testMessages.messageId,
-        "MessageId is different than expected"
+        "MessageId is different than expected",
       );
 
       await receiver.completeMessage(batch[0]);
@@ -769,7 +770,7 @@ describe("Batching Receiver", () => {
         await beforeEachTest(noSessionTestClientType);
 
         await testAskForMore();
-      }
+      },
     );
 
     it(
@@ -779,7 +780,7 @@ describe("Batching Receiver", () => {
         await beforeEachTest(withSessionTestClientType);
 
         await testAskForMore();
-      }
+      },
     );
 
     it(
@@ -794,9 +795,9 @@ describe("Batching Receiver", () => {
           });
           throw new Error(`Test failure`);
         } catch (err: any) {
-          err.message.should.equal(StandardAbortMessage);
+          expect(err.message).includes(StandardAbortMessage);
         }
-      }
+      },
     );
 
     it(
@@ -811,9 +812,9 @@ describe("Batching Receiver", () => {
           });
           throw new Error(`Test failure`);
         } catch (err: any) {
-          err.message.should.equal(StandardAbortMessage);
+          expect(err.message).includes(StandardAbortMessage);
         }
-      }
+      },
     );
   });
 
@@ -885,7 +886,7 @@ describe("Batching Receiver", () => {
         // which is a non-blocking task.
 
         testLogger.info(
-          "Receiving a single message to warm up receiver (there isn't one, so this should just time out)"
+          "Receiving a single message to warm up receiver (there isn't one, so this should just time out)",
         );
 
         const maxWaitTimeInMs = 5000;
@@ -912,7 +913,7 @@ describe("Batching Receiver", () => {
         const messages1 = await receiver.receiveMessages(10, { maxWaitTimeInMs });
 
         testLogger.info(
-          `Receiving done, got ${messages1.length} messages, now waiting for detach event since we forced a .idle()`
+          `Receiving done, got ${messages1.length} messages, now waiting for detach event since we forced a .idle()`,
         );
 
         const result = await Promise.all([
@@ -931,7 +932,7 @@ describe("Batching Receiver", () => {
         const sampleMessage = TestMessage.getSample();
 
         testLogger.info(
-          "Sending another sample message for our 'receiver after interrupted batch receiver' receiver"
+          "Sending another sample message for our 'receiver after interrupted batch receiver' receiver",
         );
 
         await sender.sendMessages(sampleMessage);
@@ -947,7 +948,7 @@ describe("Batching Receiver", () => {
 
         assert.deepEqual(
           messages2!.map((msg) => msg.body),
-          [sampleMessage.body]
+          [sampleMessage.body],
         );
       });
 
@@ -973,10 +974,8 @@ describe("Batching Receiver", () => {
           await receiver.receiveMessages(10);
           throw new Error(testFailureMessage);
         } catch (err: any) {
-          assert.deepNestedInclude(err, {
-            name: "Error",
-            message: "Test: fake connection failure",
-          });
+          assert.ok(err.name === "Error");
+          assert.ok(err.message.match(/Test: fake connection failure/));
         }
 
         await onDetachedCalledPromise;
@@ -1082,22 +1081,22 @@ describe("Batching Receiver", () => {
       });
 
       async function beforeEachTestInner(
-        receiveMode: "peekLock" | "receiveAndDelete" = "peekLock"
+        receiveMode: "peekLock" | "receiveAndDelete" = "peekLock",
       ): Promise<void> {
         serviceBusClient = createServiceBusClientForTests();
         entityNames = await serviceBusClient.test.createTestEntities(withSessionTestClientType);
         if (receiveMode === "receiveAndDelete") {
           sessionReceiver = (await serviceBusClient.test.createReceiveAndDeleteReceiver(
-            entityNames
+            entityNames,
           )) as ServiceBusSessionReceiver;
         } else {
           sessionReceiver = (await serviceBusClient.test.createPeekLockReceiver(
-            entityNames
+            entityNames,
           )) as ServiceBusSessionReceiver;
         }
 
         sessionSender = serviceBusClient.test.addToCleanup(
-          serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+          serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!),
         );
       }
 
@@ -1147,7 +1146,7 @@ describe("Batching Receiver", () => {
         } catch (error: any) {
           should.equal(
             error.message,
-            `The session lock has expired on the session with id ${message.sessionId}`
+            `The session lock has expired on the session with id ${message.sessionId}`,
           );
         }
         refreshConnectionCalled.should.be.greaterThan(0, "refreshConnection was not called.");
@@ -1165,7 +1164,7 @@ describe("Batching Receiver", () => {
         should.equal(
           messages1.length,
           1,
-          "Unexpected number of received messages(before disconnect)."
+          "Unexpected number of received messages(before disconnect).",
         );
 
         const messageSession = (sessionReceiver as ServiceBusSessionReceiverImpl)[
@@ -1187,7 +1186,7 @@ describe("Batching Receiver", () => {
 
         messages2.length.should.equal(
           1,
-          "Unexpected number of messages received(during disconnect)."
+          "Unexpected number of messages received(during disconnect).",
         );
 
         await sessionSender.sendMessages(TestMessage.getSessionSample());
@@ -1200,18 +1199,18 @@ describe("Batching Receiver", () => {
           should.equal(
             error.message,
             `The session lock has expired on the session with id ${TestMessage.sessionId}`,
-            "Unexpected error thrown"
+            "Unexpected error thrown",
           );
           await delay(2000); // Adding a delay of 2 sec to make sure the flaky ness goes away
           // wait for the 2nd message to be received.
           sessionReceiver = (await serviceBusClient.test.createReceiveAndDeleteReceiver(
-            entityNames
+            entityNames,
           )) as ServiceBusSessionReceiver;
           const messages3 = await sessionReceiver.receiveMessages(1, { maxWaitTimeInMs });
 
           messages3.length.should.equal(
             1,
-            "Unexpected number of messages received(upon reconnecting)."
+            "Unexpected number of messages received(upon reconnecting).",
           );
         }
       });
@@ -1227,7 +1226,7 @@ describe("Batching Receiver", () => {
         should.equal(
           messages1.length,
           1,
-          "Unexpected number of received messages(before disconnect)."
+          "Unexpected number of received messages(before disconnect).",
         );
 
         const batchingReceiver = (sessionReceiver as ServiceBusSessionReceiverImpl)[
@@ -1247,10 +1246,8 @@ describe("Batching Receiver", () => {
           await sessionReceiver.receiveMessages(10);
           throw new Error(testFailureMessage);
         } catch (err: any) {
-          assert.deepNestedInclude(err, {
-            name: "Error",
-            message: "Test: fake connection failure",
-          });
+          assert.equal(err?.name, "Error");
+          expect(err?.message).includes("Test: fake connection failure");
         }
 
         await drainRequestedPromise;
@@ -1267,7 +1264,7 @@ describe("Batching Receiver", () => {
         should.equal(
           messages1.length,
           1,
-          "Unexpected number of received messages(before disconnect)."
+          "Unexpected number of received messages(before disconnect).",
         );
 
         const receiverContext = (sessionReceiver as ServiceBusSessionReceiverImpl)["_context"];
@@ -1292,7 +1289,7 @@ describe("Batching Receiver", () => {
 
         messages2.length.should.equal(
           1,
-          "Unexpected number of messages received(during disconnect)."
+          "Unexpected number of messages received(during disconnect).",
         );
 
         await sessionSender.sendMessages(TestMessage.getSessionSample());
@@ -1305,18 +1302,18 @@ describe("Batching Receiver", () => {
           should.equal(
             error.message,
             `The session lock has expired on the session with id ${TestMessage.sessionId}`,
-            "Unexpected error thrown"
+            "Unexpected error thrown",
           );
           // wait for the 2nd message to be received.
           await sessionReceiver.close();
           sessionReceiver = (await serviceBusClient.test.createReceiveAndDeleteReceiver(
-            entityNames
+            entityNames,
           )) as ServiceBusSessionReceiver;
           const messages3 = await sessionReceiver.receiveMessages(1, { maxWaitTimeInMs: 5000 });
 
           messages3.length.should.equal(
             1,
-            "Unexpected number of messages received(upon reconnecting)."
+            "Unexpected number of messages received(upon reconnecting).",
           );
         }
       });
@@ -1332,7 +1329,7 @@ describe("Batching Receiver", () => {
         should.equal(
           messages1.length,
           1,
-          "Unexpected number of received messages(before disconnect)."
+          "Unexpected number of received messages(before disconnect).",
         );
 
         const receiverContext = (sessionReceiver as ServiceBusSessionReceiverImpl)["_context"];
@@ -1491,7 +1488,7 @@ describe("Batching Receiver", () => {
  *   for the batching receiver.
  */
 function causeDisconnectDuringDrain(
-  batchingReceiver: (Pick<BatchingReceiver, "onDetached"> & LinkEntity<Receiver>) | undefined
+  batchingReceiver: (Pick<BatchingReceiver, "onDetached"> & LinkEntity<Receiver>) | undefined,
 ): { onDetachedCalledPromise: Promise<void> } {
   let resolveOnDetachedCallPromise: () => void;
 

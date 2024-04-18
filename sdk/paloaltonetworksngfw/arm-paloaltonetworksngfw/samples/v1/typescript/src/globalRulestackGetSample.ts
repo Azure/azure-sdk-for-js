@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a GlobalRulestackResource
  *
  * @summary Get a GlobalRulestackResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/GlobalRulestack_Get_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_Get_MaximumSet_Gen.json
  */
 async function globalRulestackGetMaximumSetGen() {
   const globalRulestackName = "praval";
@@ -32,7 +32,7 @@ async function globalRulestackGetMaximumSetGen() {
  * This sample demonstrates how to Get a GlobalRulestackResource
  *
  * @summary Get a GlobalRulestackResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/GlobalRulestack_Get_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_Get_MinimumSet_Gen.json
  */
 async function globalRulestackGetMinimumSetGen() {
   const globalRulestackName = "praval";

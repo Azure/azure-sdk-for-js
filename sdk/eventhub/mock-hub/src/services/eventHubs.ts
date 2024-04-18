@@ -266,7 +266,7 @@ export class MockEventHub implements IMockEventHub {
         !this._handleSenderOwnerLevel(
           entityComponents.consumerGroup,
           entityComponents.partitionId,
-          event.sender
+          event.sender,
         )
       ) {
         return;
@@ -278,7 +278,7 @@ export class MockEventHub implements IMockEventHub {
 
       // Check if we need to include runtime metrics on events we send to the client.
       const enableRuntimeMetric = desiredCapabilities.includes(
-        "com.microsoft:enable-receiver-runtime-metric"
+        "com.microsoft:enable-receiver-runtime-metric",
       );
 
       // Get the starting position from which to start reading events.
@@ -293,14 +293,14 @@ export class MockEventHub implements IMockEventHub {
           event.sender,
           entityComponents.partitionId,
           startPosition,
-          enableRuntimeMetric
+          enableRuntimeMetric,
         );
         this._streamingPartitionSenderMap.set(event.sender, streamingPartitionSender);
         streamingPartitionSender.start();
         this._storePartitionSender(
           entityComponents.consumerGroup,
           entityComponents.partitionId,
-          event.sender
+          event.sender,
         );
       } catch (err: any) {
         // Probably should close the sender at this point.
@@ -332,7 +332,7 @@ export class MockEventHub implements IMockEventHub {
         this._deletePartitionSender(
           entityComponents.consumerGroup,
           entityComponents.partitionId,
-          event.sender
+          event.sender,
         );
       }
     }
@@ -571,7 +571,7 @@ export class MockEventHub implements IMockEventHub {
   private _handleSenderOwnerLevel(
     consumerGroup: string,
     partitionId: string,
-    sender: Sender
+    sender: Sender,
   ): boolean {
     const ownerLevel = this._getSenderOwnerLevel(sender);
 
@@ -688,7 +688,7 @@ export class MockEventHub implements IMockEventHub {
   private _handlePartitionSenderOpenValidation(
     entityComponents: PartionSenderEntityComponents,
     sender: Sender,
-    context: EventContext
+    context: EventContext,
   ): boolean {
     const { eventHubName, consumerGroup, partitionId } = entityComponents;
     if (!this.partitionIds.includes(partitionId)) {
@@ -729,7 +729,7 @@ export class MockEventHub implements IMockEventHub {
   }
 
   private _parseReceiverPartitionEntityPath(
-    entityPath: string
+    entityPath: string,
   ): PartionReceiverEntityComponents | undefined {
     const parts = entityPath.split("/");
     if (parts.length !== 3) {
@@ -744,7 +744,7 @@ export class MockEventHub implements IMockEventHub {
   }
 
   private _parseSenderPartitionEntityPath(
-    entityPath: string
+    entityPath: string,
   ): PartionSenderEntityComponents | undefined {
     const parts = entityPath.split("/");
     if (parts.length !== 5) {
@@ -774,7 +774,7 @@ export class MockEventHub implements IMockEventHub {
     }
 
     const receiverRegex = new RegExp(
-      `^${this._name}\\/ConsumerGroups\\/[\\w\\d\\$\\-\\_]+\\/Partitions\\/[\\w\\d\\$\\-\\_]+`
+      `^${this._name}\\/ConsumerGroups\\/[\\w\\d\\$\\-\\_]+\\/Partitions\\/[\\w\\d\\$\\-\\_]+`,
     );
     if (receiverRegex.test(searchPath)) {
       return true;

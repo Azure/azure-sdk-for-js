@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license
 
-import path from "path";
-
+import path from "node:path";
 import { resolveProject } from "../../util/resolveProject";
 import { createPrinter } from "../../util/printer";
 import { leafCommand } from "../../framework/command";
@@ -26,7 +25,7 @@ export const commandInfo = makeCommandInfo(
       default: false,
       description: "output only the directory name with no extra formatting",
     },
-  }
+  },
 );
 
 export default leafCommand(commandInfo, async (options) => {

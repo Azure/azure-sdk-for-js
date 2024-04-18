@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Stops an UpdateRun.
  *
  * @summary Stops an UpdateRun.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-06-15-preview/examples/UpdateRuns_Stop.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2024-02-02-preview/examples/UpdateRuns_Stop.json
  */
 async function stopsAnUpdateRun() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function stopsAnUpdateRun() {
   const result = await client.updateRuns.beginStopAndWait(
     resourceGroupName,
     fleetName,
-    updateRunName
+    updateRunName,
   );
   console.log(result);
 }

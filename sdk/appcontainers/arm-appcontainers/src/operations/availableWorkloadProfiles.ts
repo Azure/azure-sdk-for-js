@@ -18,13 +18,14 @@ import {
   AvailableWorkloadProfilesGetNextOptionalParams,
   AvailableWorkloadProfilesGetOptionalParams,
   AvailableWorkloadProfilesGetResponse,
-  AvailableWorkloadProfilesGetNextResponse
+  AvailableWorkloadProfilesGetNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AvailableWorkloadProfiles operations. */
 export class AvailableWorkloadProfilesImpl
-  implements AvailableWorkloadProfiles {
+  implements AvailableWorkloadProfiles
+{
   private readonly client: ContainerAppsAPIClient;
 
   /**
@@ -42,7 +43,7 @@ export class AvailableWorkloadProfilesImpl
    */
   public list(
     location: string,
-    options?: AvailableWorkloadProfilesGetOptionalParams
+    options?: AvailableWorkloadProfilesGetOptionalParams,
   ): PagedAsyncIterableIterator<AvailableWorkloadProfile> {
     const iter = this.getPagingAll(location, options);
     return {
@@ -57,14 +58,14 @@ export class AvailableWorkloadProfilesImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.getPagingPage(location, options, settings);
-      }
+      },
     };
   }
 
   private async *getPagingPage(
     location: string,
     options?: AvailableWorkloadProfilesGetOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AvailableWorkloadProfile[]> {
     let result: AvailableWorkloadProfilesGetResponse;
     let continuationToken = settings?.continuationToken;
@@ -86,7 +87,7 @@ export class AvailableWorkloadProfilesImpl
 
   private async *getPagingAll(
     location: string,
-    options?: AvailableWorkloadProfilesGetOptionalParams
+    options?: AvailableWorkloadProfilesGetOptionalParams,
   ): AsyncIterableIterator<AvailableWorkloadProfile> {
     for await (const page of this.getPagingPage(location, options)) {
       yield* page;
@@ -100,11 +101,11 @@ export class AvailableWorkloadProfilesImpl
    */
   private _get(
     location: string,
-    options?: AvailableWorkloadProfilesGetOptionalParams
+    options?: AvailableWorkloadProfilesGetOptionalParams,
   ): Promise<AvailableWorkloadProfilesGetResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -117,11 +118,11 @@ export class AvailableWorkloadProfilesImpl
   private _getNext(
     location: string,
     nextLink: string,
-    options?: AvailableWorkloadProfilesGetNextOptionalParams
+    options?: AvailableWorkloadProfilesGetNextOptionalParams,
   ): Promise<AvailableWorkloadProfilesGetNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
-      getNextOperationSpec
+      getNextOperationSpec,
     );
   }
 }
@@ -129,43 +130,42 @@ export class AvailableWorkloadProfilesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.App/locations/{location}/availableManagedEnvironmentsWorkloadProfileTypes",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.App/locations/{location}/availableManagedEnvironmentsWorkloadProfileTypes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailableWorkloadProfilesCollection
+      bodyMapper: Mappers.AvailableWorkloadProfilesCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailableWorkloadProfilesCollection
+      bodyMapper: Mappers.AvailableWorkloadProfilesCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

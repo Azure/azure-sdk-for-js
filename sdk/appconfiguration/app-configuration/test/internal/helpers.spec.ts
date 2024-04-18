@@ -12,6 +12,7 @@ import {
 } from "../../src";
 import {
   checkAndFormatIfAndIfNoneMatch,
+  extractAfterTokenFromLinkHeader,
   extractAfterTokenFromNextLink,
   formatFieldsForSelect,
   formatFiltersAndSelect,
@@ -37,7 +38,7 @@ describe("helper methods", () => {
         ifMatch: undefined,
         ifNoneMatch: undefined,
       },
-      checkAndFormatIfAndIfNoneMatch(object, {})
+      checkAndFormatIfAndIfNoneMatch(object, {}),
     );
 
     assert.deepEqual(
@@ -47,7 +48,7 @@ describe("helper methods", () => {
       },
       checkAndFormatIfAndIfNoneMatch(objectWithEtag, {
         onlyIfUnchanged: true,
-      })
+      }),
     );
 
     assert.deepEqual(
@@ -57,7 +58,7 @@ describe("helper methods", () => {
       },
       checkAndFormatIfAndIfNoneMatch(objectWithEtag, {
         onlyIfChanged: true,
-      })
+      }),
     );
   });
 
@@ -71,7 +72,7 @@ describe("helper methods", () => {
           onlyIfChanged: true,
           onlyIfUnchanged: true,
         }),
-      /onlyIfChanged and onlyIfUnchanged are mutually-exclusive/
+      /onlyIfChanged and onlyIfUnchanged are mutually-exclusive/,
     );
   });
 
@@ -132,6 +133,13 @@ describe("helper methods", () => {
       const token = extractAfterTokenFromNextLink("/kv?key=someKey&api-version=1.0&after=bGlah%3D");
       assert.equal("bGlah=", token);
     });
+
+    it("extractAfterTokenFromLinkHeader", () => {
+      const link = '</kv?api-version=2023-10-01&key=listResults714&after=bGlzdE4>; rel="next"';
+      const expectedLink = "bGlzdE4";
+
+      assert.equal(expectedLink, extractAfterTokenFromLinkHeader(link));
+    });
   });
 
   describe("serializeAsConfigurationSettingParam", () => {
@@ -151,7 +159,7 @@ describe("helper methods", () => {
         assert.deepEqual(
           serializeAsConfigurationSettingParam(featureFlag),
           featureFlag as unknown as ConfigurationSettingParam<string>,
-          "setting was modified"
+          "setting was modified",
         );
       });
 
@@ -166,7 +174,7 @@ describe("helper methods", () => {
         assert.deepEqual(
           serializeAsConfigurationSettingParam(setting),
           setting as any,
-          "setting was modified"
+          "setting was modified",
         );
       });
     });
@@ -251,7 +259,7 @@ describe("helper methods", () => {
         locked: true,
         ...fakeHttp204Response,
       },
-      204
+      204,
     );
 
     const actualKeys = Object.keys(configurationSetting).sort();

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes an existing Azure Cosmos DB SQL storedProcedure.
  *
  * @summary Deletes an existing Azure Cosmos DB SQL storedProcedure.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBSqlStoredProcedureDelete.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBSqlStoredProcedureDelete.json
  */
 async function cosmosDbSqlStoredProcedureDelete() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -32,7 +32,7 @@ async function cosmosDbSqlStoredProcedureDelete() {
     accountName,
     databaseName,
     containerName,
-    storedProcedureName
+    storedProcedureName,
   );
   console.log(result);
 }

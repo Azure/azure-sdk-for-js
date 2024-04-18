@@ -29,14 +29,14 @@ async function patchAnActivityLogAlertRule() {
   const activityLogAlertName = "SampleActivityLogAlertRule";
   const activityLogAlertRulePatch: AlertRulePatchObject = {
     enabled: false,
-    tags: { key1: "value1", key2: "value2" }
+    tags: { key1: "value1", key2: "value2" },
   };
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.activityLogAlerts.update(
     resourceGroupName,
     activityLogAlertName,
-    activityLogAlertRulePatch
+    activityLogAlertRulePatch,
   );
   console.log(result);
 }

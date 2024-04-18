@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Starts an UpdateRun.
  *
  * @summary Starts an UpdateRun.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-06-15-preview/examples/UpdateRuns_Start.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2024-02-02-preview/examples/UpdateRuns_Start.json
  */
 async function startsAnUpdateRun() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function startsAnUpdateRun() {
   const result = await client.updateRuns.beginStartAndWait(
     resourceGroupName,
     fleetName,
-    updateRunName
+    updateRunName,
   );
   console.log(result);
 }

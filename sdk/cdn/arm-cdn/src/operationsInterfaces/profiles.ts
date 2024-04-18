@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Profile,
   ProfilesListOptionalParams,
@@ -22,10 +22,17 @@ import {
   ProfilesUpdateOptionalParams,
   ProfilesUpdateResponse,
   ProfilesDeleteOptionalParams,
+  CanMigrateParameters,
+  ProfilesCanMigrateOptionalParams,
+  ProfilesCanMigrateResponse,
+  MigrationParameters,
+  ProfilesMigrateOptionalParams,
+  ProfilesMigrateResponse,
+  ProfilesMigrationCommitOptionalParams,
   ProfilesGenerateSsoUriOptionalParams,
   ProfilesGenerateSsoUriResponse,
   ProfilesListSupportedOptimizationTypesOptionalParams,
-  ProfilesListSupportedOptimizationTypesResponse
+  ProfilesListSupportedOptimizationTypesResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -37,7 +44,7 @@ export interface Profiles {
    * @param options The options parameters.
    */
   list(
-    options?: ProfilesListOptionalParams
+    options?: ProfilesListOptionalParams,
   ): PagedAsyncIterableIterator<Profile>;
   /**
    * Lists all of the Azure Front Door Standard, Azure Front Door Premium, and CDN profiles within a
@@ -47,7 +54,7 @@ export interface Profiles {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ProfilesListByResourceGroupOptionalParams
+    options?: ProfilesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Profile>;
   /**
    * Checks the quota and actual usage of endpoints under the given Azure Front Door Standard or Azure
@@ -60,7 +67,7 @@ export interface Profiles {
   listResourceUsage(
     resourceGroupName: string,
     profileName: string,
-    options?: ProfilesListResourceUsageOptionalParams
+    options?: ProfilesListResourceUsageOptionalParams,
   ): PagedAsyncIterableIterator<ResourceUsage>;
   /**
    * Gets an Azure Front Door Standard or Azure Front Door Premium or CDN profile with the specified
@@ -73,7 +80,7 @@ export interface Profiles {
   get(
     resourceGroupName: string,
     profileName: string,
-    options?: ProfilesGetOptionalParams
+    options?: ProfilesGetOptionalParams,
   ): Promise<ProfilesGetResponse>;
   /**
    * Creates a new Azure Front Door Standard or Azure Front Door Premium or CDN profile with a profile
@@ -88,10 +95,10 @@ export interface Profiles {
     resourceGroupName: string,
     profileName: string,
     profile: Profile,
-    options?: ProfilesCreateOptionalParams
+    options?: ProfilesCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ProfilesCreateResponse>,
+    SimplePollerLike<
+      OperationState<ProfilesCreateResponse>,
       ProfilesCreateResponse
     >
   >;
@@ -108,7 +115,7 @@ export interface Profiles {
     resourceGroupName: string,
     profileName: string,
     profile: Profile,
-    options?: ProfilesCreateOptionalParams
+    options?: ProfilesCreateOptionalParams,
   ): Promise<ProfilesCreateResponse>;
   /**
    * Updates an existing Azure Front Door Standard or Azure Front Door Premium or CDN profile with the
@@ -123,10 +130,10 @@ export interface Profiles {
     resourceGroupName: string,
     profileName: string,
     profileUpdateParameters: ProfileUpdateParameters,
-    options?: ProfilesUpdateOptionalParams
+    options?: ProfilesUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ProfilesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ProfilesUpdateResponse>,
       ProfilesUpdateResponse
     >
   >;
@@ -143,7 +150,7 @@ export interface Profiles {
     resourceGroupName: string,
     profileName: string,
     profileUpdateParameters: ProfileUpdateParameters,
-    options?: ProfilesUpdateOptionalParams
+    options?: ProfilesUpdateOptionalParams,
   ): Promise<ProfilesUpdateResponse>;
   /**
    * Deletes an existing  Azure Front Door Standard or Azure Front Door Premium or CDN profile with the
@@ -157,8 +164,8 @@ export interface Profiles {
   beginDelete(
     resourceGroupName: string,
     profileName: string,
-    options?: ProfilesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ProfilesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing  Azure Front Door Standard or Azure Front Door Premium or CDN profile with the
    * specified parameters. Deleting a profile will result in the deletion of all of the sub-resources
@@ -171,7 +178,87 @@ export interface Profiles {
   beginDeleteAndWait(
     resourceGroupName: string,
     profileName: string,
-    options?: ProfilesDeleteOptionalParams
+    options?: ProfilesDeleteOptionalParams,
+  ): Promise<void>;
+  /**
+   * Checks if CDN profile can be migrated to Azure Frontdoor(Standard/Premium) profile.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param canMigrateParameters Properties needed to check if cdn profile or classic frontdoor can be
+   *                             migrated.
+   * @param options The options parameters.
+   */
+  beginCanMigrate(
+    resourceGroupName: string,
+    canMigrateParameters: CanMigrateParameters,
+    options?: ProfilesCanMigrateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ProfilesCanMigrateResponse>,
+      ProfilesCanMigrateResponse
+    >
+  >;
+  /**
+   * Checks if CDN profile can be migrated to Azure Frontdoor(Standard/Premium) profile.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param canMigrateParameters Properties needed to check if cdn profile or classic frontdoor can be
+   *                             migrated.
+   * @param options The options parameters.
+   */
+  beginCanMigrateAndWait(
+    resourceGroupName: string,
+    canMigrateParameters: CanMigrateParameters,
+    options?: ProfilesCanMigrateOptionalParams,
+  ): Promise<ProfilesCanMigrateResponse>;
+  /**
+   * Migrate the CDN profile to Azure Frontdoor(Standard/Premium) profile. The change need to be
+   * committed after this.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param migrationParameters Properties needed to migrate the profile.
+   * @param options The options parameters.
+   */
+  beginMigrate(
+    resourceGroupName: string,
+    migrationParameters: MigrationParameters,
+    options?: ProfilesMigrateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ProfilesMigrateResponse>,
+      ProfilesMigrateResponse
+    >
+  >;
+  /**
+   * Migrate the CDN profile to Azure Frontdoor(Standard/Premium) profile. The change need to be
+   * committed after this.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param migrationParameters Properties needed to migrate the profile.
+   * @param options The options parameters.
+   */
+  beginMigrateAndWait(
+    resourceGroupName: string,
+    migrationParameters: MigrationParameters,
+    options?: ProfilesMigrateOptionalParams,
+  ): Promise<ProfilesMigrateResponse>;
+  /**
+   * Commit the migrated Azure Frontdoor(Standard/Premium) profile.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param options The options parameters.
+   */
+  beginMigrationCommit(
+    resourceGroupName: string,
+    profileName: string,
+    options?: ProfilesMigrationCommitOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Commit the migrated Azure Frontdoor(Standard/Premium) profile.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param options The options parameters.
+   */
+  beginMigrationCommitAndWait(
+    resourceGroupName: string,
+    profileName: string,
+    options?: ProfilesMigrationCommitOptionalParams,
   ): Promise<void>;
   /**
    * Generates a dynamic SSO URI used to sign in to the CDN supplemental portal. Supplemental portal is
@@ -185,7 +272,7 @@ export interface Profiles {
   generateSsoUri(
     resourceGroupName: string,
     profileName: string,
-    options?: ProfilesGenerateSsoUriOptionalParams
+    options?: ProfilesGenerateSsoUriOptionalParams,
   ): Promise<ProfilesGenerateSsoUriResponse>;
   /**
    * Gets the supported optimization types for the current profile. A user can create an endpoint with an
@@ -198,6 +285,6 @@ export interface Profiles {
   listSupportedOptimizationTypes(
     resourceGroupName: string,
     profileName: string,
-    options?: ProfilesListSupportedOptimizationTypesOptionalParams
+    options?: ProfilesListSupportedOptimizationTypesOptionalParams,
   ): Promise<ProfilesListSupportedOptimizationTypesResponse>;
 }

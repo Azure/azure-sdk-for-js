@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Get diagnostic information for an App Service Environment.
  *
  * @summary Description for Get diagnostic information for an App Service Environment.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/AppServiceEnvironments_ListDiagnostics.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/AppServiceEnvironments_ListDiagnostics.json
  */
 async function getDiagnosticInformationForAnAppServiceEnvironment() {
   const subscriptionId =

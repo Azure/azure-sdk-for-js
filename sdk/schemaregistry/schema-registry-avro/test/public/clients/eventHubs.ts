@@ -41,13 +41,13 @@ export function createEventHubsClient(settings: {
       producer = new EventHubBufferedProducerClient(
         eventHubsConnectionString,
         eventHubName,
-        recorder?.configureClientOptions(clientOptions) ?? clientOptions
+        recorder?.configureClientOptions(clientOptions) ?? clientOptions,
       );
       consumer = new EventHubConsumerClient(
         EventHubConsumerClient.defaultConsumerGroupName,
         eventHubsConnectionString,
         eventHubName,
-        recorder?.configureClientOptions<EventHubConsumerClientOptions>({}) ?? undefined
+        recorder?.configureClientOptions<EventHubConsumerClientOptions>({}) ?? undefined,
       );
       subscription = consumer.subscribe(
         {
@@ -59,7 +59,7 @@ export function createEventHubsClient(settings: {
             throw err;
           },
         },
-        { startPosition: alreadyEnqueued ? earliestEventPosition : latestEventPosition }
+        { startPosition: alreadyEnqueued ? earliestEventPosition : latestEventPosition },
       );
       initialized = true;
     },

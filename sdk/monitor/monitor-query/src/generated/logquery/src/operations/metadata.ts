@@ -33,8 +33,8 @@ export class MetadataImpl implements Metadata {
   /**
    * Retrieve the metadata information for the workspace, including its schema, functions, workspace
    * info, categories etc.
-   * @param workspaceId ID of the workspace. This is Workspace ID from the Properties blade in the Azure
-   *                    portal.
+   * @param workspaceId Primary Workspace ID of the query. This is the Workspace ID from the Properties
+   *                    blade in the Azure portal.
    * @param options The options parameters.
    */
   get(
@@ -50,8 +50,8 @@ export class MetadataImpl implements Metadata {
   /**
    * Retrieve the metadata information for the workspace, including its schema, functions, workspace
    * info, categories etc.
-   * @param workspaceId ID of the workspace. This is Workspace ID from the Properties blade in the Azure
-   *                    portal.
+   * @param workspaceId Primary Workspace ID of the query. This is the Workspace ID from the Properties
+   *                    blade in the Azure portal.
    * @param options The options parameters.
    */
   post(

@@ -10,7 +10,7 @@ config();
 export const commandInfo = makeCommandInfo(
   "test-proxy",
   "waits for the proxy tool to be active or fails in 2 minutes",
-  {}
+  {},
 );
 
 export default leafCommand(commandInfo, async () => {

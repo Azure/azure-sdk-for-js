@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CollectionListUsagesOptionalParams,
-  CosmosDBManagementClient
+  CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves the usages (most recent storage data) for the given collection.
  *
  * @summary Retrieves the usages (most recent storage data) for the given collection.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBCollectionGetUsages.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBCollectionGetUsages.json
  */
 async function cosmosDbCollectionGetUsages() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -39,7 +39,7 @@ async function cosmosDbCollectionGetUsages() {
     accountName,
     databaseRid,
     collectionRid,
-    options
+    options,
   )) {
     resArray.push(item);
   }

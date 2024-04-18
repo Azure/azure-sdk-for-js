@@ -14,7 +14,7 @@ import {
   SenderUsernamesGetResponse,
   SenderUsernamesCreateOrUpdateOptionalParams,
   SenderUsernamesCreateOrUpdateResponse,
-  SenderUsernamesDeleteOptionalParams
+  SenderUsernamesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface SenderUsernames {
     resourceGroupName: string,
     emailServiceName: string,
     domainName: string,
-    options?: SenderUsernamesListByDomainsOptionalParams
+    options?: SenderUsernamesListByDomainsOptionalParams,
   ): PagedAsyncIterableIterator<SenderUsernameResource>;
   /**
    * Get a valid sender username for a domains resource.
@@ -46,7 +46,7 @@ export interface SenderUsernames {
     emailServiceName: string,
     domainName: string,
     senderUsername: string,
-    options?: SenderUsernamesGetOptionalParams
+    options?: SenderUsernamesGetOptionalParams,
   ): Promise<SenderUsernamesGetResponse>;
   /**
    * Add a new SenderUsername resource under the parent Domains resource or update an existing
@@ -64,7 +64,7 @@ export interface SenderUsernames {
     domainName: string,
     senderUsername: string,
     parameters: SenderUsernameResource,
-    options?: SenderUsernamesCreateOrUpdateOptionalParams
+    options?: SenderUsernamesCreateOrUpdateOptionalParams,
   ): Promise<SenderUsernamesCreateOrUpdateResponse>;
   /**
    * Operation to delete a SenderUsernames resource.
@@ -79,6 +79,6 @@ export interface SenderUsernames {
     emailServiceName: string,
     domainName: string,
     senderUsername: string,
-    options?: SenderUsernamesDeleteOptionalParams
+    options?: SenderUsernamesDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Migrate an Azure Cosmos DB Gremlin graph from autoscale to manual throughput
  *
  * @summary Migrate an Azure Cosmos DB Gremlin graph from autoscale to manual throughput
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBGremlinGraphMigrateToManualThroughput.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBGremlinGraphMigrateToManualThroughput.json
  */
 async function cosmosDbGremlinGraphMigrateToManualThroughput() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -28,12 +28,13 @@ async function cosmosDbGremlinGraphMigrateToManualThroughput() {
   const graphName = "graphName";
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.gremlinResources.beginMigrateGremlinGraphToManualThroughputAndWait(
-    resourceGroupName,
-    accountName,
-    databaseName,
-    graphName
-  );
+  const result =
+    await client.gremlinResources.beginMigrateGremlinGraphToManualThroughputAndWait(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      graphName,
+    );
   console.log(result);
 }
 

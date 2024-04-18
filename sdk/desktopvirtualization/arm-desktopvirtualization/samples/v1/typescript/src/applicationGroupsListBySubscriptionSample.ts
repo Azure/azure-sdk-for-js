@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to List applicationGroups in subscription.
  *
  * @summary List applicationGroups in subscription.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2022-09-09/examples/ApplicationGroup_ListBySubscription.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/ApplicationGroup_ListBySubscription.json
  */
 async function applicationGroupList() {
   const subscriptionId =

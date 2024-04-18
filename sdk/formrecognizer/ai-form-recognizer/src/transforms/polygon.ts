@@ -28,7 +28,7 @@ export function toBoundingPolygon(original: number[] | undefined): Point2D[] | u
 
   if (original.length % 2 !== 0) {
     throw new Error(
-      "Unexpected number of points in the response, unable to translate as 2D points"
+      "Unexpected number of points in the response, unable to translate as 2D points",
     );
   }
 
@@ -40,7 +40,7 @@ export function toBoundingPolygon(original: number[] | undefined): Point2D[] | u
 }
 
 export function toBoundingRegions(
-  original: GeneratedBoundingRegion[] | undefined
+  original: GeneratedBoundingRegion[] | undefined,
 ): BoundingRegion[] | undefined {
   return original?.map((region) => ({ ...region, polygon: toBoundingPolygon(region.polygon) }));
 }
@@ -57,7 +57,7 @@ export function toDocumentTableFromGenerated(table: GeneratedDocumentTable): Doc
 }
 
 export function toKeyValuePairFromGenerated(
-  pair: GeneratedDocumentKeyValuePair
+  pair: GeneratedDocumentKeyValuePair,
 ): DocumentKeyValuePair {
   return {
     ...pair,

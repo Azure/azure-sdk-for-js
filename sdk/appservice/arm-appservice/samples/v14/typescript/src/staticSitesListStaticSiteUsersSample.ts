@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Gets the list of users of a static site.
  *
  * @summary Description for Gets the list of users of a static site.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/ListStaticSiteUsers.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/ListStaticSiteUsers.json
  */
 async function listUsersForAStaticSite() {
   const subscriptionId =

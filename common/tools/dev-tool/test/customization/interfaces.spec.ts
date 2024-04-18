@@ -1,6 +1,10 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { describe, it, assert, beforeEach } from "vitest";
 import { Project, SourceFile, InterfaceDeclaration } from "ts-morph";
-import { expect } from "chai";
-import { augmentInterface } from "../../src/util/customization/interfaces";
+import { augmentInterface, augmentInterfaces } from "../../src/util/customization/interfaces";
+import { getOriginalDeclarationsMap } from "../../src/util/customization/customize";
 
 describe("Interfaces", () => {
   let project: Project;
@@ -23,7 +27,7 @@ describe("Interfaces", () => {
   it("should add custom interface to the original file", () => {
     augmentInterface(customInterface, originalInterface, originalFile);
 
-    expect(originalFile.getInterface("myInterface")).not.to.be.undefined;
+    assert.isDefined(originalFile.getInterface("myInterface"));
   });
 
   it("should replace existing properties with custom properties", () => {
@@ -34,17 +38,21 @@ describe("Interfaces", () => {
 
     augmentInterface(customInterface, originalInterface, originalFile);
 
-    expect(originalFile.getInterface("myInterface")).not.to.be.undefined;
-    expect(originalFile.getInterface("myInterface")?.getProperties()).to.have.lengthOf(2);
-    expect(originalFile.getInterface("myInterface")?.getProperty("foo")).to.not.be.undefined;
-    expect(
-      originalFile.getInterface("myInterface")?.getProperty("foo")?.getType().getText()
-    ).to.equal("string");
+    assert.isDefined(originalFile.getInterface("myInterface"));
+    const props = originalFile.getInterface("myInterface")?.getProperties()
+    if (!props) assert.fail("myInterface#getProperties() is undefined")
+    assert.lengthOf(props, 2);
+    assert.isDefined(originalFile.getInterface("myInterface")?.getProperty("foo"));
+    assert.equal(
+      originalFile.getInterface("myInterface")?.getProperty("foo")?.getType().getText(),
+      "string",
+    );
 
-    expect(originalFile.getInterface("myInterface")?.getProperty("bar")).to.not.be.undefined;
-    expect(
-      originalFile.getInterface("myInterface")?.getProperty("bar")?.getType().getText()
-    ).to.equal("number");
+    assert.isDefined(originalFile.getInterface("myInterface")?.getProperty("bar"));
+    assert.equal(
+      originalFile.getInterface("myInterface")?.getProperty("bar")?.getType().getText(),
+      "number",
+    );
   });
 
   it("should remove property marked with @azsdk-remove", () => {
@@ -60,18 +68,48 @@ describe("Interfaces", () => {
 
     augmentInterface(customInterface, originalInterface, originalFile);
 
-    expect(originalFile.getInterface("myInterface")).not.to.be.undefined;
-    expect(originalFile.getInterface("myInterface")?.getProperties()).to.have.lengthOf(2);
-    expect(originalFile.getInterface("myInterface")?.getProperty("foo")).to.not.be.undefined;
-    expect(originalFile.getInterface("myInterface")?.getProperty("baz")).to.not.be.undefined;
+    assert.isDefined(originalFile.getInterface("myInterface"));
+    const props = originalFile.getInterface("myInterface")?.getProperties();
+    if (!props) assert.fail("myInterface#getProperties() is undefined")
+    assert.lengthOf(props, 2);
+    assert.isDefined(originalFile.getInterface("myInterface")?.getProperty("foo"));
+    assert.isDefined(originalFile.getInterface("myInterface")?.getProperty("baz"));
 
-    expect(originalFile.getInterface("myInterface")?.getProperty("bar")).to.be.undefined;
-    expect(
-      originalFile.getInterface("myInterface")?.getProperty("foo")?.getType().getText()
-    ).to.equal("string");
+    assert.isUndefined(originalFile.getInterface("myInterface")?.getProperty("bar"));
+    assert.equal(
+      originalFile.getInterface("myInterface")?.getProperty("foo")?.getType().getText(),
+      "string",
+    );
 
-    expect(
-      originalFile.getInterface("myInterface")?.getProperty("baz")?.getType().getText()
-    ).to.equal("boolean");
+    assert.equal(
+      originalFile.getInterface("myInterface")?.getProperty("baz")?.getType().getText(),
+      "boolean",
+    );
+  });
+
+  it("should rename an interface marked with @azsdk-rename", () => {
+    originalFile.addInterface({
+      name: "Dog",
+      properties: [{ name: "name", type: "string" }],
+    });
+    originalFile.addInterface({
+      name: "Human",
+      properties: [{ name: "pets", type: "Dog[]" }],
+    });
+    customFile.addInterface({
+      name: "Pet",
+      docs: ["@azsdk-rename(Dog)"],
+    });
+
+    const originalMap = getOriginalDeclarationsMap(originalFile);
+
+    augmentInterfaces(originalMap.interfaces, customFile.getInterfaces(), originalFile);
+
+    assert.isUndefined(originalFile.getInterface("Dog"));
+    assert.isDefined(originalFile.getInterface("Pet"));
+    assert.equal(
+      originalFile.getInterface("Human")?.getProperty("pets")?.getType().getText(),
+      "Pet[]",
+    );
   });
 });

@@ -7,10 +7,10 @@ import { join as pathJoin } from "path";
 
 export async function getTemplates(template: ScaffoldTech): Promise<string[]> {
   const sharedFiles = await getFiles(
-    pathJoin(__dirname, "templates", "_shared", "**", "**", "*.*")
+    pathJoin(__dirname, "templates", "_shared", "**", "**", "*.*"),
   );
   const templateFiles = await getFiles(
-    pathJoin(__dirname, "templates", template, "**", "**", "*.*")
+    pathJoin(__dirname, "templates", template, "**", "**", "*.*"),
   );
   return [...sharedFiles, ...templateFiles];
 }

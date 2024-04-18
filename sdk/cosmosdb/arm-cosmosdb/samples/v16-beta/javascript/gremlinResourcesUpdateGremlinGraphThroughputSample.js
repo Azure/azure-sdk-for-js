@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update RUs per second of an Azure Cosmos DB Gremlin graph
  *
  * @summary Update RUs per second of an Azure Cosmos DB Gremlin graph
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBGremlinGraphThroughputUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBGremlinGraphThroughputUpdate.json
  */
 async function cosmosDbGremlinGraphThroughputUpdate() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -36,7 +36,7 @@ async function cosmosDbGremlinGraphThroughputUpdate() {
     accountName,
     databaseName,
     graphName,
-    updateThroughputParameters
+    updateThroughputParameters,
   );
   console.log(result);
 }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List all the mongo clusters in a given resource group.
  *
  * @summary List all the mongo clusters in a given resource group.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/mongo-cluster/CosmosDBMongoClusterListByResourceGroup.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/mongo-cluster/CosmosDBMongoClusterListByResourceGroup.json
  */
 async function listTheMongoClustersByResourceGroup() {
   const subscriptionId =

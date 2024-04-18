@@ -1,4 +1,4 @@
-import { PerfTest, getEnvVar } from "@azure/test-utils-perf";
+import { PerfTest, getEnvVar } from "@azure-tools/test-perf";
 import { AppConfigurationClient } from "@azure/app-configuration";
 // Expects the .env file at the same level
 import * as dotenv from "dotenv";

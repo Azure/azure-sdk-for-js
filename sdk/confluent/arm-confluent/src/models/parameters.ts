@@ -9,12 +9,16 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   ConfluentAgreementResource as ConfluentAgreementResourceMapper,
   OrganizationResource as OrganizationResourceMapper,
-  OrganizationResourceUpdate as OrganizationResourceUpdateMapper
+  OrganizationResourceUpdate as OrganizationResourceUpdateMapper,
+  ListAccessRequestModel as ListAccessRequestModelMapper,
+  CreateAPIKeyModel as CreateAPIKeyModelMapper,
+  AccessInviteUserAccountModel as AccessInviteUserAccountModelMapper,
+  AccessCreateRoleBindingRequestModel as AccessCreateRoleBindingRequestModelMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -24,9 +28,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -35,22 +39,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-09-01-preview",
+    defaultValue: "2024-02-13",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -59,9 +63,9 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -71,14 +75,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body: OperationParameter = {
   parameterPath: ["options", "body"],
-  mapper: ConfluentAgreementResourceMapper
+  mapper: ConfluentAgreementResourceMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -87,10 +91,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -99,9 +103,9 @@ export const resourceGroupName: OperationURLParameter = {
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const organizationName: OperationURLParameter = {
@@ -110,22 +114,121 @@ export const organizationName: OperationURLParameter = {
     serializedName: "organizationName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body1: OperationParameter = {
   parameterPath: ["options", "body"],
-  mapper: OrganizationResourceMapper
+  mapper: OrganizationResourceMapper,
 };
 
 export const body2: OperationParameter = {
   parameterPath: ["options", "body"],
-  mapper: OrganizationResourceUpdateMapper
+  mapper: OrganizationResourceUpdateMapper,
+};
+
+export const resourceGroupName1: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+    },
+    serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const pageSize: OperationQueryParameter = {
+  parameterPath: ["options", "pageSize"],
+  mapper: {
+    serializedName: "pageSize",
+    type: {
+      name: "Number",
+    },
+  },
+};
+
+export const pageToken: OperationQueryParameter = {
+  parameterPath: ["options", "pageToken"],
+  mapper: {
+    serializedName: "pageToken",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const environmentId: OperationURLParameter = {
+  parameterPath: "environmentId",
+  mapper: {
+    serializedName: "environmentId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const body3: OperationParameter = {
   parameterPath: "body",
-  mapper: OrganizationResourceMapper
+  mapper: ListAccessRequestModelMapper,
+};
+
+export const body4: OperationParameter = {
+  parameterPath: "body",
+  mapper: CreateAPIKeyModelMapper,
+};
+
+export const clusterId: OperationURLParameter = {
+  parameterPath: "clusterId",
+  mapper: {
+    serializedName: "clusterId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const apiKeyId: OperationURLParameter = {
+  parameterPath: "apiKeyId",
+  mapper: {
+    serializedName: "apiKeyId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body5: OperationParameter = {
+  parameterPath: "body",
+  mapper: OrganizationResourceMapper,
+};
+
+export const body6: OperationParameter = {
+  parameterPath: "body",
+  mapper: AccessInviteUserAccountModelMapper,
+};
+
+export const body7: OperationParameter = {
+  parameterPath: "body",
+  mapper: AccessCreateRoleBindingRequestModelMapper,
+};
+
+export const roleBindingId: OperationURLParameter = {
+  parameterPath: "roleBindingId",
+  mapper: {
+    serializedName: "roleBindingId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };

@@ -181,7 +181,7 @@ export class EventDataBatchImpl implements EventDataBatch {
     maxSizeInBytes: number,
     isIdempotent: boolean,
     partitionKey?: string,
-    partitionId?: string
+    partitionId?: string,
   ) {
     this._context = context;
     this._maxSizeInBytes = maxSizeInBytes;
@@ -262,7 +262,7 @@ export class EventDataBatchImpl implements EventDataBatch {
   private _generateBatch(
     encodedEvents: Buffer[],
     annotations: MessageAnnotations | undefined,
-    publishingProps?: PartitionPublishingProperties
+    publishingProps?: PartitionPublishingProperties,
   ): Buffer {
     if (this._isIdempotent && publishingProps) {
       // We need to decode the encoded events, add the idempotent annotations, and re-encode them.
@@ -273,7 +273,7 @@ export class EventDataBatchImpl implements EventDataBatch {
       const decodedEvents = encodedEvents.map(message.decode) as unknown as RheaMessage[];
       const decoratedEvents = this._decorateRheaMessagesWithPublishingProps(
         decodedEvents,
-        publishingProps
+        publishingProps,
       );
       encodedEvents = decoratedEvents.map(message.encode);
     }
@@ -292,7 +292,7 @@ export class EventDataBatchImpl implements EventDataBatch {
    */
   private _decorateRheaMessagesWithPublishingProps(
     events: RheaMessage[],
-    publishingProps: PartitionPublishingProperties
+    publishingProps: PartitionPublishingProperties,
   ): RheaMessage[] {
     if (!this._isIdempotent) {
       return events;
@@ -376,7 +376,7 @@ export class EventDataBatchImpl implements EventDataBatch {
       eventData,
       options,
       entityPath,
-      host
+      host,
     );
 
     // Convert EventData to RheaMessage.

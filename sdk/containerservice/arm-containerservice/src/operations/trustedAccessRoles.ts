@@ -18,7 +18,7 @@ import {
   TrustedAccessRolesListNextOptionalParams,
   TrustedAccessRolesListOptionalParams,
   TrustedAccessRolesListResponse,
-  TrustedAccessRolesListNextResponse
+  TrustedAccessRolesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,12 +36,12 @@ export class TrustedAccessRolesImpl implements TrustedAccessRoles {
 
   /**
    * List supported trusted access roles.
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   public list(
     location: string,
-    options?: TrustedAccessRolesListOptionalParams
+    options?: TrustedAccessRolesListOptionalParams,
   ): PagedAsyncIterableIterator<TrustedAccessRole> {
     const iter = this.listPagingAll(location, options);
     return {
@@ -56,14 +56,14 @@ export class TrustedAccessRolesImpl implements TrustedAccessRoles {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(location, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     location: string,
     options?: TrustedAccessRolesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<TrustedAccessRole[]> {
     let result: TrustedAccessRolesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -85,7 +85,7 @@ export class TrustedAccessRolesImpl implements TrustedAccessRoles {
 
   private async *listPagingAll(
     location: string,
-    options?: TrustedAccessRolesListOptionalParams
+    options?: TrustedAccessRolesListOptionalParams,
   ): AsyncIterableIterator<TrustedAccessRole> {
     for await (const page of this.listPagingPage(location, options)) {
       yield* page;
@@ -94,33 +94,33 @@ export class TrustedAccessRolesImpl implements TrustedAccessRoles {
 
   /**
    * List supported trusted access roles.
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   private _list(
     location: string,
-    options?: TrustedAccessRolesListOptionalParams
+    options?: TrustedAccessRolesListOptionalParams,
   ): Promise<TrustedAccessRolesListResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
   /**
    * ListNext
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     location: string,
     nextLink: string,
-    options?: TrustedAccessRolesListNextOptionalParams
+    options?: TrustedAccessRolesListNextOptionalParams,
   ): Promise<TrustedAccessRolesListNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -128,43 +128,42 @@ export class TrustedAccessRolesImpl implements TrustedAccessRoles {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/trustedAccessRoles",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/trustedAccessRoles",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TrustedAccessRoleListResult
+      bodyMapper: Mappers.TrustedAccessRoleListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TrustedAccessRoleListResult
+      bodyMapper: Mappers.TrustedAccessRoleListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

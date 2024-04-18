@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List deployment statuses for an app (or deployment slot, if specified).
  *
  * @summary List deployment statuses for an app (or deployment slot, if specified).
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/ListSiteDeploymentStatusSlot.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/ListSiteDeploymentStatusSlot.json
  */
 async function listDeploymentStatusSlot() {
   const subscriptionId =

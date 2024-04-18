@@ -415,12 +415,12 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
    */
   public constructor(
     originalResponse: BlobQueryResponseModel,
-    options: BlobQuickQueryStreamOptions = {}
+    options: BlobQuickQueryStreamOptions = {},
   ) {
     this.originalResponse = originalResponse;
     this.blobDownloadStream = new BlobQuickQueryStream(
       this.originalResponse.readableStreamBody!,
-      options
+      options,
     );
   }
 }

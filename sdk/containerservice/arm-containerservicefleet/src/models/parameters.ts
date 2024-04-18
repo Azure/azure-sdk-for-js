@@ -9,14 +9,16 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   Fleet as FleetMapper,
   FleetPatch as FleetPatchMapper,
   FleetMember as FleetMemberMapper,
   FleetMemberUpdate as FleetMemberUpdateMapper,
-  UpdateRun as UpdateRunMapper
+  UpdateRun as UpdateRunMapper,
+  SkipProperties as SkipPropertiesMapper,
+  FleetUpdateStrategy as FleetUpdateStrategyMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -26,9 +28,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -37,22 +39,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-06-15-preview",
+    defaultValue: "2024-02-02-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -61,24 +63,24 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -86,14 +88,14 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const fleetName: OperationURLParameter = {
@@ -102,14 +104,14 @@ export const fleetName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"),
       MaxLength: 63,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "fleetName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -119,14 +121,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resource: OperationParameter = {
   parameterPath: "resource",
-  mapper: FleetMapper
+  mapper: FleetMapper,
 };
 
 export const ifMatch: OperationParameter = {
@@ -134,9 +136,9 @@ export const ifMatch: OperationParameter = {
   mapper: {
     serializedName: "If-Match",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const ifNoneMatch: OperationParameter = {
@@ -144,14 +146,14 @@ export const ifNoneMatch: OperationParameter = {
   mapper: {
     serializedName: "If-None-Match",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const properties: OperationParameter = {
   parameterPath: "properties",
-  mapper: FleetPatchMapper
+  mapper: FleetPatchMapper,
 };
 
 export const fleetMemberName: OperationURLParameter = {
@@ -160,24 +162,24 @@ export const fleetMemberName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"),
       MaxLength: 50,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "fleetMemberName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resource1: OperationParameter = {
   parameterPath: "resource",
-  mapper: FleetMemberMapper
+  mapper: FleetMemberMapper,
 };
 
 export const properties1: OperationParameter = {
   parameterPath: "properties",
-  mapper: FleetMemberUpdateMapper
+  mapper: FleetMemberUpdateMapper,
 };
 
 export const updateRunName: OperationURLParameter = {
@@ -186,17 +188,43 @@ export const updateRunName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"),
       MaxLength: 50,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "updateRunName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resource2: OperationParameter = {
   parameterPath: "resource",
-  mapper: UpdateRunMapper
+  mapper: UpdateRunMapper,
+};
+
+export const body: OperationParameter = {
+  parameterPath: "body",
+  mapper: SkipPropertiesMapper,
+};
+
+export const updateStrategyName: OperationURLParameter = {
+  parameterPath: "updateStrategyName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"),
+      MaxLength: 50,
+      MinLength: 1,
+    },
+    serializedName: "updateStrategyName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource3: OperationParameter = {
+  parameterPath: "resource",
+  mapper: FleetUpdateStrategyMapper,
 };

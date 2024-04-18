@@ -17,7 +17,7 @@ import * as fr from "@azure/ai-form-recognizer";
  * Extract key information from business cards.
  */
 export const PrebuiltBusinessCardModel = fr.createModelFromSchema(
-  modelInfo()
+  modelInfo(),
 ) as fr.DocumentModel<PrebuiltBusinessCardResult>;
 
 export interface PrebuiltBusinessCardResult extends fr.AnalyzeResultCommon {

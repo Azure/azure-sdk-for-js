@@ -11,7 +11,7 @@ import {
   CapabilityType,
   CapabilityTypesListOptionalParams,
   CapabilityTypesGetOptionalParams,
-  CapabilityTypesGetResponse
+  CapabilityTypesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface CapabilityTypes {
   list(
     locationName: string,
     targetTypeName: string,
-    options?: CapabilityTypesListOptionalParams
+    options?: CapabilityTypesListOptionalParams,
   ): PagedAsyncIterableIterator<CapabilityType>;
   /**
    * Get a Capability Type resource for given Target Type and location.
@@ -39,6 +39,6 @@ export interface CapabilityTypes {
     locationName: string,
     targetTypeName: string,
     capabilityTypeName: string,
-    options?: CapabilityTypesGetOptionalParams
+    options?: CapabilityTypesGetOptionalParams,
   ): Promise<CapabilityTypesGetResponse>;
 }

@@ -28,7 +28,7 @@ async function createsAnNetworkExperimentProfileInAResourceGroup() {
   const result = await client.networkExperimentProfiles.beginCreateOrUpdateAndWait(
     profileName,
     resourceGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

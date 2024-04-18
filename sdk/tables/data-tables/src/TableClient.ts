@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import "@azure/core-paging";
-
 import {
   CreateTableEntityResponse,
   DeleteTableEntityOptions,
@@ -129,7 +127,7 @@ export class TableClient {
     url: string,
     tableName: string,
     credential: NamedKeyCredential,
-    options?: TableClientOptions
+    options?: TableClientOptions,
   );
   /**
    * Creates a new instance of the TableClient class.
@@ -160,7 +158,7 @@ export class TableClient {
     url: string,
     tableName: string,
     credential: SASCredential,
-    options?: TableClientOptions
+    options?: TableClientOptions,
   );
   /**
    * Creates a new instance of the TableClient class.
@@ -192,7 +190,7 @@ export class TableClient {
     url: string,
     tableName: string,
     credential: TokenCredential,
-    options?: TableClientOptions
+    options?: TableClientOptions,
   );
   /**
    * Creates an instance of TableClient.
@@ -222,7 +220,7 @@ export class TableClient {
     url: string,
     tableName: string,
     credentialOrOptions?: NamedKeyCredential | SASCredential | TableClientOptions | TokenCredential,
-    options: TableClientOptions = {}
+    options: TableClientOptions = {},
   ) {
     this.url = url;
     this.tableName = tableName;
@@ -379,7 +377,7 @@ export class TableClient {
     partitionKey: string,
     rowKey: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options: GetTableEntityOptions = {}
+    options: GetTableEntityOptions = {},
   ): Promise<GetTableEntityResponse<TableEntityResult<T>>> {
     return tracingClient.withSpan("TableClient.getEntity", options, async (updatedOptions) => {
       let parsedBody: any;
@@ -398,11 +396,11 @@ export class TableClient {
           ...getEntityOptions,
           queryOptions: serializeQueryOptions(queryOptions || {}),
           onResponse,
-        }
+        },
       );
       const tableEntity = deserialize<TableEntityResult<T>>(
         parsedBody,
-        disableTypeConversion ?? false
+        disableTypeConversion ?? false,
       );
 
       return tableEntity;
@@ -441,7 +439,7 @@ export class TableClient {
    */
   public listEntities<T extends object = Record<string, unknown>>(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options: ListTableEntitiesOptions = {}
+    options: ListTableEntitiesOptions = {},
   ): PagedAsyncIterableIterator<TableEntityResult<T>, TableEntityResultPage<T>> {
     const tableName = this.tableName;
     const iter = this.listEntitiesAll<T>(tableName, options);
@@ -470,7 +468,7 @@ export class TableClient {
 
   private async *listEntitiesAll<T extends object>(
     tableName: string,
-    options?: InternalListTableEntitiesOptions
+    options?: InternalListTableEntitiesOptions,
   ): AsyncIterableIterator<TableEntityResult<T>> {
     const firstPage = await this._listEntities<T>(tableName, options);
     yield* firstPage;
@@ -487,12 +485,12 @@ export class TableClient {
 
   private async *listEntitiesPage<T extends object>(
     tableName: string,
-    options: InternalListTableEntitiesOptions = {}
+    options: InternalListTableEntitiesOptions = {},
   ): AsyncIterableIterator<ListEntitiesResponse<TableEntityResult<T>>> {
     let result = await tracingClient.withSpan(
       "TableClient.listEntitiesPage",
       options,
-      (updatedOptions) => this._listEntities<T>(tableName, updatedOptions)
+      (updatedOptions) => this._listEntities<T>(tableName, updatedOptions),
     );
 
     yield result;
@@ -509,7 +507,7 @@ export class TableClient {
         (updatedOptions, span) => {
           span.setAttribute("continuationToken", result.continuationToken);
           return this._listEntities<T>(tableName, updatedOptions);
-        }
+        },
       );
       yield result;
     }
@@ -517,7 +515,7 @@ export class TableClient {
 
   private async _listEntities<T extends object>(
     tableName: string,
-    options: InternalListTableEntitiesOptions = {}
+    options: InternalListTableEntitiesOptions = {},
   ): Promise<TableEntityResultPage<T>> {
     const { disableTypeConversion = false } = options;
     const queryOptions = serializeQueryOptions(options.queryOptions || {});
@@ -541,7 +539,7 @@ export class TableClient {
 
     const tableEntities = deserializeObjectsArray<TableEntityResult<T>>(
       value ?? [],
-      disableTypeConversion
+      disableTypeConversion,
     );
 
     // Encode nextPartitionKey and nextRowKey as a single continuation token and add it as a
@@ -581,7 +579,7 @@ export class TableClient {
   public createEntity<T extends object>(
     entity: TableEntity<T>,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<CreateTableEntityResponse> {
     return tracingClient.withSpan("TableClient.createEntity", options, (updatedOptions) => {
       const { ...createTableEntity } = updatedOptions || {};
@@ -622,7 +620,7 @@ export class TableClient {
     partitionKey: string,
     rowKey: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options: DeleteTableEntityOptions = {}
+    options: DeleteTableEntityOptions = {},
   ): Promise<DeleteTableEntityResponse> {
     return tracingClient.withSpan("TableClient.deleteEntity", options, (updatedOptions) => {
       const { etag = "*", ...rest } = updatedOptions;
@@ -634,7 +632,7 @@ export class TableClient {
         escapeQuotes(partitionKey),
         escapeQuotes(rowKey),
         etag,
-        deleteOptions
+        deleteOptions,
       );
     });
   }
@@ -682,7 +680,7 @@ export class TableClient {
     entity: TableEntity<T>,
     mode: UpdateMode = "Merge",
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options: UpdateTableEntityOptions = {}
+    options: UpdateTableEntityOptions = {},
   ): Promise<UpdateEntityResponse> {
     return tracingClient.withSpan(
       "TableClient.updateEntity",
@@ -713,7 +711,7 @@ export class TableClient {
         spanAttributes: {
           updateEntityMode: mode,
         },
-      }
+      },
     );
   }
 
@@ -756,7 +754,7 @@ export class TableClient {
     entity: TableEntity<T>,
     mode: UpdateMode = "Merge",
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<UpsertEntityResponse> {
     return tracingClient.withSpan(
       "TableClient.upsertEntity",
@@ -784,7 +782,7 @@ export class TableClient {
         spanAttributes: {
           upsertEntityMode: mode,
         },
-      }
+      },
     );
   }
 
@@ -800,7 +798,7 @@ export class TableClient {
       async (updatedOptions) => {
         const signedIdentifiers = await this.table.getAccessPolicy(this.tableName, updatedOptions);
         return deserializeSignedIdentifier(signedIdentifiers);
-      }
+      },
     );
   }
 
@@ -811,7 +809,7 @@ export class TableClient {
    */
   public setAccessPolicy(
     tableAcl: SignedIdentifier[],
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<SetAccessPolicyResponse> {
     return tracingClient.withSpan("TableClient.setAccessPolicy", options, (updatedOptions) => {
       const serlializedAcl = serializeSignedIdentifiers(tableAcl);
@@ -871,7 +869,7 @@ export class TableClient {
       this.generatedClient,
       new TableClient(this.url, this.tableName),
       this.credential,
-      this.allowInsecureConnection
+      this.allowInsecureConnection,
     );
 
     for (const item of actions) {
@@ -911,7 +909,7 @@ export class TableClient {
     connectionString: string,
     tableName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: TableClientOptions
+    options?: TableClientOptions,
   ): TableClient {
     const {
       url,

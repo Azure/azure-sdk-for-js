@@ -18,7 +18,7 @@ const assert = chai.assert;
 describe("Sender helper unit tests", () => {
   it("isServiceBusMessageBatch", () => {
     assert.isTrue(
-      isServiceBusMessageBatch(new ServiceBusMessageBatchImpl({} as ConnectionContext, 100))
+      isServiceBusMessageBatch(new ServiceBusMessageBatchImpl({} as ConnectionContext, 100)),
     );
 
     assert.isFalse(isServiceBusMessageBatch(undefined));
@@ -62,7 +62,7 @@ describe("sender unit tests", () => {
       try {
         await sender.sendMessages(
           // @ts-expect-error We are trying invalid types on purpose to test the error thrown
-          invalidValue
+          invalidValue,
         );
         assert.fail("You should not be seeing this.");
       } catch (err: any) {
@@ -86,7 +86,7 @@ describe("sender unit tests", () => {
       try {
         batch.tryAddMessage(
           // @ts-expect-error We are trying invalid types on purpose to test the error thrown
-          invalidValue
+          invalidValue,
         );
         assert.fail("You should not be seeing this.");
       } catch (err: any) {
@@ -110,7 +110,7 @@ describe("sender unit tests", () => {
         await sender.scheduleMessages(
           // @ts-expect-error We are trying invalid types on purpose to test the error thrown
           invalidValue,
-          new Date()
+          new Date(),
         );
         assert.fail("You should not be seeing this.");
       } catch (err: any) {
@@ -118,6 +118,23 @@ describe("sender unit tests", () => {
         assert.equal(err.message, expectedErrorMsg);
       }
     });
+  });
+
+  it("doesn't allow invalid enqueue time", async function () {
+    try {
+      await sender.scheduleMessages(
+        { body: "message" },
+        // @ts-expect-error We are trying invalid types on purpose to test the error thrown
+        "invalid date",
+      );
+      assert.fail("You should not be seeing this.");
+    } catch (err: any) {
+      assert.equal(err.name, "TypeError");
+      assert.equal(
+        err.message,
+        `The parameter "scheduledEnqueueTimeUtc" should be an instance of "Date"`,
+      );
+    }
   });
 
   it("should set source in created sender options", () => {

@@ -19,6 +19,7 @@ export interface MsalFlowOptions {
   disableAutomaticAuthentication?: boolean;
   disableInstanceDiscovery?: boolean;
   getAssertion?: () => Promise<string>;
+  enableMsaPassthrough?: boolean;
 }
 
 /**

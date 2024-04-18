@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the specified private endpoint connection
  *
  * @summary Get the specified private endpoint connection
- * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/preview/2023-06-01-preview/examples/WebPubSubPrivateEndpointConnections_Get.json
+ * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/preview/2023-08-01-preview/examples/WebPubSubPrivateEndpointConnections_Get.json
  */
 async function webPubSubPrivateEndpointConnectionsGet() {
   const subscriptionId =

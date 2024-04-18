@@ -15,7 +15,7 @@ import { createClient, createRecorder } from "./utils/recordedClient";
 describe("AnomalyDetectorClient", () => {
   let recorder: Recorder;
   let client: AnomalyDetectorRestClient;
-  function sleep(time: number): Promise<NodeJS.Timer> {
+  function sleep(time: number): Promise<void> {
     return new Promise((resolve) => setTimeout(resolve, time));
   }
   const series = [
@@ -111,7 +111,7 @@ describe("AnomalyDetectorClient", () => {
       result.body.isAnomaly.filter((v) => {
         return v === true;
       }),
-      14
+      14,
     );
   });
 

@@ -18,7 +18,7 @@ import { getRuleMetaData } from "../utils";
 export = {
   meta: getRuleMetaData(
     "ts-pagination-list",
-    "require client list methods to return a PagedAsyncIterableIterator"
+    "require client list methods to return a PagedAsyncIterableIterator",
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener =>
     ({
@@ -49,5 +49,5 @@ export = {
             });
           }
         },
-    } as Rule.RuleListener),
+    }) as Rule.RuleListener,
 };

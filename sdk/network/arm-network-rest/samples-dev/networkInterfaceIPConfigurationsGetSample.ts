@@ -33,7 +33,7 @@ async function networkInterfaceIPConfigurationGet() {
       subscriptionId,
       resourceGroupName,
       networkInterfaceName,
-      ipConfigurationName
+      ipConfigurationName,
     )
     .get(options);
   console.log(result);

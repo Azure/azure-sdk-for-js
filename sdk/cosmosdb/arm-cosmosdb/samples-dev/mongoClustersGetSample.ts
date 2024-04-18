@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets information about a mongo cluster.
  *
  * @summary Gets information about a mongo cluster.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/mongo-cluster/CosmosDBMongoClusterGet.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/mongo-cluster/CosmosDBMongoClusterGet.json
  */
 async function getTheMongoCluster() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function getTheMongoCluster() {
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const result = await client.mongoClusters.get(
     resourceGroupName,
-    mongoClusterName
+    mongoClusterName,
   );
   console.log(result);
 }

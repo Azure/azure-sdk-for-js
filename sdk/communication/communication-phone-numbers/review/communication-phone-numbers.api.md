@@ -73,6 +73,36 @@ export interface ListTollFreeAreaCodesOptions extends Omit<PhoneNumbersListAreaC
 }
 
 // @public
+export interface OperatorDetails {
+    mobileCountryCode?: string;
+    mobileNetworkCode?: string;
+    name: string;
+}
+
+// @public
+export interface OperatorInformation {
+    internationalFormat?: string;
+    isoCountryCode?: string;
+    nationalFormat?: string;
+    numberType?: OperatorNumberType;
+    operatorDetails?: OperatorDetails;
+    phoneNumber: string;
+}
+
+// @public
+export interface OperatorInformationOptions {
+    includeAdditionalOperatorDetails?: boolean;
+}
+
+// @public
+export interface OperatorInformationResult {
+    values?: OperatorInformation[];
+}
+
+// @public
+export type OperatorNumberType = "unknown" | "other" | "geographic" | "mobile";
+
+// @public
 export interface PhoneNumberAdministrativeDivision {
     abbreviatedName: string;
     localizedName: string;
@@ -144,6 +174,7 @@ export class PhoneNumbersClient {
     listAvailableOfferings(countryCode: string, options?: ListOfferingsOptions): PagedAsyncIterableIterator<PhoneNumberOffering>;
     listAvailableTollFreeAreaCodes(countryCode: string, options?: ListTollFreeAreaCodesOptions): PagedAsyncIterableIterator<PhoneNumberAreaCode>;
     listPurchasedPhoneNumbers(options?: ListPurchasedPhoneNumbersOptions): PagedAsyncIterableIterator<PurchasedPhoneNumber>;
+    searchOperatorInformation(phoneNumbers: string[], options?: SearchOperatorInformationOptions): Promise<OperatorInformationResult>;
 }
 
 // @public
@@ -165,11 +196,16 @@ export interface PhoneNumberSearchResult {
     assignmentType: PhoneNumberAssignmentType;
     capabilities: PhoneNumberCapabilities;
     cost: PhoneNumberCost;
+    error?: PhoneNumberSearchResultError;
+    errorCode?: number;
     phoneNumbers: string[];
     phoneNumberType: PhoneNumberType;
     searchExpiresBy: Date;
     searchId: string;
 }
+
+// @public
+export type PhoneNumberSearchResultError = "NoError" | "UnknownErrorCode" | "OutOfStock" | "AuthorizationDenied" | "MissingAddress" | "InvalidAddress" | "InvalidOfferModel" | "NotEnoughLicenses" | "NoWallet" | "NotEnoughCredit" | "NumbersPartiallyAcquired" | "AllNumbersNotAcquired" | "ReservationExpired" | "PurchaseFailed" | "BillingUnavailable" | "ProvisioningFailed" | "UnknownSearchError";
 
 // @public
 export interface PhoneNumbersListAreaCodesOptionalParams extends coreClient.OperationOptions {
@@ -207,6 +243,12 @@ export interface ReleasePhoneNumberResult {
 // @public
 export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchRequest {
     countryCode: string;
+}
+
+// @public
+export interface SearchOperatorInformationOptions extends OperationOptions {
+    // (undocumented)
+    includeAdditionalOperatorDetails: boolean;
 }
 
 // @public

@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 /**
  * This sample demonstrates how the listRegistrations() method can be used to find all registrations for
@@ -25,7 +25,7 @@ const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 
 const TOP = 100;
 
-async function main() {
+async function main(): Promise<void> {
   const context = createClientContext(connectionString, hubName);
 
   // Unlimited

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists the lists of instance views
  *
  * @summary Lists the lists of instance views
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-06-01-preview/examples/ListClusterInstanceViews.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-11-01-preview/examples/ListClusterInstanceViews.json
  */
 async function hdInsightClusterGetInstanceViews() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function hdInsightClusterGetInstanceViews() {
   for await (let item of client.clusters.listInstanceViews(
     resourceGroupName,
     clusterPoolName,
-    clusterName
+    clusterName,
   )) {
     resArray.push(item);
   }

@@ -10,7 +10,7 @@ import {
   SerializerOptions,
   XML_CHARKEY,
   XmlOptions,
-} from "./interfaces";
+} from "./interfaces.js";
 import {
   PipelinePolicy,
   PipelineRequest,
@@ -18,8 +18,8 @@ import {
   RestError,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { MapperTypeNames } from "./serializer";
-import { getOperationRequestInfo } from "./operationHelpers";
+import { MapperTypeNames } from "./serializer.js";
+import { getOperationRequestInfo } from "./operationHelpers.js";
 
 const defaultJsonContentTypes = ["application/json", "text/json"];
 const defaultXmlContentTypes = ["application/xml", "application/atom+xml"];
@@ -93,14 +93,14 @@ export function deserializationPolicy(options: DeserializationPolicyOptions = {}
         xmlContentTypes,
         response,
         updatedOptions,
-        parseXML
+        parseXML,
       );
     },
   };
 }
 
 function getOperationResponseMap(
-  parsedResponse: PipelineResponse
+  parsedResponse: PipelineResponse,
 ): undefined | OperationResponseMap {
   let result: OperationResponseMap | undefined;
   const request: OperationRequest = parsedResponse.request;
@@ -136,14 +136,14 @@ async function deserializeResponseBody(
   xmlContentTypes: string[],
   response: PipelineResponse,
   options: RequiredSerializerOptions,
-  parseXML?: (str: string, opts?: XmlOptions) => Promise<any>
+  parseXML?: (str: string, opts?: XmlOptions) => Promise<any>,
 ): Promise<PipelineResponse> {
   const parsedResponse = await parse(
     jsonContentTypes,
     xmlContentTypes,
     response,
     options,
-    parseXML
+    parseXML,
   );
   if (!shouldDeserializeResponse(parsedResponse)) {
     return parsedResponse;
@@ -160,7 +160,7 @@ async function deserializeResponseBody(
     parsedResponse,
     operationSpec,
     responseSpec,
-    options
+    options,
   );
   if (error) {
     throw error;
@@ -184,7 +184,7 @@ async function deserializeResponseBody(
           responseSpec.bodyMapper,
           valueToDeserialize,
           "operationRes.parsedBody",
-          options
+          options,
         );
       } catch (deserializeError: any) {
         const restError = new RestError(
@@ -193,7 +193,7 @@ async function deserializeResponseBody(
             statusCode: parsedResponse.status,
             request: parsedResponse.request,
             response: parsedResponse,
-          }
+          },
         );
         throw restError;
       }
@@ -207,7 +207,7 @@ async function deserializeResponseBody(
         responseSpec.headersMapper,
         parsedResponse.headers.toJSON(),
         "operationRes.parsedHeaders",
-        { xml: {}, ignoreUnknownProperties: true }
+        { xml: {}, ignoreUnknownProperties: true },
       );
     }
   }
@@ -227,7 +227,7 @@ function handleErrorResponse(
   parsedResponse: FullOperationResponse,
   operationSpec: OperationSpec,
   responseSpec: OperationResponseMap | undefined,
-  options: RequiredSerializerOptions
+  options: RequiredSerializerOptions,
 ): { error: RestError | null; shouldReturnResponse: boolean } {
   const isSuccessByStatus = 200 <= parsedResponse.status && parsedResponse.status < 300;
   const isExpectedStatusCode: boolean = isOperationSpecEmpty(operationSpec)
@@ -247,7 +247,7 @@ function handleErrorResponse(
   const errorResponseSpec = responseSpec ?? operationSpec.responses.default;
 
   const initialErrorMessage = parsedResponse.request.streamResponseStatusCodes?.has(
-    parsedResponse.status
+    parsedResponse.status,
   )
     ? `Unexpected status code: ${parsedResponse.status}`
     : (parsedResponse.bodyAsText as string);
@@ -287,7 +287,7 @@ function handleErrorResponse(
           defaultBodyMapper,
           valueToDeserialize,
           "error.response.parsedBody",
-          options
+          options,
         );
       }
 
@@ -308,7 +308,7 @@ function handleErrorResponse(
         operationSpec.serializer.deserialize(
           defaultHeadersMapper,
           parsedResponse.headers.toJSON(),
-          "operationRes.parsedHeaders"
+          "operationRes.parsedHeaders",
         );
     }
   } catch (defaultError: any) {
@@ -323,7 +323,7 @@ async function parse(
   xmlContentTypes: string[],
   operationResponse: FullOperationResponse,
   opts: RequiredSerializerOptions,
-  parseXML?: (str: string, opts?: XmlOptions) => Promise<any>
+  parseXML?: (str: string, opts?: XmlOptions) => Promise<any>,
 ): Promise<FullOperationResponse> {
   if (
     !operationResponse.request.streamResponseStatusCodes?.has(operationResponse.status) &&

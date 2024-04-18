@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { NetworkManagementClient } from "../networkManagementClient";
 import {
   VpnSiteLinkConnectionsGetOptionalParams,
-  VpnSiteLinkConnectionsGetResponse
+  VpnSiteLinkConnectionsGetResponse,
 } from "../models";
 
 /** Class containing VpnSiteLinkConnections operations. */
@@ -41,7 +41,7 @@ export class VpnSiteLinkConnectionsImpl implements VpnSiteLinkConnections {
     gatewayName: string,
     connectionName: string,
     linkConnectionName: string,
-    options?: VpnSiteLinkConnectionsGetOptionalParams
+    options?: VpnSiteLinkConnectionsGetOptionalParams,
   ): Promise<VpnSiteLinkConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -49,9 +49,9 @@ export class VpnSiteLinkConnectionsImpl implements VpnSiteLinkConnections {
         gatewayName,
         connectionName,
         linkConnectionName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -59,16 +59,15 @@ export class VpnSiteLinkConnectionsImpl implements VpnSiteLinkConnections {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections/{linkConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections/{linkConnectionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VpnSiteLinkConnection
+      bodyMapper: Mappers.VpnSiteLinkConnection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -77,8 +76,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.connectionName,
     Parameters.gatewayName,
-    Parameters.linkConnectionName
+    Parameters.linkConnectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

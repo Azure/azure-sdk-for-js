@@ -17,8 +17,8 @@ export const SendMessageRequest: coreClient.CompositeMapper = {
         serializedName: "from",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       smsRecipients: {
         serializedName: "smsRecipients",
@@ -28,30 +28,30 @@ export const SendMessageRequest: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SmsRecipient"
-            }
-          }
-        }
+              className: "SmsRecipient",
+            },
+          },
+        },
       },
       message: {
         constraints: {
-          MaxLength: 2048
+          MaxLength: 2048,
         },
         serializedName: "message",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       smsSendOptions: {
         serializedName: "smsSendOptions",
         type: {
           name: "Composite",
-          className: "SmsSendOptions"
-        }
-      }
-    }
-  }
+          className: "SmsSendOptions",
+        },
+      },
+    },
+  },
 };
 
 export const SmsRecipient: coreClient.CompositeMapper = {
@@ -63,23 +63,23 @@ export const SmsRecipient: coreClient.CompositeMapper = {
         serializedName: "to",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       repeatabilityRequestId: {
         serializedName: "repeatabilityRequestId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       repeatabilityFirstSent: {
         serializedName: "repeatabilityFirstSent",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SmsSendOptions: coreClient.CompositeMapper = {
@@ -91,17 +91,27 @@ export const SmsSendOptions: coreClient.CompositeMapper = {
         serializedName: "enableDeliveryReport",
         required: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       tag: {
         serializedName: "tag",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+      deliveryReportTimeoutInSeconds: {
+        constraints: {
+          InclusiveMaximum: 43200,
+          InclusiveMinimum: 60,
+        },
+        serializedName: "deliveryReportTimeoutInSeconds",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const SmsSendResponse: coreClient.CompositeMapper = {
@@ -117,13 +127,13 @@ export const SmsSendResponse: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SmsSendResponseItem"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "SmsSendResponseItem",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const SmsSendResponseItem: coreClient.CompositeMapper = {
@@ -135,41 +145,41 @@ export const SmsSendResponseItem: coreClient.CompositeMapper = {
         serializedName: "to",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       messageId: {
         serializedName: "messageId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       httpStatusCode: {
         serializedName: "httpStatusCode",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       repeatabilityResult: {
         serializedName: "repeatabilityResult",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       successful: {
         serializedName: "successful",
         required: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       errorMessage: {
         serializedName: "errorMessage",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };

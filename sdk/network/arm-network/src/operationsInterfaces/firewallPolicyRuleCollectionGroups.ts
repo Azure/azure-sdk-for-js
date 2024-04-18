@@ -15,7 +15,7 @@ import {
   FirewallPolicyRuleCollectionGroupsGetOptionalParams,
   FirewallPolicyRuleCollectionGroupsGetResponse,
   FirewallPolicyRuleCollectionGroupsCreateOrUpdateOptionalParams,
-  FirewallPolicyRuleCollectionGroupsCreateOrUpdateResponse
+  FirewallPolicyRuleCollectionGroupsCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface FirewallPolicyRuleCollectionGroups {
   list(
     resourceGroupName: string,
     firewallPolicyName: string,
-    options?: FirewallPolicyRuleCollectionGroupsListOptionalParams
+    options?: FirewallPolicyRuleCollectionGroupsListOptionalParams,
   ): PagedAsyncIterableIterator<FirewallPolicyRuleCollectionGroup>;
   /**
    * Deletes the specified FirewallPolicyRuleCollectionGroup.
@@ -43,7 +43,7 @@ export interface FirewallPolicyRuleCollectionGroups {
     resourceGroupName: string,
     firewallPolicyName: string,
     ruleCollectionGroupName: string,
-    options?: FirewallPolicyRuleCollectionGroupsDeleteOptionalParams
+    options?: FirewallPolicyRuleCollectionGroupsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified FirewallPolicyRuleCollectionGroup.
@@ -56,7 +56,7 @@ export interface FirewallPolicyRuleCollectionGroups {
     resourceGroupName: string,
     firewallPolicyName: string,
     ruleCollectionGroupName: string,
-    options?: FirewallPolicyRuleCollectionGroupsDeleteOptionalParams
+    options?: FirewallPolicyRuleCollectionGroupsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the specified FirewallPolicyRuleCollectionGroup.
@@ -69,7 +69,7 @@ export interface FirewallPolicyRuleCollectionGroups {
     resourceGroupName: string,
     firewallPolicyName: string,
     ruleCollectionGroupName: string,
-    options?: FirewallPolicyRuleCollectionGroupsGetOptionalParams
+    options?: FirewallPolicyRuleCollectionGroupsGetOptionalParams,
   ): Promise<FirewallPolicyRuleCollectionGroupsGetResponse>;
   /**
    * Creates or updates the specified FirewallPolicyRuleCollectionGroup.
@@ -85,7 +85,7 @@ export interface FirewallPolicyRuleCollectionGroups {
     firewallPolicyName: string,
     ruleCollectionGroupName: string,
     parameters: FirewallPolicyRuleCollectionGroup,
-    options?: FirewallPolicyRuleCollectionGroupsCreateOrUpdateOptionalParams
+    options?: FirewallPolicyRuleCollectionGroupsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<FirewallPolicyRuleCollectionGroupsCreateOrUpdateResponse>,
@@ -106,6 +106,6 @@ export interface FirewallPolicyRuleCollectionGroups {
     firewallPolicyName: string,
     ruleCollectionGroupName: string,
     parameters: FirewallPolicyRuleCollectionGroup,
-    options?: FirewallPolicyRuleCollectionGroupsCreateOrUpdateOptionalParams
+    options?: FirewallPolicyRuleCollectionGroupsCreateOrUpdateOptionalParams,
   ): Promise<FirewallPolicyRuleCollectionGroupsCreateOrUpdateResponse>;
 }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update a host pool.
  *
  * @summary Create or update a host pool.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2022-09-09/examples/HostPool_Create.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/HostPool_Create.json
  */
 async function hostPoolCreate() {
   const subscriptionId =

@@ -16,6 +16,7 @@ import {
   CustomizedAcceleratorsCreateOrUpdateOptionalParams,
   CustomizedAcceleratorsCreateOrUpdateResponse,
   CustomizedAcceleratorsDeleteOptionalParams,
+  CustomizedAcceleratorsDeleteResponse,
   CustomizedAcceleratorProperties,
   CustomizedAcceleratorsValidateOptionalParams,
   CustomizedAcceleratorsValidateResponse
@@ -110,7 +111,12 @@ export interface CustomizedAccelerators {
     applicationAcceleratorName: string,
     customizedAcceleratorName: string,
     options?: CustomizedAcceleratorsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<CustomizedAcceleratorsDeleteResponse>,
+      CustomizedAcceleratorsDeleteResponse
+    >
+  >;
   /**
    * Delete the customized accelerator.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -126,7 +132,7 @@ export interface CustomizedAccelerators {
     applicationAcceleratorName: string,
     customizedAcceleratorName: string,
     options?: CustomizedAcceleratorsDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<CustomizedAcceleratorsDeleteResponse>;
   /**
    * Check the customized accelerator are valid.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -137,7 +143,30 @@ export interface CustomizedAccelerators {
    * @param properties Customized accelerator properties to be validated
    * @param options The options parameters.
    */
-  validate(
+  beginValidate(
+    resourceGroupName: string,
+    serviceName: string,
+    applicationAcceleratorName: string,
+    customizedAcceleratorName: string,
+    properties: CustomizedAcceleratorProperties,
+    options?: CustomizedAcceleratorsValidateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<CustomizedAcceleratorsValidateResponse>,
+      CustomizedAcceleratorsValidateResponse
+    >
+  >;
+  /**
+   * Check the customized accelerator are valid.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param applicationAcceleratorName The name of the application accelerator.
+   * @param customizedAcceleratorName The name of the customized accelerator.
+   * @param properties Customized accelerator properties to be validated
+   * @param options The options parameters.
+   */
+  beginValidateAndWait(
     resourceGroupName: string,
     serviceName: string,
     applicationAcceleratorName: string,

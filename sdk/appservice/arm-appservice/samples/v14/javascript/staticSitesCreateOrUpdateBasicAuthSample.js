@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Adds or updates basic auth for a static site.
  *
  * @summary Description for Adds or updates basic auth for a static site.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/CreateOrUpdateStaticSiteBasicAuth.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/CreateOrUpdateStaticSiteBasicAuth.json
  */
 async function createsOrUpdatesBasicAuthPropertiesForAStaticSite() {
   const subscriptionId =

@@ -12,11 +12,10 @@ import {
   convertToInternalPartitionKey,
 } from "../documents";
 import { PatchRequestBody } from "./patch";
-import { v4 } from "uuid";
 import { assertNotUndefined } from "./typeChecks";
 import { bodyFromData } from "../request/request";
 import { Constants } from "../common/constants";
-const uuid = v4;
+import { randomUUID } from "@azure/core-util";
 
 export type Operation =
   | CreateOperation
@@ -159,7 +158,7 @@ export type BulkPatchOperation = OperationBase & {
 };
 
 export function hasResource(
-  operation: Operation
+  operation: Operation,
 ): operation is CreateOperation | UpsertOperation | ReplaceOperation {
   return (
     operation.operationType !== "Patch" &&
@@ -184,7 +183,7 @@ export function hasResource(
 export function prepareOperations(
   operationInput: OperationInput,
   definition: PartitionKeyDefinition,
-  options: RequestOptions = {}
+  options: RequestOptions = {},
 ): {
   operation: Operation;
   partitionKey: PrimitivePartitionKeyValue[];
@@ -205,7 +204,7 @@ export function prepareOperations(
       case BulkOperationType.Upsert:
         partitionKey = assertNotUndefined(
           extractPartitionKeys(operationInput.resourceBody, definition),
-          "Unexpected undefined Partition Key Found."
+          "Unexpected undefined Partition Key Found.",
         );
         break;
       case BulkOperationType.Read:
@@ -234,7 +233,7 @@ function populateIdsIfNeeded(operationInput: OperationInput, options: RequestOpt
       (operationInput.resourceBody.id === undefined || operationInput.resourceBody.id === "") &&
       !options.disableAutomaticIdGeneration
     ) {
-      operationInput.resourceBody.id = uuid();
+      operationInput.resourceBody.id = randomUUID();
     }
   }
 }
@@ -288,7 +287,7 @@ export function calculateObjectSizeInBytes(obj: unknown): number {
 
 export function decorateBatchOperation(
   operation: OperationInput,
-  options: RequestOptions = {}
+  options: RequestOptions = {},
 ): Operation {
   if (
     operation.operationType === BulkOperationType.Create ||
@@ -298,7 +297,7 @@ export function decorateBatchOperation(
       (operation.resourceBody.id === undefined || operation.resourceBody.id === "") &&
       !options.disableAutomaticIdGeneration
     ) {
-      operation.resourceBody.id = uuid();
+      operation.resourceBody.id = randomUUID();
     }
   }
   return operation as Operation;

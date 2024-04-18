@@ -31,7 +31,7 @@ async function virtualMachineRunCommandGet() {
       "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/runCommands/{commandId}",
       subscriptionId,
       location,
-      commandId
+      commandId,
     )
     .get(options);
   console.log(result);

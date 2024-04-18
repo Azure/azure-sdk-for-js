@@ -62,7 +62,7 @@ async function routeMapPut() {
       subscriptionId,
       resourceGroupName,
       virtualHubName,
-      routeMapName
+      routeMapName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

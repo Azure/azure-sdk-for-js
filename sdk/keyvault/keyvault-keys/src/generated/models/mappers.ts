@@ -1006,6 +1006,13 @@ export const KeyAttributes: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      hsmPlatform: {
+        serializedName: "hsmPlatform",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }

@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
+import { OpenAIClient } from "@azure/openai";
+import { assert } from "chai";
 import {
   GeographyPoint,
   KnownAnalyzerNames,
@@ -9,11 +12,9 @@ import {
   SearchIndexClient,
   SearchIndexerClient,
 } from "../../../src";
-import { Hotel } from "./interfaces";
 import { delay } from "../../../src/serviceUtils";
-import { assert } from "chai";
-import { isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
-import { OpenAIClient } from "@azure/openai";
+import { COMPRESSION_DISABLED } from "../../compressionDisabled";
+import { Hotel } from "./interfaces";
 
 export const WAIT_TIME = isPlaybackMode() ? 0 : 4000;
 
@@ -21,8 +22,14 @@ export const WAIT_TIME = isPlaybackMode() ? 0 : 4000;
 export async function createIndex(
   client: SearchIndexClient,
   name: string,
-  serviceVersion: string
+  serviceVersion: string,
 ): Promise<void> {
+  const algorithmConfigurationName = "algorithm-configuration-name";
+  const vectorizerName = "vectorizer-name";
+  const vectorSearchProfileName = "profile-name";
+  const compressedVectorSearchProfileName = "compressed-profile-name";
+  const compressionConfigurationName = "compression-configuration-name";
+
   const hotelIndex: SearchIndex = {
     name,
     fields: [
@@ -201,6 +208,23 @@ export async function createIndex(
           },
         ],
       },
+      {
+        type: "Collection(Edm.Single)",
+        name: "vectorDescription",
+        searchable: true,
+        vectorSearchDimensions: 1536,
+        hidden: true,
+        vectorSearchProfileName,
+      },
+      {
+        type: "Collection(Edm.Half)",
+        name: "compressedVectorDescription",
+        searchable: true,
+        hidden: true,
+        vectorSearchDimensions: 1536,
+        vectorSearchProfileName: compressedVectorSearchProfileName,
+        stored: false,
+      },
     ],
     suggesters: [
       {
@@ -230,44 +254,77 @@ export async function createIndex(
       // for browser tests
       allowedOrigins: ["*"],
     },
-  };
-
-  if (serviceVersion.includes("Preview")) {
-    const vectorSearchConfiguration = "algorithm-configuration";
-
-    hotelIndex.fields.push({
-      type: "Collection(Edm.Single)",
-      name: "vectorDescription",
-      searchable: true,
-      vectorSearchDimensions: 1536,
-      hidden: true,
-      vectorSearchConfiguration,
-    });
-
-    hotelIndex.vectorSearch = {
-      algorithmConfigurations: [
+    vectorSearch: {
+      algorithms: [
         {
-          name: vectorSearchConfiguration,
+          name: algorithmConfigurationName,
           kind: "hnsw",
           parameters: {
             metric: "dotProduct",
           },
         },
       ],
-    };
-
-    hotelIndex.semanticSettings = {
+      vectorizers: serviceVersion.includes("Preview")
+        ? [
+            {
+              kind: "azureOpenAI",
+              name: vectorizerName,
+              azureOpenAIParameters: {
+                apiKey: env.AZURE_OPENAI_KEY,
+                deploymentId: env.AZURE_OPENAI_DEPLOYMENT_NAME,
+                resourceUri: env.AZURE_OPENAI_ENDPOINT,
+              },
+            },
+          ]
+        : undefined,
+      compressions: [
+        {
+          name: compressionConfigurationName,
+          kind: "scalarQuantization",
+          parameters: { quantizedDataType: "int8" },
+          rerankWithOriginalVectors: true,
+        },
+      ],
+      profiles: [
+        {
+          name: vectorSearchProfileName,
+          vectorizer: serviceVersion.includes("Preview") ? vectorizerName : undefined,
+          algorithmConfigurationName,
+        },
+        {
+          name: compressedVectorSearchProfileName,
+          vectorizer: serviceVersion.includes("Preview") ? vectorizerName : undefined,
+          algorithmConfigurationName,
+          compressionConfigurationName,
+        },
+      ],
+    },
+    semanticSearch: {
       configurations: [
         {
           name: "semantic-configuration-name",
           prioritizedFields: {
             titleField: { name: "hotelName" },
-            prioritizedContentFields: [{ name: "description" }],
-            prioritizedKeywordsFields: [{ name: "tags" }],
+            contentFields: [{ name: "description" }],
+            keywordsFields: [{ name: "tags" }],
           },
         },
       ],
-    };
+    },
+  };
+
+  // This feature isn't publically available yet
+  if (COMPRESSION_DISABLED) {
+    hotelIndex.fields = hotelIndex.fields.filter(
+      (field) => field.name !== "compressedVectorDescription",
+    );
+    const vs = hotelIndex.vectorSearch;
+    if (vs) {
+      delete vs.compressions;
+      vs.profiles = vs.profiles?.filter(
+        (profile) => profile.name !== compressedVectorSearchProfileName,
+      );
+    }
   }
 
   await client.createIndex(hotelIndex);
@@ -277,7 +334,6 @@ export async function createIndex(
 export async function populateIndex(
   client: SearchClient<Hotel>,
   openAIClient: OpenAIClient,
-  serviceVersion: string
 ): Promise<void> {
   // test data from https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/search/Azure.Search.Documents/tests/Utilities/SearchResources.Data.cs
   const testDocuments: Hotel[] = [
@@ -297,7 +353,7 @@ export async function populateIndex(
       tags: ["pool", "view", "wifi", "concierge"],
       parkingIncluded: false,
       smokingAllowed: false,
-      lastRenovationDate: new Date(2010, 5, 27),
+      lastRenovationDate: new Date(Date.UTC(2010, 5, 27)),
       rating: 5,
       location: new GeographyPoint({
         longitude: -122.131577,
@@ -313,7 +369,7 @@ export async function populateIndex(
       tags: ["motel", "budget"],
       parkingIncluded: true,
       smokingAllowed: true,
-      lastRenovationDate: new Date(1982, 3, 28),
+      lastRenovationDate: new Date(Date.UTC(1982, 3, 28)),
       rating: 1,
       location: new GeographyPoint({
         longitude: -122.131577,
@@ -329,7 +385,7 @@ export async function populateIndex(
       tags: ["wifi", "budget"],
       parkingIncluded: true,
       smokingAllowed: false,
-      lastRenovationDate: new Date(1995, 6, 1),
+      lastRenovationDate: new Date(Date.UTC(1995, 6, 1)),
       rating: 4,
       location: new GeographyPoint({
         longitude: -122.131577,
@@ -345,7 +401,7 @@ export async function populateIndex(
       tags: ["wifi", "budget"],
       parkingIncluded: true,
       smokingAllowed: false,
-      lastRenovationDate: new Date(1995, 6, 1),
+      lastRenovationDate: new Date(Date.UTC(1995, 6, 1)),
       rating: 4,
       location: new GeographyPoint({
         longitude: -122.131577,
@@ -361,7 +417,7 @@ export async function populateIndex(
       tags: ["wifi", "budget"],
       parkingIncluded: true,
       smokingAllowed: false,
-      lastRenovationDate: new Date(2012, 7, 12),
+      lastRenovationDate: new Date(Date.UTC(2012, 7, 12)),
       rating: 4,
       location: new GeographyPoint({
         longitude: -122.131577,
@@ -397,7 +453,7 @@ export async function populateIndex(
       tags: ["pool", "air conditioning", "concierge"],
       parkingIncluded: false,
       smokingAllowed: true,
-      lastRenovationDate: new Date(1970, 0, 18),
+      lastRenovationDate: new Date(Date.UTC(1970, 0, 18)),
       rating: 4,
       location: new GeographyPoint({
         longitude: -73.975403,
@@ -444,7 +500,7 @@ export async function populateIndex(
       tags: ["24-hour front desk service", "coffee in lobby", "restaurant"],
       parkingIncluded: false,
       smokingAllowed: true,
-      lastRenovationDate: new Date(1999, 8, 6),
+      lastRenovationDate: new Date(Date.UTC(1999, 8, 6)),
       rating: 3,
       location: new GeographyPoint({
         longitude: -78.940483,
@@ -482,7 +538,7 @@ export async function populateIndex(
     },
   ];
 
-  if (serviceVersion.includes("Preview") && !isLiveMode()) {
+  if (!isLiveMode()) {
     await addVectorDescriptions(testDocuments, openAIClient);
   }
 
@@ -499,31 +555,24 @@ export async function populateIndex(
 
 async function addVectorDescriptions(
   documents: Hotel[],
-  openAIClient: OpenAIClient
+  openAIClient: OpenAIClient,
 ): Promise<void> {
-  const deploymentName = process.env.OPENAI_DEPLOYMENT_NAME ?? "deployment-name";
-
-  const descriptionMap: Map<number, Hotel> = documents.reduce((map, document, i) => {
-    map.set(i, document);
-    return map;
-  }, new Map<number, Hotel>());
+  const deploymentName = process.env.AZURE_OPENAI_DEPLOYMENT_NAME ?? "deployment-name";
 
   const descriptions = documents
     .filter(({ description }) => description)
     .map(({ description }) => description!);
 
-  // OpenAI only supports one description at a time at the moment
-  const embeddingsArray = await Promise.all(
-    descriptions.map((description) => openAIClient.getEmbeddings(deploymentName, [description]))
-  );
+  const embeddingsArray = await openAIClient.getEmbeddings(deploymentName, descriptions);
 
-  embeddingsArray.forEach((embeddings, i) =>
-    embeddings.data.forEach((embeddingItem) => {
-      const { embedding, index: j } = embeddingItem;
-      const document = descriptionMap.get(i + j)!;
-      document.vectorDescription = embedding;
-    })
-  );
+  embeddingsArray.data.forEach((embeddingItem) => {
+    const { embedding, index } = embeddingItem;
+    const document = documents[index];
+    document.vectorDescription = embedding;
+    if (!COMPRESSION_DISABLED) {
+      document.compressedVectorDescription = embedding;
+    }
+  });
 }
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
@@ -538,7 +587,7 @@ export async function createSkillsets(client: SearchIndexerClient): Promise<void
   const testCaseNames: string[] = ["my-azureblob-skillset-1", "my-azureblob-skillset-2"];
   const skillSetNames: string[] = await client.listSkillsetsNames();
   const unCommonElements: string[] = skillSetNames.filter(
-    (element) => !testCaseNames.includes(element)
+    (element) => !testCaseNames.includes(element),
   );
   if (unCommonElements.length > 0) {
     // There are skillsets which are already existing in this subscription.
@@ -595,12 +644,12 @@ export async function deleteSkillsets(client: SearchIndexerClient): Promise<void
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function createIndexers(
   client: SearchIndexerClient,
-  targetIndexName: string
+  targetIndexName: string,
 ): Promise<void> {
   const testCaseNames: string[] = ["my-azure-indexer-1", "my-azure-indexer-2"];
   const indexerNames: string[] = await client.listIndexersNames();
   const unCommonElements: string[] = indexerNames.filter(
-    (element) => !testCaseNames.includes(element)
+    (element) => !testCaseNames.includes(element),
   );
   if (unCommonElements.length > 0) {
     // There are indexers which are already existing in this subscription.
@@ -635,7 +684,7 @@ export async function createSynonymMaps(client: SearchIndexClient): Promise<void
   const testCaseNames: string[] = ["my-azure-synonymmap-1", "my-azure-synonymmap-2"];
   const synonymMapNames: string[] = await client.listSynonymMapsNames();
   const unCommonElements: string[] = synonymMapNames.filter(
-    (element) => !testCaseNames.includes(element)
+    (element) => !testCaseNames.includes(element),
   );
   if (unCommonElements.length > 0) {
     // There are synonym maps which are already existing in this subscription.

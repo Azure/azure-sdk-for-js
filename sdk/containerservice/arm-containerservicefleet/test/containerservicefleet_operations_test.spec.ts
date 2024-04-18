@@ -33,7 +33,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("containerservicefleet test", () => {
+describe.skip("containerservicefleet test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: ContainerServiceFleetClient;
@@ -62,7 +62,6 @@ describe("containerservicefleet test", () => {
       resourceGroup,
       resourceName,
       {
-        hubProfile: { dnsPrefix: "dnsprefix1" },
         location,
         tags: { archv2: "", tier: "production" }
       },

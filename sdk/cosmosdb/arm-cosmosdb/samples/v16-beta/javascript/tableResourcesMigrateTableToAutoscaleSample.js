@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Migrate an Azure Cosmos DB Table from manual throughput to autoscale
  *
  * @summary Migrate an Azure Cosmos DB Table from manual throughput to autoscale
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBTableMigrateToAutoscale.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBTableMigrateToAutoscale.json
  */
 async function cosmosDbTableMigrateToAutoscale() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function cosmosDbTableMigrateToAutoscale() {
   const result = await client.tableResources.beginMigrateTableToAutoscaleAndWait(
     resourceGroupName,
     accountName,
-    tableName
+    tableName,
   );
   console.log(result);
 }

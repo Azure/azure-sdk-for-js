@@ -48,7 +48,7 @@ async function fileSystemsCreateOrUpdateMaximumSetGen() {
   const result = await client.fileSystems.beginCreateOrUpdateAndWait(
     resourceGroupName,
     fileSystemName,
-    resource
+    resource,
   );
   console.log(result);
 }
@@ -84,7 +84,7 @@ async function fileSystemsCreateOrUpdateMinimumSetGen() {
   const result = await client.fileSystems.beginCreateOrUpdateAndWait(
     resourceGroupName,
     fileSystemName,
-    resource
+    resource,
   );
   console.log(result);
 }

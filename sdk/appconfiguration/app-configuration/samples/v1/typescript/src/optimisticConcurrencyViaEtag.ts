@@ -51,7 +51,7 @@ export async function main() {
   const betaUpdatedSetting = await client.setConfigurationSetting(betaSetting, {
     // onlyIfUnchanged allows Beta to say "only update the setting if the _current_ etag matches my etag"
     // which is true for Beta since nobody has modified it since Beta got it.
-    onlyIfUnchanged: true
+    onlyIfUnchanged: true,
   });
 
   console.log(`Beta has updated the setting. The setting's etag is now ${betaUpdatedSetting.etag}`);
@@ -59,7 +59,7 @@ export async function main() {
   // now Alpha is going to attempt to update it - note that at this point
   // the setting has been updated (by Beta) and so our etag will not match
   console.log(
-    "Alpha is unaware of Beta's update and will now attempt to update the setting as well"
+    "Alpha is unaware of Beta's update and will now attempt to update the setting as well",
   );
 
   try {
@@ -71,13 +71,13 @@ export async function main() {
       // it.
       //
       // the 'catch' below will now incorporate the update
-      onlyIfUnchanged: true
+      onlyIfUnchanged: true,
     });
   } catch (err: any) {
     if (err.statusCode === 412) {
       // precondition failed
       console.log(
-        `Alpha's update failed because the etag has changed. Alpha will now need to update and merge.`
+        `Alpha's update failed because the etag has changed. Alpha will now need to update and merge.`,
       );
 
       console.log("Alpha gets the newly updated value and is merging in their changes.");
@@ -89,7 +89,7 @@ export async function main() {
 
       console.log(`Alpha is setting the value again with the new etag ${actualSetting.etag}`);
       await client.setConfigurationSetting(actualSetting, {
-        onlyIfUnchanged: true
+        onlyIfUnchanged: true,
       });
     }
   }
@@ -109,7 +109,7 @@ export async function main() {
 
 async function cleanupSampleValues(keys: string[], client: AppConfigurationClient) {
   const existingSettings = client.listConfigurationSettings({
-    keyFilter: keys.join(",")
+    keyFilter: keys.join(","),
   });
 
   for await (const setting of existingSettings) {

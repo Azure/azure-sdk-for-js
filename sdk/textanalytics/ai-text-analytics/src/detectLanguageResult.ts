@@ -46,7 +46,7 @@ export function makeDetectLanguageResult(response: DocumentLanguage): DetectLang
  */
 export function makeDetectLanguageErrorResult(
   id: string,
-  error: TextAnalyticsError
+  error: TextAnalyticsError,
 ): DetectLanguageErrorResult {
   return makeTextAnalyticsErrorResult(id, error);
 }

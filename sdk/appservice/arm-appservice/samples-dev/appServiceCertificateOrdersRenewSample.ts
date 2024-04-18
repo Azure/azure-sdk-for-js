@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Renew an existing certificate order.
  *
  * @summary Description for Renew an existing certificate order.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2022-09-01/examples/RenewAppServiceCertificateOrder.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2023-01-01/examples/RenewAppServiceCertificateOrder.json
  */
 async function renewAppServiceCertificateOrder() {
   const subscriptionId =

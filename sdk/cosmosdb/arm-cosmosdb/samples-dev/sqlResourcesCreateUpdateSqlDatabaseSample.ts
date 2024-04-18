@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   SqlDatabaseCreateUpdateParameters,
-  CosmosDBManagementClient
+  CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update an Azure Cosmos DB SQL database
  *
  * @summary Create or update an Azure Cosmos DB SQL database
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBSqlDatabaseCreateUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBSqlDatabaseCreateUpdate.json
  */
 async function cosmosDbSqlDatabaseCreateUpdate() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -32,7 +32,7 @@ async function cosmosDbSqlDatabaseCreateUpdate() {
     location: "West US",
     options: {},
     resource: { id: "databaseName" },
-    tags: {}
+    tags: {},
   };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
@@ -40,7 +40,7 @@ async function cosmosDbSqlDatabaseCreateUpdate() {
     resourceGroupName,
     accountName,
     databaseName,
-    createUpdateSqlDatabaseParameters
+    createUpdateSqlDatabaseParameters,
   );
   console.log(result);
 }
@@ -49,7 +49,7 @@ async function cosmosDbSqlDatabaseCreateUpdate() {
  * This sample demonstrates how to Create or update an Azure Cosmos DB SQL database
  *
  * @summary Create or update an Azure Cosmos DB SQL database
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBSqlDatabaseRestore.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBSqlDatabaseRestore.json
  */
 async function cosmosDbSqlDatabaseRestore() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -65,10 +65,11 @@ async function cosmosDbSqlDatabaseRestore() {
       restoreParameters: {
         restoreSource:
           "/subscriptions/subid/providers/Microsoft.DocumentDB/locations/WestUS/restorableDatabaseAccounts/restorableDatabaseAccountId",
-        restoreTimestampInUtc: new Date("2022-07-20T18:28:00Z")
-      }
+        restoreTimestampInUtc: new Date("2022-07-20T18:28:00Z"),
+        restoreWithTtlDisabled: true,
+      },
     },
-    tags: {}
+    tags: {},
   };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
@@ -76,7 +77,7 @@ async function cosmosDbSqlDatabaseRestore() {
     resourceGroupName,
     accountName,
     databaseName,
-    createUpdateSqlDatabaseParameters
+    createUpdateSqlDatabaseParameters,
   );
   console.log(result);
 }

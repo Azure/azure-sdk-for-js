@@ -84,10 +84,16 @@ export interface CommunicationIdentityAccessTokenRequest {
 
 /** Known values of {@link CommunicationIdentityTokenScope} that the service accepts. */
 export enum KnownCommunicationIdentityTokenScope {
-  /** Chat */
+  /** Use this for full access to Chat APIs. */
   Chat = "chat",
-  /** Voip */
-  Voip = "voip"
+  /** Use this for full access to Calling APIs. */
+  Voip = "voip",
+  /** Access to Chat APIs but without the authorization to create, delete or update chat threads. */
+  ChatJoin = "chat.join",
+  /** A more limited version of chat.join that doesn't allow to add or remove participants. Use this scope when the token bearer is not fully trusted, for example in guest scenarios. */
+  ChatJoinLimited = "chat.join.limited",
+  /** Access to Calling APIs but without the authorization to start new calls. */
+  VoipJoin = "voip.join"
 }
 
 /**
@@ -95,8 +101,11 @@ export enum KnownCommunicationIdentityTokenScope {
  * {@link KnownCommunicationIdentityTokenScope} can be used interchangeably with CommunicationIdentityTokenScope,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **chat** \
- * **voip**
+ * **chat**: Use this for full access to Chat APIs. \
+ * **voip**: Use this for full access to Calling APIs. \
+ * **chat.join**: Access to Chat APIs but without the authorization to create, delete or update chat threads. \
+ * **chat.join.limited**: A more limited version of chat.join that doesn't allow to add or remove participants. Use this scope when the token bearer is not fully trusted, for example in guest scenarios. \
+ * **voip.join**: Access to Calling APIs but without the authorization to start new calls.
  */
 export type CommunicationIdentityTokenScope = string;
 

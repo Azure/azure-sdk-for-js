@@ -22,13 +22,13 @@ const recorderOptions: RecorderStartOptions = {
 
 export async function createClient(
   recorder: Recorder,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): Promise<PurviewScanningRestClient> {
   const credential = createTestCredential();
   await recorder.start(recorderOptions);
   return PurviewScanning(
     env.ENDPOINT ?? "",
     credential,
-    recorder.configureClientOptions({ ...options })
+    recorder.configureClientOptions({ ...options }),
   );
 }

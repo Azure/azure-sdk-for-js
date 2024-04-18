@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { SearchManagementClient } from "@azure/arm-search";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
- * This sample demonstrates how to Gets a list of all search services in the given resource group.
+ * This sample demonstrates how to Gets a list of all Search services in the given resource group.
  *
- * @summary Gets a list of all search services in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/SearchListServicesByResourceGroup.json
+ * @summary Gets a list of all Search services in the given resource group.
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchListServicesByResourceGroup.json
  */
 async function searchListServicesByResourceGroup() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
   const credential = new DefaultAzureCredential();
   const client = new SearchManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -31,4 +34,8 @@ async function searchListServicesByResourceGroup() {
   console.log(resArray);
 }
 
-searchListServicesByResourceGroup().catch(console.error);
+async function main() {
+  searchListServicesByResourceGroup();
+}
+
+main().catch(console.error);

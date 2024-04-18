@@ -48,7 +48,6 @@ describe("Load Testing Quota Operations", () => {
     };
 
     // Set the global variables to be used in the tests
-    subscriptionId = env.SUBSCRIPTION_ID || '00000000-0000-0000-0000-000000000000';
     location = env.LOCATION || "westus2";
     quotaBucketName = "maxEngineInstancesPerTestRun";
   })
@@ -56,6 +55,7 @@ describe("Load Testing Quota Operations", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || '00000000-0000-0000-0000-000000000000';
     const credential = createTestCredential();
     client = new LoadTestClient(credential, subscriptionId, recorder.configureClientOptions({}));
   });

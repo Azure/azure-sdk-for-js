@@ -6,31 +6,42 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Clusters } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ServiceFabricManagementClient } from "../serviceFabricManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
+  Cluster,
+  ClustersListByResourceGroupNextOptionalParams,
+  ClustersListByResourceGroupOptionalParams,
+  ClustersListByResourceGroupResponse,
+  ClustersListNextOptionalParams,
+  ClustersListOptionalParams,
+  ClustersListResponse,
   ClustersGetOptionalParams,
   ClustersGetResponse,
-  Cluster,
   ClustersCreateOrUpdateOptionalParams,
   ClustersCreateOrUpdateResponse,
   ClusterUpdateParameters,
   ClustersUpdateOptionalParams,
   ClustersUpdateResponse,
   ClustersDeleteOptionalParams,
-  ClustersListByResourceGroupOptionalParams,
-  ClustersListByResourceGroupResponse,
-  ClustersListOptionalParams,
-  ClustersListResponse,
   ClustersListUpgradableVersionsOptionalParams,
-  ClustersListUpgradableVersionsResponse
+  ClustersListUpgradableVersionsResponse,
+  ClustersListByResourceGroupNextResponse,
+  ClustersListNextResponse
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Class containing Clusters operations. */
 export class ClustersImpl implements Clusters {
   private readonly client: ServiceFabricManagementClient;
@@ -41,6 +52,131 @@ export class ClustersImpl implements Clusters {
    */
   constructor(client: ServiceFabricManagementClient) {
     this.client = client;
+  }
+
+  /**
+   * Gets all Service Fabric cluster resources created or in the process of being created in the resource
+   * group.
+   * @param resourceGroupName The name of the resource group.
+   * @param options The options parameters.
+   */
+  public listByResourceGroup(
+    resourceGroupName: string,
+    options?: ClustersListByResourceGroupOptionalParams
+  ): PagedAsyncIterableIterator<Cluster> {
+    const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listByResourceGroupPagingPage(
+    resourceGroupName: string,
+    options?: ClustersListByResourceGroupOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<Cluster[]> {
+    let result: ClustersListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByResourceGroupNext(
+        resourceGroupName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByResourceGroupPagingAll(
+    resourceGroupName: string,
+    options?: ClustersListByResourceGroupOptionalParams
+  ): AsyncIterableIterator<Cluster> {
+    for await (const page of this.listByResourceGroupPagingPage(
+      resourceGroupName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Gets all Service Fabric cluster resources created or in the process of being created in the
+   * subscription.
+   * @param options The options parameters.
+   */
+  public list(
+    options?: ClustersListOptionalParams
+  ): PagedAsyncIterableIterator<Cluster> {
+    const iter = this.listPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
+      }
+    };
+  }
+
+  private async *listPagingPage(
+    options?: ClustersListOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<Cluster[]> {
+    let result: ClustersListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listPagingAll(
+    options?: ClustersListOptionalParams
+  ): AsyncIterableIterator<Cluster> {
+    for await (const page of this.listPagingPage(options)) {
+      yield* page;
+    }
   }
 
   /**
@@ -74,8 +210,8 @@ export class ClustersImpl implements Clusters {
     parameters: Cluster,
     options?: ClustersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ClustersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ClustersCreateOrUpdateResponse>,
       ClustersCreateOrUpdateResponse
     >
   > {
@@ -85,7 +221,7 @@ export class ClustersImpl implements Clusters {
     ): Promise<ClustersCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -118,13 +254,16 @@ export class ClustersImpl implements Clusters {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, clusterName, parameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ClustersCreateOrUpdateResponse,
+      OperationState<ClustersCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -167,8 +306,8 @@ export class ClustersImpl implements Clusters {
     parameters: ClusterUpdateParameters,
     options?: ClustersUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ClustersUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ClustersUpdateResponse>,
       ClustersUpdateResponse
     >
   > {
@@ -178,7 +317,7 @@ export class ClustersImpl implements Clusters {
     ): Promise<ClustersUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -211,13 +350,16 @@ export class ClustersImpl implements Clusters {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, clusterName, parameters, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ClustersUpdateResponse,
+      OperationState<ClustersUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -270,7 +412,7 @@ export class ClustersImpl implements Clusters {
    * @param resourceGroupName The name of the resource group.
    * @param options The options parameters.
    */
-  listByResourceGroup(
+  private _listByResourceGroup(
     resourceGroupName: string,
     options?: ClustersListByResourceGroupOptionalParams
   ): Promise<ClustersListByResourceGroupResponse> {
@@ -285,7 +427,9 @@ export class ClustersImpl implements Clusters {
    * subscription.
    * @param options The options parameters.
    */
-  list(options?: ClustersListOptionalParams): Promise<ClustersListResponse> {
+  private _list(
+    options?: ClustersListOptionalParams
+  ): Promise<ClustersListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -305,6 +449,38 @@ export class ClustersImpl implements Clusters {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, options },
       listUpgradableVersionsOperationSpec
+    );
+  }
+
+  /**
+   * ListByResourceGroupNext
+   * @param resourceGroupName The name of the resource group.
+   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroupNext(
+    resourceGroupName: string,
+    nextLink: string,
+    options?: ClustersListByResourceGroupNextOptionalParams
+  ): Promise<ClustersListByResourceGroupNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, nextLink, options },
+      listByResourceGroupNextOperationSpec
+    );
+  }
+
+  /**
+   * ListNext
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    nextLink: string,
+    options?: ClustersListNextOptionalParams
+  ): Promise<ClustersListNextResponse> {
+    return this.client.sendOperationRequest(
+      { nextLink, options },
+      listNextOperationSpec
     );
   }
 }
@@ -480,5 +656,44 @@ const listUpgradableVersionsOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ClusterListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ClusterListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
