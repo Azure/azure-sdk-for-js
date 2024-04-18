@@ -6,11 +6,11 @@ Use the client library to Send events to Event Grid Namespaces
 
 Key links:
 
-- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid/)
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid-namespaces/)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/eventgrid-namespaces)
 - [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/eventgrid/)
 - [Product documentation](https://docs.microsoft.com/azure/event-grid/)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/eventgrid/samples)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/eventgrid-namespaces/samples)
 
 ## Getting started
 
@@ -69,9 +69,9 @@ az eventgrid topic key list --resource-group <your-resource-group-name> --name <
 Once you have an API key and endpoint, you can use the `AzureKeyCredential` class to authenticate the client as follows:
 
 ```js
-const { EventGridNamespacesClient, AzureKeyCredential } = require("@azure/eventgrid-namespaces");
+const { EventGridClient, AzureKeyCredential } = require("@azure/eventgrid-namespaces");
 
-const client = new EventGridNamespacesClient(
+const client = new EventGridClient(
   "<endpoint>",
   new AzureKeyCredential("<Access Key>")
 );
@@ -86,10 +86,10 @@ With the `@azure/identity` package, you can seamlessly authorize requests in bot
 For example, use can use `DefaultAzureCredential` to construct a client which will authenticate using Azure Active Directory:
 
 ```js
-const { EventGridNamespacesClient } = require("@azure/eventgrid-namespaces");
+const { EventGridClient } = require("@azure/eventgrid-namespaces");
 const { DefaultAzureCredential } = require("@azure/identity");
 
-const client = new EventGridNamespacesClient(
+const client = new EventGridClient(
   "<endpoint>",
   new DefaultAzureCredential()
 );
@@ -102,7 +102,7 @@ const client = new EventGridNamespacesClient(
 `EventGridNamespacesClient` is used sending events to an Event Grid. You can initialize it as:
 
 ```js
-const client = new EventGridNamespacesClient(
+const client = new EventGridClient(
   "<endpoint>",
   new AzureKeyCredential("<API Key>")
 );
@@ -121,9 +121,9 @@ This library has been tested and validated on [Kubernetes using Azure Arc][event
 ### Publish an Event to an Event Grid Topic
 
 ```js
-const { EventGridNamespacesClient, AzureKeyCredential } = require("@azure/eventgrid-namespaces");
+const { EventGridClient, AzureKeyCredential } = require("@azure/eventgrid-namespaces");
 
-const client = new EventGridNamespacesClient(
+const client = new EventGridClient(
   "<endpoint>",
   new AzureKeyCredential("<API key>")
 );
@@ -159,7 +159,7 @@ For more detailed instructions on how to enable the logs, you can look at the [@
 ## Next steps
 
 Please take a look at the
-[samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/eventgrid/samples)
+[samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/eventgrid-namespaces/samples)
 directory for detailed examples on how to use this library.
 
 ## Contributing

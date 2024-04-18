@@ -9,7 +9,8 @@ Import-AzContainerRegistryImage `
     -ResourceGroupName $DeploymentOutputs['CONTAINERREGISTRY_RESOURCE_GROUP'] `
     -RegistryName $DeploymentOutputs['CONTAINER_REGISTRY_NAME'] `
     -SourceImage 'library/busybox' -SourceRegistryUri 'registry.hub.docker.com' `
-    -Mode 'Force'
+    -Mode 'Force' `
+    -TargetTag 'library/busybox:latest'
 
 Import-AzContainerRegistryImage `
     -ResourceGroupName $DeploymentOutputs['CONTAINERREGISTRY_RESOURCE_GROUP'] `

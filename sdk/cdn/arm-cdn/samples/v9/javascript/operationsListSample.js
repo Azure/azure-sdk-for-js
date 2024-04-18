@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all of the available CDN REST API operations.
  *
  * @summary Lists all of the available CDN REST API operations.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/Operations_List.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Operations_List.json
  */
 async function operationsList() {
   const subscriptionId =
