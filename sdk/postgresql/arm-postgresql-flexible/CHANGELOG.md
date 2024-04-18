@@ -1,6 +1,6 @@
 # Release History
     
-## 8.0.0-beta.6 (2024-04-02)
+## 8.0.0-beta.6 (2024-04-18)
     
 **Features**
 
