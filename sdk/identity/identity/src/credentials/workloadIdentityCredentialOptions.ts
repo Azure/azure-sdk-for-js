@@ -34,7 +34,7 @@ export interface WorkloadIdentityCredentialKubernetesOptions
    * Mutually exclusive field.
    * The service connection ID for Azure Pipelines Workload Identity.
    */
-  serviceConnectionId?: never;
+  workloadIdentityFn?: never; //workloadIdentityCallback
 }
 
 /**
@@ -53,9 +53,9 @@ export interface WorkloadIdentityCredentialServiceConnectionOptions
   clientId?: string;
 
   /**
-   * The service connection ID for Azure Pipelines Workload Identity.
+   * The callback for the assertion for all Workload Identity scenarios.
    */
-  serviceConnectionId?: string;
+  workloadIdentityFn?: () => Promise<string>; //workloadIdentityCallback
   /**
    * Mutually exclusive field
    * The path to a file containing a Kubernetes service account token that authenticates the identity.

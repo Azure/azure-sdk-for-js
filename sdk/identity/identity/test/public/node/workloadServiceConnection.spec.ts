@@ -3,6 +3,7 @@ import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup
 import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { assert } from "@azure/test-utils";
+import { devopsServiceConnectionAssertion } from "../../../src/credentials/workloadIdentityCredential";
 
 describe("WorkloadIdentityCredential", function () {
   let cleanup: MsalTestCleanup;
@@ -29,7 +30,7 @@ describe("WorkloadIdentityCredential", function () {
     const credential = new WorkloadIdentityCredential({
       tenantId,
       clientId,
-      serviceConnectionId: "0dec29c2-a766-4121-9c2e-1894f5aca5cb",
+      workloadIdentityFn: devopsServiceConnectionAssertion("0dec29c2-a766-4121-9c2e-1894f5aca5cb"),
     });
     try {
       const token = await credential.getToken(scope);
