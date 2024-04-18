@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Checks the quota and actual usage of endpoints under the given Azure Front Door profile..
  *
  * @summary Checks the quota and actual usage of endpoints under the given Azure Front Door profile..
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/RuleSets_ListResourceUsage.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/RuleSets_ListResourceUsage.json
  */
 async function ruleSetsListResourceUsage() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -31,7 +31,7 @@ async function ruleSetsListResourceUsage() {
   for await (let item of client.ruleSets.listResourceUsage(
     resourceGroupName,
     profileName,
-    ruleSetName
+    ruleSetName,
   )) {
     resArray.push(item);
   }

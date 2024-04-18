@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ValidateCustomDomainInput,
-  FrontDoorManagementClient
+  FrontDoorManagementClient,
 } from "@azure/arm-frontdoor";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -28,14 +28,14 @@ async function frontDoorValidateCustomDomain() {
   const resourceGroupName = process.env["FRONTDOOR_RESOURCE_GROUP"] || "rg1";
   const frontDoorName = "frontDoor1";
   const customDomainProperties: ValidateCustomDomainInput = {
-    hostName: "www.someDomain.com"
+    hostName: "www.someDomain.com",
   };
   const credential = new DefaultAzureCredential();
   const client = new FrontDoorManagementClient(credential, subscriptionId);
   const result = await client.frontDoors.validateCustomDomain(
     resourceGroupName,
     frontDoorName,
-    customDomainProperties
+    customDomainProperties,
   );
   console.log(result);
 }

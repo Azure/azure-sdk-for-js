@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Validate a Secret in the profile.
  *
  * @summary Validate a Secret in the profile.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/AFDProfiles_ValidateSecret.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/AFDProfiles_ValidateSecret.json
  */
 async function validateSecret() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -26,17 +26,16 @@ async function validateSecret() {
   const profileName = "profile1";
   const validateSecretInput: ValidateSecretInput = {
     secretSource: {
-      id:
-        "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.KeyVault/vault/kvName/certificate/certName"
+      id: "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.KeyVault/vault/kvName/certificate/certName",
     },
-    secretType: "CustomerCertificate"
+    secretType: "CustomerCertificate",
   };
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
   const result = await client.afdProfiles.validateSecret(
     resourceGroupName,
     profileName,
-    validateSecretInput
+    validateSecretInput,
   );
   console.log(result);
 }

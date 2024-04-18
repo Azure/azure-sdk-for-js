@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists existing AzureFrontDoor secrets.
  *
  * @summary Lists existing AzureFrontDoor secrets.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/Secrets_ListByProfile.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Secrets_ListByProfile.json
  */
 async function secretsListByProfile() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -29,7 +29,7 @@ async function secretsListByProfile() {
   const resArray = new Array();
   for await (let item of client.secrets.listByProfile(
     resourceGroupName,
-    profileName
+    profileName,
   )) {
     resArray.push(item);
   }

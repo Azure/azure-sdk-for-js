@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { describe, it, assert } from "vitest";
 import {
   createAdmInstallation,
   createAppleInstallation,
@@ -11,7 +12,6 @@ import {
   createXiaomiInstallation,
   createWindowsInstallation,
 } from "../../../src/models/installation.js";
-import { assert } from "@azure/test-utils";
 
 describe("createAppleInstallation", () => {
   it("should set the default properties", () => {
