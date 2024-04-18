@@ -45,6 +45,7 @@ import { ConnectionStringParser } from "../../utils/connectionStringParser";
 import { DEFAULT_LIVEMETRICS_ENDPOINT } from "../../types";
 import { QuickPulseOpenTelemetryMetricNames, QuickpulseExporterOptions } from "./types";
 import { hrTimeToMilliseconds, suppressTracing } from "@opentelemetry/core";
+import { getInstance } from "../../utils/statsbeat";
 
 const POST_INTERVAL = 1000;
 const MAX_POST_WAIT_TIME = 20000;
@@ -110,6 +111,7 @@ export class LiveMetrics {
         times: { user: number; nice: number; sys: number; idle: number; irq: number };
       }[]
     | undefined;
+  private statsbeatOptionsUpdated = false;
 
   /**
    * Initializes a new instance of the StandardMetrics class.
@@ -228,6 +230,11 @@ export class LiveMetrics {
   public activateMetrics(options?: { collectionInterval: number }) {
     if (this.meterProvider) {
       return;
+    }
+    // Turn on live metrics active collection for statsbeat
+    if (!this.statsbeatOptionsUpdated) {
+      getInstance().setStatsbeatFeatures({ liveMetrics: true });
+      this.statsbeatOptionsUpdated = true;
     }
     this.lastCpus = os.cpus();
     this.totalDependencyCount = 0;

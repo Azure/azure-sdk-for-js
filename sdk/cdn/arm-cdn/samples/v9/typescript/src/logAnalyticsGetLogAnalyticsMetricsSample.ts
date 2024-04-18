@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   LogAnalyticsGetLogAnalyticsMetricsOptionalParams,
-  CdnManagementClient
+  CdnManagementClient,
 } from "@azure/arm-cdn";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Get log report for AFD profile
  *
  * @summary Get log report for AFD profile
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/LogAnalytics_GetLogAnalyticsMetrics.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/LogAnalytics_GetLogAnalyticsMetrics.json
  */
 async function logAnalyticsGetLogAnalyticsMetrics() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -34,7 +34,7 @@ async function logAnalyticsGetLogAnalyticsMetrics() {
   const groupBy = ["protocol"];
   const customDomains = [
     "customdomain1.azurecdn.net",
-    "customdomain2.azurecdn.net"
+    "customdomain2.azurecdn.net",
   ];
   const protocols = ["https"];
   const options: LogAnalyticsGetLogAnalyticsMetricsOptionalParams = { groupBy };
@@ -49,7 +49,7 @@ async function logAnalyticsGetLogAnalyticsMetrics() {
     granularity,
     customDomains,
     protocols,
-    options
+    options,
   );
   console.log(result);
 }
