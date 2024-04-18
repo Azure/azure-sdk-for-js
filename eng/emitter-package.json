@@ -10,5 +10,8 @@
     "@typespec/http": "0.55.0",
     "@typespec/rest": "0.55.0",
     "@typespec/versioning": "0.55.0"
+  },
+  "overrides": {
+    "@azure-tools/typespec-client-generator-core": "0.42.0-dev.6"
   }
 }
