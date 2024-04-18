@@ -97,6 +97,29 @@ export const mockMessageWithImageAttachment: RestModel.ChatMessage = {
   metadata: { tags: "tag" },
 };
 
+export const mockMessageWithFileAttachment: RestModel.ChatMessage = {
+  id: "id",
+  type: "text",
+  version: "version",
+  sequenceId: "sequenceId",
+  content: {
+    message: "content",
+    topic: "topic",
+    attachments: [
+      {
+        id: "id",
+        attachmentType: "file",
+        previewUrl: "previewUrl",
+      },
+    ],
+  },
+  createdOn: new Date("2020-06-26T18:06:06Z"),
+  senderDisplayName: "senderDisplayName",
+  senderCommunicationIdentifier: mockCommunicationIdentifier,
+  deletedOn: new Date("2020-06-26T18:06:06Z"),
+  metadata: { tags: "tag" },
+};
+
 export const generateHttpClient = (status: number, parsedBody?: unknown): HttpClient => {
   const mockHttpClient: HttpClient = {
     async sendRequest(httpRequest: PipelineRequest): Promise<PipelineResponse> {

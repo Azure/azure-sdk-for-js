@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes an existing route with the specified route name under the specified subscription, resource group, profile, and AzureFrontDoor endpoint.
  *
  * @summary Deletes an existing route with the specified route name under the specified subscription, resource group, profile, and AzureFrontDoor endpoint.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/Routes_Delete.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Routes_Delete.json
  */
 async function routesDelete() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";

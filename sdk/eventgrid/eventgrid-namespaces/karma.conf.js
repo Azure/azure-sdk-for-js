@@ -3,9 +3,10 @@
 
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
-process.env.RECORDINGS_RELATIVE_PATH =
-  require("@azure-tools/test-recorder").relativeRecordingsPath();
+const { relativeRecordingsPath } = require("@azure-tools/test-recorder");
 require("dotenv").config();
+
+process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
 
 module.exports = function (config) {
   config.set({
@@ -23,14 +24,12 @@ module.exports = function (config) {
       "karma-firefox-launcher",
       "karma-env-preprocessor",
       "karma-coverage",
+      "karma-sourcemap-loader",
       "karma-junit-reporter",
     ],
 
     // list of files / patterns to load in the browser
-    files: [
-      "dist-test/index.browser.js",
-      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true },
-    ],
+    files: ["dist-test/index.browser.js"],
 
     // list of files / patterns to exclude
     exclude: [],
@@ -38,21 +37,23 @@ module.exports = function (config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      "**/*.js": ["env"],
+      "**/*.js": ["sourcemap", "env"],
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
-      //"dist-test/index.browser.js": ["coverage"]
+      // "dist-test/index.browser.js": ["coverage"]
     },
 
     envPreprocessor: [
       "TEST_MODE",
-      "APPCONFIG_ENDPOINT",
-      "APPCONFIG_TEST_SETTING_KEY",
-      "APPCONFIG_TEST_SETTING_EXPECTED_VALUE",
+      "RECORDINGS_RELATIVE_PATH",
+      "AZURE_TENANT_ID",
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
-      "AZURE_TENANT_ID",
-      "RECORDINGS_RELATIVE_PATH",
+      "EVENT_GRID_NAMESPACES_ENDPOINT",
+      "EVENT_GRID_NAMESPACES_KEY",
+      "EVENT_SUBSCRIPTION_NAME",
+      "TOPIC_NAME",
+      "MAX_DELIVERY_COUNT",
     ],
 
     // test results reporter to use
@@ -63,7 +64,12 @@ module.exports = function (config) {
     coverageReporter: {
       // specify a common output directory
       dir: "coverage-browser/",
-      reporters: [{ type: "json", subdir: ".", file: "coverage.json" }],
+      reporters: [
+        { type: "json", subdir: ".", file: "coverage.json" },
+        { type: "lcovonly", subdir: ".", file: "lcov.info" },
+        { type: "html", subdir: "html" },
+        { type: "cobertura", subdir: ".", file: "cobertura-coverage.xml" },
+      ],
     },
 
     junitReporter: {
@@ -101,7 +107,7 @@ module.exports = function (config) {
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: true,
+    singleRun: false,
 
     // Concurrency level
     // how many browser should be started simultaneous
