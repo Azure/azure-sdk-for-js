@@ -73,3 +73,23 @@ export interface AuthenticationRecord {
    */
   username: string;
 }
+
+/**
+ * Represents a parsed certificate
+ * @internal
+ */
+export interface CertificateParts {
+  /**
+   * Hex encoded X.509 SHA-1 thumbprint of the certificate.
+   */
+  thumbprint: string;
+
+  /**
+   * The PEM encoded private key.
+   */
+  privateKey: string;
+  /**
+   * x5c header.
+   */
+  x5c?: string;
+}
