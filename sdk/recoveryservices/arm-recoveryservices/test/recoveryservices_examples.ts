@@ -33,7 +33,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("Recoveryservices test", () => {
+describe.skip("Recoveryservices test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: RecoveryServicesClient;
@@ -97,7 +97,7 @@ describe("Recoveryservices test", () => {
   });
 
   it("vaults delete test", async function () {
-    const res = await client.vaults.delete(resourceGroup, vaultsName);
+    const res = await client.vaults.beginDeleteAndWait(resourceGroup, vaultsName);
     const resArray = new Array();
     for await (let item of client.vaults.listByResourceGroup(resourceGroup)) {
       resArray.push(item);

@@ -36,11 +36,11 @@ export class RegisteredIdentitiesImpl implements RegisteredIdentities {
     resourceGroupName: string,
     vaultName: string,
     identityName: string,
-    options?: RegisteredIdentitiesDeleteOptionalParams
+    options?: RegisteredIdentitiesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, identityName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 }
@@ -48,8 +48,7 @@ export class RegisteredIdentitiesImpl implements RegisteredIdentities {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/registeredIdentities/{identityName}",
+  path: "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/registeredIdentities/{identityName}",
   httpMethod: "DELETE",
   responses: { 204: {} },
   queryParameters: [Parameters.apiVersion],
@@ -58,7 +57,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.identityName
+    Parameters.identityName,
   ],
-  serializer
+  serializer,
 };

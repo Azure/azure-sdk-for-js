@@ -21,6 +21,6 @@ export interface RegisteredIdentities {
     resourceGroupName: string,
     vaultName: string,
     identityName: string,
-    options?: RegisteredIdentitiesDeleteOptionalParams
+    options?: RegisteredIdentitiesDeleteOptionalParams,
   ): Promise<void>;
 }

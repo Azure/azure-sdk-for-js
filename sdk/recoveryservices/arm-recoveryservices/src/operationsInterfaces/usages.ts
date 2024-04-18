@@ -21,6 +21,6 @@ export interface Usages {
   listByVaults(
     resourceGroupName: string,
     vaultName: string,
-    options?: UsagesListByVaultsOptionalParams
+    options?: UsagesListByVaultsOptionalParams,
   ): PagedAsyncIterableIterator<VaultUsage>;
 }

@@ -15,7 +15,7 @@ import { RecoveryServicesClient } from "../recoveryServicesClient";
 import {
   VaultUsage,
   UsagesListByVaultsOptionalParams,
-  UsagesListByVaultsResponse
+  UsagesListByVaultsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,12 +40,12 @@ export class UsagesImpl implements Usages {
   public listByVaults(
     resourceGroupName: string,
     vaultName: string,
-    options?: UsagesListByVaultsOptionalParams
+    options?: UsagesListByVaultsOptionalParams,
   ): PagedAsyncIterableIterator<VaultUsage> {
     const iter = this.listByVaultsPagingAll(
       resourceGroupName,
       vaultName,
-      options
+      options,
     );
     return {
       next() {
@@ -62,9 +62,9 @@ export class UsagesImpl implements Usages {
           resourceGroupName,
           vaultName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -72,7 +72,7 @@ export class UsagesImpl implements Usages {
     resourceGroupName: string,
     vaultName: string,
     options?: UsagesListByVaultsOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<VaultUsage[]> {
     let result: UsagesListByVaultsResponse;
     result = await this._listByVaults(resourceGroupName, vaultName, options);
@@ -82,12 +82,12 @@ export class UsagesImpl implements Usages {
   private async *listByVaultsPagingAll(
     resourceGroupName: string,
     vaultName: string,
-    options?: UsagesListByVaultsOptionalParams
+    options?: UsagesListByVaultsOptionalParams,
   ): AsyncIterableIterator<VaultUsage> {
     for await (const page of this.listByVaultsPagingPage(
       resourceGroupName,
       vaultName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -102,11 +102,11 @@ export class UsagesImpl implements Usages {
   private _listByVaults(
     resourceGroupName: string,
     vaultName: string,
-    options?: UsagesListByVaultsOptionalParams
+    options?: UsagesListByVaultsOptionalParams,
   ): Promise<UsagesListByVaultsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, options },
-      listByVaultsOperationSpec
+      listByVaultsOperationSpec,
     );
   }
 }
@@ -114,21 +114,20 @@ export class UsagesImpl implements Usages {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByVaultsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/usages",
+  path: "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/usages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VaultUsageList
-    }
+      bodyMapper: Mappers.VaultUsageList,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vaultName
+    Parameters.vaultName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
