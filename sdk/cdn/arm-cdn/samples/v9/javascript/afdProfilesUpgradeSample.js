@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Upgrade a profile from Standard_AzureFrontDoor to Premium_AzureFrontDoor.
  *
  * @summary Upgrade a profile from Standard_AzureFrontDoor to Premium_AzureFrontDoor.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/AFDProfiles_Upgrade.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/AFDProfiles_Upgrade.json
  */
 async function afdProfilesUpgrade() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";

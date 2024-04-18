@@ -2,7 +2,7 @@
   "name": "@azure-rest/communication-job-router",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.1.0-beta.1",
+  "version": "1.1.0-beta.2",
   "description": "Azure client library for Azure Communication Job Router services",
   "keywords": [
     "node",
@@ -76,7 +76,7 @@
     "c8": "^9.1.0",
     "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
-    "mkdirp": "^2.1.2",
+    "mkdirp": "^3.0.1",
     "rimraf": "^5.0.0",
     "source-map-support": "^0.5.9",
     "typescript": "~5.4.5",

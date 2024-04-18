@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Removes a content from CDN.
  *
  * @summary Removes a content from CDN.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/Endpoints_PurgeContent.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Endpoints_PurgeContent.json
  */
 async function endpointsPurgeContent() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";

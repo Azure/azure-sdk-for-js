@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Commit the migrated Azure Frontdoor(Standard/Premium) profile.
  *
  * @summary Commit the migrated Azure Frontdoor(Standard/Premium) profile.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/Profiles_MigrationCommit.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Profiles_MigrationCommit.json
  */
 async function profilesMigrationCommit() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
