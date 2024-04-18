@@ -19,7 +19,7 @@ import {
   ProfileUpdateModel,
   NetworkExperimentProfilesUpdateOptionalParams,
   NetworkExperimentProfilesUpdateResponse,
-  NetworkExperimentProfilesDeleteOptionalParams
+  NetworkExperimentProfilesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface NetworkExperimentProfiles {
    * @param options The options parameters.
    */
   list(
-    options?: NetworkExperimentProfilesListOptionalParams
+    options?: NetworkExperimentProfilesListOptionalParams,
   ): PagedAsyncIterableIterator<Profile>;
   /**
    * Gets a list of Network Experiment Profiles within a resource group under a subscription
@@ -39,7 +39,7 @@ export interface NetworkExperimentProfiles {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: NetworkExperimentProfilesListByResourceGroupOptionalParams
+    options?: NetworkExperimentProfilesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Profile>;
   /**
    * Gets an NetworkExperiment Profile by ProfileName
@@ -50,7 +50,7 @@ export interface NetworkExperimentProfiles {
   get(
     resourceGroupName: string,
     profileName: string,
-    options?: NetworkExperimentProfilesGetOptionalParams
+    options?: NetworkExperimentProfilesGetOptionalParams,
   ): Promise<NetworkExperimentProfilesGetResponse>;
   /**
    * Creates an NetworkExperiment Profile
@@ -63,7 +63,7 @@ export interface NetworkExperimentProfiles {
     profileName: string,
     resourceGroupName: string,
     parameters: Profile,
-    options?: NetworkExperimentProfilesCreateOrUpdateOptionalParams
+    options?: NetworkExperimentProfilesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkExperimentProfilesCreateOrUpdateResponse>,
@@ -81,7 +81,7 @@ export interface NetworkExperimentProfiles {
     profileName: string,
     resourceGroupName: string,
     parameters: Profile,
-    options?: NetworkExperimentProfilesCreateOrUpdateOptionalParams
+    options?: NetworkExperimentProfilesCreateOrUpdateOptionalParams,
   ): Promise<NetworkExperimentProfilesCreateOrUpdateResponse>;
   /**
    * Updates an NetworkExperimentProfiles
@@ -94,7 +94,7 @@ export interface NetworkExperimentProfiles {
     resourceGroupName: string,
     profileName: string,
     parameters: ProfileUpdateModel,
-    options?: NetworkExperimentProfilesUpdateOptionalParams
+    options?: NetworkExperimentProfilesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkExperimentProfilesUpdateResponse>,
@@ -112,7 +112,7 @@ export interface NetworkExperimentProfiles {
     resourceGroupName: string,
     profileName: string,
     parameters: ProfileUpdateModel,
-    options?: NetworkExperimentProfilesUpdateOptionalParams
+    options?: NetworkExperimentProfilesUpdateOptionalParams,
   ): Promise<NetworkExperimentProfilesUpdateResponse>;
   /**
    * Deletes an NetworkExperiment Profile by ProfileName
@@ -123,7 +123,7 @@ export interface NetworkExperimentProfiles {
   beginDelete(
     resourceGroupName: string,
     profileName: string,
-    options?: NetworkExperimentProfilesDeleteOptionalParams
+    options?: NetworkExperimentProfilesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an NetworkExperiment Profile by ProfileName
@@ -134,6 +134,6 @@ export interface NetworkExperimentProfiles {
   beginDeleteAndWait(
     resourceGroupName: string,
     profileName: string,
-    options?: NetworkExperimentProfilesDeleteOptionalParams
+    options?: NetworkExperimentProfilesDeleteOptionalParams,
   ): Promise<void>;
 }

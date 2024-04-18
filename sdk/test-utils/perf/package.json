@@ -75,7 +75,7 @@
     "karma-coverage": "^2.0.0",
     "karma-env-preprocessor": "^0.1.1",
     "rimraf": "^5.0.5",
-    "typescript": "~5.3.3",
+    "typescript": "~5.4.5",
     "ts-node": "^10.0.0",
     "@types/fs-extra": "^9.0.0",
     "@azure/dev-tool": "^1.0.0"

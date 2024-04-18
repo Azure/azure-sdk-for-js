@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   PurgeParameters,
-  FrontDoorManagementClient
+  FrontDoorManagementClient,
 } from "@azure/arm-frontdoor";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -28,14 +28,14 @@ async function purgeContentFromFrontDoor() {
   const resourceGroupName = process.env["FRONTDOOR_RESOURCE_GROUP"] || "rg1";
   const frontDoorName = "frontDoor1";
   const contentFilePaths: PurgeParameters = {
-    contentPaths: ["/pictures.aspx", "/pictures/*"]
+    contentPaths: ["/pictures.aspx", "/pictures/*"],
   };
   const credential = new DefaultAzureCredential();
   const client = new FrontDoorManagementClient(credential, subscriptionId);
   const result = await client.endpoints.beginPurgeContentAndWait(
     resourceGroupName,
     frontDoorName,
-    contentFilePaths
+    contentFilePaths,
   );
   console.log(result);
 }

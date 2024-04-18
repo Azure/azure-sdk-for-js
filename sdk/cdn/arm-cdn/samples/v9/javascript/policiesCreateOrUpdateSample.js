@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update policy with specified rule set name within a resource group.
  *
  * @summary Create or update policy with specified rule set name within a resource group.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/WafPolicyCreateOrUpdate.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/WafPolicyCreateOrUpdate.json
  */
 async function createsSpecificPolicy() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -59,7 +59,7 @@ async function createsSpecificPolicy() {
         },
       ],
     },
-    location: "global",
+    location: "WestUs",
     managedRules: {
       managedRuleSets: [
         {
