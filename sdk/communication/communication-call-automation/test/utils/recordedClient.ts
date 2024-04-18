@@ -56,7 +56,8 @@ const envSetupForPlayback: { [k: string]: string } = {
   DISPATCHER_ENDPOINT: "https://incomingcalldispatcher.azurewebsites.net",
   SERVICEBUS_STRING:
     "Endpoint=sb://REDACTED.servicebus.windows.net/;SharedAccessKeyName=REDACTED;SharedAccessKey=REDACTED",
-  FILE_SOURCE_URL: "https://github.com/Azure-Samples/communication-services-dotnet-quickstarts/raw/callautomation/playground/CallAutomation_Playground/MediaFiles/PROMPT_GOODBYE.wav",
+  FILE_SOURCE_URL:
+    "https://github.com/Azure-Samples/communication-services-dotnet-quickstarts/raw/callautomation/playground/CallAutomation_Playground/MediaFiles/PROMPT_GOODBYE.wav",
 };
 
 const fakeToken = generateToken();
