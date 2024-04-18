@@ -131,7 +131,7 @@ describe.skip("Computed Properties test", async () => {
   it("all computed properties, no indexing", async function () {
     const container: Container = await createContainer(
       "all computed properties",
-      allComputedProperties
+      allComputedProperties,
     );
     const { resources: results } = await container.items
       .query(selectAllComputedPropertiesQuery)
@@ -143,7 +143,7 @@ describe.skip("Computed Properties test", async () => {
     const container: Container = await createContainer(
       "all computed properties, indexed, exclude all",
       allComputedProperties,
-      indexAllComputedProperties_ExcludeAll
+      indexAllComputedProperties_ExcludeAll,
     );
     const { resources: results } = await container.items
       .query(selectAllComputedPropertiesQuery)
@@ -155,7 +155,7 @@ describe.skip("Computed Properties test", async () => {
     const container: Container = await createContainer(
       "all computed properties, indexed, include all",
       allComputedProperties,
-      indexAllComputedPropertiesIncludeAll
+      indexAllComputedPropertiesIncludeAll,
     );
     const { resources: results } = await container.items
       .query(selectAllComputedPropertiesQuery)
@@ -167,7 +167,7 @@ describe.skip("Computed Properties test", async () => {
     const container: Container = await createContainer(
       "all computed properties, not indexed, exclude all",
       allComputedProperties,
-      indexDefaultExcludeAll
+      indexDefaultExcludeAll,
     );
     const { resources: results } = await container.items
       .query(selectAllComputedPropertiesQuery)
@@ -179,7 +179,7 @@ describe.skip("Computed Properties test", async () => {
     const container: Container = await createContainer(
       "all computed properties, not indexed, include all",
       allComputedProperties,
-      indexDefaultIncludeAll
+      indexDefaultIncludeAll,
     );
     const { resources: results } = await container.items
       .query(selectAllComputedPropertiesQuery)
@@ -261,7 +261,7 @@ describe.skip("Computed Properties test", async () => {
   async function createContainer(
     containerName: string,
     computedProperties: ComputedProperty[],
-    indexingPolicy?: IndexingPolicy
+    indexingPolicy?: IndexingPolicy,
   ) {
     const database = await getTestDatabase("sample database");
     // create container
