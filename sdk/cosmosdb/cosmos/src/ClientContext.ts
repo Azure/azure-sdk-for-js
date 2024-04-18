@@ -67,7 +67,7 @@ export class ClientContext {
   private diagnosticWriter: DiagnosticWriter;
   private diagnosticFormatter: DiagnosticFormatter;
   public partitionKeyDefinitionCache: { [containerUrl: string]: any }; // TODO: PartitionKeyDefinitionCache
-  public enableEncyption: boolean;
+  public enableEncryption: boolean = false;
   public encryptionKeyStoreProvider: EncryptionKeyStoreProvider;
   public clientEncryptionKeyPropertiesCache: ClientEncryptionKeyPropertiesCache;
   public encryptionSettingsCache: EncryptionSettingsCache; // cache to store encryption settings for containers. Key is databaseRid+containerRid
@@ -78,7 +78,7 @@ export class ClientContext {
     private clientConfig: ClientConfigDiagnostic,
     public diagnosticLevel: CosmosDbDiagnosticLevel,
   ) {
-    this.enableEncyption = cosmosClientOptions.enableEncryption;
+    this.enableEncryption = cosmosClientOptions.enableEncryption;
     this.connectionPolicy = cosmosClientOptions.connectionPolicy;
     this.sessionContainer = new SessionContainer();
     this.partitionKeyDefinitionCache = {};
@@ -102,7 +102,7 @@ export class ClientContext {
         }),
       );
     }
-    if (this.enableEncyption) {
+    if (this.enableEncryption) {
       this.encryptionKeyStoreProvider = new EncryptionKeyStoreProvider(
         cosmosClientOptions.keyEncryptionKeyResolver,
         EncryptionKeyResolverName.AzureKeyVault,

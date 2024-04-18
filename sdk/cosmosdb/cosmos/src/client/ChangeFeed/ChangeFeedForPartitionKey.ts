@@ -100,7 +100,7 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
       const result = await this.fetchNext(diagnosticNode);
 
       if (result.statusCode === StatusCodes.Ok) {
-        if (this.clientContext.enableEncyption) {
+        if (this.clientContext.enableEncryption) {
           for (let item of result.result) {
             item = await this.container.encryptionProcessor.decrypt(item);
           }
@@ -149,7 +149,7 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
       feedOptions.initialHeaders[Constants.HttpHeaders.IfModifiedSince] = this.startTime;
     }
 
-    if (this.clientContext.enableEncyption) {
+    if (this.clientContext.enableEncryption) {
       this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
         convertToInternalPartitionKey(this.partitionKey),
       );
