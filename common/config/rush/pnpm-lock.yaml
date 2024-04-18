@@ -18252,7 +18252,7 @@ packages:
     dev: false
 
   file:projects/communication-identity.tgz:
-    resolution: {integrity: sha512-HgJJu3Nj8Sy6BnVw2Di9jrv2KKlib23iEdZr3NxhmO/xXf3kcBuP2cE+5sGto552OGxGt4XJDRRHr4LH0ob5ag==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-HRz4v91Ej1k3MuPkxbyot9l4wQivJivYVbrPZvAyyYPvVNOVMj2NWz/XydvZ2I6mCNBHnrRGao725UgRcEW+/A==, tarball: file:projects/communication-identity.tgz}
     name: '@rush-temp/communication-identity'
     version: 0.0.0
     dependencies:
@@ -19057,7 +19057,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-gJQFipPF9TajMBWLkYAgw+/FvFbDQx96sd+165hHX1Px5np6m86FMA+QVJhuqnIrTaGSuP4LknPIbb8tLsIukg==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-a5OeCm7meRZDuyEm4c+vj9zUcnUT3bpQkLugO2awbIDcA+CeSAOr7UIbw0X2k537o1ZfHkrGz9uiFrjMoWh9Rg==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -20917,7 +20917,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-exd5IkzkbLXv2uUmxQKH1r8NJRFw28GerQSb8+xwIoKf0tM14cVGtnENL3UjqlDAqQFo/BthIFKFi5Q8hsmymw==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-Rk1rsUTA/+kfk9+tqP9Wm9gf2qy7tOgAf3tRIhmgYZACtRooM2z72hMrrDng8OfeKHULME5W9F3fqL7P3+CQSg==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -20963,7 +20963,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-//RzKNUUxpX2mbtz+GWWt3eH0kQWXLJBmNRi4MtXHXXQZPY3F3IoJ60arGK8sbIFGl2QxrACNLw4MrWQvQ5POA==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-RHJR8hvuysryOVJ9AXD0Pk4JfOiO6mEDE30858SG03t7JnL4KpB0rMNF63Uyfy1A8e8+2Je4jyATjz6xZiwlaQ==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
@@ -21476,7 +21476,7 @@ packages:
     dev: false
 
   file:projects/perf-monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-FJ8CCV1yUchsGsB0Lh4njYNVL+73S+RQ0qzx57i0/nvBtEwew/RHkFe8gE4nP1zxxmMfjNqfO97XGZZeoIk8yA==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-NIBhtV7js8LNjZFPQbm4sebhUGMBmocQnp1t/VpksvRjqaky0R6d58qJkdM2H+fmP7yoJ2WpCq2VeOElBYMtlQ==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
     name: '@rush-temp/perf-monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -22790,7 +22790,7 @@ packages:
     dev: false
 
   file:projects/template.tgz:
-    resolution: {integrity: sha512-efJ3F8SzvunfZlBcwMds18su/JNigu+PLc8bXqROyWO1KQ/4MR2zVe3Pob37Vs9IoZZbUKZkVjWpICYESQ6syA==, tarball: file:projects/template.tgz}
+    resolution: {integrity: sha512-dZQiyCeWYCV7xjBoecUkOlZh/2ZWV+tc6kxlr25kpPxilvlnglKxIWJbuzRE+GtWaSR5CDqsWHXOooR+FKZvoQ==, tarball: file:projects/template.tgz}
     name: '@rush-temp/template'
     version: 0.0.0
     dependencies:
@@ -22798,8 +22798,11 @@ packages:
       '@azure-tools/test-recorder': 3.1.2
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
+      '@types/fs-extra': 8.1.5
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
+      '@vitest/browser': 1.5.0(playwright@1.43.1)(vitest@1.5.0)
+      '@vitest/coverage-istanbul': 1.5.0(vitest@1.5.0)
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
@@ -22818,19 +22821,30 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.3)
       mocha: 10.4.0
       nyc: 15.1.0
+      playwright: 1.43.1
+      prettier: 3.2.5
       rimraf: 5.0.5
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
+      tshy: 1.14.0
       tslib: 2.6.2
       typescript: 5.4.5
       util: 0.12.5
+      vitest: 1.5.0(@types/node@18.19.31)(@vitest/browser@1.5.0)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - bufferutil
-      - debug
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - stylus
+      - sugarss
       - supports-color
-      - utf-8-validate
+      - terser
+      - webdriverio
     dev: false
 
   file:projects/test-credential.tgz:
