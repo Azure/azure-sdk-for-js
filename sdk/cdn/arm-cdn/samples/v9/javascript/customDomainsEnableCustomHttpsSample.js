@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Enable https delivery of the custom domain.
  *
  * @summary Enable https delivery of the custom domain.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/CustomDomains_EnableCustomHttpsUsingCDNManagedCertificate.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/CustomDomains_EnableCustomHttpsUsingCDNManagedCertificate.json
  */
 async function customDomainsEnableCustomHttpsUsingCdnManagedCertificate() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -39,7 +39,7 @@ async function customDomainsEnableCustomHttpsUsingCdnManagedCertificate() {
  * This sample demonstrates how to Enable https delivery of the custom domain.
  *
  * @summary Enable https delivery of the custom domain.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/CustomDomains_EnableCustomHttpsUsingBYOC.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/CustomDomains_EnableCustomHttpsUsingBYOC.json
  */
 async function customDomainsEnableCustomHttpsUsingYourOwnCertificate() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";

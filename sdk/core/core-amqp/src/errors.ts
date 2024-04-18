@@ -631,6 +631,15 @@ function isBrowserWebsocketError(err: any): boolean {
 
 /**
  * @internal
+ * Checks whether a object is an ErrorEvent or not. https://html.spec.whatwg.org/multipage/webappapis.html#errorevent
+ * @param err - object that may contain error information
+ */
+function isErrorEvent(err: any): err is { message: string; error: any } {
+  return typeof err.error === "object" && typeof err.message === "string";
+}
+
+/**
+ * @internal
  */
 const rheaPromiseErrors = [
   // OperationTimeoutError occurs when the service fails to respond within a given timeframe.
@@ -657,19 +666,22 @@ export function translate(err: unknown): MessagingError | Error {
     // The error is a scalar type, make it the message of an actual error.
     return new Error(String(err));
   }
+
+  const errObj = isErrorEvent(err) ? err.error : err;
+
   // Built-in errors like TypeError and RangeError should not be retryable as these indicate issues
   // with user input and not an issue with the Messaging process.
-  if (err instanceof TypeError || err instanceof RangeError) {
-    return err;
+  if (errObj instanceof TypeError || errObj instanceof RangeError) {
+    return errObj;
   }
 
-  if (isAmqpError(err)) {
+  if (isAmqpError(errObj)) {
     // translate
-    const condition = err.condition;
-    const description = err.description!;
+    const condition = errObj.condition;
+    const description = errObj.description!;
     const error = new MessagingError(description);
-    if ((err as any).stack) error.stack = (err as any).stack;
-    error.info = err.info;
+    if ((errObj as any).stack) error.stack = (errObj as any).stack;
+    error.info = errObj.info;
     if (condition) {
       error.code = ConditionErrorNameMapper[condition as keyof typeof ConditionErrorNameMapper];
     }
@@ -687,16 +699,16 @@ export function translate(err: unknown): MessagingError | Error {
     return error;
   }
 
-  if (err instanceof Error && err.name === "MessagingError") {
+  if (errObj instanceof Error && errObj.name === "MessagingError") {
     // already translated
-    return err;
+    return errObj;
   }
 
-  if (isSystemError(err)) {
+  if (isSystemError(errObj)) {
     // translate
-    const condition = err.code;
-    const description = err.message;
-    const error = new MessagingError(description, err);
+    const condition = errObj.code;
+    const description = errObj.message;
+    const error = new MessagingError(description, errObj);
     let errorType = "SystemError";
     if (condition) {
       const amqpErrorCondition =
@@ -711,7 +723,7 @@ export function translate(err: unknown): MessagingError | Error {
     return error;
   }
 
-  if (isBrowserWebsocketError(err)) {
+  if (isBrowserWebsocketError(errObj)) {
     // Translate browser communication errors during opening handshake to generic ServiceCommunicationError
     const error = new MessagingError("Websocket connection failed.");
     error.code = ConditionErrorNameMapper[ErrorNameConditionMapper.ServiceCommunicationError];
@@ -721,9 +733,9 @@ export function translate(err: unknown): MessagingError | Error {
 
   // Some errors come from rhea-promise and need to be converted to MessagingError.
   // A subset of these are also retryable.
-  if (isError(err) && rheaPromiseErrors.indexOf(err.name) !== -1) {
-    const error = new MessagingError(err.message, err);
-    error.code = err.name;
+  if (isError(errObj) && rheaPromiseErrors.indexOf(errObj.name) !== -1) {
+    const error = new MessagingError(errObj.message, errObj);
+    error.code = errObj.name;
     if (error.code && retryableErrors.indexOf(error.code) === -1) {
       // not found
       error.retryable = false;
@@ -731,7 +743,7 @@ export function translate(err: unknown): MessagingError | Error {
     return error;
   }
 
-  return isError(err) ? err : new Error(String(err));
+  return isError(errObj) ? errObj : new Error(String(errObj));
 }
 
 /**

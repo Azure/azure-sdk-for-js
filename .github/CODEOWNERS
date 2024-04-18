@@ -103,10 +103,6 @@
 # ServiceLabel: %Communication - Phone Numbers
 /sdk/communication/communication-phone-numbers/ @miguhern @whisper6284 @RoyHerrod @danielav7
 
-# PRLabel: %Communication - Network Traversal
-# ServiceLabel: %Communication - Network Traversal
-/sdk/communication/communication-network-traversal/ @ajpeacock0 @nathpete-msft
-
 # PRLabel: %Communication - Rooms
 # ServiceLabel: %Communication - Rooms
 /sdk/communication/communication-rooms/ @anujissarMS @minnieliu @paolamvhz @shwali-msft @allchiang-msft
