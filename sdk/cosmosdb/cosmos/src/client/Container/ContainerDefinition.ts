@@ -23,5 +23,6 @@ export interface ContainerDefinition {
   geospatialConfig?: {
     type: GeospatialType;
   };
+  /** The vector embedding policy information for storing items in a container. */
   vectorEmbeddingPolicy?: VectorEmbeddingPolicy;
 }
