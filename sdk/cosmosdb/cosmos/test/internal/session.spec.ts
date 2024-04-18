@@ -169,14 +169,14 @@ describe("Integrated Cache Staleness", async function (this: Suite) {
 });
 
 // This test has to be run against sqlx endpoint
-describe.skip("ByPass integrated cache", function (this: Suite) {
+describe.skip("Bypass integrated cache", function (this: Suite) {
   beforeEach(async function () {
     await removeAllDatabases();
   });
 
-  it("Should pass with byPass integrated cache set", async function () {
-    const dbId = addEntropy("byPassIntegratedCacheTestDB");
-    const containerId = addEntropy("byPassIntegratedCacheTestContainer");
+  it("Should pass with bypass integrated cache set", async function () {
+    const dbId = addEntropy("bypassIntegratedCacheTestDB");
+    const containerId = addEntropy("bypassIntegratedCacheTestContainer");
     const client = new CosmosClient({
       endpoint,
       key: masterKey,

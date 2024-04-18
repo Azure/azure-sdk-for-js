@@ -174,7 +174,7 @@ export const Constants = {
 
     // Dedicated Gateway Headers
     DedicatedGatewayPerRequestCacheStaleness: "x-ms-dedicatedgateway-max-age",
-    DdedicatedGatewayPerRequestBypassCache: "x-ms-dedicatedgateway-bypass-cache",
+    DedicatedGatewayPerRequestBypassCache: "x-ms-dedicatedgateway-bypass-cache",
 
     // Cache Refresh header
     ForceRefresh: "x-ms-force-refresh",

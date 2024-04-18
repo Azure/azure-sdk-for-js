@@ -144,7 +144,7 @@ export async function getHeaders({
   }
 
   if (options.bypassIntegratedCache) {
-    headers[Constants.HttpHeaders.DdedicatedGatewayPerRequestBypassCache] =
+    headers[Constants.HttpHeaders.DedicatedGatewayPerRequestBypassCache] =
       options.bypassIntegratedCache.toString();
   }
 
