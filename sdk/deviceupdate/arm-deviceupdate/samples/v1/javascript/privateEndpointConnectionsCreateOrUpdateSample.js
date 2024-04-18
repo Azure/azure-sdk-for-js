@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update the state of specified private endpoint connection associated with the device update account.
  *
  * @summary Update the state of specified private endpoint connection associated with the device update account.
- * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/PrivateEndpointConnections/PrivateEndpointConnection_CreateOrUpdate.json
+ * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2023-07-01/examples/PrivateEndpointConnections/PrivateEndpointConnection_CreateOrUpdate.json
  */
 async function privateEndpointConnectionCreateOrUpdate() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function privateEndpointConnectionCreateOrUpdate() {
     resourceGroupName,
     accountName,
     privateEndpointConnectionName,
-    privateEndpointConnection
+    privateEndpointConnection,
   );
   console.log(result);
 }

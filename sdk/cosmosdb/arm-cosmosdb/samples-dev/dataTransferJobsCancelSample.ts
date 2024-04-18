@@ -18,9 +18,9 @@ dotenv.config();
  * This sample demonstrates how to Cancels a Data Transfer Job.
  *
  * @summary Cancels a Data Transfer Job.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/data-transfer-service/CosmosDBDataTransferJobCancel.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/data-transfer-service/CosmosDBDataTransferJobCancel.json
  */
-async function cosmosDbDataTransferJobCreate() {
+async function cosmosDbDataTransferJobCancel() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -30,13 +30,13 @@ async function cosmosDbDataTransferJobCreate() {
   const result = await client.dataTransferJobs.cancel(
     resourceGroupName,
     accountName,
-    jobName
+    jobName,
   );
   console.log(result);
 }
 
 async function main() {
-  cosmosDbDataTransferJobCreate();
+  cosmosDbDataTransferJobCancel();
 }
 
 main().catch(console.error);

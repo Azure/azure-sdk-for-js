@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CreateJobRequest,
-  CosmosDBManagementClient
+  CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a Data Transfer Job.
  *
  * @summary Creates a Data Transfer Job.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/data-transfer-service/CosmosDBDataTransferJobCreate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/data-transfer-service/CosmosDBDataTransferJobCreate.json
  */
 async function cosmosDbDataTransferJobCreate() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -33,14 +33,14 @@ async function cosmosDbDataTransferJobCreate() {
       destination: {
         component: "AzureBlobStorage",
         containerName: "blob_container",
-        endpointUrl: "https://blob.windows.net"
+        endpointUrl: "https://blob.windows.net",
       },
       source: {
         component: "CosmosDBCassandra",
         keyspaceName: "keyspace",
-        tableName: "table"
-      }
-    }
+        tableName: "table",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
@@ -48,7 +48,7 @@ async function cosmosDbDataTransferJobCreate() {
     resourceGroupName,
     accountName,
     jobName,
-    jobCreateParameters
+    jobCreateParameters,
   );
   console.log(result);
 }

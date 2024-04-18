@@ -37,7 +37,7 @@ describe("Call Automation Event Processor Unit Tests", () => {
         }
       },
       undefined,
-      500
+      500,
     );
 
     // send the event
@@ -75,7 +75,7 @@ describe("Call Automation Event Processor Unit Tests", () => {
         }
       },
       undefined,
-      500
+      500,
     );
 
     // asserts
@@ -95,7 +95,7 @@ describe("Call Automation Event Processor Unit Tests", () => {
         }
       },
       undefined,
-      500
+      500,
     );
 
     // send the event
@@ -134,7 +134,7 @@ describe("Call Automation Event Processor Unit Tests", () => {
         }
       },
       undefined,
-      500
+      500,
     );
 
     // send the event
@@ -168,7 +168,7 @@ describe("Call Automation Event Processor Unit Tests", () => {
         }
       },
       controller.signal,
-      500
+      500,
     );
 
     // abort + asserts
@@ -261,7 +261,7 @@ describe("Call Automation Event Processor Unit Tests", () => {
       async (event) => {
         expect(event).to.equal(connectedEvent);
         ongoingEventCalled = true;
-      }
+      },
     );
 
     // send the event
@@ -289,7 +289,7 @@ describe("Call Automation Event Processor Unit Tests", () => {
       async (event) => {
         expect(event).to.equal(connectedEvent);
         ongoingEventCalled = true;
-      }
+      },
     );
 
     // send the event
@@ -327,7 +327,7 @@ describe("Call Automation Event Processor Unit Tests", () => {
       async (event) => {
         expect(event).to.equal(connectedEvent);
         ongoingEventCalled = true;
-      }
+      },
     );
 
     // send the event

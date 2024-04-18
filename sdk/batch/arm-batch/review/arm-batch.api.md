@@ -147,6 +147,14 @@ export type ApplicationUpdateResponse = Application;
 export type AuthenticationMode = "SharedKey" | "AAD" | "TaskAuthenticationToken";
 
 // @public
+export interface AutomaticOSUpgradePolicy {
+    disableAutomaticRollback?: boolean;
+    enableAutomaticOSUpgrade?: boolean;
+    osRollingUpgradeDeferral?: boolean;
+    useRollingUpgradePolicy?: boolean;
+}
+
+// @public
 export interface AutoScaleRun {
     error?: AutoScaleRunError;
     evaluationTime: Date;
@@ -961,6 +969,11 @@ export type LocationListSupportedVirtualMachineSkusResponse = SupportedSkusResul
 // @public
 export type LoginMode = "Batch" | "Interactive";
 
+// @public (undocumented)
+export interface ManagedDisk {
+    storageAccountType?: StorageAccountType;
+}
+
 // @public
 export interface MetadataItem {
     name: string;
@@ -1066,7 +1079,12 @@ export type OperationsListResponse = OperationListResult;
 
 // @public
 export interface OSDisk {
+    caching?: CachingType;
+    diskSizeGB?: number;
     ephemeralOSDiskSettings?: DiffDiskSettings;
+    // (undocumented)
+    managedDisk?: ManagedDisk;
+    writeAcceleratorEnabled?: boolean;
 }
 
 // @public
@@ -1107,11 +1125,15 @@ export interface Pool extends ProxyResource {
     readonly provisioningState?: PoolProvisioningState;
     readonly provisioningStateTransitionTime?: Date;
     readonly resizeOperationStatus?: ResizeOperationStatus;
+    resourceTags?: {
+        [propertyName: string]: string;
+    };
     scaleSettings?: ScaleSettings;
     startTask?: StartTask;
     targetNodeCommunicationMode?: NodeCommunicationMode;
     taskSchedulingPolicy?: TaskSchedulingPolicy;
     taskSlotsPerNode?: number;
+    upgradePolicy?: UpgradePolicy;
     userAccounts?: UserAccount[];
     vmSize?: string;
 }
@@ -1421,9 +1443,32 @@ export interface ResourceFile {
 export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "None";
 
 // @public
+export interface RollingUpgradePolicy {
+    enableCrossZoneUpgrade?: boolean;
+    maxBatchInstancePercent?: number;
+    maxUnhealthyInstancePercent?: number;
+    maxUnhealthyUpgradedInstancePercent?: number;
+    pauseTimeBetweenBatches?: string;
+    prioritizeUnhealthyInstances?: boolean;
+    rollbackFailedInstancesOnPolicyBreach?: boolean;
+}
+
+// @public
 export interface ScaleSettings {
     autoScale?: AutoScaleSettings;
     fixedScale?: FixedScaleSettings;
+}
+
+// @public
+export interface SecurityProfile {
+    encryptionAtHost?: boolean;
+    securityType?: "trustedLaunch";
+    uefiSettings?: UefiSettings;
+}
+
+// @public
+export interface ServiceArtifactReference {
+    id: string;
 }
 
 // @public
@@ -1444,10 +1489,11 @@ export interface StartTask {
 }
 
 // @public
-export type StorageAccountType = "Standard_LRS" | "Premium_LRS";
+export type StorageAccountType = "Standard_LRS" | "Premium_LRS" | "StandardSSD_LRS";
 
 // @public
 export interface SupportedSku {
+    readonly batchSupportEndOfLife?: Date;
     readonly capabilities?: SkuCapability[];
     readonly familyName?: string;
     readonly name?: string;
@@ -1470,6 +1516,22 @@ export interface TaskContainerSettings {
 // @public
 export interface TaskSchedulingPolicy {
     nodeFillType: ComputeNodeFillType;
+}
+
+// @public
+export interface UefiSettings {
+    secureBootEnabled?: boolean;
+    vTpmEnabled?: boolean;
+}
+
+// @public
+export type UpgradeMode = "automatic" | "manual" | "rolling";
+
+// @public
+export interface UpgradePolicy {
+    automaticOSUpgradePolicy?: AutomaticOSUpgradePolicy;
+    mode: UpgradeMode;
+    rollingUpgradePolicy?: RollingUpgradePolicy;
 }
 
 // @public
@@ -1504,6 +1566,8 @@ export interface VirtualMachineConfiguration {
     nodeAgentSkuId: string;
     nodePlacementConfiguration?: NodePlacementConfiguration;
     osDisk?: OSDisk;
+    securityProfile?: SecurityProfile;
+    serviceArtifactReference?: ServiceArtifactReference;
     windowsConfiguration?: WindowsConfiguration;
 }
 

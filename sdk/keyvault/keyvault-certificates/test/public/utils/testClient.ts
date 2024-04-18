@@ -26,7 +26,7 @@ export default class TestClient {
   }
   public async beginRestoreCertificateBackup(
     backup: Uint8Array,
-    options: BeginRestoreCertificateBackupOptions = {}
+    options: BeginRestoreCertificateBackupOptions = {},
   ): Promise<PollerLike<PollOperationState<KeyVaultCertificate>, KeyVaultCertificate>> {
     const poller = new RestoreCertificateBackupPoller({
       backup,

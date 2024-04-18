@@ -46,11 +46,11 @@ testWithServiceTypes((serviceVersion) => {
     before("validate environment", function (): void {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
       );
       should.exist(
         env[EnvVarKeys.EVENTHUB_NAME],
-        "define EVENTHUB_NAME in your environment before running integration tests."
+        "define EVENTHUB_NAME in your environment before running integration tests.",
       );
     });
 
@@ -59,7 +59,7 @@ testWithServiceTypes((serviceVersion) => {
       consumerClient = new EventHubConsumerClient(
         EventHubConsumerClient.defaultConsumerGroupName,
         service.connectionString,
-        service.path
+        service.path,
       );
     });
 
@@ -104,7 +104,7 @@ testWithServiceTypes((serviceVersion) => {
           },
           {
             startPosition: startingPositions,
-          }
+          },
         );
       });
     }
@@ -117,7 +117,7 @@ testWithServiceTypes((serviceVersion) => {
             const filer = { body: "b", messageId: randomUUID() };
             await producerClient.sendBatch([filer]);
           }
-        }
+        },
       );
       it(`props`, async () => {
         const startingPositions = await getStartingPositionsForTests(consumerClient);
@@ -129,17 +129,17 @@ testWithServiceTypes((serviceVersion) => {
         should.equal(
           event.contentType,
           testEvent.contentType,
-          "Unexpected contentType on the received event."
+          "Unexpected contentType on the received event.",
         );
         should.equal(
           event.correlationId,
           testEvent.correlationId,
-          "Unexpected correlationId on the received event."
+          "Unexpected correlationId on the received event.",
         );
         should.equal(
           event.messageId,
           testEvent.messageId,
-          "Unexpected messageId on the received event."
+          "Unexpected messageId on the received event.",
         );
       });
 

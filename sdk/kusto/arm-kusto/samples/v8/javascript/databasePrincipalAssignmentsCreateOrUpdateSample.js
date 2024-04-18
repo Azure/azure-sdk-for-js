@@ -38,7 +38,7 @@ async function kustoDatabasePrincipalAssignmentsCreateOrUpdate() {
     clusterName,
     databaseName,
     principalAssignmentName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Returns overviews of database connections for a static site build
  *
  * @summary Returns overviews of database connections for a static site build
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/GetStaticSiteBuildDatabaseConnections.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/GetStaticSiteBuildDatabaseConnections.json
  */
 async function listOverviewsOfDatabaseConnectionsForTheStaticSiteBuild() {
   const subscriptionId =

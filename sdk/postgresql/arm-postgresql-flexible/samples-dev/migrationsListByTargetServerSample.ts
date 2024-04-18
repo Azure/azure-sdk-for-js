@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to List all the migrations on a given target server.
  *
  * @summary List all the migrations on a given target server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/Migrations_ListByTargetServer.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/Migrations_ListByTargetServer.json
  */
 async function migrationsListByTargetServer() {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";

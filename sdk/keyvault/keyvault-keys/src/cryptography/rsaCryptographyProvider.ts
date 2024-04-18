@@ -56,24 +56,24 @@ export class RsaCryptographyProvider implements CryptographyProvider {
       keyID: this.key.kid,
       result: publicEncrypt(
         { key: keyPEM, padding: padding },
-        Buffer.from(encryptParameters.plaintext)
+        Buffer.from(encryptParameters.plaintext),
       ),
     });
   }
 
   decrypt(
     _decryptParameters: DecryptParameters,
-    _options?: DecryptOptions
+    _options?: DecryptOptions,
   ): Promise<DecryptResult> {
     throw new LocalCryptographyUnsupportedError(
-      "Decrypting using a local JsonWebKey is not supported."
+      "Decrypting using a local JsonWebKey is not supported.",
     );
   }
 
   wrapKey(
     algorithm: KeyWrapAlgorithm,
     keyToWrap: Uint8Array,
-    _options?: WrapKeyOptions
+    _options?: WrapKeyOptions,
   ): Promise<WrapResult> {
     this.ensureValid();
     const keyPEM = convertJWKtoPEM(this.key);
@@ -90,30 +90,30 @@ export class RsaCryptographyProvider implements CryptographyProvider {
   unwrapKey(
     _algorithm: KeyWrapAlgorithm,
     _encryptedKey: Uint8Array,
-    _options?: UnwrapKeyOptions
+    _options?: UnwrapKeyOptions,
   ): Promise<UnwrapResult> {
     throw new LocalCryptographyUnsupportedError(
-      "Unwrapping a key using a local JsonWebKey is not supported."
+      "Unwrapping a key using a local JsonWebKey is not supported.",
     );
   }
 
   sign(
     _algorithm: SignatureAlgorithm,
     _digest: Uint8Array,
-    _options?: SignOptions
+    _options?: SignOptions,
   ): Promise<SignResult> {
     throw new LocalCryptographyUnsupportedError(
-      "Signing a digest using a local JsonWebKey is not supported."
+      "Signing a digest using a local JsonWebKey is not supported.",
     );
   }
 
   signData(
     _algorithm: SignatureAlgorithm,
     _data: Uint8Array,
-    _options?: SignOptions
+    _options?: SignOptions,
   ): Promise<SignResult> {
     throw new LocalCryptographyUnsupportedError(
-      "Signing a block of data using a local JsonWebKey is not supported."
+      "Signing a block of data using a local JsonWebKey is not supported.",
     );
   }
 
@@ -121,10 +121,10 @@ export class RsaCryptographyProvider implements CryptographyProvider {
     _algorithm: SignatureAlgorithm,
     _digest: Uint8Array,
     _signature: Uint8Array,
-    _options?: VerifyOptions
+    _options?: VerifyOptions,
   ): Promise<VerifyResult> {
     throw new LocalCryptographyUnsupportedError(
-      "Verifying a digest using a local JsonWebKey is not supported."
+      "Verifying a digest using a local JsonWebKey is not supported.",
     );
   }
 
@@ -132,7 +132,7 @@ export class RsaCryptographyProvider implements CryptographyProvider {
     algorithm: SignatureAlgorithm,
     data: Uint8Array,
     signature: Uint8Array,
-    _options?: VerifyOptions
+    _options?: VerifyOptions,
   ): Promise<VerifyResult> {
     this.ensureValid();
     const keyPEM = convertJWKtoPEM(this.key);

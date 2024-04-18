@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { stringToUint8Array, uint8ArrayToString } from "../../src/bytesEncoding";
-import { assert } from "chai";
+import { stringToUint8Array, uint8ArrayToString } from "../../src/bytesEncoding.js";
+import { describe, it, assert } from "vitest";
 
 describe("bytesEncoding", function () {
   describe("base64ToBytes", function () {
@@ -13,8 +13,14 @@ describe("bytesEncoding", function () {
       assert.deepEqual(
         output,
         new Uint8Array([97, 122, 117, 114, 101]),
-        "Incorrect conversion of base64 to bytes."
+        "Incorrect conversion of base64 to bytes.",
       );
+    });
+
+    it("converts base64-encoded data containing an emoji (multibyte character) to bytes", function () {
+      const input = "8J+RjQ=="; // thumbs up emoji, hex f0 9f 91 8d
+      const output = stringToUint8Array(input, "base64");
+      assert.deepEqual(output, new Uint8Array([0xf0, 0x9f, 0x91, 0x8d]));
     });
 
     it("converts a utf-8 string to bytes", function () {
@@ -24,7 +30,7 @@ describe("bytesEncoding", function () {
       assert.deepEqual(
         output,
         new Uint8Array([97, 122, 117, 114, 101]),
-        "Incorrect conversion of utf-8 to bytes."
+        "Incorrect conversion of utf-8 to bytes.",
       );
     });
 
@@ -35,7 +41,7 @@ describe("bytesEncoding", function () {
       assert.deepEqual(
         output,
         new Uint8Array([97, 122, 117, 114, 101]),
-        "Incorrect conversion of utf-8 to bytes."
+        "Incorrect conversion of utf-8 to bytes.",
       );
     });
   });

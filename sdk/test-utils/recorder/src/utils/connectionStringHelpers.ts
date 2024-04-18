@@ -49,7 +49,7 @@ function getKeyValuePair(kvp: string): string[] {
  */
 export function getRealAndFakePairs(
   connectionString: string,
-  fakeConnString: string
+  fakeConnString: string,
 ): Record<string, string> {
   const realAndFakePairs: Record<string, string> = {};
   const fakeValues = getConnStringAsJSON(fakeConnString);

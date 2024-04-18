@@ -40,7 +40,7 @@ export function createClient(options: {
       return new TextAnalyticsClient(
         endpoint,
         new AzureKeyCredential(assertEnvironmentVariable("LANGUAGE_API_KEY")),
-        updatedOptions
+        updatedOptions,
       );
     }
     case "AAD": {

@@ -26,17 +26,6 @@ export interface AddConfigurationSettingResponse extends ConfigurationSetting, S
 }
 
 // @public
-export type AppConfigurationApiVersion = (typeof AppConfigurationApiVersion)[keyof typeof AppConfigurationApiVersion];
-
-// @public
-export const AppConfigurationApiVersion: {
-    readonly Latest: "2022-11-01-preview";
-    readonly Stable: "1.0";
-    readonly "1.0": "1.0";
-    readonly "2022-11-01-preview": "2022-11-01-preview";
-};
-
-// @public
 export class AppConfigurationClient {
     constructor(connectionString: string, options?: AppConfigurationClientOptions);
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: AppConfigurationClientOptions);
@@ -59,7 +48,6 @@ export class AppConfigurationClient {
 
 // @public
 export interface AppConfigurationClientOptions extends CommonClientOptions {
-    apiVersion?: AppConfigurationApiVersion;
 }
 
 // @public
@@ -131,6 +119,11 @@ export interface DeleteConfigurationSettingOptions extends HttpOnlyIfUnchangedFi
 
 // @public
 export interface DeleteConfigurationSettingResponse extends SyncTokenHeaderField, HttpResponseFields, HttpResponseField<SyncTokenHeaderField> {
+}
+
+// @public
+export interface EtagEntity {
+    etag?: string;
 }
 
 // @public
@@ -218,7 +211,7 @@ export enum KnownSnapshotComposition {
 }
 
 // @public
-export interface ListConfigurationSettingPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings {
+export interface ListConfigurationSettingPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings, EtagEntity {
     items: ConfigurationSetting[];
 }
 
@@ -228,6 +221,7 @@ export interface ListConfigurationSettingsForSnapshotOptions extends OperationOp
 
 // @public
 export interface ListConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {
+    pageEtags?: string[];
 }
 
 // @public

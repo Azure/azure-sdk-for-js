@@ -18,15 +18,14 @@ dotenv.config();
  * This sample demonstrates how to Creates a new file workspace.
  *
  * @summary Creates a new file workspace.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/CreateFileWorkspace.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/CreateFileWorkspace.json
  */
 async function createAFileWorkspace() {
   const fileWorkspaceName = "testworkspace";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential);
-  const result = await client.fileWorkspacesNoSubscription.create(
-    fileWorkspaceName
-  );
+  const result =
+    await client.fileWorkspacesNoSubscription.create(fileWorkspaceName);
   console.log(result);
 }
 

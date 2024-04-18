@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SecurityPolicy,
   SecurityPoliciesListByProfileOptionalParams,
@@ -18,7 +18,7 @@ import {
   SecurityPolicyUpdateParameters,
   SecurityPoliciesPatchOptionalParams,
   SecurityPoliciesPatchResponse,
-  SecurityPoliciesDeleteOptionalParams
+  SecurityPoliciesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface SecurityPolicies {
   listByProfile(
     resourceGroupName: string,
     profileName: string,
-    options?: SecurityPoliciesListByProfileOptionalParams
+    options?: SecurityPoliciesListByProfileOptionalParams,
   ): PagedAsyncIterableIterator<SecurityPolicy>;
   /**
    * Gets an existing security policy within a profile.
@@ -48,7 +48,7 @@ export interface SecurityPolicies {
     resourceGroupName: string,
     profileName: string,
     securityPolicyName: string,
-    options?: SecurityPoliciesGetOptionalParams
+    options?: SecurityPoliciesGetOptionalParams,
   ): Promise<SecurityPoliciesGetResponse>;
   /**
    * Creates a new security policy within the specified profile.
@@ -64,10 +64,10 @@ export interface SecurityPolicies {
     profileName: string,
     securityPolicyName: string,
     securityPolicy: SecurityPolicy,
-    options?: SecurityPoliciesCreateOptionalParams
+    options?: SecurityPoliciesCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SecurityPoliciesCreateResponse>,
+    SimplePollerLike<
+      OperationState<SecurityPoliciesCreateResponse>,
       SecurityPoliciesCreateResponse
     >
   >;
@@ -85,7 +85,7 @@ export interface SecurityPolicies {
     profileName: string,
     securityPolicyName: string,
     securityPolicy: SecurityPolicy,
-    options?: SecurityPoliciesCreateOptionalParams
+    options?: SecurityPoliciesCreateOptionalParams,
   ): Promise<SecurityPoliciesCreateResponse>;
   /**
    * Updates an existing security policy within a profile.
@@ -101,10 +101,10 @@ export interface SecurityPolicies {
     profileName: string,
     securityPolicyName: string,
     securityPolicyUpdateProperties: SecurityPolicyUpdateParameters,
-    options?: SecurityPoliciesPatchOptionalParams
+    options?: SecurityPoliciesPatchOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SecurityPoliciesPatchResponse>,
+    SimplePollerLike<
+      OperationState<SecurityPoliciesPatchResponse>,
       SecurityPoliciesPatchResponse
     >
   >;
@@ -122,7 +122,7 @@ export interface SecurityPolicies {
     profileName: string,
     securityPolicyName: string,
     securityPolicyUpdateProperties: SecurityPolicyUpdateParameters,
-    options?: SecurityPoliciesPatchOptionalParams
+    options?: SecurityPoliciesPatchOptionalParams,
   ): Promise<SecurityPoliciesPatchResponse>;
   /**
    * Deletes an existing security policy within profile.
@@ -136,8 +136,8 @@ export interface SecurityPolicies {
     resourceGroupName: string,
     profileName: string,
     securityPolicyName: string,
-    options?: SecurityPoliciesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: SecurityPoliciesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing security policy within profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
@@ -150,6 +150,6 @@ export interface SecurityPolicies {
     resourceGroupName: string,
     profileName: string,
     securityPolicyName: string,
-    options?: SecurityPoliciesDeleteOptionalParams
+    options?: SecurityPoliciesDeleteOptionalParams,
   ): Promise<void>;
 }

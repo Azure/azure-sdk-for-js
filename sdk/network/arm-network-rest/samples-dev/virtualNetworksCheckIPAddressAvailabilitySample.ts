@@ -31,7 +31,7 @@ async function checkIPAddressAvailability() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/CheckIPAddressAvailability",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName
+      virtualNetworkName,
     )
     .get(options);
   console.log(result);

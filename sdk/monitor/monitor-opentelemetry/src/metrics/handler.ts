@@ -12,6 +12,7 @@ import { StandardMetrics } from "./standardMetrics";
 import { ReadableSpan, Span } from "@opentelemetry/sdk-trace-base";
 import { LogRecord } from "@opentelemetry/sdk-logs";
 import { APPLICATION_INSIGHTS_NO_STANDARD_METRICS } from "./types";
+import { LiveMetrics } from "./quickpulse/liveMetrics";
 
 /**
  * Azure Monitor OpenTelemetry Metric Handler
@@ -21,6 +22,7 @@ export class MetricHandler {
   private _azureExporter: AzureMonitorMetricExporter;
   private _metricReader: PeriodicExportingMetricReader;
   private _standardMetrics?: StandardMetrics;
+  private _liveMetrics?: LiveMetrics;
   private _config: InternalConfig;
   private _views: View[];
 
@@ -61,8 +63,14 @@ export class MetricHandler {
     };
     this._metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
 
-    if (!process.env[APPLICATION_INSIGHTS_NO_STANDARD_METRICS]) {
+    if (
+      this._config.enableStandardMetrics &&
+      !process.env[APPLICATION_INSIGHTS_NO_STANDARD_METRICS]
+    ) {
       this._standardMetrics = new StandardMetrics(this._config);
+    }
+    if (this._config.enableLiveMetrics) {
+      this._liveMetrics = new LiveMetrics(this._config);
     }
   }
 
@@ -80,10 +88,12 @@ export class MetricHandler {
 
   public recordSpan(span: ReadableSpan): void {
     this._standardMetrics?.recordSpan(span);
+    this._liveMetrics?.recordSpan(span);
   }
 
   public recordLog(logRecord: LogRecord): void {
     this._standardMetrics?.recordLog(logRecord);
+    this._liveMetrics?.recordLog(logRecord);
   }
 
   /**
@@ -91,5 +101,6 @@ export class MetricHandler {
    */
   public async shutdown(): Promise<void> {
     this._standardMetrics?.shutdown();
+    this._liveMetrics?.shutdown();
   }
 }

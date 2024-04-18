@@ -1,12 +1,12 @@
 import { DefaultAzureCredential } from "@azure/identity";
 import {
-  ProjectOutput,
-  isUnexpected,
-  CatalogItemOutput,
-  EnvironmentTypeOutput,
-  EnvironmentsCreateOrUpdateEnvironmentParameters,
-  getLongRunningPoller,
-  paginate,
+    ProjectOutput,
+    isUnexpected,
+    CatalogOutput,
+    EnvironmentTypeOutput,
+    EnvironmentDefinitionOutput,
+    CreateOrUpdateEnvironmentParameters,
+    getLongRunningPoller,
 } from "@azure-rest/developer-devcenter";
 import createClient from "@azure-rest/developer-devcenter";
 import * as dotenv from "dotenv";
@@ -16,146 +16,104 @@ dotenv.config();
  * @summary Demonstrates creating, fetching outputs from, and deleting an Environment
  */
 async function createEnvironment() {
-  // Build client and fetch required parameters
-  const endpoint = process.env.DEVCENTER_ENDPOINT || "<endpoint>";
-  const client = createClient(endpoint, new DefaultAzureCredential());
+    // Build client and fetch required parameters
+    const endpoint = process.env.DEVCENTER_ENDPOINT || "<devcenter name>";
+    const client = createClient(endpoint, new DefaultAzureCredential());
 
-  // Get all projects
-  const projectList = await client.path("/projects").get();
-  const projects: ProjectOutput[] = [];
-  if (isUnexpected(projectList)) {
-    throw projectList.body.error;
-  }
+    const projectList = await client.path("/projects").get();
+    if (isUnexpected(projectList)) {
+        throw new Error(projectList.body.error.message);
+    }
 
-  console.log("Iterating through project results:");
+    let project: ProjectOutput = projectList.body.value[0];
+    if (project === undefined || project.name === undefined) {
+        throw new Error("No projects found.");
+    }
+    const projectName: string = project.name;
 
-  for await (const project of paginate(client, projectList)) {
-    const { name } = project;
-    console.log(`Received project "${name}"`);
-    projects.push(project);
-  }
+    const catalogList = await client.path("/projects/{projectName}/catalogs", projectName).get();
+    if (isUnexpected(catalogList)) {
+        throw new Error(catalogList.body.error);
+    }
 
-  if (projects.length < 1) {
-    throw "No projects found.";
-  }
+    const catalog: CatalogOutput = catalogList.body.value[0];
+    const catalogName: string = catalog.name;
 
-  const firstProject = projects[0];
+    const environmentDefinitionsList = await client
+        .path(
+            "/projects/{projectName}/catalogs/{catalogName}/environmentDefinitions",
+            projectName,
+            catalogName
+        )
+        .get();
 
-  if (!firstProject.name) {
-    throw "Project is missing name";
-  }
+    if (isUnexpected(environmentDefinitionsList)) {
+        throw new Error(environmentDefinitionsList.body.error);
+    }
 
-  const projectName: string = firstProject.name;
+    const environmentDefinition: EnvironmentDefinitionOutput = environmentDefinitionsList.body.value[0];
+    const environmentDefinitionName: string = environmentDefinition.name;
 
-  // Get all catalog items for the first project
-  const catalogItemList = await client
-    .path("/projects/{projectName}/catalogItems", projectName)
-    .get();
-  const catalogItems: CatalogItemOutput[] = [];
+    const environmentTypeList = await client
+        .path("/projects/{projectName}/environmentTypes", projectName)
+        .get();
+    if (isUnexpected(environmentTypeList)) {
+        throw new Error(environmentTypeList.body.error.message);
+    }
 
-  if (isUnexpected(catalogItemList)) {
-    throw new Error(catalogItemList.body.error.message);
-  }
+    let environmentType: EnvironmentTypeOutput = environmentTypeList.body.value[0];
+    if (environmentType === undefined || environmentType.name === undefined) {
+        throw new Error("No environment types found.");
+    }
 
-  console.log("Iterating through pool results:");
+    const environmentsCreateParameters: CreateOrUpdateEnvironmentParameters = {
+        contentType: "application/json",
+        body: {
+            environmentDefinitionName: environmentDefinitionName,
+            environmentType: environmentType.name,
+            catalogName: catalogName,
+        },
+    };
 
-  for await (const catalogItem of paginate(client, catalogItemList)) {
-    const { catalogName, name } = catalogItem;
-    console.log(`Received catalog item "${name}" from catalog "${catalogName}"`);
-    catalogItems.push(catalogItem);
-  }
+    const environmentName = "DevEnvironment";
+    const userId = "me";
 
-  if (catalogItems.length < 1) {
-    throw "No catalog items found.";
-  }
+    // Provision an environment
+    const environmentCreateResponse = await client
+        .path(
+            "/projects/{projectName}/users/{userId}/environments/{environmentName}",
+            projectName,
+            userId,
+            environmentName
+        )
+        .put(environmentsCreateParameters);
+    if (isUnexpected(environmentCreateResponse)) {
+        throw new Error(environmentCreateResponse.body.error.message);
+    }
 
-  const firstCatalogItem = catalogItems[0];
+    const environmentCreatePoller = await getLongRunningPoller(client, environmentCreateResponse);
+    const environmentCreateResult = await environmentCreatePoller.pollUntilDone();
+    console.log(
+        `Provisioned environment with state ${environmentCreateResult.body.provisioningState}.`
+    );
 
-  if (!firstCatalogItem.name) {
-    throw "Catalog item is missing name";
-  }
+    // Tear down the environment when finished
+    const environmentDeleteResponse = await client
+        .path(
+            "/projects/{projectName}/users/{userId}/environments/{environmentName}",
+            projectName,
+            userId,
+            environmentName
+        )
+        .delete();
+    if (isUnexpected(environmentDeleteResponse)) {
+        throw new Error(environmentDeleteResponse.body.error.message);
+    }
 
-  if (!firstCatalogItem.catalogName) {
-    throw "Catalog item is missing catalog name";
-  }
+    const environmentDeletePoller = await getLongRunningPoller(client, environmentDeleteResponse);
+    await environmentDeletePoller.pollUntilDone();
 
-  // Get all environment types for the first project
-  const environmentTypeList = await client
-    .path("/projects/{projectName}/environmentTypes", projectName)
-    .get();
-  const environmentTypes: EnvironmentTypeOutput[] = [];
-
-  if (isUnexpected(environmentTypeList)) {
-    throw new Error(environmentTypeList.body.error.message);
-  }
-
-  console.log("Iterating through catalog item results:");
-
-  for await (const environmentType of paginate(client, environmentTypeList)) {
-    const { name } = environmentType;
-    console.log(`Received environment type "${name}"`);
-    environmentTypes.push(environmentType);
-  }
-
-  if (environmentTypes.length < 1) {
-    throw "No environment types found.";
-  }
-
-  const firstEnvironmentType = environmentTypes[0];
-
-  if (!firstEnvironmentType.name) {
-    throw "Environment type is missing name";
-  }
-
-  // Create an environment with the first catalog item and environment type
-  const environmentsCreateParameters: EnvironmentsCreateOrUpdateEnvironmentParameters = {
-    contentType: "application/json",
-    body: {
-      catalogItemName: firstCatalogItem.name,
-      environmentType: firstEnvironmentType.name,
-      catalogName: firstCatalogItem.catalogName,
-    },
-  };
-
-  const environmentName = "DevEnvironment";
-  const userId = "me";
-
-  // Provision a dev box
-  const environmentCreateResponse = await client
-    .path(
-      "/projects/{projectName}/users/{userId}/environments/{environmentName}",
-      projectName,
-      userId,
-      environmentName
-    )
-    .put(environmentsCreateParameters);
-  if (isUnexpected(environmentCreateResponse)) {
-    throw new Error(environmentCreateResponse.body.error.message);
-  }
-
-  const environmentCreatePoller = getLongRunningPoller(client, environmentCreateResponse);
-  const environmentCreateResult = await environmentCreatePoller.pollUntilDone();
-  console.log(
-    `Provisioned environment with state ${environmentCreateResult.body.provisioningState}.`
-  );
-
-  // Tear down the environment when finished
-  const environmentDeleteResponse = await client
-    .path(
-      "/projects/{projectName}/users/{userId}/environments/{environmentName}",
-      projectName,
-      userId,
-      environmentName
-    )
-    .delete();
-  if (isUnexpected(environmentDeleteResponse)) {
-    throw new Error(environmentDeleteResponse.body.error.message);
-  }
-
-  const environmentDeletePoller = getLongRunningPoller(client, environmentDeleteResponse);
-  await environmentDeletePoller.pollUntilDone();
-
-  console.log("Cleaned up environment successfully.");
+    console.log("Cleaned up environment successfully.");
 }
 
 createEnvironment();

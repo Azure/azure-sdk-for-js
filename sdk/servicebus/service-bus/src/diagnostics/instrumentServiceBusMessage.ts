@@ -34,7 +34,7 @@ export function instrumentMessage<T extends InstrumentableMessage>(
   options: OperationOptionsBase,
   entityPath: string,
   host: string,
-  operation: MessagingOperationNames
+  operation: MessagingOperationNames,
 ): {
   /**
    * If instrumentation was done, a copy of the message with
@@ -61,7 +61,7 @@ export function instrumentMessage<T extends InstrumentableMessage>(
   const { span: messageSpan, updatedOptions } = tracingClient.startSpan(
     "message",
     options,
-    toSpanOptions({ entityPath, host }, operation, "producer")
+    toSpanOptions({ entityPath, host }, operation, "producer"),
   );
 
   try {
@@ -73,7 +73,7 @@ export function instrumentMessage<T extends InstrumentableMessage>(
     }
 
     const traceParent = tracingClient.createRequestHeaders(
-      updatedOptions.tracingOptions?.tracingContext
+      updatedOptions.tracingOptions?.tracingContext,
     )["traceparent"];
 
     if (traceParent) {
@@ -102,7 +102,7 @@ export function instrumentMessage<T extends InstrumentableMessage>(
  * @internal
  */
 export function extractSpanContextFromServiceBusMessage(
-  message: ServiceBusMessage
+  message: ServiceBusMessage,
 ): TracingContext | undefined {
   if (!message.applicationProperties || !message.applicationProperties[TRACEPARENT_PROPERTY]) {
     return;
@@ -120,7 +120,7 @@ export function extractSpanContextFromServiceBusMessage(
  * @internal
  */
 function* getReceivedMessages(
-  receivedMessages: ServiceBusReceivedMessage | ServiceBusReceivedMessage[]
+  receivedMessages: ServiceBusReceivedMessage | ServiceBusReceivedMessage[],
 ): Iterable<ServiceBusReceivedMessage> {
   if (!Array.isArray(receivedMessages)) {
     yield receivedMessages;
@@ -138,7 +138,7 @@ export function toProcessingSpanOptions(
   receivedMessages: ServiceBusReceivedMessage | ServiceBusReceivedMessage[],
   receiver: Pick<ServiceBusReceiver, "entityPath">,
   connectionConfig: Pick<ConnectionContext["config"], "host">,
-  operation: MessagingOperationNames
+  operation: MessagingOperationNames,
 ): TracingSpanOptions {
   const spanLinks: TracingSpanLink[] = [];
   for (const receivedMessage of getReceivedMessages(receivedMessages)) {

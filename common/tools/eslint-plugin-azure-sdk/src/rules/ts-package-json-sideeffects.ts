@@ -17,7 +17,7 @@ export = {
   meta: getRuleMetaData(
     "ts-package-json-sideeffects",
     "force package.json's sideEffects value to be false",
-    "code"
+    "code",
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const verifiers = getVerifiers(context, {

@@ -18,7 +18,7 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  ValidateOperationRequestUnion,
+  ValidateOperationRequestResource,
   ValidateOperationTriggerOptionalParams
 } from "../models";
 
@@ -46,7 +46,7 @@ export class ValidateOperationImpl implements ValidateOperation {
   async beginTrigger(
     vaultName: string,
     resourceGroupName: string,
-    parameters: ValidateOperationRequestUnion,
+    parameters: ValidateOperationRequestResource,
     options?: ValidateOperationTriggerOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
@@ -113,7 +113,7 @@ export class ValidateOperationImpl implements ValidateOperation {
   async beginTriggerAndWait(
     vaultName: string,
     resourceGroupName: string,
-    parameters: ValidateOperationRequestUnion,
+    parameters: ValidateOperationRequestResource,
     options?: ValidateOperationTriggerOptionalParams
   ): Promise<void> {
     const poller = await this.beginTrigger(

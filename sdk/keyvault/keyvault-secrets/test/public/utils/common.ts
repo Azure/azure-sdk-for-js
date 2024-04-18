@@ -32,7 +32,7 @@ export const serviceVersions: readonly NonNullable<ServiceVersion>[] = [
   "7.2",
   "7.3",
   "7.4",
-  "7.5-preview.1",
+  "7.5",
 ] as const;
 
 /**
@@ -53,7 +53,7 @@ export function getServiceVersion(): NonNullable<ServiceVersion> {
  */
 export function onVersions(
   supportedVersions: SupportedVersions,
-  serviceVersion?: ServiceVersion
+  serviceVersion?: ServiceVersion,
 ): TestFunctionWrapper {
   return supports(serviceVersion || getServiceVersion(), supportedVersions, serviceVersions);
 }

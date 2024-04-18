@@ -15,12 +15,12 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Lists the long term retention backups for a given server.
+ * This sample demonstrates how to Lists the long term retention backups for a given server based on resource groups.
  *
- * @summary Lists the long term retention backups for a given server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-05-01-preview/examples/ResourceGroupBasedLongTermRetentionBackupListByServer.json
+ * @summary Lists the long term retention backups for a given server based on resource groups.
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ResourceGroupBasedLongTermRetentionBackupListByServer.json
  */
-async function getAllLongTermRetentionBackupsUnderTheServer() {
+async function getAllLongTermRetentionBackupsUnderTheServerBasedOnResourceGroup() {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -42,7 +42,7 @@ async function getAllLongTermRetentionBackupsUnderTheServer() {
 }
 
 async function main() {
-  getAllLongTermRetentionBackupsUnderTheServer();
+  getAllLongTermRetentionBackupsUnderTheServerBasedOnResourceGroup();
 }
 
 main().catch(console.error);

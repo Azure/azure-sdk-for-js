@@ -6,6 +6,7 @@ import {
   AdmNativeMessage,
   AppleNativeMessage,
   FirebaseLegacyNativeMessage,
+  FirebaseV1NativeMessage,
 } from "./notificationBodyBuilder.js";
 import { AppleHeaders, WindowsHeaders } from "./notificationHeaderBuilder.js";
 
@@ -25,7 +26,22 @@ export interface NotificationCommon {
   /**
    * The headers to include for the push notification.
    */
-  headers?: Record<string, string | undefined>;
+  headers?: Record<string, unknown>;
+}
+
+/**
+ * The common notification parameters to accept a string body or JSON body.
+ */
+export interface NotificationCommonParams {
+  /**
+   * The body for the push notification.
+   */
+  body: string | unknown;
+
+  /**
+   * The headers to include for the push notification.
+   */
+  headers?: Record<string, unknown>;
 }
 
 /**
@@ -101,7 +117,7 @@ export interface AdmNotificationParams {
   /**
    * The headers to include for the push notification.
    */
-  headers?: Record<string, string | undefined>;
+  headers?: Record<string, string>;
 }
 
 /**
@@ -135,9 +151,12 @@ export interface BaiduNotification extends JsonNotification {
  * @param notification - A partial message used to create a message for Baidu.
  * @returns A newly created Baidu.
  */
-export function createBaiduNotification(notification: NotificationCommon): BaiduNotification {
+export function createBaiduNotification(notification: NotificationCommonParams): BaiduNotification {
+  const body = isString(notification.body) ? notification.body : JSON.stringify(notification.body);
+
   return {
     ...notification,
+    body,
     platform: "baidu",
     contentType: Constants.JSON_CONTENT_TYPE,
   };
@@ -158,9 +177,14 @@ export interface BrowserNotification extends JsonNotification {
  * @param notification - A partial message used to create a message for a browser.
  * @returns A newly created Web Push browser.
  */
-export function createBrowserNotification(notification: NotificationCommon): BrowserNotification {
+export function createBrowserNotification(
+  notification: NotificationCommonParams,
+): BrowserNotification {
+  const body = isString(notification.body) ? notification.body : JSON.stringify(notification.body);
+
   return {
     ...notification,
+    body,
     platform: "browser",
     contentType: Constants.JSON_CONTENT_TYPE,
   };
@@ -188,7 +212,7 @@ export interface FcmLegacyNotificationParams {
   /**
    * The headers to include for the push notification.
    */
-  headers?: Record<string, string | undefined>;
+  headers?: Record<string, string>;
 }
 
 /**
@@ -197,7 +221,7 @@ export interface FcmLegacyNotificationParams {
  * @returns A newly created Firebase notification.
  */
 export function createFcmLegacyNotification(
-  notification: FcmLegacyNotificationParams
+  notification: FcmLegacyNotificationParams,
 ): FcmLegacyNotification {
   const body = isString(notification.body) ? notification.body : JSON.stringify(notification.body);
 
@@ -205,6 +229,47 @@ export function createFcmLegacyNotification(
     ...notification,
     body,
     platform: "gcm",
+    contentType: Constants.JSON_CONTENT_TYPE,
+  };
+}
+
+/**
+ * Represents an Firebase V1 API notification that can be sent to a device.
+ */
+export interface FcmV1Notification extends JsonNotification {
+  /**
+   * The platform for the push notification.
+   */
+  platform: "fcmv1";
+}
+
+/**
+ * Represents an Firebase V1 notification that can be sent to a device.
+ */
+export interface FcmV1NotificationParams {
+  /**
+   * The body for the push notification.
+   */
+  body: string | FirebaseV1NativeMessage;
+
+  /**
+   * The headers to include for the push notification.
+   */
+  headers?: Record<string, string>;
+}
+
+/**
+ * Creates a notification to send to Firebase.
+ * @param notification - A partial message used to create a message for Firebase.
+ * @returns A newly created Firebase notification.
+ */
+export function createFcmV1Notification(notification: FcmV1NotificationParams): FcmV1Notification {
+  const body = isString(notification.body) ? notification.body : JSON.stringify(notification.body);
+
+  return {
+    ...notification,
+    body,
+    platform: "fcmv1",
     contentType: Constants.JSON_CONTENT_TYPE,
   };
 }
@@ -224,9 +289,14 @@ export interface XiaomiNotification extends JsonNotification {
  * @param notification - A partial message used to create a message for Xiaomi.
  * @returns A newly created Xiaomi notification.
  */
-export function createXiaomiNotification(notification: NotificationCommon): XiaomiNotification {
+export function createXiaomiNotification(
+  notification: NotificationCommonParams,
+): XiaomiNotification {
+  const body = isString(notification.body) ? notification.body : JSON.stringify(notification.body);
+
   return {
     ...notification,
+    body,
     platform: "xiaomi",
     contentType: Constants.JSON_CONTENT_TYPE,
   };
@@ -243,13 +313,18 @@ export interface TemplateNotification extends JsonNotification {
 }
 
 /**
- * Creates a notification to send to Firebase.
- * @param notification - A partial message used to create a message for Firebase.
+ * Creates a template notification.
+ * @param notification - A partial message used to be used for a template notification.
  * @returns A newly created Firebase.
  */
-export function createTemplateNotification(notification: NotificationCommon): TemplateNotification {
+export function createTemplateNotification(
+  notification: NotificationCommonParams,
+): TemplateNotification {
+  const body = isString(notification.body) ? notification.body : JSON.stringify(notification.body);
+
   return {
     ...notification,
+    body,
     platform: "template",
     contentType: Constants.JSON_CONTENT_TYPE,
   };
@@ -267,7 +342,7 @@ export interface WindowsNotification extends NotificationCommon {
   /**
    * The platform for the push notification.
    */
-  platform: "wns";
+  platform: "windows";
 
   /**
    * The content type for the push notification.
@@ -296,7 +371,7 @@ export interface WnsNotificationParams {
  * @returns A newly created WNS message.
  */
 export function createWindowsNotification(
-  notification: WnsNotificationParams
+  notification: WnsNotificationParams,
 ): WindowsNotification {
   if (notification?.headers && notification.headers["X-WNS-Type"]) {
     const wnsType = notification.headers["X-WNS-Type"];
@@ -323,11 +398,11 @@ export function createWindowsNotification(
  * @returns A newly created WNS badge.
  */
 export function createWindowsBadgeNotification(
-  notification: WnsNotificationParams
+  notification: WnsNotificationParams,
 ): WindowsNotification {
   const result: WindowsNotification = {
     ...notification,
-    platform: "wns",
+    platform: "windows",
     contentType: Constants.XML_CONTENT_TYPE,
   };
 
@@ -348,11 +423,11 @@ export function createWindowsBadgeNotification(
  * @returns A newly created WNS tile.
  */
 export function createWindowsTileNotification(
-  notification: WnsNotificationParams
+  notification: WnsNotificationParams,
 ): WindowsNotification {
   const result: WindowsNotification = {
     ...notification,
-    platform: "wns",
+    platform: "windows",
     contentType: Constants.XML_CONTENT_TYPE,
   };
 
@@ -373,11 +448,11 @@ export function createWindowsTileNotification(
  * @returns A newly created WNS toast.
  */
 export function createWindowsToastNotification(
-  notification: WnsNotificationParams
+  notification: WnsNotificationParams,
 ): WindowsNotification {
   const result: WindowsNotification = {
     ...notification,
-    platform: "wns",
+    platform: "windows",
     contentType: Constants.XML_CONTENT_TYPE,
   };
 
@@ -398,11 +473,11 @@ export function createWindowsToastNotification(
  * @returns A newly created WNS message using XML.
  */
 export function createWindowsRawNotification(
-  notification: WnsNotificationParams
+  notification: WnsNotificationParams,
 ): WindowsNotification {
   const result: WindowsNotification = {
     ...notification,
-    platform: "wns",
+    platform: "windows",
     contentType: Constants.STREAM_CONTENT_TYPE,
   };
 
@@ -426,6 +501,7 @@ export type Notification =
   | BaiduNotification
   | BrowserNotification
   | FcmLegacyNotification
+  | FcmV1Notification
   | XiaomiNotification
   | WindowsNotification
   | TemplateNotification;

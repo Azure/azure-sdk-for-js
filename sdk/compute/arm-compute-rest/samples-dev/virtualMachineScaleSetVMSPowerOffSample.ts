@@ -34,7 +34,7 @@ async function virtualMachineScaleSetVMSPowerOffMaximumSetGen() {
       subscriptionId,
       resourceGroupName,
       vmScaleSetName,
-      instanceId
+      instanceId,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -65,7 +65,7 @@ async function virtualMachineScaleSetVMSPowerOffMinimumSetGen() {
       subscriptionId,
       resourceGroupName,
       vmScaleSetName,
-      instanceId
+      instanceId,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

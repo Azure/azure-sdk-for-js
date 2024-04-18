@@ -1,14 +1,18 @@
 # Release History
 
-## 1.2.0-beta.3 (Unreleased)
+## 1.2.0 (2024-03-25)
 
 ### Features Added
 
-### Breaking Changes
+- Added a new `MetricsClient` to query metrics for multiple resources.
+- Added `autoAdjustTimegrain`, `rollUpBy` and `validateDimensions` properties to the `MetricsQueryOptions` object.
+- Added `resourceId` property to the `MetricsQueryResult` object.
 
-### Bugs Fixed
+## 1.2.0-beta.3 (2023-11-20)
 
 ### Other Changes
+
+- The Monitor Query service has done some internal changes and we have updated the service versions. A detailed list of changes could be found at [PR #27825](https://github.com/Azure/azure-sdk-for-js/pull/27825/).
 
 ## 1.2.0-beta.2 (2023-08-21)
 

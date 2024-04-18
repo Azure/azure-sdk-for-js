@@ -29,7 +29,7 @@ async function checkDnsNameAvailability() {
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/CheckDnsNameAvailability",
       subscriptionId,
-      location
+      location,
     )
     .get(options);
   console.log(result);

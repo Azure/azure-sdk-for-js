@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to List predefined URL categories for rulestack
  *
  * @summary List predefined URL categories for rulestack
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/LocalRulestacks_listPredefinedUrlCategories_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRulestacks_listPredefinedUrlCategories_MaximumSet_Gen.json
  */
 async function localRulestacksListPredefinedUrlCategoriesMaximumSetGen() {
   const subscriptionId =
@@ -38,19 +38,22 @@ async function localRulestacksListPredefinedUrlCategoriesMaximumSetGen() {
   };
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  const result = await client.localRulestacks.listPredefinedUrlCategories(
+  const resArray = new Array();
+  for await (let item of client.localRulestacks.listPredefinedUrlCategories(
     resourceGroupName,
     localRulestackName,
     options
-  );
-  console.log(result);
+  )) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
 /**
  * This sample demonstrates how to List predefined URL categories for rulestack
  *
  * @summary List predefined URL categories for rulestack
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/LocalRulestacks_listPredefinedUrlCategories_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRulestacks_listPredefinedUrlCategories_MinimumSet_Gen.json
  */
 async function localRulestacksListPredefinedUrlCategoriesMinimumSetGen() {
   const subscriptionId =
@@ -61,11 +64,14 @@ async function localRulestacksListPredefinedUrlCategoriesMinimumSetGen() {
   const localRulestackName = "lrs1";
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  const result = await client.localRulestacks.listPredefinedUrlCategories(
+  const resArray = new Array();
+  for await (let item of client.localRulestacks.listPredefinedUrlCategories(
     resourceGroupName,
     localRulestackName
-  );
-  console.log(result);
+  )) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
 async function main() {

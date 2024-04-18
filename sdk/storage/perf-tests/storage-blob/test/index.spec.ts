@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createPerfProgram } from "@azure/test-utils-perf";
+import { createPerfProgram } from "@azure-tools/test-perf";
 import { StorageBlobDownloadTest } from "./download.spec";
 import { StorageBlobUploadTest } from "./upload.spec";
 import { StorageBlobUploadFileTest } from "./uploadFromFile.spec";
 import { StorageBlobListTest } from "./listBlobs.spec";
 import { StorageBlobDownloadWithSASTest } from "./dowloadWithSAS.spec";
-import { NodeFetchDownloadWithSASTest } from "./node-fetch.spec";
 import { CoreHTTPSDownloadWithSASTest } from "./core-rest-pipeline.spec";
 
 const perfProgram = createPerfProgram(
@@ -17,7 +16,6 @@ const perfProgram = createPerfProgram(
   StorageBlobListTest,
   StorageBlobDownloadWithSASTest,
   CoreHTTPSDownloadWithSASTest,
-  NodeFetchDownloadWithSASTest
 );
 
 perfProgram.run();

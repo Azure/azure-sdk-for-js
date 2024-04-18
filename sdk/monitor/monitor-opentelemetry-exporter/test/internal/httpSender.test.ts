@@ -37,7 +37,7 @@ class TestTokenCredential implements TokenCredential {
 }
 
 describe("HttpSender", () => {
-  const scope = nock(DEFAULT_BREEZE_ENDPOINT).post("/v2.1/track");
+  const scope = nock(DEFAULT_BREEZE_ENDPOINT).persist().post("/v2.1/track");
   nock.disableNetConnect();
 
   after(() => {
@@ -304,7 +304,7 @@ describe("HttpSender", () => {
         trackStatsbeat: false,
         exporterOptions: {},
       });
-      sender["retryTimer"] = "foo" as unknown as NodeJS.Timer;
+      sender["retryTimer"] = "foo" as unknown as NodeJS.Timeout;
       const response = successfulBreezeResponse(1);
       scope.reply(200, JSON.stringify(response));
 
@@ -424,7 +424,7 @@ describe("HttpSender", () => {
       assert.ok(
         sender["appInsightsClient"].pipeline.getOrderedPolicies().find((policy: PipelinePolicy) => {
           return policy.name === "bearerTokenAuthenticationPolicy";
-        })
+        }),
       );
     });
 
@@ -450,7 +450,7 @@ describe("HttpSender", () => {
         trackStatsbeat: false,
         exporterOptions: {
           proxyOptions: {
-            host: "testproxy",
+            host: "http://www.testproxy.com",
             port: 123,
           },
         },
@@ -458,7 +458,7 @@ describe("HttpSender", () => {
       assert.ok(
         sender["appInsightsClient"].pipeline.getOrderedPolicies().find((policy: PipelinePolicy) => {
           return policy.name === "proxyPolicy";
-        })
+        }),
       );
     });
   });

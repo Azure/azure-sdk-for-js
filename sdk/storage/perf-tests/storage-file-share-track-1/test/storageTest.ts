@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfTest, getEnvVar } from "@azure/test-utils-perf";
+import { PerfTest, getEnvVar } from "@azure-tools/test-perf";
 import {
   ServiceURL,
   ShareURL,
@@ -13,7 +13,7 @@ import {
 
 // Expects the .env file at the same level as the "test" folder
 import * as dotenv from "dotenv";
-import { generateUuid } from "@azure/core-http";
+import { generateUuid } from "@azure/core-util";
 dotenv.config();
 
 export abstract class StorageFileShareTest<TOptions> extends PerfTest<TOptions> {

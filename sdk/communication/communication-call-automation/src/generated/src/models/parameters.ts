@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   CreateCallRequest as CreateCallRequestMapper,
@@ -27,12 +27,15 @@ import {
   StopTranscriptionRequest as StopTranscriptionRequestMapper,
   RecognizeRequest as RecognizeRequestMapper,
   ContinuousDtmfRecognitionRequest as ContinuousDtmfRecognitionRequestMapper,
-  SendDtmfRequest as SendDtmfRequestMapper,
-  UpdateTranscriptionDataRequest as UpdateTranscriptionDataRequestMapper,
+  SendDtmfTonesRequest as SendDtmfTonesRequestMapper,
+  UpdateTranscriptionRequest as UpdateTranscriptionRequestMapper,
+  HoldRequest as HoldRequestMapper,
+  UnholdRequest as UnholdRequestMapper,
   StartHoldMusicRequest as StartHoldMusicRequestMapper,
   StopHoldMusicRequest as StopHoldMusicRequestMapper,
   StartDialogRequest as StartDialogRequestMapper,
-  StartCallRecordingRequest as StartCallRecordingRequestMapper
+  UpdateDialogRequest as UpdateDialogRequestMapper,
+  StartCallRecordingRequest as StartCallRecordingRequestMapper,
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -42,14 +45,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const createCallRequest: OperationParameter = {
   parameterPath: "createCallRequest",
-  mapper: CreateCallRequestMapper
+  mapper: CreateCallRequestMapper,
 };
 
 export const accept: OperationParameter = {
@@ -59,9 +62,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const endpoint: OperationURLParameter = {
@@ -70,22 +73,22 @@ export const endpoint: OperationURLParameter = {
     serializedName: "endpoint",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-01-15-preview",
+    defaultValue: "2023-10-03-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const repeatabilityRequestID: OperationParameter = {
@@ -93,9 +96,9 @@ export const repeatabilityRequestID: OperationParameter = {
   mapper: {
     serializedName: "Repeatability-Request-ID",
     type: {
-      name: "Uuid"
-    }
-  }
+      name: "Uuid",
+    },
+  },
 };
 
 export const repeatabilityFirstSent: OperationParameter = {
@@ -103,24 +106,24 @@ export const repeatabilityFirstSent: OperationParameter = {
   mapper: {
     serializedName: "Repeatability-First-Sent",
     type: {
-      name: "DateTimeRfc1123"
-    }
-  }
+      name: "DateTimeRfc1123",
+    },
+  },
 };
 
 export const answerCallRequest: OperationParameter = {
   parameterPath: "answerCallRequest",
-  mapper: AnswerCallRequestMapper
+  mapper: AnswerCallRequestMapper,
 };
 
 export const redirectCallRequest: OperationParameter = {
   parameterPath: "redirectCallRequest",
-  mapper: RedirectCallRequestMapper
+  mapper: RedirectCallRequestMapper,
 };
 
 export const rejectCallRequest: OperationParameter = {
   parameterPath: "rejectCallRequest",
-  mapper: RejectCallRequestMapper
+  mapper: RejectCallRequestMapper,
 };
 
 export const callConnectionId: OperationURLParameter = {
@@ -129,39 +132,39 @@ export const callConnectionId: OperationURLParameter = {
     serializedName: "callConnectionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const transferToParticipantRequest: OperationParameter = {
   parameterPath: "transferToParticipantRequest",
-  mapper: TransferToParticipantRequestMapper
+  mapper: TransferToParticipantRequestMapper,
 };
 
 export const addParticipantRequest: OperationParameter = {
   parameterPath: "addParticipantRequest",
-  mapper: AddParticipantRequestMapper
+  mapper: AddParticipantRequestMapper,
 };
 
 export const removeParticipantRequest: OperationParameter = {
   parameterPath: "removeParticipantRequest",
-  mapper: RemoveParticipantRequestMapper
+  mapper: RemoveParticipantRequestMapper,
 };
 
 export const muteParticipantsRequest: OperationParameter = {
   parameterPath: "muteParticipantsRequest",
-  mapper: MuteParticipantsRequestMapper
+  mapper: MuteParticipantsRequestMapper,
 };
 
 export const unmuteParticipantsRequest: OperationParameter = {
   parameterPath: "unmuteParticipantsRequest",
-  mapper: UnmuteParticipantsRequestMapper
+  mapper: UnmuteParticipantsRequestMapper,
 };
 
 export const cancelAddParticipantRequest: OperationParameter = {
   parameterPath: "cancelAddParticipantRequest",
-  mapper: CancelAddParticipantRequestMapper
+  mapper: CancelAddParticipantRequestMapper,
 };
 
 export const participantRawId: OperationURLParameter = {
@@ -170,9 +173,9 @@ export const participantRawId: OperationURLParameter = {
     serializedName: "participantRawId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -181,60 +184,70 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const playRequest: OperationParameter = {
   parameterPath: "playRequest",
-  mapper: PlayRequestMapper
+  mapper: PlayRequestMapper,
 };
 
 export const startTranscriptionRequest: OperationParameter = {
   parameterPath: "startTranscriptionRequest",
-  mapper: StartTranscriptionRequestMapper
+  mapper: StartTranscriptionRequestMapper,
 };
 
 export const stopTranscriptionRequest: OperationParameter = {
   parameterPath: "stopTranscriptionRequest",
-  mapper: StopTranscriptionRequestMapper
+  mapper: StopTranscriptionRequestMapper,
 };
 
 export const recognizeRequest: OperationParameter = {
   parameterPath: "recognizeRequest",
-  mapper: RecognizeRequestMapper
+  mapper: RecognizeRequestMapper,
 };
 
 export const continuousDtmfRecognitionRequest: OperationParameter = {
   parameterPath: "continuousDtmfRecognitionRequest",
-  mapper: ContinuousDtmfRecognitionRequestMapper
+  mapper: ContinuousDtmfRecognitionRequestMapper,
 };
 
-export const sendDtmfRequest: OperationParameter = {
-  parameterPath: "sendDtmfRequest",
-  mapper: SendDtmfRequestMapper
+export const sendDtmfTonesRequest: OperationParameter = {
+  parameterPath: "sendDtmfTonesRequest",
+  mapper: SendDtmfTonesRequestMapper,
 };
 
-export const updateTranscriptionDataRequest: OperationParameter = {
-  parameterPath: "updateTranscriptionDataRequest",
-  mapper: UpdateTranscriptionDataRequestMapper
+export const updateTranscriptionRequest: OperationParameter = {
+  parameterPath: "updateTranscriptionRequest",
+  mapper: UpdateTranscriptionRequestMapper,
+};
+
+export const holdRequest: OperationParameter = {
+  parameterPath: "holdRequest",
+  mapper: HoldRequestMapper,
+};
+
+export const unholdRequest: OperationParameter = {
+  parameterPath: "unholdRequest",
+  mapper: UnholdRequestMapper,
 };
 
 export const startHoldMusicRequest: OperationParameter = {
   parameterPath: "startHoldMusicRequest",
-  mapper: StartHoldMusicRequestMapper
+  mapper: StartHoldMusicRequestMapper,
 };
 
 export const stopHoldMusicRequest: OperationParameter = {
   parameterPath: "stopHoldMusicRequest",
-  mapper: StopHoldMusicRequestMapper
+  mapper: StopHoldMusicRequestMapper,
 };
 
 export const startDialogRequest: OperationParameter = {
   parameterPath: "startDialogRequest",
-  mapper: StartDialogRequestMapper
+  mapper: StartDialogRequestMapper,
 };
 
 export const dialogId: OperationURLParameter = {
@@ -243,14 +256,29 @@ export const dialogId: OperationURLParameter = {
     serializedName: "dialogId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const operationCallbackUri: OperationQueryParameter = {
+  parameterPath: ["options", "operationCallbackUri"],
+  mapper: {
+    serializedName: "operationCallbackUri",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const updateDialogRequest: OperationParameter = {
+  parameterPath: "updateDialogRequest",
+  mapper: UpdateDialogRequestMapper,
 };
 
 export const startCallRecording: OperationParameter = {
   parameterPath: "startCallRecording",
-  mapper: StartCallRecordingRequestMapper
+  mapper: StartCallRecordingRequestMapper,
 };
 
 export const recordingId: OperationURLParameter = {
@@ -259,7 +287,7 @@ export const recordingId: OperationURLParameter = {
     serializedName: "recordingId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };

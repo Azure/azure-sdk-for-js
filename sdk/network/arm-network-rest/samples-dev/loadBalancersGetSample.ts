@@ -29,7 +29,7 @@ async function getLoadBalancer() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
       subscriptionId,
       resourceGroupName,
-      loadBalancerName
+      loadBalancerName,
     )
     .get(options);
   console.log(result);
@@ -56,7 +56,7 @@ async function getLoadBalancerWithInboundNatRulePortMapping() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
       subscriptionId,
       resourceGroupName,
-      loadBalancerName
+      loadBalancerName,
     )
     .get(options);
   console.log(result);

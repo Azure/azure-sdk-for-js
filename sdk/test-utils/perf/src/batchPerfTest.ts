@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortSignalLike, AbortController } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { TestProxyHttpClient, testProxyHttpPolicy } from "./testProxyHttpClient";
 import { PerfTestBase } from "./perfTestBase";
 import { AdditionalPolicyConfig } from "@azure/core-client";
@@ -10,7 +10,7 @@ import { AdditionalPolicyConfig } from "@azure/core-client";
  * Enables writing perf tests where the number of operations are dynamic for the method/call being tested.
  */
 export abstract class BatchPerfTest<
-  TOptions = Record<string, unknown>
+  TOptions = Record<string, unknown>,
 > extends PerfTestBase<TOptions> {
   private readonly testProxy!: string;
   public testProxyHttpClient!: TestProxyHttpClient;
@@ -35,19 +35,19 @@ export abstract class BatchPerfTest<
    * Note: Client Options must have "additionalPolicies" as part of the options.
    */
   public configureClientOptions<T extends { additionalPolicies?: AdditionalPolicyConfig[] }>(
-    options: T
+    options: T,
   ): T {
     if (this.testProxy) {
       this.testProxyHttpClient = new TestProxyHttpClient(
         this.testProxy,
-        this.parsedOptions["insecure"].value ?? false
+        this.parsedOptions["insecure"].value ?? false,
       );
       if (!options.additionalPolicies) options.additionalPolicies = [];
       options.additionalPolicies.push({
         policy: testProxyHttpPolicy(
           this.testProxyHttpClient,
           this.testProxy.startsWith("https"),
-          this.parsedOptions["insecure"].value ?? false
+          this.parsedOptions["insecure"].value ?? false,
         ),
         position: "perRetry",
       });
@@ -67,7 +67,7 @@ export abstract class BatchPerfTest<
    */
   public async runAll(
     durationMilliseconds: number,
-    abortController: AbortController
+    abortController: AbortController,
   ): Promise<void> {
     this.completedOperations = 0;
     this.lastMillisecondsElapsed = 0;
@@ -147,7 +147,7 @@ export abstract class BatchPerfTest<
       recorder = this.testProxyHttpClient;
     } else {
       throw new Error(
-        "testProxyClient is not set, please make sure the client/options are configured properly."
+        "testProxyClient is not set, please make sure the client/options are configured properly.",
       );
     }
 

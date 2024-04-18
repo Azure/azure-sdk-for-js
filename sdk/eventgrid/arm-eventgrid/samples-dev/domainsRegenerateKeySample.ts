@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Regenerate a shared access key for a domain.
  *
  * @summary Regenerate a shared access key for a domain.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-06-01-preview/examples/Domains_RegenerateKey.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/Domains_RegenerateKey.json
  */
 async function domainsRegenerateKey() {
   const subscriptionId =

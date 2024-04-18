@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates a new firewall rule or updates an existing firewall rule on a mongo cluster.
  *
  * @summary Creates a new firewall rule or updates an existing firewall rule on a mongo cluster.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/mongo-cluster/CosmosDBMongoClusterFirewallRuleCreate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/mongo-cluster/CosmosDBMongoClusterFirewallRuleCreate.json
  */
 async function createAFirewallRuleOfTheMongoCluster() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function createAFirewallRuleOfTheMongoCluster() {
     resourceGroupName,
     mongoClusterName,
     firewallRuleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

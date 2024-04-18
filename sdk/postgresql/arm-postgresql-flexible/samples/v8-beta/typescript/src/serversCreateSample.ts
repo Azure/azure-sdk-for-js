@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a new server.
  *
  * @summary Creates a new server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/ServerCreateGeoRestoreWithDataEncryptionEnabled.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/ServerCreateGeoRestoreWithDataEncryptionEnabled.json
  */
 async function createADatabaseAsAGeoRestoreInGeoPairedLocation() {
   const subscriptionId =
@@ -72,7 +72,7 @@ async function createADatabaseAsAGeoRestoreInGeoPairedLocation() {
  * This sample demonstrates how to Creates a new server.
  *
  * @summary Creates a new server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/ServerCreatePointInTimeRestore.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/ServerCreatePointInTimeRestore.json
  */
 async function createADatabaseAsAPointInTimeRestore() {
   const subscriptionId =
@@ -105,7 +105,7 @@ async function createADatabaseAsAPointInTimeRestore() {
  * This sample demonstrates how to Creates a new server.
  *
  * @summary Creates a new server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/ServerCreate.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/ServerCreate.json
  */
 async function createANewServer() {
   const subscriptionId =
@@ -150,7 +150,7 @@ async function createANewServer() {
  * This sample demonstrates how to Creates a new server.
  *
  * @summary Creates a new server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/ServerCreateWithAadAuthEnabled.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/ServerCreateWithAadAuthEnabled.json
  */
 async function createANewServerWithActiveDirectoryAuthenticationEnabled() {
   const subscriptionId =
@@ -201,7 +201,7 @@ async function createANewServerWithActiveDirectoryAuthenticationEnabled() {
  * This sample demonstrates how to Creates a new server.
  *
  * @summary Creates a new server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/ServerCreateReplica.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/ServerCreateReplica.json
  */
 async function serverCreateReplica() {
   const subscriptionId =
@@ -249,7 +249,7 @@ async function serverCreateReplica() {
  * This sample demonstrates how to Creates a new server.
  *
  * @summary Creates a new server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/ServerCreateReviveDropped.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/ServerCreateReviveDropped.json
  */
 async function serverCreateReviveDropped() {
   const subscriptionId =
@@ -282,7 +282,7 @@ async function serverCreateReviveDropped() {
  * This sample demonstrates how to Creates a new server.
  *
  * @summary Creates a new server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/ServerCreateWithDataEncryptionEnabled.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/ServerCreateWithDataEncryptionEnabled.json
  */
 async function serverCreateWithDataEncryptionEnabled() {
   const subscriptionId =

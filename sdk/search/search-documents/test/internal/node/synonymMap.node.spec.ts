@@ -9,7 +9,7 @@ describe("synonymmap", function () {
   it("create synonymmap from file(node)", async function () {
     const synonymMap: SynonymMap = await createSynonymMapFromFile(
       "my-synonym-map-1",
-      "./test/internal/synonymMap.txt"
+      "./test/internal/synonymMap.txt",
     );
     assert.equal(synonymMap.name, "my-synonym-map-1");
     assert.equal(synonymMap.synonyms.length, 2);

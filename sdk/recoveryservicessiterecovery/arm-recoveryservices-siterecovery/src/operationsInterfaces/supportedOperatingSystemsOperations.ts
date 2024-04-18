@@ -8,7 +8,7 @@
 
 import {
   SupportedOperatingSystemsGetOptionalParams,
-  SupportedOperatingSystemsGetResponse
+  SupportedOperatingSystemsGetResponse,
 } from "../models";
 
 /** Interface representing a SupportedOperatingSystemsOperations. */
@@ -23,6 +23,6 @@ export interface SupportedOperatingSystemsOperations {
   get(
     resourceName: string,
     resourceGroupName: string,
-    options?: SupportedOperatingSystemsGetOptionalParams
+    options?: SupportedOperatingSystemsGetOptionalParams,
   ): Promise<SupportedOperatingSystemsGetResponse>;
 }

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   RestorableTableResourcesListOptionalParams,
-  CosmosDBManagementClient
+  CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Return a list of tables that exist on the account at the given timestamp and location. This helps in scenarios to validate what resources exist at given timestamp and location. This API requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/.../read' permission.
  *
  * @summary Return a list of tables that exist on the account at the given timestamp and location. This helps in scenarios to validate what resources exist at given timestamp and location. This API requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/.../read' permission.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBRestorableTableResourceList.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBRestorableTableResourceList.json
  */
 async function cosmosDbRestorableTableResourceList() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function cosmosDbRestorableTableResourceList() {
   const restoreTimestampInUtc = "06/01/2022 4:56";
   const options: RestorableTableResourcesListOptionalParams = {
     restoreLocation,
-    restoreTimestampInUtc
+    restoreTimestampInUtc,
   };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
@@ -41,7 +41,7 @@ async function cosmosDbRestorableTableResourceList() {
   for await (let item of client.restorableTableResources.list(
     location,
     instanceId,
-    options
+    options,
   )) {
     resArray.push(item);
   }

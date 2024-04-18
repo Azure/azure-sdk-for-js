@@ -28,7 +28,7 @@ async function p2SVpnGatewayListBySubscription() {
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/p2svpnGateways",
-      subscriptionId
+      subscriptionId,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

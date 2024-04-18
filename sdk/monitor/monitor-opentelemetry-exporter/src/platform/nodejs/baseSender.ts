@@ -21,11 +21,12 @@ const DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS = 60_000;
 export abstract class BaseSender {
   private readonly persister: PersistentStorage;
   private numConsecutiveRedirects: number;
-  private retryTimer: NodeJS.Timer | null;
+  private retryTimer: NodeJS.Timeout | null;
   private networkStatsbeatMetrics: NetworkStatsbeatMetrics | undefined;
   private longIntervalStatsbeatMetrics;
   private statsbeatFailureCount: number = 0;
   private batchSendRetryIntervalMs: number = DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS;
+  private isStatsbeatSender: boolean;
 
   constructor(options: {
     endpointUrl: string;
@@ -33,6 +34,7 @@ export abstract class BaseSender {
     trackStatsbeat: boolean;
     exporterOptions: AzureMonitorExporterOptions;
     aadAudience?: string;
+    isStatsbeatSender?: boolean;
   }) {
     this.numConsecutiveRedirects = 0;
     this.persister = new FileSystemPersist(options.instrumentationKey, options.exporterOptions);
@@ -48,6 +50,7 @@ export abstract class BaseSender {
       });
     }
     this.retryTimer = null;
+    this.isStatsbeatSender = options.isStatsbeatSender || false;
   }
 
   abstract send(payload: unknown[]): Promise<SenderResult>;
@@ -155,22 +158,33 @@ export abstract class BaseSender {
       } else if (restError.statusCode && isRetriable(restError.statusCode)) {
         this.networkStatsbeatMetrics?.countRetry(restError.statusCode);
         return this.persist(envelopes);
+      } else if (
+        restError.statusCode === 400 &&
+        restError.message.includes("Invalid instrumentation key")
+      ) {
+        const invalidInstrumentationKeyError = new Error("Invalid instrumentation key");
+        this.shutdownStatsbeat();
+        return { code: ExportResultCode.FAILED, error: invalidInstrumentationKeyError };
       }
       if (this.isNetworkError(restError)) {
         if (restError.statusCode) {
           this.networkStatsbeatMetrics?.countRetry(restError.statusCode);
         }
-        diag.error(
-          "Retrying due to transient client side error. Error message:",
-          restError.message
-        );
+        if (!this.isStatsbeatSender) {
+          diag.error(
+            "Retrying due to transient client side error. Error message:",
+            restError.message,
+          );
+        }
         return this.persist(envelopes);
       }
       this.networkStatsbeatMetrics?.countException(restError);
-      diag.error(
-        "Envelopes could not be exported and are not retriable. Error message:",
-        restError.message
-      );
+      if (!this.isStatsbeatSender) {
+        diag.error(
+          "Envelopes could not be exported and are not retriable. Error message:",
+          restError.message,
+        );
+      }
       return { code: ExportResultCode.FAILED, error: restError };
     }
   }
@@ -192,15 +206,24 @@ export abstract class BaseSender {
     }
   }
 
-  // Disable collection of statsbeat metrics after max failures
+  /**
+   * Disable collection of statsbeat metrics after max failures
+   */
   private incrementStatsbeatFailure() {
     this.statsbeatFailureCount++;
     if (this.statsbeatFailureCount > MAX_STATSBEAT_FAILURES) {
-      this.networkStatsbeatMetrics?.shutdown();
-      this.longIntervalStatsbeatMetrics?.shutdown();
-      this.networkStatsbeatMetrics = undefined;
-      this.statsbeatFailureCount = 0;
+      this.shutdownStatsbeat();
     }
+  }
+
+  /**
+   * Shutdown statsbeat metrics
+   */
+  private shutdownStatsbeat() {
+    this.networkStatsbeatMetrics?.shutdown();
+    this.longIntervalStatsbeatMetrics?.shutdown();
+    this.networkStatsbeatMetrics = undefined;
+    this.statsbeatFailureCount = 0;
   }
 
   private async sendFirstPersistedFile(): Promise<void> {

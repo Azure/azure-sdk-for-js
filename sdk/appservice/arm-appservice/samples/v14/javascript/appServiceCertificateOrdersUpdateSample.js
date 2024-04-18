@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Create or update a certificate purchase order.
  *
  * @summary Description for Create or update a certificate purchase order.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2022-09-01/examples/UpdateAppServiceCertificateOrder.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2023-01-01/examples/UpdateAppServiceCertificateOrder.json
  */
 async function updateCertificateOrder() {
   const subscriptionId =

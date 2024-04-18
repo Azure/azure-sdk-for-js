@@ -35,7 +35,7 @@ async function virtualMachineRestrictMovement() {
     privateCloudName,
     clusterName,
     virtualMachineId,
-    restrictMovement
+    restrictMovement,
   );
   console.log(result);
 }

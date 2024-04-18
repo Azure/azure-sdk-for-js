@@ -28,7 +28,7 @@ describe("Library/ApplicationInsightsSampler", () => {
           "",
           SpanKind.INTERNAL,
           {},
-          []
+          [],
         );
         if (result.decision === SamplingDecision.RECORD_AND_SAMPLED) accepted++;
       }
@@ -49,7 +49,7 @@ describe("Library/ApplicationInsightsSampler", () => {
           "",
           SpanKind.INTERNAL,
           {},
-          []
+          [],
         );
         if (result.decision === SamplingDecision.RECORD_AND_SAMPLED) accepted++;
       }
@@ -70,7 +70,7 @@ describe("Library/ApplicationInsightsSampler", () => {
           "",
           SpanKind.INTERNAL,
           {},
-          []
+          [],
         );
         if (result.decision === SamplingDecision.RECORD_AND_SAMPLED) accepted++;
       }

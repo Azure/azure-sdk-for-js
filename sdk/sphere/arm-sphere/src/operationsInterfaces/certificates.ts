@@ -16,7 +16,7 @@ import {
   CertificatesRetrieveCertChainResponse,
   ProofOfPossessionNonceRequest,
   CertificatesRetrieveProofOfPossessionNonceOptionalParams,
-  CertificatesRetrieveProofOfPossessionNonceResponse
+  CertificatesRetrieveProofOfPossessionNonceResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface Certificates {
   listByCatalog(
     resourceGroupName: string,
     catalogName: string,
-    options?: CertificatesListByCatalogOptionalParams
+    options?: CertificatesListByCatalogOptionalParams,
   ): PagedAsyncIterableIterator<Certificate>;
   /**
    * Get a Certificate
@@ -45,7 +45,7 @@ export interface Certificates {
     resourceGroupName: string,
     catalogName: string,
     serialNumber: string,
-    options?: CertificatesGetOptionalParams
+    options?: CertificatesGetOptionalParams,
   ): Promise<CertificatesGetResponse>;
   /**
    * Retrieves cert chain.
@@ -59,7 +59,7 @@ export interface Certificates {
     resourceGroupName: string,
     catalogName: string,
     serialNumber: string,
-    options?: CertificatesRetrieveCertChainOptionalParams
+    options?: CertificatesRetrieveCertChainOptionalParams,
   ): Promise<CertificatesRetrieveCertChainResponse>;
   /**
    * Gets the proof of possession nonce.
@@ -75,6 +75,6 @@ export interface Certificates {
     catalogName: string,
     serialNumber: string,
     proofOfPossessionNonceRequest: ProofOfPossessionNonceRequest,
-    options?: CertificatesRetrieveProofOfPossessionNonceOptionalParams
+    options?: CertificatesRetrieveProofOfPossessionNonceOptionalParams,
   ): Promise<CertificatesRetrieveProofOfPossessionNonceResponse>;
 }

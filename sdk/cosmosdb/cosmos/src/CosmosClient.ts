@@ -54,7 +54,7 @@ export class CosmosClient {
    */
   public readonly offers: Offers;
   private clientContext: ClientContext;
-  private endpointRefresher: NodeJS.Timer;
+  private endpointRefresher: NodeJS.Timeout;
   /**
    * Creates a new {@link CosmosClient} object from a connection string. Your database connection string can be found in the Azure Portal
    */
@@ -80,7 +80,7 @@ export class CosmosClient {
     optionsOrConnectionString.connectionPolicy = Object.assign(
       {},
       defaultConnectionPolicy,
-      optionsOrConnectionString.connectionPolicy
+      optionsOrConnectionString.connectionPolicy,
     );
 
     optionsOrConnectionString.defaultHeaders = optionsOrConnectionString.defaultHeaders || {};
@@ -93,13 +93,13 @@ export class CosmosClient {
     }
 
     optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.UserAgent] = getUserAgent(
-      optionsOrConnectionString.userAgentSuffix
+      optionsOrConnectionString.userAgentSuffix,
     );
 
     const globalEndpointManager = new GlobalEndpointManager(
       optionsOrConnectionString,
       async (diagnosticNode: DiagnosticNodeInternal, opts: RequestOptions) =>
-        this.getDatabaseAccountInternal(diagnosticNode, opts)
+        this.getDatabaseAccountInternal(diagnosticNode, opts),
     );
 
     this.clientContext = new ClientContext(
@@ -108,8 +108,8 @@ export class CosmosClient {
       clientConfig,
       determineDiagnosticLevel(
         optionsOrConnectionString.diagnosticLevel,
-        getDiagnosticLevelFromEnvironment()
-      )
+        getDiagnosticLevelFromEnvironment(),
+      ),
     );
     if (
       optionsOrConnectionString.connectionPolicy?.enableEndpointDiscovery &&
@@ -118,7 +118,7 @@ export class CosmosClient {
       this.backgroundRefreshEndpointList(
         globalEndpointManager,
         optionsOrConnectionString.connectionPolicy.endpointRefreshRateInMs ||
-          defaultConnectionPolicy.endpointRefreshRateInMs
+          defaultConnectionPolicy.endpointRefreshRateInMs,
       );
     }
 
@@ -127,7 +127,7 @@ export class CosmosClient {
   }
 
   private initializeClientConfigDiagnostic(
-    optionsOrConnectionString: CosmosClientOptions
+    optionsOrConnectionString: CosmosClientOptions,
   ): ClientConfigDiagnostic {
     return {
       endpoint: optionsOrConnectionString.endpoint,
@@ -149,7 +149,7 @@ export class CosmosClient {
    * Get information about the current {@link DatabaseAccount} (including which regions are supported, etc.)
    */
   public async getDatabaseAccount(
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<ResourceResponse<DatabaseAccount>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       return this.getDatabaseAccountInternal(diagnosticNode, options);
@@ -161,7 +161,7 @@ export class CosmosClient {
    */
   public async getDatabaseAccountInternal(
     diagnosticNode: DiagnosticNodeInternal,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<ResourceResponse<DatabaseAccount>> {
     const response = await this.clientContext.getDatabaseAccount(diagnosticNode, options);
     return new ResourceResponse<DatabaseAccount>(
@@ -169,7 +169,7 @@ export class CosmosClient {
       response.headers,
       response.code,
       getEmptyCosmosDiagnostics(),
-      response.substatus
+      response.substatus,
     );
   }
 
@@ -250,7 +250,7 @@ export class CosmosClient {
 
   private async backgroundRefreshEndpointList(
     globalEndpointManager: GlobalEndpointManager,
-    refreshRate: number
+    refreshRate: number,
   ) {
     this.endpointRefresher = setInterval(() => {
       try {
@@ -259,7 +259,7 @@ export class CosmosClient {
             return globalEndpointManager.refreshEndpointList(diagnosticNode);
           },
           this.clientContext,
-          DiagnosticNodeType.BACKGROUND_REFRESH_THREAD
+          DiagnosticNodeType.BACKGROUND_REFRESH_THREAD,
         );
       } catch (e: any) {
         console.warn("Failed to refresh endpoints", e);

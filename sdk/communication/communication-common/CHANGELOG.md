@@ -1,5 +1,21 @@
 # Release History
 
+## 2.3.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 2.3.1 (2024-02-20)
+
+### Bugs Fixed
+
+- Renamed field `teamAppId` to `appId` in `SerializedMicrosoftTeamsAppIdentifier` to match the REST specification.
+
 ## 2.3.0 (2023-09-27)
 
 ### Features Added

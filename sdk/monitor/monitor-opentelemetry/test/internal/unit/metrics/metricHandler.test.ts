@@ -46,7 +46,7 @@ describe("MetricHandler", () => {
             code: ExportResultCode.SUCCESS,
           });
           resolve(result);
-        })
+        }),
     );
     const meterProvider = new MeterProvider({
       views: handler.getViews(),
@@ -97,7 +97,7 @@ describe("MetricHandler", () => {
 
     it("standard metrics disabled if env var present", () => {
       const env = <{ [id: string]: string }>{};
-      env["APPLICATION_INSIGHTS_NO_STANDARD_METRICS"] = "something";
+      env["APPLICATION_INSIGHTS_NO_STANDARD_METRICS"] = "true";
       process.env = env;
       createHandler();
       assert.ok(!handler["_standardMetrics"], "Standard metrics loaded");

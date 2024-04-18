@@ -26,14 +26,15 @@ import {
   ProtectedItemResource as ProtectedItemResourceMapper,
   RestoreRequestResource as RestoreRequestResourceMapper,
   ProtectionPolicyResource as ProtectionPolicyResourceMapper,
-  ValidateOperationRequest as ValidateOperationRequestMapper,
+  ValidateOperationRequestResource as ValidateOperationRequestResourceMapper,
   ProtectionContainerResource as ProtectionContainerResourceMapper,
   BackupRequestResource as BackupRequestResourceMapper,
   ILRRequestResource as ILRRequestResourceMapper,
   SecurityPinBase as SecurityPinBaseMapper,
   ListRecoveryPointsRecommendedForMoveRequest as ListRecoveryPointsRecommendedForMoveRequestMapper,
   ResourceGuardProxyBaseResource as ResourceGuardProxyBaseResourceMapper,
-  UnlockDeleteRequest as UnlockDeleteRequestMapper
+  UnlockDeleteRequest as UnlockDeleteRequestMapper,
+  FetchTieringCostInfoRequest as FetchTieringCostInfoRequestMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -63,7 +64,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-04-01",
+    defaultValue: "2023-06-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -331,7 +332,7 @@ export const jobName: OperationURLParameter = {
 
 export const parameters14: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ValidateOperationRequestMapper
+  mapper: ValidateOperationRequestResourceMapper
 };
 
 export const backupEngineName: OperationURLParameter = {
@@ -389,4 +390,25 @@ export const parameters20: OperationParameter = {
 export const parameters21: OperationParameter = {
   parameterPath: "parameters",
   mapper: UnlockDeleteRequestMapper
+};
+
+export const parameters22: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: FetchTieringCostInfoRequestMapper
+};
+
+export const vaultName1: OperationURLParameter = {
+  parameterPath: "vaultName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z][-A-Za-z0-9]*[A-Za-z0-9]$"),
+      MaxLength: 50,
+      MinLength: 2
+    },
+    serializedName: "vaultName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };

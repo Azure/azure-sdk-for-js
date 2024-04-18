@@ -33,7 +33,7 @@ async function getCloudServiceUpdateDomain() {
       subscriptionId,
       resourceGroupName,
       cloudServiceName,
-      updateDomain
+      updateDomain,
     )
     .get(options);
   console.log(result);

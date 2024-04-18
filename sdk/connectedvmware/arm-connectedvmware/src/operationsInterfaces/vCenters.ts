@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VCenter,
   VCentersListOptionalParams,
@@ -51,8 +51,8 @@ export interface VCenters {
     vcenterName: string,
     options?: VCentersCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VCentersCreateResponse>,
+    SimplePollerLike<
+      OperationState<VCentersCreateResponse>,
       VCentersCreateResponse
     >
   >;
@@ -99,7 +99,7 @@ export interface VCenters {
     resourceGroupName: string,
     vcenterName: string,
     options?: VCentersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Implements vCenter DELETE method.
    * @param resourceGroupName The Resource Group Name.

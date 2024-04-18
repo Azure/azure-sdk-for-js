@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Approve or reject a private endpoint connection with a given name.
  *
  * @summary Approve or reject a private endpoint connection with a given name.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBPrivateEndpointConnectionUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBPrivateEndpointConnectionUpdate.json
  */
 async function approveOrRejectAPrivateEndpointConnectionWithAGivenName() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function approveOrRejectAPrivateEndpointConnectionWithAGivenName() {
     resourceGroupName,
     accountName,
     privateEndpointConnectionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

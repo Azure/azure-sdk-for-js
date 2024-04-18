@@ -39,11 +39,11 @@ testWithServiceTypes((serviceVersion) => {
     before("validate environment", function (): void {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
       );
       should.exist(
         env[EnvVarKeys.EVENTHUB_NAME],
-        "define EVENTHUB_NAME in your environment before running integration tests."
+        "define EVENTHUB_NAME in your environment before running integration tests.",
       );
     });
 
@@ -51,7 +51,7 @@ testWithServiceTypes((serviceVersion) => {
       const client = new EventHubConsumerClient(
         EventHubConsumerClient.defaultConsumerGroupName,
         service.connectionString,
-        service.path
+        service.path,
       );
       partitionIds = await client.getPartitionIds();
       return client.close();
@@ -105,14 +105,14 @@ testWithServiceTypes((serviceVersion) => {
             EventHubConsumerClient.defaultConsumerGroupName,
             "Consumer1",
             partitionIds[0],
-            latestEventPosition
+            latestEventPosition,
           );
           const receiver2 = createReceiver(
             context,
             EventHubConsumerClient.defaultConsumerGroupName,
             "Consumer2",
             partitionIds[1],
-            latestEventPosition
+            latestEventPosition,
           );
 
           // Add 2 senders.
@@ -131,12 +131,10 @@ testWithServiceTypes((serviceVersion) => {
           await receiver1.connect({
             abortSignal: undefined,
             timeoutInMs: 60000,
-            prefetchCount: 1,
           });
           await receiver2.connect({
             abortSignal: undefined,
             timeoutInMs: 60000,
-            prefetchCount: 1,
           });
 
           // We are going to override sender1's close method so that it also invokes receiver2's close method.
@@ -173,14 +171,14 @@ testWithServiceTypes((serviceVersion) => {
             EventHubConsumerClient.defaultConsumerGroupName,
             "Consumer1",
             partitionIds[0],
-            latestEventPosition
+            latestEventPosition,
           );
           const receiver2 = createReceiver(
             context,
             EventHubConsumerClient.defaultConsumerGroupName,
             "Consumer2",
             partitionIds[1],
-            latestEventPosition
+            latestEventPosition,
           );
 
           // Add 2 senders.
@@ -199,12 +197,10 @@ testWithServiceTypes((serviceVersion) => {
           await receiver1.connect({
             abortSignal: undefined,
             timeoutInMs: 60000,
-            prefetchCount: 1,
           });
           await receiver2.connect({
             abortSignal: undefined,
             timeoutInMs: 60000,
-            prefetchCount: 1,
           });
 
           // We are going to override sender1's close method so that it also invokes receiver2's close method.

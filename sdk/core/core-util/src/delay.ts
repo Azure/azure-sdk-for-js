@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortOptions } from "./aborterUtils";
-import { createAbortablePromise } from "./createAbortablePromise";
+import type { AbortOptions } from "./aborterUtils.js";
+import { createAbortablePromise } from "./createAbortablePromise.js";
 
 const StandardAbortMessage = "The delay was aborted.";
 
@@ -28,6 +28,6 @@ export function delay(timeInMs: number, options?: DelayOptions): Promise<void> {
       cleanupBeforeAbort: () => clearTimeout(token),
       abortSignal,
       abortErrorMsg: abortErrorMsg ?? StandardAbortMessage,
-    }
+    },
   );
 }

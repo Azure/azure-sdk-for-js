@@ -34,7 +34,7 @@ async function deleteSubnet() {
       subscriptionId,
       resourceGroupName,
       virtualNetworkName,
-      subnetName
+      subnetName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

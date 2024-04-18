@@ -15,7 +15,7 @@ import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
 import {
   RestorableSqlDatabaseGetResult,
   RestorableSqlDatabasesListOptionalParams,
-  RestorableSqlDatabasesListResponse
+  RestorableSqlDatabasesListResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,7 +43,7 @@ export class RestorableSqlDatabasesImpl implements RestorableSqlDatabases {
   public list(
     location: string,
     instanceId: string,
-    options?: RestorableSqlDatabasesListOptionalParams
+    options?: RestorableSqlDatabasesListOptionalParams,
   ): PagedAsyncIterableIterator<RestorableSqlDatabaseGetResult> {
     const iter = this.listPagingAll(location, instanceId, options);
     return {
@@ -58,7 +58,7 @@ export class RestorableSqlDatabasesImpl implements RestorableSqlDatabases {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(location, instanceId, options, settings);
-      }
+      },
     };
   }
 
@@ -66,7 +66,7 @@ export class RestorableSqlDatabasesImpl implements RestorableSqlDatabases {
     location: string,
     instanceId: string,
     options?: RestorableSqlDatabasesListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<RestorableSqlDatabaseGetResult[]> {
     let result: RestorableSqlDatabasesListResponse;
     result = await this._list(location, instanceId, options);
@@ -76,12 +76,12 @@ export class RestorableSqlDatabasesImpl implements RestorableSqlDatabases {
   private async *listPagingAll(
     location: string,
     instanceId: string,
-    options?: RestorableSqlDatabasesListOptionalParams
+    options?: RestorableSqlDatabasesListOptionalParams,
   ): AsyncIterableIterator<RestorableSqlDatabaseGetResult> {
     for await (const page of this.listPagingPage(
       location,
       instanceId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -99,11 +99,11 @@ export class RestorableSqlDatabasesImpl implements RestorableSqlDatabases {
   private _list(
     location: string,
     instanceId: string,
-    options?: RestorableSqlDatabasesListOptionalParams
+    options?: RestorableSqlDatabasesListOptionalParams,
   ): Promise<RestorableSqlDatabasesListResponse> {
     return this.client.sendOperationRequest(
       { location, instanceId, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -111,24 +111,23 @@ export class RestorableSqlDatabasesImpl implements RestorableSqlDatabases {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableSqlDatabases",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableSqlDatabases",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RestorableSqlDatabasesListResult
+      bodyMapper: Mappers.RestorableSqlDatabasesListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location1,
-    Parameters.instanceId
+    Parameters.instanceId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

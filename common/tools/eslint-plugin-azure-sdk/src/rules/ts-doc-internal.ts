@@ -32,7 +32,7 @@ const reportInternal = (
   node: Node,
   context: Rule.RuleContext,
   converter: ParserWeakMapESTreeToTSNode,
-  typeChecker: TypeChecker
+  typeChecker: TypeChecker,
 ): void => {
   const tsNode = converter.get(node as TSESTree.Node) as any;
   const symbol = typeChecker.getTypeAtLocation(tsNode).getSymbol();
@@ -45,7 +45,7 @@ const reportInternal = (
       TSDocTags = TSDocTags.concat(
         TSDocComment.tags !== undefined
           ? TSDocComment.tags.map((TSDocTag: any): string => TSDocTag.tagName.escapedText)
-          : []
+          : [],
       );
     });
 
@@ -83,8 +83,8 @@ try {
     typeDoc.exclude.forEach((excludedGlob: string): void => {
       exclude = exclude.concat(
         globSync(excludedGlob).filter(
-          (excludeFile: string): boolean => !/node_modules/.test(excludeFile)
-        )
+          (excludeFile: string): boolean => !/node_modules/.test(excludeFile),
+        ),
       );
     });
   }
@@ -95,7 +95,7 @@ try {
 export = {
   meta: getRuleMetaData(
     "ts-doc-internal",
-    "require TSDoc comments to include an '@internal' or '@hidden' tag if the object is not public-facing"
+    "require TSDoc comments to include an '@internal' or '@hidden' tag if the object is not public-facing",
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const fileName = context.filename;
@@ -128,7 +128,7 @@ export = {
 
           // container declarations
           ":matches(TSInterfaceDeclaration, ClassDeclaration, TSModuleDeclaration)": (
-            node: Node
+            node: Node,
           ): void => reportInternal(node, context, converter, typeChecker),
 
           // standalone functions
@@ -138,7 +138,7 @@ export = {
                 .getAncestors(node)
                 .every(
                   (ancestor: Node): boolean =>
-                    !["ClassBody", "TSInterfaceBody", "TSModuleBlock"].includes(ancestor.type)
+                    !["ClassBody", "TSInterfaceBody", "TSModuleBlock"].includes(ancestor.type),
                 )
             ) {
               reportInternal(node, context, converter, typeChecker);

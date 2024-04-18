@@ -16,7 +16,7 @@ import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -53,7 +53,7 @@ import {
   MongoClustersListConnectionStringsResponse,
   MongoClustersListNextResponse,
   MongoClustersListByResourceGroupNextResponse,
-  MongoClustersListFirewallRulesNextResponse
+  MongoClustersListFirewallRulesNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -74,7 +74,7 @@ export class MongoClustersImpl implements MongoClusters {
    * @param options The options parameters.
    */
   public list(
-    options?: MongoClustersListOptionalParams
+    options?: MongoClustersListOptionalParams,
   ): PagedAsyncIterableIterator<MongoCluster> {
     const iter = this.listPagingAll(options);
     return {
@@ -89,13 +89,13 @@ export class MongoClustersImpl implements MongoClusters {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: MongoClustersListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<MongoCluster[]> {
     let result: MongoClustersListResponse;
     let continuationToken = settings?.continuationToken;
@@ -116,7 +116,7 @@ export class MongoClustersImpl implements MongoClusters {
   }
 
   private async *listPagingAll(
-    options?: MongoClustersListOptionalParams
+    options?: MongoClustersListOptionalParams,
   ): AsyncIterableIterator<MongoCluster> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -130,7 +130,7 @@ export class MongoClustersImpl implements MongoClusters {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: MongoClustersListByResourceGroupOptionalParams
+    options?: MongoClustersListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<MongoCluster> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -147,16 +147,16 @@ export class MongoClustersImpl implements MongoClusters {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: MongoClustersListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<MongoCluster[]> {
     let result: MongoClustersListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -171,7 +171,7 @@ export class MongoClustersImpl implements MongoClusters {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -182,11 +182,11 @@ export class MongoClustersImpl implements MongoClusters {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: MongoClustersListByResourceGroupOptionalParams
+    options?: MongoClustersListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<MongoCluster> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -201,12 +201,12 @@ export class MongoClustersImpl implements MongoClusters {
   public listFirewallRules(
     resourceGroupName: string,
     mongoClusterName: string,
-    options?: MongoClustersListFirewallRulesOptionalParams
+    options?: MongoClustersListFirewallRulesOptionalParams,
   ): PagedAsyncIterableIterator<FirewallRule> {
     const iter = this.listFirewallRulesPagingAll(
       resourceGroupName,
       mongoClusterName,
-      options
+      options,
     );
     return {
       next() {
@@ -223,9 +223,9 @@ export class MongoClustersImpl implements MongoClusters {
           resourceGroupName,
           mongoClusterName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -233,7 +233,7 @@ export class MongoClustersImpl implements MongoClusters {
     resourceGroupName: string,
     mongoClusterName: string,
     options?: MongoClustersListFirewallRulesOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<FirewallRule[]> {
     let result: MongoClustersListFirewallRulesResponse;
     let continuationToken = settings?.continuationToken;
@@ -241,7 +241,7 @@ export class MongoClustersImpl implements MongoClusters {
       result = await this._listFirewallRules(
         resourceGroupName,
         mongoClusterName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -253,7 +253,7 @@ export class MongoClustersImpl implements MongoClusters {
         resourceGroupName,
         mongoClusterName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -265,12 +265,12 @@ export class MongoClustersImpl implements MongoClusters {
   private async *listFirewallRulesPagingAll(
     resourceGroupName: string,
     mongoClusterName: string,
-    options?: MongoClustersListFirewallRulesOptionalParams
+    options?: MongoClustersListFirewallRulesOptionalParams,
   ): AsyncIterableIterator<FirewallRule> {
     for await (const page of this.listFirewallRulesPagingPage(
       resourceGroupName,
       mongoClusterName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -281,7 +281,7 @@ export class MongoClustersImpl implements MongoClusters {
    * @param options The options parameters.
    */
   private _list(
-    options?: MongoClustersListOptionalParams
+    options?: MongoClustersListOptionalParams,
   ): Promise<MongoClustersListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -293,11 +293,11 @@ export class MongoClustersImpl implements MongoClusters {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: MongoClustersListByResourceGroupOptionalParams
+    options?: MongoClustersListByResourceGroupOptionalParams,
   ): Promise<MongoClustersListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -313,7 +313,7 @@ export class MongoClustersImpl implements MongoClusters {
     resourceGroupName: string,
     mongoClusterName: string,
     parameters: MongoCluster,
-    options?: MongoClustersCreateOrUpdateOptionalParams
+    options?: MongoClustersCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MongoClustersCreateOrUpdateResponse>,
@@ -322,21 +322,20 @@ export class MongoClustersImpl implements MongoClusters {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MongoClustersCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -345,8 +344,8 @@ export class MongoClustersImpl implements MongoClusters {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -354,15 +353,15 @@ export class MongoClustersImpl implements MongoClusters {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, mongoClusterName, parameters, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       MongoClustersCreateOrUpdateResponse,
@@ -370,7 +369,7 @@ export class MongoClustersImpl implements MongoClusters {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -388,13 +387,13 @@ export class MongoClustersImpl implements MongoClusters {
     resourceGroupName: string,
     mongoClusterName: string,
     parameters: MongoCluster,
-    options?: MongoClustersCreateOrUpdateOptionalParams
+    options?: MongoClustersCreateOrUpdateOptionalParams,
   ): Promise<MongoClustersCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       mongoClusterName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -408,11 +407,11 @@ export class MongoClustersImpl implements MongoClusters {
   get(
     resourceGroupName: string,
     mongoClusterName: string,
-    options?: MongoClustersGetOptionalParams
+    options?: MongoClustersGetOptionalParams,
   ): Promise<MongoClustersGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, mongoClusterName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -425,7 +424,7 @@ export class MongoClustersImpl implements MongoClusters {
   async beginDelete(
     resourceGroupName: string,
     mongoClusterName: string,
-    options?: MongoClustersDeleteOptionalParams
+    options?: MongoClustersDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MongoClustersDeleteResponse>,
@@ -434,21 +433,20 @@ export class MongoClustersImpl implements MongoClusters {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MongoClustersDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -457,8 +455,8 @@ export class MongoClustersImpl implements MongoClusters {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -466,15 +464,15 @@ export class MongoClustersImpl implements MongoClusters {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, mongoClusterName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       MongoClustersDeleteResponse,
@@ -482,7 +480,7 @@ export class MongoClustersImpl implements MongoClusters {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -497,12 +495,12 @@ export class MongoClustersImpl implements MongoClusters {
   async beginDeleteAndWait(
     resourceGroupName: string,
     mongoClusterName: string,
-    options?: MongoClustersDeleteOptionalParams
+    options?: MongoClustersDeleteOptionalParams,
   ): Promise<MongoClustersDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       mongoClusterName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -519,7 +517,7 @@ export class MongoClustersImpl implements MongoClusters {
     resourceGroupName: string,
     mongoClusterName: string,
     parameters: MongoClusterUpdate,
-    options?: MongoClustersUpdateOptionalParams
+    options?: MongoClustersUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MongoClustersUpdateResponse>,
@@ -528,21 +526,20 @@ export class MongoClustersImpl implements MongoClusters {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MongoClustersUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -551,8 +548,8 @@ export class MongoClustersImpl implements MongoClusters {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -560,15 +557,15 @@ export class MongoClustersImpl implements MongoClusters {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, mongoClusterName, parameters, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       MongoClustersUpdateResponse,
@@ -576,7 +573,7 @@ export class MongoClustersImpl implements MongoClusters {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -594,13 +591,13 @@ export class MongoClustersImpl implements MongoClusters {
     resourceGroupName: string,
     mongoClusterName: string,
     parameters: MongoClusterUpdate,
-    options?: MongoClustersUpdateOptionalParams
+    options?: MongoClustersUpdateOptionalParams,
   ): Promise<MongoClustersUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       mongoClusterName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -618,7 +615,7 @@ export class MongoClustersImpl implements MongoClusters {
     mongoClusterName: string,
     firewallRuleName: string,
     parameters: FirewallRule,
-    options?: MongoClustersCreateOrUpdateFirewallRuleOptionalParams
+    options?: MongoClustersCreateOrUpdateFirewallRuleOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MongoClustersCreateOrUpdateFirewallRuleResponse>,
@@ -627,21 +624,20 @@ export class MongoClustersImpl implements MongoClusters {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MongoClustersCreateOrUpdateFirewallRuleResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -650,8 +646,8 @@ export class MongoClustersImpl implements MongoClusters {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -659,8 +655,8 @@ export class MongoClustersImpl implements MongoClusters {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -671,9 +667,9 @@ export class MongoClustersImpl implements MongoClusters {
         mongoClusterName,
         firewallRuleName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateFirewallRuleOperationSpec
+      spec: createOrUpdateFirewallRuleOperationSpec,
     });
     const poller = await createHttpPoller<
       MongoClustersCreateOrUpdateFirewallRuleResponse,
@@ -681,7 +677,7 @@ export class MongoClustersImpl implements MongoClusters {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -700,14 +696,14 @@ export class MongoClustersImpl implements MongoClusters {
     mongoClusterName: string,
     firewallRuleName: string,
     parameters: FirewallRule,
-    options?: MongoClustersCreateOrUpdateFirewallRuleOptionalParams
+    options?: MongoClustersCreateOrUpdateFirewallRuleOptionalParams,
   ): Promise<MongoClustersCreateOrUpdateFirewallRuleResponse> {
     const poller = await this.beginCreateOrUpdateFirewallRule(
       resourceGroupName,
       mongoClusterName,
       firewallRuleName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -723,7 +719,7 @@ export class MongoClustersImpl implements MongoClusters {
     resourceGroupName: string,
     mongoClusterName: string,
     firewallRuleName: string,
-    options?: MongoClustersDeleteFirewallRuleOptionalParams
+    options?: MongoClustersDeleteFirewallRuleOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MongoClustersDeleteFirewallRuleResponse>,
@@ -732,21 +728,20 @@ export class MongoClustersImpl implements MongoClusters {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MongoClustersDeleteFirewallRuleResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -755,8 +750,8 @@ export class MongoClustersImpl implements MongoClusters {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -764,15 +759,15 @@ export class MongoClustersImpl implements MongoClusters {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, mongoClusterName, firewallRuleName, options },
-      spec: deleteFirewallRuleOperationSpec
+      spec: deleteFirewallRuleOperationSpec,
     });
     const poller = await createHttpPoller<
       MongoClustersDeleteFirewallRuleResponse,
@@ -780,7 +775,7 @@ export class MongoClustersImpl implements MongoClusters {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -797,13 +792,13 @@ export class MongoClustersImpl implements MongoClusters {
     resourceGroupName: string,
     mongoClusterName: string,
     firewallRuleName: string,
-    options?: MongoClustersDeleteFirewallRuleOptionalParams
+    options?: MongoClustersDeleteFirewallRuleOptionalParams,
   ): Promise<MongoClustersDeleteFirewallRuleResponse> {
     const poller = await this.beginDeleteFirewallRule(
       resourceGroupName,
       mongoClusterName,
       firewallRuleName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -819,11 +814,11 @@ export class MongoClustersImpl implements MongoClusters {
     resourceGroupName: string,
     mongoClusterName: string,
     firewallRuleName: string,
-    options?: MongoClustersGetFirewallRuleOptionalParams
+    options?: MongoClustersGetFirewallRuleOptionalParams,
   ): Promise<MongoClustersGetFirewallRuleResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, mongoClusterName, firewallRuleName, options },
-      getFirewallRuleOperationSpec
+      getFirewallRuleOperationSpec,
     );
   }
 
@@ -836,11 +831,11 @@ export class MongoClustersImpl implements MongoClusters {
   private _listFirewallRules(
     resourceGroupName: string,
     mongoClusterName: string,
-    options?: MongoClustersListFirewallRulesOptionalParams
+    options?: MongoClustersListFirewallRulesOptionalParams,
   ): Promise<MongoClustersListFirewallRulesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, mongoClusterName, options },
-      listFirewallRulesOperationSpec
+      listFirewallRulesOperationSpec,
     );
   }
 
@@ -853,11 +848,11 @@ export class MongoClustersImpl implements MongoClusters {
   checkNameAvailability(
     location: string,
     parameters: CheckNameAvailabilityRequest,
-    options?: MongoClustersCheckNameAvailabilityOptionalParams
+    options?: MongoClustersCheckNameAvailabilityOptionalParams,
   ): Promise<MongoClustersCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { location, parameters, options },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
     );
   }
 
@@ -871,11 +866,11 @@ export class MongoClustersImpl implements MongoClusters {
   listConnectionStrings(
     resourceGroupName: string,
     mongoClusterName: string,
-    options?: MongoClustersListConnectionStringsOptionalParams
+    options?: MongoClustersListConnectionStringsOptionalParams,
   ): Promise<MongoClustersListConnectionStringsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, mongoClusterName, options },
-      listConnectionStringsOperationSpec
+      listConnectionStringsOperationSpec,
     );
   }
 
@@ -886,11 +881,11 @@ export class MongoClustersImpl implements MongoClusters {
    */
   private _listNext(
     nextLink: string,
-    options?: MongoClustersListNextOptionalParams
+    options?: MongoClustersListNextOptionalParams,
   ): Promise<MongoClustersListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -903,11 +898,11 @@ export class MongoClustersImpl implements MongoClusters {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: MongoClustersListByResourceGroupNextOptionalParams
+    options?: MongoClustersListByResourceGroupNextOptionalParams,
   ): Promise<MongoClustersListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -922,11 +917,11 @@ export class MongoClustersImpl implements MongoClusters {
     resourceGroupName: string,
     mongoClusterName: string,
     nextLink: string,
-    options?: MongoClustersListFirewallRulesNextOptionalParams
+    options?: MongoClustersListFirewallRulesNextOptionalParams,
   ): Promise<MongoClustersListFirewallRulesNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, mongoClusterName, nextLink, options },
-      listFirewallRulesNextOperationSpec
+      listFirewallRulesNextOperationSpec,
     );
   }
 }
@@ -934,63 +929,60 @@ export class MongoClustersImpl implements MongoClusters {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/mongoClusters",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/mongoClusters",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MongoClusterListResult
+      bodyMapper: Mappers.MongoClusterListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MongoClusterListResult
+      bodyMapper: Mappers.MongoClusterListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.MongoCluster
+      bodyMapper: Mappers.MongoCluster,
     },
     201: {
-      bodyMapper: Mappers.MongoCluster
+      bodyMapper: Mappers.MongoCluster,
     },
     202: {
-      bodyMapper: Mappers.MongoCluster
+      bodyMapper: Mappers.MongoCluster,
     },
     204: {
-      bodyMapper: Mappers.MongoCluster
+      bodyMapper: Mappers.MongoCluster,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
@@ -998,85 +990,82 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.mongoClusterName
+    Parameters.mongoClusterName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MongoCluster
+      bodyMapper: Mappers.MongoCluster,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.mongoClusterName
+    Parameters.mongoClusterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.MongoClustersDeleteHeaders
+      headersMapper: Mappers.MongoClustersDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.MongoClustersDeleteHeaders
+      headersMapper: Mappers.MongoClustersDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.MongoClustersDeleteHeaders
+      headersMapper: Mappers.MongoClustersDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.MongoClustersDeleteHeaders
+      headersMapper: Mappers.MongoClustersDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.mongoClusterName
+    Parameters.mongoClusterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.MongoCluster
+      bodyMapper: Mappers.MongoCluster,
     },
     201: {
-      bodyMapper: Mappers.MongoCluster
+      bodyMapper: Mappers.MongoCluster,
     },
     202: {
-      bodyMapper: Mappers.MongoCluster
+      bodyMapper: Mappers.MongoCluster,
     },
     204: {
-      bodyMapper: Mappers.MongoCluster
+      bodyMapper: Mappers.MongoCluster,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -1084,32 +1073,31 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.mongoClusterName
+    Parameters.mongoClusterName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const createOrUpdateFirewallRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules/{firewallRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules/{firewallRuleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.FirewallRule
+      bodyMapper: Mappers.FirewallRule,
     },
     201: {
-      bodyMapper: Mappers.FirewallRule
+      bodyMapper: Mappers.FirewallRule,
     },
     202: {
-      bodyMapper: Mappers.FirewallRule
+      bodyMapper: Mappers.FirewallRule,
     },
     204: {
-      bodyMapper: Mappers.FirewallRule
+      bodyMapper: Mappers.FirewallRule,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
   },
   requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
@@ -1118,32 +1106,31 @@ const createOrUpdateFirewallRuleOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.mongoClusterName,
-    Parameters.firewallRuleName
+    Parameters.firewallRuleName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteFirewallRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules/{firewallRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules/{firewallRuleName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.MongoClustersDeleteFirewallRuleHeaders
+      headersMapper: Mappers.MongoClustersDeleteFirewallRuleHeaders,
     },
     201: {
-      headersMapper: Mappers.MongoClustersDeleteFirewallRuleHeaders
+      headersMapper: Mappers.MongoClustersDeleteFirewallRuleHeaders,
     },
     202: {
-      headersMapper: Mappers.MongoClustersDeleteFirewallRuleHeaders
+      headersMapper: Mappers.MongoClustersDeleteFirewallRuleHeaders,
     },
     204: {
-      headersMapper: Mappers.MongoClustersDeleteFirewallRuleHeaders
+      headersMapper: Mappers.MongoClustersDeleteFirewallRuleHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1151,22 +1138,21 @@ const deleteFirewallRuleOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.mongoClusterName,
-    Parameters.firewallRuleName
+    Parameters.firewallRuleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getFirewallRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules/{firewallRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules/{firewallRuleName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FirewallRule
+      bodyMapper: Mappers.FirewallRule,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1174,135 +1160,132 @@ const getFirewallRuleOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.mongoClusterName,
-    Parameters.firewallRuleName
+    Parameters.firewallRuleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listFirewallRulesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FirewallRuleListResult
+      bodyMapper: Mappers.FirewallRuleListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.mongoClusterName
+    Parameters.mongoClusterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/checkMongoClusterNameAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/checkMongoClusterNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameAvailabilityResponse
+      bodyMapper: Mappers.CheckNameAvailabilityResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
   },
   requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location2
+    Parameters.location2,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listConnectionStringsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/listConnectionStrings",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/listConnectionStrings",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ListConnectionStringsResult
+      bodyMapper: Mappers.ListConnectionStringsResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.mongoClusterName
+    Parameters.mongoClusterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MongoClusterListResult
+      bodyMapper: Mappers.MongoClusterListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MongoClusterListResult
+      bodyMapper: Mappers.MongoClusterListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listFirewallRulesNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.FirewallRuleListResult
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
-    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.mongoClusterName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listFirewallRulesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FirewallRuleListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.nextLink,
+    Parameters.mongoClusterName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

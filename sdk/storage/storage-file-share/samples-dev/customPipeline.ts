@@ -35,7 +35,7 @@ export async function main() {
   // List shares
   const serviceClient = new ShareServiceClient(
     `https://${account}.file.core.windows.net`,
-    pipeline
+    pipeline,
   );
 
   console.log("Shares:");

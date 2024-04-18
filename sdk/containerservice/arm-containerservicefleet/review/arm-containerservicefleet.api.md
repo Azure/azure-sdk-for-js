@@ -108,7 +108,7 @@ export interface FleetHubProfile {
 
 // @public
 export interface FleetListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: Fleet[];
 }
 
@@ -122,7 +122,7 @@ export interface FleetMember extends ProxyResource {
 
 // @public
 export interface FleetMemberListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: FleetMember[];
 }
 
@@ -393,7 +393,7 @@ export interface FleetUpdateStrategy extends ProxyResource {
 
 // @public
 export interface FleetUpdateStrategyListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: FleetUpdateStrategy[];
 }
 
@@ -445,6 +445,7 @@ export enum KnownFleetUpdateStrategyProvisioningState {
 
 // @public
 export enum KnownManagedClusterUpgradeType {
+    ControlPlaneOnly = "ControlPlaneOnly",
     Full = "Full",
     NodeImageOnly = "NodeImageOnly"
 }
@@ -468,6 +469,14 @@ export enum KnownOrigin {
     System = "system",
     User = "user",
     UserSystem = "user,system"
+}
+
+// @public
+export enum KnownTargetType {
+    AfterStageWait = "AfterStageWait",
+    Group = "Group",
+    Member = "Member",
+    Stage = "Stage"
 }
 
 // @public
@@ -601,6 +610,17 @@ export interface Resource {
 }
 
 // @public
+export interface SkipProperties {
+    targets: SkipTarget[];
+}
+
+// @public
+export interface SkipTarget {
+    name: string;
+    type: TargetType;
+}
+
+// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -609,6 +629,9 @@ export interface SystemData {
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
 }
+
+// @public
+export type TargetType = string;
 
 // @public
 export interface TrackedResource extends Resource {
@@ -642,7 +665,7 @@ export interface UpdateRun extends ProxyResource {
 
 // @public
 export interface UpdateRunListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: UpdateRun[];
 }
 
@@ -655,6 +678,8 @@ export interface UpdateRuns {
     beginCreateOrUpdateAndWait(resourceGroupName: string, fleetName: string, updateRunName: string, resource: UpdateRun, options?: UpdateRunsCreateOrUpdateOptionalParams): Promise<UpdateRunsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsDeleteOptionalParams): Promise<void>;
+    beginSkip(resourceGroupName: string, fleetName: string, updateRunName: string, body: SkipProperties, options?: UpdateRunsSkipOptionalParams): Promise<SimplePollerLike<OperationState<UpdateRunsSkipResponse>, UpdateRunsSkipResponse>>;
+    beginSkipAndWait(resourceGroupName: string, fleetName: string, updateRunName: string, body: SkipProperties, options?: UpdateRunsSkipOptionalParams): Promise<UpdateRunsSkipResponse>;
     beginStart(resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsStartOptionalParams): Promise<SimplePollerLike<OperationState<UpdateRunsStartResponse>, UpdateRunsStartResponse>>;
     beginStartAndWait(resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsStartOptionalParams): Promise<UpdateRunsStartResponse>;
     beginStop(resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsStopOptionalParams): Promise<SimplePollerLike<OperationState<UpdateRunsStopResponse>, UpdateRunsStopResponse>>;
@@ -712,6 +737,22 @@ export interface UpdateRunsListByFleetOptionalParams extends coreClient.Operatio
 
 // @public
 export type UpdateRunsListByFleetResponse = UpdateRunListResult;
+
+// @public
+export interface UpdateRunsSkipHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface UpdateRunsSkipOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type UpdateRunsSkipResponse = UpdateRun;
 
 // @public
 export interface UpdateRunsStartHeaders {

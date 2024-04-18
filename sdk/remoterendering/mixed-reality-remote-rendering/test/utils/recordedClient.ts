@@ -54,7 +54,7 @@ export function createClient(recorder: Recorder): RemoteRenderingClient {
       serviceEndpoint,
       accountId,
       credential,
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
   } else {
     const credential: AzureKeyCredential = new AzureKeyCredential(accountKey);
@@ -63,7 +63,7 @@ export function createClient(recorder: Recorder): RemoteRenderingClient {
       accountId,
       accountDomain,
       credential,
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
   }
 }

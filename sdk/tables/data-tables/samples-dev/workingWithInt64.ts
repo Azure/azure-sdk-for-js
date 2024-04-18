@@ -23,7 +23,7 @@ async function workingWithInt64() {
   const client = new TableClient(
     tablesUrl,
     "testInt64",
-    new AzureNamedKeyCredential(accountName, accountKey)
+    new AzureNamedKeyCredential(accountName, accountKey),
   );
 
   await client.createTable();

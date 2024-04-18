@@ -31,7 +31,7 @@ async function getACapacityReservationGroup() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}",
       subscriptionId,
       resourceGroupName,
-      capacityReservationGroupName
+      capacityReservationGroupName,
     )
     .get(options);
   console.log(result);

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Adds a new customer communication to an Azure support ticket.
  *
  * @summary Adds a new customer communication to an Azure support ticket.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/CreateNoSubscriptionSupportTicketCommunication.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/CreateNoSubscriptionSupportTicketCommunication.json
  */
 async function addCommunicationToNoSubscriptionTicket() {
   const supportTicketName = "testticket";
@@ -31,7 +31,7 @@ async function addCommunicationToNoSubscriptionTicket() {
   const result = await client.communicationsNoSubscription.beginCreateAndWait(
     supportTicketName,
     communicationName,
-    createCommunicationParameters
+    createCommunicationParameters,
   );
   console.log(result);
 }

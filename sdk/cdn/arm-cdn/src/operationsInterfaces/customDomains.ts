@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   CustomDomain,
   CustomDomainsListByEndpointOptionalParams,
@@ -20,7 +20,7 @@ import {
   CustomDomainsDisableCustomHttpsOptionalParams,
   CustomDomainsDisableCustomHttpsResponse,
   CustomDomainsEnableCustomHttpsOptionalParams,
-  CustomDomainsEnableCustomHttpsResponse
+  CustomDomainsEnableCustomHttpsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -37,7 +37,7 @@ export interface CustomDomains {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: CustomDomainsListByEndpointOptionalParams
+    options?: CustomDomainsListByEndpointOptionalParams,
   ): PagedAsyncIterableIterator<CustomDomain>;
   /**
    * Gets an existing custom domain within an endpoint.
@@ -52,7 +52,7 @@ export interface CustomDomains {
     profileName: string,
     endpointName: string,
     customDomainName: string,
-    options?: CustomDomainsGetOptionalParams
+    options?: CustomDomainsGetOptionalParams,
   ): Promise<CustomDomainsGetResponse>;
   /**
    * Creates a new custom domain within an endpoint.
@@ -69,10 +69,10 @@ export interface CustomDomains {
     endpointName: string,
     customDomainName: string,
     customDomainProperties: CustomDomainParameters,
-    options?: CustomDomainsCreateOptionalParams
+    options?: CustomDomainsCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<CustomDomainsCreateResponse>,
+    SimplePollerLike<
+      OperationState<CustomDomainsCreateResponse>,
       CustomDomainsCreateResponse
     >
   >;
@@ -91,7 +91,7 @@ export interface CustomDomains {
     endpointName: string,
     customDomainName: string,
     customDomainProperties: CustomDomainParameters,
-    options?: CustomDomainsCreateOptionalParams
+    options?: CustomDomainsCreateOptionalParams,
   ): Promise<CustomDomainsCreateResponse>;
   /**
    * Deletes an existing custom domain within an endpoint.
@@ -106,8 +106,8 @@ export interface CustomDomains {
     profileName: string,
     endpointName: string,
     customDomainName: string,
-    options?: CustomDomainsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: CustomDomainsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing custom domain within an endpoint.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
@@ -121,7 +121,7 @@ export interface CustomDomains {
     profileName: string,
     endpointName: string,
     customDomainName: string,
-    options?: CustomDomainsDeleteOptionalParams
+    options?: CustomDomainsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Disable https delivery of the custom domain.
@@ -136,10 +136,10 @@ export interface CustomDomains {
     profileName: string,
     endpointName: string,
     customDomainName: string,
-    options?: CustomDomainsDisableCustomHttpsOptionalParams
+    options?: CustomDomainsDisableCustomHttpsOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<CustomDomainsDisableCustomHttpsResponse>,
+    SimplePollerLike<
+      OperationState<CustomDomainsDisableCustomHttpsResponse>,
       CustomDomainsDisableCustomHttpsResponse
     >
   >;
@@ -156,7 +156,7 @@ export interface CustomDomains {
     profileName: string,
     endpointName: string,
     customDomainName: string,
-    options?: CustomDomainsDisableCustomHttpsOptionalParams
+    options?: CustomDomainsDisableCustomHttpsOptionalParams,
   ): Promise<CustomDomainsDisableCustomHttpsResponse>;
   /**
    * Enable https delivery of the custom domain.
@@ -171,10 +171,10 @@ export interface CustomDomains {
     profileName: string,
     endpointName: string,
     customDomainName: string,
-    options?: CustomDomainsEnableCustomHttpsOptionalParams
+    options?: CustomDomainsEnableCustomHttpsOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<CustomDomainsEnableCustomHttpsResponse>,
+    SimplePollerLike<
+      OperationState<CustomDomainsEnableCustomHttpsResponse>,
       CustomDomainsEnableCustomHttpsResponse
     >
   >;
@@ -191,6 +191,6 @@ export interface CustomDomains {
     profileName: string,
     endpointName: string,
     customDomainName: string,
-    options?: CustomDomainsEnableCustomHttpsOptionalParams
+    options?: CustomDomainsEnableCustomHttpsOptionalParams,
   ): Promise<CustomDomainsEnableCustomHttpsResponse>;
 }

@@ -28,7 +28,7 @@ async function listManagementGroupNetworkManagerConnection() {
   const initialResponse = await client
     .path(
       "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Network/networkManagerConnections",
-      managementGroupId
+      managementGroupId,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

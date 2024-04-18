@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes a mongo cluster.
  *
  * @summary Deletes a mongo cluster.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/mongo-cluster/CosmosDBMongoClusterDelete.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/mongo-cluster/CosmosDBMongoClusterDelete.json
  */
 async function deleteTheMongoCluster() {
   const subscriptionId =

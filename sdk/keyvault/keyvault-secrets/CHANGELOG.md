@@ -1,12 +1,22 @@
 # Release History
 
-## 4.8.0-beta.1 (Unreleased)
+## 4.8.1 (Unreleased)
 
 ### Features Added
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+### Other Changes
+
+## 4.8.0 (2024-02-14)
+
+### Other Changes
+
+- The default service version is now `7.5`.
+
+## 4.8.0-beta.1 (2023-11-08)
 
 ### Other Changes
 

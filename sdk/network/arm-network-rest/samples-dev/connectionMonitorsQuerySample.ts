@@ -34,7 +34,7 @@ async function queryConnectionMonitor() {
       subscriptionId,
       resourceGroupName,
       networkWatcherName,
-      connectionMonitorName
+      connectionMonitorName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

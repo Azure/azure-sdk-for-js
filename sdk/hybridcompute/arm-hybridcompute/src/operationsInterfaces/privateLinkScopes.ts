@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   HybridComputePrivateLinkScope,
   PrivateLinkScopesListOptionalParams,
@@ -55,7 +55,7 @@ export interface PrivateLinkScopes {
     resourceGroupName: string,
     scopeName: string,
     options?: PrivateLinkScopesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Azure Arc PrivateLinkScope.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

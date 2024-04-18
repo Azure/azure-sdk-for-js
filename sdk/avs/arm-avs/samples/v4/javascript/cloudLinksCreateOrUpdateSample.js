@@ -34,7 +34,7 @@ async function cloudLinksCreateOrUpdate() {
     resourceGroupName,
     privateCloudName,
     cloudLinkName,
-    cloudLink
+    cloudLink,
   );
   console.log(result);
 }

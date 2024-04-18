@@ -28,6 +28,6 @@
   "dependencies": {
     "@azure-rest/defender-easm": "next",
     "dotenv": "latest",
-    "@azure/identity": "^3.3.0"
+    "@azure/identity": "^4.0.1"
   }
 }

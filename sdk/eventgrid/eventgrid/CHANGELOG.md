@@ -1,6 +1,6 @@
 # Release History
 
-## 4.15.1 (Unreleased)
+## 5.4.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,79 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 5.4.0 (2024-04-11)
+
+### Features Added
+
+- Added new System Events:
+
+  - `Microsoft.Communication.AdvancedMessageDeliveryStatusUpdated`
+  - `Microsoft.Communication.AdvancedMessageReceived`
+  - `Microsoft.Communication.RouterWorkerUpdated`
+
+## 5.3.0 (2024-03-13)
+
+### Features Added
+
+- Added new System Events:
+
+  - `Microsoft.ApiCenter.ApiDefinitionAdded`
+  - `Microsoft.ApiCenter.ApiDefinitionUpdated`
+
+## 5.2.0 (2024-02-08)
+
+### Features Added
+
+- Added new System Events:
+
+  - `Microsoft.Storage.StorageTaskAssignmentQueued`
+  - `Microsoft.Storage.StorageTaskAssignmentCompleted`
+  - `Microsoft.AVS.ScriptExecutionStarted`
+  - `Microsoft.AVS.ScriptExecutionFinished`
+  - `Microsoft.AVS.ScriptExecutionCancelled`
+  - `Microsoft.AVS.ScriptExecutionFailed`
+  - `Microsoft.AVS.PrivateCloudUpdating`
+  - `Microsoft.AVS.PrivateCloudUpdated`
+  - `Microsoft.AVS.PrivateCloudFailed`
+  - `Microsoft.AVS.ClusterCreated`
+  - `Microsoft.AVS.ClusterDeleted`
+  - `Microsoft.AVS.ClusterUpdating`
+  - `Microsoft.AVS.ClusterUpdated`
+  - `Microsoft.AVS.ClusterFailed`
+
+## 5.1.1 (2024-01-22)
+
+### Features Added
+
+- Removed the System Events:
+
+  - `Microsoft.Storage.StorageTaskAssignmentQueued`
+  - `Microsoft.Storage.StorageTaskAssignmentCompleted`
+
+These system events will be added in the future.
+
+## 5.1.0 (2024-01-16)
+
+### Features Added
+
+- Added new System Events:
+
+  - `Microsoft.Storage.StorageTaskAssignmentQueued`
+  - `Microsoft.Storage.StorageTaskAssignmentCompleted`
+
+## 5.0.0 (2023-11-07)
+
+### Features Added
+
+- Added new System Events:
+
+  - `Microsoft.ResourceNotifications.Resources.CreatedOrUpdated`
+  - `Microsoft.ResourceNotifications.Resources.Deleted`
+
+### Breaking Changes
+
+- In `ResourceNotificationsResourceUpdatedDetails` interface, the data type of property `tags` has been changed from `string` to object. Please refer [PR #27679](https://github.com/Azure/azure-sdk-for-js/pull/27679/) for further details.
 
 ## 4.15.0 (2023-10-12)
 

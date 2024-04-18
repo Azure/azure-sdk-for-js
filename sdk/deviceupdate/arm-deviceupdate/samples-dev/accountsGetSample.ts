@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns account details for the given account name.
  *
  * @summary Returns account details for the given account name.
- * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/Accounts/Accounts_Get.json
+ * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2023-07-01/examples/Accounts/Accounts_Get.json
  */
 async function getsAccountDetails() {
   const subscriptionId =

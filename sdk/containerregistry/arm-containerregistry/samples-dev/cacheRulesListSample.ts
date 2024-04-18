@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all cache rule resources for the specified container registry.
  *
  * @summary Lists all cache rule resources for the specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-08-01-preview/examples/CacheRuleList.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/CacheRuleList.json
  */
 async function cacheRuleList() {
   const subscriptionId =

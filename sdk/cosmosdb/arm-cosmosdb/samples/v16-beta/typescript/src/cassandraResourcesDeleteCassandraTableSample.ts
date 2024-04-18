@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes an existing Azure Cosmos DB Cassandra table.
  *
  * @summary Deletes an existing Azure Cosmos DB Cassandra table.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBCassandraTableDelete.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBCassandraTableDelete.json
  */
 async function cosmosDbCassandraTableDelete() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -28,12 +28,13 @@ async function cosmosDbCassandraTableDelete() {
   const tableName = "tableName";
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.cassandraResources.beginDeleteCassandraTableAndWait(
-    resourceGroupName,
-    accountName,
-    keyspaceName,
-    tableName
-  );
+  const result =
+    await client.cassandraResources.beginDeleteCassandraTableAndWait(
+      resourceGroupName,
+      accountName,
+      keyspaceName,
+      tableName,
+    );
   console.log(result);
 }
 

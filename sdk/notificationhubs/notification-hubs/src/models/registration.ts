@@ -15,6 +15,8 @@ export type RegistrationType =
   | "BrowserTemplate"
   | "Gcm"
   | "GcmTemplate"
+  | "FcmV1"
+  | "FcmV1Template"
   | "Mpns"
   | "MpnsTemplate"
   | "Xiaomi"
@@ -93,7 +95,7 @@ export interface AdmRegistrationDescription extends AdmRegistrationDescriptionCo
  * @returns A created ADM registration description.
  */
 export function createAdmRegistrationDescription(
-  description: AdmRegistrationDescriptionCommon
+  description: AdmRegistrationDescriptionCommon,
 ): AdmRegistrationDescription {
   return {
     ...description,
@@ -125,7 +127,7 @@ export interface AdmTemplateRegistrationDescription
  * @returns A created ADM template registration description.
  */
 export function createAdmTemplateRegistrationDescription(
-  description: AdmTemplateRegistrationDescriptionCommon
+  description: AdmTemplateRegistrationDescriptionCommon,
 ): AdmTemplateRegistrationDescription {
   return {
     ...description,
@@ -159,7 +161,7 @@ export interface AppleRegistrationDescription extends AppleRegistrationDescripti
  * @returns A created Apple registration description.
  */
 export function createAppleRegistrationDescription(
-  description: AppleRegistrationDescriptionCommon
+  description: AppleRegistrationDescriptionCommon,
 ): AppleRegistrationDescription {
   return {
     ...description,
@@ -206,7 +208,7 @@ export interface AppleTemplateRegistrationDescription
  * @returns A created Apple template registration description.
  */
 export function createAppleTemplateRegistrationDescription(
-  description: AppleTemplateRegistrationDescriptionCommon
+  description: AppleTemplateRegistrationDescriptionCommon,
 ): AppleTemplateRegistrationDescription {
   return {
     ...description,
@@ -242,7 +244,7 @@ export interface BaiduRegistrationDescription extends BaiduRegistrationDescripti
  * @returns A created Baidu registration description.
  */
 export function createBaiduRegistrationDescription(
-  description: BaiduRegistrationDescriptionCommon
+  description: BaiduRegistrationDescriptionCommon,
 ): BaiduRegistrationDescription {
   return {
     ...description,
@@ -274,7 +276,7 @@ export interface BaiduTemplateRegistrationDescription
  * @returns A created Baidu template registration description.
  */
 export function createBaiduTemplateRegistrationDescription(
-  description: BaiduTemplateRegistrationDescriptionCommon
+  description: BaiduTemplateRegistrationDescriptionCommon,
 ): BaiduTemplateRegistrationDescription {
   return {
     ...description,
@@ -318,7 +320,7 @@ export interface BrowserRegistrationDescription extends BrowserRegistrationDescr
  * @returns A created Web Push registration description.
  */
 export function createBrowserRegistrationDescription(
-  description: BrowserRegistrationDescriptionCommon
+  description: BrowserRegistrationDescriptionCommon,
 ): BrowserRegistrationDescription {
   return {
     ...description,
@@ -350,7 +352,7 @@ export interface BrowserTemplateRegistrationDescription
  * @returns A created Web Push template registration description.
  */
 export function createBrowserTemplateRegistrationDescription(
-  description: BrowserTemplateRegistrationDescriptionCommon
+  description: BrowserTemplateRegistrationDescriptionCommon,
 ): BrowserTemplateRegistrationDescription {
   return {
     ...description,
@@ -384,7 +386,7 @@ export interface GcmRegistrationDescription extends GcmRegistrationDescriptionCo
  * @returns A created GCM registration description.
  */
 export function createFcmLegacyRegistrationDescription(
-  description: GcmRegistrationDescriptionCommon
+  description: GcmRegistrationDescriptionCommon,
 ): GcmRegistrationDescription {
   return {
     ...description,
@@ -416,11 +418,77 @@ export interface GcmTemplateRegistrationDescription
  * @returns A created GCM template registration description.
  */
 export function createFcmLegacyTemplateRegistrationDescription(
-  description: GcmTemplateRegistrationDescriptionCommon
+  description: GcmTemplateRegistrationDescriptionCommon,
 ): GcmTemplateRegistrationDescription {
   return {
     ...description,
     kind: "GcmTemplate",
+  };
+}
+
+/**
+ * Represents Notification Hub registration description for Google Cloud Messaging.
+ */
+export interface FcmV1RegistrationDescriptionCommon extends RegistrationDescriptionCommon {
+  /**
+   * Registration id obtained from the Firebase Cloud Messaging service.
+   */
+  fcmV1RegistrationId: string;
+}
+
+/**
+ * Represents Notification Hub registration description for Google Cloud Messaging.
+ */
+export interface FcmV1RegistrationDescription extends FcmV1RegistrationDescriptionCommon {
+  /**
+   * The kind of the registration.
+   */
+  kind: "FcmV1";
+}
+
+/**
+ * Creates a Firebase V1 registration description.
+ * @param description - A partial FCM V1 registration description.
+ * @returns A created FCM V1 registration description.
+ */
+export function createFcmV1RegistrationDescription(
+  description: FcmV1RegistrationDescriptionCommon,
+): FcmV1RegistrationDescription {
+  return {
+    ...description,
+    kind: "FcmV1",
+  };
+}
+
+/**
+ * Represents Notification Hub template registration description for Firebase V1 Cloud Messaging.
+ */
+export interface FcmV1TemplateRegistrationDescriptionCommon
+  extends FcmV1RegistrationDescriptionCommon,
+    TemplateRegistrationDescription {}
+
+/**
+ * Represents Notification Hub template registration description for Firebase V1 Cloud Messaging.
+ */
+export interface FcmV1TemplateRegistrationDescription
+  extends FcmV1TemplateRegistrationDescriptionCommon {
+  /**
+   * The kind of the registration.
+   */
+  kind: "FcmV1Template";
+}
+
+/**
+ * Creates a FCM V1 template registration description.
+ * @param description - A partial FCM V1 template registration description.
+ * @returns A created FCM V1 template registration description.
+ */
+export function createFcmV1TemplateRegistrationDescription(
+  description: FcmV1TemplateRegistrationDescriptionCommon,
+): FcmV1TemplateRegistrationDescription {
+  return {
+    ...description,
+    kind: "FcmV1Template",
   };
 }
 
@@ -515,7 +583,7 @@ export interface WindowsRegistrationDescription extends WindowsRegistrationDescr
  * @returns A created Windows registration description.
  */
 export function createWindowsRegistrationDescription(
-  description: WindowsRegistrationDescriptionCommon
+  description: WindowsRegistrationDescriptionCommon,
 ): WindowsRegistrationDescription {
   return {
     ...description,
@@ -552,7 +620,7 @@ export interface WindowsTemplateRegistrationDescription
  * @returns A created Windows template registration description.
  */
 export function createWindowsTemplateRegistrationDescription(
-  description: WindowsTemplateRegistrationDescriptionCommon
+  description: WindowsTemplateRegistrationDescriptionCommon,
 ): WindowsTemplateRegistrationDescription {
   return {
     ...description,
@@ -586,7 +654,7 @@ export interface XiaomiRegistrationDescription extends XiaomiRegistrationDescrip
  * @returns A created Xiaomi registration description.
  */
 export function createXiaomiRegistrationDescription(
-  description: XiaomiRegistrationDescriptionCommon
+  description: XiaomiRegistrationDescriptionCommon,
 ): XiaomiRegistrationDescription {
   return {
     ...description,
@@ -618,7 +686,7 @@ export interface XiaomiTemplateRegistrationDescription
  * @returns A created Xiaomi template registration description.
  */
 export function createXiaomiTemplateRegistrationDescription(
-  description: XiaomiTemplateRegistrationDescriptionCommon
+  description: XiaomiTemplateRegistrationDescriptionCommon,
 ): XiaomiTemplateRegistrationDescription {
   return {
     ...description,
@@ -640,6 +708,8 @@ export type RegistrationDescription =
   | BrowserTemplateRegistrationDescription
   | GcmRegistrationDescription
   | GcmTemplateRegistrationDescription
+  | FcmV1RegistrationDescription
+  | FcmV1TemplateRegistrationDescription
   | MpnsRegistrationDescription
   | MpnsTemplateRegistrationDescription
   | XiaomiRegistrationDescription
@@ -730,6 +800,20 @@ export interface FirebaseLegacyRegistrationChannel {
 }
 
 /**
+ * Describes an Firebase Legacy Registration channel query.
+ */
+export interface FirebaseV1RegistrationChannel {
+  /**
+   * The FCM V1 registration ID.
+   */
+  fcmV1RegistrationId: string;
+  /**
+   * The kind of the registration channel.
+   */
+  kind: "fcmv1";
+}
+
+/**
  * Describes an Windows Notification Services Registration channel query.
  */
 export interface WindowsRegistrationChannel {
@@ -766,5 +850,6 @@ export type RegistrationChannel =
   | BaiduRegistrationChannel
   | BrowserRegistrationChannel
   | FirebaseLegacyRegistrationChannel
+  | FirebaseV1RegistrationChannel
   | XiaomiRegistrationChannel
   | WindowsRegistrationChannel;

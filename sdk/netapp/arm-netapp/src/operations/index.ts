@@ -15,7 +15,6 @@ export * from "./volumes";
 export * from "./snapshots";
 export * from "./snapshotPolicies";
 export * from "./backups";
-export * from "./accountBackups";
 export * from "./backupPolicies";
 export * from "./volumeQuotaRules";
 export * from "./volumeGroups";

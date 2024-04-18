@@ -572,6 +572,7 @@ export interface ApplicationGatewayListener extends SubResource {
     readonly etag?: string;
     frontendIPConfiguration?: SubResource;
     frontendPort?: SubResource;
+    hostNames?: string[];
     name?: string;
     protocol?: ApplicationGatewayProtocol;
     readonly provisioningState?: ProvisioningState;
@@ -1997,6 +1998,7 @@ export interface BastionHost extends Resource {
     scaleUnits?: number;
     sku?: Sku;
     virtualNetwork?: SubResource;
+    zones?: string[];
 }
 
 // @public
@@ -2126,6 +2128,11 @@ export interface BastionShareableLinkListRequest {
 export interface BastionShareableLinkListResult {
     nextLink?: string;
     value?: BastionShareableLink[];
+}
+
+// @public
+export interface BastionShareableLinkTokenListRequest {
+    tokens?: string[];
 }
 
 // @public
@@ -2937,6 +2944,11 @@ export interface DdosCustomPoliciesCreateOrUpdateOptionalParams extends coreClie
 export type DdosCustomPoliciesCreateOrUpdateResponse = DdosCustomPolicy;
 
 // @public
+export interface DdosCustomPoliciesDeleteHeaders {
+    location?: string;
+}
+
+// @public
 export interface DdosCustomPoliciesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -3127,6 +3139,15 @@ export interface DelegationProperties {
     readonly provisioningState?: ProvisioningState;
     serviceName?: string;
 }
+
+// @public
+export interface DeleteBastionShareableLinkByTokenOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DeleteBastionShareableLinkByTokenResponse = NetworkManagementClientDeleteBastionShareableLinkByTokenHeaders;
 
 // @public
 export interface DeleteBastionShareableLinkOptionalParams extends coreClient.OperationOptions {
@@ -4815,7 +4836,7 @@ export interface FirewallPolicyHttpHeaderToInsert {
 export type FirewallPolicyIdpsQuerySortOrder = string;
 
 // @public
-export type FirewallPolicyIdpsSignatureDirection = 0 | 1 | 2;
+export type FirewallPolicyIdpsSignatureDirection = 0 | 1 | 2 | 3 | 4;
 
 // @public
 export type FirewallPolicyIdpsSignatureMode = 0 | 1 | 2;
@@ -4894,6 +4915,7 @@ export interface FirewallPolicyInsights {
 export interface FirewallPolicyIntrusionDetection {
     configuration?: FirewallPolicyIntrusionDetectionConfiguration;
     mode?: FirewallPolicyIntrusionDetectionStateType;
+    profile?: FirewallPolicyIntrusionDetectionProfileType;
 }
 
 // @public
@@ -4914,6 +4936,9 @@ export interface FirewallPolicyIntrusionDetectionConfiguration {
     privateRanges?: string[];
     signatureOverrides?: FirewallPolicyIntrusionDetectionSignatureSpecification[];
 }
+
+// @public
+export type FirewallPolicyIntrusionDetectionProfileType = string;
 
 // @public
 export type FirewallPolicyIntrusionDetectionProtocol = string;
@@ -5673,6 +5698,11 @@ export interface InboundSecurityRules {
 export type InboundSecurityRulesProtocol = string;
 
 // @public
+export interface InternetIngressPublicIpsProperties {
+    id?: string;
+}
+
+// @public
 export interface IPAddressAvailabilityResult {
     available?: boolean;
     availableIPAddresses?: string[];
@@ -5964,6 +5994,7 @@ export enum KnownActionType {
     Allow = "Allow",
     AnomalyScoring = "AnomalyScoring",
     Block = "Block",
+    JSChallenge = "JSChallenge",
     Log = "Log"
 }
 
@@ -6273,6 +6304,7 @@ export enum KnownBastionConnectProtocol {
 // @public
 export enum KnownBastionHostSkuName {
     Basic = "Basic",
+    Developer = "Developer",
     Standard = "Standard"
 }
 
@@ -6583,6 +6615,14 @@ export enum KnownFirewallPolicyFilterRuleCollectionActionType {
 export enum KnownFirewallPolicyIdpsQuerySortOrder {
     Ascending = "Ascending",
     Descending = "Descending"
+}
+
+// @public
+export enum KnownFirewallPolicyIntrusionDetectionProfileType {
+    Advanced = "Advanced",
+    Basic = "Basic",
+    Extended = "Extended",
+    Standard = "Standard"
 }
 
 // @public
@@ -7315,6 +7355,7 @@ export enum KnownVirtualNetworkGatewaySkuName {
     ErGw1AZ = "ErGw1AZ",
     ErGw2AZ = "ErGw2AZ",
     ErGw3AZ = "ErGw3AZ",
+    ErGwScale = "ErGwScale",
     HighPerformance = "HighPerformance",
     Standard = "Standard",
     UltraPerformance = "UltraPerformance",
@@ -7336,6 +7377,7 @@ export enum KnownVirtualNetworkGatewaySkuTier {
     ErGw1AZ = "ErGw1AZ",
     ErGw2AZ = "ErGw2AZ",
     ErGw3AZ = "ErGw3AZ",
+    ErGwScale = "ErGwScale",
     HighPerformance = "HighPerformance",
     Standard = "Standard",
     UltraPerformance = "UltraPerformance",
@@ -7376,7 +7418,9 @@ export enum KnownVirtualNetworkPeeringState {
 // @public
 export enum KnownVirtualNetworkPrivateEndpointNetworkPolicies {
     Disabled = "Disabled",
-    Enabled = "Enabled"
+    Enabled = "Enabled",
+    NetworkSecurityGroupEnabled = "NetworkSecurityGroupEnabled",
+    RouteTableEnabled = "RouteTableEnabled"
 }
 
 // @public
@@ -7468,6 +7512,7 @@ export enum KnownVpnType {
 export enum KnownWebApplicationFirewallAction {
     Allow = "Allow",
     Block = "Block",
+    JSChallenge = "JSChallenge",
     Log = "Log"
 }
 
@@ -9010,6 +9055,8 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     bastionHosts: BastionHosts;
     beginDeleteBastionShareableLink(resourceGroupName: string, bastionHostName: string, bslRequest: BastionShareableLinkListRequest, options?: DeleteBastionShareableLinkOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteBastionShareableLinkAndWait(resourceGroupName: string, bastionHostName: string, bslRequest: BastionShareableLinkListRequest, options?: DeleteBastionShareableLinkOptionalParams): Promise<void>;
+    beginDeleteBastionShareableLinkByToken(resourceGroupName: string, bastionHostName: string, bslTokenRequest: BastionShareableLinkTokenListRequest, options?: DeleteBastionShareableLinkByTokenOptionalParams): Promise<SimplePollerLike<OperationState<DeleteBastionShareableLinkByTokenResponse>, DeleteBastionShareableLinkByTokenResponse>>;
+    beginDeleteBastionShareableLinkByTokenAndWait(resourceGroupName: string, bastionHostName: string, bslTokenRequest: BastionShareableLinkTokenListRequest, options?: DeleteBastionShareableLinkByTokenOptionalParams): Promise<DeleteBastionShareableLinkByTokenResponse>;
     beginGeneratevirtualwanvpnserverconfigurationvpnprofile(resourceGroupName: string, virtualWANName: string, vpnClientParams: VirtualWanVpnProfileParameters, options?: GeneratevirtualwanvpnserverconfigurationvpnprofileOptionalParams): Promise<SimplePollerLike<OperationState<GeneratevirtualwanvpnserverconfigurationvpnprofileResponse>, GeneratevirtualwanvpnserverconfigurationvpnprofileResponse>>;
     beginGeneratevirtualwanvpnserverconfigurationvpnprofileAndWait(resourceGroupName: string, virtualWANName: string, vpnClientParams: VirtualWanVpnProfileParameters, options?: GeneratevirtualwanvpnserverconfigurationvpnprofileOptionalParams): Promise<GeneratevirtualwanvpnserverconfigurationvpnprofileResponse>;
     beginListActiveSessionsAndWait(resourceGroupName: string, bastionHostName: string, options?: GetActiveSessionsOptionalParams): PagedAsyncIterableIterator<BastionActiveSession>;
@@ -9257,6 +9304,12 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     webApplicationFirewallPolicies: WebApplicationFirewallPolicies;
     // (undocumented)
     webCategories: WebCategories;
+}
+
+// @public
+export interface NetworkManagementClientDeleteBastionShareableLinkByTokenHeaders {
+    // (undocumented)
+    location?: string;
 }
 
 // @public
@@ -9674,6 +9727,7 @@ export interface NetworkVirtualAppliance extends Resource {
     readonly etag?: string;
     identity?: ManagedServiceIdentity;
     readonly inboundSecurityRules?: SubResource[];
+    internetIngressPublicIps?: InternetIngressPublicIpsProperties[];
     nvaSku?: VirtualApplianceSkuProperties;
     partnerManagedResource?: PartnerManagedResourceProperties;
     readonly provisioningState?: ProvisioningState;
@@ -9693,7 +9747,7 @@ export interface NetworkVirtualApplianceConnection extends SubResource {
     name?: string;
     namePropertiesName?: string;
     readonly provisioningState?: ProvisioningState;
-    routingConfiguration?: RoutingConfigurationNfv;
+    routingConfiguration?: RoutingConfiguration;
     tunnelIdentifier?: number;
 }
 
@@ -11074,12 +11128,6 @@ export interface PropagatedRouteTable {
 }
 
 // @public
-export interface PropagatedRouteTableNfv {
-    ids?: RoutingConfigurationNfvSubResource[];
-    labels?: string[];
-}
-
-// @public
 export type Protocol = string;
 
 // @public
@@ -11949,19 +11997,6 @@ export interface RoutingConfiguration {
     outboundRouteMap?: SubResource;
     propagatedRouteTables?: PropagatedRouteTable;
     vnetRoutes?: VnetRoute;
-}
-
-// @public
-export interface RoutingConfigurationNfv {
-    associatedRouteTable?: RoutingConfigurationNfvSubResource;
-    inboundRouteMap?: RoutingConfigurationNfvSubResource;
-    outboundRouteMap?: RoutingConfigurationNfvSubResource;
-    propagatedRouteTables?: PropagatedRouteTableNfv;
-}
-
-// @public
-export interface RoutingConfigurationNfvSubResource {
-    resourceUri?: string;
 }
 
 // @public

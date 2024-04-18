@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Get a certificate.
  *
  * @summary Description for Get a certificate.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/GetCertificate.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/GetCertificate.json
  */
 async function getCertificate() {
   const subscriptionId =

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  *
  * @summary Create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/mongo-cluster/CosmosDBMongoClusterCreate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/mongo-cluster/CosmosDBMongoClusterCreate.json
  */
 async function createANewMongoCluster() {
   const subscriptionId =
@@ -37,17 +37,17 @@ async function createANewMongoCluster() {
         enableHa: true,
         kind: "Shard",
         nodeCount: 3,
-        sku: "M30"
-      }
+        sku: "M30",
+      },
     ],
-    serverVersion: "5.0"
+    serverVersion: "5.0",
   };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const result = await client.mongoClusters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     mongoClusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -56,7 +56,7 @@ async function createANewMongoCluster() {
  * This sample demonstrates how to Create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  *
  * @summary Create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/mongo-cluster/CosmosDBMongoClusterCreatePITR.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/mongo-cluster/CosmosDBMongoClusterCreatePITR.json
  */
 async function createANewMongoClusterWithPointInTimeRestore() {
   const subscriptionId =
@@ -71,15 +71,15 @@ async function createANewMongoClusterWithPointInTimeRestore() {
     restoreParameters: {
       pointInTimeUTC: new Date("2023-01-13T20:07:35Z"),
       sourceResourceId:
-        "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestResourceGroup/providers/Microsoft.DocumentDB/mongoClusters/myOtherMongoCluster"
-    }
+        "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestResourceGroup/providers/Microsoft.DocumentDB/mongoClusters/myOtherMongoCluster",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const result = await client.mongoClusters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     mongoClusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

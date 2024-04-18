@@ -1,34 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortError } from "./abort-controller/AbortError";
+import { AbortError } from "./abort-controller/AbortError.js";
 import {
   HttpClient,
   HttpHeaders as PipelineHeaders,
   PipelineRequest,
   PipelineResponse,
   TransferProgressEvent,
-} from "./interfaces";
-import { RestError } from "./restError";
-import { createHttpHeaders } from "./httpHeaders";
-
-/**
- * Checks if the body is a NodeReadable stream which is not supported in Browsers
- */
-function isNodeReadableStream(body: any): body is NodeJS.ReadableStream {
-  return body && typeof body.pipe === "function";
-}
-
-/**
- * Checks if the body is a ReadableStream supported by browsers
- */
-function isReadableStream(body: unknown): body is ReadableStream {
-  return Boolean(
-    body &&
-      typeof (body as ReadableStream).getReader === "function" &&
-      typeof (body as ReadableStream).tee === "function"
-  );
-}
+} from "./interfaces.js";
+import { RestError } from "./restError.js";
+import { createHttpHeaders } from "./httpHeaders.js";
+import { isNodeReadableStream, isReadableStream } from "./util/typeGuards.js";
 
 /**
  * Checks if the body is a Blob or Blob-like
@@ -119,8 +102,8 @@ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> 
 async function buildPipelineResponse(
   httpResponse: Response,
   request: PipelineRequest,
-  abortControllerCleanup?: () => void
-) {
+  abortControllerCleanup?: () => void,
+): Promise<PipelineResponse> {
   const headers = buildPipelineHeaders(httpResponse);
   const response: PipelineResponse = {
     request,
@@ -201,6 +184,7 @@ function setupAbortSignal(request: PipelineRequest): {
 /**
  * Gets the specific error
  */
+// eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 function getError(e: RestError, request: PipelineRequest): RestError {
   if (e && e?.name === "AbortError") {
     return e;
@@ -215,7 +199,7 @@ function getError(e: RestError, request: PipelineRequest): RestError {
 /**
  * Converts PipelineRequest headers to Fetch headers
  */
-function buildFetchHeaders(pipelineHeaders: PipelineHeaders) {
+function buildFetchHeaders(pipelineHeaders: PipelineHeaders): Headers {
   const headers = new Headers();
   for (const [name, value] of pipelineHeaders) {
     headers.append(name, value);
@@ -233,7 +217,15 @@ function buildPipelineHeaders(httpResponse: Response): PipelineHeaders {
   return responseHeaders;
 }
 
-function buildRequestBody(request: PipelineRequest) {
+function buildRequestBody(request: PipelineRequest):
+  | {
+      streaming: boolean;
+      body: ReadableStream<Uint8Array>;
+    }
+  | {
+      streaming: boolean;
+      body: string | Blob | ArrayBuffer | ArrayBufferView | FormData | null | undefined;
+    } {
   const body = typeof request.body === "function" ? request.body() : request.body;
   if (isNodeReadableStream(body)) {
     throw new Error("Node streams are not supported in browser environment.");
@@ -252,7 +244,7 @@ function buildRequestBody(request: PipelineRequest) {
  */
 function buildBodyStream(
   readableStream: ReadableStream<Uint8Array>,
-  options: { onProgress?: (progress: TransferProgressEvent) => void; onEnd?: () => void } = {}
+  options: { onProgress?: (progress: TransferProgressEvent) => void; onEnd?: () => void } = {},
 ): ReadableStream<Uint8Array> {
   let loadedBytes = 0;
   const { onProgress, onEnd } = options;
@@ -277,7 +269,7 @@ function buildBodyStream(
         flush() {
           onEnd?.();
         },
-      })
+      }),
     );
   } else {
     // If we can't use transform streams, wrap the original stream in a new readable stream

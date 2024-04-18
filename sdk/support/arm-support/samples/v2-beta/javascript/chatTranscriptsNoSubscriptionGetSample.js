@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Returns chatTranscript details for a no subscription support ticket.
  *
  * @summary Returns chatTranscript details for a no subscription support ticket.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/GetchatTranscriptDetailsForSupportTicket.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/GetchatTranscriptDetailsForSupportTicket.json
  */
 async function getChatTranscriptDetailsForASubscriptionSupportTicket() {
   const supportTicketName = "testticket";
@@ -25,7 +25,7 @@ async function getChatTranscriptDetailsForASubscriptionSupportTicket() {
   const client = new MicrosoftSupport(credential);
   const result = await client.chatTranscriptsNoSubscription.get(
     supportTicketName,
-    chatTranscriptName
+    chatTranscriptName,
   );
   console.log(result);
 }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the private link resources for a container registry.
  *
  * @summary Lists the private link resources for a container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-08-01-preview/examples/RegistryListPrivateLinkResources.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/RegistryListPrivateLinkResources.json
  */
 async function registryListPrivateLinkResources() {
   const subscriptionId =

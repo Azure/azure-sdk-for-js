@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes an existing Azure Cosmos DB Gremlin database.
  *
  * @summary Deletes an existing Azure Cosmos DB Gremlin database.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBGremlinDatabaseDelete.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBGremlinDatabaseDelete.json
  */
 async function cosmosDbGremlinDatabaseDelete() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -27,11 +27,12 @@ async function cosmosDbGremlinDatabaseDelete() {
   const databaseName = "databaseName";
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.gremlinResources.beginDeleteGremlinDatabaseAndWait(
-    resourceGroupName,
-    accountName,
-    databaseName
-  );
+  const result =
+    await client.gremlinResources.beginDeleteGremlinDatabaseAndWait(
+      resourceGroupName,
+      accountName,
+      databaseName,
+    );
   console.log(result);
 }
 

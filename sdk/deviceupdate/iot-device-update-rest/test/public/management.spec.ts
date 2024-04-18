@@ -29,7 +29,7 @@ describe("device and deployment test", () => {
 
     if (isUnexpected(response)) {
       assert.fail(
-        `GET "/deviceUpdate/sdkInstance/management/devices" failed with ${response.status}`
+        `GET "/deviceUpdate/sdkInstance/management/devices" failed with ${response.status}`,
       );
     }
 
@@ -51,7 +51,7 @@ describe("device and deployment test", () => {
 
     if (isUnexpected(response)) {
       assert.fail(
-        `GET "/deviceUpdate/sdkInstance/management/groups" failed with ${response.status}`
+        `GET "/deviceUpdate/sdkInstance/management/groups" failed with ${response.status}`,
       );
     }
 
@@ -65,7 +65,7 @@ describe("device and deployment test", () => {
 
     if (isUnexpected(response)) {
       assert.fail(
-        `GET "/deviceUpdate/sdkInstance/updates/providers/fabrikam/names/vacuum" failed with ${response.status}`
+        `GET "/deviceUpdate/sdkInstance/updates/providers/fabrikam/names/vacuum" failed with ${response.status}`,
       );
     }
 
@@ -87,7 +87,7 @@ describe("device and deployment test", () => {
 
     if (isUnexpected(response)) {
       assert.fail(
-        `GET "/deviceUpdate/sdkInstance/management/deviceClasses" failed with ${response.status}`
+        `GET "/deviceUpdate/sdkInstance/management/deviceClasses" failed with ${response.status}`,
       );
     }
 
@@ -99,7 +99,7 @@ describe("device and deployment test", () => {
       .path(
         "/deviceUpdate/{instanceId}/management/deviceClasses/{deviceClassId}",
         "sdkinstance",
-        "foo"
+        "foo",
       )
       .get();
 
@@ -111,13 +111,13 @@ describe("device and deployment test", () => {
       .path(
         "/deviceUpdate/{instanceId}/management/groups/{groupId}/bestUpdates",
         "sdkinstance",
-        group
+        group,
       )
       .get();
 
     if (isUnexpected(response)) {
       assert.fail(
-        `GET "/deviceUpdate/sdkInstance/management/groups/group/bestUpdates" failed with ${response.status}`
+        `GET "/deviceUpdate/sdkInstance/management/groups/group/bestUpdates" failed with ${response.status}`,
       );
     }
 
@@ -129,7 +129,7 @@ describe("device and deployment test", () => {
       .path(
         "/deviceUpdate/{instanceId}/management/groups/{groupId}/bestUpdates",
         "sdkinstance",
-        "foo"
+        "foo",
       )
       .get();
 
@@ -141,13 +141,13 @@ describe("device and deployment test", () => {
       .path(
         "/deviceUpdate/{instanceId}/management/groups/{groupId}/deployments",
         "sdkinstance",
-        group
+        group,
       )
       .get();
 
     if (isUnexpected(response)) {
       assert.fail(
-        `GET "/deviceUpdate/sdkInstance/management/groups/group/deployments" failed with ${response.status}`
+        `GET "/deviceUpdate/sdkInstance/management/groups/group/deployments" failed with ${response.status}`,
       );
     }
 
@@ -159,7 +159,7 @@ describe("device and deployment test", () => {
       .path(
         "/deviceUpdate/{instanceId}/management/groups/{groupId}/deployments",
         "sdkinstance",
-        "foo"
+        "foo",
       )
       .get();
 

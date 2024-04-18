@@ -56,11 +56,11 @@ testWithServiceTypes((serviceVersion) => {
     before("validate environment", async function (): Promise<void> {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
       );
       should.exist(
         env[EnvVarKeys.EVENTHUB_NAME],
-        "define EVENTHUB_NAME in your environment before running integration tests."
+        "define EVENTHUB_NAME in your environment before running integration tests.",
       );
     });
 
@@ -70,7 +70,7 @@ testWithServiceTypes((serviceVersion) => {
       consumerClient = new EventHubConsumerClient(
         EventHubConsumerClient.defaultConsumerGroupName,
         service.connectionString,
-        service.path
+        service.path,
       );
       hubInfo = await consumerClient.getEventHubProperties();
       partitionId = hubInfo.partitionIds[0];
@@ -113,7 +113,7 @@ testWithServiceTypes((serviceVersion) => {
           },
           {
             startPosition: { offset: lastEnqueuedOffset },
-          }
+          },
         );
       });
       await subscription!.close();
@@ -157,7 +157,7 @@ testWithServiceTypes((serviceVersion) => {
           },
           {
             startPosition: { offset: lastEnqueuedOffset },
-          }
+          },
         );
       });
       await subscription!.close();
@@ -199,7 +199,7 @@ testWithServiceTypes((serviceVersion) => {
           },
           {
             startPosition: { offset: lastEnqueuedOffset },
-          }
+          },
         );
       });
       await subscription!.close();
@@ -232,7 +232,7 @@ testWithServiceTypes((serviceVersion) => {
           },
           {
             startPosition: { offset: lastEnqueuedOffset },
-          }
+          },
         );
       });
       await subscription!.close();
@@ -269,7 +269,7 @@ testWithServiceTypes((serviceVersion) => {
           },
           {
             startPosition: { offset: lastEnqueuedOffset },
-          }
+          },
         );
       });
       await subscription!.close();
@@ -327,7 +327,7 @@ testWithServiceTypes((serviceVersion) => {
           },
           {
             startPosition: { offset: lastEnqueuedOffset },
-          }
+          },
         );
       });
       await subscription!.close();
@@ -356,7 +356,7 @@ testWithServiceTypes((serviceVersion) => {
         senderPromises.push(
           producerClient.sendBatch([{ body: "Hello EventHub " + i }], {
             partitionKey: partitionKey.toString(),
-          })
+          }),
         );
       }
 
@@ -373,7 +373,7 @@ testWithServiceTypes((serviceVersion) => {
         });
         const receivedEvents = await subscriptionEventHandler.waitForFullEvents(
           hubInfo.partitionIds,
-          msgToSendCount
+          msgToSendCount,
         );
 
         for (const d of receivedEvents) {
@@ -383,7 +383,7 @@ testWithServiceTypes((serviceVersion) => {
 
           if (partitionMap[pk] && partitionMap[pk] !== d.partitionId) {
             debug(
-              `#### Error: Received a message from partition ${d.partitionId} with partition key ${pk}, whereas the same key was observed on partition ${partitionMap[pk]} before.`
+              `#### Error: Received a message from partition ${d.partitionId} with partition key ${pk}, whereas the same key was observed on partition ${partitionMap[pk]} before.`,
             );
             assert(partitionMap[pk] === d.partitionId);
           }
@@ -436,7 +436,7 @@ testWithServiceTypes((serviceVersion) => {
 
       should.not.exist(
         spanContext,
-        `Missing property "${TRACEPARENT_PROPERTY}" should return undefined spanContext.`
+        `Missing property "${TRACEPARENT_PROPERTY}" should return undefined spanContext.`,
       );
     });
   });

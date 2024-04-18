@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ConfigurationSetting, GeneratedClient } from "./generated";
+import { GeneratedClient, ConfigurationSetting } from "./generated/index.js";
 import {
   CommonClientOptions,
   OperationOptions,
@@ -10,9 +10,9 @@ import {
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 import { TracingClient, createTracingClient } from "@azure/core-tracing";
-import { SDK_VERSION } from "./constants";
-import { logger } from "./logger";
-import { quoteETag } from "./util";
+import { SDK_VERSION } from "./constants.js";
+import { logger } from "./logger.js";
+import { quoteETag } from "./util.js";
 
 // re-export generated types that are used as public interfaces.
 export { ConfigurationSetting };
@@ -66,7 +66,7 @@ export class ConfigurationClient {
   constructor(
     endpointUrl: string,
     credential: TokenCredential,
-    options: ConfigurationClientOptions = {}
+    options: ConfigurationClientOptions = {},
   ) {
     // The AAD scope for an API is usually the baseUri + "/.default", but it
     // may be different for your service.
@@ -118,7 +118,7 @@ export class ConfigurationClient {
    */
   public async getConfigurationSetting(
     key: string,
-    options?: GetConfigurationSettingOptions
+    options?: GetConfigurationSettingOptions,
   ): Promise<ConfigurationSetting>;
 
   /**
@@ -130,12 +130,12 @@ export class ConfigurationClient {
    */
   public async getConfigurationSetting(
     setting: ConfigurationSetting,
-    options?: GetConfigurationSettingOptions
+    options?: GetConfigurationSettingOptions,
   ): Promise<ConfigurationSetting>;
 
   public async getConfigurationSetting(
     keyOrSetting: string | ConfigurationSetting,
-    options: GetConfigurationSettingOptions = {}
+    options: GetConfigurationSettingOptions = {},
   ): Promise<ConfigurationSetting> {
     let key: string;
     let ifNoneMatch: string | undefined;
@@ -149,11 +149,11 @@ export class ConfigurationClient {
           key = keyOrSetting;
           if (options.onlyIfChanged) {
             throw new RangeError(
-              "You must pass a ConfigurationSetting instead of a key to perform a conditional fetch."
+              "You must pass a ConfigurationSetting instead of a key to perform a conditional fetch.",
             );
           }
         } else {
-          key = keyOrSetting.key;
+          key = keyOrSetting.key!;
           const etag = keyOrSetting.etag;
           if (options.onlyIfChanged) {
             ifNoneMatch = quoteETag(etag);
@@ -162,7 +162,7 @@ export class ConfigurationClient {
 
         // You must pass updatedOptions to any calls you make within the callback.
         return this.client.getKeyValue(key, { ...updatedOptions, ifNoneMatch });
-      }
+      },
     );
   }
 }

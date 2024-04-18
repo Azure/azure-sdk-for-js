@@ -21,7 +21,7 @@ const callAutomationAccessKeyCredentialPolicy = "CallAutomationAccessKeyCredenti
  */
 export function createCallAutomationAccessKeyCredentialPolicy(
   credential: KeyCredential,
-  acsUrl: string
+  acsUrl: string,
 ): PipelinePolicy {
   return {
     name: callAutomationAccessKeyCredentialPolicy,
@@ -50,7 +50,7 @@ export function createCallAutomationAccessKeyCredentialPolicy(
       request.headers.set("x-ms-content-sha256", contentHash);
       request.headers.set(
         "Authorization",
-        `HMAC-SHA256 SignedHeaders=${signedHeaders}&Signature=${signature}`
+        `HMAC-SHA256 SignedHeaders=${signedHeaders}&Signature=${signature}`,
       );
       return next(request);
     },

@@ -6,10 +6,10 @@ import {
   assertDivergentBehavior,
   assertError,
   createDoubleHeaders,
-} from "./utils/utils";
-import { assert, matrix } from "@azure/test-utils";
-import { createRunLroWith, createTestPoller } from "./utils/router";
-import { AbortController } from "@azure/abort-controller";
+} from "./utils/utils.js";
+import { describe, it, assert } from "vitest";
+import { createRunLroWith, createTestPoller } from "./utils/router.js";
+import { matrix } from "./matrix.js";
 
 matrix(
   [
@@ -1478,6 +1478,42 @@ matrix(
               assert.deepInclude(result, { id: "100", name: "foo" });
             });
 
+            it("should handle resourceLocation being null", async () => {
+              const locationPath = "/postlocation/retry/succeeded/operationResults/foo/200/";
+              const pollingPath = "/postlocation/retry/succeeded/operationResults/200/";
+              const result = await runLro({
+                routes: [
+                  {
+                    method: "POST",
+                    status: 202,
+                    headers: {
+                      [headerName]: pollingPath,
+                      "retry-after": "0",
+                    },
+                    body: `{"status":"Accepted"}`,
+                  },
+                  {
+                    method: "GET",
+                    path: pollingPath,
+                    status: 202,
+                    headers: {
+                      location: locationPath,
+                      [headerName]: pollingPath,
+                      "retry-after": "0",
+                    },
+                    body: `{"status":"Accepted"}`,
+                  },
+                  {
+                    method: "GET",
+                    path: pollingPath,
+                    status: 200,
+                    body: `{"status":"Succeeded", "resourceLocation": null}`,
+                  },
+                ],
+              });
+              assert.deepInclude(result, { status: "Succeeded" });
+            });
+
             it("should handle postAsyncRetrycanceled", async () => {
               const pollingPath = "/postasync/retry/canceled/operationResults/200/";
               const body = { status: "Canceled" };
@@ -1512,7 +1548,7 @@ matrix(
               });
             });
           });
-        }
+        },
       );
 
       describe("LRO Sad scenarios", () => {
@@ -1964,7 +2000,7 @@ matrix(
             }),
             {
               name: "SyntaxError",
-            }
+            },
           );
         });
 
@@ -2019,7 +2055,7 @@ matrix(
             }),
             {
               name: "SyntaxError",
-            }
+            },
           );
         });
 
@@ -2098,7 +2134,7 @@ matrix(
             }),
             {
               name: "SyntaxError",
-            }
+            },
           );
         });
 
@@ -2177,7 +2213,7 @@ matrix(
             }),
             {
               name: "SyntaxError",
-            }
+            },
           );
         });
       });
@@ -2450,7 +2486,7 @@ matrix(
             }),
             {
               messagePattern: /The operation was aborted/,
-            }
+            },
           );
           assert.isFalse(poller.isDone());
         });
@@ -2496,7 +2532,7 @@ matrix(
             }),
             {
               messagePattern: /The operation was aborted/,
-            }
+            },
           );
           assert.equal(pollCount, 1);
           assert.isFalse(poller.isDone());
@@ -2658,7 +2694,7 @@ matrix(
             throwOnNon2xxResponse,
             throwing: {
               messagePattern: new RegExp(
-                `The long-running operation has failed. ${code}. ${message}`
+                `The long-running operation has failed. ${code}. ${message}`,
               ),
             },
             notThrowing: {
@@ -2668,5 +2704,5 @@ matrix(
         });
       });
     });
-  }
+  },
 );

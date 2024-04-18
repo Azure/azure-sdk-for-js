@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ContinuousBackupRestoreLocation,
-  CosmosDBManagementClient
+  CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves continuous backup information for a table.
  *
  * @summary Retrieves continuous backup information for a table.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBTableBackupInformation.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBTableBackupInformation.json
  */
 async function cosmosDbTableCollectionBackupInformation() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -29,16 +29,17 @@ async function cosmosDbTableCollectionBackupInformation() {
   const accountName = "ddb1";
   const tableName = "tableName1";
   const location: ContinuousBackupRestoreLocation = {
-    location: "North Europe"
+    location: "North Europe",
   };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.tableResources.beginRetrieveContinuousBackupInformationAndWait(
-    resourceGroupName,
-    accountName,
-    tableName,
-    location
-  );
+  const result =
+    await client.tableResources.beginRetrieveContinuousBackupInformationAndWait(
+      resourceGroupName,
+      accountName,
+      tableName,
+      location,
+    );
   console.log(result);
 }
 

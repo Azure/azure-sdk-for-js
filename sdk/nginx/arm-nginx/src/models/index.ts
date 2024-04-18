@@ -16,8 +16,6 @@ export interface NginxCertificate {
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly type?: string;
   properties?: NginxCertificateProperties;
-  /** Dictionary of <string> */
-  tags?: { [propertyName: string]: string };
   location?: string;
   /**
    * Metadata pertaining to creation and last modification of the resource.
@@ -32,6 +30,18 @@ export interface NginxCertificateProperties {
   keyVirtualPath?: string;
   certificateVirtualPath?: string;
   keyVaultSecretId?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly sha1Thumbprint?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly keyVaultSecretVersion?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly keyVaultSecretCreated?: Date;
+  certificateError?: NginxCertificateErrorResponseBody;
+}
+
+export interface NginxCertificateErrorResponseBody {
+  code?: string;
+  message?: string;
 }
 
 /** Metadata pertaining to creation and last modification of the resource. */
@@ -51,14 +61,51 @@ export interface SystemData {
 }
 
 export interface ResourceProviderDefaultErrorResponse {
-  error?: ErrorResponseBody;
+  /** The error detail. */
+  error?: ErrorDetail;
 }
 
-export interface ErrorResponseBody {
-  code?: string;
-  message?: string;
-  target?: string;
-  details?: ErrorResponseBody[];
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
 }
 
 export interface NginxCertificateListResponse {
@@ -82,8 +129,6 @@ export interface NginxConfiguration {
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly type?: string;
   properties?: NginxConfigurationProperties;
-  /** Dictionary of <string> */
-  tags?: { [propertyName: string]: string };
   location?: string;
   /**
    * Metadata pertaining to creation and last modification of the resource.
@@ -108,6 +153,44 @@ export interface NginxConfigurationFile {
 
 export interface NginxConfigurationPackage {
   data?: string;
+  protectedFiles?: string[];
+}
+
+/** The request body for creating an analysis for an NGINX configuration. */
+export interface AnalysisCreate {
+  config: AnalysisCreateConfig;
+}
+
+export interface AnalysisCreateConfig {
+  /** The root file of the NGINX config file(s). It must match one of the files' filepath. */
+  rootFile?: string;
+  files?: NginxConfigurationFile[];
+  protectedFiles?: NginxConfigurationFile[];
+  package?: NginxConfigurationPackage;
+}
+
+/** The response body for an analysis request. Contains the status of the analysis and any errors. */
+export interface AnalysisResult {
+  /** The status of the analysis. */
+  status: string;
+  data?: AnalysisResultData;
+}
+
+export interface AnalysisResultData {
+  errors?: AnalysisDiagnostic[];
+}
+
+/** An error object found during the analysis of an NGINX configuration. */
+export interface AnalysisDiagnostic {
+  /** Unique identifier for the error */
+  id?: string;
+  directive: string;
+  description: string;
+  /** the filepath of the most relevant config file */
+  file: string;
+  line: number;
+  message: string;
+  rule: string;
 }
 
 export interface NginxDeployment {
@@ -162,6 +245,11 @@ export interface NginxDeploymentProperties {
   readonly ipAddress?: string;
   enableDiagnosticsSupport?: boolean;
   logging?: NginxLogging;
+  /** Information on how the deployment will be scaled. */
+  scalingProperties?: NginxDeploymentScalingProperties;
+  /** Autoupgrade settings of a deployment. */
+  autoUpgradeProfile?: AutoUpgradeProfile;
+  userProfile?: NginxDeploymentUserProfile;
 }
 
 export interface NginxNetworkProfile {
@@ -197,6 +285,38 @@ export interface NginxStorageAccount {
   containerName?: string;
 }
 
+/** Information on how the deployment will be scaled. */
+export interface NginxDeploymentScalingProperties {
+  capacity?: number;
+  profiles?: ScaleProfile[];
+}
+
+/** The autoscale profile. */
+export interface ScaleProfile {
+  name: string;
+  /** The capacity parameters of the profile. */
+  capacity: ScaleProfileCapacity;
+}
+
+/** The capacity parameters of the profile. */
+export interface ScaleProfileCapacity {
+  /** The minimum number of NCUs the deployment can be autoscaled to. */
+  min: number;
+  /** The maximum number of NCUs the deployment can be autoscaled to. */
+  max: number;
+}
+
+/** Autoupgrade settings of a deployment. */
+export interface AutoUpgradeProfile {
+  /** Channel used for autoupgrade. */
+  upgradeChannel: string;
+}
+
+export interface NginxDeploymentUserProfile {
+  /** The preferred support contact email address of the user used for sending alerts and notification. Can be an empty string or a valid email address. */
+  preferredEmail?: string;
+}
+
 export interface ResourceSku {
   /** Name of the SKU. */
   name: string;
@@ -214,6 +334,11 @@ export interface NginxDeploymentUpdateParameters {
 export interface NginxDeploymentUpdateProperties {
   enableDiagnosticsSupport?: boolean;
   logging?: NginxLogging;
+  /** Information on how the deployment will be scaled. */
+  scalingProperties?: NginxDeploymentScalingProperties;
+  userProfile?: NginxDeploymentUserProfile;
+  /** Autoupgrade settings of a deployment. */
+  autoUpgradeProfile?: AutoUpgradeProfile;
 }
 
 export interface NginxDeploymentListResponse {
@@ -270,7 +395,7 @@ export enum KnownProvisioningState {
   /** Deleted */
   Deleted = "Deleted",
   /** NotSpecified */
-  NotSpecified = "NotSpecified"
+  NotSpecified = "NotSpecified",
 }
 
 /**
@@ -299,7 +424,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -323,7 +448,7 @@ export enum KnownIdentityType {
   /** SystemAssignedUserAssigned */
   SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -343,7 +468,7 @@ export enum KnownNginxPrivateIPAllocationMethod {
   /** Static */
   Static = "Static",
   /** Dynamic */
-  Dynamic = "Dynamic"
+  Dynamic = "Dynamic",
 }
 
 /**
@@ -417,7 +542,7 @@ export type ConfigurationsGetResponse = NginxConfiguration;
 /** Optional parameters. */
 export interface ConfigurationsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The Nginx configuration */
+  /** The NGINX configuration */
   body?: NginxConfiguration;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -436,6 +561,16 @@ export interface ConfigurationsDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface ConfigurationsAnalysisOptionalParams
+  extends coreClient.OperationOptions {
+  /** The NGINX configuration to analyze */
+  body?: AnalysisCreate;
+}
+
+/** Contains response data for the analysis operation. */
+export type ConfigurationsAnalysisResponse = AnalysisResult;
 
 /** Optional parameters. */
 export interface ConfigurationsListNextOptionalParams
@@ -498,7 +633,8 @@ export interface DeploymentsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type DeploymentsListByResourceGroupResponse = NginxDeploymentListResponse;
+export type DeploymentsListByResourceGroupResponse =
+  NginxDeploymentListResponse;
 
 /** Optional parameters. */
 export interface DeploymentsListNextOptionalParams
@@ -512,7 +648,8 @@ export interface DeploymentsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type DeploymentsListByResourceGroupNextResponse = NginxDeploymentListResponse;
+export type DeploymentsListByResourceGroupNextResponse =
+  NginxDeploymentListResponse;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ResourcePool,
   ResourcePoolsListOptionalParams,
@@ -51,8 +51,8 @@ export interface ResourcePools {
     resourcePoolName: string,
     options?: ResourcePoolsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ResourcePoolsCreateResponse>,
+    SimplePollerLike<
+      OperationState<ResourcePoolsCreateResponse>,
       ResourcePoolsCreateResponse
     >
   >;
@@ -99,7 +99,7 @@ export interface ResourcePools {
     resourceGroupName: string,
     resourcePoolName: string,
     options?: ResourcePoolsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Implements resourcePool DELETE method.
    * @param resourceGroupName The Resource Group Name.

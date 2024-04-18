@@ -48,11 +48,11 @@ testWithServiceTypes((serviceVersion) => {
     before("validate environment", function (): void {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
       );
       should.exist(
         env[EnvVarKeys.EVENTHUB_NAME],
-        "define EVENTHUB_NAME in your environment before running integration tests."
+        "define EVENTHUB_NAME in your environment before running integration tests.",
       );
     });
 
@@ -61,7 +61,7 @@ testWithServiceTypes((serviceVersion) => {
       consumerClient = new EventHubConsumerClient(
         EventHubConsumerClient.defaultConsumerGroupName,
         service.connectionString,
-        service.path
+        service.path,
       );
     });
 
@@ -119,14 +119,14 @@ testWithServiceTypes((serviceVersion) => {
           },
           {
             startPosition: startingPositions,
-          }
+          },
         );
       });
     }
 
     async function sendEvents(
       messages: AmqpAnnotatedMessage[],
-      { useBatch }: { useBatch: boolean }
+      { useBatch }: { useBatch: boolean },
     ) {
       if (!useBatch) {
         return producerClient.sendBatch(messages);
@@ -152,30 +152,30 @@ testWithServiceTypes((serviceVersion) => {
           should.equal(
             event.getRawAmqpMessage().messageAnnotations!["propMsgAnnotate"],
             testMessage.messageAnnotations!["propMsgAnnotate"],
-            "Unexpected messageAnnotations on the received event."
+            "Unexpected messageAnnotations on the received event.",
           );
           assert.deepEqualExcluding(
             event.getRawAmqpMessage(),
             testMessage,
             ["deliveryAnnotations", "body", "messageAnnotations", "header", "properties"],
-            "Unexpected on the AmqpAnnotatedMessage"
+            "Unexpected on the AmqpAnnotatedMessage",
           );
           assert.deepEqualExcluding(
             event.getRawAmqpMessage().footer!,
             testMessage.footer!,
             ["deliveryCount"],
-            "Unexpected header on the AmqpAnnotatedMessage"
+            "Unexpected header on the AmqpAnnotatedMessage",
           );
           assert.deepEqualExcluding(
             event.getRawAmqpMessage().properties!,
             testMessage.properties!,
             ["creationTime", "absoluteExpiryTime", "groupId"],
-            "Unexpected properties on the AmqpAnnotatedMessage"
+            "Unexpected properties on the AmqpAnnotatedMessage",
           );
           assert.equal(
             event.getRawAmqpMessage().properties!.groupId,
             testMessage.properties!.groupId,
-            "Unexpected session-id on the AmqpAnnotatedMessage"
+            "Unexpected session-id on the AmqpAnnotatedMessage",
           );
         });
 
@@ -190,20 +190,20 @@ testWithServiceTypes((serviceVersion) => {
                   bodyType: "value",
                 },
               ],
-              { useBatch }
+              { useBatch },
             );
 
             const event = await receiveEvent(startingPositions);
             assert.deepEqual(
               event.getRawAmqpMessage().bodyType,
               "value",
-              `Should be identified as a value: ${valueType.toString()}`
+              `Should be identified as a value: ${valueType.toString()}`,
             );
 
             assert.deepEqual(
               event.body,
               valueType,
-              `Deserialized body should be equal: ${valueType.toString()}`
+              `Deserialized body should be equal: ${valueType.toString()}`,
             );
           }
         });
@@ -223,20 +223,20 @@ testWithServiceTypes((serviceVersion) => {
                   bodyType: "sequence",
                 },
               ],
-              { useBatch }
+              { useBatch },
             );
 
             const event = await receiveEvent(startingPositions);
             assert.deepEqual(
               event.getRawAmqpMessage().bodyType,
               "sequence",
-              `Should be identified as a value: ${sequenceType.toString()}`
+              `Should be identified as a value: ${sequenceType.toString()}`,
             );
 
             assert.deepEqual(
               event.body,
               sequenceType,
-              `Deserialized body should be equal: ${sequenceType.toString()}`
+              `Deserialized body should be equal: ${sequenceType.toString()}`,
             );
           }
         });
@@ -255,7 +255,7 @@ testWithServiceTypes((serviceVersion) => {
                   bodyType: "data",
                 },
               ],
-              { useBatch }
+              { useBatch },
             );
 
             const event = await receiveEvent(startingPositions);
@@ -263,12 +263,12 @@ testWithServiceTypes((serviceVersion) => {
             assert.deepEqual(
               event.getRawAmqpMessage().bodyType,
               "data",
-              `Should be identified as data: ${dataType.toString()}`
+              `Should be identified as data: ${dataType.toString()}`,
             );
             assert.deepEqual(
               event.body,
               dataType,
-              `Deserialized body should be equal: : ${dataType.toString()}`
+              `Deserialized body should be equal: : ${dataType.toString()}`,
             );
           }
         });
@@ -292,7 +292,7 @@ testWithServiceTypes((serviceVersion) => {
                   bodyType: expectedBodyType,
                 },
               ],
-              { useBatch }
+              { useBatch },
             );
 
             const event = await receiveEvent(startingPositions);

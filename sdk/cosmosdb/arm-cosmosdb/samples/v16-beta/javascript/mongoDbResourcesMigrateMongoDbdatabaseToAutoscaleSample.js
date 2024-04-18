@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Migrate an Azure Cosmos DB MongoDB database from manual throughput to autoscale
  *
  * @summary Migrate an Azure Cosmos DB MongoDB database from manual throughput to autoscale
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBMongoDBDatabaseMigrateToAutoscale.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBMongoDBDatabaseMigrateToAutoscale.json
  */
 async function cosmosDbMongoDbdatabaseMigrateToAutoscale() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function cosmosDbMongoDbdatabaseMigrateToAutoscale() {
   const result = await client.mongoDBResources.beginMigrateMongoDBDatabaseToAutoscaleAndWait(
     resourceGroupName,
     accountName,
-    databaseName
+    databaseName,
   );
   console.log(result);
 }

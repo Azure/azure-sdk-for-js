@@ -21,7 +21,7 @@ export default function createClient(
   resourceGroupName: string,
   workspaceName: string,
   credentials: TokenCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): EasmClient {
   const baseUrl =
     options.baseUrl ??
@@ -34,7 +34,7 @@ export default function createClient(
     },
   };
 
-  const userAgentInfo = `azsdk-js-defender-easm-rest/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-defender-easm-rest/1.0.0-beta.2`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

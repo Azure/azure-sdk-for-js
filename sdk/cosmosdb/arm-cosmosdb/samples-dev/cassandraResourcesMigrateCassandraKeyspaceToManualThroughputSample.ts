@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Migrate an Azure Cosmos DB Cassandra Keyspace from autoscale to manual throughput
  *
  * @summary Migrate an Azure Cosmos DB Cassandra Keyspace from autoscale to manual throughput
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBCassandraKeyspaceMigrateToManualThroughput.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBCassandraKeyspaceMigrateToManualThroughput.json
  */
 async function cosmosDbCassandraKeyspaceMigrateToManualThroughput() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -27,11 +27,12 @@ async function cosmosDbCassandraKeyspaceMigrateToManualThroughput() {
   const keyspaceName = "keyspaceName";
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.cassandraResources.beginMigrateCassandraKeyspaceToManualThroughputAndWait(
-    resourceGroupName,
-    accountName,
-    keyspaceName
-  );
+  const result =
+    await client.cassandraResources.beginMigrateCassandraKeyspaceToManualThroughputAndWait(
+      resourceGroupName,
+      accountName,
+      keyspaceName,
+    );
   console.log(result);
 }
 

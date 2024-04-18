@@ -9,13 +9,14 @@
 import {
   IdpsQueryObject,
   FirewallPolicyIdpsSignaturesListOptionalParams,
-  FirewallPolicyIdpsSignaturesListResponse
+  FirewallPolicyIdpsSignaturesListResponse,
 } from "../models";
 
 /** Interface representing a FirewallPolicyIdpsSignatures. */
 export interface FirewallPolicyIdpsSignatures {
   /**
-   * Retrieves the current status of IDPS signatures for the relevant policy
+   * Retrieves the current status of IDPS signatures for the relevant policy. Maximal amount of returned
+   * signatures is 1000.
    * @param resourceGroupName The name of the resource group.
    * @param firewallPolicyName The name of the Firewall Policy.
    * @param parameters Will describe the query to run against the IDPS signatures DB
@@ -25,6 +26,6 @@ export interface FirewallPolicyIdpsSignatures {
     resourceGroupName: string,
     firewallPolicyName: string,
     parameters: IdpsQueryObject,
-    options?: FirewallPolicyIdpsSignaturesListOptionalParams
+    options?: FirewallPolicyIdpsSignaturesListOptionalParams,
   ): Promise<FirewallPolicyIdpsSignaturesListResponse>;
 }

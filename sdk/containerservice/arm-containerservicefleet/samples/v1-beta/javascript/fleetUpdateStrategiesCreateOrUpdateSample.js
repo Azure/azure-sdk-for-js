@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create a FleetUpdateStrategy
  *
  * @summary Create a FleetUpdateStrategy
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-08-15-preview/examples/UpdateStrategies_CreateOrUpdate.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2024-02-02-preview/examples/UpdateStrategies_CreateOrUpdate.json
  */
 async function createAFleetUpdateStrategy() {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function createAFleetUpdateStrategy() {
     resourceGroupName,
     fleetName,
     updateStrategyName,
-    resource
+    resource,
   );
   console.log(result);
 }

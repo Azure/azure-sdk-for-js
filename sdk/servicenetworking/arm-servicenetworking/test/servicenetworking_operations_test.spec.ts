@@ -67,6 +67,7 @@ describe("ServiceNetworking test", () => {
       },
       testPollingOptions);
     assert.equal(res.name, trafficControllerName);
+    assert.equal(res.properties?.provisioningState, "Succeeded");
   });
 
   it("trafficControllerInterface get test", async function () {

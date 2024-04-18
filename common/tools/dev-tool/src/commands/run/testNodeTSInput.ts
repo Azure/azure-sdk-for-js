@@ -11,25 +11,25 @@ export const commandInfo = makeCommandInfo(
   "test:node-ts-input",
   "runs the node tests using mocha with the default and the provided options; starts the proxy-tool in record and playback modes",
   {
-    "no-test-proxy": {
-      shortName: "ntp",
+    "test-proxy": {
+      shortName: "tp",
       kind: "boolean",
-      default: false,
-      description: "whether to disable launching test-proxy",
+      default: true,
+      description: "whether to enable launching test-proxy",
     },
-  }
+  },
 );
 
 export default leafCommand(commandInfo, async (options) => {
   const isModuleProj = await isModuleProject();
-  const defaultMochaArgs = `${
-    isModuleProj ? "" : "-r esm "
-  }-r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace`;
+  const reporterArgs =
+    "--reporter ../../../common/tools/mocha-multi-reporter.js --reporter-option output=test-results.xml";
+  const defaultMochaArgs = `--loader=ts-node -r ts-node/register ${reporterArgs} --full-trace`;
   const updatedArgs = options["--"]?.map((opt) =>
-    opt.includes("**") && !opt.startsWith("'") && !opt.startsWith('"') ? `"${opt}"` : opt
+    opt.includes("**") && !opt.startsWith("'") && !opt.startsWith('"') ? `"${opt}"` : opt,
   );
   const mochaArgs = updatedArgs?.length
-    ? updatedArgs?.join(" ")
+    ? updatedArgs.join(" ")
     : '--timeout 1200000 --exclude "test/**/browser/*.spec.ts" "test/**/*.spec.ts"';
   const command = {
     command: isModuleProj
@@ -39,7 +39,7 @@ export default leafCommand(commandInfo, async (options) => {
     name: "node-tests",
   };
 
-  if (!options["no-test-proxy"]) {
+  if (options["test-proxy"]) {
     return runTestsWithProxyTool(command);
   }
 

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete a PreRulesResource
  *
  * @summary Delete a PreRulesResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/PreRules_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PreRules_Delete_MaximumSet_Gen.json
  */
 async function preRulesDeleteMaximumSetGen() {
   const globalRulestackName = "lrs1";
@@ -31,7 +31,7 @@ async function preRulesDeleteMaximumSetGen() {
  * This sample demonstrates how to Delete a PreRulesResource
  *
  * @summary Delete a PreRulesResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/PreRules_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PreRules_Delete_MinimumSet_Gen.json
  */
 async function preRulesDeleteMinimumSetGen() {
   const globalRulestackName = "lrs1";

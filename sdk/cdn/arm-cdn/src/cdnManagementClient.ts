@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
@@ -25,7 +25,6 @@ import {
   RulesImpl,
   SecurityPoliciesImpl,
   SecretsImpl,
-  ValidateImpl,
   LogAnalyticsImpl,
   ProfilesImpl,
   EndpointsImpl,
@@ -36,7 +35,7 @@ import {
   OperationsImpl,
   EdgeNodesImpl,
   PoliciesImpl,
-  ManagedRuleSetsImpl
+  ManagedRuleSetsImpl,
 } from "./operations";
 import {
   AfdProfiles,
@@ -49,7 +48,6 @@ import {
   Rules,
   SecurityPolicies,
   Secrets,
-  Validate,
   LogAnalytics,
   Profiles,
   Endpoints,
@@ -60,7 +58,7 @@ import {
   Operations,
   EdgeNodes,
   Policies,
-  ManagedRuleSets
+  ManagedRuleSets,
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -76,12 +74,12 @@ import {
   CheckNameAvailabilityWithSubscriptionResponse,
   ValidateProbeInput,
   ValidateProbeOptionalParams,
-  ValidateProbeResponse
+  ValidateProbeResponse,
 } from "./models";
 
 export class CdnManagementClient extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId: string;
+  subscriptionId?: string;
   apiVersion: string;
 
   /**
@@ -93,13 +91,27 @@ export class CdnManagementClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: CdnManagementClientOptionalParams
+    options?: CdnManagementClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: CdnManagementClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: CdnManagementClientOptionalParams | string,
+    options?: CdnManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -108,10 +120,10 @@ export class CdnManagementClient extends coreClient.ServiceClient {
     }
     const defaults: CdnManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-cdn/8.0.1`;
+    const packageDetails = `azsdk-js-arm-cdn/9.1.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -121,20 +133,21 @@ export class CdnManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -144,7 +157,7 @@ export class CdnManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -154,9 +167,9 @@ export class CdnManagementClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -164,7 +177,7 @@ export class CdnManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-06-01";
+    this.apiVersion = options.apiVersion || "2024-02-01";
     this.afdProfiles = new AfdProfilesImpl(this);
     this.afdCustomDomains = new AfdCustomDomainsImpl(this);
     this.afdEndpoints = new AfdEndpointsImpl(this);
@@ -175,7 +188,6 @@ export class CdnManagementClient extends coreClient.ServiceClient {
     this.rules = new RulesImpl(this);
     this.securityPolicies = new SecurityPoliciesImpl(this);
     this.secrets = new SecretsImpl(this);
-    this.validate = new ValidateImpl(this);
     this.logAnalytics = new LogAnalyticsImpl(this);
     this.profiles = new ProfilesImpl(this);
     this.endpoints = new EndpointsImpl(this);
@@ -199,7 +211,7 @@ export class CdnManagementClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -213,7 +225,7 @@ export class CdnManagementClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -228,11 +240,11 @@ export class CdnManagementClient extends coreClient.ServiceClient {
   checkEndpointNameAvailability(
     resourceGroupName: string,
     checkEndpointNameAvailabilityInput: CheckEndpointNameAvailabilityInput,
-    options?: CheckEndpointNameAvailabilityOptionalParams
+    options?: CheckEndpointNameAvailabilityOptionalParams,
   ): Promise<CheckEndpointNameAvailabilityResponse> {
     return this.sendOperationRequest(
       { resourceGroupName, checkEndpointNameAvailabilityInput, options },
-      checkEndpointNameAvailabilityOperationSpec
+      checkEndpointNameAvailabilityOperationSpec,
     );
   }
 
@@ -244,11 +256,11 @@ export class CdnManagementClient extends coreClient.ServiceClient {
    */
   checkNameAvailability(
     checkNameAvailabilityInput: CheckNameAvailabilityInput,
-    options?: CheckNameAvailabilityOptionalParams
+    options?: CheckNameAvailabilityOptionalParams,
   ): Promise<CheckNameAvailabilityResponse> {
     return this.sendOperationRequest(
       { checkNameAvailabilityInput, options },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
     );
   }
 
@@ -260,11 +272,11 @@ export class CdnManagementClient extends coreClient.ServiceClient {
    */
   checkNameAvailabilityWithSubscription(
     checkNameAvailabilityInput: CheckNameAvailabilityInput,
-    options?: CheckNameAvailabilityWithSubscriptionOptionalParams
+    options?: CheckNameAvailabilityWithSubscriptionOptionalParams,
   ): Promise<CheckNameAvailabilityWithSubscriptionResponse> {
     return this.sendOperationRequest(
       { checkNameAvailabilityInput, options },
-      checkNameAvailabilityWithSubscriptionOperationSpec
+      checkNameAvailabilityWithSubscriptionOperationSpec,
     );
   }
 
@@ -277,11 +289,11 @@ export class CdnManagementClient extends coreClient.ServiceClient {
    */
   validateProbe(
     validateProbeInput: ValidateProbeInput,
-    options?: ValidateProbeOptionalParams
+    options?: ValidateProbeOptionalParams,
   ): Promise<ValidateProbeResponse> {
     return this.sendOperationRequest(
       { validateProbeInput, options },
-      validateProbeOperationSpec
+      validateProbeOperationSpec,
     );
   }
 
@@ -295,7 +307,6 @@ export class CdnManagementClient extends coreClient.ServiceClient {
   rules: Rules;
   securityPolicies: SecurityPolicies;
   secrets: Secrets;
-  validate: Validate;
   logAnalytics: LogAnalytics;
   profiles: Profiles;
   endpoints: Endpoints;
@@ -312,80 +323,79 @@ export class CdnManagementClient extends coreClient.ServiceClient {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkEndpointNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/checkEndpointNameAvailability",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/checkEndpointNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckEndpointNameAvailabilityOutput
+      bodyMapper: Mappers.CheckEndpointNameAvailabilityOutput,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse
-    }
+      bodyMapper: Mappers.AfdErrorResponse,
+    },
   },
   requestBody: Parameters.checkEndpointNameAvailabilityInput,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Cdn/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameAvailabilityOutput
+      bodyMapper: Mappers.CheckNameAvailabilityOutput,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.checkNameAvailabilityInput,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const checkNameAvailabilityWithSubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Cdn/checkNameAvailability",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CheckNameAvailabilityOutput
+const checkNameAvailabilityWithSubscriptionOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Cdn/checkNameAvailability",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.CheckNameAvailabilityOutput,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.checkNameAvailabilityInput,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
+    requestBody: Parameters.checkNameAvailabilityInput,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [Parameters.$host, Parameters.subscriptionId],
+    headerParameters: [Parameters.contentType, Parameters.accept],
+    mediaType: "json",
+    serializer,
+  };
 const validateProbeOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.Cdn/validateProbe",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ValidateProbeOutput
+      bodyMapper: Mappers.ValidateProbeOutput,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.validateProbeInput,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

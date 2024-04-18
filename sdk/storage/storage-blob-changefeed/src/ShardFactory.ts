@@ -31,7 +31,7 @@ export class ShardFactory {
     containerClient: ContainerClient,
     shardPath: string,
     shardCursor?: ShardCursor,
-    options: CreateShardOptions = {}
+    options: CreateShardOptions = {},
   ): Promise<Shard> {
     return tracingClient.withSpan("ShardFactory-create", options, async (updatedOptions) => {
       const chunks: string[] = [];
@@ -79,7 +79,7 @@ export class ShardFactory {
           {
             abortSignal: options.abortSignal,
             tracingOptions: updatedOptions.tracingOptions,
-          }
+          },
         );
       }
 

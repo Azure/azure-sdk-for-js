@@ -173,7 +173,7 @@ describe("OpenTelemetryInstrumenter", () => {
 
       it("supports spanLinks from traceparentHeader", () => {
         const linkedContext = instrumenter.parseTraceparentHeader(
-          "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
+          "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
         );
 
         const { span } = instrumenter.startSpan("test", {
@@ -262,29 +262,6 @@ describe("OpenTelemetryInstrumenter", () => {
       instrumenter.withContext(activeContext, callback, callbackArg);
 
       assert.isTrue(contextSpy.calledWith(activeContext, callback, undefined, callbackArg));
-    });
-
-    it("works when caller binds `this`", function (this: Context) {
-      // a bit of a silly test but demonstrates how to bind `this` correctly
-      // and ensures the behavior does not regress
-
-      // Function syntax
-      instrumenter.withContext(context.active(), function (this: any) {
-        assert.notExists(this);
-      });
-      instrumenter.withContext(
-        context.active(),
-        function (this: any) {
-          assert.equal(this, 42);
-        }.bind(42)
-      );
-
-      // Arrow syntax
-      // eslint-disable-next-line @typescript-eslint/no-this-alias
-      const that = this;
-      instrumenter.withContext(context.active(), () => {
-        assert.equal(this, that);
-      });
     });
 
     it("Returns the value of the callback", () => {

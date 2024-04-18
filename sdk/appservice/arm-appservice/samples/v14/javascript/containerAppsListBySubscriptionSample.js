@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the Container Apps in a given subscription.
  *
  * @summary Get the Container Apps in a given subscription.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/ListContainerAppsBySubscription.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/ListContainerAppsBySubscription.json
  */
 async function listContainerAppsByResourceGroup() {
   const subscriptionId =

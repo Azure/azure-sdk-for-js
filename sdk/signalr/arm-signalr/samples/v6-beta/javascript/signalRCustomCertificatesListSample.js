@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List all custom certificates.
  *
  * @summary List all custom certificates.
- * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/preview/2023-06-01-preview/examples/SignalRCustomCertificates_List.json
+ * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/preview/2023-08-01-preview/examples/SignalRCustomCertificates_List.json
  */
 async function signalRCustomCertificatesList() {
   const subscriptionId =

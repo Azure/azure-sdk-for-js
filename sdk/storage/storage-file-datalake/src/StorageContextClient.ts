@@ -11,7 +11,7 @@ import { StorageClient } from "./generated/src";
 export class StorageContextClient extends StorageClient {
   async sendOperationRequest<T>(
     operationArguments: OperationArguments,
-    operationSpec: OperationSpec
+    operationSpec: OperationSpec,
   ): Promise<T> {
     const operationSpecToSend = { ...operationSpec };
 
@@ -19,7 +19,7 @@ export class StorageContextClient extends StorageClient {
       !isNode &&
       !operationSpec.requestBody &&
       operationSpec.headerParameters?.some(
-        (param) => param.mapper.serializedName === "Content-Length"
+        (param) => param.mapper.serializedName === "Content-Length",
       )
     ) {
       operationSpecToSend.mediaType = "text";

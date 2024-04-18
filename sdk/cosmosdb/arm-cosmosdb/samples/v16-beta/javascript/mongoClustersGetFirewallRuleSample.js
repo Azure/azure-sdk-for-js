@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets information about a mongo cluster firewall rule.
  *
  * @summary Gets information about a mongo cluster firewall rule.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/mongo-cluster/CosmosDBMongoClusterFirewallRuleGet.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/mongo-cluster/CosmosDBMongoClusterFirewallRuleGet.json
  */
 async function getTheFirewallRuleOfTheMongoCluster() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function getTheFirewallRuleOfTheMongoCluster() {
   const result = await client.mongoClusters.getFirewallRule(
     resourceGroupName,
     mongoClusterName,
-    firewallRuleName
+    firewallRuleName,
   );
   console.log(result);
 }

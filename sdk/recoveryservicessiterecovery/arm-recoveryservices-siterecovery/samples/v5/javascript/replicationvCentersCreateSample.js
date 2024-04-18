@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to create a vCenter object..
  *
  * @summary The operation to create a vCenter object..
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationvCenters_Create.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationvCenters_Create.json
  */
 async function addVCenter() {
   const subscriptionId =
@@ -43,7 +43,7 @@ async function addVCenter() {
     resourceGroupName,
     fabricName,
     vcenterName,
-    addVCenterRequest
+    addVCenterRequest,
   );
   console.log(result);
 }

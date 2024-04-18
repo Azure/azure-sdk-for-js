@@ -36,12 +36,11 @@ export interface AccessToken {
 }
 
 // @public
-export function addCredentialPipelinePolicy(pipeline: Pipeline, baseUrl: string, options?: AddCredentialPipelinePolicyOptions): void;
+export function addCredentialPipelinePolicy(pipeline: Pipeline, endpoint: string, options?: AddCredentialPipelinePolicyOptions): void;
 
 // @public
 export interface AddCredentialPipelinePolicyOptions {
     clientOptions?: ClientOptions;
-    // Warning: (ae-forgotten-export) The symbol "KeyCredential" needs to be exported by the entry point index.d.ts
     credential?: TokenCredential | KeyCredential;
 }
 
@@ -100,6 +99,12 @@ export interface BearerTokenAuthenticationPolicyOptions {
 }
 
 // @public
+export interface BodyPart {
+    body: ((() => ReadableStream<Uint8Array>) | (() => NodeJS.ReadableStream)) | ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob;
+    headers: HttpHeaders;
+}
+
+// @public
 export function cancelablePromiseRace<T extends unknown[]>(abortablePromiseBuilders: AbortablePromiseBuilder<T[number]>[], options?: {
     abortSignal?: AbortSignalLike;
 }): Promise<T[number]>;
@@ -124,6 +129,7 @@ export type ClientOptions = PipelineOptions & {
         apiKeyHeaderName?: string;
     };
     baseUrl?: string;
+    endpoint?: string;
     apiVersion?: string;
     allowInsecureConnection?: boolean;
     additionalPolicies?: AdditionalPolicyConfig[];
@@ -152,6 +158,24 @@ export function createDefaultHttpClient(): HttpClient;
 export function createEmptyPipeline(): Pipeline;
 
 // @public
+export function createFile(content: Uint8Array, name: string, options?: CreateFileOptions): File;
+
+// @public
+export function createFileFromStream(stream: () => ReadableStream<Uint8Array> | NodeJS.ReadableStream, name: string, options?: CreateFileFromStreamOptions): File;
+
+// @public
+export interface CreateFileFromStreamOptions extends CreateFileOptions {
+    size?: number;
+}
+
+// @public
+export interface CreateFileOptions {
+    lastModified?: number;
+    type?: string;
+    webkitRelativePath?: string;
+}
+
+// @public
 export function createHttpHeaders(rawHeaders?: RawHttpHeadersInput): HttpHeaders;
 
 // @public
@@ -159,6 +183,9 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
 
 // @public
 export function createPipelineRequest(options: PipelineRequestOptions): PipelineRequest;
+
+// @public
+export function createRestError(response: PathUncheckedResponse): RestError;
 
 // @public
 export function createRestError(message: string, response: PathUncheckedResponse): RestError;
@@ -198,7 +225,7 @@ interface DelayOptions_2 extends AbortOptions {
 export { DelayOptions_2 as DelayOptions }
 
 // @public
-export type EncodingType = "utf-8" | "base64" | "base64url";
+export type EncodingType = "utf-8" | "base64" | "base64url" | "hex";
 
 // @public
 export interface ErrorModel {
@@ -226,7 +253,7 @@ export function formDataPolicy(): PipelinePolicy;
 export const formDataPolicyName = "formDataPolicy";
 
 // @public
-export type FormDataValue = string | Blob;
+export type FormDataValue = string | Blob | File;
 
 // @public
 export interface FullOperationResponse extends PipelineResponse {
@@ -236,12 +263,12 @@ export interface FullOperationResponse extends PipelineResponse {
 }
 
 // @public
-export function getClient(baseUrl: string, options?: ClientOptions): Client;
+export function getClient(endpoint: string, options?: ClientOptions): Client;
 
 // @public
-export function getClient(baseUrl: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client;
+export function getClient(endpoint: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client;
 
-// @public
+// @public @deprecated
 export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined;
 
 // @public
@@ -346,7 +373,16 @@ export const isDeno: boolean;
 export function isError(e: unknown): e is Error;
 
 // @public
+export function isKeyCredential(credential: unknown): credential is KeyCredential;
+
+// @public @deprecated
 export const isNode: boolean;
+
+// @public
+export const isNodeLike: boolean;
+
+// @public
+export const isNodeRuntime: boolean;
 
 // @public
 export function isObject(input: unknown): input is UnknownObject;
@@ -362,6 +398,11 @@ export function isRestError(e: unknown): e is RestError;
 
 // @public
 export const isWebWorker: boolean;
+
+// @public
+export interface KeyCredential {
+    readonly key: string;
+}
 
 // @public
 export interface KeyObject {
@@ -380,6 +421,18 @@ export interface LogPolicyOptions {
     additionalAllowedHeaderNames?: string[];
     additionalAllowedQueryParameters?: string[];
     logger?: Debugger;
+}
+
+// @public
+export function multipartPolicy(): PipelinePolicy;
+
+// @public
+export const multipartPolicyName = "multipartPolicy";
+
+// @public
+export interface MultipartRequestBody {
+    boundary?: string;
+    parts: BodyPart[];
 }
 
 // @public
@@ -477,6 +530,7 @@ export interface PipelineRequest {
     formData?: FormDataMap;
     headers: HttpHeaders;
     method: HttpMethods;
+    multipartBody?: MultipartRequestBody;
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;
@@ -499,6 +553,7 @@ export interface PipelineRequestOptions {
     formData?: FormDataMap;
     headers?: HttpHeaders;
     method?: HttpMethods;
+    multipartBody?: MultipartRequestBody;
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;
@@ -529,7 +584,7 @@ export interface PipelineRetryOptions {
 }
 
 // @public
-export function proxyPolicy(proxySettings?: ProxySettings | undefined, options?: {
+export function proxyPolicy(proxySettings?: ProxySettings, options?: {
     customNoProxyList?: string[];
 }): PipelinePolicy;
 

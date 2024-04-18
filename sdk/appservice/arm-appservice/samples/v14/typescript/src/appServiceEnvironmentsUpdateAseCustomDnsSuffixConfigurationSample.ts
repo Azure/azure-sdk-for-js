@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update Custom Dns Suffix configuration of an App Service Environment
  *
  * @summary Update Custom Dns Suffix configuration of an App Service Environment
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/UpdateAseCustomDnsSuffixConfiguration.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/UpdateAseCustomDnsSuffixConfiguration.json
  */
 async function updateAseCustomDnsSuffixConfiguration() {
   const subscriptionId =

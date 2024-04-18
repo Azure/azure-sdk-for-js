@@ -28,7 +28,7 @@ async function listAllAzureFirewallFqdnTagsForAGivenSubscription() {
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/azureFirewallFqdnTags",
-      subscriptionId
+      subscriptionId,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

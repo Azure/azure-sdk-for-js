@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the properties of a Container App.
  *
  * @summary Get the properties of a Container App.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/GetContainerApp.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/GetContainerApp.json
  */
 async function getContainerApp() {
   const subscriptionId =

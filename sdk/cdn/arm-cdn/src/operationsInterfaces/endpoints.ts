@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Endpoint,
   EndpointsListByProfileOptionalParams,
@@ -31,7 +31,7 @@ import {
   EndpointsLoadContentOptionalParams,
   ValidateCustomDomainInput,
   EndpointsValidateCustomDomainOptionalParams,
-  EndpointsValidateCustomDomainResponse
+  EndpointsValidateCustomDomainResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -46,7 +46,7 @@ export interface Endpoints {
   listByProfile(
     resourceGroupName: string,
     profileName: string,
-    options?: EndpointsListByProfileOptionalParams
+    options?: EndpointsListByProfileOptionalParams,
   ): PagedAsyncIterableIterator<Endpoint>;
   /**
    * Checks the quota and usage of geo filters and custom domains under the given endpoint.
@@ -59,7 +59,7 @@ export interface Endpoints {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: EndpointsListResourceUsageOptionalParams
+    options?: EndpointsListResourceUsageOptionalParams,
   ): PagedAsyncIterableIterator<ResourceUsage>;
   /**
    * Gets an existing CDN endpoint with the specified endpoint name under the specified subscription,
@@ -73,7 +73,7 @@ export interface Endpoints {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: EndpointsGetOptionalParams
+    options?: EndpointsGetOptionalParams,
   ): Promise<EndpointsGetResponse>;
   /**
    * Creates a new CDN endpoint with the specified endpoint name under the specified subscription,
@@ -89,10 +89,10 @@ export interface Endpoints {
     profileName: string,
     endpointName: string,
     endpoint: Endpoint,
-    options?: EndpointsCreateOptionalParams
+    options?: EndpointsCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<EndpointsCreateResponse>,
+    SimplePollerLike<
+      OperationState<EndpointsCreateResponse>,
       EndpointsCreateResponse
     >
   >;
@@ -110,7 +110,7 @@ export interface Endpoints {
     profileName: string,
     endpointName: string,
     endpoint: Endpoint,
-    options?: EndpointsCreateOptionalParams
+    options?: EndpointsCreateOptionalParams,
   ): Promise<EndpointsCreateResponse>;
   /**
    * Updates an existing CDN endpoint with the specified endpoint name under the specified subscription,
@@ -128,10 +128,10 @@ export interface Endpoints {
     profileName: string,
     endpointName: string,
     endpointUpdateProperties: EndpointUpdateParameters,
-    options?: EndpointsUpdateOptionalParams
+    options?: EndpointsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<EndpointsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<EndpointsUpdateResponse>,
       EndpointsUpdateResponse
     >
   >;
@@ -151,7 +151,7 @@ export interface Endpoints {
     profileName: string,
     endpointName: string,
     endpointUpdateProperties: EndpointUpdateParameters,
-    options?: EndpointsUpdateOptionalParams
+    options?: EndpointsUpdateOptionalParams,
   ): Promise<EndpointsUpdateResponse>;
   /**
    * Deletes an existing CDN endpoint with the specified endpoint name under the specified subscription,
@@ -165,8 +165,8 @@ export interface Endpoints {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: EndpointsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: EndpointsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing CDN endpoint with the specified endpoint name under the specified subscription,
    * resource group and profile.
@@ -179,7 +179,7 @@ export interface Endpoints {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: EndpointsDeleteOptionalParams
+    options?: EndpointsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Starts an existing CDN endpoint that is on a stopped state.
@@ -192,10 +192,10 @@ export interface Endpoints {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: EndpointsStartOptionalParams
+    options?: EndpointsStartOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<EndpointsStartResponse>,
+    SimplePollerLike<
+      OperationState<EndpointsStartResponse>,
       EndpointsStartResponse
     >
   >;
@@ -210,7 +210,7 @@ export interface Endpoints {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: EndpointsStartOptionalParams
+    options?: EndpointsStartOptionalParams,
   ): Promise<EndpointsStartResponse>;
   /**
    * Stops an existing running CDN endpoint.
@@ -223,9 +223,12 @@ export interface Endpoints {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: EndpointsStopOptionalParams
+    options?: EndpointsStopOptionalParams,
   ): Promise<
-    PollerLike<PollOperationState<EndpointsStopResponse>, EndpointsStopResponse>
+    SimplePollerLike<
+      OperationState<EndpointsStopResponse>,
+      EndpointsStopResponse
+    >
   >;
   /**
    * Stops an existing running CDN endpoint.
@@ -238,7 +241,7 @@ export interface Endpoints {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: EndpointsStopOptionalParams
+    options?: EndpointsStopOptionalParams,
   ): Promise<EndpointsStopResponse>;
   /**
    * Removes a content from CDN.
@@ -255,8 +258,8 @@ export interface Endpoints {
     profileName: string,
     endpointName: string,
     contentFilePaths: PurgeParameters,
-    options?: EndpointsPurgeContentOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: EndpointsPurgeContentOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Removes a content from CDN.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
@@ -272,7 +275,7 @@ export interface Endpoints {
     profileName: string,
     endpointName: string,
     contentFilePaths: PurgeParameters,
-    options?: EndpointsPurgeContentOptionalParams
+    options?: EndpointsPurgeContentOptionalParams,
   ): Promise<void>;
   /**
    * Pre-loads a content to CDN. Available for Verizon Profiles.
@@ -288,8 +291,8 @@ export interface Endpoints {
     profileName: string,
     endpointName: string,
     contentFilePaths: LoadParameters,
-    options?: EndpointsLoadContentOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: EndpointsLoadContentOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Pre-loads a content to CDN. Available for Verizon Profiles.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
@@ -304,7 +307,7 @@ export interface Endpoints {
     profileName: string,
     endpointName: string,
     contentFilePaths: LoadParameters,
-    options?: EndpointsLoadContentOptionalParams
+    options?: EndpointsLoadContentOptionalParams,
   ): Promise<void>;
   /**
    * Validates the custom domain mapping to ensure it maps to the correct CDN endpoint in DNS.
@@ -319,6 +322,6 @@ export interface Endpoints {
     profileName: string,
     endpointName: string,
     customDomainProperties: ValidateCustomDomainInput,
-    options?: EndpointsValidateCustomDomainOptionalParams
+    options?: EndpointsValidateCustomDomainOptionalParams,
   ): Promise<EndpointsValidateCustomDomainResponse>;
 }

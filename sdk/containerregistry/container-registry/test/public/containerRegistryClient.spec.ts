@@ -34,7 +34,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       client = createRegistryClient(
         assertEnvironmentVariable("CONTAINER_REGISTRY_ENDPOINT"),
         serviceVersion,
-        recorder
+        recorder,
       );
     });
 

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Route,
   RoutesListByEndpointOptionalParams,
@@ -18,7 +18,7 @@ import {
   RouteUpdateParameters,
   RoutesUpdateOptionalParams,
   RoutesUpdateResponse,
-  RoutesDeleteOptionalParams
+  RoutesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,7 +36,7 @@ export interface Routes {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: RoutesListByEndpointOptionalParams
+    options?: RoutesListByEndpointOptionalParams,
   ): PagedAsyncIterableIterator<Route>;
   /**
    * Gets an existing route with the specified route name under the specified subscription, resource
@@ -53,7 +53,7 @@ export interface Routes {
     profileName: string,
     endpointName: string,
     routeName: string,
-    options?: RoutesGetOptionalParams
+    options?: RoutesGetOptionalParams,
   ): Promise<RoutesGetResponse>;
   /**
    * Creates a new route with the specified route name under the specified subscription, resource group,
@@ -72,9 +72,9 @@ export interface Routes {
     endpointName: string,
     routeName: string,
     route: Route,
-    options?: RoutesCreateOptionalParams
+    options?: RoutesCreateOptionalParams,
   ): Promise<
-    PollerLike<PollOperationState<RoutesCreateResponse>, RoutesCreateResponse>
+    SimplePollerLike<OperationState<RoutesCreateResponse>, RoutesCreateResponse>
   >;
   /**
    * Creates a new route with the specified route name under the specified subscription, resource group,
@@ -93,7 +93,7 @@ export interface Routes {
     endpointName: string,
     routeName: string,
     route: Route,
-    options?: RoutesCreateOptionalParams
+    options?: RoutesCreateOptionalParams,
   ): Promise<RoutesCreateResponse>;
   /**
    * Updates an existing route with the specified route name under the specified subscription, resource
@@ -112,9 +112,9 @@ export interface Routes {
     endpointName: string,
     routeName: string,
     routeUpdateProperties: RouteUpdateParameters,
-    options?: RoutesUpdateOptionalParams
+    options?: RoutesUpdateOptionalParams,
   ): Promise<
-    PollerLike<PollOperationState<RoutesUpdateResponse>, RoutesUpdateResponse>
+    SimplePollerLike<OperationState<RoutesUpdateResponse>, RoutesUpdateResponse>
   >;
   /**
    * Updates an existing route with the specified route name under the specified subscription, resource
@@ -133,7 +133,7 @@ export interface Routes {
     endpointName: string,
     routeName: string,
     routeUpdateProperties: RouteUpdateParameters,
-    options?: RoutesUpdateOptionalParams
+    options?: RoutesUpdateOptionalParams,
   ): Promise<RoutesUpdateResponse>;
   /**
    * Deletes an existing route with the specified route name under the specified subscription, resource
@@ -150,8 +150,8 @@ export interface Routes {
     profileName: string,
     endpointName: string,
     routeName: string,
-    options?: RoutesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: RoutesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing route with the specified route name under the specified subscription, resource
    * group, profile, and AzureFrontDoor endpoint.
@@ -167,6 +167,6 @@ export interface Routes {
     profileName: string,
     endpointName: string,
     routeName: string,
-    options?: RoutesDeleteOptionalParams
+    options?: RoutesDeleteOptionalParams,
   ): Promise<void>;
 }

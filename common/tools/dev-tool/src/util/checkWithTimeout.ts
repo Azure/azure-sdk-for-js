@@ -11,7 +11,7 @@ const log = createPrinter("check-with-timeout");
 export async function checkWithTimeout(
   predicate: () => boolean | Promise<boolean>,
   delayBetweenRetriesInMilliseconds = 1000,
-  maxWaitTimeInMilliseconds = 10000
+  maxWaitTimeInMilliseconds = 10000,
 ): Promise<boolean> {
   const maxTime = Date.now() + maxWaitTimeInMilliseconds;
   while (Date.now() < maxTime) {

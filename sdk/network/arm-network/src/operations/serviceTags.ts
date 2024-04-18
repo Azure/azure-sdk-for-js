@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { NetworkManagementClient } from "../networkManagementClient";
 import {
   ServiceTagsListOptionalParams,
-  ServiceTagsListResponse
+  ServiceTagsListResponse,
 } from "../models";
 
 /** Class containing ServiceTags operations. */
@@ -37,11 +37,11 @@ export class ServiceTagsImpl implements ServiceTags {
    */
   list(
     location: string,
-    options?: ServiceTagsListOptionalParams
+    options?: ServiceTagsListOptionalParams,
   ): Promise<ServiceTagsListResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -49,23 +49,22 @@ export class ServiceTagsImpl implements ServiceTags {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/serviceTags",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/serviceTags",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceTagsListResult
+      bodyMapper: Mappers.ServiceTagsListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

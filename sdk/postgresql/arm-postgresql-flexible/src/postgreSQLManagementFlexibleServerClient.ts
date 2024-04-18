@@ -25,14 +25,20 @@ import {
   DatabasesImpl,
   FirewallRulesImpl,
   ServersImpl,
+  FlexibleServerImpl,
+  LtrBackupOperationsImpl,
   MigrationsImpl,
   OperationsImpl,
   GetPrivateDnsZoneSuffixImpl,
+  PrivateEndpointConnectionsImpl,
+  PrivateEndpointConnectionOperationsImpl,
+  PrivateLinkResourcesImpl,
+  QuotaUsagesImpl,
   ReplicasImpl,
   LogFilesImpl,
-  VirtualNetworkSubnetUsageImpl,
-  FlexibleServerImpl,
-  LtrBackupOperationsImpl
+  ServerThreatProtectionSettingsImpl,
+  VirtualEndpointsImpl,
+  VirtualNetworkSubnetUsageImpl
 } from "./operations";
 import {
   Administrators,
@@ -45,14 +51,20 @@ import {
   Databases,
   FirewallRules,
   Servers,
+  FlexibleServer,
+  LtrBackupOperations,
   Migrations,
   Operations,
   GetPrivateDnsZoneSuffix,
+  PrivateEndpointConnections,
+  PrivateEndpointConnectionOperations,
+  PrivateLinkResources,
+  QuotaUsages,
   Replicas,
   LogFiles,
-  VirtualNetworkSubnetUsage,
-  FlexibleServer,
-  LtrBackupOperations
+  ServerThreatProtectionSettings,
+  VirtualEndpoints,
+  VirtualNetworkSubnetUsage
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -71,7 +83,7 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
   /**
    * Initializes a new instance of the PostgreSQLManagementFlexibleServerClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
@@ -111,7 +123,7 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-postgresql-flexible/8.0.0-beta.4`;
+    const packageDetails = `azsdk-js-arm-postgresql-flexible/8.0.0-beta.6`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -164,7 +176,7 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-03-01-preview";
+    this.apiVersion = options.apiVersion || "2023-06-01-preview";
     this.administrators = new AdministratorsImpl(this);
     this.backups = new BackupsImpl(this);
     this.locationBasedCapabilities = new LocationBasedCapabilitiesImpl(this);
@@ -177,14 +189,24 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
     this.databases = new DatabasesImpl(this);
     this.firewallRules = new FirewallRulesImpl(this);
     this.servers = new ServersImpl(this);
+    this.flexibleServer = new FlexibleServerImpl(this);
+    this.ltrBackupOperations = new LtrBackupOperationsImpl(this);
     this.migrations = new MigrationsImpl(this);
     this.operations = new OperationsImpl(this);
     this.getPrivateDnsZoneSuffix = new GetPrivateDnsZoneSuffixImpl(this);
+    this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
+    this.privateEndpointConnectionOperations = new PrivateEndpointConnectionOperationsImpl(
+      this
+    );
+    this.privateLinkResources = new PrivateLinkResourcesImpl(this);
+    this.quotaUsages = new QuotaUsagesImpl(this);
     this.replicas = new ReplicasImpl(this);
     this.logFiles = new LogFilesImpl(this);
+    this.serverThreatProtectionSettings = new ServerThreatProtectionSettingsImpl(
+      this
+    );
+    this.virtualEndpoints = new VirtualEndpointsImpl(this);
     this.virtualNetworkSubnetUsage = new VirtualNetworkSubnetUsageImpl(this);
-    this.flexibleServer = new FlexibleServerImpl(this);
-    this.ltrBackupOperations = new LtrBackupOperationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -253,14 +275,20 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
   databases: Databases;
   firewallRules: FirewallRules;
   servers: Servers;
+  flexibleServer: FlexibleServer;
+  ltrBackupOperations: LtrBackupOperations;
   migrations: Migrations;
   operations: Operations;
   getPrivateDnsZoneSuffix: GetPrivateDnsZoneSuffix;
+  privateEndpointConnections: PrivateEndpointConnections;
+  privateEndpointConnectionOperations: PrivateEndpointConnectionOperations;
+  privateLinkResources: PrivateLinkResources;
+  quotaUsages: QuotaUsages;
   replicas: Replicas;
   logFiles: LogFiles;
+  serverThreatProtectionSettings: ServerThreatProtectionSettings;
+  virtualEndpoints: VirtualEndpoints;
   virtualNetworkSubnetUsage: VirtualNetworkSubnetUsage;
-  flexibleServer: FlexibleServer;
-  ltrBackupOperations: LtrBackupOperations;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -277,7 +305,7 @@ const checkMigrationNameAvailabilityOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters10,
+  requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

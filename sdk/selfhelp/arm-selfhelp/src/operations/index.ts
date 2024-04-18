@@ -7,5 +7,8 @@
  */
 
 export * from "./operations";
+export * from "./checkNameAvailability";
 export * from "./diagnostics";
 export * from "./discoverySolution";
+export * from "./solution";
+export * from "./troubleshooters";

@@ -35,7 +35,7 @@ async function createSubnet() {
       subscriptionId,
       resourceGroupName,
       virtualNetworkName,
-      subnetName
+      subnetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -67,7 +67,7 @@ async function createSubnetWithADelegation() {
       subscriptionId,
       resourceGroupName,
       virtualNetworkName,
-      subnetName
+      subnetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -104,7 +104,7 @@ async function createSubnetWithServiceEndpoints() {
       subscriptionId,
       resourceGroupName,
       virtualNetworkName,
-      subnetName
+      subnetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

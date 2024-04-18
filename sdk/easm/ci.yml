@@ -26,5 +26,5 @@ extends:
   parameters:
     ServiceDirectory: easm
     Artifacts:
-      - name: azure-easm-defender
-        safeName: azureeasmdefender
+      - name: azure-rest-defender-easm
+        safeName: azurerestdefendereasm

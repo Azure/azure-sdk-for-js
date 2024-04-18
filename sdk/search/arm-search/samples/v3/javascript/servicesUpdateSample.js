@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { SearchManagementClient } = require("@azure/arm-search");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Updates an existing search service in the given resource group.
  *
  * @summary Updates an existing search service in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/SearchUpdateService.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchUpdateService.json
  */
 async function searchUpdateService() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
   const searchServiceName = "mysearchservice";
   const service = {
     replicaCount: 2,
@@ -31,21 +32,22 @@ async function searchUpdateService() {
   console.log(result);
 }
 
-searchUpdateService().catch(console.error);
-
 /**
  * This sample demonstrates how to Updates an existing search service in the given resource group.
  *
  * @summary Updates an existing search service in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/SearchUpdateServiceToRemoveIdentity.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchUpdateServiceAuthOptions.json
  */
-async function searchUpdateServiceToRemoveIdentity() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+async function searchUpdateServiceAuthOptions() {
+  const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
   const searchServiceName = "mysearchservice";
   const service = {
-    identity: { type: "None" },
-    sku: { name: "standard" },
+    authOptions: {
+      aadOrApiKey: { aadAuthFailureMode: "http401WithBearerChallenge" },
+    },
+    replicaCount: 2,
+    tags: { appName: "My e-commerce app", newTag: "Adding a new tag" },
   };
   const credential = new DefaultAzureCredential();
   const client = new SearchManagementClient(credential, subscriptionId);
@@ -53,17 +55,36 @@ async function searchUpdateServiceToRemoveIdentity() {
   console.log(result);
 }
 
-searchUpdateServiceToRemoveIdentity().catch(console.error);
+/**
+ * This sample demonstrates how to Updates an existing search service in the given resource group.
+ *
+ * @summary Updates an existing search service in the given resource group.
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchUpdateServiceDisableLocalAuth.json
+ */
+async function searchUpdateServiceDisableLocalAuth() {
+  const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
+  const searchServiceName = "mysearchservice";
+  const service = {
+    disableLocalAuth: true,
+    replicaCount: 2,
+    tags: { appName: "My e-commerce app", newTag: "Adding a new tag" },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new SearchManagementClient(credential, subscriptionId);
+  const result = await client.services.update(resourceGroupName, searchServiceName, service);
+  console.log(result);
+}
 
 /**
  * This sample demonstrates how to Updates an existing search service in the given resource group.
  *
  * @summary Updates an existing search service in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/SearchUpdateServiceToAllowAccessFromPrivateEndpoints.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchUpdateServiceToAllowAccessFromPrivateEndpoints.json
  */
 async function searchUpdateServiceToAllowAccessFromPrivateEndpoints() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
   const searchServiceName = "mysearchservice";
   const service = {
     partitionCount: 1,
@@ -76,17 +97,15 @@ async function searchUpdateServiceToAllowAccessFromPrivateEndpoints() {
   console.log(result);
 }
 
-searchUpdateServiceToAllowAccessFromPrivateEndpoints().catch(console.error);
-
 /**
  * This sample demonstrates how to Updates an existing search service in the given resource group.
  *
  * @summary Updates an existing search service in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/SearchUpdateServiceToAllowAccessFromPublicCustomIPs.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchUpdateServiceToAllowAccessFromPublicCustomIPs.json
  */
 async function searchUpdateServiceToAllowAccessFromPublicCustomIPs() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
   const searchServiceName = "mysearchservice";
   const service = {
     networkRuleSet: {
@@ -102,4 +121,77 @@ async function searchUpdateServiceToAllowAccessFromPublicCustomIPs() {
   console.log(result);
 }
 
-searchUpdateServiceToAllowAccessFromPublicCustomIPs().catch(console.error);
+/**
+ * This sample demonstrates how to Updates an existing search service in the given resource group.
+ *
+ * @summary Updates an existing search service in the given resource group.
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchUpdateServiceToRemoveIdentity.json
+ */
+async function searchUpdateServiceToRemoveIdentity() {
+  const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
+  const searchServiceName = "mysearchservice";
+  const service = {
+    identity: { type: "None" },
+    sku: { name: "standard" },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new SearchManagementClient(credential, subscriptionId);
+  const result = await client.services.update(resourceGroupName, searchServiceName, service);
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Updates an existing search service in the given resource group.
+ *
+ * @summary Updates an existing search service in the given resource group.
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchUpdateServiceWithCmkEnforcement.json
+ */
+async function searchUpdateServiceWithCmkEnforcement() {
+  const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
+  const searchServiceName = "mysearchservice";
+  const service = {
+    encryptionWithCmk: { enforcement: "Enabled" },
+    replicaCount: 2,
+    tags: { appName: "My e-commerce app", newTag: "Adding a new tag" },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new SearchManagementClient(credential, subscriptionId);
+  const result = await client.services.update(resourceGroupName, searchServiceName, service);
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Updates an existing search service in the given resource group.
+ *
+ * @summary Updates an existing search service in the given resource group.
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchUpdateServiceWithSemanticSearch.json
+ */
+async function searchUpdateServiceWithSemanticSearch() {
+  const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
+  const searchServiceName = "mysearchservice";
+  const service = {
+    replicaCount: 2,
+    semanticSearch: "standard",
+    tags: { appName: "My e-commerce app", newTag: "Adding a new tag" },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new SearchManagementClient(credential, subscriptionId);
+  const result = await client.services.update(resourceGroupName, searchServiceName, service);
+  console.log(result);
+}
+
+async function main() {
+  searchUpdateService();
+  searchUpdateServiceAuthOptions();
+  searchUpdateServiceDisableLocalAuth();
+  searchUpdateServiceToAllowAccessFromPrivateEndpoints();
+  searchUpdateServiceToAllowAccessFromPublicCustomIPs();
+  searchUpdateServiceToRemoveIdentity();
+  searchUpdateServiceWithCmkEnforcement();
+  searchUpdateServiceWithSemanticSearch();
+}
+
+main().catch(console.error);

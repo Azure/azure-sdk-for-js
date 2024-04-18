@@ -31,7 +31,7 @@ async function listRolesInACloudService() {
   const resArray = new Array();
   for await (let item of client.cloudServiceRoles.list(
     resourceGroupName,
-    cloudServiceName
+    cloudServiceName,
   )) {
     resArray.push(item);
   }

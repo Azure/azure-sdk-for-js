@@ -13,16 +13,22 @@ import {
   HybridComputeManagementClient
 } from "@azure/arm-hybridcompute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates (or updates) a Azure Arc PrivateLinkScope. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.
  *
  * @summary Creates (or updates) a Azure Arc PrivateLinkScope. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2021-06-10-preview/examples/PrivateLinkScopesCreate.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-06-20-preview/examples/privateLinkScope/PrivateLinkScopes_Create.json
  */
 async function privateLinkScopeCreate() {
-  const subscriptionId = "86dc51d3-92ed-4d7e-947a-775ea79b4919";
-  const resourceGroupName = "my-resource-group";
+  const subscriptionId =
+    process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] ||
+    "86dc51d3-92ed-4d7e-947a-775ea79b4919";
+  const resourceGroupName =
+    process.env["HYBRIDCOMPUTE_RESOURCE_GROUP"] || "my-resource-group";
   const scopeName = "my-privatelinkscope";
   const parameters: HybridComputePrivateLinkScope = { location: "westus" };
   const credential = new DefaultAzureCredential();
@@ -35,17 +41,18 @@ async function privateLinkScopeCreate() {
   console.log(result);
 }
 
-privateLinkScopeCreate().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates (or updates) a Azure Arc PrivateLinkScope. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.
  *
  * @summary Creates (or updates) a Azure Arc PrivateLinkScope. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2021-06-10-preview/examples/PrivateLinkScopesUpdate.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-06-20-preview/examples/privateLinkScope/PrivateLinkScopes_Update.json
  */
 async function privateLinkScopeUpdate() {
-  const subscriptionId = "86dc51d3-92ed-4d7e-947a-775ea79b4919";
-  const resourceGroupName = "my-resource-group";
+  const subscriptionId =
+    process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] ||
+    "86dc51d3-92ed-4d7e-947a-775ea79b4919";
+  const resourceGroupName =
+    process.env["HYBRIDCOMPUTE_RESOURCE_GROUP"] || "my-resource-group";
   const scopeName = "my-privatelinkscope";
   const parameters: HybridComputePrivateLinkScope = {
     location: "westus",
@@ -61,4 +68,9 @@ async function privateLinkScopeUpdate() {
   console.log(result);
 }
 
-privateLinkScopeUpdate().catch(console.error);
+async function main() {
+  privateLinkScopeCreate();
+  privateLinkScopeUpdate();
+}
+
+main().catch(console.error);

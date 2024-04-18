@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves the metrics determined by the given filter for the given collection and region, split by partition.
  *
  * @summary Retrieves the metrics determined by the given filter for the given collection and region, split by partition.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBCollectionPartitionRegionGetMetrics.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBCollectionPartitionRegionGetMetrics.json
  */
 async function cosmosDbDatabaseAccountRegionGetMetrics() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -38,7 +38,7 @@ async function cosmosDbDatabaseAccountRegionGetMetrics() {
     region,
     databaseRid,
     collectionRid,
-    filter
+    filter,
   )) {
     resArray.push(item);
   }

@@ -111,7 +111,7 @@ export class DocumentModelAdministrationClient {
   public constructor(
     endpoint: string,
     credential: TokenCredential,
-    options?: DocumentModelAdministrationClientOptions
+    options?: DocumentModelAdministrationClientOptions,
   );
   /**
    * Create a DocumentModelAdministrationClient instance from a resource endpoint and a static API key
@@ -135,7 +135,7 @@ export class DocumentModelAdministrationClient {
   public constructor(
     endpoint: string,
     credential: KeyCredential,
-    options?: DocumentModelAdministrationClientOptions
+    options?: DocumentModelAdministrationClientOptions,
   );
   /**
    * @hidden
@@ -143,12 +143,12 @@ export class DocumentModelAdministrationClient {
   public constructor(
     endpoint: string,
     credential: KeyCredential | TokenCredential,
-    options?: DocumentModelAdministrationClientOptions
+    options?: DocumentModelAdministrationClientOptions,
   );
   public constructor(
     endpoint: string,
     credential: KeyCredential | TokenCredential,
-    options: DocumentModelAdministrationClientOptions = {}
+    options: DocumentModelAdministrationClientOptions = {},
   ) {
     this._restClient = makeServiceClient(endpoint, credential, options);
     this._tracing = createTracingClient({
@@ -206,7 +206,7 @@ export class DocumentModelAdministrationClient {
     modelId: string,
     containerUrl: string,
     buildMode: DocumentModelBuildMode,
-    options?: BeginBuildDocumentModelOptions
+    options?: BeginBuildDocumentModelOptions,
   ): Promise<DocumentModelPoller>;
 
   /**
@@ -251,14 +251,14 @@ export class DocumentModelAdministrationClient {
     modelId: string,
     contentSource: DocumentModelSource,
     buildMode: DocumentModelBuildMode,
-    options?: BeginBuildDocumentModelOptions
+    options?: BeginBuildDocumentModelOptions,
   ): Promise<DocumentModelPoller>;
 
   public async beginBuildDocumentModel(
     modelId: string,
     urlOrSource: string | DocumentModelSource,
     buildMode: DocumentModelBuildMode,
-    options: BeginBuildDocumentModelOptions = {}
+    options: BeginBuildDocumentModelOptions = {},
   ): Promise<DocumentModelPoller> {
     const sourceInfo =
       typeof urlOrSource === "string"
@@ -286,9 +286,9 @@ export class DocumentModelAdministrationClient {
               {
                 ...finalOptions,
                 abortSignal: ctx.abortSignal,
-              }
+              },
             ),
-        })
+        }),
     );
   }
 
@@ -334,7 +334,7 @@ export class DocumentModelAdministrationClient {
   public async beginComposeDocumentModel(
     modelId: string,
     componentModelIds: Iterable<string>,
-    options: BeginComposeDocumentModelOptions = {}
+    options: BeginComposeDocumentModelOptions = {},
   ): Promise<DocumentModelPoller> {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.beginComposeDocumentModel",
@@ -355,9 +355,9 @@ export class DocumentModelAdministrationClient {
               {
                 ...finalOptions,
                 abortSignal: ctx.abortSignal,
-              }
+              },
             ),
-        })
+        }),
     );
   }
 
@@ -381,7 +381,7 @@ export class DocumentModelAdministrationClient {
    */
   public async getCopyAuthorization(
     destinationModelId: string,
-    options: GetCopyAuthorizationOptions = {}
+    options: GetCopyAuthorizationOptions = {},
   ): Promise<CopyAuthorization> {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.getCopyAuthorization",
@@ -393,8 +393,8 @@ export class DocumentModelAdministrationClient {
             description: finalOptions.description,
             tags: finalOptions.tags,
           },
-          finalOptions
-        )
+          finalOptions,
+        ),
     );
   }
 
@@ -438,7 +438,7 @@ export class DocumentModelAdministrationClient {
   public async beginCopyModelTo(
     sourceModelId: string,
     authorization: CopyAuthorization,
-    options: BeginCopyModelOptions = {}
+    options: BeginCopyModelOptions = {},
   ): Promise<DocumentModelPoller> {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.beginCopyModel",
@@ -448,7 +448,7 @@ export class DocumentModelAdministrationClient {
           options: finalOptions,
           start: () =>
             this._restClient.documentModels.copyModelTo(sourceModelId, authorization, finalOptions),
-        })
+        }),
     );
   }
 
@@ -525,7 +525,7 @@ export class DocumentModelAdministrationClient {
   public async beginBuildDocumentClassifier(
     classifierId: string,
     docTypeSources: DocumentClassifierDocumentTypeSources,
-    options: BeginBuildDocumentClassifierOptions = {}
+    options: BeginBuildDocumentClassifierOptions = {},
   ): Promise<DocumentClassifierPoller> {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.beginBuildDocumentClassifier",
@@ -540,9 +540,9 @@ export class DocumentModelAdministrationClient {
                 description: finalOptions.description,
                 docTypes: docTypeSources,
               },
-              finalOptions
+              finalOptions,
             ),
-        })
+        }),
     );
   }
 
@@ -557,7 +557,7 @@ export class DocumentModelAdministrationClient {
    * @returns a model poller (produces a ModelDetails)
    */
   private async createAdministrationPoller<State extends AdministrationOperationState>(
-    definition: TrainingOperationDefinition<State>
+    definition: TrainingOperationDefinition<State>,
   ): Promise<
     State extends DocumentModelOperationState ? DocumentModelPoller : DocumentClassifierPoller
   > {
@@ -574,7 +574,7 @@ export class DocumentModelAdministrationClient {
 
                 if (operationLocation === undefined) {
                   throw new Error(
-                    "Unable to start model creation operation: no Operation-Location received."
+                    "Unable to start model creation operation: no Operation-Location received.",
                   );
                 }
 
@@ -601,9 +601,9 @@ export class DocumentModelAdministrationClient {
                     },
                     headerParameters: [accept1],
                     serializer: SERIALIZER,
-                  }
+                  },
                 ) as Promise<OperationDetails>;
-              }
+              },
             )
         : (ctx: OperationContext) =>
             this._tracing.withSpan(
@@ -618,7 +618,7 @@ export class DocumentModelAdministrationClient {
                   },
                   ...options,
                 });
-              }
+              },
             );
 
     const poller = await lro<
@@ -642,12 +642,12 @@ export class DocumentModelAdministrationClient {
               });
 
               return toTrainingPollOperationState(res as DocumentModelBuildResponse);
-            }
+            },
           ),
         serialize: ({ operationId }) => JSON.stringify({ operationId }),
       },
       definition.options.updateIntervalInMs,
-      definition.options.abortSignal
+      definition.options.abortSignal,
     );
 
     if (definition.options.onProgress !== undefined) {
@@ -670,7 +670,7 @@ export class DocumentModelAdministrationClient {
       rawResponse: FullOperationResponse,
       ctx: OperationContext,
       options: PollerOptions<State> & OperationOptions,
-      args: [flatResponse: unknown, error?: unknown]
+      args: [flatResponse: unknown, error?: unknown],
     ) {
       const retryAfterHeader = rawResponse.headers.get("retry-after");
       // Convert the header value to milliseconds. If the header is not a valid number, then it is an HTTP
@@ -717,7 +717,7 @@ export class DocumentModelAdministrationClient {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.getResourceDetails",
       options,
-      (finalOptions) => this._restClient.miscellaneous.getResourceInfo(finalOptions)
+      (finalOptions) => this._restClient.miscellaneous.getResourceInfo(finalOptions),
     );
   }
 
@@ -765,12 +765,12 @@ export class DocumentModelAdministrationClient {
    */
   public getDocumentModel(
     modelId: string,
-    options: GetModelOptions = {}
+    options: GetModelOptions = {},
   ): Promise<DocumentModelDetails> {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.getDocumentModel",
       options,
-      (finalOptions) => this._restClient.documentModels.getModel(modelId, finalOptions)
+      (finalOptions) => this._restClient.documentModels.getModel(modelId, finalOptions),
     );
   }
 
@@ -830,7 +830,7 @@ export class DocumentModelAdministrationClient {
    * @returns an async iterable of model summaries that supports paging
    */
   public listDocumentModels(
-    options: ListModelsOptions = {}
+    options: ListModelsOptions = {},
   ): PagedAsyncIterableIterator<DocumentModelSummary> {
     return this._restClient.documentModels.listModels(options);
   }
@@ -849,12 +849,12 @@ export class DocumentModelAdministrationClient {
    */
   public deleteDocumentModel(
     modelId: string,
-    options: DeleteDocumentModelOptions = {}
+    options: DeleteDocumentModelOptions = {},
   ): Promise<void> {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.deleteDocumentModel",
       options,
-      (finalOptions) => this._restClient.documentModels.deleteModel(modelId, finalOptions)
+      (finalOptions) => this._restClient.documentModels.deleteModel(modelId, finalOptions),
     );
   }
 
@@ -891,13 +891,13 @@ export class DocumentModelAdministrationClient {
    */
   public getDocumentClassifier(
     classifierId: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<DocumentClassifierDetails> {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.getDocumentClassifier",
       options,
       (finalOptions) =>
-        this._restClient.documentClassifiers.getClassifier(classifierId, finalOptions)
+        this._restClient.documentClassifiers.getClassifier(classifierId, finalOptions),
     );
   }
 
@@ -940,7 +940,7 @@ export class DocumentModelAdministrationClient {
    * @returns an async iterable of classifier details that supports paging
    */
   public listDocumentClassifiers(
-    options: ListModelsOptions = {}
+    options: ListModelsOptions = {},
   ): PagedAsyncIterableIterator<DocumentClassifierDetails> {
     return this._restClient.documentClassifiers.listClassifiers(options);
   }
@@ -959,13 +959,13 @@ export class DocumentModelAdministrationClient {
    */
   public deleteDocumentClassifier(
     classifierId: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<void> {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.deleteDocumentClassifier",
       options,
       (finalOptions) =>
-        this._restClient.documentClassifiers.deleteClassifier(classifierId, finalOptions)
+        this._restClient.documentClassifiers.deleteClassifier(classifierId, finalOptions),
     );
   }
 
@@ -1000,12 +1000,12 @@ export class DocumentModelAdministrationClient {
    */
   public getOperation(
     operationId: string,
-    options: GetOperationOptions = {}
+    options: GetOperationOptions = {},
   ): Promise<OperationDetails> {
     return this._tracing.withSpan(
       "DocumentModelAdministrationClient.getOperation",
       options,
-      (finalOptions) => this._restClient.miscellaneous.getOperation(operationId, finalOptions)
+      (finalOptions) => this._restClient.miscellaneous.getOperation(operationId, finalOptions),
     );
   }
 
@@ -1049,7 +1049,7 @@ export class DocumentModelAdministrationClient {
    * @returns an async iterable of operation information objects that supports paging
    */
   public listOperations(
-    options: ListOperationsOptions = {}
+    options: ListOperationsOptions = {},
   ): PagedAsyncIterableIterator<OperationSummary> {
     return this._restClient.miscellaneous.listOperations(options);
   }
