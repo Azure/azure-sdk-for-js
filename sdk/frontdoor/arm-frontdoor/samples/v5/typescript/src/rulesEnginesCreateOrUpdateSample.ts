@@ -38,18 +38,18 @@ async function createOrUpdateASpecificRulesEngineConfiguration() {
             customPath: "/api",
             customQueryString: "a=b",
             redirectProtocol: "HttpsOnly",
-            redirectType: "Moved"
-          }
+            redirectType: "Moved",
+          },
         },
         matchConditions: [
           {
             rulesEngineMatchValue: ["CH"],
             rulesEngineMatchVariable: "RemoteAddr",
-            rulesEngineOperator: "GeoMatch"
-          }
+            rulesEngineOperator: "GeoMatch",
+          },
         ],
         matchProcessingBehavior: "Stop",
-        priority: 1
+        priority: 1,
       },
       {
         name: "Rule2",
@@ -58,19 +58,19 @@ async function createOrUpdateASpecificRulesEngineConfiguration() {
             {
               headerActionType: "Overwrite",
               headerName: "Cache-Control",
-              value: "public, max-age=31536000"
-            }
-          ]
+              value: "public, max-age=31536000",
+            },
+          ],
         },
         matchConditions: [
           {
             rulesEngineMatchValue: ["jpg"],
             rulesEngineMatchVariable: "RequestFilenameExtension",
             rulesEngineOperator: "Equal",
-            transforms: ["Lowercase"]
-          }
+            transforms: ["Lowercase"],
+          },
         ],
-        priority: 2
+        priority: 2,
       },
       {
         name: "Rule3",
@@ -79,18 +79,17 @@ async function createOrUpdateASpecificRulesEngineConfiguration() {
             odataType:
               "#Microsoft.Azure.FrontDoor.Models.FrontdoorForwardingConfiguration",
             backendPool: {
-              id:
-                "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1/backendPools/backendPool1"
+              id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1/backendPools/backendPool1",
             },
             cacheConfiguration: {
               cacheDuration: "P1DT12H20M30S",
               dynamicCompression: "Disabled",
               queryParameterStripDirective: "StripOnly",
-              queryParameters: "a=b,p=q"
+              queryParameters: "a=b,p=q",
             },
             customForwardingPath: undefined,
-            forwardingProtocol: "HttpsOnly"
-          }
+            forwardingProtocol: "HttpsOnly",
+          },
         },
         matchConditions: [
           {
@@ -99,12 +98,12 @@ async function createOrUpdateASpecificRulesEngineConfiguration() {
             rulesEngineMatchVariable: "RequestHeader",
             rulesEngineOperator: "Equal",
             selector: "Rules-Engine-Route-Forward",
-            transforms: ["Lowercase"]
-          }
+            transforms: ["Lowercase"],
+          },
         ],
-        priority: 3
-      }
-    ]
+        priority: 3,
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new FrontDoorManagementClient(credential, subscriptionId);
@@ -112,7 +111,7 @@ async function createOrUpdateASpecificRulesEngineConfiguration() {
     resourceGroupName,
     frontDoorName,
     rulesEngineName,
-    rulesEngineParameters
+    rulesEngineParameters,
   );
   console.log(result);
 }

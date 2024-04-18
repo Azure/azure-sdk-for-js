@@ -7,7 +7,7 @@ import { PipelinePolicy } from "../src/pipeline.js";
 import { createHttpHeaders } from "../src/httpHeaders.js";
 import { createPipelineFromOptions } from "../src/createPipelineFromOptions.js";
 import { createPipelineRequest } from "../src/pipelineRequest.js";
-import { isNode } from "../src/util/checkEnvironment.js";
+import { isNodeLike } from "../src/util/checkEnvironment.js";
 
 describe("defaultLogPolicy", function () {
   it("should be invoked on every retry", async function () {
@@ -30,7 +30,7 @@ describe("defaultLogPolicy", function () {
 
     const orderedPolicies = pipeline.getOrderedPolicies();
 
-    const expectedOrderedPolicies = isNode ? ["proxyPolicy", "decompressResponsePolicy"] : [];
+    const expectedOrderedPolicies = isNodeLike ? ["proxyPolicy", "decompressResponsePolicy"] : [];
     expectedOrderedPolicies.push(
       "formDataPolicy",
       "userAgentPolicy",
@@ -38,7 +38,7 @@ describe("defaultLogPolicy", function () {
       "defaultRetryPolicy",
       "tracingPolicy",
     );
-    if (isNode) {
+    if (isNodeLike) {
       expectedOrderedPolicies.push("redirectPolicy");
     }
     expectedOrderedPolicies.push("testSignPolicy", "logPolicy");

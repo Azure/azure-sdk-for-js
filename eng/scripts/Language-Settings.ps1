@@ -373,7 +373,7 @@ function Find-javascript-Artifacts-For-Apireview($artifactDir, $packageName) {
   $artifactPath = Join-Path $artifactDir $packageName
   if (Test-Path $artifactPath) {
     Write-Host "Searching for *.api.json in path $($artifactPath)"
-    $files = Get-ChildItem "${artifactPath}" | Where-Object -FilterScript { $_.Name.EndsWith(".api.json") }
+    $files =  @(Get-ChildItem "${artifactPath}" | Where-Object -FilterScript { $_.Name.EndsWith(".api.json") })
     if (!$files) {
       Write-Host "$($packageName) does not have api review json"
       Write-Host "API Extractor must be enabled for $($packageName). Please ensure api-extractor.json is present in package directory and api extract script included in build script"

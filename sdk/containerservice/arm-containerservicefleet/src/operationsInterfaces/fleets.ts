@@ -21,7 +21,7 @@ import {
   FleetsUpdateResponse,
   FleetsDeleteOptionalParams,
   FleetsListCredentialsOptionalParams,
-  FleetsListCredentialsResponse
+  FleetsListCredentialsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface Fleets {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: FleetsListBySubscriptionOptionalParams
+    options?: FleetsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Fleet>;
   /**
    * Lists fleets in the specified subscription and resource group.
@@ -41,7 +41,7 @@ export interface Fleets {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: FleetsListByResourceGroupOptionalParams
+    options?: FleetsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Fleet>;
   /**
    * Gets a Fleet.
@@ -52,7 +52,7 @@ export interface Fleets {
   get(
     resourceGroupName: string,
     fleetName: string,
-    options?: FleetsGetOptionalParams
+    options?: FleetsGetOptionalParams,
   ): Promise<FleetsGetResponse>;
   /**
    * Creates or updates a Fleet.
@@ -65,7 +65,7 @@ export interface Fleets {
     resourceGroupName: string,
     fleetName: string,
     resource: Fleet,
-    options?: FleetsCreateOrUpdateOptionalParams
+    options?: FleetsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<FleetsCreateOrUpdateResponse>,
@@ -83,7 +83,7 @@ export interface Fleets {
     resourceGroupName: string,
     fleetName: string,
     resource: Fleet,
-    options?: FleetsCreateOrUpdateOptionalParams
+    options?: FleetsCreateOrUpdateOptionalParams,
   ): Promise<FleetsCreateOrUpdateResponse>;
   /**
    * Update a Fleet
@@ -96,7 +96,7 @@ export interface Fleets {
     resourceGroupName: string,
     fleetName: string,
     properties: FleetPatch,
-    options?: FleetsUpdateOptionalParams
+    options?: FleetsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<FleetsUpdateResponse>, FleetsUpdateResponse>
   >;
@@ -111,7 +111,7 @@ export interface Fleets {
     resourceGroupName: string,
     fleetName: string,
     properties: FleetPatch,
-    options?: FleetsUpdateOptionalParams
+    options?: FleetsUpdateOptionalParams,
   ): Promise<FleetsUpdateResponse>;
   /**
    * Delete a Fleet
@@ -122,7 +122,7 @@ export interface Fleets {
   beginDelete(
     resourceGroupName: string,
     fleetName: string,
-    options?: FleetsDeleteOptionalParams
+    options?: FleetsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a Fleet
@@ -133,7 +133,7 @@ export interface Fleets {
   beginDeleteAndWait(
     resourceGroupName: string,
     fleetName: string,
-    options?: FleetsDeleteOptionalParams
+    options?: FleetsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Lists the user credentials of a Fleet.
@@ -144,6 +144,6 @@ export interface Fleets {
   listCredentials(
     resourceGroupName: string,
     fleetName: string,
-    options?: FleetsListCredentialsOptionalParams
+    options?: FleetsListCredentialsOptionalParams,
   ): Promise<FleetsListCredentialsResponse>;
 }
