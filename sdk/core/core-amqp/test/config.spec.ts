@@ -102,7 +102,8 @@ describe("ConnectionConfig", function () {
       const config = ConnectionConfig.create(
         "Endpoint=sb://localhost:6765;SharedAccessKeyName=<< REDACTED >>;SharedAccessKey=<< REDACTED >>;UseDevelopmentEmulator=true",
       );
-      config.should.have.property("endpoint").that.equals("localhost:6765/");
+      config.should.have.property("endpoint").that.equals("sb://localhost:6765/");
+      config.should.have.property("host").that.equals("localhost:6765");
       config.should.have.property("useDevelopmentEmulator").that.equals(true);
     });
 
