@@ -202,6 +202,7 @@ describe("sendRequest", () => {
       const mockPipeline: Pipeline = createEmptyPipeline();
       mockPipeline.sendRequest = async (_client, request) => {
         assert.deepEqual(request.multipartBody, expectedBody);
+        assert.equal(request.headers.get("content-type"), "multipart/form-data");
         return { headers: createHttpHeaders() } as PipelineResponse;
       };
 
@@ -227,6 +228,7 @@ describe("sendRequest", () => {
       const mockPipeline: Pipeline = createEmptyPipeline();
       mockPipeline.sendRequest = async (_client, request) => {
         assert.deepEqual(request.multipartBody, expectedBody);
+        assert.equal(request.headers.get("content-type"), "multipart/form-data");
 
         return { headers: createHttpHeaders() } as PipelineResponse;
       };
@@ -272,6 +274,7 @@ describe("sendRequest", () => {
       const mockPipeline: Pipeline = createEmptyPipeline();
       mockPipeline.sendRequest = async (_client, request) => {
         assert.deepEqual(request.multipartBody, expectedBody);
+        assert.equal(request.headers.get("content-type"), "multipart/form-data");
 
         return { headers: createHttpHeaders() } as PipelineResponse;
       };
@@ -339,6 +342,7 @@ describe("sendRequest", () => {
       const mockPipeline = createEmptyPipeline();
       mockPipeline.sendRequest = async (_client, request) => {
         assert.deepEqual(request.multipartBody, expectedBody);
+        assert.equal(request.headers.get("content-type"), "multipart/form-data");
 
         return { headers: createHttpHeaders() } as PipelineResponse;
       };

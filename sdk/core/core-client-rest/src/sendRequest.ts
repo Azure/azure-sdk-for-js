@@ -104,7 +104,7 @@ function buildPipelineRequest(
 ): PipelineRequest {
   const requestContentType = getRequestContentType(options);
   const { body, formData, multipartBody } = getRequestBody(options.body, requestContentType);
-  const hasContent = body !== undefined || formData !== undefined;
+  const hasContent = body !== undefined || formData !== undefined || multipartBody !== undefined;
 
   const headers = createHttpHeaders({
     ...(options.headers ? options.headers : {}),
