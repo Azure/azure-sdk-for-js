@@ -306,6 +306,15 @@ export type ClientSideRequestStatistics = {
     totalResponsePayloadLengthInBytes: number;
 };
 
+// @public (undocumented)
+export interface ComputedProperty {
+    // (undocumented)
+    [key: string]: any;
+    name: string;
+    // (undocumented)
+    query: string;
+}
+
 // @public
 export class Conflict {
     constructor(container: Container, id: string, clientContext: ClientContext, partitionKey?: PartitionKey);
@@ -593,6 +602,7 @@ export class Container {
 
 // @public (undocumented)
 export interface ContainerDefinition {
+    computedProperties?: ComputedProperty[];
     conflictResolutionPolicy?: ConflictResolutionPolicy;
     defaultTtl?: number;
     geospatialConfig?: {
