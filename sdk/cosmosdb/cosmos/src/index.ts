@@ -62,7 +62,7 @@ export {
   UserDefinedFunctionType,
   VectorEmbeddingPolicy,
   VectorIndex,
-  VectorEmbedding
+  VectorEmbedding,
 } from "./documents";
 
 export { UniqueKeyPolicy, UniqueKey } from "./client/Container/UniqueKeyPolicy";
