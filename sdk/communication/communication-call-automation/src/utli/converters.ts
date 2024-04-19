@@ -14,6 +14,8 @@ import {
   SerializedCommunicationIdentifier,
   isMicrosoftTeamsUserIdentifier,
   MicrosoftTeamsUserIdentifier,
+  isMicrosoftTeamsAppIdentifier,
+  MicrosoftTeamsAppIdentifier,
 } from "@azure/communication-common";
 import {
   CallParticipantInternal,
@@ -116,6 +118,18 @@ export function communicationIdentifierConverter(
     return microsoftTeamsUserIdentifier;
   }
 
+  if (
+    kind === KnownCommunicationIdentifierModelKind.MicrosoftTeamsApp &&
+    identifierModel.microsoftTeamsApp !== undefined
+  ) {
+    const microsoftTeamsAppIdentifier: MicrosoftTeamsAppIdentifier = {
+      teamsAppId: identifierModel.microsoftTeamsApp.appId,
+      cloud: identifierModel.microsoftTeamsApp.cloud as "public" | "dod" | "gcch" | undefined,
+      rawId: rawId,
+    };
+    return microsoftTeamsAppIdentifier;
+  }
+
   const unknownIdentifier: UnknownIdentifier = {
     id: rawId ? rawId : "",
   };
@@ -150,6 +164,14 @@ export function communicationIdentifierModelConverter(
       ...serializedIdentifier,
     };
     return microsoftTeamsUserIdentifierModel;
+  }
+
+  if (isMicrosoftTeamsAppIdentifier(identifier)) {
+    const microsoftTeamsAppIdentifier: CommunicationIdentifierModel = {
+      kind: KnownCommunicationIdentifierModelKind.MicrosoftTeamsApp,
+      ...serializedIdentifier,
+    };
+    return microsoftTeamsAppIdentifier;
   }
 
   if (isUnknownIdentifier(identifier)) {

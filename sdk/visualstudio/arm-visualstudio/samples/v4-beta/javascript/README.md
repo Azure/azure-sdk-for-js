@@ -60,23 +60,23 @@ npx cross-env  node accountsCheckNameAvailabilitySample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[accountschecknameavailabilitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4-beta/javascript/accountsCheckNameAvailabilitySample.js
-[accountscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4-beta/javascript/accountsCreateOrUpdateSample.js
-[accountsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4-beta/javascript/accountsDeleteSample.js
-[accountsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4-beta/javascript/accountsGetSample.js
-[accountslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4-beta/javascript/accountsListByResourceGroupSample.js
-[accountsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4-beta/javascript/accountsUpdateSample.js
-[extensionscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4-beta/javascript/extensionsCreateSample.js
-[extensionsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4-beta/javascript/extensionsDeleteSample.js
-[extensionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4-beta/javascript/extensionsGetSample.js
-[extensionslistbyaccountsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4-beta/javascript/extensionsListByAccountSample.js
-[extensionsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4-beta/javascript/extensionsUpdateSample.js
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4-beta/javascript/operationsListSample.js
-[projectscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4-beta/javascript/projectsCreateSample.js
-[projectsgetjobstatussample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4-beta/javascript/projectsGetJobStatusSample.js
-[projectsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4-beta/javascript/projectsGetSample.js
-[projectslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4-beta/javascript/projectsListByResourceGroupSample.js
-[projectsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4-beta/javascript/projectsUpdateSample.js
+[accountschecknameavailabilitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4/javascript/accountsCheckNameAvailabilitySample.js
+[accountscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4/javascript/accountsCreateOrUpdateSample.js
+[accountsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4/javascript/accountsDeleteSample.js
+[accountsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4/javascript/accountsGetSample.js
+[accountslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4/javascript/accountsListByResourceGroupSample.js
+[accountsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4/javascript/accountsUpdateSample.js
+[extensionscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4/javascript/extensionsCreateSample.js
+[extensionsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4/javascript/extensionsDeleteSample.js
+[extensionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4/javascript/extensionsGetSample.js
+[extensionslistbyaccountsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4/javascript/extensionsListByAccountSample.js
+[extensionsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4/javascript/extensionsUpdateSample.js
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4/javascript/operationsListSample.js
+[projectscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4/javascript/projectsCreateSample.js
+[projectsgetjobstatussample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4/javascript/projectsGetJobStatusSample.js
+[projectsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4/javascript/projectsGetSample.js
+[projectslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4/javascript/projectsListByResourceGroupSample.js
+[projectsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/visualstudio/arm-visualstudio/samples/v4/javascript/projectsUpdateSample.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-visualstudio?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/visualstudio/arm-visualstudio/README.md

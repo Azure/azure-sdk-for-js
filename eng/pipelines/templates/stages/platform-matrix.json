@@ -18,8 +18,8 @@
       }
     },
     "NodeTestVersion": [
-      "18.x",
-      "20.x",
+      "18.20.2",
+      "20.12.2",
       "21.2.0"
     ],
     "TestType": "node",
@@ -48,7 +48,7 @@
           "TestResultsFiles": "**/test-results.browser.xml"
         }
       },
-      "NodeTestVersion": "18.x"
+      "NodeTestVersion": "18.20.2"
     },
     {
       "Agent": {

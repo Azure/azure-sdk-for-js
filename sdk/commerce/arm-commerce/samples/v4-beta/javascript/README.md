@@ -45,8 +45,8 @@ npx cross-env  node getRateCard.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[getratecard]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/commerce/arm-commerce/samples/v4-beta/javascript/getRateCard.js
-[ratecardgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/commerce/arm-commerce/samples/v4-beta/javascript/rateCardGetSample.js
+[getratecard]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/commerce/arm-commerce/samples/v4/javascript/getRateCard.js
+[ratecardgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/commerce/arm-commerce/samples/v4/javascript/rateCardGetSample.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-commerce?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/commerce/arm-commerce/README.md
