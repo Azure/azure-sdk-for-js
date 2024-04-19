@@ -413,10 +413,13 @@ async function main(){
     azureExtensionOptions: {
       extensions: [
         {
-          type: "AzureCognitiveSearch",
-          endpoint: "<Azure Cognitive Search endpoint>",
-          key: "<Azure Cognitive Search admin key>",
-          indexName: "<Azure Cognitive Search index name>",
+          type: "azure_search",
+          endpoint: "<Azure Search endpoint>",
+          indexName: "<Azure Search index name>",
+          authentication: {
+            type: "api_key",
+            key: "<Azure Search admin key>",
+          },
         },
       ],
     },
