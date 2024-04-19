@@ -12,6 +12,4 @@ extends:
       PackageName: "@azure-rest/ai-translation-text"
       ServiceDirectory: translation
       Location: "${{ parameters.Location }}"
-      CloudConfig:
-        Public:
       SupportedClouds: 'Public'

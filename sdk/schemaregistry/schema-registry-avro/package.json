@@ -75,7 +75,7 @@
     "@azure/logger": "^1.0.0",
     "@azure/schema-registry": "1.2.0",
     "avsc": "^5.5.1",
-    "lru-cache": "^7.4.1",
+    "lru-cache": "^10.2.0",
     "tslib": "^2.2.0"
   },
   "devDependencies": {
@@ -115,7 +115,7 @@
     "process": "^0.11.10",
     "rimraf": "^5.0.5",
     "stream": "^0.0.2",
-    "typescript": "~5.3.3",
+    "typescript": "~5.4.5",
     "uuid": "^8.3.0",
     "ts-node": "^10.0.0",
     "esm": "^3.2.18"

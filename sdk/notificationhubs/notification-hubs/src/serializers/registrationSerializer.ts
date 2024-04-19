@@ -805,8 +805,8 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
     return {
       ...serializeRegistrationDescription(description),
       Endpoint: description.endpoint,
-      Auth: description.auth,
       P256DH: description.p256dh,
+      Auth: description.auth,
     };
   },
 

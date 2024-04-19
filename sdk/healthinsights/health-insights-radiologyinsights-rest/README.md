@@ -8,6 +8,7 @@
 
 Key links:
 [Source code] | [Package (NPM)] | [API reference documentation] | [Product Information] | [Samples]
+[Source code] | [Package (NPM)] | [API reference documentation] | [Product Information] | [Samples]
 
 ## Getting started
 

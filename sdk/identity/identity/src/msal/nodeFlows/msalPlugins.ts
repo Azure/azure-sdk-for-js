@@ -3,7 +3,7 @@
 
 import * as msalNode from "@azure/msal-node";
 
-import { CACHE_CAE_SUFFIX, CACHE_NON_CAE_SUFFIX } from "../../constants";
+import { CACHE_CAE_SUFFIX, CACHE_NON_CAE_SUFFIX, DEFAULT_TOKEN_CACHE_NAME } from "../../constants";
 
 import { MsalClientOptions } from "./msalClient";
 import { NativeBrokerPluginControl } from "../../plugins/provider";
@@ -103,12 +103,13 @@ function generatePluginConfiguration(options: MsalClientOptions): PluginConfigur
       );
     }
 
+    const cacheBaseName = options.tokenCachePersistenceOptions.name || DEFAULT_TOKEN_CACHE_NAME;
     config.cache.cachePlugin = persistenceProvider({
-      name: `${options.tokenCachePersistenceOptions.name}.${CACHE_NON_CAE_SUFFIX}`,
+      name: `${cacheBaseName}.${CACHE_NON_CAE_SUFFIX}`,
       ...options.tokenCachePersistenceOptions,
     });
     config.cache.cachePluginCae = persistenceProvider({
-      name: `${options.tokenCachePersistenceOptions.name}.${CACHE_CAE_SUFFIX}`,
+      name: `${cacheBaseName}.${CACHE_CAE_SUFFIX}`,
       ...options.tokenCachePersistenceOptions,
     });
   }

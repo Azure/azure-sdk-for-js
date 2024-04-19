@@ -16,7 +16,7 @@ import { ContainerServiceFleetClient } from "../containerServiceFleetClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -32,7 +32,7 @@ import {
   FleetMembersUpdateOptionalParams,
   FleetMembersUpdateResponse,
   FleetMembersDeleteOptionalParams,
-  FleetMembersListByFleetNextResponse
+  FleetMembersListByFleetNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,12 +57,12 @@ export class FleetMembersImpl implements FleetMembers {
   public listByFleet(
     resourceGroupName: string,
     fleetName: string,
-    options?: FleetMembersListByFleetOptionalParams
+    options?: FleetMembersListByFleetOptionalParams,
   ): PagedAsyncIterableIterator<FleetMember> {
     const iter = this.listByFleetPagingAll(
       resourceGroupName,
       fleetName,
-      options
+      options,
     );
     return {
       next() {
@@ -79,9 +79,9 @@ export class FleetMembersImpl implements FleetMembers {
           resourceGroupName,
           fleetName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -89,7 +89,7 @@ export class FleetMembersImpl implements FleetMembers {
     resourceGroupName: string,
     fleetName: string,
     options?: FleetMembersListByFleetOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<FleetMember[]> {
     let result: FleetMembersListByFleetResponse;
     let continuationToken = settings?.continuationToken;
@@ -105,7 +105,7 @@ export class FleetMembersImpl implements FleetMembers {
         resourceGroupName,
         fleetName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,12 +117,12 @@ export class FleetMembersImpl implements FleetMembers {
   private async *listByFleetPagingAll(
     resourceGroupName: string,
     fleetName: string,
-    options?: FleetMembersListByFleetOptionalParams
+    options?: FleetMembersListByFleetOptionalParams,
   ): AsyncIterableIterator<FleetMember> {
     for await (const page of this.listByFleetPagingPage(
       resourceGroupName,
       fleetName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -137,11 +137,11 @@ export class FleetMembersImpl implements FleetMembers {
   private _listByFleet(
     resourceGroupName: string,
     fleetName: string,
-    options?: FleetMembersListByFleetOptionalParams
+    options?: FleetMembersListByFleetOptionalParams,
   ): Promise<FleetMembersListByFleetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, fleetName, options },
-      listByFleetOperationSpec
+      listByFleetOperationSpec,
     );
   }
 
@@ -156,11 +156,11 @@ export class FleetMembersImpl implements FleetMembers {
     resourceGroupName: string,
     fleetName: string,
     fleetMemberName: string,
-    options?: FleetMembersGetOptionalParams
+    options?: FleetMembersGetOptionalParams,
   ): Promise<FleetMembersGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, fleetName, fleetMemberName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -177,7 +177,7 @@ export class FleetMembersImpl implements FleetMembers {
     fleetName: string,
     fleetMemberName: string,
     resource: FleetMember,
-    options?: FleetMembersCreateOptionalParams
+    options?: FleetMembersCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<FleetMembersCreateResponse>,
@@ -186,21 +186,20 @@ export class FleetMembersImpl implements FleetMembers {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<FleetMembersCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -209,8 +208,8 @@ export class FleetMembersImpl implements FleetMembers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -218,8 +217,8 @@ export class FleetMembersImpl implements FleetMembers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -230,9 +229,9 @@ export class FleetMembersImpl implements FleetMembers {
         fleetName,
         fleetMemberName,
         resource,
-        options
+        options,
       },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       FleetMembersCreateResponse,
@@ -240,7 +239,7 @@ export class FleetMembersImpl implements FleetMembers {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -259,14 +258,14 @@ export class FleetMembersImpl implements FleetMembers {
     fleetName: string,
     fleetMemberName: string,
     resource: FleetMember,
-    options?: FleetMembersCreateOptionalParams
+    options?: FleetMembersCreateOptionalParams,
   ): Promise<FleetMembersCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       fleetName,
       fleetMemberName,
       resource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -284,7 +283,7 @@ export class FleetMembersImpl implements FleetMembers {
     fleetName: string,
     fleetMemberName: string,
     properties: FleetMemberUpdate,
-    options?: FleetMembersUpdateOptionalParams
+    options?: FleetMembersUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<FleetMembersUpdateResponse>,
@@ -293,21 +292,20 @@ export class FleetMembersImpl implements FleetMembers {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<FleetMembersUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -316,8 +314,8 @@ export class FleetMembersImpl implements FleetMembers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -325,8 +323,8 @@ export class FleetMembersImpl implements FleetMembers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -337,9 +335,9 @@ export class FleetMembersImpl implements FleetMembers {
         fleetName,
         fleetMemberName,
         properties,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       FleetMembersUpdateResponse,
@@ -347,7 +345,7 @@ export class FleetMembersImpl implements FleetMembers {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "original-uri",
     });
     await poller.poll();
     return poller;
@@ -366,14 +364,14 @@ export class FleetMembersImpl implements FleetMembers {
     fleetName: string,
     fleetMemberName: string,
     properties: FleetMemberUpdate,
-    options?: FleetMembersUpdateOptionalParams
+    options?: FleetMembersUpdateOptionalParams,
   ): Promise<FleetMembersUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       fleetName,
       fleetMemberName,
       properties,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -389,25 +387,24 @@ export class FleetMembersImpl implements FleetMembers {
     resourceGroupName: string,
     fleetName: string,
     fleetMemberName: string,
-    options?: FleetMembersDeleteOptionalParams
+    options?: FleetMembersDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -416,8 +413,8 @@ export class FleetMembersImpl implements FleetMembers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -425,20 +422,20 @@ export class FleetMembersImpl implements FleetMembers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, fleetName, fleetMemberName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -455,13 +452,13 @@ export class FleetMembersImpl implements FleetMembers {
     resourceGroupName: string,
     fleetName: string,
     fleetMemberName: string,
-    options?: FleetMembersDeleteOptionalParams
+    options?: FleetMembersDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       fleetName,
       fleetMemberName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -477,11 +474,11 @@ export class FleetMembersImpl implements FleetMembers {
     resourceGroupName: string,
     fleetName: string,
     nextLink: string,
-    options?: FleetMembersListByFleetNextOptionalParams
+    options?: FleetMembersListByFleetNextOptionalParams,
   ): Promise<FleetMembersListByFleetNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, fleetName, nextLink, options },
-      listByFleetNextOperationSpec
+      listByFleetNextOperationSpec,
     );
   }
 }
@@ -489,38 +486,15 @@ export class FleetMembersImpl implements FleetMembers {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByFleetOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/members",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/members",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FleetMemberListResult
+      bodyMapper: Mappers.FleetMemberListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.fleetName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/members/{fleetMemberName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.FleetMember
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -528,31 +502,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.fleetName,
-    Parameters.fleetMemberName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/members/{fleetMemberName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FleetMember,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.fleetName,
+    Parameters.fleetMemberName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/members/{fleetMemberName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/members/{fleetMemberName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.FleetMember
+      bodyMapper: Mappers.FleetMember,
     },
     201: {
-      bodyMapper: Mappers.FleetMember
+      bodyMapper: Mappers.FleetMember,
     },
     202: {
-      bodyMapper: Mappers.FleetMember
+      bodyMapper: Mappers.FleetMember,
     },
     204: {
-      bodyMapper: Mappers.FleetMember
+      bodyMapper: Mappers.FleetMember,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.resource1,
   queryParameters: [Parameters.apiVersion],
@@ -561,37 +555,36 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.fleetName,
-    Parameters.fleetMemberName
+    Parameters.fleetMemberName,
   ],
   headerParameters: [
     Parameters.accept,
     Parameters.contentType,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/members/{fleetMemberName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/members/{fleetMemberName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.FleetMember
+      bodyMapper: Mappers.FleetMember,
     },
     201: {
-      bodyMapper: Mappers.FleetMember
+      bodyMapper: Mappers.FleetMember,
     },
     202: {
-      bodyMapper: Mappers.FleetMember
+      bodyMapper: Mappers.FleetMember,
     },
     204: {
-      bodyMapper: Mappers.FleetMember
+      bodyMapper: Mappers.FleetMember,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.properties1,
   queryParameters: [Parameters.apiVersion],
@@ -600,19 +593,18 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.fleetName,
-    Parameters.fleetMemberName
+    Parameters.fleetMemberName,
   ],
   headerParameters: [
     Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/members/{fleetMemberName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/members/{fleetMemberName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -620,8 +612,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -629,29 +621,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.fleetName,
-    Parameters.fleetMemberName
+    Parameters.fleetMemberName,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch],
-  serializer
+  serializer,
 };
 const listByFleetNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FleetMemberListResult
+      bodyMapper: Mappers.FleetMemberListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.fleetName
+    Parameters.fleetName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

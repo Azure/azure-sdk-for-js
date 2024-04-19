@@ -1,7 +1,7 @@
 {
   "name": "@azure/event-hubs",
   "sdk-type": "client",
-  "version": "5.11.4",
+  "version": "5.11.5",
   "description": "Azure Event Hubs SDK for JS.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -155,7 +155,7 @@
     "rimraf": "^5.0.5",
     "sinon": "^17.0.0",
     "ts-node": "^10.0.0",
-    "typescript": "~5.3.3",
+    "typescript": "~5.4.5",
     "ws": "^8.2.0"
   }
 }

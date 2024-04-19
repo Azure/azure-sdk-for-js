@@ -15,7 +15,7 @@ import {
   ImagesGetResponse,
   ImagesCreateOrUpdateOptionalParams,
   ImagesCreateOrUpdateResponse,
-  ImagesDeleteOptionalParams
+  ImagesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,26 +30,26 @@ export interface Images {
   listByCatalog(
     resourceGroupName: string,
     catalogName: string,
-    options?: ImagesListByCatalogOptionalParams
+    options?: ImagesListByCatalogOptionalParams,
   ): PagedAsyncIterableIterator<Image>;
   /**
    * Get a Image
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param catalogName Name of catalog
-   * @param imageName Image name. Use .default for image creation.
+   * @param imageName Image name. Use an image GUID for GA versions of the API.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     catalogName: string,
     imageName: string,
-    options?: ImagesGetOptionalParams
+    options?: ImagesGetOptionalParams,
   ): Promise<ImagesGetResponse>;
   /**
    * Create a Image
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param catalogName Name of catalog
-   * @param imageName Image name. Use .default for image creation.
+   * @param imageName Image name. Use an image GUID for GA versions of the API.
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
@@ -58,7 +58,7 @@ export interface Images {
     catalogName: string,
     imageName: string,
     resource: Image,
-    options?: ImagesCreateOrUpdateOptionalParams
+    options?: ImagesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ImagesCreateOrUpdateResponse>,
@@ -69,7 +69,7 @@ export interface Images {
    * Create a Image
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param catalogName Name of catalog
-   * @param imageName Image name. Use .default for image creation.
+   * @param imageName Image name. Use an image GUID for GA versions of the API.
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
@@ -78,32 +78,32 @@ export interface Images {
     catalogName: string,
     imageName: string,
     resource: Image,
-    options?: ImagesCreateOrUpdateOptionalParams
+    options?: ImagesCreateOrUpdateOptionalParams,
   ): Promise<ImagesCreateOrUpdateResponse>;
   /**
    * Delete a Image
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param catalogName Name of catalog
-   * @param imageName Image name. Use .default for image creation.
+   * @param imageName Image name. Use an image GUID for GA versions of the API.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     catalogName: string,
     imageName: string,
-    options?: ImagesDeleteOptionalParams
+    options?: ImagesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a Image
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param catalogName Name of catalog
-   * @param imageName Image name. Use .default for image creation.
+   * @param imageName Image name. Use an image GUID for GA versions of the API.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     catalogName: string,
     imageName: string,
-    options?: ImagesDeleteOptionalParams
+    options?: ImagesDeleteOptionalParams,
   ): Promise<void>;
 }

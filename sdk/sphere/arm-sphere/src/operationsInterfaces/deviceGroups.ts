@@ -23,7 +23,7 @@ import {
   DeviceGroupsClaimDevicesOptionalParams,
   DeviceGroupsClaimDevicesResponse,
   DeviceGroupsCountDevicesOptionalParams,
-  DeviceGroupsCountDevicesResponse
+  DeviceGroupsCountDevicesResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export interface DeviceGroups {
     resourceGroupName: string,
     catalogName: string,
     productName: string,
-    options?: DeviceGroupsListByProductOptionalParams
+    options?: DeviceGroupsListByProductOptionalParams,
   ): PagedAsyncIterableIterator<DeviceGroup>;
   /**
    * Get a DeviceGroup. '.default' and '.unassigned' are system defined values and cannot be used for
@@ -57,7 +57,7 @@ export interface DeviceGroups {
     catalogName: string,
     productName: string,
     deviceGroupName: string,
-    options?: DeviceGroupsGetOptionalParams
+    options?: DeviceGroupsGetOptionalParams,
   ): Promise<DeviceGroupsGetResponse>;
   /**
    * Create a DeviceGroup. '.default' and '.unassigned' are system defined values and cannot be used for
@@ -75,7 +75,7 @@ export interface DeviceGroups {
     productName: string,
     deviceGroupName: string,
     resource: DeviceGroup,
-    options?: DeviceGroupsCreateOrUpdateOptionalParams
+    options?: DeviceGroupsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeviceGroupsCreateOrUpdateResponse>,
@@ -98,7 +98,7 @@ export interface DeviceGroups {
     productName: string,
     deviceGroupName: string,
     resource: DeviceGroup,
-    options?: DeviceGroupsCreateOrUpdateOptionalParams
+    options?: DeviceGroupsCreateOrUpdateOptionalParams,
   ): Promise<DeviceGroupsCreateOrUpdateResponse>;
   /**
    * Update a DeviceGroup. '.default' and '.unassigned' are system defined values and cannot be used for
@@ -116,7 +116,7 @@ export interface DeviceGroups {
     productName: string,
     deviceGroupName: string,
     properties: DeviceGroupUpdate,
-    options?: DeviceGroupsUpdateOptionalParams
+    options?: DeviceGroupsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeviceGroupsUpdateResponse>,
@@ -139,7 +139,7 @@ export interface DeviceGroups {
     productName: string,
     deviceGroupName: string,
     properties: DeviceGroupUpdate,
-    options?: DeviceGroupsUpdateOptionalParams
+    options?: DeviceGroupsUpdateOptionalParams,
   ): Promise<DeviceGroupsUpdateResponse>;
   /**
    * Delete a DeviceGroup. '.default' and '.unassigned' are system defined values and cannot be used for
@@ -155,7 +155,7 @@ export interface DeviceGroups {
     catalogName: string,
     productName: string,
     deviceGroupName: string,
-    options?: DeviceGroupsDeleteOptionalParams
+    options?: DeviceGroupsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a DeviceGroup. '.default' and '.unassigned' are system defined values and cannot be used for
@@ -171,7 +171,7 @@ export interface DeviceGroups {
     catalogName: string,
     productName: string,
     deviceGroupName: string,
-    options?: DeviceGroupsDeleteOptionalParams
+    options?: DeviceGroupsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Bulk claims the devices. Use '.unassigned' or '.default' for the device group and product names when
@@ -189,7 +189,7 @@ export interface DeviceGroups {
     productName: string,
     deviceGroupName: string,
     claimDevicesRequest: ClaimDevicesRequest,
-    options?: DeviceGroupsClaimDevicesOptionalParams
+    options?: DeviceGroupsClaimDevicesOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeviceGroupsClaimDevicesResponse>,
@@ -212,7 +212,7 @@ export interface DeviceGroups {
     productName: string,
     deviceGroupName: string,
     claimDevicesRequest: ClaimDevicesRequest,
-    options?: DeviceGroupsClaimDevicesOptionalParams
+    options?: DeviceGroupsClaimDevicesOptionalParams,
   ): Promise<DeviceGroupsClaimDevicesResponse>;
   /**
    * Counts devices in device group. '.default' and '.unassigned' are system defined values and cannot be
@@ -228,6 +228,6 @@ export interface DeviceGroups {
     catalogName: string,
     productName: string,
     deviceGroupName: string,
-    options?: DeviceGroupsCountDevicesOptionalParams
+    options?: DeviceGroupsCountDevicesOptionalParams,
   ): Promise<DeviceGroupsCountDevicesResponse>;
 }

@@ -81,6 +81,7 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure-tools/test-credential": "^1.0.4",
     "@azure-tools/test-recorder": "^3.0.0",
     "@azure/test-utils": "^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",
@@ -107,9 +108,8 @@
     "puppeteer": "^22.2.0",
     "rimraf": "^3.0.2",
     "ts-node": "^10.0.0",
-    "typescript": "~5.3.3",
-    "util": "^0.12.4",
-    "@azure-tools/test-credential": "~1.0.0"
+    "typescript": "~5.4.5",
+    "util": "^0.12.4"
   },
   "dependencies": {
     "@azure-rest/core-client": "^1.1.2",

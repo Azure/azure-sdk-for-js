@@ -1,10 +1,31 @@
 # Release History
 
-## Unreleased ()
+## 1.4.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.4.0 (2024-04-16)
+
+- Capture live metrics and live metrics activation in statsbeat.
 
 ### Features Added
 
 - Add support for Trace based sampling for logs.
+
+### Bugs Fixed
+
+- Handle Parsing Nested Objects in Integration Tests.
+
+### Other Changes
+
+- When log sampling, check for spanId instead of traceId.
+- Update OpenTelemetry depdendencies.
 
 ## 1.3.0 (2024-02-13)
 

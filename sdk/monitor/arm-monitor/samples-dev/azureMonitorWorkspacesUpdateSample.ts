@@ -11,7 +11,7 @@
 import {
   AzureMonitorWorkspaceResourceForUpdate,
   AzureMonitorWorkspacesUpdateOptionalParams,
-  MonitorClient
+  MonitorClient,
 } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -19,36 +19,35 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Updates part of a workspace
+ * This sample demonstrates how to Updates part of an Azure Monitor Workspace
  *
- * @summary Updates part of a workspace
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Monitor/preview/2021-06-03-preview/examples/AzureMonitorWorkspacesUpdate.json
+ * @summary Updates part of an Azure Monitor Workspace
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Monitor/stable/2023-04-03/examples/AzureMonitorWorkspacesUpdate.json
  */
-async function updateWorkspace() {
+async function updateAnAzureMonitorWorkspace() {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] ||
     "703362b3-f278-4e4b-9179-c76eaf41ffc2";
   const resourceGroupName =
     process.env["MONITOR_RESOURCE_GROUP"] || "myResourceGroup";
   const azureMonitorWorkspaceName = "myAzureMonitorWorkspace";
-  const azureMonitorWorkspaceProperties: AzureMonitorWorkspaceResourceForUpdate = {
-    tags: { tag1: "A", tag2: "B", tag3: "C" }
-  };
+  const azureMonitorWorkspaceProperties: AzureMonitorWorkspaceResourceForUpdate =
+    { tags: { tag1: "A", tag2: "B", tag3: "C" } };
   const options: AzureMonitorWorkspacesUpdateOptionalParams = {
-    azureMonitorWorkspaceProperties
+    azureMonitorWorkspaceProperties,
   };
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.azureMonitorWorkspaces.update(
     resourceGroupName,
     azureMonitorWorkspaceName,
-    options
+    options,
   );
   console.log(result);
 }
 
 async function main() {
-  updateWorkspace();
+  updateAnAzureMonitorWorkspace();
 }
 
 main().catch(console.error);

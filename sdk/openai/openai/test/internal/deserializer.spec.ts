@@ -277,6 +277,7 @@ describe("deserializers", () => {
     it("should deserialize chat completions result", () => {
       const body = {
         id: "123",
+        model: "gpt-35-turbo-16k",
         created,
         prompt_filter_results: [
           {
@@ -307,6 +308,7 @@ describe("deserializers", () => {
               role: "bot",
               content: "Hello",
             },
+            logprobs: null,
             index: 0,
             finish_reason: "stop",
             content_filter_results: {
@@ -337,6 +339,7 @@ describe("deserializers", () => {
 
       assert.deepStrictEqual(result, {
         id: "123",
+        model: "gpt-35-turbo-16k",
         systemFingerprint: "123",
         created: new Date("2022-01-01T00:00:00.000Z"),
         promptFilterResults: [
@@ -367,8 +370,8 @@ describe("deserializers", () => {
             message: {
               role: "bot",
               content: "Hello",
-              toolCalls: [],
             },
+            logprobs: null,
             index: 0,
             finishReason: "stop",
             contentFilterResults: {
@@ -398,6 +401,7 @@ describe("deserializers", () => {
     it("should deserialize chat completions result with old name for prompt filter results", () => {
       const body = {
         id: "123",
+        model: "gpt-35-turbo-16k",
         created,
         prompt_annotations: [
           {
@@ -428,6 +432,7 @@ describe("deserializers", () => {
               role: "bot",
               content: "Hello",
             },
+            logprobs: null,
             index: 0,
             finish_reason: "stop",
             content_filter_results: {
@@ -454,10 +459,11 @@ describe("deserializers", () => {
         system_fingerprint: "123",
       };
 
-      const result = getChatCompletionsResult(body as any);
+      const result = getChatCompletionsResult(body);
 
       assert.deepStrictEqual(result, {
         id: "123",
+        model: "gpt-35-turbo-16k",
         systemFingerprint: "123",
         created: new Date("2022-01-01T00:00:00.000Z"),
         promptFilterResults: [
@@ -488,8 +494,8 @@ describe("deserializers", () => {
             message: {
               role: "bot",
               content: "Hello",
-              toolCalls: [],
             },
+            logprobs: null,
             index: 0,
             finishReason: "stop",
             contentFilterResults: {
@@ -520,6 +526,7 @@ describe("deserializers", () => {
       const body = {
         id: "123",
         created,
+        model: "gpt-35-turbo-16k",
         prompt_filter_results: [
           {
             prompt_index: 0,
@@ -538,6 +545,7 @@ describe("deserializers", () => {
               role: "bot",
               content: "Hello",
             },
+            logprobs: null,
             index: 0,
             finish_reason: "stop",
             content_filter_results: {
@@ -557,6 +565,7 @@ describe("deserializers", () => {
 
       assert.deepStrictEqual(result, {
         id: "123",
+        model: "gpt-35-turbo-16k",
         systemFingerprint: "123",
         created: new Date("2022-01-01T00:00:00.000Z"),
         promptFilterResults: [
@@ -576,8 +585,8 @@ describe("deserializers", () => {
             message: {
               role: "bot",
               content: "Hello",
-              toolCalls: [],
             },
+            logprobs: null,
             index: 0,
             finishReason: "stop",
             contentFilterResults: {
@@ -596,6 +605,7 @@ describe("deserializers", () => {
     it("should deserialize in chat completions result without choices", () => {
       const body = {
         id: "123",
+        model: "gpt-35-turbo-16k",
         created,
         prompt_filter_results: [
           {
@@ -617,6 +627,7 @@ describe("deserializers", () => {
 
       assert.deepStrictEqual(result, {
         id: "123",
+        model: "gpt-35-turbo-16k",
         systemFingerprint: "123",
         created: new Date("2022-01-01T00:00:00.000Z"),
         promptFilterResults: [

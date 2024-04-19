@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns a list of available cluster versions.
  *
  * @summary Returns a list of available cluster versions.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-06-01-preview/examples/ListAvailableClusterVersions.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-11-01-preview/examples/ListAvailableClusterVersions.json
  */
 async function clusterVersionListResult() {
   const subscriptionId =
@@ -28,11 +28,11 @@ async function clusterVersionListResult() {
   const credential = new DefaultAzureCredential();
   const client = new HDInsightContainersManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const resArray = new Array();
   for await (let item of client.availableClusterVersions.listByLocation(
-    location
+    location,
   )) {
     resArray.push(item);
   }
