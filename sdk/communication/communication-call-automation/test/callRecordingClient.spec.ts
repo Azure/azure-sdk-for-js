@@ -132,11 +132,11 @@ describe("CallRecording Unit Tests", async function () {
 
     const mockHttpClient = generateHttpClient(200, mockResponse);
     callRecording = createRecordingClient(mockHttpClient);
-    
-    const recordingStorageKind: RecordingStorageKind = "azureBlobStorage"
+
+    const recordingStorageKind: RecordingStorageKind = "azureBlobStorage";
     const recordingStorage = {
-      recordingStorageKind: recordingStorageKind, 
-      recordingDestinationContainerUrl: "https://testurl"
+      recordingStorageKind: recordingStorageKind,
+      recordingDestinationContainerUrl: "https://testurl",
     };
 
     const spy = sinon.spy(mockHttpClient, "sendRequest");
@@ -153,14 +153,14 @@ describe("CallRecording Unit Tests", async function () {
     await callRecording.start(recOptions);
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
-    
+
     assert.equal(data.callLocator.kind, "serverCallLocator");
     assert.equal(data.recordingStateCallbackUri, CALL_CALLBACK_URL);
     assert.equal(data.externalStorage.recordingStorageKind, "azureBlobStorage");
     assert.equal(request.method, "POST");
     assert.equal(
       request.url,
-      `${baseUri}/calling/recordings?api-version=${apiVersion.mapper.defaultValue}`
+      `${baseUri}/calling/recordings?api-version=${apiVersion.mapper.defaultValue}`,
     );
   });
 

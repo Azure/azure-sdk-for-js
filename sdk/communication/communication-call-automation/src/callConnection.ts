@@ -69,7 +69,7 @@ export class CallConnection {
       credential,
       options,
       endpoint,
-    )
+    );
     this.callConnectionId = callConnectionId;
     this.callConnection = new CallConnectionImpl(this.callAutomationApiClient);
     this.endpoint = endpoint;

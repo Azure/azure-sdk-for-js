@@ -116,7 +116,7 @@ export class CallAutomationClient {
     this.callAutomationApiClient = createCustomCallAutomationApiClient(
       credential,
       this.internalPipelineOptions,
-      this.endpoint
+      this.endpoint,
     );
 
     this.sourceIdentity = communicationUserIdentifierModelConverter(options.sourceIdentity);

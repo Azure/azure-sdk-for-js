@@ -59,7 +59,7 @@ export class CallMedia {
     this.callAutomationApiClient = createCustomCallAutomationApiClient(
       credential,
       options,
-      endpoint
+      endpoint,
     );
     this.callConnectionId = callConnectionId;
     this.callMedia = new CallMediaImpl(this.callAutomationApiClient);
