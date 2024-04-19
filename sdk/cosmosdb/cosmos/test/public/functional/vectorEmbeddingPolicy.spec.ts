@@ -5,8 +5,8 @@ import { IndexingPolicy, VectorEmbeddingPolicy } from "../../../src/documents";
 import { getTestDatabase } from "../common/TestHelpers";
 import { Database } from "../../../src/client/Database/Database";
 
-// Licensed under the MIT license.
-describe("VectorEmbeddingPolicy", async () => {
+// Skipping these tests as they are not supported by public emulator
+describe.skip("VectorEmbeddingPolicy", async () => {
   let database: Database;
   before(async function () {
     database = await getTestDatabase("vector embedding database");
@@ -76,7 +76,6 @@ describe("VectorEmbeddingPolicy", async () => {
     };
     const containerName = "vector embedding container failed";
     // create container
-
     try {
       await database.containers.createIfNotExists({
         id: containerName,
@@ -91,22 +90,6 @@ describe("VectorEmbeddingPolicy", async () => {
         ),
       );
     }
-
-    // // Pass a vector indexing policy with an invalid type
-    // indexingPolicy = {
-    //   vectorIndexes: [{ path: "/vector1", type: "notFlat" }],
-    // };
-    // try {
-    //   await database.containers.createIfNotExists({
-    //     id: containerName,
-    //     vectorEmbeddingPolicy: vectorEmbeddingPolicy,
-    //     indexingPolicy: indexingPolicy,
-    //   });
-    //   assert.fail("Container creation should have failed for wrong index type.");
-    // } catch (e) {
-    //   assert(e.code === 400);
-    //   assert(e.body.message.includes("Index Type::notFlat is invalid"));
-    // }
 
     // Pass a vector indexing policy with non-matching path
     indexingPolicy = {
@@ -163,28 +146,6 @@ describe("VectorEmbeddingPolicy", async () => {
   });
 
   it("should fail to create vector embedding policy", async function () {
-    // // Using invalid data type
-    // const vectorEmbeddingPolicy: VectorEmbeddingPolicy = {
-    //   vectorEmbeddings: [
-    //     {
-    //       path: "/vector1",
-    //       dataType: "float33",
-    //       dimensions: 1000,
-    //       distanceFunction: "euclidean",
-    //     },
-    //   ],
-    // };
-    // try {
-    //   await database.containers.create({
-    //     id: "vector container with invalid embedding data type",
-    //     vectorEmbeddingPolicy: vectorEmbeddingPolicy,
-    //   });
-    //   assert.fail("Container creation should have failed but succeeded.");
-    // } catch (e) {
-    //   assert(e.code === 400);
-    //   assert(e.body.message.includes("Vector Embedding Policy has invalid DataType"));
-    // }
-
     // Using too many dimensions
     const vectorEmbeddingPolicy: VectorEmbeddingPolicy = {
       vectorEmbeddings: [
@@ -227,24 +188,6 @@ describe("VectorEmbeddingPolicy", async () => {
         ),
       );
     }
-
-    // Using invalid distance function
-    // vectorEmbeddingPolicy.vectorEmbeddings[0].dimensions = 1000;
-    // vectorEmbeddingPolicy.vectorEmbeddings[0].distanceFunction = "handMeasured";
-    // try {
-    //   await database.containers.create({
-    //     id: "vector container with invalid distance function",
-    //     vectorEmbeddingPolicy: vectorEmbeddingPolicy,
-    //   });
-    //   assert.fail("Container creation should have failed but succeeded.");
-    // } catch (e) {
-    //   assert(e.code === 400);
-    //   assert(
-    //     e.body.message.includes(
-    //       "Vector Embedding Policy has invalid DistanceFunction:handMeasured",
-    //     ),
-    //   );
-    // }
   });
 
   after(async function () {
