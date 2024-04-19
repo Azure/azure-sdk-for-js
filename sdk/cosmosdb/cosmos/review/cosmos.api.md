@@ -505,6 +505,7 @@ export const Constants: {
         IsBatchAtomic: string;
         BatchContinueOnError: string;
         DedicatedGatewayPerRequestCacheStaleness: string;
+        DedicatedGatewayPerRequestBypassCache: string;
         ForceRefresh: string;
         PriorityLevel: string;
     };
@@ -2115,6 +2116,7 @@ export function setAuthorizationTokenHeaderUsingMasterKey(verb: HTTPMethod, reso
 // @public
 export interface SharedOptions {
     abortSignal?: AbortSignal;
+    bypassIntegratedCache?: boolean;
     initialHeaders?: CosmosHeaders;
     maxIntegratedCacheStalenessInMs?: number;
     priorityLevel?: PriorityLevel;
