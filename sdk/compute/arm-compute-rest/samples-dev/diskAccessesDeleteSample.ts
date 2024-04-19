@@ -32,7 +32,7 @@ async function deleteADiskAccessResource() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}",
       subscriptionId,
       resourceGroupName,
-      diskAccessName
+      diskAccessName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Get metric definitions for a multi-role pool of an App Service Environment.
  *
  * @summary Description for Get metric definitions for a multi-role pool of an App Service Environment.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/AppServiceEnvironments_ListMultiRoleMetricDefinitions.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/AppServiceEnvironments_ListMultiRoleMetricDefinitions.json
  */
 async function getMetricDefinitionsForAMultiRolePoolOfAnAppServiceEnvironment() {
   const subscriptionId =

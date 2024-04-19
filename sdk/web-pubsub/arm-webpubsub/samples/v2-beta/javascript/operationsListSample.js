@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all of the available REST API operations of the Microsoft.SignalRService provider.
  *
  * @summary Lists all of the available REST API operations of the Microsoft.SignalRService provider.
- * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/preview/2023-06-01-preview/examples/Operations_List.json
+ * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/preview/2023-08-01-preview/examples/Operations_List.json
  */
 async function operationsList() {
   const subscriptionId =

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List applications.
  *
  * @summary List applications.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2022-09-09/examples/Application_List.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/Application_List.json
  */
 async function applicationsList() {
   const subscriptionId =

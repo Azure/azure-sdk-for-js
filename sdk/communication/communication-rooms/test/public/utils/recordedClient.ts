@@ -70,13 +70,13 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
 }
 
 export async function createRecordedRoomsClient(
-  context: Context
+  context: Context,
 ): Promise<RecordedClient<RoomsClient>> {
   const recorder = await createRecorder(context.currentTest);
 
   const client = new RoomsClient(
     env.COMMUNICATION_CONNECTION_STRING_ROOMS ?? "",
-    recorder.configureClientOptions({})
+    recorder.configureClientOptions({}),
   );
   return {
     client,
@@ -85,7 +85,7 @@ export async function createRecordedRoomsClient(
 }
 
 export async function createRecordedRoomsClientWithToken(
-  context: Context
+  context: Context,
 ): Promise<RecordedClient<RoomsClient>> {
   const recorder = await createRecorder(context.currentTest);
 
@@ -112,7 +112,7 @@ export async function createRecordedRoomsClientWithToken(
 export async function createTestUser(recorder: Recorder): Promise<CommunicationUserToken> {
   const identityClient = new CommunicationIdentityClient(
     assertEnvironmentVariable("COMMUNICATION_CONNECTION_STRING_ROOMS"),
-    recorder.configureClientOptions({})
+    recorder.configureClientOptions({}),
   );
   return identityClient.createUserAndToken(["voip"]);
 }
@@ -120,7 +120,7 @@ export async function createTestUser(recorder: Recorder): Promise<CommunicationU
 export async function deleteTestUser(testUser: CommunicationUserIdentifier): Promise<void> {
   if (testUser) {
     const identityClient = new CommunicationIdentityClient(
-      assertEnvironmentVariable("COMMUNICATION_CONNECTION_STRING_ROOMS")
+      assertEnvironmentVariable("COMMUNICATION_CONNECTION_STRING_ROOMS"),
     );
     await identityClient.deleteUser(testUser);
   }

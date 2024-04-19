@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Returns the SKUs available for the provided resource.
  *
  * @summary Returns the SKUs available for the provided resource.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-05-02/examples/KustoClustersListResourceSkus.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClustersListResourceSkus.json
  */
 async function kustoClustersListResourceSkus() {
   const subscriptionId =

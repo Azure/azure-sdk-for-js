@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Stops a Kusto cluster.
  *
  * @summary Stops a Kusto cluster.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-05-02/examples/KustoClustersStop.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClustersStop.json
  */
 async function kustoClustersStop() {
   const subscriptionId =

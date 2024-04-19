@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   SqlStoredProcedureCreateUpdateParameters,
-  CosmosDBManagementClient
+  CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update an Azure Cosmos DB SQL storedProcedure
  *
  * @summary Create or update an Azure Cosmos DB SQL storedProcedure
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBSqlStoredProcedureCreateUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBSqlStoredProcedureCreateUpdate.json
  */
 async function cosmosDbSqlStoredProcedureCreateUpdate() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -30,20 +30,19 @@ async function cosmosDbSqlStoredProcedureCreateUpdate() {
   const databaseName = "databaseName";
   const containerName = "containerName";
   const storedProcedureName = "storedProcedureName";
-  const createUpdateSqlStoredProcedureParameters: SqlStoredProcedureCreateUpdateParameters = {
-    options: {},
-    resource: { body: "body", id: "storedProcedureName" }
-  };
+  const createUpdateSqlStoredProcedureParameters: SqlStoredProcedureCreateUpdateParameters =
+    { options: {}, resource: { body: "body", id: "storedProcedureName" } };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.sqlResources.beginCreateUpdateSqlStoredProcedureAndWait(
-    resourceGroupName,
-    accountName,
-    databaseName,
-    containerName,
-    storedProcedureName,
-    createUpdateSqlStoredProcedureParameters
-  );
+  const result =
+    await client.sqlResources.beginCreateUpdateSqlStoredProcedureAndWait(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      containerName,
+      storedProcedureName,
+      createUpdateSqlStoredProcedureParameters,
+    );
   console.log(result);
 }
 

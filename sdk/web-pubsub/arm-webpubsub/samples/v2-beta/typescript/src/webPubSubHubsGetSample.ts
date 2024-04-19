@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a hub setting.
  *
  * @summary Get a hub setting.
- * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/preview/2023-06-01-preview/examples/WebPubSubHubs_Get.json
+ * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/preview/2023-08-01-preview/examples/WebPubSubHubs_Get.json
  */
 async function webPubSubHubsGet() {
   const subscriptionId =

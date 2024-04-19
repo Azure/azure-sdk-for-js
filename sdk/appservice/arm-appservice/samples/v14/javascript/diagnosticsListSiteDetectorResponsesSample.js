@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for List Site Detector Responses
  *
  * @summary Description for List Site Detector Responses
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/Diagnostics_ListSiteDetectorResponses.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/Diagnostics_ListSiteDetectorResponses.json
  */
 async function getAppDetectorResponses() {
   const subscriptionId =
@@ -40,7 +40,7 @@ async function getAppDetectorResponses() {
  * This sample demonstrates how to Description for List Site Detector Responses
  *
  * @summary Description for List Site Detector Responses
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/Diagnostics_ListSiteDetectorResponsesSlot.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/Diagnostics_ListSiteDetectorResponsesSlot.json
  */
 async function getAppSlotDetectorResponses() {
   const subscriptionId =

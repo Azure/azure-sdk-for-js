@@ -31,7 +31,7 @@ describe("tracing", () => {
       const expectedSpanKind = "client";
       assert.equal(
         toSpanOptions({ entityPath: "", host: "" }, "receive", expectedSpanKind).spanKind,
-        expectedSpanKind
+        expectedSpanKind,
       );
     });
   });
@@ -54,7 +54,7 @@ describe("tracing", () => {
         {},
         "testPath",
         "testHost",
-        "receive"
+        "receive",
       );
       assert.notExists(spanContext);
       assert.equal(event.properties?.[TRACEPARENT_PROPERTY], "exists");
@@ -75,7 +75,7 @@ describe("tracing", () => {
         {},
         "testPath",
         "testHost",
-        "receive"
+        "receive",
       );
       assert.notExists(spanContext); // was not instrumented
       assert.notExists(event.properties?.[TRACEPARENT_PROPERTY]);
@@ -101,7 +101,7 @@ describe("tracing", () => {
           {},
           "testPath",
           "testHost",
-          "receive"
+          "receive",
         );
 
         assert.equal(event.properties?.[TRACEPARENT_PROPERTY], "fake-traceparent-header");

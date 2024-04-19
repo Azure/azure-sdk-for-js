@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a Kusto cluster database principalAssignment.
  *
  * @summary Gets a Kusto cluster database principalAssignment.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-05-02/examples/KustoDatabasePrincipalAssignmentsGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDatabasePrincipalAssignmentsGet.json
  */
 async function kustoDatabasePrincipalAssignmentsGet() {
   const subscriptionId =

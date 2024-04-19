@@ -10,3 +10,4 @@ export * from "./operations";
 export * from "./fleets";
 export * from "./fleetMembers";
 export * from "./updateRuns";
+export * from "./fleetUpdateStrategies";

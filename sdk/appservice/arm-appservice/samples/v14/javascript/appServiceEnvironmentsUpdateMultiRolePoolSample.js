@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Create or update a multi-role pool.
  *
  * @summary Description for Create or update a multi-role pool.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/AppServiceEnvironments_CreateOrUpdateMultiRolePool.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/AppServiceEnvironments_CreateOrUpdateMultiRolePool.json
  */
 async function createOrUpdateAMultiRolePool() {
   const subscriptionId =

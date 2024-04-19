@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes a mongo cluster firewall rule.
  *
  * @summary Deletes a mongo cluster firewall rule.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/mongo-cluster/CosmosDBMongoClusterFirewallRuleDelete.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/mongo-cluster/CosmosDBMongoClusterFirewallRuleDelete.json
  */
 async function deleteTheFirewallRuleOfTheMongoCluster() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function deleteTheFirewallRuleOfTheMongoCluster() {
   const result = await client.mongoClusters.beginDeleteFirewallRuleAndWait(
     resourceGroupName,
     mongoClusterName,
-    firewallRuleName
+    firewallRuleName,
   );
   console.log(result);
 }

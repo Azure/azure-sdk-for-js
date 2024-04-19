@@ -10,7 +10,7 @@ import * as coreClient from "@azure/core-client";
 
 /** Contains the tables, columns & rows resulting from a query. */
 export interface QueryResults {
-  /** The list of tables, columns and rows. */
+  /** The results of the query in tabular format. */
   tables: Table[];
   /** Statistics represented in JSON format. */
   statistics?: Record<string, unknown>;
@@ -80,7 +80,7 @@ export interface QueryBody {
   query: string;
   /** Optional. The timespan over which to query data. This is an ISO8601 time period value.  This timespan is applied in addition to any that are specified in the query expression. */
   timespan?: string;
-  /** A list of workspaces that are included in the query. */
+  /** A list of workspaces to query in addition to the primary workspace. */
   workspaces?: string[];
 }
 
@@ -408,15 +408,17 @@ export interface BatchRequest {
 
 /** An single request in a batch. */
 export interface BatchQueryRequest {
-  /** The error details. */
+  /** Unique ID corresponding to each request in the batch. */
   id: string;
-  /** Dictionary of <string> */
+  /** Headers of the request. Can use prefer header to set server timeout and to query statistics and visualization information. */
   headers?: { [propertyName: string]: string };
   /** The Analytics query. Learn more about the [Analytics query syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/) */
   body: QueryBody;
+  /** The query path of a single request in a batch, defaults to /query */
   path?: "/query";
+  /** The method of a single request in a batch, defaults to POST */
   method?: "POST";
-  /** Workspace Id to be included in the query */
+  /** Primary Workspace ID of the query. This is the Workspace ID from the Properties blade in the Azure portal. */
   workspace: string;
 }
 
@@ -426,6 +428,7 @@ export interface BatchResponse {
   responses?: BatchQueryResponse[];
 }
 
+/** Contains the batch query response and the headers, id, and status of the request */
 export interface BatchQueryResponse {
   id?: string;
   status?: number;
@@ -437,7 +440,7 @@ export interface BatchQueryResponse {
 
 /** Contains the tables, columns & rows resulting from a query. */
 export interface BatchQueryResults {
-  /** The list of tables, columns and rows. */
+  /** The results of the query in tabular format. */
   tables?: Table[];
   /** Statistics represented in JSON format. */
   statistics?: Record<string, unknown>;

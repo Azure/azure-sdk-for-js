@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   MongoClusterUpdate,
-  CosmosDBManagementClient
+  CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
  *
  * @summary Updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/mongo-cluster/CosmosDBMongoClusterAddNode.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/mongo-cluster/CosmosDBMongoClusterAddNode.json
  */
 async function addNewShardNodes() {
   const subscriptionId =
@@ -31,14 +31,14 @@ async function addNewShardNodes() {
     process.env["COSMOSDB_RESOURCE_GROUP"] || "TestResourceGroup";
   const mongoClusterName = "myMongoCluster";
   const parameters: MongoClusterUpdate = {
-    nodeGroupSpecs: [{ kind: "Shard", nodeCount: 4 }]
+    nodeGroupSpecs: [{ kind: "Shard", nodeCount: 4 }],
   };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const result = await client.mongoClusters.beginUpdateAndWait(
     resourceGroupName,
     mongoClusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -47,7 +47,7 @@ async function addNewShardNodes() {
  * This sample demonstrates how to Updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
  *
  * @summary Updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/mongo-cluster/CosmosDBMongoClusterUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/mongo-cluster/CosmosDBMongoClusterUpdate.json
  */
 async function updateTheMongoCluster() {
   const subscriptionId =
@@ -65,17 +65,17 @@ async function updateTheMongoCluster() {
         enableHa: true,
         kind: "Shard",
         nodeCount: 4,
-        sku: "M50"
-      }
+        sku: "M50",
+      },
     ],
-    serverVersion: "5.0"
+    serverVersion: "5.0",
   };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const result = await client.mongoClusters.beginUpdateAndWait(
     resourceGroupName,
     mongoClusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

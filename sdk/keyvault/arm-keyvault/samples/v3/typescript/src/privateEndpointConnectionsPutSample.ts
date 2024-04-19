@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates the specified private endpoint connection associated with the key vault.
  *
  * @summary Updates the specified private endpoint connection associated with the key vault.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-02-01/examples/putPrivateEndpointConnection.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/putPrivateEndpointConnection.json
  */
 async function keyVaultPutPrivateEndpointConnection() {
   const subscriptionId =

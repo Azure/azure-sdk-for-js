@@ -2,33 +2,16 @@
 // Licensed under the MIT license.
 
 import { AbortError } from "@azure/abort-controller";
-import {
+import type {
   HttpClient,
   HttpHeaders as PipelineHeaders,
   PipelineRequest,
   PipelineResponse,
   TransferProgressEvent,
-} from "./interfaces";
-import { RestError } from "./restError";
-import { createHttpHeaders } from "./httpHeaders";
-
-/**
- * Checks if the body is a NodeReadable stream which is not supported in Browsers
- */
-function isNodeReadableStream(body: any): body is NodeJS.ReadableStream {
-  return body && typeof body.pipe === "function";
-}
-
-/**
- * Checks if the body is a ReadableStream supported by browsers
- */
-function isReadableStream(body: unknown): body is ReadableStream {
-  return Boolean(
-    body &&
-      typeof (body as ReadableStream).getReader === "function" &&
-      typeof (body as ReadableStream).tee === "function"
-  );
-}
+} from "./interfaces.js";
+import { RestError } from "./restError.js";
+import { createHttpHeaders } from "./httpHeaders.js";
+import { isNodeReadableStream, isWebReadableStream } from "./util/typeGuards.js";
 
 /**
  * Checks if the body is a Blob or Blob-like
@@ -72,7 +55,6 @@ class FetchHttpClient implements HttpClient {
  */
 async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> {
   const { abortController, abortControllerCleanup } = setupAbortSignal(request);
-
   try {
     const headers = buildFetchHeaders(request.headers);
     const { streaming, body: requestBody } = buildRequestBody(request);
@@ -81,8 +63,13 @@ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> 
       method: request.method,
       headers: headers,
       signal: abortController.signal,
-      credentials: request.withCredentials ? "include" : "same-origin",
-      cache: "no-store",
+      // Cloudflare doesn't implement the full Fetch API spec
+      // because of some of it doesn't make sense in the edge.
+      // See https://github.com/cloudflare/workerd/issues/902
+      ...("credentials" in Request.prototype
+        ? { credentials: request.withCredentials ? "include" : "same-origin" }
+        : {}),
+      ...("cache" in Request.prototype ? { cache: "no-store" } : {}),
     };
 
     // According to https://fetch.spec.whatwg.org/#fetch-method,
@@ -91,7 +78,6 @@ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> 
     if (streaming) {
       (requestInit as any).duplex = "half";
     }
-
     /**
      * Developers of the future:
      * Do not set redirect: "manual" as part
@@ -103,18 +89,21 @@ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> 
     if (isBlob(request.body) && request.onUploadProgress) {
       request.onUploadProgress({ loadedBytes: request.body.size });
     }
-    return buildPipelineResponse(response, request);
-  } finally {
-    if (abortControllerCleanup) {
-      abortControllerCleanup();
-    }
+    return buildPipelineResponse(response, request, abortControllerCleanup);
+  } catch (e) {
+    abortControllerCleanup?.();
+    throw e;
   }
 }
 
 /**
  * Creates a pipeline response from a Fetch response;
  */
-async function buildPipelineResponse(httpResponse: Response, request: PipelineRequest) {
+async function buildPipelineResponse(
+  httpResponse: Response,
+  request: PipelineRequest,
+  abortControllerCleanup?: () => void,
+): Promise<PipelineResponse> {
   const headers = buildPipelineHeaders(httpResponse);
   const response: PipelineResponse = {
     request,
@@ -122,8 +111,11 @@ async function buildPipelineResponse(httpResponse: Response, request: PipelineRe
     status: httpResponse.status,
   };
 
-  const bodyStream = isReadableStream(httpResponse.body)
-    ? buildBodyStream(httpResponse.body, request.onDownloadProgress)
+  const bodyStream = isWebReadableStream(httpResponse.body)
+    ? buildBodyStream(httpResponse.body, {
+        onProgress: request.onDownloadProgress,
+        onEnd: abortControllerCleanup,
+      })
     : httpResponse.body;
 
   if (
@@ -136,11 +128,13 @@ async function buildPipelineResponse(httpResponse: Response, request: PipelineRe
     } else {
       const responseStream = new Response(bodyStream);
       response.blobBody = responseStream.blob();
+      abortControllerCleanup?.();
     }
   } else {
     const responseStream = new Response(bodyStream);
 
     response.bodyAsText = await responseStream.text();
+    abortControllerCleanup?.();
   }
 
   return response;
@@ -190,6 +184,7 @@ function setupAbortSignal(request: PipelineRequest): {
 /**
  * Gets the specific error
  */
+// eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 function getError(e: RestError, request: PipelineRequest): RestError {
   if (e && e?.name === "AbortError") {
     return e;
@@ -204,7 +199,7 @@ function getError(e: RestError, request: PipelineRequest): RestError {
 /**
  * Converts PipelineRequest headers to Fetch headers
  */
-function buildFetchHeaders(pipelineHeaders: PipelineHeaders) {
+function buildFetchHeaders(pipelineHeaders: PipelineHeaders): Headers {
   const headers = new Headers();
   for (const [name, value] of pipelineHeaders) {
     headers.append(name, value);
@@ -222,14 +217,27 @@ function buildPipelineHeaders(httpResponse: Response): PipelineHeaders {
   return responseHeaders;
 }
 
-function buildRequestBody(request: PipelineRequest) {
+interface BuildRequestBodyResponse {
+  body:
+    | string
+    | Blob
+    | ReadableStream<Uint8Array>
+    | ArrayBuffer
+    | ArrayBufferView
+    | FormData
+    | null
+    | undefined;
+  streaming: boolean;
+}
+
+function buildRequestBody(request: PipelineRequest): BuildRequestBodyResponse {
   const body = typeof request.body === "function" ? request.body() : request.body;
   if (isNodeReadableStream(body)) {
     throw new Error("Node streams are not supported in browser environment.");
   }
 
-  return isReadableStream(body)
-    ? { streaming: true, body: buildBodyStream(body, request.onUploadProgress) }
+  return isWebReadableStream(body)
+    ? { streaming: true, body: buildBodyStream(body, { onProgress: request.onUploadProgress }) }
     : { streaming: false, body };
 }
 
@@ -241,9 +249,10 @@ function buildRequestBody(request: PipelineRequest) {
  */
 function buildBodyStream(
   readableStream: ReadableStream<Uint8Array>,
-  onProgress?: (progress: TransferProgressEvent) => void
+  options: { onProgress?: (progress: TransferProgressEvent) => void; onEnd?: () => void } = {},
 ): ReadableStream<Uint8Array> {
   let loadedBytes = 0;
+  const { onProgress, onEnd } = options;
 
   // If the current browser supports pipeThrough we use a TransformStream
   // to report progress
@@ -262,7 +271,10 @@ function buildBodyStream(
             onProgress({ loadedBytes });
           }
         },
-      })
+        flush() {
+          onEnd?.();
+        },
+      }),
     );
   } else {
     // If we can't use transform streams, wrap the original stream in a new readable stream
@@ -273,6 +285,7 @@ function buildBodyStream(
         const { done, value } = await reader.read();
         // When no more data needs to be consumed, break the reading
         if (done || !value) {
+          onEnd?.();
           // Close the stream
           controller.close();
           reader.releaseLock();
@@ -287,6 +300,10 @@ function buildBodyStream(
         if (onProgress) {
           onProgress({ loadedBytes });
         }
+      },
+      cancel(reason?: string) {
+        onEnd?.();
+        return reader.cancel(reason);
       },
     });
   }

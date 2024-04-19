@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { Recorder } from "./recorder";
-export { relativeRecordingsPath } from "./utils/relativePathCalculator";
+export { Recorder } from "./recorder.js";
+export { relativeRecordingsPath } from "./utils/relativePathCalculator.js";
 export {
   SanitizerOptions,
   RecorderStartOptions,
@@ -10,8 +10,16 @@ export {
   isPlaybackMode,
   isRecordMode,
   assertEnvironmentVariable,
+  setEnvironmentVariables,
   testPollingOptions,
-} from "./utils/utils";
-export { env } from "./utils/env";
-export { delay } from "./utils/delay";
-export { CustomMatcherOptions } from "./matcher";
+  FindReplaceSanitizer,
+  RegexSanitizer,
+  StringSanitizer,
+  HeaderSanitizer,
+  ConnectionStringSanitizer,
+  RemoveHeaderSanitizer,
+} from "./utils/utils.js";
+export { delay } from "./utils/delay.js";
+export { env } from "./utils/env.js";
+export { CustomMatcherOptions } from "./matcher.js";
+export { TestInfo, VitestTestContext } from "./testInfo.js";

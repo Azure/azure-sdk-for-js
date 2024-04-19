@@ -62,7 +62,7 @@ async function createOrUpdateASimpleGalleryApplicationVersion() {
       resourceGroupName,
       galleryName,
       galleryApplicationName,
-      galleryApplicationVersionName
+      galleryApplicationVersionName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

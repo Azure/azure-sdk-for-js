@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Remove a list of language extensions that can run within KQL queries.
  *
  * @summary Remove a list of language extensions that can run within KQL queries.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-05-02/examples/KustoClusterRemoveLanguageExtensions.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClusterRemoveLanguageExtensions.json
  */
 async function kustoClusterRemoveLanguageExtensions() {
   const subscriptionId =

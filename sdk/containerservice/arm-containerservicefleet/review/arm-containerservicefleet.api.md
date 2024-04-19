@@ -16,6 +16,7 @@ export type ActionType = string;
 // @public
 export interface AgentProfile {
     subnetId?: string;
+    vmSize?: string;
 }
 
 // @public
@@ -36,6 +37,8 @@ export class ContainerServiceFleetClient extends coreClient.ServiceClient {
     fleetMembers: FleetMembers;
     // (undocumented)
     fleets: Fleets;
+    // (undocumented)
+    fleetUpdateStrategies: FleetUpdateStrategies;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -100,11 +103,12 @@ export interface FleetHubProfile {
     dnsPrefix?: string;
     readonly fqdn?: string;
     readonly kubernetesVersion?: string;
+    readonly portalFqdn?: string;
 }
 
 // @public
 export interface FleetListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: Fleet[];
 }
 
@@ -118,7 +122,7 @@ export interface FleetMember extends ProxyResource {
 
 // @public
 export interface FleetMemberListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: FleetMember[];
 }
 
@@ -321,6 +325,82 @@ export interface FleetsUpdateOptionalParams extends coreClient.OperationOptions 
 export type FleetsUpdateResponse = Fleet;
 
 // @public
+export interface FleetUpdateStrategies {
+    beginCreateOrUpdate(resourceGroupName: string, fleetName: string, updateStrategyName: string, resource: FleetUpdateStrategy, options?: FleetUpdateStrategiesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FleetUpdateStrategiesCreateOrUpdateResponse>, FleetUpdateStrategiesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, fleetName: string, updateStrategyName: string, resource: FleetUpdateStrategy, options?: FleetUpdateStrategiesCreateOrUpdateOptionalParams): Promise<FleetUpdateStrategiesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, fleetName: string, updateStrategyName: string, options?: FleetUpdateStrategiesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, fleetName: string, updateStrategyName: string, options?: FleetUpdateStrategiesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, fleetName: string, updateStrategyName: string, options?: FleetUpdateStrategiesGetOptionalParams): Promise<FleetUpdateStrategiesGetResponse>;
+    listByFleet(resourceGroupName: string, fleetName: string, options?: FleetUpdateStrategiesListByFleetOptionalParams): PagedAsyncIterableIterator<FleetUpdateStrategy>;
+}
+
+// @public
+export interface FleetUpdateStrategiesCreateOrUpdateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface FleetUpdateStrategiesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type FleetUpdateStrategiesCreateOrUpdateResponse = FleetUpdateStrategy;
+
+// @public
+export interface FleetUpdateStrategiesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface FleetUpdateStrategiesDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface FleetUpdateStrategiesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FleetUpdateStrategiesGetResponse = FleetUpdateStrategy;
+
+// @public
+export interface FleetUpdateStrategiesListByFleetNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FleetUpdateStrategiesListByFleetNextResponse = FleetUpdateStrategyListResult;
+
+// @public
+export interface FleetUpdateStrategiesListByFleetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FleetUpdateStrategiesListByFleetResponse = FleetUpdateStrategyListResult;
+
+// @public
+export interface FleetUpdateStrategy extends ProxyResource {
+    readonly eTag?: string;
+    readonly provisioningState?: FleetUpdateStrategyProvisioningState;
+    strategy?: UpdateRunStrategy;
+}
+
+// @public
+export interface FleetUpdateStrategyListResult {
+    readonly nextLink?: string;
+    value: FleetUpdateStrategy[];
+}
+
+// @public
+export type FleetUpdateStrategyProvisioningState = string;
+
+// @public
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
@@ -357,7 +437,15 @@ export enum KnownFleetProvisioningState {
 }
 
 // @public
+export enum KnownFleetUpdateStrategyProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownManagedClusterUpgradeType {
+    ControlPlaneOnly = "ControlPlaneOnly",
     Full = "Full",
     NodeImageOnly = "NodeImageOnly"
 }
@@ -381,6 +469,14 @@ export enum KnownOrigin {
     System = "system",
     User = "user",
     UserSystem = "user,system"
+}
+
+// @public
+export enum KnownTargetType {
+    AfterStageWait = "AfterStageWait",
+    Group = "Group",
+    Member = "Member",
+    Stage = "Stage"
 }
 
 // @public
@@ -514,6 +610,17 @@ export interface Resource {
 }
 
 // @public
+export interface SkipProperties {
+    targets: SkipTarget[];
+}
+
+// @public
+export interface SkipTarget {
+    name: string;
+    type: TargetType;
+}
+
+// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -522,6 +629,9 @@ export interface SystemData {
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
 }
+
+// @public
+export type TargetType = string;
 
 // @public
 export interface TrackedResource extends Resource {
@@ -550,11 +660,12 @@ export interface UpdateRun extends ProxyResource {
     readonly provisioningState?: UpdateRunProvisioningState;
     readonly status?: UpdateRunStatus;
     strategy?: UpdateRunStrategy;
+    updateStrategyId?: string;
 }
 
 // @public
 export interface UpdateRunListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: UpdateRun[];
 }
 
@@ -567,6 +678,8 @@ export interface UpdateRuns {
     beginCreateOrUpdateAndWait(resourceGroupName: string, fleetName: string, updateRunName: string, resource: UpdateRun, options?: UpdateRunsCreateOrUpdateOptionalParams): Promise<UpdateRunsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsDeleteOptionalParams): Promise<void>;
+    beginSkip(resourceGroupName: string, fleetName: string, updateRunName: string, body: SkipProperties, options?: UpdateRunsSkipOptionalParams): Promise<SimplePollerLike<OperationState<UpdateRunsSkipResponse>, UpdateRunsSkipResponse>>;
+    beginSkipAndWait(resourceGroupName: string, fleetName: string, updateRunName: string, body: SkipProperties, options?: UpdateRunsSkipOptionalParams): Promise<UpdateRunsSkipResponse>;
     beginStart(resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsStartOptionalParams): Promise<SimplePollerLike<OperationState<UpdateRunsStartResponse>, UpdateRunsStartResponse>>;
     beginStartAndWait(resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsStartOptionalParams): Promise<UpdateRunsStartResponse>;
     beginStop(resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsStopOptionalParams): Promise<SimplePollerLike<OperationState<UpdateRunsStopResponse>, UpdateRunsStopResponse>>;
@@ -624,6 +737,22 @@ export interface UpdateRunsListByFleetOptionalParams extends coreClient.Operatio
 
 // @public
 export type UpdateRunsListByFleetResponse = UpdateRunListResult;
+
+// @public
+export interface UpdateRunsSkipHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface UpdateRunsSkipOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type UpdateRunsSkipResponse = UpdateRun;
 
 // @public
 export interface UpdateRunsStartHeaders {

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the specified private endpoint connection associated with the managed HSM Pool.
  *
  * @summary Gets the specified private endpoint connection associated with the managed HSM Pool.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-02-01/examples/ManagedHsm_getPrivateEndpointConnection.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/ManagedHsm_getPrivateEndpointConnection.json
  */
 async function managedHsmGetPrivateEndpointConnection() {
   const subscriptionId =

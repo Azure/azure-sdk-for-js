@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates some of the properties of a managed Cassandra cluster.
  *
  * @summary Updates some of the properties of a managed Cassandra cluster.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBManagedCassandraClusterPatch.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBManagedCassandraClusterPatch.json
  */
 async function cosmosDbManagedCassandraClusterPatch() {
   const subscriptionId =
@@ -32,25 +32,24 @@ async function cosmosDbManagedCassandraClusterPatch() {
       authenticationMethod: "None",
       externalGossipCertificates: [
         {
-          pem:
-            "-----BEGIN CERTIFICATE-----\n...Base64 encoded certificate...\n-----END CERTIFICATE-----"
-        }
+          pem: "-----BEGIN CERTIFICATE-----\n...Base64 encoded certificate...\n-----END CERTIFICATE-----",
+        },
       ],
       externalSeedNodes: [
         { ipAddress: "10.52.221.2" },
         { ipAddress: "10.52.221.3" },
-        { ipAddress: "10.52.221.4" }
+        { ipAddress: "10.52.221.4" },
       ],
-      hoursBetweenBackups: 12
+      hoursBetweenBackups: 12,
     },
-    tags: { owner: "mike" }
+    tags: { owner: "mike" },
   };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const result = await client.cassandraClusters.beginUpdateAndWait(
     resourceGroupName,
     clusterName,
-    body
+    body,
   );
   console.log(result);
 }

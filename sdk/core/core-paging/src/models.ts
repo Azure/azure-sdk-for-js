@@ -20,7 +20,7 @@ export interface PageSettings {
 export interface PagedAsyncIterableIterator<
   TElement,
   TPage = TElement[],
-  TPageSettings = PageSettings
+  TPageSettings = PageSettings,
 > {
   /**
    * The next method, part of the iteration protocol
@@ -49,7 +49,7 @@ export interface PagedResult<TPage, TPageSettings = PageSettings, TLink = string
    */
   getPage: (
     pageLink: TLink,
-    maxPageSize?: number
+    maxPageSize?: number,
   ) => Promise<{ page: TPage; nextPageLink?: TLink } | undefined>;
   /**
    * a function to implement the `byPage` method on the paged async iterator. The default is

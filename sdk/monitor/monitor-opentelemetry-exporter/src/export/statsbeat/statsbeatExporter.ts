@@ -28,12 +28,13 @@ export class AzureMonitorStatsbeatExporter
    */
   constructor(options: AzureMonitorExporterOptions) {
     super(options, true);
-    this._sender = new HttpSender(
-      this.endpointUrl,
-      this.instrumentationKey,
-      this.trackStatsbeat,
-      options
-    );
+    this._sender = new HttpSender({
+      endpointUrl: this.endpointUrl,
+      instrumentationKey: this.instrumentationKey,
+      trackStatsbeat: this.trackStatsbeat,
+      exporterOptions: options,
+      isStatsbeatSender: true,
+    });
   }
 
   /**
@@ -41,17 +42,17 @@ export class AzureMonitorStatsbeatExporter
    */
   async export(
     metrics: ResourceMetrics,
-    resultCallback: (result: ExportResult) => void
+    resultCallback: (result: ExportResult) => void,
   ): Promise<void> {
     if (this._isShutdown) {
       setTimeout(() => resultCallback({ code: ExportResultCode.FAILED }), 0);
       return;
     }
 
-    let envelopes: Envelope[] = resourceMetricsToEnvelope(
+    const envelopes: Envelope[] = resourceMetricsToEnvelope(
       metrics,
       this.instrumentationKey,
-      true // isStatsbeat flag passed to create a Statsbeat envelope.
+      true, // isStatsbeat flag passed to create a Statsbeat envelope.
     );
     // Supress tracing until OpenTelemetry Metrics SDK support it
     context.with(suppressTracing(context.active()), async () => {

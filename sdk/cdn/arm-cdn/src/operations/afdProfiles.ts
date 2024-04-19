@@ -14,14 +14,29 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CdnManagementClient } from "../cdnManagementClient";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
   Usage,
   AfdProfilesListResourceUsageNextOptionalParams,
   AfdProfilesListResourceUsageOptionalParams,
   AfdProfilesListResourceUsageResponse,
+  CheckEndpointNameAvailabilityInput,
+  AfdProfilesCheckEndpointNameAvailabilityOptionalParams,
+  AfdProfilesCheckEndpointNameAvailabilityResponse,
   CheckHostNameAvailabilityInput,
   AfdProfilesCheckHostNameAvailabilityOptionalParams,
   AfdProfilesCheckHostNameAvailabilityResponse,
-  AfdProfilesListResourceUsageNextResponse
+  ValidateSecretInput,
+  AfdProfilesValidateSecretOptionalParams,
+  AfdProfilesValidateSecretResponse,
+  ProfileUpgradeParameters,
+  AfdProfilesUpgradeOptionalParams,
+  AfdProfilesUpgradeResponse,
+  AfdProfilesListResourceUsageNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,21 +53,21 @@ export class AfdProfilesImpl implements AfdProfiles {
   }
 
   /**
-   * Checks the quota and actual usage of AzureFrontDoor endpoints under the given CDN profile.
+   * Checks the quota and actual usage of endpoints under the given Azure Front Door profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
-   *                    which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param options The options parameters.
    */
   public listResourceUsage(
     resourceGroupName: string,
     profileName: string,
-    options?: AfdProfilesListResourceUsageOptionalParams
+    options?: AfdProfilesListResourceUsageOptionalParams,
   ): PagedAsyncIterableIterator<Usage> {
     const iter = this.listResourceUsagePagingAll(
       resourceGroupName,
       profileName,
-      options
+      options,
     );
     return {
       next() {
@@ -69,9 +84,9 @@ export class AfdProfilesImpl implements AfdProfiles {
           resourceGroupName,
           profileName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -79,7 +94,7 @@ export class AfdProfilesImpl implements AfdProfiles {
     resourceGroupName: string,
     profileName: string,
     options?: AfdProfilesListResourceUsageOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Usage[]> {
     let result: AfdProfilesListResourceUsageResponse;
     let continuationToken = settings?.continuationToken;
@@ -87,7 +102,7 @@ export class AfdProfilesImpl implements AfdProfiles {
       result = await this._listResourceUsage(
         resourceGroupName,
         profileName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -99,7 +114,7 @@ export class AfdProfilesImpl implements AfdProfiles {
         resourceGroupName,
         profileName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -111,40 +126,66 @@ export class AfdProfilesImpl implements AfdProfiles {
   private async *listResourceUsagePagingAll(
     resourceGroupName: string,
     profileName: string,
-    options?: AfdProfilesListResourceUsageOptionalParams
+    options?: AfdProfilesListResourceUsageOptionalParams,
   ): AsyncIterableIterator<Usage> {
     for await (const page of this.listResourceUsagePagingPage(
       resourceGroupName,
       profileName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * Checks the quota and actual usage of AzureFrontDoor endpoints under the given CDN profile.
+   * Check the availability of an afdx endpoint name, and return the globally unique endpoint host name.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
-   *                    which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
+   * @param checkEndpointNameAvailabilityInput Input to check.
+   * @param options The options parameters.
+   */
+  checkEndpointNameAvailability(
+    resourceGroupName: string,
+    profileName: string,
+    checkEndpointNameAvailabilityInput: CheckEndpointNameAvailabilityInput,
+    options?: AfdProfilesCheckEndpointNameAvailabilityOptionalParams,
+  ): Promise<AfdProfilesCheckEndpointNameAvailabilityResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        profileName,
+        checkEndpointNameAvailabilityInput,
+        options,
+      },
+      checkEndpointNameAvailabilityOperationSpec,
+    );
+  }
+
+  /**
+   * Checks the quota and actual usage of endpoints under the given Azure Front Door profile.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param options The options parameters.
    */
   private _listResourceUsage(
     resourceGroupName: string,
     profileName: string,
-    options?: AfdProfilesListResourceUsageOptionalParams
+    options?: AfdProfilesListResourceUsageOptionalParams,
   ): Promise<AfdProfilesListResourceUsageResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, options },
-      listResourceUsageOperationSpec
+      listResourceUsageOperationSpec,
     );
   }
 
   /**
-   * Check the name availability of a host name.
+   * Validates the custom domain mapping to ensure it maps to the correct Azure Front Door endpoint in
+   * DNS.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
-   *                    which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param checkHostNameAvailabilityInput Custom domain to be validated.
    * @param options The options parameters.
    */
@@ -152,24 +193,146 @@ export class AfdProfilesImpl implements AfdProfiles {
     resourceGroupName: string,
     profileName: string,
     checkHostNameAvailabilityInput: CheckHostNameAvailabilityInput,
-    options?: AfdProfilesCheckHostNameAvailabilityOptionalParams
+    options?: AfdProfilesCheckHostNameAvailabilityOptionalParams,
   ): Promise<AfdProfilesCheckHostNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         profileName,
         checkHostNameAvailabilityInput,
-        options
+        options,
       },
-      checkHostNameAvailabilityOperationSpec
+      checkHostNameAvailabilityOperationSpec,
     );
+  }
+
+  /**
+   * Validate a Secret in the profile.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
+   * @param validateSecretInput The Secret source.
+   * @param options The options parameters.
+   */
+  validateSecret(
+    resourceGroupName: string,
+    profileName: string,
+    validateSecretInput: ValidateSecretInput,
+    options?: AfdProfilesValidateSecretOptionalParams,
+  ): Promise<AfdProfilesValidateSecretResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, profileName, validateSecretInput, options },
+      validateSecretOperationSpec,
+    );
+  }
+
+  /**
+   * Upgrade a profile from Standard_AzureFrontDoor to Premium_AzureFrontDoor.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
+   * @param profileUpgradeParameters Profile upgrade input parameter.
+   * @param options The options parameters.
+   */
+  async beginUpgrade(
+    resourceGroupName: string,
+    profileName: string,
+    profileUpgradeParameters: ProfileUpgradeParameters,
+    options?: AfdProfilesUpgradeOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AfdProfilesUpgradeResponse>,
+      AfdProfilesUpgradeResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<AfdProfilesUpgradeResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        profileName,
+        profileUpgradeParameters,
+        options,
+      },
+      spec: upgradeOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      AfdProfilesUpgradeResponse,
+      OperationState<AfdProfilesUpgradeResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Upgrade a profile from Standard_AzureFrontDoor to Premium_AzureFrontDoor.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
+   * @param profileUpgradeParameters Profile upgrade input parameter.
+   * @param options The options parameters.
+   */
+  async beginUpgradeAndWait(
+    resourceGroupName: string,
+    profileName: string,
+    profileUpgradeParameters: ProfileUpgradeParameters,
+    options?: AfdProfilesUpgradeOptionalParams,
+  ): Promise<AfdProfilesUpgradeResponse> {
+    const poller = await this.beginUpgrade(
+      resourceGroupName,
+      profileName,
+      profileUpgradeParameters,
+      options,
+    );
+    return poller.pollUntilDone();
   }
 
   /**
    * ListResourceUsageNext
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
-   *                    which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param nextLink The nextLink from the previous successful call to the ListResourceUsage method.
    * @param options The options parameters.
    */
@@ -177,50 +340,71 @@ export class AfdProfilesImpl implements AfdProfiles {
     resourceGroupName: string,
     profileName: string,
     nextLink: string,
-    options?: AfdProfilesListResourceUsageNextOptionalParams
+    options?: AfdProfilesListResourceUsageNextOptionalParams,
   ): Promise<AfdProfilesListResourceUsageNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, nextLink, options },
-      listResourceUsageNextOperationSpec
+      listResourceUsageNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listResourceUsageOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/usages",
+const checkEndpointNameAvailabilityOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/checkEndpointNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.UsagesListResult
+      bodyMapper: Mappers.CheckEndpointNameAvailabilityOutput,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse
-    }
+      bodyMapper: Mappers.AfdErrorResponse,
+    },
+  },
+  requestBody: Parameters.checkEndpointNameAvailabilityInput,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.profileName,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const listResourceUsageOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/usages",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.UsagesListResult,
+    },
+    default: {
+      bodyMapper: Mappers.AfdErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const checkHostNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/checkHostNameAvailability",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/checkHostNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameAvailabilityOutput
+      bodyMapper: Mappers.CheckNameAvailabilityOutput,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse
-    }
+      bodyMapper: Mappers.AfdErrorResponse,
+    },
   },
   requestBody: Parameters.checkHostNameAvailabilityInput,
   queryParameters: [Parameters.apiVersion],
@@ -228,31 +412,85 @@ const checkHostNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const listResourceUsageNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
+const validateSecretOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/validateSecret",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.UsagesListResult
+      bodyMapper: Mappers.ValidateSecretOutput,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse
-    }
+      bodyMapper: Mappers.AfdErrorResponse,
+    },
   },
+  requestBody: Parameters.validateSecretInput,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
-    Parameters.nextLink
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const upgradeOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/upgrade",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Profile,
+    },
+    201: {
+      bodyMapper: Mappers.Profile,
+    },
+    202: {
+      bodyMapper: Mappers.Profile,
+    },
+    204: {
+      bodyMapper: Mappers.Profile,
+    },
+    default: {
+      bodyMapper: Mappers.AfdErrorResponse,
+    },
+  },
+  requestBody: Parameters.profileUpgradeParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.profileName,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const listResourceUsageNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.UsagesListResult,
+    },
+    default: {
+      bodyMapper: Mappers.AfdErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.profileName1,
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

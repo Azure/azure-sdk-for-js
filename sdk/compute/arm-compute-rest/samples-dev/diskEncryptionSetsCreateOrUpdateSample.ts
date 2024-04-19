@@ -42,7 +42,7 @@ async function createADiskEncryptionSetWithKeyVaultFromADifferentSubscription() 
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}",
       subscriptionId,
       resourceGroupName,
-      diskEncryptionSetName
+      diskEncryptionSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -88,7 +88,7 @@ async function createADiskEncryptionSetWithKeyVaultFromADifferentTenant() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}",
       subscriptionId,
       resourceGroupName,
-      diskEncryptionSetName
+      diskEncryptionSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -130,7 +130,7 @@ async function createADiskEncryptionSet() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}",
       subscriptionId,
       resourceGroupName,
-      diskEncryptionSetName
+      diskEncryptionSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

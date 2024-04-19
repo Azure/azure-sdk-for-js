@@ -2,12 +2,9 @@
 // Licensed under the MIT license.
 
 import { leafCommand, makeCommandInfo } from "../../../framework/command";
-
-import path from "path";
+import path from "node:path";
 import { resolveRoot } from "../../../util/resolveProject";
-
-import { readFile } from "fs/promises";
-
+import { readFile } from "node:fs/promises";
 import stripJsonComments from "strip-json-comments";
 
 export const commandInfo = makeCommandInfo("packages", "list packages defined in the monorepo", {
@@ -25,14 +22,16 @@ export const commandInfo = makeCommandInfo("packages", "list packages defined in
   },
 });
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let _rushJson: any = undefined;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function getRushJson(): Promise<any> {
   if (_rushJson) return _rushJson;
 
   const rushJsonText = await readFile(
     path.resolve(__dirname, "../../../../../../../rush.json"),
-    "utf-8"
+    "utf-8",
   );
 
   return (_rushJson = JSON.parse(stripJsonComments(rushJsonText)));
@@ -57,7 +56,7 @@ export async function getProjects(service?: string): Promise<RushJsonProject[]> 
 
   return service
     ? rushJson.projects.filter((p: RushJsonProject) =>
-        p.projectFolder.startsWith(`sdk/${service}/`)
+        p.projectFolder.startsWith(`sdk/${service}/`),
       )
     : rushJson.projects;
 }

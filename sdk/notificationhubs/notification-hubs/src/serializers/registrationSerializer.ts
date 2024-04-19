@@ -12,6 +12,8 @@ import {
   BrowserTemplateRegistrationDescription,
   GcmRegistrationDescription,
   GcmTemplateRegistrationDescription,
+  FcmV1RegistrationDescription,
+  FcmV1TemplateRegistrationDescription,
   MpnsRegistrationDescription,
   MpnsTemplateRegistrationDescription,
   RegistrationDescription,
@@ -52,112 +54,126 @@ export interface RegistrationDescriptionParser {
    * Creates an Amazon Device Messaging (ADM) registration description from the incoming parsed XML.
    */
   createAdmRegistrationDescription: (
-    rawRegistrationDescription: Record<string, any>
+    rawRegistrationDescription: Record<string, any>,
   ) => AdmRegistrationDescription;
   /**
    * @internal
    * Creates an Amazon Device Messaging (ADM) template registration description from the incoming parsed XML.
    */
   createAdmTemplateRegistrationDescription: (
-    rawRegistrationDescription: Record<string, any>
+    rawRegistrationDescription: Record<string, any>,
   ) => AdmTemplateRegistrationDescription;
   /**
    * @internal
    * Creates an Apple Platform Notification Services (APNs) registration description from the incoming parsed XML.
    */
   createAppleRegistrationDescription: (
-    rawRegistrationDescription: Record<string, any>
+    rawRegistrationDescription: Record<string, any>,
   ) => AppleRegistrationDescription;
   /**
    * @internal
    * Creates an Apple Platform Notification Services (APNs) template registration description from the incoming parsed XML.
    */
   createAppleTemplateRegistrationDescription: (
-    rawRegistrationDescription: Record<string, any>
+    rawRegistrationDescription: Record<string, any>,
   ) => AppleTemplateRegistrationDescription;
   /**
    * @internal
    * Creates a Baidu registration description from the incoming parsed XML.
    */
   createBaiduRegistrationDescription: (
-    rawRegistrationDescription: Record<string, any>
+    rawRegistrationDescription: Record<string, any>,
   ) => BaiduRegistrationDescription;
   /**
    * @internal
    * Creates a Baidu template registration description from the incoming parsed XML.
    */
   createBaiduTemplateRegistrationDescription: (
-    rawRegistrationDescription: Record<string, any>
+    rawRegistrationDescription: Record<string, any>,
   ) => BaiduTemplateRegistrationDescription;
   /**
    * @internal
    * Creates a Web Push registration description from the incoming parsed XML.
    */
   createBrowserRegistrationDescription: (
-    rawRegistrationDescription: Record<string, any>
+    rawRegistrationDescription: Record<string, any>,
   ) => BrowserRegistrationDescription;
   /**
    * @internal
    * Creates a Web Push template registration description from the incoming parsed XML.
    */
   createBrowserTemplateRegistrationDescription: (
-    rawRegistrationDescription: Record<string, any>
+    rawRegistrationDescription: Record<string, any>,
   ) => BrowserTemplateRegistrationDescription;
+  /**
+   * @internal
+   * Creates a Firebase V1 Cloud Messaging (FCM) registration description from the incoming parsed XML.
+   */
+  createFcmV1RegistrationDescription: (
+    rawRegistrationDescription: Record<string, any>,
+  ) => FcmV1RegistrationDescription;
+  /**
+   * @internal
+   * Creates a Firebase V1 Cloud Messaging (FCM) template registration description from the incoming parsed XML.
+   */
+  createFcmV1TemplateRegistrationDescription: (
+    rawRegistrationDescription: Record<string, any>,
+  ) => FcmV1TemplateRegistrationDescription;
   /**
    * @internal
    * Creates a Google Cloud Messaging (GCM) registration description from the incoming parsed XML.
    */
   createGcmRegistrationDescription: (
-    rawRegistrationDescription: Record<string, any>
+    rawRegistrationDescription: Record<string, any>,
   ) => GcmRegistrationDescription;
   /**
    * @internal
    * Creates a Google Cloud Messaging (GCM) template registration description from the incoming parsed XML.
    */
   createGcmTemplateRegistrationDescription: (
-    rawRegistrationDescription: Record<string, any>
+    rawRegistrationDescription: Record<string, any>,
   ) => GcmTemplateRegistrationDescription;
   /**
    * @internal
    * Creates a Microsoft Phone Notification Services (MPNS) registration description from the incoming parsed XML.
    */
   createMpnsRegistrationDescription: (
-    rawRegistrationDescription: Record<string, any>
+    rawRegistrationDescription: Record<string, any>,
   ) => MpnsRegistrationDescription;
   /**
    * @internal
    * Creates a Microsoft Phone Notification Services (MPNS) template registration description from the incoming parsed XML.
    */
   createMpnsTemplateRegistrationDescription: (
-    rawRegistrationDescription: Record<string, any>
+    rawRegistrationDescription: Record<string, any>,
   ) => MpnsTemplateRegistrationDescription;
   /**
    * @internal
    * Creates a Xiaomi registration description from the incoming parsed XML.
    */
   createXiaomiRegistrationDescription: (
-    rawRegistrationDescription: Record<string, any>
+    rawRegistrationDescription: Record<string, any>,
   ) => XiaomiRegistrationDescription;
   /**
    * @internal
    * Creates a Xiaomi template registration description from the incoming parsed XML.
    */
   createXiaomiTemplateRegistrationDescription: (
-    rawRegistrationDescription: Record<string, any>
+    rawRegistrationDescription: Record<string, any>,
   ) => XiaomiTemplateRegistrationDescription;
   /**
    * @internal
    * Creates a Windows Notification Services (WNS) registration description from the incoming parsed XML.
    */
   createWindowsRegistrationDescription: (
-    rawRegistrationDescription: Record<string, any>
+    rawRegistrationDescription: Record<string, any>,
   ) => WindowsRegistrationDescription;
   /**
    * @internal
    * Creates a Windows Notification Services (WNS) template registration description from the incoming parsed XML.
    */
   createWindowsTemplateRegistrationDescription: (
-    rawRegistrationDescription: Record<string, any>
+    rawRegistrationDescription: Record<string, any>,
   ) => WindowsTemplateRegistrationDescription;
 }
 
@@ -216,12 +232,12 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
    * Creates an ADM registration description from incoming XML property bag.
    */
   createAdmRegistrationDescription(
-    rawRegistrationDescription: Record<string, any>
+    rawRegistrationDescription: Record<string, any>,
   ): AdmRegistrationDescription {
     return {
       admRegistrationId: getString(
         rawRegistrationDescription["AdmRegistrationId"],
-        "admRegistrationId"
+        "admRegistrationId",
       ),
       ...createRegistrationDescription(rawRegistrationDescription),
       kind: "Adm",
@@ -233,7 +249,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
    * Creates an ADM template registration description from incoming XML property bag.
    */
   createAdmTemplateRegistrationDescription(
-    rawRegistrationDescription: Record<string, any>
+    rawRegistrationDescription: Record<string, any>,
   ): AdmTemplateRegistrationDescription {
     return {
       ...this.createAdmRegistrationDescription(rawRegistrationDescription),
@@ -247,7 +263,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
    * Creates an Apple registration description from incoming XML property bag.
    */
   createAppleRegistrationDescription(
-    rawRegistrationDescription: Record<string, any>
+    rawRegistrationDescription: Record<string, any>,
   ): AppleRegistrationDescription {
     return {
       deviceToken: getString(rawRegistrationDescription["DeviceToken"], "deviceToken"),
@@ -261,7 +277,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
    * Creates an Apple template registration description from incoming XML property bag.
    */
   createAppleTemplateRegistrationDescription(
-    rawRegistrationDescription: Record<string, any>
+    rawRegistrationDescription: Record<string, any>,
   ): AppleTemplateRegistrationDescription {
     return {
       priority: getStringOrUndefined(rawRegistrationDescription["Priority"]) as "10" | "5",
@@ -277,7 +293,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
    * Creates a Baidu registration description from incoming XML property bag.
    */
   createBaiduRegistrationDescription(
-    rawRegistrationDescription: Record<string, any>
+    rawRegistrationDescription: Record<string, any>,
   ): BaiduRegistrationDescription {
     return {
       baiduChannelId: getString(rawRegistrationDescription["BaiduChannelId"], "baiduChannelId"),
@@ -292,7 +308,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
    * Creates a Baidu template registration description from incoming XML property bag.
    */
   createBaiduTemplateRegistrationDescription(
-    rawRegistrationDescription: Record<string, any>
+    rawRegistrationDescription: Record<string, any>,
   ): BaiduTemplateRegistrationDescription {
     return {
       ...this.createBaiduRegistrationDescription(rawRegistrationDescription),
@@ -306,7 +322,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
    * Creates a Browser registration description from incoming XML property bag.
    */
   createBrowserRegistrationDescription(
-    rawRegistrationDescription: Record<string, any>
+    rawRegistrationDescription: Record<string, any>,
   ): BrowserRegistrationDescription {
     return {
       endpoint: getString(rawRegistrationDescription["Endpoint"], "endpoint"),
@@ -322,12 +338,42 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
    * Creates a Browser template registration description from incoming XML property bag.
    */
   createBrowserTemplateRegistrationDescription(
-    rawRegistrationDescription: Record<string, any>
+    rawRegistrationDescription: Record<string, any>,
   ): BrowserTemplateRegistrationDescription {
     return {
       ...this.createBrowserRegistrationDescription(rawRegistrationDescription),
       ...createTemplateRegistrationDescription(rawRegistrationDescription),
       kind: "BrowserTemplate",
+    };
+  },
+  /**
+   * @internal
+   * Creates an GCM registration description from incoming XML property bag.
+   */
+  createFcmV1RegistrationDescription(
+    rawRegistrationDescription: Record<string, any>,
+  ): FcmV1RegistrationDescription {
+    return {
+      fcmV1RegistrationId: getString(
+        rawRegistrationDescription["FcmV1RegistrationId"],
+        "fcmV1RegistrationId",
+      ),
+      ...createRegistrationDescription(rawRegistrationDescription),
+      kind: "FcmV1",
+    };
+  },
+
+  /**
+   * @internal
+   * Creates an FCM template registration description from incoming XML property bag.
+   */
+  createFcmV1TemplateRegistrationDescription(
+    rawRegistrationDescription: Record<string, any>,
+  ): FcmV1TemplateRegistrationDescription {
+    return {
+      ...this.createFcmV1RegistrationDescription(rawRegistrationDescription),
+      ...createTemplateRegistrationDescription(rawRegistrationDescription),
+      kind: "FcmV1Template",
     };
   },
 
@@ -336,12 +382,12 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
    * Creates an GCM registration description from incoming XML property bag.
    */
   createGcmRegistrationDescription(
-    rawRegistrationDescription: Record<string, any>
+    rawRegistrationDescription: Record<string, any>,
   ): GcmRegistrationDescription {
     return {
       gcmRegistrationId: getString(
         rawRegistrationDescription["GcmRegistrationId"],
-        "gcmRegistrationId"
+        "gcmRegistrationId",
       ),
       ...createRegistrationDescription(rawRegistrationDescription),
       kind: "Gcm",
@@ -353,7 +399,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
    * Creates an FCM template registration description from incoming XML property bag.
    */
   createGcmTemplateRegistrationDescription(
-    rawRegistrationDescription: Record<string, any>
+    rawRegistrationDescription: Record<string, any>,
   ): GcmTemplateRegistrationDescription {
     return {
       ...this.createGcmRegistrationDescription(rawRegistrationDescription),
@@ -367,7 +413,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
    * Creates a Windows Phone registration description from incoming XML property bag.
    */
   createMpnsRegistrationDescription(
-    rawRegistrationDescription: Record<string, any>
+    rawRegistrationDescription: Record<string, any>,
   ): MpnsRegistrationDescription {
     return {
       channelUri: getString(rawRegistrationDescription["ChannelUri"], "channelUri"),
@@ -381,7 +427,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
    * Creates a Windows Phone template registration description from incoming XML property bag.
    */
   createMpnsTemplateRegistrationDescription(
-    rawRegistrationDescription: Record<string, any>
+    rawRegistrationDescription: Record<string, any>,
   ): MpnsTemplateRegistrationDescription {
     return {
       mpnsHeaders: getHeadersOrUndefined(rawRegistrationDescription["MpnsHeaders"]?.["MpnsHeader"]),
@@ -396,12 +442,12 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
    * Creates a Xiaomi registration description from incoming XML property bag.
    */
   createXiaomiRegistrationDescription(
-    rawRegistrationDescription: Record<string, any>
+    rawRegistrationDescription: Record<string, any>,
   ): XiaomiRegistrationDescription {
     return {
       xiaomiRegistrationId: getString(
         rawRegistrationDescription["XiaomiRegistrationId"],
-        "xiaomiRegistrationId"
+        "xiaomiRegistrationId",
       ),
       ...createRegistrationDescription(rawRegistrationDescription),
       kind: "Xiaomi",
@@ -413,7 +459,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
    * Creates a Xiaomi template registration description from incoming XML property bag.
    */
   createXiaomiTemplateRegistrationDescription(
-    rawRegistrationDescription: Record<string, any>
+    rawRegistrationDescription: Record<string, any>,
   ): XiaomiTemplateRegistrationDescription {
     return {
       ...this.createXiaomiRegistrationDescription(rawRegistrationDescription),
@@ -427,7 +473,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
    * Creates a Windows registration description from incoming XML property bag.
    */
   createWindowsRegistrationDescription(
-    rawRegistrationDescription: Record<string, any>
+    rawRegistrationDescription: Record<string, any>,
   ): WindowsRegistrationDescription {
     return {
       channelUri: getString(rawRegistrationDescription["ChannelUri"], "channelUri"),
@@ -441,7 +487,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
    * Creates a Windows template registration description from incoming XML property bag.
    */
   createWindowsTemplateRegistrationDescription(
-    rawRegistrationDescription: Record<string, any>
+    rawRegistrationDescription: Record<string, any>,
   ): WindowsTemplateRegistrationDescription {
     return {
       wnsHeaders: getHeadersOrUndefined(rawRegistrationDescription["WnsHeaders"]?.["WnsHeader"]),
@@ -453,7 +499,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
 };
 
 function getHeadersOrUndefined(
-  value?: { Header: string; Value: string }[]
+  value?: { Header: string; Value: string }[],
 ): Record<string, string> | undefined {
   if (!isDefined(value)) {
     return undefined;
@@ -468,7 +514,7 @@ function getHeadersOrUndefined(
 }
 
 function createRegistrationDescription(
-  rawRegistrationDescription: Record<string, any>
+  rawRegistrationDescription: Record<string, any>,
 ): Omit<RegistrationDescriptionCommon, "kind"> {
   let pushVariables: Record<string, string> | undefined;
   const unparsed = getStringOrUndefined(rawRegistrationDescription["PushVariables"]);
@@ -486,7 +532,7 @@ function createRegistrationDescription(
 }
 
 function createTemplateRegistrationDescription(
-  rawRegistrationDescription: Record<string, any>
+  rawRegistrationDescription: Record<string, any>,
 ): TemplateRegistrationDescription {
   return {
     bodyTemplate: getString(rawRegistrationDescription["BodyTemplate"], "bodyTemplate"),
@@ -510,112 +556,126 @@ export interface RegistrationDescriptionSerializer {
    * Serializes an Amazon Device Messaging (ADM) registration description into an XML object for serialization.
    */
   serializeAdmRegistrationDescription(
-    description: Omit<AdmRegistrationDescription, "kind">
+    description: Omit<AdmRegistrationDescription, "kind">,
   ): Record<string, any>;
   /**
    * @internal
    * Serializes an Amazon Device Messaging (ADM) template registration description into an XML object for serialization.
    */
   serializeAdmTemplateRegistrationDescription(
-    description: Omit<AdmTemplateRegistrationDescription, "kind">
+    description: Omit<AdmTemplateRegistrationDescription, "kind">,
   ): Record<string, any>;
   /**
    * @internal
    * Serializes an Apple registration description into an XML object for serialization.
    */
   serializeAppleRegistrationDescription(
-    description: Omit<AppleRegistrationDescription, "kind">
+    description: Omit<AppleRegistrationDescription, "kind">,
   ): Record<string, any>;
   /**
    * @internal
    * Serializes an Apple template registration description into an XML object for serialization.
    */
   serializeAppleTemplateRegistrationDescription(
-    description: Omit<AppleRegistrationDescription, "kind">
+    description: Omit<AppleRegistrationDescription, "kind">,
   ): Record<string, any>;
   /**
    * @internal
    * Serializes a Baidu registration description into an XML object for serialization.
    */
   serializeBaiduRegistrationDescription(
-    description: Omit<BaiduRegistrationDescription, "kind">
+    description: Omit<BaiduRegistrationDescription, "kind">,
   ): Record<string, any>;
   /**
    * @internal
    * Serializes a Baidu template registration description into an XML object for serialization.
    */
   serializeBaiduTemplateRegistrationDescription(
-    description: Omit<BaiduTemplateRegistrationDescription, "kind">
+    description: Omit<BaiduTemplateRegistrationDescription, "kind">,
   ): Record<string, any>;
   /**
    * @internal
    * Serializes a Web Push registration description into an XML object for serialization.
    */
   serializeBrowserRegistrationDescription(
-    description: Omit<BrowserRegistrationDescription, "kind">
+    description: Omit<BrowserRegistrationDescription, "kind">,
   ): Record<string, any>;
   /**
    * @internal
    * Serializes a Web Push template registration description into an XML object for serialization.
    */
   serializeBrowserTemplateRegistrationDescription(
-    description: Omit<BrowserTemplateRegistrationDescription, "kind">
+    description: Omit<BrowserTemplateRegistrationDescription, "kind">,
+  ): Record<string, any>;
+  /**
+   * @internal
+   * Serializes a Google Cloud Messaging (GCM) registration description into an XML object for serialization.
+   */
+  serializeFcmV1RegistrationDescription(
+    description: Omit<FcmV1RegistrationDescription, "kind">,
+  ): Record<string, any>;
+  /**
+   * @internal
+   * Serializes a Google Cloud Messaging (GCM) template registration description into an XML object for serialization.
+   */
+  serializeFcmV1TemplateRegistrationDescription(
+    description: Omit<FcmV1TemplateRegistrationDescription, "kind">,
   ): Record<string, any>;
   /**
    * @internal
    * Serializes a Google Cloud Messaging (GCM) registration description into an XML object for serialization.
    */
   serializeGcmRegistrationDescription(
-    description: Omit<GcmRegistrationDescription, "kind">
+    description: Omit<GcmRegistrationDescription, "kind">,
   ): Record<string, any>;
   /**
    * @internal
    * Serializes a Google Cloud Messaging (GCM) template registration description into an XML object for serialization.
    */
   serializeGcmTemplateRegistrationDescription(
-    description: Omit<GcmTemplateRegistrationDescription, "kind">
+    description: Omit<GcmTemplateRegistrationDescription, "kind">,
   ): Record<string, any>;
   /**
    * @internal
    * Serializes a Windows Phone registration description into an XML object for serialization.
    */
   serializeMpnsRegistrationDescription(
-    description: Omit<MpnsRegistrationDescription, "kind">
+    description: Omit<MpnsRegistrationDescription, "kind">,
   ): Record<string, any>;
   /**
    * @internal
    * Serializes a Windows Phone template registration description into an XML object for serialization.
    */
   serializeMpnsTemplateRegistrationDescription(
-    description: Omit<MpnsTemplateRegistrationDescription, "kind">
+    description: Omit<MpnsTemplateRegistrationDescription, "kind">,
   ): Record<string, any>;
   /**
    * @internal
    * Serializes a Xiaomi registration description into an XML object for serialization.
    */
   serializeXiaomiRegistrationDescription(
-    description: Omit<XiaomiRegistrationDescription, "kind">
+    description: Omit<XiaomiRegistrationDescription, "kind">,
   ): Record<string, any>;
   /**
    * @internal
    * Serializes a Xiaomi template registration description into an XML object for serialization.
    */
   serializeXiaomiTemplateRegistrationDescription(
-    description: Omit<XiaomiTemplateRegistrationDescription, "kind">
+    description: Omit<XiaomiTemplateRegistrationDescription, "kind">,
   ): Record<string, any>;
   /**
    * @internal
    * Serializes a Windows Notification Services (WNS) registration description into an XML object for serialization.
    */
   serializeWindowsRegistrationDescription(
-    description: Omit<WindowsRegistrationDescription, "kind">
+    description: Omit<WindowsRegistrationDescription, "kind">,
   ): Record<string, any>;
   /**
    * @internal
    * Serializes a Windows Notification Services (WNS) template registration description into an XML object for serialization.
    */
   serializeWindowsTemplateRegistrationDescription(
-    description: Omit<WindowsTemplateRegistrationDescription, "kind">
+    description: Omit<WindowsTemplateRegistrationDescription, "kind">,
   ): Record<string, any>;
 }
 
@@ -628,7 +688,7 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
     const methodName = `serialize${rootName}`;
 
     const method = this[methodName as keyof RegistrationDescriptionSerializer].bind(this) as (
-      description: RegistrationDescription
+      description: RegistrationDescription,
     ) => Record<string, any>;
     if (!isDefined(method)) {
       throw new RestError(`Undefined platform ${description.kind}`, { statusCode: 400 });
@@ -645,7 +705,7 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
    * Serializes an existing ADM registration description to an object for serialization.
    */
   serializeAdmRegistrationDescription(
-    description: Omit<AdmRegistrationDescription, "kind">
+    description: Omit<AdmRegistrationDescription, "kind">,
   ): Record<string, any> {
     return {
       ...serializeRegistrationDescription(description),
@@ -658,7 +718,7 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
    * Serializes an existing ADM template registration description to an object for serialization.
    */
   serializeAdmTemplateRegistrationDescription(
-    description: Omit<AdmTemplateRegistrationDescription, "kind">
+    description: Omit<AdmTemplateRegistrationDescription, "kind">,
   ): Record<string, any> {
     return {
       ...this.serializeAdmRegistrationDescription(description),
@@ -671,7 +731,7 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
    * Serializes an existing Apple registration description to an object for serialization.
    */
   serializeAppleRegistrationDescription(
-    description: Omit<AppleRegistrationDescription, "kind">
+    description: Omit<AppleRegistrationDescription, "kind">,
   ): Record<string, any> {
     return {
       ...serializeRegistrationDescription(description),
@@ -684,7 +744,7 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
    * Serializes an existing Apple template registration description to an object for serialization.
    */
   serializeAppleTemplateRegistrationDescription(
-    description: AppleTemplateRegistrationDescription
+    description: AppleTemplateRegistrationDescription,
   ): Record<string, any> {
     let apnsHeaders: Record<string, any> | undefined;
     if (description.apnsHeaders) {
@@ -713,7 +773,7 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
    * Serializes an existing Baidu registration description to an object for serialization.
    */
   serializeBaiduRegistrationDescription(
-    description: Omit<BaiduRegistrationDescription, "kind">
+    description: Omit<BaiduRegistrationDescription, "kind">,
   ): Record<string, any> {
     return {
       ...serializeRegistrationDescription(description),
@@ -727,7 +787,7 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
    * Serializes an existing Baidu template registration description to an object for serialization.
    */
   serializeBaiduTemplateRegistrationDescription(
-    description: Omit<BaiduTemplateRegistrationDescription, "kind">
+    description: Omit<BaiduTemplateRegistrationDescription, "kind">,
   ): Record<string, any> {
     return {
       ...this.serializeBaiduRegistrationDescription(description),
@@ -740,13 +800,13 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
    * Serializes an existing Browser registration description to an object for serialization.
    */
   serializeBrowserRegistrationDescription(
-    description: Omit<BrowserRegistrationDescription, "kind">
+    description: Omit<BrowserRegistrationDescription, "kind">,
   ): Record<string, any> {
     return {
       ...serializeRegistrationDescription(description),
       Endpoint: description.endpoint,
-      Auth: description.auth,
       P256DH: description.p256dh,
+      Auth: description.auth,
     };
   },
 
@@ -755,7 +815,7 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
    * Serializes an existing Browser template registration description to an object for serialization.
    */
   serializeBrowserTemplateRegistrationDescription(
-    description: Omit<BrowserTemplateRegistrationDescription, "kind">
+    description: Omit<BrowserTemplateRegistrationDescription, "kind">,
   ): Record<string, any> {
     return {
       ...this.serializeBrowserRegistrationDescription(description),
@@ -765,11 +825,36 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
 
   /**
    * @internal
-   * @deprecated Should use FCM registrations instead of GCM.
+   * Serializes an existing FCM V1 registration description to an object for serialization.
+   */
+  serializeFcmV1RegistrationDescription(
+    description: Omit<FcmV1RegistrationDescription, "kind">,
+  ): Record<string, any> {
+    return {
+      ...serializeRegistrationDescription(description),
+      FcmV1RegistrationId: getString(description.fcmV1RegistrationId, "fcmRegistrationId"),
+    };
+  },
+
+  /**
+   * @internal
+   * Serializes an existing FCM V1 template registration description to an object for serialization.
+   */
+  serializeFcmV1TemplateRegistrationDescription(
+    description: Omit<FcmV1TemplateRegistrationDescription, "kind">,
+  ): Record<string, any> {
+    return {
+      ...this.serializeFcmV1RegistrationDescription(description),
+      ...serializeTemplateRegistrationDescription(description),
+    };
+  },
+
+  /**
+   * @internal
    * Serializes an existing GCM registration description to an object for serialization.
    */
   serializeGcmRegistrationDescription(
-    description: Omit<GcmRegistrationDescription, "kind">
+    description: Omit<GcmRegistrationDescription, "kind">,
   ): Record<string, any> {
     return {
       ...serializeRegistrationDescription(description),
@@ -779,11 +864,10 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
 
   /**
    * @internal
-   * @deprecated Should use FCM template registrations instead of GCM.
    * Serializes an existing GCM template registration description to an object for serialization.
    */
   serializeGcmTemplateRegistrationDescription(
-    description: Omit<GcmTemplateRegistrationDescription, "kind">
+    description: Omit<GcmTemplateRegistrationDescription, "kind">,
   ): Record<string, any> {
     return {
       ...this.serializeGcmRegistrationDescription(description),
@@ -797,7 +881,7 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
    * Serializes an existing MPNS registration description to an object for serialization.
    */
   serializeMpnsRegistrationDescription(
-    description: Omit<MpnsRegistrationDescription, "kind">
+    description: Omit<MpnsRegistrationDescription, "kind">,
   ): Record<string, any> {
     return {
       ...serializeRegistrationDescription(description),
@@ -811,7 +895,7 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
    * Serializes an existing MPNS template registration description to an object for serialization.
    */
   serializeMpnsTemplateRegistrationDescription(
-    description: Omit<MpnsTemplateRegistrationDescription, "kind">
+    description: Omit<MpnsTemplateRegistrationDescription, "kind">,
   ): Record<string, any> {
     let mpnsHeaders: Record<string, any> | undefined;
     if (description.mpnsHeaders) {
@@ -839,7 +923,7 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
    * Serializes an existing Xiaomi registration description to an object for serialization.
    */
   serializeXiaomiRegistrationDescription(
-    description: Omit<XiaomiRegistrationDescription, "kind">
+    description: Omit<XiaomiRegistrationDescription, "kind">,
   ): Record<string, any> {
     return {
       ...serializeRegistrationDescription(description),
@@ -852,7 +936,7 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
    * Serializes an existing Xiaomi template registration description to an object for serialization.
    */
   serializeXiaomiTemplateRegistrationDescription(
-    description: Omit<XiaomiTemplateRegistrationDescription, "kind">
+    description: Omit<XiaomiTemplateRegistrationDescription, "kind">,
   ): Record<string, any> {
     return {
       ...this.serializeXiaomiRegistrationDescription(description),
@@ -865,7 +949,7 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
    * Serializes an existing Windows registration description to an object for serialization.
    */
   serializeWindowsRegistrationDescription(
-    description: Omit<WindowsRegistrationDescription, "kind">
+    description: Omit<WindowsRegistrationDescription, "kind">,
   ): Record<string, any> {
     return {
       ...serializeRegistrationDescription(description),
@@ -878,7 +962,7 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
    * Serializes an existing Windows template registration description to an object for serialization.
    */
   serializeWindowsTemplateRegistrationDescription(
-    description: Omit<WindowsTemplateRegistrationDescription, "kind">
+    description: Omit<WindowsTemplateRegistrationDescription, "kind">,
   ): Record<string, any> {
     let wnsHeaders: Record<string, any> | undefined;
     if (description.wnsHeaders) {
@@ -903,7 +987,7 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
 };
 
 function serializeRegistrationDescription(
-  description: Omit<RegistrationDescriptionCommon, "kind">
+  description: Omit<RegistrationDescriptionCommon, "kind">,
 ): Record<string, any> {
   let tags: string | undefined;
   if (description.tags) {
@@ -923,7 +1007,7 @@ function serializeRegistrationDescription(
 }
 
 function serializeTemplateRegistrationDescription(
-  description: TemplateRegistrationDescription
+  description: TemplateRegistrationDescription,
 ): Record<string, any> {
   return {
     BodyTemplate: { __cdata: description.bodyTemplate },

@@ -6,10 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./provisionedClustersOperations";
+export * from "./provisionedClusterInstances";
 export * from "./hybridIdentityMetadataOperations";
 export * from "./agentPoolOperations";
-export * from "./hybridContainerService";
+export * from "./kubernetesVersions";
+export * from "./vMSkus";
 export * from "./operations";
-export * from "./storageSpacesOperations";
-export * from "./virtualNetworksOperations";
+export * from "./virtualNetworks";

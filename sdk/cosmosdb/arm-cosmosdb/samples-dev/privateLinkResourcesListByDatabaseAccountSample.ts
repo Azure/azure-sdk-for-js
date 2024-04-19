@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the private link resources that need to be created for a Cosmos DB account.
  *
  * @summary Gets the private link resources that need to be created for a Cosmos DB account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBPrivateLinkResourceListGet.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBPrivateLinkResourceListGet.json
  */
 async function getsPrivateEndpointConnection() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function getsPrivateEndpointConnection() {
   const resArray = new Array();
   for await (let item of client.privateLinkResources.listByDatabaseAccount(
     resourceGroupName,
-    accountName
+    accountName,
   )) {
     resArray.push(item);
   }

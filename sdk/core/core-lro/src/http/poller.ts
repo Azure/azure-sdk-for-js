@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { LongRunningOperation, LroResponse } from "./models";
-import { OperationState, SimplePollerLike } from "../poller/models";
+import { LongRunningOperation, LroResponse } from "./models.js";
+import { OperationState, SimplePollerLike } from "../poller/models.js";
 import {
   getErrorFromResponse,
   getOperationLocation,
@@ -12,9 +12,9 @@ import {
   inferLroMode,
   isOperationError,
   parseRetryAfter,
-} from "./operation";
-import { CreateHttpPollerOptions } from "./models";
-import { buildCreatePoller } from "../poller/poller";
+} from "./operation.js";
+import { CreateHttpPollerOptions } from "./models.js";
+import { buildCreatePoller } from "../poller/poller.js";
 
 /**
  * Creates a poller that can be used to poll a long-running operation.
@@ -24,7 +24,7 @@ import { buildCreatePoller } from "../poller/poller";
  */
 export async function createHttpPoller<TResult, TState extends OperationState<TResult>>(
   lro: LongRunningOperation,
-  options?: CreateHttpPollerOptions<TResult, TState>
+  options?: CreateHttpPollerOptions<TResult, TState>,
 ): Promise<SimplePollerLike<TState, TResult>> {
   const {
     resourceLocationConfig,
@@ -71,6 +71,6 @@ export async function createHttpPoller<TResult, TState extends OperationState<TR
       processResult: processResult
         ? ({ flatResponse }, state) => processResult(flatResponse, state)
         : ({ flatResponse }) => flatResponse as TResult,
-    }
+    },
   );
 }

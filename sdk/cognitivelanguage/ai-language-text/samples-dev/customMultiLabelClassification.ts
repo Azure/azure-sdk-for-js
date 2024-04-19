@@ -46,7 +46,7 @@ export async function main() {
   for await (const actionResult of results) {
     if (actionResult.kind !== "CustomMultiLabelClassification") {
       throw new Error(
-        `Expected a CustomMultiLabelClassification results but got: ${actionResult.kind}`
+        `Expected a CustomMultiLabelClassification results but got: ${actionResult.kind}`,
       );
     }
     if (actionResult.error) {

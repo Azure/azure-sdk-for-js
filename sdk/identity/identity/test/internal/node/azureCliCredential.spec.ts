@@ -2,9 +2,10 @@
 // Licensed under the MIT license.
 
 import Sinon, { createSandbox } from "sinon";
+
 import { AzureCliCredential } from "../../../src/credentials/azureCliCredential";
 import { GetTokenOptions } from "@azure/core-auth";
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import child_process from "child_process";
 
 describe("AzureCliCredential (internal)", function () {
@@ -50,7 +51,7 @@ describe("AzureCliCredential (internal)", function () {
         cwd: [process.env.SystemRoot, "/bin"].includes(azOptions[0].cwd),
         shell: azOptions[0].shell,
       },
-      { cwd: true, shell: true }
+      { cwd: true, shell: true },
     );
   });
 
@@ -59,7 +60,7 @@ describe("AzureCliCredential (internal)", function () {
     stderr = "";
     const credential = new AzureCliCredential();
     const actualToken = await credential.getToken("https://service/.default", {
-      tenantId: "TENANT-ID",
+      tenantId: "12345678-1234-1234-1234-123456789012",
     } as GetTokenOptions);
     assert.equal(actualToken!.token, "token");
     assert.deepEqual(azArgs, [
@@ -71,7 +72,7 @@ describe("AzureCliCredential (internal)", function () {
         "--resource",
         "https://service",
         "--tenant",
-        "TENANT-ID",
+        "12345678-1234-1234-1234-123456789012",
       ],
     ]);
     // Used a working directory, and a shell
@@ -80,7 +81,7 @@ describe("AzureCliCredential (internal)", function () {
         cwd: [process.env.SystemRoot, "/bin"].includes(azOptions[0].cwd),
         shell: azOptions[0].shell,
       },
-      { cwd: true, shell: true }
+      { cwd: true, shell: true },
     );
   });
 
@@ -88,7 +89,7 @@ describe("AzureCliCredential (internal)", function () {
     stdout = '{"accessToken": "token","expiresOn": "01/01/1900 00:00:00 +00:00"}';
     stderr = "";
     const credential = new AzureCliCredential({
-      tenantId: "tenantId",
+      tenantId: "12345678-1234-1234-1234-123456789012",
     });
     const actualToken = await credential.getToken("https://service/.default");
     assert.equal(actualToken!.token, "token");
@@ -101,7 +102,7 @@ describe("AzureCliCredential (internal)", function () {
         "--resource",
         "https://service",
         "--tenant",
-        "tenantId",
+        "12345678-1234-1234-1234-123456789012",
       ],
     ]);
     // Used a working directory, and a shell
@@ -110,7 +111,7 @@ describe("AzureCliCredential (internal)", function () {
         cwd: [process.env.SystemRoot, "/bin"].includes(azOptions[0].cwd),
         shell: azOptions[0].shell,
       },
-      { cwd: true, shell: true }
+      { cwd: true, shell: true },
     );
   });
 
@@ -125,7 +126,7 @@ describe("AzureCliCredential (internal)", function () {
       } catch (error: any) {
         assert.equal(
           error.message,
-          "Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
+          "Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'.",
         );
       }
     } else {
@@ -138,7 +139,7 @@ describe("AzureCliCredential (internal)", function () {
       } catch (error: any) {
         assert.equal(
           error.message,
-          "Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
+          "Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'.",
         );
       }
     }
@@ -154,7 +155,7 @@ describe("AzureCliCredential (internal)", function () {
     } catch (error: any) {
       assert.equal(
         error.message,
-        "Please run 'az login' from a command prompt to authenticate before using this credential."
+        "Please run 'az login' from a command prompt to authenticate before using this credential.",
       );
     }
   });
@@ -218,7 +219,7 @@ az login --scope https://test.windows.net/.default`;
         cwd: [process.env.SystemRoot, "/bin"].includes(azOptions[0].cwd),
         shell: azOptions[0].shell,
       },
-      { cwd: true, shell: true }
+      { cwd: true, shell: true },
     );
   });
 
@@ -238,7 +239,143 @@ az login --scope https://test.windows.net/.default`;
         shell: azOptions[0].shell,
         timeout: 50,
       },
-      { cwd: true, shell: true, timeout: 50 }
+      { cwd: true, shell: true, timeout: 50 },
     );
+  });
+
+  for (const tenantId of [
+    "&quot;invalid-tenant-id&quot;",
+    " ",
+    "12345678-1234-1234-1234-123456789012|",
+    "12345678-1234-1234-1234-123456789012 |",
+    "<",
+    ">",
+    "\0",
+    "<12345678-1234-1234-1234-123456789012>",
+    "12345678-1234-1234-1234-123456789012&",
+    "12345678-1234-1234-1234-123456789012;",
+    "12345678-1234-1234-1234-123456789012'",
+  ]) {
+    const tenantIdErrorMessage =
+      "Invalid tenant id provided. You can locate your tenant id by following the instructions listed here: https://learn.microsoft.com/partner-center/find-ids-and-domain-names.";
+    const testCase =
+      tenantId === " " ? "whitespace" : tenantId === "\0" ? "null character" : `"${tenantId}"`;
+    it(`rejects invalid tenant id of ${testCase} in getToken`, async function () {
+      const credential = new AzureCliCredential();
+      await assert.isRejected(
+        credential.getToken("https://service/.default", {
+          tenantId: tenantId,
+        }),
+        tenantIdErrorMessage,
+      );
+    });
+
+    it(`rejects invalid tenant id of ${testCase} in constructor`, function () {
+      assert.throws(() => {
+        new AzureCliCredential({ tenantId: tenantId });
+      }, tenantIdErrorMessage);
+    });
+  }
+
+  for (const inputScope of ["scope |", "", "\0", "scope;", "scope,", "scope'", "scope&"]) {
+    const testCase =
+      inputScope === ""
+        ? "empty string"
+        : inputScope === "\0"
+          ? "null character"
+          : `"${inputScope}"`;
+    it(`rejects invalid scope of ${testCase}`, async function () {
+      const credential = new AzureCliCredential();
+      await assert.isRejected(
+        credential.getToken(inputScope),
+        "Invalid scope was specified by the user or calling client",
+      );
+    });
+  }
+
+  it("validates correct scope", async function () {
+    stdout = '{"accessToken": "token","expiresOn": "01/01/1900 00:00:00 +00:00"}';
+    stderr = "";
+    const credential = new AzureCliCredential();
+    const actualToken = await credential.getToken("https://service/.default");
+    assert.equal(actualToken!.token, "token");
+  });
+
+  describe("expiresOnTimestamp", function () {
+    const testData = {
+      expires_on: {
+        inputValue: 1705963934,
+        expected: 1705963934000,
+      },
+      expiresOn: {
+        inputValue: "1999-01-22 14:52:14.000000",
+        expected: new Date("1999-01-22 14:52:14.000000").getTime(),
+      },
+    };
+
+    it("uses expires_on when provided", async function () {
+      stdout = `
+        {
+          "accessToken": "token",
+          "expires_on": ${testData.expires_on.inputValue}
+        }`;
+      stderr = "";
+      const credential = new AzureCliCredential();
+      const actualToken = await credential.getToken("https://service/.default");
+      assert.equal(actualToken.expiresOnTimestamp, testData.expires_on.expected);
+    });
+
+    it("uses expiresOn when expires_on is empty", async function () {
+      stdout = `
+        {
+          "accessToken": "token",
+          "expiresOn": "${testData.expiresOn.inputValue}"
+        }`;
+      stderr = "";
+      const credential = new AzureCliCredential();
+      const actualToken = await credential.getToken("https://service/.default");
+      assert.equal(actualToken.expiresOnTimestamp, testData.expiresOn.expected);
+    });
+
+    it("prefers expires_on when both expires_on and expiresOn are provided", async function () {
+      stdout = `
+        {
+          "accessToken": "token",
+          "expiresOn": "${testData.expiresOn.inputValue}",
+          "expires_on": ${testData.expires_on.inputValue}
+        }`;
+      stderr = "";
+      const credential = new AzureCliCredential();
+      const actualToken = await credential.getToken("https://service/.default");
+      assert.equal(actualToken.expiresOnTimestamp, testData.expires_on.expected);
+    });
+
+    it("uses expiresOn when expires_on is invalid", async function () {
+      stdout = `
+        {
+          "accessToken": "token",
+          "expiresOn": "${testData.expiresOn.inputValue}",
+          "expires_on": "not-a-number"
+        }`;
+      stderr = "";
+      const credential = new AzureCliCredential();
+      const actualToken = await credential.getToken("https://service/.default");
+      assert.equal(actualToken.expiresOnTimestamp, testData.expiresOn.expected);
+    });
+
+    it("throws when both are invalid", async function () {
+      stdout = `
+        {
+          "accessToken": "token",
+          "expiresOn": "not-a-date",
+          "expires_on": "not-a-number"
+        }`;
+      stderr = "";
+      const credential = new AzureCliCredential();
+      await assert.isRejected(
+        credential.getToken("https://service/.default"),
+        /Expected "expiresOn" to be a RFC3339 date string. Got: "not-a-date"$/,
+      );
+    });
   });
 });

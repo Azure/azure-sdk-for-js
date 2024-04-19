@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the deployment status for an app (or deployment slot, if specified).
  *
  * @summary Gets the deployment status for an app (or deployment slot, if specified).
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/GetSiteDeploymentStatus.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/GetSiteDeploymentStatus.json
  */
 async function getDeploymentStatus() {
   const subscriptionId =

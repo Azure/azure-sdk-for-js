@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Retrieves metric definitions for the given collection.
  *
  * @summary Retrieves metric definitions for the given collection.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBCollectionGetMetricDefinitions.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBCollectionGetMetricDefinitions.json
  */
 async function cosmosDbCollectionGetMetricDefinitions() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -31,7 +31,7 @@ async function cosmosDbCollectionGetMetricDefinitions() {
     resourceGroupName,
     accountName,
     databaseRid,
-    collectionRid
+    collectionRid,
   )) {
     resArray.push(item);
   }

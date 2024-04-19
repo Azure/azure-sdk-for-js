@@ -1443,6 +1443,17 @@ export const NetworkProfile: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      trustedRanges: {
+        serializedName: "trustedRanges",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }

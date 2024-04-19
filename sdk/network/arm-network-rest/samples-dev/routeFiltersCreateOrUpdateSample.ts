@@ -48,7 +48,7 @@ async function routeFilterCreate() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}",
       subscriptionId,
       resourceGroupName,
-      routeFilterName
+      routeFilterName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

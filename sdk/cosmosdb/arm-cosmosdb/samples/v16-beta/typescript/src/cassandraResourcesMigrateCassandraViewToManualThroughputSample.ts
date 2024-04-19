@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Migrate an Azure Cosmos DB Cassandra view from autoscale to manual throughput
  *
  * @summary Migrate an Azure Cosmos DB Cassandra view from autoscale to manual throughput
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBCassandraViewMigrateToManualThroughput.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBCassandraViewMigrateToManualThroughput.json
  */
 async function cosmosDbCassandraViewMigrateToManualThroughput() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -28,12 +28,13 @@ async function cosmosDbCassandraViewMigrateToManualThroughput() {
   const viewName = "viewname";
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.cassandraResources.beginMigrateCassandraViewToManualThroughputAndWait(
-    resourceGroupName,
-    accountName,
-    keyspaceName,
-    viewName
-  );
+  const result =
+    await client.cassandraResources.beginMigrateCassandraViewToManualThroughputAndWait(
+      resourceGroupName,
+      accountName,
+      keyspaceName,
+      viewName,
+    );
   console.log(result);
 }
 

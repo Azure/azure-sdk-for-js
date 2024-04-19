@@ -1,90 +1,82 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
- *
- * Any changes you make here may be lost.
- *
- * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
- */
-
 import {
-  GetEmbeddings200Response,
-  GetEmbeddingsDefaultResponse,
+  GetAudioTranscriptionAsPlainText200Response,
+  GetAudioTranscriptionAsResponseObject200Response,
+  GetAudioTranscriptionAsPlainTextDefaultResponse,
+  GetAudioTranslationAsPlainText200Response,
+  GetAudioTranslationAsResponseObject200Response,
+  GetAudioTranslationAsPlainTextDefaultResponse,
   GetCompletions200Response,
   GetCompletionsDefaultResponse,
   GetChatCompletions200Response,
   GetChatCompletionsDefaultResponse,
-  GetChatCompletionsWithAzureExtensions200Response,
-  GetChatCompletionsWithAzureExtensionsDefaultResponse,
-  GetAzureBatchImageGenerationOperationStatus200Response,
-  GetAzureBatchImageGenerationOperationStatusLogicalResponse,
-  GetAzureBatchImageGenerationOperationStatusDefaultResponse,
-  BeginAzureBatchImageGeneration202Response,
-  BeginAzureBatchImageGenerationLogicalResponse,
-  BeginAzureBatchImageGenerationDefaultResponse,
+  GetImageGenerations200Response,
+  GetImageGenerationsDefaultResponse,
+  GetEmbeddings200Response,
+  GetEmbeddingsDefaultResponse,
 } from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
-  "POST /deployments/{deploymentId}/embeddings": ["200"],
+  "POST /deployments/{deploymentId}/audio/transcriptions": ["200"],
+  "POST /deployments/{deploymentId}/audio/translations": ["200"],
   "POST /deployments/{deploymentId}/completions": ["200"],
   "POST /deployments/{deploymentId}/chat/completions": ["200"],
-  "POST /deployments/{deploymentId}/extensions/chat/completions": ["200"],
+  "POST /deployments/{deploymentId}/images/generations": ["200"],
+  "POST /deployments/{deploymentId}/embeddings": ["200"],
   "GET /operations/images/{operationId}": ["200"],
   "POST /images/generations:submit": ["202"],
   "GET /images/generations:submit": ["200", "202"],
 };
 
 export function isUnexpected(
-  response: GetEmbeddings200Response | GetEmbeddingsDefaultResponse
-): response is GetEmbeddingsDefaultResponse;
+  response:
+    | GetAudioTranscriptionAsPlainText200Response
+    | GetAudioTranscriptionAsResponseObject200Response
+    | GetAudioTranscriptionAsPlainTextDefaultResponse,
+): response is GetAudioTranscriptionAsPlainTextDefaultResponse;
 export function isUnexpected(
-  response: GetCompletions200Response | GetCompletionsDefaultResponse
+  response:
+    | GetAudioTranslationAsPlainText200Response
+    | GetAudioTranslationAsResponseObject200Response
+    | GetAudioTranslationAsPlainTextDefaultResponse,
+): response is GetAudioTranslationAsPlainTextDefaultResponse;
+export function isUnexpected(
+  response: GetCompletions200Response | GetCompletionsDefaultResponse,
 ): response is GetCompletionsDefaultResponse;
 export function isUnexpected(
-  response: GetChatCompletions200Response | GetChatCompletionsDefaultResponse
+  response: GetChatCompletions200Response | GetChatCompletionsDefaultResponse,
 ): response is GetChatCompletionsDefaultResponse;
 export function isUnexpected(
-  response:
-    | GetChatCompletionsWithAzureExtensions200Response
-    | GetChatCompletionsWithAzureExtensionsDefaultResponse
-): response is GetChatCompletionsWithAzureExtensionsDefaultResponse;
+  response: GetImageGenerations200Response | GetImageGenerationsDefaultResponse,
+): response is GetImageGenerationsDefaultResponse;
+export function isUnexpected(
+  response: GetEmbeddings200Response | GetEmbeddingsDefaultResponse,
+): response is GetEmbeddingsDefaultResponse;
 export function isUnexpected(
   response:
-    | GetAzureBatchImageGenerationOperationStatus200Response
-    | GetAzureBatchImageGenerationOperationStatusLogicalResponse
-    | GetAzureBatchImageGenerationOperationStatusDefaultResponse
-): response is GetAzureBatchImageGenerationOperationStatusDefaultResponse;
-export function isUnexpected(
-  response:
-    | BeginAzureBatchImageGeneration202Response
-    | BeginAzureBatchImageGenerationLogicalResponse
-    | BeginAzureBatchImageGenerationDefaultResponse
-): response is BeginAzureBatchImageGenerationDefaultResponse;
-export function isUnexpected(
-  response:
-    | GetEmbeddings200Response
-    | GetEmbeddingsDefaultResponse
+    | GetAudioTranscriptionAsPlainText200Response
+    | GetAudioTranscriptionAsResponseObject200Response
+    | GetAudioTranscriptionAsPlainTextDefaultResponse
+    | GetAudioTranslationAsPlainText200Response
+    | GetAudioTranslationAsResponseObject200Response
+    | GetAudioTranslationAsPlainTextDefaultResponse
     | GetCompletions200Response
     | GetCompletionsDefaultResponse
     | GetChatCompletions200Response
     | GetChatCompletionsDefaultResponse
-    | GetChatCompletionsWithAzureExtensions200Response
-    | GetChatCompletionsWithAzureExtensionsDefaultResponse
-    | GetAzureBatchImageGenerationOperationStatus200Response
-    | GetAzureBatchImageGenerationOperationStatusLogicalResponse
-    | GetAzureBatchImageGenerationOperationStatusDefaultResponse
-    | BeginAzureBatchImageGeneration202Response
-    | BeginAzureBatchImageGenerationLogicalResponse
-    | BeginAzureBatchImageGenerationDefaultResponse
+    | GetImageGenerations200Response
+    | GetImageGenerationsDefaultResponse
+    | GetEmbeddings200Response
+    | GetEmbeddingsDefaultResponse,
 ): response is
-  | GetEmbeddingsDefaultResponse
+  | GetAudioTranscriptionAsPlainTextDefaultResponse
+  | GetAudioTranslationAsPlainTextDefaultResponse
   | GetCompletionsDefaultResponse
   | GetChatCompletionsDefaultResponse
-  | GetChatCompletionsWithAzureExtensionsDefaultResponse
-  | GetAzureBatchImageGenerationOperationStatusDefaultResponse
-  | BeginAzureBatchImageGenerationDefaultResponse {
+  | GetImageGenerationsDefaultResponse
+  | GetEmbeddingsDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;
@@ -126,7 +118,7 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
         // {guid} ==> $
         // {guid}:export ==> :export$
         const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || ""
+          pathParts[j] || "",
         );
 
         if (!isMatched) {

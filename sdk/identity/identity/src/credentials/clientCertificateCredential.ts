@@ -2,14 +2,17 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { MsalClient, createMsalClient } from "../msal/nodeFlows/msalClient";
+import { createHash, createPrivateKey } from "crypto";
 import {
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
+
+import { CertificateParts } from "../msal/types";
 import { ClientCertificateCredentialOptions } from "./clientCertificateCredentialOptions";
-import { MsalClientCertificate } from "../msal/nodeFlows/msalClientCertificate";
-import { MsalFlow } from "../msal/flows";
 import { credentialLogger } from "../util/logging";
+import { readFile } from "fs/promises";
 import { tracingClient } from "../util/tracing";
 
 const credentialName = "ClientCertificateCredential";
@@ -51,23 +54,25 @@ export type ClientCertificateCredentialPEMConfiguration =
   | ClientCertificatePEMCertificatePath;
 
 /**
- * Enables authentication to Azure Active Directory using a PEM-encoded
+ * Enables authentication to Microsoft Entra ID using a PEM-encoded
  * certificate that is assigned to an App Registration. More information
  * on how to configure certificate authentication can be found here:
  *
- * https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-certificate-credentials#register-your-certificate-with-azure-ad
+ * https://learn.microsoft.com/en-us/azure/active-directory/develop/active-directory-certificate-credentials#register-your-certificate-with-azure-ad
  *
  */
 export class ClientCertificateCredential implements TokenCredential {
   private tenantId: string;
   private additionallyAllowedTenantIds: string[];
-  private msalFlow: MsalFlow;
+  private certificateConfiguration: ClientCertificateCredentialPEMConfiguration;
+  private sendCertificateChain?: boolean;
+  private msalClient: MsalClient;
 
   /**
    * Creates an instance of the ClientCertificateCredential with the details
-   * needed to authenticate against Azure Active Directory with a certificate.
+   * needed to authenticate against Microsoft Entra ID with a certificate.
    *
-   * @param tenantId - The Azure Active Directory tenant (directory) ID.
+   * @param tenantId - The Microsoft Entra tenant (directory) ID.
    * @param clientId - The client (application) ID of an App Registration in the tenant.
    * @param certificatePath - The path to a PEM-encoded public/private key certificate on the filesystem.
    * @param options - Options for configuring the client which makes the authentication request.
@@ -76,13 +81,13 @@ export class ClientCertificateCredential implements TokenCredential {
     tenantId: string,
     clientId: string,
     certificatePath: string,
-    options?: ClientCertificateCredentialOptions
+    options?: ClientCertificateCredentialOptions,
   );
   /**
    * Creates an instance of the ClientCertificateCredential with the details
-   * needed to authenticate against Azure Active Directory with a certificate.
+   * needed to authenticate against Microsoft Entra ID with a certificate.
    *
-   * @param tenantId - The Azure Active Directory tenant (directory) ID.
+   * @param tenantId - The Microsoft Entra tenant (directory) ID.
    * @param clientId - The client (application) ID of an App Registration in the tenant.
    * @param configuration - Other parameters required, including the path of the certificate on the filesystem.
    *                        If the type is ignored, we will throw the value of the path to a PEM certificate.
@@ -92,13 +97,13 @@ export class ClientCertificateCredential implements TokenCredential {
     tenantId: string,
     clientId: string,
     configuration: ClientCertificatePEMCertificatePath,
-    options?: ClientCertificateCredentialOptions
+    options?: ClientCertificateCredentialOptions,
   );
   /**
    * Creates an instance of the ClientCertificateCredential with the details
-   * needed to authenticate against Azure Active Directory with a certificate.
+   * needed to authenticate against Microsoft Entra ID with a certificate.
    *
-   * @param tenantId - The Azure Active Directory tenant (directory) ID.
+   * @param tenantId - The Microsoft Entra tenant (directory) ID.
    * @param clientId - The client (application) ID of an App Registration in the tenant.
    * @param configuration - Other parameters required, including the PEM-encoded certificate as a string.
    *                        If the type is ignored, we will throw the value of the PEM-encoded certificate.
@@ -108,58 +113,57 @@ export class ClientCertificateCredential implements TokenCredential {
     tenantId: string,
     clientId: string,
     configuration: ClientCertificatePEMCertificate,
-    options?: ClientCertificateCredentialOptions
+    options?: ClientCertificateCredentialOptions,
   );
   constructor(
     tenantId: string,
     clientId: string,
     certificatePathOrConfiguration: string | ClientCertificateCredentialPEMConfiguration,
-    options: ClientCertificateCredentialOptions = {}
+    options: ClientCertificateCredentialOptions = {},
   ) {
     if (!tenantId || !clientId) {
       throw new Error(`${credentialName}: tenantId and clientId are required parameters.`);
     }
 
     this.tenantId = tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
-      options?.additionallyAllowedTenants
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
+      options?.additionallyAllowedTenants,
     );
 
-    const configuration: ClientCertificateCredentialPEMConfiguration = {
+    this.sendCertificateChain = options.sendCertificateChain;
+
+    this.certificateConfiguration = {
       ...(typeof certificatePathOrConfiguration === "string"
         ? {
             certificatePath: certificatePathOrConfiguration,
           }
         : certificatePathOrConfiguration),
     };
-    const certificate: string | undefined = (configuration as ClientCertificatePEMCertificate)
-      .certificate;
+    const certificate: string | undefined = (
+      this.certificateConfiguration as ClientCertificatePEMCertificate
+    ).certificate;
     const certificatePath: string | undefined = (
-      configuration as ClientCertificatePEMCertificatePath
+      this.certificateConfiguration as ClientCertificatePEMCertificatePath
     ).certificatePath;
-    if (!configuration || !(certificate || certificatePath)) {
+    if (!this.certificateConfiguration || !(certificate || certificatePath)) {
       throw new Error(
-        `${credentialName}: Provide either a PEM certificate in string form, or the path to that certificate in the filesystem. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.`
+        `${credentialName}: Provide either a PEM certificate in string form, or the path to that certificate in the filesystem. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.`,
       );
     }
     if (certificate && certificatePath) {
       throw new Error(
-        `${credentialName}: To avoid unexpected behaviors, providing both the contents of a PEM certificate and the path to a PEM certificate is forbidden. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.`
+        `${credentialName}: To avoid unexpected behaviors, providing both the contents of a PEM certificate and the path to a PEM certificate is forbidden. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.`,
       );
     }
-    this.msalFlow = new MsalClientCertificate({
+    this.msalClient = createMsalClient(clientId, tenantId, {
       ...options,
-      configuration,
       logger,
-      clientId,
-      tenantId,
-      sendCertificateChain: options.sendCertificateChain,
       tokenCredentialOptions: options,
     });
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
    * @param scopes - The list of scopes for which the token will have access.
@@ -172,11 +176,79 @@ export class ClientCertificateCredential implements TokenCredential {
         this.tenantId,
         newOptions,
         this.additionallyAllowedTenantIds,
-        logger
+        logger,
       );
 
       const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
-      return this.msalFlow.getToken(arrayScopes, newOptions);
+      const certificate = await this.buildClientCertificate();
+      return this.msalClient.getTokenByClientCertificate(arrayScopes, certificate, newOptions);
     });
+  }
+
+  private async buildClientCertificate(): Promise<CertificateParts> {
+    const parts = await this.parseCertificate();
+
+    let privateKey: string;
+    if (this.certificateConfiguration.certificatePassword !== undefined) {
+      privateKey = createPrivateKey({
+        key: parts.certificateContents,
+        passphrase: this.certificateConfiguration.certificatePassword,
+        format: "pem",
+      })
+        .export({
+          format: "pem",
+          type: "pkcs8",
+        })
+        .toString();
+    } else {
+      privateKey = parts.certificateContents;
+    }
+
+    return {
+      thumbprint: parts.thumbprint,
+      privateKey,
+      x5c: parts.x5c,
+    };
+  }
+
+  private async parseCertificate(): Promise<
+    Omit<CertificateParts, "privateKey"> & { certificateContents: string }
+  > {
+    const certificate: string | undefined = (
+      this.certificateConfiguration as ClientCertificatePEMCertificate
+    ).certificate;
+    const certificatePath: string | undefined = (
+      this.certificateConfiguration as ClientCertificatePEMCertificatePath
+    ).certificatePath;
+    const certificateContents = certificate || (await readFile(certificatePath!, "utf8"));
+    const x5c = this.sendCertificateChain ? certificateContents : undefined;
+
+    const certificatePattern =
+      /(-+BEGIN CERTIFICATE-+)(\n\r?|\r\n?)([A-Za-z0-9+/\n\r]+=*)(\n\r?|\r\n?)(-+END CERTIFICATE-+)/g;
+    const publicKeys: string[] = [];
+
+    // Match all possible certificates, in the order they are in the file. These will form the chain that is used for x5c
+    let match;
+    do {
+      match = certificatePattern.exec(certificateContents);
+      if (match) {
+        publicKeys.push(match[3]);
+      }
+    } while (match);
+
+    if (publicKeys.length === 0) {
+      throw new Error("The file at the specified path does not contain a PEM-encoded certificate.");
+    }
+
+    const thumbprint = createHash("sha1")
+      .update(Buffer.from(publicKeys[0], "base64"))
+      .digest("hex")
+      .toUpperCase();
+
+    return {
+      certificateContents,
+      thumbprint,
+      x5c,
+    };
   }
 }

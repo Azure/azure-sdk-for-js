@@ -34,12 +34,13 @@ export class AzureMonitorMetricExporter
 
   constructor(options: AzureMonitorExporterOptions = {}) {
     super(options);
-    this._sender = new HttpSender(
-      this.endpointUrl,
-      this.instrumentationKey,
-      this.trackStatsbeat,
-      options
-    );
+    this._sender = new HttpSender({
+      endpointUrl: this.endpointUrl,
+      instrumentationKey: this.instrumentationKey,
+      trackStatsbeat: this.trackStatsbeat,
+      exporterOptions: options,
+      aadAudience: this.aadAudience,
+    });
     diag.debug("AzureMonitorMetricExporter was successfully setup");
   }
 
@@ -50,7 +51,7 @@ export class AzureMonitorMetricExporter
    */
   async export(
     metrics: ResourceMetrics,
-    resultCallback: (result: ExportResult) => void
+    resultCallback: (result: ExportResult) => void,
   ): Promise<void> {
     if (this._isShutdown) {
       diag.info("Exporter shut down. Failed to export spans.");
@@ -59,9 +60,9 @@ export class AzureMonitorMetricExporter
     }
     diag.info(`Exporting ${metrics.scopeMetrics.length} metrics(s). Converting to envelopes...`);
 
-    let envelopes: Envelope[] = resourceMetricsToEnvelope(metrics, this.instrumentationKey);
+    const envelopes: Envelope[] = resourceMetricsToEnvelope(metrics, this.instrumentationKey);
     // Supress tracing until OpenTelemetry Metrics SDK support it
-    context.with(suppressTracing(context.active()), async () => {
+    await context.with(suppressTracing(context.active()), async () => {
       resultCallback(await this._sender.exportEnvelopes(envelopes));
     });
   }
@@ -80,8 +81,8 @@ export class AzureMonitorMetricExporter
    */
   public selectAggregationTemporality(instrumentType: InstrumentType): AggregationTemporality {
     if (
-      instrumentType == InstrumentType.UP_DOWN_COUNTER ||
-      instrumentType == InstrumentType.OBSERVABLE_UP_DOWN_COUNTER
+      instrumentType === InstrumentType.UP_DOWN_COUNTER ||
+      instrumentType === InstrumentType.OBSERVABLE_UP_DOWN_COUNTER
     ) {
       return AggregationTemporality.CUMULATIVE;
     }
@@ -91,7 +92,7 @@ export class AzureMonitorMetricExporter
   /**
    * Force flush
    */
-  public async forceFlush() {
+  public async forceFlush(): Promise<void> {
     return Promise.resolve();
   }
 }

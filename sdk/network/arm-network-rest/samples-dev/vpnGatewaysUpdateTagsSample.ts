@@ -33,7 +33,7 @@ async function vpnGatewayUpdate() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}",
       subscriptionId,
       resourceGroupName,
-      gatewayName
+      gatewayName,
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -44,7 +44,7 @@ export const recorderOptions: RecorderStartOptions = {
 export async function createTestUser(recorder: Recorder): Promise<CommunicationUserToken> {
   const identityClient = new CommunicationIdentityClient(
     assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"),
-    recorder.configureClientOptions({})
+    recorder.configureClientOptions({}),
   );
   return identityClient.createUserAndToken(["chat"]);
 }
@@ -52,7 +52,7 @@ export async function createTestUser(recorder: Recorder): Promise<CommunicationU
 export async function deleteTestUser(testUser: CommunicationUserIdentifier): Promise<void> {
   if (testUser) {
     const identityClient = new CommunicationIdentityClient(
-      assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING")
+      assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"),
     );
     await identityClient.deleteUser(testUser);
   }
@@ -69,12 +69,12 @@ export function createChatClient(userToken: string, recorder: Recorder): ChatCli
     userToken = generateToken();
   }
   const { url } = parseClientArguments(
-    assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING")
+    assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"),
   );
 
   return new ChatClient(
     url,
     new AzureCommunicationTokenCredential(userToken),
-    recorder.configureClientOptions({})
+    recorder.configureClientOptions({}),
   );
 }

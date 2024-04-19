@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates a new server.
  *
  * @summary Creates a new server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/AdministratorAdd.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/AdministratorAdd.json
  */
 async function addsAnActiveDIrectoryAdministratorForTheServer() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function addsAnActiveDIrectoryAdministratorForTheServer() {
     resourceGroupName,
     serverName,
     objectId,
-    parameters
+    parameters,
   );
   console.log(result);
 }

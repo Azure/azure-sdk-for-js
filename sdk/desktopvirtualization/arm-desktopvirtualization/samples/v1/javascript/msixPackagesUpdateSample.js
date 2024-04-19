@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update an  MSIX Package.
  *
  * @summary Update an  MSIX Package.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2022-09-09/examples/MsixPackage_Update.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/MsixPackage_Update.json
  */
 async function msixPackageUpdate() {
   const subscriptionId =

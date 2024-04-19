@@ -6,14 +6,6 @@ steps:
     parameters:
       NodeVersion: $(NodeTestVersion)
 
-  # Node 14.x uses package node-gyp@5.1.0 which is not compatible with win2022. 
-  # Following the readme to upgrade to the latest one. Readme: https://github.com/nodejs/node-gyp/blob/main/docs/Force-npm-to-use-global-node-gyp.md
-  - pwsh: | 
-      npm install --global node-gyp@latest
-      npm prefix -g | % {npm config set node_gyp "$_\node_modules\node-gyp\bin\node-gyp.js"}
-    displayName: Upgrade node-gyp version in Node 14x
-    condition: and(eq(variables['Pool'], 'azsdk-pool-mms-win-2022-general'), eq(variables['NodeTestVersion'], '14.x'))
-
   # Packages with native dependencies must be reinstalled after changing Node versions
   - pwsh: |
       $nativeDependencySymlinkPaths = "common/temp/node_modules/.pnpm/node_modules/keytar,common/temp/node_modules/.pnpm/node_modules/@azure/msal-node-extensions"

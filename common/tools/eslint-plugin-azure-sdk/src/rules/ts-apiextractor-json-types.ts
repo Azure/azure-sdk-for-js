@@ -19,7 +19,7 @@ import { stripFileName } from "../utils/verifiers";
 export = {
   meta: getRuleMetaData(
     "ts-apiextractor-json-types",
-    "force api-extractor.json to configure types in a consistent way"
+    "force api-extractor.json to configure types in a consistent way",
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const verifiers = getVerifiers(context, {
@@ -27,7 +27,7 @@ export = {
       inner: "publicTrimmedFilePath",
       expected: false,
     });
-    const fileName = context.getFilename();
+    const fileName = context.filename;
     return stripPath(fileName) === "api-extractor.json"
       ? ({
           // callback functions

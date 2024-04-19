@@ -18,13 +18,13 @@ export = {
   meta: getRuleMetaData(
     "ts-package-json-main-is-cjs",
     "force package.json's main value to point to a CommonJS or UMD module",
-    "code"
+    "code",
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const verifiers = getVerifiers(context, {
       outer: "main",
     });
-    return stripPath(context.getFilename()) === "package.json"
+    return stripPath(context.filename) === "package.json"
       ? ({
           // callback functions
 
@@ -33,7 +33,7 @@ export = {
 
           // check the node corresponding to main to see if its value is dist/index.js
           "ExpressionStatement > ObjectExpression > Property[key.value='main']": (
-            node: Property
+            node: Property,
           ): void => {
             if (node.value.type !== "Literal") {
               context.report({

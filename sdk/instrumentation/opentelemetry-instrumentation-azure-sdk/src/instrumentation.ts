@@ -25,7 +25,7 @@ class AzureSdkInstrumentation extends InstrumentationBase {
     super(
       "@azure/opentelemetry-instrumentation-azure-sdk",
       SDK_VERSION,
-      Object.assign({}, options)
+      Object.assign({}, options),
     );
   }
   /**
@@ -47,7 +47,7 @@ class AzureSdkInstrumentation extends InstrumentationBase {
           }
 
           return moduleExports;
-        }
+        },
       );
     // Needed to support 1.0.0-preview.14
     result.includePrerelease = true;
@@ -75,7 +75,7 @@ class AzureSdkInstrumentation extends InstrumentationBase {
  * this instrumentation as early as possible and before loading any Azure Client Libraries.
  */
 export function createAzureSdkInstrumentation(
-  options: AzureSdkInstrumentationOptions = {}
+  options: AzureSdkInstrumentationOptions = {},
 ): Instrumentation {
   return new AzureSdkInstrumentation(options);
 }

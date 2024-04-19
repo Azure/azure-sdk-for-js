@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { HybridComputeManagementClient } = require("@azure/arm-hybridcompute");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to The operation to delete the extension.
  *
  * @summary The operation to delete the extension.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2021-06-10-preview/examples/DELETEExtension.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-06-20-preview/examples/extension/Extension_Delete.json
  */
 async function deleteAMachineExtension() {
-  const subscriptionId = "{subscriptionId}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId = process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
+  const resourceGroupName = process.env["HYBRIDCOMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const machineName = "myMachine";
   const extensionName = "MMA";
   const credential = new DefaultAzureCredential();
@@ -32,4 +33,8 @@ async function deleteAMachineExtension() {
   console.log(result);
 }
 
-deleteAMachineExtension().catch(console.error);
+async function main() {
+  deleteAMachineExtension();
+}
+
+main().catch(console.error);

@@ -94,7 +94,7 @@ export async function scenarioReceiveBatch() {
       ) {
         await stressBase.sendMessages(
           new Array(numberOfParallelSends).fill(sender),
-          numberOfMessagesPerSend
+          numberOfMessagesPerSend,
         );
         elapsedTime = new Date().valueOf() - startedAt.valueOf();
         await delay(delayBetweenSendsInMs);
@@ -108,7 +108,7 @@ export async function scenarioReceiveBatch() {
           receiver,
           receiveBatchMaxMessageCount,
           receiveBatchMaxWaitTimeInMs,
-          settleMessageOnReceive
+          settleMessageOnReceive,
         );
         elapsedTime = new Date().valueOf() - startedAt.valueOf();
         await delay(delayBetweenReceivesInMs);
@@ -119,7 +119,7 @@ export async function scenarioReceiveBatch() {
       await sendMessages();
     }
     await Promise.all(
-      (!sendAllMessagesBeforeReceiveStarts ? [sendMessages()] : []).concat(receiveMessages())
+      (!sendAllMessagesBeforeReceiveStarts ? [sendMessages()] : []).concat(receiveMessages()),
     );
   };
 

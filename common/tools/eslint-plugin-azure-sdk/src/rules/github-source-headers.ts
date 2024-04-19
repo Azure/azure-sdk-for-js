@@ -28,10 +28,10 @@ export = {
   meta: getRuleMetaData(
     "github-source-headers",
     "require copyright headers in every source file",
-    "code"
+    "code",
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener =>
-    /\.ts$/.test(context.getFilename())
+    /\.ts$/.test(context.filename)
       ? {
           // callback functions
 
@@ -48,7 +48,7 @@ export = {
                 fix(fixer: Rule.RuleFixer): Rule.Fix {
                   return fixer.insertTextBefore(
                     (headerComments[0] as any) || node,
-                    expectedComments
+                    expectedComments,
                   );
                 },
               });

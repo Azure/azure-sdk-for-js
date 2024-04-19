@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for List all ResourceHealthMetadata for all sites in the subscription.
  *
  * @summary Description for List all ResourceHealthMetadata for all sites in the subscription.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/ListResourceHealthMetadataBySubscription.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/ListResourceHealthMetadataBySubscription.json
  */
 async function listResourceHealthMetadataForASubscription() {
   const subscriptionId =

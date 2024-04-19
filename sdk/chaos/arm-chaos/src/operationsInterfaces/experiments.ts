@@ -7,14 +7,13 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Experiment,
   ExperimentsListAllOptionalParams,
   ExperimentsListOptionalParams,
-  ExperimentStatus,
-  ExperimentsListAllStatusesOptionalParams,
-  ExperimentExecutionDetails,
-  ExperimentsListExecutionDetailsOptionalParams,
+  ExperimentExecution,
+  ExperimentsListAllExecutionsOptionalParams,
   ExperimentsDeleteOptionalParams,
   ExperimentsGetOptionalParams,
   ExperimentsGetResponse,
@@ -24,13 +23,11 @@ import {
   ExperimentsUpdateOptionalParams,
   ExperimentsUpdateResponse,
   ExperimentsCancelOptionalParams,
-  ExperimentsCancelResponse,
   ExperimentsStartOptionalParams,
-  ExperimentsStartResponse,
-  ExperimentsGetStatusOptionalParams,
-  ExperimentsGetStatusResponse,
-  ExperimentsGetExecutionDetailsOptionalParams,
-  ExperimentsGetExecutionDetailsResponse
+  ExperimentsGetExecutionOptionalParams,
+  ExperimentsGetExecutionResponse,
+  ExperimentsExecutionDetailsOptionalParams,
+  ExperimentsExecutionDetailsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +38,7 @@ export interface Experiments {
    * @param options The options parameters.
    */
   listAll(
-    options?: ExperimentsListAllOptionalParams
+    options?: ExperimentsListAllOptionalParams,
   ): PagedAsyncIterableIterator<Experiment>;
   /**
    * Get a list of Experiment resources in a resource group.
@@ -50,40 +47,40 @@ export interface Experiments {
    */
   list(
     resourceGroupName: string,
-    options?: ExperimentsListOptionalParams
+    options?: ExperimentsListOptionalParams,
   ): PagedAsyncIterableIterator<Experiment>;
   /**
-   * Get a list of statuses of a Experiment resource.
+   * Get a list of executions of an Experiment resource.
    * @param resourceGroupName String that represents an Azure resource group.
    * @param experimentName String that represents a Experiment resource name.
    * @param options The options parameters.
    */
-  listAllStatuses(
+  listAllExecutions(
     resourceGroupName: string,
     experimentName: string,
-    options?: ExperimentsListAllStatusesOptionalParams
-  ): PagedAsyncIterableIterator<ExperimentStatus>;
-  /**
-   * Get a list of execution details of a Experiment resource.
-   * @param resourceGroupName String that represents an Azure resource group.
-   * @param experimentName String that represents a Experiment resource name.
-   * @param options The options parameters.
-   */
-  listExecutionDetails(
-    resourceGroupName: string,
-    experimentName: string,
-    options?: ExperimentsListExecutionDetailsOptionalParams
-  ): PagedAsyncIterableIterator<ExperimentExecutionDetails>;
+    options?: ExperimentsListAllExecutionsOptionalParams,
+  ): PagedAsyncIterableIterator<ExperimentExecution>;
   /**
    * Delete a Experiment resource.
    * @param resourceGroupName String that represents an Azure resource group.
    * @param experimentName String that represents a Experiment resource name.
    * @param options The options parameters.
    */
-  delete(
+  beginDelete(
     resourceGroupName: string,
     experimentName: string,
-    options?: ExperimentsDeleteOptionalParams
+    options?: ExperimentsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Delete a Experiment resource.
+   * @param resourceGroupName String that represents an Azure resource group.
+   * @param experimentName String that represents a Experiment resource name.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    experimentName: string,
+    options?: ExperimentsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get a Experiment resource.
@@ -94,7 +91,7 @@ export interface Experiments {
   get(
     resourceGroupName: string,
     experimentName: string,
-    options?: ExperimentsGetOptionalParams
+    options?: ExperimentsGetOptionalParams,
   ): Promise<ExperimentsGetResponse>;
   /**
    * Create or update a Experiment resource.
@@ -103,11 +100,29 @@ export interface Experiments {
    * @param experiment Experiment resource to be created or updated.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  beginCreateOrUpdate(
     resourceGroupName: string,
     experimentName: string,
     experiment: Experiment,
-    options?: ExperimentsCreateOrUpdateOptionalParams
+    options?: ExperimentsCreateOrUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ExperimentsCreateOrUpdateResponse>,
+      ExperimentsCreateOrUpdateResponse
+    >
+  >;
+  /**
+   * Create or update a Experiment resource.
+   * @param resourceGroupName String that represents an Azure resource group.
+   * @param experimentName String that represents a Experiment resource name.
+   * @param experiment Experiment resource to be created or updated.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    experimentName: string,
+    experiment: Experiment,
+    options?: ExperimentsCreateOrUpdateOptionalParams,
   ): Promise<ExperimentsCreateOrUpdateResponse>;
   /**
    * The operation to update an experiment.
@@ -116,11 +131,29 @@ export interface Experiments {
    * @param experiment Parameters supplied to the Update experiment operation.
    * @param options The options parameters.
    */
-  update(
+  beginUpdate(
     resourceGroupName: string,
     experimentName: string,
     experiment: ExperimentUpdate,
-    options?: ExperimentsUpdateOptionalParams
+    options?: ExperimentsUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ExperimentsUpdateResponse>,
+      ExperimentsUpdateResponse
+    >
+  >;
+  /**
+   * The operation to update an experiment.
+   * @param resourceGroupName String that represents an Azure resource group.
+   * @param experimentName String that represents a Experiment resource name.
+   * @param experiment Parameters supplied to the Update experiment operation.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    resourceGroupName: string,
+    experimentName: string,
+    experiment: ExperimentUpdate,
+    options?: ExperimentsUpdateOptionalParams,
   ): Promise<ExperimentsUpdateResponse>;
   /**
    * Cancel a running Experiment resource.
@@ -128,46 +161,68 @@ export interface Experiments {
    * @param experimentName String that represents a Experiment resource name.
    * @param options The options parameters.
    */
-  cancel(
+  beginCancel(
     resourceGroupName: string,
     experimentName: string,
-    options?: ExperimentsCancelOptionalParams
-  ): Promise<ExperimentsCancelResponse>;
+    options?: ExperimentsCancelOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Cancel a running Experiment resource.
+   * @param resourceGroupName String that represents an Azure resource group.
+   * @param experimentName String that represents a Experiment resource name.
+   * @param options The options parameters.
+   */
+  beginCancelAndWait(
+    resourceGroupName: string,
+    experimentName: string,
+    options?: ExperimentsCancelOptionalParams,
+  ): Promise<void>;
   /**
    * Start a Experiment resource.
    * @param resourceGroupName String that represents an Azure resource group.
    * @param experimentName String that represents a Experiment resource name.
    * @param options The options parameters.
    */
-  start(
+  beginStart(
     resourceGroupName: string,
     experimentName: string,
-    options?: ExperimentsStartOptionalParams
-  ): Promise<ExperimentsStartResponse>;
+    options?: ExperimentsStartOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Get a status of a Experiment resource.
+   * Start a Experiment resource.
    * @param resourceGroupName String that represents an Azure resource group.
    * @param experimentName String that represents a Experiment resource name.
-   * @param statusId GUID that represents a Experiment status.
    * @param options The options parameters.
    */
-  getStatus(
+  beginStartAndWait(
     resourceGroupName: string,
     experimentName: string,
-    statusId: string,
-    options?: ExperimentsGetStatusOptionalParams
-  ): Promise<ExperimentsGetStatusResponse>;
+    options?: ExperimentsStartOptionalParams,
+  ): Promise<void>;
   /**
-   * Get an execution detail of a Experiment resource.
+   * Get an execution of an Experiment resource.
    * @param resourceGroupName String that represents an Azure resource group.
    * @param experimentName String that represents a Experiment resource name.
-   * @param executionDetailsId GUID that represents a Experiment execution detail.
+   * @param executionId GUID that represents a Experiment execution detail.
    * @param options The options parameters.
    */
-  getExecutionDetails(
+  getExecution(
     resourceGroupName: string,
     experimentName: string,
-    executionDetailsId: string,
-    options?: ExperimentsGetExecutionDetailsOptionalParams
-  ): Promise<ExperimentsGetExecutionDetailsResponse>;
+    executionId: string,
+    options?: ExperimentsGetExecutionOptionalParams,
+  ): Promise<ExperimentsGetExecutionResponse>;
+  /**
+   * Execution details of an experiment resource.
+   * @param resourceGroupName String that represents an Azure resource group.
+   * @param experimentName String that represents a Experiment resource name.
+   * @param executionId GUID that represents a Experiment execution detail.
+   * @param options The options parameters.
+   */
+  executionDetails(
+    resourceGroupName: string,
+    experimentName: string,
+    executionId: string,
+    options?: ExperimentsExecutionDetailsOptionalParams,
+  ): Promise<ExperimentsExecutionDetailsResponse>;
 }

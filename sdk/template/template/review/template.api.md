@@ -24,7 +24,7 @@ export interface ConfigurationSetting {
     contentType?: string;
     etag?: string;
     isReadOnly?: boolean;
-    key: string;
+    key?: string;
     label?: string;
     lastModified?: Date;
     tags?: {

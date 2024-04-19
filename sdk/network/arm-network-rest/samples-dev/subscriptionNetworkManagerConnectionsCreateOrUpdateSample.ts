@@ -35,7 +35,7 @@ async function createOrUpdateSubscriptionNetworkManagerConnection() {
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}",
       subscriptionId,
-      networkManagerConnectionName
+      networkManagerConnectionName,
     )
     .put(options);
   console.log(result);

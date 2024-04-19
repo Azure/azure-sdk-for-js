@@ -55,13 +55,13 @@ export class SasServiceClientCredentials {
     const signature = await this._generateSignature(targetUri, expirationDate);
     request.headers.set(
       "authorization",
-      `SharedAccessSignature sig=${signature}&se=${expirationDate}&skn=${this._credential.name}&sr=${targetUri}`
+      `SharedAccessSignature sig=${signature}&se=${expirationDate}&skn=${this._credential.name}&sr=${targetUri}`,
     );
     request.withCredentials = true;
     return request;
   }
 
-  getToken(audience: string): AccessToken {
+  getToken(audience: string): Promise<AccessToken> {
     return this._tokenProvider.getToken(audience);
   }
 }

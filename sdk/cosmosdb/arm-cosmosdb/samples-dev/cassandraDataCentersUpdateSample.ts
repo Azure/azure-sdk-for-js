@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   DataCenterResource,
-  CosmosDBManagementClient
+  CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update some of the properties of a managed Cassandra data center.
  *
  * @summary Update some of the properties of a managed Cassandra data center.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBManagedCassandraDataCenterPatch.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBManagedCassandraDataCenterPatch.json
  */
 async function cosmosDbManagedCassandraDataCenterUpdate() {
   const subscriptionId =
@@ -38,8 +38,8 @@ async function cosmosDbManagedCassandraDataCenterUpdate() {
       dataCenterLocation: "West US 2",
       delegatedSubnetId:
         "/subscriptions/536e130b-d7d6-4ac7-98a5-de20d69588d2/resourceGroups/customer-vnet-rg/providers/Microsoft.Network/virtualNetworks/customer-vnet/subnets/dc1-subnet",
-      nodeCount: 9
-    }
+      nodeCount: 9,
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
@@ -47,7 +47,7 @@ async function cosmosDbManagedCassandraDataCenterUpdate() {
     resourceGroupName,
     clusterName,
     dataCenterName,
-    body
+    body,
   );
   console.log(result);
 }

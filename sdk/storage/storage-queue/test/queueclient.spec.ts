@@ -82,7 +82,7 @@ describe("QueueClient", () => {
 
   it("create with all parameters", async () => {
     const qClient = queueServiceClient.getQueueClient(
-      recorder.variable(queueName, getUniqueName(queueName))
+      recorder.variable(queueName, getUniqueName(queueName)),
     );
     const metadata = { key: "value" };
     await qClient.create({ metadata });
@@ -103,7 +103,7 @@ describe("QueueClient", () => {
     assert.equal(
       error.message,
       "Unable to extract queueName with provided information.",
-      "Unexpected error caught: " + error
+      "Unexpected error caught: " + error,
     );
   });
 
@@ -111,7 +111,7 @@ describe("QueueClient", () => {
     assert.ok(await queueClient.exists());
 
     const qClient = queueServiceClient.getQueueClient(
-      recorder.variable(queueName, getUniqueName(queueName))
+      recorder.variable(queueName, getUniqueName(queueName)),
     );
     assert.ok(!(await qClient.exists()));
   });
@@ -126,7 +126,7 @@ describe("QueueClient", () => {
     assert.equal(res2.errorCode, "QueueAlreadyExists");
 
     queueClient = queueServiceClient.getQueueClient(
-      recorder.variable("queue2", getUniqueName("queue2"))
+      recorder.variable("queue2", getUniqueName("queue2")),
     );
     const res3 = await queueClient.createIfNotExists();
     assert.ok(res3.succeeded);
@@ -134,7 +134,7 @@ describe("QueueClient", () => {
 
   it("deleteIfExists", async () => {
     const qClient = queueServiceClient.getQueueClient(
-      recorder.variable(queueName, getUniqueName(queueName))
+      recorder.variable(queueName, getUniqueName(queueName)),
     );
     const res = await qClient.deleteIfExists();
     assert.ok(!res.succeeded);
@@ -206,7 +206,7 @@ describe("QueueClient", () => {
       assert.equal(
         "Expecting non-empty strings for queueName parameter",
         error.message,
-        "Error message is different than expected."
+        "Error message is different than expected.",
       );
     }
   });
@@ -216,7 +216,7 @@ describe("QueueClient", () => {
       async (options) => {
         await queueClient.getProperties(options);
       },
-      ["QueueClient-getProperties"]
+      ["QueueClient-getProperties"],
     );
   });
 });
@@ -231,7 +231,7 @@ describe("QueueClient - Verify Name Properties", () => {
     assert.equal(
       newClient.accountName,
       inputAccountName,
-      "Account name is not the same as the one provided."
+      "Account name is not the same as the one provided.",
     );
   }
 
@@ -239,7 +239,7 @@ describe("QueueClient - Verify Name Properties", () => {
     verifyNameProperties(
       `https://${accountName}.queue.core.windows.net/` + queueName,
       accountName,
-      queueName
+      queueName,
     );
   });
 
@@ -247,7 +247,7 @@ describe("QueueClient - Verify Name Properties", () => {
     verifyNameProperties(
       `https://192.0.0.10:1900/${accountName}/${queueName}`,
       accountName,
-      queueName
+      queueName,
     );
   });
 
@@ -255,7 +255,7 @@ describe("QueueClient - Verify Name Properties", () => {
     verifyNameProperties(
       `https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443/${accountName}/${queueName}`,
       accountName,
-      queueName
+      queueName,
     );
   });
 
@@ -263,7 +263,7 @@ describe("QueueClient - Verify Name Properties", () => {
     verifyNameProperties(
       `https://localhost:80/${accountName}/${queueName}`,
       accountName,
-      queueName
+      queueName,
     );
   });
 

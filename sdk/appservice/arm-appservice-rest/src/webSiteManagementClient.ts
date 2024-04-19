@@ -7,7 +7,7 @@ import { WebSiteManagementClient } from "./clientDefinitions";
 
 export default function createClient(
   credentials: TokenCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): WebSiteManagementClient {
   const baseUrl = options.baseUrl ?? "https://management.azure.com";
   options.apiVersion = options.apiVersion ?? "2021-03-01";

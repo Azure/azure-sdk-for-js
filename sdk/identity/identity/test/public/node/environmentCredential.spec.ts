@@ -116,7 +116,7 @@ describe("EnvironmentCredential", function () {
     assert.equal(
       getTokenSpy.callCount,
       1,
-      "UsernamePasswordCredential getToken should have been called"
+      "UsernamePasswordCredential getToken should have been called",
     );
   });
 
@@ -133,7 +133,7 @@ describe("EnvironmentCredential", function () {
 
         await credential.getToken(scope, tracingOptions);
       },
-      ["EnvironmentCredential.getToken"]
+      ["EnvironmentCredential.getToken"],
     );
   });
 
@@ -155,7 +155,7 @@ describe("EnvironmentCredential", function () {
 
         await credential.getToken(scope, tracingOptions);
       },
-      ["EnvironmentCredential.getToken"]
+      ["EnvironmentCredential.getToken"],
     );
   });
 
@@ -178,7 +178,7 @@ describe("EnvironmentCredential", function () {
           // We will focus our test on making sure the underlying getToken was called.
         }
       },
-      ["EnvironmentCredential.getToken"]
+      ["EnvironmentCredential.getToken"],
     );
   });
 
@@ -188,8 +188,8 @@ describe("EnvironmentCredential", function () {
     assert.equal(error.name, "CredentialUnavailableError");
     assert.ok(
       error.message.indexOf(
-        "EnvironmentCredential is unavailable. No underlying credential could be used."
-      ) > -1
+        "EnvironmentCredential is unavailable. No underlying credential could be used.",
+      ) > -1,
     );
   });
 

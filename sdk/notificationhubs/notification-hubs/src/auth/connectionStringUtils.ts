@@ -37,7 +37,7 @@ function parseConnectionString<T>(connectionString: string): ParsedOutput<T> {
     const splitIndex = part.indexOf("=");
     if (splitIndex === -1) {
       throw new Error(
-        "Connection string malformed: each part of the connection string must have an `=` assignment."
+        "Connection string malformed: each part of the connection string must have an `=` assignment.",
       );
     }
 
@@ -84,7 +84,7 @@ export interface NotificationHubsConnectionStringProperties {
  */
 export function createTokenCredentialFromConnection(
   sharedAccessKey: string,
-  sharedAccessKeyName: string
+  sharedAccessKeyName: string,
 ): SasTokenCredential {
   return new SasTokenCredential({ sharedAccessKey, sharedAccessKeyName });
 }
@@ -96,7 +96,7 @@ export function createTokenCredentialFromConnection(
  * for the Service Bus namespace, queue or topic.
  */
 export function parseNotificationHubsConnectionString(
-  connectionString: string
+  connectionString: string,
 ): NotificationHubsConnectionStringProperties {
   const parsedResult = parseConnectionString<{
     Endpoint: string;
@@ -111,7 +111,7 @@ export function parseNotificationHubsConnectionString(
     throw new Error("Connection string with SharedAccessKey should have SharedAccessKeyName.");
   } else if (!parsedResult.SharedAccessKey && parsedResult.SharedAccessKeyName) {
     throw new Error(
-      "Connection string with SharedAccessKeyName should have SharedAccessKey as well."
+      "Connection string with SharedAccessKeyName should have SharedAccessKey as well.",
     );
   }
 

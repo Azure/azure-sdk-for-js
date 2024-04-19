@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete a FirewallResource
  *
  * @summary Delete a FirewallResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/Firewalls_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/Firewalls_Delete_MaximumSet_Gen.json
  */
 async function firewallsDeleteMaximumSetGen() {
   const subscriptionId =
@@ -40,7 +40,7 @@ async function firewallsDeleteMaximumSetGen() {
  * This sample demonstrates how to Delete a FirewallResource
  *
  * @summary Delete a FirewallResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/Firewalls_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/Firewalls_Delete_MinimumSet_Gen.json
  */
 async function firewallsDeleteMinimumSetGen() {
   const subscriptionId =

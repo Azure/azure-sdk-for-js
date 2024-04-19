@@ -56,7 +56,7 @@ describe("QueueClient messageId methods, Node.js only", () => {
     const uResult = await queueClient.updateMessage(
       eResult.messageId,
       eResult.popReceipt,
-      newMessage
+      newMessage,
     );
     assert.ok(uResult.version);
     assert.ok(uResult.nextVisibleOn);
@@ -97,8 +97,8 @@ describe("QueueClient messageId methods, Node.js only", () => {
     assert.ok(error);
     assert.ok(
       error.message.includes(
-        "The request body is too large and exceeds the maximum permissible limit."
-      )
+        "The request body is too large and exceeds the maximum permissible limit.",
+      ),
     );
   });
 
@@ -114,12 +114,12 @@ describe("QueueClient messageId methods, Node.js only", () => {
     await newClient.updateMessage(
       eResult.messageId,
       eResult.popReceipt,
-      messageContent + " " + messageContent
+      messageContent + " " + messageContent,
     );
     const response = await queueClient.peekMessages();
     assert.equal(
       response.peekedMessageItems![0].messageText,
-      messageContent + " " + messageContent
+      messageContent + " " + messageContent,
     );
   });
 
@@ -139,12 +139,12 @@ describe("QueueClient messageId methods, Node.js only", () => {
     await newClient.updateMessage(
       eResult.messageId,
       eResult.popReceipt,
-      messageContent + " " + messageContent
+      messageContent + " " + messageContent,
     );
     const response = await queueClient.peekMessages();
     assert.equal(
       response.peekedMessageItems![0].messageText,
-      messageContent + " " + messageContent
+      messageContent + " " + messageContent,
     );
   });
 
@@ -161,12 +161,12 @@ describe("QueueClient messageId methods, Node.js only", () => {
     await newClient.updateMessage(
       eResult.messageId,
       eResult.popReceipt,
-      messageContent + " " + messageContent
+      messageContent + " " + messageContent,
     );
     const response = await queueClient.peekMessages();
     assert.equal(
       response.peekedMessageItems![0].messageText,
-      messageContent + " " + messageContent
+      messageContent + " " + messageContent,
     );
   });
 
@@ -180,12 +180,12 @@ describe("QueueClient messageId methods, Node.js only", () => {
     await newClient.updateMessage(
       eResult.messageId,
       eResult.popReceipt,
-      messageContent + " " + messageContent
+      messageContent + " " + messageContent,
     );
     const response = await queueClient.peekMessages();
     assert.equal(
       response.peekedMessageItems![0].messageText,
-      messageContent + " " + messageContent
+      messageContent + " " + messageContent,
     );
   });
 
@@ -203,12 +203,12 @@ describe("QueueClient messageId methods, Node.js only", () => {
     await newClient.updateMessage(
       eResult.messageId,
       eResult.popReceipt,
-      messageContent + " " + messageContent
+      messageContent + " " + messageContent,
     );
     const response = await queueClient.peekMessages();
     assert.equal(
       response.peekedMessageItems![0].messageText,
-      messageContent + " " + messageContent
+      messageContent + " " + messageContent,
     );
   });
 
@@ -220,7 +220,7 @@ describe("QueueClient messageId methods, Node.js only", () => {
       assert.equal(
         "Expecting non-empty strings for queueName parameter",
         error.message,
-        "Error message is different than expected."
+        "Error message is different than expected.",
       );
     }
   });

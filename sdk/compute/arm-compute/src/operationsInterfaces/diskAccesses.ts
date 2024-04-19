@@ -28,7 +28,7 @@ import {
   DiskAccessesUpdateAPrivateEndpointConnectionResponse,
   DiskAccessesGetAPrivateEndpointConnectionOptionalParams,
   DiskAccessesGetAPrivateEndpointConnectionResponse,
-  DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams
+  DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,14 +41,14 @@ export interface DiskAccesses {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: DiskAccessesListByResourceGroupOptionalParams
+    options?: DiskAccessesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<DiskAccess>;
   /**
    * Lists all the disk access resources under a subscription.
    * @param options The options parameters.
    */
   list(
-    options?: DiskAccessesListOptionalParams
+    options?: DiskAccessesListOptionalParams,
   ): PagedAsyncIterableIterator<DiskAccess>;
   /**
    * List information about private endpoint connections under a disk access resource
@@ -61,7 +61,7 @@ export interface DiskAccesses {
   listPrivateEndpointConnections(
     resourceGroupName: string,
     diskAccessName: string,
-    options?: DiskAccessesListPrivateEndpointConnectionsOptionalParams
+    options?: DiskAccessesListPrivateEndpointConnectionsOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /**
    * Creates or updates a disk access resource
@@ -76,7 +76,7 @@ export interface DiskAccesses {
     resourceGroupName: string,
     diskAccessName: string,
     diskAccess: DiskAccess,
-    options?: DiskAccessesCreateOrUpdateOptionalParams
+    options?: DiskAccessesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DiskAccessesCreateOrUpdateResponse>,
@@ -96,7 +96,7 @@ export interface DiskAccesses {
     resourceGroupName: string,
     diskAccessName: string,
     diskAccess: DiskAccess,
-    options?: DiskAccessesCreateOrUpdateOptionalParams
+    options?: DiskAccessesCreateOrUpdateOptionalParams,
   ): Promise<DiskAccessesCreateOrUpdateResponse>;
   /**
    * Updates (patches) a disk access resource.
@@ -111,7 +111,7 @@ export interface DiskAccesses {
     resourceGroupName: string,
     diskAccessName: string,
     diskAccess: DiskAccessUpdate,
-    options?: DiskAccessesUpdateOptionalParams
+    options?: DiskAccessesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DiskAccessesUpdateResponse>,
@@ -131,7 +131,7 @@ export interface DiskAccesses {
     resourceGroupName: string,
     diskAccessName: string,
     diskAccess: DiskAccessUpdate,
-    options?: DiskAccessesUpdateOptionalParams
+    options?: DiskAccessesUpdateOptionalParams,
   ): Promise<DiskAccessesUpdateResponse>;
   /**
    * Gets information about a disk access resource.
@@ -144,7 +144,7 @@ export interface DiskAccesses {
   get(
     resourceGroupName: string,
     diskAccessName: string,
-    options?: DiskAccessesGetOptionalParams
+    options?: DiskAccessesGetOptionalParams,
   ): Promise<DiskAccessesGetResponse>;
   /**
    * Deletes a disk access resource.
@@ -157,7 +157,7 @@ export interface DiskAccesses {
   beginDelete(
     resourceGroupName: string,
     diskAccessName: string,
-    options?: DiskAccessesDeleteOptionalParams
+    options?: DiskAccessesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a disk access resource.
@@ -170,7 +170,7 @@ export interface DiskAccesses {
   beginDeleteAndWait(
     resourceGroupName: string,
     diskAccessName: string,
-    options?: DiskAccessesDeleteOptionalParams
+    options?: DiskAccessesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the private link resources possible under disk access resource
@@ -183,7 +183,7 @@ export interface DiskAccesses {
   getPrivateLinkResources(
     resourceGroupName: string,
     diskAccessName: string,
-    options?: DiskAccessesGetPrivateLinkResourcesOptionalParams
+    options?: DiskAccessesGetPrivateLinkResourcesOptionalParams,
   ): Promise<DiskAccessesGetPrivateLinkResourcesResponse>;
   /**
    * Approve or reject a private endpoint connection under disk access resource, this can't be used to
@@ -202,7 +202,7 @@ export interface DiskAccesses {
     diskAccessName: string,
     privateEndpointConnectionName: string,
     privateEndpointConnection: PrivateEndpointConnection,
-    options?: DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams
+    options?: DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DiskAccessesUpdateAPrivateEndpointConnectionResponse>,
@@ -226,7 +226,7 @@ export interface DiskAccesses {
     diskAccessName: string,
     privateEndpointConnectionName: string,
     privateEndpointConnection: PrivateEndpointConnection,
-    options?: DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams
+    options?: DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams,
   ): Promise<DiskAccessesUpdateAPrivateEndpointConnectionResponse>;
   /**
    * Gets information about a private endpoint connection under a disk access resource.
@@ -241,7 +241,7 @@ export interface DiskAccesses {
     resourceGroupName: string,
     diskAccessName: string,
     privateEndpointConnectionName: string,
-    options?: DiskAccessesGetAPrivateEndpointConnectionOptionalParams
+    options?: DiskAccessesGetAPrivateEndpointConnectionOptionalParams,
   ): Promise<DiskAccessesGetAPrivateEndpointConnectionResponse>;
   /**
    * Deletes a private endpoint connection under a disk access resource.
@@ -256,7 +256,7 @@ export interface DiskAccesses {
     resourceGroupName: string,
     diskAccessName: string,
     privateEndpointConnectionName: string,
-    options?: DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams
+    options?: DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a private endpoint connection under a disk access resource.
@@ -271,6 +271,6 @@ export interface DiskAccesses {
     resourceGroupName: string,
     diskAccessName: string,
     privateEndpointConnectionName: string,
-    options?: DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams
+    options?: DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams,
   ): Promise<void>;
 }

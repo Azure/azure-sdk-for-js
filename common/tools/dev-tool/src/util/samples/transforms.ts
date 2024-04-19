@@ -17,13 +17,13 @@ import nodeBuiltins from "builtin-modules";
  * @returns a visitor that performs the transform to CommonJS
  */
 export const createToCommonJsTransform: (
-  getPackage: (moduleSpecifier: string) => unknown
+  getPackage: (moduleSpecifier: string) => unknown,
 ) => ts.TransformerFactory<ts.SourceFile> = (getPackage) => (context) => (sourceFile) => {
   const visitor: ts.Visitor = (node) => {
     if (ts.isImportDeclaration(node)) {
       return ts.visitNode(
         importDeclarationToCommonJs(node, getPackage, context.factory, sourceFile),
-        visitor
+        visitor,
       );
     } else if (ts.isExportDeclaration(node) || ts.isExportAssignment(node)) {
       // TypeScript can choose to emit `export {}` in some cases, so we will remove any export declarations.
@@ -69,7 +69,7 @@ export function importDeclarationToCommonJs(
   decl: ts.ImportDeclaration,
   requireInScope: (moduleSpecifier: string) => unknown,
   nodeFactory?: ts.NodeFactory,
-  sourceFile?: ts.SourceFile
+  sourceFile?: ts.SourceFile,
 ): ts.Statement {
   if (decl.moduleSpecifier.kind !== ts.SyntaxKind.StringLiteral) {
     const file = sourceFile ?? decl.getSourceFile();
@@ -77,7 +77,7 @@ export function importDeclarationToCommonJs(
     throw new Error(
       `[Internal Error] ${
         file.fileName + ":" + line + ":" + character
-      } import module specifier is not a string literal`
+      } import module specifier is not a string literal`,
     );
   }
 
@@ -90,7 +90,7 @@ export function importDeclarationToCommonJs(
     factory.createCallExpression(
       factory.createIdentifier("require"),
       /* typeArguments: */ undefined,
-      [factory.createStringLiteral((decl.moduleSpecifier as ts.StringLiteral).text)]
+      [factory.createStringLiteral((decl.moduleSpecifier as ts.StringLiteral).text)],
     );
 
   if (!decl.importClause) {
@@ -135,7 +135,7 @@ export function importDeclarationToCommonJs(
       // If the binding was a name, and this isn't a namespace import, then we need to access .default on it.
       isDefaultImport
         ? factory.createPropertyAccessExpression(requireCall(), "default")
-        : requireCall()
+        : requireCall(),
     ),
   ];
 
@@ -148,17 +148,17 @@ export function importDeclarationToCommonJs(
         namedImportsToObjectBindingPattern(namedBindings, factory),
         /* exclamationToken: */ undefined,
         /* type: */ undefined,
-        requireCall()
-      )
+        requireCall(),
+      ),
     );
   }
 
   return ts.setCommentRange(
     factory.createVariableStatement(
       /* modifiers: */ undefined,
-      factory.createVariableDeclarationList(declarationList, ts.NodeFlags.Const)
+      factory.createVariableDeclarationList(declarationList, ts.NodeFlags.Const),
     ),
-    outerComments
+    outerComments,
   );
 }
 
@@ -195,16 +195,16 @@ function importClauseToBinding(clause: ts.ImportClause, factory: ts.NodeFactory)
  */
 function namedImportsToObjectBindingPattern(
   imports: ts.NamedImports,
-  factory: ts.NodeFactory
+  factory: ts.NodeFactory,
 ): ts.ObjectBindingPattern {
   return factory.createObjectBindingPattern(
     imports.elements.map((element) =>
       factory.createBindingElement(
         /* dotDotDotToken: */ undefined, // Not allowed in named imports
         element.propertyName,
-        element.name
-      )
-    )
+        element.name,
+      ),
+    ),
   );
 }
 

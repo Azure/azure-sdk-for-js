@@ -32,7 +32,7 @@ async function revokeAccessToAManagedDisk() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}/endGetAccess",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

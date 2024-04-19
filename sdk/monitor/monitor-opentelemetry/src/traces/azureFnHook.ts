@@ -21,7 +21,7 @@ export class AzureFunctionsHook {
       this._addPreInvocationHook();
     } catch (error) {
       Logger.getInstance().debug(
-        "@azure/functions-core failed to load, not running in Azure Functions"
+        "@azure/functions-core failed to load, not running in Azure Functions",
       );
     }
   }
@@ -49,12 +49,12 @@ export class AzureFunctionsHook {
             const currentContext = extractedContext || context.active();
             preInvocationContext.functionCallback = context.bind(
               currentContext,
-              preInvocationContext.functionCallback
+              preInvocationContext.functionCallback,
             );
           } catch (err) {
             Logger.getInstance().error("Failed to propagate context in Azure Functions", err);
           }
-        }
+        },
       );
     }
   }

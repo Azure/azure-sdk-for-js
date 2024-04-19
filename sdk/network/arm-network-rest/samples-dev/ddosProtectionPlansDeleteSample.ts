@@ -32,7 +32,7 @@ async function deleteDDoSProtectionPlan() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}",
       subscriptionId,
       resourceGroupName,
-      ddosProtectionPlanName
+      ddosProtectionPlanName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

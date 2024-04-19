@@ -18,13 +18,13 @@ import { stripFileName } from "../utils/verifiers";
 export = {
   meta: getRuleMetaData(
     "ts-package-json-name",
-    "force package.json's name value to be set to @azure/<service>"
+    "force package.json's name value to be set to @azure/<service>",
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const verifiers = getVerifiers(context, {
       outer: "name",
     });
-    const fileName = context.getFilename();
+    const fileName = context.filename;
     return stripPath(fileName) === "package.json"
       ? ({
           // callback functions
@@ -34,7 +34,7 @@ export = {
 
           // check the node corresponding to name to see if its value is @azure/<service>
           "ExpressionStatement > ObjectExpression > Property[key.value='name']": (
-            node: Property
+            node: Property,
           ): void => {
             const { nodeValue, packageName, subScope } = getPackageMetadata(node);
             // Check for a valid scope
@@ -92,7 +92,7 @@ function getPackageMetadata(node: Property): {
   const nodeValue = node.value as Literal;
   const packageName = nodeValue.value as string;
   // Check if there is a sub scope i.e @azure-rest
-  const [_, subScope] = packageName.match(/^@azure(-[a-z]+)?\//) ?? [];
+  const [, subScope] = packageName.match(/^@azure(-[a-z]+)?\//) ?? [];
 
   return {
     nodeValue,

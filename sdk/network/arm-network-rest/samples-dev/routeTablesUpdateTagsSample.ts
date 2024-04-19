@@ -32,7 +32,7 @@ async function updateRouteTableTags() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}",
       subscriptionId,
       resourceGroupName,
-      routeTableName
+      routeTableName,
     )
     .patch(options);
   console.log(result);

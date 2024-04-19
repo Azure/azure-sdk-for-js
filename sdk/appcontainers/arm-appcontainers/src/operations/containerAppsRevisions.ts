@@ -23,7 +23,7 @@ import {
   ContainerAppsRevisionsActivateRevisionOptionalParams,
   ContainerAppsRevisionsDeactivateRevisionOptionalParams,
   ContainerAppsRevisionsRestartRevisionOptionalParams,
-  ContainerAppsRevisionsListRevisionsNextResponse
+  ContainerAppsRevisionsListRevisionsNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,12 +48,12 @@ export class ContainerAppsRevisionsImpl implements ContainerAppsRevisions {
   public listRevisions(
     resourceGroupName: string,
     containerAppName: string,
-    options?: ContainerAppsRevisionsListRevisionsOptionalParams
+    options?: ContainerAppsRevisionsListRevisionsOptionalParams,
   ): PagedAsyncIterableIterator<Revision> {
     const iter = this.listRevisionsPagingAll(
       resourceGroupName,
       containerAppName,
-      options
+      options,
     );
     return {
       next() {
@@ -70,9 +70,9 @@ export class ContainerAppsRevisionsImpl implements ContainerAppsRevisions {
           resourceGroupName,
           containerAppName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -80,7 +80,7 @@ export class ContainerAppsRevisionsImpl implements ContainerAppsRevisions {
     resourceGroupName: string,
     containerAppName: string,
     options?: ContainerAppsRevisionsListRevisionsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Revision[]> {
     let result: ContainerAppsRevisionsListRevisionsResponse;
     let continuationToken = settings?.continuationToken;
@@ -88,7 +88,7 @@ export class ContainerAppsRevisionsImpl implements ContainerAppsRevisions {
       result = await this._listRevisions(
         resourceGroupName,
         containerAppName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -100,7 +100,7 @@ export class ContainerAppsRevisionsImpl implements ContainerAppsRevisions {
         resourceGroupName,
         containerAppName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -112,12 +112,12 @@ export class ContainerAppsRevisionsImpl implements ContainerAppsRevisions {
   private async *listRevisionsPagingAll(
     resourceGroupName: string,
     containerAppName: string,
-    options?: ContainerAppsRevisionsListRevisionsOptionalParams
+    options?: ContainerAppsRevisionsListRevisionsOptionalParams,
   ): AsyncIterableIterator<Revision> {
     for await (const page of this.listRevisionsPagingPage(
       resourceGroupName,
       containerAppName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -132,11 +132,11 @@ export class ContainerAppsRevisionsImpl implements ContainerAppsRevisions {
   private _listRevisions(
     resourceGroupName: string,
     containerAppName: string,
-    options?: ContainerAppsRevisionsListRevisionsOptionalParams
+    options?: ContainerAppsRevisionsListRevisionsOptionalParams,
   ): Promise<ContainerAppsRevisionsListRevisionsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, containerAppName, options },
-      listRevisionsOperationSpec
+      listRevisionsOperationSpec,
     );
   }
 
@@ -151,11 +151,11 @@ export class ContainerAppsRevisionsImpl implements ContainerAppsRevisions {
     resourceGroupName: string,
     containerAppName: string,
     revisionName: string,
-    options?: ContainerAppsRevisionsGetRevisionOptionalParams
+    options?: ContainerAppsRevisionsGetRevisionOptionalParams,
   ): Promise<ContainerAppsRevisionsGetRevisionResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, containerAppName, revisionName, options },
-      getRevisionOperationSpec
+      getRevisionOperationSpec,
     );
   }
 
@@ -170,11 +170,11 @@ export class ContainerAppsRevisionsImpl implements ContainerAppsRevisions {
     resourceGroupName: string,
     containerAppName: string,
     revisionName: string,
-    options?: ContainerAppsRevisionsActivateRevisionOptionalParams
+    options?: ContainerAppsRevisionsActivateRevisionOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, containerAppName, revisionName, options },
-      activateRevisionOperationSpec
+      activateRevisionOperationSpec,
     );
   }
 
@@ -189,11 +189,11 @@ export class ContainerAppsRevisionsImpl implements ContainerAppsRevisions {
     resourceGroupName: string,
     containerAppName: string,
     revisionName: string,
-    options?: ContainerAppsRevisionsDeactivateRevisionOptionalParams
+    options?: ContainerAppsRevisionsDeactivateRevisionOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, containerAppName, revisionName, options },
-      deactivateRevisionOperationSpec
+      deactivateRevisionOperationSpec,
     );
   }
 
@@ -208,11 +208,11 @@ export class ContainerAppsRevisionsImpl implements ContainerAppsRevisions {
     resourceGroupName: string,
     containerAppName: string,
     revisionName: string,
-    options?: ContainerAppsRevisionsRestartRevisionOptionalParams
+    options?: ContainerAppsRevisionsRestartRevisionOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, containerAppName, revisionName, options },
-      restartRevisionOperationSpec
+      restartRevisionOperationSpec,
     );
   }
 
@@ -227,11 +227,11 @@ export class ContainerAppsRevisionsImpl implements ContainerAppsRevisions {
     resourceGroupName: string,
     containerAppName: string,
     nextLink: string,
-    options?: ContainerAppsRevisionsListRevisionsNextOptionalParams
+    options?: ContainerAppsRevisionsListRevisionsNextOptionalParams,
   ): Promise<ContainerAppsRevisionsListRevisionsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, containerAppName, nextLink, options },
-      listRevisionsNextOperationSpec
+      listRevisionsNextOperationSpec,
     );
   }
 }
@@ -239,38 +239,36 @@ export class ContainerAppsRevisionsImpl implements ContainerAppsRevisions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listRevisionsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/revisions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/revisions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RevisionCollection
+      bodyMapper: Mappers.RevisionCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName
+    Parameters.containerAppName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getRevisionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/revisions/{revisionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/revisions/{revisionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Revision
+      bodyMapper: Mappers.Revision,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -278,20 +276,19 @@ const getRevisionOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.containerAppName,
-    Parameters.revisionName
+    Parameters.revisionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const activateRevisionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/revisions/{revisionName}/activate",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/revisions/{revisionName}/activate",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -299,20 +296,19 @@ const activateRevisionOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.containerAppName,
-    Parameters.revisionName
+    Parameters.revisionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deactivateRevisionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/revisions/{revisionName}/deactivate",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/revisions/{revisionName}/deactivate",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -320,20 +316,19 @@ const deactivateRevisionOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.containerAppName,
-    Parameters.revisionName
+    Parameters.revisionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const restartRevisionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/revisions/{revisionName}/restart",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/revisions/{revisionName}/restart",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -341,29 +336,29 @@ const restartRevisionOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.containerAppName,
-    Parameters.revisionName
+    Parameters.revisionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listRevisionsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RevisionCollection
+      bodyMapper: Mappers.RevisionCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.nextLink,
     Parameters.containerAppName,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

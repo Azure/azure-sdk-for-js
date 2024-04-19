@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all available skus of the resource.
  *
  * @summary List all available skus of the resource.
- * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/preview/2023-06-01-preview/examples/SignalR_ListSkus.json
+ * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/preview/2023-08-01-preview/examples/SignalR_ListSkus.json
  */
 async function signalRListSkus() {
   const subscriptionId =

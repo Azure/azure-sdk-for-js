@@ -8,17 +8,17 @@ import {
   LroResponse,
   RawResponse,
   ResponseBody,
-} from "./models";
+} from "./models.js";
 import {
   LroError,
   OperationConfig,
   OperationStatus,
   RestorableOperationState,
   StateProxy,
-} from "../poller/models";
-import { initOperation, pollOperation } from "../poller/operation";
+} from "../poller/models.js";
+import { initOperation, pollOperation } from "../poller/operation.js";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { logger } from "../logger";
+import { logger } from "../logger.js";
 
 function getOperationLocationPollingUrl(inputs: {
   operationLocation?: string;
@@ -120,7 +120,7 @@ function transformStatus(inputs: { status: unknown; statusCode: number }): Opera
   const { status, statusCode } = inputs;
   if (typeof status !== "string" && status !== undefined) {
     throw new Error(
-      `Polling was unsuccessful. Expected status to have a string value or no value but it has instead: ${status}. This doesn't necessarily indicate the operation has failed. Check your Azure subscription or resource status for more information.`
+      `Polling was unsuccessful. Expected status to have a string value or no value but it has instead: ${status}. This doesn't necessarily indicate the operation has failed. Check your Azure subscription or resource status for more information.`,
     );
   }
   switch (status?.toLocaleLowerCase()) {
@@ -180,16 +180,16 @@ export function parseRetryAfter<T>({ rawResponse }: LroResponse<T>): number | un
 }
 
 export function getErrorFromResponse<T>(response: LroResponse<T>): LroError | undefined {
-  const error = (response.flatResponse as ResponseBody).error;
+  const error = accessBodyProperty(response, "error");
   if (!error) {
     logger.warning(
-      `The long-running operation failed but there is no error property in the response's body`
+      `The long-running operation failed but there is no error property in the response's body`,
     );
     return;
   }
   if (!error.code || !error.message) {
     logger.warning(
-      `The long-running operation failed but the error property in the response's body doesn't contain code or message`
+      `The long-running operation failed but the error property in the response's body doesn't contain code or message`,
     );
     return;
   }
@@ -264,7 +264,7 @@ export async function initHttpOperation<TResult, TState>(inputs: {
 
 export function getOperationLocation<TState>(
   { rawResponse }: LroResponse,
-  state: RestorableOperationState<TState>
+  state: RestorableOperationState<TState>,
 ): string | undefined {
   const mode = state.config.metadata?.["mode"];
   switch (mode) {
@@ -286,7 +286,7 @@ export function getOperationLocation<TState>(
 
 export function getOperationStatus<TState>(
   { rawResponse }: LroResponse,
-  state: RestorableOperationState<TState>
+  state: RestorableOperationState<TState>,
 ): OperationStatus {
   const mode = state.config.metadata?.["mode"];
   switch (mode) {
@@ -304,15 +304,20 @@ export function getOperationStatus<TState>(
   }
 }
 
+function accessBodyProperty<P extends string>(
+  { flatResponse, rawResponse }: LroResponse,
+  prop: P,
+): ResponseBody[P] {
+  return (flatResponse as ResponseBody)?.[prop] ?? (rawResponse.body as ResponseBody)?.[prop];
+}
+
 export function getResourceLocation<TState>(
-  { flatResponse }: LroResponse,
-  state: RestorableOperationState<TState>
+  res: LroResponse,
+  state: RestorableOperationState<TState>,
 ): string | undefined {
-  if (typeof flatResponse === "object") {
-    const resourceLocation = (flatResponse as { resourceLocation?: string }).resourceLocation;
-    if (resourceLocation !== undefined) {
-      state.config.resourceLocation = resourceLocation;
-    }
+  const loc = accessBodyProperty(res, "resourceLocation");
+  if (loc && typeof loc === "string") {
+    state.config.resourceLocation = loc;
   }
   return state.config.resourceLocation;
 }
@@ -362,7 +367,8 @@ export async function pollHttpOperation<TState, TResult>(inputs: {
      * The expansion here is intentional because `lro` could be an object that
      * references an inner this, so we need to preserve a reference to it.
      */
-    poll: async (location, inputOptions) => lro.sendPollRequest(location, inputOptions),
+    poll: async (location: string, inputOptions?: { abortSignal?: AbortSignalLike }) =>
+      lro.sendPollRequest(location, inputOptions),
     setErrorAsResult,
   });
 }

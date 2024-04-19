@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all available API operations provided by Microsoft.Dashboard.
  *
  * @summary List all available API operations provided by Microsoft.Dashboard.
- * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2022-08-01/examples/Operations_List.json
+ * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2023-09-01/examples/Operations_List.json
  */
 async function operationsList() {
   const subscriptionId =

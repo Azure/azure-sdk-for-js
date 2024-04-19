@@ -6,7 +6,8 @@
  * @azsdk-util
  */
 
-import { SearchIndexClient, SearchIndex, KnownAnalyzerNames } from "@azure/search-documents";
+import { KnownAnalyzerNames, SearchIndex, SearchIndexClient } from "@azure/search-documents";
+import { env } from "process";
 import { Hotel } from "./interfaces";
 
 export const WAIT_TIME = 4000;
@@ -54,14 +55,14 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
         name: "descriptionVectorEn",
         searchable: true,
         vectorSearchDimensions: 1536,
-        vectorSearchConfiguration: "vector-search-configuration",
+        vectorSearchProfileName: "vector-search-profile",
       },
       {
         type: "Collection(Edm.Single)",
         name: "descriptionVectorFr",
         searchable: true,
         vectorSearchDimensions: 1536,
-        vectorSearchConfiguration: "vector-search-configuration",
+        vectorSearchProfileName: "vector-search-profile",
       },
       {
         type: "Edm.String",
@@ -248,7 +249,25 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
       allowedOrigins: ["*"],
     },
     vectorSearch: {
-      algorithmConfigurations: [{ name: "vector-search-configuration", kind: "hnsw" }],
+      algorithms: [{ name: "vector-search-algorithm", kind: "hnsw" }],
+      vectorizers: [
+        {
+          name: "vector-search-vectorizer",
+          kind: "azureOpenAI",
+          azureOpenAIParameters: {
+            resourceUri: env.AZURE_OPENAI_ENDPOINT,
+            apiKey: env.AZURE_OPENAI_KEY,
+            deploymentId: env.AZURE_OPENAI_DEPLOYMENT_NAME,
+          },
+        },
+      ],
+      profiles: [
+        {
+          name: "vector-search-profile",
+          algorithmConfigurationName: "vector-search-algorithm",
+          vectorizer: "vector-search-vectorizer",
+        },
+      ],
     },
   };
   await client.createIndex(hotelIndex);

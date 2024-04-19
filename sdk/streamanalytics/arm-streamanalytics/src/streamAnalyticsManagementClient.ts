@@ -8,39 +8,35 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest
-} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  OperationsImpl,
-  StreamingJobsImpl,
+  FunctionsImpl,
   InputsImpl,
   OutputsImpl,
-  TransformationsImpl,
-  FunctionsImpl,
+  OperationsImpl,
+  StreamingJobsImpl,
+  SkuOperationsImpl,
   SubscriptionsImpl,
+  TransformationsImpl,
   ClustersImpl,
-  PrivateEndpointsImpl
+  PrivateEndpointsImpl,
 } from "./operations";
 import {
-  Operations,
-  StreamingJobs,
+  Functions,
   Inputs,
   Outputs,
-  Transformations,
-  Functions,
+  Operations,
+  StreamingJobs,
+  SkuOperations,
   Subscriptions,
+  Transformations,
   Clusters,
-  PrivateEndpoints
+  PrivateEndpoints,
 } from "./operationsInterfaces";
 import { StreamAnalyticsManagementClientOptionalParams } from "./models";
 
 export class StreamAnalyticsManagementClient extends coreClient.ServiceClient {
   $host: string;
-  apiVersion: string;
   subscriptionId: string;
 
   /**
@@ -52,7 +48,7 @@ export class StreamAnalyticsManagementClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: StreamAnalyticsManagementClientOptionalParams
+    options?: StreamAnalyticsManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -67,10 +63,10 @@ export class StreamAnalyticsManagementClient extends coreClient.ServiceClient {
     }
     const defaults: StreamAnalyticsManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-streamanalytics/4.1.1`;
+    const packageDetails = `azsdk-js-arm-streamanalytics/5.0.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -80,20 +76,21 @@ export class StreamAnalyticsManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -103,7 +100,7 @@ export class StreamAnalyticsManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -113,9 +110,9 @@ export class StreamAnalyticsManagementClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -123,54 +120,26 @@ export class StreamAnalyticsManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2020-03-01";
-    this.operations = new OperationsImpl(this);
-    this.streamingJobs = new StreamingJobsImpl(this);
+    this.functions = new FunctionsImpl(this);
     this.inputs = new InputsImpl(this);
     this.outputs = new OutputsImpl(this);
-    this.transformations = new TransformationsImpl(this);
-    this.functions = new FunctionsImpl(this);
+    this.operations = new OperationsImpl(this);
+    this.streamingJobs = new StreamingJobsImpl(this);
+    this.skuOperations = new SkuOperationsImpl(this);
     this.subscriptions = new SubscriptionsImpl(this);
+    this.transformations = new TransformationsImpl(this);
     this.clusters = new ClustersImpl(this);
     this.privateEndpoints = new PrivateEndpointsImpl(this);
-    this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
-  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
-  private addCustomApiVersionPolicy(apiVersion?: string) {
-    if (!apiVersion) {
-      return;
-    }
-    const apiVersionPolicy = {
-      name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest
-      ): Promise<PipelineResponse> {
-        const param = request.url.split("?");
-        if (param.length > 1) {
-          const newParams = param[1].split("&").map((item) => {
-            if (item.indexOf("api-version") > -1) {
-              return "api-version=" + apiVersion;
-            } else {
-              return item;
-            }
-          });
-          request.url = param[0] + "?" + newParams.join("&");
-        }
-        return next(request);
-      }
-    };
-    this.pipeline.addPolicy(apiVersionPolicy);
-  }
-
-  operations: Operations;
-  streamingJobs: StreamingJobs;
+  functions: Functions;
   inputs: Inputs;
   outputs: Outputs;
-  transformations: Transformations;
-  functions: Functions;
+  operations: Operations;
+  streamingJobs: StreamingJobs;
+  skuOperations: SkuOperations;
   subscriptions: Subscriptions;
+  transformations: Transformations;
   clusters: Clusters;
   privateEndpoints: PrivateEndpoints;
 }

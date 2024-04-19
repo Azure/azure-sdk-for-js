@@ -12,6 +12,8 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MonitorManagementClientContext } from "../monitorManagementClientContext";
 import {
+  MetricDefinitionsListAtSubscriptionScopeOptionalParams,
+  MetricDefinitionsListAtSubscriptionScopeResponse,
   MetricDefinitionsListOptionalParams,
   MetricDefinitionsListResponse
 } from "../models";
@@ -26,6 +28,23 @@ export class MetricDefinitionsImpl implements MetricDefinitions {
    */
   constructor(client: MonitorManagementClientContext) {
     this.client = client;
+  }
+
+  /**
+   * Lists the metric definitions for the subscription.
+   * @param subscriptionId The ID of the target subscription.
+   * @param region The region where the metrics you want reside.
+   * @param options The options parameters.
+   */
+  listAtSubscriptionScope(
+    subscriptionId: string,
+    region: string,
+    options?: MetricDefinitionsListAtSubscriptionScopeOptionalParams
+  ): Promise<MetricDefinitionsListAtSubscriptionScopeResponse> {
+    return this.client.sendOperationRequest(
+      { subscriptionId, region, options },
+      listAtSubscriptionScopeOperationSpec
+    );
   }
 
   /**
@@ -46,6 +65,27 @@ export class MetricDefinitionsImpl implements MetricDefinitions {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listAtSubscriptionScopeOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Insights/metricDefinitions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SubscriptionScopeMetricDefinitionCollection
+    },
+    default: {
+      bodyMapper: Mappers.ErrorContract
+    }
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.region,
+    Parameters.metricnamespace
+  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/{resourceUri}/providers/Microsoft.Insights/metricDefinitions",
   httpMethod: "GET",

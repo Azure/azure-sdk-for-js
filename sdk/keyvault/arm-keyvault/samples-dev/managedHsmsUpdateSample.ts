@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Update a managed HSM Pool in the specified subscription.
  *
  * @summary Update a managed HSM Pool in the specified subscription.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-02-01/examples/ManagedHsm_Update.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/ManagedHsm_Update.json
  */
 async function updateAnExistingManagedHsmPool() {
   const subscriptionId =

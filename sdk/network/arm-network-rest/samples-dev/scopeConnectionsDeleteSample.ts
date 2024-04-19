@@ -33,7 +33,7 @@ async function deleteNetworkManagerScopeConnection() {
       subscriptionId,
       resourceGroupName,
       networkManagerName,
-      scopeConnectionName
+      scopeConnectionName,
     )
     .delete(options);
   console.log(result);

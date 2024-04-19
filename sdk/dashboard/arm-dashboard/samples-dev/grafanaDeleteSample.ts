@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete a workspace for Grafana resource.
  *
  * @summary Delete a workspace for Grafana resource.
- * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2022-08-01/examples/Grafana_Delete.json
+ * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2023-09-01/examples/Grafana_Delete.json
  */
 async function grafanaDelete() {
   const subscriptionId =

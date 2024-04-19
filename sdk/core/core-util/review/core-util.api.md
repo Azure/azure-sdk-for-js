@@ -4,7 +4,7 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
+import type { AbortSignalLike } from '@azure/abort-controller';
 
 // @public
 export type AbortablePromiseBuilder<T> = (abortOptions: {
@@ -44,7 +44,7 @@ export interface DelayOptions extends AbortOptions {
 }
 
 // @public
-export type EncodingType = "utf-8" | "base64" | "base64url";
+export type EncodingType = "utf-8" | "base64" | "base64url" | "hex";
 
 // @public
 export function getErrorMessage(e: unknown): string;
@@ -67,8 +67,14 @@ export const isDeno: boolean;
 // @public
 export function isError(e: unknown): e is Error;
 
-// @public
+// @public @deprecated
 export const isNode: boolean;
+
+// @public
+export const isNodeLike: boolean;
+
+// @public
+export const isNodeRuntime: boolean;
 
 // @public
 export function isObject(input: unknown): input is UnknownObject;

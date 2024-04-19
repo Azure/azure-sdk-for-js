@@ -11,22 +11,22 @@ import { loadTheme } from "./theme/theme.js";
 async function runTypeDoc({ outputFolder, cwd }: { outputFolder: string; cwd: string }) {
   const oldCwd = process.cwd();
   process.chdir(cwd);
-  const app = new TypeDocApplication();
-  app.options.addReader(new TSConfigReader());
-  app.options.addReader(new TypeDocReader());
 
-  loadTheme(app);
-
-  app.bootstrap({
+  const app = await TypeDocApplication.bootstrap({
     entryPoints: ["src/index.ts"],
     excludeInternal: true,
     excludePrivate: true,
     skipErrorChecking: true,
     gaID: "UA-62780441-43",
     theme: "azureSdk",
-  });
+  }, [
+    new TSConfigReader(),
+    new TypeDocReader(),
+  ]);
 
-  const project = app.convert();
+  loadTheme(app);
+
+  const project = await app.convert();
 
   if (project) {
     await app.generateDocs(project, outputFolder);

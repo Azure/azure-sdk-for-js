@@ -12,7 +12,6 @@ import {
   generateDocuments,
   bulkInsertItems,
 } from "../common/TestHelpers";
-import { AbortController } from "node-abort-controller";
 import { UsernamePasswordCredential } from "@azure/identity";
 import { defaultConnectionPolicy } from "../../../src/documents";
 
@@ -37,7 +36,7 @@ describe("Client Tests", function (this: Suite) {
         assert.equal(
           err.message,
           "Timeout Error! Request took more than 1 ms",
-          "client should throw exception"
+          "client should throw exception",
         );
       }
     });
@@ -69,7 +68,7 @@ describe("Client Tests", function (this: Suite) {
           "fake-tenant-id",
           "fake-client-id",
           "fakeUsername",
-          "fakePassword"
+          "fakePassword",
         );
         const client = new CosmosClient({
           endpoint,

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 export class NetworkStatsbeat {
   public time: number | undefined;
 
@@ -50,6 +53,7 @@ export const MAX_STATSBEAT_FAILURES = 3;
 
 export const StatsbeatResourceProvider = {
   appsvc: "appsvc",
+  aks: "aks",
   functions: "functions",
   vm: "vm",
   unknown: "unknown",
@@ -122,6 +126,6 @@ export interface VirtualMachineInfo {
 }
 
 export enum StatsbeatFeatureType {
-  FEATURE = "Feature",
-  INSTRUMENTATION = "Instrumentation",
+  FEATURE = 0,
+  INSTRUMENTATION = 1,
 }

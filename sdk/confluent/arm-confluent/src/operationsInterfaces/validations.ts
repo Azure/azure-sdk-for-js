@@ -9,7 +9,9 @@
 import {
   OrganizationResource,
   ValidationsValidateOrganizationOptionalParams,
-  ValidationsValidateOrganizationResponse
+  ValidationsValidateOrganizationResponse,
+  ValidationsValidateOrganizationV2OptionalParams,
+  ValidationsValidateOrganizationV2Response,
 } from "../models";
 
 /** Interface representing a Validations. */
@@ -25,6 +27,19 @@ export interface Validations {
     resourceGroupName: string,
     organizationName: string,
     body: OrganizationResource,
-    options?: ValidationsValidateOrganizationOptionalParams
+    options?: ValidationsValidateOrganizationOptionalParams,
   ): Promise<ValidationsValidateOrganizationResponse>;
+  /**
+   * Organization Validate proxy resource
+   * @param resourceGroupName Resource group name
+   * @param organizationName Organization resource name
+   * @param body Organization resource model
+   * @param options The options parameters.
+   */
+  validateOrganizationV2(
+    resourceGroupName: string,
+    organizationName: string,
+    body: OrganizationResource,
+    options?: ValidationsValidateOrganizationV2OptionalParams,
+  ): Promise<ValidationsValidateOrganizationV2Response>;
 }

@@ -342,8 +342,8 @@ describe("QueueClient message methods", () => {
     assert.ok(error);
     assert.ok(
       error.message.includes(
-        "The request body is too large and exceeds the maximum permissible limit."
-      )
+        "The request body is too large and exceeds the maximum permissible limit.",
+      ),
     );
   });
 
@@ -382,7 +382,7 @@ describe("QueueClient message methods", () => {
       assert.equal(
         "Expecting non-empty strings for queueName parameter",
         error.message,
-        "Error message is different than expected."
+        "Error message is different than expected.",
       );
     }
   });
@@ -392,7 +392,7 @@ describe("QueueClient message methods", () => {
       extractConnectionStringParts(getSASConnectionStringFromEnvironment(recorder)).url +
         "/" +
         queueName +
-        "/messages/"
+        "/messages/",
     );
     configureStorageClient(recorder, newClient);
     assert.equal(newClient.name, queueName, "Queue name is not the same as the one provided.");

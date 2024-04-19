@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update a FirewallResource
  *
  * @summary Update a FirewallResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/Firewalls_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/Firewalls_Update_MaximumSet_Gen.json
  */
 async function firewallsUpdateMaximumSetGen() {
   const subscriptionId =
@@ -92,6 +92,7 @@ async function firewallsUpdateMaximumSetGen() {
               "/subscriptions/01c7d41f-afaf-464e-8a8b-5c6f9f98cee8/resourceGroups/mj-liftr-integration/providers/Microsoft.Network/publicIPAddresses/mj-liftr-integration-PublicIp1",
           },
         ],
+        trustedRanges: ["20.22.92.11"],
         vnetConfiguration: {
           ipOfTrustSubnetForUdr: {
             address: "10.1.1.0/24",
@@ -158,7 +159,7 @@ async function firewallsUpdateMaximumSetGen() {
  * This sample demonstrates how to Update a FirewallResource
  *
  * @summary Update a FirewallResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/Firewalls_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/Firewalls_Update_MinimumSet_Gen.json
  */
 async function firewallsUpdateMinimumSetGen() {
   const subscriptionId =

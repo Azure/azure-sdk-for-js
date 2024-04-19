@@ -18,7 +18,7 @@ import {
   ResourceSkusListNextOptionalParams,
   ResourceSkusListOptionalParams,
   ResourceSkusListResponse,
-  ResourceSkusListNextResponse
+  ResourceSkusListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +39,7 @@ export class ResourceSkusImpl implements ResourceSkus {
    * @param options The options parameters.
    */
   public list(
-    options?: ResourceSkusListOptionalParams
+    options?: ResourceSkusListOptionalParams,
   ): PagedAsyncIterableIterator<ResourceSku> {
     const iter = this.listPagingAll(options);
     return {
@@ -54,13 +54,13 @@ export class ResourceSkusImpl implements ResourceSkus {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: ResourceSkusListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ResourceSku[]> {
     let result: ResourceSkusListResponse;
     let continuationToken = settings?.continuationToken;
@@ -81,7 +81,7 @@ export class ResourceSkusImpl implements ResourceSkus {
   }
 
   private async *listPagingAll(
-    options?: ResourceSkusListOptionalParams
+    options?: ResourceSkusListOptionalParams,
   ): AsyncIterableIterator<ResourceSku> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -93,7 +93,7 @@ export class ResourceSkusImpl implements ResourceSkus {
    * @param options The options parameters.
    */
   private _list(
-    options?: ResourceSkusListOptionalParams
+    options?: ResourceSkusListOptionalParams,
   ): Promise<ResourceSkusListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -105,11 +105,11 @@ export class ResourceSkusImpl implements ResourceSkus {
    */
   private _listNext(
     nextLink: string,
-    options?: ResourceSkusListNextOptionalParams
+    options?: ResourceSkusListNextOptionalParams,
   ): Promise<ResourceSkusListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -121,31 +121,31 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceSkusResult
-    }
+      bodyMapper: Mappers.ResourceSkusResult,
+    },
   },
   queryParameters: [
     Parameters.filter,
     Parameters.apiVersion2,
-    Parameters.includeExtendedLocations
+    Parameters.includeExtendedLocations,
   ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceSkusResult
-    }
+      bodyMapper: Mappers.ResourceSkusResult,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

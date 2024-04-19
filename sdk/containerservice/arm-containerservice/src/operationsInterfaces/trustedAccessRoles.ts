@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   TrustedAccessRole,
-  TrustedAccessRolesListOptionalParams
+  TrustedAccessRolesListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -17,11 +17,11 @@ import {
 export interface TrustedAccessRoles {
   /**
    * List supported trusted access roles.
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   list(
     location: string,
-    options?: TrustedAccessRolesListOptionalParams
+    options?: TrustedAccessRolesListOptionalParams,
   ): PagedAsyncIterableIterator<TrustedAccessRole>;
 }

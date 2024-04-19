@@ -10,11 +10,11 @@ export class TransformingPagedAsyncIterableIterator<
   TTransformed,
   TPage = TElement[],
   TTransformedPage = TTransformed[],
-  TPageSettings = PageSettings
+  TPageSettings = PageSettings,
 > {
   constructor(
     private internalIterator: PagedAsyncIterableIterator<TElement, TPage, TPageSettings>,
-    private transform: Transformer<TElement, TTransformed>
+    private transform: Transformer<TElement, TTransformed>,
   ) {}
 
   async next(): Promise<IteratorResult<TTransformed>> {

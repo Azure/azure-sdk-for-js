@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List GlobalRulestackResource resources by Tenant
  *
  * @summary List GlobalRulestackResource resources by Tenant
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/GlobalRulestack_List_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_List_MaximumSet_Gen.json
  */
 async function globalRulestackListMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -32,7 +32,7 @@ async function globalRulestackListMaximumSetGen() {
  * This sample demonstrates how to List GlobalRulestackResource resources by Tenant
  *
  * @summary List GlobalRulestackResource resources by Tenant
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/GlobalRulestack_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_List_MinimumSet_Gen.json
  */
 async function globalRulestackListMinimumSetGen() {
   const credential = new DefaultAzureCredential();

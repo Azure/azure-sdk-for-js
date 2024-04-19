@@ -13,16 +13,21 @@ import {
   HybridComputeManagementClient
 } from "@azure/arm-hybridcompute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to The operation to create or update the extension.
  *
  * @summary The operation to create or update the extension.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2021-06-10-preview/examples/PUTExtension.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-06-20-preview/examples/extension/Extension_CreateOrUpdate.json
  */
 async function createOrUpdateAMachineExtension() {
-  const subscriptionId = "{subscriptionId}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
+  const resourceGroupName =
+    process.env["HYBRIDCOMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const machineName = "myMachine";
   const extensionName = "CustomScriptExtension";
   const extensionParameters: MachineExtension = {
@@ -48,4 +53,8 @@ async function createOrUpdateAMachineExtension() {
   console.log(result);
 }
 
-createOrUpdateAMachineExtension().catch(console.error);
+async function main() {
+  createOrUpdateAMachineExtension();
+}
+
+main().catch(console.error);

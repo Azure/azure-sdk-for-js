@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a workflow run action repetition.
  *
  * @summary Get a workflow run action repetition.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/WorkflowRunActionRepetitions_Get.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/WorkflowRunActionRepetitions_Get.json
  */
 async function getARepetition() {
   const subscriptionId =

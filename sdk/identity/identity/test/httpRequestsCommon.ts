@@ -32,7 +32,7 @@ export type RawTestResponse = { response?: TestResponse; error?: RestError };
  */
 export type SendIndividualRequest = <T>(
   sendPromise: () => Promise<T | null>,
-  response: { response: TestResponse }
+  response: { response: TestResponse },
 ) => Promise<T | null>;
 
 /**
@@ -42,7 +42,7 @@ export type SendIndividualRequest = <T>(
  */
 export type SendIndividualRequestAndGetError = <T>(
   sendPromise: () => Promise<T | null>,
-  response: { response: TestResponse }
+  response: { response: TestResponse },
 ) => Promise<Error>;
 
 /**
@@ -91,7 +91,7 @@ export interface IdentityTestContextInterface {
 export function createResponse(
   statusCode: number,
   body: Record<string, string | string[] | boolean | number> = {},
-  headers: RawHttpHeaders = {}
+  headers: RawHttpHeaders = {},
 ): { response: TestResponse } {
   return {
     response: {

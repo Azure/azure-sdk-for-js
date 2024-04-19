@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the SQL trigger under an existing Azure Cosmos DB database account.
  *
  * @summary Gets the SQL trigger under an existing Azure Cosmos DB database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBSqlTriggerGet.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBSqlTriggerGet.json
  */
 async function cosmosDbSqlTriggerGet() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -34,7 +34,7 @@ async function cosmosDbSqlTriggerGet() {
     accountName,
     databaseName,
     containerName,
-    triggerName
+    triggerName,
   );
   console.log(result);
 }

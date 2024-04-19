@@ -12,14 +12,16 @@ describe("ConnectionStringParser", () => {
       const instrumentationKey = "instr_key";
       const ingestionEndpoint = "ingest";
       const liveEndpoint = "live";
-      const connectionString = `Authorization=${authorization};InstrumentationKey=${instrumentationKey};IngestionEndpoint=${ingestionEndpoint};LiveEndpoint=${liveEndpoint}`;
+      const aadAudience = "audience";
+      const connectionString = `Authorization=${authorization};InstrumentationKey=${instrumentationKey};IngestionEndpoint=${ingestionEndpoint};LiveEndpoint=${liveEndpoint};AadAudience=${aadAudience}`;
 
       const result = ConnectionStringParser.parse(connectionString);
 
-      assert.deepEqual(result.authorization, authorization);
-      assert.deepEqual(result.instrumentationkey, instrumentationKey);
-      assert.deepEqual(result.ingestionendpoint, ingestionEndpoint);
-      assert.deepEqual(result.liveendpoint, liveEndpoint);
+      assert.strictEqual(result.authorization, authorization);
+      assert.strictEqual(result.instrumentationkey, instrumentationKey);
+      assert.strictEqual(result.ingestionendpoint, ingestionEndpoint);
+      assert.strictEqual(result.liveendpoint, liveEndpoint);
+      assert.strictEqual(result.aadaudience, aadAudience);
     });
 
     it("should sanitize URLs", () => {
@@ -29,9 +31,9 @@ describe("ConnectionStringParser", () => {
       const connectionString = `InstrumentationKey=${instrumentationKey};IngestionEndpoint=${ingestionEndpoint};LiveEndpoint=${liveEndpoint}`;
 
       const result = ConnectionStringParser.parse(connectionString);
-      assert.deepEqual(result.instrumentationkey, instrumentationKey);
-      assert.deepEqual(result.ingestionendpoint, "https://test.com");
-      assert.deepEqual(result.liveendpoint, "https://livetest.net");
+      assert.strictEqual(result.instrumentationkey, instrumentationKey);
+      assert.strictEqual(result.ingestionendpoint, "https://test.com");
+      assert.strictEqual(result.liveendpoint, "https://livetest.net");
     });
 
     it("should ignore invalid fields", () => {
@@ -43,10 +45,10 @@ describe("ConnectionStringParser", () => {
 
       const result = ConnectionStringParser.parse(connectionString);
 
-      assert.deepEqual(result.authorization, undefined);
-      assert.deepEqual(result.instrumentationkey, undefined);
-      assert.deepEqual(result.ingestionendpoint, Constants.DEFAULT_BREEZE_ENDPOINT);
-      assert.deepEqual(result.liveendpoint, Constants.DEFAULT_LIVEMETRICS_ENDPOINT);
+      assert.strictEqual(result.authorization, undefined);
+      assert.strictEqual(result.instrumentationkey, undefined);
+      assert.strictEqual(result.ingestionendpoint, Constants.DEFAULT_BREEZE_ENDPOINT);
+      assert.strictEqual(result.liveendpoint, Constants.DEFAULT_LIVEMETRICS_ENDPOINT);
     });
 
     const runTest = (options: {
@@ -59,13 +61,13 @@ describe("ConnectionStringParser", () => {
       const result = ConnectionStringParser.parse(options.connectionString);
 
       if (options.expectedAuthorization) {
-        assert.deepEqual(result.authorization, options.expectedAuthorization);
+        assert.strictEqual(result.authorization, options.expectedAuthorization);
       }
       if (options.expectedInstrumentationKey) {
-        assert.deepEqual(result.instrumentationkey, options.expectedInstrumentationKey);
+        assert.strictEqual(result.instrumentationkey, options.expectedInstrumentationKey);
       }
-      assert.deepEqual(result.ingestionendpoint, options.expectedBreezeEndpoint);
-      assert.deepEqual(result.liveendpoint, options.expectedLiveMetricsEndpoint);
+      assert.strictEqual(result.ingestionendpoint, options.expectedBreezeEndpoint);
+      assert.strictEqual(result.liveendpoint, options.expectedLiveMetricsEndpoint);
     };
 
     it("should use correct default endpoints", () => {

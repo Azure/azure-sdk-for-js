@@ -265,256 +265,259 @@ const responseMap: Record<string, string[]> = {
 };
 
 export function isUnexpected(
-  response: OperationsList200Response | OperationsListdefaultResponse
+  response: OperationsList200Response | OperationsListdefaultResponse,
 ): response is OperationsListdefaultResponse;
 export function isUnexpected(
-  response: ManagedClustersGetOSOptions200Response | ManagedClustersGetOSOptionsdefaultResponse
+  response: ManagedClustersGetOSOptions200Response | ManagedClustersGetOSOptionsdefaultResponse,
 ): response is ManagedClustersGetOSOptionsdefaultResponse;
 export function isUnexpected(
-  response: ManagedClustersList200Response | ManagedClustersListdefaultResponse
+  response: ManagedClustersList200Response | ManagedClustersListdefaultResponse,
 ): response is ManagedClustersListdefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClustersListByResourceGroup200Response
-    | ManagedClustersListByResourceGroupdefaultResponse
+    | ManagedClustersListByResourceGroupdefaultResponse,
 ): response is ManagedClustersListByResourceGroupdefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClustersGetUpgradeProfile200Response
-    | ManagedClustersGetUpgradeProfiledefaultResponse
+    | ManagedClustersGetUpgradeProfiledefaultResponse,
 ): response is ManagedClustersGetUpgradeProfiledefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClustersGetAccessProfile200Response
-    | ManagedClustersGetAccessProfiledefaultResponse
+    | ManagedClustersGetAccessProfiledefaultResponse,
 ): response is ManagedClustersGetAccessProfiledefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClustersListClusterAdminCredentials200Response
-    | ManagedClustersListClusterAdminCredentialsdefaultResponse
+    | ManagedClustersListClusterAdminCredentialsdefaultResponse,
 ): response is ManagedClustersListClusterAdminCredentialsdefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClustersListClusterUserCredentials200Response
-    | ManagedClustersListClusterUserCredentialsdefaultResponse
+    | ManagedClustersListClusterUserCredentialsdefaultResponse,
 ): response is ManagedClustersListClusterUserCredentialsdefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClustersListClusterMonitoringUserCredentials200Response
-    | ManagedClustersListClusterMonitoringUserCredentialsdefaultResponse
+    | ManagedClustersListClusterMonitoringUserCredentialsdefaultResponse,
 ): response is ManagedClustersListClusterMonitoringUserCredentialsdefaultResponse;
 export function isUnexpected(
-  response: ManagedClustersGet200Response | ManagedClustersGetdefaultResponse
+  response: ManagedClustersGet200Response | ManagedClustersGetdefaultResponse,
 ): response is ManagedClustersGetdefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClustersCreateOrUpdate200Response
     | ManagedClustersCreateOrUpdate201Response
-    | ManagedClustersCreateOrUpdatedefaultResponse
+    | ManagedClustersCreateOrUpdatedefaultResponse,
 ): response is ManagedClustersCreateOrUpdatedefaultResponse;
 export function isUnexpected(
-  response: ManagedClustersUpdateTags200Response | ManagedClustersUpdateTagsdefaultResponse
+  response: ManagedClustersUpdateTags200Response | ManagedClustersUpdateTagsdefaultResponse,
 ): response is ManagedClustersUpdateTagsdefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClustersDelete202Response
     | ManagedClustersDelete204Response
-    | ManagedClustersDeletedefaultResponse
+    | ManagedClustersDeletedefaultResponse,
 ): response is ManagedClustersDeletedefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClustersResetServicePrincipalProfile200Response
     | ManagedClustersResetServicePrincipalProfile202Response
-    | ManagedClustersResetServicePrincipalProfiledefaultResponse
+    | ManagedClustersResetServicePrincipalProfiledefaultResponse,
 ): response is ManagedClustersResetServicePrincipalProfiledefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClustersResetAADProfile200Response
     | ManagedClustersResetAADProfile202Response
-    | ManagedClustersResetAADProfiledefaultResponse
+    | ManagedClustersResetAADProfiledefaultResponse,
 ): response is ManagedClustersResetAADProfiledefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClustersRotateClusterCertificates202Response
     | ManagedClustersRotateClusterCertificates204Response
-    | ManagedClustersRotateClusterCertificatesdefaultResponse
+    | ManagedClustersRotateClusterCertificatesdefaultResponse,
 ): response is ManagedClustersRotateClusterCertificatesdefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClustersRotateServiceAccountSigningKeys202Response
     | ManagedClustersRotateServiceAccountSigningKeys204Response
-    | ManagedClustersRotateServiceAccountSigningKeysdefaultResponse
+    | ManagedClustersRotateServiceAccountSigningKeysdefaultResponse,
 ): response is ManagedClustersRotateServiceAccountSigningKeysdefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClustersStop202Response
     | ManagedClustersStop204Response
-    | ManagedClustersStopdefaultResponse
+    | ManagedClustersStopdefaultResponse,
 ): response is ManagedClustersStopdefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClustersStart202Response
     | ManagedClustersStart204Response
-    | ManagedClustersStartdefaultResponse
+    | ManagedClustersStartdefaultResponse,
 ): response is ManagedClustersStartdefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClustersRunCommand200Response
     | ManagedClustersRunCommand202Response
-    | ManagedClustersRunCommanddefaultResponse
+    | ManagedClustersRunCommanddefaultResponse,
 ): response is ManagedClustersRunCommanddefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClustersGetCommandResult200Response
     | ManagedClustersGetCommandResult202Response
-    | ManagedClustersGetCommandResultdefaultResponse
+    | ManagedClustersGetCommandResultdefaultResponse,
 ): response is ManagedClustersGetCommandResultdefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClustersListOutboundNetworkDependenciesEndpoints200Response
-    | ManagedClustersListOutboundNetworkDependenciesEndpointsdefaultResponse
+    | ManagedClustersListOutboundNetworkDependenciesEndpointsdefaultResponse,
 ): response is ManagedClustersListOutboundNetworkDependenciesEndpointsdefaultResponse;
 export function isUnexpected(
   response:
     | MaintenanceConfigurationsListByManagedCluster200Response
-    | MaintenanceConfigurationsListByManagedClusterdefaultResponse
+    | MaintenanceConfigurationsListByManagedClusterdefaultResponse,
 ): response is MaintenanceConfigurationsListByManagedClusterdefaultResponse;
 export function isUnexpected(
-  response: MaintenanceConfigurationsGet200Response | MaintenanceConfigurationsGetdefaultResponse
+  response: MaintenanceConfigurationsGet200Response | MaintenanceConfigurationsGetdefaultResponse,
 ): response is MaintenanceConfigurationsGetdefaultResponse;
 export function isUnexpected(
   response:
     | MaintenanceConfigurationsCreateOrUpdate200Response
-    | MaintenanceConfigurationsCreateOrUpdatedefaultResponse
+    | MaintenanceConfigurationsCreateOrUpdatedefaultResponse,
 ): response is MaintenanceConfigurationsCreateOrUpdatedefaultResponse;
 export function isUnexpected(
   response:
     | MaintenanceConfigurationsDelete200Response
     | MaintenanceConfigurationsDelete204Response
-    | MaintenanceConfigurationsDeletedefaultResponse
+    | MaintenanceConfigurationsDeletedefaultResponse,
 ): response is MaintenanceConfigurationsDeletedefaultResponse;
 export function isUnexpected(
-  response: AgentPoolsList200Response | AgentPoolsListdefaultResponse
+  response: AgentPoolsList200Response | AgentPoolsListdefaultResponse,
 ): response is AgentPoolsListdefaultResponse;
 export function isUnexpected(
-  response: AgentPoolsGet200Response | AgentPoolsGetdefaultResponse
+  response: AgentPoolsGet200Response | AgentPoolsGetdefaultResponse,
 ): response is AgentPoolsGetdefaultResponse;
 export function isUnexpected(
   response:
     | AgentPoolsCreateOrUpdate200Response
     | AgentPoolsCreateOrUpdate201Response
-    | AgentPoolsCreateOrUpdatedefaultResponse
+    | AgentPoolsCreateOrUpdatedefaultResponse,
 ): response is AgentPoolsCreateOrUpdatedefaultResponse;
 export function isUnexpected(
   response:
     | AgentPoolsDelete202Response
     | AgentPoolsDelete204Response
-    | AgentPoolsDeletedefaultResponse
+    | AgentPoolsDeletedefaultResponse,
 ): response is AgentPoolsDeletedefaultResponse;
 export function isUnexpected(
-  response: AgentPoolsGetUpgradeProfile200Response | AgentPoolsGetUpgradeProfiledefaultResponse
+  response: AgentPoolsGetUpgradeProfile200Response | AgentPoolsGetUpgradeProfiledefaultResponse,
 ): response is AgentPoolsGetUpgradeProfiledefaultResponse;
 export function isUnexpected(
   response:
     | AgentPoolsUpgradeNodeImageVersion200Response
     | AgentPoolsUpgradeNodeImageVersion202Response
-    | AgentPoolsUpgradeNodeImageVersiondefaultResponse
+    | AgentPoolsUpgradeNodeImageVersiondefaultResponse,
 ): response is AgentPoolsUpgradeNodeImageVersiondefaultResponse;
 export function isUnexpected(
   response:
     | PrivateEndpointConnectionsList200Response
-    | PrivateEndpointConnectionsListdefaultResponse
+    | PrivateEndpointConnectionsListdefaultResponse,
 ): response is PrivateEndpointConnectionsListdefaultResponse;
 export function isUnexpected(
-  response: PrivateEndpointConnectionsGet200Response | PrivateEndpointConnectionsGetdefaultResponse
+  response: PrivateEndpointConnectionsGet200Response | PrivateEndpointConnectionsGetdefaultResponse,
 ): response is PrivateEndpointConnectionsGetdefaultResponse;
 export function isUnexpected(
   response:
     | PrivateEndpointConnectionsUpdate200Response
-    | PrivateEndpointConnectionsUpdatedefaultResponse
+    | PrivateEndpointConnectionsUpdatedefaultResponse,
 ): response is PrivateEndpointConnectionsUpdatedefaultResponse;
 export function isUnexpected(
   response:
     | PrivateEndpointConnectionsDelete200Response
     | PrivateEndpointConnectionsDelete204Response
-    | PrivateEndpointConnectionsDeletedefaultResponse
+    | PrivateEndpointConnectionsDeletedefaultResponse,
 ): response is PrivateEndpointConnectionsDeletedefaultResponse;
 export function isUnexpected(
-  response: PrivateLinkResourcesList200Response | PrivateLinkResourcesListdefaultResponse
+  response: PrivateLinkResourcesList200Response | PrivateLinkResourcesListdefaultResponse,
 ): response is PrivateLinkResourcesListdefaultResponse;
 export function isUnexpected(
   response:
     | ResolvePrivateLinkServiceIdPost200Response
-    | ResolvePrivateLinkServiceIdPostdefaultResponse
+    | ResolvePrivateLinkServiceIdPostdefaultResponse,
 ): response is ResolvePrivateLinkServiceIdPostdefaultResponse;
 export function isUnexpected(
-  response: SnapshotsList200Response | SnapshotsListdefaultResponse
+  response: SnapshotsList200Response | SnapshotsListdefaultResponse,
 ): response is SnapshotsListdefaultResponse;
 export function isUnexpected(
-  response: SnapshotsListByResourceGroup200Response | SnapshotsListByResourceGroupdefaultResponse
+  response: SnapshotsListByResourceGroup200Response | SnapshotsListByResourceGroupdefaultResponse,
 ): response is SnapshotsListByResourceGroupdefaultResponse;
 export function isUnexpected(
-  response: SnapshotsGet200Response | SnapshotsGetdefaultResponse
+  response: SnapshotsGet200Response | SnapshotsGetdefaultResponse,
 ): response is SnapshotsGetdefaultResponse;
 export function isUnexpected(
   response:
     | SnapshotsCreateOrUpdate200Response
     | SnapshotsCreateOrUpdate201Response
-    | SnapshotsCreateOrUpdatedefaultResponse
+    | SnapshotsCreateOrUpdatedefaultResponse,
 ): response is SnapshotsCreateOrUpdatedefaultResponse;
 export function isUnexpected(
-  response: SnapshotsUpdateTags200Response | SnapshotsUpdateTagsdefaultResponse
+  response: SnapshotsUpdateTags200Response | SnapshotsUpdateTagsdefaultResponse,
 ): response is SnapshotsUpdateTagsdefaultResponse;
 export function isUnexpected(
-  response: SnapshotsDelete200Response | SnapshotsDelete204Response | SnapshotsDeletedefaultResponse
+  response:
+    | SnapshotsDelete200Response
+    | SnapshotsDelete204Response
+    | SnapshotsDeletedefaultResponse,
 ): response is SnapshotsDeletedefaultResponse;
 export function isUnexpected(
-  response: ManagedClusterSnapshotsList200Response | ManagedClusterSnapshotsListdefaultResponse
+  response: ManagedClusterSnapshotsList200Response | ManagedClusterSnapshotsListdefaultResponse,
 ): response is ManagedClusterSnapshotsListdefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClusterSnapshotsListByResourceGroup200Response
-    | ManagedClusterSnapshotsListByResourceGroupdefaultResponse
+    | ManagedClusterSnapshotsListByResourceGroupdefaultResponse,
 ): response is ManagedClusterSnapshotsListByResourceGroupdefaultResponse;
 export function isUnexpected(
-  response: ManagedClusterSnapshotsGet200Response | ManagedClusterSnapshotsGetdefaultResponse
+  response: ManagedClusterSnapshotsGet200Response | ManagedClusterSnapshotsGetdefaultResponse,
 ): response is ManagedClusterSnapshotsGetdefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClusterSnapshotsCreateOrUpdate200Response
     | ManagedClusterSnapshotsCreateOrUpdate201Response
-    | ManagedClusterSnapshotsCreateOrUpdatedefaultResponse
+    | ManagedClusterSnapshotsCreateOrUpdatedefaultResponse,
 ): response is ManagedClusterSnapshotsCreateOrUpdatedefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClusterSnapshotsUpdateTags200Response
-    | ManagedClusterSnapshotsUpdateTagsdefaultResponse
+    | ManagedClusterSnapshotsUpdateTagsdefaultResponse,
 ): response is ManagedClusterSnapshotsUpdateTagsdefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClusterSnapshotsDelete200Response
     | ManagedClusterSnapshotsDelete204Response
-    | ManagedClusterSnapshotsDeletedefaultResponse
+    | ManagedClusterSnapshotsDeletedefaultResponse,
 ): response is ManagedClusterSnapshotsDeletedefaultResponse;
 export function isUnexpected(
-  response: TrustedAccessRolesList200Response | TrustedAccessRolesListdefaultResponse
+  response: TrustedAccessRolesList200Response | TrustedAccessRolesListdefaultResponse,
 ): response is TrustedAccessRolesListdefaultResponse;
 export function isUnexpected(
-  response: TrustedAccessRoleBindingsList200Response | TrustedAccessRoleBindingsListdefaultResponse
+  response: TrustedAccessRoleBindingsList200Response | TrustedAccessRoleBindingsListdefaultResponse,
 ): response is TrustedAccessRoleBindingsListdefaultResponse;
 export function isUnexpected(
-  response: TrustedAccessRoleBindingsGet200Response | TrustedAccessRoleBindingsGetdefaultResponse
+  response: TrustedAccessRoleBindingsGet200Response | TrustedAccessRoleBindingsGetdefaultResponse,
 ): response is TrustedAccessRoleBindingsGetdefaultResponse;
 export function isUnexpected(
   response:
     | TrustedAccessRoleBindingsCreateOrUpdate200Response
-    | TrustedAccessRoleBindingsCreateOrUpdatedefaultResponse
+    | TrustedAccessRoleBindingsCreateOrUpdatedefaultResponse,
 ): response is TrustedAccessRoleBindingsCreateOrUpdatedefaultResponse;
 export function isUnexpected(
   response:
     | TrustedAccessRoleBindingsDelete200Response
     | TrustedAccessRoleBindingsDelete204Response
-    | TrustedAccessRoleBindingsDeletedefaultResponse
+    | TrustedAccessRoleBindingsDeletedefaultResponse,
 ): response is TrustedAccessRoleBindingsDeletedefaultResponse;
 export function isUnexpected(
   response:
@@ -647,7 +650,7 @@ export function isUnexpected(
     | TrustedAccessRoleBindingsCreateOrUpdatedefaultResponse
     | TrustedAccessRoleBindingsDelete200Response
     | TrustedAccessRoleBindingsDelete204Response
-    | TrustedAccessRoleBindingsDeletedefaultResponse
+    | TrustedAccessRoleBindingsDeletedefaultResponse,
 ): response is
   | OperationsListdefaultResponse
   | ManagedClustersGetOSOptionsdefaultResponse

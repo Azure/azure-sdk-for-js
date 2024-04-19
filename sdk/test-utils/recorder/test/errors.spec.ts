@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RecorderError, RecordingStateManager } from "../src/utils/utils";
-import { expect } from "chai";
-import { Recorder } from "../src/recorder";
+import { RecorderError, RecordingStateManager } from "../src/utils/utils.js";
+import { Recorder } from "../src/recorder.js";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
-import { encodeBase64 } from "../src/utils/encoding";
+import { encodeBase64 } from "../src/utils/encoding.js";
+import { describe, it, beforeEach, expect } from "vitest";
 
 describe("State Manager", function () {
   it("throws error if started twice", function () {
@@ -17,7 +17,7 @@ describe("State Manager", function () {
     } catch (error: any) {
       expect((error as RecorderError).name).to.equal("RecorderError");
       expect((error as RecorderError).message).to.equal(
-        "Already started, should not have called start again."
+        "Already started, should not have called start again.",
       );
     }
   });
@@ -30,7 +30,7 @@ describe("State Manager", function () {
     } catch (error: any) {
       expect((error as RecorderError).name).to.equal("RecorderError");
       expect((error as RecorderError).message).to.equal(
-        "Already stopped, should not have called stop again."
+        "Already stopped, should not have called stop again.",
       );
     }
   });
@@ -38,8 +38,8 @@ describe("State Manager", function () {
 
 describe("handleTestProxyErrors", function () {
   let recorder: Recorder;
-  beforeEach(function () {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(function (context) {
+    recorder = new Recorder(context);
   });
 
   it("x-request-mismatch header", function () {

@@ -40,13 +40,11 @@ export class Context {
     Context.opentelemetryVersion = SDK_INFO[SemanticResourceAttributes.TELEMETRY_SDK_VERSION];
     Context.sdkVersion = ai.packageVersion;
 
-    let prefix = process.env["AZURE_MONITOR_AGENT_PREFIX"]
-      ? process.env["AZURE_MONITOR_AGENT_PREFIX"]
-      : "";
-    let version = process.env["AZURE_MONITOR_DISTRO_VERSION"]
-      ? `dst${process.env["AZURE_MONITOR_DISTRO_VERSION"]}`
+    const prefix = process.env["AZURE_MONITOR_PREFIX"] ? process.env["AZURE_MONITOR_PREFIX"] : "";
+    const version = process.env["AZURE_MONITOR_DISTRO_VERSION"]
+      ? `ext${process.env["AZURE_MONITOR_DISTRO_VERSION"]}`
       : `ext${Context.sdkVersion}`;
-    let internalSdkVersion = `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`;
+    const internalSdkVersion = `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`;
     this.tags[KnownContextTagKeys.AiInternalSdkVersion] = internalSdkVersion;
   }
 }

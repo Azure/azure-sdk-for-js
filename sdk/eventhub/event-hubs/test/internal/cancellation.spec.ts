@@ -5,14 +5,17 @@ import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
 import { createReceiver, PartitionReceiver } from "../../src/partitionReceiver";
 import { EventHubSender } from "../../src/eventHubSender";
-import chai from "chai";
+import chai, { assert } from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { createConnectionContext } from "../../src/connectionContext";
 import { createMockServer } from "../public/utils/mockService";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+import { StandardAbortMessage } from "@azure/core-amqp";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
+
+const abortMsgRegex = new RegExp(StandardAbortMessage);
 
 testWithServiceTypes((serviceVersion) => {
   const env = getEnvVars();
@@ -36,11 +39,11 @@ testWithServiceTypes((serviceVersion) => {
     before("validate environment", () => {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
       );
       should.exist(
         env[EnvVarKeys.EVENTHUB_NAME],
-        "define EVENTHUB_NAME in your environment before running integration tests."
+        "define EVENTHUB_NAME in your environment before running integration tests.",
       );
     });
 
@@ -86,7 +89,7 @@ testWithServiceTypes((serviceVersion) => {
           "0", // partition id
           {
             enqueuedOn: Date.now(),
-          }
+          },
         );
       });
 
@@ -98,7 +101,7 @@ testWithServiceTypes((serviceVersion) => {
         it(`initialize supports cancellation (${caseType})`, async () => {
           const abortSignal = getSignal();
           try {
-            await client.connect({ abortSignal, timeoutInMs: 60000, prefetchCount: 1 });
+            await client.connect({ abortSignal, timeoutInMs: 60000 });
             throw new Error(TEST_FAILURE);
           } catch (err: any) {
             should.equal(err.name, "AbortError");
@@ -113,20 +116,20 @@ testWithServiceTypes((serviceVersion) => {
             throw new Error(TEST_FAILURE);
           } catch (err: any) {
             should.equal(err.name, "AbortError");
-            should.equal(err.message, "The operation was aborted.");
+            assert.match(err.message, abortMsgRegex);
           }
         });
 
         it(`receiveBatch supports cancellation when connection already exists (${caseType})`, async () => {
           // Open the connection.
-          await client.connect({ abortSignal: undefined, timeoutInMs: 60000, prefetchCount: 1 });
+          await client.connect({ abortSignal: undefined, timeoutInMs: 60000 });
           try {
             const abortSignal = getSignal();
             await client.receiveBatch(10, undefined, abortSignal);
             throw new Error(TEST_FAILURE);
           } catch (err: any) {
             should.equal(err.name, "AbortError");
-            should.equal(err.message, "The operation was aborted.");
+            assert.match(err.message, abortMsgRegex);
           }
         });
       }
@@ -150,7 +153,7 @@ testWithServiceTypes((serviceVersion) => {
             throw new Error(TEST_FAILURE);
           } catch (err: any) {
             should.equal(err.name, "AbortError");
-            should.equal(err.message, "The operation was aborted.");
+            assert.match(err.message, abortMsgRegex);
           }
         });
 
@@ -161,7 +164,7 @@ testWithServiceTypes((serviceVersion) => {
             throw new Error(TEST_FAILURE);
           } catch (err: any) {
             should.equal(err.name, "AbortError");
-            should.equal(err.message, "The operation was aborted.");
+            assert.match(err.message, abortMsgRegex);
           }
         });
 
@@ -172,7 +175,7 @@ testWithServiceTypes((serviceVersion) => {
             throw new Error(TEST_FAILURE);
           } catch (err: any) {
             should.equal(err.name, "AbortError");
-            should.equal(err.message, "The operation was aborted.");
+            assert.match(err.message, abortMsgRegex);
           }
         });
       }

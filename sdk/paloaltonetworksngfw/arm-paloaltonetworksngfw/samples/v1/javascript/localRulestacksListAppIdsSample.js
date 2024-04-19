@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List of AppIds for LocalRulestack ApiVersion
  *
  * @summary List of AppIds for LocalRulestack ApiVersion
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/LocalRulestacks_listAppIds_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRulestacks_listAppIds_MaximumSet_Gen.json
  */
 async function localRulestacksListAppIdsMaximumSetGen() {
   const subscriptionId =
@@ -35,19 +35,22 @@ async function localRulestacksListAppIdsMaximumSetGen() {
   };
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  const result = await client.localRulestacks.listAppIds(
+  const resArray = new Array();
+  for await (let item of client.localRulestacks.listAppIds(
     resourceGroupName,
     localRulestackName,
     options
-  );
-  console.log(result);
+  )) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
 /**
  * This sample demonstrates how to List of AppIds for LocalRulestack ApiVersion
  *
  * @summary List of AppIds for LocalRulestack ApiVersion
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/LocalRulestacks_listAppIds_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRulestacks_listAppIds_MinimumSet_Gen.json
  */
 async function localRulestacksListAppIdsMinimumSetGen() {
   const subscriptionId =
@@ -56,8 +59,11 @@ async function localRulestacksListAppIdsMinimumSetGen() {
   const localRulestackName = "lrs1";
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  const result = await client.localRulestacks.listAppIds(resourceGroupName, localRulestackName);
-  console.log(result);
+  const resArray = new Array();
+  for await (let item of client.localRulestacks.listAppIds(resourceGroupName, localRulestackName)) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
 async function main() {

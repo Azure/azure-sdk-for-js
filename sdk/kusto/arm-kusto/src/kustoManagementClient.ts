@@ -24,6 +24,7 @@ import {
   DatabaseOperationsImpl,
   DatabasePrincipalAssignmentsImpl,
   ScriptsImpl,
+  SandboxCustomImagesImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
   DataConnectionsImpl,
@@ -41,6 +42,7 @@ import {
   DatabaseOperations,
   DatabasePrincipalAssignments,
   Scripts,
+  SandboxCustomImages,
   PrivateEndpointConnections,
   PrivateLinkResources,
   DataConnections,
@@ -82,7 +84,7 @@ export class KustoManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-kusto/8.0.1`;
+    const packageDetails = `azsdk-js-arm-kusto/8.1.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -135,7 +137,7 @@ export class KustoManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-05-02";
+    this.apiVersion = options.apiVersion || "2023-08-15";
     this.clusters = new ClustersImpl(this);
     this.clusterPrincipalAssignments = new ClusterPrincipalAssignmentsImpl(
       this
@@ -151,6 +153,7 @@ export class KustoManagementClient extends coreClient.ServiceClient {
       this
     );
     this.scripts = new ScriptsImpl(this);
+    this.sandboxCustomImages = new SandboxCustomImagesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.dataConnections = new DataConnectionsImpl(this);
@@ -197,6 +200,7 @@ export class KustoManagementClient extends coreClient.ServiceClient {
   databaseOperations: DatabaseOperations;
   databasePrincipalAssignments: DatabasePrincipalAssignments;
   scripts: Scripts;
+  sandboxCustomImages: SandboxCustomImages;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
   dataConnections: DataConnections;

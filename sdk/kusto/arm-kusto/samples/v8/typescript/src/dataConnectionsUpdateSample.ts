@@ -23,7 +23,7 @@ dotenv.config();
  * This sample demonstrates how to Updates a data connection.
  *
  * @summary Updates a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-05-02/examples/KustoDataConnectionsCosmosDbUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionsCosmosDbUpdate.json
  */
 async function kustoDataConnectionsCosmosDbUpdate() {
   const subscriptionId =
@@ -63,7 +63,7 @@ async function kustoDataConnectionsCosmosDbUpdate() {
  * This sample demonstrates how to Updates a data connection.
  *
  * @summary Updates a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-05-02/examples/KustoDataConnectionsEventGridUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionsEventGridUpdate.json
  */
 async function kustoDataConnectionsEventGridUpdate() {
   const subscriptionId =
@@ -109,7 +109,7 @@ async function kustoDataConnectionsEventGridUpdate() {
  * This sample demonstrates how to Updates a data connection.
  *
  * @summary Updates a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-05-02/examples/KustoDataConnectionsUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDataConnectionsUpdate.json
  */
 async function kustoDataConnectionsUpdate() {
   const subscriptionId =

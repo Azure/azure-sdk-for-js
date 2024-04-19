@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List mongo cluster connection strings. This includes the default connection string using SCRAM-SHA-256, as well as other connection strings supported by the cluster.
  *
  * @summary List mongo cluster connection strings. This includes the default connection string using SCRAM-SHA-256, as well as other connection strings supported by the cluster.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/mongo-cluster/CosmosDBMongoClusterListConnectionStrings.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/mongo-cluster/CosmosDBMongoClusterListConnectionStrings.json
  */
 async function getConnectionString() {
   const subscriptionId =
@@ -27,7 +27,7 @@ async function getConnectionString() {
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const result = await client.mongoClusters.listConnectionStrings(
     resourceGroupName,
-    mongoClusterName
+    mongoClusterName,
   );
   console.log(result);
 }

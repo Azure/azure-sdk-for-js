@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   CdnWebApplicationFirewallPolicy,
   PoliciesListOptionalParams,
@@ -18,7 +18,7 @@ import {
   CdnWebApplicationFirewallPolicyPatchParameters,
   PoliciesUpdateOptionalParams,
   PoliciesUpdateResponse,
-  PoliciesDeleteOptionalParams
+  PoliciesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface Policies {
    */
   list(
     resourceGroupName: string,
-    options?: PoliciesListOptionalParams
+    options?: PoliciesListOptionalParams,
   ): PagedAsyncIterableIterator<CdnWebApplicationFirewallPolicy>;
   /**
    * Retrieve protection policy with specified name within a resource group.
@@ -42,7 +42,7 @@ export interface Policies {
   get(
     resourceGroupName: string,
     policyName: string,
-    options?: PoliciesGetOptionalParams
+    options?: PoliciesGetOptionalParams,
   ): Promise<PoliciesGetResponse>;
   /**
    * Create or update policy with specified rule set name within a resource group.
@@ -55,10 +55,10 @@ export interface Policies {
     resourceGroupName: string,
     policyName: string,
     cdnWebApplicationFirewallPolicy: CdnWebApplicationFirewallPolicy,
-    options?: PoliciesCreateOrUpdateOptionalParams
+    options?: PoliciesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<PoliciesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PoliciesCreateOrUpdateResponse>,
       PoliciesCreateOrUpdateResponse
     >
   >;
@@ -73,7 +73,7 @@ export interface Policies {
     resourceGroupName: string,
     policyName: string,
     cdnWebApplicationFirewallPolicy: CdnWebApplicationFirewallPolicy,
-    options?: PoliciesCreateOrUpdateOptionalParams
+    options?: PoliciesCreateOrUpdateOptionalParams,
   ): Promise<PoliciesCreateOrUpdateResponse>;
   /**
    * Update an existing CdnWebApplicationFirewallPolicy with the specified policy name under the
@@ -88,10 +88,10 @@ export interface Policies {
     resourceGroupName: string,
     policyName: string,
     cdnWebApplicationFirewallPolicyPatchParameters: CdnWebApplicationFirewallPolicyPatchParameters,
-    options?: PoliciesUpdateOptionalParams
+    options?: PoliciesUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<PoliciesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PoliciesUpdateResponse>,
       PoliciesUpdateResponse
     >
   >;
@@ -108,7 +108,7 @@ export interface Policies {
     resourceGroupName: string,
     policyName: string,
     cdnWebApplicationFirewallPolicyPatchParameters: CdnWebApplicationFirewallPolicyPatchParameters,
-    options?: PoliciesUpdateOptionalParams
+    options?: PoliciesUpdateOptionalParams,
   ): Promise<PoliciesUpdateResponse>;
   /**
    * Deletes Policy
@@ -119,6 +119,6 @@ export interface Policies {
   delete(
     resourceGroupName: string,
     policyName: string,
-    options?: PoliciesDeleteOptionalParams
+    options?: PoliciesDeleteOptionalParams,
   ): Promise<void>;
 }

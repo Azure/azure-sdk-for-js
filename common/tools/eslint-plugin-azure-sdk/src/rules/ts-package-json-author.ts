@@ -17,14 +17,14 @@ export = {
   meta: getRuleMetaData(
     "ts-package-json-author",
     "force package.json's author value to be 'Microsoft Corporation'",
-    "code"
+    "code",
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const verifiers = getVerifiers(context, {
       outer: "author",
       expected: "Microsoft Corporation",
     });
-    return stripPath(context.getFilename()) === "package.json"
+    return stripPath(context.filename) === "package.json"
       ? ({
           // callback functions
 

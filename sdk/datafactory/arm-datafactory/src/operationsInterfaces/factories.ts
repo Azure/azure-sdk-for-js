@@ -27,7 +27,7 @@ import {
   FactoriesGetGitHubAccessTokenResponse,
   UserAccessPolicy,
   FactoriesGetDataPlaneAccessOptionalParams,
-  FactoriesGetDataPlaneAccessResponse
+  FactoriesGetDataPlaneAccessResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,7 +38,7 @@ export interface Factories {
    * @param options The options parameters.
    */
   list(
-    options?: FactoriesListOptionalParams
+    options?: FactoriesListOptionalParams,
   ): PagedAsyncIterableIterator<Factory>;
   /**
    * Lists factories.
@@ -47,7 +47,7 @@ export interface Factories {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: FactoriesListByResourceGroupOptionalParams
+    options?: FactoriesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Factory>;
   /**
    * Updates a factory's repo information.
@@ -58,7 +58,7 @@ export interface Factories {
   configureFactoryRepo(
     locationId: string,
     factoryRepoUpdate: FactoryRepoUpdate,
-    options?: FactoriesConfigureFactoryRepoOptionalParams
+    options?: FactoriesConfigureFactoryRepoOptionalParams,
   ): Promise<FactoriesConfigureFactoryRepoResponse>;
   /**
    * Creates or updates a factory.
@@ -71,7 +71,7 @@ export interface Factories {
     resourceGroupName: string,
     factoryName: string,
     factory: Factory,
-    options?: FactoriesCreateOrUpdateOptionalParams
+    options?: FactoriesCreateOrUpdateOptionalParams,
   ): Promise<FactoriesCreateOrUpdateResponse>;
   /**
    * Updates a factory.
@@ -84,7 +84,7 @@ export interface Factories {
     resourceGroupName: string,
     factoryName: string,
     factoryUpdateParameters: FactoryUpdateParameters,
-    options?: FactoriesUpdateOptionalParams
+    options?: FactoriesUpdateOptionalParams,
   ): Promise<FactoriesUpdateResponse>;
   /**
    * Gets a factory.
@@ -95,7 +95,7 @@ export interface Factories {
   get(
     resourceGroupName: string,
     factoryName: string,
-    options?: FactoriesGetOptionalParams
+    options?: FactoriesGetOptionalParams,
   ): Promise<FactoriesGetResponse>;
   /**
    * Deletes a factory.
@@ -106,7 +106,7 @@ export interface Factories {
   delete(
     resourceGroupName: string,
     factoryName: string,
-    options?: FactoriesDeleteOptionalParams
+    options?: FactoriesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get GitHub Access Token.
@@ -119,7 +119,7 @@ export interface Factories {
     resourceGroupName: string,
     factoryName: string,
     gitHubAccessTokenRequest: GitHubAccessTokenRequest,
-    options?: FactoriesGetGitHubAccessTokenOptionalParams
+    options?: FactoriesGetGitHubAccessTokenOptionalParams,
   ): Promise<FactoriesGetGitHubAccessTokenResponse>;
   /**
    * Get Data Plane access.
@@ -132,6 +132,6 @@ export interface Factories {
     resourceGroupName: string,
     factoryName: string,
     policy: UserAccessPolicy,
-    options?: FactoriesGetDataPlaneAccessOptionalParams
+    options?: FactoriesGetDataPlaneAccessOptionalParams,
   ): Promise<FactoriesGetDataPlaneAccessResponse>;
 }

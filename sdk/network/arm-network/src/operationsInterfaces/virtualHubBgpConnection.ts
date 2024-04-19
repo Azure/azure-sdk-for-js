@@ -13,7 +13,7 @@ import {
   BgpConnection,
   VirtualHubBgpConnectionCreateOrUpdateOptionalParams,
   VirtualHubBgpConnectionCreateOrUpdateResponse,
-  VirtualHubBgpConnectionDeleteOptionalParams
+  VirtualHubBgpConnectionDeleteOptionalParams,
 } from "../models";
 
 /** Interface representing a VirtualHubBgpConnection. */
@@ -29,7 +29,7 @@ export interface VirtualHubBgpConnection {
     resourceGroupName: string,
     virtualHubName: string,
     connectionName: string,
-    options?: VirtualHubBgpConnectionGetOptionalParams
+    options?: VirtualHubBgpConnectionGetOptionalParams,
   ): Promise<VirtualHubBgpConnectionGetResponse>;
   /**
    * Creates a VirtualHubBgpConnection resource if it doesn't exist else updates the existing
@@ -45,7 +45,7 @@ export interface VirtualHubBgpConnection {
     virtualHubName: string,
     connectionName: string,
     parameters: BgpConnection,
-    options?: VirtualHubBgpConnectionCreateOrUpdateOptionalParams
+    options?: VirtualHubBgpConnectionCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualHubBgpConnectionCreateOrUpdateResponse>,
@@ -66,7 +66,7 @@ export interface VirtualHubBgpConnection {
     virtualHubName: string,
     connectionName: string,
     parameters: BgpConnection,
-    options?: VirtualHubBgpConnectionCreateOrUpdateOptionalParams
+    options?: VirtualHubBgpConnectionCreateOrUpdateOptionalParams,
   ): Promise<VirtualHubBgpConnectionCreateOrUpdateResponse>;
   /**
    * Deletes a VirtualHubBgpConnection.
@@ -79,7 +79,7 @@ export interface VirtualHubBgpConnection {
     resourceGroupName: string,
     virtualHubName: string,
     connectionName: string,
-    options?: VirtualHubBgpConnectionDeleteOptionalParams
+    options?: VirtualHubBgpConnectionDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a VirtualHubBgpConnection.
@@ -92,6 +92,6 @@ export interface VirtualHubBgpConnection {
     resourceGroupName: string,
     virtualHubName: string,
     connectionName: string,
-    options?: VirtualHubBgpConnectionDeleteOptionalParams
+    options?: VirtualHubBgpConnectionDeleteOptionalParams,
   ): Promise<void>;
 }

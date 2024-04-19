@@ -5,7 +5,7 @@
  * @summary Demonstrates using a ChangeFeed for an epk range
  */
 
-dotenv.config();
+require("dotenv").config();
 
 const { finish, handleError, logSampleHeader } = require("../Shared/handleError");
 const {

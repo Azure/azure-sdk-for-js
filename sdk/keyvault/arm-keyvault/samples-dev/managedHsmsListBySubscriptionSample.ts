@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to The List operation gets information about the managed HSM Pools associated with the subscription.
  *
  * @summary The List operation gets information about the managed HSM Pools associated with the subscription.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-02-01/examples/ManagedHsm_ListBySubscription.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/ManagedHsm_ListBySubscription.json
  */
 async function listManagedHsmPoolsInASubscription() {
   const subscriptionId =

@@ -9,7 +9,7 @@ import { TrunkUpdate as RestSipTrunk } from "./generated/src/siprouting/models";
  * Transforming SIP trunks REST model to SDK model
  */
 export function transformFromRestModel(
-  trunks: { [propertyName: string]: RestSipTrunk } | undefined
+  trunks: { [propertyName: string]: RestSipTrunk } | undefined,
 ): SipTrunk[] {
   const result: SipTrunk[] = [];
 

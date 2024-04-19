@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Migrate an Azure Cosmos DB SQL database from manual throughput to autoscale
  *
  * @summary Migrate an Azure Cosmos DB SQL database from manual throughput to autoscale
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBSqlDatabaseMigrateToAutoscale.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBSqlDatabaseMigrateToAutoscale.json
  */
 async function cosmosDbSqlDatabaseMigrateToAutoscale() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -27,11 +27,12 @@ async function cosmosDbSqlDatabaseMigrateToAutoscale() {
   const databaseName = "databaseName";
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.sqlResources.beginMigrateSqlDatabaseToAutoscaleAndWait(
-    resourceGroupName,
-    accountName,
-    databaseName
-  );
+  const result =
+    await client.sqlResources.beginMigrateSqlDatabaseToAutoscaleAndWait(
+      resourceGroupName,
+      accountName,
+      databaseName,
+    );
   console.log(result);
 }
 

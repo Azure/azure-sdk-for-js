@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the detailed information for a given pipeline run.
  *
  * @summary Gets the detailed information for a given pipeline run.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-08-01-preview/examples/PipelineRunGet.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/PipelineRunGet.json
  */
 async function pipelineRunGet() {
   const subscriptionId =

@@ -40,7 +40,7 @@ async function listIngestionStatus(
   adminClient: MetricsAdvisorAdministrationClient,
   dataFeedId: string,
   startTime: Date,
-  endTime: Date
+  endTime: Date,
 ) {
   console.log("Listing ingestion status...");
   // iterate through all ingestions using for-await-of
@@ -76,7 +76,7 @@ async function listIngestionStatus(
 
 async function getIngestionProgress(
   adminClient: MetricsAdvisorAdministrationClient,
-  dataFeedId: string
+  dataFeedId: string,
 ) {
   console.log("Getting ingestion progress...");
   const result = await adminClient.getDataFeedIngestionProgress(dataFeedId);
@@ -87,7 +87,7 @@ async function refreshIngestion(
   adminClient: MetricsAdvisorAdministrationClient,
   dataFeedId: string,
   startTime: Date,
-  endTime: Date
+  endTime: Date,
 ) {
   console.log("Resetting ingestion status...");
   await adminClient.refreshDataFeedIngestion(dataFeedId, startTime, endTime);

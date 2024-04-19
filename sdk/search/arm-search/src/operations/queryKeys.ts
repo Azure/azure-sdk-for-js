@@ -21,7 +21,7 @@ import {
   QueryKeysCreateOptionalParams,
   QueryKeysCreateResponse,
   QueryKeysDeleteOptionalParams,
-  QueryKeysListBySearchServiceNextResponse
+  QueryKeysListBySearchServiceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,22 +38,22 @@ export class QueryKeysImpl implements QueryKeys {
   }
 
   /**
-   * Returns the list of query API keys for the given Azure Cognitive Search service.
+   * Returns the list of query API keys for the given Azure AI Search service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
    * @param options The options parameters.
    */
   public listBySearchService(
     resourceGroupName: string,
     searchServiceName: string,
-    options?: QueryKeysListBySearchServiceOptionalParams
+    options?: QueryKeysListBySearchServiceOptionalParams,
   ): PagedAsyncIterableIterator<QueryKey> {
     const iter = this.listBySearchServicePagingAll(
       resourceGroupName,
       searchServiceName,
-      options
+      options,
     );
     return {
       next() {
@@ -70,9 +70,9 @@ export class QueryKeysImpl implements QueryKeys {
           resourceGroupName,
           searchServiceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -80,7 +80,7 @@ export class QueryKeysImpl implements QueryKeys {
     resourceGroupName: string,
     searchServiceName: string,
     options?: QueryKeysListBySearchServiceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<QueryKey[]> {
     let result: QueryKeysListBySearchServiceResponse;
     let continuationToken = settings?.continuationToken;
@@ -88,7 +88,7 @@ export class QueryKeysImpl implements QueryKeys {
       result = await this._listBySearchService(
         resourceGroupName,
         searchServiceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -100,7 +100,7 @@ export class QueryKeysImpl implements QueryKeys {
         resourceGroupName,
         searchServiceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -112,12 +112,12 @@ export class QueryKeysImpl implements QueryKeys {
   private async *listBySearchServicePagingAll(
     resourceGroupName: string,
     searchServiceName: string,
-    options?: QueryKeysListBySearchServiceOptionalParams
+    options?: QueryKeysListBySearchServiceOptionalParams,
   ): AsyncIterableIterator<QueryKey> {
     for await (const page of this.listBySearchServicePagingPage(
       resourceGroupName,
       searchServiceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -128,8 +128,8 @@ export class QueryKeysImpl implements QueryKeys {
    * service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
    * @param name The name of the new query API key.
    * @param options The options parameters.
    */
@@ -137,30 +137,30 @@ export class QueryKeysImpl implements QueryKeys {
     resourceGroupName: string,
     searchServiceName: string,
     name: string,
-    options?: QueryKeysCreateOptionalParams
+    options?: QueryKeysCreateOptionalParams,
   ): Promise<QueryKeysCreateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, searchServiceName, name, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
   /**
-   * Returns the list of query API keys for the given Azure Cognitive Search service.
+   * Returns the list of query API keys for the given Azure AI Search service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
    * @param options The options parameters.
    */
   private _listBySearchService(
     resourceGroupName: string,
     searchServiceName: string,
-    options?: QueryKeysListBySearchServiceOptionalParams
+    options?: QueryKeysListBySearchServiceOptionalParams,
   ): Promise<QueryKeysListBySearchServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, searchServiceName, options },
-      listBySearchServiceOperationSpec
+      listBySearchServiceOperationSpec,
     );
   }
 
@@ -169,8 +169,8 @@ export class QueryKeysImpl implements QueryKeys {
    * regenerating a query key is to delete and then recreate it.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
    * @param key The query key to be deleted. Query keys are identified by value, not by name.
    * @param options The options parameters.
    */
@@ -178,11 +178,11 @@ export class QueryKeysImpl implements QueryKeys {
     resourceGroupName: string,
     searchServiceName: string,
     key: string,
-    options?: QueryKeysDeleteOptionalParams
+    options?: QueryKeysDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, searchServiceName, key, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -190,8 +190,8 @@ export class QueryKeysImpl implements QueryKeys {
    * ListBySearchServiceNext
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
    * @param nextLink The nextLink from the previous successful call to the ListBySearchService method.
    * @param options The options parameters.
    */
@@ -199,11 +199,11 @@ export class QueryKeysImpl implements QueryKeys {
     resourceGroupName: string,
     searchServiceName: string,
     nextLink: string,
-    options?: QueryKeysListBySearchServiceNextOptionalParams
+    options?: QueryKeysListBySearchServiceNextOptionalParams,
   ): Promise<QueryKeysListBySearchServiceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, searchServiceName, nextLink, options },
-      listBySearchServiceNextOperationSpec
+      listBySearchServiceNextOperationSpec,
     );
   }
 }
@@ -211,16 +211,15 @@ export class QueryKeysImpl implements QueryKeys {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/createQueryKey/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/createQueryKey/{name}",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.QueryKey
+      bodyMapper: Mappers.QueryKey,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -228,44 +227,42 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.searchServiceName,
     Parameters.subscriptionId,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept, Parameters.clientRequestId],
-  serializer
+  serializer,
 };
 const listBySearchServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/listQueryKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/listQueryKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ListQueryKeysResult
+      bodyMapper: Mappers.ListQueryKeysResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.searchServiceName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.clientRequestId],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/deleteQueryKey/{key}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/deleteQueryKey/{key}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     404: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -273,29 +270,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.searchServiceName,
     Parameters.subscriptionId,
-    Parameters.key
+    Parameters.key,
   ],
   headerParameters: [Parameters.accept, Parameters.clientRequestId],
-  serializer
+  serializer,
 };
 const listBySearchServiceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListQueryKeysResult
+      bodyMapper: Mappers.ListQueryKeysResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.searchServiceName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept, Parameters.clientRequestId],
-  serializer
+  serializer,
 };

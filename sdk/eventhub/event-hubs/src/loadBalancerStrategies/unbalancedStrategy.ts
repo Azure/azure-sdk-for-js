@@ -22,7 +22,7 @@ export class UnbalancedLoadBalancingStrategy implements LoadBalancingStrategy {
   public getPartitionsToClaim(
     _ourOwnerId: string,
     _claimedPartitionOwnershipMap: Map<string, PartitionOwnership>,
-    partitionIds: string[]
+    partitionIds: string[],
   ): string[] {
     return partitionIds;
   }

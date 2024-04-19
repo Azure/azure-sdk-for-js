@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Check the availability of name for resource
  *
  * @summary Check the availability of name for resource
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/mongo-cluster/CosmosDBMongoClusterNameAvailability.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/mongo-cluster/CosmosDBMongoClusterNameAvailability.json
  */
 async function checkNameAvailability() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function checkNameAvailability() {
  * This sample demonstrates how to Check the availability of name for resource
  *
  * @summary Check the availability of name for resource
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/mongo-cluster/CosmosDBMongoClusterNameAvailability_AlreadyExists.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/mongo-cluster/CosmosDBMongoClusterNameAvailability_AlreadyExists.json
  */
 async function checkNameAvailabilityAlreadyExistsResult() {
   const subscriptionId =

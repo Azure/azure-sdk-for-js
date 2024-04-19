@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   HybridIdentityMetadata,
   HybridIdentityMetadataListByClusterOptionalParams,
@@ -14,66 +15,69 @@ import {
   HybridIdentityMetadataPutResponse,
   HybridIdentityMetadataGetOptionalParams,
   HybridIdentityMetadataGetResponse,
-  HybridIdentityMetadataDeleteOptionalParams
+  HybridIdentityMetadataDeleteOptionalParams,
+  HybridIdentityMetadataDeleteResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a HybridIdentityMetadataOperations. */
 export interface HybridIdentityMetadataOperations {
   /**
-   * Lists the hybrid identity metadata proxy resource in a cluster.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName Parameter for the name of the provisioned cluster
+   * Lists the hybrid identity metadata proxy resource in a provisioned cluster instance.
+   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
+   *                                    connected cluster resource.
    * @param options The options parameters.
    */
   listByCluster(
-    resourceGroupName: string,
-    resourceName: string,
+    connectedClusterResourceUri: string,
     options?: HybridIdentityMetadataListByClusterOptionalParams
   ): PagedAsyncIterableIterator<HybridIdentityMetadata>;
   /**
    * Creates the hybrid identity metadata proxy resource that facilitates the managed identity
    * provisioning.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName Parameter for the name of the provisioned cluster
-   * @param hybridIdentityMetadataResourceName Parameter for the name of the hybrid identity metadata
-   *                                           resource.
-   * @param body Defines the hybridIdentityMetadata.
+   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
+   *                                    connected cluster resource.
+   * @param body Hybrid Identity Metadata resource definition
    * @param options The options parameters.
    */
   put(
-    resourceGroupName: string,
-    resourceName: string,
-    hybridIdentityMetadataResourceName: string,
+    connectedClusterResourceUri: string,
     body: HybridIdentityMetadata,
     options?: HybridIdentityMetadataPutOptionalParams
   ): Promise<HybridIdentityMetadataPutResponse>;
   /**
    * Get the hybrid identity metadata proxy resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName Parameter for the name of the provisioned cluster
-   * @param hybridIdentityMetadataResourceName Parameter for the name of the hybrid identity metadata
-   *                                           resource.
+   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
+   *                                    connected cluster resource.
    * @param options The options parameters.
    */
   get(
-    resourceGroupName: string,
-    resourceName: string,
-    hybridIdentityMetadataResourceName: string,
+    connectedClusterResourceUri: string,
     options?: HybridIdentityMetadataGetOptionalParams
   ): Promise<HybridIdentityMetadataGetResponse>;
   /**
    * Deletes the hybrid identity metadata proxy resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName Parameter for the name of the provisioned cluster
-   * @param hybridIdentityMetadataResourceName Parameter for the name of the hybrid identity metadata
-   *                                           resource.
+   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
+   *                                    connected cluster resource.
    * @param options The options parameters.
    */
-  delete(
-    resourceGroupName: string,
-    resourceName: string,
-    hybridIdentityMetadataResourceName: string,
+  beginDelete(
+    connectedClusterResourceUri: string,
     options?: HybridIdentityMetadataDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<HybridIdentityMetadataDeleteResponse>,
+      HybridIdentityMetadataDeleteResponse
+    >
+  >;
+  /**
+   * Deletes the hybrid identity metadata proxy resource.
+   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
+   *                                    connected cluster resource.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    connectedClusterResourceUri: string,
+    options?: HybridIdentityMetadataDeleteOptionalParams
+  ): Promise<HybridIdentityMetadataDeleteResponse>;
 }

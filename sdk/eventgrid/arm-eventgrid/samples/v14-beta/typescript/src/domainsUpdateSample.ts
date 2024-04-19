@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Asynchronously updates a domain with the specified parameters.
  *
  * @summary Asynchronously updates a domain with the specified parameters.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-06-01-preview/examples/Domains_Update.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/Domains_Update.json
  */
 async function domainsUpdate() {
   const subscriptionId =

@@ -10,7 +10,7 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
   constructor(
     private executionContext: ExecutionContext,
     private offset: number,
-    private limit: number
+    private limit: number,
   ) {}
 
   public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {

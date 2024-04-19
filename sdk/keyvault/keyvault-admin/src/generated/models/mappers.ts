@@ -415,9 +415,15 @@ export const SASTokenParameter: coreClient.CompositeMapper = {
       },
       token: {
         serializedName: "token",
-        required: true,
         type: {
           name: "String"
+        }
+      },
+      useManagedIdentity: {
+        defaultValue: false,
+        serializedName: "useManagedIdentity",
+        type: {
+          name: "Boolean"
         }
       }
     }
