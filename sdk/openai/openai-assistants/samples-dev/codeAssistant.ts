@@ -37,7 +37,7 @@ export async function main() {
     },
     {
       requestOptions: { timeout: 10000 },
-    }
+    },
   );
   console.log(runResponse);
 
