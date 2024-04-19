@@ -292,7 +292,7 @@ export async function isProxyToolActive(): Promise<boolean> {
       }\n`,
     );
     return true;
-  } catch (error: any) {
+  } catch (error: unknown) {
     return false;
   }
 }
@@ -313,7 +313,7 @@ async function getTargetVersion() {
 
     log.info(`Image tag obtained from the powershell script => ${tag}\n`);
     return tag;
-  } catch (_: any) {
+  } catch (_: unknown) {
     log.warn(
       `Unable to get the image tag from the powershell script, trying "latest" tag instead\n`,
     );
