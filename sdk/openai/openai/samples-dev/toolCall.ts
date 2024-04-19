@@ -5,6 +5,7 @@
  * Demonstrates how to define and call functions with chat completions.
  *
  * @summary get chat completions with functions.
+ * @azsdk-weight 100
  */
 
 import { OpenAIClient, AzureKeyCredential } from "@azure/openai";
@@ -45,12 +46,17 @@ export async function main() {
     deploymentId,
     [{ role: "user", content: "What's the weather like in Boston?" }],
     {
-      functions: [getCurrentWeather],
+      tools: [
+        {
+          type: "function",
+          function: getCurrentWeather,
+        },
+      ],
     },
   );
 
   for (const choice of result.choices) {
-    console.log(choice.message?.functionCall);
+    console.log(choice.message?.toolCalls);
   }
 }
 
