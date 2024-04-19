@@ -7,10 +7,11 @@
  * @summary get chat completions with functions.
  */
 
-const { OpenAIClient, AzureKeyCredential } = require("@azure/openai");
+import { OpenAIClient, AzureKeyCredential } from "@azure/openai";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
@@ -35,7 +36,7 @@ const getCurrentWeather = {
   },
 };
 
-async function main() {
+export async function main() {
   console.log("== Chat Completions Sample With Functions ==");
 
   const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
@@ -44,17 +45,20 @@ async function main() {
     deploymentId,
     [{ role: "user", content: "What's the weather like in Boston?" }],
     {
-      functions: [getCurrentWeather],
+      tools: [
+        {
+          type: "function",
+          function: getCurrentWeather,
+        },
+      ],
     },
   );
 
   for (const choice of result.choices) {
-    console.log(choice.message?.functionCall);
+    console.log(choice.message?.toolCalls);
   }
 }
 
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
-
-module.exports = { main };
