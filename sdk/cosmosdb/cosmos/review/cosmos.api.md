@@ -600,7 +600,6 @@ export interface ContainerDefinition {
     indexingPolicy?: IndexingPolicy;
     partitionKey?: PartitionKeyDefinition;
     uniqueKeyPolicy?: UniqueKeyPolicy;
-    // Warning: (ae-forgotten-export) The symbol "VectorEmbeddingPolicy" needs to be exported by the entry point index.d.ts
     vectorEmbeddingPolicy?: VectorEmbeddingPolicy;
 }
 
@@ -1148,8 +1147,6 @@ export interface IndexingPolicy {
     indexingMode?: keyof typeof IndexingMode;
     // (undocumented)
     spatialIndexes?: SpatialIndex[];
-    // Warning: (ae-forgotten-export) The symbol "VectorIndex" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     vectorIndexes?: VectorIndex[];
 }
@@ -2507,6 +2504,28 @@ export class Users {
     query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
     readAll(options?: FeedOptions): QueryIterator<UserDefinition & Resource>;
     upsert(body: UserDefinition, options?: RequestOptions): Promise<UserResponse>;
+}
+
+// @public (undocumented)
+export interface VectorEmbedding {
+    dataType: "float16" | "float32" | "uint8" | "int8";
+    dimensions: number;
+    distanceFunction: "euclidean" | "cosine" | "dotproduct";
+    path: string;
+}
+
+// @public (undocumented)
+export interface VectorEmbeddingPolicy {
+    // (undocumented)
+    vectorEmbeddings: VectorEmbedding[];
+}
+
+// @public (undocumented)
+export interface VectorIndex {
+    // (undocumented)
+    path: string;
+    // (undocumented)
+    type: "flat" | "diskANN" | "quantizedFlat";
 }
 
 // (No @packageDocumentation comment for this package)
