@@ -10,12 +10,11 @@ import { createClient, createRecorder } from "./utils/recordedClient";
 const codingData = {
   system: "Http://hl7.org/fhir/ValueSet/cpt-all",
   code: "USPELVIS",
-  display: "US PELVIS COMPLETE"
+  display: "US PELVIS COMPLETE",
 };
 
-
 const code = {
-  coding: [codingData]
+  coding: [codingData],
 };
 
 const patientInfo = {
@@ -26,10 +25,10 @@ const patientInfo = {
 const encounterData = {
   id: "encounterid1",
   period: {
-    "start": "2021-8-28T00:00:00",
-    "end": "2021-8-28T00:00:00"
+    start: "2021-8-28T00:00:00",
+    end: "2021-8-28T00:00:00",
   },
-  class: "inpatient"
+  class: "inpatient",
 };
 
 const authorData = {
@@ -39,37 +38,38 @@ const authorData = {
 
 const orderedProceduresData = {
   code: code,
-  description: "US PELVIS COMPLETE"
+  description: "US PELVIS COMPLETE",
 };
 
 const administrativeMetadata = {
   orderedProcedures: [orderedProceduresData],
-  encounterId: "encounterid1"
+  encounterId: "encounterid1",
 };
 
 const content = {
   sourceType: "inline",
-  value: "CLINICAL HISTORY:   "
-    + "\r\n20-year-old female presenting with abdominal pain. Surgical history significant for appendectomy."
-    + "\r\n "
-    + "\r\nCOMPARISON:   "
-    + "\r\nRight upper quadrant sonographic performed 1 day prior."
-    + "\r\n "
-    + "\r\nTECHNIQUE:   "
-    + "\r\nTransabdominal grayscale pelvic sonography with duplex color Doppler "
-    + "\r\nand spectral waveform analysis of the ovaries."
-    + "\r\n "
-    + "\r\nFINDINGS:   "
-    + "\r\nThe uterus is unremarkable given the transabdominal technique with "
-    + "\r\nendometrial echo complex within physiologic normal limits. The "
-    + "\r\novaries are symmetric in size, measuring 2.5 x 1.2 x 3.0 cm and the "
-    + "\r\nleft measuring 2.8 x 1.5 x 1.9 cm.\n \r\nOn duplex imaging, Doppler signal is symmetric."
-    + "\r\n "
-    + "\r\nIMPRESSION:   "
-    + "\r\n1. Normal pelvic sonography. Findings of testicular torsion."
-    + "\r\n\nA new US pelvis within the next 6 months is recommended."
-    + "\n\nThese results have been discussed with Dr. Jones at 3 PM on November 5 2020.\n "
-    + "\r\n"
+  value:
+    "CLINICAL HISTORY:   " +
+    "\r\n20-year-old female presenting with abdominal pain. Surgical history significant for appendectomy." +
+    "\r\n " +
+    "\r\nCOMPARISON:   " +
+    "\r\nRight upper quadrant sonographic performed 1 day prior." +
+    "\r\n " +
+    "\r\nTECHNIQUE:   " +
+    "\r\nTransabdominal grayscale pelvic sonography with duplex color Doppler " +
+    "\r\nand spectral waveform analysis of the ovaries." +
+    "\r\n " +
+    "\r\nFINDINGS:   " +
+    "\r\nThe uterus is unremarkable given the transabdominal technique with " +
+    "\r\nendometrial echo complex within physiologic normal limits. The " +
+    "\r\novaries are symmetric in size, measuring 2.5 x 1.2 x 3.0 cm and the " +
+    "\r\nleft measuring 2.8 x 1.5 x 1.9 cm.\n \r\nOn duplex imaging, Doppler signal is symmetric." +
+    "\r\n " +
+    "\r\nIMPRESSION:   " +
+    "\r\n1. Normal pelvic sonography. Findings of testicular torsion." +
+    "\r\n\nA new US pelvis within the next 6 months is recommended." +
+    "\n\nThese results have been discussed with Dr. Jones at 3 PM on November 5 2020.\n " +
+    "\r\n",
 };
 const patientDocumentData = {
   type: "note",
@@ -81,15 +81,14 @@ const patientDocumentData = {
   administrativeMetadata: administrativeMetadata,
   content: content,
   createdAt: new Date("2021-06-01T00:00:00.000"),
-  orderedProceduresAsCsv: "US PELVIS COMPLETE"
+  orderedProceduresAsCsv: "US PELVIS COMPLETE",
 };
-
 
 const patientData = {
   id: "Samantha Jones",
   details: patientInfo,
   encounters: [encounterData],
-  patientDocuments: [patientDocumentData]
+  patientDocuments: [patientDocumentData],
 };
 
 const inferenceTypes = [
@@ -103,21 +102,22 @@ const inferenceTypes = [
   "criticalRecommendation",
   "followupRecommendation",
   "followupCommunication",
-  "radiologyProcedure"];
+  "radiologyProcedure",
+];
 
 const followupRecommendationOptions = {
   includeRecommendationsWithNoSpecifiedModality: true,
   includeRecommendationsInReferences: true,
-  provideFocusedSentenceEvidence: true
+  provideFocusedSentenceEvidence: true,
 };
 
 const findingOptions = {
-  provideFocusedSentenceEvidence: true
+  provideFocusedSentenceEvidence: true,
 };
 
 const inferenceOptions = {
   followupRecommendationOptions: followupRecommendationOptions,
-  findingOptions: findingOptions
+  findingOptions: findingOptions,
 };
 
 // Create RI Configuration
@@ -126,7 +126,7 @@ const configuration = {
   inferenceTypes: inferenceTypes,
   locale: "en-US",
   verbose: false,
-  includeEvidence: true
+  includeEvidence: true,
 };
 
 // create RI Data
@@ -134,7 +134,7 @@ const RadiologyInsightsJob = {
   jobData: {
     patients: [patientData],
     configuration: configuration,
-  }
+  },
 };
 
 const param = {
@@ -142,9 +142,9 @@ const param = {
 };
 
 /**
-    *
-    * Display the sex mismatches of the Radiology Insights request.
-    *
+ *
+ * Display the sex mismatches of the Radiology Insights request.
+ *
  */
 
 function findSexMismatch(res: any): void {
@@ -155,7 +155,7 @@ function findSexMismatch(res: any): void {
           if (inference.kind === "sexMismatch") {
             console.log("Sex Mismatch Inference found: ");
             if ("sexIndication" in inference) {
-              displayCodes(inference.sexIndication)
+              displayCodes(inference.sexIndication);
             }
           }
         });
@@ -166,7 +166,9 @@ function findSexMismatch(res: any): void {
   function displayCodes(codableConcept: any): void {
     codableConcept.coding?.forEach((coding: any) => {
       if ("code" in coding) {
-        console.log("   Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
+        console.log(
+          "   Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",
+        );
       }
     });
   }

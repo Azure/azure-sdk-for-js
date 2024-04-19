@@ -10,25 +10,25 @@ import { createClient, createRecorder } from "./utils/recordedClient";
 const codingData = {
   system: "Http://hl7.org/fhir/ValueSet/cpt-all",
   code: "ANG366",
-  display: "XA VENACAVA FILTER INSERTION"
+  display: "XA VENACAVA FILTER INSERTION",
 };
 
 const code = {
-  coding: [codingData]
+  coding: [codingData],
 };
 
 const patientInfo = {
   sex: "male",
-  birthDate: new Date("1980-04-22T02:00:00+00:00")
+  birthDate: new Date("1980-04-22T02:00:00+00:00"),
 };
 
 const encounterData = {
   id: "encounterid1",
   period: {
-    "start": "2021-8-28T00:00:00",
-    "end": "2021-8-28T00:00:00"
+    start: "2021-8-28T00:00:00",
+    end: "2021-8-28T00:00:00",
   },
-  class: "inpatient"
+  class: "inpatient",
 };
 
 const authorData = {
@@ -38,21 +38,22 @@ const authorData = {
 
 const orderedProceduresData = {
   code: code,
-  description: "XA VENACAVA FILTER INSERTION"
+  description: "XA VENACAVA FILTER INSERTION",
 };
 
 const administrativeMetadata = {
   orderedProcedures: [orderedProceduresData],
-  encounterId: "encounterid1"
+  encounterId: "encounterid1",
 };
 
 const content = {
   sourceType: "inline",
-  value: "FINDINGS:" +
+  value:
+    "FINDINGS:" +
     "\n\n1. Inferior vena cavagram using CO2 contrast shows the IVC is normal" +
     "\nin course and caliber without filling defects to indicate clot. It" +
     "\nmeasures 19.8 mm. in diameter infrarenally." +
-    "\n\n2. Successful placement of IVC filter in infrarenal location."
+    "\n\n2. Successful placement of IVC filter in infrarenal location.",
 };
 const patientDocumentData = {
   type: "note",
@@ -64,15 +65,14 @@ const patientDocumentData = {
   administrativeMetadata: administrativeMetadata,
   content: content,
   createdAt: new Date("2021-06-01T00:00:00.000"),
-  orderedProceduresAsCsv: "XA VENACAVA FILTER INSERTION"
+  orderedProceduresAsCsv: "XA VENACAVA FILTER INSERTION",
 };
-
 
 const patientData = {
   id: "Roberto Lewis",
   details: patientInfo,
   encounters: [encounterData],
-  patientDocuments: [patientDocumentData]
+  patientDocuments: [patientDocumentData],
 };
 
 const inferenceTypes = [
@@ -86,21 +86,22 @@ const inferenceTypes = [
   "criticalRecommendation",
   "followupRecommendation",
   "followupCommunication",
-  "radiologyProcedure"];
+  "radiologyProcedure",
+];
 
 const followupRecommendationOptions = {
   includeRecommendationsWithNoSpecifiedModality: true,
   includeRecommendationsInReferences: true,
-  provideFocusedSentenceEvidence: true
+  provideFocusedSentenceEvidence: true,
 };
 
 const findingOptions = {
-  provideFocusedSentenceEvidence: true
+  provideFocusedSentenceEvidence: true,
 };
 
 const inferenceOptions = {
   followupRecommendationOptions: followupRecommendationOptions,
-  findingOptions: findingOptions
+  findingOptions: findingOptions,
 };
 
 // Create RI Configuration
@@ -109,7 +110,7 @@ const configuration = {
   inferenceTypes: inferenceTypes,
   locale: "en-US",
   verbose: false,
-  includeEvidence: true
+  includeEvidence: true,
 };
 
 // create RI Data
@@ -117,7 +118,7 @@ const RadiologyInsightsJob = {
   jobData: {
     patients: [patientData],
     configuration: configuration,
-  }
+  },
 };
 
 const param = {
@@ -125,9 +126,9 @@ const param = {
 };
 
 /**
-    *
-    * Display the finding inference of the Radiology Insights request.
-    *
+ *
+ * Display the finding inference of the Radiology Insights request.
+ *
  */
 
 function findFinding(res: any): void {
@@ -150,19 +151,20 @@ function findFinding(res: any): void {
               displayCodes(inter);
             });
 
-            inference.finding.component?.forEach((comp: { code: any; valueCodeableConcept: any }) => {
-              console.log("   Component code: ");
-              displayCodes(comp.code);
-              if ("valueCodeableConcept" in comp) {
-                console.log("     Value component codeable concept: ");
-                displayCodes(comp.valueCodeableConcept);
-              }
-            });
+            inference.finding.component?.forEach(
+              (comp: { code: any; valueCodeableConcept: any }) => {
+                console.log("   Component code: ");
+                displayCodes(comp.code);
+                if ("valueCodeableConcept" in comp) {
+                  console.log("     Value component codeable concept: ");
+                  displayCodes(comp.valueCodeableConcept);
+                }
+              },
+            );
 
             if ("extension" in inference) {
               displaySectionInfo(inference);
-            };
-
+            }
           }
         });
       }
@@ -170,20 +172,21 @@ function findFinding(res: any): void {
   }
 }
 
-function displayCodes(codableConcept: { coding: any[]; }): void {
+function displayCodes(codableConcept: { coding: any[] }): void {
   codableConcept.coding?.forEach((coding: any) => {
     if ("code" in coding) {
-      console.log("      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
+      console.log(
+        "      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",
+      );
     }
   });
 }
 
-
-function displaySectionInfo(inference: { extension: any[]; }) {
+function displaySectionInfo(inference: { extension: any[] }) {
   inference.extension?.forEach((ext: any) => {
     if ("url" in ext && ext.url === "section") {
       console.log("   Section:");
-      ext.extension?.forEach((subextension: { url: string; valueString: string; }) => {
+      ext.extension?.forEach((subextension: { url: string; valueString: string }) => {
         if ("url" in subextension && "valueString" in subextension) {
           console.log("      " + subextension.url + ": " + subextension.valueString);
         }
@@ -191,7 +194,6 @@ function displaySectionInfo(inference: { extension: any[]; }) {
     }
   });
 }
-
 
 describe("Finding Inference Test", () => {
   let recorder: Recorder;

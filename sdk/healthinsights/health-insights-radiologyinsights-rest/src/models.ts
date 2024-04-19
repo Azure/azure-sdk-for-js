@@ -720,8 +720,7 @@ export interface SexMismatchInference extends RadiologyInsightsInferenceParent {
 }
 
 /** A laterality mismatch occurs when there is a discrepancy between the clinical documentation and the ordered procedure (orderLateralityMismatch), a contradiction within the clinical document (textLateralityContradiction), or when no laterality is mentioned (textLateralityMissing). */
-export interface LateralityDiscrepancyInference
-  extends RadiologyInsightsInferenceParent {
+export interface LateralityDiscrepancyInference extends RadiologyInsightsInferenceParent {
   /** Inference type. */
   kind: "lateralityDiscrepancy";
   /** Laterality indication : SNOMED CT code for laterality qualifier value. */
@@ -731,8 +730,7 @@ export interface LateralityDiscrepancyInference
 }
 
 /** A complete order discrepancy is shown when one or more body parts and/or measurements that should be in the document (because there is a complete order) are not present. */
-export interface CompleteOrderDiscrepancyInference
-  extends RadiologyInsightsInferenceParent {
+export interface CompleteOrderDiscrepancyInference extends RadiologyInsightsInferenceParent {
   /** Inference type. */
   kind: "completeOrderDiscrepancy";
   /** Order type : CPT ultrasound complete code for abdomen, retroperitoneal, pelvis or breast. */
@@ -744,8 +742,7 @@ export interface CompleteOrderDiscrepancyInference
 }
 
 /** A limited order discrepancy occurs when there is a limited order, but all body parts and measurements that are needed for a complete order are present in the document. */
-export interface LimitedOrderDiscrepancyInference
-  extends RadiologyInsightsInferenceParent {
+export interface LimitedOrderDiscrepancyInference extends RadiologyInsightsInferenceParent {
   /** Inference type. */
   kind: "limitedOrderDiscrepancy";
   /** Order type : CPT ultrasound complete code for abdomen, retroperitoneal, pelvis or breast. */
@@ -765,8 +762,7 @@ export interface FindingInference extends RadiologyInsightsInferenceParent {
 }
 
 /** Critical results refer to findings of utmost importance that may require timely attention due to their potential impact on patient care. */
-export interface CriticalResultInference
-  extends RadiologyInsightsInferenceParent {
+export interface CriticalResultInference extends RadiologyInsightsInferenceParent {
   /** Inference type. */
   kind: "criticalResult";
   /** The complete Critical Result, as outlined below, will be reused for the recommendation. */
@@ -782,8 +778,7 @@ export interface CriticalResult {
 }
 
 /** Radiology procedures are the specific imaging studies or examinations ordered for the patient, extracted from the document information and text. */
-export interface RadiologyProcedureInference
-  extends RadiologyInsightsInferenceParent {
+export interface RadiologyProcedureInference extends RadiologyInsightsInferenceParent {
   /** Inference type. */
   kind: "radiologyProcedure";
   /** LOINC codes for the procedure. */
@@ -817,8 +812,7 @@ export interface RadiologyCodeWithTypes {
 }
 
 /** Follow-up recommendations offer guidance to healthcare providers on managing and monitoring patients based on the findings of imaging studies. */
-export interface FollowupRecommendationInference
-  extends RadiologyInsightsInferenceParent {
+export interface FollowupRecommendationInference extends RadiologyInsightsInferenceParent {
   /** Inference type. */
   kind: "followupRecommendation";
   /** Date and time are displayed when the procedure is recommended to be done at a specific point in time. */
@@ -859,8 +853,7 @@ export interface ProcedureRecommendationParent {
 }
 
 /** Generic procedure information. */
-export interface GenericProcedureRecommendation
-  extends ProcedureRecommendationParent {
+export interface GenericProcedureRecommendation extends ProcedureRecommendationParent {
   /** Procedure type : generic. */
   kind: "genericProcedureRecommendation";
   /** Procedure modality : SNOMED CT code. */
@@ -870,8 +863,7 @@ export interface GenericProcedureRecommendation
 }
 
 /** Imaging procedures. */
-export interface ImagingProcedureRecommendation
-  extends ProcedureRecommendationParent {
+export interface ImagingProcedureRecommendation extends ProcedureRecommendationParent {
   /** Procedure type : imaging. */
   kind: "imagingProcedureRecommendation";
   /** LOINC codes for the procedure. */
@@ -881,8 +873,7 @@ export interface ImagingProcedureRecommendation
 }
 
 /** Follow-up communication involves the exchange of important information, recommendations, or updates between radiologists and other healthcare professionals involved in a patient's care. */
-export interface FollowupCommunicationInference
-  extends RadiologyInsightsInferenceParent {
+export interface FollowupCommunicationInference extends RadiologyInsightsInferenceParent {
   /** Inference type. */
   kind: "followupCommunication";
   /** Communication date and time. */
@@ -903,11 +894,7 @@ export interface RadiologyInsightsJob {
  * A resource with narrative, extensions, and contained resources
  * Based on [FHIR DomainResource](https://www.hl7.org/fhir/domainresource.html)
  */
-export type DomainResource =
-  | DomainResourceParent
-  | Observation
-  | Condition
-  | ResearchStudy;
+export type DomainResource = DomainResourceParent | Observation | Condition | ResearchStudy;
 /**
  * An inference made by the Radiology Insights model regarding a patient.
  *   - AgeMismatch
@@ -951,13 +938,7 @@ export type ContactPointSystem =
   | "sms"
   | "other";
 /** Alias for ContactPointUse */
-export type ContactPointUse =
-  | string
-  | "home"
-  | "work"
-  | "temp"
-  | "old"
-  | "mobile";
+export type ContactPointUse = string | "home" | "work" | "temp" | "old" | "mobile";
 /** Alias for ObservationStatusCodeType */
 export type ObservationStatusCodeType =
   | string
@@ -993,12 +974,7 @@ export type EncounterClass =
   | "virtual"
   | "healthHome";
 /** Alias for DocumentType */
-export type DocumentType =
-  | string
-  | "note"
-  | "fhirBundle"
-  | "dicom"
-  | "genomicSequencing";
+export type DocumentType = string | "note" | "fhirBundle" | "dicom" | "genomicSequencing";
 /** Alias for ClinicalDocumentType */
 export type ClinicalDocumentType =
   | string
@@ -1049,10 +1025,4 @@ export type MedicalProfessionalType =
   | "midwife"
   | "physicianAssistant";
 /** Alias for JobStatus */
-export type JobStatus =
-  | string
-  | "notStarted"
-  | "running"
-  | "succeeded"
-  | "failed"
-  | "canceled";
+export type JobStatus = string | "notStarted" | "running" | "succeeded" | "failed" | "canceled";

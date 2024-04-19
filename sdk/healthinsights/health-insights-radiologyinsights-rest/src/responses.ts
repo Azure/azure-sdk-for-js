@@ -3,10 +3,7 @@
 
 import { RawHttpHeaders } from "@azure/core-rest-pipeline";
 import { HttpResponse } from "@azure-rest/core-client";
-import {
-  RadiologyInsightsJobOutput,
-  HealthInsightsErrorResponseOutput,
-} from "./outputModels";
+import { RadiologyInsightsJobOutput, HealthInsightsErrorResponseOutput } from "./outputModels";
 
 export interface GetJob200Headers {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */

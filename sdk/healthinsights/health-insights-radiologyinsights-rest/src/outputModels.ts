@@ -737,15 +737,13 @@ export interface RadiologyInsightsInferenceOutputParent {
 }
 
 /** A notification for age mismatch is displayed when the age mentioned in a document for a specific patient does not match the age specified in the patient information. */
-export interface AgeMismatchInferenceOutput
-  extends RadiologyInsightsInferenceOutputParent {
+export interface AgeMismatchInferenceOutput extends RadiologyInsightsInferenceOutputParent {
   /** Inference type. */
   kind: "ageMismatch";
 }
 
 /** A notification for a sex mismatch is displayed when the gender, personal pronouns, gender-related body parts, or gender-related procedures mentioned in a patient's clinical document are either inconsistent or do not match the gender specified in the patient information. */
-export interface SexMismatchInferenceOutput
-  extends RadiologyInsightsInferenceOutputParent {
+export interface SexMismatchInferenceOutput extends RadiologyInsightsInferenceOutputParent {
   /** Inference type. */
   kind: "sexMismatch";
   /** Sex indication : SNOMED CT code for gender finding. */
@@ -790,8 +788,7 @@ export interface LimitedOrderDiscrepancyInferenceOutput
 }
 
 /** Findings in a radiology report typically describe abnormalities, lesions, or other notable observations related to the anatomy or pathology of the imaged area. */
-export interface FindingInferenceOutput
-  extends RadiologyInsightsInferenceOutputParent {
+export interface FindingInferenceOutput extends RadiologyInsightsInferenceOutputParent {
   /** Inference type. */
   kind: "finding";
   /** Finding data : contains extensions, fields and components linked with the finding. */
@@ -799,8 +796,7 @@ export interface FindingInferenceOutput
 }
 
 /** Critical results refer to findings of utmost importance that may require timely attention due to their potential impact on patient care. */
-export interface CriticalResultInferenceOutput
-  extends RadiologyInsightsInferenceOutputParent {
+export interface CriticalResultInferenceOutput extends RadiologyInsightsInferenceOutputParent {
   /** Inference type. */
   kind: "criticalResult";
   /** The complete Critical Result, as outlined below, will be reused for the recommendation. */
@@ -816,8 +812,7 @@ export interface CriticalResultOutput {
 }
 
 /** Radiology procedures are the specific imaging studies or examinations ordered for the patient, extracted from the document information and text. */
-export interface RadiologyProcedureInferenceOutput
-  extends RadiologyInsightsInferenceOutputParent {
+export interface RadiologyProcedureInferenceOutput extends RadiologyInsightsInferenceOutputParent {
   /** Inference type. */
   kind: "radiologyProcedure";
   /** LOINC codes for the procedure. */
@@ -893,8 +888,7 @@ export interface ProcedureRecommendationOutputParent {
 }
 
 /** Generic procedure information. */
-export interface GenericProcedureRecommendationOutput
-  extends ProcedureRecommendationOutputParent {
+export interface GenericProcedureRecommendationOutput extends ProcedureRecommendationOutputParent {
   /** Procedure type : generic. */
   kind: "genericProcedureRecommendation";
   /** Procedure modality : SNOMED CT code. */
@@ -904,8 +898,7 @@ export interface GenericProcedureRecommendationOutput
 }
 
 /** Imaging procedures. */
-export interface ImagingProcedureRecommendationOutput
-  extends ProcedureRecommendationOutputParent {
+export interface ImagingProcedureRecommendationOutput extends ProcedureRecommendationOutputParent {
   /** Procedure type : imaging. */
   kind: "imagingProcedureRecommendation";
   /** LOINC codes for the procedure. */
@@ -987,13 +980,7 @@ export type ContactPointSystemOutput =
   | "sms"
   | "other";
 /** Alias for ContactPointUseOutput */
-export type ContactPointUseOutput =
-  | string
-  | "home"
-  | "work"
-  | "temp"
-  | "old"
-  | "mobile";
+export type ContactPointUseOutput = string | "home" | "work" | "temp" | "old" | "mobile";
 /** Alias for ObservationStatusCodeTypeOutput */
 export type ObservationStatusCodeTypeOutput =
   | string
@@ -1029,12 +1016,7 @@ export type EncounterClassOutput =
   | "virtual"
   | "healthHome";
 /** Alias for DocumentTypeOutput */
-export type DocumentTypeOutput =
-  | string
-  | "note"
-  | "fhirBundle"
-  | "dicom"
-  | "genomicSequencing";
+export type DocumentTypeOutput = string | "note" | "fhirBundle" | "dicom" | "genomicSequencing";
 /** Alias for ClinicalDocumentTypeOutput */
 export type ClinicalDocumentTypeOutput =
   | string

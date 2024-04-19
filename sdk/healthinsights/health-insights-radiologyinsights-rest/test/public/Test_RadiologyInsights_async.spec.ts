@@ -131,7 +131,7 @@ const RadiologyInsightsJob = {
   jobData: {
     patients: [patientData],
     configuration: configuration,
-  }
+  },
 };
 
 const param = {

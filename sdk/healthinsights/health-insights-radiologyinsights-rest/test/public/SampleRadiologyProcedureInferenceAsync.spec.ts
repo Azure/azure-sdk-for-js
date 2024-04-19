@@ -10,11 +10,11 @@ import { createClient, createRecorder } from "./utils/recordedClient";
 const codingData = {
   system: "Http://hl7.org/fhir/ValueSet/cpt-all",
   code: "24727-0",
-  display: "CT HEAD W CONTRAST IV"
+  display: "CT HEAD W CONTRAST IV",
 };
 
 const code = {
-  coding: [codingData]
+  coding: [codingData],
 };
 
 const patientInfo = {
@@ -25,10 +25,10 @@ const patientInfo = {
 const encounterData = {
   id: "encounterid1",
   period: {
-    "start": "2021-8-28T00:00:00",
-    "end": "2021-8-28T00:00:00"
+    start: "2021-8-28T00:00:00",
+    end: "2021-8-28T00:00:00",
   },
-  class: "inpatient"
+  class: "inpatient",
 };
 
 const authorData = {
@@ -38,24 +38,25 @@ const authorData = {
 
 const orderedProceduresData = {
   code: code,
-  description: "CT HEAD W CONTRAST IV"
+  description: "CT HEAD W CONTRAST IV",
 };
 
 const administrativeMetadata = {
   orderedProcedures: [orderedProceduresData],
-  encounterId: "encounterid1"
+  encounterId: "encounterid1",
 };
 
 const content = {
   sourceType: "inline",
-  value: " Exam:  Head CT with Contrast"
-    + "\r\n History:  Headaches for 2 months"
-    + "\r\n Technique: Axial, sagittal, and coronal images were reconstructed from helical CT through the head without IV contrast."
-    + "\r\n IV contrast:  100 mL IV Omnipaque 300."
-    + "\r\n Findings: There is no mass effect. There is no abnormal enhancement of the brain or within injuries with IV contrast."
-    + "\r\n However, there is no evidence of enhancing lesion in either internal auditory canal."
-    + "\r\n Impression: Negative CT of the brain without IV contrast."
-    + "\r\n I recommend a new brain CT within nine months."
+  value:
+    " Exam:  Head CT with Contrast" +
+    "\r\n History:  Headaches for 2 months" +
+    "\r\n Technique: Axial, sagittal, and coronal images were reconstructed from helical CT through the head without IV contrast." +
+    "\r\n IV contrast:  100 mL IV Omnipaque 300." +
+    "\r\n Findings: There is no mass effect. There is no abnormal enhancement of the brain or within injuries with IV contrast." +
+    "\r\n However, there is no evidence of enhancing lesion in either internal auditory canal." +
+    "\r\n Impression: Negative CT of the brain without IV contrast." +
+    "\r\n I recommend a new brain CT within nine months.",
 };
 
 const patientDocumentData = {
@@ -68,15 +69,14 @@ const patientDocumentData = {
   administrativeMetadata: administrativeMetadata,
   content: content,
   createdAt: new Date("2021-06-01T00:00:00.000"),
-  orderedProceduresAsCsv: "CT HEAD W CONTRAST IV"
+  orderedProceduresAsCsv: "CT HEAD W CONTRAST IV",
 };
-
 
 const patientData = {
   id: "Samantha Jones",
   details: patientInfo,
   encounters: [encounterData],
-  patientDocuments: [patientDocumentData]
+  patientDocuments: [patientDocumentData],
 };
 
 const inferenceTypes = [
@@ -90,21 +90,22 @@ const inferenceTypes = [
   "criticalRecommendation",
   "followupRecommendation",
   "followupCommunication",
-  "radiologyProcedure"];
+  "radiologyProcedure",
+];
 
 const followupRecommendationOptions = {
   includeRecommendationsWithNoSpecifiedModality: true,
   includeRecommendationsInReferences: true,
-  provideFocusedSentenceEvidence: true
+  provideFocusedSentenceEvidence: true,
 };
 
 const findingOptions = {
-  provideFocusedSentenceEvidence: true
+  provideFocusedSentenceEvidence: true,
 };
 
 const inferenceOptions = {
   followupRecommendationOptions: followupRecommendationOptions,
-  findingOptions: findingOptions
+  findingOptions: findingOptions,
 };
 
 // Create RI Configuration
@@ -113,7 +114,7 @@ const configuration = {
   inferenceTypes: inferenceTypes,
   locale: "en-US",
   verbose: false,
-  includeEvidence: true
+  includeEvidence: true,
 };
 
 // create RI Data
@@ -121,7 +122,7 @@ const RadiologyInsightsJob = {
   jobData: {
     patients: [patientData],
     configuration: configuration,
-  }
+  },
 };
 
 const param = {
@@ -129,44 +130,49 @@ const param = {
 };
 
 /**
-    *
-    * Display the Radiology Procedure of the Radiology Insights request.
-    *
+ *
+ * Display the Radiology Procedure of the Radiology Insights request.
+ *
  */
 
 function findRadiologyProcedureInference(res: any): void {
   if ("result" in res.body) {
     res.body.result?.patientResults.forEach((patientResult: any) => {
       if (patientResult.inferences) {
-
-        patientResult.inferences.forEach((inference: { kind: string; procedureCodes: any[]; imagingProcedures: any[]; orderedProcedure: { code: any[]; description: string; }; }) => {
-          if (inference.kind === "radiologyProcedure") {
-            console.log("Radiology Procedure Inference found");
-            inference.procedureCodes?.forEach((procedureCode) => {
-              console.log("   Procedure Codes: ");
-              displayCodes(procedureCode);
-            });
-
-            if ("imagingProcedures" in inference) {
-              inference.imagingProcedures.forEach((imagingProcedure) => {
-                console.log("   Imaging Procedure Codes: ");
-                displayImaging(imagingProcedure);
+        patientResult.inferences.forEach(
+          (inference: {
+            kind: string;
+            procedureCodes: any[];
+            imagingProcedures: any[];
+            orderedProcedure: { code: any[]; description: string };
+          }) => {
+            if (inference.kind === "radiologyProcedure") {
+              console.log("Radiology Procedure Inference found");
+              inference.procedureCodes?.forEach((procedureCode) => {
+                console.log("   Procedure Codes: ");
+                displayCodes(procedureCode);
               });
-            }
 
-            if ("orderedProcedure" in inference) {
-              console.log("   Ordered procedures: ");
-              if ("code" in inference.orderedProcedure) {
-                displayCodes(inference.orderedProcedure.code);
+              if ("imagingProcedures" in inference) {
+                inference.imagingProcedures.forEach((imagingProcedure) => {
+                  console.log("   Imaging Procedure Codes: ");
+                  displayImaging(imagingProcedure);
+                });
+              }
+
+              if ("orderedProcedure" in inference) {
+                console.log("   Ordered procedures: ");
+                if ("code" in inference.orderedProcedure) {
+                  displayCodes(inference.orderedProcedure.code);
+                }
+              }
+
+              if ("description" in inference.orderedProcedure) {
+                console.log("   Description: " + inference.orderedProcedure.description);
               }
             }
-
-            if ("description" in inference.orderedProcedure) {
-              console.log("   Description: " + inference.orderedProcedure.description);
-            }
-          }
-        });
-
+          },
+        );
       }
     });
   }
@@ -175,12 +181,20 @@ function findRadiologyProcedureInference(res: any): void {
 function displayCodes(codableConcept: any) {
   (codableConcept as { coding?: any[] }).coding?.forEach((coding) => {
     if ("code" in coding && "display" in coding && "system" in coding) {
-      console.log("      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
+      console.log(
+        "      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",
+      );
     }
   });
 }
 
-function displayImaging(images: { modality: { coding: any[]; }; anatomy: { coding: any[]; }; laterality: { coding: any[]; }; contrast: { code: { coding: any[]; }; }; view: { code: { coding: any[]; }; }; }) {
+function displayImaging(images: {
+  modality: { coding: any[] };
+  anatomy: { coding: any[] };
+  laterality: { coding: any[] };
+  contrast: { code: { coding: any[] } };
+  view: { code: { coding: any[] } };
+}) {
   console.log("   Modality Codes: ");
   displayCodes(images.modality);
   console.log("   Anatomy Codes: ");

@@ -10,12 +10,11 @@ import { createClient, createRecorder } from "./utils/recordedClient";
 const codingData = {
   system: "Http://hl7.org/fhir/ValueSet/cpt-all",
   code: "26688-1",
-  display: "US BREAST - LEFT LIMITED"
+  display: "US BREAST - LEFT LIMITED",
 };
 
-
 const code = {
-  coding: [codingData]
+  coding: [codingData],
 };
 
 const patientInfo = {
@@ -26,10 +25,10 @@ const patientInfo = {
 const encounterData = {
   id: "encounterid1",
   period: {
-    "start": "2021-8-28T00:00:00",
-    "end": "2021-8-28T00:00:00"
+    start: "2021-8-28T00:00:00",
+    end: "2021-8-28T00:00:00",
   },
-  class: "inpatient"
+  class: "inpatient",
 };
 
 const authorData = {
@@ -39,21 +38,22 @@ const authorData = {
 
 const orderedProceduresData = {
   code: code,
-  description: "US BREAST - LEFT LIMITED"
+  description: "US BREAST - LEFT LIMITED",
 };
 
 const administrativeMetadata = {
   orderedProcedures: [orderedProceduresData],
-  encounterId: "encounterid1"
+  encounterId: "encounterid1",
 };
 
 const content = {
   sourceType: "inline",
-  value: "Exam:   US LT BREAST TARGETED"
-    + "\r\n\r\nTechnique:  Targeted imaging of the  right breast  is performed."
-    + "\r\n\r\nFindings:\\r\\n\\r\\nTargeted imaging of the left breast is performed from the 6:00 to the 9:00 position.  "
-    + "\r\n\r\nAt the 6:00 position, 5 cm from the nipple, there is a 3 x 2 x 4 mm minimally hypoechoic mass with a peripheral calcification. This may correspond to the mammographic finding. No other cystic or solid masses visualized."
-    + "\r\n"
+  value:
+    "Exam:   US LT BREAST TARGETED" +
+    "\r\n\r\nTechnique:  Targeted imaging of the  right breast  is performed." +
+    "\r\n\r\nFindings:\\r\\n\\r\\nTargeted imaging of the left breast is performed from the 6:00 to the 9:00 position.  " +
+    "\r\n\r\nAt the 6:00 position, 5 cm from the nipple, there is a 3 x 2 x 4 mm minimally hypoechoic mass with a peripheral calcification. This may correspond to the mammographic finding. No other cystic or solid masses visualized." +
+    "\r\n",
 };
 const patientDocumentData = {
   type: "note",
@@ -65,15 +65,14 @@ const patientDocumentData = {
   administrativeMetadata: administrativeMetadata,
   content: content,
   createdAt: new Date("2021-06-01T00:00:00.000"),
-  orderedProceduresAsCsv: "US BREAST - LEFT LIMITED"
+  orderedProceduresAsCsv: "US BREAST - LEFT LIMITED",
 };
-
 
 const patientData = {
   id: "Samantha Jones",
   details: patientInfo,
   encounters: [encounterData],
-  patientDocuments: [patientDocumentData]
+  patientDocuments: [patientDocumentData],
 };
 
 const inferenceTypes = [
@@ -87,21 +86,22 @@ const inferenceTypes = [
   "criticalRecommendation",
   "followupRecommendation",
   "followupCommunication",
-  "radiologyProcedure"];
+  "radiologyProcedure",
+];
 
 const followupRecommendationOptions = {
   includeRecommendationsWithNoSpecifiedModality: true,
   includeRecommendationsInReferences: true,
-  provideFocusedSentenceEvidence: true
+  provideFocusedSentenceEvidence: true,
 };
 
 const findingOptions = {
-  provideFocusedSentenceEvidence: true
+  provideFocusedSentenceEvidence: true,
 };
 
 const inferenceOptions = {
   followupRecommendationOptions: followupRecommendationOptions,
-  findingOptions: findingOptions
+  findingOptions: findingOptions,
 };
 
 // Create RI Configuration
@@ -110,7 +110,7 @@ const configuration = {
   inferenceTypes: inferenceTypes,
   locale: "en-US",
   verbose: false,
-  includeEvidence: true
+  includeEvidence: true,
 };
 
 // create RI Data
@@ -118,7 +118,7 @@ const RadiologyInsightsJob = {
   jobData: {
     patients: [patientData],
     configuration: configuration,
-  }
+  },
 };
 
 const param = {
@@ -126,21 +126,19 @@ const param = {
 };
 
 /**
-    *
-    * Display the laterality discrepancies of the Radiology Insights request.
-    *
+ *
+ * Display the laterality discrepancies of the Radiology Insights request.
+ *
  */
 
 function findLateralityDiscrepancy(res: any): void {
   if ("result" in res.body) {
-
     res.body.result?.patientResults.forEach((patientResult: any) => {
       if (patientResult.inferences) {
         patientResult.inferences.forEach((inference: any) => {
           if (inference.kind === "lateralityDiscrepancy") {
             console.log("Laterality Discrepancy Inference found: ");
             displayCodes(inference.lateralityIndication);
-
           }
         });
       }
@@ -150,7 +148,16 @@ function findLateralityDiscrepancy(res: any): void {
   function displayCodes(codableConcept: any[]) {
     (codableConcept as { coding?: any[] }).coding?.forEach((coding) => {
       if ("code" in coding && "display" in coding && "system" in coding) {
-        console.log("   Coding: " + coding.code + ", " + coding.display + " (" + coding.system + "), type: " + coding.type);
+        console.log(
+          "   Coding: " +
+            coding.code +
+            ", " +
+            coding.display +
+            " (" +
+            coding.system +
+            "), type: " +
+            coding.type,
+        );
       }
     });
   }
