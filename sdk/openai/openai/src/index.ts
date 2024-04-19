@@ -129,6 +129,7 @@ export {
   ChatCompletionsNamedToolSelectionUnion,
   ChatFinishDetailsUnion,
   SpeechVoice,
+  SpeechGenerationResponseFormat,
   GetCompletionsOptions,
   GetChatCompletionsOptions,
   GetImagesOptions,

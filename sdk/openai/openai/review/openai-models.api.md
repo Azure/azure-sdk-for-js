@@ -881,6 +881,9 @@ export interface PineconeFieldMappingOptions {
 }
 
 // @public
+export type SpeechGenerationResponseFormat = string;
+
+// @public
 export type SpeechVoice = string;
 
 // @public

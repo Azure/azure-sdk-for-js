@@ -607,7 +607,6 @@ export interface FunctionName {
 // @public
 export interface GenerateSpeechFromTextOptions extends OperationOptions {
     model?: string;
-    // Warning: (ae-forgotten-export) The symbol "SpeechGenerationResponseFormat" needs to be exported by the entry point index.d.ts
     responseFormat?: SpeechGenerationResponseFormat;
     speed?: number;
 }
@@ -829,7 +828,7 @@ export class OpenAIClient {
     streamCompletions(deploymentName: string, prompt: string[], options?: GetCompletionsOptions): Promise<EventStream<Omit<Completions, "usage">>>;
 }
 
-// @public (undocumented)
+// @public
 export interface OpenAIClientOptions extends ClientOptions {
 }
 
@@ -862,6 +861,9 @@ export interface PineconeFieldMappingOptions {
     titleField?: string;
     urlField?: string;
 }
+
+// @public
+export type SpeechGenerationResponseFormat = string;
 
 // @public
 export type SpeechVoice = string;

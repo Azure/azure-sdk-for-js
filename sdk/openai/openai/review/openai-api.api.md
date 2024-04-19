@@ -43,7 +43,7 @@ export function getEmbeddings(context: OpenAIContext, deploymentId: string, inpu
 // @public
 export function getImageGenerations(context: OpenAIContext, deploymentId: string, prompt: string, options?: GetImagesOptions): Promise<ImageGenerations>;
 
-// @public (undocumented)
+// @public
 export interface OpenAIClientOptions extends ClientOptions {
 }
 

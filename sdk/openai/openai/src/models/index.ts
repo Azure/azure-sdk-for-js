@@ -127,6 +127,7 @@ export {
   ChatCompletionsNamedToolSelectionUnion,
   ChatFinishDetailsUnion,
   SpeechVoice,
+  SpeechGenerationResponseFormat,
 } from "./models.js";
 export {
   GetCompletionsOptions,
