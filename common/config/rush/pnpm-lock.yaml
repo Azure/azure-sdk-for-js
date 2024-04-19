@@ -1498,7 +1498,7 @@ packages:
     engines: {node: '>=0.8.0'}
     dev: false
 
-  /@azure/msal-node-extensions@1.0.15:
+  /@azure/msal-node-extensions@1.0.12:
     resolution: {integrity: sha512-i/ejhY5Q1D0FhkLKTa5tDxwgWqz3LDerrhEwk52qNfpZ70t6jgHCqGX0RGjofVuofzklwFlxA7ACecZ6ywZGWg==}
     engines: {node: '>=16'}
     dependencies:
@@ -19371,7 +19371,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
       '@azure/msal-node': 2.6.4
-      '@azure/msal-node-extensions': 1.0.15
+      '@azure/msal-node-extensions': 1.0.12
       '@microsoft/api-extractor': 7.41.0(@types/node@18.19.18)
       '@types/mocha': 10.0.6
       '@types/node': 18.19.18
