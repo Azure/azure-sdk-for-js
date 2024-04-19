@@ -153,7 +153,7 @@ describe("multipart buildBodyPart", () => {
 
       assert.equal(
         result.headers.get("content-disposition"),
-        `form-data; name="aaa", filename="aaa.txt"`,
+        `form-data; name="aaa"; filename="aaa.txt"`,
       );
     });
 
@@ -168,7 +168,7 @@ describe("multipart buildBodyPart", () => {
 
         assert.equal(
           result.headers.get("content-disposition"),
-          `form-data; name="aaa", filename="override"`,
+          `form-data; name="aaa"; filename="override"`,
         );
       },
     );
