@@ -17,6 +17,6 @@ export interface Plans {
    * @param options The options parameters.
    */
   list(
-    options?: PlansListOptionalParams
+    options?: PlansListOptionalParams,
   ): PagedAsyncIterableIterator<PlanDataResource>;
 }

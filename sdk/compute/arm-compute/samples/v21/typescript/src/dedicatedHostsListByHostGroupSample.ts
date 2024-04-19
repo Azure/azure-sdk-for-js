@@ -31,7 +31,7 @@ async function dedicatedHostListByHostGroupMaximumSetGen() {
   const resArray = new Array();
   for await (let item of client.dedicatedHosts.listByHostGroup(
     resourceGroupName,
-    hostGroupName
+    hostGroupName,
   )) {
     resArray.push(item);
   }
@@ -55,7 +55,7 @@ async function dedicatedHostListByHostGroupMinimumSetGen() {
   const resArray = new Array();
   for await (let item of client.dedicatedHosts.listByHostGroup(
     resourceGroupName,
-    hostGroupName
+    hostGroupName,
   )) {
     resArray.push(item);
   }

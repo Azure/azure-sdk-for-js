@@ -18,7 +18,7 @@ import {
   FleetMemberUpdate,
   FleetMembersUpdateOptionalParams,
   FleetMembersUpdateResponse,
-  FleetMembersDeleteOptionalParams
+  FleetMembersDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface FleetMembers {
   listByFleet(
     resourceGroupName: string,
     fleetName: string,
-    options?: FleetMembersListByFleetOptionalParams
+    options?: FleetMembersListByFleetOptionalParams,
   ): PagedAsyncIterableIterator<FleetMember>;
   /**
    * Get a FleetMember
@@ -46,7 +46,7 @@ export interface FleetMembers {
     resourceGroupName: string,
     fleetName: string,
     fleetMemberName: string,
-    options?: FleetMembersGetOptionalParams
+    options?: FleetMembersGetOptionalParams,
   ): Promise<FleetMembersGetResponse>;
   /**
    * Create a FleetMember
@@ -61,7 +61,7 @@ export interface FleetMembers {
     fleetName: string,
     fleetMemberName: string,
     resource: FleetMember,
-    options?: FleetMembersCreateOptionalParams
+    options?: FleetMembersCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<FleetMembersCreateResponse>,
@@ -81,7 +81,7 @@ export interface FleetMembers {
     fleetName: string,
     fleetMemberName: string,
     resource: FleetMember,
-    options?: FleetMembersCreateOptionalParams
+    options?: FleetMembersCreateOptionalParams,
   ): Promise<FleetMembersCreateResponse>;
   /**
    * Update a FleetMember
@@ -96,7 +96,7 @@ export interface FleetMembers {
     fleetName: string,
     fleetMemberName: string,
     properties: FleetMemberUpdate,
-    options?: FleetMembersUpdateOptionalParams
+    options?: FleetMembersUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<FleetMembersUpdateResponse>,
@@ -116,7 +116,7 @@ export interface FleetMembers {
     fleetName: string,
     fleetMemberName: string,
     properties: FleetMemberUpdate,
-    options?: FleetMembersUpdateOptionalParams
+    options?: FleetMembersUpdateOptionalParams,
   ): Promise<FleetMembersUpdateResponse>;
   /**
    * Delete a FleetMember
@@ -129,7 +129,7 @@ export interface FleetMembers {
     resourceGroupName: string,
     fleetName: string,
     fleetMemberName: string,
-    options?: FleetMembersDeleteOptionalParams
+    options?: FleetMembersDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a FleetMember
@@ -142,6 +142,6 @@ export interface FleetMembers {
     resourceGroupName: string,
     fleetName: string,
     fleetMemberName: string,
-    options?: FleetMembersDeleteOptionalParams
+    options?: FleetMembersDeleteOptionalParams,
   ): Promise<void>;
 }

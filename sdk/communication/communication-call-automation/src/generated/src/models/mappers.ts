@@ -201,6 +201,28 @@ export const MicrosoftTeamsAppIdentifierModel: coreClient.CompositeMapper = {
   },
 };
 
+export const MediaStreamingConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MicrosoftTeamsAppIdentifierModel",
+    modelProperties: {
+      appId: {
+        serializedName: "appId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      cloud: {
+        serializedName: "cloud",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const CallIntelligenceOptionsInternal: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -288,6 +310,13 @@ export const CallConnectionPropertiesInternal: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CommunicationUserIdentifierModel",
+        },
+      },
+      answeredFor: {
+        serializedName: "answeredFor",
+        type: {
+          name: "Composite",
+          className: "PhoneNumberIdentifierModel",
         },
       },
     },
@@ -479,34 +508,11 @@ export const TransferToParticipantRequest: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      customCallingContext: {
-        serializedName: "customCallingContext",
+      sourceCallerIdNumber: {
+        serializedName: "sourceCallerIdNumber",
         type: {
           name: "Composite",
-          className: "CustomCallingContextInternal",
-        },
-      },
-    },
-  },
-};
-
-export const CustomCallingContextInternal: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CustomCallingContextInternal",
-    modelProperties: {
-      voipHeaders: {
-        serializedName: "voipHeaders",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } },
-        },
-      },
-      sipHeaders: {
-        serializedName: "sipHeaders",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } },
+          className: "PhoneNumberIdentifierModel",
         },
       },
     },
@@ -1004,6 +1010,281 @@ export const SendDtmfTonesResult: coreClient.CompositeMapper = {
   },
 };
 
+export const UpdateTranscriptionRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UpdateTranscriptionRequest",
+    modelProperties: {
+      locale: {
+        serializedName: "locale",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const HoldRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HoldRequest",
+    modelProperties: {
+      targetParticipant: {
+        serializedName: "targetParticipant",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel",
+        },
+      },
+      playSourceInfo: {
+        serializedName: "playSourceInfo",
+        type: {
+          name: "Composite",
+          className: "PlaySourceInternal",
+        },
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String",
+        },
+      },
+      operationCallbackUri: {
+        serializedName: "operationCallbackUri",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const UnholdRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UnholdRequest",
+    modelProperties: {
+      targetParticipant: {
+        serializedName: "targetParticipant",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel",
+        },
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const StartHoldMusicRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StartHoldMusicRequest",
+    modelProperties: {
+      targetParticipant: {
+        serializedName: "targetParticipant",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel",
+        },
+      },
+      playSourceInfo: {
+        serializedName: "playSourceInfo",
+        type: {
+          name: "Composite",
+          className: "PlaySourceInternal",
+        },
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String",
+        },
+      },
+      operationCallbackUri: {
+        serializedName: "operationCallbackUri",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const StopHoldMusicRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StopHoldMusicRequest",
+    modelProperties: {
+      targetParticipant: {
+        serializedName: "targetParticipant",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel",
+        },
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const StartDialogRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StartDialogRequest",
+    modelProperties: {
+      dialog: {
+        serializedName: "dialog",
+        type: {
+          name: "Composite",
+          className: "BaseDialog",
+        },
+      },
+      operationCallbackUri: {
+        serializedName: "operationCallbackUri",
+        type: {
+          name: "String",
+        },
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const BaseDialog: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BaseDialog",
+    uberParent: "BaseDialog",
+    polymorphicDiscriminator: {
+      serializedName: "kind",
+      clientName: "kind",
+    },
+    modelProperties: {
+      kind: {
+        serializedName: "kind",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      context: {
+        serializedName: "context",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Dictionary", value: { type: { name: "any" } } },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const DialogStateResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DialogStateResponse",
+    modelProperties: {
+      dialogId: {
+        serializedName: "dialogId",
+        type: {
+          name: "String",
+        },
+      },
+      dialog: {
+        serializedName: "dialog",
+        type: {
+          name: "Composite",
+          className: "BaseDialog",
+        },
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const UpdateDialogRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UpdateDialogRequest",
+    modelProperties: {
+      dialog: {
+        serializedName: "dialog",
+        type: {
+          name: "Composite",
+          className: "DialogUpdateBase",
+        },
+      },
+      operationCallbackUri: {
+        serializedName: "operationCallbackUri",
+        type: {
+          name: "String",
+        },
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DialogUpdateBase: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DialogUpdateBase",
+    uberParent: "DialogUpdateBase",
+    polymorphicDiscriminator: {
+      serializedName: "kind",
+      clientName: "kind",
+    },
+    modelProperties: {
+      kind: {
+        serializedName: "kind",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      context: {
+        serializedName: "context",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Dictionary", value: { type: { name: "any" } } },
+          },
+        },
+      },
+    },
+  },
+};
+
 export const GetParticipantsResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1046,6 +1327,12 @@ export const CallParticipantInternal: coreClient.CompositeMapper = {
       },
       isMuted: {
         serializedName: "isMuted",
+        type: {
+          name: "Boolean",
+        },
+      },
+      isOnHold: {
+        serializedName: "isOnHold",
         type: {
           name: "Boolean",
         },
@@ -1454,7 +1741,122 @@ export const RecordingStateResponse: coreClient.CompositeMapper = {
   },
 };
 
-export const AddParticipantFailed: coreClient.CompositeMapper = {
+export const AnswerFailed: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AnswerFailed",
+    modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "RestResultInformation",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const RestResultInformation: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestResultInformation",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        type: {
+          name: "Number",
+        },
+      },
+      subCode: {
+        serializedName: "subCode",
+        type: {
+          name: "Number",
+        },
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const CreateCallFailed: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CreateCallFailed",
+    modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "RestResultInformation",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const CollectTonesResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AddParticipantFailed",
@@ -2312,6 +2714,15 @@ export const RecognizeCanceled: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+    },
+  },
+};
+
+export const DialogFailed: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DialogFailed",
+    modelProperties: {
       operationContext: {
         serializedName: "operationContext",
         type: {
@@ -2362,7 +2773,981 @@ export const ContinuousDtmfRecognitionToneFailed: coreClient.CompositeMapper = {
   },
 };
 
-export const ContinuousDtmfRecognitionToneReceived: coreClient.CompositeMapper =
+export const UserConsent: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserConsent",
+    modelProperties: {
+      recording: {
+        serializedName: "recording",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const DialogStarted: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DialogStarted",
+    modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "RestResultInformation",
+        },
+      },
+      dialogInputType: {
+        serializedName: "dialogInputType",
+        type: {
+          name: "String",
+        },
+      },
+      dialogId: {
+        serializedName: "dialogId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DialogHangup: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DialogHangup",
+    modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "RestResultInformation",
+        },
+      },
+      dialogInputType: {
+        serializedName: "dialogInputType",
+        type: {
+          name: "String",
+        },
+      },
+      dialogId: {
+        serializedName: "dialogId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      ivrContext: {
+        serializedName: "ivrContext",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } },
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DialogTransfer: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DialogTransfer",
+    modelProperties: {
+      transferType: {
+        serializedName: "transferType",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      transferDestination: {
+        serializedName: "transferDestination",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "RestResultInformation",
+        },
+      },
+      dialogInputType: {
+        serializedName: "dialogInputType",
+        type: {
+          name: "String",
+        },
+      },
+      dialogId: {
+        serializedName: "dialogId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      ivrContext: {
+        serializedName: "ivrContext",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } },
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DialogLanguageChange: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DialogLanguageChange",
+    modelProperties: {
+      selectedLanguage: {
+        serializedName: "selectedLanguage",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "RestResultInformation",
+        },
+      },
+      dialogInputType: {
+        serializedName: "dialogInputType",
+        type: {
+          name: "String",
+        },
+      },
+      dialogId: {
+        serializedName: "dialogId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      ivrContext: {
+        serializedName: "ivrContext",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } },
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DialogSensitivityUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DialogSensitivityUpdate",
+    modelProperties: {
+      sensitiveMask: {
+        serializedName: "sensitiveMask",
+        readOnly: true,
+        type: {
+          name: "Boolean",
+        },
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "RestResultInformation",
+        },
+      },
+      dialogInputType: {
+        serializedName: "dialogInputType",
+        type: {
+          name: "String",
+        },
+      },
+      dialogId: {
+        serializedName: "dialogId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DialogUpdated: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DialogUpdated",
+    modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "RestResultInformation",
+        },
+      },
+      dialogInputType: {
+        serializedName: "dialogInputType",
+        type: {
+          name: "String",
+        },
+      },
+      dialogId: {
+        serializedName: "dialogId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      ivrContext: {
+        serializedName: "ivrContext",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } },
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const TranscriptionUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TranscriptionUpdate",
+    modelProperties: {
+      transcriptionStatus: {
+        serializedName: "transcriptionStatus",
+        type: {
+          name: "String",
+        },
+      },
+      transcriptionStatusDetails: {
+        serializedName: "transcriptionStatusDetails",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const HoldFailed: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HoldFailed",
+    modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "RestResultInformation",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const RestAddParticipantSucceeded: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestAddParticipantSucceeded",
+    modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "RestResultInformation",
+        },
+      },
+      participant: {
+        serializedName: "participant",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const RestAddParticipantFailed: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestAddParticipantFailed",
+    modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "RestResultInformation",
+        },
+      },
+      participant: {
+        serializedName: "participant",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const RestRemoveParticipantSucceeded: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestRemoveParticipantSucceeded",
+    modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "RestResultInformation",
+        },
+      },
+      participant: {
+        serializedName: "participant",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const RestRemoveParticipantFailed: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestRemoveParticipantFailed",
+    modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "RestResultInformation",
+        },
+      },
+      participant: {
+        serializedName: "participant",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const RestCallConnected: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestCallConnected",
+    modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const RestCallDisconnected: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestCallDisconnected",
+    modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const RestCallTransferAccepted: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestCallTransferAccepted",
+    modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "RestResultInformation",
+        },
+      },
+      transferTarget: {
+        serializedName: "transferTarget",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel",
+        },
+      },
+      transferee: {
+        serializedName: "transferee",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const RestCallTransferFailed: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestCallTransferFailed",
+    modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "RestResultInformation",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const RestRecordingStateChanged: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestRecordingStateChanged",
+    modelProperties: {
+      recordingId: {
+        serializedName: "recordingId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      state: {
+        serializedName: "state",
+        type: {
+          name: "String",
+        },
+      },
+      startDateTime: {
+        serializedName: "startDateTime",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      recordingType: {
+        serializedName: "recordingType",
+        type: {
+          name: "String",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const RestTeamsRecordingStateChanged: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestTeamsRecordingStateChanged",
+    modelProperties: {
+      recordingId: {
+        serializedName: "recordingId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      state: {
+        serializedName: "state",
+        type: {
+          name: "String",
+        },
+      },
+      startDateTime: {
+        serializedName: "startDateTime",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      recordingType: {
+        serializedName: "recordingType",
+        type: {
+          name: "String",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const RestTeamsComplianceRecordingStateChanged: coreClient.CompositeMapper =
   {
     type: {
       name: "Composite",
@@ -2534,4 +3919,451 @@ export const SendDtmfTonesFailed: coreClient.CompositeMapper = {
       },
     },
   },
+};
+
+export const RestCancelAddParticipantFailed: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestCancelAddParticipantFailed",
+    modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "RestResultInformation",
+        },
+      },
+      invitationId: {
+        serializedName: "invitationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const RestTranscriptionStarted: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestTranscriptionStarted",
+    modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "RestResultInformation",
+        },
+      },
+      transcriptionUpdate: {
+        serializedName: "transcriptionUpdate",
+        type: {
+          name: "Composite",
+          className: "TranscriptionUpdate",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const RestTranscriptionStopped: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestTranscriptionStopped",
+    modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "RestResultInformation",
+        },
+      },
+      transcriptionUpdate: {
+        serializedName: "transcriptionUpdate",
+        type: {
+          name: "Composite",
+          className: "TranscriptionUpdate",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const RestTranscriptionUpdated: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestTranscriptionUpdated",
+    modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "RestResultInformation",
+        },
+      },
+      transcriptionUpdate: {
+        serializedName: "transcriptionUpdate",
+        type: {
+          name: "Composite",
+          className: "TranscriptionUpdate",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const RestTranscriptionFailed: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestTranscriptionFailed",
+    modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "RestResultInformation",
+        },
+      },
+      transcriptionUpdate: {
+        serializedName: "transcriptionUpdate",
+        type: {
+          name: "Composite",
+          className: "TranscriptionUpdate",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const RestCreateCallFailed: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestCreateCallFailed",
+    modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "RestResultInformation",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const RestAnswerFailed: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestAnswerFailed",
+    modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "RestResultInformation",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const RestHoldFailed: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestHoldFailed",
+    modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "RestResultInformation",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AzureOpenAIDialog: coreClient.CompositeMapper = {
+  serializedName: "AzureOpenAI",
+  type: {
+    name: "Composite",
+    className: "AzureOpenAIDialog",
+    uberParent: "BaseDialog",
+    polymorphicDiscriminator: BaseDialog.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseDialog.type.modelProperties,
+    },
+  },
+};
+
+export const PowerVirtualAgentsDialog: coreClient.CompositeMapper = {
+  serializedName: "PowerVirtualAgents",
+  type: {
+    name: "Composite",
+    className: "PowerVirtualAgentsDialog",
+    uberParent: "BaseDialog",
+    polymorphicDiscriminator: BaseDialog.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseDialog.type.modelProperties,
+      botAppId: {
+        serializedName: "botAppId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      language: {
+        serializedName: "language",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AzureOpenAIDialogUpdate: coreClient.CompositeMapper = {
+  serializedName: "AzureOpenAI",
+  type: {
+    name: "Composite",
+    className: "AzureOpenAIDialogUpdate",
+    uberParent: "DialogUpdateBase",
+    polymorphicDiscriminator: DialogUpdateBase.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...DialogUpdateBase.type.modelProperties,
+    },
+  },
+};
+
+export let discriminators = {
+  BaseDialog: BaseDialog,
+  DialogUpdateBase: DialogUpdateBase,
+  "BaseDialog.AzureOpenAI": AzureOpenAIDialog,
+  "BaseDialog.PowerVirtualAgents": PowerVirtualAgentsDialog,
+  "DialogUpdateBase.AzureOpenAI": AzureOpenAIDialogUpdate,
 };

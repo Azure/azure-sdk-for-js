@@ -187,6 +187,33 @@ export class CallAutomationClient {
       const createCallResult: CreateCallResult = {
         callConnectionProperties: callConnectionPropertiesDto,
         callConnection: callConnection,
+        waitForEventProcessor: async (abortSignal, timeoutInMs) => {
+          const createCallEventResult: CreateCallEventResult = {
+            isSuccess: false,
+          };
+          await this.callAutomationEventProcessor.waitForEventProcessor(
+            (event) => {
+              if (event.callConnectionId === callConnectionId && event.kind === "CallConnected") {
+                createCallEventResult.isSuccess = true;
+                createCallEventResult.successResult = event;
+                return true;
+              } else if (
+                event.callConnectionId === callConnectionId &&
+                event.kind === "CreateCallFailed"
+              ) {
+                createCallEventResult.isSuccess = false;
+                createCallEventResult.failureResult = event;
+                return true;
+              } else {
+                return false;
+              }
+            },
+            abortSignal,
+            timeoutInMs,
+          );
+
+          return createCallEventResult;
+        },
       };
       return createCallResult;
     }
@@ -254,7 +281,13 @@ export class CallAutomationClient {
     callbackUrl: string,
     options: AnswerCallOptions = {},
   ): Promise<AnswerCallResult> {
-    const { callIntelligenceOptions, operationContext, ...operationOptions } = options;
+    const {
+      callIntelligenceOptions,
+      mediaStreamingConfiguration,
+      transcriptionConfiguration,
+      operationContext,
+      ...operationOptions
+    } = options;
     const request: AnswerCallRequest = {
       incomingCallContext,
       callIntelligenceOptions,
@@ -290,6 +323,30 @@ export class CallAutomationClient {
       const answerCallResult: AnswerCallResult = {
         callConnectionProperties: callConnectionProperties,
         callConnection: callConnection,
+        waitForEventProcessor: async (abortSignal, timeoutInMs) => {
+          const answerCallEventResult: AnswerCallEventResult = {
+            isSuccess: false,
+          };
+          await this.callAutomationEventProcessor.waitForEventProcessor(
+            (event) => {
+              if (event.callConnectionId === callConnectionId && event.kind === "CallConnected") {
+                answerCallEventResult.isSuccess = true;
+                answerCallEventResult.successResult = event;
+                return true;
+              }
+              if (event.callConnectionId === callConnectionId && event.kind === "AnswerFailed") {
+                answerCallEventResult.isSuccess = false;
+                answerCallEventResult.failureResult = event;
+                return true;
+              } else {
+                return false;
+              }
+            },
+            abortSignal,
+            timeoutInMs,
+          );
+          return answerCallEventResult;
+        },
       };
       return answerCallResult;
     }

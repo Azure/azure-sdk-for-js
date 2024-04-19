@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.1 (Unreleased)
+## 2.1.3 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,25 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 2.1.2 (2024-04-09)
+
+### Other Changes
+
+- Revert TypeScript output target to ES2017.
+
+## 2.1.1 (2024-03-20)
+
+### Other Changes
+
+- Add top-level `browser` field to `package.json` as fallback for legacy bundlers that do not support the `exports` field.
+
+## 2.1.0 (2024-03-12)
+
+### Other Changes
+
+- Migrated the codebase to ESM. This change is internal and should not affect customers.
+- Migrated unit tests to vitest.
 
 ## 2.0.0 (2024-01-02)
 

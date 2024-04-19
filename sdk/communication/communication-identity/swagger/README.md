@@ -8,7 +8,7 @@
 package-name: "@azure/communication-identity"
 override-client-name: IdentityRestClient
 description: Communication identity client
-package-version: 1.3.1
+package-version: 1.3.2
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 tag: package-2023-10

@@ -2,8 +2,7 @@
 // Licensed under the MIT license.
 
 import { BlobServiceClient, BlockBlobUploadResponse } from "@azure/storage-blob";
-import { buildBlobConfigPath, buildBlobDataPath } from "../paths";
-import mime from "mime";
+import { buildBlobConfigPath, buildBlobDataPath } from "../paths.js";
 
 export type Config = Record<string, unknown>;
 
@@ -34,6 +33,8 @@ export class CustomWidgetBlobService {
   }
 
   async blobUpload(absolutePath: string, content: Buffer): Promise<BlockBlobUploadResponse> {
+    const mimeImport = await import("mime");
+    const mime = mimeImport.default;
     const fileName = this.extractFileName(absolutePath);
     if (!fileName) throw new Error("a fileName was not found in the absolutePath");
     return this.containerClient.getBlockBlobClient(absolutePath).upload(content, content.length, {

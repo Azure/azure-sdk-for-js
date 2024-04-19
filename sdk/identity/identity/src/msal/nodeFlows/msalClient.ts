@@ -4,7 +4,7 @@
 import * as msal from "@azure/msal-node";
 
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { PluginConfiguration, generatePluginConfiguration } from "./msalPlugins";
+import { PluginConfiguration, msalPlugins } from "./msalPlugins";
 import { credentialLogger, formatSuccess } from "../../util/logging";
 import {
   defaultLoggerCallback,
@@ -12,10 +12,12 @@ import {
   getAuthority,
   getKnownAuthorities,
   getMSALLogLevel,
+  handleMsalError,
   publicToMsal,
 } from "../utils";
 
 import { AuthenticationRequiredError } from "../../errors";
+import { CertificateParts } from "../types";
 import { IdentityClient } from "../../client/identityClient";
 import { MsalNodeOptions } from "./msalNodeCommon";
 import { getLogLevel } from "@azure/logger";
@@ -27,17 +29,44 @@ import { resolveTenantId } from "../../util/tenantIdUtils";
 const msalLogger = credentialLogger("MsalClient");
 
 /**
- * Interface for the MSAL (Microsoft Authentication Library) client.
- * This client is used to interact with Microsoft's identity platform.
+ * Represents a client for interacting with the Microsoft Authentication Library (MSAL).
  */
 export interface MsalClient {
+  /**
+   * Retrieves an access token by using a client certificate.
+   *
+   * @param arrayScopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
+   * @param certificate - The client certificate used for authentication.
+   * @param options - Additional options that may be provided to the method.
+   * @returns An access token.
+   */
+  getTokenByClientCertificate(
+    arrayScopes: string[],
+    certificate: CertificateParts,
+    options?: GetTokenOptions,
+  ): Promise<AccessToken>;
+
+  /**
+   * Retrieves an access token by using a client assertion.
+   *
+   * @param arrayScopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
+   * @param clientAssertion - The client assertion used for authentication.
+   * @param options - Additional options that may be provided to the method.
+   * @returns An access token.
+   */
+  getTokenByClientAssertion(
+    arrayScopes: string[],
+    clientAssertion: string,
+    options?: GetTokenOptions,
+  ): Promise<AccessToken>;
+
   /**
    * Retrieves an access token by using a client secret.
    *
    * @param scopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
    * @param clientSecret - The client secret of the application. This is a credential that the application can use to authenticate itself.
    * @param options - Additional options that may be provided to the method.
-   * @returns An access token
+   * @returns An access token.
    */
   getTokenByClientSecret(
     scopes: string[],
@@ -115,6 +144,9 @@ interface MsalClientState {
 
   /** Configured plugins */
   pluginConfiguration: PluginConfiguration;
+
+  /** Claims received from challenges, cached for the next request */
+  cachedClaims?: string;
 }
 
 /**
@@ -137,32 +169,42 @@ export function createMsalClient(
     cachedAccount: createMsalClientOptions.authenticationRecord
       ? publicToMsal(createMsalClientOptions.authenticationRecord)
       : null,
-    pluginConfiguration: generatePluginConfiguration(createMsalClientOptions),
+    pluginConfiguration: msalPlugins.generatePluginConfiguration(createMsalClientOptions),
   };
 
-  let confidentialApp: msal.ConfidentialClientApplication | undefined = undefined;
+  const confidentialApps: Map<string, msal.ConfidentialClientApplication> = new Map();
   async function getConfidentialApp(
-    _options: GetTokenOptions = {},
+    options: GetTokenOptions = {},
   ): Promise<msal.ConfidentialClientApplication> {
-    // abort requests
+    const appKey = options.enableCae ? "CAE" : "default";
 
-    if (confidentialApp === undefined) {
-      // TODOs:
-      // CAE / non-CAE
-      confidentialApp = new msal.ConfidentialClientApplication({
-        ...state.msalConfig,
-        broker: { nativeBrokerPlugin: state.pluginConfiguration.broker.nativeBrokerPlugin },
-        cache: { cachePlugin: await state.pluginConfiguration.cache.cachePlugin },
-      });
+    let confidentialClientApp = confidentialApps.get(appKey);
+    if (confidentialClientApp) {
+      return confidentialClientApp;
     }
 
-    return confidentialApp;
+    // Initialize a new app and cache it
+    const cachePlugin = options.enableCae
+      ? state.pluginConfiguration.cache.cachePluginCae
+      : state.pluginConfiguration.cache.cachePlugin;
+
+    state.msalConfig.auth.clientCapabilities = options.enableCae ? ["cp1"] : undefined;
+
+    confidentialClientApp = new msal.ConfidentialClientApplication({
+      ...state.msalConfig,
+      broker: { nativeBrokerPlugin: state.pluginConfiguration.broker.nativeBrokerPlugin },
+      cache: { cachePlugin: await cachePlugin },
+    });
+
+    confidentialApps.set(appKey, confidentialClientApp);
+
+    return confidentialClientApp;
   }
 
   async function getTokenSilent(
     app: msal.ConfidentialClientApplication | msal.PublicClientApplication,
     scopes: string[],
-    options?: GetTokenOptions,
+    options: GetTokenOptions = {},
   ): Promise<msal.AuthenticationResult> {
     if (state.cachedAccount === null) {
       const cache = app.getTokenCache();
@@ -184,12 +226,18 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       state.cachedAccount = accounts[0];
     }
 
-    // TODO: broker
+    // Keep track and reuse the claims we received across challenges
+    if (options.claims) {
+      state.cachedClaims = options.claims;
+    }
+
+    // TODO: port over changes for broker
+    // https://github.com/Azure/azure-sdk-for-js/blob/727a7208251961b5036d8e1d86edaa944c42e3d6/sdk/identity/identity/src/msal/nodeFlows/msalNodeCommon.ts#L383-L395
     msalLogger.getToken.info("Attempting to acquire token silently");
     return app.acquireTokenSilent({
       account: state.cachedAccount,
       scopes,
-      claims: options?.claims,
+      claims: state.cachedClaims,
     });
   }
 
@@ -228,7 +276,11 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
 
     // Silent authentication failed
     if (response === null) {
-      response = await onAuthenticationRequired();
+      try {
+        response = await onAuthenticationRequired();
+      } catch (err: any) {
+        throw handleMsalError(scopes, err, options);
+      }
     }
 
     // At this point we should have a token, process it
@@ -243,22 +295,70 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     };
   }
 
+  async function getTokenByClientSecret(
+    scopes: string[],
+    clientSecret: string,
+    options: GetTokenOptions = {},
+  ): Promise<AccessToken> {
+    msalLogger.getToken.info(`Attempting to acquire token using client secret`);
+
+    state.msalConfig.auth.clientSecret = clientSecret;
+
+    const msalApp = await getConfidentialApp(options);
+
+    return withSilentAuthentication(msalApp, scopes, options, () =>
+      msalApp.acquireTokenByClientCredential({
+        scopes,
+        authority: state.msalConfig.auth.authority,
+        claims: options?.claims,
+      }),
+    );
+  }
+
+  async function getTokenByClientAssertion(
+    scopes: string[],
+    clientAssertion: string,
+    options: GetTokenOptions = {},
+  ): Promise<AccessToken> {
+    msalLogger.getToken.info(`Attempting to acquire token using client assertion`);
+
+    state.msalConfig.auth.clientAssertion = clientAssertion;
+
+    const msalApp = await getConfidentialApp(options);
+
+    return withSilentAuthentication(msalApp, scopes, options, () =>
+      msalApp.acquireTokenByClientCredential({
+        scopes,
+        authority: state.msalConfig.auth.authority,
+        claims: options?.claims,
+        clientAssertion,
+      }),
+    );
+  }
+
+  async function getTokenByClientCertificate(
+    scopes: string[],
+    certificate: CertificateParts,
+    options: GetTokenOptions = {},
+  ): Promise<AccessToken> {
+    msalLogger.getToken.info(`Attempting to acquire token using client certificate`);
+
+    state.msalConfig.auth.clientCertificate = certificate;
+
+    const msalApp = await getConfidentialApp(options);
+
+    return withSilentAuthentication(msalApp, scopes, options, () =>
+      msalApp.acquireTokenByClientCredential({
+        scopes,
+        authority: state.msalConfig.auth.authority,
+        claims: options?.claims,
+      }),
+    );
+  }
+
   return {
-    async getTokenByClientSecret(scopes, clientSecret, options = {}) {
-      msalLogger.getToken.info(`Attempting to acquire token using client secret`);
-
-      // TODO: understand and implement processMultiTenantRequest
-      state.msalConfig.auth.clientSecret = clientSecret;
-
-      const msalApp = await getConfidentialApp(options);
-
-      return withSilentAuthentication(msalApp, scopes, options, () =>
-        msalApp.acquireTokenByClientCredential({
-          scopes,
-          authority: state.msalConfig.auth.authority,
-          claims: options?.claims,
-        }),
-      );
-    },
+    getTokenByClientSecret,
+    getTokenByClientAssertion,
+    getTokenByClientCertificate,
   };
 }

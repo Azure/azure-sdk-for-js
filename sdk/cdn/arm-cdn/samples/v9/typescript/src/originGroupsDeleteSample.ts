@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes an existing origin group within an endpoint.
  *
  * @summary Deletes an existing origin group within an endpoint.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/OriginGroups_Delete.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/OriginGroups_Delete.json
  */
 async function originGroupsDelete() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -32,7 +32,7 @@ async function originGroupsDelete() {
     resourceGroupName,
     profileName,
     endpointName,
-    originGroupName
+    originGroupName,
   );
   console.log(result);
 }

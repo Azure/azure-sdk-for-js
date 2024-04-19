@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes an existing security policy within profile.
  *
  * @summary Deletes an existing security policy within profile.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/SecurityPolicies_Delete.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/SecurityPolicies_Delete.json
  */
 async function securityPoliciesDelete() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function securityPoliciesDelete() {
   const result = await client.securityPolicies.beginDeleteAndWait(
     resourceGroupName,
     profileName,
-    securityPolicyName
+    securityPolicyName,
   );
   console.log(result);
 }

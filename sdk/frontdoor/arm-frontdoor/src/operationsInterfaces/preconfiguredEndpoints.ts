@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   PreconfiguredEndpoint,
-  PreconfiguredEndpointsListOptionalParams
+  PreconfiguredEndpointsListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,6 +24,6 @@ export interface PreconfiguredEndpoints {
   list(
     resourceGroupName: string,
     profileName: string,
-    options?: PreconfiguredEndpointsListOptionalParams
+    options?: PreconfiguredEndpointsListOptionalParams,
   ): PagedAsyncIterableIterator<PreconfiguredEndpoint>;
 }

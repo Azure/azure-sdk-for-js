@@ -20,7 +20,7 @@ import {
   DiagnosticSettingsGetResponse,
   DiagnosticSettingsCreateOrUpdateOptionalParams,
   DiagnosticSettingsCreateOrUpdateResponse,
-  DiagnosticSettingsDeleteOptionalParams
+  DiagnosticSettingsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,7 +43,7 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
    */
   public list(
     resourceUri: string,
-    options?: DiagnosticSettingsListOptionalParams
+    options?: DiagnosticSettingsListOptionalParams,
   ): PagedAsyncIterableIterator<DiagnosticSettingsResource> {
     const iter = this.listPagingAll(resourceUri, options);
     return {
@@ -58,14 +58,14 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceUri, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceUri: string,
     options?: DiagnosticSettingsListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<DiagnosticSettingsResource[]> {
     let result: DiagnosticSettingsListResponse;
     result = await this._list(resourceUri, options);
@@ -74,7 +74,7 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
 
   private async *listPagingAll(
     resourceUri: string,
-    options?: DiagnosticSettingsListOptionalParams
+    options?: DiagnosticSettingsListOptionalParams,
   ): AsyncIterableIterator<DiagnosticSettingsResource> {
     for await (const page of this.listPagingPage(resourceUri, options)) {
       yield* page;
@@ -90,11 +90,11 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
   get(
     resourceUri: string,
     name: string,
-    options?: DiagnosticSettingsGetOptionalParams
+    options?: DiagnosticSettingsGetOptionalParams,
   ): Promise<DiagnosticSettingsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, name, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -109,11 +109,11 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
     resourceUri: string,
     name: string,
     parameters: DiagnosticSettingsResource,
-    options?: DiagnosticSettingsCreateOrUpdateOptionalParams
+    options?: DiagnosticSettingsCreateOrUpdateOptionalParams,
   ): Promise<DiagnosticSettingsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, name, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -126,11 +126,11 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
   delete(
     resourceUri: string,
     name: string,
-    options?: DiagnosticSettingsDeleteOptionalParams
+    options?: DiagnosticSettingsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceUri, name, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -141,11 +141,11 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
    */
   private _list(
     resourceUri: string,
-    options?: DiagnosticSettingsListOptionalParams
+    options?: DiagnosticSettingsListOptionalParams,
   ): Promise<DiagnosticSettingsListResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -157,34 +157,34 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DiagnosticSettingsResource
+      bodyMapper: Mappers.DiagnosticSettingsResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.$host, Parameters.resourceUri, Parameters.name],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DiagnosticSettingsResource
+      bodyMapper: Mappers.DiagnosticSettingsResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters3,
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.$host, Parameters.resourceUri, Parameters.name],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}",
@@ -193,27 +193,27 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.$host, Parameters.resourceUri, Parameters.name],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/{resourceUri}/providers/Microsoft.Insights/diagnosticSettings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DiagnosticSettingsResourceCollection
+      bodyMapper: Mappers.DiagnosticSettingsResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

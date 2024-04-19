@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ChildProcess, exec, spawn, SpawnOptions } from "child_process";
+import { ChildProcess, exec, spawn, SpawnOptions } from "node:child_process";
 import { createPrinter } from "./printer";
 import { ProjectInfo, resolveProject, resolveRoot } from "./resolveProject";
 import fs from "fs-extra";
-import path from "path";
+import path from "node:path";
 import decompress from "decompress";
 import envPaths from "env-paths";
-import { promisify } from "util";
+import { promisify } from "node:util";
 
 const log = createPrinter("test-proxy");
 const downloadLocation = path.join(envPaths("azsdk-dev-tool").cache, "test-proxy");
@@ -292,7 +292,7 @@ export async function isProxyToolActive(): Promise<boolean> {
       }\n`,
     );
     return true;
-  } catch (error: any) {
+  } catch (error: unknown) {
     return false;
   }
 }
@@ -313,7 +313,7 @@ async function getTargetVersion() {
 
     log.info(`Image tag obtained from the powershell script => ${tag}\n`);
     return tag;
-  } catch (_: any) {
+  } catch (_: unknown) {
     log.warn(
       `Unable to get the image tag from the powershell script, trying "latest" tag instead\n`,
     );

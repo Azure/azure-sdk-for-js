@@ -103,8 +103,7 @@ describe("Model unit tests", () => {
       const serializerOptions = {} as SerializerOptions;
       const onResponse = {} as RawResponseCallback;
 
-      // (Required<T> just to make sure I don't forget a field)
-      const track2Model: Required<MetricsQueryOptions> = {
+      const track2Model: MetricsQueryOptions = {
         abortSignal,
         aggregations: ["Average", "Maximum"],
         filter: "arbitraryFilter",
@@ -115,6 +114,8 @@ describe("Model unit tests", () => {
         resultType: "Data",
         top: 10,
         timespan: { duration: "P20H" },
+        autoAdjustTimegrain: true,
+        validateDimensions: true,
         tracingOptions,
         serializerOptions,
         onResponse,
@@ -137,6 +138,8 @@ describe("Model unit tests", () => {
         resultType: "Data",
         timespan: "P20H",
         top: 10,
+        autoAdjustTimegrain: true,
+        validateDimensions: true,
         tracingOptions,
         serializerOptions,
         onResponse,

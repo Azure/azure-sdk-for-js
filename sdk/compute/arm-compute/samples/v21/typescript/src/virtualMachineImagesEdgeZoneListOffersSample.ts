@@ -31,7 +31,7 @@ async function virtualMachineImagesEdgeZoneListOffersMaximumSetGen() {
   const result = await client.virtualMachineImagesEdgeZone.listOffers(
     location,
     edgeZone,
-    publisherName
+    publisherName,
   );
   console.log(result);
 }
@@ -53,7 +53,7 @@ async function virtualMachineImagesEdgeZoneListOffersMinimumSetGen() {
   const result = await client.virtualMachineImagesEdgeZone.listOffers(
     location,
     edgeZone,
-    publisherName
+    publisherName,
   );
   console.log(result);
 }

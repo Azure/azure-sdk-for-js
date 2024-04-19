@@ -11,37 +11,38 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  OperationsImpl,
+  NotificationHubsImpl,
   NamespacesImpl,
-  NotificationHubsImpl
+  OperationsImpl,
+  PrivateEndpointConnectionsImpl,
 } from "./operations";
 import {
-  Operations,
+  NotificationHubs,
   Namespaces,
-  NotificationHubs
+  Operations,
+  PrivateEndpointConnections,
 } from "./operationsInterfaces";
 import { NotificationHubsManagementClientOptionalParams } from "./models";
 
 export class NotificationHubsManagementClient extends coreClient.ServiceClient {
   $host: string;
-  apiVersion: string;
   subscriptionId: string;
+  apiVersion: string;
 
   /**
    * Initializes a new instance of the NotificationHubsManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId Gets subscription credentials which uniquely identify Microsoft Azure
-   *                       subscription. The subscription ID forms part of the URI for every service call.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: NotificationHubsManagementClientOptionalParams
+    options?: NotificationHubsManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -56,10 +57,10 @@ export class NotificationHubsManagementClient extends coreClient.ServiceClient {
     }
     const defaults: NotificationHubsManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-notificationhubs/2.1.1`;
+    const packageDetails = `azsdk-js-arm-notificationhubs/3.0.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -69,20 +70,21 @@ export class NotificationHubsManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -92,7 +94,7 @@ export class NotificationHubsManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -102,9 +104,9 @@ export class NotificationHubsManagementClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -112,10 +114,11 @@ export class NotificationHubsManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2017-04-01";
-    this.operations = new OperationsImpl(this);
-    this.namespaces = new NamespacesImpl(this);
+    this.apiVersion = options.apiVersion || "2023-10-01-preview";
     this.notificationHubs = new NotificationHubsImpl(this);
+    this.namespaces = new NamespacesImpl(this);
+    this.operations = new OperationsImpl(this);
+    this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -128,7 +131,7 @@ export class NotificationHubsManagementClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -142,12 +145,13 @@ export class NotificationHubsManagementClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  operations: Operations;
-  namespaces: Namespaces;
   notificationHubs: NotificationHubs;
+  namespaces: Namespaces;
+  operations: Operations;
+  privateEndpointConnections: PrivateEndpointConnections;
 }

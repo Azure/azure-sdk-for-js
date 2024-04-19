@@ -36,6 +36,8 @@ export interface SmsSendOptions {
   enableDeliveryReport: boolean;
   /** Use this field to provide metadata that will then be sent back in the corresponding Delivery Report. */
   tag?: string;
+  /** Time to wait for a delivery report. After this time a delivery report with timeout error code is generated. */
+  deliveryReportTimeoutInSeconds?: number;
 }
 
 /** Response for a successful or multi status send Sms request. */
@@ -64,7 +66,7 @@ export enum KnownSmsSendResponseItemRepeatabilityResult {
   /** Accepted */
   Accepted = "accepted",
   /** Rejected */
-  Rejected = "rejected"
+  Rejected = "rejected",
 }
 
 /**

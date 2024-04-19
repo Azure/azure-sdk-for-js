@@ -121,6 +121,7 @@ export type CustomHttpsProvisioningSubstate = string;
 export interface CustomRule {
     action: ActionType;
     enabledState?: CustomRuleEnabledState;
+    groupBy?: GroupByVariable[];
     matchConditions: MatchCondition[];
     name?: string;
     priority: number;
@@ -343,6 +344,7 @@ export class FrontDoorManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: FrontDoorManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: FrontDoorManagementClientOptionalParams);
     // (undocumented)
     endpoints: Endpoints;
     // (undocumented)
@@ -368,7 +370,7 @@ export class FrontDoorManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     rulesEngines: RulesEngines;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
 }
 
 // @public
@@ -605,6 +607,11 @@ export interface FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLin
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
+export interface GroupByVariable {
+    variableName: VariableName;
+}
+
+// @public
 export interface HeaderAction {
     headerActionType: HeaderActionType;
     headerName: string;
@@ -659,6 +666,7 @@ export enum KnownActionType {
     Allow = "Allow",
     AnomalyScoring = "AnomalyScoring",
     Block = "Block",
+    JSChallenge = "JSChallenge",
     Log = "Log",
     Redirect = "Redirect"
 }
@@ -996,6 +1004,29 @@ export enum KnownRuleType {
 }
 
 // @public
+export enum KnownScrubbingRuleEntryMatchOperator {
+    Equals = "Equals",
+    EqualsAny = "EqualsAny"
+}
+
+// @public
+export enum KnownScrubbingRuleEntryMatchVariable {
+    QueryStringArgNames = "QueryStringArgNames",
+    RequestBodyJsonArgNames = "RequestBodyJsonArgNames",
+    RequestBodyPostArgNames = "RequestBodyPostArgNames",
+    RequestCookieNames = "RequestCookieNames",
+    RequestHeaderNames = "RequestHeaderNames",
+    RequestIPAddress = "RequestIPAddress",
+    RequestUri = "RequestUri"
+}
+
+// @public
+export enum KnownScrubbingRuleEntryState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownSessionAffinityEnabledState {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -1046,6 +1077,19 @@ export enum KnownTransformType {
     Uppercase = "Uppercase",
     UrlDecode = "UrlDecode",
     UrlEncode = "UrlEncode"
+}
+
+// @public
+export enum KnownVariableName {
+    GeoLocation = "GeoLocation",
+    None = "None",
+    SocketAddr = "SocketAddr"
+}
+
+// @public
+export enum KnownWebApplicationFirewallScrubbingState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -1392,9 +1436,12 @@ export interface PolicySettings {
     customBlockResponseBody?: string;
     customBlockResponseStatusCode?: number;
     enabledState?: PolicyEnabledState;
+    javascriptChallengeExpirationInMinutes?: number;
     mode?: PolicyMode;
     redirectUrl?: string;
     requestBodyCheck?: PolicyRequestBodyCheck;
+    scrubbingRules?: WebApplicationFirewallScrubbingRules[];
+    state?: WebApplicationFirewallScrubbingState;
 }
 
 // @public
@@ -1672,6 +1719,15 @@ export interface RulesEngineUpdateParameters {
 export type RuleType = string;
 
 // @public
+export type ScrubbingRuleEntryMatchOperator = string;
+
+// @public
+export type ScrubbingRuleEntryMatchVariable = string;
+
+// @public
+export type ScrubbingRuleEntryState = string;
+
+// @public
 export interface SecurityPolicyLink {
     id?: string;
 }
@@ -1744,6 +1800,9 @@ export interface ValidateCustomDomainOutput {
 }
 
 // @public
+export type VariableName = string;
+
+// @public
 export interface WebApplicationFirewallPolicy extends Resource {
     customRules?: CustomRuleList;
     etag?: string;
@@ -1762,6 +1821,17 @@ export interface WebApplicationFirewallPolicyList {
     nextLink?: string;
     readonly value?: WebApplicationFirewallPolicy[];
 }
+
+// @public
+export interface WebApplicationFirewallScrubbingRules {
+    matchVariable: ScrubbingRuleEntryMatchVariable;
+    selector?: string;
+    selectorMatchOperator: ScrubbingRuleEntryMatchOperator;
+    state?: ScrubbingRuleEntryState;
+}
+
+// @public
+export type WebApplicationFirewallScrubbingState = string;
 
 // (No @packageDocumentation comment for this package)
 
