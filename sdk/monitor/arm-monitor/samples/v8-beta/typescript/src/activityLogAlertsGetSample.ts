@@ -31,7 +31,7 @@ async function getAnActivityLogAlertRule() {
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.activityLogAlerts.get(
     resourceGroupName,
-    activityLogAlertName
+    activityLogAlertName,
   );
   console.log(result);
 }

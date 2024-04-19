@@ -8,7 +8,6 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { AbortError } from '@azure/abort-controller';
-import { AbortSignal as AbortSignal_2 } from 'node-abort-controller';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
@@ -307,6 +306,15 @@ export type ClientSideRequestStatistics = {
     totalResponsePayloadLengthInBytes: number;
 };
 
+// @public (undocumented)
+export interface ComputedProperty {
+    // (undocumented)
+    [key: string]: any;
+    name: string;
+    // (undocumented)
+    query: string;
+}
+
 // @public
 export class Conflict {
     constructor(container: Container, id: string, clientContext: ClientContext, partitionKey?: PartitionKey);
@@ -506,6 +514,7 @@ export const Constants: {
         IsBatchAtomic: string;
         BatchContinueOnError: string;
         DedicatedGatewayPerRequestCacheStaleness: string;
+        DedicatedGatewayPerRequestBypassCache: string;
         ForceRefresh: string;
         PriorityLevel: string;
     };
@@ -593,6 +602,7 @@ export class Container {
 
 // @public (undocumented)
 export interface ContainerDefinition {
+    computedProperties?: ComputedProperty[];
     conflictResolutionPolicy?: ConflictResolutionPolicy;
     defaultTtl?: number;
     geospatialConfig?: {
@@ -2115,7 +2125,8 @@ export function setAuthorizationTokenHeaderUsingMasterKey(verb: HTTPMethod, reso
 
 // @public
 export interface SharedOptions {
-    abortSignal?: AbortSignal_2;
+    abortSignal?: AbortSignal;
+    bypassIntegratedCache?: boolean;
     initialHeaders?: CosmosHeaders;
     maxIntegratedCacheStalenessInMs?: number;
     priorityLevel?: PriorityLevel;

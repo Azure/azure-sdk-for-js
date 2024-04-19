@@ -15,7 +15,7 @@ import {
   ContainerAppsSourceControlsGetResponse,
   ContainerAppsSourceControlsCreateOrUpdateOptionalParams,
   ContainerAppsSourceControlsCreateOrUpdateResponse,
-  ContainerAppsSourceControlsDeleteOptionalParams
+  ContainerAppsSourceControlsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface ContainerAppsSourceControls {
   listByContainerApp(
     resourceGroupName: string,
     containerAppName: string,
-    options?: ContainerAppsSourceControlsListByContainerAppOptionalParams
+    options?: ContainerAppsSourceControlsListByContainerAppOptionalParams,
   ): PagedAsyncIterableIterator<SourceControl>;
   /**
    * Get a SourceControl of a Container App.
@@ -43,7 +43,7 @@ export interface ContainerAppsSourceControls {
     resourceGroupName: string,
     containerAppName: string,
     sourceControlName: string,
-    options?: ContainerAppsSourceControlsGetOptionalParams
+    options?: ContainerAppsSourceControlsGetOptionalParams,
   ): Promise<ContainerAppsSourceControlsGetResponse>;
   /**
    * Create or update the SourceControl for a Container App.
@@ -58,7 +58,7 @@ export interface ContainerAppsSourceControls {
     containerAppName: string,
     sourceControlName: string,
     sourceControlEnvelope: SourceControl,
-    options?: ContainerAppsSourceControlsCreateOrUpdateOptionalParams
+    options?: ContainerAppsSourceControlsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ContainerAppsSourceControlsCreateOrUpdateResponse>,
@@ -78,7 +78,7 @@ export interface ContainerAppsSourceControls {
     containerAppName: string,
     sourceControlName: string,
     sourceControlEnvelope: SourceControl,
-    options?: ContainerAppsSourceControlsCreateOrUpdateOptionalParams
+    options?: ContainerAppsSourceControlsCreateOrUpdateOptionalParams,
   ): Promise<ContainerAppsSourceControlsCreateOrUpdateResponse>;
   /**
    * Delete a Container App SourceControl.
@@ -91,7 +91,7 @@ export interface ContainerAppsSourceControls {
     resourceGroupName: string,
     containerAppName: string,
     sourceControlName: string,
-    options?: ContainerAppsSourceControlsDeleteOptionalParams
+    options?: ContainerAppsSourceControlsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a Container App SourceControl.
@@ -104,6 +104,6 @@ export interface ContainerAppsSourceControls {
     resourceGroupName: string,
     containerAppName: string,
     sourceControlName: string,
-    options?: ContainerAppsSourceControlsDeleteOptionalParams
+    options?: ContainerAppsSourceControlsDeleteOptionalParams,
   ): Promise<void>;
 }

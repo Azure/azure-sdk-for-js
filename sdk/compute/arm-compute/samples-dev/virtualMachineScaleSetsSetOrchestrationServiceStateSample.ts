@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   OrchestrationServiceStateInput,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -31,15 +31,16 @@ async function virtualMachineScaleSetOrchestrationServiceStateMaximumSetGen() {
   const vmScaleSetName = "aaaaaaaaaaaaaaaa";
   const parameters: OrchestrationServiceStateInput = {
     action: "Resume",
-    serviceName: "AutomaticRepairs"
+    serviceName: "AutomaticRepairs",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginSetOrchestrationServiceStateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginSetOrchestrationServiceStateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -57,15 +58,16 @@ async function virtualMachineScaleSetOrchestrationServiceStateMinimumSetGen() {
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const parameters: OrchestrationServiceStateInput = {
     action: "Resume",
-    serviceName: "AutomaticRepairs"
+    serviceName: "AutomaticRepairs",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginSetOrchestrationServiceStateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginSetOrchestrationServiceStateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 

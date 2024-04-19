@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VirtualMachineExtensionsGetOptionalParams,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -38,7 +38,7 @@ async function virtualMachineExtensionGetMaximumSetGen() {
     resourceGroupName,
     vmName,
     vmExtensionName,
-    options
+    options,
   );
   console.log(result);
 }
@@ -61,7 +61,7 @@ async function virtualMachineExtensionGetMinimumSetGen() {
   const result = await client.virtualMachineExtensions.get(
     resourceGroupName,
     vmName,
-    vmExtensionName
+    vmExtensionName,
   );
   console.log(result);
 }

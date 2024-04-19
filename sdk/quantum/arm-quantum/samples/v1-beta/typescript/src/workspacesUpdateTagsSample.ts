@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates an existing workspace's tags.
  *
  * @summary Updates an existing workspace's tags.
- * x-ms-original-file: specification/quantum/resource-manager/Microsoft.Quantum/preview/2022-01-10-preview/examples/quantumWorkspacesPatch.json
+ * x-ms-original-file: specification/quantum/resource-manager/Microsoft.Quantum/preview/2023-11-13-preview/examples/quantumWorkspacesPatch.json
  */
 async function quantumWorkspacesPatchTags() {
   const subscriptionId =
@@ -28,14 +28,14 @@ async function quantumWorkspacesPatchTags() {
     process.env["QUANTUM_RESOURCE_GROUP"] || "quantumResourcegroup";
   const workspaceName = "quantumworkspace1";
   const workspaceTags: TagsObject = {
-    tags: { tag1: "value1", tag2: "value2" }
+    tags: { tag1: "value1", tag2: "value2" },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureQuantumManagementClient(credential, subscriptionId);
   const result = await client.workspaces.updateTags(
     resourceGroupName,
     workspaceName,
-    workspaceTags
+    workspaceTags,
   );
   console.log(result);
 }

@@ -12,6 +12,22 @@
 
 ### Other Changes
 
+## 1.4.0 (2024-04-09)
+
+### Features Added
+
+- Support accept in headers.
+
+### Other Changes
+
+- Revert TypeScript output target to ES2017.
+
+## 1.3.1 (2024-03-20)
+
+### Other Changes
+
+- Add top-level `browser` field to `package.json` as fallback for legacy bundlers that do not support the `exports` field.
+
 ## 1.3.0 (2024-03-12)
 
 ### Features Added

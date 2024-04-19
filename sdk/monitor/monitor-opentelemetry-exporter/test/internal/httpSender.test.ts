@@ -37,7 +37,7 @@ class TestTokenCredential implements TokenCredential {
 }
 
 describe("HttpSender", () => {
-  const scope = nock(DEFAULT_BREEZE_ENDPOINT).post("/v2.1/track");
+  const scope = nock(DEFAULT_BREEZE_ENDPOINT).persist().post("/v2.1/track");
   nock.disableNetConnect();
 
   after(() => {
@@ -450,7 +450,7 @@ describe("HttpSender", () => {
         trackStatsbeat: false,
         exporterOptions: {
           proxyOptions: {
-            host: "testproxy",
+            host: "http://www.testproxy.com",
             port: 123,
           },
         },

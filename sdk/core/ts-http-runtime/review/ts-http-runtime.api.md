@@ -268,7 +268,7 @@ export function getClient(endpoint: string, options?: ClientOptions): Client;
 // @public
 export function getClient(endpoint: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client;
 
-// @public
+// @public @deprecated
 export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined;
 
 // @public
@@ -375,8 +375,14 @@ export function isError(e: unknown): e is Error;
 // @public
 export function isKeyCredential(credential: unknown): credential is KeyCredential;
 
-// @public
+// @public @deprecated
 export const isNode: boolean;
+
+// @public
+export const isNodeLike: boolean;
+
+// @public
+export const isNodeRuntime: boolean;
 
 // @public
 export function isObject(input: unknown): input is UnknownObject;
@@ -578,7 +584,7 @@ export interface PipelineRetryOptions {
 }
 
 // @public
-export function proxyPolicy(proxySettings?: ProxySettings | undefined, options?: {
+export function proxyPolicy(proxySettings?: ProxySettings, options?: {
     customNoProxyList?: string[];
 }): PipelinePolicy;
 

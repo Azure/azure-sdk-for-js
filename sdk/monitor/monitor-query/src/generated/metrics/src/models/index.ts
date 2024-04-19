@@ -23,17 +23,17 @@ export interface Response {
   namespace?: string;
   /** The region of the resource being queried for metrics. */
   resourceregion?: string;
-  /** the value of the collection. */
+  /** The value of the collection. */
   value: Metric[];
 }
 
 /** The result data of a query. */
 export interface Metric {
-  /** the metric Id. */
+  /** The metric Id. */
   id: string;
-  /** the resource type of the metric resource. */
+  /** The resource type of the metric resource. */
   type: string;
-  /** the name and the display name of the metric, i.e. it is localizable string. */
+  /** The name and the display name of the metric, i.e. it is localizable string. */
   name: LocalizableString;
   /** Detailed description of this metric. */
   displayDescription?: string;
@@ -43,7 +43,7 @@ export interface Metric {
   errorMessage?: string;
   /** The unit of the metric. */
   unit: MetricUnit;
-  /** the time series returned when a data query is performed. */
+  /** The time series returned when a data query is performed. */
   timeseries: TimeSeriesElement[];
 }
 
@@ -57,7 +57,7 @@ export interface LocalizableString {
 
 /** A time series result type. The discriminator value is always TimeSeries in this case. */
 export interface TimeSeriesElement {
-  /** the metadata values returned if $filter was specified in the call. */
+  /** The metadata values returned if $filter was specified in the call. */
   metadatavalues?: MetadataValue[];
   /** An array of data points representing the metric values.  This is only returned if a result type of data is specified. */
   data?: MetricValue[];
@@ -87,71 +87,57 @@ export interface MetricValue {
   count?: number;
 }
 
-/** Describes the format of Error response. */
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.) */
+export interface ErrorContract {
+  /** The error object. */
+  error?: ErrorResponse;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.) */
 export interface ErrorResponse {
-  /** Error code */
-  code?: string;
-  /** Error message indicating why the operation failed. */
-  message?: string;
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorResponse[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
 }
 
-/** Known values of {@link ApiVersion201801} that the service accepts. */
-export enum KnownApiVersion201801 {
-  /** Api Version '2018-01-01' */
-  TwoThousandEighteen0101 = "2018-01-01"
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
 }
 
-/**
- * Defines values for ApiVersion201801. \
- * {@link KnownApiVersion201801} can be used interchangeably with ApiVersion201801,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **2018-01-01**: Api Version '2018-01-01'
- */
-export type ApiVersion201801 = string;
-
-/** Known values of {@link MetricUnit} that the service accepts. */
-export enum KnownMetricUnit {
-  Count = "Count",
-  Bytes = "Bytes",
-  Seconds = "Seconds",
-  CountPerSecond = "CountPerSecond",
-  BytesPerSecond = "BytesPerSecond",
-  Percent = "Percent",
-  MilliSeconds = "MilliSeconds",
-  ByteSeconds = "ByteSeconds",
-  Unspecified = "Unspecified",
-  Cores = "Cores",
-  MilliCores = "MilliCores",
-  NanoCores = "NanoCores",
-  BitsPerSecond = "BitsPerSecond"
-}
-
-/**
- * Defines values for MetricUnit. \
- * {@link KnownMetricUnit} can be used interchangeably with MetricUnit,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Count** \
- * **Bytes** \
- * **Seconds** \
- * **CountPerSecond** \
- * **BytesPerSecond** \
- * **Percent** \
- * **MilliSeconds** \
- * **ByteSeconds** \
- * **Unspecified** \
- * **Cores** \
- * **MilliCores** \
- * **NanoCores** \
- * **BitsPerSecond**
- */
-export type MetricUnit = string;
-/** Defines values for ResultType. */
-export type ResultType = "Data" | "Metadata";
-
-/** Optional parameters. */
-export interface MetricsListOptionalParams extends coreClient.OperationOptions {
+/** Query parameters can also be specified in the body, specifying the same parameter in both the body and query parameters will result in an error. */
+export interface SubscriptionScopeMetricsRequestBodyParameters {
   /** The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'. */
   timespan?: string;
   /**
@@ -159,10 +145,12 @@ export interface MetricsListOptionalParams extends coreClient.OperationOptions {
    * *Examples: PT15M, PT1H, P1D, FULL*
    */
   interval?: string;
-  /** The names of the metrics (comma separated) to retrieve. Special case: If a metricname itself has a comma in it then use %2 to indicate it. Eg: 'Metric,Name1' should be **'Metric%2Name1'** */
-  metricnames?: string;
+  /** The names of the metrics (comma separated) to retrieve. */
+  metricNames?: string;
   /** The list of aggregation types (comma separated) to retrieve. */
   aggregation?: string;
+  /** The **$filter** is used to reduce the set of metric data returned.<br>Example:<br>Metric contains metadata A, B and C.<br>- Return all time series of C where A = a1 and B = b1 or b2<br>**$filter=A eq ‘a1’ and B eq ‘b1’ or B eq ‘b2’ and C eq ‘*’**<br>- Invalid variant:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘*’ or B = ‘b2’**<br>This is invalid because the logical or operator cannot separate two different metadata names.<br>- Return all time series where A = a1, B = b1 and C = c1:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘c1’**<br>- Return all time series where A = a1<br>**$filter=A eq ‘a1’ and B eq ‘*’ and C eq ‘*’**. */
+  filter?: string;
   /**
    * The maximum number of records to retrieve.
    * Valid only if $filter is specified.
@@ -174,13 +162,237 @@ export interface MetricsListOptionalParams extends coreClient.OperationOptions {
    * Only one order can be specified.
    * Examples: sum asc.
    */
+  orderBy?: string;
+  /** Dimension name(s) to rollup results by. For example if you only want to see metric values with a filter like 'City eq Seattle or City eq Tacoma' but don't want to see separate values for each city, you can specify 'RollUpBy=City' to see the results for Seattle and Tacoma rolled up into one timeseries. */
+  rollUpBy?: string;
+  /** Reduces the set of data collected. The syntax allowed depends on the operation. See the operation's description for details. */
+  resultType?: MetricResultType;
+  /** Metric namespace where the metrics you want reside. */
+  metricNamespace?: string;
+  /** When set to true, if the timespan passed in is not supported by this metric, the API will return the result using the closest supported timespan. When set to false, an error is returned for invalid timespan parameters. Defaults to false. */
+  autoAdjustTimegrain?: boolean;
+  /** When set to false, invalid filter parameter values will be ignored. When set to true, an error is returned for invalid filter parameters. Defaults to true. */
+  validateDimensions?: boolean;
+}
+
+/** Known values of {@link ApiVersion20240201} that the service accepts. */
+export enum KnownApiVersion20240201 {
+  /** Api Version '2024-02-01' */
+  TwoThousandTwentyFour0201 = "2024-02-01"
+}
+
+/**
+ * Defines values for ApiVersion20240201. \
+ * {@link KnownApiVersion20240201} can be used interchangeably with ApiVersion20240201,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **2024-02-01**: Api Version '2024-02-01'
+ */
+export type ApiVersion20240201 = string;
+
+/** Known values of {@link MetricResultType} that the service accepts. */
+export enum KnownMetricResultType {
+  Data = "Data",
+  Metadata = "Metadata"
+}
+
+/**
+ * Defines values for MetricResultType. \
+ * {@link KnownMetricResultType} can be used interchangeably with MetricResultType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Data** \
+ * **Metadata**
+ */
+export type MetricResultType = string;
+
+/** Known values of {@link MetricUnit} that the service accepts. */
+export enum KnownMetricUnit {
+  /** Unit of raw quantity. */
+  Count = "Count",
+  /** Unit of memory in bytes. */
+  Bytes = "Bytes",
+  /** Unit of time in seconds. */
+  Seconds = "Seconds",
+  /** Rate unit of raw quantity per second. */
+  CountPerSecond = "CountPerSecond",
+  /** Rate unit of memory in bytes per second. */
+  BytesPerSecond = "BytesPerSecond",
+  /** Percentage unit. */
+  Percent = "Percent",
+  /** Unit of time in 1/1000th of a second. */
+  MilliSeconds = "MilliSeconds",
+  /** Unit of data transfer or storage. It is the size of the data in bytes multiplied by the time it takes to transfer or store the data in seconds. */
+  ByteSeconds = "ByteSeconds",
+  /** No specified unit. */
+  Unspecified = "Unspecified",
+  /** Unit of processing power. */
+  Cores = "Cores",
+  /** Unit of processing power in 1/1000th of a CPU core. */
+  MilliCores = "MilliCores",
+  /** Unit of processing power in one billionth of a CPU core. */
+  NanoCores = "NanoCores",
+  /** Rate unit of binary digits per second. */
+  BitsPerSecond = "BitsPerSecond"
+}
+
+/**
+ * Defines values for MetricUnit. \
+ * {@link KnownMetricUnit} can be used interchangeably with MetricUnit,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Count**: Unit of raw quantity. \
+ * **Bytes**: Unit of memory in bytes. \
+ * **Seconds**: Unit of time in seconds. \
+ * **CountPerSecond**: Rate unit of raw quantity per second. \
+ * **BytesPerSecond**: Rate unit of memory in bytes per second. \
+ * **Percent**: Percentage unit. \
+ * **MilliSeconds**: Unit of time in 1\/1000th of a second. \
+ * **ByteSeconds**: Unit of data transfer or storage. It is the size of the data in bytes multiplied by the time it takes to transfer or store the data in seconds. \
+ * **Unspecified**: No specified unit. \
+ * **Cores**: Unit of processing power. \
+ * **MilliCores**: Unit of processing power in 1\/1000th of a CPU core. \
+ * **NanoCores**: Unit of processing power in one billionth of a CPU core. \
+ * **BitsPerSecond**: Rate unit of binary digits per second.
+ */
+export type MetricUnit = string;
+/** Defines values for ResultType. */
+export type ResultType = "Data" | "Metadata";
+
+/** Optional parameters. */
+export interface MetricsListAtSubscriptionScopeOptionalParams
+  extends coreClient.OperationOptions {
+  /** The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'. */
+  timespan?: string;
+  /**
+   * The interval (i.e. timegrain) of the query in ISO 8601 duration format. Defaults to PT1M. Special case for 'FULL' value that returns single datapoint for entire time span requested.
+   * *Examples: PT15M, PT1H, P1D, FULL*
+   */
+  interval?: string;
+  /** The names of the metrics (comma separated) to retrieve. */
+  metricnames?: string;
+  /**
+   * The list of aggregation types (comma separated) to retrieve.
+   * *Examples: average, minimum, maximum*
+   */
+  aggregation?: string;
+  /**
+   * The maximum number of records to retrieve per resource ID in the request.
+   * Valid only if filter is specified.
+   * Defaults to 10.
+   */
+  top?: number;
+  /**
+   * The aggregation to use for sorting results and the direction of the sort.
+   * Only one order can be specified.
+   * *Examples: sum asc*
+   */
   orderby?: string;
-  /** The **$filter** is used to reduce the set of metric data returned. Example: Metric contains metadata A, B and C. - Return all time series of C where A = a1 and B = b1 or b2 **$filter=A eq 'a1' and B eq 'b1' or B eq 'b2' and C eq '*'** - Invalid variant: **$filter=A eq 'a1' and B eq 'b1' and C eq '*' or B = 'b2'** This is invalid because the logical or operator cannot separate two different metadata names. - Return all time series where A = a1, B = b1 and C = c1: **$filter=A eq 'a1' and B eq 'b1' and C eq 'c1'** - Return all time series where A = a1 **$filter=A eq 'a1' and B eq '*' and C eq '*'**. Special case: When dimension name or dimension value uses round brackets. Eg: When dimension name is **dim (test) 1** Instead of using $filter= "dim (test) 1 eq '*' " use **$filter= "dim %2528test%2529 1 eq '*' "** When dimension name is **dim (test) 3** and dimension value is **dim3 (test) val** Instead of using $filter= "dim (test) 3 eq 'dim3 (test) val' " use **$filter= "dim %2528test%2529 3 eq 'dim3 %2528test%2529 val' "** */
+  /** The **$filter** is used to reduce the set of metric data returned.<br>Example:<br>Metric contains metadata A, B and C.<br>- Return all time series of C where A = a1 and B = b1 or b2<br>**$filter=A eq ‘a1’ and B eq ‘b1’ or B eq ‘b2’ and C eq ‘*’**<br>- Invalid variant:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘*’ or B = ‘b2’**<br>This is invalid because the logical or operator cannot separate two different metadata names.<br>- Return all time series where A = a1, B = b1 and C = c1:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘c1’**<br>- Return all time series where A = a1<br>**$filter=A eq ‘a1’ and B eq ‘*’ and C eq ‘*’**. */
   filter?: string;
   /** Reduces the set of data collected. The syntax allowed depends on the operation. See the operation's description for details. */
-  resultType?: ResultType;
-  /** Metric namespace to query metric definitions for. */
+  resultType?: MetricResultType;
+  /** Metric namespace where the metrics you want reside. */
   metricnamespace?: string;
+  /** When set to true, if the timespan passed in is not supported by this metric, the API will return the result using the closest supported timespan. When set to false, an error is returned for invalid timespan parameters. Defaults to false. */
+  autoAdjustTimegrain?: boolean;
+  /** When set to false, invalid filter parameter values will be ignored. When set to true, an error is returned for invalid filter parameters. Defaults to true. */
+  validateDimensions?: boolean;
+  /** Dimension name(s) to rollup results by. For example if you only want to see metric values with a filter like 'City eq Seattle or City eq Tacoma' but don't want to see separate values for each city, you can specify 'RollUpBy=City' to see the results for Seattle and Tacoma rolled up into one timeseries. */
+  rollupby?: string;
+}
+
+/** Contains response data for the listAtSubscriptionScope operation. */
+export type MetricsListAtSubscriptionScopeResponse = Response;
+
+/** Optional parameters. */
+export interface MetricsListAtSubscriptionScopePostOptionalParams
+  extends coreClient.OperationOptions {
+  /** The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'. */
+  timespan?: string;
+  /**
+   * The interval (i.e. timegrain) of the query in ISO 8601 duration format. Defaults to PT1M. Special case for 'FULL' value that returns single datapoint for entire time span requested.
+   * *Examples: PT15M, PT1H, P1D, FULL*
+   */
+  interval?: string;
+  /** The names of the metrics (comma separated) to retrieve. */
+  metricnames?: string;
+  /**
+   * The list of aggregation types (comma separated) to retrieve.
+   * *Examples: average, minimum, maximum*
+   */
+  aggregation?: string;
+  /**
+   * The maximum number of records to retrieve per resource ID in the request.
+   * Valid only if filter is specified.
+   * Defaults to 10.
+   */
+  top?: number;
+  /**
+   * The aggregation to use for sorting results and the direction of the sort.
+   * Only one order can be specified.
+   * *Examples: sum asc*
+   */
+  orderby?: string;
+  /** The **$filter** is used to reduce the set of metric data returned.<br>Example:<br>Metric contains metadata A, B and C.<br>- Return all time series of C where A = a1 and B = b1 or b2<br>**$filter=A eq ‘a1’ and B eq ‘b1’ or B eq ‘b2’ and C eq ‘*’**<br>- Invalid variant:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘*’ or B = ‘b2’**<br>This is invalid because the logical or operator cannot separate two different metadata names.<br>- Return all time series where A = a1, B = b1 and C = c1:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘c1’**<br>- Return all time series where A = a1<br>**$filter=A eq ‘a1’ and B eq ‘*’ and C eq ‘*’**. */
+  filter?: string;
+  /** Reduces the set of data collected. The syntax allowed depends on the operation. See the operation's description for details. */
+  resultType?: MetricResultType;
+  /** Metric namespace where the metrics you want reside. */
+  metricnamespace?: string;
+  /** When set to true, if the timespan passed in is not supported by this metric, the API will return the result using the closest supported timespan. When set to false, an error is returned for invalid timespan parameters. Defaults to false. */
+  autoAdjustTimegrain?: boolean;
+  /** When set to false, invalid filter parameter values will be ignored. When set to true, an error is returned for invalid filter parameters. Defaults to true. */
+  validateDimensions?: boolean;
+  /** Dimension name(s) to rollup results by. For example if you only want to see metric values with a filter like 'City eq Seattle or City eq Tacoma' but don't want to see separate values for each city, you can specify 'RollUpBy=City' to see the results for Seattle and Tacoma rolled up into one timeseries. */
+  rollupby?: string;
+  /** Parameters serialized in the body */
+  body?: SubscriptionScopeMetricsRequestBodyParameters;
+}
+
+/** Contains response data for the listAtSubscriptionScopePost operation. */
+export type MetricsListAtSubscriptionScopePostResponse = Response;
+
+/** Optional parameters. */
+export interface MetricsListOptionalParams extends coreClient.OperationOptions {
+  /** The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'. */
+  timespan?: string;
+  /**
+   * The interval (i.e. timegrain) of the query in ISO 8601 duration format. Defaults to PT1M. Special case for 'FULL' value that returns single datapoint for entire time span requested.
+   * *Examples: PT15M, PT1H, P1D, FULL*
+   */
+  interval?: string;
+  /** The names of the metrics (comma separated) to retrieve. */
+  metricnames?: string;
+  /**
+   * The list of aggregation types (comma separated) to retrieve.
+   * *Examples: average, minimum, maximum*
+   */
+  aggregation?: string;
+  /**
+   * The maximum number of records to retrieve per resource ID in the request.
+   * Valid only if filter is specified.
+   * Defaults to 10.
+   */
+  top?: number;
+  /**
+   * The aggregation to use for sorting results and the direction of the sort.
+   * Only one order can be specified.
+   * *Examples: sum asc*
+   */
+  orderby?: string;
+  /** The **$filter** is used to reduce the set of metric data returned.<br>Example:<br>Metric contains metadata A, B and C.<br>- Return all time series of C where A = a1 and B = b1 or b2<br>**$filter=A eq ‘a1’ and B eq ‘b1’ or B eq ‘b2’ and C eq ‘*’**<br>- Invalid variant:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘*’ or B = ‘b2’**<br>This is invalid because the logical or operator cannot separate two different metadata names.<br>- Return all time series where A = a1, B = b1 and C = c1:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘c1’**<br>- Return all time series where A = a1<br>**$filter=A eq ‘a1’ and B eq ‘*’ and C eq ‘*’**. */
+  filter?: string;
+  /** Metric namespace where the metrics you want reside. */
+  metricnamespace?: string;
+  /** When set to true, if the timespan passed in is not supported by this metric, the API will return the result using the closest supported timespan. When set to false, an error is returned for invalid timespan parameters. Defaults to false. */
+  autoAdjustTimegrain?: boolean;
+  /** When set to false, invalid filter parameter values will be ignored. When set to true, an error is returned for invalid filter parameters. Defaults to true. */
+  validateDimensions?: boolean;
+  /** Dimension name(s) to rollup results by. For example if you only want to see metric values with a filter like 'City eq Seattle or City eq Tacoma' but don't want to see separate values for each city, you can specify 'RollUpBy=City' to see the results for Seattle and Tacoma rolled up into one timeseries. */
+  rollupby?: string;
+  /** Reduces the set of data collected. The syntax allowed depends on the operation. See the operation's description for details. */
+  resultType?: ResultType;
 }
 
 /** Contains response data for the list operation. */
