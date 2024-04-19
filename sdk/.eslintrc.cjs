@@ -1,0 +1,12 @@
+/** @type { import("eslint").Linter.Config } */
+module.exports = {
+  plugins: ["@azure/azure-sdk"],
+  extends: ["plugin:@azure/azure-sdk/azure-sdk-base"],
+  ignorePatterns: ["**/test/perf/track-1"],
+  rules: {
+    "@azure/azure-sdk/ts-package-json-module": "off",
+    "@azure/azure-sdk/ts-package-json-files-required": "off",
+    "@azure/azure-sdk/ts-package-json-main-is-cjs": "off",
+    "@azure/azure-sdk/ts-package-json-types": "off",
+  },
+};

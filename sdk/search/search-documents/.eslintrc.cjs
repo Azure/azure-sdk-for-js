@@ -1,0 +1,15 @@
+/** @type { import("eslint").Linter.Config } */
+module.exports = {
+  overrides: [
+    {
+      files: ["samples-dev/**.ts"],
+      rules: {
+        // Suppresses errors for the custom TSDoc syntax we use for docs
+        "tsdoc/syntax": "off",
+        // Suppresses spurious missing dependency error as ESLint thinks the sample's runtime deps
+        // should be runtime deps for us too
+        "import/no-extraneous-dependencies": "off",
+      },
+    },
+  ],
+};

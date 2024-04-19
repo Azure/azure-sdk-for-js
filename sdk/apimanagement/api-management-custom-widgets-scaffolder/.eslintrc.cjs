@@ -1,0 +1,15 @@
+/** @type { import("eslint").Linter.Config } */
+module.exports = {
+  plugins: ["@azure/azure-sdk"],
+  extends: ["plugin:@azure/azure-sdk/azure-sdk-base"],
+  rules: {},
+  ignorePatterns: [],
+  overrides: [
+    {
+      files: ["src/bin/execute.ts"],
+      rules: {
+        "@azure/azure-sdk/github-source-headers": "off",
+      },
+    },
+  ],
+};
