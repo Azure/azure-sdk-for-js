@@ -2,6 +2,8 @@
 
 ## 1.0.0-beta.1 (2023-03-08)
 
+### Features Added
+
 The first preview of the Azure Communication Recipient Verification client library has the following features:
 
 - Verifying code for a phone number
