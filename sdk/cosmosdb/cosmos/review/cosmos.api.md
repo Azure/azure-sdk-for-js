@@ -600,6 +600,8 @@ export interface ContainerDefinition {
     indexingPolicy?: IndexingPolicy;
     partitionKey?: PartitionKeyDefinition;
     uniqueKeyPolicy?: UniqueKeyPolicy;
+    // Warning: (ae-forgotten-export) The symbol "VectorEmbeddingPolicy" needs to be exported by the entry point index.d.ts
+    vectorEmbeddingPolicy?: VectorEmbeddingPolicy;
 }
 
 // Warning: (ae-forgotten-export) The symbol "VerboseOmit" needs to be exported by the entry point index.d.ts
@@ -1146,6 +1148,10 @@ export interface IndexingPolicy {
     indexingMode?: keyof typeof IndexingMode;
     // (undocumented)
     spatialIndexes?: SpatialIndex[];
+    // Warning: (ae-forgotten-export) The symbol "VectorIndex" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    vectorIndexes?: VectorIndex[];
 }
 
 // @public
