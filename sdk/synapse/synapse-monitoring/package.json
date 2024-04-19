@@ -37,7 +37,6 @@
     "@microsoft/api-extractor": "^7.31.1",
     "cross-env": "^7.0.0",
     "eslint": "^8.0.0",
-    "esm": "^3.0.0",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",

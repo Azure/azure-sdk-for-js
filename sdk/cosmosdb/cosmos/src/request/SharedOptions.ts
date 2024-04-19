@@ -35,6 +35,13 @@ export interface SharedOptions {
   maxIntegratedCacheStalenessInMs?: number;
 
   /**
+   * Sets if integrated cache should be bypassed or enabled for the request in Azure CosmosDB service.
+   *
+   * <p>Default value is false. By default integrated cache is enabled</p>
+   */
+  bypassIntegratedCache?: boolean;
+
+  /**
    * Priority Level (Low/High) for each request.
    * Low priority requests are always throttled before any high priority requests.
    *

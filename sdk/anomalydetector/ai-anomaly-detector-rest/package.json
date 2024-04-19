@@ -101,8 +101,7 @@
     "karma": "^6.2.0",
     "c8": "^9.1.0",
     "csv-parse": "^5.0.3",
-    "ts-node": "^10.0.0",
-    "esm": "^3.2.18"
+    "ts-node": "^10.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/anomalydetector/ai-anomaly-detector-rest/README.md",
   "//metadata": {

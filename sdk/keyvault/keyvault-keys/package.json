@@ -129,7 +129,6 @@
     "dayjs": "^1.10.7",
     "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
-    "esm": "^3.2.18",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",

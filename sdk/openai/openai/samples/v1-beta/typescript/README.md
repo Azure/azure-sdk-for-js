@@ -20,13 +20,13 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [bringYourOwnData.ts][bringyourowndata]                                             | chat completions with your own data.                                         |
 | [chatCompletions.ts][chatcompletions]                                               | get chat completions.                                                        |
 | [completions.ts][completions]                                                       | get completions.                                                             |
-| [functions.ts][functions]                                                           | get chat completions with functions.                                         |
 | [generateSpeechFromText.ts][generatespeechfromtext]                                 | list completions.                                                            |
 | [getEmbeddings.ts][getembeddings]                                                   | generates embedding vectors from a prompt using Azure OpenAI Get Embeddings. |
 | [getImages.ts][getimages]                                                           | generates images from prompts using Azure OpenAI Batch Image Generation.     |
 | [streamChatCompletions.ts][streamchatcompletions]                                   | list chat completions.                                                       |
 | [streamChatCompletionsWithContentFilter.ts][streamchatcompletionswithcontentfilter] | get completions.                                                             |
 | [streamCompletions.ts][streamcompletions]                                           | list completions.                                                            |
+| [toolCall.ts][toolcall]                                                             | get chat completions with functions.                                         |
 | [openAi.ts][openai]                                                                 | get completions using the OpenAI API.                                        |
 
 ## Prerequisites
@@ -74,7 +74,7 @@ node dist/audioTranscription.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ENDPOINT="<endpoint>" AZURE_API_KEY="<azure api key>" node dist/audioTranscription.js
+npx cross-env ENDPOINT="<endpoint>" AZURE_API_KEY="<azure api key>" AUDIO_FILE_PATH="<audio file path>" node dist/audioTranscription.js
 ```
 
 ## Next Steps
@@ -93,6 +93,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [streamchatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/streamChatCompletions.ts
 [streamchatcompletionswithcontentfilter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/streamChatCompletionsWithContentFilter.ts
 [streamcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/streamCompletions.ts
+[toolcall]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/toolCall.ts
 [openai]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/openAi.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/openai
 [freesub]: https://azure.microsoft.com/free/

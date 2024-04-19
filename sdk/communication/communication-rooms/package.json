@@ -58,8 +58,7 @@
     "rimraf": "^5.0.5",
     "sinon": "^17.0.0",
     "typescript": "~5.4.5",
-    "ts-node": "^10.0.0",
-    "esm": "^3.2.18"
+    "ts-node": "^10.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-rooms/",
   "repository": "github:Azure/azure-sdk-for-js",
