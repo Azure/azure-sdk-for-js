@@ -267,7 +267,7 @@ describe("Call Automation Main Client Live Tests", function () {
       await receiverCallAutomationClient.rejectCall(incomingCallContext);
     }
 
-    const createCallFailedEvent = await waitForEvent("CreateCallFailed", callConnectionId, 8000);
-    assert.isDefined(createCallFailedEvent);
+    const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
+    assert.isDefined(callDisconnectedEvent);
   }).timeout(60000);
 });

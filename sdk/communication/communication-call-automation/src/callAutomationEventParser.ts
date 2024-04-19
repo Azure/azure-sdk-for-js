@@ -30,13 +30,6 @@ import {
   SendDtmfTonesFailed,
   CancelAddParticipantSucceeded,
   CancelAddParticipantFailed,
-  TranscriptionStarted,
-  TranscriptionStopped,
-  TranscriptionUpdated,
-  TranscriptionFailed,
-  CreateCallFailed,
-  AnswerFailed,
-  HoldFailed,
 } from "./models/events";
 
 import { CloudEventMapper } from "./models/mapper";
@@ -140,27 +133,6 @@ export function parseCallAutomationEvent(
       break;
     case "Microsoft.Communication.CancelAddParticipantFailed":
       callbackEvent = { kind: "CancelAddParticipantFailed" } as CancelAddParticipantFailed;
-      break;
-    case "Microsoft.Communication.TranscriptionStarted":
-      callbackEvent = { kind: "TranscriptionStarted" } as TranscriptionStarted;
-      break;
-    case "Microsoft.Communication.TranscriptionStopped":
-      callbackEvent = { kind: "TranscriptionStopped" } as TranscriptionStopped;
-      break;
-    case "Microsoft.Communication.TranscriptionUpdated":
-      callbackEvent = { kind: "TranscriptionUpdated" } as TranscriptionUpdated;
-      break;
-    case "Microsoft.Communication.TranscriptionFailed":
-      callbackEvent = { kind: "TranscriptionFailed" } as TranscriptionFailed;
-      break;
-    case "Microsoft.Communication.CreateCallFailed":
-      callbackEvent = { kind: "CreateCallFailed" } as CreateCallFailed;
-      break;
-    case "Microsoft.Communication.AnswerFailed":
-      callbackEvent = { kind: "AnswerFailed" } as AnswerFailed;
-      break;
-    case "Microsoft.Communication.HoldFailed":
-      callbackEvent = { kind: "HoldFailed" } as HoldFailed;
       break;
     default:
       throw new TypeError(`Unknown Call Automation Event type: ${eventType}`);

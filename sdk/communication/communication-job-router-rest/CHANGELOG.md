@@ -1,22 +1,18 @@
 # Release History
 
-## 1.1.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 1.1.0-beta.1 (2024-04-12)
+## 1.1.0-beta.1 (Unreleased)
 
 ### Features Added
 
 #### RouterWorker
 
 - Added `MaxConcurrentOffers`
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
 
 ## 1.0.0 (2023-11-01)
 

@@ -1,12 +1,14 @@
 # Release History
 
-## 1.5.0 (2024-04-15)
+## 1.4.1 (Unreleased)
 
 ### Features Added
 
-- Updated `ChatAttachmentType`to include type `file` to support ACS users to recieve files shared by Teams user.
-- Updated to @azure/communication-signaling@1.0.0-beta.26 with file sharing support
-- Updated `@azure/communication-common` with support for `MicrosoftTeamsAppIdentifierModel`
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
 
 ## 1.4.0 (2023-12-04)
 

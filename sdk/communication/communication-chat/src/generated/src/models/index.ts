@@ -41,8 +41,6 @@ export interface CommunicationIdentifierModel {
   phoneNumber?: PhoneNumberIdentifierModel;
   /** The Microsoft Teams user. */
   microsoftTeamsUser?: MicrosoftTeamsUserIdentifierModel;
-  /** The Microsoft Teams application. */
-  microsoftTeamsApp?: MicrosoftTeamsAppIdentifierModel;
 }
 
 /** A user that got created with an Azure Communication Services resource. */
@@ -64,14 +62,6 @@ export interface MicrosoftTeamsUserIdentifierModel {
   /** True if the Microsoft Teams user is anonymous. By default false if missing. */
   isAnonymous?: boolean;
   /** The cloud that the Microsoft Teams user belongs to. By default 'public' if missing. */
-  cloud?: CommunicationCloudEnvironmentModel;
-}
-
-/** A Microsoft Teams application. */
-export interface MicrosoftTeamsAppIdentifierModel {
-  /** The Id of the Microsoft Teams application. */
-  appId: string;
-  /** The cloud that the Microsoft Teams application belongs to. By default 'public' if missing. */
   cloud?: CommunicationCloudEnvironmentModel;
 }
 
@@ -194,7 +184,7 @@ export interface ChatAttachment {
   /** Id of the attachment */
   id: string;
   /** The type of attachment. */
-  attachmentType: ChatAttachmentType;
+  attachmentType: "image";
   /** The name of the attachment content. */
   name?: string;
   /** The URL where the attachment can be downloaded */
@@ -317,9 +307,7 @@ export enum KnownCommunicationIdentifierModelKind {
   /** PhoneNumber */
   PhoneNumber = "phoneNumber",
   /** MicrosoftTeamsUser */
-  MicrosoftTeamsUser = "microsoftTeamsUser",
-  /** MicrosoftTeamsApp */
-  MicrosoftTeamsApp = "microsoftTeamsApp",
+  MicrosoftTeamsUser = "microsoftTeamsUser"
 }
 
 /**
@@ -330,8 +318,7 @@ export enum KnownCommunicationIdentifierModelKind {
  * **unknown** \
  * **communicationUser** \
  * **phoneNumber** \
- * **microsoftTeamsUser** \
- * **microsoftTeamsApp**
+ * **microsoftTeamsUser**
  */
 export type CommunicationIdentifierModelKind = string;
 
@@ -342,7 +329,7 @@ export enum KnownCommunicationCloudEnvironmentModel {
   /** Dod */
   Dod = "dod",
   /** Gcch */
-  Gcch = "gcch",
+  Gcch = "gcch"
 }
 
 /**
@@ -362,8 +349,6 @@ export type ChatMessageType =
   | "topicUpdated"
   | "participantAdded"
   | "participantRemoved";
-/** Defines values for ChatAttachmentType. */
-export type ChatAttachmentType = "image" | "file";
 
 /** Optional parameters. */
 export interface ChatThreadListChatReadReceiptsOptionalParams
@@ -375,8 +360,7 @@ export interface ChatThreadListChatReadReceiptsOptionalParams
 }
 
 /** Contains response data for the listChatReadReceipts operation. */
-export type ChatThreadListChatReadReceiptsResponse =
-  ChatMessageReadReceiptsCollection;
+export type ChatThreadListChatReadReceiptsResponse = ChatMessageReadReceiptsCollection;
 
 /** Optional parameters. */
 export interface ChatThreadSendChatReadReceiptOptionalParams
@@ -462,8 +446,7 @@ export interface ChatThreadListChatReadReceiptsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listChatReadReceiptsNext operation. */
-export type ChatThreadListChatReadReceiptsNextResponse =
-  ChatMessageReadReceiptsCollection;
+export type ChatThreadListChatReadReceiptsNextResponse = ChatMessageReadReceiptsCollection;
 
 /** Optional parameters. */
 export interface ChatThreadListChatMessagesNextOptionalParams
@@ -477,8 +460,7 @@ export interface ChatThreadListChatParticipantsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listChatParticipantsNext operation. */
-export type ChatThreadListChatParticipantsNextResponse =
-  ChatParticipantsCollection;
+export type ChatThreadListChatParticipantsNextResponse = ChatParticipantsCollection;
 
 /** Optional parameters. */
 export interface ChatCreateChatThreadOptionalParams

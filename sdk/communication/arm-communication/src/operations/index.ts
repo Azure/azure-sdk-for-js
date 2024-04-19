@@ -11,3 +11,5 @@ export * from "./communicationServices";
 export * from "./domains";
 export * from "./emailServices";
 export * from "./senderUsernames";
+export * from "./suppressionLists";
+export * from "./suppressionListAddresses";

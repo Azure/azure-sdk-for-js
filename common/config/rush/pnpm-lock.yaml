@@ -1301,8 +1301,8 @@ packages:
       - supports-color
     dev: false
 
-  /@azure/communication-signaling@1.0.0-beta.26:
-    resolution: {integrity: sha512-/GYJ0ycUZEhl04TXPnkID1fl6KAAfjSJBtt0x34PeYS47KhPNpU0GegxHb7U6Ia3TD6r9O4ET1xsUJUD8Jva8Q==}
+  /@azure/communication-signaling@1.0.0-beta.22:
+    resolution: {integrity: sha512-0ispnIoRERypuNck90C+QaMTRC4v8owOOV+MbNec72HWCuPz+ndribcc8kIfCgplgwXDFsghskHkD6CaPyYdsA==}
     engines: {node: '>=8.0.0'}
     dependencies:
       '@azure/core-http': 2.3.2
@@ -1357,7 +1357,7 @@ packages:
       '@azure/core-auth': 1.7.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/core-util': 1.9.0
-      '@azure/logger': 1.0.4
+      '@azure/logger': 1.1.2
       '@types/node-fetch': 2.6.11
       '@types/tunnel': 0.0.3
       form-data: 4.0.0
@@ -1555,6 +1555,11 @@ packages:
       '@azure/msal-common': 14.9.0
     dev: false
 
+  /@azure/msal-common@13.3.1:
+    resolution: {integrity: sha512-Lrk1ozoAtaP/cp53May3v6HtcFSVxdFrg2Pa/1xu5oIvsIwhxW6zSPibKefCOVgd5osgykMi5jjcZHv8XkzZEQ==}
+    engines: {node: '>=0.8.0'}
+    dev: false
+
   /@azure/msal-common@14.9.0:
     resolution: {integrity: sha512-yzBPRlWPnTBeixxLNI3BBIgF5/bHpbhoRVuuDBnYjCyWRavaPUsKAHUDYLqpGkBLDciA6TCc6GOxN4/S3WiSxg==}
     engines: {node: '>=0.8.0'}
@@ -1573,6 +1578,16 @@ packages:
   /@azure/msal-node-runtime@0.13.6-alpha.0:
     resolution: {integrity: sha512-Tu5e4wBFiaiBLrOu7bsJF7FYknFH9XIOvUyCqCnmLJFMMOUnYULZ7fOFYuintFFcNPMOT2u8BVfSCPxETri5ng==}
     requiresBuild: true
+    dev: false
+
+  /@azure/msal-node@1.18.4:
+    resolution: {integrity: sha512-Kc/dRvhZ9Q4+1FSfsTFDME/v6+R2Y1fuMty/TfwqE5p9GTPw08BPbKgeWinE8JRHRp+LemjQbUZsn4Q4l6Lszg==}
+    engines: {node: 10 || 12 || 14 || 16 || 18}
+    deprecated: A newer major version of this library is available. Please upgrade to the latest available version.
+    dependencies:
+      '@azure/msal-common': 13.3.1
+      jsonwebtoken: 9.0.2
+      uuid: 8.3.2
     dev: false
 
   /@azure/msal-node@2.7.0:
@@ -4594,6 +4609,25 @@ packages:
   /bytes@3.1.2:
     resolution: {integrity: sha512-/Nf7TyzTx6S3yRJObOAV7956r8cr2+Oj8AC5dt8wSP3BQAoeX58NoHyCU8P8zGkNXStjTSi6fzO6F0pBdcYbEg==}
     engines: {node: '>= 0.8'}
+    dev: false
+
+  /c8@8.0.1:
+    resolution: {integrity: sha512-EINpopxZNH1mETuI0DzRA4MZpAUH+IFiRhnmFD3vFr3vdrgxqi3VfE3KL0AIL+zDq8rC9bZqwM/VDmmoe04y7w==}
+    engines: {node: '>=12'}
+    hasBin: true
+    dependencies:
+      '@bcoe/v8-coverage': 0.2.3
+      '@istanbuljs/schema': 0.1.3
+      find-up: 5.0.0
+      foreground-child: 2.0.0
+      istanbul-lib-coverage: 3.2.2
+      istanbul-lib-report: 3.0.1
+      istanbul-reports: 3.1.7
+      rimraf: 3.0.2
+      test-exclude: 6.0.0
+      v8-to-istanbul: 9.2.0
+      yargs: 17.7.2
+      yargs-parser: 21.1.1
     dev: false
 
   /c8@9.1.0:
@@ -7985,6 +8019,12 @@ packages:
     hasBin: true
     dev: false
 
+  /mkdirp@2.1.6:
+    resolution: {integrity: sha512-+hEnITedc8LAtIP9u3HJDFIdcLV2vXP33sqLLIzkv1Db1zO/1OxbvYf0Y1OC/S/Qo5dxHXepofhmxL02PsKe+A==}
+    engines: {node: '>=10'}
+    hasBin: true
+    dev: false
+
   /mkdirp@3.0.1:
     resolution: {integrity: sha512-+NsyUUAZDmo6YVHzL/stxSu3t9YS1iljliy3BSDrXJ/dkn1KYdmtZODGGjLcc9XLgVVpH4KshHB8XmZgMhaBXg==}
     engines: {node: '>=10'}
@@ -9901,6 +9941,37 @@ packages:
       code-block-writer: 13.0.1
     dev: false
 
+  /ts-node@10.9.2(@types/node@18.19.31)(typescript@5.2.2):
+    resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.11
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 18.19.31
+      acorn: 8.11.3
+      acorn-walk: 8.3.2
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.2.2
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    dev: false
+
   /ts-node@10.9.2(@types/node@18.19.31)(typescript@5.3.3):
     resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
     hasBin: true
@@ -10156,6 +10227,12 @@ packages:
   /typescript@4.2.4:
     resolution: {integrity: sha512-V+evlYHZnQkaz8TRBuxTA92yZBPotr5H+WhQ7bD3hZUndx5tGOa1fuCgeSjxAzM1RiN5IzvadIXTVefuuwZCRg==}
     engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: false
+
+  /typescript@5.2.2:
+    resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}
+    engines: {node: '>=14.17'}
     hasBin: true
     dev: false
 
@@ -12527,7 +12604,7 @@ packages:
     dev: false
 
   file:projects/arm-communication.tgz:
-    resolution: {integrity: sha512-SZwQTTbliqwpEqVmyQrPRR2FLdaB+JNMj2UxzMMu0mm0n3awsWGhWM+Q6CrO1EiYaCuOz4bT5QZDM5qJ9PZAQg==, tarball: file:projects/arm-communication.tgz}
+    resolution: {integrity: sha512-9UJc3hjVeHCkF4fsJDzinoBd1iZn7PZwoD5TMvgYgqvJkax2dHIBBrNBsgOV0SNPBuIV8ueIF+qe1gptTZCIOQ==, tarball: file:projects/arm-communication.tgz}
     name: '@rush-temp/arm-communication'
     version: 0.0.0
     dependencies:
@@ -12542,12 +12619,12 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       esm: 3.2.25
-      mkdirp: 3.0.1
+      mkdirp: 2.1.6
       mocha: 10.4.0
       rimraf: 5.0.5
-      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
       tslib: 2.6.2
-      typescript: 5.4.5
+      typescript: 5.3.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - '@swc/core'
@@ -18000,7 +18077,7 @@ packages:
     dev: false
 
   file:projects/communication-alpha-ids.tgz:
-    resolution: {integrity: sha512-JEcL0Z0ARNafV7BOpaMZkJP0s0y/NKGFssVNMRZ9f2hcREUmEasEowfUi3Up6ao+rhvZXtxIY2Lre7PJJoKj1w==, tarball: file:projects/communication-alpha-ids.tgz}
+    resolution: {integrity: sha512-S2uRIgdbD46/+OdQuK3eKE/FPUQG/x3O1iWKKOzmNSX34aTjl8Z+QsbGhcM6NiPxSpUUUIArzfsCNIwbDcVyvw==, tarball: file:projects/communication-alpha-ids.tgz}
     name: '@rush-temp/communication-alpha-ids'
     version: 0.0.0
     dependencies:
@@ -18011,7 +18088,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
+      c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
@@ -18028,11 +18105,11 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.3)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
-      rimraf: 5.0.5
+      rimraf: 3.0.2
       sinon: 17.0.1
-      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
       tslib: 2.6.2
-      typescript: 5.4.5
+      typescript: 5.3.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -18043,7 +18120,7 @@ packages:
     dev: false
 
   file:projects/communication-call-automation.tgz:
-    resolution: {integrity: sha512-JgzuFoo9sgl8zfWE7umH/VEE7OjImvbWAYYGRIlCTHtrWtDhS+iTaRpPld1zkyXSeDOFuISQFvawTSt3z14plw==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-H3L+jZ8X195m24YHA65KfikUeMg4xVyzymtj36osDRnzpA4xetZKIg24F9OKUZ4Ik+fEeSGTIAXbMSvkCMKVAw==, tarball: file:projects/communication-call-automation.tgz}
     name: '@rush-temp/communication-call-automation'
     version: 0.0.0
     dependencies:
@@ -18056,7 +18133,8 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
+      '@types/uuid': 8.3.4
+      c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
@@ -18075,11 +18153,11 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.3)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
-      rimraf: 5.0.5
+      rimraf: 3.0.2
       sinon: 17.0.1
-      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
       tslib: 2.6.2
-      typescript: 5.4.5
+      typescript: 5.3.3
       util: 0.12.5
     transitivePeerDependencies:
       - '@swc/core'
@@ -18091,21 +18169,21 @@ packages:
     dev: false
 
   file:projects/communication-chat.tgz:
-    resolution: {integrity: sha512-PpH5xzdZBfMCH+Es2CARZYbyYPw2Pg48iUlHTHW6b7tqRdswLnHqxH/7dC+knqwZe2qIRQ4ubrfdKfdYHDzgyg==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-XugA6elEx/vC+iyChT/0L9/tK8XPQO9cSkt/wEEqx2O9bhqlVeZ06zq56Ng5Fs4qsS9OxLAYVlFNFCNM5GJMMA==, tarball: file:projects/communication-chat.tgz}
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.2
       '@azure/abort-controller': 1.1.0
-      '@azure/communication-signaling': 1.0.0-beta.26
+      '@azure/communication-signaling': 1.0.0-beta.22
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
-      c8: 9.1.0
+      c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
@@ -18125,11 +18203,11 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.3)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
-      rimraf: 5.0.5
+      rimraf: 3.0.2
       sinon: 17.0.1
-      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
       tslib: 2.6.2
-      typescript: 5.4.5
+      typescript: 5.3.3
       util: 0.12.5
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -18143,7 +18221,7 @@ packages:
     dev: false
 
   file:projects/communication-common.tgz:
-    resolution: {integrity: sha512-n9NGMl/S6+rHeWqdCFjSi0oO2dNUQqHAYvspGcJqeT1uJRmqfjS1CCP4lk/7FyTTq8w2zhrBnvb0wD9w7ih38g==, tarball: file:projects/communication-common.tgz}
+    resolution: {integrity: sha512-hipCtN8pRRzW1ZUyrzB7dbw7Zc510pbner+2tD806jh/M7bYFh8LhroWmMMjmeN4YP4m4iwoAR3TZqQk3M2/4Q==, tarball: file:projects/communication-common.tgz}
     name: '@rush-temp/communication-common'
     version: 0.0.0
     dependencies:
@@ -18154,7 +18232,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
+      c8: 8.0.1
       chai: 4.3.10
       chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
@@ -18174,11 +18252,11 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
       mockdate: 3.0.5
-      rimraf: 5.0.5
+      rimraf: 3.0.2
       sinon: 17.0.1
-      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
       tslib: 2.6.2
-      typescript: 5.4.5
+      typescript: 5.3.3
       util: 0.12.5
     transitivePeerDependencies:
       - '@swc/core'
@@ -18190,7 +18268,7 @@ packages:
     dev: false
 
   file:projects/communication-email.tgz:
-    resolution: {integrity: sha512-OmZUyLP3SBHJjftKr7BZONlhDBKJmFwT2etdhRqeJUFCVGlt1jUktFqsuFp039oiDEkivs8W1/pELiAc8k2rrw==, tarball: file:projects/communication-email.tgz}
+    resolution: {integrity: sha512-3OUWwY2f1Z7Rwi4YZXWb5kcvR4S9x6+LNwQvdMvEeGxnbGMP4FmxGluAyDhuyVCdRyyUn82cL+qfPGW143edAw==, tarball: file:projects/communication-email.tgz}
     name: '@rush-temp/communication-email'
     version: 0.0.0
     dependencies:
@@ -18199,7 +18277,7 @@ packages:
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
-      c8: 9.1.0
+      c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
@@ -18217,10 +18295,10 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.3)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
-      rimraf: 5.0.5
-      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
+      rimraf: 3.0.2
+      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
       tslib: 1.14.1
-      typescript: 5.4.5
+      typescript: 5.3.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -18231,20 +18309,20 @@ packages:
     dev: false
 
   file:projects/communication-identity.tgz:
-    resolution: {integrity: sha512-yR/S28KhwCe1UMGtlSwbmqnbN0eAlADVXqJzI0DcIIqc5hoFXw2i5Ca17ksizh1aV8vyg66W+xdTkHvwhH2Y/Q==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-Wndjf3vaE2abhUjmcJ/uY49f+oeDaHCECgPRyeukMeOM7NaVLswYC/YViJUhe6Cdv+38pZsRtFPg9uGu8rnRHQ==, tarball: file:projects/communication-identity.tgz}
     name: '@rush-temp/communication-identity'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.2
       '@azure/abort-controller': 1.1.0
-      '@azure/msal-node': 2.7.0
+      '@azure/msal-node': 1.18.4
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
+      c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
@@ -18263,11 +18341,11 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
       process: 0.11.10
-      rimraf: 5.0.5
+      rimraf: 3.0.2
       sinon: 17.0.1
-      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
       tslib: 2.6.2
-      typescript: 5.4.5
+      typescript: 5.3.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -18278,7 +18356,7 @@ packages:
     dev: false
 
   file:projects/communication-job-router-1.tgz:
-    resolution: {integrity: sha512-TZIA6jPIxNwnZ4xWDmEBoTaWGpcaUPSea3rQv9OQxNMI6BgXoXftHqxaVp7vJ5tRjtKjkPsNU97RDdm3/xoJJw==, tarball: file:projects/communication-job-router-1.tgz}
+    resolution: {integrity: sha512-OXQazWdhUBwJjLvk5sWOGNcjA9pkzYNC7BzJut1zpGCFLpzkXtCP7M2sM2FWuMl9gmq8CD8cP71CJ4GclNj9+Q==, tarball: file:projects/communication-job-router-1.tgz}
     name: '@rush-temp/communication-job-router-1'
     version: 0.0.0
     dependencies:
@@ -18290,7 +18368,7 @@ packages:
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
-      c8: 9.1.0
+      c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
@@ -18310,11 +18388,11 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.3)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
-      rimraf: 5.0.5
+      rimraf: 3.0.2
       sinon: 17.0.1
-      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
       tslib: 2.6.2
-      typescript: 5.4.5
+      typescript: 5.3.3
       util: 0.12.5
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -18327,7 +18405,7 @@ packages:
     dev: false
 
   file:projects/communication-job-router.tgz:
-    resolution: {integrity: sha512-ngA49bdYGHuYEIzbQRHMilqzvKo5pd40dN11am6V1IjY4PCcgJjILdTOM6cumRfSyE6zWN1gYwpP6iNY394zSA==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-d+o28oBG3F8Y72A5yFA2Z5BPTTOmoIyysCRyQSxmlovxU1UGI9yKnc7jJaH3KU+IbSCos42L+STPJOzEuYDBMQ==, tarball: file:projects/communication-job-router.tgz}
     name: '@rush-temp/communication-job-router'
     version: 0.0.0
     dependencies:
@@ -18338,7 +18416,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       autorest: 3.7.1
-      c8: 9.1.0
+      c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
@@ -18353,13 +18431,13 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.3)
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.4.0
-      mkdirp: 3.0.1
+      mkdirp: 2.1.6
       mocha: 10.4.0
       rimraf: 5.0.5
       source-map-support: 0.5.21
-      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
       tslib: 2.6.2
-      typescript: 5.4.5
+      typescript: 5.3.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -18370,7 +18448,7 @@ packages:
     dev: false
 
   file:projects/communication-messages.tgz:
-    resolution: {integrity: sha512-STDPgzEuqCBprCfTy73SrFDX+CxfIuFvuPBRx1BmBGBoI5Je/7YAR1txZiunGyu/6vIgsuQks5JVwDcwzuSY0A==, tarball: file:projects/communication-messages.tgz}
+    resolution: {integrity: sha512-5N2Lq+NXe86+WSAAmrxytJ9hQxZxkUjlWHWu3XiACA3MP66Cx2SoeNq3UiC/I8E8sLTOdZZSB6Abxhe8jQX32w==, tarball: file:projects/communication-messages.tgz}
     name: '@rush-temp/communication-messages'
     version: 0.0.0
     dependencies:
@@ -18382,7 +18460,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       autorest: 3.7.1
-      c8: 9.1.0
+      c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
@@ -18398,13 +18476,13 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.3)
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.4.0
-      mkdirp: 3.0.1
+      mkdirp: 2.1.6
       mocha: 10.4.0
       rimraf: 5.0.5
       source-map-support: 0.5.21
-      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.2.2)
       tslib: 2.6.2
-      typescript: 5.4.5
+      typescript: 5.2.2
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -18415,7 +18493,7 @@ packages:
     dev: false
 
   file:projects/communication-phone-numbers.tgz:
-    resolution: {integrity: sha512-sJOhkw2pFI/uQMJkPsLj+YVGTR0JRQsvXc8XCkMnwUJnxJM7srHBkoq2tzN4geeCczwdCEuvgIP4RoN2udX9VA==, tarball: file:projects/communication-phone-numbers.tgz}
+    resolution: {integrity: sha512-3qyykGRtfZCcHgQB0R1gBHUOBvp7tZV8tg5MPUC3+Ua0zCchwdQUpbW/to3G8+t96OmKTiycA4xLnLKNh9yWcA==, tarball: file:projects/communication-phone-numbers.tgz}
     name: '@rush-temp/communication-phone-numbers'
     version: 0.0.0
     dependencies:
@@ -18427,7 +18505,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
+      c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
@@ -18445,11 +18523,11 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.3)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
-      rimraf: 5.0.5
+      rimraf: 3.0.2
       sinon: 17.0.1
-      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
       tslib: 2.6.2
-      typescript: 5.4.5
+      typescript: 5.3.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -18460,7 +18538,7 @@ packages:
     dev: false
 
   file:projects/communication-recipient-verification.tgz:
-    resolution: {integrity: sha512-W38G0j67rwRTzzF+2MnNkNPk+O7tFE9wi06ANHZk2kYXZWoU4McQWu5qh4FckFX0zPm0QoV+0W+lUinu9nSNqQ==, tarball: file:projects/communication-recipient-verification.tgz}
+    resolution: {integrity: sha512-UOOIsRxBmASbLG0k+lhlFkrQUxFRYmcr7X4gk+o9Zo5WI5m/S+axfBzVUWxQlIR/1+Wuro8vr5V4ETxjkoouag==, tarball: file:projects/communication-recipient-verification.tgz}
     name: '@rush-temp/communication-recipient-verification'
     version: 0.0.0
     dependencies:
@@ -18472,7 +18550,7 @@ packages:
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
-      c8: 9.1.0
+      c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
@@ -18490,11 +18568,11 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.3)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
-      rimraf: 5.0.5
+      rimraf: 3.0.2
       sinon: 17.0.1
-      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
       tslib: 2.6.2
-      typescript: 5.4.5
+      typescript: 5.3.3
       uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -18506,7 +18584,7 @@ packages:
     dev: false
 
   file:projects/communication-rooms.tgz:
-    resolution: {integrity: sha512-IDN5zu/j29w43/Uj2Ji7Tg0s4+j5Fk1nagQLSb4wsJBvteVCM6To2n62Y0G0WS97BmgEJlq27boLa/iLhppFDw==, tarball: file:projects/communication-rooms.tgz}
+    resolution: {integrity: sha512-+YSHe21QNbyTsI3Gg26W54UJlKNdbspTcjhISxY6gqLN9YTSh+tkk/fBCtQArJ3dHuUEhaaE3O3ST8siTg6YIw==, tarball: file:projects/communication-rooms.tgz}
     name: '@rush-temp/communication-rooms'
     version: 0.0.0
     dependencies:
@@ -18517,7 +18595,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
+      c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
@@ -18525,13 +18603,13 @@ packages:
       esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-env-preprocessor: 0.1.1
-      mkdirp: 3.0.1
+      mkdirp: 1.0.4
       mocha: 10.4.0
-      rimraf: 5.0.5
+      rimraf: 3.0.2
       sinon: 17.0.1
-      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
       tslib: 1.14.1
-      typescript: 5.4.5
+      typescript: 5.3.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -18542,7 +18620,7 @@ packages:
     dev: false
 
   file:projects/communication-short-codes.tgz:
-    resolution: {integrity: sha512-d3g/zWs5j9vRCA+Tp5U8mVOYFeBnA9lnKk6KgTY72DwKIzwzb39sIyJ9aY71wdiULH8HoOlKncljp1LNO5bC5g==, tarball: file:projects/communication-short-codes.tgz}
+    resolution: {integrity: sha512-HTN+mroHxd8s9gVNAgIMLQg3X94sCJYmWRIIpBOU9CBnftsMeAgzYFiOyXdrF0RPfLkUnJyJUPrsfqUguYfDZw==, tarball: file:projects/communication-short-codes.tgz}
     name: '@rush-temp/communication-short-codes'
     version: 0.0.0
     dependencies:
@@ -18554,7 +18632,7 @@ packages:
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
-      c8: 9.1.0
+      c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
@@ -18572,11 +18650,11 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.3)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
-      rimraf: 5.0.5
+      rimraf: 3.0.2
       sinon: 17.0.1
-      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
       tslib: 2.6.2
-      typescript: 5.4.5
+      typescript: 5.3.3
       uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -18588,7 +18666,7 @@ packages:
     dev: false
 
   file:projects/communication-sms.tgz:
-    resolution: {integrity: sha512-OYHIgi82kUHMIbE+z2ewXcwlnpy+sKjWTVHJYs3WM4S5+8KPFReV4Hi1grHfQqT/hEVF1H62uxfwPWGftZ5Cxw==, tarball: file:projects/communication-sms.tgz}
+    resolution: {integrity: sha512-wYpElLQt4SvF6picDl5IWwTc3u4TjXE+y7LOIK3be4vvJMA1i9OfLll9xyQtcg7JYMAZvFRbV+yCPBs3wzt5Kg==, tarball: file:projects/communication-sms.tgz}
     name: '@rush-temp/communication-sms'
     version: 0.0.0
     dependencies:
@@ -18600,7 +18678,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
+      c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
@@ -18618,11 +18696,11 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.3)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
-      rimraf: 5.0.5
+      rimraf: 3.0.2
       sinon: 17.0.1
-      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
       tslib: 2.6.2
-      typescript: 5.4.5
+      typescript: 5.3.3
       util: 0.12.5
     transitivePeerDependencies:
       - '@swc/core'
@@ -18634,7 +18712,7 @@ packages:
     dev: false
 
   file:projects/communication-tiering.tgz:
-    resolution: {integrity: sha512-nVzMbRSLwJycwr8LJxu7yHRNNul0f4eLuaFCr8MKo0gEJWRwrGivgtXpm2f6SO2inhDukSiBvjCiBCcoNggvbA==, tarball: file:projects/communication-tiering.tgz}
+    resolution: {integrity: sha512-uxUaAPIePPLytgk8ZKlyN5uTtXTssLuKQWa5DSh9CdLe5Ok5834UT9SxT0s3AmZgZ8qEVemQqG367unjKbPWUQ==, tarball: file:projects/communication-tiering.tgz}
     name: '@rush-temp/communication-tiering'
     version: 0.0.0
     dependencies:
@@ -18646,7 +18724,7 @@ packages:
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
-      c8: 9.1.0
+      c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
@@ -18664,11 +18742,11 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.3)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
-      rimraf: 5.0.5
+      rimraf: 3.0.2
       sinon: 17.0.1
-      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
       tslib: 2.6.2
-      typescript: 5.4.5
+      typescript: 5.3.3
       uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -18680,7 +18758,7 @@ packages:
     dev: false
 
   file:projects/communication-toll-free-verification.tgz:
-    resolution: {integrity: sha512-PFb2p9o/skXwiJDnmGdh8oK1LTIZEyidzsIqe61tZOYOSnFTZ3kjbson5Jba1m87GUoXVQgK6wqCsOVt8/PrRw==, tarball: file:projects/communication-toll-free-verification.tgz}
+    resolution: {integrity: sha512-nXyj6wZvt70e1dyGqsUFyZIJnpzmq0jnk+bphV3+VpSFCBXSz3VV3R0e4PjxYj+/xdKsWqB9dsauuYtBqaJy/g==, tarball: file:projects/communication-toll-free-verification.tgz}
     name: '@rush-temp/communication-toll-free-verification'
     version: 0.0.0
     dependencies:
@@ -18691,7 +18769,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
+      c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
@@ -18708,11 +18786,11 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.3)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
-      rimraf: 5.0.5
+      rimraf: 3.0.2
       sinon: 17.0.1
-      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
       tslib: 2.6.2
-      typescript: 5.4.5
+      typescript: 5.3.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -22067,7 +22145,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-hcIXqU0YNUHGzXwPM/VtFzULpOkU9v9/L3jEhYk8/ytWLBeSqSjzyl4allwHCKWjI9wZJKy3hXp7vXw4XZa5Iw==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-0nheky+LIrTuxnh6EzWuVG+41cwwc6wDAPg781qwTbXWP69M9Ce9BDKcHAJLgk7DrH/vsbWjBKvzLBa7AeYOlg==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:

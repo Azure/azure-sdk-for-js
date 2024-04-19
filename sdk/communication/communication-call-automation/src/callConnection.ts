@@ -251,7 +251,6 @@ export class CallConnection {
       operationCallbackUri: options.operationCallbackUrl,
       transferee: options.transferee && communicationIdentifierModelConverter(options.transferee),
       customCallingContext: this.createCustomCallingContextInternal(options.customCallingContext!),
-      sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(options.sourceCallIdNumber),
     };
     const optionsInternal = {
       ...options,
