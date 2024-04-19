@@ -1157,12 +1157,6 @@ dependencies:
   chai:
     specifier: 4.3.10
     version: 4.3.10
-  http-proxy-agent:
-    specifier: 7.0.0
-    version: 7.0.0
-  https-proxy-agent:
-    specifier: 7.0.2
-    version: 7.0.2
 
 packages:
 
@@ -1183,15 +1177,15 @@ packages:
     resolution: {integrity: sha512-O5wyYiI6bILqO9MOeQ1WhSIcKH6c3DvbpsjMPKYJ+yekmFhFUb/zU/pSKsLvyqZhqUWSACFMNri4cZd4tuW0rw==}
     engines: {node: '>=18.0.0'}
     dependencies:
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/core-auth': 1.7.2
       '@azure/identity': 4.1.0
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /@azure-tools/test-recorder@3.1.2:
-    resolution: {integrity: sha512-116XdbMzedsUcVQa7yCm1p/yCNuiq5XHc2vn0Q0P6c7/Tzrjgjo19eq2Lrea2gIo8+n1mDtQcm3zPzLb9C4CoQ==}
+  /@azure-tools/test-recorder@3.2.0:
+    resolution: {integrity: sha512-Y7e3H4isrxCdc6Qjc2bXPIgW8dP/aD387mQ6w7W07eRFZLqAj7sGSQWQ6UrMUkS3Bv9k6JEyjO4WSNrSKEFpaA==}
     engines: {node: '>=18.0.0'}
     dependencies:
       '@azure/core-auth': 1.7.2
@@ -1420,8 +1414,8 @@ packages:
       '@azure/core-tracing': 1.1.2
       '@azure/core-util': 1.9.0
       '@azure/logger': 1.1.2
-      http-proxy-agent: 7.0.0
-      https-proxy-agent: 7.0.2
+      http-proxy-agent: 7.0.2
+      https-proxy-agent: 7.0.4
       tslib: 2.6.2
     transitivePeerDependencies:
       - supports-color
@@ -1872,10 +1866,6 @@ packages:
       '@babel/helper-string-parser': 7.24.1
       '@babel/helper-validator-identifier': 7.22.20
       to-fast-properties: 2.0.0
-    dev: false
-
-  /@bcoe/v8-coverage@0.2.3:
-    resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
     dev: false
 
   /@colors/colors@1.5.0:
@@ -2473,8 +2463,8 @@ packages:
     resolution: {integrity: sha512-iUKgm52T8HOE/makSxjqoWhe95ZJA1/G1sYsGev2JDKUSS14KAgg1LHb+Ba+IPow0xflbnSkOsZcO08C7w1gYw==}
     dev: false
 
-  /@jsdoc/salty@0.2.7:
-    resolution: {integrity: sha512-mh8LbS9d4Jq84KLw8pzho7XC2q2/IJGiJss3xwRoLD1A+EE16SjN4PfaG4jRCzKegTFLlN0Zd8SdUPE6XdoPFg==}
+  /@jsdoc/salty@0.2.8:
+    resolution: {integrity: sha512-5e+SFVavj1ORKlKaKr2BmTOekmXbelU7dC0cDkQLqag7xfuTPuGMUFx7KWJuv4bYZrTsoL2Z18VVCOKYxzoHcg==}
     engines: {node: '>=v12.0.0'}
     dependencies:
       lodash: 4.17.21
@@ -3058,7 +3048,7 @@ packages:
       estree-walker: 2.0.2
       glob: 8.1.0
       is-reference: 1.2.1
-      magic-string: 0.30.9
+      magic-string: 0.30.10
       rollup: 4.14.3
     dev: false
 
@@ -3073,7 +3063,7 @@ packages:
     dependencies:
       '@rollup/pluginutils': 5.1.0(rollup@4.14.3)
       estree-walker: 2.0.2
-      magic-string: 0.30.9
+      magic-string: 0.30.10
       rollup: 4.14.3
     dev: false
 
@@ -3512,7 +3502,7 @@ packages:
     resolution: {integrity: sha512-bGyep3JqPCRry1wq+O5n7oiBgGWmeIJXPjXXCo8EK0u8duZGSYar7cGqd3ML2JUsLGeB7fmc06KYo9fLGWqPvQ==}
     dependencies:
       '@types/node': 18.19.31
-      '@types/qs': 6.9.14
+      '@types/qs': 6.9.15
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
     dev: false
@@ -3522,7 +3512,7 @@ packages:
     dependencies:
       '@types/body-parser': 1.19.5
       '@types/express-serve-static-core': 4.19.0
-      '@types/qs': 6.9.14
+      '@types/qs': 6.9.15
       '@types/serve-static': 1.15.7
     dev: false
 
@@ -3560,10 +3550,6 @@ packages:
     resolution: {integrity: sha512-G6OXy83Va+xEo8XgqAJYOuvOMxeey9xM5XKkvwJNmN8rVdcB+r15HvHsG86hl86JvU0y1aa7Z2ERkNFYWw9ySg==}
     dependencies:
       '@types/node': 18.19.31
-    dev: false
-
-  /@types/istanbul-lib-coverage@2.0.6:
-    resolution: {integrity: sha512-2QF/t/auWm0lsy8XtKVPG19v3sSOQlJe/YHZgfjb/KBBHOGSV+J2q/S671rcq9uTBrLAXmZpqJiaQbMT+zNU1w==}
     dev: false
 
   /@types/json-schema@7.0.15:
@@ -3680,8 +3666,8 @@ packages:
     resolution: {integrity: sha512-LqAAiGnUqQvBZW0hTGl0pIaL+UeN7KvcxkLyt8+H++WBA1hucdu463mVfGCXmXvJ+uGyW3SyCyW0D6ANNcmB6g==}
     dev: false
 
-  /@types/qs@6.9.14:
-    resolution: {integrity: sha512-5khscbd3SwWMhFqylJBLQ0zIu7c1K6Vz0uBIt915BI3zV0q1nfjRQD3RqSBcPaO6PHEF4ov/t9y89fSiyThlPA==}
+  /@types/qs@6.9.15:
+    resolution: {integrity: sha512-uXHQKES6DQKKCLh441Xv/dwxOq1TVS3JPUMlEqoEglvlhR6Mxnlew/Xq/LRVHpLyk7iK3zODe1qYHIMltO7XGg==}
     dev: false
 
   /@types/range-parser@1.2.7:
@@ -3860,16 +3846,16 @@ packages:
       - supports-color
     dev: false
 
-  /@typescript-eslint/rule-tester@7.6.0(@eslint/eslintrc@3.0.2)(eslint@8.57.0)(typescript@5.4.5):
-    resolution: {integrity: sha512-ioebRNx3V1pENvCM9uyY+MtJKDuU6wP/l21ju2HOlKL9wbT9tND8odqsD9V3/kgd2TepJlnmvd2pdnQIv01Y/g==}
+  /@typescript-eslint/rule-tester@7.7.0(@eslint/eslintrc@3.0.2)(eslint@8.57.0)(typescript@5.4.5):
+    resolution: {integrity: sha512-DWsSFnjR9XBLjYkHNh7/NEKRz1v9qE2GfR4qQqimh3IiHHOspyE67NiUy8Ydyxe2dyKFl7akiqJb5iVcwfzX/g==}
     engines: {node: ^18.18.0 || >=20.0.0}
     peerDependencies:
       '@eslint/eslintrc': '>=2'
       eslint: ^8.56.0
     dependencies:
       '@eslint/eslintrc': 3.0.2
-      '@typescript-eslint/typescript-estree': 7.6.0(typescript@5.4.5)
-      '@typescript-eslint/utils': 7.6.0(eslint@8.57.0)(typescript@5.4.5)
+      '@typescript-eslint/typescript-estree': 7.7.0(typescript@5.4.5)
+      '@typescript-eslint/utils': 7.7.0(eslint@8.57.0)(typescript@5.4.5)
       ajv: 6.12.6
       eslint: 8.57.0
       lodash.merge: 4.6.2
@@ -3887,12 +3873,12 @@ packages:
       '@typescript-eslint/visitor-keys': 5.57.1
     dev: false
 
-  /@typescript-eslint/scope-manager@7.6.0:
-    resolution: {integrity: sha512-ngttyfExA5PsHSx0rdFgnADMYQi+Zkeiv4/ZxGYUWd0nLs63Ha0ksmp8VMxAIC0wtCFxMos7Lt3PszJssG/E6w==}
+  /@typescript-eslint/scope-manager@7.7.0:
+    resolution: {integrity: sha512-/8INDn0YLInbe9Wt7dK4cXLDYp0fNHP5xKLHvZl3mOT5X17rK/YShXaiNmorl+/U4VKCVIjJnx4Ri5b0y+HClw==}
     engines: {node: ^18.18.0 || >=20.0.0}
     dependencies:
-      '@typescript-eslint/types': 7.6.0
-      '@typescript-eslint/visitor-keys': 7.6.0
+      '@typescript-eslint/types': 7.7.0
+      '@typescript-eslint/visitor-keys': 7.7.0
     dev: false
 
   /@typescript-eslint/type-utils@5.57.1(eslint@8.57.0)(typescript@5.4.5):
@@ -3920,8 +3906,8 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: false
 
-  /@typescript-eslint/types@7.6.0:
-    resolution: {integrity: sha512-h02rYQn8J+MureCvHVVzhl69/GAfQGPQZmOMjG1KfCl7o3HtMSlPaPUAPu6lLctXI5ySRGIYk94clD/AUMCUgQ==}
+  /@typescript-eslint/types@7.7.0:
+    resolution: {integrity: sha512-G01YPZ1Bd2hn+KPpIbrAhEWOn5lQBrjxkzHkWvP6NucMXFtfXoevK82hzQdpfuQYuhkvFDeQYbzXCjR1z9Z03w==}
     engines: {node: ^18.18.0 || >=20.0.0}
     dev: false
 
@@ -3946,8 +3932,8 @@ packages:
       - supports-color
     dev: false
 
-  /@typescript-eslint/typescript-estree@7.6.0(typescript@5.4.5):
-    resolution: {integrity: sha512-+7Y/GP9VuYibecrCQWSKgl3GvUM5cILRttpWtnAu8GNL9j11e4tbuGZmZjJ8ejnKYyBRb2ddGQ3rEFCq3QjMJw==}
+  /@typescript-eslint/typescript-estree@7.7.0(typescript@5.4.5):
+    resolution: {integrity: sha512-8p71HQPE6CbxIBy2kWHqM1KGrC07pk6RJn40n0DSc6bMOBBREZxSDJ+BmRzc8B5OdaMh1ty3mkuWRg4sCFiDQQ==}
     engines: {node: ^18.18.0 || >=20.0.0}
     peerDependencies:
       typescript: '*'
@@ -3955,8 +3941,8 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@typescript-eslint/types': 7.6.0
-      '@typescript-eslint/visitor-keys': 7.6.0
+      '@typescript-eslint/types': 7.7.0
+      '@typescript-eslint/visitor-keys': 7.7.0
       debug: 4.3.4(supports-color@8.1.1)
       globby: 11.1.0
       is-glob: 4.0.3
@@ -3988,8 +3974,8 @@ packages:
       - typescript
     dev: false
 
-  /@typescript-eslint/utils@7.6.0(eslint@8.57.0)(typescript@5.4.5):
-    resolution: {integrity: sha512-x54gaSsRRI+Nwz59TXpCsr6harB98qjXYzsRxGqvA5Ue3kQH+FxS7FYU81g/omn22ML2pZJkisy6Q+ElK8pBCA==}
+  /@typescript-eslint/utils@7.7.0(eslint@8.57.0)(typescript@5.4.5):
+    resolution: {integrity: sha512-LKGAXMPQs8U/zMRFXDZOzmMKgFv3COlxUQ+2NMPhbqgVm6R1w+nU1i4836Pmxu9jZAuIeyySNrN/6Rc657ggig==}
     engines: {node: ^18.18.0 || >=20.0.0}
     peerDependencies:
       eslint: ^8.56.0
@@ -3997,9 +3983,9 @@ packages:
       '@eslint-community/eslint-utils': 4.4.0(eslint@8.57.0)
       '@types/json-schema': 7.0.15
       '@types/semver': 7.5.8
-      '@typescript-eslint/scope-manager': 7.6.0
-      '@typescript-eslint/types': 7.6.0
-      '@typescript-eslint/typescript-estree': 7.6.0(typescript@5.4.5)
+      '@typescript-eslint/scope-manager': 7.7.0
+      '@typescript-eslint/types': 7.7.0
+      '@typescript-eslint/typescript-estree': 7.7.0(typescript@5.4.5)
       eslint: 8.57.0
       semver: 7.6.0
     transitivePeerDependencies:
@@ -4015,11 +4001,11 @@ packages:
       eslint-visitor-keys: 3.4.3
     dev: false
 
-  /@typescript-eslint/visitor-keys@7.6.0:
-    resolution: {integrity: sha512-4eLB7t+LlNUmXzfOu1VAIAdkjbu5xNSerURS9X/S5TUKWFRpXRQZbmtPqgKmYx8bj3J0irtQXSiWAOY82v+cgw==}
+  /@typescript-eslint/visitor-keys@7.7.0:
+    resolution: {integrity: sha512-h0WHOj8MhdhY8YWkzIF30R379y0NqyOHExI9N9KCzvmu05EgG4FumeYa3ccfKUSphyWkWQE1ybVrgz/Pbam6YA==}
     engines: {node: ^18.18.0 || >=20.0.0}
     dependencies:
-      '@typescript-eslint/types': 7.6.0
+      '@typescript-eslint/types': 7.7.0
       eslint-visitor-keys: 3.4.3
     dev: false
 
@@ -4043,7 +4029,7 @@ packages:
         optional: true
     dependencies:
       '@vitest/utils': 1.5.0
-      magic-string: 0.30.9
+      magic-string: 0.30.10
       playwright: 1.43.1
       sirv: 2.0.4
       vitest: 1.5.0(@types/node@18.19.31)(@vitest/browser@1.5.0)
@@ -4087,7 +4073,7 @@ packages:
   /@vitest/snapshot@1.5.0:
     resolution: {integrity: sha512-qpv3fSEuNrhAO3FpH6YYRdaECnnRjg9VxbhdtPwPRnzSfHVXnNzzrpX4cJxqiwgRMo7uRMWDFBlsBq4Cr+rO3A==}
     dependencies:
-      magic-string: 0.30.9
+      magic-string: 0.30.10
       pathe: 1.1.2
       pretty-format: 29.7.0
     dev: false
@@ -4534,8 +4520,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001610
-      electron-to-chromium: 1.4.736
+      caniuse-lite: 1.0.30001611
+      electron-to-chromium: 1.4.745
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.23.0)
     dev: false
@@ -4596,24 +4582,6 @@ packages:
     engines: {node: '>= 0.8'}
     dev: false
 
-  /c8@9.1.0:
-    resolution: {integrity: sha512-mBWcT5iqNir1zIkzSPyI3NCR9EZCVI3WUD+AVO17MVWTSFNyUueXE82qTeampNtTr+ilN/5Ua3j24LgbCKjDVg==}
-    engines: {node: '>=14.14.0'}
-    hasBin: true
-    dependencies:
-      '@bcoe/v8-coverage': 0.2.3
-      '@istanbuljs/schema': 0.1.3
-      find-up: 5.0.0
-      foreground-child: 3.1.1
-      istanbul-lib-coverage: 3.2.2
-      istanbul-lib-report: 3.0.1
-      istanbul-reports: 3.1.7
-      test-exclude: 6.0.0
-      v8-to-istanbul: 9.2.0
-      yargs: 17.7.2
-      yargs-parser: 21.1.1
-    dev: false
-
   /cac@6.7.14:
     resolution: {integrity: sha512-b6Ilus+c3RrdDk+JhLKUAQfzzgLEPy6wcXqS7f/xe1EETvsDP6GORG7SFuOs6cID5YkqchW/LXZbX5bc8j7ZcQ==}
     engines: {node: '>=8'}
@@ -4655,8 +4623,8 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /caniuse-lite@1.0.30001610:
-    resolution: {integrity: sha512-QFutAY4NgaelojVMjY63o6XlZyORPaLfyMnsl3HgnWdJUcX6K0oaJymHjH8PT5Gk7sTm8rvC/c5COUQKXqmOMA==}
+  /caniuse-lite@1.0.30001611:
+    resolution: {integrity: sha512-19NuN1/3PjA3QI8Eki55N8my4LzfkMCRLgCVfrl/slbSAchQfV0+GwjPrK3rq37As4UCLlM/DHajbKkAqbv92Q==}
     dev: false
 
   /catharsis@0.9.0:
@@ -4931,6 +4899,10 @@ packages:
       supports-color: 8.1.1
       tree-kill: 1.2.2
       yargs: 17.7.2
+    dev: false
+
+  /confbox@0.1.7:
+    resolution: {integrity: sha512-uJcB/FKZtBMCJpK8MQji6bJHgu1tixKPxRLeGkNzBoOZzpnZUJm0jm2/sBDWcuBx1dYgxV4JU+g5hmNxCyAmdA==}
     dev: false
 
   /connect@3.7.0:
@@ -5371,8 +5343,8 @@ packages:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
     dev: false
 
-  /electron-to-chromium@1.4.736:
-    resolution: {integrity: sha512-Rer6wc3ynLelKNM4lOCg7/zPQj8tPOCB2hzD32PX9wd3hgRRi9MxEbmkFCokzcEhRVMiOVLjnL9ig9cefJ+6+Q==}
+  /electron-to-chromium@1.4.745:
+    resolution: {integrity: sha512-tRbzkaRI5gbUn5DEvF0dV4TQbMZ5CLkWeTAXmpC9IrYT+GE+x76i9p+o3RJ5l9XmdQlI1pPhVtE9uNcJJ0G0EA==}
     dev: false
 
   /emitter-component@1.1.2:
@@ -5854,11 +5826,6 @@ packages:
       text-table: 0.2.0
     transitivePeerDependencies:
       - supports-color
-    dev: false
-
-  /esm@3.2.25:
-    resolution: {integrity: sha512-U1suiZ2oDVWv4zPO56S0NcR5QriEahGtdN2OR6FiOG4WJvcjBVFB0qI4+eKoWFH483PKGuLuu6V8Z4T5g63UVA==}
-    engines: {node: '>=6'}
     dev: false
 
   /espree@10.0.1:
@@ -6621,16 +6588,6 @@ packages:
       toidentifier: 1.0.1
     dev: false
 
-  /http-proxy-agent@7.0.0:
-    resolution: {integrity: sha512-+ZT+iBxVUQ1asugqnD6oWoRiS25AkjNfG085dKJGtGxkdwLQrMKU5wJr2bOOFAXzKcTuqq+7fZlTMgG3SRfIYQ==}
-    engines: {node: '>= 14'}
-    dependencies:
-      agent-base: 7.1.1
-      debug: 4.3.4(supports-color@8.1.1)
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /http-proxy-agent@7.0.2:
     resolution: {integrity: sha512-T1gkAiYYDWYx3V5Bmyu7HcfcvL7mUrTWiM6yOfa3PIphViJ/gFPbvidQ+veqSOHci/PxBcDabeUNCzpOODJZig==}
     engines: {node: '>= 14'}
@@ -6650,16 +6607,6 @@ packages:
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
-    dev: false
-
-  /https-proxy-agent@7.0.2:
-    resolution: {integrity: sha512-NmLNjm6ucYwtcUmL7JQC1ZQ57LmHP4lT15FQ8D61nak1rO6DH+fz5qNK2Ap5UN4ZapYICE3/0KodcLYSPsPbaA==}
-    engines: {node: '>= 14'}
-    dependencies:
-      agent-base: 7.1.1
-      debug: 4.3.4(supports-color@8.1.1)
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /https-proxy-agent@7.0.4:
@@ -7229,7 +7176,7 @@ packages:
     hasBin: true
     dependencies:
       '@babel/parser': 7.24.4
-      '@jsdoc/salty': 0.2.7
+      '@jsdoc/salty': 0.2.8
       '@types/markdown-it': 12.2.3
       bluebird: 3.7.2
       catharsis: 0.9.0
@@ -7290,10 +7237,6 @@ packages:
     resolution: {integrity: sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==}
     engines: {node: '>=6'}
     hasBin: true
-    dev: false
-
-  /jsonc-parser@3.2.1:
-    resolution: {integrity: sha512-AilxAyFOAcK5wA1+LeaySVBrHsGQvUFCDWXKpZjzaL0PqW+xfBOttn8GNtWKFWqneyMZj41MWF9Kl6iPWLwgOA==}
     dev: false
 
   /jsonfile@4.0.0:
@@ -7583,7 +7526,7 @@ packages:
     engines: {node: '>=14'}
     dependencies:
       mlly: 1.6.1
-      pkg-types: 1.0.3
+      pkg-types: 1.1.0
     dev: false
 
   /locate-path@5.0.0:
@@ -7730,9 +7673,8 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: false
 
-  /magic-string@0.30.9:
-    resolution: {integrity: sha512-S1+hd+dIrC8EZqKyT9DstTH/0Z+f76kmmvZnkfQVmOpDEF9iVgdYif3Q/pIWHmCoo59bQVGW0kVL3e2nl+9+Sw==}
-    engines: {node: '>=12'}
+  /magic-string@0.30.10:
+    resolution: {integrity: sha512-iIRwTIf0QKV3UAnYK4PU8uiEc4SRh5jX0mwpIwETPpHdhVM4f53RSwS/vXvN1JhGX+Cs7B8qIq3d6AH49O5fAQ==}
     dependencies:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: false
@@ -7996,7 +7938,7 @@ packages:
     dependencies:
       acorn: 8.11.3
       pathe: 1.1.2
-      pkg-types: 1.0.3
+      pkg-types: 1.1.0
       ufo: 1.5.3
     dev: false
 
@@ -8119,8 +8061,8 @@ packages:
       - supports-color
     dev: false
 
-  /node-abi@3.57.0:
-    resolution: {integrity: sha512-Dp+A9JWxRaKuHP35H77I4kCKesDy5HUDEmScia2FyncMTOXASMyg251F5PhFoDA5uqBrDDffiLpbqnrZmNXW+g==}
+  /node-abi@3.60.0:
+    resolution: {integrity: sha512-zcGgwoXbzw9NczqbGzAWL/ToDYAxv1V8gL1D67ClbdkIfeeDBbY0GelZtC25ayLvVjr2q2cloHeQV1R0QAWqRQ==}
     engines: {node: '>=10'}
     dependencies:
       semver: 7.6.0
@@ -8409,8 +8351,8 @@ packages:
       agent-base: 7.1.1
       debug: 4.3.4(supports-color@8.1.1)
       get-uri: 6.0.3
-      http-proxy-agent: 7.0.0
-      https-proxy-agent: 7.0.2
+      http-proxy-agent: 7.0.2
+      https-proxy-agent: 7.0.4
       pac-resolver: 7.0.1
       socks-proxy-agent: 8.0.3
     transitivePeerDependencies:
@@ -8591,10 +8533,10 @@ packages:
       find-up: 4.1.0
     dev: false
 
-  /pkg-types@1.0.3:
-    resolution: {integrity: sha512-nN7pYi0AQqJnoLPC9eHFQ8AcyaixBUOwvqc5TDnIKCMEE6I0y8P7OKA7fPexsXGCGxQDl/cmrLAp26LhcwxZ4A==}
+  /pkg-types@1.1.0:
+    resolution: {integrity: sha512-/RpmvKdxKf8uILTtoOhAgf30wYbP2Qw+L9p3Rvshx1JZVX+XQNZQFjlbmGHEGIm4CkVPlSn+NXmIM8+9oWQaSA==}
     dependencies:
-      jsonc-parser: 3.2.1
+      confbox: 0.1.7
       mlly: 1.6.1
       pathe: 1.1.2
     dev: false
@@ -8667,7 +8609,7 @@ packages:
       minimist: 1.2.8
       mkdirp-classic: 0.5.3
       napi-build-utils: 1.0.2
-      node-abi: 3.57.0
+      node-abi: 3.60.0
       pump: 3.0.0
       rc: 1.2.8
       simple-get: 4.0.1
@@ -8879,7 +8821,6 @@ packages:
 
   /queue-tick@1.0.1:
     resolution: {integrity: sha512-kJt5qhMxoszgU/62PLP1CJytzd2NKetjSRnyuj31fDd3Rlcz3fzlFdFLD1SItunPwyqEOkca6GbV612BWfaBag==}
-    requiresBuild: true
     dev: false
 
   /randombytes@2.1.0:
@@ -10317,15 +10258,6 @@ packages:
     resolution: {integrity: sha512-wa7YjyUGfNZngI/vtK0UHAN+lgDCxBPCylVXGp0zu59Fz5aiGtNXaq3DhIov063MorB+VfufLh3JlF2KdTK3xg==}
     dev: false
 
-  /v8-to-istanbul@9.2.0:
-    resolution: {integrity: sha512-/EH/sDgxU2eGxajKdwLCDmQ4FWq+kpi3uCmBGpw1xJtnAxEjlD8j8PEiGWpCIMIs3ciNAgH0d3TTJiUkYzyZjA==}
-    engines: {node: '>=10.12.0'}
-    dependencies:
-      '@jridgewell/trace-mapping': 0.3.25
-      '@types/istanbul-lib-coverage': 2.0.6
-      convert-source-map: 2.0.0
-    dev: false
-
   /validator@13.11.0:
     resolution: {integrity: sha512-Ii+sehpSfZy+At5nPdnyMhx78fEoPDkR2XW/zimHEL3MyGJQOCQ7WeP20jPYRz7ZCpcKLB21NxuXHF3bxjStBQ==}
     engines: {node: '>= 0.10'}
@@ -10345,7 +10277,7 @@ packages:
       debug: 4.3.4(supports-color@8.1.1)
       pathe: 1.1.2
       picocolors: 1.0.0
-      vite: 5.2.8(@types/node@18.19.31)
+      vite: 5.2.9(@types/node@18.19.31)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -10357,8 +10289,8 @@ packages:
       - terser
     dev: false
 
-  /vite@5.2.8(@types/node@18.19.31):
-    resolution: {integrity: sha512-OyZR+c1CE8yeHw5V5t59aXsUPPVTHMDjEZz8MgguLL/Q7NblxhZUlTu9xSPqlsUO/y+X7dlU05jdhvyycD55DA==}
+  /vite@5.2.9(@types/node@18.19.31):
+    resolution: {integrity: sha512-uOQWfuZBlc6Y3W/DTuQ1Sr+oIXWvqljLvS881SVmAj00d5RdgShLcuXWxseWPd4HXwiYBFW/vXHfKFeqj9uQnw==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
     peerDependencies:
@@ -10430,14 +10362,14 @@ packages:
       debug: 4.3.4(supports-color@8.1.1)
       execa: 8.0.1
       local-pkg: 0.5.0
-      magic-string: 0.30.9
+      magic-string: 0.30.10
       pathe: 1.1.2
       picocolors: 1.0.0
       std-env: 3.7.0
       strip-literal: 2.1.0
       tinybench: 2.7.0
       tinypool: 0.8.4
-      vite: 5.2.8(@types/node@18.19.31)
+      vite: 5.2.9(@types/node@18.19.31)
       vite-node: 1.5.0(@types/node@18.19.31)
       why-is-node-running: 2.2.2
     transitivePeerDependencies:
@@ -10833,17 +10765,15 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -10879,19 +10809,17 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       autorest: 3.7.1
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       csv-parse: 5.5.5
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -10925,18 +10853,16 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       autorest: 3.7.1
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -10970,19 +10896,17 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       autorest: 3.7.1
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -11016,17 +10940,15 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -11061,7 +10983,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@rollup/plugin-node-resolve': 15.2.3(rollup@4.14.3)
@@ -11069,13 +10991,11 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
       chai: 4.3.10
       chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -11110,7 +11030,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -11118,13 +11038,11 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
       chai: 4.3.10
       chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -11160,7 +11078,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/chai-as-promised': 7.1.8
@@ -11168,14 +11086,12 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
       chai: 4.3.10
       chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
       decompress: 4.2.1
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -11212,7 +11128,6 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       autorest: 3.7.1
-      c8: 9.1.0
       dotenv: 16.4.5
       eslint: 8.57.0
       mkdirp: 3.0.1
@@ -11235,19 +11150,17 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
       chai: 4.3.10
       chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -11280,7 +11193,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -11288,13 +11201,11 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
       chai: 4.3.10
       chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -11328,18 +11239,16 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       autorest: 3.7.1
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -11373,18 +11282,16 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.39.5(@types/node@20.10.8)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 20.10.8
       autorest: 3.7.1
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -11427,7 +11334,6 @@ packages:
       '@types/sinon': 17.0.3
       '@types/yargs': 17.0.32
       '@types/yargs-parser': 21.0.3
-      c8: 9.1.0
       chai: 4.3.10
       chalk: 4.1.2
       cross-env: 7.0.3
@@ -11497,14 +11403,13 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
       chai: 4.3.10
       dotenv: 16.4.5
       eslint: 8.57.0
@@ -11538,7 +11443,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -11565,7 +11470,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -11592,7 +11497,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -11619,7 +11524,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -11628,7 +11533,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -11648,7 +11552,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -11676,7 +11580,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -11703,7 +11607,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -11731,7 +11635,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -11740,7 +11644,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -11760,7 +11663,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -11786,7 +11689,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -11795,7 +11698,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -11815,7 +11717,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -11824,7 +11726,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -11844,7 +11745,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -11872,18 +11773,16 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       autorest: 3.7.1
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -11917,7 +11816,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -11926,7 +11825,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -11946,7 +11844,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -11972,7 +11870,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -11999,7 +11897,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -12027,7 +11925,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -12054,7 +11952,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -12082,7 +11980,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -12110,7 +12008,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -12137,7 +12035,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -12163,7 +12061,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -12191,7 +12089,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -12200,7 +12098,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -12220,7 +12117,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -12229,7 +12126,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -12249,7 +12145,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -12276,7 +12172,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -12303,7 +12199,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -12331,7 +12227,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -12340,7 +12236,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -12360,7 +12255,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -12386,7 +12281,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -12412,7 +12307,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@azure/arm-cosmosdb': 16.0.0-beta.6
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
@@ -12422,7 +12317,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -12442,7 +12336,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -12470,7 +12364,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -12497,7 +12391,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -12523,7 +12417,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -12549,7 +12443,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -12558,7 +12452,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -12578,7 +12471,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@azure/arm-network': 32.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
@@ -12588,7 +12481,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -12608,7 +12500,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -12636,19 +12528,17 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/arm-network': 32.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       autorest: 3.7.1
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -12682,7 +12572,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -12710,7 +12600,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -12719,7 +12609,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -12739,7 +12628,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -12767,7 +12656,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -12794,7 +12683,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -12822,7 +12711,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -12831,7 +12720,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -12851,7 +12739,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -12860,7 +12748,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -12880,18 +12767,16 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       autorest: 3.7.1
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -12925,7 +12810,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -12934,7 +12819,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -12954,7 +12838,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -12963,7 +12847,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -12983,7 +12866,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -12992,7 +12875,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -13012,7 +12894,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -13040,7 +12922,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -13067,7 +12949,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -13076,7 +12958,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -13096,7 +12977,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -13124,7 +13005,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -13152,7 +13033,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -13179,7 +13060,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -13188,7 +13069,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -13208,7 +13088,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -13235,7 +13115,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -13244,7 +13124,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -13264,7 +13143,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -13273,7 +13152,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -13293,7 +13171,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -13320,7 +13198,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -13347,7 +13225,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -13356,7 +13234,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -13376,7 +13253,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -13404,7 +13281,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -13431,7 +13308,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -13458,7 +13335,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -13486,7 +13363,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -13513,7 +13390,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -13541,7 +13418,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -13550,7 +13427,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -13570,7 +13446,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -13597,7 +13473,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -13624,7 +13500,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -13652,7 +13528,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -13680,7 +13556,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -13707,7 +13583,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -13735,7 +13611,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -13762,7 +13638,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -13790,7 +13666,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -13817,7 +13693,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -13845,7 +13721,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -13854,7 +13730,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -13874,7 +13749,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -13883,7 +13758,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -13903,7 +13777,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -13931,7 +13805,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@azure/arm-network': 32.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
@@ -13960,7 +13834,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -13988,7 +13862,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -14014,7 +13888,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -14041,7 +13915,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -14050,7 +13924,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -14070,7 +13943,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -14098,7 +13971,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -14125,7 +13998,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -14134,7 +14007,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -14154,7 +14026,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -14182,7 +14054,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -14191,7 +14063,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -14211,7 +14082,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -14238,7 +14109,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -14247,7 +14118,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -14267,7 +14137,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -14276,7 +14146,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -14296,7 +14165,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -14323,7 +14192,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -14332,7 +14201,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -14352,7 +14220,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -14379,7 +14247,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -14388,7 +14256,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -14408,7 +14275,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -14417,7 +14284,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -14437,7 +14303,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -14464,7 +14330,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -14472,7 +14338,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -14492,7 +14357,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -14520,7 +14385,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -14548,7 +14413,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -14576,7 +14441,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -14585,7 +14450,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -14605,7 +14469,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -14633,7 +14497,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -14661,7 +14525,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -14689,7 +14553,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -14698,7 +14562,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -14718,7 +14581,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -14744,7 +14607,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -14772,7 +14635,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -14799,7 +14662,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -14825,7 +14688,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -14853,7 +14716,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -14880,7 +14743,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -14907,7 +14770,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -14934,7 +14797,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -14958,7 +14821,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -14986,7 +14849,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -15014,7 +14877,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -15041,7 +14904,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -15068,7 +14931,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -15095,7 +14958,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -15122,7 +14985,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -15149,7 +15012,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -15177,7 +15040,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -15204,7 +15067,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -15213,7 +15076,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -15233,7 +15095,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -15259,7 +15121,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -15268,7 +15130,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -15288,7 +15149,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -15315,7 +15176,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -15324,7 +15185,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -15344,7 +15204,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -15371,7 +15231,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -15399,7 +15259,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -15426,7 +15286,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -15435,7 +15295,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -15455,7 +15314,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -15464,7 +15323,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -15484,7 +15342,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -15512,18 +15370,16 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       autorest: 3.7.1
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -15557,7 +15413,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -15566,7 +15422,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -15586,7 +15441,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -15614,7 +15469,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -15641,7 +15496,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -15650,7 +15505,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -15670,7 +15524,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -15679,7 +15533,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -15699,7 +15552,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -15708,7 +15561,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -15728,7 +15580,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -15755,7 +15607,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -15783,7 +15635,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -15810,7 +15662,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -15838,7 +15690,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -15847,7 +15699,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -15867,7 +15718,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -15893,7 +15744,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -15902,7 +15753,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -15922,7 +15772,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -15949,7 +15799,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -15976,7 +15826,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -16004,7 +15854,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -16031,7 +15881,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -16040,7 +15890,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -16060,7 +15909,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -16087,7 +15936,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -16115,7 +15964,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -16142,7 +15991,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -16170,7 +16019,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -16197,7 +16046,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -16206,7 +16055,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -16226,7 +16074,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -16254,7 +16102,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -16263,7 +16111,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -16283,7 +16130,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -16292,7 +16139,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -16312,7 +16158,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -16340,7 +16186,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -16349,7 +16195,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -16369,7 +16214,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -16397,7 +16242,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@azure/arm-network': 32.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
@@ -16426,7 +16271,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -16435,7 +16280,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -16455,7 +16299,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -16483,7 +16327,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -16511,7 +16355,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -16539,7 +16383,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -16565,7 +16409,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -16592,7 +16436,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -16620,7 +16464,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -16648,7 +16492,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -16675,7 +16519,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -16703,7 +16547,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -16731,7 +16575,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -16759,7 +16603,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -16768,7 +16612,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -16788,7 +16631,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -16816,7 +16659,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -16844,7 +16687,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -16872,7 +16715,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -16881,7 +16724,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -16901,7 +16743,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -16927,7 +16769,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -16955,7 +16797,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -16964,7 +16806,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -16984,18 +16825,16 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       autorest: 3.7.1
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -17029,7 +16868,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -17056,7 +16895,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -17084,7 +16923,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -17111,7 +16950,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -17120,7 +16959,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -17140,7 +16978,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -17168,7 +17006,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -17177,7 +17015,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -17197,7 +17034,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -17206,7 +17043,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -17226,7 +17062,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -17235,7 +17071,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -17255,7 +17090,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -17283,7 +17118,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -17311,7 +17146,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -17339,7 +17174,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -17348,7 +17183,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -17368,7 +17202,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -17377,7 +17211,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -17397,7 +17230,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -17424,7 +17257,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -17452,7 +17285,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -17479,7 +17312,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -17506,7 +17339,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -17533,7 +17366,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -17542,7 +17375,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -17562,7 +17394,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -17589,7 +17421,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -17616,7 +17448,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -17625,7 +17457,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -17645,7 +17476,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -17673,7 +17504,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -17699,7 +17530,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -17727,7 +17558,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -17754,7 +17585,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -17781,7 +17612,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -17809,7 +17640,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -17837,7 +17668,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -17865,7 +17696,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -17892,7 +17723,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -17920,7 +17751,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -17929,7 +17760,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -17949,7 +17779,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -17975,20 +17805,18 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       buffer: 6.0.3
-      c8: 9.1.0
       chai: 4.3.10
       chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       inherits: 2.0.4
       jsrsasign: 11.1.0
       karma: 6.4.3(debug@4.3.4)
@@ -18026,19 +17854,17 @@ packages:
     name: '@rush-temp/communication-alpha-ids'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       inherits: 2.0.4
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
@@ -18071,7 +17897,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@azure/communication-phone-numbers': 1.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
@@ -18079,12 +17905,10 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       events: 3.3.0
       inherits: 2.0.4
       karma: 6.4.3(debug@4.3.4)
@@ -18120,7 +17944,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@azure/communication-signaling': 1.0.0-beta.26
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
@@ -18129,12 +17953,10 @@ packages:
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       events: 3.3.0
       inherits: 2.0.4
       karma: 6.4.3(debug@4.3.4)
@@ -18179,12 +18001,10 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
       chai: 4.3.10
       chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
       eslint: 8.57.0
-      esm: 3.2.25
       events: 3.3.0
       inherits: 2.0.4
       jwt-decode: 4.0.0
@@ -18220,17 +18040,15 @@ packages:
     name: '@rush-temp/communication-email'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -18263,7 +18081,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@azure/msal-node': 2.7.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
@@ -18271,12 +18089,10 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       events: 3.3.0
       inherits: 2.0.4
       karma: 6.4.3(debug@4.3.4)
@@ -18310,7 +18126,7 @@ packages:
     name: '@rush-temp/communication-job-router-1'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -18318,12 +18134,10 @@ packages:
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       events: 3.3.0
       inherits: 2.0.4
       karma: 6.4.3(debug@4.3.4)
@@ -18361,13 +18175,12 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       autorest: 3.7.1
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
@@ -18405,19 +18218,17 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/identity': 3.4.2
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       autorest: 3.7.1
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -18451,19 +18262,17 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       events: 3.3.0
       inherits: 2.0.4
       karma: 6.4.3(debug@4.3.4)
@@ -18496,7 +18305,7 @@ packages:
     name: '@rush-temp/communication-recipient-verification'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -18504,12 +18313,10 @@ packages:
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       events: 3.3.0
       inherits: 2.0.4
       karma: 6.4.3(debug@4.3.4)
@@ -18544,18 +18351,16 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-env-preprocessor: 0.1.1
       mkdirp: 3.0.1
@@ -18580,7 +18385,7 @@ packages:
     name: '@rush-temp/communication-short-codes'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -18588,12 +18393,10 @@ packages:
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       events: 3.3.0
       inherits: 2.0.4
       karma: 6.4.3(debug@4.3.4)
@@ -18628,19 +18431,17 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       events: 3.3.0
       inherits: 2.0.4
       karma: 6.4.3(debug@4.3.4)
@@ -18674,7 +18475,7 @@ packages:
     name: '@rush-temp/communication-tiering'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -18682,12 +18483,10 @@ packages:
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       events: 3.3.0
       inherits: 2.0.4
       karma: 6.4.3(debug@4.3.4)
@@ -18721,19 +18520,17 @@ packages:
     name: '@rush-temp/communication-toll-free-verification'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       inherits: 2.0.4
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
@@ -18766,17 +18563,15 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       mocha: 10.4.0
       nyc: 15.1.0
       rimraf: 5.0.5
@@ -18796,20 +18591,18 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
-      c8: 9.1.0
       chai: 4.3.10
       chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       inherits: 2.0.4
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
@@ -18849,7 +18642,6 @@ packages:
       '@types/sinon': 17.0.3
       '@types/ws': 7.4.7
       buffer: 6.0.3
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       debug: 4.3.4(supports-color@8.1.1)
@@ -19086,8 +18878,8 @@ packages:
       '@vitest/browser': 1.5.0(playwright@1.43.1)(vitest@1.5.0)
       '@vitest/coverage-istanbul': 1.5.0(vitest@1.5.0)
       eslint: 8.57.0
-      http-proxy-agent: 7.0.0
-      https-proxy-agent: 7.0.2
+      http-proxy-agent: 7.0.2
+      https-proxy-agent: 7.0.4
       playwright: 1.43.1
       prettier: 3.2.5
       rimraf: 5.0.5
@@ -19266,7 +19058,6 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       execa: 5.1.1
       fast-json-stable-stringify: 2.1.0
       jsbi: 4.3.0
@@ -19293,18 +19084,16 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       inherits: 2.0.4
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
@@ -19338,17 +19127,15 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -19447,19 +19234,17 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       autorest: 3.7.1
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -19493,19 +19278,17 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       inherits: 2.0.4
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
@@ -19566,7 +19349,7 @@ packages:
       '@typescript-eslint/eslint-plugin': 5.57.1(@typescript-eslint/parser@5.57.1)(eslint@8.57.0)(typescript@5.4.5)
       '@typescript-eslint/experimental-utils': 5.57.1(eslint@8.57.0)(typescript@5.4.5)
       '@typescript-eslint/parser': 5.57.1(eslint@8.57.0)(typescript@5.4.5)
-      '@typescript-eslint/rule-tester': 7.6.0(@eslint/eslintrc@3.0.2)(eslint@8.57.0)(typescript@5.4.5)
+      '@typescript-eslint/rule-tester': 7.7.0(@eslint/eslintrc@3.0.2)(eslint@8.57.0)(typescript@5.4.5)
       '@typescript-eslint/typescript-estree': 5.57.1(typescript@5.4.5)
       '@vitest/coverage-istanbul': 1.5.0(vitest@1.5.0)
       cross-env: 7.0.3
@@ -19605,7 +19388,7 @@ packages:
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/async-lock': 1.4.2
@@ -19618,7 +19401,6 @@ packages:
       '@types/sinon': 17.0.3
       '@types/ws': 7.4.7
       buffer: 6.0.3
-      c8: 9.1.0
       chai: 4.3.10
       chai-as-promised: 7.1.1(chai@4.3.10)
       chai-exclude: 2.1.0(chai@4.3.10)
@@ -19628,8 +19410,7 @@ packages:
       debug: 4.3.4(supports-color@8.1.1)
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
-      https-proxy-agent: 7.0.2
+      https-proxy-agent: 7.0.4
       is-buffer: 2.0.5
       jssha: 3.3.1
       karma: 6.4.3(debug@4.3.4)
@@ -19662,11 +19443,11 @@ packages:
     dev: false
 
   file:projects/eventgrid-namespaces.tgz:
-    resolution: {integrity: sha512-iaLon+aDnMsY/u9Fs1/aAUJHgL03HVj3lqj2YHyKxOXmzHyazapjWd1x0pLhHdUZNOLknL/jmzXfYrO/TRgxyg==, tarball: file:projects/eventgrid-namespaces.tgz}
+    resolution: {integrity: sha512-3DTw/5PgzCEjhHZRdnKEo85MZaylMVzP+l1ID3DYZtOuGifuemfBiaKTeBqTibiTZqQzNRlc1KZZkyy57wCncA==, tarball: file:projects/eventgrid-namespaces.tgz}
     name: '@rush-temp/eventgrid-namespaces'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/chai-as-promised': 7.1.8
@@ -19675,7 +19456,6 @@ packages:
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
       buffer: 6.0.3
-      c8: 9.1.0
       chai: 4.3.10
       chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
@@ -19713,7 +19493,7 @@ packages:
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/chai-as-promised': 7.1.8
@@ -19721,7 +19501,6 @@ packages:
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
-      c8: 9.1.0
       chai: 4.3.10
       chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
@@ -19766,7 +19545,6 @@ packages:
       '@types/debug': 4.1.12
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
-      c8: 9.1.0
       chai: 4.3.10
       chai-as-promised: 7.1.1(chai@4.3.10)
       chai-string: 1.5.0(chai@4.3.10)
@@ -19774,7 +19552,6 @@ packages:
       debug: 4.3.4(supports-color@8.1.1)
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       events: 3.3.0
       guid-typescript: 1.0.9
       inherits: 2.0.4
@@ -19816,7 +19593,6 @@ packages:
       '@types/debug': 4.1.12
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
-      c8: 9.1.0
       chai: 4.3.10
       chai-as-promised: 7.1.1(chai@4.3.10)
       chai-string: 1.5.0(chai@4.3.10)
@@ -19824,7 +19600,6 @@ packages:
       debug: 4.3.4(supports-color@8.1.1)
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       guid-typescript: 1.0.9
       inherits: 2.0.4
       karma: 6.4.3(debug@4.3.4)
@@ -19857,18 +19632,16 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/functions': 3.5.1
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       inherits: 2.0.4
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
@@ -19903,19 +19676,17 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       autorest: 3.7.1
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -19949,19 +19720,17 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       autorest: 3.7.1
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -19995,19 +19764,17 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       autorest: 3.7.1
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -20040,7 +19807,7 @@ packages:
     name: '@rush-temp/identity-broker'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@azure/msal-node': 2.7.0
       '@azure/msal-node-extensions': 1.0.15
@@ -20067,14 +19834,14 @@ packages:
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/msal-node': 2.7.0
       '@azure/msal-node-extensions': 1.0.15
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/jws': 3.2.10
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
-      '@types/qs': 6.9.14
+      '@types/qs': 6.9.15
       '@types/sinon': 17.0.3
       cross-env: 7.0.3
       dotenv: 16.4.5
@@ -20102,12 +19869,12 @@ packages:
     name: '@rush-temp/identity-vscode'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/jws': 3.2.10
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
-      '@types/qs': 6.9.14
+      '@types/qs': 6.9.15
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
       cross-env: 7.0.3
@@ -20136,7 +19903,7 @@ packages:
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@azure/keyvault-keys': 4.8.0
       '@azure/msal-browser': 3.13.0
@@ -20151,7 +19918,6 @@ packages:
       '@types/sinon': 17.0.3
       '@types/stoppable': 1.1.3
       '@types/uuid': 8.3.4
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
@@ -20195,18 +19961,16 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/uuid': 8.3.4
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -20242,17 +20006,15 @@ packages:
     name: '@rush-temp/iot-modelsrepository'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       eslint: 8.57.0
-      esm: 3.2.25
       events: 3.3.0
       inherits: 2.0.4
       karma: 6.4.3(debug@4.3.4)
@@ -20289,18 +20051,16 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
-      c8: 9.1.0
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       mocha: 10.4.0
       nyc: 15.1.0
       rimraf: 5.0.5
@@ -20322,17 +20082,15 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -20371,10 +20129,8 @@ packages:
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
-      c8: 9.1.0
       cross-env: 7.0.3
       eslint: 8.57.0
-      esm: 3.2.25
       mocha: 10.4.0
       nyc: 15.1.0
       puppeteer: 22.6.5(typescript@5.4.5)
@@ -20398,18 +20154,16 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
       cross-env: 7.0.3
       dayjs: 1.11.10
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -20445,17 +20199,15 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -20489,7 +20241,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -20497,12 +20249,10 @@ packages:
       '@types/node': 18.19.31
       '@types/uuid': 8.3.4
       autorest: 3.7.1
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -20589,19 +20339,17 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/maps-common': 1.0.0-beta.2
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       autorest: 3.7.1
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -20635,19 +20383,17 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/maps-common': 1.0.0-beta.2
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       autorest: 3.7.1
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -20681,19 +20427,17 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/maps-common': 1.0.0-beta.2
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       autorest: 3.7.1
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -20727,19 +20471,17 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/maps-common': 1.0.0-beta.2
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       autorest: 3.7.1
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -20773,19 +20515,17 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
-      c8: 9.1.0
       chai: 4.3.10
       chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       inherits: 2.0.4
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
@@ -20817,7 +20557,7 @@ packages:
     name: '@rush-temp/mixed-reality-remote-rendering'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -20825,13 +20565,11 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/uuid': 8.3.4
-      c8: 9.1.0
       chai: 4.3.10
       chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       inherits: 2.0.4
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
@@ -20886,7 +20624,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -20894,12 +20632,10 @@ packages:
       '@types/node': 18.19.31
       '@types/pako': 2.0.3
       '@types/sinon': 17.0.3
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       inherits: 2.0.4
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
@@ -20949,7 +20685,6 @@ packages:
       '@opentelemetry/semantic-conventions': 1.23.0
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
-      c8: 9.1.0
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
@@ -20996,7 +20731,6 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
@@ -21019,7 +20753,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@opentelemetry/api': 1.8.0
@@ -21029,7 +20763,6 @@ packages:
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
-      c8: 9.1.0
       chai: 4.3.10
       chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
@@ -21098,17 +20831,15 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       builtin-modules: 3.3.0
-      c8: 9.1.0
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -21143,16 +20874,14 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       autorest: 3.7.1
-      c8: 9.1.0
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -21214,7 +20943,6 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
@@ -21706,17 +21434,15 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -21750,17 +21476,15 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -21794,18 +21518,16 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       autorest: 3.7.1
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -21839,17 +21561,15 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -21883,19 +21603,17 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       autorest: 3.7.1
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -21929,18 +21647,16 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       autorest: 3.7.1
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -21974,14 +21690,13 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/storage-blob': 12.17.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
@@ -22021,7 +21736,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/schema-registry': 1.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -22031,13 +21746,11 @@ packages:
       '@types/uuid': 8.3.4
       avsc: 5.7.7
       buffer: 6.0.3
-      c8: 9.1.0
       chai: 4.3.10
       chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -22074,16 +21787,14 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       ajv: 8.12.0
-      c8: 9.1.0
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -22117,15 +21828,13 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
-      c8: 9.1.0
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -22157,18 +21866,16 @@ packages:
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       events: 3.3.0
       inherits: 2.0.4
       karma: 6.4.3(debug@4.3.4)
@@ -22204,7 +21911,7 @@ packages:
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -22217,7 +21924,6 @@ packages:
       '@types/uuid': 8.3.4
       '@types/ws': 7.4.7
       buffer: 6.0.3
-      c8: 9.1.0
       chai: 4.3.10
       chai-as-promised: 7.1.1(chai@4.3.10)
       chai-exclude: 2.1.0(chai@4.3.10)
@@ -22226,7 +21932,7 @@ packages:
       dotenv: 16.4.5
       eslint: 8.57.0
       events: 3.3.0
-      https-proxy-agent: 7.0.2
+      https-proxy-agent: 7.0.4
       is-buffer: 2.0.5
       jssha: 3.3.1
       karma: 6.4.3(debug@4.3.4)
@@ -22266,20 +21972,18 @@ packages:
     name: '@rush-temp/storage-blob-changefeed'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       es6-promise: 4.2.8
       eslint: 8.57.0
-      esm: 3.2.25
       events: 3.3.0
       inherits: 2.0.4
       karma: 6.4.3(debug@4.3.4)
@@ -22318,19 +22022,17 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       es6-promise: 4.2.8
       eslint: 8.57.0
-      esm: 3.2.25
       events: 3.3.0
       inherits: 2.0.4
       karma: 6.4.3(debug@4.3.4)
@@ -22366,20 +22068,18 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       es6-promise: 4.2.8
       eslint: 8.57.0
-      esm: 3.2.25
       events: 3.3.0
       execa: 6.1.0
       inherits: 2.0.4
@@ -22418,20 +22118,18 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       es6-promise: 4.2.8
       eslint: 8.57.0
-      esm: 3.2.25
       events: 3.3.0
       inherits: 2.0.4
       karma: 6.4.3(debug@4.3.4)
@@ -22472,13 +22170,11 @@ packages:
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       es6-promise: 4.2.8
       eslint: 8.57.0
-      esm: 3.2.25
       inherits: 2.0.4
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
@@ -22512,19 +22208,17 @@ packages:
     name: '@rush-temp/storage-queue'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       es6-promise: 4.2.8
       eslint: 8.57.0
-      esm: 3.2.25
       inherits: 2.0.4
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
@@ -22559,14 +22253,13 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
       chai: 4.3.10
       chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
@@ -22606,14 +22299,13 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
       chai: 4.3.10
       chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
@@ -22654,7 +22346,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
@@ -22662,7 +22354,6 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
       chai: 4.3.10
       chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
@@ -22704,13 +22395,12 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
-      c8: 9.1.0
       chai: 4.3.10
       chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
@@ -22748,13 +22438,12 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       cross-env: 7.0.3
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -22786,13 +22475,12 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
-      c8: 9.1.0
       chai: 4.3.10
       chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
@@ -22830,17 +22518,15 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -22873,38 +22559,19 @@ packages:
     name: '@rush-temp/template'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
-      '@types/chai': 4.3.14
       '@types/fs-extra': 8.1.5
-      '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@vitest/browser': 1.5.0(playwright@1.43.1)(vitest@1.5.0)
       '@vitest/coverage-istanbul': 1.5.0(vitest@1.5.0)
-      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       inherits: 2.0.4
-      karma: 6.4.3(debug@4.3.4)
-      karma-chrome-launcher: 3.2.0
-      karma-coverage: 2.2.1
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
-      karma-json-preprocessor: 0.3.3(karma@6.4.3)
-      karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1(karma@6.4.3)
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5(karma@6.4.3)
-      mocha: 10.4.0
-      nyc: 15.1.0
       playwright: 1.43.1
       prettier: 3.2.5
       rimraf: 5.0.5
       source-map-support: 0.5.21
-      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
       tshy: 1.14.0
       tslib: 2.6.2
       typescript: 5.4.5
@@ -23014,7 +22681,7 @@ packages:
     name: '@rush-temp/test-utils'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@opentelemetry/api': 1.8.0
       '@types/chai': 4.3.14
@@ -23057,8 +22724,8 @@ packages:
       '@vitest/coverage-istanbul': 1.5.0(vitest@1.5.0)
       cross-env: 7.0.3
       eslint: 8.57.0
-      http-proxy-agent: 7.0.0
-      https-proxy-agent: 7.0.2
+      http-proxy-agent: 7.0.2
+      https-proxy-agent: 7.0.4
       playwright: 1.43.1
       prettier: 3.2.5
       rimraf: 5.0.5
@@ -23113,13 +22780,11 @@ packages:
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
       '@types/ws': 7.4.7
-      c8: 9.1.0
       chai: 4.3.10
       copyfiles: 2.4.1
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       express: 4.19.2
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
@@ -23175,12 +22840,10 @@ packages:
       '@types/sinon': 17.0.3
       '@types/ws': 7.4.7
       buffer: 6.0.3
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       express: 4.19.2
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
@@ -23227,12 +22890,10 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       express: 4.19.2
       mocha: 10.4.0
       nyc: 15.1.0
@@ -23257,7 +22918,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
-      '@azure-tools/test-recorder': 3.1.2
+      '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/jsonwebtoken': 9.0.6
@@ -23265,12 +22926,10 @@ packages:
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
       '@types/ws': 8.5.10
-      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      esm: 3.2.25
       jsonwebtoken: 9.0.2
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
