@@ -5,6 +5,7 @@ import { ConflictResolutionPolicy } from "../Conflict/ConflictResolutionPolicy";
 import { UniqueKeyPolicy } from "./UniqueKeyPolicy";
 import { GeospatialType } from "../../documents/GeospatialType";
 import { VectorEmbeddingPolicy } from "../../documents/VectorEmbeddingPolicy";
+import { ComputedProperty } from "../../documents/ComputedProperty";
 
 export interface ContainerDefinition {
   /** The id of the container. */
@@ -25,4 +26,6 @@ export interface ContainerDefinition {
   };
   /** The vector embedding policy information for storing items in a container. */
   vectorEmbeddingPolicy?: VectorEmbeddingPolicy;
+  /** The computed properties of the container */
+  computedProperties?: ComputedProperty[];
 }
