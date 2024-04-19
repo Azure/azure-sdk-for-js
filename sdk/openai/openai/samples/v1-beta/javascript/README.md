@@ -20,7 +20,6 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [bringYourOwnData.js][bringyourowndata]                                             | chat completions with your own data.                                         |
 | [chatCompletions.js][chatcompletions]                                               | get chat completions.                                                        |
 | [completions.js][completions]                                                       | get completions.                                                             |
-
 | [generateSpeechFromText.js][generatespeechfromtext]                                 | list completions.                                                            |
 | [getEmbeddings.js][getembeddings]                                                   | generates embedding vectors from a prompt using Azure OpenAI Get Embeddings. |
 | [getImages.js][getimages]                                                           | generates images from prompts using Azure OpenAI Batch Image Generation.     |
@@ -75,7 +74,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [bringyourowndata]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/bringYourOwnData.js
 [chatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/chatCompletions.js
 [completions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/completions.js
-[functions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/functions.js
 [generatespeechfromtext]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/generateSpeechFromText.js
 [getembeddings]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/getEmbeddings.js
 [getimages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/getImages.js
