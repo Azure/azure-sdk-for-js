@@ -1558,11 +1558,6 @@ packages:
       '@azure/msal-common': 14.9.0
     dev: false
 
-  /@azure/msal-common@13.3.1:
-    resolution: {integrity: sha512-Lrk1ozoAtaP/cp53May3v6HtcFSVxdFrg2Pa/1xu5oIvsIwhxW6zSPibKefCOVgd5osgykMi5jjcZHv8XkzZEQ==}
-    engines: {node: '>=0.8.0'}
-    dev: false
-
   /@azure/msal-common@14.9.0:
     resolution: {integrity: sha512-yzBPRlWPnTBeixxLNI3BBIgF5/bHpbhoRVuuDBnYjCyWRavaPUsKAHUDYLqpGkBLDciA6TCc6GOxN4/S3WiSxg==}
     engines: {node: '>=0.8.0'}
@@ -1581,16 +1576,6 @@ packages:
   /@azure/msal-node-runtime@0.13.6-alpha.0:
     resolution: {integrity: sha512-Tu5e4wBFiaiBLrOu7bsJF7FYknFH9XIOvUyCqCnmLJFMMOUnYULZ7fOFYuintFFcNPMOT2u8BVfSCPxETri5ng==}
     requiresBuild: true
-    dev: false
-
-  /@azure/msal-node@1.18.4:
-    resolution: {integrity: sha512-Kc/dRvhZ9Q4+1FSfsTFDME/v6+R2Y1fuMty/TfwqE5p9GTPw08BPbKgeWinE8JRHRp+LemjQbUZsn4Q4l6Lszg==}
-    engines: {node: 10 || 12 || 14 || 16 || 18}
-    deprecated: A newer major version of this library is available. Please upgrade to the latest available version.
-    dependencies:
-      '@azure/msal-common': 13.3.1
-      jsonwebtoken: 9.0.2
-      uuid: 8.3.2
     dev: false
 
   /@azure/msal-node@2.7.0:
@@ -18285,14 +18270,14 @@ packages:
     dev: false
 
   file:projects/communication-identity.tgz:
-    resolution: {integrity: sha512-HRz4v91Ej1k3MuPkxbyot9l4wQivJivYVbrPZvAyyYPvVNOVMj2NWz/XydvZ2I6mCNBHnrRGao725UgRcEW+/A==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-jNFyR2HG9hHBnlEeUQ8VheIqrd+XmvdrNF+3UbTDmuNveDHrXyYoe9HKOdrQOQWXvQt1TIV2cdZ0D6qlj6hFxQ==, tarball: file:projects/communication-identity.tgz}
     name: '@rush-temp/communication-identity'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.2
       '@azure/abort-controller': 1.1.0
-      '@azure/msal-node': 1.18.4
+      '@azure/msal-node': 2.7.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -22121,7 +22106,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-hcIXqU0YNUHGzXwPM/VtFzULpOkU9v9/L3jEhYk8/ytWLBeSqSjzyl4allwHCKWjI9wZJKy3hXp7vXw4XZa5Iw==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-0nheky+LIrTuxnh6EzWuVG+41cwwc6wDAPg781qwTbXWP69M9Ce9BDKcHAJLgk7DrH/vsbWjBKvzLBa7AeYOlg==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:

@@ -22,8 +22,10 @@ export const commandInfo = makeCommandInfo("packages", "list packages defined in
   },
 });
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let _rushJson: any = undefined;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function getRushJson(): Promise<any> {
   if (_rushJson) return _rushJson;
 
