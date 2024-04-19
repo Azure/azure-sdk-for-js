@@ -23,6 +23,7 @@ import { MsalNodeOptions } from "./msalNodeCommon";
 import { calculateRegionalAuthority } from "../../regionalAuthority";
 import { getLogLevel } from "@azure/logger";
 import { resolveTenantId } from "../../util/tenantIdUtils";
+import { DeviceCodePromptCallback } from "../../credentials/deviceCodeCredentialOptions";
 
 /**
  * The logger for all MsalClient instances.
@@ -33,6 +34,11 @@ const msalLogger = credentialLogger("MsalClient");
  * Represents a client for interacting with the Microsoft Authentication Library (MSAL).
  */
 export interface MsalClient {
+  getTokenByDeviceCode(
+    arrayScopes: string[],
+    userPromptCallback: DeviceCodePromptCallback,
+    options?: GetTokenOptions,
+  ): Promise<AccessToken>;
   /**
    * Retrieves an access token by using a client certificate.
    *
@@ -172,6 +178,35 @@ export function createMsalClient(
       : null,
     pluginConfiguration: msalPlugins.generatePluginConfiguration(createMsalClientOptions),
   };
+
+  const publicApps: Map<string, msal.PublicClientApplication> = new Map();
+  async function getPublicApp(
+    options: GetTokenOptions = {},
+  ): Promise<msal.PublicClientApplication> {
+    const appKey = options.enableCae ? "CAE" : "default";
+
+    let publicClientApp = publicApps.get(appKey);
+    if (publicClientApp) {
+      return publicClientApp;
+    }
+
+    // Initialize a new app and cache it
+    const cachePlugin = options.enableCae
+      ? state.pluginConfiguration.cache.cachePluginCae
+      : state.pluginConfiguration.cache.cachePlugin;
+
+    state.msalConfig.auth.clientCapabilities = options.enableCae ? ["cp1"] : undefined;
+
+    publicClientApp = new msal.PublicClientApplication({
+      ...state.msalConfig,
+      broker: { nativeBrokerPlugin: state.pluginConfiguration.broker.nativeBrokerPlugin },
+      cache: { cachePlugin: await cachePlugin },
+    });
+
+    publicApps.set(appKey, publicClientApp);
+
+    return publicClientApp;
+  }
 
   const confidentialApps: Map<string, msal.ConfidentialClientApplication> = new Map();
   async function getConfidentialApp(
@@ -377,9 +412,37 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     );
   }
 
+  async function getTokenByDeviceCode(
+    scopes: string[],
+    deviceCodeCallback: DeviceCodePromptCallback,
+    options: GetTokenOptions = {},
+  ): Promise<AccessToken> {
+    msalLogger.getToken.info(`Attempting to acquire token using device code`);
+
+    const msalApp = await getPublicApp(options);
+
+    return withSilentAuthentication(msalApp, scopes, options, () => {
+      const requestOptions: msal.DeviceCodeRequest = {
+        scopes,
+        cancel: false,
+        deviceCodeCallback,
+        authority: state.msalConfig.auth.authority,
+        claims: options?.claims,
+      };
+      const deviceCodeRequest = msalApp.acquireTokenByDeviceCode(requestOptions);
+      if (options.abortSignal) {
+        options.abortSignal.addEventListener("abort", () => {
+          requestOptions.cancel = true;
+        });
+      }
+      return deviceCodeRequest;
+    });
+  }
+
   return {
     getTokenByClientSecret,
     getTokenByClientAssertion,
     getTokenByClientCertificate,
+    getTokenByDeviceCode,
   };
 }
