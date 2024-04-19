@@ -15,12 +15,7 @@ import {
   RECORDING_STATE,
 } from "./utils/connectionUtils";
 import { CallRecording } from "../src/callRecording";
-import {
-  AnswerCallOptions,
-  CreateCallOptions,
-  PlayOptions,
-  StartRecordingOptions,
-} from "../src/models/options";
+import { StartRecordingOptions } from "../src/models/options";
 import { apiVersion } from "../src/generated/src/models/parameters";
 import { ChannelAffinity } from "@azure/communication-call-automation";
 import { CommunicationIdentifier, CommunicationUserIdentifier } from "@azure/communication-common";
@@ -210,6 +205,13 @@ describe("CallRecording Live Tests", function () {
 
   afterEach(async function (this: Context) {
     persistEvents(testName);
+    if (callConnection) {
+      try {
+        await callConnection.hangUp(true);
+      } catch (e) {
+        console.log("Call is terminated");
+      }
+    }
     serviceBusReceivers.forEach((receiver) => {
       receiver.close();
     });
@@ -220,13 +222,6 @@ describe("CallRecording Live Tests", function () {
     serviceBusReceivers.clear();
     incomingCallContexts.clear();
     await recorder.stop();
-    if (callConnection) {
-      try {
-        await callConnection.hangUp(true);
-      } catch {
-        return;
-      }
-    }
   });
 
   it("Creates a call, start recording, and hangs up", async function () {
@@ -238,13 +233,8 @@ describe("CallRecording Live Tests", function () {
     const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
-    const createCallOption: CreateCallOptions = { operationContext: "recordingCreateCall" };
 
-    const result = await callerCallAutomationClient.createCall(
-      callInvite,
-      callBackUrl,
-      createCallOption,
-    );
+    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
     const callConnectionId: string = result.callConnectionProperties.callConnectionId
       ? result.callConnectionProperties.callConnectionId
@@ -252,12 +242,7 @@ describe("CallRecording Live Tests", function () {
     assert.isDefined(incomingCallContext);
 
     if (incomingCallContext) {
-      const answerCallOption: AnswerCallOptions = { operationContext: "recordingAnswer" };
-      await receiverCallAutomationClient.answerCall(
-        incomingCallContext,
-        callBackUrl,
-        answerCallOption,
-      );
+      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
     }
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
 
@@ -272,8 +257,7 @@ describe("CallRecording Live Tests", function () {
     ];
 
     // Call recording can fail when no audio is in call, we will play audio to avoid that.
-    const playToAllOptions: PlayOptions = { operationContext: "recordingPlay" };
-    await callConnection.getCallMedia().playToAll(playSource, playToAllOptions);
+    await callConnection.getCallMedia().playToAll(playSource);
 
     const recOptions: StartRecordingOptions = {
       recordingStateCallbackEndpointUrl: callBackUrl,
@@ -290,8 +274,8 @@ describe("CallRecording Live Tests", function () {
       .getCallRecording()
       .start(recOptions);
 
-    // Delay for 6 seconds, this is to let the recording state change to active
-    await new Promise((resolve) => setTimeout(resolve, 6000));
+    // Delay for 10 seconds, this is to let the recording state change to active
+    await new Promise((resolve) => setTimeout(resolve, 10000));
     const recStatus = await callerCallAutomationClient
       .getCallRecording()
       .getState(recordingStateResult.recordingId);

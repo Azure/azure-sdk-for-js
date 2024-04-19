@@ -6,26 +6,17 @@
 
 /// <reference types="node" />
 
-import { AbortSignalLike } from '@azure/abort-controller';
 import { CommonClientOptions } from '@azure/core-client';
 import { CommunicationIdentifier } from '@azure/communication-common';
 import { CommunicationUserIdentifier } from '@azure/communication-common';
 import * as coreClient from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
+import { MicrosoftTeamsAppIdentifier } from '@azure/communication-common';
 import { MicrosoftTeamsUserIdentifier } from '@azure/communication-common';
 import { OperationOptions } from '@azure/core-client';
 import { PhoneNumberIdentifier } from '@azure/communication-common';
 import { TokenCredential } from '@azure/core-auth';
 
-// @public
-export interface AddParticipantEventResult {
-    failureResult?: AddParticipantFailed;
-    isSuccess: boolean;
-    successResult?: AddParticipantSucceeded;
-}
-
-// Warning: (ae-forgotten-export) The symbol "RestAddParticipantFailed" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface AddParticipantFailed extends Omit<RestAddParticipantFailed, "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"> {
     callConnectionId: string;
@@ -48,11 +39,8 @@ export interface AddParticipantResult {
     invitationId?: string;
     operationContext?: string;
     participant?: CallParticipant;
-    waitForEventProcessor(abortSignal?: AbortSignalLike, timeoutInMs?: number): Promise<AddParticipantEventResult>;
 }
 
-// Warning: (ae-forgotten-export) The symbol "RestAddParticipantSucceeded" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface AddParticipantSucceeded extends Omit<RestAddParticipantSucceeded, "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"> {
     callConnectionId: string;
@@ -64,38 +52,15 @@ export interface AddParticipantSucceeded extends Omit<RestAddParticipantSucceede
 }
 
 // @public
-export interface AnswerCallEventResult {
-    failureResult?: AnswerFailed;
-    isSuccess: boolean;
-    successResult?: CallConnected;
-}
-
-// @public
 export interface AnswerCallOptions extends OperationOptions {
     callIntelligenceOptions?: CallIntelligenceOptions;
-    mediaStreamingConfiguration?: MediaStreamingConfiguration;
     operationContext?: string;
-    transcriptionConfiguration?: TranscriptionConfiguration;
 }
 
-// @public
-export interface AnswerCallResult {
-    callConnection: CallConnection;
-    callConnectionProperties: CallConnectionProperties;
-    waitForEventProcessor(abortSignal?: AbortSignalLike, timeoutInMs?: number): Promise<AnswerCallEventResult>;
-}
-
-// Warning: (ae-forgotten-export) The symbol "RestAnswerFailed" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "CallResult" needs to be exported by the entry point index.d.ts
 //
-// @public (undocumented)
-export interface AnswerFailed extends Omit<RestAnswerFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
-    callConnectionId: string;
-    correlationId: string;
-    kind: "AnswerFailed";
-    // Warning: (ae-forgotten-export) The symbol "RestResultInformation" needs to be exported by the entry point index.d.ts
-    resultInformation?: RestResultInformation;
-    serverCallId: string;
-}
+// @public
+export type AnswerCallResult = CallResult;
 
 // @public
 export class CallAutomationClient {
@@ -106,7 +71,6 @@ export class CallAutomationClient {
     createGroupCall(targetParticipants: CommunicationIdentifier[], callbackUrl: string, options?: CreateCallOptions): Promise<CreateCallResult>;
     getCallConnection(callConnectionId: string): CallConnection;
     getCallRecording(): CallRecording;
-    getEventProcessor(): CallAutomationEventProcessor;
     getSourceIdentity(): CommunicationUserIdentifier | undefined;
     redirectCall(incomingCallContext: string, targetParticipant: CallInvite, options?: RedirectCallOptions): Promise<void>;
     rejectCall(incomingCallContext: string, options?: RejectCallOptions): Promise<void>;
@@ -118,18 +82,8 @@ export interface CallAutomationClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | TeamsComplianceRecordingStateChanged | TeamsRecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed | CreateCallFailed | AnswerFailed | HoldFailed;
+export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed;
 
-// @public
-export class CallAutomationEventProcessor {
-    attachOngoingEventProcessor(callConnectionId: string, eventTypeKind: CallAutomationEvent["kind"], eventProcessor: (event: CallAutomationEvent) => Promise<void>): Promise<void>;
-    detachOngoingEventProcessor(callConnectionId: string, eventTypeKind: CallAutomationEvent["kind"]): Promise<void>;
-    processEvents(event: string | Record<string, unknown> | CallAutomationEvent): void;
-    waitForEventProcessor(predicate: (event: CallAutomationEvent) => boolean, abortSignal?: AbortSignalLike, timeoutInMs?: number): Promise<CallAutomationEvent>;
-}
-
-// Warning: (ae-forgotten-export) The symbol "RestCallConnected" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface CallConnected extends Omit<RestCallConnected, "callConnectionId" | "serverCallId" | "correlationId"> {
     callConnectionId: string;
@@ -141,7 +95,7 @@ export interface CallConnected extends Omit<RestCallConnected, "callConnectionId
 // @public
 export class CallConnection {
     // Warning: (ae-forgotten-export) The symbol "CallAutomationApiClientOptionalParams" needs to be exported by the entry point index.d.ts
-    constructor(callConnectionId: string, endpoint: string, credential: KeyCredential | TokenCredential, eventProcessor: CallAutomationEventProcessor, options?: CallAutomationApiClientOptionalParams);
+    constructor(callConnectionId: string, endpoint: string, credential: KeyCredential | TokenCredential, options?: CallAutomationApiClientOptionalParams);
     addParticipant(targetParticipant: CallInvite, options?: AddParticipantOptions): Promise<AddParticipantResult>;
     cancelAddParticipantOperation(invitationId: string, options?: CancelAddParticipantOperationOptions): Promise<CancelAddParticipantOperationResult>;
     getCallConnectionProperties(options?: GetCallConnectionPropertiesOptions): Promise<CallConnectionProperties>;
@@ -161,7 +115,6 @@ export interface CallConnectionProperties {
     callConnectionId?: string;
     callConnectionState?: CallConnectionStateModel;
     correlationId?: string;
-    mediaSubscriptionId?: string;
     serverCallId?: string;
     source?: CommunicationIdentifier;
     sourceCallerIdNumber?: PhoneNumberIdentifier;
@@ -172,8 +125,6 @@ export interface CallConnectionProperties {
 // @public
 export type CallConnectionStateModel = string;
 
-// Warning: (ae-forgotten-export) The symbol "RestCallDisconnected" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface CallDisconnected extends Omit<RestCallDisconnected, "callConnectionId" | "serverCallId" | "correlationId"> {
     callConnectionId: string;
@@ -193,7 +144,7 @@ export interface CallInvite {
     readonly sourceCallIdNumber?: PhoneNumberIdentifier;
     // (undocumented)
     sourceDisplayName?: string;
-    readonly targetParticipant: PhoneNumberIdentifier | CommunicationUserIdentifier | MicrosoftTeamsUserIdentifier;
+    readonly targetParticipant: PhoneNumberIdentifier | CommunicationUserIdentifier | MicrosoftTeamsUserIdentifier | MicrosoftTeamsAppIdentifier;
 }
 
 // @public
@@ -209,25 +160,16 @@ export type CallLocatorType = "serverCallLocator" | "groupCallLocator";
 
 // @public
 export class CallMedia {
-    constructor(callConnectionId: string, endpoint: string, credential: KeyCredential | TokenCredential, eventProcessor: CallAutomationEventProcessor, options?: CallAutomationApiClientOptionalParams);
-    cancelAllOperations(): Promise<CancelAllMediaOperationsResult>;
-    hold(targetParticipant: CommunicationIdentifier, options?: HoldOptions): Promise<void>;
-    play(playSources: (FileSource | TextSource | SsmlSource)[], playTo: CommunicationIdentifier[], options?: PlayOptions): Promise<PlayResult>;
-    playToAll(playSources: (FileSource | TextSource | SsmlSource)[], options?: PlayOptions): Promise<PlayResult>;
+    constructor(callConnectionId: string, endpoint: string, credential: KeyCredential | TokenCredential, options?: CallAutomationApiClientOptionalParams);
+    cancelAllOperations(): Promise<void>;
+    play(playSources: (FileSource | TextSource | SsmlSource)[], playTo: CommunicationIdentifier[], options?: PlayOptions): Promise<void>;
+    playToAll(playSources: (FileSource | TextSource | SsmlSource)[], options?: PlayOptions): Promise<void>;
     sendDtmfTones(tones: Tone[] | DtmfTone[], targetParticipant: CommunicationIdentifier, options?: SendDtmfTonesOptions): Promise<SendDtmfTonesResult>;
     startContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, options?: ContinuousDtmfRecognitionOptions): Promise<void>;
     // @deprecated
-    startHoldMusic(targetParticipant: CommunicationIdentifier, playSource?: FileSource | TextSource | SsmlSource | undefined, loop?: boolean, operationContext?: string | undefined, operationCallbackUri?: string | undefined): Promise<void>;
-    // @deprecated
-    startRecognizing(targetParticipant: CommunicationIdentifier, maxTonesToCollect: number, options: CallMediaRecognizeDtmfOptions): Promise<StartRecognizingResult>;
-    startRecognizing(targetParticipant: CommunicationIdentifier, options: CallMediaRecognizeDtmfOptions | CallMediaRecognizeChoiceOptions | CallMediaRecognizeSpeechOptions | CallMediaRecognizeSpeechOrDtmfOptions): Promise<StartRecognizingResult>;
-    startTranscription(options?: StartTranscriptionOptions): Promise<void>;
+    startRecognizing(targetParticipant: CommunicationIdentifier, maxTonesToCollect: number, options: CallMediaRecognizeDtmfOptions): Promise<void>;
+    startRecognizing(targetParticipant: CommunicationIdentifier, options: CallMediaRecognizeDtmfOptions | CallMediaRecognizeChoiceOptions | CallMediaRecognizeSpeechOptions | CallMediaRecognizeSpeechOrDtmfOptions): Promise<void>;
     stopContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, options?: ContinuousDtmfRecognitionOptions): Promise<void>;
-    // @deprecated
-    stopHoldMusic(targetParticipant: CommunicationIdentifier, operationContext?: string | undefined): Promise<void>;
-    stopTranscription(options?: StopTranscriptionOptions): Promise<void>;
-    unhold(targetParticipant: CommunicationIdentifier, options?: UnholdOptions): Promise<void>;
-    updateTranscription(locale: string): Promise<void>;
 }
 
 // @public
@@ -256,7 +198,6 @@ export interface CallMediaRecognizeOptions extends OperationOptions {
     operationCallbackUrl?: string;
     operationContext?: string;
     playPrompt?: FileSource | TextSource | SsmlSource;
-    speechModelEndpointId?: string;
     // @deprecated (undocumented)
     stopCurrentOperations?: boolean;
 }
@@ -286,7 +227,6 @@ export interface CallMediaRecognizeSpeechOrDtmfOptions extends CallMediaRecogniz
 export interface CallParticipant {
     identifier?: CommunicationIdentifier;
     isMuted?: boolean;
-    isOnHold?: boolean;
 }
 
 // @public
@@ -306,8 +246,6 @@ export class CallRecording {
 // @public
 export type CallRejectReason = string;
 
-// Warning: (ae-forgotten-export) The symbol "RestCallTransferAccepted" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface CallTransferAccepted extends Omit<RestCallTransferAccepted, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation" | "transferee" | "transferTarget"> {
     callConnectionId: string;
@@ -319,8 +257,6 @@ export interface CallTransferAccepted extends Omit<RestCallTransferAccepted, "ca
     transferTarget: CommunicationIdentifier;
 }
 
-// Warning: (ae-forgotten-export) The symbol "RestCallTransferFailed" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface CallTransferFailed extends Omit<RestCallTransferFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
@@ -330,15 +266,6 @@ export interface CallTransferFailed extends Omit<RestCallTransferFailed, "callCo
     serverCallId: string;
 }
 
-// @public
-export interface CancelAddParticipantEventResult {
-    failureResult?: CancelAddParticipantFailed;
-    isSuccess: boolean;
-    successResult?: CancelAddParticipantSucceeded;
-}
-
-// Warning: (ae-forgotten-export) The symbol "RestCancelAddParticipantFailed" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface CancelAddParticipantFailed extends Omit<RestCancelAddParticipantFailed, "callConnectionId" | "serverCallId" | "correlationId" | "invitationId" | "resultInformation"> {
     callConnectionId: string;
@@ -359,11 +286,8 @@ export interface CancelAddParticipantOperationOptions extends OperationOptions {
 export interface CancelAddParticipantOperationResult {
     invitationId?: string;
     operationContext?: string;
-    waitForEventProcessor(abortSignal?: AbortSignalLike, timeoutInMs?: number): Promise<CancelAddParticipantEventResult>;
 }
 
-// Warning: (ae-forgotten-export) The symbol "RestCancelAddParticipantSucceeded" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface CancelAddParticipantSucceeded extends Omit<RestCancelAddParticipantSucceeded, "callConnectionId" | "serverCallId" | "correlationId" | "invitationId"> {
     callConnectionId: string;
@@ -371,18 +295,6 @@ export interface CancelAddParticipantSucceeded extends Omit<RestCancelAddPartici
     invitationId: string;
     kind: "CancelAddParticipantSucceeded";
     serverCallId: string;
-}
-
-// @public
-export interface CancelAllMediaOperationsEventResult {
-    isSuccess: boolean;
-    playCanceledSuccessResult?: PlayCanceled;
-    recognizeCanceledSuccessResult?: RecognizeCanceled;
-}
-
-// @public
-export interface CancelAllMediaOperationsResult {
-    waitForEventProcessor(abortSignal?: AbortSignalLike, timeoutInMs?: number): Promise<CancelAllMediaOperationsEventResult>;
 }
 
 // @public
@@ -403,8 +315,6 @@ export interface ContinuousDtmfRecognitionOptions extends OperationOptions {
     operationContext?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "RestContinuousDtmfRecognitionStopped" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface ContinuousDtmfRecognitionStopped extends Omit<RestContinuousDtmfRecognitionStopped, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
@@ -414,8 +324,6 @@ export interface ContinuousDtmfRecognitionStopped extends Omit<RestContinuousDtm
     serverCallId: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "RestContinuousDtmfRecognitionToneFailed" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface ContinuousDtmfRecognitionToneFailed extends Omit<RestContinuousDtmfRecognitionToneFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
@@ -425,8 +333,6 @@ export interface ContinuousDtmfRecognitionToneFailed extends Omit<RestContinuous
     serverCallId: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "RestContinuousDtmfRecognitionToneReceived" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface ContinuousDtmfRecognitionToneReceived extends Omit<RestContinuousDtmfRecognitionToneReceived, "sequenceId" | "tone" | "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
@@ -439,40 +345,15 @@ export interface ContinuousDtmfRecognitionToneReceived extends Omit<RestContinuo
 }
 
 // @public
-export interface CreateCallEventResult {
-    failureResult?: CreateCallFailed;
-    isSuccess: boolean;
-    successResult?: CallConnected;
-}
-
-// Warning: (ae-forgotten-export) The symbol "RestCreateCallFailed" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export interface CreateCallFailed extends Omit<RestCreateCallFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
-    callConnectionId: string;
-    correlationId: string;
-    kind: "CreateCallFailed";
-    resultInformation?: RestResultInformation;
-    serverCallId: string;
-}
-
-// @public
 export interface CreateCallOptions extends OperationOptions {
     callIntelligenceOptions?: CallIntelligenceOptions;
-    customCallingContext?: CustomCallingContext;
-    mediaStreamingConfiguration?: MediaStreamingConfiguration;
     operationContext?: string;
     sourceCallIdNumber?: PhoneNumberIdentifier;
     sourceDisplayName?: string;
-    transcriptionConfiguration?: TranscriptionConfiguration;
 }
 
 // @public
-export interface CreateCallResult {
-    callConnection: CallConnection;
-    callConnectionProperties: CallConnectionProperties;
-    waitForEventProcessor(abortSignal?: AbortSignalLike, timeoutInMs?: number): Promise<CreateCallEventResult>;
-}
+export type CreateCallResult = CallResult;
 
 // @public
 export type CustomCallingContext = (VoipHeader | SipUserToUserHeader | SipCustomHeader)[];
@@ -535,24 +416,6 @@ export type GetRecordingPropertiesOptions = OperationOptions;
 // @public
 export type HangUpOptions = OperationOptions;
 
-// Warning: (ae-forgotten-export) The symbol "RestHoldFailed" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export interface HoldFailed extends Omit<RestHoldFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
-    callConnectionId: string;
-    correlationId: string;
-    kind: "HoldFailed";
-    resultInformation?: RestResultInformation;
-    serverCallId: string;
-}
-
-// @public
-export interface HoldOptions extends OperationOptions {
-    operationCallbackUri?: string;
-    operationContext?: string;
-    playSource?: FileSource | TextSource | SsmlSource;
-}
-
 // @public
 export enum KnownCallRejectReason {
     Busy = "busy",
@@ -561,43 +424,10 @@ export enum KnownCallRejectReason {
 }
 
 // @public
-export enum KnownMediaStreamingAudioChannelType {
-    Mixed = "mixed",
-    Unmixed = "unmixed"
-}
-
-// @public
-export enum KnownMediaStreamingContentType {
-    Audio = "audio"
-}
-
-// @public
-export enum KnownMediaStreamingTransportType {
-    Websocket = "websocket"
-}
-
-// @public
 export interface ListParticipantsResult {
     nextLink?: string;
     values?: CallParticipant[];
 }
-
-// @public
-export type MediaStreamingAudioChannelType = string;
-
-// @public
-export interface MediaStreamingConfiguration {
-    audioChannelType: MediaStreamingAudioChannelType;
-    contentType: MediaStreamingContentType;
-    transportType: MediaStreamingTransportType;
-    transportUrl: string;
-}
-
-// @public
-export type MediaStreamingContentType = string;
-
-// @public
-export type MediaStreamingTransportType = string;
 
 // @public
 export interface MuteParticipantOption extends OperationOptions {
@@ -612,8 +442,6 @@ export interface MuteParticipantResult {
 // @public
 export function parseCallAutomationEvent(encodedEvents: string | Record<string, unknown>): CallAutomationEvent;
 
-// Warning: (ae-forgotten-export) The symbol "RestParticipantsUpdated" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface ParticipantsUpdated extends Omit<RestParticipantsUpdated, "callConnectionId" | "serverCallId" | "correlationId" | "participants"> {
     callConnectionId: string;
@@ -626,8 +454,6 @@ export interface ParticipantsUpdated extends Omit<RestParticipantsUpdated, "call
 // @public
 export type PauseRecordingOptions = OperationOptions;
 
-// Warning: (ae-forgotten-export) The symbol "RestPlayCanceled" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface PlayCanceled extends Omit<RestPlayCanceled, "callConnectionId" | "serverCallId" | "correlationId"> {
     callConnectionId: string;
@@ -636,8 +462,6 @@ export interface PlayCanceled extends Omit<RestPlayCanceled, "callConnectionId" 
     serverCallId: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "RestPlayCompleted" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface PlayCompleted extends Omit<RestPlayCompleted, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
@@ -647,15 +471,6 @@ export interface PlayCompleted extends Omit<RestPlayCompleted, "callConnectionId
     serverCallId: string;
 }
 
-// @public
-export interface PlayEventResult {
-    failureResult?: PlayFailed;
-    isSuccess: boolean;
-    successResult?: PlayCompleted;
-}
-
-// Warning: (ae-forgotten-export) The symbol "RestPlayFailed" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface PlayFailed extends Omit<RestPlayFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
@@ -673,15 +488,9 @@ export interface PlayOptions extends OperationOptions {
 }
 
 // @public
-export interface PlayResult {
-    waitForEventProcessor(abortSignal?: AbortSignalLike, timeoutInMs?: number): Promise<PlayEventResult>;
-}
-
-// @public
 export interface PlaySource {
     // @deprecated (undocumented)
     playsourcacheid?: string;
-    playSourceCacheId?: string;
 }
 
 // @public
@@ -695,8 +504,6 @@ export interface RecognitionChoice {
 // @public
 export type RecognitionType = string;
 
-// Warning: (ae-forgotten-export) The symbol "RestRecognizeCanceled" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface RecognizeCanceled extends Omit<RestRecognizeCanceled, "callConnectionId" | "serverCallId" | "correlationId"> {
     callConnectionId: string;
@@ -705,8 +512,6 @@ export interface RecognizeCanceled extends Omit<RestRecognizeCanceled, "callConn
     serverCallId: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "RestRecognizeCompleted" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface RecognizeCompleted extends Omit<RestRecognizeCompleted, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
@@ -716,8 +521,6 @@ export interface RecognizeCompleted extends Omit<RestRecognizeCompleted, "callCo
     serverCallId: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "RestRecognizeFailed" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface RecognizeFailed extends Omit<RestRecognizeFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
@@ -729,7 +532,6 @@ export interface RecognizeFailed extends Omit<RestRecognizeFailed, "callConnecti
 
 // @public
 export enum RecognizeInputType {
-    Choices = "choices",
     Dtmf = "dtmf"
 }
 
@@ -743,10 +545,11 @@ export type RecordingContent = "audio" | "audioVideo";
 export type RecordingFormat = "mp3" | "mp4" | "wav";
 
 // @public
+export type RecordingKind = "azureCommunicationServices" | "teams" | "teamsCompliance";
+
+// @public
 export type RecordingState = string;
 
-// Warning: (ae-forgotten-export) The symbol "RestRecordingStateChanged" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface RecordingStateChanged extends Omit<RestRecordingStateChanged, "callConnectionId" | "serverCallId" | "correlationId"> {
     callConnectionId: string;
@@ -759,32 +562,31 @@ export interface RecordingStateChanged extends Omit<RestRecordingStateChanged, "
 export interface RecordingStateResult {
     // (undocumented)
     recordingId: string;
+    // Warning: (ae-forgotten-export) The symbol "RecordingKind_2" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    recordingKind: RecordingKind_2;
     // (undocumented)
     recordingState: RecordingState;
 }
 
 // @public
-export type RecordingStorage = "acs" | "blobStorage";
+export interface RecordingStorage {
+    recordingDestinationContainerUrl?: string;
+    recordingStorageKind: RecordingStorageKind;
+}
 
 // @public
-export interface RedirectCallOptions extends OperationOptions {
-    customCallingContext?: CustomCallingContext;
-}
+export type RecordingStorageKind = "azureCommunicationServices" | "azureBlobStorage";
+
+// @public
+export type RedirectCallOptions = OperationOptions;
 
 // @public
 export interface RejectCallOptions extends OperationOptions {
     callRejectReason?: CallRejectReason;
 }
 
-// @public
-export interface RemoveParticipantEventResult {
-    failureResult?: RemoveParticipantFailed;
-    isSuccess: boolean;
-    successResult?: RemoveParticipantSucceeded;
-}
-
-// Warning: (ae-forgotten-export) The symbol "RestRemoveParticipantFailed" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface RemoveParticipantFailed extends Omit<RestRemoveParticipantFailed, "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"> {
     callConnectionId: string;
@@ -798,7 +600,6 @@ export interface RemoveParticipantFailed extends Omit<RestRemoveParticipantFaile
 // @public
 export interface RemoveParticipantResult {
     operationContext?: string;
-    waitForEventProcessor(abortSignal?: AbortSignalLike, timeoutInMs?: number): Promise<RemoveParticipantEventResult>;
 }
 
 // @public
@@ -807,8 +608,6 @@ export interface RemoveParticipantsOption extends OperationOptions {
     operationContext?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "RestRemoveParticipantSucceeded" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface RemoveParticipantSucceeded extends Omit<RestRemoveParticipantSucceeded, "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"> {
     callConnectionId: string;
@@ -817,6 +616,236 @@ export interface RemoveParticipantSucceeded extends Omit<RestRemoveParticipantSu
     participant?: CommunicationIdentifier;
     resultInformation?: ResultInformation;
     serverCallId: string;
+}
+
+// @public
+export interface RestAddParticipantFailed {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    // Warning: (ae-forgotten-export) The symbol "CommunicationIdentifierModel" needs to be exported by the entry point index.d.ts
+    participant?: CommunicationIdentifierModel;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public
+export interface RestAddParticipantSucceeded {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    participant?: CommunicationIdentifierModel;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public
+export interface RestCallConnected {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    serverCallId?: string;
+}
+
+// @public
+export interface RestCallDisconnected {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    serverCallId?: string;
+}
+
+// @public
+export interface RestCallTransferAccepted {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+    transferee?: CommunicationIdentifierModel;
+    transferTarget?: CommunicationIdentifierModel;
+}
+
+// @public
+export interface RestCallTransferFailed {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public
+export interface RestCancelAddParticipantFailed {
+    callConnectionId?: string;
+    correlationId?: string;
+    invitationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public
+export interface RestCancelAddParticipantSucceeded {
+    callConnectionId?: string;
+    correlationId?: string;
+    invitationId?: string;
+    operationContext?: string;
+    serverCallId?: string;
+}
+
+// @public (undocumented)
+export interface RestContinuousDtmfRecognitionStopped {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public (undocumented)
+export interface RestContinuousDtmfRecognitionToneFailed {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public (undocumented)
+export interface RestContinuousDtmfRecognitionToneReceived {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    readonly sequenceId?: number;
+    serverCallId?: string;
+    // (undocumented)
+    tone?: Tone;
+}
+
+// @public
+export interface RestParticipantsUpdated {
+    callConnectionId?: string;
+    correlationId?: string;
+    // Warning: (ae-forgotten-export) The symbol "CallParticipantInternal" needs to be exported by the entry point index.d.ts
+    participants?: CallParticipantInternal[];
+    sequenceNumber?: number;
+    serverCallId?: string;
+}
+
+// @public (undocumented)
+export interface RestPlayCanceled {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    serverCallId?: string;
+}
+
+// @public (undocumented)
+export interface RestPlayCompleted {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public (undocumented)
+export interface RestPlayFailed {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public (undocumented)
+export interface RestRecognizeCanceled {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    serverCallId?: string;
+}
+
+// @public (undocumented)
+export interface RestRecognizeCompleted {
+    callConnectionId?: string;
+    choiceResult?: ChoiceResult;
+    correlationId?: string;
+    dtmfResult?: DtmfResult;
+    operationContext?: string;
+    recognitionType?: RecognitionType;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+    readonly speechResult?: SpeechResult;
+}
+
+// @public (undocumented)
+export interface RestRecognizeFailed {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public (undocumented)
+export interface RestRecordingStateChanged {
+    callConnectionId?: string;
+    correlationId?: string;
+    readonly recordingId?: string;
+    // (undocumented)
+    recordingKind?: RecordingKind_2;
+    serverCallId?: string;
+    readonly startDateTime?: Date;
+    // (undocumented)
+    state?: RecordingState;
+}
+
+// @public
+export interface RestRemoveParticipantFailed {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    participant?: CommunicationIdentifierModel;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public
+export interface RestRemoveParticipantSucceeded {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    participant?: CommunicationIdentifierModel;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public (undocumented)
+export interface RestResultInformation {
+    code?: number;
+    message?: string;
+    subCode?: number;
+}
+
+// @public (undocumented)
+export interface RestSendDtmfTonesCompleted {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public (undocumented)
+export interface RestSendDtmfTonesFailed {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
 }
 
 // @public (undocumented)
@@ -830,15 +859,6 @@ export interface ResultInformation extends Omit<RestResultInformation, "code" | 
 export type ResumeRecordingOptions = OperationOptions;
 
 // @public
-export interface SendDtmfEventResult {
-    failureResult?: SendDtmfTonesFailed;
-    isSuccess: boolean;
-    successResult?: SendDtmfTonesCompleted;
-}
-
-// Warning: (ae-forgotten-export) The symbol "RestSendDtmfTonesCompleted" needs to be exported by the entry point index.d.ts
-//
-// @public
 export interface SendDtmfTonesCompleted extends Omit<RestSendDtmfTonesCompleted, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
     correlationId: string;
@@ -847,8 +867,6 @@ export interface SendDtmfTonesCompleted extends Omit<RestSendDtmfTonesCompleted,
     serverCallId: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "RestSendDtmfTonesFailed" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface SendDtmfTonesFailed extends Omit<RestSendDtmfTonesFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
     callConnectionId: string;
@@ -867,7 +885,6 @@ export interface SendDtmfTonesOptions extends OperationOptions {
 // @public
 export interface SendDtmfTonesResult {
     operationContext?: string;
-    waitForEventProcessor(abortSignal?: AbortSignalLike, timeoutInMs?: number): Promise<SendDtmfEventResult>;
 }
 
 // Warning: (ae-forgotten-export) The symbol "CustomCallingContextHeader" needs to be exported by the entry point index.d.ts
@@ -900,18 +917,6 @@ export interface SsmlSource extends PlaySource {
 }
 
 // @public
-export interface StartRecognizingEventResult {
-    failureResult?: RecognizeFailed;
-    isSuccess: boolean;
-    successResult?: RecognizeCompleted;
-}
-
-// @public
-export interface StartRecognizingResult {
-    waitForEventProcessor(abortSignal?: AbortSignalLike, timeoutInMs?: number): Promise<StartRecognizingEventResult>;
-}
-
-// @public
 export interface StartRecordingOptions extends OperationOptions {
     audioChannelParticipantOrdering?: CommunicationIdentifier[];
     callLocator: CallLocator;
@@ -921,41 +926,11 @@ export interface StartRecordingOptions extends OperationOptions {
     recordingContent?: RecordingContent;
     recordingFormat?: RecordingFormat;
     recordingStateCallbackEndpointUrl?: string;
-}
-
-// @public
-export interface StartTranscriptionOptions extends OperationOptions {
-    locale?: string;
-    operationContext?: string;
+    recordingStorage?: RecordingStorage;
 }
 
 // @public
 export type StopRecordingOptions = OperationOptions;
-
-// @public
-export interface StopTranscriptionOptions extends OperationOptions {
-    operationContext?: string;
-}
-
-// Warning: (ae-forgotten-export) The symbol "RestTeamsComplianceRecordingStateChanged" needs to be exported by the entry point index.d.ts
-//
-// @public
-export interface TeamsComplianceRecordingStateChanged extends Omit<RestTeamsComplianceRecordingStateChanged, "callConnectionId" | "serverCallId" | "correlationId"> {
-    callConnectionId: string;
-    correlationId: string;
-    kind: "TeamsComplianceRecordingStateChanged";
-    serverCallId: string;
-}
-
-// Warning: (ae-forgotten-export) The symbol "RestTeamsRecordingStateChanged" needs to be exported by the entry point index.d.ts
-//
-// @public
-export interface TeamsRecordingStateChanged extends Omit<RestTeamsRecordingStateChanged, "callConnectionId" | "serverCallId" | "correlationId"> {
-    callConnectionId: string;
-    correlationId: string;
-    kind: "TeamsRecordingStateChanged";
-    serverCallId: string;
-}
 
 // @public
 export interface TextSource extends PlaySource {
@@ -977,71 +952,8 @@ export interface TextSource extends PlaySource {
 export type Tone = string;
 
 // @public
-export interface TranscriptionConfiguration {
-    locale: string;
-    startTranscription: boolean;
-    transportType: TranscriptionTransportType;
-    transportUrl: string;
-}
-
-// Warning: (ae-forgotten-export) The symbol "RestTranscriptionFailed" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export interface TranscriptionFailed extends Omit<RestTranscriptionFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
-    callConnectionId: string;
-    correlationId: string;
-    kind: "TranscriptionFailed";
-    resultInformation?: RestResultInformation;
-    serverCallId: string;
-}
-
-// Warning: (ae-forgotten-export) The symbol "RestTranscriptionStarted" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export interface TranscriptionStarted extends Omit<RestTranscriptionStarted, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
-    callConnectionId: string;
-    correlationId: string;
-    kind: "TranscriptionStarted";
-    resultInformation?: RestResultInformation;
-    serverCallId: string;
-}
-
-// Warning: (ae-forgotten-export) The symbol "RestTranscriptionStopped" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export interface TranscriptionStopped extends Omit<RestTranscriptionStopped, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
-    callConnectionId: string;
-    correlationId: string;
-    kind: "TranscriptionStopped";
-    resultInformation?: RestResultInformation;
-    serverCallId: string;
-}
-
-// @public
-export type TranscriptionTransportType = string;
-
-// Warning: (ae-forgotten-export) The symbol "RestTranscriptionUpdated" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export interface TranscriptionUpdated extends Omit<RestTranscriptionUpdated, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
-    callConnectionId: string;
-    correlationId: string;
-    kind: "TranscriptionUpdated";
-    resultInformation?: RestResultInformation;
-    serverCallId: string;
-}
-
-// @public
 export interface TransferCallResult {
     operationContext?: string;
-    waitForEventProcessor(abortSignal?: AbortSignalLike, timeoutInMs?: number): Promise<TransferCallToParticipantEventResult>;
-}
-
-// @public
-export interface TransferCallToParticipantEventResult {
-    failureResult?: CallTransferFailed;
-    isSuccess: boolean;
-    successResult?: CallTransferAccepted;
 }
 
 // @public
@@ -1049,13 +961,7 @@ export interface TransferCallToParticipantOptions extends OperationOptions {
     customCallingContext?: CustomCallingContext;
     operationCallbackUrl?: string;
     operationContext?: string;
-    sourceCallIdNumber?: PhoneNumberIdentifier;
     transferee?: CommunicationIdentifier;
-}
-
-// @public
-export interface UnholdOptions extends OperationOptions {
-    operationContext?: string;
 }
 
 // @public

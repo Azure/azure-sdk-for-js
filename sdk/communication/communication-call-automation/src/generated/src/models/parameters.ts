@@ -20,21 +20,11 @@ import {
   AddParticipantRequest as AddParticipantRequestMapper,
   RemoveParticipantRequest as RemoveParticipantRequestMapper,
   MuteParticipantsRequest as MuteParticipantsRequestMapper,
-  UnmuteParticipantsRequest as UnmuteParticipantsRequestMapper,
   CancelAddParticipantRequest as CancelAddParticipantRequestMapper,
   PlayRequest as PlayRequestMapper,
-  StartTranscriptionRequest as StartTranscriptionRequestMapper,
-  StopTranscriptionRequest as StopTranscriptionRequestMapper,
   RecognizeRequest as RecognizeRequestMapper,
   ContinuousDtmfRecognitionRequest as ContinuousDtmfRecognitionRequestMapper,
   SendDtmfTonesRequest as SendDtmfTonesRequestMapper,
-  UpdateTranscriptionRequest as UpdateTranscriptionRequestMapper,
-  HoldRequest as HoldRequestMapper,
-  UnholdRequest as UnholdRequestMapper,
-  StartHoldMusicRequest as StartHoldMusicRequestMapper,
-  StopHoldMusicRequest as StopHoldMusicRequestMapper,
-  StartDialogRequest as StartDialogRequestMapper,
-  UpdateDialogRequest as UpdateDialogRequestMapper,
   StartCallRecordingRequest as StartCallRecordingRequestMapper,
 } from "../models/mappers";
 
@@ -82,7 +72,7 @@ export const endpoint: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-10-03-preview",
+    defaultValue: "2024-04-15",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -157,11 +147,6 @@ export const muteParticipantsRequest: OperationParameter = {
   mapper: MuteParticipantsRequestMapper,
 };
 
-export const unmuteParticipantsRequest: OperationParameter = {
-  parameterPath: "unmuteParticipantsRequest",
-  mapper: UnmuteParticipantsRequestMapper,
-};
-
 export const cancelAddParticipantRequest: OperationParameter = {
   parameterPath: "cancelAddParticipantRequest",
   mapper: CancelAddParticipantRequestMapper,
@@ -195,16 +180,6 @@ export const playRequest: OperationParameter = {
   mapper: PlayRequestMapper,
 };
 
-export const startTranscriptionRequest: OperationParameter = {
-  parameterPath: "startTranscriptionRequest",
-  mapper: StartTranscriptionRequestMapper,
-};
-
-export const stopTranscriptionRequest: OperationParameter = {
-  parameterPath: "stopTranscriptionRequest",
-  mapper: StopTranscriptionRequestMapper,
-};
-
 export const recognizeRequest: OperationParameter = {
   parameterPath: "recognizeRequest",
   mapper: RecognizeRequestMapper,
@@ -218,62 +193,6 @@ export const continuousDtmfRecognitionRequest: OperationParameter = {
 export const sendDtmfTonesRequest: OperationParameter = {
   parameterPath: "sendDtmfTonesRequest",
   mapper: SendDtmfTonesRequestMapper,
-};
-
-export const updateTranscriptionRequest: OperationParameter = {
-  parameterPath: "updateTranscriptionRequest",
-  mapper: UpdateTranscriptionRequestMapper,
-};
-
-export const holdRequest: OperationParameter = {
-  parameterPath: "holdRequest",
-  mapper: HoldRequestMapper,
-};
-
-export const unholdRequest: OperationParameter = {
-  parameterPath: "unholdRequest",
-  mapper: UnholdRequestMapper,
-};
-
-export const startHoldMusicRequest: OperationParameter = {
-  parameterPath: "startHoldMusicRequest",
-  mapper: StartHoldMusicRequestMapper,
-};
-
-export const stopHoldMusicRequest: OperationParameter = {
-  parameterPath: "stopHoldMusicRequest",
-  mapper: StopHoldMusicRequestMapper,
-};
-
-export const startDialogRequest: OperationParameter = {
-  parameterPath: "startDialogRequest",
-  mapper: StartDialogRequestMapper,
-};
-
-export const dialogId: OperationURLParameter = {
-  parameterPath: "dialogId",
-  mapper: {
-    serializedName: "dialogId",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const operationCallbackUri: OperationQueryParameter = {
-  parameterPath: ["options", "operationCallbackUri"],
-  mapper: {
-    serializedName: "operationCallbackUri",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const updateDialogRequest: OperationParameter = {
-  parameterPath: "updateDialogRequest",
-  mapper: UpdateDialogRequestMapper,
 };
 
 export const startCallRecording: OperationParameter = {
