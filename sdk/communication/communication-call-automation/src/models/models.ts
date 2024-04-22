@@ -4,6 +4,7 @@
 import {
   CommunicationIdentifier,
   CommunicationUserIdentifier,
+  MicrosoftTeamsAppIdentifier,
   MicrosoftTeamsUserIdentifier,
   PhoneNumberIdentifier,
 } from "@azure/communication-common";
@@ -13,15 +14,6 @@ export {
   CallConnectionStateModel,
   CallRejectReason,
   KnownCallRejectReason,
-  KnownMediaStreamingAudioChannelType,
-  KnownMediaStreamingContentType,
-  KnownMediaStreamingTransportType,
-  MediaStreamingAudioChannelType,
-  MediaStreamingConfiguration,
-  MediaStreamingContentType,
-  MediaStreamingTransportType,
-  TranscriptionConfiguration,
-  TranscriptionTransportType,
   RecognitionType,
   ChoiceResult,
   DtmfResult,
@@ -51,8 +43,6 @@ export interface CallConnectionProperties {
   callConnectionState?: CallConnectionStateModel;
   /** The callback URL. */
   callbackUrl?: string;
-  /** SubscriptionId for media streaming */
-  mediaSubscriptionId?: string;
   /** The correlation ID. */
   correlationId?: string;
   /** Identity of the answering entity. Only populated when identity is provided in the request. */
@@ -65,8 +55,6 @@ export interface CallParticipant {
   identifier?: CommunicationIdentifier;
   /** Is participant muted */
   isMuted?: boolean;
-  /** Is participant on hold. */
-  isOnHold?: boolean;
 }
 
 /** The locator used for joining or taking action on a call. */
@@ -87,8 +75,6 @@ export enum VoiceKind {
 export interface PlaySource {
   /** @deprecated Not in use, instead use playsourcecacheid for similar functionality*/
   playsourcacheid?: string;
-  /** Sets the play source cache id.*/
-  playSourceCacheId?: string;
 }
 
 /** The FileSource model. */
@@ -163,8 +149,6 @@ export interface RecognitionChoice {
 export enum RecognizeInputType {
   /** Dtmf */
   Dtmf = "dtmf",
-  /** Choices */
-  Choices = "choices",
 }
 
 /** Call invitee details. */
@@ -173,7 +157,8 @@ export interface CallInvite {
   readonly targetParticipant:
     | PhoneNumberIdentifier
     | CommunicationUserIdentifier
-    | MicrosoftTeamsUserIdentifier;
+    | MicrosoftTeamsUserIdentifier
+    | MicrosoftTeamsAppIdentifier;
   /** Caller's phone number identifier. */
   readonly sourceCallIdNumber?: PhoneNumberIdentifier;
   sourceDisplayName?: string;
@@ -193,8 +178,11 @@ export type RecordingChannel = "mixed" | "unmixed";
 /** The format type of a call recording. */
 export type RecordingFormat = "mp3" | "mp4" | "wav";
 
+/** The format type of a call recording. */
+export type RecordingKind = "azureCommunicationServices" | "teams" | "teamsCompliance";
+
 /** The storage type of a call recording. */
-export type RecordingStorage = "acs" | "blobStorage";
+export type RecordingStorageKind = "azureCommunicationServices" | "azureBlobStorage";
 
 /** Channel affinity for a participant */
 export interface ChannelAffinity {
@@ -205,6 +193,14 @@ export interface ChannelAffinity {
    * represented by the channel number.
    */
   targetParticipant: CommunicationIdentifier;
+}
+
+/** The recording storage */
+export interface RecordingStorage {
+  /** Defines the kind of recording storage */
+  recordingStorageKind: RecordingStorageKind;
+  /** Uri of a container or a location within a container */
+  recordingDestinationContainerUrl?: string;
 }
 
 interface CustomCallingContextHeader {

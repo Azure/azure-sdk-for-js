@@ -18066,7 +18066,7 @@ packages:
     dev: false
 
   file:projects/communication-call-automation.tgz:
-    resolution: {integrity: sha512-Ud8LIjsav1X/kYyi63hrwffC4Eq9X+rS1cr5lOQz1tug9bRrg7zbbVxfWVtBn482dW2IPUuX1gO5yWxXOtQAgg==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-VjBFn4hqW17bzM9uuUMgy14YHfQnsFWHOWIwrJRcx35GCc/zpwSqtZklq02PncuyasdIhz0ft+jdabll+k3+3g==, tarball: file:projects/communication-call-automation.tgz}
     name: '@rush-temp/communication-call-automation'
     version: 0.0.0
     dependencies:
@@ -18079,6 +18079,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.31
       '@types/sinon': 17.0.3
+      '@types/uuid': 8.3.4
       c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18105,6 +18106,7 @@ packages:
       tslib: 2.6.2
       typescript: 5.4.5
       util: 0.12.5
+      uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -19662,7 +19664,7 @@ packages:
     dev: false
 
   file:projects/eventgrid-namespaces.tgz:
-    resolution: {integrity: sha512-iaLon+aDnMsY/u9Fs1/aAUJHgL03HVj3lqj2YHyKxOXmzHyazapjWd1x0pLhHdUZNOLknL/jmzXfYrO/TRgxyg==, tarball: file:projects/eventgrid-namespaces.tgz}
+    resolution: {integrity: sha512-3DTw/5PgzCEjhHZRdnKEo85MZaylMVzP+l1ID3DYZtOuGifuemfBiaKTeBqTibiTZqQzNRlc1KZZkyy57wCncA==, tarball: file:projects/eventgrid-namespaces.tgz}
     name: '@rush-temp/eventgrid-namespaces'
     version: 0.0.0
     dependencies:
