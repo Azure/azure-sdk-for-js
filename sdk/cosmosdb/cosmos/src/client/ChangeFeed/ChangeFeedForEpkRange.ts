@@ -443,7 +443,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
         getEmptyCosmosDiagnostics(),
       );
     } catch (err) {
-      if (err.code >= 400 && err.code !== StatusCodes.Gone) {
+      if (err.code >= StatusCodes.BadRequest && err.code !== StatusCodes.Gone) {
         const errorResponse = new ErrorResponse(err.message);
         errorResponse.code = err.code;
         errorResponse.headers = err.headers;
