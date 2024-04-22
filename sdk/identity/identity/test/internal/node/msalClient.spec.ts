@@ -144,6 +144,7 @@ describe("MsalClient", function () {
 
         sandbox.stub(msalPlugins, "generatePluginConfiguration").returns({
           broker: {
+            isEnabled: false,
             enableMsaPassthrough: false,
           },
           cache: {
@@ -187,6 +188,7 @@ describe("MsalClient", function () {
 
         sandbox.stub(msalPlugins, "generatePluginConfiguration").returns({
           broker: {
+            isEnabled: false,
             enableMsaPassthrough: false,
           },
           cache: {

@@ -9,6 +9,7 @@ import {
   ReceiveResult,
   RejectResult,
   RenewCloudEventLocksResult,
+  EventGridDeserializer,
 } from "../../src";
 import { createRecordedClient } from "./utils/recordedClient";
 import { expect } from "chai";
@@ -77,8 +78,16 @@ describe("Event Grid Namespace Client", function (this: Suite) {
         topicName,
         eventSubscripionName,
       );
+
+      const deserializer: EventGridDeserializer = new EventGridDeserializer();
+      const result: CloudEvent<any>[] = await deserializer.deserializeCloudEvents(
+        JSON.stringify(receiveResult.value[0].event),
+      );
+
       // The Received Cloud Event ID must be equal to the ID of the Event that was published.
-      assert.equal(receiveResult.value[0].event.id, eventId);
+      for (const event of result) {
+        assert.equal(event.id, eventId);
+      }
     });
 
     it("publishes multiple cloud events", async () => {
@@ -275,14 +284,20 @@ describe("Event Grid Namespace Client", function (this: Suite) {
         topicName,
         eventSubscripionName,
       );
-      // The Received Cloud Event ID must be equal to the ID of the Event that was published.
-      assert.equal(receiveResult.value[0].event.id, eventId);
-      // The Received Cloud Event Data must be equal to the data of the Event that was published.
-      const receivedData: any = receiveResult.value[0].event.data!;
-      assert.equal(
-        JSON.stringify(data),
-        JSON.stringify(JSON.parse(Buffer.from(receivedData).toString())),
+
+      const deserializer: EventGridDeserializer = new EventGridDeserializer();
+      const result: CloudEvent<any>[] = await deserializer.deserializeCloudEvents(
+        JSON.stringify(receiveResult.value[0].event),
       );
+
+      for (const event of result) {
+        // The Received Cloud Event ID must be equal to the ID of the Event that was published.
+        assert.equal(event.id, eventId);
+        assert.equal(
+          JSON.stringify(data),
+          JSON.stringify(JSON.parse(Buffer.from(event.data).toString())),
+        );
+      }
     });
   });
 });

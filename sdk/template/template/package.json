@@ -106,7 +106,6 @@
     "eslint": "^8.56.0",
     "inherits": "^2.0.3",
     "playwright": "^1.41.2",
-    "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
     "source-map-support": "^0.5.9",
     "tshy": "^1.11.1",
