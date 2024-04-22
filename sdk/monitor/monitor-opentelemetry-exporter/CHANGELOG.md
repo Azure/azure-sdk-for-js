@@ -1,14 +1,35 @@
 # Release History
 
-## 1.0.0-beta.20 ()
+## 1.0.0-beta.22 (2024-04-16)
 
 ### Features Added
+
+- Add support for more Azure Monitor part A/tags.
+
+### Other Changes
+
+- Update README Code Snippets.
+
+## 1.0.0-beta.21 (2024-03-08)
+
+### Bugs Fixed
+
+- Fix issue with duration calculation for Spans.
+
+## 1.0.0-beta.20 (2024-02-13)
 
 ### Bugs Fixed
 
 - Added exception handling for reading files to avoid concurrency errors.
+- Fixed issues with formatting for the duration field.
 
 ### Other Changes
+
+- Changed the environment variable used to pass the sdk prefix.
+- Errors are no longer thrown upon failed statsbeat export.
+- Added exception handling for file creation and lookup used for telemetry caching.
+- Update OpenTelemetry depdendencies.
+- Change time precision to nanoseconds.
 
 ## 1.0.0-beta.19 (2024-01-23)
 

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ManagedClusterAADProfile,
-  ContainerServiceClient
+  ContainerServiceClient,
 } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to **WARNING**: This API will be deprecated. Please see [AKS-managed Azure Active Directory integration](https://aka.ms/aks-managed-aad) to update your cluster with AKS-managed Azure AD.
  *
  * @summary **WARNING**: This API will be deprecated. Please see [AKS-managed Azure Active Directory integration](https://aka.ms/aks-managed-aad) to update your cluster with AKS-managed Azure AD.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/ManagedClustersResetAADProfile.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/ManagedClustersResetAADProfile.json
  */
 async function resetAadProfile() {
   const subscriptionId =
@@ -34,14 +34,14 @@ async function resetAadProfile() {
     clientAppID: "clientappid",
     serverAppID: "serverappid",
     serverAppSecret: "serverappsecret",
-    tenantID: "tenantid"
+    tenantID: "tenantid",
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.managedClusters.beginResetAADProfileAndWait(
     resourceGroupName,
     resourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

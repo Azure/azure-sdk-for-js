@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.1 (Unreleased)
+## 1.1.0-beta.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,14 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.1.0-beta.1 (2024-04-12)
+
+### Features Added
+
+#### RouterWorker
+
+- Added `MaxConcurrentOffers`
 
 ## 1.0.0 (2023-11-01)
 
@@ -35,4 +43,3 @@ Using AzureCommunicationRoutingServiceClient:
 - Accept an offer.
 - Decline an offer.
 - Get queue statistics.
-

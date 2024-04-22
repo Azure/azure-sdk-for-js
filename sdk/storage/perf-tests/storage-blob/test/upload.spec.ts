@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { randomUUID } from "@azure/core-util";
-import { PerfOptionDictionary } from "@azure/test-utils-perf";
+import { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { StorageBlobTest } from "./storageTest.spec";
 
 interface StorageBlobUploadTestOptions {

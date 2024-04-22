@@ -19,10 +19,12 @@ export interface AzureMonitorOpenTelemetryOptions {
   resource?: Resource;
   /** The rate of telemetry items tracked that should be transmitted (Default 1.0) */
   samplingRatio?: number;
-  /** Enable Live Metrics feature */
+  /** Enable Live Metrics feature (Default false)*/
   enableLiveMetrics?: boolean;
-  /** Enable Standard Metrics feature */
+  /** Enable Standard Metrics feature (Default true)*/
   enableStandardMetrics?: boolean;
+  /** Enable log sampling based on trace (Default true) */
+  enableTraceBasedSamplingForLogs?: boolean;
   /** OpenTelemetry Instrumentations options included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4) */
   instrumentationOptions?: InstrumentationOptions;
   /** Application Insights Web Instrumentation options (enabled, connectionString, src, config)*/
@@ -56,6 +58,25 @@ export interface InstrumentationOptions {
 }
 
 /**
+ * Statsbeat Feature and Instrumentation Options interface
+ * @internal
+ */
+export interface StatsbeatOptions {
+  /** Instrumentations */
+  azureSdk?: boolean;
+  mongoDb?: boolean;
+  mySql?: boolean;
+  postgreSql?: boolean;
+  redis?: boolean;
+  bunyan?: boolean;
+  /** Features */
+  liveMetrics?: boolean;
+  browserSdkLoader?: boolean;
+  aadHandling?: boolean;
+  diskRetry?: boolean;
+}
+
+/**
  * Application Insights Web Instrumentation Configuration interface
  */
 export interface BrowserSdkLoaderOptions {
@@ -65,8 +86,15 @@ export interface BrowserSdkLoaderOptions {
   connectionString?: string;
 }
 
-export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.2.0";
+export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.4.0";
 export const AZURE_MONITOR_STATSBEAT_FEATURES = "AZURE_MONITOR_STATSBEAT_FEATURES";
+export const AZURE_MONITOR_PREFIX = "AZURE_MONITOR_PREFIX";
+export const AZURE_MONITOR_AUTO_ATTACH = "AZURE_MONITOR_AUTO_ATTACH";
+
+export enum AttachTypePrefix {
+  INTEGRATED_AUTO = "i",
+  MANUAL = "m",
+}
 
 /**
  * Default Browser SDK Loader Source
@@ -83,7 +111,7 @@ export const DEFAULT_BREEZE_ENDPOINT = "https://dc.services.visualstudio.com";
  * Default Live Metrics endpoint.
  * @internal
  */
-export const DEFAULT_LIVEMETRICS_ENDPOINT = "https://rt.services.visualstudio.com";
+export const DEFAULT_LIVEMETRICS_ENDPOINT = "https://global.livediagnostics.monitor.azure.com";
 
 export enum StatsbeatFeature {
   NONE = 0,
@@ -91,6 +119,7 @@ export enum StatsbeatFeature {
   AAD_HANDLING = 2,
   BROWSER_SDK_LOADER = 4,
   DISTRO = 8,
+  LIVE_METRICS = 16,
 }
 
 export enum StatsbeatInstrumentation {

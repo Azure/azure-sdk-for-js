@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 /**
  * This sample demonstrates how the updateInstallation() method can be used to update an installation using
@@ -28,7 +28,7 @@ const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 // Define an existing Installation ID.
 const installationId = process.env.INSTALLATION_ID || "<installation id>";
 
-async function main() {
+async function main(): Promise<void> {
   const context = createClientContext(connectionString, hubName);
 
   const updates: JsonPatch[] = [

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the list of ASR replication protected items in the protection container.
  *
  * @summary Gets the list of ASR replication protected items in the protection container.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectedItems_ListByReplicationProtectionContainers.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectedItems_ListByReplicationProtectionContainers.json
  */
 async function getsTheListOfReplicationProtectedItems() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function getsTheListOfReplicationProtectedItems() {
     resourceName,
     resourceGroupName,
     fabricName,
-    protectionContainerName
+    protectionContainerName,
   )) {
     resArray.push(item);
   }

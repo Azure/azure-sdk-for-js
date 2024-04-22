@@ -29,7 +29,7 @@ async function workloadNetworksGetPortMirroring() {
   const result = await client.workloadNetworks.getPortMirroring(
     resourceGroupName,
     privateCloudName,
-    portMirroringId
+    portMirroringId,
   );
   console.log(result);
 }

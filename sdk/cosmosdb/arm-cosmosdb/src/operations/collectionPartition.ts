@@ -18,7 +18,7 @@ import {
   CollectionPartitionListMetricsResponse,
   PartitionUsage,
   CollectionPartitionListUsagesOptionalParams,
-  CollectionPartitionListUsagesResponse
+  CollectionPartitionListUsagesResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -51,7 +51,7 @@ export class CollectionPartitionImpl implements CollectionPartition {
     databaseRid: string,
     collectionRid: string,
     filter: string,
-    options?: CollectionPartitionListMetricsOptionalParams
+    options?: CollectionPartitionListMetricsOptionalParams,
   ): PagedAsyncIterableIterator<PartitionMetric> {
     const iter = this.listMetricsPagingAll(
       resourceGroupName,
@@ -59,7 +59,7 @@ export class CollectionPartitionImpl implements CollectionPartition {
       databaseRid,
       collectionRid,
       filter,
-      options
+      options,
     );
     return {
       next() {
@@ -79,9 +79,9 @@ export class CollectionPartitionImpl implements CollectionPartition {
           collectionRid,
           filter,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -92,7 +92,7 @@ export class CollectionPartitionImpl implements CollectionPartition {
     collectionRid: string,
     filter: string,
     options?: CollectionPartitionListMetricsOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<PartitionMetric[]> {
     let result: CollectionPartitionListMetricsResponse;
     result = await this._listMetrics(
@@ -101,7 +101,7 @@ export class CollectionPartitionImpl implements CollectionPartition {
       databaseRid,
       collectionRid,
       filter,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -112,7 +112,7 @@ export class CollectionPartitionImpl implements CollectionPartition {
     databaseRid: string,
     collectionRid: string,
     filter: string,
-    options?: CollectionPartitionListMetricsOptionalParams
+    options?: CollectionPartitionListMetricsOptionalParams,
   ): AsyncIterableIterator<PartitionMetric> {
     for await (const page of this.listMetricsPagingPage(
       resourceGroupName,
@@ -120,7 +120,7 @@ export class CollectionPartitionImpl implements CollectionPartition {
       databaseRid,
       collectionRid,
       filter,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -139,14 +139,14 @@ export class CollectionPartitionImpl implements CollectionPartition {
     accountName: string,
     databaseRid: string,
     collectionRid: string,
-    options?: CollectionPartitionListUsagesOptionalParams
+    options?: CollectionPartitionListUsagesOptionalParams,
   ): PagedAsyncIterableIterator<PartitionUsage> {
     const iter = this.listUsagesPagingAll(
       resourceGroupName,
       accountName,
       databaseRid,
       collectionRid,
-      options
+      options,
     );
     return {
       next() {
@@ -165,9 +165,9 @@ export class CollectionPartitionImpl implements CollectionPartition {
           databaseRid,
           collectionRid,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -177,7 +177,7 @@ export class CollectionPartitionImpl implements CollectionPartition {
     databaseRid: string,
     collectionRid: string,
     options?: CollectionPartitionListUsagesOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<PartitionUsage[]> {
     let result: CollectionPartitionListUsagesResponse;
     result = await this._listUsages(
@@ -185,7 +185,7 @@ export class CollectionPartitionImpl implements CollectionPartition {
       accountName,
       databaseRid,
       collectionRid,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -195,14 +195,14 @@ export class CollectionPartitionImpl implements CollectionPartition {
     accountName: string,
     databaseRid: string,
     collectionRid: string,
-    options?: CollectionPartitionListUsagesOptionalParams
+    options?: CollectionPartitionListUsagesOptionalParams,
   ): AsyncIterableIterator<PartitionUsage> {
     for await (const page of this.listUsagesPagingPage(
       resourceGroupName,
       accountName,
       databaseRid,
       collectionRid,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -225,7 +225,7 @@ export class CollectionPartitionImpl implements CollectionPartition {
     databaseRid: string,
     collectionRid: string,
     filter: string,
-    options?: CollectionPartitionListMetricsOptionalParams
+    options?: CollectionPartitionListMetricsOptionalParams,
   ): Promise<CollectionPartitionListMetricsResponse> {
     return this.client.sendOperationRequest(
       {
@@ -234,9 +234,9 @@ export class CollectionPartitionImpl implements CollectionPartition {
         databaseRid,
         collectionRid,
         filter,
-        options
+        options,
       },
-      listMetricsOperationSpec
+      listMetricsOperationSpec,
     );
   }
 
@@ -253,11 +253,11 @@ export class CollectionPartitionImpl implements CollectionPartition {
     accountName: string,
     databaseRid: string,
     collectionRid: string,
-    options?: CollectionPartitionListUsagesOptionalParams
+    options?: CollectionPartitionListUsagesOptionalParams,
   ): Promise<CollectionPartitionListUsagesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, databaseRid, collectionRid, options },
-      listUsagesOperationSpec
+      listUsagesOperationSpec,
     );
   }
 }
@@ -265,13 +265,12 @@ export class CollectionPartitionImpl implements CollectionPartition {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listMetricsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/partitions/metrics",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/partitions/metrics",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PartitionMetricListResult
-    }
+      bodyMapper: Mappers.PartitionMetricListResult,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
@@ -280,19 +279,18 @@ const listMetricsOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseRid,
-    Parameters.collectionRid
+    Parameters.collectionRid,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listUsagesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/partitions/usages",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/partitions/usages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PartitionUsagesResult
-    }
+      bodyMapper: Mappers.PartitionUsagesResult,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter1],
   urlParameters: [
@@ -301,8 +299,8 @@ const listUsagesOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseRid,
-    Parameters.collectionRid
+    Parameters.collectionRid,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

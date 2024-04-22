@@ -18,9 +18,9 @@ dotenv.config();
  * This sample demonstrates how to Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and Subscription Management issues for the specified subscription. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant). The primary token will be from the tenant for whom a support ticket is being raised against the subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from the Cloud solution provider (CSP) partner tenant.
  *
  * @summary Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and Subscription Management issues for the specified subscription. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant). The primary token will be from the tenant for whom a support ticket is being raised against the subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from the Cloud solution provider (CSP) partner tenant.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/CreateBillingSupportTicketForSubscription.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/CreateBillingSupportTicketForSubscription.json
  */
-async function createATicketForBillingRelatedIssues() {
+async function createASubscriptionScopedTicketForBillingRelatedIssues() {
   const subscriptionId = process.env["SUPPORT_SUBSCRIPTION_ID"] || "subid";
   const supportTicketName = "testticket";
   const createSupportTicketParameters: SupportTicketDetails = {
@@ -32,7 +32,7 @@ async function createATicketForBillingRelatedIssues() {
       preferredContactMethod: "email",
       preferredSupportLanguage: "en-US",
       preferredTimeZone: "Pacific Standard Time",
-      primaryEmailAddress: "abc@contoso.com"
+      primaryEmailAddress: "abc@contoso.com",
     },
     fileWorkspaceName: "6f16735c-1530836f-e9970f1a-2e49-47b7-96cd-9746b83aa066",
     problemClassificationId:
@@ -41,13 +41,13 @@ async function createATicketForBillingRelatedIssues() {
     severity: "moderate",
     supportPlanId:
       "U291cmNlOlNDTSxDbGFyaWZ5SW5zdGFsbGF0aW9uU2l0ZUlkOjcsTGluZUl0ZW1JZDo5ODY1NzIyOSxDb250cmFjdElkOjk4NjU5MTk0LFN1YnNjcmlwdGlvbklkOjc2Y2I3N2ZhLThiMTctNGVhYi05NDkzLWI2NWRhY2U5OTgxMyw=",
-    title: "my title"
+    title: "my title",
   };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential, subscriptionId);
   const result = await client.supportTickets.beginCreateAndWait(
     supportTicketName,
-    createSupportTicketParameters
+    createSupportTicketParameters,
   );
   console.log(result);
 }
@@ -56,9 +56,9 @@ async function createATicketForBillingRelatedIssues() {
  * This sample demonstrates how to Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and Subscription Management issues for the specified subscription. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant). The primary token will be from the tenant for whom a support ticket is being raised against the subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from the Cloud solution provider (CSP) partner tenant.
  *
  * @summary Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and Subscription Management issues for the specified subscription. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant). The primary token will be from the tenant for whom a support ticket is being raised against the subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from the Cloud solution provider (CSP) partner tenant.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/CreateSubMgmtSupportTicketForSubscription.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/CreateSubMgmtSupportTicketForSubscription.json
  */
-async function createATicketForSubscriptionManagementRelatedIssues() {
+async function createASubscriptionScopedTicketForSubscriptionManagementRelatedIssues() {
   const subscriptionId = process.env["SUPPORT_SUBSCRIPTION_ID"] || "subid";
   const supportTicketName = "testticket";
   const createSupportTicketParameters: SupportTicketDetails = {
@@ -70,7 +70,7 @@ async function createATicketForSubscriptionManagementRelatedIssues() {
       preferredContactMethod: "email",
       preferredSupportLanguage: "en-US",
       preferredTimeZone: "Pacific Standard Time",
-      primaryEmailAddress: "abc@contoso.com"
+      primaryEmailAddress: "abc@contoso.com",
     },
     fileWorkspaceName: "6f16735c-1530836f-e9970f1a-2e49-47b7-96cd-9746b83aa066",
     problemClassificationId:
@@ -80,13 +80,13 @@ async function createATicketForSubscriptionManagementRelatedIssues() {
     severity: "moderate",
     supportPlanId:
       "U291cmNlOlNDTSxDbGFyaWZ5SW5zdGFsbGF0aW9uU2l0ZUlkOjcsTGluZUl0ZW1JZDo5ODY1NzIyOSxDb250cmFjdElkOjk4NjU5MTk0LFN1YnNjcmlwdGlvbklkOjc2Y2I3N2ZhLThiMTctNGVhYi05NDkzLWI2NWRhY2U5OTgxMyw=",
-    title: "my title"
+    title: "my title",
   };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential, subscriptionId);
   const result = await client.supportTickets.beginCreateAndWait(
     supportTicketName,
-    createSupportTicketParameters
+    createSupportTicketParameters,
   );
   console.log(result);
 }
@@ -95,9 +95,9 @@ async function createATicketForSubscriptionManagementRelatedIssues() {
  * This sample demonstrates how to Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and Subscription Management issues for the specified subscription. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant). The primary token will be from the tenant for whom a support ticket is being raised against the subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from the Cloud solution provider (CSP) partner tenant.
  *
  * @summary Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and Subscription Management issues for the specified subscription. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant). The primary token will be from the tenant for whom a support ticket is being raised against the subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from the Cloud solution provider (CSP) partner tenant.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/CreateTechnicalSupportTicketForSubscription.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/CreateTechnicalSupportTicketForSubscription.json
  */
-async function createATicketForTechnicalIssueRelatedToASpecificResource() {
+async function createASubscriptionScopedTicketForTechnicalIssueRelatedToASpecificResource() {
   const subscriptionId = process.env["SUPPORT_SUBSCRIPTION_ID"] || "subid";
   const supportTicketName = "testticket";
   const createSupportTicketParameters: SupportTicketDetails = {
@@ -110,7 +110,7 @@ async function createATicketForTechnicalIssueRelatedToASpecificResource() {
       preferredContactMethod: "email",
       preferredSupportLanguage: "en-US",
       preferredTimeZone: "Pacific Standard Time",
-      primaryEmailAddress: "abc@contoso.com"
+      primaryEmailAddress: "abc@contoso.com",
     },
     fileWorkspaceName: "6f16735c-1530836f-e9970f1a-2e49-47b7-96cd-9746b83aa066",
     problemClassificationId:
@@ -118,7 +118,7 @@ async function createATicketForTechnicalIssueRelatedToASpecificResource() {
     problemScopingQuestions:
       '{"articleId":"076846c1-4c0b-4b21-91c6-1a30246b3867","scopingDetails":[{"question":"When did the problem begin?","controlId":"problem_start_time","orderId":1,"inputType":"static","answer":{"displayValue":"2023-08-31T18:55:00.739Z","value":"2023-08-31T18:55:00.739Z","type":"datetime"}},{"question":"API Type of the Cosmos DB account","controlId":"api_type","orderId":2,"inputType":"static","answer":{"displayValue":"Table","value":"tables","type":"string"}},{"question":"Table name","controlId":"collection_name_table","orderId":11,"inputType":"nonstatic","answer":{"displayValue":"Select Table Name","value":"dont_know_answer","type":"string"}},{"question":"Provide additional details about the issue you\'re facing","controlId":"problem_description","orderId":12,"inputType":"nonstatic","answer":{"displayValue":"test ticket, please ignore and close","value":"test ticket, please ignore and close","type":"string"}}]}',
     secondaryConsent: [
-      { type: "virtualmachinerunninglinuxservice", userConsent: "Yes" }
+      { type: "virtualmachinerunninglinuxservice", userConsent: "Yes" },
     ],
     serviceId:
       "/providers/Microsoft.Support/services/cddd3eb5-1830-b494-44fd-782f691479dc",
@@ -127,15 +127,15 @@ async function createATicketForTechnicalIssueRelatedToASpecificResource() {
       "U291cmNlOlNDTSxDbGFyaWZ5SW5zdGFsbGF0aW9uU2l0ZUlkOjcsTGluZUl0ZW1JZDo5ODY1NzIyOSxDb250cmFjdElkOjk4NjU5MTk0LFN1YnNjcmlwdGlvbklkOjc2Y2I3N2ZhLThiMTctNGVhYi05NDkzLWI2NWRhY2U5OTgxMyw=",
     technicalTicketDetails: {
       resourceId:
-        "/subscriptions/subid/resourceGroups/test/providers/Microsoft.Compute/virtualMachines/testserver"
+        "/subscriptions/subid/resourceGroups/test/providers/Microsoft.Compute/virtualMachines/testserver",
     },
-    title: "my title"
+    title: "my title",
   };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential, subscriptionId);
   const result = await client.supportTickets.beginCreateAndWait(
     supportTicketName,
-    createSupportTicketParameters
+    createSupportTicketParameters,
   );
   console.log(result);
 }
@@ -144,7 +144,7 @@ async function createATicketForTechnicalIssueRelatedToASpecificResource() {
  * This sample demonstrates how to Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and Subscription Management issues for the specified subscription. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant). The primary token will be from the tenant for whom a support ticket is being raised against the subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from the Cloud solution provider (CSP) partner tenant.
  *
  * @summary Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and Subscription Management issues for the specified subscription. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant). The primary token will be from the tenant for whom a support ticket is being raised against the subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from the Cloud solution provider (CSP) partner tenant.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/CreateBatchQuotaTicketForSpecificBatchAccountForActiveJobs.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/CreateBatchQuotaTicketForSpecificBatchAccountForActiveJobs.json
  */
 async function createATicketToRequestQuotaIncreaseForActiveJobsAndJobSchedulesForABatchAccount() {
   const subscriptionId = process.env["SUPPORT_SUBSCRIPTION_ID"] || "subid";
@@ -159,7 +159,7 @@ async function createATicketToRequestQuotaIncreaseForActiveJobsAndJobSchedulesFo
       preferredContactMethod: "email",
       preferredSupportLanguage: "en-US",
       preferredTimeZone: "Pacific Standard Time",
-      primaryEmailAddress: "abc@contoso.com"
+      primaryEmailAddress: "abc@contoso.com",
     },
     problemClassificationId:
       "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/batch_problemClassification_guid",
@@ -169,21 +169,21 @@ async function createATicketToRequestQuotaIncreaseForActiveJobsAndJobSchedulesFo
       quotaChangeRequests: [
         {
           payload: '{"AccountName":"test","NewLimit":200,"Type":"Jobs"}',
-          region: "EastUS"
-        }
-      ]
+          region: "EastUS",
+        },
+      ],
     },
     serviceId: "/providers/Microsoft.Support/services/quota_service_guid",
     severity: "moderate",
     supportPlanId:
       "U291cmNlOlNDTSxDbGFyaWZ5SW5zdGFsbGF0aW9uU2l0ZUlkOjcsTGluZUl0ZW1JZDo5ODY1NzIyOSxDb250cmFjdElkOjk4NjU5MTk0LFN1YnNjcmlwdGlvbklkOjc2Y2I3N2ZhLThiMTctNGVhYi05NDkzLWI2NWRhY2U5OTgxMyw=",
-    title: "my title"
+    title: "my title",
   };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential, subscriptionId);
   const result = await client.supportTickets.beginCreateAndWait(
     supportTicketName,
-    createSupportTicketParameters
+    createSupportTicketParameters,
   );
   console.log(result);
 }
@@ -192,7 +192,7 @@ async function createATicketToRequestQuotaIncreaseForActiveJobsAndJobSchedulesFo
  * This sample demonstrates how to Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and Subscription Management issues for the specified subscription. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant). The primary token will be from the tenant for whom a support ticket is being raised against the subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from the Cloud solution provider (CSP) partner tenant.
  *
  * @summary Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and Subscription Management issues for the specified subscription. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant). The primary token will be from the tenant for whom a support ticket is being raised against the subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from the Cloud solution provider (CSP) partner tenant.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/CreateSqlManagedInstanceQuotaTicket.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/CreateSqlManagedInstanceQuotaTicket.json
  */
 async function createATicketToRequestQuotaIncreaseForAzureSqlManagedInstance() {
   const subscriptionId = process.env["SUPPORT_SUBSCRIPTION_ID"] || "subid";
@@ -207,7 +207,7 @@ async function createATicketToRequestQuotaIncreaseForAzureSqlManagedInstance() {
       preferredContactMethod: "email",
       preferredSupportLanguage: "en-US",
       preferredTimeZone: "Pacific Standard Time",
-      primaryEmailAddress: "abc@contoso.com"
+      primaryEmailAddress: "abc@contoso.com",
     },
     problemClassificationId:
       "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/sql_managedinstance_problemClassification_guid",
@@ -217,25 +217,25 @@ async function createATicketToRequestQuotaIncreaseForAzureSqlManagedInstance() {
       quotaChangeRequests: [
         {
           payload: '{"NewLimit":200, "Metadata":null, "Type":"vCore"}',
-          region: "EastUS"
+          region: "EastUS",
         },
         {
           payload: '{"NewLimit":200, "Metadata":null, "Type":"Subnet"}',
-          region: "EastUS"
-        }
-      ]
+          region: "EastUS",
+        },
+      ],
     },
     serviceId: "/providers/Microsoft.Support/services/quota_service_guid",
     severity: "moderate",
     supportPlanId:
       "U291cmNlOlNDTSxDbGFyaWZ5SW5zdGFsbGF0aW9uU2l0ZUlkOjcsTGluZUl0ZW1JZDo5ODY1NzIyOSxDb250cmFjdElkOjk4NjU5MTk0LFN1YnNjcmlwdGlvbklkOjc2Y2I3N2ZhLThiMTctNGVhYi05NDkzLWI2NWRhY2U5OTgxMyw=",
-    title: "my title"
+    title: "my title",
   };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential, subscriptionId);
   const result = await client.supportTickets.beginCreateAndWait(
     supportTicketName,
-    createSupportTicketParameters
+    createSupportTicketParameters,
   );
   console.log(result);
 }
@@ -244,7 +244,7 @@ async function createATicketToRequestQuotaIncreaseForAzureSqlManagedInstance() {
  * This sample demonstrates how to Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and Subscription Management issues for the specified subscription. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant). The primary token will be from the tenant for whom a support ticket is being raised against the subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from the Cloud solution provider (CSP) partner tenant.
  *
  * @summary Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and Subscription Management issues for the specified subscription. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant). The primary token will be from the tenant for whom a support ticket is being raised against the subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from the Cloud solution provider (CSP) partner tenant.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/CreateBatchQuotaTicketForSubscription.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/CreateBatchQuotaTicketForSubscription.json
  */
 async function createATicketToRequestQuotaIncreaseForBatchAccountsForASubscription() {
   const subscriptionId = process.env["SUPPORT_SUBSCRIPTION_ID"] || "subid";
@@ -259,7 +259,7 @@ async function createATicketToRequestQuotaIncreaseForBatchAccountsForASubscripti
       preferredContactMethod: "email",
       preferredSupportLanguage: "en-US",
       preferredTimeZone: "Pacific Standard Time",
-      primaryEmailAddress: "abc@contoso.com"
+      primaryEmailAddress: "abc@contoso.com",
     },
     problemClassificationId:
       "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/batch_problemClassification_guid",
@@ -267,20 +267,20 @@ async function createATicketToRequestQuotaIncreaseForBatchAccountsForASubscripti
       quotaChangeRequestSubType: "Subscription",
       quotaChangeRequestVersion: "1.0",
       quotaChangeRequests: [
-        { payload: '{"NewLimit":200,"Type":"Account"}', region: "EastUS" }
-      ]
+        { payload: '{"NewLimit":200,"Type":"Account"}', region: "EastUS" },
+      ],
     },
     serviceId: "/providers/Microsoft.Support/services/quota_service_guid",
     severity: "moderate",
     supportPlanId:
       "U291cmNlOlNDTSxDbGFyaWZ5SW5zdGFsbGF0aW9uU2l0ZUlkOjcsTGluZUl0ZW1JZDo5ODY1NzIyOSxDb250cmFjdElkOjk4NjU5MTk0LFN1YnNjcmlwdGlvbklkOjc2Y2I3N2ZhLThiMTctNGVhYi05NDkzLWI2NWRhY2U5OTgxMyw=",
-    title: "my title"
+    title: "my title",
   };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential, subscriptionId);
   const result = await client.supportTickets.beginCreateAndWait(
     supportTicketName,
-    createSupportTicketParameters
+    createSupportTicketParameters,
   );
   console.log(result);
 }
@@ -289,7 +289,7 @@ async function createATicketToRequestQuotaIncreaseForBatchAccountsForASubscripti
  * This sample demonstrates how to Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and Subscription Management issues for the specified subscription. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant). The primary token will be from the tenant for whom a support ticket is being raised against the subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from the Cloud solution provider (CSP) partner tenant.
  *
  * @summary Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and Subscription Management issues for the specified subscription. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant). The primary token will be from the tenant for whom a support ticket is being raised against the subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from the Cloud solution provider (CSP) partner tenant.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/CreateCoresQuotaTicketForSubscription.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/CreateCoresQuotaTicketForSubscription.json
  */
 async function createATicketToRequestQuotaIncreaseForComputeVMCores() {
   const subscriptionId = process.env["SUPPORT_SUBSCRIPTION_ID"] || "subid";
@@ -304,27 +304,27 @@ async function createATicketToRequestQuotaIncreaseForComputeVMCores() {
       preferredContactMethod: "email",
       preferredSupportLanguage: "en-US",
       preferredTimeZone: "Pacific Standard Time",
-      primaryEmailAddress: "abc@contoso.com"
+      primaryEmailAddress: "abc@contoso.com",
     },
     problemClassificationId:
       "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/cores_problemClassification_guid",
     quotaTicketDetails: {
       quotaChangeRequestVersion: "1.0",
       quotaChangeRequests: [
-        { payload: '{"SKU":"DSv3 Series","NewLimit":104}', region: "EastUS" }
-      ]
+        { payload: '{"SKU":"DSv3 Series","NewLimit":104}', region: "EastUS" },
+      ],
     },
     serviceId: "/providers/Microsoft.Support/services/quota_service_guid",
     severity: "moderate",
     supportPlanId:
       "U291cmNlOlNDTSxDbGFyaWZ5SW5zdGFsbGF0aW9uU2l0ZUlkOjcsTGluZUl0ZW1JZDo5ODY1NzIyOSxDb250cmFjdElkOjk4NjU5MTk0LFN1YnNjcmlwdGlvbklkOjc2Y2I3N2ZhLThiMTctNGVhYi05NDkzLWI2NWRhY2U5OTgxMyw=",
-    title: "my title"
+    title: "my title",
   };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential, subscriptionId);
   const result = await client.supportTickets.beginCreateAndWait(
     supportTicketName,
-    createSupportTicketParameters
+    createSupportTicketParameters,
   );
   console.log(result);
 }
@@ -333,7 +333,7 @@ async function createATicketToRequestQuotaIncreaseForComputeVMCores() {
  * This sample demonstrates how to Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and Subscription Management issues for the specified subscription. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant). The primary token will be from the tenant for whom a support ticket is being raised against the subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from the Cloud solution provider (CSP) partner tenant.
  *
  * @summary Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and Subscription Management issues for the specified subscription. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant). The primary token will be from the tenant for whom a support ticket is being raised against the subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from the Cloud solution provider (CSP) partner tenant.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/CreateSqlDatawarehouseQuotaTicketForDTUs.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/CreateSqlDatawarehouseQuotaTicketForDTUs.json
  */
 async function createATicketToRequestQuotaIncreaseForDtUsForAzureSynapseAnalytics() {
   const subscriptionId = process.env["SUPPORT_SUBSCRIPTION_ID"] || "subid";
@@ -348,7 +348,7 @@ async function createATicketToRequestQuotaIncreaseForDtUsForAzureSynapseAnalytic
       preferredContactMethod: "email",
       preferredSupportLanguage: "en-US",
       preferredTimeZone: "Pacific Standard Time",
-      primaryEmailAddress: "abc@contoso.com"
+      primaryEmailAddress: "abc@contoso.com",
     },
     problemClassificationId:
       "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/sql_datawarehouse_problemClassification_guid",
@@ -358,21 +358,21 @@ async function createATicketToRequestQuotaIncreaseForDtUsForAzureSynapseAnalytic
       quotaChangeRequests: [
         {
           payload: '{"ServerName":"testserver","NewLimit":54000}',
-          region: "EastUS"
-        }
-      ]
+          region: "EastUS",
+        },
+      ],
     },
     serviceId: "/providers/Microsoft.Support/services/quota_service_guid",
     severity: "moderate",
     supportPlanId:
       "U291cmNlOlNDTSxDbGFyaWZ5SW5zdGFsbGF0aW9uU2l0ZUlkOjcsTGluZUl0ZW1JZDo5ODY1NzIyOSxDb250cmFjdElkOjk4NjU5MTk0LFN1YnNjcmlwdGlvbklkOjc2Y2I3N2ZhLThiMTctNGVhYi05NDkzLWI2NWRhY2U5OTgxMyw=",
-    title: "my title"
+    title: "my title",
   };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential, subscriptionId);
   const result = await client.supportTickets.beginCreateAndWait(
     supportTicketName,
-    createSupportTicketParameters
+    createSupportTicketParameters,
   );
   console.log(result);
 }
@@ -381,7 +381,7 @@ async function createATicketToRequestQuotaIncreaseForDtUsForAzureSynapseAnalytic
  * This sample demonstrates how to Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and Subscription Management issues for the specified subscription. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant). The primary token will be from the tenant for whom a support ticket is being raised against the subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from the Cloud solution provider (CSP) partner tenant.
  *
  * @summary Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and Subscription Management issues for the specified subscription. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant). The primary token will be from the tenant for whom a support ticket is being raised against the subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from the Cloud solution provider (CSP) partner tenant.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/CreateSqlDatabaseQuotaTicketForDTUs.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/CreateSqlDatabaseQuotaTicketForDTUs.json
  */
 async function createATicketToRequestQuotaIncreaseForDtUsForSqlDatabase() {
   const subscriptionId = process.env["SUPPORT_SUBSCRIPTION_ID"] || "subid";
@@ -396,7 +396,7 @@ async function createATicketToRequestQuotaIncreaseForDtUsForSqlDatabase() {
       preferredContactMethod: "email",
       preferredSupportLanguage: "en-US",
       preferredTimeZone: "Pacific Standard Time",
-      primaryEmailAddress: "abc@contoso.com"
+      primaryEmailAddress: "abc@contoso.com",
     },
     problemClassificationId:
       "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/sql_database_problemClassification_guid",
@@ -406,21 +406,21 @@ async function createATicketToRequestQuotaIncreaseForDtUsForSqlDatabase() {
       quotaChangeRequests: [
         {
           payload: '{"ServerName":"testserver","NewLimit":54000}',
-          region: "EastUS"
-        }
-      ]
+          region: "EastUS",
+        },
+      ],
     },
     serviceId: "/providers/Microsoft.Support/services/quota_service_guid",
     severity: "moderate",
     supportPlanId:
       "U291cmNlOlNDTSxDbGFyaWZ5SW5zdGFsbGF0aW9uU2l0ZUlkOjcsTGluZUl0ZW1JZDo5ODY1NzIyOSxDb250cmFjdElkOjk4NjU5MTk0LFN1YnNjcmlwdGlvbklkOjc2Y2I3N2ZhLThiMTctNGVhYi05NDkzLWI2NWRhY2U5OTgxMyw=",
-    title: "my title"
+    title: "my title",
   };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential, subscriptionId);
   const result = await client.supportTickets.beginCreateAndWait(
     supportTicketName,
-    createSupportTicketParameters
+    createSupportTicketParameters,
   );
   console.log(result);
 }
@@ -429,7 +429,7 @@ async function createATicketToRequestQuotaIncreaseForDtUsForSqlDatabase() {
  * This sample demonstrates how to Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and Subscription Management issues for the specified subscription. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant). The primary token will be from the tenant for whom a support ticket is being raised against the subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from the Cloud solution provider (CSP) partner tenant.
  *
  * @summary Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and Subscription Management issues for the specified subscription. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant). The primary token will be from the tenant for whom a support ticket is being raised against the subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from the Cloud solution provider (CSP) partner tenant.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/CreateMachineLearningQuotaTicketForLowPriorityCores.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/CreateMachineLearningQuotaTicketForLowPriorityCores.json
  */
 async function createATicketToRequestQuotaIncreaseForLowPriorityCoresForMachineLearningService() {
   const subscriptionId = process.env["SUPPORT_SUBSCRIPTION_ID"] || "subid";
@@ -444,7 +444,7 @@ async function createATicketToRequestQuotaIncreaseForLowPriorityCoresForMachineL
       preferredContactMethod: "email",
       preferredSupportLanguage: "en-US",
       preferredTimeZone: "Pacific Standard Time",
-      primaryEmailAddress: "abc@contoso.com"
+      primaryEmailAddress: "abc@contoso.com",
     },
     problemClassificationId:
       "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/machine_learning_service_problemClassification_guid",
@@ -452,20 +452,20 @@ async function createATicketToRequestQuotaIncreaseForLowPriorityCoresForMachineL
       quotaChangeRequestSubType: "BatchAml",
       quotaChangeRequestVersion: "1.0",
       quotaChangeRequests: [
-        { payload: '{"NewLimit":200,"Type":"LowPriority"}', region: "EastUS" }
-      ]
+        { payload: '{"NewLimit":200,"Type":"LowPriority"}', region: "EastUS" },
+      ],
     },
     serviceId: "/providers/Microsoft.Support/services/quota_service_guid",
     severity: "moderate",
     supportPlanId:
       "U291cmNlOlNDTSxDbGFyaWZ5SW5zdGFsbGF0aW9uU2l0ZUlkOjcsTGluZUl0ZW1JZDo5ODY1NzIyOSxDb250cmFjdElkOjk4NjU5MTk0LFN1YnNjcmlwdGlvbklkOjc2Y2I3N2ZhLThiMTctNGVhYi05NDkzLWI2NWRhY2U5OTgxMyw=",
-    title: "my title"
+    title: "my title",
   };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential, subscriptionId);
   const result = await client.supportTickets.beginCreateAndWait(
     supportTicketName,
-    createSupportTicketParameters
+    createSupportTicketParameters,
   );
   console.log(result);
 }
@@ -474,7 +474,7 @@ async function createATicketToRequestQuotaIncreaseForLowPriorityCoresForMachineL
  * This sample demonstrates how to Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and Subscription Management issues for the specified subscription. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant). The primary token will be from the tenant for whom a support ticket is being raised against the subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from the Cloud solution provider (CSP) partner tenant.
  *
  * @summary Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and Subscription Management issues for the specified subscription. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant). The primary token will be from the tenant for whom a support ticket is being raised against the subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from the Cloud solution provider (CSP) partner tenant.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/CreateBatchQuotaTicketForSpecificBatchAccountForLowPriorityCores.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/CreateBatchQuotaTicketForSpecificBatchAccountForLowPriorityCores.json
  */
 async function createATicketToRequestQuotaIncreaseForLowPriorityCoresForABatchAccount() {
   const subscriptionId = process.env["SUPPORT_SUBSCRIPTION_ID"] || "subid";
@@ -489,7 +489,7 @@ async function createATicketToRequestQuotaIncreaseForLowPriorityCoresForABatchAc
       preferredContactMethod: "email",
       preferredSupportLanguage: "en-US",
       preferredTimeZone: "Pacific Standard Time",
-      primaryEmailAddress: "abc@contoso.com"
+      primaryEmailAddress: "abc@contoso.com",
     },
     problemClassificationId:
       "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/batch_problemClassification_guid",
@@ -499,21 +499,21 @@ async function createATicketToRequestQuotaIncreaseForLowPriorityCoresForABatchAc
       quotaChangeRequests: [
         {
           payload: '{"AccountName":"test","NewLimit":200,"Type":"LowPriority"}',
-          region: "EastUS"
-        }
-      ]
+          region: "EastUS",
+        },
+      ],
     },
     serviceId: "/providers/Microsoft.Support/services/quota_service_guid",
     severity: "moderate",
     supportPlanId:
       "U291cmNlOlNDTSxDbGFyaWZ5SW5zdGFsbGF0aW9uU2l0ZUlkOjcsTGluZUl0ZW1JZDo5ODY1NzIyOSxDb250cmFjdElkOjk4NjU5MTk0LFN1YnNjcmlwdGlvbklkOjc2Y2I3N2ZhLThiMTctNGVhYi05NDkzLWI2NWRhY2U5OTgxMyw=",
-    title: "my title"
+    title: "my title",
   };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential, subscriptionId);
   const result = await client.supportTickets.beginCreateAndWait(
     supportTicketName,
-    createSupportTicketParameters
+    createSupportTicketParameters,
   );
   console.log(result);
 }
@@ -522,7 +522,7 @@ async function createATicketToRequestQuotaIncreaseForLowPriorityCoresForABatchAc
  * This sample demonstrates how to Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and Subscription Management issues for the specified subscription. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant). The primary token will be from the tenant for whom a support ticket is being raised against the subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from the Cloud solution provider (CSP) partner tenant.
  *
  * @summary Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and Subscription Management issues for the specified subscription. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant). The primary token will be from the tenant for whom a support ticket is being raised against the subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from the Cloud solution provider (CSP) partner tenant.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/CreateBatchQuotaTicketForSpecificBatchAccountForPools.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/CreateBatchQuotaTicketForSpecificBatchAccountForPools.json
  */
 async function createATicketToRequestQuotaIncreaseForPoolsForABatchAccount() {
   const subscriptionId = process.env["SUPPORT_SUBSCRIPTION_ID"] || "subid";
@@ -537,7 +537,7 @@ async function createATicketToRequestQuotaIncreaseForPoolsForABatchAccount() {
       preferredContactMethod: "email",
       preferredSupportLanguage: "en-US",
       preferredTimeZone: "Pacific Standard Time",
-      primaryEmailAddress: "abc@contoso.com"
+      primaryEmailAddress: "abc@contoso.com",
     },
     problemClassificationId:
       "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/batch_problemClassification_guid",
@@ -547,21 +547,21 @@ async function createATicketToRequestQuotaIncreaseForPoolsForABatchAccount() {
       quotaChangeRequests: [
         {
           payload: '{"AccountName":"test","NewLimit":200,"Type":"Pools"}',
-          region: "EastUS"
-        }
-      ]
+          region: "EastUS",
+        },
+      ],
     },
     serviceId: "/providers/Microsoft.Support/services/quota_service_guid",
     severity: "moderate",
     supportPlanId:
       "U291cmNlOlNDTSxDbGFyaWZ5SW5zdGFsbGF0aW9uU2l0ZUlkOjcsTGluZUl0ZW1JZDo5ODY1NzIyOSxDb250cmFjdElkOjk4NjU5MTk0LFN1YnNjcmlwdGlvbklkOjc2Y2I3N2ZhLThiMTctNGVhYi05NDkzLWI2NWRhY2U5OTgxMyw=",
-    title: "my title"
+    title: "my title",
   };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential, subscriptionId);
   const result = await client.supportTickets.beginCreateAndWait(
     supportTicketName,
-    createSupportTicketParameters
+    createSupportTicketParameters,
   );
   console.log(result);
 }
@@ -570,7 +570,7 @@ async function createATicketToRequestQuotaIncreaseForPoolsForABatchAccount() {
  * This sample demonstrates how to Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and Subscription Management issues for the specified subscription. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant). The primary token will be from the tenant for whom a support ticket is being raised against the subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from the Cloud solution provider (CSP) partner tenant.
  *
  * @summary Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and Subscription Management issues for the specified subscription. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant). The primary token will be from the tenant for whom a support ticket is being raised against the subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from the Cloud solution provider (CSP) partner tenant.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/CreateSqlDatawarehouseQuotaTicketForServers.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/CreateSqlDatawarehouseQuotaTicketForServers.json
  */
 async function createATicketToRequestQuotaIncreaseForServersForAzureSynapseAnalytics() {
   const subscriptionId = process.env["SUPPORT_SUBSCRIPTION_ID"] || "subid";
@@ -585,26 +585,26 @@ async function createATicketToRequestQuotaIncreaseForServersForAzureSynapseAnaly
       preferredContactMethod: "email",
       preferredSupportLanguage: "en-US",
       preferredTimeZone: "Pacific Standard Time",
-      primaryEmailAddress: "abc@contoso.com"
+      primaryEmailAddress: "abc@contoso.com",
     },
     problemClassificationId:
       "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/sql_datawarehouse_problemClassification_guid",
     quotaTicketDetails: {
       quotaChangeRequestSubType: "Servers",
       quotaChangeRequestVersion: "1.0",
-      quotaChangeRequests: [{ payload: '{"NewLimit":200}', region: "EastUS" }]
+      quotaChangeRequests: [{ payload: '{"NewLimit":200}', region: "EastUS" }],
     },
     serviceId: "/providers/Microsoft.Support/services/quota_service_guid",
     severity: "moderate",
     supportPlanId:
       "U291cmNlOlNDTSxDbGFyaWZ5SW5zdGFsbGF0aW9uU2l0ZUlkOjcsTGluZUl0ZW1JZDo5ODY1NzIyOSxDb250cmFjdElkOjk4NjU5MTk0LFN1YnNjcmlwdGlvbklkOjc2Y2I3N2ZhLThiMTctNGVhYi05NDkzLWI2NWRhY2U5OTgxMyw=",
-    title: "my title"
+    title: "my title",
   };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential, subscriptionId);
   const result = await client.supportTickets.beginCreateAndWait(
     supportTicketName,
-    createSupportTicketParameters
+    createSupportTicketParameters,
   );
   console.log(result);
 }
@@ -613,7 +613,7 @@ async function createATicketToRequestQuotaIncreaseForServersForAzureSynapseAnaly
  * This sample demonstrates how to Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and Subscription Management issues for the specified subscription. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant). The primary token will be from the tenant for whom a support ticket is being raised against the subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from the Cloud solution provider (CSP) partner tenant.
  *
  * @summary Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and Subscription Management issues for the specified subscription. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant). The primary token will be from the tenant for whom a support ticket is being raised against the subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from the Cloud solution provider (CSP) partner tenant.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/CreateSqlDatabaseQuotaTicketForServers.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/CreateSqlDatabaseQuotaTicketForServers.json
  */
 async function createATicketToRequestQuotaIncreaseForServersForSqlDatabase() {
   const subscriptionId = process.env["SUPPORT_SUBSCRIPTION_ID"] || "subid";
@@ -628,26 +628,26 @@ async function createATicketToRequestQuotaIncreaseForServersForSqlDatabase() {
       preferredContactMethod: "email",
       preferredSupportLanguage: "en-US",
       preferredTimeZone: "Pacific Standard Time",
-      primaryEmailAddress: "abc@contoso.com"
+      primaryEmailAddress: "abc@contoso.com",
     },
     problemClassificationId:
       "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/sql_database_problemClassification_guid",
     quotaTicketDetails: {
       quotaChangeRequestSubType: "Servers",
       quotaChangeRequestVersion: "1.0",
-      quotaChangeRequests: [{ payload: '{"NewLimit":200}', region: "EastUS" }]
+      quotaChangeRequests: [{ payload: '{"NewLimit":200}', region: "EastUS" }],
     },
     serviceId: "/providers/Microsoft.Support/services/quota_service_guid",
     severity: "moderate",
     supportPlanId:
       "U291cmNlOlNDTSxDbGFyaWZ5SW5zdGFsbGF0aW9uU2l0ZUlkOjcsTGluZUl0ZW1JZDo5ODY1NzIyOSxDb250cmFjdElkOjk4NjU5MTk0LFN1YnNjcmlwdGlvbklkOjc2Y2I3N2ZhLThiMTctNGVhYi05NDkzLWI2NWRhY2U5OTgxMyw=",
-    title: "my title"
+    title: "my title",
   };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential, subscriptionId);
   const result = await client.supportTickets.beginCreateAndWait(
     supportTicketName,
-    createSupportTicketParameters
+    createSupportTicketParameters,
   );
   console.log(result);
 }
@@ -656,7 +656,7 @@ async function createATicketToRequestQuotaIncreaseForServersForSqlDatabase() {
  * This sample demonstrates how to Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and Subscription Management issues for the specified subscription. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant). The primary token will be from the tenant for whom a support ticket is being raised against the subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from the Cloud solution provider (CSP) partner tenant.
  *
  * @summary Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and Subscription Management issues for the specified subscription. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant). The primary token will be from the tenant for whom a support ticket is being raised against the subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from the Cloud solution provider (CSP) partner tenant.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/CreateGenericQuotaTicket.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/CreateGenericQuotaTicket.json
  */
 async function createATicketToRequestQuotaIncreaseForServicesThatDoNotRequireAdditionalDetailsInTheQuotaTicketDetailsObject() {
   const subscriptionId = process.env["SUPPORT_SUBSCRIPTION_ID"] || "subid";
@@ -671,19 +671,19 @@ async function createATicketToRequestQuotaIncreaseForServicesThatDoNotRequireAdd
       preferredContactMethod: "email",
       preferredSupportLanguage: "en-US",
       preferredTimeZone: "Pacific Standard Time",
-      primaryEmailAddress: "abc@contoso.com"
+      primaryEmailAddress: "abc@contoso.com",
     },
     problemClassificationId:
       "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/cosmosdb_problemClassification_guid",
     serviceId: "/providers/Microsoft.Support/services/quota_service_guid",
     severity: "moderate",
-    title: "my title"
+    title: "my title",
   };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential, subscriptionId);
   const result = await client.supportTickets.beginCreateAndWait(
     supportTicketName,
-    createSupportTicketParameters
+    createSupportTicketParameters,
   );
   console.log(result);
 }
@@ -692,7 +692,7 @@ async function createATicketToRequestQuotaIncreaseForServicesThatDoNotRequireAdd
  * This sample demonstrates how to Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and Subscription Management issues for the specified subscription. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant). The primary token will be from the tenant for whom a support ticket is being raised against the subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from the Cloud solution provider (CSP) partner tenant.
  *
  * @summary Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and Subscription Management issues for the specified subscription. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant). The primary token will be from the tenant for whom a support ticket is being raised against the subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from the Cloud solution provider (CSP) partner tenant.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/CreateMachineLearningQuotaTicketForDedicatedCores.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/CreateMachineLearningQuotaTicketForDedicatedCores.json
  */
 async function createATicketToRequestQuotaIncreaseForSpecificVMFamilyCoresForMachineLearningService() {
   const subscriptionId = process.env["SUPPORT_SUBSCRIPTION_ID"] || "subid";
@@ -707,7 +707,7 @@ async function createATicketToRequestQuotaIncreaseForSpecificVMFamilyCoresForMac
       preferredContactMethod: "email",
       preferredSupportLanguage: "en-US",
       preferredTimeZone: "Pacific Standard Time",
-      primaryEmailAddress: "abc@contoso.com"
+      primaryEmailAddress: "abc@contoso.com",
     },
     problemClassificationId:
       "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/machine_learning_service_problemClassification_guid",
@@ -718,21 +718,21 @@ async function createATicketToRequestQuotaIncreaseForSpecificVMFamilyCoresForMac
         {
           payload:
             '{"VMFamily":"standardA0_A7Family","NewLimit":200,"Type":"Dedicated"}',
-          region: "EastUS"
-        }
-      ]
+          region: "EastUS",
+        },
+      ],
     },
     serviceId: "/providers/Microsoft.Support/services/quota_service_guid",
     severity: "moderate",
     supportPlanId:
       "U291cmNlOlNDTSxDbGFyaWZ5SW5zdGFsbGF0aW9uU2l0ZUlkOjcsTGluZUl0ZW1JZDo5ODY1NzIyOSxDb250cmFjdElkOjk4NjU5MTk0LFN1YnNjcmlwdGlvbklkOjc2Y2I3N2ZhLThiMTctNGVhYi05NDkzLWI2NWRhY2U5OTgxMyw=",
-    title: "my title"
+    title: "my title",
   };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential, subscriptionId);
   const result = await client.supportTickets.beginCreateAndWait(
     supportTicketName,
-    createSupportTicketParameters
+    createSupportTicketParameters,
   );
   console.log(result);
 }
@@ -741,7 +741,7 @@ async function createATicketToRequestQuotaIncreaseForSpecificVMFamilyCoresForMac
  * This sample demonstrates how to Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and Subscription Management issues for the specified subscription. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant). The primary token will be from the tenant for whom a support ticket is being raised against the subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from the Cloud solution provider (CSP) partner tenant.
  *
  * @summary Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and Subscription Management issues for the specified subscription. Learn the [prerequisites](https://aka.ms/supportAPI) required to create a support ticket.<br/><br/>Always call the Services and ProblemClassifications API to get the most recent set of services and problem categories required for support ticket creation.<br/><br/>Adding attachments is not currently supported via the API. To add a file to an existing support ticket, visit the [Manage support ticket](https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest) page in the Azure portal, select the support ticket, and use the file upload control to add a new file.<br/><br/>Providing consent to share diagnostic information with Azure support is currently not supported via the API. The Azure support engineer working on your ticket will reach out to you for consent if your issue requires gathering diagnostic information from your Azure resources.<br/><br/>**Creating a support ticket for on-behalf-of**: Include _x-ms-authorization-auxiliary_ header to provide an auxiliary token as per [documentation](https://docs.microsoft.com/azure/azure-resource-manager/management/authenticate-multi-tenant). The primary token will be from the tenant for whom a support ticket is being raised against the subscription, i.e. Cloud solution provider (CSP) customer tenant. The auxiliary token will be from the Cloud solution provider (CSP) partner tenant.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/CreateBatchQuotaTicketForSpecificBatchAccountForDedicatedCores.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/CreateBatchQuotaTicketForSpecificBatchAccountForDedicatedCores.json
  */
 async function createATicketToRequestQuotaIncreaseForSpecificVMFamilyCoresForABatchAccount() {
   const subscriptionId = process.env["SUPPORT_SUBSCRIPTION_ID"] || "subid";
@@ -756,7 +756,7 @@ async function createATicketToRequestQuotaIncreaseForSpecificVMFamilyCoresForABa
       preferredContactMethod: "email",
       preferredSupportLanguage: "en-US",
       preferredTimeZone: "Pacific Standard Time",
-      primaryEmailAddress: "abc@contoso.com"
+      primaryEmailAddress: "abc@contoso.com",
     },
     problemClassificationId:
       "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/batch_problemClassification_guid",
@@ -767,29 +767,29 @@ async function createATicketToRequestQuotaIncreaseForSpecificVMFamilyCoresForABa
         {
           payload:
             '{"AccountName":"test","VMFamily":"standardA0_A7Family","NewLimit":200,"Type":"Dedicated"}',
-          region: "EastUS"
-        }
-      ]
+          region: "EastUS",
+        },
+      ],
     },
     serviceId: "/providers/Microsoft.Support/services/quota_service_guid",
     severity: "moderate",
     supportPlanId:
       "U291cmNlOlNDTSxDbGFyaWZ5SW5zdGFsbGF0aW9uU2l0ZUlkOjcsTGluZUl0ZW1JZDo5ODY1NzIyOSxDb250cmFjdElkOjk4NjU5MTk0LFN1YnNjcmlwdGlvbklkOjc2Y2I3N2ZhLThiMTctNGVhYi05NDkzLWI2NWRhY2U5OTgxMyw=",
-    title: "my title"
+    title: "my title",
   };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential, subscriptionId);
   const result = await client.supportTickets.beginCreateAndWait(
     supportTicketName,
-    createSupportTicketParameters
+    createSupportTicketParameters,
   );
   console.log(result);
 }
 
 async function main() {
-  createATicketForBillingRelatedIssues();
-  createATicketForSubscriptionManagementRelatedIssues();
-  createATicketForTechnicalIssueRelatedToASpecificResource();
+  createASubscriptionScopedTicketForBillingRelatedIssues();
+  createASubscriptionScopedTicketForSubscriptionManagementRelatedIssues();
+  createASubscriptionScopedTicketForTechnicalIssueRelatedToASpecificResource();
   createATicketToRequestQuotaIncreaseForActiveJobsAndJobSchedulesForABatchAccount();
   createATicketToRequestQuotaIncreaseForAzureSqlManagedInstance();
   createATicketToRequestQuotaIncreaseForBatchAccountsForASubscription();

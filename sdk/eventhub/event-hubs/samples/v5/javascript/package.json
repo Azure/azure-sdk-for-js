@@ -31,6 +31,6 @@
     "@azure/core-amqp": "^4.0.0",
     "ws": "^8.2.0",
     "@azure/identity": "^4.0.1",
-    "https-proxy-agent": "^5.0.0"
+    "https-proxy-agent": "^7.0.0"
   }
 }

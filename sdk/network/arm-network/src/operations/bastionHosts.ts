@@ -16,7 +16,7 @@ import { NetworkManagementClient } from "../networkManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -36,7 +36,7 @@ import {
   BastionHostsUpdateTagsOptionalParams,
   BastionHostsUpdateTagsResponse,
   BastionHostsListNextResponse,
-  BastionHostsListByResourceGroupNextResponse
+  BastionHostsListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,7 +57,7 @@ export class BastionHostsImpl implements BastionHosts {
    * @param options The options parameters.
    */
   public list(
-    options?: BastionHostsListOptionalParams
+    options?: BastionHostsListOptionalParams,
   ): PagedAsyncIterableIterator<BastionHost> {
     const iter = this.listPagingAll(options);
     return {
@@ -72,13 +72,13 @@ export class BastionHostsImpl implements BastionHosts {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: BastionHostsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<BastionHost[]> {
     let result: BastionHostsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +99,7 @@ export class BastionHostsImpl implements BastionHosts {
   }
 
   private async *listPagingAll(
-    options?: BastionHostsListOptionalParams
+    options?: BastionHostsListOptionalParams,
   ): AsyncIterableIterator<BastionHost> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -113,7 +113,7 @@ export class BastionHostsImpl implements BastionHosts {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: BastionHostsListByResourceGroupOptionalParams
+    options?: BastionHostsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<BastionHost> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -130,16 +130,16 @@ export class BastionHostsImpl implements BastionHosts {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: BastionHostsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<BastionHost[]> {
     let result: BastionHostsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -154,7 +154,7 @@ export class BastionHostsImpl implements BastionHosts {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -165,11 +165,11 @@ export class BastionHostsImpl implements BastionHosts {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: BastionHostsListByResourceGroupOptionalParams
+    options?: BastionHostsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<BastionHost> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -184,25 +184,24 @@ export class BastionHostsImpl implements BastionHosts {
   async beginDelete(
     resourceGroupName: string,
     bastionHostName: string,
-    options?: BastionHostsDeleteOptionalParams
+    options?: BastionHostsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -211,8 +210,8 @@ export class BastionHostsImpl implements BastionHosts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -220,20 +219,20 @@ export class BastionHostsImpl implements BastionHosts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, bastionHostName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -248,12 +247,12 @@ export class BastionHostsImpl implements BastionHosts {
   async beginDeleteAndWait(
     resourceGroupName: string,
     bastionHostName: string,
-    options?: BastionHostsDeleteOptionalParams
+    options?: BastionHostsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       bastionHostName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -267,11 +266,11 @@ export class BastionHostsImpl implements BastionHosts {
   get(
     resourceGroupName: string,
     bastionHostName: string,
-    options?: BastionHostsGetOptionalParams
+    options?: BastionHostsGetOptionalParams,
   ): Promise<BastionHostsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, bastionHostName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -286,7 +285,7 @@ export class BastionHostsImpl implements BastionHosts {
     resourceGroupName: string,
     bastionHostName: string,
     parameters: BastionHost,
-    options?: BastionHostsCreateOrUpdateOptionalParams
+    options?: BastionHostsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BastionHostsCreateOrUpdateResponse>,
@@ -295,21 +294,20 @@ export class BastionHostsImpl implements BastionHosts {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BastionHostsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -318,8 +316,8 @@ export class BastionHostsImpl implements BastionHosts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -327,15 +325,15 @@ export class BastionHostsImpl implements BastionHosts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, bastionHostName, parameters, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       BastionHostsCreateOrUpdateResponse,
@@ -343,7 +341,7 @@ export class BastionHostsImpl implements BastionHosts {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -360,13 +358,13 @@ export class BastionHostsImpl implements BastionHosts {
     resourceGroupName: string,
     bastionHostName: string,
     parameters: BastionHost,
-    options?: BastionHostsCreateOrUpdateOptionalParams
+    options?: BastionHostsCreateOrUpdateOptionalParams,
   ): Promise<BastionHostsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       bastionHostName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -382,7 +380,7 @@ export class BastionHostsImpl implements BastionHosts {
     resourceGroupName: string,
     bastionHostName: string,
     parameters: TagsObject,
-    options?: BastionHostsUpdateTagsOptionalParams
+    options?: BastionHostsUpdateTagsOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BastionHostsUpdateTagsResponse>,
@@ -391,21 +389,20 @@ export class BastionHostsImpl implements BastionHosts {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BastionHostsUpdateTagsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -414,8 +411,8 @@ export class BastionHostsImpl implements BastionHosts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -423,15 +420,15 @@ export class BastionHostsImpl implements BastionHosts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, bastionHostName, parameters, options },
-      spec: updateTagsOperationSpec
+      spec: updateTagsOperationSpec,
     });
     const poller = await createHttpPoller<
       BastionHostsUpdateTagsResponse,
@@ -439,7 +436,7 @@ export class BastionHostsImpl implements BastionHosts {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -456,13 +453,13 @@ export class BastionHostsImpl implements BastionHosts {
     resourceGroupName: string,
     bastionHostName: string,
     parameters: TagsObject,
-    options?: BastionHostsUpdateTagsOptionalParams
+    options?: BastionHostsUpdateTagsOptionalParams,
   ): Promise<BastionHostsUpdateTagsResponse> {
     const poller = await this.beginUpdateTags(
       resourceGroupName,
       bastionHostName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -472,7 +469,7 @@ export class BastionHostsImpl implements BastionHosts {
    * @param options The options parameters.
    */
   private _list(
-    options?: BastionHostsListOptionalParams
+    options?: BastionHostsListOptionalParams,
   ): Promise<BastionHostsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -484,11 +481,11 @@ export class BastionHostsImpl implements BastionHosts {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: BastionHostsListByResourceGroupOptionalParams
+    options?: BastionHostsListByResourceGroupOptionalParams,
   ): Promise<BastionHostsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -499,11 +496,11 @@ export class BastionHostsImpl implements BastionHosts {
    */
   private _listNext(
     nextLink: string,
-    options?: BastionHostsListNextOptionalParams
+    options?: BastionHostsListNextOptionalParams,
   ): Promise<BastionHostsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -516,11 +513,11 @@ export class BastionHostsImpl implements BastionHosts {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: BastionHostsListByResourceGroupNextOptionalParams
+    options?: BastionHostsListByResourceGroupNextOptionalParams,
   ): Promise<BastionHostsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -528,8 +525,7 @@ export class BastionHostsImpl implements BastionHosts {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -537,61 +533,59 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.bastionHostName
+    Parameters.bastionHostName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BastionHost
+      bodyMapper: Mappers.BastionHost,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.bastionHostName
+    Parameters.bastionHostName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.BastionHost
+      bodyMapper: Mappers.BastionHost,
     },
     201: {
-      bodyMapper: Mappers.BastionHost
+      bodyMapper: Mappers.BastionHost,
     },
     202: {
-      bodyMapper: Mappers.BastionHost
+      bodyMapper: Mappers.BastionHost,
     },
     204: {
-      bodyMapper: Mappers.BastionHost
+      bodyMapper: Mappers.BastionHost,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
@@ -599,32 +593,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.bastionHostName
+    Parameters.bastionHostName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.BastionHost
+      bodyMapper: Mappers.BastionHost,
     },
     201: {
-      bodyMapper: Mappers.BastionHost
+      bodyMapper: Mappers.BastionHost,
     },
     202: {
-      bodyMapper: Mappers.BastionHost
+      bodyMapper: Mappers.BastionHost,
     },
     204: {
-      bodyMapper: Mappers.BastionHost
+      bodyMapper: Mappers.BastionHost,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -632,86 +625,84 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.bastionHostName
+    Parameters.bastionHostName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/bastionHosts",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/bastionHosts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BastionHostListResult
+      bodyMapper: Mappers.BastionHostListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BastionHostListResult
+      bodyMapper: Mappers.BastionHostListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BastionHostListResult
+      bodyMapper: Mappers.BastionHostListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BastionHostListResult
+      bodyMapper: Mappers.BastionHostListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ManagedCluster,
-  ContainerServiceClient
+  ContainerServiceClient,
 } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/ManagedClustersCreate_Snapshot.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/ManagedClustersCreate_Snapshot.json
  */
 async function createManagedClusterUsingAnAgentPoolSnapshot() {
   const subscriptionId =
@@ -39,14 +39,14 @@ async function createManagedClusterUsingAnAgentPoolSnapshot() {
         count: 3,
         creationData: {
           sourceResourceId:
-            "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.ContainerService/snapshots/snapshot1"
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.ContainerService/snapshots/snapshot1",
         },
         enableFips: true,
         enableNodePublicIP: true,
         mode: "System",
         osType: "Linux",
-        vmSize: "Standard_DS2_v2"
-      }
+        vmSize: "Standard_DS2_v2",
+      },
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
@@ -57,28 +57,28 @@ async function createManagedClusterUsingAnAgentPoolSnapshot() {
     kubernetesVersion: "",
     linuxProfile: {
       adminUsername: "azureuser",
-      ssh: { publicKeys: [{ keyData: "keydata" }] }
+      ssh: { publicKeys: [{ keyData: "keydata" }] },
     },
     location: "location1",
     networkProfile: {
       loadBalancerProfile: { managedOutboundIPs: { count: 2 } },
       loadBalancerSku: "standard",
-      outboundType: "loadBalancer"
+      outboundType: "loadBalancer",
     },
     servicePrincipalProfile: { clientId: "clientid", secret: "secret" },
     sku: { name: "Basic", tier: "Free" },
     tags: { archv2: "", tier: "production" },
     windowsProfile: {
       adminPassword: "replacePassword1234$",
-      adminUsername: "azureuser"
-    }
+      adminUsername: "azureuser",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.managedClusters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     resourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -87,7 +87,7 @@ async function createManagedClusterUsingAnAgentPoolSnapshot() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/ManagedClustersCreate_ManagedNATGateway.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/ManagedClustersCreate_ManagedNATGateway.json
  */
 async function createManagedClusterWithAksManagedNatGatewayAsOutboundType() {
   const subscriptionId =
@@ -106,8 +106,8 @@ async function createManagedClusterWithAksManagedNatGatewayAsOutboundType() {
         enableNodePublicIP: false,
         mode: "System",
         osType: "Linux",
-        vmSize: "Standard_DS2_v2"
-      }
+        vmSize: "Standard_DS2_v2",
+      },
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
@@ -118,28 +118,28 @@ async function createManagedClusterWithAksManagedNatGatewayAsOutboundType() {
     kubernetesVersion: "",
     linuxProfile: {
       adminUsername: "azureuser",
-      ssh: { publicKeys: [{ keyData: "keydata" }] }
+      ssh: { publicKeys: [{ keyData: "keydata" }] },
     },
     location: "location1",
     networkProfile: {
       loadBalancerSku: "standard",
       natGatewayProfile: { managedOutboundIPProfile: { count: 2 } },
-      outboundType: "managedNATGateway"
+      outboundType: "managedNATGateway",
     },
     servicePrincipalProfile: { clientId: "clientid", secret: "secret" },
     sku: { name: "Basic", tier: "Free" },
     tags: { archv2: "", tier: "production" },
     windowsProfile: {
       adminPassword: "replacePassword1234$",
-      adminUsername: "azureuser"
-    }
+      adminUsername: "azureuser",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.managedClusters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     resourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -148,7 +148,7 @@ async function createManagedClusterWithAksManagedNatGatewayAsOutboundType() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/ManagedClustersCreate_AzureKeyvaultSecretsProvider.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/ManagedClustersCreate_AzureKeyvaultSecretsProvider.json
  */
 async function createManagedClusterWithAzureKeyVaultSecretsProviderAddon() {
   const subscriptionId =
@@ -161,8 +161,8 @@ async function createManagedClusterWithAzureKeyVaultSecretsProviderAddon() {
     addonProfiles: {
       azureKeyvaultSecretsProvider: {
         config: { enableSecretRotation: "true", rotationPollInterval: "2m" },
-        enabled: true
-      }
+        enabled: true,
+      },
     },
     agentPoolProfiles: [
       {
@@ -172,8 +172,8 @@ async function createManagedClusterWithAzureKeyVaultSecretsProviderAddon() {
         enableNodePublicIP: true,
         mode: "System",
         osType: "Linux",
-        vmSize: "Standard_DS2_v2"
-      }
+        vmSize: "Standard_DS2_v2",
+      },
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
@@ -184,28 +184,28 @@ async function createManagedClusterWithAzureKeyVaultSecretsProviderAddon() {
     kubernetesVersion: "",
     linuxProfile: {
       adminUsername: "azureuser",
-      ssh: { publicKeys: [{ keyData: "keydata" }] }
+      ssh: { publicKeys: [{ keyData: "keydata" }] },
     },
     location: "location1",
     networkProfile: {
       loadBalancerProfile: { managedOutboundIPs: { count: 2 } },
       loadBalancerSku: "standard",
-      outboundType: "loadBalancer"
+      outboundType: "loadBalancer",
     },
     servicePrincipalProfile: { clientId: "clientid", secret: "secret" },
     sku: { name: "Basic", tier: "Free" },
     tags: { archv2: "", tier: "production" },
     windowsProfile: {
       adminPassword: "replacePassword1234$",
-      adminUsername: "azureuser"
-    }
+      adminUsername: "azureuser",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.managedClusters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     resourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -214,7 +214,7 @@ async function createManagedClusterWithAzureKeyVaultSecretsProviderAddon() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/ManagedClustersCreate_CRG.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/ManagedClustersCreate_CRG.json
  */
 async function createManagedClusterWithCapacityReservationGroup() {
   const subscriptionId =
@@ -235,8 +235,8 @@ async function createManagedClusterWithCapacityReservationGroup() {
         enableNodePublicIP: true,
         mode: "System",
         osType: "Linux",
-        vmSize: "Standard_DS2_v2"
-      }
+        vmSize: "Standard_DS2_v2",
+      },
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
@@ -247,28 +247,28 @@ async function createManagedClusterWithCapacityReservationGroup() {
     kubernetesVersion: "",
     linuxProfile: {
       adminUsername: "azureuser",
-      ssh: { publicKeys: [{ keyData: "keydata" }] }
+      ssh: { publicKeys: [{ keyData: "keydata" }] },
     },
     location: "location1",
     networkProfile: {
       loadBalancerProfile: { managedOutboundIPs: { count: 2 } },
       loadBalancerSku: "standard",
-      outboundType: "loadBalancer"
+      outboundType: "loadBalancer",
     },
     servicePrincipalProfile: { clientId: "clientid", secret: "secret" },
     sku: { name: "Basic", tier: "Free" },
     tags: { archv2: "", tier: "production" },
     windowsProfile: {
       adminPassword: "replacePassword1234$",
-      adminUsername: "azureuser"
-    }
+      adminUsername: "azureuser",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.managedClusters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     resourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -277,7 +277,7 @@ async function createManagedClusterWithCapacityReservationGroup() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/ManagedClustersCreate_DedicatedHostGroup.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/ManagedClustersCreate_DedicatedHostGroup.json
  */
 async function createManagedClusterWithDedicatedHostGroup() {
   const subscriptionId =
@@ -297,8 +297,8 @@ async function createManagedClusterWithDedicatedHostGroup() {
         hostGroupID:
           "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg/providers/Microsoft.Compute/hostGroups/hostgroup1",
         osType: "Linux",
-        vmSize: "Standard_DS2_v2"
-      }
+        vmSize: "Standard_DS2_v2",
+      },
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
@@ -309,28 +309,28 @@ async function createManagedClusterWithDedicatedHostGroup() {
     kubernetesVersion: "",
     linuxProfile: {
       adminUsername: "azureuser",
-      ssh: { publicKeys: [{ keyData: "keydata" }] }
+      ssh: { publicKeys: [{ keyData: "keydata" }] },
     },
     location: "location1",
     networkProfile: {
       loadBalancerProfile: { managedOutboundIPs: { count: 2 } },
       loadBalancerSku: "standard",
-      outboundType: "loadBalancer"
+      outboundType: "loadBalancer",
     },
     servicePrincipalProfile: { clientId: "clientid", secret: "secret" },
     sku: { name: "Basic", tier: "Free" },
     tags: { archv2: "", tier: "production" },
     windowsProfile: {
       adminPassword: "replacePassword1234$",
-      adminUsername: "azureuser"
-    }
+      adminUsername: "azureuser",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.managedClusters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     resourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -339,7 +339,7 @@ async function createManagedClusterWithDedicatedHostGroup() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/ManagedClustersCreate_EnableEncryptionAtHost.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/ManagedClustersCreate_EnableEncryptionAtHost.json
  */
 async function createManagedClusterWithEncryptionAtHostEnabled() {
   const subscriptionId =
@@ -359,8 +359,8 @@ async function createManagedClusterWithEncryptionAtHostEnabled() {
         enableNodePublicIP: true,
         mode: "System",
         osType: "Linux",
-        vmSize: "Standard_DS2_v2"
-      }
+        vmSize: "Standard_DS2_v2",
+      },
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
@@ -371,28 +371,28 @@ async function createManagedClusterWithEncryptionAtHostEnabled() {
     kubernetesVersion: "",
     linuxProfile: {
       adminUsername: "azureuser",
-      ssh: { publicKeys: [{ keyData: "keydata" }] }
+      ssh: { publicKeys: [{ keyData: "keydata" }] },
     },
     location: "location1",
     networkProfile: {
       loadBalancerProfile: { managedOutboundIPs: { count: 2 } },
       loadBalancerSku: "standard",
-      outboundType: "loadBalancer"
+      outboundType: "loadBalancer",
     },
     servicePrincipalProfile: { clientId: "clientid", secret: "secret" },
     sku: { name: "Basic", tier: "Free" },
     tags: { archv2: "", tier: "production" },
     windowsProfile: {
       adminPassword: "replacePassword1234$",
-      adminUsername: "azureuser"
-    }
+      adminUsername: "azureuser",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.managedClusters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     resourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -401,7 +401,7 @@ async function createManagedClusterWithEncryptionAtHostEnabled() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/ManagedClustersCreate_EnabledFIPS.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/ManagedClustersCreate_EnabledFIPS.json
  */
 async function createManagedClusterWithFipsEnabledOS() {
   const subscriptionId =
@@ -421,8 +421,8 @@ async function createManagedClusterWithFipsEnabledOS() {
         enableNodePublicIP: true,
         mode: "System",
         osType: "Linux",
-        vmSize: "Standard_DS2_v2"
-      }
+        vmSize: "Standard_DS2_v2",
+      },
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
@@ -433,28 +433,28 @@ async function createManagedClusterWithFipsEnabledOS() {
     kubernetesVersion: "",
     linuxProfile: {
       adminUsername: "azureuser",
-      ssh: { publicKeys: [{ keyData: "keydata" }] }
+      ssh: { publicKeys: [{ keyData: "keydata" }] },
     },
     location: "location1",
     networkProfile: {
       loadBalancerProfile: { managedOutboundIPs: { count: 2 } },
       loadBalancerSku: "standard",
-      outboundType: "loadBalancer"
+      outboundType: "loadBalancer",
     },
     servicePrincipalProfile: { clientId: "clientid", secret: "secret" },
     sku: { name: "Basic", tier: "Free" },
     tags: { archv2: "", tier: "production" },
     windowsProfile: {
       adminPassword: "replacePassword1234$",
-      adminUsername: "azureuser"
-    }
+      adminUsername: "azureuser",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.managedClusters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     resourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -463,7 +463,7 @@ async function createManagedClusterWithFipsEnabledOS() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/ManagedClustersCreate_GPUMIG.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/ManagedClustersCreate_GPUMIG.json
  */
 async function createManagedClusterWithGpumig() {
   const subscriptionId =
@@ -483,8 +483,8 @@ async function createManagedClusterWithGpumig() {
         gpuInstanceProfile: "MIG3g",
         mode: "System",
         osType: "Linux",
-        vmSize: "Standard_ND96asr_v4"
-      }
+        vmSize: "Standard_ND96asr_v4",
+      },
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
@@ -496,33 +496,33 @@ async function createManagedClusterWithGpumig() {
       httpProxy: "http://myproxy.server.com:8080",
       httpsProxy: "https://myproxy.server.com:8080",
       noProxy: ["localhost", "127.0.0.1"],
-      trustedCa: "Q29uZ3JhdHMhIFlvdSBoYXZlIGZvdW5kIGEgaGlkZGVuIG1lc3NhZ2U="
+      trustedCa: "Q29uZ3JhdHMhIFlvdSBoYXZlIGZvdW5kIGEgaGlkZGVuIG1lc3NhZ2U=",
     },
     kubernetesVersion: "",
     linuxProfile: {
       adminUsername: "azureuser",
-      ssh: { publicKeys: [{ keyData: "keydata" }] }
+      ssh: { publicKeys: [{ keyData: "keydata" }] },
     },
     location: "location1",
     networkProfile: {
       loadBalancerProfile: { managedOutboundIPs: { count: 2 } },
       loadBalancerSku: "standard",
-      outboundType: "loadBalancer"
+      outboundType: "loadBalancer",
     },
     servicePrincipalProfile: { clientId: "clientid", secret: "secret" },
     sku: { name: "Basic", tier: "Free" },
     tags: { archv2: "", tier: "production" },
     windowsProfile: {
       adminPassword: "replacePassword1234$",
-      adminUsername: "azureuser"
-    }
+      adminUsername: "azureuser",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.managedClusters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     resourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -531,7 +531,7 @@ async function createManagedClusterWithGpumig() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/ManagedClustersCreate_HTTPProxy.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/ManagedClustersCreate_HTTPProxy.json
  */
 async function createManagedClusterWithHttpProxyConfigured() {
   const subscriptionId =
@@ -550,8 +550,8 @@ async function createManagedClusterWithHttpProxyConfigured() {
         enableNodePublicIP: true,
         mode: "System",
         osType: "Linux",
-        vmSize: "Standard_DS2_v2"
-      }
+        vmSize: "Standard_DS2_v2",
+      },
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
@@ -563,33 +563,33 @@ async function createManagedClusterWithHttpProxyConfigured() {
       httpProxy: "http://myproxy.server.com:8080",
       httpsProxy: "https://myproxy.server.com:8080",
       noProxy: ["localhost", "127.0.0.1"],
-      trustedCa: "Q29uZ3JhdHMhIFlvdSBoYXZlIGZvdW5kIGEgaGlkZGVuIG1lc3NhZ2U="
+      trustedCa: "Q29uZ3JhdHMhIFlvdSBoYXZlIGZvdW5kIGEgaGlkZGVuIG1lc3NhZ2U=",
     },
     kubernetesVersion: "",
     linuxProfile: {
       adminUsername: "azureuser",
-      ssh: { publicKeys: [{ keyData: "keydata" }] }
+      ssh: { publicKeys: [{ keyData: "keydata" }] },
     },
     location: "location1",
     networkProfile: {
       loadBalancerProfile: { managedOutboundIPs: { count: 2 } },
       loadBalancerSku: "standard",
-      outboundType: "loadBalancer"
+      outboundType: "loadBalancer",
     },
     servicePrincipalProfile: { clientId: "clientid", secret: "secret" },
     sku: { name: "Basic", tier: "Free" },
     tags: { archv2: "", tier: "production" },
     windowsProfile: {
       adminPassword: "replacePassword1234$",
-      adminUsername: "azureuser"
-    }
+      adminUsername: "azureuser",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.managedClusters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     resourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -598,7 +598,7 @@ async function createManagedClusterWithHttpProxyConfigured() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/ManagedClustersCreate_Premium.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/ManagedClustersCreate_Premium.json
  */
 async function createManagedClusterWithLongTermSupport() {
   const subscriptionId =
@@ -618,8 +618,8 @@ async function createManagedClusterWithLongTermSupport() {
         enableNodePublicIP: true,
         mode: "System",
         osType: "Linux",
-        vmSize: "Standard_DS2_v2"
-      }
+        vmSize: "Standard_DS2_v2",
+      },
     ],
     apiServerAccessProfile: { disableRunCommand: true },
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
@@ -629,13 +629,13 @@ async function createManagedClusterWithLongTermSupport() {
     kubernetesVersion: "",
     linuxProfile: {
       adminUsername: "azureuser",
-      ssh: { publicKeys: [{ keyData: "keydata" }] }
+      ssh: { publicKeys: [{ keyData: "keydata" }] },
     },
     location: "location1",
     networkProfile: {
       loadBalancerProfile: { managedOutboundIPs: { count: 2 } },
       loadBalancerSku: "standard",
-      outboundType: "loadBalancer"
+      outboundType: "loadBalancer",
     },
     servicePrincipalProfile: { clientId: "clientid", secret: "secret" },
     sku: { name: "Base", tier: "Premium" },
@@ -643,15 +643,15 @@ async function createManagedClusterWithLongTermSupport() {
     tags: { archv2: "", tier: "production" },
     windowsProfile: {
       adminPassword: "replacePassword1234$",
-      adminUsername: "azureuser"
-    }
+      adminUsername: "azureuser",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.managedClusters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     resourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -660,7 +660,7 @@ async function createManagedClusterWithLongTermSupport() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/ManagedClustersCreate_NodePublicIPPrefix.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/ManagedClustersCreate_NodePublicIPPrefix.json
  */
 async function createManagedClusterWithNodePublicIPPrefix() {
   const subscriptionId =
@@ -681,8 +681,8 @@ async function createManagedClusterWithNodePublicIPPrefix() {
         nodePublicIPPrefixID:
           "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Network/publicIPPrefixes/public-ip-prefix",
         osType: "Linux",
-        vmSize: "Standard_DS2_v2"
-      }
+        vmSize: "Standard_DS2_v2",
+      },
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
@@ -693,28 +693,28 @@ async function createManagedClusterWithNodePublicIPPrefix() {
     kubernetesVersion: "",
     linuxProfile: {
       adminUsername: "azureuser",
-      ssh: { publicKeys: [{ keyData: "keydata" }] }
+      ssh: { publicKeys: [{ keyData: "keydata" }] },
     },
     location: "location1",
     networkProfile: {
       loadBalancerProfile: { managedOutboundIPs: { count: 2 } },
       loadBalancerSku: "standard",
-      outboundType: "loadBalancer"
+      outboundType: "loadBalancer",
     },
     servicePrincipalProfile: { clientId: "clientid", secret: "secret" },
     sku: { name: "Basic", tier: "Free" },
     tags: { archv2: "", tier: "production" },
     windowsProfile: {
       adminPassword: "replacePassword1234$",
-      adminUsername: "azureuser"
-    }
+      adminUsername: "azureuser",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.managedClusters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     resourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -723,7 +723,7 @@ async function createManagedClusterWithNodePublicIPPrefix() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/ManagedClustersCreate_OSSKU.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/ManagedClustersCreate_OSSKU.json
  */
 async function createManagedClusterWithOssku() {
   const subscriptionId =
@@ -743,8 +743,8 @@ async function createManagedClusterWithOssku() {
         mode: "System",
         osSKU: "AzureLinux",
         osType: "Linux",
-        vmSize: "Standard_DS2_v2"
-      }
+        vmSize: "Standard_DS2_v2",
+      },
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
@@ -756,33 +756,33 @@ async function createManagedClusterWithOssku() {
       httpProxy: "http://myproxy.server.com:8080",
       httpsProxy: "https://myproxy.server.com:8080",
       noProxy: ["localhost", "127.0.0.1"],
-      trustedCa: "Q29uZ3JhdHMhIFlvdSBoYXZlIGZvdW5kIGEgaGlkZGVuIG1lc3NhZ2U="
+      trustedCa: "Q29uZ3JhdHMhIFlvdSBoYXZlIGZvdW5kIGEgaGlkZGVuIG1lc3NhZ2U=",
     },
     kubernetesVersion: "",
     linuxProfile: {
       adminUsername: "azureuser",
-      ssh: { publicKeys: [{ keyData: "keydata" }] }
+      ssh: { publicKeys: [{ keyData: "keydata" }] },
     },
     location: "location1",
     networkProfile: {
       loadBalancerProfile: { managedOutboundIPs: { count: 2 } },
       loadBalancerSku: "standard",
-      outboundType: "loadBalancer"
+      outboundType: "loadBalancer",
     },
     servicePrincipalProfile: { clientId: "clientid", secret: "secret" },
     sku: { name: "Basic", tier: "Free" },
     tags: { archv2: "", tier: "production" },
     windowsProfile: {
       adminPassword: "replacePassword1234$",
-      adminUsername: "azureuser"
-    }
+      adminUsername: "azureuser",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.managedClusters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     resourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -791,7 +791,7 @@ async function createManagedClusterWithOssku() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/ManagedClustersCreate_PPG.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/ManagedClustersCreate_PPG.json
  */
 async function createManagedClusterWithPpg() {
   const subscriptionId =
@@ -812,8 +812,8 @@ async function createManagedClusterWithPpg() {
         osType: "Linux",
         proximityPlacementGroupID:
           "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Compute/proximityPlacementGroups/ppg1",
-        vmSize: "Standard_DS2_v2"
-      }
+        vmSize: "Standard_DS2_v2",
+      },
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
@@ -824,28 +824,28 @@ async function createManagedClusterWithPpg() {
     kubernetesVersion: "",
     linuxProfile: {
       adminUsername: "azureuser",
-      ssh: { publicKeys: [{ keyData: "keydata" }] }
+      ssh: { publicKeys: [{ keyData: "keydata" }] },
     },
     location: "location1",
     networkProfile: {
       loadBalancerProfile: { managedOutboundIPs: { count: 2 } },
       loadBalancerSku: "standard",
-      outboundType: "loadBalancer"
+      outboundType: "loadBalancer",
     },
     servicePrincipalProfile: { clientId: "clientid", secret: "secret" },
     sku: { name: "Basic", tier: "Free" },
     tags: { archv2: "", tier: "production" },
     windowsProfile: {
       adminPassword: "replacePassword1234$",
-      adminUsername: "azureuser"
-    }
+      adminUsername: "azureuser",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.managedClusters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     resourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -854,7 +854,7 @@ async function createManagedClusterWithPpg() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/ManagedClustersCreate_PodIdentity.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/ManagedClustersCreate_PodIdentity.json
  */
 async function createManagedClusterWithPodIdentityEnabled() {
   const subscriptionId =
@@ -873,8 +873,8 @@ async function createManagedClusterWithPodIdentityEnabled() {
         enableNodePublicIP: true,
         mode: "System",
         osType: "Linux",
-        vmSize: "Standard_DS2_v2"
-      }
+        vmSize: "Standard_DS2_v2",
+      },
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
@@ -885,13 +885,13 @@ async function createManagedClusterWithPodIdentityEnabled() {
     kubernetesVersion: "",
     linuxProfile: {
       adminUsername: "azureuser",
-      ssh: { publicKeys: [{ keyData: "keydata" }] }
+      ssh: { publicKeys: [{ keyData: "keydata" }] },
     },
     location: "location1",
     networkProfile: {
       loadBalancerProfile: { managedOutboundIPs: { count: 2 } },
       loadBalancerSku: "standard",
-      outboundType: "loadBalancer"
+      outboundType: "loadBalancer",
     },
     podIdentityProfile: { allowNetworkPluginKubenet: true, enabled: true },
     servicePrincipalProfile: { clientId: "clientid", secret: "secret" },
@@ -899,15 +899,15 @@ async function createManagedClusterWithPodIdentityEnabled() {
     tags: { archv2: "", tier: "production" },
     windowsProfile: {
       adminPassword: "replacePassword1234$",
-      adminUsername: "azureuser"
-    }
+      adminUsername: "azureuser",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.managedClusters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     resourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -916,7 +916,7 @@ async function createManagedClusterWithPodIdentityEnabled() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/ManagedClustersCreate_DisableRunCommand.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/ManagedClustersCreate_DisableRunCommand.json
  */
 async function createManagedClusterWithRunCommandDisabled() {
   const subscriptionId =
@@ -936,8 +936,8 @@ async function createManagedClusterWithRunCommandDisabled() {
         enableNodePublicIP: true,
         mode: "System",
         osType: "Linux",
-        vmSize: "Standard_DS2_v2"
-      }
+        vmSize: "Standard_DS2_v2",
+      },
     ],
     apiServerAccessProfile: { disableRunCommand: true },
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
@@ -947,28 +947,28 @@ async function createManagedClusterWithRunCommandDisabled() {
     kubernetesVersion: "",
     linuxProfile: {
       adminUsername: "azureuser",
-      ssh: { publicKeys: [{ keyData: "keydata" }] }
+      ssh: { publicKeys: [{ keyData: "keydata" }] },
     },
     location: "location1",
     networkProfile: {
       loadBalancerProfile: { managedOutboundIPs: { count: 2 } },
       loadBalancerSku: "standard",
-      outboundType: "loadBalancer"
+      outboundType: "loadBalancer",
     },
     servicePrincipalProfile: { clientId: "clientid", secret: "secret" },
     sku: { name: "Basic", tier: "Free" },
     tags: { archv2: "", tier: "production" },
     windowsProfile: {
       adminPassword: "replacePassword1234$",
-      adminUsername: "azureuser"
-    }
+      adminUsername: "azureuser",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.managedClusters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     resourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -977,7 +977,7 @@ async function createManagedClusterWithRunCommandDisabled() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/ManagedClustersCreate_SecurityProfile.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/ManagedClustersCreate_SecurityProfile.json
  */
 async function createManagedClusterWithSecurityProfileConfigured() {
   const subscriptionId =
@@ -995,38 +995,38 @@ async function createManagedClusterWithSecurityProfileConfigured() {
         enableNodePublicIP: true,
         mode: "System",
         osType: "Linux",
-        vmSize: "Standard_DS2_v2"
-      }
+        vmSize: "Standard_DS2_v2",
+      },
     ],
     dnsPrefix: "dnsprefix1",
     kubernetesVersion: "",
     linuxProfile: {
       adminUsername: "azureuser",
-      ssh: { publicKeys: [{ keyData: "keydata" }] }
+      ssh: { publicKeys: [{ keyData: "keydata" }] },
     },
     location: "location1",
     networkProfile: {
       loadBalancerProfile: { managedOutboundIPs: { count: 2 } },
       loadBalancerSku: "standard",
-      outboundType: "loadBalancer"
+      outboundType: "loadBalancer",
     },
     securityProfile: {
       defender: {
         logAnalyticsWorkspaceResourceId:
           "/subscriptions/SUB_ID/resourcegroups/RG_NAME/providers/microsoft.operationalinsights/workspaces/WORKSPACE_NAME",
-        securityMonitoring: { enabled: true }
+        securityMonitoring: { enabled: true },
       },
-      workloadIdentity: { enabled: true }
+      workloadIdentity: { enabled: true },
     },
     sku: { name: "Basic", tier: "Free" },
-    tags: { archv2: "", tier: "production" }
+    tags: { archv2: "", tier: "production" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.managedClusters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     resourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -1035,7 +1035,7 @@ async function createManagedClusterWithSecurityProfileConfigured() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/ManagedClustersCreate_EnableUltraSSD.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/ManagedClustersCreate_EnableUltraSSD.json
  */
 async function createManagedClusterWithUltraSsdEnabled() {
   const subscriptionId =
@@ -1055,8 +1055,8 @@ async function createManagedClusterWithUltraSsdEnabled() {
         enableUltraSSD: true,
         mode: "System",
         osType: "Linux",
-        vmSize: "Standard_DS2_v2"
-      }
+        vmSize: "Standard_DS2_v2",
+      },
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
@@ -1067,28 +1067,28 @@ async function createManagedClusterWithUltraSsdEnabled() {
     kubernetesVersion: "",
     linuxProfile: {
       adminUsername: "azureuser",
-      ssh: { publicKeys: [{ keyData: "keydata" }] }
+      ssh: { publicKeys: [{ keyData: "keydata" }] },
     },
     location: "location1",
     networkProfile: {
       loadBalancerProfile: { managedOutboundIPs: { count: 2 } },
       loadBalancerSku: "standard",
-      outboundType: "loadBalancer"
+      outboundType: "loadBalancer",
     },
     servicePrincipalProfile: { clientId: "clientid", secret: "secret" },
     sku: { name: "Basic", tier: "Free" },
     tags: { archv2: "", tier: "production" },
     windowsProfile: {
       adminPassword: "replacePassword1234$",
-      adminUsername: "azureuser"
-    }
+      adminUsername: "azureuser",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.managedClusters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     resourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -1097,7 +1097,65 @@ async function createManagedClusterWithUltraSsdEnabled() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/ManagedClustersCreate_UserAssignedNATGateway.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/ManagedClustersCreate_IngressProfile_WebAppRouting.json
+ */
+async function createManagedClusterWithWebAppRoutingIngressProfileConfigured() {
+  const subscriptionId =
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+  const resourceName = "clustername1";
+  const parameters: ManagedCluster = {
+    agentPoolProfiles: [
+      {
+        name: "nodepool1",
+        type: "VirtualMachineScaleSets",
+        count: 3,
+        enableNodePublicIP: true,
+        mode: "System",
+        osType: "Linux",
+        vmSize: "Standard_DS2_v2",
+      },
+    ],
+    dnsPrefix: "dnsprefix1",
+    ingressProfile: {
+      webAppRouting: {
+        dnsZoneResourceIds: [
+          "/subscriptions/SUB_ID/resourceGroups/RG_NAME/providers/Microsoft.Network/dnszones/DNS_ZONE_NAME",
+        ],
+        enabled: true,
+      },
+    },
+    kubernetesVersion: "",
+    linuxProfile: {
+      adminUsername: "azureuser",
+      ssh: { publicKeys: [{ keyData: "keydata" }] },
+    },
+    location: "location1",
+    networkProfile: {
+      loadBalancerProfile: { managedOutboundIPs: { count: 2 } },
+      loadBalancerSku: "standard",
+      outboundType: "loadBalancer",
+    },
+    sku: { name: "Basic", tier: "Free" },
+    tags: { archv2: "", tier: "production" },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new ContainerServiceClient(credential, subscriptionId);
+  const result = await client.managedClusters.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    resourceName,
+    parameters,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates or updates a managed cluster.
+ *
+ * @summary Creates or updates a managed cluster.
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/ManagedClustersCreate_UserAssignedNATGateway.json
  */
 async function createManagedClusterWithUserAssignedNatGatewayAsOutboundType() {
   const subscriptionId =
@@ -1116,8 +1174,8 @@ async function createManagedClusterWithUserAssignedNatGatewayAsOutboundType() {
         enableNodePublicIP: false,
         mode: "System",
         osType: "Linux",
-        vmSize: "Standard_DS2_v2"
-      }
+        vmSize: "Standard_DS2_v2",
+      },
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
@@ -1128,27 +1186,27 @@ async function createManagedClusterWithUserAssignedNatGatewayAsOutboundType() {
     kubernetesVersion: "",
     linuxProfile: {
       adminUsername: "azureuser",
-      ssh: { publicKeys: [{ keyData: "keydata" }] }
+      ssh: { publicKeys: [{ keyData: "keydata" }] },
     },
     location: "location1",
     networkProfile: {
       loadBalancerSku: "standard",
-      outboundType: "userAssignedNATGateway"
+      outboundType: "userAssignedNATGateway",
     },
     servicePrincipalProfile: { clientId: "clientid", secret: "secret" },
     sku: { name: "Basic", tier: "Free" },
     tags: { archv2: "", tier: "production" },
     windowsProfile: {
       adminPassword: "replacePassword1234$",
-      adminUsername: "azureuser"
-    }
+      adminUsername: "azureuser",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.managedClusters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     resourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -1157,7 +1215,7 @@ async function createManagedClusterWithUserAssignedNatGatewayAsOutboundType() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/ManagedClustersCreate_PrivateClusterPublicFQDN.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/ManagedClustersCreate_PrivateClusterPublicFQDN.json
  */
 async function createManagedPrivateClusterWithPublicFqdnSpecified() {
   const subscriptionId =
@@ -1177,12 +1235,12 @@ async function createManagedPrivateClusterWithPublicFqdnSpecified() {
         enableNodePublicIP: true,
         mode: "System",
         osType: "Linux",
-        vmSize: "Standard_DS2_v2"
-      }
+        vmSize: "Standard_DS2_v2",
+      },
     ],
     apiServerAccessProfile: {
       enablePrivateCluster: true,
-      enablePrivateClusterPublicFqdn: true
+      enablePrivateClusterPublicFqdn: true,
     },
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     dnsPrefix: "dnsprefix1",
@@ -1191,28 +1249,28 @@ async function createManagedPrivateClusterWithPublicFqdnSpecified() {
     kubernetesVersion: "",
     linuxProfile: {
       adminUsername: "azureuser",
-      ssh: { publicKeys: [{ keyData: "keydata" }] }
+      ssh: { publicKeys: [{ keyData: "keydata" }] },
     },
     location: "location1",
     networkProfile: {
       loadBalancerProfile: { managedOutboundIPs: { count: 2 } },
       loadBalancerSku: "standard",
-      outboundType: "loadBalancer"
+      outboundType: "loadBalancer",
     },
     servicePrincipalProfile: { clientId: "clientid", secret: "secret" },
     sku: { name: "Basic", tier: "Free" },
     tags: { archv2: "", tier: "production" },
     windowsProfile: {
       adminPassword: "replacePassword1234$",
-      adminUsername: "azureuser"
-    }
+      adminUsername: "azureuser",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.managedClusters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     resourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -1221,7 +1279,7 @@ async function createManagedPrivateClusterWithPublicFqdnSpecified() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/ManagedClustersCreate_PrivateClusterFQDNSubdomain.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/ManagedClustersCreate_PrivateClusterFQDNSubdomain.json
  */
 async function createManagedPrivateClusterWithFqdnSubdomainSpecified() {
   const subscriptionId =
@@ -1241,13 +1299,13 @@ async function createManagedPrivateClusterWithFqdnSubdomainSpecified() {
         enableNodePublicIP: true,
         mode: "System",
         osType: "Linux",
-        vmSize: "Standard_DS2_v2"
-      }
+        vmSize: "Standard_DS2_v2",
+      },
     ],
     apiServerAccessProfile: {
       enablePrivateCluster: true,
       privateDNSZone:
-        "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Network/privateDnsZones/privatelink.location1.azmk8s.io"
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Network/privateDnsZones/privatelink.location1.azmk8s.io",
     },
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     enablePodSecurityPolicy: true,
@@ -1256,28 +1314,28 @@ async function createManagedPrivateClusterWithFqdnSubdomainSpecified() {
     kubernetesVersion: "",
     linuxProfile: {
       adminUsername: "azureuser",
-      ssh: { publicKeys: [{ keyData: "keydata" }] }
+      ssh: { publicKeys: [{ keyData: "keydata" }] },
     },
     location: "location1",
     networkProfile: {
       loadBalancerProfile: { managedOutboundIPs: { count: 2 } },
       loadBalancerSku: "standard",
-      outboundType: "loadBalancer"
+      outboundType: "loadBalancer",
     },
     servicePrincipalProfile: { clientId: "clientid", secret: "secret" },
     sku: { name: "Basic", tier: "Free" },
     tags: { archv2: "", tier: "production" },
     windowsProfile: {
       adminPassword: "replacePassword1234$",
-      adminUsername: "azureuser"
-    }
+      adminUsername: "azureuser",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.managedClusters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     resourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -1286,7 +1344,7 @@ async function createManagedPrivateClusterWithFqdnSubdomainSpecified() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/ManagedClustersCreate_UpdateWithEnableAzureRBAC.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/ManagedClustersCreate_UpdateWithEnableAzureRBAC.json
  */
 async function createOrUpdateAadManagedClusterWithEnableAzureRbac() {
   const subscriptionId =
@@ -1307,8 +1365,8 @@ async function createOrUpdateAadManagedClusterWithEnableAzureRbac() {
         enableNodePublicIP: true,
         mode: "System",
         osType: "Linux",
-        vmSize: "Standard_DS1_v2"
-      }
+        vmSize: "Standard_DS1_v2",
+      },
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
@@ -1319,28 +1377,28 @@ async function createOrUpdateAadManagedClusterWithEnableAzureRbac() {
     kubernetesVersion: "",
     linuxProfile: {
       adminUsername: "azureuser",
-      ssh: { publicKeys: [{ keyData: "keydata" }] }
+      ssh: { publicKeys: [{ keyData: "keydata" }] },
     },
     location: "location1",
     networkProfile: {
       loadBalancerProfile: { managedOutboundIPs: { count: 2 } },
       loadBalancerSku: "standard",
-      outboundType: "loadBalancer"
+      outboundType: "loadBalancer",
     },
     servicePrincipalProfile: { clientId: "clientid", secret: "secret" },
     sku: { name: "Basic", tier: "Free" },
     tags: { archv2: "", tier: "production" },
     windowsProfile: {
       adminPassword: "replacePassword1234$",
-      adminUsername: "azureuser"
-    }
+      adminUsername: "azureuser",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.managedClusters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     resourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -1349,7 +1407,7 @@ async function createOrUpdateAadManagedClusterWithEnableAzureRbac() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/ManagedClustersCreate_Update.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/ManagedClustersCreate_Update.json
  */
 async function createOrUpdateManagedCluster() {
   const subscriptionId =
@@ -1370,8 +1428,8 @@ async function createOrUpdateManagedCluster() {
         mode: "System",
         osType: "Linux",
         scaleDownMode: "Deallocate",
-        vmSize: "Standard_DS1_v2"
-      }
+        vmSize: "Standard_DS1_v2",
+      },
     ],
     autoScalerProfile: {
       balanceSimilarNodeGroups: "true",
@@ -1380,7 +1438,7 @@ async function createOrUpdateManagedCluster() {
       newPodScaleUpDelay: "1m",
       scaleDownDelayAfterAdd: "15m",
       scanInterval: "20s",
-      skipNodesWithSystemPods: "false"
+      skipNodesWithSystemPods: "false",
     },
     diskEncryptionSetID:
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
@@ -1390,19 +1448,20 @@ async function createOrUpdateManagedCluster() {
     identity: {
       type: "UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/00000000000000000000000000000000/resourcegroups/rgName1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1": {}
-      }
+        "/subscriptions/00000000000000000000000000000000/resourcegroups/rgName1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
+          {},
+      },
     },
     kubernetesVersion: "",
     linuxProfile: {
       adminUsername: "azureuser",
-      ssh: { publicKeys: [{ keyData: "keydata" }] }
+      ssh: { publicKeys: [{ keyData: "keydata" }] },
     },
     location: "location1",
     networkProfile: {
       loadBalancerProfile: { managedOutboundIPs: { count: 2 } },
       loadBalancerSku: "standard",
-      outboundType: "loadBalancer"
+      outboundType: "loadBalancer",
     },
     servicePrincipalProfile: { clientId: "clientid", secret: "secret" },
     sku: { name: "Basic", tier: "Free" },
@@ -1410,20 +1469,20 @@ async function createOrUpdateManagedCluster() {
     upgradeSettings: {
       overrideSettings: {
         forceUpgrade: false,
-        until: new Date("2022-11-01T13:00:00Z")
-      }
+        until: new Date("2022-11-01T13:00:00Z"),
+      },
     },
     windowsProfile: {
       adminPassword: "replacePassword1234$",
-      adminUsername: "azureuser"
-    }
+      adminUsername: "azureuser",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.managedClusters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     resourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -1432,7 +1491,7 @@ async function createOrUpdateManagedCluster() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/ManagedClustersCreate_AzureServiceMesh.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/ManagedClustersCreate_AzureServiceMesh.json
  */
 async function createOrUpdateManagedClusterWithAzureServiceMesh() {
   const subscriptionId =
@@ -1445,8 +1504,8 @@ async function createOrUpdateManagedClusterWithAzureServiceMesh() {
     addonProfiles: {
       azureKeyvaultSecretsProvider: {
         config: { enableSecretRotation: "true", rotationPollInterval: "2m" },
-        enabled: true
-      }
+        enabled: true,
+      },
     },
     agentPoolProfiles: [
       {
@@ -1456,8 +1515,8 @@ async function createOrUpdateManagedClusterWithAzureServiceMesh() {
         enableNodePublicIP: true,
         mode: "System",
         osType: "Linux",
-        vmSize: "Standard_DS2_v2"
-      }
+        vmSize: "Standard_DS2_v2",
+      },
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
@@ -1468,13 +1527,13 @@ async function createOrUpdateManagedClusterWithAzureServiceMesh() {
     kubernetesVersion: "",
     linuxProfile: {
       adminUsername: "azureuser",
-      ssh: { publicKeys: [{ keyData: "keydata" }] }
+      ssh: { publicKeys: [{ keyData: "keydata" }] },
     },
     location: "location1",
     networkProfile: {
       loadBalancerProfile: { managedOutboundIPs: { count: 2 } },
       loadBalancerSku: "standard",
-      outboundType: "loadBalancer"
+      outboundType: "loadBalancer",
     },
     serviceMeshProfile: {
       istio: {
@@ -1485,32 +1544,32 @@ async function createOrUpdateManagedClusterWithAzureServiceMesh() {
             keyObjectName: "ca-key",
             keyVaultId:
               "/subscriptions/854c9ddb-fe9e-4aea-8d58-99ed88282881/resourceGroups/ddama-test/providers/Microsoft.KeyVault/vaults/my-akv",
-            rootCertObjectName: "root-cert"
-          }
+            rootCertObjectName: "root-cert",
+          },
         },
         components: {
           egressGateways: [
-            { enabled: true, nodeSelector: { istio: "egress" } }
+            { enabled: true, nodeSelector: { istio: "egress" } },
           ],
-          ingressGateways: [{ enabled: true, mode: "Internal" }]
-        }
+          ingressGateways: [{ enabled: true, mode: "Internal" }],
+        },
       },
-      mode: "Istio"
+      mode: "Istio",
     },
     servicePrincipalProfile: { clientId: "clientid", secret: "secret" },
     sku: { name: "Basic", tier: "Free" },
     tags: { archv2: "", tier: "production" },
     windowsProfile: {
       adminPassword: "replacePassword1234$",
-      adminUsername: "azureuser"
-    }
+      adminUsername: "azureuser",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.managedClusters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     resourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -1519,7 +1578,7 @@ async function createOrUpdateManagedClusterWithAzureServiceMesh() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/ManagedClustersCreate_UpdateWithAHUB.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/ManagedClustersCreate_UpdateWithAHUB.json
  */
 async function createOrUpdateManagedClusterWithEnableAhub() {
   const subscriptionId =
@@ -1539,8 +1598,8 @@ async function createOrUpdateManagedClusterWithEnableAhub() {
         enableNodePublicIP: true,
         mode: "System",
         osType: "Linux",
-        vmSize: "Standard_DS1_v2"
-      }
+        vmSize: "Standard_DS1_v2",
+      },
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
@@ -1551,19 +1610,20 @@ async function createOrUpdateManagedClusterWithEnableAhub() {
     identity: {
       type: "UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/00000000000000000000000000000000/resourcegroups/rgName1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1": {}
-      }
+        "/subscriptions/00000000000000000000000000000000/resourcegroups/rgName1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
+          {},
+      },
     },
     kubernetesVersion: "",
     linuxProfile: {
       adminUsername: "azureuser",
-      ssh: { publicKeys: [{ keyData: "keydata" }] }
+      ssh: { publicKeys: [{ keyData: "keydata" }] },
     },
     location: "location1",
     networkProfile: {
       loadBalancerProfile: { managedOutboundIPs: { count: 2 } },
       loadBalancerSku: "standard",
-      outboundType: "loadBalancer"
+      outboundType: "loadBalancer",
     },
     servicePrincipalProfile: { clientId: "clientid", secret: "secret" },
     sku: { name: "Basic", tier: "Free" },
@@ -1571,15 +1631,15 @@ async function createOrUpdateManagedClusterWithEnableAhub() {
     windowsProfile: {
       adminPassword: "replacePassword1234$",
       adminUsername: "azureuser",
-      licenseType: "Windows_Server"
-    }
+      licenseType: "Windows_Server",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.managedClusters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     resourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -1588,7 +1648,7 @@ async function createOrUpdateManagedClusterWithEnableAhub() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/ManagedClustersCreate_UpdateWindowsGmsa.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/ManagedClustersCreate_UpdateWindowsGmsa.json
  */
 async function createOrUpdateManagedClusterWithWindowsGMsaEnabled() {
   const subscriptionId =
@@ -1608,8 +1668,8 @@ async function createOrUpdateManagedClusterWithWindowsGMsaEnabled() {
         enableNodePublicIP: true,
         mode: "System",
         osType: "Linux",
-        vmSize: "Standard_DS1_v2"
-      }
+        vmSize: "Standard_DS1_v2",
+      },
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
@@ -1620,19 +1680,20 @@ async function createOrUpdateManagedClusterWithWindowsGMsaEnabled() {
     identity: {
       type: "UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/00000000000000000000000000000000/resourcegroups/rgName1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1": {}
-      }
+        "/subscriptions/00000000000000000000000000000000/resourcegroups/rgName1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
+          {},
+      },
     },
     kubernetesVersion: "",
     linuxProfile: {
       adminUsername: "azureuser",
-      ssh: { publicKeys: [{ keyData: "keydata" }] }
+      ssh: { publicKeys: [{ keyData: "keydata" }] },
     },
     location: "location1",
     networkProfile: {
       loadBalancerProfile: { managedOutboundIPs: { count: 2 } },
       loadBalancerSku: "standard",
-      outboundType: "loadBalancer"
+      outboundType: "loadBalancer",
     },
     servicePrincipalProfile: { clientId: "clientid", secret: "secret" },
     sku: { name: "Basic", tier: "Free" },
@@ -1640,15 +1701,15 @@ async function createOrUpdateManagedClusterWithWindowsGMsaEnabled() {
     windowsProfile: {
       adminPassword: "replacePassword1234$",
       adminUsername: "azureuser",
-      gmsaProfile: { enabled: true }
-    }
+      gmsaProfile: { enabled: true },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.managedClusters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     resourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -1657,7 +1718,7 @@ async function createOrUpdateManagedClusterWithWindowsGMsaEnabled() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/ManagedClustersCreate_DualStackNetworking.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/ManagedClustersCreate_DualStackNetworking.json
  */
 async function createOrUpdateManagedClusterWithDualStackNetworking() {
   const subscriptionId =
@@ -1678,8 +1739,8 @@ async function createOrUpdateManagedClusterWithDualStackNetworking() {
         mode: "System",
         osType: "Linux",
         scaleDownMode: "Deallocate",
-        vmSize: "Standard_DS1_v2"
-      }
+        vmSize: "Standard_DS1_v2",
+      },
     ],
     autoScalerProfile: {
       balanceSimilarNodeGroups: "true",
@@ -1688,7 +1749,7 @@ async function createOrUpdateManagedClusterWithDualStackNetworking() {
       newPodScaleUpDelay: "1m",
       scaleDownDelayAfterAdd: "15m",
       scanInterval: "20s",
-      skipNodesWithSystemPods: "false"
+      skipNodesWithSystemPods: "false",
     },
     diskEncryptionSetID:
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
@@ -1698,35 +1759,36 @@ async function createOrUpdateManagedClusterWithDualStackNetworking() {
     identity: {
       type: "UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/00000000000000000000000000000000/resourcegroups/rgName1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1": {}
-      }
+        "/subscriptions/00000000000000000000000000000000/resourcegroups/rgName1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
+          {},
+      },
     },
     kubernetesVersion: "",
     linuxProfile: {
       adminUsername: "azureuser",
-      ssh: { publicKeys: [{ keyData: "keydata" }] }
+      ssh: { publicKeys: [{ keyData: "keydata" }] },
     },
     location: "location1",
     networkProfile: {
       ipFamilies: ["IPv4", "IPv6"],
       loadBalancerProfile: { managedOutboundIPs: { count: 2 } },
       loadBalancerSku: "standard",
-      outboundType: "loadBalancer"
+      outboundType: "loadBalancer",
     },
     servicePrincipalProfile: { clientId: "clientid", secret: "secret" },
     sku: { name: "Basic", tier: "Free" },
     tags: { archv2: "", tier: "production" },
     windowsProfile: {
       adminPassword: "replacePassword1234$",
-      adminUsername: "azureuser"
-    }
+      adminUsername: "azureuser",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.managedClusters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     resourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -1749,6 +1811,7 @@ async function main() {
   createManagedClusterWithRunCommandDisabled();
   createManagedClusterWithSecurityProfileConfigured();
   createManagedClusterWithUltraSsdEnabled();
+  createManagedClusterWithWebAppRoutingIngressProfileConfigured();
   createManagedClusterWithUserAssignedNatGatewayAsOutboundType();
   createManagedPrivateClusterWithPublicFqdnSpecified();
   createManagedPrivateClusterWithFqdnSubdomainSpecified();

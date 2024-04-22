@@ -218,7 +218,7 @@ describe("shared receiver code", () => {
 
       await assertThrows(() => retryForeverPromise, {
         name: "AbortError",
-        message: "Purposefully abort",
+        message: "Error 0: AbortError: Purposefully abort",
       });
 
       assert.notOk(onErrorError?.message);

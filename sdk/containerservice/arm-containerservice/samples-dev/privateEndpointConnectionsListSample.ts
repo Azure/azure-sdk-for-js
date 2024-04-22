@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to To learn more about private clusters, see: https://docs.microsoft.com/azure/aks/private-clusters
  *
  * @summary To learn more about private clusters, see: https://docs.microsoft.com/azure/aks/private-clusters
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/PrivateEndpointConnectionsList.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/PrivateEndpointConnectionsList.json
  */
 async function listPrivateEndpointConnectionsByManagedCluster() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function listPrivateEndpointConnectionsByManagedCluster() {
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.privateEndpointConnections.list(
     resourceGroupName,
-    resourceName
+    resourceName,
   );
   console.log(result);
 }

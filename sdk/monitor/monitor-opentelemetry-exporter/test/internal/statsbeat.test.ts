@@ -12,6 +12,7 @@ import sinon from "sinon";
 import { StatsbeatCounter } from "../../src/export/statsbeat/types";
 import { getInstance } from "../../src/export/statsbeat/longIntervalStatsbeatMetrics";
 import { AzureMonitorTraceExporter } from "../../src/export/trace";
+import { diag } from "@opentelemetry/api";
 
 describe("#AzureMonitorStatsbeatExporter", () => {
   process.env.LONG_INTERVAL_EXPORT_MILLIS = "100";
@@ -33,6 +34,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
   describe("Export/Statsbeat", () => {
     let scope: nock.Interceptor;
+    let sandbox: any;
     const envelope = {
       name: "Name",
       time: new Date(),
@@ -40,9 +42,11 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
     before(() => {
       scope = nock(DEFAULT_BREEZE_ENDPOINT).post("/v2.1/track");
+      sandbox = sinon.createSandbox();
     });
 
     after(() => {
+      sandbox.restore();
       nock.cleanAll();
     });
 
@@ -137,6 +141,16 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
         const result = await exporter["sender"]["exportEnvelopes"]([envelope]);
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
+      });
+
+      it("should not log error upon failed send if statsbeat is being sent", async () => {
+        const mockExport = sandbox.stub(diag, "error");
+        const exporter = new AzureMonitorTraceExporter(exportOptions);
+        const response = failedBreezeResponse(1, 500);
+        scope.reply(500, JSON.stringify(response));
+        exporter["sender"]["isStatsbeatSender"] = true;
+        await exporter["sender"]["exportEnvelopes"]([envelope]);
+        assert.ok(!mockExport.called);
       });
     });
 

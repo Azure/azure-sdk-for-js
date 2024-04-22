@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to create an ASR replication protected item (Enable replication).
  *
  * @summary The operation to create an ASR replication protected item (Enable replication).
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectedItems_Create.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectedItems_Create.json
  */
 async function enablesProtection() {
   const subscriptionId =
@@ -45,7 +45,7 @@ async function enablesProtection() {
     fabricName,
     protectionContainerName,
     replicatedProtectedItemName,
-    input
+    input,
   );
   console.log(result);
 }

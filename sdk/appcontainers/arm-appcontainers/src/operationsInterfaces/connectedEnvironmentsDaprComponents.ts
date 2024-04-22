@@ -16,7 +16,7 @@ import {
   ConnectedEnvironmentsDaprComponentsCreateOrUpdateResponse,
   ConnectedEnvironmentsDaprComponentsDeleteOptionalParams,
   ConnectedEnvironmentsDaprComponentsListSecretsOptionalParams,
-  ConnectedEnvironmentsDaprComponentsListSecretsResponse
+  ConnectedEnvironmentsDaprComponentsListSecretsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface ConnectedEnvironmentsDaprComponents {
   list(
     resourceGroupName: string,
     connectedEnvironmentName: string,
-    options?: ConnectedEnvironmentsDaprComponentsListOptionalParams
+    options?: ConnectedEnvironmentsDaprComponentsListOptionalParams,
   ): PagedAsyncIterableIterator<DaprComponent>;
   /**
    * Get a dapr component.
@@ -44,7 +44,7 @@ export interface ConnectedEnvironmentsDaprComponents {
     resourceGroupName: string,
     connectedEnvironmentName: string,
     componentName: string,
-    options?: ConnectedEnvironmentsDaprComponentsGetOptionalParams
+    options?: ConnectedEnvironmentsDaprComponentsGetOptionalParams,
   ): Promise<ConnectedEnvironmentsDaprComponentsGetResponse>;
   /**
    * Creates or updates a Dapr Component in a connected environment.
@@ -59,7 +59,7 @@ export interface ConnectedEnvironmentsDaprComponents {
     connectedEnvironmentName: string,
     componentName: string,
     daprComponentEnvelope: DaprComponent,
-    options?: ConnectedEnvironmentsDaprComponentsCreateOrUpdateOptionalParams
+    options?: ConnectedEnvironmentsDaprComponentsCreateOrUpdateOptionalParams,
   ): Promise<ConnectedEnvironmentsDaprComponentsCreateOrUpdateResponse>;
   /**
    * Delete a Dapr Component from a connected environment.
@@ -72,7 +72,7 @@ export interface ConnectedEnvironmentsDaprComponents {
     resourceGroupName: string,
     connectedEnvironmentName: string,
     componentName: string,
-    options?: ConnectedEnvironmentsDaprComponentsDeleteOptionalParams
+    options?: ConnectedEnvironmentsDaprComponentsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * List secrets for a dapr component
@@ -85,6 +85,6 @@ export interface ConnectedEnvironmentsDaprComponents {
     resourceGroupName: string,
     connectedEnvironmentName: string,
     componentName: string,
-    options?: ConnectedEnvironmentsDaprComponentsListSecretsOptionalParams
+    options?: ConnectedEnvironmentsDaprComponentsListSecretsOptionalParams,
   ): Promise<ConnectedEnvironmentsDaprComponentsListSecretsResponse>;
 }

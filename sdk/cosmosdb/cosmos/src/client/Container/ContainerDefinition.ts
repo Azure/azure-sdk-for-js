@@ -5,6 +5,8 @@ import { ConflictResolutionPolicy } from "../Conflict/ConflictResolutionPolicy";
 import { UniqueKeyPolicy } from "./UniqueKeyPolicy";
 import { GeospatialType } from "../../documents/GeospatialType";
 import { ChangeFeedPolicy } from "../ChangeFeed/ChangeFeedPolicy";
+import { ComputedProperty } from "../../documents/ComputedProperty";
+
 export interface ContainerDefinition {
   /** The id of the container. */
   id?: string;
@@ -23,4 +25,6 @@ export interface ContainerDefinition {
     type: GeospatialType;
   };
   changeFeedPolicy?: ChangeFeedPolicy;
+  /** The computed properties of the container */
+  computedProperties?: ComputedProperty[];
 }

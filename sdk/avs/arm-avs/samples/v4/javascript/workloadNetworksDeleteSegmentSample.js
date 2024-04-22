@@ -29,7 +29,7 @@ async function workloadNetworksDeleteSegment() {
   const result = await client.workloadNetworks.beginDeleteSegmentAndWait(
     resourceGroupName,
     privateCloudName,
-    segmentId
+    segmentId,
   );
   console.log(result);
 }

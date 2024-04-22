@@ -17,7 +17,7 @@ import {
   CertificatesDeleteOptionalParams,
   CertificatePatch,
   CertificatesUpdateOptionalParams,
-  CertificatesUpdateResponse
+  CertificatesUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface Certificates {
   list(
     resourceGroupName: string,
     environmentName: string,
-    options?: CertificatesListOptionalParams
+    options?: CertificatesListOptionalParams,
   ): PagedAsyncIterableIterator<Certificate>;
   /**
    * Get the specified Certificate.
@@ -45,7 +45,7 @@ export interface Certificates {
     resourceGroupName: string,
     environmentName: string,
     certificateName: string,
-    options?: CertificatesGetOptionalParams
+    options?: CertificatesGetOptionalParams,
   ): Promise<CertificatesGetResponse>;
   /**
    * Create or Update a Certificate.
@@ -58,7 +58,7 @@ export interface Certificates {
     resourceGroupName: string,
     environmentName: string,
     certificateName: string,
-    options?: CertificatesCreateOrUpdateOptionalParams
+    options?: CertificatesCreateOrUpdateOptionalParams,
   ): Promise<CertificatesCreateOrUpdateResponse>;
   /**
    * Deletes the specified Certificate.
@@ -71,7 +71,7 @@ export interface Certificates {
     resourceGroupName: string,
     environmentName: string,
     certificateName: string,
-    options?: CertificatesDeleteOptionalParams
+    options?: CertificatesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Patches a certificate. Currently only patching of tags is supported
@@ -86,6 +86,6 @@ export interface Certificates {
     environmentName: string,
     certificateName: string,
     certificateEnvelope: CertificatePatch,
-    options?: CertificatesUpdateOptionalParams
+    options?: CertificatesUpdateOptionalParams,
   ): Promise<CertificatesUpdateResponse>;
 }

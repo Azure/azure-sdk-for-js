@@ -11,7 +11,7 @@ import {
   VpnSiteLink,
   VpnSiteLinksListByVpnSiteOptionalParams,
   VpnSiteLinksGetOptionalParams,
-  VpnSiteLinksGetResponse
+  VpnSiteLinksGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface VpnSiteLinks {
   listByVpnSite(
     resourceGroupName: string,
     vpnSiteName: string,
-    options?: VpnSiteLinksListByVpnSiteOptionalParams
+    options?: VpnSiteLinksListByVpnSiteOptionalParams,
   ): PagedAsyncIterableIterator<VpnSiteLink>;
   /**
    * Retrieves the details of a VPN site link.
@@ -39,6 +39,6 @@ export interface VpnSiteLinks {
     resourceGroupName: string,
     vpnSiteName: string,
     vpnSiteLinkName: string,
-    options?: VpnSiteLinksGetOptionalParams
+    options?: VpnSiteLinksGetOptionalParams,
   ): Promise<VpnSiteLinksGetResponse>;
 }

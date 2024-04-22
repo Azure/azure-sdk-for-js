@@ -9,7 +9,7 @@
 import {
   NameAvailabilityParameters,
   LocationsCheckNameAvailabilityOptionalParams,
-  LocationsCheckNameAvailabilityResponse
+  LocationsCheckNameAvailabilityResponse,
 } from "../models";
 
 /** Interface representing a Locations. */
@@ -23,6 +23,6 @@ export interface Locations {
   checkNameAvailability(
     location: string,
     nameAvailabilityParameters: NameAvailabilityParameters,
-    options?: LocationsCheckNameAvailabilityOptionalParams
+    options?: LocationsCheckNameAvailabilityOptionalParams,
   ): Promise<LocationsCheckNameAvailabilityResponse>;
 }

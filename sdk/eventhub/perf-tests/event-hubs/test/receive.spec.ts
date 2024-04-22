@@ -21,7 +21,7 @@ import {
   PartitionContext,
   EventHubProducerClient,
 } from "@azure/event-hubs";
-import { getEnvVar } from "@azure/test-utils-perf";
+import { getEnvVar } from "@azure-tools/test-perf";
 import moment from "moment";
 import { delay } from "@azure/core-amqp";
 
@@ -148,11 +148,11 @@ function WriteResult(
   const memoryUsage = process.memoryUsage();
   log(
     `\tTot Msg\t${totalMessages}` +
-      `\tCur MPS\t${Math.round((currentMessages * 1000) / currentElapsed)}` +
-      `\tAvg MPS\t${Math.round((totalMessages * 1000) / totalElapsed)}` +
-      `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}` +
-      `\tRSS\t${memoryUsage.rss}` +
-      `\tHeapUsed\t${memoryUsage.heapUsed}`,
+    `\tCur MPS\t${Math.round((currentMessages * 1000) / currentElapsed)}` +
+    `\tAvg MPS\t${Math.round((totalMessages * 1000) / totalElapsed)}` +
+    `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}` +
+    `\tRSS\t${memoryUsage.rss}` +
+    `\tHeapUsed\t${memoryUsage.heapUsed}`,
   );
 }
 

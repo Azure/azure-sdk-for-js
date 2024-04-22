@@ -17,7 +17,7 @@ import {
   PrivateLinkResourcesListByDatabaseAccountOptionalParams,
   PrivateLinkResourcesListByDatabaseAccountResponse,
   PrivateLinkResourcesGetOptionalParams,
-  PrivateLinkResourcesGetResponse
+  PrivateLinkResourcesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -42,12 +42,12 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   public listByDatabaseAccount(
     resourceGroupName: string,
     accountName: string,
-    options?: PrivateLinkResourcesListByDatabaseAccountOptionalParams
+    options?: PrivateLinkResourcesListByDatabaseAccountOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource> {
     const iter = this.listByDatabaseAccountPagingAll(
       resourceGroupName,
       accountName,
-      options
+      options,
     );
     return {
       next() {
@@ -64,9 +64,9 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
           resourceGroupName,
           accountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -74,13 +74,13 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
     resourceGroupName: string,
     accountName: string,
     options?: PrivateLinkResourcesListByDatabaseAccountOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<PrivateLinkResource[]> {
     let result: PrivateLinkResourcesListByDatabaseAccountResponse;
     result = await this._listByDatabaseAccount(
       resourceGroupName,
       accountName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -88,12 +88,12 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   private async *listByDatabaseAccountPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: PrivateLinkResourcesListByDatabaseAccountOptionalParams
+    options?: PrivateLinkResourcesListByDatabaseAccountOptionalParams,
   ): AsyncIterableIterator<PrivateLinkResource> {
     for await (const page of this.listByDatabaseAccountPagingPage(
       resourceGroupName,
       accountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -108,11 +108,11 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   private _listByDatabaseAccount(
     resourceGroupName: string,
     accountName: string,
-    options?: PrivateLinkResourcesListByDatabaseAccountOptionalParams
+    options?: PrivateLinkResourcesListByDatabaseAccountOptionalParams,
   ): Promise<PrivateLinkResourcesListByDatabaseAccountResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listByDatabaseAccountOperationSpec
+      listByDatabaseAccountOperationSpec,
     );
   }
 
@@ -127,11 +127,11 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
     resourceGroupName: string,
     accountName: string,
     groupName: string,
-    options?: PrivateLinkResourcesGetOptionalParams
+    options?: PrivateLinkResourcesGetOptionalParams,
   ): Promise<PrivateLinkResourcesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, groupName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -139,32 +139,12 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByDatabaseAccountOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateLinkResources",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateLinkResources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResourceListResult
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateLinkResources/{groupName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PrivateLinkResource
-    }
+      bodyMapper: Mappers.PrivateLinkResourceListResult,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -172,8 +152,26 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.groupName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateLinkResources/{groupName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateLinkResource,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.groupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
