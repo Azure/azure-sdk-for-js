@@ -105,6 +105,7 @@ describe("#generatePluginConfiguration", function () {
       assert.strictEqual(result.broker.nativeBrokerPlugin, nativeBrokerPlugin);
       assert.strictEqual(result.broker.enableMsaPassthrough, true);
       assert.strictEqual(result.broker.parentWindowHandle, parentWindowHandle);
+      assert.strictEqual(result.broker.isEnabled, true);
     });
   });
 });
