@@ -167,7 +167,7 @@ export interface GetRun {
 export interface SubmitToolOutputsToRun {
   /** Submits outputs from tools as requested by tool calls in a run. Runs that need submitted tool outputs will have a status of 'requires_action' with a required_action.type of 'submit_tool_outputs'. */
   post(
-    options?: SubmitToolOutputsToRunParameters
+    options?: SubmitToolOutputsToRunParameters,
   ): StreamableMethod<SubmitToolOutputsToRun200Response>;
 }
 
@@ -216,7 +216,7 @@ export interface Routes {
   (
     path: "/assistants/{assistantId}/files/{fileId}",
     assistantId: string,
-    fileId: string
+    fileId: string,
   ): GetAssistantFile;
   /** Resource for '/threads' has methods for the following verbs: post */
   (path: "/threads"): CreateThread;
@@ -228,20 +228,20 @@ export interface Routes {
   (
     path: "/threads/{threadId}/messages/{messageId}",
     threadId: string,
-    messageId: string
+    messageId: string,
   ): GetMessage;
   /** Resource for '/threads/\{threadId\}/messages/\{messageId\}/files' has methods for the following verbs: get */
   (
     path: "/threads/{threadId}/messages/{messageId}/files",
     threadId: string,
-    messageId: string
+    messageId: string,
   ): ListMessageFiles;
   /** Resource for '/threads/\{threadId\}/messages/\{messageId\}/files/\{fileId\}' has methods for the following verbs: get */
   (
     path: "/threads/{threadId}/messages/{messageId}/files/{fileId}",
     threadId: string,
     messageId: string,
-    fileId: string
+    fileId: string,
   ): GetMessageFile;
   /** Resource for '/threads/\{threadId\}/runs' has methods for the following verbs: post, get */
   (path: "/threads/{threadId}/runs", threadId: string): CreateRun;
@@ -251,7 +251,7 @@ export interface Routes {
   (
     path: "/threads/{threadId}/runs/{runId}/submit_tool_outputs",
     threadId: string,
-    runId: string
+    runId: string,
   ): SubmitToolOutputsToRun;
   /** Resource for '/threads/\{threadId\}/runs/\{runId\}/cancel' has methods for the following verbs: post */
   (path: "/threads/{threadId}/runs/{runId}/cancel", threadId: string, runId: string): CancelRun;
@@ -262,7 +262,7 @@ export interface Routes {
     path: "/threads/{threadId}/runs/{runId}/steps/{stepId}",
     threadId: string,
     runId: string,
-    stepId: string
+    stepId: string,
   ): GetRunStep;
   /** Resource for '/threads/\{threadId\}/runs/\{runId\}/steps' has methods for the following verbs: get */
   (path: "/threads/{threadId}/runs/{runId}/steps", threadId: string, runId: string): ListRunSteps;
