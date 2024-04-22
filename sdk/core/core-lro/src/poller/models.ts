@@ -229,7 +229,7 @@ export interface PollerLike<TState extends OperationState<TResult>, TResult>
 
 /**
  * A state proxy that allows poller implementation to abstract away the operation
- * state. This is useful to implement `lroEngine` and `createPoller` in a modular
+ * state. This is useful to implement `createPoller` in a modular
  * way.
  */
 export interface StateProxy<TState, TResult> {

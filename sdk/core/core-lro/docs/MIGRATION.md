@@ -2,8 +2,6 @@
 
 This document shows the customers of v2 LRO (Long Running Operations) on how to migrate their code to use the v3 libraries.
 
-**For new customers please refer to the [LRO design doc](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-lro/docs/LRODesign.md).**
-
 ## Main difference between v2 and v3
 
 In v2, you have to `await` the LRO to get this poller. But `await` doesn't give you the final result, it gives you the poller to track the operation's status. This has confused some users who thought `await` would give them the final result.
