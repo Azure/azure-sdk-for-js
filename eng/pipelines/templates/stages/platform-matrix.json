@@ -18,8 +18,8 @@
       }
     },
     "NodeTestVersion": [
-      "18.19.x",
-      "20.11.x",
+      "18.x",
+      "20.x",
       "21.2.0"
     ],
     "TestType": "node",
@@ -58,7 +58,7 @@
         }
       },
       "TestType": "node",
-      "NodeTestVersion": "18.19.x",
+      "NodeTestVersion": "18.x",
       "DependencyVersion": [
         "max",
         "min"
