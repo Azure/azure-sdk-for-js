@@ -24,6 +24,7 @@ export interface ContainerDefinition {
   geospatialConfig?: {
     type: GeospatialType;
   };
+  /** Change feed policy related to the container */
   changeFeedPolicy?: ChangeFeedPolicy;
   /** The computed properties of the container */
   computedProperties?: ComputedProperty[];

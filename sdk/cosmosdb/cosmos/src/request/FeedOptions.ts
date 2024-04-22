@@ -51,9 +51,16 @@ export interface FeedOptions extends SharedOptions {
   useIncrementalFeed?: boolean;
   /**
    * @internal
-   * Indicates a change feed request in allVersionsAndDelete mode. Default false.
+   * Indicates a change feed request in latestVersion mode.
+   * Note: Not to be used directly. Use @ChangeFeedMode instead to set the mode.
    */
-  useAllVersionsAndDeleteFeed?: boolean;
+  useLatestVersionFeed?: boolean;
+  /**
+   * @internal
+   * Indicates a change feed request in allVersionsAndDelete mode. Default false.
+   * Note: Not to be used directly. Use @ChangeFeedMode instead to set the mode.
+   */
+  useAllVersionsAndDeletesFeed?: boolean;
   /** Conditions Associated with the request. */
   accessCondition?: {
     /** Conditional HTTP method header type (IfMatch or IfNoneMatch). */

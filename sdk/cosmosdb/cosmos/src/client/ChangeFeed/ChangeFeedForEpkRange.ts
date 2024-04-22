@@ -384,8 +384,8 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
   ): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>> {
     const feedOptions: FeedOptions = {
       initialHeaders: {},
-      useIncrementalFeed: true,
-      useAllVersionsAndDeleteFeed: false,
+      useLatestVersionFeed: true,
+      useAllVersionsAndDeletesFeed: false,
     };
 
     if (typeof this.changeFeedOptions.maxItemCount === "number") {
@@ -414,8 +414,8 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
       this.changeFeedOptions.changeFeedMode &&
       this.changeFeedOptions.changeFeedMode === ChangeFeedMode.AllVersionsAndDeletes
     ) {
-      feedOptions.useAllVersionsAndDeleteFeed = true;
-      feedOptions.useIncrementalFeed = false;
+      feedOptions.useAllVersionsAndDeletesFeed = true;
+      feedOptions.useLatestVersionFeed = false;
     }
 
     const rangeId = await this.getPartitionRangeId(feedRange, diagnosticNode);

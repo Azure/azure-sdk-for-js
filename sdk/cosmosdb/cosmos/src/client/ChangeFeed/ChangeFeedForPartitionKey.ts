@@ -125,8 +125,8 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
   ): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>> {
     const feedOptions: FeedOptions = {
       initialHeaders: {},
-      useIncrementalFeed: true,
-      useAllVersionsAndDeleteFeed: false,
+      useLatestVersionFeed: true,
+      useAllVersionsAndDeletesFeed: false,
     };
     if (typeof this.changeFeedOptions.maxItemCount === "number") {
       feedOptions.maxItemCount = this.changeFeedOptions.maxItemCount;
@@ -154,8 +154,8 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
       this.changeFeedOptions.changeFeedMode &&
       this.changeFeedOptions.changeFeedMode === ChangeFeedMode.AllVersionsAndDeletes
     ) {
-      feedOptions.useAllVersionsAndDeleteFeed = true;
-      feedOptions.useIncrementalFeed = false;
+      feedOptions.useAllVersionsAndDeletesFeed = true;
+      feedOptions.useLatestVersionFeed = false;
     }
     try {
       const response: Response<Array<T & Resource>> = await (this.clientContext.queryFeed<T>({
