@@ -25,6 +25,7 @@ describe("#generatePluginConfiguration", function () {
     const expected: PluginConfiguration = {
       cache: {},
       broker: {
+        isEnabled: false,
         enableMsaPassthrough: false,
         parentWindowHandle: undefined,
       },
