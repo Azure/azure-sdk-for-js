@@ -52,13 +52,13 @@ export interface FeedOptions extends SharedOptions {
   /**
    * @internal
    * Indicates a change feed request in latestVersion mode.
-   * Note: Not to be used directly. Use @ChangeFeedMode instead to set the mode.
+   * Note: Not to be used directly. Use `ChangeFeedMode` instead to set the mode.
    */
   useLatestVersionFeed?: boolean;
   /**
    * @internal
    * Indicates a change feed request in allVersionsAndDelete mode. Default false.
-   * Note: Not to be used directly. Use @ChangeFeedMode instead to set the mode.
+   * Note: Not to be used directly. Use `ChangeFeedMode` instead to set the mode.
    */
   useAllVersionsAndDeletesFeed?: boolean;
   /** Conditions Associated with the request. */
