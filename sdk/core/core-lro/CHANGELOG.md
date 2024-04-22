@@ -2,7 +2,7 @@
 
 ## 3.0.0 (Unreleased)
 
-Marks the first release of LRO v3. To migrate the existing applications to v3, please refer to [Migration Guide](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-lro/docs/MIGRATION.md). For new customers, please see [LRO Design](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-lro/docs/LRODesign.md).
+Marks the first release of LRO v3. To migrate the existing applications to v3, please refer to [Migration Guide](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-lro/docs/MIGRATION.md).
 
 ## 2.7.2 (2024-04-09)
 
