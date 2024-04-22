@@ -47,7 +47,7 @@ try {
       }
       Write-Host "Deprecate package $nameAndVersion, reason: $reason"
       Write-Host "npm deprecate $($nameAndVersion) $reason"
-      npm deprecate $nameAndVersion $reason
+      npm deprecate $nameAndVersion ""
     }
 
      "Unpublish" {
