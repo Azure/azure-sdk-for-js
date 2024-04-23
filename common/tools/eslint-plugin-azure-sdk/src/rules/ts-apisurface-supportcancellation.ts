@@ -110,7 +110,6 @@ export default createRule({
   },
   defaultOptions: [],
   create(context) {
-    ESLintUtils.getParserServices(context);
     const parserServices = ESLintUtils.getParserServices(context);
     const typeChecker = parserServices.program.getTypeChecker();
     const converter = parserServices.esTreeNodeToTSNodeMap;
