@@ -31,7 +31,7 @@ async function listUpdateDomainsInCloudService() {
   const resArray = new Array();
   for await (let item of client.cloudServicesUpdateDomain.listUpdateDomains(
     resourceGroupName,
-    cloudServiceName
+    cloudServiceName,
   )) {
     resArray.push(item);
   }

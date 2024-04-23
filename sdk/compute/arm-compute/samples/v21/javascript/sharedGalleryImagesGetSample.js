@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get a shared gallery image by subscription id or tenant id.
  *
  * @summary Get a shared gallery image by subscription id or tenant id.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/sharedGalleryExamples/SharedGalleryImage_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/sharedGalleryExamples/SharedGalleryImage_Get.json
  */
 async function getASharedGalleryImage() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

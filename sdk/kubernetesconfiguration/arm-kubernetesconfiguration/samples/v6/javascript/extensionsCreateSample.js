@@ -44,7 +44,7 @@ async function createExtension() {
     clusterResourceName,
     clusterName,
     extensionName,
-    extension
+    extension,
   );
   console.log(result);
 }
@@ -80,7 +80,7 @@ async function createExtensionWithPlan() {
     clusterResourceName,
     clusterName,
     extensionName,
-    extension
+    extension,
   );
   console.log(result);
 }

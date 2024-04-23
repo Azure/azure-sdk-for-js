@@ -32,7 +32,7 @@ async function rebuildCloudServiceRoleInstance() {
   const result = await client.cloudServiceRoleInstances.beginRebuildAndWait(
     roleInstanceName,
     resourceGroupName,
-    cloudServiceName
+    cloudServiceName,
   );
   console.log(result);
 }

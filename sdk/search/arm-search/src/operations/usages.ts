@@ -18,7 +18,7 @@ import {
   UsagesListBySubscriptionNextOptionalParams,
   UsagesListBySubscriptionOptionalParams,
   UsagesListBySubscriptionResponse,
-  UsagesListBySubscriptionNextResponse
+  UsagesListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,13 +35,13 @@ export class UsagesImpl implements Usages {
   }
 
   /**
-   * Gets a list of all Search quota usages in the given subscription.
+   * Get a list of all Azure AI Search quota usages across the subscription.
    * @param location The unique location name for a Microsoft Azure geographic region.
    * @param options The options parameters.
    */
   public listBySubscription(
     location: string,
-    options?: UsagesListBySubscriptionOptionalParams
+    options?: UsagesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<QuotaUsageResult> {
     const iter = this.listBySubscriptionPagingAll(location, options);
     return {
@@ -56,14 +56,14 @@ export class UsagesImpl implements Usages {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(location, options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     location: string,
     options?: UsagesListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<QuotaUsageResult[]> {
     let result: UsagesListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -78,7 +78,7 @@ export class UsagesImpl implements Usages {
       result = await this._listBySubscriptionNext(
         location,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -89,28 +89,28 @@ export class UsagesImpl implements Usages {
 
   private async *listBySubscriptionPagingAll(
     location: string,
-    options?: UsagesListBySubscriptionOptionalParams
+    options?: UsagesListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<QuotaUsageResult> {
     for await (const page of this.listBySubscriptionPagingPage(
       location,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * Gets a list of all Search quota usages in the given subscription.
+   * Get a list of all Azure AI Search quota usages across the subscription.
    * @param location The unique location name for a Microsoft Azure geographic region.
    * @param options The options parameters.
    */
   private _listBySubscription(
     location: string,
-    options?: UsagesListBySubscriptionOptionalParams
+    options?: UsagesListBySubscriptionOptionalParams,
   ): Promise<UsagesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -123,11 +123,11 @@ export class UsagesImpl implements Usages {
   private _listBySubscriptionNext(
     location: string,
     nextLink: string,
-    options?: UsagesListBySubscriptionNextOptionalParams
+    options?: UsagesListBySubscriptionNextOptionalParams,
   ): Promise<UsagesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -135,43 +135,42 @@ export class UsagesImpl implements Usages {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Search/locations/{location}/usages",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Search/locations/{location}/usages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QuotaUsagesListResult
+      bodyMapper: Mappers.QuotaUsagesListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept, Parameters.clientRequestId],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QuotaUsagesListResult
+      bodyMapper: Mappers.QuotaUsagesListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept, Parameters.clientRequestId],
-  serializer
+  serializer,
 };

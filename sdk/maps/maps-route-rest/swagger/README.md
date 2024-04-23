@@ -22,7 +22,7 @@ license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/maps/data-plane/Route/preview/1.0/route.json
-package-version: 1.0.0-beta.3
+package-version: 1.0.0-beta.4
 rest-level-client: true
 # Although maps-route supports key-credentials and AAD, maps-route requires header "ms-x-client-id", which is different from the standard AAD, so we don't generate AAD code and implement ourselves.
 # For auth configuration, please refer to: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/RLC-quickstart.md#how-to-configure-authentication

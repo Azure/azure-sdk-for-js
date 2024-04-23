@@ -129,7 +129,6 @@ import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/S
 import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential";
 import { tracingClient } from "./utils/tracing";
 import { StorageClient, CommonOptions } from "./StorageClient";
-import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { FileSystemAttributes } from "./FileSystemAttributes";
 import { FileDownloadResponse } from "./FileDownloadResponse";

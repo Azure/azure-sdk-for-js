@@ -29,7 +29,7 @@ async function getsAnAvailabilityGroupListener() {
   const result = await client.availabilityGroupListeners.get(
     resourceGroupName,
     sqlVirtualMachineGroupName,
-    availabilityGroupListenerName
+    availabilityGroupListenerName,
   );
   console.log(result);
 }

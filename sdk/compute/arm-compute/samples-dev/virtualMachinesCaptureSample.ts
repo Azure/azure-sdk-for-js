@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VirtualMachineCaptureParameters,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -32,14 +32,14 @@ async function virtualMachineCaptureMaximumSetGen() {
   const parameters: VirtualMachineCaptureParameters = {
     destinationContainerName: "aaaaaaa",
     overwriteVhds: true,
-    vhdPrefix: "aaaaaaaaa"
+    vhdPrefix: "aaaaaaaaa",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginCaptureAndWait(
     resourceGroupName,
     vmName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -59,14 +59,14 @@ async function virtualMachineCaptureMinimumSetGen() {
   const parameters: VirtualMachineCaptureParameters = {
     destinationContainerName: "aaaaaaa",
     overwriteVhds: true,
-    vhdPrefix: "aaaaaaaaa"
+    vhdPrefix: "aaaaaaaaa",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginCaptureAndWait(
     resourceGroupName,
     vmName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

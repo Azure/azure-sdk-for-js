@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets an existing security policy within a profile.
  *
  * @summary Gets an existing security policy within a profile.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/SecurityPolicies_Get.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/SecurityPolicies_Get.json
  */
 async function securityPoliciesGet() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function securityPoliciesGet() {
   const result = await client.securityPolicies.get(
     resourceGroupName,
     profileName,
-    securityPolicyName
+    securityPolicyName,
   );
   console.log(result);
 }

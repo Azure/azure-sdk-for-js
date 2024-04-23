@@ -30,7 +30,7 @@ async function getCloudServiceWithMultipleRolesAndRdpExtension() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.cloudServices.get(
     resourceGroupName,
-    cloudServiceName
+    cloudServiceName,
   );
   console.log(result);
 }

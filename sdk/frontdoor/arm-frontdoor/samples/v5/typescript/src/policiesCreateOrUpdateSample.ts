@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   WebApplicationFirewallPolicy,
-  FrontDoorManagementClient
+  FrontDoorManagementClient,
 } from "@azure/arm-frontdoor";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update policy with specified rule set name within a resource group.
  *
  * @summary Create or update policy with specified rule set name within a resource group.
- * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2022-05-01/examples/WafPolicyCreateOrUpdate.json
+ * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2024-02-01/examples/WafPolicyCreateOrUpdate.json
  */
 async function createsSpecificPolicy() {
   const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
@@ -37,12 +37,12 @@ async function createsSpecificPolicy() {
             {
               matchValue: ["192.168.1.0/24", "10.0.0.0/24"],
               matchVariable: "RemoteAddr",
-              operator: "IPMatch"
-            }
+              operator: "IPMatch",
+            },
           ],
           priority: 1,
           rateLimitThreshold: 1000,
-          ruleType: "RateLimitRule"
+          ruleType: "RateLimitRule",
         },
         {
           name: "Rule2",
@@ -51,21 +51,22 @@ async function createsSpecificPolicy() {
             {
               matchValue: ["CH"],
               matchVariable: "RemoteAddr",
-              operator: "GeoMatch"
+              operator: "GeoMatch",
             },
             {
               matchValue: ["windows"],
               matchVariable: "RequestHeader",
               operator: "Contains",
               selector: "UserAgent",
-              transforms: ["Lowercase"]
-            }
+              transforms: ["Lowercase"],
+            },
           ],
           priority: 2,
-          ruleType: "MatchRule"
-        }
-      ]
+          ruleType: "MatchRule",
+        },
+      ],
     },
+    location: "WestUs",
     managedRules: {
       managedRuleSets: [
         {
@@ -73,8 +74,8 @@ async function createsSpecificPolicy() {
             {
               matchVariable: "RequestHeaderNames",
               selector: "User-Agent",
-              selectorMatchOperator: "Equals"
-            }
+              selectorMatchOperator: "Equals",
+            },
           ],
           ruleGroupOverrides: [
             {
@@ -82,8 +83,8 @@ async function createsSpecificPolicy() {
                 {
                   matchVariable: "RequestCookieNames",
                   selector: "token",
-                  selectorMatchOperator: "StartsWith"
-                }
+                  selectorMatchOperator: "StartsWith",
+                },
               ],
               ruleGroupName: "SQLI",
               rules: [
@@ -94,39 +95,48 @@ async function createsSpecificPolicy() {
                     {
                       matchVariable: "QueryStringArgNames",
                       selector: "query",
-                      selectorMatchOperator: "Equals"
-                    }
+                      selectorMatchOperator: "Equals",
+                    },
                   ],
-                  ruleId: "942100"
+                  ruleId: "942100",
                 },
-                { enabledState: "Disabled", ruleId: "942110" }
-              ]
-            }
+                { enabledState: "Disabled", ruleId: "942110" },
+              ],
+            },
           ],
           ruleSetAction: "Block",
           ruleSetType: "DefaultRuleSet",
-          ruleSetVersion: "1.0"
-        }
-      ]
+          ruleSetVersion: "1.0",
+        },
+      ],
     },
     policySettings: {
       customBlockResponseBody:
         "PGh0bWw+CjxoZWFkZXI+PHRpdGxlPkhlbGxvPC90aXRsZT48L2hlYWRlcj4KPGJvZHk+CkhlbGxvIHdvcmxkCjwvYm9keT4KPC9odG1sPg==",
       customBlockResponseStatusCode: 429,
       enabledState: "Enabled",
+      javascriptChallengeExpirationInMinutes: 30,
       mode: "Prevention",
       redirectUrl: "http://www.bing.com",
-      requestBodyCheck: "Disabled"
+      requestBodyCheck: "Disabled",
+      scrubbingRules: [
+        {
+          matchVariable: "RequestIPAddress",
+          selector: undefined,
+          selectorMatchOperator: "EqualsAny",
+          state: "Enabled",
+        },
+      ],
+      state: "Enabled",
     },
-    sku: { name: "Classic_AzureFrontDoor" },
-    location: "WestUs"
+    sku: { name: "Premium_AzureFrontDoor" },
   };
   const credential = new DefaultAzureCredential();
   const client = new FrontDoorManagementClient(credential, subscriptionId);
   const result = await client.policies.beginCreateOrUpdateAndWait(
     resourceGroupName,
     policyName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

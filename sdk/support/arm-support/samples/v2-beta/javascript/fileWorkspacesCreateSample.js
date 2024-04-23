@@ -16,9 +16,9 @@ require("dotenv").config();
  * This sample demonstrates how to Creates a new file workspace for the specified subscription.
  *
  * @summary Creates a new file workspace for the specified subscription.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/CreateFileWorkspaceForSubscription.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/CreateFileWorkspaceForSubscription.json
  */
-async function createAFileWorkspace() {
+async function createASubscriptionScopedFileWorkspace() {
   const subscriptionId = process.env["SUPPORT_SUBSCRIPTION_ID"] || "subid";
   const fileWorkspaceName = "testworkspace";
   const credential = new DefaultAzureCredential();
@@ -28,7 +28,7 @@ async function createAFileWorkspace() {
 }
 
 async function main() {
-  createAFileWorkspace();
+  createASubscriptionScopedFileWorkspace();
 }
 
 main().catch(console.error);

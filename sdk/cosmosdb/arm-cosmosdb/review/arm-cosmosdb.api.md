@@ -66,6 +66,9 @@ export interface AuthenticationMethodLdapProperties {
     serviceUserPassword?: string;
 }
 
+// @public
+export type AutoReplicate = string;
+
 // @public (undocumented)
 export interface AutoscaleSettings {
     maxThroughput?: number;
@@ -91,6 +94,9 @@ export interface AzureBlobDataTransferDataSourceSink extends DataTransferDataSou
     // (undocumented)
     endpointUrl?: string;
 }
+
+// @public
+export type AzureConnectionType = string;
 
 // @public
 export interface BackupInformation {
@@ -142,10 +148,14 @@ export type BackupState = string;
 export type BackupStorageRedundancy = string;
 
 // @public
-export interface BaseCosmosDataTransferDataSourceSink {
+export interface BaseCosmosDataTransferDataSourceSink extends DataTransferDataSourceSink {
+    component: "BaseCosmosDataTransferDataSourceSink" | "CosmosDBCassandra" | "CosmosDBMongo" | "CosmosDBSql";
     // (undocumented)
     remoteAccountName?: string;
 }
+
+// @public (undocumented)
+export type BaseCosmosDataTransferDataSourceSinkUnion = BaseCosmosDataTransferDataSourceSink | CosmosCassandraDataTransferDataSourceSink | CosmosMongoDataTransferDataSourceSink | CosmosSqlDataTransferDataSourceSink;
 
 // @public
 export interface Capability {
@@ -186,15 +196,19 @@ export interface CassandraClusters {
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, options?: CassandraClustersDeleteOptionalParams): Promise<void>;
     beginInvokeCommand(resourceGroupName: string, clusterName: string, body: CommandPostBody, options?: CassandraClustersInvokeCommandOptionalParams): Promise<SimplePollerLike<OperationState<CassandraClustersInvokeCommandResponse>, CassandraClustersInvokeCommandResponse>>;
     beginInvokeCommandAndWait(resourceGroupName: string, clusterName: string, body: CommandPostBody, options?: CassandraClustersInvokeCommandOptionalParams): Promise<CassandraClustersInvokeCommandResponse>;
+    beginInvokeCommandAsync(resourceGroupName: string, clusterName: string, body: CommandPostBody, options?: CassandraClustersInvokeCommandAsyncOptionalParams): Promise<SimplePollerLike<OperationState<CassandraClustersInvokeCommandAsyncResponse>, CassandraClustersInvokeCommandAsyncResponse>>;
+    beginInvokeCommandAsyncAndWait(resourceGroupName: string, clusterName: string, body: CommandPostBody, options?: CassandraClustersInvokeCommandAsyncOptionalParams): Promise<CassandraClustersInvokeCommandAsyncResponse>;
     beginStart(resourceGroupName: string, clusterName: string, options?: CassandraClustersStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStartAndWait(resourceGroupName: string, clusterName: string, options?: CassandraClustersStartOptionalParams): Promise<void>;
     beginUpdate(resourceGroupName: string, clusterName: string, body: ClusterResource, options?: CassandraClustersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CassandraClustersUpdateResponse>, CassandraClustersUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterName: string, body: ClusterResource, options?: CassandraClustersUpdateOptionalParams): Promise<CassandraClustersUpdateResponse>;
     get(resourceGroupName: string, clusterName: string, options?: CassandraClustersGetOptionalParams): Promise<CassandraClustersGetResponse>;
     getBackup(resourceGroupName: string, clusterName: string, backupId: string, options?: CassandraClustersGetBackupOptionalParams): Promise<CassandraClustersGetBackupResponse>;
+    getCommandAsync(resourceGroupName: string, clusterName: string, commandId: string, options?: CassandraClustersGetCommandAsyncOptionalParams): Promise<CassandraClustersGetCommandAsyncResponse>;
     listBackups(resourceGroupName: string, clusterName: string, options?: CassandraClustersListBackupsOptionalParams): PagedAsyncIterableIterator<BackupResource>;
     listByResourceGroup(resourceGroupName: string, options?: CassandraClustersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ClusterResource>;
     listBySubscription(options?: CassandraClustersListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ClusterResource>;
+    listCommand(resourceGroupName: string, clusterName: string, options?: CassandraClustersListCommandOptionalParams): PagedAsyncIterableIterator<CommandPublicResource>;
     status(resourceGroupName: string, clusterName: string, options?: CassandraClustersStatusOptionalParams): Promise<CassandraClustersStatusResponse>;
 }
 
@@ -211,7 +225,7 @@ export type CassandraClustersCreateUpdateResponse = ClusterResource;
 export interface CassandraClustersDeallocateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
-    xMsForceDeallocate?: boolean;
+    xMsForceDeallocate?: string;
 }
 
 // @public
@@ -228,11 +242,33 @@ export interface CassandraClustersGetBackupOptionalParams extends coreClient.Ope
 export type CassandraClustersGetBackupResponse = BackupResource;
 
 // @public
+export interface CassandraClustersGetCommandAsyncOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CassandraClustersGetCommandAsyncResponse = ListCommands;
+
+// @public
 export interface CassandraClustersGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
 export type CassandraClustersGetResponse = ClusterResource;
+
+// @public
+export interface CassandraClustersInvokeCommandAsyncHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface CassandraClustersInvokeCommandAsyncOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type CassandraClustersInvokeCommandAsyncResponse = CommandPublicResource;
 
 // @public
 export interface CassandraClustersInvokeCommandOptionalParams extends coreClient.OperationOptions {
@@ -263,6 +299,13 @@ export interface CassandraClustersListBySubscriptionOptionalParams extends coreC
 
 // @public
 export type CassandraClustersListBySubscriptionResponse = ListClusters;
+
+// @public
+export interface CassandraClustersListCommandOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CassandraClustersListCommandResponse = ListCommands;
 
 // @public
 export interface CassandraClustersStartOptionalParams extends coreClient.OperationOptions {
@@ -866,6 +909,8 @@ export interface ClusterResource extends ManagedCassandraARMResourceProperties {
 // @public
 export interface ClusterResourceProperties {
     authenticationMethod?: AuthenticationMethod;
+    autoReplicate?: AutoReplicate;
+    azureConnectionMethod?: AzureConnectionType;
     backupSchedules?: BackupSchedule[];
     cassandraAuditLoggingEnabled?: boolean;
     cassandraVersion?: string;
@@ -875,16 +920,19 @@ export interface ClusterResourceProperties {
     deallocated?: boolean;
     delegatedManagementSubnetId?: string;
     extensions?: string[];
+    externalDataCenters?: string[];
     externalGossipCertificates?: Certificate[];
     externalSeedNodes?: SeedNode[];
     readonly gossipCertificates?: Certificate[];
     hoursBetweenBackups?: number;
     initialCassandraAdminPassword?: string;
+    readonly privateLinkResourceId?: string;
     prometheusEndpoint?: SeedNode;
     provisionError?: CassandraError;
     provisioningState?: ManagedCassandraProvisioningState;
     repairEnabled?: boolean;
     restoreFromBackupId?: string;
+    scheduledEventStrategy?: ScheduledEventStrategy;
     readonly seedNodes?: SeedNode[];
 }
 
@@ -978,14 +1026,29 @@ export interface CommandOutput {
 
 // @public
 export interface CommandPostBody {
-    arguments?: {
-        [propertyName: string]: string;
-    };
+    arguments?: Record<string, unknown>;
     cassandraStopStart?: boolean;
     command: string;
     host: string;
-    readwrite?: boolean;
+    readWrite?: boolean;
 }
+
+// @public
+export interface CommandPublicResource {
+    arguments?: Record<string, unknown>;
+    cassandraStopStart?: boolean;
+    command?: string;
+    commandId?: string;
+    host?: string;
+    isAdmin?: boolean;
+    outputFile?: string;
+    readWrite?: boolean;
+    result?: string;
+    status?: CommandStatus;
+}
+
+// @public
+export type CommandStatus = string;
 
 // @public (undocumented)
 export interface Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties {
@@ -1025,6 +1088,12 @@ export interface CompositePath {
 
 // @public
 export type CompositePathSortOrder = string;
+
+// @public
+export interface ComputedProperty {
+    name?: string;
+    query?: string;
+}
 
 // @public
 export type ConflictResolutionMode = string;
@@ -1106,7 +1175,7 @@ export interface CorsPolicy {
 }
 
 // @public
-export interface CosmosCassandraDataTransferDataSourceSink extends DataTransferDataSourceSink, BaseCosmosDataTransferDataSourceSink {
+export interface CosmosCassandraDataTransferDataSourceSink extends BaseCosmosDataTransferDataSourceSink {
     component: "CosmosDBCassandra";
     // (undocumented)
     keyspaceName: string;
@@ -1203,6 +1272,14 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
     subscriptionId: string;
     // (undocumented)
     tableResources: TableResources;
+    // (undocumented)
+    throughputPool: ThroughputPool;
+    // (undocumented)
+    throughputPoolAccount: ThroughputPoolAccount;
+    // (undocumented)
+    throughputPoolAccounts: ThroughputPoolAccounts;
+    // (undocumented)
+    throughputPools: ThroughputPools;
 }
 
 // @public
@@ -1213,7 +1290,7 @@ export interface CosmosDBManagementClientOptionalParams extends coreClient.Servi
 }
 
 // @public
-export interface CosmosMongoDataTransferDataSourceSink extends DataTransferDataSourceSink, BaseCosmosDataTransferDataSourceSink {
+export interface CosmosMongoDataTransferDataSourceSink extends BaseCosmosDataTransferDataSourceSink {
     // (undocumented)
     collectionName: string;
     component: "CosmosDBMongo";
@@ -1222,7 +1299,7 @@ export interface CosmosMongoDataTransferDataSourceSink extends DataTransferDataS
 }
 
 // @public
-export interface CosmosSqlDataTransferDataSourceSink extends DataTransferDataSourceSink, BaseCosmosDataTransferDataSourceSink {
+export interface CosmosSqlDataTransferDataSourceSink extends BaseCosmosDataTransferDataSourceSink {
     component: "CosmosDBSql";
     // (undocumented)
     containerName: string;
@@ -1246,9 +1323,6 @@ export interface CreateUpdateOptions {
     autoscaleSettings?: AutoscaleSettings;
     throughput?: number;
 }
-
-// @public
-export type CustomerManagedKeyStatus = string;
 
 // @public
 export interface Database {
@@ -1276,7 +1350,7 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
     consistencyPolicy?: ConsistencyPolicy;
     cors?: CorsPolicy[];
     createMode?: CreateMode;
-    customerManagedKeyStatus?: CustomerManagedKeyStatus;
+    customerManagedKeyStatus?: string;
     databaseAccountOfferType: "Standard";
     defaultIdentity?: string;
     defaultPriorityLevel?: DefaultPriorityLevel;
@@ -1291,6 +1365,7 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
     enableMaterializedViews?: boolean;
     enableMultipleWriteLocations?: boolean;
     enablePartitionMerge?: boolean;
+    enablePerRegionPerPartitionAutoscale?: boolean;
     enablePriorityBasedExecution?: boolean;
     ipRules?: IpAddressOrRange[];
     isVirtualNetworkFilterEnabled?: boolean;
@@ -1317,7 +1392,7 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
     consistencyPolicy?: ConsistencyPolicy;
     cors?: CorsPolicy[];
     createMode?: CreateMode;
-    customerManagedKeyStatus?: CustomerManagedKeyStatus;
+    customerManagedKeyStatus?: string;
     readonly databaseAccountOfferType?: "Standard";
     defaultIdentity?: string;
     defaultPriorityLevel?: DefaultPriorityLevel;
@@ -1333,6 +1408,7 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
     enableMaterializedViews?: boolean;
     enableMultipleWriteLocations?: boolean;
     enablePartitionMerge?: boolean;
+    enablePerRegionPerPartitionAutoscale?: boolean;
     enablePriorityBasedExecution?: boolean;
     readonly failoverPolicies?: FailoverPolicy[];
     readonly instanceId?: string;
@@ -1608,7 +1684,7 @@ export interface DatabaseAccountUpdateParameters {
     connectorOffer?: ConnectorOffer;
     consistencyPolicy?: ConsistencyPolicy;
     cors?: CorsPolicy[];
-    customerManagedKeyStatus?: CustomerManagedKeyStatus;
+    customerManagedKeyStatus?: string;
     defaultIdentity?: string;
     defaultPriorityLevel?: DefaultPriorityLevel;
     diagnosticLogSettings?: DiagnosticLogSettings;
@@ -1622,6 +1698,7 @@ export interface DatabaseAccountUpdateParameters {
     enableMaterializedViews?: boolean;
     enableMultipleWriteLocations?: boolean;
     enablePartitionMerge?: boolean;
+    enablePerRegionPerPartitionAutoscale?: boolean;
     enablePriorityBasedExecution?: boolean;
     identity?: ManagedServiceIdentity;
     ipRules?: IpAddressOrRange[];
@@ -1686,6 +1763,7 @@ export interface DataCenterResourceProperties {
     diskSku?: string;
     managedDiskCustomerKeyUri?: string;
     nodeCount?: number;
+    privateEndpointIpAddress?: string;
     provisionError?: CassandraError;
     provisioningState?: ManagedCassandraProvisioningState;
     readonly seedNodes?: SeedNode[];
@@ -1697,11 +1775,11 @@ export type DataTransferComponent = string;
 
 // @public
 export interface DataTransferDataSourceSink {
-    component: "CosmosDBCassandra" | "CosmosDBMongo" | "CosmosDBSql" | "AzureBlobStorage";
+    component: "BaseCosmosDataTransferDataSourceSink" | "CosmosDBCassandra" | "CosmosDBMongo" | "CosmosDBSql" | "AzureBlobStorage";
 }
 
 // @public (undocumented)
-export type DataTransferDataSourceSinkUnion = DataTransferDataSourceSink | CosmosCassandraDataTransferDataSourceSink | CosmosMongoDataTransferDataSourceSink | CosmosSqlDataTransferDataSourceSink | AzureBlobDataTransferDataSourceSink;
+export type DataTransferDataSourceSinkUnion = DataTransferDataSourceSink | BaseCosmosDataTransferDataSourceSinkUnion | AzureBlobDataTransferDataSourceSink;
 
 // @public
 export interface DataTransferJobFeedResults {
@@ -1712,9 +1790,11 @@ export interface DataTransferJobFeedResults {
 // @public
 export interface DataTransferJobGetResults extends ARMProxyResource {
     destination?: DataTransferDataSourceSinkUnion;
+    readonly duration?: string;
     readonly error?: ErrorResponse;
     readonly jobName?: string;
     readonly lastUpdatedUtcTime?: Date;
+    mode?: DataTransferJobMode;
     readonly processedCount?: number;
     source?: DataTransferDataSourceSinkUnion;
     readonly status?: string;
@@ -1723,11 +1803,16 @@ export interface DataTransferJobGetResults extends ARMProxyResource {
 }
 
 // @public
+export type DataTransferJobMode = string;
+
+// @public
 export interface DataTransferJobProperties {
     destination: DataTransferDataSourceSinkUnion;
+    readonly duration?: string;
     readonly error?: ErrorResponse;
     readonly jobName?: string;
     readonly lastUpdatedUtcTime?: Date;
+    mode?: DataTransferJobMode;
     readonly processedCount?: number;
     source: DataTransferDataSourceSinkUnion;
     readonly status?: string;
@@ -1738,6 +1823,7 @@ export interface DataTransferJobProperties {
 // @public
 export interface DataTransferJobs {
     cancel(resourceGroupName: string, accountName: string, jobName: string, options?: DataTransferJobsCancelOptionalParams): Promise<DataTransferJobsCancelResponse>;
+    complete(resourceGroupName: string, accountName: string, jobName: string, options?: DataTransferJobsCompleteOptionalParams): Promise<DataTransferJobsCompleteResponse>;
     create(resourceGroupName: string, accountName: string, jobName: string, jobCreateParameters: CreateJobRequest, options?: DataTransferJobsCreateOptionalParams): Promise<DataTransferJobsCreateResponse>;
     get(resourceGroupName: string, accountName: string, jobName: string, options?: DataTransferJobsGetOptionalParams): Promise<DataTransferJobsGetResponse>;
     listByDatabaseAccount(resourceGroupName: string, accountName: string, options?: DataTransferJobsListByDatabaseAccountOptionalParams): PagedAsyncIterableIterator<DataTransferJobGetResults>;
@@ -1751,6 +1837,13 @@ export interface DataTransferJobsCancelOptionalParams extends coreClient.Operati
 
 // @public
 export type DataTransferJobsCancelResponse = DataTransferJobGetResults;
+
+// @public
+export interface DataTransferJobsCompleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DataTransferJobsCompleteResponse = DataTransferJobGetResults;
 
 // @public
 export interface DataTransferJobsCreateOptionalParams extends coreClient.OperationOptions {
@@ -1877,7 +1970,7 @@ export interface FailoverPolicy {
 }
 
 // @public
-export interface FirewallRule extends ProxyResourceAutoGenerated {
+export interface FirewallRule extends ProxyResource {
     endIpAddress: string;
     readonly provisioningState?: ProvisioningState;
     startIpAddress: string;
@@ -2377,6 +2470,19 @@ export enum KnownAuthenticationMethod {
 }
 
 // @public
+export enum KnownAutoReplicate {
+    AllKeyspaces = "AllKeyspaces",
+    None = "None",
+    SystemKeyspaces = "SystemKeyspaces"
+}
+
+// @public
+export enum KnownAzureConnectionType {
+    None = "None",
+    VPN = "VPN"
+}
+
+// @public
 export enum KnownBackupPolicyMigrationStatus {
     Completed = "Completed",
     Failed = "Failed",
@@ -2415,6 +2521,16 @@ export enum KnownCheckNameAvailabilityReason {
 export enum KnownClusterType {
     NonProduction = "NonProduction",
     Production = "Production"
+}
+
+// @public
+export enum KnownCommandStatus {
+    Done = "Done",
+    Enqueue = "Enqueue",
+    Failed = "Failed",
+    Finished = "Finished",
+    Processing = "Processing",
+    Running = "Running"
 }
 
 // @public
@@ -2466,21 +2582,6 @@ export enum KnownCreateMode {
 }
 
 // @public
-export enum KnownCustomerManagedKeyStatus {
-    AccessToTheConfiguredCustomerManagedKeyConfirmed = "Access to the configured customer managed key confirmed.",
-    AccessToYourAccountIsCurrentlyRevokedBecauseTheAccessRulesAreBlockingOutboundRequestsToTheAzureKeyVaultServiceForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuide4016 = "Access to your account is currently revoked because the access rules are blocking outbound requests to the Azure Key Vault service; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide (4016).",
-    AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureCosmosDBAccountHasAnUndefinedDefaultIdentityForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideInvalidAzureCosmosDbDefaultIdentity4015 = "Access to your account is currently revoked because the Azure Cosmos DB account has an undefined default identity; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#invalid-azure-cosmos-db-default-identity (4015).",
-    AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureCosmosDBAccountSKeyVaultKeyURIDoesNotFollowTheExpectedFormatForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideImproperSyntaxDetectedOnTheKeyVaultUriProperty4006 = "Access to your account is currently revoked because the Azure Cosmos DB account's key vault key URI does not follow the expected format; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#improper-syntax-detected-on-the-key-vault-uri-property (4006).",
-    AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureCosmosDBServiceIsUnableToObtainTheAADAuthenticationTokenForTheAccountSDefaultIdentityForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideAzureActiveDirectoryTokenAcquisitionError4000 = "Access to your account is currently revoked because the Azure Cosmos DB service is unable to obtain the AAD authentication token for the account's default identity; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#azure-active-directory-token-acquisition-error (4000).",
-    AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureCosmosDBServiceIsUnableToWrapOrUnwrapTheKeyForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideInternalUnwrappingProcedureError4005 = "Access to your account is currently revoked because the Azure Cosmos DB service is unable to wrap or unwrap the key; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#internal-unwrapping-procedure-error (4005).",
-    AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureKeyVaultDNSNameSpecifiedByTheAccountSKeyvaultkeyuriPropertyCouldNotBeResolvedForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideUnableToResolveTheKeyVaultsDns4009 = "Access to your account is currently revoked because the Azure Key Vault DNS name specified by the account's keyvaultkeyuri property could not be resolved; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#unable-to-resolve-the-key-vaults-dns (4009).",
-    AccessToYourAccountIsCurrentlyRevokedBecauseTheCorrespondentAzureKeyVaultWasNotFoundForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideAzureKeyVaultResourceNotFound4017 = "Access to your account is currently revoked because the correspondent Azure Key Vault was not found; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#azure-key-vault-resource-not-found (4017).",
-    AccessToYourAccountIsCurrentlyRevokedBecauseTheCorrespondentKeyIsNotFoundOnTheSpecifiedKeyVaultForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideAzureKeyVaultResourceNotFound4003 = "Access to your account is currently revoked because the correspondent key is not found on the specified Key Vault; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#azure-key-vault-resource-not-found (4003).",
-    AccessToYourAccountIsCurrentlyRevokedBecauseTheCurrentDefaultIdentityNoLongerHasPermissionToTheAssociatedKeyVaultKeyForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideDefaultIdentityIsUnauthorizedToAccessTheAzureKeyVaultKey4002 = "Access to your account is currently revoked because the current default identity no longer has permission to the associated Key Vault key; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#default-identity-is-unauthorized-to-access-the-azure-key-vault-key (4002).",
-    AccessToYourAccountIsCurrentlyRevokedForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuide = "Access to your account is currently revoked; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide"
-}
-
-// @public
 export enum KnownDatabaseAccountKind {
     GlobalDocumentDB = "GlobalDocumentDB",
     MongoDB = "MongoDB",
@@ -2493,6 +2594,12 @@ export enum KnownDataTransferComponent {
     CosmosDBCassandra = "CosmosDBCassandra",
     CosmosDBMongo = "CosmosDBMongo",
     CosmosDBSql = "CosmosDBSql"
+}
+
+// @public
+export enum KnownDataTransferJobMode {
+    Offline = "Offline",
+    Online = "Online"
 }
 
 // @public
@@ -2649,6 +2756,13 @@ export enum KnownRestoreMode {
 }
 
 // @public
+export enum KnownScheduledEventStrategy {
+    Ignore = "Ignore",
+    StopAny = "StopAny",
+    StopByRack = "StopByRack"
+}
+
+// @public
 export enum KnownServerVersion {
     Four0 = "4.0",
     Four2 = "4.2",
@@ -2691,11 +2805,15 @@ export enum KnownSpatialType {
 
 // @public
 export enum KnownStatus {
+    Canceled = "Canceled",
     Deleting = "Deleting",
+    Failed = "Failed",
     Initializing = "Initializing",
     InternallyReady = "InternallyReady",
     Online = "Online",
-    Uninitialized = "Uninitialized"
+    Succeeded = "Succeeded",
+    Uninitialized = "Uninitialized",
+    Updating = "Updating"
 }
 
 // @public
@@ -2752,6 +2870,11 @@ export interface ListBackups {
 // @public
 export interface ListClusters {
     value?: ClusterResource[];
+}
+
+// @public
+export interface ListCommands {
+    readonly value?: CommandPublicResource[];
 }
 
 // @public
@@ -4134,10 +4257,6 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
-export interface ProxyResourceAutoGenerated extends ResourceAutoGenerated {
-}
-
-// @public
 export type PublicNetworkAccess = string;
 
 // @public
@@ -4166,13 +4285,6 @@ export interface RegionForOnlineOffline {
 
 // @public
 export interface Resource {
-    readonly id?: string;
-    readonly name?: string;
-    readonly type?: string;
-}
-
-// @public
-export interface ResourceAutoGenerated {
     readonly id?: string;
     readonly name?: string;
     readonly systemData?: SystemData;
@@ -4243,6 +4355,8 @@ export interface RestorableGremlinDatabaseGetResult {
 
 // @public
 export interface RestorableGremlinDatabasePropertiesResource {
+    readonly canUndelete?: string;
+    readonly canUndeleteReason?: string;
     readonly eventTimestamp?: string;
     readonly operationType?: OperationType;
     readonly ownerId?: string;
@@ -4277,6 +4391,8 @@ export interface RestorableGremlinGraphGetResult {
 
 // @public
 export interface RestorableGremlinGraphPropertiesResource {
+    readonly canUndelete?: string;
+    readonly canUndeleteReason?: string;
     readonly eventTimestamp?: string;
     readonly operationType?: OperationType;
     readonly ownerId?: string;
@@ -4350,6 +4466,8 @@ export interface RestorableMongodbCollectionGetResult {
 
 // @public
 export interface RestorableMongodbCollectionPropertiesResource {
+    readonly canUndelete?: string;
+    readonly canUndeleteReason?: string;
     readonly eventTimestamp?: string;
     readonly operationType?: OperationType;
     readonly ownerId?: string;
@@ -4387,6 +4505,8 @@ export interface RestorableMongodbDatabaseGetResult {
 
 // @public
 export interface RestorableMongodbDatabasePropertiesResource {
+    readonly canUndelete?: string;
+    readonly canUndeleteReason?: string;
     readonly eventTimestamp?: string;
     readonly operationType?: OperationType;
     readonly ownerId?: string;
@@ -4449,6 +4569,8 @@ export interface RestorableSqlContainerGetResult {
 
 // @public
 export interface RestorableSqlContainerPropertiesResource {
+    readonly canUndelete?: string;
+    readonly canUndeleteReason?: string;
     container?: RestorableSqlContainerPropertiesResourceContainer;
     readonly eventTimestamp?: string;
     readonly operationType?: OperationType;
@@ -4492,6 +4614,8 @@ export interface RestorableSqlDatabaseGetResult {
 
 // @public
 export interface RestorableSqlDatabasePropertiesResource {
+    readonly canUndelete?: string;
+    readonly canUndeleteReason?: string;
     database?: RestorableSqlDatabasePropertiesResourceDatabase;
     readonly eventTimestamp?: string;
     readonly operationType?: OperationType;
@@ -4562,6 +4686,8 @@ export interface RestorableTableGetResult {
 
 // @public
 export interface RestorableTablePropertiesResource {
+    readonly canUndelete?: string;
+    readonly canUndeleteReason?: string;
     readonly eventTimestamp?: string;
     readonly operationType?: OperationType;
     readonly ownerId?: string;
@@ -4630,6 +4756,7 @@ export interface RestoreParameters extends RestoreParametersBase {
 export interface RestoreParametersBase {
     restoreSource?: string;
     restoreTimestampInUtc?: Date;
+    restoreWithTtlDisabled?: boolean;
 }
 
 // @public
@@ -4650,6 +4777,9 @@ export interface Role {
 
 // @public
 export type RoleDefinitionType = "BuiltInRole" | "CustomRole";
+
+// @public
+export type ScheduledEventStrategy = string;
 
 // @public (undocumented)
 export interface SeedNode {
@@ -4783,6 +4913,7 @@ export interface SqlContainerListResult {
 export interface SqlContainerResource {
     analyticalStorageTtl?: number;
     clientEncryptionPolicy?: ClientEncryptionPolicy;
+    computedProperties?: ComputedProperty[];
     conflictResolutionPolicy?: ConflictResolutionPolicy;
     createMode?: CreateMode;
     defaultTtl?: number;
@@ -5738,6 +5869,198 @@ export interface ThroughputPolicyResource {
 // @public
 export type ThroughputPolicyType = string;
 
+// @public
+export interface ThroughputPool {
+    beginCreateOrUpdate(resourceGroupName: string, throughputPoolName: string, body: ThroughputPoolResource, options?: ThroughputPoolCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ThroughputPoolCreateOrUpdateResponse>, ThroughputPoolCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, throughputPoolName: string, body: ThroughputPoolResource, options?: ThroughputPoolCreateOrUpdateOptionalParams): Promise<ThroughputPoolCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, throughputPoolName: string, options?: ThroughputPoolDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ThroughputPoolDeleteResponse>, ThroughputPoolDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, throughputPoolName: string, options?: ThroughputPoolDeleteOptionalParams): Promise<ThroughputPoolDeleteResponse>;
+    beginUpdate(resourceGroupName: string, throughputPoolName: string, options?: ThroughputPoolUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ThroughputPoolUpdateResponse>, ThroughputPoolUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, throughputPoolName: string, options?: ThroughputPoolUpdateOptionalParams): Promise<ThroughputPoolUpdateResponse>;
+    get(resourceGroupName: string, throughputPoolName: string, options?: ThroughputPoolGetOptionalParams): Promise<ThroughputPoolGetResponse>;
+}
+
+// @public
+export interface ThroughputPoolAccount {
+    beginCreate(resourceGroupName: string, throughputPoolName: string, throughputPoolAccountName: string, body: ThroughputPoolAccountResource, options?: ThroughputPoolAccountCreateOptionalParams): Promise<SimplePollerLike<OperationState<ThroughputPoolAccountCreateResponse>, ThroughputPoolAccountCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, throughputPoolName: string, throughputPoolAccountName: string, body: ThroughputPoolAccountResource, options?: ThroughputPoolAccountCreateOptionalParams): Promise<ThroughputPoolAccountCreateResponse>;
+    beginDelete(resourceGroupName: string, throughputPoolName: string, throughputPoolAccountName: string, options?: ThroughputPoolAccountDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ThroughputPoolAccountDeleteResponse>, ThroughputPoolAccountDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, throughputPoolName: string, throughputPoolAccountName: string, options?: ThroughputPoolAccountDeleteOptionalParams): Promise<ThroughputPoolAccountDeleteResponse>;
+    get(resourceGroupName: string, throughputPoolName: string, throughputPoolAccountName: string, options?: ThroughputPoolAccountGetOptionalParams): Promise<ThroughputPoolAccountGetResponse>;
+}
+
+// @public
+export interface ThroughputPoolAccountCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ThroughputPoolAccountCreateParameters {
+    accountLocation?: string;
+    accountResourceIdentifier?: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export type ThroughputPoolAccountCreateResponse = ThroughputPoolAccountResource;
+
+// @public
+export interface ThroughputPoolAccountDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface ThroughputPoolAccountDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ThroughputPoolAccountDeleteResponse = ThroughputPoolAccountDeleteHeaders;
+
+// @public
+export interface ThroughputPoolAccountGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ThroughputPoolAccountGetResponse = ThroughputPoolAccountResource;
+
+// @public
+export interface ThroughputPoolAccountResource extends ProxyResource {
+    readonly accountInstanceId?: string;
+    accountLocation?: string;
+    accountResourceIdentifier?: string;
+    provisioningState?: Status;
+}
+
+// @public
+export interface ThroughputPoolAccounts {
+    list(resourceGroupName: string, throughputPoolName: string, options?: ThroughputPoolAccountsListOptionalParams): PagedAsyncIterableIterator<ThroughputPoolAccountResource>;
+}
+
+// @public
+export interface ThroughputPoolAccountsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ThroughputPoolAccountsListNextResponse = ThroughputPoolAccountsListResult;
+
+// @public
+export interface ThroughputPoolAccountsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ThroughputPoolAccountsListResponse = ThroughputPoolAccountsListResult;
+
+// @public
+export interface ThroughputPoolAccountsListResult {
+    readonly nextLink?: string;
+    readonly value?: ThroughputPoolAccountResource[];
+}
+
+// @public
+export interface ThroughputPoolCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ThroughputPoolCreateOrUpdateResponse = ThroughputPoolResource;
+
+// @public
+export interface ThroughputPoolDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface ThroughputPoolDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ThroughputPoolDeleteResponse = ThroughputPoolDeleteHeaders;
+
+// @public
+export interface ThroughputPoolGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ThroughputPoolGetResponse = ThroughputPoolResource;
+
+// @public
+export interface ThroughputPoolResource extends TrackedResource {
+    maxThroughput?: number;
+    provisioningState?: Status;
+}
+
+// @public
+export interface ThroughputPools {
+    list(options?: ThroughputPoolsListOptionalParams): PagedAsyncIterableIterator<ThroughputPoolResource>;
+    listByResourceGroup(resourceGroupName: string, options?: ThroughputPoolsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ThroughputPoolResource>;
+}
+
+// @public
+export interface ThroughputPoolsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ThroughputPoolsListByResourceGroupNextResponse = ThroughputPoolsListResult;
+
+// @public
+export interface ThroughputPoolsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ThroughputPoolsListByResourceGroupResponse = ThroughputPoolsListResult;
+
+// @public
+export interface ThroughputPoolsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ThroughputPoolsListNextResponse = ThroughputPoolsListResult;
+
+// @public
+export interface ThroughputPoolsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ThroughputPoolsListResponse = ThroughputPoolsListResult;
+
+// @public
+export interface ThroughputPoolsListResult {
+    readonly nextLink?: string;
+    readonly value?: ThroughputPoolResource[];
+}
+
+// @public
+export interface ThroughputPoolUpdate {
+    maxThroughput?: number;
+    provisioningState?: Status;
+}
+
+// @public
+export interface ThroughputPoolUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface ThroughputPoolUpdateOptionalParams extends coreClient.OperationOptions {
+    body?: ThroughputPoolUpdate;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ThroughputPoolUpdateResponse = ThroughputPoolResource;
+
 // @public (undocumented)
 export interface ThroughputSettingsGetPropertiesResource extends ThroughputSettingsResource, ExtendedResourceProperties {
 }
@@ -5764,7 +6087,7 @@ export interface ThroughputSettingsUpdateParameters extends ARMResourcePropertie
 }
 
 // @public
-export interface TrackedResource extends ResourceAutoGenerated {
+export interface TrackedResource extends Resource {
     location: string;
     tags?: {
         [propertyName: string]: string;

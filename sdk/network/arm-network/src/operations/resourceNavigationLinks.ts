@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { NetworkManagementClient } from "../networkManagementClient";
 import {
   ResourceNavigationLinksListOptionalParams,
-  ResourceNavigationLinksListResponse
+  ResourceNavigationLinksListResponse,
 } from "../models";
 
 /** Class containing ResourceNavigationLinks operations. */
@@ -39,11 +39,11 @@ export class ResourceNavigationLinksImpl implements ResourceNavigationLinks {
     resourceGroupName: string,
     virtualNetworkName: string,
     subnetName: string,
-    options?: ResourceNavigationLinksListOptionalParams
+    options?: ResourceNavigationLinksListOptionalParams,
   ): Promise<ResourceNavigationLinksListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, virtualNetworkName, subnetName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -51,16 +51,15 @@ export class ResourceNavigationLinksImpl implements ResourceNavigationLinks {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}/ResourceNavigationLinks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}/ResourceNavigationLinks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceNavigationLinksListResult
+      bodyMapper: Mappers.ResourceNavigationLinksListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -68,8 +67,8 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.virtualNetworkName,
-    Parameters.subnetName
+    Parameters.subnetName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

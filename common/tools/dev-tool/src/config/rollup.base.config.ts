@@ -8,14 +8,12 @@ import {
   RollupLog,
   WarningHandlerWithDefault,
 } from "rollup";
-
 import nodeResolve from "@rollup/plugin-node-resolve";
 import cjs from "@rollup/plugin-commonjs";
 import multiEntry from "@rollup/plugin-multi-entry";
 import json from "@rollup/plugin-json";
-import * as path from "path";
+import * as path from "node:path";
 import { readFile } from "node:fs/promises";
-
 import nodeBuiltins from "builtin-modules";
 import { createPrinter } from "../util/printer";
 
@@ -137,16 +135,32 @@ export function sourcemaps() {
       if (!id.endsWith(".js")) {
         return null;
       }
+      if (id.startsWith("\x00")) {
+        // Some Rollup plugins mark virtual modules with \0 prefix. Other plugins should not try to process it.
+        //     https://rollupjs.org/plugin-development/#conventions
+        return null;
+      }
       try {
         const code = await readFile(id, "utf8");
         if (code.includes("sourceMappingURL")) {
           const basePath = path.dirname(id);
-          const mapPath = code.match(/sourceMappingURL=(.*)/)?.[1];
-          if (!mapPath) {
-            this.warn({ message: "Could not find map path in file " + id, id });
+          const mapping = code.match(/sourceMappingURL=(.*)/)?.[1];
+          if (!mapping) {
+            this.warn({ message: "Could not find source mapping in file " + id, id });
             return null;
           }
-          const absoluteMapPath = path.join(basePath, mapPath);
+          if (mapping.startsWith("data:")) {
+            debug("inline source map in", id);
+            if (mapping.startsWith("data:application/json;charset=utf-8;base64,")) {
+              const base64Encoded = mapping.split(",")?.[1];
+              const decoded = Buffer.from(base64Encoded, "base64").toString("utf-8");
+              const map = JSON.parse(decoded);
+              return { code, map };
+            }
+            this.warn({ message: "Unsupported inline source map for" + id, id });
+            return null;
+          }
+          const absoluteMapPath = path.join(basePath, mapping);
           const map = JSON.parse(await readFile(absoluteMapPath, "utf8"));
           debug("got map for file ", id);
           return { code, map };
@@ -155,7 +169,7 @@ export function sourcemaps() {
         return { code, map: null };
       } catch (e) {
         // eslint-disable-next-line no-inner-declarations
-        function toString(error: any): string {
+        function toString(error: unknown): string {
           return error instanceof Error ? error.stack ?? error.toString() : JSON.stringify(error);
         }
         this.warn({ message: toString(e), id });

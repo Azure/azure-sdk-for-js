@@ -473,58 +473,6 @@ export const Resource: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
-      },
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      }
-    }
-  }
-};
-
-export const SystemData: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SystemData",
-    modelProperties: {
-      createdBy: {
-        serializedName: "createdBy",
-        type: {
-          name: "String"
-        }
-      },
-      createdByType: {
-        serializedName: "createdByType",
-        type: {
-          name: "String"
-        }
-      },
-      createdAt: {
-        serializedName: "createdAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModifiedBy: {
-        serializedName: "lastModifiedBy",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedByType: {
-        serializedName: "lastModifiedByType",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedAt: {
-        serializedName: "lastModifiedAt",
-        type: {
-          name: "DateTime"
-        }
       }
     }
   }
@@ -1014,119 +962,6 @@ export const FlushParameters: coreClient.CompositeMapper = {
   }
 };
 
-export const RegionSkuDetails: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RegionSkuDetails",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "RegionSkuDetail"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const RegionSkuDetail: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RegionSkuDetail",
-    modelProperties: {
-      resourceType: {
-        serializedName: "resourceType",
-        type: {
-          name: "String"
-        }
-      },
-      locationInfo: {
-        serializedName: "locationInfo",
-        type: {
-          name: "Composite",
-          className: "LocationInfo"
-        }
-      },
-      skuDetails: {
-        serializedName: "skuDetails",
-        type: {
-          name: "Composite",
-          className: "SkuDetail"
-        }
-      }
-    }
-  }
-};
-
-export const LocationInfo: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "LocationInfo",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      },
-      capabilities: {
-        serializedName: "capabilities",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Capability"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const Capability: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Capability",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const SkuDetail: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SkuDetail",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const PrivateEndpointConnection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1399,6 +1234,27 @@ export const DatabasesFlushHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DatabasesFlushHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateEndpointConnectionsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointConnectionsDeleteHeaders",
     modelProperties: {
       location: {
         serializedName: "location",

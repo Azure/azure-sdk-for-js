@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to reprotect(reverse replicate) a recovery plan.
  *
  * @summary The operation to reprotect(reverse replicate) a recovery plan.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationRecoveryPlans_Reprotect.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationRecoveryPlans_Reprotect.json
  */
 async function executeReprotectOfTheRecoveryPlan() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function executeReprotectOfTheRecoveryPlan() {
   const result = await client.replicationRecoveryPlans.beginReprotectAndWait(
     resourceName,
     resourceGroupName,
-    recoveryPlanName
+    recoveryPlanName,
   );
   console.log(result);
 }

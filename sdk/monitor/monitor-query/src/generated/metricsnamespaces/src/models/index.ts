@@ -42,20 +42,20 @@ export interface ErrorResponse {
   message?: string;
 }
 
-/** Known values of {@link ApiVersion20171201Preview} that the service accepts. */
-export enum KnownApiVersion20171201Preview {
-  /** Api Version '2017-12-01-preview' */
-  TwoThousandSeventeen1201Preview = "2017-12-01-preview"
+/** Known values of {@link ApiVersion20240201} that the service accepts. */
+export enum KnownApiVersion20240201 {
+  /** Api Version '2024-02-01' */
+  TwoThousandTwentyFour0201 = "2024-02-01"
 }
 
 /**
- * Defines values for ApiVersion20171201Preview. \
- * {@link KnownApiVersion20171201Preview} can be used interchangeably with ApiVersion20171201Preview,
+ * Defines values for ApiVersion20240201. \
+ * {@link KnownApiVersion20240201} can be used interchangeably with ApiVersion20240201,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2017-12-01-preview**: Api Version '2017-12-01-preview'
+ * **2024-02-01**: Api Version '2024-02-01'
  */
-export type ApiVersion20171201Preview = string;
+export type ApiVersion20240201 = string;
 
 /** Known values of {@link NamespaceClassification} that the service accepts. */
 export enum KnownNamespaceClassification {

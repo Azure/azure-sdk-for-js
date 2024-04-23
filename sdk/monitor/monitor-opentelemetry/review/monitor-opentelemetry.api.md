@@ -6,7 +6,9 @@
 
 import { AzureMonitorExporterOptions } from '@azure/monitor-opentelemetry-exporter';
 import { InstrumentationConfig } from '@opentelemetry/instrumentation';
+import { LogRecordProcessor } from '@opentelemetry/sdk-logs';
 import { Resource } from '@opentelemetry/resources';
+import { SpanProcessor } from '@opentelemetry/sdk-trace-base';
 
 // @public
 export interface AzureMonitorOpenTelemetryOptions {
@@ -14,33 +16,24 @@ export interface AzureMonitorOpenTelemetryOptions {
     browserSdkLoaderOptions?: BrowserSdkLoaderOptions;
     enableLiveMetrics?: boolean;
     enableStandardMetrics?: boolean;
+    enableTraceBasedSamplingForLogs?: boolean;
     instrumentationOptions?: InstrumentationOptions;
+    logRecordProcessors?: LogRecordProcessor[];
     resource?: Resource;
     samplingRatio?: number;
+    spanProcessors?: SpanProcessor[];
 }
 
 // @public
 export interface BrowserSdkLoaderOptions {
-    config?: IBrowserSdkLoaderConfig;
     connectionString?: string;
     enabled?: boolean;
-    src?: string;
-}
-
-// @public
-export interface IBrowserSdkLoaderConfig {
-    cfg: string;
-    crossOrigin?: string;
-    ld?: number;
-    name?: string;
-    onInit?: string;
-    src: string;
-    useXhr?: boolean;
 }
 
 // @public
 export interface InstrumentationOptions {
     azureSdk?: InstrumentationConfig;
+    bunyan?: InstrumentationConfig;
     http?: InstrumentationConfig;
     mongoDb?: InstrumentationConfig;
     mySql?: InstrumentationConfig;
@@ -50,7 +43,7 @@ export interface InstrumentationOptions {
 }
 
 // @public
-export function shutdownAzureMonitor(): void;
+export function shutdownAzureMonitor(): Promise<void>;
 
 // @public
 export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): void;

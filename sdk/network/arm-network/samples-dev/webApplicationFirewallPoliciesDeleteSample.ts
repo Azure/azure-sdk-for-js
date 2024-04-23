@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes Policy.
  *
  * @summary Deletes Policy.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/WafPolicyDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/WafPolicyDelete.json
  */
 async function deletesAWafPolicyWithinAResourceGroup() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function deletesAWafPolicyWithinAResourceGroup() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.webApplicationFirewallPolicies.beginDeleteAndWait(
     resourceGroupName,
-    policyName
+    policyName,
   );
   console.log(result);
 }

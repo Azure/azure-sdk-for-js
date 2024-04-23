@@ -8,7 +8,7 @@ import {
   shutdownAzureMonitor,
   useAzureMonitor,
 } from "../../../../src/index";
-import { isLinux, isWindows } from "../../../../src/utils/common";
+import { getOsPrefix } from "../../../../src/utils/common";
 import { metrics, trace } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";
 
@@ -16,9 +16,9 @@ describe("#BrowserSdkLoader", () => {
   let sandbox: sinon.SinonSandbox;
   let originalEnv: NodeJS.ProcessEnv;
 
-  afterEach(() => {
+  afterEach(async () => {
     process.env = originalEnv;
-    shutdownAzureMonitor();
+    await shutdownAzureMonitor();
     sandbox.restore();
   });
 
@@ -117,9 +117,15 @@ describe("#BrowserSdkLoader", () => {
     let validHtml = "<html><head></head><body></body></html>";
     assert.equal(browserSdkLoader.ValidateInjection(response, validHtml), true);
     let newHtml = browserSdkLoader.InjectSdkLoader(response, validHtml).toString();
-    assert.ok(newHtml.indexOf("https://js.monitor.azure.com/scripts/b/ai.2.min.js") >= 0);
-    assert.ok(newHtml.indexOf("<html><head>") == 0);
-    assert.ok(newHtml.indexOf('instrumentationKey: "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333"') >= 0);
+    assert.ok(
+      newHtml.indexOf("https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js") >= 0,
+      "src path does not exist in the snippet",
+    );
+    assert.ok(newHtml.indexOf("<html><head>") == 0, "No snippet content was populated");
+    assert.ok(
+      newHtml.indexOf("InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333") >= 0,
+      "Instrumentation Key is not set correctly",
+    );
   });
 
   it("injection of browser SDK should overwrite content length ", () => {
@@ -154,7 +160,7 @@ describe("#BrowserSdkLoader", () => {
     assert.ok(Number(response.getHeader("Content-Length")) > 4000); // Content length updated
   });
 
-  it("browser SDK loader should use provided snippet src url ", () => {
+  it("browser SDK loader be constructed using the proper verison prefix ", () => {
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
@@ -162,49 +168,6 @@ describe("#BrowserSdkLoader", () => {
       browserSdkLoaderOptions: {
         enabled: true,
         connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
-        src: "WebInstrumentationTestSourceURL",
-      },
-    };
-    useAzureMonitor(config);
-    let browserSdkLoader = BrowserSdkLoader.getInstance();
-    let _headers: any = {};
-    let response: http.ServerResponse = <any>{
-      setHeader: (header: string, value: string) => {
-        _headers[header] = value;
-      },
-      getHeader: (header: string) => {
-        return _headers[header];
-      },
-      removeHeader: (header: string) => {
-        _headers[header] = undefined;
-      },
-    };
-    response.setHeader("Content-Type", "text/html");
-    response.statusCode = 200;
-    let validHtml = "<html><head></head><body></body></html>";
-    assert.equal(browserSdkLoader.ValidateInjection(response, validHtml), true);
-    let newHtml = browserSdkLoader.InjectSdkLoader(response, validHtml).toString();
-    assert.ok(newHtml.indexOf("https://js.monitor.azure.com/scripts/b/ai.2.min.js") < 0);
-    assert.ok(newHtml.indexOf("WebInstrumentationTestSourceURL") >= 0);
-    assert.ok(newHtml.indexOf("<html><head>") == 0);
-    assert.ok(newHtml.indexOf('instrumentationKey: "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333"') >= 0);
-  });
-
-  it("browser SDK loader should use provided config ", () => {
-    const config: AzureMonitorOpenTelemetryOptions = {
-      azureMonitorExporterOptions: {
-        connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
-      },
-      browserSdkLoaderOptions: {
-        enabled: true,
-        connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
-        src: "WebInstrumentationTestSourceURL",
-        config: {
-          src: "WebInstrumentationTestSourceURL",
-          name: "WebInstrumentationTestName",
-          ld: 1000,
-          cfg: "{ config: test }",
-        },
       },
     };
     useAzureMonitor(config);
@@ -227,17 +190,16 @@ describe("#BrowserSdkLoader", () => {
     let validHtml = "<html><head></head><body></body></html>";
     assert.equal(browserSdkLoader.ValidateInjection(response, validHtml), true);
     let newHtml = browserSdkLoader.InjectSdkLoader(response, validHtml);
-    let osType: string = "u";
-    if (isWindows()) {
-      osType = "w";
-    } else if (isLinux()) {
-      osType = "l";
-    }
-    let expectedStr = `    instrumentationKey: "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",\r\n src: "WebInstrumentationTestSourceURL",\r\n name: "WebInstrumentationTestName",\r\n cfg: "{ config: test }",\r\n disableIkeyDeprecationMessage: true,\r\n sdkExtension: "u${osType}d_n_`;
-    assert.ok(newHtml.indexOf("https://js.monitor.azure.com/scripts/b/ai.2.min.js") < 0);
-    assert.ok(newHtml.indexOf("WebInstrumentationTestSourceURL") >= 0);
-    assert.ok(newHtml.indexOf("<html><head>") == 0);
-    assert.ok(newHtml.indexOf(expectedStr) >= 0, expectedStr);
+    const expectedSdkVersion = `sdkExtension: "u${getOsPrefix()}d_n_"`;
+    assert.ok(
+      newHtml.indexOf("https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js") >= 0,
+      "src path does not exist in the snippet",
+    );
+    assert.ok(newHtml.indexOf("<html><head>") == 0, "No snippet content was populated");
+    assert.ok(
+      newHtml.indexOf(expectedSdkVersion) >= 0,
+      `Expected string does not exist in the snippet. Expected: ${expectedSdkVersion} in ${newHtml}`,
+    );
   });
 
   it("browser SDK loader injection to buffer", () => {
@@ -271,9 +233,15 @@ describe("#BrowserSdkLoader", () => {
     let validBuffer = Buffer.from(validHtml);
     assert.equal(browserSdkLoader.ValidateInjection(response, validBuffer), true);
     let newHtml = browserSdkLoader.InjectSdkLoader(response, validBuffer).toString();
-    assert.ok(newHtml.indexOf("https://js.monitor.azure.com/scripts/b/ai.2.min.js") >= 0);
-    assert.ok(newHtml.indexOf("<html><head>") == 0);
-    assert.ok(newHtml.indexOf('instrumentationKey: "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333"') >= 0);
+    assert.ok(
+      newHtml.indexOf("https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js") >= 0,
+      "src path does not exist in the snippet",
+    );
+    assert.ok(newHtml.indexOf("<html><head>") == 0, "No snippet content was populated");
+    assert.ok(
+      newHtml.indexOf("InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333") >= 0,
+      "Instrumentation Key is not set correctly",
+    );
   });
 
   it("injection of browser SDK should overwrite content length using buffer ", () => {
@@ -348,9 +316,15 @@ describe("#BrowserSdkLoader", () => {
     let validHtml = "<html><head></head><body></body></html>";
     assert.equal(browserSdkLoader.ValidateInjection(response, validHtml), true);
     let newHtml = browserSdkLoader.InjectSdkLoader(response, validHtml).toString();
-    assert.ok(newHtml.indexOf("https://js.monitor.azure.com/scripts/b/ai.2.min.js") >= 0, newHtml);
-    assert.ok(newHtml.indexOf("<html><head>") == 0);
-    assert.ok(newHtml.indexOf('instrumentationKey: "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333"') >= 0);
+    assert.ok(
+      newHtml.indexOf("https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js") >= 0,
+      "src path does not exist in the snippet",
+    );
+    assert.ok(newHtml.indexOf("<html><head>") == 0, "No snippet content was populated");
+    assert.ok(
+      newHtml.indexOf("InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333") >= 0,
+      "Instrumentation Key is not set correctly",
+    );
   });
 
   it("injection should throw errors when ikey from config is not valid", () => {

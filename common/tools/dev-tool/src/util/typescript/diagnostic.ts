@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import ts from "typescript";
-import { EOL } from "os";
+import { EOL } from "node:os";
 
 /**
  * The type of the emitter function.

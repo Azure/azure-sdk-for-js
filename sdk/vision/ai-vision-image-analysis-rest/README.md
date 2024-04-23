@@ -9,9 +9,11 @@ Use the Image Analysis client library to:
 * Get the analysis result
 
 [Product documentation][image_analysis_overview] 
-| [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/vision/ai-vision-image-analysis-rest/samples)
+| [Samples](https://aka.ms/azsdk/image-analysis/samples/js)
 | [Vision Studio][vision_studio]
-| [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/visual-search)
+| [API reference documentation](https://aka.ms/azsdk/image-analysis/ref-docs/js)
+| [Package (npm)](https://aka.ms/azsdk/image-analysis/package/npm)
+| [SDK source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/vision/ai-vision-image-analysis-rest/src)
 
 ## Getting started
 
@@ -142,7 +144,7 @@ analyzeImageFromFile();
 ```
 
 ### Extract text from an image Url
-This example demonstrates how to extract printed or hand-written text for the image file [sample.jpg](https://aka.ms/azai/vision/image-analysis-sample.jpg) using the ImageAnalysisClient. The method call returns an ImageAnalysisResult object. The ReadResult property on the returned object includes a list of text lines and a bounding polygon surrounding each text line. For each line, it also returns a list of words in the text line and a bounding polygon surrounding each word.
+This example demonstrates how to extract printed or hand-written text for the image file [sample.jpg](https://aka.ms/azsdk/image-analysis/sample.jpg) using the ImageAnalysisClient. The method call returns an ImageAnalysisResult object. The ReadResult property on the returned object includes a list of text lines and a bounding polygon surrounding each text line. For each line, it also returns a list of words in the text line and a bounding polygon surrounding each word.
 ``` javascript Snippet:readmeText
 const client: ImageAnalysisClient = createImageAnalysisClient(endpoint, credential);
 
@@ -150,7 +152,7 @@ const features: string[] = [
   'Read'
 ];
 
-const imageUrl: string = 'https://aka.ms/azai/vision/image-analysis-sample.jpg';
+const imageUrl: string = 'https://aka.ms/azsdk/image-analysis/sample.jpg';
 
 client.path('/imageanalysis:analyze').post({
   body: { url: imageUrl },
@@ -197,4 +199,4 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 [image_analysis_overview]: https://learn.microsoft.com/azure/ai-services/computer-vision/overview-image-analysis?tabs=4-0
 [image_analysis_concepts]: https://learn.microsoft.com/azure/ai-services/computer-vision/concept-tag-images-40
-[vision_studio]: https://portal.vision.cognitive.azure.com/gallery/imageanalysis
+[vision_studio]: https://aka.ms/vision-studio/image-analysis

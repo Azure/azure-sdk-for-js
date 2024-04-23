@@ -177,7 +177,7 @@ response.body.pipe(createWriteStream("tile.png"));
 ### Request map copyright attribution information
 
 You can request map copyright attribution information for a section of a tileset.
-A tileset is a collection of raster or vector data broken up into a uniform grid of square tiles at preset zoom levels. Every tileset has a tilesetId to use when making requests. The supported tilesetIds are listed [here](https://docs.microsoft.com/rest/api/maps/render-v2/get-map-attribution?tabs=HTTP#tilesetid).
+A tileset is a collection of raster or vector data broken up into a uniform grid of square tiles at preset zoom levels. Every tileset has a tilesetId to use when making requests. The supported tilesetIds are listed [here](https://docs.microsoft.com/rest/api/maps/render/get-map-attribution?tabs=HTTP#tilesetid).
 
 ```javascript
 const { isUnexpected } = require("@azure-rest/maps-render");
@@ -257,7 +257,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 [npm_package]: https://www.npmjs.com/package/@azure-rest/maps-render
 [api_ref]: https://docs.microsoft.com/javascript/api/@azure-rest/maps-render?view=azure-node-preview
 [samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-render-rest/samples
-[product_info]: https://docs.microsoft.com/rest/api/maps/render-v2
+[product_info]: https://docs.microsoft.com/rest/api/maps/render
 [nodejs_release]: https://github.com/nodejs/release#release-schedule
 [az_subscription]: https://azure.microsoft.com/free/
 [az_maps_account_management]: https://docs.microsoft.com/azure/azure-maps/how-to-manage-account-keys

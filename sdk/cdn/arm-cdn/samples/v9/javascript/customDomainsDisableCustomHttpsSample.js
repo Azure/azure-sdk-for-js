@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Disable https delivery of the custom domain.
  *
  * @summary Disable https delivery of the custom domain.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/CustomDomains_DisableCustomHttps.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/CustomDomains_DisableCustomHttps.json
  */
 async function customDomainsDisableCustomHttps() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";

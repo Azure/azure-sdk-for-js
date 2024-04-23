@@ -16,7 +16,7 @@ import { NetworkManagementClient } from "../networkManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -58,7 +58,7 @@ import {
   PublicIPAddressesListAllNextResponse,
   PublicIPAddressesListNextResponse,
   PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesNextResponse,
-  PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesNextResponse
+  PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -83,12 +83,12 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
   public listCloudServicePublicIPAddresses(
     resourceGroupName: string,
     cloudServiceName: string,
-    options?: PublicIPAddressesListCloudServicePublicIPAddressesOptionalParams
+    options?: PublicIPAddressesListCloudServicePublicIPAddressesOptionalParams,
   ): PagedAsyncIterableIterator<PublicIPAddress> {
     const iter = this.listCloudServicePublicIPAddressesPagingAll(
       resourceGroupName,
       cloudServiceName,
-      options
+      options,
     );
     return {
       next() {
@@ -105,9 +105,9 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
           resourceGroupName,
           cloudServiceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -115,7 +115,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
     resourceGroupName: string,
     cloudServiceName: string,
     options?: PublicIPAddressesListCloudServicePublicIPAddressesOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PublicIPAddress[]> {
     let result: PublicIPAddressesListCloudServicePublicIPAddressesResponse;
     let continuationToken = settings?.continuationToken;
@@ -123,7 +123,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
       result = await this._listCloudServicePublicIPAddresses(
         resourceGroupName,
         cloudServiceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -135,7 +135,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
         resourceGroupName,
         cloudServiceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -147,12 +147,12 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
   private async *listCloudServicePublicIPAddressesPagingAll(
     resourceGroupName: string,
     cloudServiceName: string,
-    options?: PublicIPAddressesListCloudServicePublicIPAddressesOptionalParams
+    options?: PublicIPAddressesListCloudServicePublicIPAddressesOptionalParams,
   ): AsyncIterableIterator<PublicIPAddress> {
     for await (const page of this.listCloudServicePublicIPAddressesPagingPage(
       resourceGroupName,
       cloudServiceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -174,7 +174,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
     roleInstanceName: string,
     networkInterfaceName: string,
     ipConfigurationName: string,
-    options?: PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesOptionalParams
+    options?: PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesOptionalParams,
   ): PagedAsyncIterableIterator<PublicIPAddress> {
     const iter = this.listCloudServiceRoleInstancePublicIPAddressesPagingAll(
       resourceGroupName,
@@ -182,7 +182,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
       roleInstanceName,
       networkInterfaceName,
       ipConfigurationName,
-      options
+      options,
     );
     return {
       next() {
@@ -202,9 +202,9 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
           networkInterfaceName,
           ipConfigurationName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -215,7 +215,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
     networkInterfaceName: string,
     ipConfigurationName: string,
     options?: PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PublicIPAddress[]> {
     let result: PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesResponse;
     let continuationToken = settings?.continuationToken;
@@ -226,7 +226,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
         roleInstanceName,
         networkInterfaceName,
         ipConfigurationName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -241,7 +241,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
         networkInterfaceName,
         ipConfigurationName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -256,7 +256,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
     roleInstanceName: string,
     networkInterfaceName: string,
     ipConfigurationName: string,
-    options?: PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesOptionalParams
+    options?: PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesOptionalParams,
   ): AsyncIterableIterator<PublicIPAddress> {
     for await (const page of this.listCloudServiceRoleInstancePublicIPAddressesPagingPage(
       resourceGroupName,
@@ -264,7 +264,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
       roleInstanceName,
       networkInterfaceName,
       ipConfigurationName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -275,7 +275,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
    * @param options The options parameters.
    */
   public listAll(
-    options?: PublicIPAddressesListAllOptionalParams
+    options?: PublicIPAddressesListAllOptionalParams,
   ): PagedAsyncIterableIterator<PublicIPAddress> {
     const iter = this.listAllPagingAll(options);
     return {
@@ -290,13 +290,13 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listAllPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listAllPagingPage(
     options?: PublicIPAddressesListAllOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PublicIPAddress[]> {
     let result: PublicIPAddressesListAllResponse;
     let continuationToken = settings?.continuationToken;
@@ -317,7 +317,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
   }
 
   private async *listAllPagingAll(
-    options?: PublicIPAddressesListAllOptionalParams
+    options?: PublicIPAddressesListAllOptionalParams,
   ): AsyncIterableIterator<PublicIPAddress> {
     for await (const page of this.listAllPagingPage(options)) {
       yield* page;
@@ -331,7 +331,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
    */
   public list(
     resourceGroupName: string,
-    options?: PublicIPAddressesListOptionalParams
+    options?: PublicIPAddressesListOptionalParams,
   ): PagedAsyncIterableIterator<PublicIPAddress> {
     const iter = this.listPagingAll(resourceGroupName, options);
     return {
@@ -346,14 +346,14 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceGroupName, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
     options?: PublicIPAddressesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PublicIPAddress[]> {
     let result: PublicIPAddressesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -368,7 +368,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
       result = await this._listNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -379,7 +379,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    options?: PublicIPAddressesListOptionalParams
+    options?: PublicIPAddressesListOptionalParams,
   ): AsyncIterableIterator<PublicIPAddress> {
     for await (const page of this.listPagingPage(resourceGroupName, options)) {
       yield* page;
@@ -395,12 +395,12 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
   public listVirtualMachineScaleSetPublicIPAddresses(
     resourceGroupName: string,
     virtualMachineScaleSetName: string,
-    options?: PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesOptionalParams
+    options?: PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesOptionalParams,
   ): PagedAsyncIterableIterator<PublicIPAddress> {
     const iter = this.listVirtualMachineScaleSetPublicIPAddressesPagingAll(
       resourceGroupName,
       virtualMachineScaleSetName,
-      options
+      options,
     );
     return {
       next() {
@@ -417,9 +417,9 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
           resourceGroupName,
           virtualMachineScaleSetName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -427,7 +427,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
     resourceGroupName: string,
     virtualMachineScaleSetName: string,
     options?: PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PublicIPAddress[]> {
     let result: PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesResponse;
     let continuationToken = settings?.continuationToken;
@@ -435,7 +435,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
       result = await this._listVirtualMachineScaleSetPublicIPAddresses(
         resourceGroupName,
         virtualMachineScaleSetName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -447,7 +447,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
         resourceGroupName,
         virtualMachineScaleSetName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -459,12 +459,12 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
   private async *listVirtualMachineScaleSetPublicIPAddressesPagingAll(
     resourceGroupName: string,
     virtualMachineScaleSetName: string,
-    options?: PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesOptionalParams
+    options?: PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesOptionalParams,
   ): AsyncIterableIterator<PublicIPAddress> {
     for await (const page of this.listVirtualMachineScaleSetPublicIPAddressesPagingPage(
       resourceGroupName,
       virtualMachineScaleSetName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -486,7 +486,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
     virtualmachineIndex: string,
     networkInterfaceName: string,
     ipConfigurationName: string,
-    options?: PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesOptionalParams
+    options?: PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesOptionalParams,
   ): PagedAsyncIterableIterator<PublicIPAddress> {
     const iter = this.listVirtualMachineScaleSetVMPublicIPAddressesPagingAll(
       resourceGroupName,
@@ -494,7 +494,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
       virtualmachineIndex,
       networkInterfaceName,
       ipConfigurationName,
-      options
+      options,
     );
     return {
       next() {
@@ -514,9 +514,9 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
           networkInterfaceName,
           ipConfigurationName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -527,7 +527,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
     networkInterfaceName: string,
     ipConfigurationName: string,
     options?: PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PublicIPAddress[]> {
     let result: PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesResponse;
     let continuationToken = settings?.continuationToken;
@@ -538,7 +538,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
         virtualmachineIndex,
         networkInterfaceName,
         ipConfigurationName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -553,7 +553,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
         networkInterfaceName,
         ipConfigurationName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -568,7 +568,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
     virtualmachineIndex: string,
     networkInterfaceName: string,
     ipConfigurationName: string,
-    options?: PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesOptionalParams
+    options?: PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesOptionalParams,
   ): AsyncIterableIterator<PublicIPAddress> {
     for await (const page of this.listVirtualMachineScaleSetVMPublicIPAddressesPagingPage(
       resourceGroupName,
@@ -576,7 +576,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
       virtualmachineIndex,
       networkInterfaceName,
       ipConfigurationName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -591,11 +591,11 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
   private _listCloudServicePublicIPAddresses(
     resourceGroupName: string,
     cloudServiceName: string,
-    options?: PublicIPAddressesListCloudServicePublicIPAddressesOptionalParams
+    options?: PublicIPAddressesListCloudServicePublicIPAddressesOptionalParams,
   ): Promise<PublicIPAddressesListCloudServicePublicIPAddressesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, cloudServiceName, options },
-      listCloudServicePublicIPAddressesOperationSpec
+      listCloudServicePublicIPAddressesOperationSpec,
     );
   }
 
@@ -615,10 +615,8 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
     roleInstanceName: string,
     networkInterfaceName: string,
     ipConfigurationName: string,
-    options?: PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesOptionalParams
-  ): Promise<
-    PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesResponse
-  > {
+    options?: PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesOptionalParams,
+  ): Promise<PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -626,9 +624,9 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
         roleInstanceName,
         networkInterfaceName,
         ipConfigurationName,
-        options
+        options,
       },
-      listCloudServiceRoleInstancePublicIPAddressesOperationSpec
+      listCloudServiceRoleInstancePublicIPAddressesOperationSpec,
     );
   }
 
@@ -649,7 +647,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
     networkInterfaceName: string,
     ipConfigurationName: string,
     publicIpAddressName: string,
-    options?: PublicIPAddressesGetCloudServicePublicIPAddressOptionalParams
+    options?: PublicIPAddressesGetCloudServicePublicIPAddressOptionalParams,
   ): Promise<PublicIPAddressesGetCloudServicePublicIPAddressResponse> {
     return this.client.sendOperationRequest(
       {
@@ -659,9 +657,9 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
         networkInterfaceName,
         ipConfigurationName,
         publicIpAddressName,
-        options
+        options,
       },
-      getCloudServicePublicIPAddressOperationSpec
+      getCloudServicePublicIPAddressOperationSpec,
     );
   }
 
@@ -674,25 +672,24 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
   async beginDelete(
     resourceGroupName: string,
     publicIpAddressName: string,
-    options?: PublicIPAddressesDeleteOptionalParams
+    options?: PublicIPAddressesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -701,8 +698,8 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -710,20 +707,20 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, publicIpAddressName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -738,12 +735,12 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
   async beginDeleteAndWait(
     resourceGroupName: string,
     publicIpAddressName: string,
-    options?: PublicIPAddressesDeleteOptionalParams
+    options?: PublicIPAddressesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       publicIpAddressName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -757,11 +754,11 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
   get(
     resourceGroupName: string,
     publicIpAddressName: string,
-    options?: PublicIPAddressesGetOptionalParams
+    options?: PublicIPAddressesGetOptionalParams,
   ): Promise<PublicIPAddressesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, publicIpAddressName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -776,7 +773,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
     resourceGroupName: string,
     publicIpAddressName: string,
     parameters: PublicIPAddress,
-    options?: PublicIPAddressesCreateOrUpdateOptionalParams
+    options?: PublicIPAddressesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PublicIPAddressesCreateOrUpdateResponse>,
@@ -785,21 +782,20 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<PublicIPAddressesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -808,8 +804,8 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -817,15 +813,15 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, publicIpAddressName, parameters, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       PublicIPAddressesCreateOrUpdateResponse,
@@ -833,7 +829,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -850,13 +846,13 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
     resourceGroupName: string,
     publicIpAddressName: string,
     parameters: PublicIPAddress,
-    options?: PublicIPAddressesCreateOrUpdateOptionalParams
+    options?: PublicIPAddressesCreateOrUpdateOptionalParams,
   ): Promise<PublicIPAddressesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       publicIpAddressName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -872,11 +868,11 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
     resourceGroupName: string,
     publicIpAddressName: string,
     parameters: TagsObject,
-    options?: PublicIPAddressesUpdateTagsOptionalParams
+    options?: PublicIPAddressesUpdateTagsOptionalParams,
   ): Promise<PublicIPAddressesUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, publicIpAddressName, parameters, options },
-      updateTagsOperationSpec
+      updateTagsOperationSpec,
     );
   }
 
@@ -885,7 +881,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
    * @param options The options parameters.
    */
   private _listAll(
-    options?: PublicIPAddressesListAllOptionalParams
+    options?: PublicIPAddressesListAllOptionalParams,
   ): Promise<PublicIPAddressesListAllResponse> {
     return this.client.sendOperationRequest({ options }, listAllOperationSpec);
   }
@@ -897,11 +893,11 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
    */
   private _list(
     resourceGroupName: string,
-    options?: PublicIPAddressesListOptionalParams
+    options?: PublicIPAddressesListOptionalParams,
   ): Promise<PublicIPAddressesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -914,7 +910,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
   async beginDdosProtectionStatus(
     resourceGroupName: string,
     publicIpAddressName: string,
-    options?: PublicIPAddressesDdosProtectionStatusOptionalParams
+    options?: PublicIPAddressesDdosProtectionStatusOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PublicIPAddressesDdosProtectionStatusResponse>,
@@ -923,21 +919,20 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<PublicIPAddressesDdosProtectionStatusResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -946,8 +941,8 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -955,15 +950,15 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, publicIpAddressName, options },
-      spec: ddosProtectionStatusOperationSpec
+      spec: ddosProtectionStatusOperationSpec,
     });
     const poller = await createHttpPoller<
       PublicIPAddressesDdosProtectionStatusResponse,
@@ -971,7 +966,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -986,12 +981,12 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
   async beginDdosProtectionStatusAndWait(
     resourceGroupName: string,
     publicIpAddressName: string,
-    options?: PublicIPAddressesDdosProtectionStatusOptionalParams
+    options?: PublicIPAddressesDdosProtectionStatusOptionalParams,
   ): Promise<PublicIPAddressesDdosProtectionStatusResponse> {
     const poller = await this.beginDdosProtectionStatus(
       resourceGroupName,
       publicIpAddressName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1005,13 +1000,11 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
   private _listVirtualMachineScaleSetPublicIPAddresses(
     resourceGroupName: string,
     virtualMachineScaleSetName: string,
-    options?: PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesOptionalParams
-  ): Promise<
-    PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesResponse
-  > {
+    options?: PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesOptionalParams,
+  ): Promise<PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, virtualMachineScaleSetName, options },
-      listVirtualMachineScaleSetPublicIPAddressesOperationSpec
+      listVirtualMachineScaleSetPublicIPAddressesOperationSpec,
     );
   }
 
@@ -1031,10 +1024,8 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
     virtualmachineIndex: string,
     networkInterfaceName: string,
     ipConfigurationName: string,
-    options?: PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesOptionalParams
-  ): Promise<
-    PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesResponse
-  > {
+    options?: PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesOptionalParams,
+  ): Promise<PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1042,9 +1033,9 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
         virtualmachineIndex,
         networkInterfaceName,
         ipConfigurationName,
-        options
+        options,
       },
-      listVirtualMachineScaleSetVMPublicIPAddressesOperationSpec
+      listVirtualMachineScaleSetVMPublicIPAddressesOperationSpec,
     );
   }
 
@@ -1065,10 +1056,8 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
     networkInterfaceName: string,
     ipConfigurationName: string,
     publicIpAddressName: string,
-    options?: PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams
-  ): Promise<
-    PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressResponse
-  > {
+    options?: PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressOptionalParams,
+  ): Promise<PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1077,9 +1066,9 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
         networkInterfaceName,
         ipConfigurationName,
         publicIpAddressName,
-        options
+        options,
       },
-      getVirtualMachineScaleSetPublicIPAddressOperationSpec
+      getVirtualMachineScaleSetPublicIPAddressOperationSpec,
     );
   }
 
@@ -1095,11 +1084,11 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
     resourceGroupName: string,
     cloudServiceName: string,
     nextLink: string,
-    options?: PublicIPAddressesListCloudServicePublicIPAddressesNextOptionalParams
+    options?: PublicIPAddressesListCloudServicePublicIPAddressesNextOptionalParams,
   ): Promise<PublicIPAddressesListCloudServicePublicIPAddressesNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, cloudServiceName, nextLink, options },
-      listCloudServicePublicIPAddressesNextOperationSpec
+      listCloudServicePublicIPAddressesNextOperationSpec,
     );
   }
 
@@ -1121,10 +1110,8 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
     networkInterfaceName: string,
     ipConfigurationName: string,
     nextLink: string,
-    options?: PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesNextOptionalParams
-  ): Promise<
-    PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesNextResponse
-  > {
+    options?: PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesNextOptionalParams,
+  ): Promise<PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesNextResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1133,9 +1120,9 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
         networkInterfaceName,
         ipConfigurationName,
         nextLink,
-        options
+        options,
       },
-      listCloudServiceRoleInstancePublicIPAddressesNextOperationSpec
+      listCloudServiceRoleInstancePublicIPAddressesNextOperationSpec,
     );
   }
 
@@ -1146,11 +1133,11 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
    */
   private _listAllNext(
     nextLink: string,
-    options?: PublicIPAddressesListAllNextOptionalParams
+    options?: PublicIPAddressesListAllNextOptionalParams,
   ): Promise<PublicIPAddressesListAllNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listAllNextOperationSpec
+      listAllNextOperationSpec,
     );
   }
 
@@ -1163,11 +1150,11 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
   private _listNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: PublicIPAddressesListNextOptionalParams
+    options?: PublicIPAddressesListNextOptionalParams,
   ): Promise<PublicIPAddressesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -1183,13 +1170,11 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
     resourceGroupName: string,
     virtualMachineScaleSetName: string,
     nextLink: string,
-    options?: PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesNextOptionalParams
-  ): Promise<
-    PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesNextResponse
-  > {
+    options?: PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesNextOptionalParams,
+  ): Promise<PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, virtualMachineScaleSetName, nextLink, options },
-      listVirtualMachineScaleSetPublicIPAddressesNextOperationSpec
+      listVirtualMachineScaleSetPublicIPAddressesNextOperationSpec,
     );
   }
 
@@ -1211,10 +1196,8 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
     networkInterfaceName: string,
     ipConfigurationName: string,
     nextLink: string,
-    options?: PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesNextOptionalParams
-  ): Promise<
-    PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesNextResponse
-  > {
+    options?: PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesNextOptionalParams,
+  ): Promise<PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesNextResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1223,73 +1206,72 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
         networkInterfaceName,
         ipConfigurationName,
         nextLink,
-        options
+        options,
       },
-      listVirtualMachineScaleSetVMPublicIPAddressesNextOperationSpec
+      listVirtualMachineScaleSetVMPublicIPAddressesNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listCloudServicePublicIPAddressesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/publicipaddresses",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PublicIPAddressListResult
+const listCloudServicePublicIPAddressesOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/publicipaddresses",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PublicIPAddressListResult,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.cloudServiceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listCloudServiceRoleInstancePublicIPAddressesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PublicIPAddressListResult
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.subscriptionId,
+      Parameters.cloudServiceName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listCloudServiceRoleInstancePublicIPAddressesOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PublicIPAddressListResult,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.cloudServiceName,
-    Parameters.roleInstanceName,
-    Parameters.networkInterfaceName,
-    Parameters.ipConfigurationName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.subscriptionId,
+      Parameters.cloudServiceName,
+      Parameters.roleInstanceName,
+      Parameters.networkInterfaceName,
+      Parameters.ipConfigurationName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const getCloudServicePublicIPAddressOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses/{publicIpAddressName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses/{publicIpAddressName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PublicIPAddress
+      bodyMapper: Mappers.PublicIPAddress,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
@@ -1300,14 +1282,13 @@ const getCloudServicePublicIPAddressOperationSpec: coreClient.OperationSpec = {
     Parameters.roleInstanceName,
     Parameters.networkInterfaceName,
     Parameters.ipConfigurationName,
-    Parameters.publicIpAddressName
+    Parameters.publicIpAddressName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -1315,61 +1296,59 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.publicIpAddressName
+    Parameters.publicIpAddressName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PublicIPAddress
+      bodyMapper: Mappers.PublicIPAddress,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.publicIpAddressName
+    Parameters.publicIpAddressName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PublicIPAddress
+      bodyMapper: Mappers.PublicIPAddress,
     },
     201: {
-      bodyMapper: Mappers.PublicIPAddress
+      bodyMapper: Mappers.PublicIPAddress,
     },
     202: {
-      bodyMapper: Mappers.PublicIPAddress
+      bodyMapper: Mappers.PublicIPAddress,
     },
     204: {
-      bodyMapper: Mappers.PublicIPAddress
+      bodyMapper: Mappers.PublicIPAddress,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters10,
   queryParameters: [Parameters.apiVersion],
@@ -1377,23 +1356,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.publicIpAddressName
+    Parameters.publicIpAddressName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.PublicIPAddress
+      bodyMapper: Mappers.PublicIPAddress,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -1401,280 +1379,281 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.publicIpAddressName
+    Parameters.publicIpAddressName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listAllOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/publicIPAddresses",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/publicIPAddresses",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PublicIPAddressListResult
+      bodyMapper: Mappers.PublicIPAddressListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PublicIPAddressListResult
+      bodyMapper: Mappers.PublicIPAddressListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const ddosProtectionStatusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}/ddosProtectionStatus",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}/ddosProtectionStatus",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.PublicIpDdosProtectionStatusResult
+      bodyMapper: Mappers.PublicIpDdosProtectionStatusResult,
     },
     201: {
-      bodyMapper: Mappers.PublicIpDdosProtectionStatusResult
+      bodyMapper: Mappers.PublicIpDdosProtectionStatusResult,
     },
     202: {
-      bodyMapper: Mappers.PublicIpDdosProtectionStatusResult
+      bodyMapper: Mappers.PublicIpDdosProtectionStatusResult,
     },
     204: {
-      bodyMapper: Mappers.PublicIpDdosProtectionStatusResult
+      bodyMapper: Mappers.PublicIpDdosProtectionStatusResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.publicIpAddressName
+    Parameters.publicIpAddressName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listVirtualMachineScaleSetPublicIPAddressesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/publicipaddresses",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PublicIPAddressListResult
+const listVirtualMachineScaleSetPublicIPAddressesOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/publicipaddresses",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PublicIPAddressListResult,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.virtualMachineScaleSetName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listVirtualMachineScaleSetVMPublicIPAddressesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PublicIPAddressListResult
+    queryParameters: [Parameters.apiVersion1],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.subscriptionId,
+      Parameters.virtualMachineScaleSetName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listVirtualMachineScaleSetVMPublicIPAddressesOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PublicIPAddressListResult,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.networkInterfaceName,
-    Parameters.virtualMachineScaleSetName,
-    Parameters.virtualmachineIndex,
-    Parameters.ipConfigurationName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getVirtualMachineScaleSetPublicIPAddressOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses/{publicIpAddressName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PublicIPAddress
+    queryParameters: [Parameters.apiVersion1],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.subscriptionId,
+      Parameters.networkInterfaceName,
+      Parameters.virtualMachineScaleSetName,
+      Parameters.virtualmachineIndex,
+      Parameters.ipConfigurationName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const getVirtualMachineScaleSetPublicIPAddressOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses/{publicIpAddressName}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PublicIPAddress,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.expand, Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.networkInterfaceName,
-    Parameters.virtualMachineScaleSetName,
-    Parameters.virtualmachineIndex,
-    Parameters.ipConfigurationName,
-    Parameters.publicIpAddressName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listCloudServicePublicIPAddressesNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PublicIPAddressListResult
+    queryParameters: [Parameters.expand, Parameters.apiVersion1],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.subscriptionId,
+      Parameters.networkInterfaceName,
+      Parameters.virtualMachineScaleSetName,
+      Parameters.virtualmachineIndex,
+      Parameters.ipConfigurationName,
+      Parameters.publicIpAddressName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listCloudServicePublicIPAddressesNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PublicIPAddressListResult,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-    Parameters.cloudServiceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listCloudServiceRoleInstancePublicIPAddressesNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PublicIPAddressListResult
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.subscriptionId,
+      Parameters.nextLink,
+      Parameters.cloudServiceName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listCloudServiceRoleInstancePublicIPAddressesNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PublicIPAddressListResult,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-    Parameters.cloudServiceName,
-    Parameters.roleInstanceName,
-    Parameters.networkInterfaceName,
-    Parameters.ipConfigurationName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.subscriptionId,
+      Parameters.nextLink,
+      Parameters.cloudServiceName,
+      Parameters.roleInstanceName,
+      Parameters.networkInterfaceName,
+      Parameters.ipConfigurationName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const listAllNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PublicIPAddressListResult
+      bodyMapper: Mappers.PublicIPAddressListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PublicIPAddressListResult
+      bodyMapper: Mappers.PublicIPAddressListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listVirtualMachineScaleSetPublicIPAddressesNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PublicIPAddressListResult
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.virtualMachineScaleSetName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listVirtualMachineScaleSetVMPublicIPAddressesNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PublicIPAddressListResult
+const listVirtualMachineScaleSetPublicIPAddressesNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PublicIPAddressListResult,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-    Parameters.networkInterfaceName,
-    Parameters.virtualMachineScaleSetName,
-    Parameters.virtualmachineIndex,
-    Parameters.ipConfigurationName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.subscriptionId,
+      Parameters.nextLink,
+      Parameters.virtualMachineScaleSetName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listVirtualMachineScaleSetVMPublicIPAddressesNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PublicIPAddressListResult,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
+    },
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.subscriptionId,
+      Parameters.nextLink,
+      Parameters.networkInterfaceName,
+      Parameters.virtualMachineScaleSetName,
+      Parameters.virtualmachineIndex,
+      Parameters.ipConfigurationName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };

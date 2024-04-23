@@ -9,7 +9,7 @@ import {
   PartitionContext,
   ReceivedEventData,
 } from "@azure/event-hubs";
-import { PerfOptionDictionary, EventPerfTest, getEnvVar } from "@azure/test-utils-perf";
+import { PerfOptionDictionary, EventPerfTest, getEnvVar } from "@azure-tools/test-perf";
 
 interface ReceiverOptions {
   "number-of-events": number;

@@ -1,6 +1,6 @@
 # Release History
 
-## 1.5.1 (Unreleased)
+## 1.7.3 (Unreleased)
 
 ### Features Added
 
@@ -10,11 +10,41 @@
 
 ### Other Changes
 
+## 1.7.2 (2024-04-09)
+
+### Other Changes
+
+- Revert TypeScript output target to ES2017.
+
+## 1.7.1 (2024-03-20)
+
+### Other Changes
+
+- Add top-level `browser` field to `package.json` as fallback for legacy bundlers that do not support the `exports` field.
+
+## 1.7.0 (2024-03-12)
+
+### Other Changes
+
+- Migrated the codebase to ESM. This change is internal and should not affect customers.
+- Migrated unit tests to vitest.
+
+## 1.6.0 (2024-02-01)
+
+### Features Added
+
+- Added the `isKeyCredential` typeguard function similar to the existing `isTokenCredential`.
+
+### Other Changes
+
+- Upgrade dependency `@azure/abort-controller` version to `^2.0.0`.
+
 ## 1.5.0 (2023-08-03)
 
 ### Features Added
 
 - Added `enableCae` option to `GetTokenOptions` to enable Continuous Access Evaluation in [PR #26614](https://github.com/Azure/azure-sdk-for-js/pull/26614).
+
 ## 1.4.0 (2022-08-04)
 
 ### Features Added
