@@ -167,7 +167,7 @@ function findFollowUpRecommendation(res: any): void {
               console.log("   Is hedging: ", inference.isHedging);
               console.log("   Is option: ", inference.isOption);
 
-              var procedure = inference.recommendedProcedure;
+              const procedure = inference.recommendedProcedure;
               if ("kind" in procedure && procedure.kind === "genericProcedureRecommendation") {
                 if ("code" in procedure) {
                   console.log("   Recommended Generic Procedure: ", procedure.code);
@@ -199,10 +199,12 @@ function findFollowUpRecommendation(res: any): void {
   }
 }
 
-function displayCodes(codableConcept: { coding: any[] }) {
+function displayCodes(codableConcept: { coding: any[] }): void {
   codableConcept.coding?.forEach((coding) => {
     if ("code" in coding && "display" in coding && "system" in coding) {
-      console.log("       Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
+      console.log(
+        "       Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",
+      );
     }
   });
 }
@@ -213,7 +215,7 @@ function displayImaging(images: {
   laterality: { coding: any[] };
   contrast: { code: { coding: any[] } };
   view: { code: { coding: any[] } };
-}) {
+}): void {
   console.log("    Modality Codes: ");
   displayCodes(images.modality);
   console.log("    Anatomy Codes: ");

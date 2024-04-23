@@ -178,7 +178,7 @@ function findRadiologyProcedureInference(res: any): void {
   }
 }
 
-function displayCodes(codableConcept: any) {
+function displayCodes(codableConcept: any): void {
   (codableConcept as { coding?: any[] }).coding?.forEach((coding) => {
     if ("code" in coding && "display" in coding && "system" in coding) {
       console.log(
@@ -194,7 +194,7 @@ function displayImaging(images: {
   laterality: { coding: any[] };
   contrast: { code: { coding: any[] } };
   view: { code: { coding: any[] } };
-}) {
+}): void {
   console.log("   Modality Codes: ");
   displayCodes(images.modality);
   console.log("   Anatomy Codes: ");

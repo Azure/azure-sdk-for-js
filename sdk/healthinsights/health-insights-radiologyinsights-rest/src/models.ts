@@ -133,7 +133,7 @@ export interface Extension extends Element {
 export interface Quantity extends Element {
   /** Numerical value (with implicit precision) */
   value?: number;
-  /** < | <= | >= | > - how to understand the value */
+  /** \< | \<= | \>= | \> - how to understand the value */
   comparator?: string;
   /** Unit representation */
   unit?: string;

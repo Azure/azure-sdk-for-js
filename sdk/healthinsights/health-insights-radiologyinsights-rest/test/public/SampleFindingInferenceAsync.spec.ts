@@ -139,9 +139,9 @@ function findFinding(res: any): void {
           if (inference.kind === "finding") {
             console.log("Finding Inference found: ");
 
-            let find = inference.finding;
+            const find = inference.finding;
             if ("code" in find) {
-              let fcode = find.code;
+              const fcode = find.code;
               console.log("   Code: ");
               displayCodes(fcode);
             }
@@ -170,29 +170,29 @@ function findFinding(res: any): void {
       }
     });
   }
-}
 
-function displayCodes(codableConcept: { coding: any[] }): void {
-  codableConcept.coding?.forEach((coding: any) => {
-    if ("code" in coding) {
-      console.log(
-        "      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",
-      );
-    }
-  });
-}
+  function displayCodes(codableConcept: { coding: any[] }): void {
+    codableConcept.coding?.forEach((coding: any) => {
+      if ("code" in coding) {
+        console.log(
+          "      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",
+        );
+      }
+    });
+  }
 
-function displaySectionInfo(inference: { extension: any[] }) {
-  inference.extension?.forEach((ext: any) => {
-    if ("url" in ext && ext.url === "section") {
-      console.log("   Section:");
-      ext.extension?.forEach((subextension: { url: string; valueString: string }) => {
-        if ("url" in subextension && "valueString" in subextension) {
-          console.log("      " + subextension.url + ": " + subextension.valueString);
-        }
-      });
-    }
-  });
+  function displaySectionInfo(inference: { extension: any[] }): void {
+    inference.extension?.forEach((ext: any) => {
+      if ("url" in ext && ext.url === "section") {
+        console.log("   Section:");
+        ext.extension?.forEach((subextension: { url: string; valueString: string }) => {
+          if ("url" in subextension && "valueString" in subextension) {
+            console.log("      " + subextension.url + ": " + subextension.valueString);
+          }
+        });
+      }
+    });
+  }
 }
 
 describe("Finding Inference Test", () => {
