@@ -5,8 +5,7 @@
  * @file Rule to force adherence to SemVer guidelines.
  */
 
-import { createRule } from "../utils/ruleCreator";
-import { getVerifiers, stripPath, VerifierMessages } from "../utils";
+import { createRule, getVerifiers, stripPath, VerifierMessages } from "../utils";
 import { TSESTree } from "@typescript-eslint/utils";
 
 export default createRule({
