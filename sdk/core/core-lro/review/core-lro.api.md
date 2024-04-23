@@ -62,7 +62,6 @@ export type OperationStatus = "notStarted" | "running" | "succeeded" | "canceled
 // @public
 export interface PollerLike<TState extends OperationState<TResult>, TResult> extends Promise<TResult> {
     readonly isDone: boolean;
-    readonly isStopped: boolean;
     onProgress(callback: (state: TState) => void): CancelOnProgress;
     readonly operationState: TState | undefined;
     poll(options?: {

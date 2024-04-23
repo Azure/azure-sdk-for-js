@@ -63,7 +63,7 @@ Also the return type for `createHttpPoller` is renamed from `SimplePollerLike` t
 | access the current state after receiving the response of each poll request | `onProgress()`        | `onProgress()`    |
 | check whether the operation finished                                       | `isDone()`            | `isDone`          |
 | stop polling                                                               | `stopPolling()`       | N/A               |
-| check if the polling stopped                                               | `isStopped()`         | `isStopped`       |
+| check if the polling stopped                                               | `isStopped()`         | N/A               |
 | get the current operation state                                            | `getOperationState()` | `operationState`  |
 | access the final result                                                    | `getResult()`         | `result`          |
 | serialize the poller state                                                 | `toString()`          | `serialize()`     |

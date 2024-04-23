@@ -73,13 +73,13 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
     const stateProxy = createStateProxy<TResult, TState>();
     const withOperationLocation = withOperationLocationCallback
       ? (() => {
-          let called = false;
-          return (operationLocation: string, isUpdated: boolean) => {
-            if (isUpdated) withOperationLocationCallback(operationLocation);
-            else if (!called) withOperationLocationCallback(operationLocation);
-            called = true;
-          };
-        })()
+        let called = false;
+        return (operationLocation: string, isUpdated: boolean) => {
+          if (isUpdated) withOperationLocationCallback(operationLocation);
+          else if (!called) withOperationLocationCallback(operationLocation);
+          called = true;
+        };
+      })()
       : undefined;
     let statePromise: Promise<TState>;
     let state: RestorableOperationState<TState>;
@@ -114,9 +114,6 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
       },
       get isDone(): boolean {
         return ["succeeded", "failed", "canceled"].includes(state?.status ?? "");
-      },
-      get isStopped(): boolean {
-        return resultPromise === undefined;
       },
       onProgress: (callback: (state: TState) => void) => {
         const s = Symbol();

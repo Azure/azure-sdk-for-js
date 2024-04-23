@@ -184,10 +184,6 @@ export interface PollerLike<TState extends OperationState<TResult>, TResult>
    */
   readonly isDone: boolean;
   /**
-   * Returns true if the poller is stopped.
-   */
-  readonly isStopped: boolean;
-  /**
    * Returns the state of the operation.
    */
   readonly operationState: TState | undefined;
