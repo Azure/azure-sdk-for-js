@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { LongRunningOperation, OperationResponse } from "./models.js";
+import { RunningOperation, OperationResponse } from "./models.js";
 import { OperationState, PollerLike } from "../poller/models.js";
 import {
   getErrorFromResponse,
@@ -26,7 +26,7 @@ import { buildCreatePoller } from "../poller/poller.js";
  * @returns an initialized poller
  */
 export function createHttpPoller<TResult, TState extends OperationState<TResult>>(
-  lro: LongRunningOperation,
+  lro: RunningOperation,
   options?: CreateHttpPollerOptions<TResult, TState>,
 ): PollerLike<TState, TResult> {
   const {

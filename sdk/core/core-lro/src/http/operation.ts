@@ -3,7 +3,7 @@
 
 import {
   HttpOperationMode,
-  LongRunningOperation,
+  RunningOperation,
   ResourceLocationConfig,
   OperationResponse,
   RawResponse,
@@ -300,7 +300,7 @@ export function isOperationError(e: Error): boolean {
 
 /** Polls the long-running operation. */
 export async function pollHttpOperation<TState extends OperationState<TResult>, TResult>(inputs: {
-  lro: LongRunningOperation;
+  lro: RunningOperation;
   processResult?: (result: unknown, state: TState) => TResult;
   updateState?: (state: TState, lastResponse: OperationResponse) => void;
   isDone?: (lastResponse: OperationResponse, state: TState) => boolean;

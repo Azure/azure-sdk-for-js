@@ -12,7 +12,7 @@ export {
 } from "./poller/models.js";
 export {
   ResourceLocationConfig,
-  LongRunningOperation,
+  RunningOperation,
   OperationResponse,
   RawResponse,
   RawRequest,

@@ -10,7 +10,7 @@ import { AbortSignalLike } from '@azure/abort-controller';
 export type CancelOnProgress = () => void;
 
 // @public
-export function createHttpPoller<TResult, TState extends OperationState<TResult>>(lro: LongRunningOperation, options?: CreateHttpPollerOptions<TResult, TState>): PollerLike<TState, TResult>;
+export function createHttpPoller<TResult, TState extends OperationState<TResult>>(lro: RunningOperation, options?: CreateHttpPollerOptions<TResult, TState>): PollerLike<TState, TResult>;
 
 // @public
 export interface CreateHttpPollerOptions<TResult, TState> {
@@ -25,14 +25,6 @@ export interface CreateHttpPollerOptions<TResult, TState> {
 
 // @public
 export function deserializeState<TResult, TState extends OperationState<TResult>>(serializedState: string): RestorableOperationState<TResult, TState>;
-
-// @public
-export interface LongRunningOperation<T = unknown> {
-    sendInitialRequest: () => Promise<OperationResponse<unknown>>;
-    sendPollRequest: (path: string, options?: {
-        abortSignal?: AbortSignalLike;
-    }) => Promise<OperationResponse<T>>;
-}
 
 // @public
 export interface OperationConfig {
@@ -99,6 +91,14 @@ export type ResourceLocationConfig = "azure-async-operation" | "location" | "ori
 export type RestorableOperationState<TResult, T extends OperationState<TResult>> = T & {
     config: OperationConfig;
 };
+
+// @public
+export interface RunningOperation<T = unknown> {
+    sendInitialRequest: () => Promise<OperationResponse<unknown>>;
+    sendPollRequest: (path: string, options?: {
+        abortSignal?: AbortSignalLike;
+    }) => Promise<OperationResponse<T>>;
+}
 
 // (No @packageDocumentation comment for this package)
 

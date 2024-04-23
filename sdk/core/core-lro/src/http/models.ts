@@ -67,7 +67,7 @@ export interface OperationResponse<T = unknown, TRequest extends RawRequest = Ra
 /**
  * Description of a long running operation.
  */
-export interface LongRunningOperation<T = unknown> {
+export interface RunningOperation<T = unknown> {
   /**
    * A function that can be used to send initial request to the service.
    */
