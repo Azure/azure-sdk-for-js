@@ -12,9 +12,9 @@ import {
 import {
   LroError,
   OperationConfig,
+  OperationState,
   OperationStatus,
   RestorableOperationState,
-  StateProxy,
 } from "../poller/models.js";
 import { pollOperation } from "../poller/operation.js";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -210,9 +210,12 @@ function calculatePollingIntervalFromDate(retryAfterDate: Date): number | undefi
   return undefined;
 }
 
-export function getStatusFromInitialResponse<TState>(inputs: {
+export function getStatusFromInitialResponse<
+  TResult,
+  TState extends OperationState<TResult>,
+>(inputs: {
   response: OperationResponse<unknown>;
-  state: RestorableOperationState<TState>;
+  state: RestorableOperationState<TResult, TState>;
   operationLocation?: string;
 }): OperationStatus {
   const { response, state, operationLocation } = inputs;
@@ -231,9 +234,9 @@ export function getStatusFromInitialResponse<TState>(inputs: {
   return status === "running" && operationLocation === undefined ? "succeeded" : status;
 }
 
-export function getOperationLocation<TState>(
+export function getOperationLocation<TResult, TState extends OperationState<TResult>>(
   { rawResponse }: OperationResponse,
-  state: RestorableOperationState<TState>,
+  state: RestorableOperationState<TResult, TState>,
 ): string | undefined {
   const mode = state.config.metadata?.["mode"];
   switch (mode) {
@@ -253,9 +256,9 @@ export function getOperationLocation<TState>(
   }
 }
 
-export function getOperationStatus<TState>(
+export function getOperationStatus<TResult, TState extends OperationState<TResult>>(
   { rawResponse }: OperationResponse,
-  state: RestorableOperationState<TState>,
+  state: RestorableOperationState<TResult, TState>,
 ): OperationStatus {
   const mode = state.config.metadata?.["mode"];
   switch (mode) {
@@ -280,9 +283,9 @@ function accessBodyProperty<P extends string>(
   return (flatResponse as ResponseBody)?.[prop] ?? (rawResponse.body as ResponseBody)?.[prop];
 }
 
-export function getResourceLocation<TState>(
+export function getResourceLocation<TResult, TState extends OperationState<TResult>>(
   res: OperationResponse,
-  state: RestorableOperationState<TState>,
+  state: RestorableOperationState<TResult, TState>,
 ): string | undefined {
   const loc = accessBodyProperty(res, "resourceLocation");
   if (loc && typeof loc === "string") {
@@ -296,30 +299,19 @@ export function isOperationError(e: Error): boolean {
 }
 
 /** Polls the long-running operation. */
-export async function pollHttpOperation<TState, TResult>(inputs: {
+export async function pollHttpOperation<TState extends OperationState<TResult>, TResult>(inputs: {
   lro: LongRunningOperation;
-  stateProxy: StateProxy<TState, TResult>;
   processResult?: (result: unknown, state: TState) => TResult;
   updateState?: (state: TState, lastResponse: OperationResponse) => void;
   isDone?: (lastResponse: OperationResponse, state: TState) => boolean;
   setDelay: (intervalInMs: number) => void;
   options?: { abortSignal?: AbortSignalLike };
-  state: RestorableOperationState<TState>;
+  state: RestorableOperationState<TResult, TState>;
   setErrorAsResult: boolean;
 }): Promise<void> {
-  const {
-    lro,
-    stateProxy,
-    options,
-    processResult,
-    updateState,
-    setDelay,
-    state,
-    setErrorAsResult,
-  } = inputs;
+  const { lro, options, processResult, updateState, setDelay, state, setErrorAsResult } = inputs;
   return pollOperation({
     state,
-    stateProxy,
     setDelay,
     processResult: processResult
       ? ({ flatResponse }, inputState) => processResult(flatResponse, inputState)

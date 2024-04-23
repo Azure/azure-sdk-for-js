@@ -9,42 +9,15 @@ import {
   OperationState,
   RestorableOperationState,
   PollerLike,
-  StateProxy,
 } from "./models.js";
 import { deserializeState, initOperation, pollOperation } from "./operation.js";
 import { POLL_INTERVAL_IN_MS } from "./constants.js";
 import { delay } from "@azure/core-util";
-
-const createStateProxy: <TResult, TState extends OperationState<TResult>>() => StateProxy<
-  TState,
-  TResult
-> = () => ({
-  /**
-   * The state at this point is created to be of type OperationState<TResult>.
-   * It will be updated later to be of type TState when the
-   * customer-provided callback, `updateState`, is called during polling.
-   */
-  initState: (config) => ({ status: "running", config }) as any,
-  setCanceled: (state) => (state.status = "canceled"),
-  setError: (state, error) => (state.error = error),
-  setResult: (state, result) => (state.result = result),
-  setRunning: (state) => (state.status = "running"),
-  setSucceeded: (state) => (state.status = "succeeded"),
-  setFailed: (state) => (state.status = "failed"),
-
-  getError: (state) => state.error,
-  getResult: (state) => state.result,
-  isCanceled: (state) => state.status === "canceled",
-  isFailed: (state) => state.status === "failed",
-  isRunning: (state) => state.status === "running",
-  isSucceeded: (state) => state.status === "succeeded",
-});
-
 /**
  * Returns a poller factory.
  */
 export function buildCreatePoller<TResponse, TResult, TState extends OperationState<TResult>>(
-  inputs: BuildCreatePollerOptions<TResponse, TState>,
+  inputs: BuildCreatePollerOptions<TResponse, TResult, TState>,
 ): (
   lro: Operation<TResponse, { abortSignal?: AbortSignalLike }>,
   options?: CreatePollerOptions<TResponse, TResult, TState>,
@@ -70,7 +43,6 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
       intervalInMs = POLL_INTERVAL_IN_MS,
       restoreFrom,
     } = options || {};
-    const stateProxy = createStateProxy<TResult, TState>();
     const withOperationLocation = withOperationLocationCallback
       ? (() => {
           let called = false;
@@ -82,14 +54,13 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
         })()
       : undefined;
     let statePromise: Promise<TState>;
-    let state: RestorableOperationState<TState>;
+    let state: RestorableOperationState<TResult, TState>;
     if (restoreFrom) {
       state = deserializeState(restoreFrom);
       statePromise = Promise.resolve(state);
     } else {
       statePromise = initOperation({
         init,
-        stateProxy,
         processResult,
         getOperationStatus: getStatusFromInitialResponse,
         withOperationLocation,
@@ -198,7 +169,6 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
         await pollOperation({
           poll,
           state,
-          stateProxy,
           getOperationLocation,
           isOperationError,
           withOperationLocation,

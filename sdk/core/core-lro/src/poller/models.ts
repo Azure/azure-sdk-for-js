@@ -42,7 +42,7 @@ export interface Operation<TResponse, TOptions> {
 /**
  * Type of a restorable long-running operation.
  */
-export type RestorableOperationState<T> = T & {
+export type RestorableOperationState<TResult, T extends OperationState<TResult>> = T & {
   /** The operation configuration */
   config: OperationConfig;
 };
@@ -89,7 +89,11 @@ export interface InnerError {
 /**
  * Options for `buildCreatePoller`.
  */
-export interface BuildCreatePollerOptions<TResponse, TState> {
+export interface BuildCreatePollerOptions<
+  TResponse,
+  TResult,
+  TState extends OperationState<TResult>,
+> {
   /**
    * Gets the status of the operation from the response received when the
    * operation was initialized. Note that the operation could be already in
@@ -97,7 +101,7 @@ export interface BuildCreatePollerOptions<TResponse, TState> {
    */
   getStatusFromInitialResponse: (inputs: {
     response: TResponse;
-    state: RestorableOperationState<TState>;
+    state: RestorableOperationState<TResult, TState>;
     operationLocation?: string;
   }) => OperationStatus;
   /**
@@ -106,7 +110,7 @@ export interface BuildCreatePollerOptions<TResponse, TState> {
    */
   getStatusFromPollResponse: (
     response: TResponse,
-    state: RestorableOperationState<TState>,
+    state: RestorableOperationState<TResult, TState>,
   ) => OperationStatus;
   /**
    * Determines if the input error is an operation error.
@@ -117,14 +121,14 @@ export interface BuildCreatePollerOptions<TResponse, TState> {
    */
   getOperationLocation?: (
     response: TResponse,
-    state: RestorableOperationState<TState>,
+    state: RestorableOperationState<TResult, TState>,
   ) => string | undefined;
   /**
    * Gets the resource location from a response.
    */
   getResourceLocation: (
     response: TResponse,
-    state: RestorableOperationState<TState>,
+    state: RestorableOperationState<TResult, TState>,
   ) => string | undefined;
   /**
    * Gets from the response the time interval the service suggests the client to
@@ -221,27 +225,4 @@ export interface PollerLike<TState extends OperationState<TResult>, TResult>
    * Returns a promise that could be used to check if the poller has been submitted.
    */
   submitted(): Promise<void>;
-}
-
-/**
- * A state proxy that allows poller implementation to abstract away the operation
- * state. This is useful to implement `createPoller` in a modular
- * way.
- */
-export interface StateProxy<TState, TResult> {
-  initState: (config: OperationConfig) => RestorableOperationState<TState>;
-
-  setRunning: (state: TState) => void;
-  setCanceled: (state: TState) => void;
-  setResult: (state: TState, result: TResult) => void;
-  setError: (state: TState, error: Error) => void;
-  setFailed: (state: TState) => void;
-  setSucceeded: (state: TState) => void;
-
-  isRunning: (state: TState) => boolean;
-  isCanceled: (state: TState) => boolean;
-  getResult: (state: TState) => TResult | undefined;
-  getError: (state: TState) => Error | undefined;
-  isFailed: (state: TState) => boolean;
-  isSucceeded: (state: TState) => boolean;
 }

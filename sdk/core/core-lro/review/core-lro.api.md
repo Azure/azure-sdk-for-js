@@ -24,7 +24,7 @@ export interface CreateHttpPollerOptions<TResult, TState> {
 }
 
 // @public
-export function deserializeState<TState>(serializedState: string): RestorableOperationState<TState>;
+export function deserializeState<TResult, TState extends OperationState<TResult>>(serializedState: string): RestorableOperationState<TResult, TState>;
 
 // @public
 export interface LongRunningOperation<T = unknown> {
@@ -96,7 +96,7 @@ export interface RawResponse<TRequest extends RawRequest = RawRequest> {
 export type ResourceLocationConfig = "azure-async-operation" | "location" | "original-uri";
 
 // @public
-export type RestorableOperationState<T> = T & {
+export type RestorableOperationState<TResult, T extends OperationState<TResult>> = T & {
     config: OperationConfig;
 };
 
