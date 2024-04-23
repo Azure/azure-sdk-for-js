@@ -200,7 +200,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
         }
         await pollOperation({
           poll,
-          state: state,
+          state,
           stateProxy,
           getOperationLocation,
           isOperationError,
