@@ -162,7 +162,7 @@ function findLimitedOrderDiscrep(res: any): void {
           if (inference.kind === "limitedOrderDiscrepancy") {
             console.log("Limited Order Discrepancy Inference found: ");
             if ("orderType" in inference) {
-              console.log("   Ordertype: ");
+              console.log(" Ordertype: ");
               displayCodes(inference.orderType);
             }
 

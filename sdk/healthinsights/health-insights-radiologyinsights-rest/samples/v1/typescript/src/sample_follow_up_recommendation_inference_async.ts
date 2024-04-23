@@ -78,20 +78,20 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
   }
 
   function displayImaging(images: { modality: { coding: any[]; }; anatomy: { coding: any[]; }; laterality: { coding: any[]; }; contrast: { code: { coding: any[]; }; }; view: { code: { coding: any[]; }; }; }) {
-    console.log("    Modality Codes: ");
+    console.log("     Modality Codes: ");
     displayCodes(images.modality);
-    console.log("    Anatomy Codes: ");
+    console.log("     Anatomy Codes: ");
     displayCodes(images.anatomy);
     if ("laterality" in images) {
-      console.log("   Laterality Codes: ");
+      console.log("    Laterality Codes: ");
       displayCodes(images.laterality);
     }
     if ("contrast" in images) {
-      console.log("    Contrast Codes: ");
+      console.log("     Contrast Codes: ");
       displayCodes(images.contrast.code);
     }
     if ("view" in images) {
-      console.log("    View Codes: ");
+      console.log("     View Codes: ");
       displayCodes(images.view.code);
     }
   }
