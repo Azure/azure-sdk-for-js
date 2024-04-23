@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { ChangeFeedStartFrom } from "./ChangeFeedStartFrom";
-
+import { ChangeFeedMode } from "./ChangeFeedMode";
 /**
  * Specifies options for the change feed
  *
@@ -21,4 +21,8 @@ export interface ChangeFeedIteratorOptions {
    * Signals where to start from in the change feed.
    */
   changeFeedStartFrom?: ChangeFeedStartFrom;
+  /**
+   * Signals the mode in which the change feed needs to start.
+   */
+  changeFeedMode?: ChangeFeedMode;
 }

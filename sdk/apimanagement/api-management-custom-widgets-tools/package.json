@@ -57,7 +57,6 @@
     "@vitest/coverage-istanbul": "^1.4.0",
     "eslint": "^8.0.0",
     "playwright": "^1.42.1",
-    "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
     "tshy": "^1.13.0",
     "typescript": "~5.4.5",

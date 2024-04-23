@@ -70,7 +70,6 @@
     "dotenv": "^16.4.5",
     "eslint": "^8.57.0",
     "playwright": "^1.43.0",
-    "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
     "tshy": "^1.13.1",
     "typescript": "~5.4.5",
