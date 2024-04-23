@@ -2,11 +2,18 @@
 
 ## 1.0.0 (2024-05-01)
 
-**Other Changes**
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
  - First GA release
  - Added examples for all inferences
 
 ## 1.0.0-beta.1 (2024-03-05)
+### Other Changes
 - Public Preview release
 - Test example for Critical Result
 
