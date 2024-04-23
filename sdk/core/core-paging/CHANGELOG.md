@@ -1,6 +1,6 @@
 # Release History
 
-## 1.6.2 (Unreleased)
+## 1.6.3 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.6.2 (2024-04-09)
+
+### Other Changes
+
+- Revert TypeScript output target to ES2017.
 
 ## 1.6.1 (2024-03-20)
 

@@ -186,7 +186,9 @@
         "playsourcecacheid",
         "sipuui",
         "sipx",
-        "ssml"
+        "ssml",
+        "unhold",
+		    "Unhold"
       ]
     },
     {
@@ -317,7 +319,7 @@
       "words": ["fourty", "Milli", "rollupby"]
     },
     {
-      "filename": "sdk/notificationhubs/notification-hubs/review/notification-hubs.api.md",
+      "filename": "sdk/notificationhubs/notification-hubs/review/*.api.md",
       "words": ["fcmv"]
     },
     {

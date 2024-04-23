@@ -76,7 +76,7 @@
     "eslint-config-prettier": "^9.0.0",
     "glob": "^9.0.0",
     "json-schema": "^0.4.0",
-    "typescript": "~5.3.3",
+    "typescript": "~5.4.5",
     "tslib": "^2.6.2"
   },
   "devDependencies": {
@@ -89,11 +89,11 @@
     "@vitest/coverage-istanbul": "^1.4.0",
     "cross-env": "^7.0.3",
     "eslint": "^8.50.0",
-    "eslint-plugin-markdown": "~3.0.0",
+    "eslint-plugin-markdown": "^4.0.0",
     "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
     "source-map-support": "^0.5.9",
-    "typescript": "~5.3.3",
+    "typescript": "~5.4.5",
     "vitest": "^1.4.0"
   }
 }

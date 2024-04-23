@@ -1,9 +1,3 @@
-resources:
-  repositories:
-    - repository: 1ESPipelineTemplates
-      type: git
-      name: 1ESPipelineTemplates/1ESPipelineTemplates
-      ref: refs/tags/release
 parameters:
   - name: PackageName
     type: string
@@ -79,28 +73,8 @@ parameters:
     default: []
 
 extends:
-  ${{ if eq(variables['System.TeamProject'], 'internal') }}:
-    template: v1/1ES.Official.PipelineTemplate.yml@1ESPipelineTemplates
-  ${{ else }}:
-    template: v1/1ES.Unofficial.PipelineTemplate.yml@1ESPipelineTemplates
+  template: /eng/pipelines/templates/stages/1es-redirect.yml
   parameters:
-    settings:
-      skipBuildTagsForGitHubPullRequests: true
-    sdl:
-      sourceAnalysisPool:
-        name: azsdk-pool-mms-win-2022-general
-        image: azsdk-pool-mms-win-2022-1espt
-        os: windows
-      eslint:
-        enabled: false
-        justificationForDisabling: 'ESLint injected task has failures because it uses an old version of mkdirp. We should not fail for tools not controlled by the repo. See: https://dev.azure.com/azure-sdk/internal/_build/results?buildId=3499746'
-      psscriptanalyzer:
-        compiled: true
-        break: true
-      policy: M365
-      credscan:
-        suppressionsFile: $(Build.SourcesDirectory)/eng/CredScanSuppression.json
-        toolVersion: 2.3.12.23
     stages:
       - template: archetype-sdk-tests-isolated.yml@self
         parameters:
@@ -126,9 +100,9 @@ extends:
           AdditionalMatrixConfigs:
             - ${{ each config in parameters.AdditionalMatrixConfigs }}:
               - ${{ config }}
-          MatrixFilters: 
+          MatrixFilters:
             - ${{ each config in parameters.MatrixFilters }}:
               - ${{ config }}
-          MatrixReplace: 
+          MatrixReplace:
             - ${{ each config in parameters.MatrixReplace }}:
               - ${{ config }}

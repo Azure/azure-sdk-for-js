@@ -14,16 +14,15 @@ if (!((Test-Path $PackageInfoPath) -and (Test-Path $StagingDirectory)))
 foreach($pkg in (Get-ChildItem -Path $PackageInfoPath "*.json"))
 {
   $info = Get-Content -Path $pkg.FullName | ConvertFrom-Json
-  $apiFilePath = Join-Path $info.DirectoryPath "temp"
-  if (Test-Path $apiFilePath)
+  if (Test-Path $info.DirectoryPath)
   {
-    $apiFile = Get-ChildItem -Path $apiFilePath "*.api.json"
+    $apiFile = @(Get-ChildItem -Path $info.DirectoryPath "*.api.json" -Recurse)
     if ($apiFile)
     {
       if ($apiFile.Count -ne 1)
       {
         # Unlikely, but handling to avoid any issue in the future if more than one api file is present here
-        Write-Error "Detected more than one api extracted file in $apiFilePath"
+        Write-Error "Detected more than one api extracted file in $($info.DirectoryPath)"
         exit 1
       }
       
@@ -45,6 +44,6 @@ foreach($pkg in (Get-ChildItem -Path $PackageInfoPath "*.json"))
   }
   else
   {
-    Write-Host "Directory $($apiFilePath) is not present in package root to search for api-extracted file"
+    Write-Host "Directory $($info.DirectoryPath) is not present in package root to search for api-extracted file"
   }
 }

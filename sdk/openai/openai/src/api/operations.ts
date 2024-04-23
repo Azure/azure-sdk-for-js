@@ -12,18 +12,17 @@ import {
   Embeddings,
   ChatRequestMessageUnion,
   EventStream,
-  ChatResponseMessage,
   ContentFilterResultsForChoice,
   ContentFilterResultDetailsForPrompt,
   ContentFilterResultsForPrompt,
 } from "../models/models.js";
-import { serializeChatRequestMessageUnion } from "../utils/serializeUtil.js";
 import {
-  AzureChatExtensionConfiguration,
+  serializeChatRequestMessageUnion,
+  serializeAzureChatExtensionConfigurationUnion,
+} from "../utils/serializeUtil.js";
+import {
   GetChatCompletions200Response,
   GetChatCompletionsDefaultResponse,
-  GetChatCompletionsWithAzureExtensions200Response,
-  GetChatCompletionsWithAzureExtensionsDefaultResponse,
   GetCompletions200Response,
   GetCompletionsDefaultResponse,
   GetEmbeddings200Response,
@@ -32,7 +31,6 @@ import {
   GetImageGenerationsDefaultResponse,
   isUnexpected,
   OpenAIContext as Client,
-  ChatResponseMessageOutput,
   ContentFilterResultsForChoiceOutput,
   ContentFilterResultDetailsForPromptOutput,
   ContentFilterResultsForPromptOutput,
@@ -47,7 +45,6 @@ import {
 import {
   GetCompletionsOptions,
   GetChatCompletionsOptions,
-  GetChatCompletionsWithAzureExtensionsOptions,
   GetEmbeddingsOptions,
   GetImagesOptions,
   GetImageGenerationsOptions,
@@ -213,6 +210,7 @@ export function _getCompletionsSend(
       user: body["user"],
       n: body["n"],
       logprobs: body["logprobs"],
+      suffix: body["suffix"],
       echo: body["echo"],
       stop: body["stop"],
       presence_penalty: body["presencePenalty"],
@@ -241,10 +239,12 @@ export function getCompletionsResult(
   return {
     ...camelCaseKeys(rest),
     created: new Date(created),
-    promptFilterResults: getContentFilterResultsForPrompt({
-      prompt_filter_results,
-      prompt_annotations,
-    }),
+    ...{
+      promptFilterResults: getContentFilterResultsForPrompt({
+        prompt_filter_results,
+        prompt_annotations,
+      }),
+    },
     choices: choices.map(({ content_filter_results, ...choice }) => ({
       ...camelCaseKeys(choice),
       ...(!content_filter_results
@@ -264,10 +264,16 @@ export function getCompletionsResult(
 export async function getCompletions(
   context: Client,
   deploymentId: string,
-  body: CompletionsOptions,
+  prompt: string[],
   options: GetCompletionsOptions = { requestOptions: {} },
 ): Promise<Completions> {
-  const result = await _getCompletionsSend(context, deploymentId, body, options);
+  const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
+  const result = await _getCompletionsSend(
+    context,
+    deploymentId,
+    { prompt, ...rest },
+    { abortSignal, onResponse, requestOptions, tracingOptions },
+  );
   return _getCompletionsDeserialize(result);
 }
 
@@ -311,7 +317,10 @@ export function _getChatCompletionsSend(
       stop: body["stop"],
       presence_penalty: body["presencePenalty"],
       frequency_penalty: body["frequencyPenalty"],
-      dataSources: body["dataSources"],
+      data_sources:
+        body["dataSources"] === undefined
+          ? body["dataSources"]
+          : body["dataSources"].map((p) => serializeAzureChatExtensionConfigurationUnion(p)),
       enhancements: !body.enhancements
         ? undefined
         : {
@@ -323,10 +332,19 @@ export function _getChatCompletionsSend(
               : { enabled: body.enhancements?.ocr?.["enabled"] },
           },
       seed: body["seed"],
+      logprobs: body["logprobs"],
+      top_logprobs: body["topLogprobs"],
       response_format: !body.responseFormat ? undefined : { type: body.responseFormat?.["type"] },
       tool_choice: body["toolChoice"],
       tools: body["tools"],
-      functions: body["functions"],
+      functions:
+        body["functions"] === undefined
+          ? body["functions"]
+          : body["functions"].map((p) => ({
+              name: p["name"],
+              description: p["description"],
+              parameters: p["parameters"],
+            })),
       function_call: body["functionCall"],
       messages: body["messages"].map((p) => serializeChatRequestMessageUnion(p)),
     },
@@ -346,20 +364,29 @@ export async function _getChatCompletionsDeserialize(
 export function getChatCompletionsResult(
   body: ChatCompletionsOutput & ContentFilterResultsForPromptX,
 ): ChatCompletions {
-  const { created, choices, prompt_filter_results, prompt_annotations, ...rest } = body;
+  const { created, choices, prompt_filter_results, prompt_annotations, usage, ...rest } = body;
   return {
     ...camelCaseKeys(rest),
     created: new Date(created),
-    promptFilterResults: getContentFilterResultsForPrompt({
-      prompt_filter_results,
-      prompt_annotations,
-    }),
+    ...{
+      promptFilterResults: getContentFilterResultsForPrompt({
+        prompt_filter_results,
+        prompt_annotations,
+      }),
+    },
+    ...(!usage
+      ? {}
+      : {
+          usage: {
+            completionTokens: usage["completion_tokens"],
+            promptTokens: usage["prompt_tokens"],
+            totalTokens: usage["total_tokens"],
+          },
+        }),
     choices: !choices
       ? []
-      : choices.map(({ content_filter_results, delta, message, ...choice }) => ({
+      : choices.map(({ content_filter_results, ...choice }) => ({
           ...camelCaseKeys(choice),
-          ...(!delta ? {} : { delta: parseMessage(delta) }),
-          ...(!message ? {} : { message: parseMessage(message) }),
           ...(!content_filter_results
             ? {}
             : {
@@ -390,10 +417,7 @@ function _getChatCompletionsSendX(
   deploymentName: string,
   messages: ChatRequestMessageUnion[],
   options: GetChatCompletionsOptions & { stream?: boolean } = { requestOptions: {} },
-): StreamableMethod<
-  | GetChatCompletionsWithAzureExtensions200Response
-  | GetChatCompletionsWithAzureExtensionsDefaultResponse
-> {
+): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse> {
   const {
     azureExtensionOptions,
     abortSignal,
@@ -416,76 +440,12 @@ function _getChatCompletionsSendX(
       ? {}
       : { enhancements: azureExtensionOptions.enhancements }),
   };
-  return azure.dataSources || azure.enhancements
-    ? _getChatCompletionsWithAzureExtensionsSend(
-        context,
-        deploymentName,
-        {
-          messages,
-          ...rest,
-          ...azure,
-        },
-        coreOptions,
-      )
-    : _getChatCompletionsSend(context, deploymentName, { messages, ...rest }, coreOptions);
-}
-
-export function _getChatCompletionsWithAzureExtensionsSend(
-  context: Client,
-  deploymentId: string,
-  body: ChatCompletionsOptions,
-  options: GetChatCompletionsWithAzureExtensionsOptions = {
-    requestOptions: {},
-  },
-): StreamableMethod<
-  | GetChatCompletionsWithAzureExtensions200Response
-  | GetChatCompletionsWithAzureExtensionsDefaultResponse
-> {
-  return context
-    .path("/deployments/{deploymentId}/extensions/chat/completions", deploymentId)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      body: {
-        max_tokens: body["maxTokens"],
-        temperature: body["temperature"],
-        top_p: body["topP"],
-        logit_bias: body["logitBias"],
-        user: body["user"],
-        n: body["n"],
-        stop: body["stop"],
-        presence_penalty: body["presencePenalty"],
-        frequency_penalty: body["frequencyPenalty"],
-        stream: body["stream"],
-        model: body["model"],
-        enhancements: !body.enhancements
-          ? undefined
-          : {
-              grounding: !body.enhancements?.grounding
-                ? undefined
-                : { enabled: body.enhancements?.grounding?.["enabled"] },
-              ocr: !body.enhancements?.ocr
-                ? undefined
-                : { enabled: body.enhancements?.ocr?.["enabled"] },
-            },
-        seed: body["seed"],
-        response_format: !body.responseFormat ? undefined : { type: body.responseFormat?.["type"] },
-        tool_choice: body["toolChoice"],
-        tools: body["tools"],
-        dataSources: body["dataSources"]?.map(
-          ({ type, ...opts }) => ({ type, parameters: opts }) as AzureChatExtensionConfiguration,
-        ),
-        functions:
-          body["functions"] === undefined
-            ? body["functions"]
-            : body["functions"].map((p) => ({
-                name: p["name"],
-                description: p["description"],
-                parameters: p["parameters"],
-              })),
-        function_call: body["functionCall"],
-        messages: body["messages"].map((p) => serializeChatRequestMessageUnion(p)),
-      },
-    });
+  return _getChatCompletionsSend(
+    context,
+    deploymentName,
+    { messages, ...rest, ...azure },
+    coreOptions,
+  );
 }
 
 export function streamChatCompletions(
@@ -534,7 +494,75 @@ export async function _getImageGenerationsDeserialize(
     data: result.body["data"].map((p) => ({
       url: p["url"],
       base64Data: p["b64_json"],
+      contentFilterResults: !p.content_filter_results
+        ? undefined
+        : {
+            sexual: !p.content_filter_results?.sexual
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.sexual?.["severity"],
+                  filtered: p.content_filter_results?.sexual?.["filtered"],
+                },
+            violence: !p.content_filter_results?.violence
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.violence?.["severity"],
+                  filtered: p.content_filter_results?.violence?.["filtered"],
+                },
+            hate: !p.content_filter_results?.hate
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.hate?.["severity"],
+                  filtered: p.content_filter_results?.hate?.["filtered"],
+                },
+            selfHarm: !p.content_filter_results?.self_harm
+              ? undefined
+              : {
+                  severity: p.content_filter_results?.self_harm?.["severity"],
+                  filtered: p.content_filter_results?.self_harm?.["filtered"],
+                },
+          },
       revisedPrompt: p["revised_prompt"],
+      promptFilterResults: !p.prompt_filter_results
+        ? undefined
+        : {
+            sexual: !p.prompt_filter_results?.sexual
+              ? undefined
+              : {
+                  severity: p.prompt_filter_results?.sexual?.["severity"],
+                  filtered: p.prompt_filter_results?.sexual?.["filtered"],
+                },
+            violence: !p.prompt_filter_results?.violence
+              ? undefined
+              : {
+                  severity: p.prompt_filter_results?.violence?.["severity"],
+                  filtered: p.prompt_filter_results?.violence?.["filtered"],
+                },
+            hate: !p.prompt_filter_results?.hate
+              ? undefined
+              : {
+                  severity: p.prompt_filter_results?.hate?.["severity"],
+                  filtered: p.prompt_filter_results?.hate?.["filtered"],
+                },
+            selfHarm: !p.prompt_filter_results?.self_harm
+              ? undefined
+              : {
+                  severity: p.prompt_filter_results?.self_harm?.["severity"],
+                  filtered: p.prompt_filter_results?.self_harm?.["filtered"],
+                },
+            profanity: !p.prompt_filter_results?.profanity
+              ? undefined
+              : {
+                  filtered: p.prompt_filter_results?.profanity?.["filtered"],
+                  detected: p.prompt_filter_results?.profanity?.["detected"],
+                },
+            jailbreak: !p.prompt_filter_results?.jailbreak
+              ? undefined
+              : {
+                  filtered: p.prompt_filter_results?.jailbreak?.["filtered"],
+                  detected: p.prompt_filter_results?.jailbreak?.["detected"],
+                },
+          },
     })),
   };
 }
@@ -543,10 +571,16 @@ export async function _getImageGenerationsDeserialize(
 export async function getImageGenerations(
   context: Client,
   deploymentId: string,
-  body: ImageGenerationOptions,
+  prompt: string,
   options: GetImagesOptions = { requestOptions: {} },
 ): Promise<ImageGenerations> {
-  const result = await _getImageGenerationsSend(context, deploymentId, body, options);
+  const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
+  const result = await _getImageGenerationsSend(
+    context,
+    deploymentId,
+    { prompt, ...rest },
+    { abortSignal, onResponse, requestOptions, tracingOptions },
+  );
   return _getImageGenerationsDeserialize(result);
 }
 
@@ -558,7 +592,12 @@ export function _getEmbeddingsSend(
 ): StreamableMethod<GetEmbeddings200Response | GetEmbeddingsDefaultResponse> {
   return context.path("/deployments/{deploymentId}/embeddings", deploymentId).post({
     ...operationOptionsToRequestParameters(options),
-    body: { user: body["user"], model: body["model"], input: body["input"] },
+    body: {
+      user: body["user"],
+      model: body["model"],
+      input: body["input"],
+      dimensions: body["dimensions"],
+    },
   });
 }
 
@@ -585,10 +624,16 @@ export async function _getEmbeddingsDeserialize(
 export async function getEmbeddings(
   context: Client,
   deploymentId: string,
-  body: EmbeddingsOptions,
+  input: string[],
   options: GetEmbeddingsOptions = { requestOptions: {} },
 ): Promise<Embeddings> {
-  const result = await _getEmbeddingsSend(context, deploymentId, body, options);
+  const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
+  const result = await _getEmbeddingsSend(
+    context,
+    deploymentId,
+    { input, ...rest },
+    { abortSignal, onResponse, requestOptions, tracingOptions },
+  );
   return _getEmbeddingsDeserialize(result);
 }
 
@@ -600,14 +645,12 @@ type ContentFilterResultsForPromptX = {
 function getContentFilterResultsForPrompt({
   prompt_annotations,
   prompt_filter_results,
-}: ContentFilterResultsForPromptX): ContentFilterResultsForPrompt[] {
+}: ContentFilterResultsForPromptX): ContentFilterResultsForPrompt[] | undefined {
   const res = prompt_filter_results ?? prompt_annotations;
-  return (
-    res?.map(({ content_filter_results, ...rest }) => ({
-      ...camelCaseKeys(rest),
-      contentFilterResults: parseContentFilterResultDetailsForPromptOutput(content_filter_results),
-    })) ?? []
-  );
+  return res?.map(({ content_filter_results, ...rest }) => ({
+    ...camelCaseKeys(rest),
+    contentFilterResults: parseContentFilterResultDetailsForPromptOutput(content_filter_results),
+  }));
 }
 
 function parseContentFilterResultDetailsForPromptOutput({
@@ -638,23 +681,4 @@ function parseContentFilterResultsForChoiceOutput({
         },
       }
     : camelCaseKeys(successResult);
-}
-
-function parseMessage(message: ChatResponseMessageOutput): ChatResponseMessage {
-  const { context, tool_calls, ...rest } = message;
-  return {
-    ...camelCaseKeys(rest),
-    toolCalls: tool_calls ?? [],
-    ...(!context
-      ? {}
-      : {
-          context: {
-            ...(!context.messages
-              ? {}
-              : {
-                  messages: context.messages.map(parseMessage),
-                }),
-          },
-        }),
-  };
 }

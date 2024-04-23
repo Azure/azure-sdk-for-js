@@ -37,7 +37,7 @@ For more information, see our [support policy](https://github.com/Azure/azure-sd
 Install the Azure Monitor Query client library for JavaScript with npm:
 
 ```bash
-npm install @azure/monitor-query
+npm install --save @azure/monitor-query
 ```
 
 ### Create the client
@@ -56,10 +56,7 @@ const metricsQueryClient: MetricsQueryClient = new MetricsQueryClient(credential
 // or
 const endPoint: string = "<YOUR_METRICS_ENDPOINT>"; //for example, https://eastus.metrics.monitor.azure.com/
 
-const metricsQueryClient: MetricsQueryClient = new MetricsQueryClient(
-  endPoint,
-  credential
-);
+const metricsQueryClient: MetricsQueryClient = new MetricsQueryClient(endPoint, credential);
 ```
 
 #### Configure client for Azure sovereign cloud
@@ -116,6 +113,8 @@ Each set of metric values is a time series with the following characteristics:
 - [Advanced logs query scenarios](#advanced-logs-query-scenarios)
   - [Set logs query timeout](#set-logs-query-timeout)
   - [Query multiple workspaces](#query-multiple-workspaces)
+  - [Include statistics](#include-statistics)
+  - [Include visualization](#include-visualization)
 - [Metrics query](#metrics-query)
   - [Handle metrics query response](#handle-metrics-query-response)
   - [Example of handling response](#example-of-handling-response)
@@ -125,7 +124,7 @@ Each set of metric values is a time series with the following characteristics:
 
 The `LogsQueryClient` can be used to query a Log Analytics workspace using the [Kusto Query Language][kusto_query_language]. The `timespan.duration` can be specified as a string in an ISO 8601 duration format. You can use the `Durations` constants provided for some commonly used ISO 8601 durations.
 
-You can query logs by workspace ID or resource ID. The result is returned as a table with a collection of rows.
+You can query logs by Log Analytics workspace ID or Azure resource ID. The result is returned as a table with a collection of rows.
 
 #### Workspace-centric logs query
 
@@ -215,7 +214,7 @@ export async function main() {
     throw new Error("LOGS_RESOURCE_ID must be set in the environment for this sample");
   }
 
-  const kustoQuery = `MyTable_CL | summarize count()`
+  const kustoQuery = `MyTable_CL | summarize count()`;
 
   console.log(`Running '${kustoQuery}' over the last One Hour`);
   const queryLogsOptions: LogsQueryOptions = {
@@ -227,10 +226,11 @@ export async function main() {
   };
 
   const result = await logsQueryClient.queryResource(
-    logsResourceId, 
+    logsResourceId,
     kustoQuery,
     { duration: Durations.sevenDays },
-    queryLogsOptions);
+    queryLogsOptions,
+  );
 
   const executionTime =
     result.statistics && result.statistics.query && (result.statistics.query as any).executionTime;
@@ -238,7 +238,7 @@ export async function main() {
   console.log(
     `Results for query '${kustoQuery}', execution time: ${
       executionTime == null ? "unknown" : executionTime
-    }`
+    }`,
   );
 
   if (result.status === LogsQueryResultStatus.Success) {
@@ -382,16 +382,16 @@ export async function main() {
     console.log(`Results for query with query: ${queriesBatch[i]}`);
     if (response.status === LogsQueryResultStatus.Success) {
       console.log(
-        `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
+        `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
       );
       processTables(response.tables);
     } else if (response.status === LogsQueryResultStatus.PartialFailure) {
       console.log(
-        `Printing partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
+        `Printing partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
       );
       processTables(response.partialTables);
       console.log(
-        ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`
+        ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`,
       );
     } else {
       console.log(`Printing errors from query '${queriesBatch[i].query}'`);
@@ -472,16 +472,16 @@ async function processBatchResult(result: LogsQueryBatchResult) {
     console.log(`Results for query with query: ${queriesBatch[i]}`);
     if (response.status === LogsQueryResultStatus.Success) {
       console.log(
-        `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
+        `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
       );
       processTables(response.tables);
     } else if (response.status === LogsQueryResultStatus.PartialFailure) {
       console.log(
-        `Printing partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
+        `Printing partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
       );
       processTables(response.partialTables);
       console.log(
-        ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`
+        ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`,
       );
     } else {
       console.log(`Printing errors from query '${queriesBatch[i].query}'`);
@@ -526,7 +526,7 @@ const result = await logsQueryClient.queryWorkspace(
   azureLogAnalyticsWorkspaceId,
   kustoQuery,
   { duration: Durations.twentyFourHours },
-  queryLogsOptions
+  queryLogsOptions,
 );
 
 const tablesFromResult = result.tables;
@@ -554,7 +554,7 @@ const result = await logsQueryClient.queryWorkspace(
   azureLogAnalyticsWorkspaceId,
   kustoQuery,
   { duration: Durations.twentyFourHours },
-  queryLogsOptions
+  queryLogsOptions,
 );
 ```
 
@@ -594,7 +594,7 @@ const result = await logsQueryClient.queryWorkspace(
   { duration: Durations.oneDay },
   {
     includeQueryStatistics: true,
-  }
+  },
 );
 
 const executionTime =
@@ -603,7 +603,7 @@ const executionTime =
 console.log(
   `Results for query '${kustoQuery}', execution time: ${
     executionTime == null ? "unknown" : executionTime
-  }`
+  }`,
 );
 ```
 
@@ -719,11 +719,11 @@ export async function main() {
       {
         granularity: "PT1M",
         timespan: { duration: Durations.fiveMinutes },
-      }
+      },
     );
 
     console.log(
-      `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.granularity}, time span: ${metricsResponse.timespan}`
+      `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.granularity}, time span: ${metricsResponse.timespan}`,
     );
 
     const metrics: Metric[] = metricsResponse.metrics;
@@ -788,7 +788,7 @@ export async function main() {
 
   if (!metricsResourceId) {
     throw new Error(
-      "METRICS_RESOURCE_ID for an Azure Metrics Advisor subscription must be set in the environment for this sample"
+      "METRICS_RESOURCE_ID for an Azure Metrics Advisor subscription must be set in the environment for this sample",
     );
   }
 
@@ -803,11 +803,11 @@ export async function main() {
       },
       granularity: "PT1M",
       aggregations: ["Count"],
-    }
+    },
   );
 
   console.log(
-    `Query cost: ${metricsResponse.cost}, granularity: ${metricsResponse.granularity}, time span: ${metricsResponse.timespan}`
+    `Query cost: ${metricsResponse.cost}, granularity: ${metricsResponse.granularity}, time span: ${metricsResponse.timespan}`,
   );
 
   const metrics: Metric[] = metricsResponse.metrics;
@@ -833,9 +833,9 @@ A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob
 
 #### Query metrics for multiple resources
 
-To query metrics for multiple Azure resources in a single request, use the `MetricsQueryClient.queryResources` method. This method:
+To query metrics for multiple Azure resources in a single request, use the `MetricsClient.queryResources` method. This method:
 
-- Calls a different API than the `MetricsQueryClient` methods.
+- Calls a different API than the `MetricsClient` methods.
 - Requires a regional endpoint when creating the client. For example, "https://westus3.metrics.monitor.azure.com".
 
 Each Azure resource must reside in:
@@ -843,7 +843,10 @@ Each Azure resource must reside in:
 - The same region as the endpoint specified when creating the client.
 - The same Azure subscription.
 
-Furthermore, the metric namespace containing the metrics to be queried must be provided. For a list of metric namespaces, see [Supported metrics and log categories by resource type][metric_namespaces].
+Furthermore:
+
+- The user must be authorized to read monitoring data at the Azure subscription level. For example, the [Monitoring Reader role](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles/monitor#monitoring-reader) on the subscription to be queried.
+- The metric namespace containing the metrics to be queried must be provided. For a list of metric namespaces, see [Supported metrics and log categories by resource type][metric_namespaces].
 
 ```ts
 let resourceIds: string[] = [
@@ -852,18 +855,18 @@ let resourceIds: string[] = [
 ];
 let metricsNamespace: string = "<YOUR_METRICS_NAMESPACE>";
 let metricNames: string[] = ["requests", "count"];
-const batchEndPoint: string = "<YOUR_METRICS_ENDPOINT>"; //for example, https://eastus.metrics.monitor.azure.com/
+const endpoint: string = "<YOUR_METRICS_ENDPOINT>"; //for example, https://eastus.metrics.monitor.azure.com/
 
 const credential = new DefaultAzureCredential();
-const metricsQueryClient: MetricsQueryClient = new MetricsQueryClient(
-  batchEndPoint,
+const metricsClient: MetricsClient = new MetricsClient(
+  endpoint,
   credential
 );
 
-const result: : MetricsQueryResult[] = await metricsQueryClient.queryResources(
+const result: : MetricsQueryResult[] = await metricsClient.queryResources(
   resourceIds,
-  metricsNamespace,
-  metricNames
+  metricNames,
+  metricsNamespace
 );
 ```
 

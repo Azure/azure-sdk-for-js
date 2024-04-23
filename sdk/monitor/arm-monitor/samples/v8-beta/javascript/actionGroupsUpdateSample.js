@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates an existing action group's tags. To update other fields use the CreateOrUpdate method.
  *
  * @summary Updates an existing action group's tags. To update other fields use the CreateOrUpdate method.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/patchActionGroup.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2023-01-01/examples/patchActionGroup.json
  */
 async function patchAnActionGroup() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function patchAnActionGroup() {
   const result = await client.actionGroups.update(
     resourceGroupName,
     actionGroupName,
-    actionGroupPatch
+    actionGroupPatch,
   );
   console.log(result);
 }

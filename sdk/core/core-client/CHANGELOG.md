@@ -1,6 +1,6 @@
 # Release History
 
-## 1.9.2 (Unreleased)
+## 1.9.3 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,16 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.9.2 (2024-04-09)
+
+### Bugs Fixed
+
+- Address two issues related to Azure Disk Storage. [PR #29087](https://github.com/Azure/azure-sdk-for-js/pull/29087)
+
+### Other Changes
+
+- Revert TypeScript output target to ES2017.
 
 ## 1.9.1 (2024-03-20)
 

@@ -38,8 +38,8 @@ import { CredentialFlowGetTokenOptions } from "../credentials";
 import { IdentityClient } from "../../client/identityClient";
 import { LogPolicyOptions } from "@azure/core-rest-pipeline";
 import { MultiTenantTokenCredentialOptions } from "../../credentials/multiTenantTokenCredentialOptions";
-import { RegionalAuthority } from "../../regionalAuthority";
 import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
+import { calculateRegionalAuthority } from "../../regionalAuthority";
 import { getLogLevel } from "@azure/logger";
 
 /**
@@ -165,10 +165,7 @@ export abstract class MsalNode implements MsalFlow {
       );
     }
 
-    this.azureRegion = options.regionalAuthority ?? process.env.AZURE_REGIONAL_AUTHORITY_NAME;
-    if (this.azureRegion === RegionalAuthority.AutoDiscoverRegion) {
-      this.azureRegion = "AUTO_DISCOVER";
-    }
+    this.azureRegion = calculateRegionalAuthority(options.regionalAuthority);
   }
 
   /**
