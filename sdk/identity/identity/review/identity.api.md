@@ -105,6 +105,16 @@ export interface AzureDeveloperCliCredentialOptions extends MultiTenantTokenCred
     tenantId?: string;
 }
 
+// @public (undocumented)
+export class AzurePipelinesServiceConnectionCredential implements TokenCredential {
+    constructor(clientId: string, tenantId: string, serviceConnectionId: string, options?: AzurePipelinesServiceConnectionCredentialOptions);
+    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+}
+
+// @public
+export interface AzurePipelinesServiceConnectionCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
+}
+
 // @public
 export class AzurePowerShellCredential implements TokenCredential {
     constructor(options?: AzurePowerShellCredentialOptions);
@@ -443,22 +453,10 @@ export class WorkloadIdentityCredential implements TokenCredential {
 }
 
 // @public
-export interface WorkloadIdentityCredentialKubernetesOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
+export interface WorkloadIdentityCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
     clientId?: string;
-    serviceConnectionId?: never;
     tenantId?: string;
     tokenFilePath?: string;
-}
-
-// @public
-export type WorkloadIdentityCredentialOptions = WorkloadIdentityCredentialKubernetesOptions | WorkloadIdentityCredentialServiceConnectionOptions;
-
-// @public
-export interface WorkloadIdentityCredentialServiceConnectionOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
-    clientId?: string;
-    serviceConnectionId?: string;
-    tenantId?: string;
-    tokenFilePath?: never;
 }
 
 // (No @packageDocumentation comment for this package)
