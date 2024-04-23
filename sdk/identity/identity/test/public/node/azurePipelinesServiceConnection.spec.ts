@@ -1,10 +1,10 @@
-import { WorkloadIdentityCredential } from "../../../src";
+import { AzurePipelinesServiceConnectionCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
 import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { assert } from "@azure/test-utils";
 
-describe("WorkloadIdentityCredential", function () {
+describe("AzurePipelinesServiceConnectionCredential", function () {
   let cleanup: MsalTestCleanup;
   let recorder: Recorder;
 
@@ -22,15 +22,15 @@ describe("WorkloadIdentityCredential", function () {
   const tenantId = env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!;
   const clientId = env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!;
 
-  it.only("authenticates with a valid service connection", async function () {
+  it("authenticates with a valid service connection", async function () {
     if (!isLiveMode()) {
       this.skip();
     }
-    const credential = new WorkloadIdentityCredential({
-      tenantId,
+    const credential = new AzurePipelinesServiceConnectionCredential(
       clientId,
-      serviceConnectionId: "0dec29c2-a766-4121-9c2e-1894f5aca5cb",
-    });
+      tenantId,
+      "0dec29c2-a766-4121-9c2e-1894f5aca5cb"
+    );
     try {
       const token = await credential.getToken(scope);
       assert.ok(token?.token);
