@@ -19450,7 +19450,7 @@ packages:
     dev: false
 
   file:projects/eventgrid-namespaces.tgz:
-    resolution: {integrity: sha512-zlgDLY2/atr0SEvFXbq0wzSIY49exfSfibktCPBtxYPIF4JrprNAnk7Ly3ytPM9rRWYHGwMKQzDeafNownfp3g==, tarball: file:projects/eventgrid-namespaces.tgz}
+    resolution: {integrity: sha512-DtwxY5fi+a56AYj9VrwBIKZQ4XMaUO0nw+3r2GeJHK2slLWo4Iw/7xU+y2xw4lWBt4wQOA6PZkbcJQUlhc+10w==, tarball: file:projects/eventgrid-namespaces.tgz}
     name: '@rush-temp/eventgrid-namespaces'
     version: 0.0.0
     dependencies:
@@ -19482,9 +19482,9 @@ packages:
       rimraf: 5.0.5
       sinon: 17.0.1
       source-map-support: 0.5.21
-      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
+      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
       tslib: 2.6.2
-      typescript: 5.3.3
+      typescript: 5.4.5
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
