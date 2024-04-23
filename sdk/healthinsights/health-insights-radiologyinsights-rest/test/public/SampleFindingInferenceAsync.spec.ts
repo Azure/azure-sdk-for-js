@@ -209,9 +209,11 @@ describe("Finding Inference Test", () => {
   });
 
   it("finding inference test", async function () {
-    const dateString = Date.now();
-    const jobID = "jobId-" + dateString;
-    const result = await client.path("/radiology-insights/jobs/{id}", jobID).put(param);
+    //    const dateString = Date.now();
+    //    const jobID = "jobId-" + dateString;
+    //    const result = await client.path("/radiology-insights/jobs/{id}", jobID).put(param);
+    // put in fixed ID for recording
+    const result = await client.path("/radiology-insights/jobs/{id}", "jobId-1713879480733").put(param);
     const poller = await getLongRunningPoller(client, result);
     const res = await poller.pollUntilDone();
     console.log(res);
