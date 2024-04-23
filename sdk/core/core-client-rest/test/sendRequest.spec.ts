@@ -7,13 +7,11 @@
 import { describe, it, assert } from "vitest";
 import { sendRequest } from "../src/sendRequest.js";
 import {
-  FormDataValue,
   MultipartRequestBody,
   Pipeline,
   PipelineResponse,
   RestError,
   createEmptyPipeline,
-  createFile,
   createHttpHeaders,
 } from "@azure/core-rest-pipeline";
 import { stringToUint8Array } from "@azure/core-util";
