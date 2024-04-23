@@ -4,6 +4,7 @@
 import {
   BodyPart,
   MultipartRequestBody,
+  RawHttpHeadersInput,
   RestError,
   createHttpHeaders,
 } from "@azure/core-rest-pipeline";
@@ -42,7 +43,7 @@ export interface PartDescriptor {
    * The multipart headers for this part of the multipart body. Values of the Content-Type and Content-Disposition headers set in the headers bag
    * will take precedence over those computed from the request body or the contentType, dispositionType, name, and filename fields on this object.
    */
-  headers?: Record<string, string>;
+  headers?: RawHttpHeadersInput;
 
   /**
    * The body of this part of the multipart request.
@@ -52,10 +53,12 @@ export interface PartDescriptor {
 
 type MultipartBodyType = BodyPart["body"];
 
+type HeaderValue = RawHttpHeadersInput[string];
+
 /**
  * Get value of a header in the part descriptor ignoring case
  */
-function getHeaderValue(descriptor: PartDescriptor, headerName: string): string | undefined {
+function getHeaderValue(descriptor: PartDescriptor, headerName: string): HeaderValue | undefined {
   if (descriptor.headers) {
     const actualHeaderName = Object.keys(descriptor.headers).find(
       (x) => x.toLowerCase() === headerName.toLowerCase(),
@@ -68,7 +71,7 @@ function getHeaderValue(descriptor: PartDescriptor, headerName: string): string 
   return undefined;
 }
 
-function getPartContentType(descriptor: PartDescriptor): string | undefined {
+function getPartContentType(descriptor: PartDescriptor): HeaderValue | undefined {
   const contentTypeHeader = getHeaderValue(descriptor, "content-type");
   if (contentTypeHeader) {
     return contentTypeHeader;
@@ -112,7 +115,7 @@ function escapeDispositionField(value: string): string {
   return JSON.stringify(value);
 }
 
-function getContentDisposition(descriptor: PartDescriptor): string | undefined {
+function getContentDisposition(descriptor: PartDescriptor): HeaderValue | undefined {
   const contentDispositionHeader = getHeaderValue(descriptor, "content-disposition");
   if (contentDispositionHeader) {
     return contentDispositionHeader;
@@ -146,7 +149,7 @@ function getContentDisposition(descriptor: PartDescriptor): string | undefined {
   return disposition;
 }
 
-function normalizeBody(body?: unknown, contentType?: string): MultipartBodyType {
+function normalizeBody(body?: unknown, contentType?: HeaderValue): MultipartBodyType {
   if (body === undefined) {
     // zero-length body
     return new Uint8Array([]);
@@ -161,7 +164,7 @@ function normalizeBody(body?: unknown, contentType?: string): MultipartBodyType 
   }
 
   // stringify objects for JSON-ish content types e.g. application/json, application/merge-patch+json, application/vnd.oci.manifest.v1+json, application.json; charset=UTF-8
-  if (contentType && /application\/(.+\+)?json(;.+)?/.test(contentType)) {
+  if (contentType && /application\/(.+\+)?json(;.+)?/.test(String(contentType))) {
     return stringToUint8Array(JSON.stringify(body), "utf-8");
   }
 
