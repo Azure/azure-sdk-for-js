@@ -150,13 +150,13 @@ function findLateralityDiscrepancy(res: any): void {
       if ("code" in coding && "display" in coding && "system" in coding) {
         console.log(
           "   Coding: " +
-          coding.code +
-          ", " +
-          coding.display +
-          " (" +
-          coding.system +
-          "), type: " +
-          coding.type,
+            coding.code +
+            ", " +
+            coding.display +
+            " (" +
+            coding.system +
+            "), type: " +
+            coding.type,
         );
       }
     });

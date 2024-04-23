@@ -4,13 +4,13 @@
 import { ErrorModel } from "@azure-rest/core-client";
 
 /** The retry-after envelope. */
-export interface RetryAfterHeaderOutput { }
+export interface RetryAfterHeaderOutput {}
 
 /** Provides the 'x-ms-request-id' header to enable request correlation in responses. */
-export interface RequestIdResponseHeaderOutput { }
+export interface RequestIdResponseHeaderOutput {}
 
 /** Provides the standard 'expand' query parameter for list operations. */
-export interface ExpandQueryParameterOutput { }
+export interface ExpandQueryParameterOutput {}
 
 /** Response for the Radiology Insights request. */
 export interface RadiologyInsightsJobOutput {
