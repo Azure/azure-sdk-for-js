@@ -13,7 +13,7 @@
 
 #### Change Feed - All versions and deletes mode
 
-- The [All versions and delete mode](https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/change-feed-modes?tabs=all-versions-and-deletes#all-versions-and-deletes-change-feed-mode-preview)
+- The [All versions and delete mode](https://learn.microsoft.com/azure/cosmos-db/nosql/change-feed-modes?tabs=all-versions-and-deletes#all-versions-and-deletes-change-feed-mode-preview)
   is included in change feed mode that captures every change (create, update, and delete) made to items.
 
 To read from the change feed in all versions and deletes mode, include `changeFeedMode` in changeFeedIteratorOptions:
@@ -40,7 +40,7 @@ const { resource: results } = await queryIterator.fetchNext(queryOperatorOptions
 
 #### Bypassing Integrated Cache
 
-- The option for bypassing integrated cache is added in RequestOptions. [docs](https://learn.microsoft.com/en-us/azure/cosmos-db/integrated-cache#bypass-the-integrated-cache-preview)
+- The option for bypassing integrated cache is added in RequestOptions. [docs](https://learn.microsoft.com/azure/cosmos-db/integrated-cache#bypass-the-integrated-cache-preview)
 
 ```js
   const options: RequestOptions = {bypassIntegratedCache: true};
@@ -49,7 +49,7 @@ const { resource: results } = await queryIterator.fetchNext(queryOperatorOptions
 
 #### Computed Properties
 
-- Adding [Computed Properties](https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/query/computed-properties?tabs=dotnet#creating-computed-properties) in documents is now supported.
+- Adding [Computed Properties](https://learn.microsoft.com/azure/cosmos-db/nosql/query/computed-properties?tabs=dotnet#creating-computed-properties) in documents is now supported.
   Here's an example of configuring computed properties for a container:
 
 ```js
@@ -68,7 +68,7 @@ const { resource: results } = await queryIterator.fetchNext(queryOperatorOptions
 
 #### Composite Indexing
 
-- Support for including [Composite indexes](https://learn.microsoft.com/en-us/azure/cosmos-db/index-overview#composite-indexes) in the indexing policy is now available in JS SDK, enhancing query operation performance on multiple fields.
+- Support for including [Composite indexes](https://learn.microsoft.com/azure/cosmos-db/index-overview#composite-indexes) in the indexing policy is now available in JS SDK, enhancing query operation performance on multiple fields.
 
 Here's a sample of adding composite indexes for a container:
 
