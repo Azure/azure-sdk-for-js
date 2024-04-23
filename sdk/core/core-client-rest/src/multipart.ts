@@ -105,6 +105,13 @@ function getPartContentType(descriptor: PartDescriptor): string | undefined {
   return "application/json; charset=UTF-8";
 }
 
+/**
+ * Enclose value in quotes and escape special characters, for use in the Content-Disposition header
+ */
+function escapeDispositionField(value: string): string {
+  return JSON.stringify(value);
+}
+
 function getContentDisposition(descriptor: PartDescriptor): string | undefined {
   const contentDispositionHeader = getHeaderValue(descriptor, "content-disposition");
   if (contentDispositionHeader) {
@@ -123,7 +130,7 @@ function getContentDisposition(descriptor: PartDescriptor): string | undefined {
 
   let disposition = dispositionType;
   if (descriptor.name) {
-    disposition += `; name="${descriptor.name}"`;
+    disposition += `; name=${escapeDispositionField(descriptor.name)}`;
   }
 
   const filename =
@@ -133,7 +140,7 @@ function getContentDisposition(descriptor: PartDescriptor): string | undefined {
       : undefined);
 
   if (filename) {
-    disposition += `; filename="${filename}"`;
+    disposition += `; filename=${escapeDispositionField(filename)}`;
   }
 
   return disposition;

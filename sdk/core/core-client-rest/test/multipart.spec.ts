@@ -104,6 +104,15 @@ describe("multipart buildBodyPart", () => {
         expected: `form-data; name="fieldName"`,
       },
       {
+        description: "escapes wacky characters in name and filename",
+        descriptor: {
+          dispositionType: "form-data",
+          name: 'hello"\r\nworld',
+          filename: 'aaa\r\n".txt',
+        },
+        expected: `form-data; name="hello\\"\\r\\nworld"; filename="aaa\\r\\n\\".txt"`,
+      },
+      {
         description: "correctly sets both name and filename",
         descriptor: {
           dispositionType: "form-data",
