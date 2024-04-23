@@ -62,7 +62,7 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
   function displayCodes({ codableConcept }: { codableConcept: any; }): void {
     codableConcept.coding?.forEach((coding: any) => {
       if ("code" in coding) {
-        console.log("      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
+        console.log("         Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
       }
     });
   }

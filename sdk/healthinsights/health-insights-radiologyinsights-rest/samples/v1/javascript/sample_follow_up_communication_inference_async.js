@@ -29,8 +29,8 @@ function printResults(radiologyInsightsResult) {
           patientResult.inferences.forEach((inference) => {
             if (inference.kind === "followupCommunication") {
               console.log("Followup Communication Inference found");
-              if ("dateTime" in inference) {
-                console.log("Date Time: " + inference.dateTime.join(" "));
+              if ("communicatedAt" in inference) {
+                console.log("Communicated at: " + inference.communicatedAt.join(" "));
               }
               if ("recipient" in inference) {
                 console.log("Recipient: " + inference.recipient.join(" "));

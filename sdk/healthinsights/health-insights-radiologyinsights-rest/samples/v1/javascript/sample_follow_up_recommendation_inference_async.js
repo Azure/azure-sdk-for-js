@@ -71,26 +71,26 @@ function printResults(radiologyInsightsResult) {
 function displayCodes(codableConcept) {
   codableConcept.coding?.forEach((coding) => {
     if ("code" in coding && "display" in coding && "system" in coding) {
-      console.log("   Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
+      console.log("      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
     }
   });
 }
 
 function displayImaging(images) {
-  console.log("   Modality Codes: ");
+  console.log("    Modality Codes: ");
   displayCodes(images.modality);
-  console.log("   Anatomy Codes: ");
+  console.log("    Anatomy Codes: ");
   displayCodes(images.anatomy);
   if ("laterality" in images) {
-    console.log("   Laterality Codes: ");
+    console.log("    Laterality Codes: ");
     displayCodes(images.laterality);
   }
   if ("contrast" in images) {
-    console.log("   Contrast Codes: ");
+    console.log("    Contrast Codes: ");
     displayCodes(images.contrast.code);
   }
   if ("view" in images) {
-    console.log("   View Codes: ");
+    console.log("    View Codes: ");
     displayCodes(images.view.code);
   }
 }

@@ -29,11 +29,11 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
     const results = radiologyInsightsResult.result;
     if (results !== undefined) {
       results.patientResults.forEach((patientResult: any) => {
-        patientResult.inferences.forEach((inference: { kind: string; dateTime: any[]; recipient: any[]; wasAcknowledged: string; }) => {
+        patientResult.inferences.forEach((inference: { kind: string; communicatedAt: any[]; recipient: any[]; wasAcknowledged: string; }) => {
           if (inference.kind === "followupCommunication") {
             console.log("Followup Communication Inference found");
-            if ("dateTime" in inference) {
-              console.log("Date Time: " + inference.dateTime.join(" "));
+            if ("communicatedAt" in inference) {
+              console.log("Communicated at: " + inference.communicatedAt.join(" "));
             }
             if ("recipient" in inference) {
               console.log("Recipient: " + inference.recipient.join(" "));

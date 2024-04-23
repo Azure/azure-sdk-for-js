@@ -151,24 +151,18 @@ function findFollowUpCommunicationInferences(res: any): void {
   if ("result" in res.body) {
     res.body.result?.patientResults.forEach((patientResult: any) => {
       if (patientResult.inferences) {
-        patientResult.inferences.forEach(
-          (inference: {
-            kind: string;
-            dateTime: any[];
-            recipient: any[];
-            wasAcknowledged: string;
-          }) => {
-            if (inference.kind === "followupCommunication") {
-              console.log("Followup Communication Inference found");
-              if ("dateTime" in inference) {
-                console.log("Date Time: " + inference.dateTime.join(" "));
-              }
-              if ("recipient" in inference) {
-                console.log("Recipient: " + inference.recipient.join(" "));
-              }
-              console.log("   Aknowledged: " + inference.wasAcknowledged);
+        patientResult.inferences.forEach((inference: { kind: string; communicatedAt: any[]; recipient: any[]; wasAcknowledged: string; }) => {
+          if (inference.kind === "followupCommunication") {
+            console.log("Followup Communication Inference found");
+            if ("communicatedAt" in inference) {
+              console.log("Communicated At: " + inference.communicatedAt.join(" "));
             }
-          },
+            if ("recipient" in inference) {
+              console.log("Recipient: " + inference.recipient.join(" "));
+            }
+            console.log("   Aknowledged: " + inference.wasAcknowledged);
+          }
+        },
         );
       }
     });
