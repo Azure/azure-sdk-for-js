@@ -7,8 +7,6 @@ import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup
 import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { DeviceCodeCredential } from "../../../src";
-import { GetTokenOptions } from "@azure/core-auth";
-import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
 import { PublicClientApplication } from "@azure/msal-node";
 import Sinon from "sinon";
 import { assert } from "chai";
@@ -24,9 +22,10 @@ describe("DeviceCodeCredential (internal)", function () {
     cleanup = setup.cleanup;
     recorder = setup.recorder;
 
-    getTokenSilentSpy = setup.sandbox.spy(MsalNode.prototype, "getTokenSilent");
+    // MsalClient calls to this method underneath when silent authentication can be attempted.
+    getTokenSilentSpy = setup.sandbox.spy(PublicClientApplication.prototype, "acquireTokenSilent");
 
-    // MsalClientSecret calls to this method underneath.
+    // MsalClient calls to this method underneath for interactive auth.
     doGetTokenSpy = setup.sandbox.spy(
       PublicClientApplication.prototype,
       "acquireTokenByDeviceCode",
@@ -51,19 +50,18 @@ describe("DeviceCodeCredential (internal)", function () {
     );
 
     await credential.getToken(scope);
-    assert.equal(getTokenSilentSpy.callCount, 1, "getTokenSilentSpy.callCount should have been 1");
-    assert.equal(doGetTokenSpy.callCount, 1, "doGetTokenSpy.callCount should have been 1");
+    assert.equal(doGetTokenSpy.callCount, 1, "doGetTokenSpy.callCount should have been 1.");
 
     await credential.getToken(scope);
     assert.equal(
       getTokenSilentSpy.callCount,
-      2,
-      "getTokenSilentSpy.callCount should have been 2 (2nd time)",
+      1,
+      "getTokenSilentSpy.callCount should have been 1 (Silent authentication after the initial request).",
     );
     assert.equal(
       doGetTokenSpy.callCount,
       1,
-      "doGetTokenSpy.callCount should have been 1 (2nd time)",
+      "Expected no additional calls to doGetTokenSpy after the initial request.",
     );
   });
 
@@ -79,8 +77,7 @@ describe("DeviceCodeCredential (internal)", function () {
       }),
     );
 
-    await credential.getToken(scope, { tenantId: env.AZURE_TENANT_ID } as GetTokenOptions);
-    assert.equal(getTokenSilentSpy.callCount, 1, "getTokenSilentSpy.callCount should have been 1");
+    await credential.getToken(scope, { tenantId: env.AZURE_TENANT_ID });
     assert.equal(doGetTokenSpy.callCount, 1, "doGetTokenSpy.callCount should have been 1");
   });
 });

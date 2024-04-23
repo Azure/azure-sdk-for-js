@@ -187,10 +187,15 @@ export function createMsalClient(
 
     let publicClientApp = publicApps.get(appKey);
     if (publicClientApp) {
+      msalLogger.getToken.info("Existing PublicClientApplication found in cache, returning it.");
       return publicClientApp;
     }
 
     // Initialize a new app and cache it
+    msalLogger.getToken.info(
+      `Creating new PublicClientApplication with CAE ${options.enableCae ? "enabled" : "disabled"}.`,
+    );
+
     const cachePlugin = options.enableCae
       ? state.pluginConfiguration.cache.cachePluginCae
       : state.pluginConfiguration.cache.cachePlugin;
