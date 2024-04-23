@@ -183,3 +183,10 @@ _recordings
 /artifacts
 
 sdk/template/template-dpg/src/src
+
+# tshy
+.tshy-build-tmp
+
+# sshkey
+sdk/**/sshKey
+sdk/**/sshKey.pub

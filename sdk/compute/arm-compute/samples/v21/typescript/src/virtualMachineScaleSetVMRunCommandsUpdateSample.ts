@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VirtualMachineRunCommandUpdate,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -36,19 +36,20 @@ async function updateVirtualMachineScaleSetVMRunCommand() {
       scriptUri:
         "https://mystorageaccount.blob.core.windows.net/scriptcontainer/MyScript.ps1",
       scriptUriManagedIdentity: {
-        objectId: "4231e4d2-33e4-4e23-96b2-17888afa6072"
-      }
-    }
+        objectId: "4231e4d2-33e4-4e23-96b2-17888afa6072",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSetVMRunCommands.beginUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    instanceId,
-    runCommandName,
-    runCommand
-  );
+  const result =
+    await client.virtualMachineScaleSetVMRunCommands.beginUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      instanceId,
+      runCommandName,
+      runCommand,
+    );
   console.log(result);
 }
 

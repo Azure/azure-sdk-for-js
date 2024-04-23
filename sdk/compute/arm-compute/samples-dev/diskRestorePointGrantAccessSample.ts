@@ -32,17 +32,18 @@ async function grantsAccessToADiskRestorePoint() {
   const grantAccessData: GrantAccessData = {
     access: "Read",
     durationInSeconds: 300,
-    fileFormat: "VHDX"
+    fileFormat: "VHDX",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.diskRestorePointOperations.beginGrantAccessAndWait(
-    resourceGroupName,
-    restorePointCollectionName,
-    vmRestorePointName,
-    diskRestorePointName,
-    grantAccessData
-  );
+  const result =
+    await client.diskRestorePointOperations.beginGrantAccessAndWait(
+      resourceGroupName,
+      restorePointCollectionName,
+      vmRestorePointName,
+      diskRestorePointName,
+      grantAccessData,
+    );
   console.log(result);
 }
 

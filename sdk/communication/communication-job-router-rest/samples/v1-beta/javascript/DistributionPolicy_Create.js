@@ -1,5 +1,12 @@
-const JobRouter = require("../src").default;
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+/**
+ * @summary Distribution policy crud
+ */
+
+const JobRouter = require("@azure-rest/communication-job-router").default;
 require("dotenv").config();
+
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
 // Create an distribution policy

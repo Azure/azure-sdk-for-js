@@ -29,7 +29,7 @@ async function listRulesEngineConfigurationsInAFrontDoor() {
   const resArray = new Array();
   for await (let item of client.rulesEngines.listByFrontDoor(
     resourceGroupName,
-    frontDoorName
+    frontDoorName,
   )) {
     resArray.push(item);
   }

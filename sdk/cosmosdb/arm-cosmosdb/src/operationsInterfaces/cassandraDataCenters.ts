@@ -17,7 +17,7 @@ import {
   CassandraDataCentersCreateUpdateOptionalParams,
   CassandraDataCentersCreateUpdateResponse,
   CassandraDataCentersUpdateOptionalParams,
-  CassandraDataCentersUpdateResponse
+  CassandraDataCentersUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface CassandraDataCenters {
   list(
     resourceGroupName: string,
     clusterName: string,
-    options?: CassandraDataCentersListOptionalParams
+    options?: CassandraDataCentersListOptionalParams,
   ): PagedAsyncIterableIterator<DataCenterResource>;
   /**
    * Get the properties of a managed Cassandra data center.
@@ -45,7 +45,7 @@ export interface CassandraDataCenters {
     resourceGroupName: string,
     clusterName: string,
     dataCenterName: string,
-    options?: CassandraDataCentersGetOptionalParams
+    options?: CassandraDataCentersGetOptionalParams,
   ): Promise<CassandraDataCentersGetResponse>;
   /**
    * Delete a managed Cassandra data center.
@@ -58,7 +58,7 @@ export interface CassandraDataCenters {
     resourceGroupName: string,
     clusterName: string,
     dataCenterName: string,
-    options?: CassandraDataCentersDeleteOptionalParams
+    options?: CassandraDataCentersDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a managed Cassandra data center.
@@ -71,7 +71,7 @@ export interface CassandraDataCenters {
     resourceGroupName: string,
     clusterName: string,
     dataCenterName: string,
-    options?: CassandraDataCentersDeleteOptionalParams
+    options?: CassandraDataCentersDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Create or update a managed Cassandra data center. When updating, overwrite all properties. To update
@@ -87,7 +87,7 @@ export interface CassandraDataCenters {
     clusterName: string,
     dataCenterName: string,
     body: DataCenterResource,
-    options?: CassandraDataCentersCreateUpdateOptionalParams
+    options?: CassandraDataCentersCreateUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CassandraDataCentersCreateUpdateResponse>,
@@ -108,7 +108,7 @@ export interface CassandraDataCenters {
     clusterName: string,
     dataCenterName: string,
     body: DataCenterResource,
-    options?: CassandraDataCentersCreateUpdateOptionalParams
+    options?: CassandraDataCentersCreateUpdateOptionalParams,
   ): Promise<CassandraDataCentersCreateUpdateResponse>;
   /**
    * Update some of the properties of a managed Cassandra data center.
@@ -123,7 +123,7 @@ export interface CassandraDataCenters {
     clusterName: string,
     dataCenterName: string,
     body: DataCenterResource,
-    options?: CassandraDataCentersUpdateOptionalParams
+    options?: CassandraDataCentersUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CassandraDataCentersUpdateResponse>,
@@ -143,6 +143,6 @@ export interface CassandraDataCenters {
     clusterName: string,
     dataCenterName: string,
     body: DataCenterResource,
-    options?: CassandraDataCentersUpdateOptionalParams
+    options?: CassandraDataCentersUpdateOptionalParams,
   ): Promise<CassandraDataCentersUpdateResponse>;
 }

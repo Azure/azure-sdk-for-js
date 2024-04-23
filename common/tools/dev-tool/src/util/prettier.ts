@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as prettier from "prettier";
 
 import prettierOptions from "../../../eslint-plugin-azure-sdk/prettier.json";

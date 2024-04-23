@@ -21,7 +21,7 @@
   "typescript.disableAutomaticTypeAcquisition": true,
   "typescript.preferences.quoteStyle": "double",
   "git.ignoreLimitWarning": true,
-  "prettier.prettierPath": "./common/tools/dev-tool/node_modules/prettier",
+  "prettier.prettierPath": "./common/tools/dev-tool/node_modules/prettier/index.cjs",
   "search.exclude": {
     "test-results*.xml": true,
     "**/temp/*": true,

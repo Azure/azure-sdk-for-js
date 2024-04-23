@@ -15,7 +15,7 @@ import {
   ConnectivityConfigurationsGetResponse,
   ConnectivityConfigurationsCreateOrUpdateOptionalParams,
   ConnectivityConfigurationsCreateOrUpdateResponse,
-  ConnectivityConfigurationsDeleteOptionalParams
+  ConnectivityConfigurationsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface ConnectivityConfigurations {
   list(
     resourceGroupName: string,
     networkManagerName: string,
-    options?: ConnectivityConfigurationsListOptionalParams
+    options?: ConnectivityConfigurationsListOptionalParams,
   ): PagedAsyncIterableIterator<ConnectivityConfiguration>;
   /**
    * Gets a Network Connectivity Configuration, specified by the resource group, network manager name,
@@ -44,7 +44,7 @@ export interface ConnectivityConfigurations {
     resourceGroupName: string,
     networkManagerName: string,
     configurationName: string,
-    options?: ConnectivityConfigurationsGetOptionalParams
+    options?: ConnectivityConfigurationsGetOptionalParams,
   ): Promise<ConnectivityConfigurationsGetResponse>;
   /**
    * Creates/Updates a new network manager connectivity configuration
@@ -60,7 +60,7 @@ export interface ConnectivityConfigurations {
     networkManagerName: string,
     configurationName: string,
     connectivityConfiguration: ConnectivityConfiguration,
-    options?: ConnectivityConfigurationsCreateOrUpdateOptionalParams
+    options?: ConnectivityConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<ConnectivityConfigurationsCreateOrUpdateResponse>;
   /**
    * Deletes a network manager connectivity configuration, specified by the resource group, network
@@ -74,7 +74,7 @@ export interface ConnectivityConfigurations {
     resourceGroupName: string,
     networkManagerName: string,
     configurationName: string,
-    options?: ConnectivityConfigurationsDeleteOptionalParams
+    options?: ConnectivityConfigurationsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a network manager connectivity configuration, specified by the resource group, network
@@ -88,6 +88,6 @@ export interface ConnectivityConfigurations {
     resourceGroupName: string,
     networkManagerName: string,
     configurationName: string,
-    options?: ConnectivityConfigurationsDeleteOptionalParams
+    options?: ConnectivityConfigurationsDeleteOptionalParams,
   ): Promise<void>;
 }

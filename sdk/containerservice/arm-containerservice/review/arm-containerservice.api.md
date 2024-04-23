@@ -932,6 +932,7 @@ export interface ManagedCluster extends TrackedResource {
     identityProfile?: {
         [propertyName: string]: UserAssignedIdentity;
     };
+    ingressProfile?: ManagedClusterIngressProfile;
     kubernetesVersion?: string;
     linuxProfile?: ContainerServiceLinuxProfile;
     readonly maxAgentPools?: number;
@@ -1092,6 +1093,18 @@ export interface ManagedClusterIdentity {
     userAssignedIdentities?: {
         [propertyName: string]: ManagedServiceIdentityUserAssignedIdentitiesValue;
     };
+}
+
+// @public
+export interface ManagedClusterIngressProfile {
+    webAppRouting?: ManagedClusterIngressProfileWebAppRouting;
+}
+
+// @public
+export interface ManagedClusterIngressProfileWebAppRouting {
+    dnsZoneResourceIds?: string[];
+    enabled?: boolean;
+    readonly identity?: UserAssignedIdentity;
 }
 
 // @public

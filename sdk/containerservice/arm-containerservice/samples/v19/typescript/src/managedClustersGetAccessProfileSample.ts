@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to **WARNING**: This API will be deprecated. Instead use [ListClusterUserCredentials](https://docs.microsoft.com/rest/api/aks/managedclusters/listclusterusercredentials) or [ListClusterAdminCredentials](https://docs.microsoft.com/rest/api/aks/managedclusters/listclusteradmincredentials) .
  *
  * @summary **WARNING**: This API will be deprecated. Instead use [ListClusterUserCredentials](https://docs.microsoft.com/rest/api/aks/managedclusters/listclusterusercredentials) or [ListClusterAdminCredentials](https://docs.microsoft.com/rest/api/aks/managedclusters/listclusteradmincredentials) .
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/ManagedClustersGetAccessProfile.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/ManagedClustersGetAccessProfile.json
  */
 async function getManagedCluster() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function getManagedCluster() {
   const result = await client.managedClusters.getAccessProfile(
     resourceGroupName,
     resourceName,
-    roleName
+    roleName,
   );
   console.log(result);
 }

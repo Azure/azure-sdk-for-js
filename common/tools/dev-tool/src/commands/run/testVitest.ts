@@ -12,11 +12,11 @@ export const commandInfo = makeCommandInfo(
   "test:vitest",
   "runs tests using vitest with the default and the provided options; starts the proxy-tool in record and playback modes",
   {
-    "no-test-proxy": {
-      shortName: "ntp",
+    "test-proxy": {
+      shortName: "tp",
       kind: "boolean",
-      default: false,
-      description: "whether to disable launching test-proxy",
+      default: true,
+      description: "whether to enable launching test-proxy",
     },
     browser: {
       shortName: "br",
@@ -44,18 +44,27 @@ export default leafCommand(commandInfo, async (options) => {
     await playwrightInstall();
   }
 
-  const reporterArgs = `--reporter=verbose --reporter=junit --outputFile=test-results${options["browser"] ? ".browser" : ""}.xml`;
-  const args = options["browser"] ? "-c vitest.browser.config.mts" : "";
   const updatedArgs = options["--"]?.map((opt) =>
     opt.includes("**") && !opt.startsWith("'") && !opt.startsWith('"') ? `"${opt}"` : opt,
   );
+
+  let args = "";
+  // Only set if we didn't provide a config file path
+  if (
+    options["browser"] &&
+    updatedArgs?.indexOf("-c") !== -1 &&
+    updatedArgs?.indexOf("--config") !== -1
+  ) {
+    args = "-c vitest.browser.config.ts";
+  }
+
   const vitestArgs = updatedArgs?.length ? updatedArgs.join(" ") : "";
   const command = {
-    command: `vitest ${reporterArgs} ${args} ${vitestArgs}`,
+    command: `vitest ${args} ${vitestArgs}`,
     name: "vitest",
   };
 
-  if (!options["no-test-proxy"]) {
+  if (options["test-proxy"]) {
     return runTestsWithProxyTool(command);
   }
 

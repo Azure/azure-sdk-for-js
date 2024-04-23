@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   TargetsListOptionalParams,
-  ChaosManagementClient
+  ChaosManagementClient,
 } from "@azure/arm-chaos";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Get a list of Target resources that extend a tracked regional resource.
  *
  * @summary Get a list of Target resources that extend a tracked regional resource.
- * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2023-11-01/examples/ListTargets.json
+ * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/ListTargets.json
  */
 async function listAllTargetsThatExtendAVirtualMachineResource() {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function listAllTargetsThatExtendAVirtualMachineResource() {
     parentProviderNamespace,
     parentResourceType,
     parentResourceName,
-    options
+    options,
   )) {
     resArray.push(item);
   }

@@ -16,7 +16,7 @@ import { NetworkManagementClient } from "../networkManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -36,7 +36,7 @@ import {
   SecurityPartnerProvidersUpdateTagsOptionalParams,
   SecurityPartnerProvidersUpdateTagsResponse,
   SecurityPartnerProvidersListByResourceGroupNextResponse,
-  SecurityPartnerProvidersListNextResponse
+  SecurityPartnerProvidersListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,7 +59,7 @@ export class SecurityPartnerProvidersImpl implements SecurityPartnerProviders {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: SecurityPartnerProvidersListByResourceGroupOptionalParams
+    options?: SecurityPartnerProvidersListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<SecurityPartnerProvider> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -76,16 +76,16 @@ export class SecurityPartnerProvidersImpl implements SecurityPartnerProviders {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: SecurityPartnerProvidersListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SecurityPartnerProvider[]> {
     let result: SecurityPartnerProvidersListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +100,7 @@ export class SecurityPartnerProvidersImpl implements SecurityPartnerProviders {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -111,11 +111,11 @@ export class SecurityPartnerProvidersImpl implements SecurityPartnerProviders {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: SecurityPartnerProvidersListByResourceGroupOptionalParams
+    options?: SecurityPartnerProvidersListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<SecurityPartnerProvider> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -126,7 +126,7 @@ export class SecurityPartnerProvidersImpl implements SecurityPartnerProviders {
    * @param options The options parameters.
    */
   public list(
-    options?: SecurityPartnerProvidersListOptionalParams
+    options?: SecurityPartnerProvidersListOptionalParams,
   ): PagedAsyncIterableIterator<SecurityPartnerProvider> {
     const iter = this.listPagingAll(options);
     return {
@@ -141,13 +141,13 @@ export class SecurityPartnerProvidersImpl implements SecurityPartnerProviders {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: SecurityPartnerProvidersListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SecurityPartnerProvider[]> {
     let result: SecurityPartnerProvidersListResponse;
     let continuationToken = settings?.continuationToken;
@@ -168,7 +168,7 @@ export class SecurityPartnerProvidersImpl implements SecurityPartnerProviders {
   }
 
   private async *listPagingAll(
-    options?: SecurityPartnerProvidersListOptionalParams
+    options?: SecurityPartnerProvidersListOptionalParams,
   ): AsyncIterableIterator<SecurityPartnerProvider> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -184,25 +184,24 @@ export class SecurityPartnerProvidersImpl implements SecurityPartnerProviders {
   async beginDelete(
     resourceGroupName: string,
     securityPartnerProviderName: string,
-    options?: SecurityPartnerProvidersDeleteOptionalParams
+    options?: SecurityPartnerProvidersDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -211,8 +210,8 @@ export class SecurityPartnerProvidersImpl implements SecurityPartnerProviders {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -220,20 +219,20 @@ export class SecurityPartnerProvidersImpl implements SecurityPartnerProviders {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, securityPartnerProviderName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -248,12 +247,12 @@ export class SecurityPartnerProvidersImpl implements SecurityPartnerProviders {
   async beginDeleteAndWait(
     resourceGroupName: string,
     securityPartnerProviderName: string,
-    options?: SecurityPartnerProvidersDeleteOptionalParams
+    options?: SecurityPartnerProvidersDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       securityPartnerProviderName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -267,11 +266,11 @@ export class SecurityPartnerProvidersImpl implements SecurityPartnerProviders {
   get(
     resourceGroupName: string,
     securityPartnerProviderName: string,
-    options?: SecurityPartnerProvidersGetOptionalParams
+    options?: SecurityPartnerProvidersGetOptionalParams,
   ): Promise<SecurityPartnerProvidersGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, securityPartnerProviderName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -286,7 +285,7 @@ export class SecurityPartnerProvidersImpl implements SecurityPartnerProviders {
     resourceGroupName: string,
     securityPartnerProviderName: string,
     parameters: SecurityPartnerProvider,
-    options?: SecurityPartnerProvidersCreateOrUpdateOptionalParams
+    options?: SecurityPartnerProvidersCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SecurityPartnerProvidersCreateOrUpdateResponse>,
@@ -295,21 +294,20 @@ export class SecurityPartnerProvidersImpl implements SecurityPartnerProviders {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SecurityPartnerProvidersCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -318,8 +316,8 @@ export class SecurityPartnerProvidersImpl implements SecurityPartnerProviders {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -327,8 +325,8 @@ export class SecurityPartnerProvidersImpl implements SecurityPartnerProviders {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -338,9 +336,9 @@ export class SecurityPartnerProvidersImpl implements SecurityPartnerProviders {
         resourceGroupName,
         securityPartnerProviderName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       SecurityPartnerProvidersCreateOrUpdateResponse,
@@ -348,7 +346,7 @@ export class SecurityPartnerProvidersImpl implements SecurityPartnerProviders {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -365,13 +363,13 @@ export class SecurityPartnerProvidersImpl implements SecurityPartnerProviders {
     resourceGroupName: string,
     securityPartnerProviderName: string,
     parameters: SecurityPartnerProvider,
-    options?: SecurityPartnerProvidersCreateOrUpdateOptionalParams
+    options?: SecurityPartnerProvidersCreateOrUpdateOptionalParams,
   ): Promise<SecurityPartnerProvidersCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       securityPartnerProviderName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -387,11 +385,11 @@ export class SecurityPartnerProvidersImpl implements SecurityPartnerProviders {
     resourceGroupName: string,
     securityPartnerProviderName: string,
     parameters: TagsObject,
-    options?: SecurityPartnerProvidersUpdateTagsOptionalParams
+    options?: SecurityPartnerProvidersUpdateTagsOptionalParams,
   ): Promise<SecurityPartnerProvidersUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, securityPartnerProviderName, parameters, options },
-      updateTagsOperationSpec
+      updateTagsOperationSpec,
     );
   }
 
@@ -402,11 +400,11 @@ export class SecurityPartnerProvidersImpl implements SecurityPartnerProviders {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: SecurityPartnerProvidersListByResourceGroupOptionalParams
+    options?: SecurityPartnerProvidersListByResourceGroupOptionalParams,
   ): Promise<SecurityPartnerProvidersListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -415,7 +413,7 @@ export class SecurityPartnerProvidersImpl implements SecurityPartnerProviders {
    * @param options The options parameters.
    */
   private _list(
-    options?: SecurityPartnerProvidersListOptionalParams
+    options?: SecurityPartnerProvidersListOptionalParams,
   ): Promise<SecurityPartnerProvidersListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -429,11 +427,11 @@ export class SecurityPartnerProvidersImpl implements SecurityPartnerProviders {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: SecurityPartnerProvidersListByResourceGroupNextOptionalParams
+    options?: SecurityPartnerProvidersListByResourceGroupNextOptionalParams,
   ): Promise<SecurityPartnerProvidersListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -444,11 +442,11 @@ export class SecurityPartnerProvidersImpl implements SecurityPartnerProviders {
    */
   private _listNext(
     nextLink: string,
-    options?: SecurityPartnerProvidersListNextOptionalParams
+    options?: SecurityPartnerProvidersListNextOptionalParams,
   ): Promise<SecurityPartnerProvidersListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -456,8 +454,7 @@ export class SecurityPartnerProvidersImpl implements SecurityPartnerProviders {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders/{securityPartnerProviderName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders/{securityPartnerProviderName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -465,61 +462,59 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.securityPartnerProviderName
+    Parameters.securityPartnerProviderName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders/{securityPartnerProviderName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders/{securityPartnerProviderName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityPartnerProvider
+      bodyMapper: Mappers.SecurityPartnerProvider,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.securityPartnerProviderName
+    Parameters.securityPartnerProviderName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders/{securityPartnerProviderName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders/{securityPartnerProviderName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityPartnerProvider
+      bodyMapper: Mappers.SecurityPartnerProvider,
     },
     201: {
-      bodyMapper: Mappers.SecurityPartnerProvider
+      bodyMapper: Mappers.SecurityPartnerProvider,
     },
     202: {
-      bodyMapper: Mappers.SecurityPartnerProvider
+      bodyMapper: Mappers.SecurityPartnerProvider,
     },
     204: {
-      bodyMapper: Mappers.SecurityPartnerProvider
+      bodyMapper: Mappers.SecurityPartnerProvider,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters68,
   queryParameters: [Parameters.apiVersion],
@@ -527,23 +522,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.securityPartnerProviderName
+    Parameters.securityPartnerProviderName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders/{securityPartnerProviderName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders/{securityPartnerProviderName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityPartnerProvider
+      bodyMapper: Mappers.SecurityPartnerProvider,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -551,86 +545,84 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.securityPartnerProviderName
+    Parameters.securityPartnerProviderName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityPartnerProviderListResult
+      bodyMapper: Mappers.SecurityPartnerProviderListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/securityPartnerProviders",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/securityPartnerProviders",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityPartnerProviderListResult
+      bodyMapper: Mappers.SecurityPartnerProviderListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityPartnerProviderListResult
+      bodyMapper: Mappers.SecurityPartnerProviderListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityPartnerProviderListResult
+      bodyMapper: Mappers.SecurityPartnerProviderListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

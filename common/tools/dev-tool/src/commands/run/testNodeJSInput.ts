@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license
 
-import concurrently from "concurrently";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
+
+import concurrently from "concurrently";
 import { createPrinter } from "../../util/printer";
-import { isModuleProject } from "../../util/resolveProject";
 import { runTestsWithProxyTool } from "../../util/testUtils";
 
 export const commandInfo = makeCommandInfo(
   "test:node-js-input",
   "runs the node tests using mocha with the default and the provided options; starts the proxy-tool in record and playback modes",
   {
-    "no-test-proxy": {
-      shortName: "ntp",
+    "test-proxy": {
+      shortName: "tp",
       kind: "boolean",
-      default: false,
+      default: true,
       description: "whether to run with test-proxy",
     },
   },
@@ -23,11 +23,7 @@ export const commandInfo = makeCommandInfo(
 export default leafCommand(commandInfo, async (options) => {
   const reporterArgs =
     "--reporter ../../../common/tools/mocha-multi-reporter.js --reporter-option output=test-results.xml";
-  const defaultMochaArgs = `${
-    (await isModuleProject())
-      ? "-r source-map-support/register.js"
-      : "-r ../../../common/tools/esm-workaround -r esm -r source-map-support/register"
-  } ${reporterArgs} --full-trace`;
+  const defaultMochaArgs = `-r source-map-support/register.js ${reporterArgs} --full-trace`;
   const updatedArgs = options["--"]?.map((opt) =>
     opt.includes("**") && !opt.startsWith("'") && !opt.startsWith('"') ? `"${opt}"` : opt,
   );
@@ -35,11 +31,11 @@ export default leafCommand(commandInfo, async (options) => {
     ? updatedArgs.join(" ")
     : '--timeout 5000000 "dist-esm/test/{,!(browser)/**/}/*.spec.js"';
   const command = {
-    command: `c8 mocha ${defaultMochaArgs} ${mochaArgs}`,
+    command: `nyc mocha --require tsx ${defaultMochaArgs} ${mochaArgs}`,
     name: "node-tests",
   };
 
-  if (!options["no-test-proxy"]) {
+  if (options["test-proxy"]) {
     return runTestsWithProxyTool(command);
   }
 

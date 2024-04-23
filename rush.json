@@ -14,7 +14,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.112.1",
+  "rushVersion": "5.120.6",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -23,7 +23,7 @@
    * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
    * for details about these alternatives.
    */
-  "pnpmVersion": "8.11.0",
+  "pnpmVersion": "8.15.3",
   // "npmVersion": "4.5.0",
   // "yarnVersion": "1.9.4",
   /**
@@ -326,6 +326,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/purview-datamap",
+      "projectFolder": "sdk/purview/purview-datamap-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/purview-scanning",
       "projectFolder": "sdk/purview/purview-scanning-rest",
       "versionPolicyName": "client"
@@ -416,11 +421,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure-rest/ai-personalizer",
-      "projectFolder": "sdk/personalizer/ai-personalizer-rest",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure/search-documents",
       "projectFolder": "sdk/search/search-documents",
       "versionPolicyName": "client"
@@ -458,11 +458,6 @@
     {
       "packageName": "@azure/communication-identity",
       "projectFolder": "sdk/communication/communication-identity",
-      "versionPolicyName": "client"
-    },
-    {
-      "packageName": "@azure/communication-network-traversal",
-      "projectFolder": "sdk/communication/communication-network-traversal",
       "versionPolicyName": "client"
     },
     {
@@ -508,6 +503,11 @@
     {
       "packageName": "@azure-rest/communication-job-router",
       "projectFolder": "sdk/communication/communication-job-router-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/communication-messages",
+      "projectFolder": "sdk/communication/communication-messages-rest",
       "versionPolicyName": "client"
     },
     {
@@ -608,6 +608,11 @@
     {
       "packageName": "@azure/eventgrid",
       "projectFolder": "sdk/eventgrid/eventgrid",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/eventgrid-namespaces",
+      "projectFolder": "sdk/eventgrid/eventgrid-namespaces",
       "versionPolicyName": "client"
     },
     {
@@ -847,7 +852,7 @@
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure/test-utils-perf",
+      "packageName": "@azure-tools/test-perf",
       "projectFolder": "sdk/test-utils/perf",
       "versionPolicyName": "utility"
     },
@@ -1459,6 +1464,11 @@
     {
       "packageName": "@azure-rest/health-insights-clinicalmatching",
       "projectFolder": "sdk/healthinsights/health-insights-clinicalmatching-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/health-insights-radiologyinsights",
+      "projectFolder": "sdk/healthinsights/health-insights-radiologyinsights-rest",
       "versionPolicyName": "client"
     },
     {
@@ -2169,6 +2179,36 @@
     {
       "packageName": "@azure/arm-networkanalytics",
       "projectFolder": "sdk/networkanalytics/arm-networkanalytics",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-workloadssapvirtualinstance",
+      "projectFolder": "sdk/workloads/arm-workloadssapvirtualinstance",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-astro",
+      "projectFolder": "sdk/astro/arm-astro",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-largeinstance",
+      "projectFolder": "sdk/largeinstance/arm-largeinstance",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-springappdiscovery",
+      "projectFolder": "sdk/springappdiscovery/arm-springappdiscovery",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-migrationdiscoverysap",
+      "projectFolder": "sdk/migrationdiscovery/arm-migrationdiscoverysap",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storageactions",
+      "projectFolder": "sdk/storageactions/arm-storageactions",
       "versionPolicyName": "management"
     }
   ]

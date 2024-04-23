@@ -15,9 +15,9 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { getCachedDefaultHttpsClient } from "./clientHelpers";
-import { isReadableStream } from "./helpers/isReadableStream";
-import { HttpResponse, RequestParameters } from "./common";
+import { getCachedDefaultHttpsClient } from "./clientHelpers.js";
+import { isReadableStream } from "./helpers/isReadableStream.js";
+import { HttpResponse, RequestParameters } from "./common.js";
 
 /**
  * Helper function to send request used by the client
@@ -108,7 +108,7 @@ function buildPipelineRequest(
 
   const headers = createHttpHeaders({
     ...(options.headers ? options.headers : {}),
-    accept: options.accept ?? "application/json",
+    accept: options.accept ?? options.headers?.accept ?? "application/json",
     ...(hasContent &&
       requestContentType && {
         "content-type": requestContentType,

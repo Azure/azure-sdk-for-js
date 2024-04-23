@@ -11,7 +11,7 @@
 import {
   CloudService,
   CloudServicesCreateOrUpdateOptionalParams,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -44,31 +44,30 @@ async function createNewCloudServiceWithMultipleRoles() {
                   name: "contosofe",
                   properties: {
                     publicIPAddress: {
-                      id:
-                        "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/contosopublicip"
-                    }
-                  }
-                }
-              ]
-            }
-          }
-        ]
+                      id: "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/contosopublicip",
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        ],
       },
       packageUrl: "{PackageUrl}",
       roleProfile: {
         roles: [
           {
             name: "ContosoFrontend",
-            sku: { name: "Standard_D1_v2", capacity: 1, tier: "Standard" }
+            sku: { name: "Standard_D1_v2", capacity: 1, tier: "Standard" },
           },
           {
             name: "ContosoBackend",
-            sku: { name: "Standard_D1_v2", capacity: 1, tier: "Standard" }
-          }
-        ]
+            sku: { name: "Standard_D1_v2", capacity: 1, tier: "Standard" },
+          },
+        ],
       },
-      upgradeMode: "Auto"
-    }
+      upgradeMode: "Auto",
+    },
   };
   const options: CloudServicesCreateOrUpdateOptionalParams = { parameters };
   const credential = new DefaultAzureCredential();
@@ -76,7 +75,7 @@ async function createNewCloudServiceWithMultipleRoles() {
   const result = await client.cloudServices.beginCreateOrUpdateAndWait(
     resourceGroupName,
     cloudServiceName,
-    options
+    options,
   );
   console.log(result);
 }
@@ -107,32 +106,31 @@ async function createNewCloudServiceWithMultipleRolesInASpecificAvailabilityZone
                   name: "contosofe",
                   properties: {
                     publicIPAddress: {
-                      id:
-                        "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/contosopublicip"
-                    }
-                  }
-                }
-              ]
-            }
-          }
-        ]
+                      id: "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/contosopublicip",
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        ],
       },
       packageUrl: "{PackageUrl}",
       roleProfile: {
         roles: [
           {
             name: "ContosoFrontend",
-            sku: { name: "Standard_D1_v2", capacity: 1, tier: "Standard" }
+            sku: { name: "Standard_D1_v2", capacity: 1, tier: "Standard" },
           },
           {
             name: "ContosoBackend",
-            sku: { name: "Standard_D1_v2", capacity: 1, tier: "Standard" }
-          }
-        ]
+            sku: { name: "Standard_D1_v2", capacity: 1, tier: "Standard" },
+          },
+        ],
       },
-      upgradeMode: "Auto"
+      upgradeMode: "Auto",
     },
-    zones: ["1"]
+    zones: ["1"],
   };
   const options: CloudServicesCreateOrUpdateOptionalParams = { parameters };
   const credential = new DefaultAzureCredential();
@@ -140,7 +138,7 @@ async function createNewCloudServiceWithMultipleRolesInASpecificAvailabilityZone
   const result = await client.cloudServices.beginCreateOrUpdateAndWait(
     resourceGroupName,
     cloudServiceName,
-    options
+    options,
   );
   console.log(result);
 }
@@ -171,27 +169,26 @@ async function createNewCloudServiceWithSingleRole() {
                   name: "myfe",
                   properties: {
                     publicIPAddress: {
-                      id:
-                        "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/myPublicIP"
-                    }
-                  }
-                }
-              ]
-            }
-          }
-        ]
+                      id: "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/myPublicIP",
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        ],
       },
       packageUrl: "{PackageUrl}",
       roleProfile: {
         roles: [
           {
             name: "ContosoFrontend",
-            sku: { name: "Standard_D1_v2", capacity: 1, tier: "Standard" }
-          }
-        ]
+            sku: { name: "Standard_D1_v2", capacity: 1, tier: "Standard" },
+          },
+        ],
       },
-      upgradeMode: "Auto"
-    }
+      upgradeMode: "Auto",
+    },
   };
   const options: CloudServicesCreateOrUpdateOptionalParams = { parameters };
   const credential = new DefaultAzureCredential();
@@ -199,7 +196,7 @@ async function createNewCloudServiceWithSingleRole() {
   const result = await client.cloudServices.beginCreateOrUpdateAndWait(
     resourceGroupName,
     cloudServiceName,
-    options
+    options,
   );
   console.log(result);
 }
@@ -230,43 +227,41 @@ async function createNewCloudServiceWithSingleRoleAndCertificateFromKeyVault() {
                   name: "contosofe",
                   properties: {
                     publicIPAddress: {
-                      id:
-                        "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/contosopublicip"
-                    }
-                  }
-                }
-              ]
-            }
-          }
-        ]
+                      id: "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/contosopublicip",
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        ],
       },
       osProfile: {
         secrets: [
           {
             sourceVault: {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.KeyVault/vaults/{keyvault-name}"
+              id: "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.KeyVault/vaults/{keyvault-name}",
             },
             vaultCertificates: [
               {
                 certificateUrl:
-                  "https://{keyvault-name}.vault.azure.net:443/secrets/ContosoCertificate/{secret-id}"
-              }
-            ]
-          }
-        ]
+                  "https://{keyvault-name}.vault.azure.net:443/secrets/ContosoCertificate/{secret-id}",
+              },
+            ],
+          },
+        ],
       },
       packageUrl: "{PackageUrl}",
       roleProfile: {
         roles: [
           {
             name: "ContosoFrontend",
-            sku: { name: "Standard_D1_v2", capacity: 1, tier: "Standard" }
-          }
-        ]
+            sku: { name: "Standard_D1_v2", capacity: 1, tier: "Standard" },
+          },
+        ],
       },
-      upgradeMode: "Auto"
-    }
+      upgradeMode: "Auto",
+    },
   };
   const options: CloudServicesCreateOrUpdateOptionalParams = { parameters };
   const credential = new DefaultAzureCredential();
@@ -274,7 +269,7 @@ async function createNewCloudServiceWithSingleRoleAndCertificateFromKeyVault() {
   const result = await client.cloudServices.beginCreateOrUpdateAndWait(
     resourceGroupName,
     cloudServiceName,
-    options
+    options,
   );
   console.log(result);
 }
@@ -307,10 +302,10 @@ async function createNewCloudServiceWithSingleRoleAndRdpExtension() {
               publisher: "Microsoft.Windows.Azure.Extensions",
               settings:
                 "<PublicConfig><UserName>UserAzure</UserName><Expiration>10/22/2021 15:05:45</Expiration></PublicConfig>",
-              typeHandlerVersion: "1.2"
-            }
-          }
-        ]
+              typeHandlerVersion: "1.2",
+            },
+          },
+        ],
       },
       networkProfile: {
         loadBalancerConfigurations: [
@@ -322,27 +317,26 @@ async function createNewCloudServiceWithSingleRoleAndRdpExtension() {
                   name: "contosofe",
                   properties: {
                     publicIPAddress: {
-                      id:
-                        "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/contosopublicip"
-                    }
-                  }
-                }
-              ]
-            }
-          }
-        ]
+                      id: "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/contosopublicip",
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        ],
       },
       packageUrl: "{PackageUrl}",
       roleProfile: {
         roles: [
           {
             name: "ContosoFrontend",
-            sku: { name: "Standard_D1_v2", capacity: 1, tier: "Standard" }
-          }
-        ]
+            sku: { name: "Standard_D1_v2", capacity: 1, tier: "Standard" },
+          },
+        ],
       },
-      upgradeMode: "Auto"
-    }
+      upgradeMode: "Auto",
+    },
   };
   const options: CloudServicesCreateOrUpdateOptionalParams = { parameters };
   const credential = new DefaultAzureCredential();
@@ -350,7 +344,7 @@ async function createNewCloudServiceWithSingleRoleAndRdpExtension() {
   const result = await client.cloudServices.beginCreateOrUpdateAndWait(
     resourceGroupName,
     cloudServiceName,
-    options
+    options,
   );
   console.log(result);
 }

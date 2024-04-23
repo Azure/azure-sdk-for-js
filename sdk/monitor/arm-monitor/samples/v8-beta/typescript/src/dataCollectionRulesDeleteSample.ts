@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a data collection rule.
  *
  * @summary Deletes a data collection rule.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-09-01-preview/examples/DataCollectionRulesDelete.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/DataCollectionRulesDelete.json
  */
 async function deleteDataCollectionRule() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function deleteDataCollectionRule() {
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.dataCollectionRules.delete(
     resourceGroupName,
-    dataCollectionRuleName
+    dataCollectionRuleName,
   );
   console.log(result);
 }

@@ -15,7 +15,7 @@ import {
   DiagnosticsPackagesCreateOrUpdateResponse,
   DiagnosticsPackagesGetOptionalParams,
   DiagnosticsPackagesGetResponse,
-  DiagnosticsPackagesDeleteOptionalParams
+  DiagnosticsPackagesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface DiagnosticsPackages {
   listByPacketCoreControlPlane(
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
-    options?: DiagnosticsPackagesListByPacketCoreControlPlaneOptionalParams
+    options?: DiagnosticsPackagesListByPacketCoreControlPlaneOptionalParams,
   ): PagedAsyncIterableIterator<DiagnosticsPackage>;
   /**
    * Creates or updates a diagnostics package.
@@ -43,7 +43,7 @@ export interface DiagnosticsPackages {
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
     diagnosticsPackageName: string,
-    options?: DiagnosticsPackagesCreateOrUpdateOptionalParams
+    options?: DiagnosticsPackagesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DiagnosticsPackagesCreateOrUpdateResponse>,
@@ -61,7 +61,7 @@ export interface DiagnosticsPackages {
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
     diagnosticsPackageName: string,
-    options?: DiagnosticsPackagesCreateOrUpdateOptionalParams
+    options?: DiagnosticsPackagesCreateOrUpdateOptionalParams,
   ): Promise<DiagnosticsPackagesCreateOrUpdateResponse>;
   /**
    * Gets information about the specified diagnostics package.
@@ -74,7 +74,7 @@ export interface DiagnosticsPackages {
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
     diagnosticsPackageName: string,
-    options?: DiagnosticsPackagesGetOptionalParams
+    options?: DiagnosticsPackagesGetOptionalParams,
   ): Promise<DiagnosticsPackagesGetResponse>;
   /**
    * Deletes the specified diagnostics package.
@@ -87,7 +87,7 @@ export interface DiagnosticsPackages {
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
     diagnosticsPackageName: string,
-    options?: DiagnosticsPackagesDeleteOptionalParams
+    options?: DiagnosticsPackagesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified diagnostics package.
@@ -100,6 +100,6 @@ export interface DiagnosticsPackages {
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
     diagnosticsPackageName: string,
-    options?: DiagnosticsPackagesDeleteOptionalParams
+    options?: DiagnosticsPackagesDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -32,7 +32,7 @@ async function redeployDedicatedHost() {
   const result = await client.dedicatedHosts.beginRedeployAndWait(
     resourceGroupName,
     hostGroupName,
-    hostName
+    hostName,
   );
   console.log(result);
 }

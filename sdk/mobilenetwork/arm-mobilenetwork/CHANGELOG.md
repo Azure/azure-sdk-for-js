@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.1 (Unreleased)
+## 5.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,54 @@
 
 ### Other Changes
 
+## 5.0.0 (2024-03-21)
+    
+**Features**
+
+  - Added operation group ExtendedUeInformation
+  - Added operation group UeInformation
+  - Added Interface DnnIpPair
+  - Added Interface ExtendedUeInfo
+  - Added Interface ExtendedUeInfoProperties
+  - Added Interface ExtendedUeInformationGetOptionalParams
+  - Added Interface HomeNetworkPrivateKeysProvisioning
+  - Added Interface HomeNetworkPublicKey
+  - Added Interface PublicLandMobileNetwork
+  - Added Interface PublicLandMobileNetworkHomeNetworkPublicKeys
+  - Added Interface UeInfo
+  - Added Interface UeInfo4G
+  - Added Interface UeInfo5G
+  - Added Interface UeInfoList
+  - Added Interface UeInformationListNextOptionalParams
+  - Added Interface UeInformationListOptionalParams
+  - Added Interface UeQOSFlow
+  - Added Interface UeSessionInfo4G
+  - Added Interface UeSessionInfo5G
+  - Added Type Alias ExtendedUeInfoPropertiesUnion
+  - Added Type Alias ExtendedUeInformationGetResponse
+  - Added Type Alias HomeNetworkPrivateKeysProvisioningState
+  - Added Type Alias PdnType
+  - Added Type Alias RatType
+  - Added Type Alias RrcEstablishmentCause
+  - Added Type Alias UeInformationListNextResponse
+  - Added Type Alias UeInformationListResponse
+  - Added Type Alias UeState
+  - Added Type Alias UeUsageSetting
+  - Interface MobileNetwork has a new optional parameter identity
+  - Interface MobileNetwork has a new optional parameter publicLandMobileNetworks
+  - Interface PacketCoreControlPlane has a new optional parameter homeNetworkPrivateKeysProvisioning
+  - Added Enum KnownHomeNetworkPrivateKeysProvisioningState
+  - Added Enum KnownPdnType
+  - Added Enum KnownRatType
+  - Added Enum KnownRrcEstablishmentCause
+  - Added Enum KnownUeState
+  - Added Enum KnownUeUsageSetting
+
+**Breaking Changes**
+
+  - Operation MobileNetworks.updateTags has a new signature
+    
+    
 ## 4.0.0 (2023-10-31)
     
 **Features**

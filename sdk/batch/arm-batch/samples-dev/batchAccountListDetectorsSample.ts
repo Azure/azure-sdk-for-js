@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets information about the detectors available for a given Batch account.
  *
  * @summary Gets information about the detectors available for a given Batch account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/DetectorList.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/DetectorList.json
  */
 async function listDetectors() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function listDetectors() {
   const resArray = new Array();
   for await (let item of client.batchAccountOperations.listDetectors(
     resourceGroupName,
-    accountName
+    accountName,
   )) {
     resArray.push(item);
   }

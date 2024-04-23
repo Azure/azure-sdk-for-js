@@ -35,7 +35,7 @@ async function virtualMachineImageGetMaximumSetGen() {
     publisherName,
     offer,
     skus,
-    version
+    version,
   );
   console.log(result);
 }
@@ -61,7 +61,7 @@ async function virtualMachineImageGetMinimumSetGen() {
     publisherName,
     offer,
     skus,
-    version
+    version,
   );
   console.log(result);
 }

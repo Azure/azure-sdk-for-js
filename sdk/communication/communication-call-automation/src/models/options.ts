@@ -129,10 +129,6 @@ export interface AnswerCallOptions extends OperationOptions {
   transcriptionConfiguration?: TranscriptionConfiguration;
   /** The operation context. */
   operationContext?: string;
-  /** The caller ID number which is a phone number that will be used when inviting a pstn target.
-   *  Required only when this is an incoming voip call and there will be a transfer call request to a PSTN target.
-   */
-  sourceCallIdNumber?: PhoneNumberIdentifier;
 }
 
 /**
@@ -166,6 +162,8 @@ export interface TransferCallToParticipantOptions extends OperationOptions {
   transferee?: CommunicationIdentifier;
   /** Used by customer to send custom context to targets. */
   customCallingContext?: CustomCallingContext;
+  /** The source caller Id, a phone number, that's will be used as the transferor's(Contoso) caller id when transfering a call a pstn target. */
+  sourceCallIdNumber?: PhoneNumberIdentifier;
 }
 
 /** Options to add participants. */
@@ -353,5 +351,25 @@ export interface StartTranscriptionOptions extends OperationOptions {
  */
 export interface StopTranscriptionOptions extends OperationOptions {
   /** The value to identify context of the operation. */
+  operationContext?: string;
+}
+
+/**
+ * Options to hold participant.
+ */
+export interface HoldOptions extends OperationOptions {
+  /** A PlaySource representing the source to play. */
+  playSource?: FileSource | TextSource | SsmlSource;
+  /** Operation Context. */
+  operationContext?: string;
+  /** Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation. */
+  operationCallbackUri?: string;
+}
+
+/**
+ * Options to Unhold participant.
+ */
+export interface UnholdOptions extends OperationOptions {
+  /** Operation Context. */
   operationContext?: string;
 }

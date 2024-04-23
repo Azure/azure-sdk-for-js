@@ -33,7 +33,7 @@ async function virtualMachineRunCommand() {
   const result = await client.virtualMachines.beginRunCommandAndWait(
     resourceGroupName,
     vmName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

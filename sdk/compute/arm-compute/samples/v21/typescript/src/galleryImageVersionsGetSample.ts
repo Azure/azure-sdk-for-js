@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   GalleryImageVersionsGetOptionalParams,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves information about a gallery image version.
  *
  * @summary Retrieves information about a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryImageVersion_Get_WithReplicationStatus.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/GalleryImageVersion_Get_WithReplicationStatus.json
  */
 async function getAGalleryImageVersionWithReplicationStatus() {
   const subscriptionId =
@@ -40,7 +40,7 @@ async function getAGalleryImageVersionWithReplicationStatus() {
     galleryName,
     galleryImageName,
     galleryImageVersionName,
-    options
+    options,
   );
   console.log(result);
 }
@@ -49,7 +49,7 @@ async function getAGalleryImageVersionWithReplicationStatus() {
  * This sample demonstrates how to Retrieves information about a gallery image version.
  *
  * @summary Retrieves information about a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryImageVersion_Get_WithSnapshotsAsSource.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/GalleryImageVersion_Get_WithSnapshotsAsSource.json
  */
 async function getAGalleryImageVersionWithSnapshotsAsASource() {
   const subscriptionId =
@@ -65,7 +65,7 @@ async function getAGalleryImageVersionWithSnapshotsAsASource() {
     resourceGroupName,
     galleryName,
     galleryImageName,
-    galleryImageVersionName
+    galleryImageVersionName,
   );
   console.log(result);
 }
@@ -74,7 +74,7 @@ async function getAGalleryImageVersionWithSnapshotsAsASource() {
  * This sample demonstrates how to Retrieves information about a gallery image version.
  *
  * @summary Retrieves information about a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryImageVersion_Get_WithVhdAsSource.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/GalleryImageVersion_Get_WithVhdAsSource.json
  */
 async function getAGalleryImageVersionWithVhdAsASource() {
   const subscriptionId =
@@ -90,7 +90,7 @@ async function getAGalleryImageVersionWithVhdAsASource() {
     resourceGroupName,
     galleryName,
     galleryImageName,
-    galleryImageVersionName
+    galleryImageVersionName,
   );
   console.log(result);
 }
@@ -99,7 +99,7 @@ async function getAGalleryImageVersionWithVhdAsASource() {
  * This sample demonstrates how to Retrieves information about a gallery image version.
  *
  * @summary Retrieves information about a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryImageVersion_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/GalleryImageVersion_Get.json
  */
 async function getAGalleryImageVersion() {
   const subscriptionId =
@@ -115,7 +115,7 @@ async function getAGalleryImageVersion() {
     resourceGroupName,
     galleryName,
     galleryImageName,
-    galleryImageVersionName
+    galleryImageVersionName,
   );
   console.log(result);
 }

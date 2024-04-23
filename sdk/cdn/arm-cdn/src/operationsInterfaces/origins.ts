@@ -18,7 +18,7 @@ import {
   OriginUpdateParameters,
   OriginsUpdateOptionalParams,
   OriginsUpdateResponse,
-  OriginsDeleteOptionalParams
+  OriginsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface Origins {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: OriginsListByEndpointOptionalParams
+    options?: OriginsListByEndpointOptionalParams,
   ): PagedAsyncIterableIterator<Origin>;
   /**
    * Gets an existing origin within an endpoint.
@@ -50,7 +50,7 @@ export interface Origins {
     profileName: string,
     endpointName: string,
     originName: string,
-    options?: OriginsGetOptionalParams
+    options?: OriginsGetOptionalParams,
   ): Promise<OriginsGetResponse>;
   /**
    * Creates a new origin within the specified endpoint.
@@ -67,7 +67,7 @@ export interface Origins {
     endpointName: string,
     originName: string,
     origin: Origin,
-    options?: OriginsCreateOptionalParams
+    options?: OriginsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<OriginsCreateResponse>,
@@ -89,7 +89,7 @@ export interface Origins {
     endpointName: string,
     originName: string,
     origin: Origin,
-    options?: OriginsCreateOptionalParams
+    options?: OriginsCreateOptionalParams,
   ): Promise<OriginsCreateResponse>;
   /**
    * Updates an existing origin within an endpoint.
@@ -106,7 +106,7 @@ export interface Origins {
     endpointName: string,
     originName: string,
     originUpdateProperties: OriginUpdateParameters,
-    options?: OriginsUpdateOptionalParams
+    options?: OriginsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<OriginsUpdateResponse>,
@@ -128,7 +128,7 @@ export interface Origins {
     endpointName: string,
     originName: string,
     originUpdateProperties: OriginUpdateParameters,
-    options?: OriginsUpdateOptionalParams
+    options?: OriginsUpdateOptionalParams,
   ): Promise<OriginsUpdateResponse>;
   /**
    * Deletes an existing origin within an endpoint.
@@ -143,7 +143,7 @@ export interface Origins {
     profileName: string,
     endpointName: string,
     originName: string,
-    options?: OriginsDeleteOptionalParams
+    options?: OriginsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing origin within an endpoint.
@@ -158,6 +158,6 @@ export interface Origins {
     profileName: string,
     endpointName: string,
     originName: string,
-    options?: OriginsDeleteOptionalParams
+    options?: OriginsDeleteOptionalParams,
   ): Promise<void>;
 }

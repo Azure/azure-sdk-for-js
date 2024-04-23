@@ -94,8 +94,8 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
    */
   constructor(
     endpoint: string,
-    apiVersion: ApiVersion20231101,
-    options?: AppConfigurationOptionalParams,
+    apiVersion: ApiVersion20231001,
+    options?: AppConfigurationOptionalParams
   ) {
     if (endpoint === undefined) {
       throw new Error("'endpoint' cannot be null");
@@ -112,7 +112,7 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
       requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-app-configuration/1.5.1`;
+    const packageDetails = `azsdk-js-app-configuration/1.6.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -997,8 +997,7 @@ const getRevisionsOperationSpec: coreClient.OperationSpec = {
     Parameters.after,
     Parameters.key,
     Parameters.label,
-    Parameters.select,
-    Parameters.tags,
+    Parameters.select
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [
@@ -1022,8 +1021,7 @@ const checkRevisionsOperationSpec: coreClient.OperationSpec = {
     Parameters.after,
     Parameters.key,
     Parameters.label,
-    Parameters.select,
-    Parameters.tags,
+    Parameters.select
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.syncToken, Parameters.acceptDatetime],

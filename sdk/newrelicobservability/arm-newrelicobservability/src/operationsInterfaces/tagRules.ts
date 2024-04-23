@@ -18,7 +18,7 @@ import {
   TagRulesDeleteOptionalParams,
   TagRuleUpdate,
   TagRulesUpdateOptionalParams,
-  TagRulesUpdateResponse
+  TagRulesUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface TagRules {
   listByNewRelicMonitorResource(
     resourceGroupName: string,
     monitorName: string,
-    options?: TagRulesListByNewRelicMonitorResourceOptionalParams
+    options?: TagRulesListByNewRelicMonitorResourceOptionalParams,
   ): PagedAsyncIterableIterator<TagRule>;
   /**
    * Get a TagRule
@@ -46,7 +46,7 @@ export interface TagRules {
     resourceGroupName: string,
     monitorName: string,
     ruleSetName: string,
-    options?: TagRulesGetOptionalParams
+    options?: TagRulesGetOptionalParams,
   ): Promise<TagRulesGetResponse>;
   /**
    * Create a TagRule
@@ -61,7 +61,7 @@ export interface TagRules {
     monitorName: string,
     ruleSetName: string,
     resource: TagRule,
-    options?: TagRulesCreateOrUpdateOptionalParams
+    options?: TagRulesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TagRulesCreateOrUpdateResponse>,
@@ -81,7 +81,7 @@ export interface TagRules {
     monitorName: string,
     ruleSetName: string,
     resource: TagRule,
-    options?: TagRulesCreateOrUpdateOptionalParams
+    options?: TagRulesCreateOrUpdateOptionalParams,
   ): Promise<TagRulesCreateOrUpdateResponse>;
   /**
    * Delete a TagRule
@@ -94,7 +94,7 @@ export interface TagRules {
     resourceGroupName: string,
     monitorName: string,
     ruleSetName: string,
-    options?: TagRulesDeleteOptionalParams
+    options?: TagRulesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a TagRule
@@ -107,7 +107,7 @@ export interface TagRules {
     resourceGroupName: string,
     monitorName: string,
     ruleSetName: string,
-    options?: TagRulesDeleteOptionalParams
+    options?: TagRulesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Update a TagRule
@@ -122,6 +122,6 @@ export interface TagRules {
     monitorName: string,
     ruleSetName: string,
     properties: TagRuleUpdate,
-    options?: TagRulesUpdateOptionalParams
+    options?: TagRulesUpdateOptionalParams,
   ): Promise<TagRulesUpdateResponse>;
 }

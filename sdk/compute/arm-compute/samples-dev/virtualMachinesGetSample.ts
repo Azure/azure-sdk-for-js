@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VirtualMachinesGetOptionalParams,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -36,7 +36,7 @@ async function getAVirtualMachine() {
   const result = await client.virtualMachines.get(
     resourceGroupName,
     vmName,
-    options
+    options,
   );
   console.log(result);
 }
@@ -78,7 +78,7 @@ async function getAVirtualMachineWithDiskControllerTypeProperties() {
   const result = await client.virtualMachines.get(
     resourceGroupName,
     vmName,
-    options
+    options,
   );
   console.log(result);
 }

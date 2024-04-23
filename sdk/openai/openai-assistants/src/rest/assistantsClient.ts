@@ -23,11 +23,11 @@ import { AssistantsContext } from "./clientDefinitions.js";
 export default function createClient(
   endpoint: string,
   credentials: TokenCredential | KeyCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): AssistantsContext {
   const baseUrl = options.baseUrl ?? `${endpoint}/openai`;
   options.apiVersion = options.apiVersion ?? "2024-02-15-preview";
-  const userAgentInfo = `azsdk-js-openai-assistants-rest/1.0.0-beta.3`;
+  const userAgentInfo = `azsdk-js-openai-assistants-rest/1.0.0-beta.6`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
