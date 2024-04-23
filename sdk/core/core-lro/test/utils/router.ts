@@ -138,7 +138,7 @@ function createSendOp(settings: {
 export function createTestPoller(settings: {
   routes: LroResponseSpec[];
   resourceLocationConfig?: ResourceLocationConfig;
-  processResult?: (result: unknown, state: State) => Promise<Result> | Result;
+  processResult?: (result: unknown, state: State) => Promise<Result>;
   updateState?: (state: State, lastResponse: OperationResponse<Result>) => void;
   implName?: ImplementationName;
   throwOnNon2xxResponse?: boolean;
@@ -191,7 +191,7 @@ async function runLro<TState>(settings: {
   routes: LroResponseSpec[];
   onProgress?: (state: TState) => void;
   resourceLocationConfig?: ResourceLocationConfig;
-  processResult?: (result: unknown, state: TState) => Promise<Result> | Result;
+  processResult?: (result: unknown, state: TState) => Promise<Result>;
   updateState?: (state: TState, lastResponse: RawResponse) => void;
   implName?: ImplementationName;
   throwOnNon2xxResponse?: boolean;
@@ -225,7 +225,7 @@ export const createRunLroWith =
     routes: LroResponseSpec[];
     onProgress?: (state: TState) => void;
     resourceLocationConfig?: ResourceLocationConfig;
-    processResult?: (result: unknown, state: TState) => Result | Promise<Result>;
+    processResult?: (result: unknown, state: TState) => Promise<Result>;
     updateState?: (state: TState, lastResponse: RawResponse) => void;
   }): Promise<Result> =>
     runLro({ ...settings, ...variables });

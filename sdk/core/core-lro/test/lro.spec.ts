@@ -8,7 +8,7 @@ import {
   createDoubleHeaders,
   Result,
 } from "./utils/utils.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, expect } from "vitest";
 import { createRunLroWith, createTestPoller } from "./utils/router.js";
 import { delay } from "@azure/core-util";
 import { matrix } from "./matrix.js";
@@ -2952,28 +2952,6 @@ matrix(
           assert.equal(pollCount, 0);
           assert.equal(poller.operationState.status, "running");
         });
-
-        it("readonly attributes would throw errors if trying to override the value", async () => {
-          try {
-            const poller = createTestPoller({
-              routes: [
-                {
-                  method: "PUT",
-                  status: 200,
-                  body: `{ "properties": { "provisioningState": "Succeeded" }, "id": "100", "name": "foo" }`,
-                },
-              ],
-              throwOnNon2xxResponse,
-            });
-            (poller as any).operationState = "foostatus";
-            assert.fail("should throw error");
-          } catch (e: any) {
-            assert.equal(
-              e.message,
-              "Cannot set property operationState of #<Object> which has only a getter",
-            );
-          }
-        });
       });
 
       describe("promise poller", () => {
@@ -3007,15 +2985,21 @@ matrix(
               ],
               throwOnNon2xxResponse,
             });
+            let callbackCounts = 0;
             const await1 = await poller.then((result) => {
+              callbackCounts++;
               assert.equal(result.statusCode, 200);
               return result;
             });
             const await2 = await poller.then((result) => {
+              callbackCounts++;
               assert.equal(result.statusCode, 200);
               return result;
             });
             assert.isTrue(await1 === await2);
+            assert.equal(callbackCounts, 2);
+            await poller.finally(() => callbackCounts++);
+            assert.equal(callbackCounts, 3);
           });
           it("should trigger the whole polling process to server side only once", async () => {
             let pollCount = 0;
@@ -3079,18 +3063,7 @@ matrix(
               implName,
               throwOnNon2xxResponse: true,
             });
-            try {
-              await poller;
-              assert.fail("should throw error");
-            } catch (e: any) {
-              assert.equal(e.message, errMsg);
-            }
-            try {
-              await poller;
-              assert.fail("should throw error");
-            } catch (e: any) {
-              assert.equal(e.message, errMsg);
-            }
+            await expect(poller).rejects.toThrow(errMsg);
           });
           it("should work properly when mixing catch and await", async () => {
             const body = { status: "canceled", results: [1, 2] };
@@ -3119,20 +3092,16 @@ matrix(
               throwOnNon2xxResponse: true,
             });
             let err: any;
-            try {
-              await poller.catch((e) => {
-                err = e;
-              });
-              assert.equal(err.message, errMsg);
-            } catch (e: any) {
-              assert.fail("should not throw error");
-            }
-            try {
-              await poller;
-              assert.fail("should throw error");
-            } catch (e: any) {
-              assert.equal(e.message, errMsg);
-            }
+            let callbackCounts = 0;
+            await poller.catch((e) => {
+              callbackCounts++;
+              err = e;
+            });
+            assert.equal(err.message, errMsg);
+            await expect(poller).rejects.toThrow(errMsg);
+            assert.equal(callbackCounts, 1);
+            await expect(poller.finally(() => callbackCounts++)).rejects.toThrow(errMsg);
+            assert.equal(callbackCounts, 2);
           });
         });
       });

@@ -15,7 +15,7 @@ export function createHttpPoller<TResult, TState extends OperationState<TResult>
 // @public
 export interface CreateHttpPollerOptions<TResult, TState> {
     intervalInMs?: number;
-    processResult?: (result: unknown, state: TState) => TResult | Promise<TResult>;
+    processResult?: (result: unknown, state: TState) => Promise<TResult>;
     resolveOnUnsuccessful?: boolean;
     resourceLocationConfig?: ResourceLocationConfig;
     restoreFrom?: string;
