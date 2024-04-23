@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates a new Secret within the specified profile.
  *
  * @summary Creates a new Secret within the specified profile.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/Secrets_Create.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Secrets_Create.json
  */
 async function secretsCreate() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";

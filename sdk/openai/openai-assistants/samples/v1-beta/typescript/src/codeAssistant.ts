@@ -16,7 +16,7 @@ export async function main() {
   const assistantsClient = new AssistantsClient(new OpenAIKeyCredential(nonAzureKey));
 
   const assistantResponse = await assistantsClient.assistants.createAssistant({
-    model: "gpt-4-1106-preview",
+    model: "gpt-4-0125-Preview",
     name: "JS Math Tutor",
     instructions: "You are a personal math tutor. Write and run code to answer math questions.",
     tools: [{ type: "code_interpreter" }],

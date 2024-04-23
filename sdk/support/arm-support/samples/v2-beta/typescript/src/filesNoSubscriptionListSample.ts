@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all the Files information under a workspace for an Azure subscription.
  *
  * @summary Lists all the Files information under a workspace for an Azure subscription.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/ListFilesUnderFileWorkspace.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/ListFilesUnderFileWorkspace.json
  */
 async function listFilesUnderAWorkspace() {
   const fileWorkspaceName = "testworkspace";

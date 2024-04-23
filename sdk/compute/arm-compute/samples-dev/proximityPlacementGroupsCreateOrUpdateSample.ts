@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ProximityPlacementGroup,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -33,14 +33,14 @@ async function createOrUpdateAProximityPlacementGroup() {
     intent: { vmSizes: ["Basic_A0", "Basic_A2"] },
     location: "westus",
     proximityPlacementGroupType: "Standard",
-    zones: ["1"]
+    zones: ["1"],
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.proximityPlacementGroups.createOrUpdate(
     resourceGroupName,
     proximityPlacementGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

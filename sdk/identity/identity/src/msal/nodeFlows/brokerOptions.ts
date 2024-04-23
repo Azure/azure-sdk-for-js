@@ -10,7 +10,7 @@ export type BrokerOptions = BrokerEnabledOptions | BrokerDisabledOptions;
  */
 export interface BrokerDisabledOptions {
   /**
-   * If set to true, broker will be enabled for WAM support on Windows
+   * If set to true, broker will be enabled for WAM support on Windows.
    */
   enabled: false;
 
@@ -19,7 +19,7 @@ export interface BrokerDisabledOptions {
    */
   legacyEnableMsaPassthrough?: undefined;
   /**
-   * Window handle for parent window, required for WAM authentication
+   * Window handle for parent window, required for WAM authentication.
    */
   parentWindowHandle: undefined;
 }
@@ -29,7 +29,7 @@ export interface BrokerDisabledOptions {
  */
 export interface BrokerEnabledOptions {
   /**
-   * If set to true, broker will be enabled for WAM support on Windows
+   * If set to true, broker will be enabled for WAM support on Windows.
    */
   enabled: true;
   /**
@@ -37,7 +37,13 @@ export interface BrokerEnabledOptions {
    */
   legacyEnableMsaPassthrough?: boolean;
   /**
-   * Window handle for parent window, required for WAM authentication
+   * Window handle for parent window, required for WAM authentication.
    */
   parentWindowHandle: Uint8Array;
+
+  /**
+   * If set to true, the credential will attempt to use the default broker account for authentication before falling back to interactive authentication.
+   * Default is set to false.
+   */
+  useDefaultBrokerAccount?: boolean;
 }

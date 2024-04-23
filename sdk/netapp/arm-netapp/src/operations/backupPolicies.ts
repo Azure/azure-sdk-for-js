@@ -15,7 +15,7 @@ import { NetAppManagementClient } from "../netAppManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,7 +29,7 @@ import {
   BackupPolicyPatch,
   BackupPoliciesUpdateOptionalParams,
   BackupPoliciesUpdateResponse,
-  BackupPoliciesDeleteOptionalParams
+  BackupPoliciesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,7 +54,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
   public list(
     resourceGroupName: string,
     accountName: string,
-    options?: BackupPoliciesListOptionalParams
+    options?: BackupPoliciesListOptionalParams,
   ): PagedAsyncIterableIterator<BackupPolicy> {
     const iter = this.listPagingAll(resourceGroupName, accountName, options);
     return {
@@ -72,9 +72,9 @@ export class BackupPoliciesImpl implements BackupPolicies {
           resourceGroupName,
           accountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -82,7 +82,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
     resourceGroupName: string,
     accountName: string,
     options?: BackupPoliciesListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<BackupPolicy[]> {
     let result: BackupPoliciesListResponse;
     result = await this._list(resourceGroupName, accountName, options);
@@ -92,12 +92,12 @@ export class BackupPoliciesImpl implements BackupPolicies {
   private async *listPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: BackupPoliciesListOptionalParams
+    options?: BackupPoliciesListOptionalParams,
   ): AsyncIterableIterator<BackupPolicy> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       accountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -112,11 +112,11 @@ export class BackupPoliciesImpl implements BackupPolicies {
   private _list(
     resourceGroupName: string,
     accountName: string,
-    options?: BackupPoliciesListOptionalParams
+    options?: BackupPoliciesListOptionalParams,
   ): Promise<BackupPoliciesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -131,11 +131,11 @@ export class BackupPoliciesImpl implements BackupPolicies {
     resourceGroupName: string,
     accountName: string,
     backupPolicyName: string,
-    options?: BackupPoliciesGetOptionalParams
+    options?: BackupPoliciesGetOptionalParams,
   ): Promise<BackupPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, backupPolicyName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -152,7 +152,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
     accountName: string,
     backupPolicyName: string,
     body: BackupPolicy,
-    options?: BackupPoliciesCreateOptionalParams
+    options?: BackupPoliciesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupPoliciesCreateResponse>,
@@ -161,21 +161,20 @@ export class BackupPoliciesImpl implements BackupPolicies {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BackupPoliciesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -184,8 +183,8 @@ export class BackupPoliciesImpl implements BackupPolicies {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -193,15 +192,15 @@ export class BackupPoliciesImpl implements BackupPolicies {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, backupPolicyName, body, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       BackupPoliciesCreateResponse,
@@ -209,7 +208,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -228,14 +227,14 @@ export class BackupPoliciesImpl implements BackupPolicies {
     accountName: string,
     backupPolicyName: string,
     body: BackupPolicy,
-    options?: BackupPoliciesCreateOptionalParams
+    options?: BackupPoliciesCreateOptionalParams,
   ): Promise<BackupPoliciesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       accountName,
       backupPolicyName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -253,7 +252,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
     accountName: string,
     backupPolicyName: string,
     body: BackupPolicyPatch,
-    options?: BackupPoliciesUpdateOptionalParams
+    options?: BackupPoliciesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BackupPoliciesUpdateResponse>,
@@ -262,21 +261,20 @@ export class BackupPoliciesImpl implements BackupPolicies {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BackupPoliciesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -285,8 +283,8 @@ export class BackupPoliciesImpl implements BackupPolicies {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -294,15 +292,15 @@ export class BackupPoliciesImpl implements BackupPolicies {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, backupPolicyName, body, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       BackupPoliciesUpdateResponse,
@@ -310,7 +308,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -329,14 +327,14 @@ export class BackupPoliciesImpl implements BackupPolicies {
     accountName: string,
     backupPolicyName: string,
     body: BackupPolicyPatch,
-    options?: BackupPoliciesUpdateOptionalParams
+    options?: BackupPoliciesUpdateOptionalParams,
   ): Promise<BackupPoliciesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       accountName,
       backupPolicyName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -352,25 +350,24 @@ export class BackupPoliciesImpl implements BackupPolicies {
     resourceGroupName: string,
     accountName: string,
     backupPolicyName: string,
-    options?: BackupPoliciesDeleteOptionalParams
+    options?: BackupPoliciesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -379,8 +376,8 @@ export class BackupPoliciesImpl implements BackupPolicies {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -388,20 +385,20 @@ export class BackupPoliciesImpl implements BackupPolicies {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, backupPolicyName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -418,13 +415,13 @@ export class BackupPoliciesImpl implements BackupPolicies {
     resourceGroupName: string,
     accountName: string,
     backupPolicyName: string,
-    options?: BackupPoliciesDeleteOptionalParams
+    options?: BackupPoliciesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       accountName,
       backupPolicyName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -433,34 +430,15 @@ export class BackupPoliciesImpl implements BackupPolicies {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupPolicies",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupPolicies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BackupPoliciesList
+      bodyMapper: Mappers.BackupPoliciesList,
     },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupPolicies/{backupPolicyName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BackupPolicy
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {}
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -468,87 +446,118 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.backupPolicyName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupPolicies/{backupPolicyName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BackupPolicy,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.backupPolicyName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupPolicies/{backupPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupPolicies/{backupPolicyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.BackupPolicy
+      bodyMapper: Mappers.BackupPolicy,
     },
     201: {
-      bodyMapper: Mappers.BackupPolicy
+      bodyMapper: Mappers.BackupPolicy,
     },
     202: {
-      bodyMapper: Mappers.BackupPolicy
+      bodyMapper: Mappers.BackupPolicy,
     },
     204: {
-      bodyMapper: Mappers.BackupPolicy
+      bodyMapper: Mappers.BackupPolicy,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.body27,
+  requestBody: Parameters.body24,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.backupPolicyName
+    Parameters.backupPolicyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupPolicies/{backupPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupPolicies/{backupPolicyName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.BackupPolicy
+      bodyMapper: Mappers.BackupPolicy,
     },
     201: {
-      bodyMapper: Mappers.BackupPolicy
+      bodyMapper: Mappers.BackupPolicy,
     },
     202: {
-      bodyMapper: Mappers.BackupPolicy
+      bodyMapper: Mappers.BackupPolicy,
     },
     204: {
-      bodyMapper: Mappers.BackupPolicy
+      bodyMapper: Mappers.BackupPolicy,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.body28,
+  requestBody: Parameters.body25,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.backupPolicyName
+    Parameters.backupPolicyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupPolicies/{backupPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupPolicies/{backupPolicyName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.backupPolicyName
+    Parameters.backupPolicyName,
   ],
-  serializer
+  headerParameters: [Parameters.accept],
+  serializer,
 };

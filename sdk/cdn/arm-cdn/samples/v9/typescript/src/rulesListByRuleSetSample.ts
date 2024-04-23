@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all of the existing delivery rules within a rule set.
  *
  * @summary Lists all of the existing delivery rules within a rule set.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/Rules_ListByRuleSet.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Rules_ListByRuleSet.json
  */
 async function rulesListByRuleSet() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -31,7 +31,7 @@ async function rulesListByRuleSet() {
   for await (let item of client.rules.listByRuleSet(
     resourceGroupName,
     profileName,
-    ruleSetName
+    ruleSetName,
   )) {
     resArray.push(item);
   }

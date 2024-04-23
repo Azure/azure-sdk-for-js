@@ -20,10 +20,7 @@ import {
   isLiveMode,
   isRecordMode,
 } from "@azure-tools/test-recorder";
-import {
-  AzureCognitiveSearchChatExtensionConfiguration,
-  OpenAIKeyCredential,
-} from "../../../src/index.js";
+import { AzureSearchChatExtensionConfiguration, OpenAIKeyCredential } from "../../../src/index.js";
 import {
   EnvironmentVariableNamesAzureCommon,
   EnvironmentVariableNamesForAzureSearch,
@@ -63,7 +60,8 @@ export async function withDeployments<T>(
         ["OperationNotSupported", "model_not_found", "rate_limit_exceeded", "429", 400].includes(
           error.code,
         ) ||
-        error.type === "invalid_request_error"
+        error.type === "invalid_request_error" ||
+        error.name === "AbortError"
       ) {
         console.log(`Handled error: ${errorStr}`);
         continue;
@@ -227,11 +225,14 @@ export async function get(url: string, recorder: Recorder): Promise<PipelineResp
   return sendRequestWithRecorder(request, recorder);
 }
 
-export function createAzureCognitiveSearchExtension(): AzureCognitiveSearchChatExtensionConfiguration {
+export function createAzureSearchExtension(): AzureSearchChatExtensionConfiguration {
   return {
-    type: "AzureCognitiveSearch",
+    type: "azure_search",
     endpoint: assertEnvironmentVariable(EnvironmentVariableNamesForAzureSearch.ENDPOINT_SEARCH),
-    key: assertEnvironmentVariable(EnvironmentVariableNamesForAzureSearch.AZURE_API_KEY_SEARCH),
     indexName: assertEnvironmentVariable(EnvironmentVariableNamesForAzureSearch.AZURE_SEARCH_INDEX),
+    authentication: {
+      type: "api_key",
+      key: assertEnvironmentVariable(EnvironmentVariableNamesForAzureSearch.AZURE_API_KEY_SEARCH),
+    },
   };
 }

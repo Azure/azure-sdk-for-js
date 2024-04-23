@@ -13,7 +13,7 @@ import {
   Usage,
   DatabaseListUsagesOptionalParams,
   MetricDefinition,
-  DatabaseListMetricDefinitionsOptionalParams
+  DatabaseListMetricDefinitionsOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface Database {
     accountName: string,
     databaseRid: string,
     filter: string,
-    options?: DatabaseListMetricsOptionalParams
+    options?: DatabaseListMetricsOptionalParams,
   ): PagedAsyncIterableIterator<Metric>;
   /**
    * Retrieves the usages (most recent data) for the given database.
@@ -47,7 +47,7 @@ export interface Database {
     resourceGroupName: string,
     accountName: string,
     databaseRid: string,
-    options?: DatabaseListUsagesOptionalParams
+    options?: DatabaseListUsagesOptionalParams,
   ): PagedAsyncIterableIterator<Usage>;
   /**
    * Retrieves metric definitions for the given database.
@@ -60,6 +60,6 @@ export interface Database {
     resourceGroupName: string,
     accountName: string,
     databaseRid: string,
-    options?: DatabaseListMetricDefinitionsOptionalParams
+    options?: DatabaseListMetricDefinitionsOptionalParams,
   ): PagedAsyncIterableIterator<MetricDefinition>;
 }

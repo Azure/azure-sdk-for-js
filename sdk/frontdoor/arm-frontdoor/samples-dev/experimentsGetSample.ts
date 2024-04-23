@@ -31,7 +31,7 @@ async function getsAnExperimentByExperimentName() {
   const result = await client.experiments.get(
     resourceGroupName,
     profileName,
-    experimentName
+    experimentName,
   );
   console.log(result);
 }

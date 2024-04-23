@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a new domain within the specified profile.
  *
  * @summary Creates a new domain within the specified profile.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/AFDCustomDomains_Create.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/AFDCustomDomains_Create.json
  */
 async function afdCustomDomainsCreate() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -30,8 +30,8 @@ async function afdCustomDomainsCreate() {
     hostName: "www.someDomain.net",
     tlsSettings: {
       certificateType: "ManagedCertificate",
-      minimumTlsVersion: "TLS12"
-    }
+      minimumTlsVersion: "TLS12",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
@@ -39,7 +39,7 @@ async function afdCustomDomainsCreate() {
     resourceGroupName,
     profileName,
     customDomainName,
-    customDomain
+    customDomain,
   );
   console.log(result);
 }

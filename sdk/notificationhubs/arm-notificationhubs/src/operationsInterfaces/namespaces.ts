@@ -7,26 +7,24 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   NamespaceResource,
-  NamespacesListOptionalParams,
   NamespacesListAllOptionalParams,
+  NamespacesListOptionalParams,
   SharedAccessAuthorizationRuleResource,
   NamespacesListAuthorizationRulesOptionalParams,
   CheckAvailabilityParameters,
   NamespacesCheckAvailabilityOptionalParams,
   NamespacesCheckAvailabilityResponse,
-  NamespaceCreateOrUpdateParameters,
+  NamespacesGetOptionalParams,
+  NamespacesGetResponse,
   NamespacesCreateOrUpdateOptionalParams,
   NamespacesCreateOrUpdateResponse,
   NamespacePatchParameters,
-  NamespacesPatchOptionalParams,
-  NamespacesPatchResponse,
+  NamespacesUpdateOptionalParams,
+  NamespacesUpdateResponse,
   NamespacesDeleteOptionalParams,
-  NamespacesGetOptionalParams,
-  NamespacesGetResponse,
-  SharedAccessAuthorizationRuleCreateOrUpdateParameters,
   NamespacesCreateOrUpdateAuthorizationRuleOptionalParams,
   NamespacesCreateOrUpdateAuthorizationRuleResponse,
   NamespacesDeleteAuthorizationRuleOptionalParams,
@@ -34,183 +32,198 @@ import {
   NamespacesGetAuthorizationRuleResponse,
   NamespacesListKeysOptionalParams,
   NamespacesListKeysResponse,
-  PolicykeyResource,
+  PolicyKeyResource,
   NamespacesRegenerateKeysOptionalParams,
-  NamespacesRegenerateKeysResponse
+  NamespacesRegenerateKeysResponse,
+  NamespacesGetPnsCredentialsOptionalParams,
+  NamespacesGetPnsCredentialsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Namespaces. */
 export interface Namespaces {
   /**
-   * Lists the available namespaces within a resourceGroup.
-   * @param resourceGroupName The name of the resource group. If resourceGroupName value is null the
-   *                          method lists all the namespaces within subscription
+   * Lists all the available namespaces within the subscription.
+   * @param options The options parameters.
+   */
+  listAll(
+    options?: NamespacesListAllOptionalParams,
+  ): PagedAsyncIterableIterator<NamespaceResource>;
+  /**
+   * Lists the available namespaces within a resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
-    options?: NamespacesListOptionalParams
-  ): PagedAsyncIterableIterator<NamespaceResource>;
-  /**
-   * Lists all the available namespaces within the subscription irrespective of the resourceGroups.
-   * @param options The options parameters.
-   */
-  listAll(
-    options?: NamespacesListAllOptionalParams
+    options?: NamespacesListOptionalParams,
   ): PagedAsyncIterableIterator<NamespaceResource>;
   /**
    * Gets the authorization rules for a namespace.
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
    * @param options The options parameters.
    */
   listAuthorizationRules(
     resourceGroupName: string,
     namespaceName: string,
-    options?: NamespacesListAuthorizationRulesOptionalParams
+    options?: NamespacesListAuthorizationRulesOptionalParams,
   ): PagedAsyncIterableIterator<SharedAccessAuthorizationRuleResource>;
   /**
    * Checks the availability of the given service namespace across all Azure subscriptions. This is
    * useful because the domain name is created based on the service namespace name.
-   * @param parameters The namespace name.
+   * @param parameters Request content.
    * @param options The options parameters.
    */
   checkAvailability(
     parameters: CheckAvailabilityParameters,
-    options?: NamespacesCheckAvailabilityOptionalParams
+    options?: NamespacesCheckAvailabilityOptionalParams,
   ): Promise<NamespacesCheckAvailabilityResponse>;
   /**
-   * Creates/Updates a service namespace. Once created, this namespace's resource manifest is immutable.
-   * This operation is idempotent.
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param parameters Parameters supplied to create a Namespace Resource.
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    resourceGroupName: string,
-    namespaceName: string,
-    parameters: NamespaceCreateOrUpdateParameters,
-    options?: NamespacesCreateOrUpdateOptionalParams
-  ): Promise<NamespacesCreateOrUpdateResponse>;
-  /**
-   * Patches the existing namespace
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param parameters Parameters supplied to patch a Namespace Resource.
-   * @param options The options parameters.
-   */
-  patch(
-    resourceGroupName: string,
-    namespaceName: string,
-    parameters: NamespacePatchParameters,
-    options?: NamespacesPatchOptionalParams
-  ): Promise<NamespacesPatchResponse>;
-  /**
-   * Deletes an existing namespace. This operation also removes all associated notificationHubs under the
-   * namespace.
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param options The options parameters.
-   */
-  beginDelete(
-    resourceGroupName: string,
-    namespaceName: string,
-    options?: NamespacesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
-  /**
-   * Deletes an existing namespace. This operation also removes all associated notificationHubs under the
-   * namespace.
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
-    resourceGroupName: string,
-    namespaceName: string,
-    options?: NamespacesDeleteOptionalParams
-  ): Promise<void>;
-  /**
-   * Returns the description for the specified namespace.
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
+   * Returns the given namespace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     namespaceName: string,
-    options?: NamespacesGetOptionalParams
+    options?: NamespacesGetOptionalParams,
   ): Promise<NamespacesGetResponse>;
   /**
+   * Creates / Updates a Notification Hub namespace. This operation is idempotent.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param parameters Request content.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: NamespaceResource,
+    options?: NamespacesCreateOrUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NamespacesCreateOrUpdateResponse>,
+      NamespacesCreateOrUpdateResponse
+    >
+  >;
+  /**
+   * Creates / Updates a Notification Hub namespace. This operation is idempotent.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param parameters Request content.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: NamespaceResource,
+    options?: NamespacesCreateOrUpdateOptionalParams,
+  ): Promise<NamespacesCreateOrUpdateResponse>;
+  /**
+   * Patches the existing namespace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param parameters Request content.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: NamespacePatchParameters,
+    options?: NamespacesUpdateOptionalParams,
+  ): Promise<NamespacesUpdateResponse>;
+  /**
+   * Deletes an existing namespace. This operation also removes all associated notificationHubs under the
+   * namespace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: NamespacesDeleteOptionalParams,
+  ): Promise<void>;
+  /**
    * Creates an authorization rule for a namespace
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param authorizationRuleName Authorization Rule Name.
-   * @param parameters The shared access authorization rule.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param authorizationRuleName Authorization Rule Name
+   * @param parameters Request content.
    * @param options The options parameters.
    */
   createOrUpdateAuthorizationRule(
     resourceGroupName: string,
     namespaceName: string,
     authorizationRuleName: string,
-    parameters: SharedAccessAuthorizationRuleCreateOrUpdateParameters,
-    options?: NamespacesCreateOrUpdateAuthorizationRuleOptionalParams
+    parameters: SharedAccessAuthorizationRuleResource,
+    options?: NamespacesCreateOrUpdateAuthorizationRuleOptionalParams,
   ): Promise<NamespacesCreateOrUpdateAuthorizationRuleResponse>;
   /**
    * Deletes a namespace authorization rule
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param authorizationRuleName Authorization Rule Name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param authorizationRuleName Authorization Rule Name
    * @param options The options parameters.
    */
   deleteAuthorizationRule(
     resourceGroupName: string,
     namespaceName: string,
     authorizationRuleName: string,
-    options?: NamespacesDeleteAuthorizationRuleOptionalParams
+    options?: NamespacesDeleteAuthorizationRuleOptionalParams,
   ): Promise<void>;
   /**
    * Gets an authorization rule for a namespace by name.
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name
-   * @param authorizationRuleName Authorization rule name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param authorizationRuleName Authorization Rule Name
    * @param options The options parameters.
    */
   getAuthorizationRule(
     resourceGroupName: string,
     namespaceName: string,
     authorizationRuleName: string,
-    options?: NamespacesGetAuthorizationRuleOptionalParams
+    options?: NamespacesGetAuthorizationRuleOptionalParams,
   ): Promise<NamespacesGetAuthorizationRuleResponse>;
   /**
-   * Gets the Primary and Secondary ConnectionStrings to the namespace
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param authorizationRuleName The connection string of the namespace for the specified
-   *                              authorizationRule.
+   * Gets the Primary and Secondary ConnectionStrings to the namespace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param authorizationRuleName Authorization Rule Name
    * @param options The options parameters.
    */
   listKeys(
     resourceGroupName: string,
     namespaceName: string,
     authorizationRuleName: string,
-    options?: NamespacesListKeysOptionalParams
+    options?: NamespacesListKeysOptionalParams,
   ): Promise<NamespacesListKeysResponse>;
   /**
    * Regenerates the Primary/Secondary Keys to the Namespace Authorization Rule
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param authorizationRuleName The connection string of the namespace for the specified
-   *                              authorizationRule.
-   * @param parameters Parameters supplied to regenerate the Namespace Authorization Rule Key.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param authorizationRuleName Authorization Rule Name
+   * @param parameters Request content.
    * @param options The options parameters.
    */
   regenerateKeys(
     resourceGroupName: string,
     namespaceName: string,
     authorizationRuleName: string,
-    parameters: PolicykeyResource,
-    options?: NamespacesRegenerateKeysOptionalParams
+    parameters: PolicyKeyResource,
+    options?: NamespacesRegenerateKeysOptionalParams,
   ): Promise<NamespacesRegenerateKeysResponse>;
+  /**
+   * Lists the PNS credentials associated with a namespace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param options The options parameters.
+   */
+  getPnsCredentials(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: NamespacesGetPnsCredentialsOptionalParams,
+  ): Promise<NamespacesGetPnsCredentialsResponse>;
 }

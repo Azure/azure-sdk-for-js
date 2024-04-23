@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates an existing Cluster Pool Tags.
  *
  * @summary Updates an existing Cluster Pool Tags.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-06-01-preview/examples/PatchClusterPool.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-11-01-preview/examples/PatchClusterPool.json
  */
 async function clusterPoolsPatchTags() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function clusterPoolsPatchTags() {
   const result = await client.clusterPools.beginUpdateTagsAndWait(
     resourceGroupName,
     clusterPoolName,
-    clusterPoolTags
+    clusterPoolTags,
   );
   console.log(result);
 }

@@ -10,7 +10,7 @@ import {
 import { KnownSchemaFormats, SchemaDescription, SchemaRegistry } from "@azure/schema-registry";
 import { isMessageContent } from "./utility";
 import { errorWithCause, wrapError } from "./errors";
-import LRUCache from "lru-cache";
+import { LRUCache } from "lru-cache";
 import LRUCacheOptions = LRUCache.Options;
 import { logger } from "./logger";
 
@@ -36,7 +36,7 @@ function getSchemaObject(schema: string): SchemaObject {
   );
 }
 
-const cacheOptions: LRUCacheOptions<string, any> = {
+const cacheOptions: LRUCacheOptions<string, any, unknown> = {
   max: 128,
   /**
    * This is needed in order to specify `sizeCalculation` but we do not intend

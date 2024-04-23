@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List Confluent marketplace agreements in the subscription.
  *
  * @summary List Confluent marketplace agreements in the subscription.
- * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2023-08-22/examples/MarketplaceAgreements_List.json
+ * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/MarketplaceAgreements_List.json
  */
 async function marketplaceAgreementsList() {
   const subscriptionId =
