@@ -49,7 +49,7 @@
     "test:browser": "npm run clean && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && tsc -p . && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && tsc -p . && npm run unit-test:node && npm run bundle && npm run unit-test:browser && npm run integration-test",
-    "unit-test:browser": "&& tsc -p . && dev-tool run bundle && karma start --single-run",
+    "unit-test:browser": "tsc -p . && npm run bundle && karma start --single-run",
     "unit-test:node": "cross-env TS_NODE_FILES=true dev-tool run test:node-ts-input --no-test-proxy=true",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },

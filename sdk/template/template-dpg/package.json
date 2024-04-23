@@ -33,7 +33,7 @@
     "build:test:node": "tsc -p . && dev-tool run bundle",
     "build:test": "echo skipped. actual commands inlined in browser test scripts",
     "build:output": "node scripts/renameOutput.mjs",
-    "build": "npm run customize && dev-tool run extract-api && npm run build:output",
+    "build": "npm run customize && tsc -p . && dev-tool run bundle && dev-tool run extract-api && npm run build:output",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
     "customize": "dev-tool customization apply -s sources/generated/src -c sources/customizations/src && npm run format",
