@@ -3050,14 +3050,11 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.1.0(rollup@4.16.1)
       '@rollup/pluginutils': 5.1.0(rollup@4.16.2)
       commondir: 1.0.1
       estree-walker: 2.0.2
       glob: 8.1.0
       is-reference: 1.2.1
-      magic-string: 0.30.10
-      rollup: 4.16.1
       magic-string: 0.30.10
       rollup: 4.16.2
     dev: false
@@ -3072,11 +3069,8 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.1.0(rollup@4.16.1)
       '@rollup/pluginutils': 5.1.0(rollup@4.16.2)
       estree-walker: 2.0.2
-      magic-string: 0.30.10
-      rollup: 4.16.1
       magic-string: 0.30.10
       rollup: 4.16.2
     dev: false
@@ -3091,8 +3085,6 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.1.0(rollup@4.16.1)
-      rollup: 4.16.1
       '@rollup/pluginutils': 5.1.0(rollup@4.16.2)
       rollup: 4.16.2
     dev: false
@@ -3107,10 +3099,8 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@rollup/plugin-virtual': 3.0.2(rollup@4.16.1)
       '@rollup/plugin-virtual': 3.0.2(rollup@4.16.2)
       matched: 5.0.1
-      rollup: 4.16.1
       rollup: 4.16.2
     dev: false
 
@@ -3124,14 +3114,12 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.1.0(rollup@4.16.1)
       '@rollup/pluginutils': 5.1.0(rollup@4.16.2)
       '@types/resolve': 1.20.2
       deepmerge: 4.3.1
       is-builtin-module: 3.2.1
       is-module: 1.0.0
       resolve: 1.22.8
-      rollup: 4.16.1
       rollup: 4.16.2
     dev: false
 
@@ -3145,11 +3133,9 @@ packages:
       rollup:
         optional: true
     dependencies:
-      rollup: 4.16.1
       rollup: 4.16.2
     dev: false
 
-  /@rollup/pluginutils@5.1.0(rollup@4.16.1):
   /@rollup/pluginutils@5.1.0(rollup@4.16.2):
     resolution: {integrity: sha512-XTIWOPPcpvyKI6L1NHo0lFlCyznUEyPmPY1mc3KpPVDYulHSTvyeLNVW00QTLIAFNhR3kYnJTQHeGqU4M3n09g==}
     engines: {node: '>=14.0.0'}
@@ -3915,8 +3901,6 @@ packages:
       eslint: ^8.56.0
     dependencies:
       '@eslint/eslintrc': 3.0.2
-      '@typescript-eslint/typescript-estree': 7.7.0(typescript@5.4.5)
-      '@typescript-eslint/utils': 7.7.0(eslint@8.57.0)(typescript@5.4.5)
       '@typescript-eslint/typescript-estree': 7.7.1(typescript@5.4.5)
       '@typescript-eslint/utils': 7.7.1(eslint@8.57.0)(typescript@5.4.5)
       ajv: 6.12.6
@@ -3942,8 +3926,6 @@ packages:
     resolution: {integrity: sha512-PytBif2SF+9SpEUKynYn5g1RHFddJUcyynGpztX3l/ik7KmZEv19WCMhUBkHXPU9es/VWGD3/zg3wg90+Dh2rA==}
     engines: {node: ^18.18.0 || >=20.0.0}
     dependencies:
-      '@typescript-eslint/types': 7.7.0
-      '@typescript-eslint/visitor-keys': 7.7.0
       '@typescript-eslint/types': 7.7.1
       '@typescript-eslint/visitor-keys': 7.7.1
     dev: false
@@ -4012,8 +3994,6 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@typescript-eslint/types': 7.7.0
-      '@typescript-eslint/visitor-keys': 7.7.0
       '@typescript-eslint/types': 7.7.1
       '@typescript-eslint/visitor-keys': 7.7.1
       debug: 4.3.4(supports-color@8.1.1)
@@ -4058,9 +4038,6 @@ packages:
       '@eslint-community/eslint-utils': 4.4.0(eslint@8.57.0)
       '@types/json-schema': 7.0.15
       '@types/semver': 7.5.8
-      '@typescript-eslint/scope-manager': 7.7.0
-      '@typescript-eslint/types': 7.7.0
-      '@typescript-eslint/typescript-estree': 7.7.0(typescript@5.4.5)
       '@typescript-eslint/scope-manager': 7.7.1
       '@typescript-eslint/types': 7.7.1
       '@typescript-eslint/typescript-estree': 7.7.1(typescript@5.4.5)
@@ -4085,7 +4062,6 @@ packages:
     resolution: {integrity: sha512-gBL3Eq25uADw1LQ9kVpf3hRM+DWzs0uZknHYK3hq4jcTPqVCClHGDnB6UUUV2SFeBeA4KWHWbbLqmbGcZ4FYbw==}
     engines: {node: ^18.18.0 || >=20.0.0}
     dependencies:
-      '@typescript-eslint/types': 7.7.0
       '@typescript-eslint/types': 7.7.1
       eslint-visitor-keys: 3.4.3
     dev: false
@@ -4601,8 +4577,6 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001612
-      electron-to-chromium: 1.4.745
       caniuse-lite: 1.0.30001612
       electron-to-chromium: 1.4.746
       node-releases: 2.0.14
@@ -9172,8 +9146,6 @@ packages:
     peerDependencies:
       rollup: ^1.20.0 || ^2.0.0 || ^3.0.0 || ^4.0.0
     dependencies:
-      '@rollup/plugin-inject': 5.0.5(rollup@4.16.1)
-      rollup: 4.16.1
       '@rollup/plugin-inject': 5.0.5(rollup@4.16.2)
       rollup: 4.16.2
     dev: false
@@ -9191,7 +9163,6 @@ packages:
     dependencies:
       open: 8.4.2
       picomatch: 2.3.1
-      rollup: 4.16.1
       rollup: 4.16.2
       source-map: 0.7.4
       yargs: 17.7.2
@@ -9206,22 +9177,6 @@ packages:
     dependencies:
       '@types/estree': 1.0.5
     optionalDependencies:
-      '@rollup/rollup-android-arm-eabi': 4.16.1
-      '@rollup/rollup-android-arm64': 4.16.1
-      '@rollup/rollup-darwin-arm64': 4.16.1
-      '@rollup/rollup-darwin-x64': 4.16.1
-      '@rollup/rollup-linux-arm-gnueabihf': 4.16.1
-      '@rollup/rollup-linux-arm-musleabihf': 4.16.1
-      '@rollup/rollup-linux-arm64-gnu': 4.16.1
-      '@rollup/rollup-linux-arm64-musl': 4.16.1
-      '@rollup/rollup-linux-powerpc64le-gnu': 4.16.1
-      '@rollup/rollup-linux-riscv64-gnu': 4.16.1
-      '@rollup/rollup-linux-s390x-gnu': 4.16.1
-      '@rollup/rollup-linux-x64-gnu': 4.16.1
-      '@rollup/rollup-linux-x64-musl': 4.16.1
-      '@rollup/rollup-win32-arm64-msvc': 4.16.1
-      '@rollup/rollup-win32-ia32-msvc': 4.16.1
-      '@rollup/rollup-win32-x64-msvc': 4.16.1
       '@rollup/rollup-android-arm-eabi': 4.16.2
       '@rollup/rollup-android-arm64': 4.16.2
       '@rollup/rollup-darwin-arm64': 4.16.2
@@ -10442,7 +10397,6 @@ packages:
       '@types/node': 18.19.31
       esbuild: 0.20.2
       postcss: 8.4.38
-      rollup: 4.16.1
       rollup: 4.16.2
     optionalDependencies:
       fsevents: 2.3.3
@@ -11108,7 +11062,6 @@ packages:
       '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
-      '@rollup/plugin-node-resolve': 15.2.3(rollup@4.16.1)
       '@rollup/plugin-node-resolve': 15.2.3(rollup@4.16.2)
       '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
@@ -11133,7 +11086,6 @@ packages:
       nyc: 15.1.0
       prettier: 3.2.5
       rimraf: 5.0.5
-      rollup: 4.16.1
       rollup: 4.16.2
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
@@ -11449,7 +11401,6 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
-      '@rollup/plugin-node-resolve': 15.2.3(rollup@4.16.1)
       '@rollup/plugin-node-resolve': 15.2.3(rollup@4.16.2)
       '@types/chai': 4.3.14
       '@types/inquirer': 8.2.10
@@ -11472,7 +11423,6 @@ packages:
       nyc: 15.1.0
       prettier: 3.2.5
       rimraf: 5.0.5
-      rollup: 4.16.1
       rollup: 4.16.2
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
@@ -19287,11 +19237,6 @@ packages:
       '@_ts/max': /typescript@5.4.5
       '@_ts/min': /typescript@4.2.4
       '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
-      '@rollup/plugin-commonjs': 25.0.7(rollup@4.16.1)
-      '@rollup/plugin-inject': 5.0.5(rollup@4.16.1)
-      '@rollup/plugin-json': 6.1.0(rollup@4.16.1)
-      '@rollup/plugin-multi-entry': 6.0.1(rollup@4.16.1)
-      '@rollup/plugin-node-resolve': 15.2.3(rollup@4.16.1)
       '@rollup/plugin-commonjs': 25.0.7(rollup@4.16.2)
       '@rollup/plugin-inject': 5.0.5(rollup@4.16.2)
       '@rollup/plugin-json': 6.1.0(rollup@4.16.2)
@@ -19319,9 +19264,6 @@ packages:
       mkdirp: 3.0.1
       prettier: 3.2.5
       rimraf: 5.0.5
-      rollup: 4.16.1
-      rollup-plugin-polyfill-node: 0.13.0(rollup@4.16.1)
-      rollup-plugin-visualizer: 5.12.0(rollup@4.16.1)
       rollup: 4.16.2
       rollup-plugin-polyfill-node: 0.13.0(rollup@4.16.2)
       rollup-plugin-visualizer: 5.12.0(rollup@4.16.2)
@@ -19471,7 +19413,6 @@ packages:
       '@typescript-eslint/eslint-plugin': 5.57.1(@typescript-eslint/parser@5.57.1)(eslint@8.57.0)(typescript@5.4.5)
       '@typescript-eslint/experimental-utils': 5.57.1(eslint@8.57.0)(typescript@5.4.5)
       '@typescript-eslint/parser': 5.57.1(eslint@8.57.0)(typescript@5.4.5)
-      '@typescript-eslint/rule-tester': 7.7.0(@eslint/eslintrc@3.0.2)(eslint@8.57.0)(typescript@5.4.5)
       '@typescript-eslint/rule-tester': 7.7.1(@eslint/eslintrc@3.0.2)(eslint@8.57.0)(typescript@5.4.5)
       '@typescript-eslint/typescript-estree': 5.57.1(typescript@5.4.5)
       '@vitest/coverage-istanbul': 1.5.0(vitest@1.5.0)
@@ -19566,7 +19507,6 @@ packages:
     dev: false
 
   file:projects/eventgrid-namespaces.tgz:
-    resolution: {integrity: sha512-3DTw/5PgzCEjhHZRdnKEo85MZaylMVzP+l1ID3DYZtOuGifuemfBiaKTeBqTibiTZqQzNRlc1KZZkyy57wCncA==, tarball: file:projects/eventgrid-namespaces.tgz}
     resolution: {integrity: sha512-tX0sDKOJ+JI9yxpCsugV+5IZdeiVofoGYItG+374TroDP7AfQBqWhoeUpNWcjc6dVFxYZWH1TUYbGW1JTudJ8g==, tarball: file:projects/eventgrid-namespaces.tgz}
     name: '@rush-temp/eventgrid-namespaces'
     version: 0.0.0
@@ -22923,7 +22863,6 @@ packages:
       protobufjs-cli: 1.1.2(protobufjs@7.2.6)
       puppeteer: 22.6.5(typescript@5.4.5)
       rimraf: 5.0.5
-      rollup: 4.16.1
       rollup: 4.16.2
       sinon: 17.0.1
       source-map-support: 0.5.21
