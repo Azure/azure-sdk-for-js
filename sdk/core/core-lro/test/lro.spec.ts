@@ -2641,7 +2641,7 @@ matrix(
           assert.isFalse(poller.isDone);
         });
 
-        it("pollUntilDone is aborted when pollCount = 10", async () => {
+        it("pollUntilDone() respects the abort signal", async () => {
           let pollCount = 0;
           const pollingPath = "pollingPath";
           const abortController = new AbortController();
