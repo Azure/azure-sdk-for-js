@@ -889,10 +889,11 @@ export const Operation: coreClient.CompositeMapper = {
           className: "OperationDisplay",
         },
       },
-      statusCode: {
-        serializedName: "properties.statusCode",
+      properties: {
+        serializedName: "properties",
         type: {
-          name: "String",
+          name: "Composite",
+          className: "OperationProperties",
         },
       },
     },
@@ -924,6 +925,21 @@ export const OperationDisplay: coreClient.CompositeMapper = {
       },
       description: {
         serializedName: "description",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const OperationProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationProperties",
+    modelProperties: {
+      statusCode: {
+        serializedName: "statusCode",
         type: {
           name: "String",
         },

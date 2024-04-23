@@ -431,8 +431,8 @@ export interface Operation {
   name?: string;
   /** Provider, Resource, Operation and description values. */
   display?: OperationDisplay;
-  /** Service provider: Microsoft.GuestConfiguration */
-  statusCode?: string;
+  /** Provider, Resource, Operation and description values. */
+  properties?: OperationProperties;
 }
 
 /** Provider, Resource, Operation and description values. */
@@ -445,6 +445,12 @@ export interface OperationDisplay {
   operation?: string;
   /** Description about operation. */
   description?: string;
+}
+
+/** Provider, Resource, Operation and description values. */
+export interface OperationProperties {
+  /** Service provider: Microsoft.GuestConfiguration */
+  statusCode?: string;
 }
 
 /** ARM proxy resource. */

@@ -498,7 +498,7 @@ export enum KnownType {
 export interface Operation {
     display?: OperationDisplay;
     name?: string;
-    statusCode?: string;
+    properties?: OperationProperties;
 }
 
 // @public
@@ -512,6 +512,11 @@ export interface OperationDisplay {
 // @public
 export interface OperationList {
     value?: Operation[];
+}
+
+// @public
+export interface OperationProperties {
+    statusCode?: string;
 }
 
 // @public

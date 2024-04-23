@@ -1,4 +1,4 @@
-# client library samples for TypeScript
+# client library samples for TypeScript (Beta)
 
 These sample programs show how to use the TypeScript client libraries for in some common scenarios.
 
@@ -82,33 +82,33 @@ npx cross-env GUESTCONFIGURATION_SUBSCRIPTION_ID="<guestconfiguration subscripti
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[guestconfigurationassignmentreportsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1/typescript/src/guestConfigurationAssignmentReportsGetSample.ts
-[guestconfigurationassignmentreportslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1/typescript/src/guestConfigurationAssignmentReportsListSample.ts
-[guestconfigurationassignmentreportsvmssgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1/typescript/src/guestConfigurationAssignmentReportsVmssGetSample.ts
-[guestconfigurationassignmentreportsvmsslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1/typescript/src/guestConfigurationAssignmentReportsVmssListSample.ts
-[guestconfigurationassignmentscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1/typescript/src/guestConfigurationAssignmentsCreateOrUpdateSample.ts
-[guestconfigurationassignmentsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1/typescript/src/guestConfigurationAssignmentsDeleteSample.ts
-[guestconfigurationassignmentsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1/typescript/src/guestConfigurationAssignmentsGetSample.ts
-[guestconfigurationassignmentslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1/typescript/src/guestConfigurationAssignmentsListSample.ts
-[guestconfigurationassignmentsrglistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1/typescript/src/guestConfigurationAssignmentsRgListSample.ts
-[guestconfigurationassignmentssubscriptionlistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1/typescript/src/guestConfigurationAssignmentsSubscriptionListSample.ts
-[guestconfigurationassignmentsvmsscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1/typescript/src/guestConfigurationAssignmentsVmssCreateOrUpdateSample.ts
-[guestconfigurationassignmentsvmssdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1/typescript/src/guestConfigurationAssignmentsVmssDeleteSample.ts
-[guestconfigurationassignmentsvmssgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1/typescript/src/guestConfigurationAssignmentsVmssGetSample.ts
-[guestconfigurationassignmentsvmsslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1/typescript/src/guestConfigurationAssignmentsVmssListSample.ts
-[guestconfigurationconnectedvmwarevsphereassignmentscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1/typescript/src/guestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateSample.ts
-[guestconfigurationconnectedvmwarevsphereassignmentsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1/typescript/src/guestConfigurationConnectedVMwarevSphereAssignmentsDeleteSample.ts
-[guestconfigurationconnectedvmwarevsphereassignmentsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1/typescript/src/guestConfigurationConnectedVMwarevSphereAssignmentsGetSample.ts
-[guestconfigurationconnectedvmwarevsphereassignmentslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1/typescript/src/guestConfigurationConnectedVMwarevSphereAssignmentsListSample.ts
-[guestconfigurationconnectedvmwarevsphereassignmentsreportsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1/typescript/src/guestConfigurationConnectedVMwarevSphereAssignmentsReportsGetSample.ts
-[guestconfigurationconnectedvmwarevsphereassignmentsreportslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1/typescript/src/guestConfigurationConnectedVMwarevSphereAssignmentsReportsListSample.ts
-[guestconfigurationhcrpassignmentreportsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1/typescript/src/guestConfigurationHcrpAssignmentReportsGetSample.ts
-[guestconfigurationhcrpassignmentreportslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1/typescript/src/guestConfigurationHcrpAssignmentReportsListSample.ts
-[guestconfigurationhcrpassignmentscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1/typescript/src/guestConfigurationHcrpAssignmentsCreateOrUpdateSample.ts
-[guestconfigurationhcrpassignmentsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1/typescript/src/guestConfigurationHcrpAssignmentsDeleteSample.ts
-[guestconfigurationhcrpassignmentsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1/typescript/src/guestConfigurationHcrpAssignmentsGetSample.ts
-[guestconfigurationhcrpassignmentslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1/typescript/src/guestConfigurationHcrpAssignmentsListSample.ts
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1/typescript/src/operationsListSample.ts
+[guestconfigurationassignmentreportsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1-beta/typescript/src/guestConfigurationAssignmentReportsGetSample.ts
+[guestconfigurationassignmentreportslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1-beta/typescript/src/guestConfigurationAssignmentReportsListSample.ts
+[guestconfigurationassignmentreportsvmssgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1-beta/typescript/src/guestConfigurationAssignmentReportsVmssGetSample.ts
+[guestconfigurationassignmentreportsvmsslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1-beta/typescript/src/guestConfigurationAssignmentReportsVmssListSample.ts
+[guestconfigurationassignmentscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1-beta/typescript/src/guestConfigurationAssignmentsCreateOrUpdateSample.ts
+[guestconfigurationassignmentsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1-beta/typescript/src/guestConfigurationAssignmentsDeleteSample.ts
+[guestconfigurationassignmentsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1-beta/typescript/src/guestConfigurationAssignmentsGetSample.ts
+[guestconfigurationassignmentslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1-beta/typescript/src/guestConfigurationAssignmentsListSample.ts
+[guestconfigurationassignmentsrglistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1-beta/typescript/src/guestConfigurationAssignmentsRgListSample.ts
+[guestconfigurationassignmentssubscriptionlistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1-beta/typescript/src/guestConfigurationAssignmentsSubscriptionListSample.ts
+[guestconfigurationassignmentsvmsscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1-beta/typescript/src/guestConfigurationAssignmentsVmssCreateOrUpdateSample.ts
+[guestconfigurationassignmentsvmssdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1-beta/typescript/src/guestConfigurationAssignmentsVmssDeleteSample.ts
+[guestconfigurationassignmentsvmssgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1-beta/typescript/src/guestConfigurationAssignmentsVmssGetSample.ts
+[guestconfigurationassignmentsvmsslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1-beta/typescript/src/guestConfigurationAssignmentsVmssListSample.ts
+[guestconfigurationconnectedvmwarevsphereassignmentscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1-beta/typescript/src/guestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateSample.ts
+[guestconfigurationconnectedvmwarevsphereassignmentsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1-beta/typescript/src/guestConfigurationConnectedVMwarevSphereAssignmentsDeleteSample.ts
+[guestconfigurationconnectedvmwarevsphereassignmentsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1-beta/typescript/src/guestConfigurationConnectedVMwarevSphereAssignmentsGetSample.ts
+[guestconfigurationconnectedvmwarevsphereassignmentslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1-beta/typescript/src/guestConfigurationConnectedVMwarevSphereAssignmentsListSample.ts
+[guestconfigurationconnectedvmwarevsphereassignmentsreportsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1-beta/typescript/src/guestConfigurationConnectedVMwarevSphereAssignmentsReportsGetSample.ts
+[guestconfigurationconnectedvmwarevsphereassignmentsreportslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1-beta/typescript/src/guestConfigurationConnectedVMwarevSphereAssignmentsReportsListSample.ts
+[guestconfigurationhcrpassignmentreportsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1-beta/typescript/src/guestConfigurationHcrpAssignmentReportsGetSample.ts
+[guestconfigurationhcrpassignmentreportslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1-beta/typescript/src/guestConfigurationHcrpAssignmentReportsListSample.ts
+[guestconfigurationhcrpassignmentscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1-beta/typescript/src/guestConfigurationHcrpAssignmentsCreateOrUpdateSample.ts
+[guestconfigurationhcrpassignmentsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1-beta/typescript/src/guestConfigurationHcrpAssignmentsDeleteSample.ts
+[guestconfigurationhcrpassignmentsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1-beta/typescript/src/guestConfigurationHcrpAssignmentsGetSample.ts
+[guestconfigurationhcrpassignmentslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1-beta/typescript/src/guestConfigurationHcrpAssignmentsListSample.ts
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1-beta/typescript/src/operationsListSample.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-guestconfiguration?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/guestconfiguration/arm-guestconfiguration/README.md
