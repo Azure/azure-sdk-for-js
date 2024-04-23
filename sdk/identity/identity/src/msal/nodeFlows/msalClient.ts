@@ -328,7 +328,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       msalApp.acquireTokenByClientCredential({
         scopes,
         authority: state.msalConfig.auth.authority,
-        azureRegion: calculateRegionalAuthority(), // only supported for certain credentials and only via env vars
+        azureRegion: calculateRegionalAuthority(),
         claims: options?.claims,
       }),
     );
@@ -349,7 +349,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       msalApp.acquireTokenByClientCredential({
         scopes,
         authority: state.msalConfig.auth.authority,
-        azureRegion: calculateRegionalAuthority(), // only supported for certain credentials and only via env vars
+        azureRegion: calculateRegionalAuthority(),
         claims: options?.claims,
         clientAssertion,
       }),
@@ -370,7 +370,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     return withSilentAuthentication(msalApp, scopes, options, () =>
       msalApp.acquireTokenByClientCredential({
         scopes,
-        azureRegion: calculateRegionalAuthority(), // only supported for certain credentials and only via env vars
+        azureRegion: calculateRegionalAuthority(),
         authority: state.msalConfig.auth.authority,
         claims: options?.claims,
       }),
