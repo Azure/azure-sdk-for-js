@@ -38,7 +38,7 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
     );
 
     if (clientId && tenantId && serviceConnectionId) {
-      //Ensure all system env vars are there to form the request uri for OIDC token
+      // Ensure all system env vars are there to form the request uri for OIDC token
       this.ensurePipelinesSystemVars();
       const oidcRequestUrl = `${process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI}${process.env.SYSTEM_TEAMPROJECTID}/_apis/distributedtask/hubs/build/plans/${process.env.SYSTEM_PLANID}/jobs/${process.env.SYSTEM_JOBID}/oidctoken?api-version=7.1-preview.1&serviceConnectionId=${this.serviceConnectionId}`;
       const systemAccessToken = `${process.env.SYSTEM_ACCESSTOKEN}`;
@@ -135,19 +135,19 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
     }
     const missingEnvVars = [];
     if (!process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI)
-      missingEnvVars.push("SYSTEM_TEAMFOUNDATIONCOLLECTIONURI");
+      {missingEnvVars.push("SYSTEM_TEAMFOUNDATIONCOLLECTIONURI");}
     if (!process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI)
-      missingEnvVars.push("SYSTEM_TEAMFOUNDATIONCOLLECTIONURI");
+      {missingEnvVars.push("SYSTEM_TEAMFOUNDATIONCOLLECTIONURI");}
     if (!process.env.SYSTEM_TEAMPROJECTID) missingEnvVars.push("SYSTEM_TEAMPROJECTID");
     if (!process.env.SYSTEM_PLANID) missingEnvVars.push("SYSTEM_PLANID");
     if (!process.env.SYSTEM_JOBID) missingEnvVars.push("SYSTEM_JOBID");
     if (!process.env.SYSTEM_ACCESSTOKEN) missingEnvVars.push("SYSTEM_ACCESSTOKEN");
     if (missingEnvVars.length > 0)
-      throw new CredentialUnavailableError(
+      {throw new CredentialUnavailableError(
         `${credentialName}: is unavailable. Missing system variable(s) - ${missingEnvVars.join(
           ", ",
         )}`,
-      );
+      );}
   }
 }
 

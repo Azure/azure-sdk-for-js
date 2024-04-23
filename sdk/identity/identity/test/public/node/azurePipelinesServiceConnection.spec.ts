@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { AzurePipelinesServiceConnectionCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
 import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
@@ -29,12 +32,13 @@ describe("AzurePipelinesServiceConnectionCredential", function () {
     const credential = new AzurePipelinesServiceConnectionCredential(
       clientId,
       tenantId,
-      "0dec29c2-a766-4121-9c2e-1894f5aca5cb",
+      "0dec29c2-a766-4121-9c2e-1894f5aca5cb"
     );
     try {
       const token = await credential.getToken(scope);
       assert.ok(token?.token);
-      assert.ok(token?.expiresOnTimestamp! > Date.now());
+      assert.isDefined(token?.expiresOnTimestamp);
+      if (token?.expiresOnTimestamp) assert.ok(token?.expiresOnTimestamp > Date.now());
     } catch (e) {
       console.log(e);
     }
