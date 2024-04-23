@@ -104,7 +104,7 @@ class MockRefreshAzureCredential implements TokenCredential {
   public authCount = 0;
   public scopesAndClaims: { scope: string | string[]; challengeClaims: string | undefined }[] = [];
 
-  constructor(public getTokenResponse: AccessToken) { }
+  constructor(public getTokenResponse: AccessToken) {}
 
   public getToken(
     scope: string | string[],
