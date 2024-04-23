@@ -6,12 +6,9 @@
  *
  */
 
-import { ClassDeclaration, Identifier, MethodDefinition } from "estree";
-import { ParserServices, TSESTree, ESLintUtils } from "@typescript-eslint/utils";
+import { TSESTree, ESLintUtils, ParserServicesWithTypeInformation } from "@typescript-eslint/utils";
 import { Symbol as TSSymbol, Type, TypeChecker, TypeFlags } from "typescript";
-import { getPublicMethods, getRuleMetaData } from "../utils";
-import { ParserWeakMapESTreeToTSNode } from "@typescript-eslint/typescript-estree/dist/parser-options";
-import { Rule } from "eslint";
+import { getPublicMethods, createRule } from "../utils";
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -72,7 +69,7 @@ const isValidSymbol = (symbol: TSSymbol, typeChecker: TypeChecker): boolean => {
 const isValidParam = (
   param: TSESTree.Parameter,
   typeChecker: TypeChecker,
-  converter: ParserWeakMapESTreeToTSNode,
+  converter: ParserServicesWithTypeInformation["esTreeNodeToTSNodeMap"],
 ): boolean => {
   if (param.type !== "Identifier" || param.typeAnnotation === undefined) {
     return false;
@@ -82,7 +79,6 @@ const isValidParam = (
   if (typeAnnotation.type !== "TSTypeReference" || typeAnnotation.typeName.type !== "Identifier") {
     return false;
   }
-
   const typeName = typeAnnotation.typeName.name;
 
   if (typeName === "AbortSignalLike") {
@@ -98,26 +94,33 @@ const isValidParam = (
   );
 };
 
-export = {
-  meta: getRuleMetaData(
-    "ts-apisurface-supportcancellation",
-    "require async client methods to accept an AbortSignalLike parameter",
-  ),
-  create: (context: Rule.RuleContext): Rule.RuleListener => {
+export default createRule({
+  name: "ts-apisurface-supportcancellation",
+  meta: {
+    type: "suggestion",
+    docs: {
+      description: "require async client methods to accept an AbortSignalLike parameter",
+    },
+    messages: {
+      MethodShouldAcceptAbortSignal:
+        "async method {{methodName}} should accept an AbortSignalLike parameter or option",
+    },
+    schema: [],
+    fixable: "code",
+  },
+  defaultOptions: [],
+  create(context) {
     ESLintUtils.getParserServices(context);
-    const parserServices = context.sourceCode.parserServices as ParserServices;
-    if (!parserServices.program || parserServices.esTreeNodeToTSNodeMap === undefined) {
-      return {};
-    }
+    const parserServices = ESLintUtils.getParserServices(context);
     const typeChecker = parserServices.program.getTypeChecker();
     const converter = parserServices.esTreeNodeToTSNodeMap;
     return {
       // callback functions
 
       // call on Client classes
-      "ClassDeclaration[id.name=/Client$/]": (node: ClassDeclaration): void => {
-        getPublicMethods(node).forEach((method: MethodDefinition): void => {
-          const key = method.key as Identifier;
+      "ClassDeclaration[id.name=/Client$/]": (node: TSESTree.ClassDeclaration): void => {
+        getPublicMethods(node).forEach((method: TSESTree.MethodDefinition): void => {
+          const key = method.key as TSESTree.Identifier;
           const TSFunction = method.value as TSESTree.FunctionExpression;
 
           // report if async and no parameter of type AbortSignalLike
@@ -129,11 +132,12 @@ export = {
           ) {
             context.report({
               node: method,
-              message: `async method ${key.name} should accept an AbortSignalLike parameter or option`,
+              messageId: "MethodShouldAcceptAbortSignal",
+              data: { methodName: key.name },
             });
           }
         });
       },
-    } as Rule.RuleListener;
+    };
   },
-};
+});
