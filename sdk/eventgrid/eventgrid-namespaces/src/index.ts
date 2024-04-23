@@ -30,3 +30,5 @@ export { PublishResultOutput } from "./cadl-generated/rest";
 export { OperationOptions } from "@azure-rest/core-client";
 
 export { CloudEvent, PublishCloudEventOptions } from "./models";
+
+export { EventGridDeserializer } from "@azure/eventgrid";
