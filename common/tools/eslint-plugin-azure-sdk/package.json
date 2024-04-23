@@ -14,13 +14,6 @@
     "eslint-plugin-azure-sdk"
   ],
   "author": "Microsoft Corporation",
-  "contributors": [
-    {
-      "name": "Arpan Laha",
-      "email": "arpanlaha99@gmail.com",
-      "url": "https://github.com/arpanlaha"
-    }
-  ],
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/eslint-plugin-azure-sdk/",
   "repository": {

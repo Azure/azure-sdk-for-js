@@ -64,7 +64,7 @@ export const arrayToString = (array: any[]): string => JSON.stringify(array).rep
  * @return existsInFile, outerMatchesExpected, isMemberOf, innerMatchesExpected, and outerContainsExpected verifiers
  */
 export const getVerifiers = (
-  context: TSESLint.RuleContext<VerifierMessageIds, never[]>,
+  context: TSESLint.RuleContext<VerifierMessageIds, unknown[]>,
   data: StructureData,
 ): Verifiers => ({
   /**
