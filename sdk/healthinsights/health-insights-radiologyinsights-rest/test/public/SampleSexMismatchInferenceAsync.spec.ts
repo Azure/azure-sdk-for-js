@@ -192,7 +192,9 @@ describe("Sex Mismatch Inference Test", () => {
     //    const jobID = "jobId-" + dateString;
     //    const result = await client.path("/radiology-insights/jobs/{id}", jobID).put(param);
     // put in fixed ID for recording
-    const result = await client.path("/radiology-insights/jobs/{id}", "jobId-1713879526026").put(param);
+    const result = await client
+      .path("/radiology-insights/jobs/{id}", "jobId-1713879526026")
+      .put(param);
     const poller = await getLongRunningPoller(client, result);
     const res = await poller.pollUntilDone();
     console.log(res);

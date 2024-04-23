@@ -150,13 +150,13 @@ function findLateralityDiscrepancy(res: any): void {
       if ("code" in coding && "display" in coding && "system" in coding) {
         console.log(
           "   Coding: " +
-          coding.code +
-          ", " +
-          coding.display +
-          " (" +
-          coding.system +
-          "), type: " +
-          coding.type,
+            coding.code +
+            ", " +
+            coding.display +
+            " (" +
+            coding.system +
+            "), type: " +
+            coding.type,
         );
       }
     });
@@ -181,7 +181,9 @@ describe("Laterality Discrepancy Inference Test", () => {
     //    const jobID = "jobId-" + dateString;
     //    const result = await client.path("/radiology-insights/jobs/{id}", jobID).put(param);
     // put in fixed ID for recording
-    const result = await client.path("/radiology-insights/jobs/{id}", "jobId-1713879506466").put(param);
+    const result = await client
+      .path("/radiology-insights/jobs/{id}", "jobId-1713879506466")
+      .put(param);
     const poller = await getLongRunningPoller(client, result);
     const res = await poller.pollUntilDone();
     console.log(res);
