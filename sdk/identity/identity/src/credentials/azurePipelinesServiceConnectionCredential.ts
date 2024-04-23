@@ -30,11 +30,11 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
     clientId: string,
     tenantId: string,
     serviceConnectionId: string,
-    options?: AzurePipelinesServiceConnectionCredentialOptions,
+    options?: AzurePipelinesServiceConnectionCredentialOptions
   ) {
     checkTenantId(logger, tenantId);
     logger.info(
-      `Invoking AzurePipelinesServiceConnectionCredential with tenant ID: ${tenantId}, clientId: ${clientId} and service connection id: ${serviceConnectionId}`,
+      `Invoking AzurePipelinesServiceConnectionCredential with tenant ID: ${tenantId}, clientId: ${clientId} and service connection id: ${serviceConnectionId}`
     );
 
     if (clientId && tenantId && serviceConnectionId) {
@@ -43,13 +43,13 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
       const oidcRequestUrl = `${process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI}${process.env.SYSTEM_TEAMPROJECTID}/_apis/distributedtask/hubs/build/plans/${process.env.SYSTEM_PLANID}/jobs/${process.env.SYSTEM_JOBID}/oidctoken?api-version=7.1-preview.1&serviceConnectionId=${this.serviceConnectionId}`;
       const systemAccessToken = `${process.env.SYSTEM_ACCESSTOKEN}`;
       logger.info(
-        `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${clientId} and service connection id: ${serviceConnectionId}`,
+        `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${clientId} and service connection id: ${serviceConnectionId}`
       );
       this.client = new ClientAssertionCredential(
         tenantId,
         clientId,
         this.requestOidcToken.bind(this, oidcRequestUrl, systemAccessToken),
-        options,
+        options
       );
     }
   }
@@ -64,7 +64,7 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
    */
   public async getToken(
     scopes: string | string[],
-    options?: GetTokenOptions,
+    options?: GetTokenOptions
   ): Promise<AccessToken | null> {
     if (!this.client) {
       const errorMessage = `${credentialName}: is unavailable. tenantId, clientId, and either tokenFilePath or serviceConnectionId are required parameters. 
@@ -88,7 +88,7 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
 
   private async requestOidcToken(
     oidcRequestUrl: string,
-    systemAccessToken: string,
+    systemAccessToken: string
   ): Promise<string> {
     logger.info("Requesting OIDC token from Azure Pipelines...");
     logger.info(oidcRequestUrl);
@@ -108,7 +108,7 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
     const text = response.bodyAsText;
     if (!text) {
       throw new CredentialUnavailableError(
-        `${credentialName}: is unavailable. Received null token from OIDC request. Response status = ${response.status}`,
+        `${credentialName}: is unavailable. Received null token from OIDC request. Response status = ${response.status}`
       );
     }
     const result = JSON.parse(text);
@@ -117,8 +117,8 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
     } else {
       throw new CredentialUnavailableError(
         `${credentialName}: is unavailable. oidcToken field not detected in the response. Response = ${JSON.stringify(
-          result,
-        )}`,
+          result
+        )}`
       );
     }
   }
@@ -134,20 +134,28 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
       return;
     }
     const missingEnvVars = [];
-    if (!process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI)
-      {missingEnvVars.push("SYSTEM_TEAMFOUNDATIONCOLLECTIONURI");}
-    if (!process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI)
-      {missingEnvVars.push("SYSTEM_TEAMFOUNDATIONCOLLECTIONURI");}
+    let errorMessage = "";
+    if (!process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI) {
+      missingEnvVars.push("SYSTEM_TEAMFOUNDATIONCOLLECTIONURI");
+    }
+    if (!process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI) {
+      missingEnvVars.push("SYSTEM_TEAMFOUNDATIONCOLLECTIONURI");
+    }
     if (!process.env.SYSTEM_TEAMPROJECTID) missingEnvVars.push("SYSTEM_TEAMPROJECTID");
     if (!process.env.SYSTEM_PLANID) missingEnvVars.push("SYSTEM_PLANID");
     if (!process.env.SYSTEM_JOBID) missingEnvVars.push("SYSTEM_JOBID");
-    if (!process.env.SYSTEM_ACCESSTOKEN) missingEnvVars.push("SYSTEM_ACCESSTOKEN");
-    if (missingEnvVars.length > 0)
-      {throw new CredentialUnavailableError(
-        `${credentialName}: is unavailable. Missing system variable(s) - ${missingEnvVars.join(
-          ", ",
-        )}`,
-      );}
+    if (!process.env.SYSTEM_ACCESSTOKEN) {
+      errorMessage +=
+        "\nPlease ensure that the system access token is available in the SYSTEM_ACCESSTOKEN value; this is often most easily achieved by adding a block to the end of your pipeline yaml for the task with:\n env: \n- SYSTEM_ACCESSTOKEN: $(System.AccessToken)";
+      missingEnvVars.push("SYSTEM_ACCESSTOKEN");
+    }
+    if (missingEnvVars.length > 0) {
+      throw new CredentialUnavailableError(
+        `${credentialName}: is unavailable.Please ensure that you're running this task in an Azure Pipeline, so that following missing system variable(s) can be defined- ${missingEnvVars.join(
+          ", "
+        )}.${errorMessage}`
+      );
+    }
   }
 }
 
