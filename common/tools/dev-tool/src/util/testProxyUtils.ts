@@ -172,7 +172,10 @@ function runCommand(executable: string, argv: string[], options: SpawnOptions = 
 }
 
 export async function runTestProxyCommand(argv: string[]): Promise<void> {
-  const result = runCommand(await getTestProxyExecutable(), argv, { stdio: "inherit" }).result;
+  const result = runCommand(await getTestProxyExecutable(), argv, {
+    stdio: "inherit",
+    shell: true,
+  }).result;
   if (await fs.pathExists("assets.json")) {
     await linkRecordingsDirectory();
   }
@@ -255,14 +258,20 @@ export interface TestProxy {
 }
 
 export async function startTestProxy(): Promise<TestProxy> {
-  const testProxy = runCommand(await getTestProxyExecutable(), [
-    "start",
-    "--storage-location",
-    await resolveRoot(),
-    "--",
-    `http://0.0.0.0:${process.env.TEST_PROXY_HTTP_PORT ?? 5000}/`,
-    `https://0.0.0.0:${process.env.TEST_PROXY_HTTPS_PORT ?? 5001}/`,
-  ]);
+  const testProxy = runCommand(
+    await getTestProxyExecutable(),
+    [
+      "start",
+      "--storage-location",
+      await resolveRoot(),
+      "--",
+      `http://0.0.0.0:${process.env.TEST_PROXY_HTTP_PORT ?? 5000}/`,
+      `https://0.0.0.0:${process.env.TEST_PROXY_HTTPS_PORT ?? 5001}/`,
+    ],
+    {
+      shell: true,
+    },
+  );
 
   const log = fs.createWriteStream("./testProxyOutput.log", { flags: "a" });
   testProxy.command.stdout?.pipe(log);
