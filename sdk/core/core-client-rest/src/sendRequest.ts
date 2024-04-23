@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import {
-  FormDataMap,
   HttpClient,
   HttpMethods,
   MultipartRequestBody,
@@ -103,8 +102,8 @@ function buildPipelineRequest(
   options: InternalRequestParameters = {},
 ): PipelineRequest {
   const requestContentType = getRequestContentType(options);
-  const { body, formData, multipartBody } = getRequestBody(options.body, requestContentType);
-  const hasContent = body !== undefined || formData !== undefined || multipartBody !== undefined;
+  const { body, multipartBody } = getRequestBody(options.body, requestContentType);
+  const hasContent = body !== undefined || multipartBody !== undefined;
 
   const headers = createHttpHeaders({
     ...(options.headers ? options.headers : {}),
@@ -119,7 +118,6 @@ function buildPipelineRequest(
     url,
     method,
     body,
-    formData,
     multipartBody,
     headers,
     allowInsecureConnection: options.allowInsecureConnection,
@@ -137,7 +135,6 @@ function buildPipelineRequest(
 
 interface RequestBody {
   body?: RequestBodyType;
-  formData?: FormDataMap;
   multipartBody?: MultipartRequestBody;
 }
 
