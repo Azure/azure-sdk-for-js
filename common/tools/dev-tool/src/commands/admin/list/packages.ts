@@ -20,6 +20,11 @@ export const commandInfo = makeCommandInfo("packages", "list packages defined in
     kind: "string",
     shortName: "s",
   },
+  task: {
+    description: "a .js/.ts file default-exporting a function to run on each listed package",
+    kind: "string",
+    shortName: "t",
+  },
 });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -61,17 +66,25 @@ export async function getProjects(service?: string): Promise<RushJsonProject[]> 
     : rushJson.projects;
 }
 
-export default leafCommand(commandInfo, async ({ paths, service }) => {
+export default leafCommand(commandInfo, async ({ paths, service, task }) => {
   const cwd = process.cwd();
   const root = await resolveRoot();
 
   const projects = await getProjects(service);
 
-  for (const project of projects) {
-    if (paths) {
-      console.log(path.relative(cwd, path.resolve(root, project.projectFolder)) || ".");
-    } else {
-      console.log(project.packageName);
+  if (task) {
+    const imported = await import(task);
+    console.dir(imported.default);
+    for (const project of projects) {
+      await imported.default(project, paths, cwd, root);
+    }
+  } else {
+    for (const project of projects) {
+      if (paths) {
+        console.log(path.relative(cwd, path.resolve(root, project.projectFolder)) || ".");
+      } else {
+        console.log(project.packageName);
+      }
     }
   }
 
