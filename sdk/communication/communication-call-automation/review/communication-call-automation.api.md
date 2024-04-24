@@ -452,12 +452,8 @@ export type MediaStreamingContentType = "audio";
 // @public
 export interface MediaStreamingStateResponse {
     // Warning: (ae-forgotten-export) The symbol "MediaStreamingState" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     mediaStreamingState?: MediaStreamingState;
     // Warning: (ae-forgotten-export) The symbol "MediaStreamingType" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     mediaStreamingType?: MediaStreamingType;
 }
 

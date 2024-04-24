@@ -93,6 +93,8 @@ export interface CancelAddParticipantOperationResult {
 
 /** Contains response data for the mediaStreamingState operation. */
 export interface MediaStreamingStateResponse {
+  /** Defines values for MediaStreamingState. */
   mediaStreamingState?: MediaStreamingState;
+  /** Defines values for MediaStreamingType. */
   mediaStreamingType?: MediaStreamingType;
 }
