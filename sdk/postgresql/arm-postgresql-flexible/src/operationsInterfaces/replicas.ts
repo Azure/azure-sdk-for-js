@@ -21,6 +21,6 @@ export interface Replicas {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ReplicasListByServerOptionalParams
+    options?: ReplicasListByServerOptionalParams,
   ): PagedAsyncIterableIterator<Server>;
 }

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ManagedCCF,
-  ConfidentialLedgerClient
+  ConfidentialLedgerClient,
 } from "@azure/arm-confidentialledger";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates properties of Managed CCF
  *
  * @summary Updates properties of Managed CCF
- * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-01-26-preview/examples/ManagedCCF_Update.json
+ * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-06-28-preview/examples/ManagedCCF_Update.json
  */
 async function managedCcfUpdate() {
   const subscriptionId =
@@ -37,17 +37,17 @@ async function managedCcfUpdate() {
       deploymentType: {
         appSourceUri:
           "https://myaccount.blob.core.windows.net/storage/mccfsource?sv=2022-02-11%st=2022-03-11",
-        languageRuntime: "CPP"
-      }
+        languageRuntime: "CPP",
+      },
     },
-    tags: { additionalProps1: "additional properties" }
+    tags: { additionalProps1: "additional properties" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ConfidentialLedgerClient(credential, subscriptionId);
   const result = await client.managedCCFOperations.beginUpdateAndWait(
     resourceGroupName,
     appName,
-    managedCCF
+    managedCCF,
   );
   console.log(result);
 }

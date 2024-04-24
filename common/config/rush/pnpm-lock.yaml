@@ -3603,13 +3603,9 @@ packages:
       - supports-color
     dev: false
 
-  /@rollup/plugin-commonjs@25.0.7(rollup@4.16.1):
-  /@rollup/plugin-commonjs@25.0.7(rollup@4.16.2):
-    resolution:
-      {
-        integrity: sha512-nEvcR+LRjEjsaSsc4x3XZfCCvZIaSMenZu/OiwOKGN2UhQpAYI7ru7czFvyWbErlpoGjnSX3D5Ch5FcMA3kRWQ==,
-      }
-    engines: { node: ">=14.0.0" }
+  /@rollup/plugin-commonjs@25.0.7(rollup@4.16.4):
+    resolution: {integrity: sha512-nEvcR+LRjEjsaSsc4x3XZfCCvZIaSMenZu/OiwOKGN2UhQpAYI7ru7czFvyWbErlpoGjnSX3D5Ch5FcMA3kRWQ==}
+    engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^2.68.0||^3.0.0||^4.0.0
     peerDependenciesMeta:
@@ -3617,31 +3613,28 @@ packages:
         optional: true
     dependencies:
       "@rollup/pluginutils": 5.1.0(rollup@4.16.2)
+      '@rollup/pluginutils': 5.1.0(rollup@4.16.4)
       commondir: 1.0.1
       estree-walker: 2.0.2
       glob: 8.1.0
       is-reference: 1.2.1
       magic-string: 0.30.10
-      rollup: 4.16.2
+      rollup: 4.16.4
     dev: false
 
-  /@rollup/plugin-inject@5.0.5(rollup@4.16.1):
-  /@rollup/plugin-inject@5.0.5(rollup@4.16.2):
-    resolution:
-      {
-        integrity: sha512-2+DEJbNBoPROPkgTDNe8/1YXWcqxbN5DTjASVIOx8HS+pITXushyNiBV56RB08zuptzz8gT3YfkqriTBVycepg==,
-      }
-    engines: { node: ">=14.0.0" }
+  /@rollup/plugin-inject@5.0.5(rollup@4.16.4):
+    resolution: {integrity: sha512-2+DEJbNBoPROPkgTDNe8/1YXWcqxbN5DTjASVIOx8HS+pITXushyNiBV56RB08zuptzz8gT3YfkqriTBVycepg==}
+    engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
     peerDependenciesMeta:
       rollup:
         optional: true
     dependencies:
-      "@rollup/pluginutils": 5.1.0(rollup@4.16.2)
+      '@rollup/pluginutils': 5.1.0(rollup@4.16.4)
       estree-walker: 2.0.2
       magic-string: 0.30.10
-      rollup: 4.16.2
+      rollup: 4.16.4
     dev: false
 
   /@rollup/plugin-json@6.1.0(rollup@4.16.1):
@@ -3651,6 +3644,9 @@ packages:
         integrity: sha512-EGI2te5ENk1coGeADSIwZ7G2Q8CJS2sF120T7jLw4xFw9n7wIOXHo+kIYRAoVpJAN+kmqZSoO3Fp4JtoNF4ReA==,
       }
     engines: { node: ">=14.0.0" }
+  /@rollup/plugin-json@6.1.0(rollup@4.16.4):
+    resolution: {integrity: sha512-EGI2te5ENk1coGeADSIwZ7G2Q8CJS2sF120T7jLw4xFw9n7wIOXHo+kIYRAoVpJAN+kmqZSoO3Fp4JtoNF4ReA==}
+    engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
     peerDependenciesMeta:
@@ -3659,6 +3655,8 @@ packages:
     dependencies:
       "@rollup/pluginutils": 5.1.0(rollup@4.16.2)
       rollup: 4.16.2
+      '@rollup/pluginutils': 5.1.0(rollup@4.16.4)
+      rollup: 4.16.4
     dev: false
 
   /@rollup/plugin-multi-entry@6.0.1(rollup@4.16.1):
@@ -3668,6 +3666,9 @@ packages:
         integrity: sha512-AXm6toPyTSfbYZWghQGbom1Uh7dHXlrGa+HoiYNhQtDUE3Q7LqoUYdVQx9E1579QWS1uOiu+cZRSE4okO7ySgw==,
       }
     engines: { node: ">=14.0.0" }
+  /@rollup/plugin-multi-entry@6.0.1(rollup@4.16.4):
+    resolution: {integrity: sha512-AXm6toPyTSfbYZWghQGbom1Uh7dHXlrGa+HoiYNhQtDUE3Q7LqoUYdVQx9E1579QWS1uOiu+cZRSE4okO7ySgw==}
+    engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
     peerDependenciesMeta:
@@ -3675,8 +3676,9 @@ packages:
         optional: true
     dependencies:
       "@rollup/plugin-virtual": 3.0.2(rollup@4.16.2)
+      '@rollup/plugin-virtual': 3.0.2(rollup@4.16.4)
       matched: 5.0.1
-      rollup: 4.16.2
+      rollup: 4.16.4
     dev: false
 
   /@rollup/plugin-node-resolve@15.2.3(rollup@4.16.1):
@@ -3686,6 +3688,9 @@ packages:
         integrity: sha512-j/lym8nf5E21LwBT4Df1VD6hRO2L2iwUeUmP7litikRsVp1H6NWx20NEp0Y7su+7XGc476GnXXc4kFeZNGmaSQ==,
       }
     engines: { node: ">=14.0.0" }
+  /@rollup/plugin-node-resolve@15.2.3(rollup@4.16.4):
+    resolution: {integrity: sha512-j/lym8nf5E21LwBT4Df1VD6hRO2L2iwUeUmP7litikRsVp1H6NWx20NEp0Y7su+7XGc476GnXXc4kFeZNGmaSQ==}
+    engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^2.78.0||^3.0.0||^4.0.0
     peerDependenciesMeta:
@@ -3694,11 +3699,13 @@ packages:
     dependencies:
       "@rollup/pluginutils": 5.1.0(rollup@4.16.2)
       "@types/resolve": 1.20.2
+      '@rollup/pluginutils': 5.1.0(rollup@4.16.4)
+      '@types/resolve': 1.20.2
       deepmerge: 4.3.1
       is-builtin-module: 3.2.1
       is-module: 1.0.0
       resolve: 1.22.8
-      rollup: 4.16.2
+      rollup: 4.16.4
     dev: false
 
   /@rollup/plugin-virtual@3.0.2(rollup@4.16.1):
@@ -3708,13 +3715,16 @@ packages:
         integrity: sha512-10monEYsBp3scM4/ND4LNH5Rxvh3e/cVeL3jWTgZ2SrQ+BmUoQcopVQvnaMcOnykb1VkxUFuDAN+0FnpTFRy2A==,
       }
     engines: { node: ">=14.0.0" }
+  /@rollup/plugin-virtual@3.0.2(rollup@4.16.4):
+    resolution: {integrity: sha512-10monEYsBp3scM4/ND4LNH5Rxvh3e/cVeL3jWTgZ2SrQ+BmUoQcopVQvnaMcOnykb1VkxUFuDAN+0FnpTFRy2A==}
+    engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
     peerDependenciesMeta:
       rollup:
         optional: true
     dependencies:
-      rollup: 4.16.2
+      rollup: 4.16.4
     dev: false
 
   /@rollup/pluginutils@5.1.0(rollup@4.16.2):
@@ -3723,6 +3733,9 @@ packages:
         integrity: sha512-XTIWOPPcpvyKI6L1NHo0lFlCyznUEyPmPY1mc3KpPVDYulHSTvyeLNVW00QTLIAFNhR3kYnJTQHeGqU4M3n09g==,
       }
     engines: { node: ">=14.0.0" }
+  /@rollup/pluginutils@5.1.0(rollup@4.16.4):
+    resolution: {integrity: sha512-XTIWOPPcpvyKI6L1NHo0lFlCyznUEyPmPY1mc3KpPVDYulHSTvyeLNVW00QTLIAFNhR3kYnJTQHeGqU4M3n09g==}
+    engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
     peerDependenciesMeta:
@@ -3732,7 +3745,7 @@ packages:
       "@types/estree": 1.0.5
       estree-walker: 2.0.2
       picomatch: 2.3.1
-      rollup: 4.16.2
+      rollup: 4.16.4
     dev: false
 
   /@rollup/rollup-android-arm-eabi@4.16.1:
@@ -3745,6 +3758,8 @@ packages:
       {
         integrity: sha512-VGodkwtEuZ+ENPz/CpDSl091koMv8ao5jHVMbG1vNK+sbx/48/wVzP84M5xSfDAC69mAKKoEkSo+ym9bXYRK9w==,
       }
+  /@rollup/rollup-android-arm-eabi@4.16.4:
+    resolution: {integrity: sha512-GkhjAaQ8oUTOKE4g4gsZ0u8K/IHU1+2WQSgS1TwTcYvL+sjbaQjNHFXbOJ6kgqGHIO1DfUhI/Sphi9GkRT9K+Q==}
     cpu: [arm]
     os: [android]
     requiresBuild: true
@@ -3761,6 +3776,8 @@ packages:
       {
         integrity: sha512-5/W1xyIdc7jw6c/f1KEtg1vYDBWnWCsLiipK41NiaWGLG93eH2edgE6EgQJ3AGiPERhiOLUqlDSfjRK08C9xFg==,
       }
+  /@rollup/rollup-android-arm64@4.16.4:
+    resolution: {integrity: sha512-Bvm6D+NPbGMQOcxvS1zUl8H7DWlywSXsphAeOnVeiZLQ+0J6Is8T7SrjGTH29KtYkiY9vld8ZnpV3G2EPbom+w==}
     cpu: [arm64]
     os: [android]
     requiresBuild: true
@@ -3777,6 +3794,8 @@ packages:
       {
         integrity: sha512-vOAKMqZSTbPfyPVu1jBiy+YniIQd3MG7LUnqV0dA6Q5tyhdqYtxacTHP1+S/ksKl6qCtMG1qQ0grcIgk/19JEA==,
       }
+  /@rollup/rollup-darwin-arm64@4.16.4:
+    resolution: {integrity: sha512-i5d64MlnYBO9EkCOGe5vPR/EeDwjnKOGGdd7zKFhU5y8haKhQZTN2DgVtpODDMxUr4t2K90wTUJg7ilgND6bXw==}
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
@@ -3793,6 +3812,8 @@ packages:
       {
         integrity: sha512-aIJVRUS3Dnj6MqocBMrcXlatKm64O3ITeQAdAxVSE9swyhNyV1dwnRgw7IGKIkDQofatd8UqMSyUxuFEa42EcA==,
       }
+  /@rollup/rollup-darwin-x64@4.16.4:
+    resolution: {integrity: sha512-WZupV1+CdUYehaZqjaFTClJI72fjJEgTXdf4NbW69I9XyvdmztUExBtcI2yIIU6hJtYvtwS6pkTkHJz+k08mAQ==}
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
@@ -3809,6 +3830,8 @@ packages:
       {
         integrity: sha512-/bjfUiXwy3P5vYr6/ezv//Yle2Y0ak3a+Av/BKoi76nFryjWCkki8AuVoPR7ZU/ckcvAWFo77OnFK14B9B5JsA==,
       }
+  /@rollup/rollup-linux-arm-gnueabihf@4.16.4:
+    resolution: {integrity: sha512-ADm/xt86JUnmAfA9mBqFcRp//RVRt1ohGOYF6yL+IFCYqOBNwy5lbEK05xTsEoJq+/tJzg8ICUtS82WinJRuIw==}
     cpu: [arm]
     os: [linux]
     requiresBuild: true
@@ -3825,6 +3848,8 @@ packages:
       {
         integrity: sha512-S24b+tJHwpq2TNRz9T+r71FjMvyBBApY8EkYxz8Cwi/rhH6h+lu/iDUxyc9PuHf9UvyeBFYkWWcrDahai/NCGw==,
       }
+  /@rollup/rollup-linux-arm-musleabihf@4.16.4:
+    resolution: {integrity: sha512-tJfJaXPiFAG+Jn3cutp7mCs1ePltuAgRqdDZrzb1aeE3TktWWJ+g7xK9SNlaSUFw6IU4QgOxAY4rA+wZUT5Wfg==}
     cpu: [arm]
     os: [linux]
     requiresBuild: true
@@ -3841,6 +3866,8 @@ packages:
       {
         integrity: sha512-UN7VAXLyeyGbCQWiOtQN7BqmjTDw1ON2Oos4lfk0YR7yNhFEJWZiwGtvj9Ay4lsT/ueT04sh80Sg2MlWVVZ+Ug==,
       }
+  /@rollup/rollup-linux-arm64-gnu@4.16.4:
+    resolution: {integrity: sha512-7dy1BzQkgYlUTapDTvK997cgi0Orh5Iu7JlZVBy1MBURk7/HSbHkzRnXZa19ozy+wwD8/SlpJnOOckuNZtJR9w==}
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
@@ -3857,6 +3884,8 @@ packages:
       {
         integrity: sha512-ZBKvz3+rIhQjusKMccuJiPsStCrPOtejCHxTe+yWp3tNnuPWtyCh9QLGPKz6bFNFbwbw28E2T6zDgzJZ05F1JQ==,
       }
+  /@rollup/rollup-linux-arm64-musl@4.16.4:
+    resolution: {integrity: sha512-zsFwdUw5XLD1gQe0aoU2HVceI6NEW7q7m05wA46eUAyrkeNYExObfRFQcvA6zw8lfRc5BHtan3tBpo+kqEOxmg==}
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
@@ -3873,6 +3902,8 @@ packages:
       {
         integrity: sha512-LjMMFiVBRL3wOe095vHAekL4b7nQqf4KZEpdMWd3/W+nIy5o9q/8tlVKiqMbfieDypNXLsxM9fexOxd9Qcklyg==,
       }
+  /@rollup/rollup-linux-powerpc64le-gnu@4.16.4:
+    resolution: {integrity: sha512-p8C3NnxXooRdNrdv6dBmRTddEapfESEUflpICDNKXpHvTjRRq1J82CbU5G3XfebIZyI3B0s074JHMWD36qOW6w==}
     cpu: [ppc64]
     os: [linux]
     requiresBuild: true
@@ -3889,6 +3920,8 @@ packages:
       {
         integrity: sha512-ohkPt0lKoCU0s4B6twro2aft+QROPdUiWwOjPNTzwTsBK5w+2+iT9kySdtOdq0gzWJAdiqsV4NFtXOwGZmIsHA==,
       }
+  /@rollup/rollup-linux-riscv64-gnu@4.16.4:
+    resolution: {integrity: sha512-Lh/8ckoar4s4Id2foY7jNgitTOUQczwMWNYi+Mjt0eQ9LKhr6sK477REqQkmy8YHY3Ca3A2JJVdXnfb3Rrwkng==}
     cpu: [riscv64]
     os: [linux]
     requiresBuild: true
@@ -3905,6 +3938,8 @@ packages:
       {
         integrity: sha512-jm2lvLc+/gqXfndlpDw05jKvsl/HKYxUEAt1h5UXcMFVpO4vGpoWmJVUfKDtTqSaHcCNw1his1XjkgR9aort3w==,
       }
+  /@rollup/rollup-linux-s390x-gnu@4.16.4:
+    resolution: {integrity: sha512-1xwwn9ZCQYuqGmulGsTZoKrrn0z2fAur2ujE60QgyDpHmBbXbxLaQiEvzJWDrscRq43c8DnuHx3QorhMTZgisQ==}
     cpu: [s390x]
     os: [linux]
     requiresBuild: true
@@ -3921,6 +3956,8 @@ packages:
       {
         integrity: sha512-oc5/SlITI/Vj/qL4UM+lXN7MERpiy1HEOnrE+SegXwzf7WP9bzmZd6+MDljCEZTdSY84CpvUv9Rq7bCaftn1+g==,
       }
+  /@rollup/rollup-linux-x64-gnu@4.16.4:
+    resolution: {integrity: sha512-LuOGGKAJ7dfRtxVnO1i3qWc6N9sh0Em/8aZ3CezixSTM+E9Oq3OvTsvC4sm6wWjzpsIlOCnZjdluINKESflJLA==}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
@@ -3937,6 +3974,8 @@ packages:
       {
         integrity: sha512-/2VWEBG6mKbS2itm7hzPwhIPaxfZh/KLWrYg20pCRLHhNFtF+epLgcBtwy3m07bl/k86Q3PFRAf2cX+VbZbwzQ==,
       }
+  /@rollup/rollup-linux-x64-musl@4.16.4:
+    resolution: {integrity: sha512-ch86i7KkJKkLybDP2AtySFTRi5fM3KXp0PnHocHuJMdZwu7BuyIKi35BE9guMlmTpwwBTB3ljHj9IQXnTCD0vA==}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
@@ -3953,6 +3992,8 @@ packages:
       {
         integrity: sha512-Wg7ANh7+hSilF0lG3e/0Oy8GtfTIfEk1327Bw8juZOMOoKmJLs3R+a4JDa/4cHJp2Gs7QfCDTepXXcyFD0ubBg==,
       }
+  /@rollup/rollup-win32-arm64-msvc@4.16.4:
+    resolution: {integrity: sha512-Ma4PwyLfOWZWayfEsNQzTDBVW8PZ6TUUN1uFTBQbF2Chv/+sjenE86lpiEwj2FiviSmSZ4Ap4MaAfl1ciF4aSA==}
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
@@ -3969,6 +4010,8 @@ packages:
       {
         integrity: sha512-J/jCDKVMWp0Y2ELnTjpQFYUCUWv1Jr+LdFrJVZtdqGyjDo0PHPa7pCamjHvJel6zBFM3doFFqAr7cmXYWBAbfw==,
       }
+  /@rollup/rollup-win32-ia32-msvc@4.16.4:
+    resolution: {integrity: sha512-9m/ZDrQsdo/c06uOlP3W9G2ENRVzgzbSXmXHT4hwVaDQhYcRpi9bgBT0FTG9OhESxwK0WjQxYOSfv40cU+T69w==}
     cpu: [ia32]
     os: [win32]
     requiresBuild: true
@@ -3985,6 +4028,8 @@ packages:
       {
         integrity: sha512-3nIf+SJMs2ZzrCh+SKNqgLVV9hS/UY0UjT1YU8XQYFGLiUfmHYJ/5trOU1XSvmHjV5gTF/K3DjrWxtyzKKcAHA==,
       }
+  /@rollup/rollup-win32-x64-msvc@4.16.4:
+    resolution: {integrity: sha512-YunpoOAyGLDseanENHmbFvQSfVL5BxW3k7hhy0eN4rb3gS/ct75dVD0EXOWIqFT/nE8XYW6LP6vz6ctKRi0k9A==}
     cpu: [x64]
     os: [win32]
     requiresBuild: true
@@ -6131,10 +6176,12 @@ packages:
       {
         integrity: sha512-BqOuIWUgTPj8ayuBFJUYCCuwIcwjBsb3/614P7tt1bEPJ4i1M0kCdIl0Wi9xhtswBXnfO2bTpTMkHD71H8rJMg==,
       }
+  /chromium-bidi@0.5.17(devtools-protocol@0.0.1273771):
+    resolution: {integrity: sha512-BqOuIWUgTPj8ayuBFJUYCCuwIcwjBsb3/614P7tt1bEPJ4i1M0kCdIl0Wi9xhtswBXnfO2bTpTMkHD71H8rJMg==}
     peerDependencies:
       devtools-protocol: "*"
     dependencies:
-      devtools-protocol: 0.0.1262051
+      devtools-protocol: 0.0.1273771
       mitt: 3.0.1
       urlpattern-polyfill: 10.0.0
       zod: 3.22.4
@@ -6867,6 +6914,8 @@ packages:
       {
         integrity: sha512-YJe4CT5SA8on3Spa+UDtNhEqtuV6Epwz3OZ4HQVLhlRccpZ9/PAYk0/cy/oKxFKRrZPBUPyxympQci4yWNWZ9g==,
       }
+  /devtools-protocol@0.0.1273771:
+    resolution: {integrity: sha512-QDbb27xcTVReQQW/GHJsdQqGKwYBE7re7gxehj467kKP2DKuYBUj6i2k5LRiAC66J1yZG/9gsxooz/s9pcm0Og==}
     dev: false
 
   /di@0.0.1:
@@ -7617,6 +7666,11 @@ packages:
       text-table: 0.2.0
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /esm@3.2.25:
+    resolution: {integrity: sha512-U1suiZ2oDVWv4zPO56S0NcR5QriEahGtdN2OR6FiOG4WJvcjBVFB0qI4+eKoWFH483PKGuLuu6V8Z4T5g63UVA==}
+    engines: {node: '>=6'}
     dev: false
 
   /espree@10.0.1:
@@ -10671,6 +10725,12 @@ packages:
     hasBin: true
     dev: false
 
+  /mkdirp@2.1.6:
+    resolution: {integrity: sha512-+hEnITedc8LAtIP9u3HJDFIdcLV2vXP33sqLLIzkv1Db1zO/1OxbvYf0Y1OC/S/Qo5dxHXepofhmxL02PsKe+A==}
+    engines: {node: '>=10'}
+    hasBin: true
+    dev: false
+
   /mkdirp@3.0.1:
     resolution:
       {
@@ -10874,6 +10934,9 @@ packages:
         integrity: sha512-zcGgwoXbzw9NczqbGzAWL/ToDYAxv1V8gL1D67ClbdkIfeeDBbY0GelZtC25ayLvVjr2q2cloHeQV1R0QAWqRQ==,
       }
     engines: { node: ">=10" }
+  /node-abi@3.62.0:
+    resolution: {integrity: sha512-CPMcGa+y33xuL1E0TcNIu4YyaZCxnnvkVaEXrsosR3FxN+fV8xvb7Mzpb7IgKler10qeMkE6+Dp8qJhpzdq35g==}
+    engines: {node: '>=10'}
     dependencies:
       semver: 7.6.0
     dev: false
@@ -11644,7 +11707,7 @@ packages:
       minimist: 1.2.8
       mkdirp-classic: 0.5.3
       napi-build-utils: 1.0.2
-      node-abi: 3.60.0
+      node-abi: 3.62.0
       pump: 3.0.0
       rc: 1.2.8
       simple-get: 4.0.1
@@ -11859,11 +11922,16 @@ packages:
         integrity: sha512-s0/5XkAWe0/dWISiljdrybjwDCHhgN31Nu/wznOZPKeikgcJtZtbvPKBz0t802XWqfSQnQDt3L6xiAE5JLlfuw==,
       }
     engines: { node: ">=18" }
+  /puppeteer-core@22.7.0:
+    resolution: {integrity: sha512-9Q+L3VD7cfhXnxv6AqwTHsVb/+/uXENByhPrgvwQ49wvzQwtf1d6b7v6gpoG3tpRdwYjxoV1eHTD8tFahww09g==}
+    engines: {node: '>=18'}
     dependencies:
       "@puppeteer/browsers": 2.2.2
       chromium-bidi: 0.5.17(devtools-protocol@0.0.1262051)
+      '@puppeteer/browsers': 2.2.2
+      chromium-bidi: 0.5.17(devtools-protocol@0.0.1273771)
       debug: 4.3.4(supports-color@8.1.1)
-      devtools-protocol: 0.0.1262051
+      devtools-protocol: 0.0.1273771
       ws: 8.16.0
     transitivePeerDependencies:
       - bufferutil
@@ -11877,13 +11945,16 @@ packages:
         integrity: sha512-YuoRKGj3MxHhUwrey7vmNvU4odGdUdNsj1ee8pfcqQlLWIXfMOXZCAXh8xdzpZESHH3tCGWp2xmPZE8E6iUEWg==,
       }
     engines: { node: ">=18" }
+  /puppeteer@22.7.0(typescript@5.4.5):
+    resolution: {integrity: sha512-s1ulKFZKW3lwWCtNu0VrRLfRaanFHxIv7F8UFYpLo8dPTZcI4wB4EAOD0sKT3SKP+1Rsjodb9WFsK78yKQ6i9Q==}
+    engines: {node: '>=18'}
     hasBin: true
     requiresBuild: true
     dependencies:
       "@puppeteer/browsers": 2.2.2
       cosmiconfig: 9.0.0(typescript@5.4.5)
-      devtools-protocol: 0.0.1262051
-      puppeteer-core: 22.6.5
+      devtools-protocol: 0.0.1273771
+      puppeteer-core: 22.7.0
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -12285,11 +12356,15 @@ packages:
       {
         integrity: sha512-FYEvpCaD5jGtyBuBFcQImEGmTxDTPbiHjJdrYIp+mFIwgXiXabxvKUK7ZT9P31ozu2Tqm9llYQMRWsfvTMTAOw==,
       }
+  /rollup-plugin-polyfill-node@0.13.0(rollup@4.16.4):
+    resolution: {integrity: sha512-FYEvpCaD5jGtyBuBFcQImEGmTxDTPbiHjJdrYIp+mFIwgXiXabxvKUK7ZT9P31ozu2Tqm9llYQMRWsfvTMTAOw==}
     peerDependencies:
       rollup: ^1.20.0 || ^2.0.0 || ^3.0.0 || ^4.0.0
     dependencies:
       "@rollup/plugin-inject": 5.0.5(rollup@4.16.2)
       rollup: 4.16.2
+      '@rollup/plugin-inject': 5.0.5(rollup@4.16.4)
+      rollup: 4.16.4
     dev: false
 
   /rollup-plugin-visualizer@5.12.0(rollup@4.16.1):
@@ -12299,6 +12374,9 @@ packages:
         integrity: sha512-8/NU9jXcHRs7Nnj07PF2o4gjxmm9lXIrZ8r175bT9dK8qoLlvKTwRMArRCMgpMGlq8CTLugRvEmyMeMXIU2pNQ==,
       }
     engines: { node: ">=14" }
+  /rollup-plugin-visualizer@5.12.0(rollup@4.16.4):
+    resolution: {integrity: sha512-8/NU9jXcHRs7Nnj07PF2o4gjxmm9lXIrZ8r175bT9dK8qoLlvKTwRMArRCMgpMGlq8CTLugRvEmyMeMXIU2pNQ==}
+    engines: {node: '>=14'}
     hasBin: true
     peerDependencies:
       rollup: 2.x || 3.x || 4.x
@@ -12308,7 +12386,7 @@ packages:
     dependencies:
       open: 8.4.2
       picomatch: 2.3.1
-      rollup: 4.16.2
+      rollup: 4.16.4
       source-map: 0.7.4
       yargs: 17.7.2
     dev: false
@@ -12324,6 +12402,9 @@ packages:
         integrity: sha512-sxDP0+pya/Yi5ZtptF4p3avI+uWCIf/OdrfdH2Gbv1kWddLKk0U7WE3PmQokhi5JrektxsK3sK8s4hzAmjqahw==,
       }
     engines: { node: ">=18.0.0", npm: ">=8.0.0" }
+  /rollup@4.16.4:
+    resolution: {integrity: sha512-kuaTJSUbz+Wsb2ATGvEknkI12XV40vIiHmLuFlejoo7HtDok/O5eDDD0UpCVY5bBX5U5RYo8wWP83H7ZsqVEnA==}
+    engines: {node: '>=18.0.0', npm: '>=8.0.0'}
     hasBin: true
     dependencies:
       "@types/estree": 1.0.5
@@ -12344,6 +12425,22 @@ packages:
       "@rollup/rollup-win32-arm64-msvc": 4.16.2
       "@rollup/rollup-win32-ia32-msvc": 4.16.2
       "@rollup/rollup-win32-x64-msvc": 4.16.2
+      '@rollup/rollup-android-arm-eabi': 4.16.4
+      '@rollup/rollup-android-arm64': 4.16.4
+      '@rollup/rollup-darwin-arm64': 4.16.4
+      '@rollup/rollup-darwin-x64': 4.16.4
+      '@rollup/rollup-linux-arm-gnueabihf': 4.16.4
+      '@rollup/rollup-linux-arm-musleabihf': 4.16.4
+      '@rollup/rollup-linux-arm64-gnu': 4.16.4
+      '@rollup/rollup-linux-arm64-musl': 4.16.4
+      '@rollup/rollup-linux-powerpc64le-gnu': 4.16.4
+      '@rollup/rollup-linux-riscv64-gnu': 4.16.4
+      '@rollup/rollup-linux-s390x-gnu': 4.16.4
+      '@rollup/rollup-linux-x64-gnu': 4.16.4
+      '@rollup/rollup-linux-x64-musl': 4.16.4
+      '@rollup/rollup-win32-arm64-msvc': 4.16.4
+      '@rollup/rollup-win32-ia32-msvc': 4.16.4
+      '@rollup/rollup-win32-x64-msvc': 4.16.4
       fsevents: 2.3.3
     dev: false
 
@@ -13821,6 +13918,9 @@ packages:
         integrity: sha512-esJ/x2QU5boTG6thdA0o4qP3cv/oPx9mcQGcp8TAHI+ZBTa0EvM9Jiyp0ILdPGLGxs5HATTKrJqAK+YhrSFicg==,
       }
     engines: { node: ">=18.17" }
+  /undici@6.14.1:
+    resolution: {integrity: sha512-mAel3i4BsYhkeVPXeIPXVGPJKeBzqCieZYoFsbWfUzd68JmHByhc1Plit5WlylxXFaGpgkZB8mExlxnt+Q1p7A==}
+    engines: {node: '>=18.17'}
     dev: false
 
   /unist-util-stringify-position@2.0.3:
@@ -14037,7 +14137,7 @@ packages:
       "@types/node": 18.19.31
       esbuild: 0.20.2
       postcss: 8.4.38
-      rollup: 4.16.2
+      rollup: 4.16.4
     optionalDependencies:
       fsevents: 2.3.3
     dev: false
@@ -14594,6 +14694,8 @@ packages:
         tarball: file:projects/abort-controller.tgz,
       }
     name: "@rush-temp/abort-controller"
+    resolution: {integrity: sha512-QZ0E3RZB7pUg1bZN5ItGSjX9TUZc+boHlKqirCXSsH8IzCA8TBWImWCYFzXDIMhnk5DZQZUd7+S5MoTWtNqANA==, tarball: file:projects/abort-controller.tgz}
+    name: '@rush-temp/abort-controller'
     version: 0.0.0
     dependencies:
       "@microsoft/api-extractor": 7.43.1(@types/node@18.19.31)
@@ -14630,6 +14732,8 @@ packages:
         tarball: file:projects/agrifood-farming.tgz,
       }
     name: "@rush-temp/agrifood-farming"
+    resolution: {integrity: sha512-6BGK38/gwkYwQFj7rsFPzI1CffcBJJMczbMzPxc+aJKpVhChR8OwcWXHIRcESWlcLICvzHGuifuu6Tt8U9C/Hw==, tarball: file:projects/agrifood-farming.tgz}
+    name: '@rush-temp/agrifood-farming'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -14678,6 +14782,8 @@ packages:
         tarball: file:projects/ai-anomaly-detector.tgz,
       }
     name: "@rush-temp/ai-anomaly-detector"
+    resolution: {integrity: sha512-8lBes67KNhcamu3JLbKs4Qwwp5fCORV9gDUQuTxZ5qLIN9Aeqw+bIeF8Jv8BWCDP4V4mPF/q8iHYEaeJjh3B0w==, tarball: file:projects/ai-anomaly-detector.tgz}
+    name: '@rush-temp/ai-anomaly-detector'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -14726,6 +14832,8 @@ packages:
         tarball: file:projects/ai-content-safety.tgz,
       }
     name: "@rush-temp/ai-content-safety"
+    resolution: {integrity: sha512-clNuLvKo7Gf3IOVmkIkhLvtxz6k4jSCMooe5ooj4qaReQlO6s+AaOALy2n5Y01Is2kaB846Dhe9aJvN6hxq1tA==, tarball: file:projects/ai-content-safety.tgz}
+    name: '@rush-temp/ai-content-safety'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -14773,6 +14881,8 @@ packages:
         tarball: file:projects/ai-document-intelligence.tgz,
       }
     name: "@rush-temp/ai-document-intelligence"
+    resolution: {integrity: sha512-vgAJaGcUIIoPgXGSwH5JoPo79hDGN14Tvhj+Ev3GFIplDNlwihmdkYGjOHWIE00JqmBGP/xSAiHc5SSqUOqGbQ==, tarball: file:projects/ai-document-intelligence.tgz}
+    name: '@rush-temp/ai-document-intelligence'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -14821,6 +14931,8 @@ packages:
         tarball: file:projects/ai-document-translator.tgz,
       }
     name: "@rush-temp/ai-document-translator"
+    resolution: {integrity: sha512-yoYiezbQH+mSyE94/SlLH2aJoYkkHXbUkehPIeAX7didep1q+2o1VBZByxsLYF4VJRtdWpgWun+QZ2TI0oQopg==, tarball: file:projects/ai-document-translator.tgz}
+    name: '@rush-temp/ai-document-translator'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -14868,6 +14980,8 @@ packages:
         tarball: file:projects/ai-form-recognizer.tgz,
       }
     name: "@rush-temp/ai-form-recognizer"
+    resolution: {integrity: sha512-/K76xfQC9c317Oh0zmANP1+cAeNe3pyeUH5dGY8Ig2aJKaZSbFqlibKps/cC4XxRC95BRLpZn9HwE5z6o6+beg==, tarball: file:projects/ai-form-recognizer.tgz}
+    name: '@rush-temp/ai-form-recognizer'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -14879,6 +14993,15 @@ packages:
       "@types/mocha": 10.0.6
       "@types/node": 18.19.31
       "@types/sinon": 17.0.3
+      '@azure-tools/test-credential': 1.0.4
+      '@azure-tools/test-recorder': 3.2.0
+      '@azure/abort-controller': 1.1.0
+      '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
+      '@rollup/plugin-node-resolve': 15.2.3(rollup@4.16.4)
+      '@types/chai': 4.3.14
+      '@types/mocha': 10.0.6
+      '@types/node': 18.19.31
+      '@types/sinon': 17.0.3
       chai: 4.3.10
       chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
@@ -14898,7 +15021,7 @@ packages:
       nyc: 15.1.0
       prettier: 3.2.5
       rimraf: 5.0.5
-      rollup: 4.16.2
+      rollup: 4.16.4
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
       tslib: 2.6.2
@@ -14919,6 +15042,8 @@ packages:
         tarball: file:projects/ai-language-conversations.tgz,
       }
     name: "@rush-temp/ai-language-conversations"
+    resolution: {integrity: sha512-zgY+ZUbWo8F1UUT30RX937OvS8UVH8cB4mV51fCWqXPqxabJMq6kbGVLQuK4OzZiArhfCZnNBNHgjWOHKp/piA==, tarball: file:projects/ai-language-conversations.tgz}
+    name: '@rush-temp/ai-language-conversations'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -14971,6 +15096,8 @@ packages:
         tarball: file:projects/ai-language-text.tgz,
       }
     name: "@rush-temp/ai-language-text"
+    resolution: {integrity: sha512-YsYBvKVbvcfpZ9/DyRX6pxh283aTAKgA54pRWVB/cYoJSrlBTvjtnoq+Jruul/RNkD5zO+zm5bg1cL969gunJw==, tarball: file:projects/ai-language-text.tgz}
+    name: '@rush-temp/ai-language-text'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -15022,6 +15149,8 @@ packages:
         tarball: file:projects/ai-language-textauthoring.tgz,
       }
     name: "@rush-temp/ai-language-textauthoring"
+    resolution: {integrity: sha512-Ick55epSZNDqWlKV3D2bkzrQeva5llsCsKT3wqxJM2OqTDVWvRrkSoM2T7JZNBZoqY2RnSfSgL+1zbXKwINI/g==, tarball: file:projects/ai-language-textauthoring.tgz}
+    name: '@rush-temp/ai-language-textauthoring'
     version: 0.0.0
     dependencies:
       "@microsoft/api-extractor": 7.43.1(@types/node@18.19.31)
@@ -15051,6 +15180,8 @@ packages:
         tarball: file:projects/ai-metrics-advisor.tgz,
       }
     name: "@rush-temp/ai-metrics-advisor"
+    resolution: {integrity: sha512-q7Yq19XMuETM+hUtQJAvpipumig0afK6kuw7U39zOrYIPwkOpVjhdPmdYdQUMf9gxflIDJfcOYMEq/TrSEGALQ==, tarball: file:projects/ai-metrics-advisor.tgz}
+    name: '@rush-temp/ai-metrics-advisor'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -15098,6 +15229,8 @@ packages:
         tarball: file:projects/ai-text-analytics.tgz,
       }
     name: "@rush-temp/ai-text-analytics"
+    resolution: {integrity: sha512-HH3FJnuEIb+aKq6OoTP7uQ6ab/HJqz7mMKSsKvO12VApQZTNqPF/bTiIaFssCJkAmiB9tyYrZznqMYY7d586gQ==, tarball: file:projects/ai-text-analytics.tgz}
+    name: '@rush-temp/ai-text-analytics'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -15148,6 +15281,8 @@ packages:
         tarball: file:projects/ai-translation-text.tgz,
       }
     name: "@rush-temp/ai-translation-text"
+    resolution: {integrity: sha512-zWsMjqx1NRkvvq6FyRIQNAzY3FD2x8gaPy45G2O4xGxVPxKXEdZxMVmh3bsHMkItWMRun1Z9WZTgHfPItX9A3g==, tarball: file:projects/ai-translation-text.tgz}
+    name: '@rush-temp/ai-translation-text'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -15195,6 +15330,8 @@ packages:
         tarball: file:projects/ai-vision-image-analysis.tgz,
       }
     name: "@rush-temp/ai-vision-image-analysis"
+    resolution: {integrity: sha512-YYaqGHsc7V8u3Nlca2mSTbvm/nnU/W4GeUy6BwmUXUV1orOaWLFV4ha1Oto0w8OiVcjWS8nuP64j8txQYkbwLg==, tarball: file:projects/ai-vision-image-analysis.tgz}
+    name: '@rush-temp/ai-vision-image-analysis'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -15242,6 +15379,8 @@ packages:
         tarball: file:projects/api-management-custom-widgets-scaffolder.tgz,
       }
     name: "@rush-temp/api-management-custom-widgets-scaffolder"
+    resolution: {integrity: sha512-5npAUPwsi55w5hvt08v+cI/rwrBxgSo+PFUaEeqaBgP0HxG+azLcSvIScSzyfJgecFFpdwkW3TROnb58dsHPCg==, tarball: file:projects/api-management-custom-widgets-scaffolder.tgz}
+    name: '@rush-temp/api-management-custom-widgets-scaffolder'
     version: 0.0.0
     dependencies:
       "@microsoft/api-extractor": 7.43.1(@types/node@18.19.31)
@@ -15254,6 +15393,16 @@ packages:
       "@types/sinon": 17.0.3
       "@types/yargs": 17.0.32
       "@types/yargs-parser": 21.0.3
+      '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
+      '@rollup/plugin-node-resolve': 15.2.3(rollup@4.16.4)
+      '@types/chai': 4.3.14
+      '@types/inquirer': 8.2.10
+      '@types/mocha': 10.0.6
+      '@types/mustache': 4.2.5
+      '@types/node': 18.19.31
+      '@types/sinon': 17.0.3
+      '@types/yargs': 17.0.32
+      '@types/yargs-parser': 21.0.3
       chai: 4.3.10
       chalk: 4.1.2
       cross-env: 7.0.3
@@ -15267,7 +15416,7 @@ packages:
       nyc: 15.1.0
       prettier: 3.2.5
       rimraf: 5.0.5
-      rollup: 4.16.2
+      rollup: 4.16.4
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
       tslib: 2.6.2
@@ -15288,6 +15437,8 @@ packages:
         tarball: file:projects/api-management-custom-widgets-tools.tgz,
       }
     name: "@rush-temp/api-management-custom-widgets-tools"
+    resolution: {integrity: sha512-HIbogMftv1mSQAn2Lb24K79DiYVtOeUXwqPMbANi0TrZRiUFYblvejH70uTd9pATQUQ34dd2/tJXXPtBF259Fg==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
+    name: '@rush-temp/api-management-custom-widgets-tools'
     version: 0.0.0
     dependencies:
       "@azure/storage-blob": 12.17.0
@@ -15327,6 +15478,8 @@ packages:
         tarball: file:projects/app-configuration.tgz,
       }
     name: "@rush-temp/app-configuration"
+    resolution: {integrity: sha512-4WI+jPaYvm+usfdSRHOkqDKyP3odMwAyhICREBSyTSTEC/HWRZj3J11E7zTSTtO7Y0wCQLKRkJNypnx2GB2ghQ==, tarball: file:projects/app-configuration.tgz}
+    name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -15371,6 +15524,8 @@ packages:
         tarball: file:projects/arm-advisor.tgz,
       }
     name: "@rush-temp/arm-advisor"
+    resolution: {integrity: sha512-zyuVmvXs6ZyN+8sxCfudmpRTW3FZXHUDxSaUbhtd0kKDlm27fLfwvLzAyF1R8ld0Nw/MIGIPNxLBmHawNWN3Dg==, tarball: file:projects/arm-advisor.tgz}
+    name: '@rush-temp/arm-advisor'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -15402,6 +15557,8 @@ packages:
         tarball: file:projects/arm-agrifood.tgz,
       }
     name: "@rush-temp/arm-agrifood"
+    resolution: {integrity: sha512-xV/s7pjqexSpW/ZGXFKAoLumz4Mr3ikrh3JPRcE4WB2mW+bIZP7BkZD0oLvbyjr5PdRktbVa9f4/olF/AFbrSQ==, tarball: file:projects/arm-agrifood.tgz}
+    name: '@rush-temp/arm-agrifood'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -15433,6 +15590,8 @@ packages:
         tarball: file:projects/arm-analysisservices.tgz,
       }
     name: "@rush-temp/arm-analysisservices"
+    resolution: {integrity: sha512-eD4TBS4ovQ2Us2sxKsXoRtAO4NnRT0zRXYTM5KgaCW3uB9otCMd0VVQblFCKPPwgCYx1YXygH7/5I73h3B97Xw==, tarball: file:projects/arm-analysisservices.tgz}
+    name: '@rush-temp/arm-analysisservices'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -15464,6 +15623,8 @@ packages:
         tarball: file:projects/arm-apicenter.tgz,
       }
     name: "@rush-temp/arm-apicenter"
+    resolution: {integrity: sha512-sHPrTPd5jKvuQYxBBi6S3yg2wS6wZP+M8uUswbhapiduxDS9iDh78wocI7aodmzAxz0/UchuavUk8+R7oVdoEg==, tarball: file:projects/arm-apicenter.tgz}
+    name: '@rush-temp/arm-apicenter'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -15496,6 +15657,8 @@ packages:
         tarball: file:projects/arm-apimanagement.tgz,
       }
     name: "@rush-temp/arm-apimanagement"
+    resolution: {integrity: sha512-rcixPMQuP30AVFDnA4WB8j49ym60Je/4sU//j8WEFP00NInx6J+O+KuGqjSxl3KW0mElNzzA+30BfrumnYXvQg==, tarball: file:projects/arm-apimanagement.tgz}
+    name: '@rush-temp/arm-apimanagement'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -15528,6 +15691,8 @@ packages:
         tarball: file:projects/arm-appcomplianceautomation.tgz,
       }
     name: "@rush-temp/arm-appcomplianceautomation"
+    resolution: {integrity: sha512-zE9obcrTHbnYrgC6SDTM1QP0k2IWmYcgusg4qzbKWTPFH1n4swXecVZBN1ZElB641cdGHFLaZgHSntoO9Bcl2A==, tarball: file:projects/arm-appcomplianceautomation.tgz}
+    name: '@rush-temp/arm-appcomplianceautomation'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -15559,6 +15724,8 @@ packages:
         tarball: file:projects/arm-appconfiguration.tgz,
       }
     name: "@rush-temp/arm-appconfiguration"
+    resolution: {integrity: sha512-X3oLsmTFbzT+t/qnj9dpmp5pLbAiZEM+tzub+0kyQoKeG1qRFqoHT1w/HMpr+eBX3YxOq67PnwKvodB69ExQaQ==, tarball: file:projects/arm-appconfiguration.tgz}
+    name: '@rush-temp/arm-appconfiguration'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -15591,6 +15758,8 @@ packages:
         tarball: file:projects/arm-appcontainers.tgz,
       }
     name: "@rush-temp/arm-appcontainers"
+    resolution: {integrity: sha512-+tFzl0mWObf9K7AANacDvjrTPlIosc6k2fIvvnYKUYsxJfCtjDSYNxqRqiv4TO4A8/jEvKwf1BzjAeSp1vi3Gw==, tarball: file:projects/arm-appcontainers.tgz}
+    name: '@rush-temp/arm-appcontainers'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -15623,6 +15792,8 @@ packages:
         tarball: file:projects/arm-appinsights.tgz,
       }
     name: "@rush-temp/arm-appinsights"
+    resolution: {integrity: sha512-yjy/76f2JIgGJtqAnskFaZxQj6ZxRwDoG6oxl2XSiZws+Z2KeWEJx1+W6xpdMX6KDvKw85u7Id0KHd+nQBuyhQ==, tarball: file:projects/arm-appinsights.tgz}
+    name: '@rush-temp/arm-appinsights'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -15653,6 +15824,8 @@ packages:
         tarball: file:projects/arm-appplatform.tgz,
       }
     name: "@rush-temp/arm-appplatform"
+    resolution: {integrity: sha512-4IsY7EP9wKSxzfuGjOsnijM+D2llT9sT1LhtbAa2EKA6LZzQHHRtK2TC5Z8L8Dq1K/YJX4VMFHBFsFuPHw4GjQ==, tarball: file:projects/arm-appplatform.tgz}
+    name: '@rush-temp/arm-appplatform'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -15685,6 +15858,8 @@ packages:
         tarball: file:projects/arm-appservice-1.tgz,
       }
     name: "@rush-temp/arm-appservice-1"
+    resolution: {integrity: sha512-f+oYgcbCSlsDNb5u99wAp6fKv52BYSNqFAXQOC+0G0U+2m5LfZaCWwckqhJBJXuB/GrTzafoJmOZxJwkBecLwg==, tarball: file:projects/arm-appservice-1.tgz}
+    name: '@rush-temp/arm-appservice-1'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -15717,6 +15892,8 @@ packages:
         tarball: file:projects/arm-appservice-profile-2020-09-01-hybrid.tgz,
       }
     name: "@rush-temp/arm-appservice-profile-2020-09-01-hybrid"
+    resolution: {integrity: sha512-NivqyR/7N82rpBVDvO5pb6cjSNvbOWa8uxe1DxlMdalVpdlvcaaUgD20pv1vCJ79BdlsFMeNMHzZfiw0F7MDUQ==, tarball: file:projects/arm-appservice-profile-2020-09-01-hybrid.tgz}
+    name: '@rush-temp/arm-appservice-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -15749,6 +15926,8 @@ packages:
         tarball: file:projects/arm-appservice.tgz,
       }
     name: "@rush-temp/arm-appservice"
+    resolution: {integrity: sha512-iCuTsffjZnrCH+2cY3p0gP2VEAveJ7qXDVb0fVDuIuoX3StbWjyj3vy9qA2F5tzp7nVeTCOXPxzQ7s2TDfD2lg==, tarball: file:projects/arm-appservice.tgz}
+    name: '@rush-temp/arm-appservice'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -15796,6 +15975,8 @@ packages:
         tarball: file:projects/arm-astro.tgz,
       }
     name: "@rush-temp/arm-astro"
+    resolution: {integrity: sha512-tNdWAsOYq1WCJGj/Rdz+byCs5vkgepYJYkFEJCuxL0lorv3UChkXSXhFOyxS0zwbcb5iI71q8B8xuxKIXK9BiQ==, tarball: file:projects/arm-astro.tgz}
+    name: '@rush-temp/arm-astro'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -15828,6 +16009,8 @@ packages:
         tarball: file:projects/arm-attestation.tgz,
       }
     name: "@rush-temp/arm-attestation"
+    resolution: {integrity: sha512-LX9ASV1ZKwYUtOiIrr6u4zlyAwGzivDVe/mYHtD3e9nyyDXLrKAivZM/TgICJgh3l0iCaU+HBZ5KG6CfB182Kg==, tarball: file:projects/arm-attestation.tgz}
+    name: '@rush-temp/arm-attestation'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -15858,6 +16041,8 @@ packages:
         tarball: file:projects/arm-authorization-profile-2020-09-01-hybrid.tgz,
       }
     name: "@rush-temp/arm-authorization-profile-2020-09-01-hybrid"
+    resolution: {integrity: sha512-m9qateyXBx6akGfdZjYXAtox/9he8wA9jytnmDVUATPlwJQe86PeLabX9ebq7D0sj4yegk8m9bziuuSsNiZhZg==, tarball: file:projects/arm-authorization-profile-2020-09-01-hybrid.tgz}
+    name: '@rush-temp/arm-authorization-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -15889,6 +16074,8 @@ packages:
         tarball: file:projects/arm-authorization.tgz,
       }
     name: "@rush-temp/arm-authorization"
+    resolution: {integrity: sha512-67wEe/WRT68oEhrKtZ+Y1MeFv/vXG9KdFtH39jSBcRpBsfIi/x8j22SfS0j8l0Xj1dw5Sv9EPfZVViDy11GJcA==, tarball: file:projects/arm-authorization.tgz}
+    name: '@rush-temp/arm-authorization'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -15921,6 +16108,8 @@ packages:
         tarball: file:projects/arm-automanage.tgz,
       }
     name: "@rush-temp/arm-automanage"
+    resolution: {integrity: sha512-WGtfg0dDi6jkNh/Ri+uXy8/gQjRis0we3YkCeibk+k8JdcRcnYg2iGTLHIZpQJnS8cQC8XQGQxeuY2X/ObovFQ==, tarball: file:projects/arm-automanage.tgz}
+    name: '@rush-temp/arm-automanage'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -15952,6 +16141,8 @@ packages:
         tarball: file:projects/arm-automation.tgz,
       }
     name: "@rush-temp/arm-automation"
+    resolution: {integrity: sha512-LkCVMYNYoREqLgdsRkEFk53t4P0lcupKBQAqpA5PsTT5iYAHZbp4qNFsA4AYm6WswcvBOILQlj0NWtjib4y0ug==, tarball: file:projects/arm-automation.tgz}
+    name: '@rush-temp/arm-automation'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -15984,6 +16175,8 @@ packages:
         tarball: file:projects/arm-avs.tgz,
       }
     name: "@rush-temp/arm-avs"
+    resolution: {integrity: sha512-JVgCzBZ1CZVhidxWm5jBurQEoF0VJHDh75O43kpL9fOiUTbZkVZcQoPYUWLb3UMxgdhyziL/0T4++vVY1Dxtow==, tarball: file:projects/arm-avs.tgz}
+    name: '@rush-temp/arm-avs'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -16016,6 +16209,8 @@ packages:
         tarball: file:projects/arm-azureadexternalidentities.tgz,
       }
     name: "@rush-temp/arm-azureadexternalidentities"
+    resolution: {integrity: sha512-SPyaQzWcW2YAIL6rtPJ6M5/9h0uLABlc+TntAkw1JdoNgbKzqeloNp6yHpb43NAbYPVwHWCrJ+hP1bNmgwmzlw==, tarball: file:projects/arm-azureadexternalidentities.tgz}
+    name: '@rush-temp/arm-azureadexternalidentities'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -16047,6 +16242,8 @@ packages:
         tarball: file:projects/arm-azurestack.tgz,
       }
     name: "@rush-temp/arm-azurestack"
+    resolution: {integrity: sha512-AECWQnFsG8NLdEBLPiBqHb1uJckCkcBKWxaj9L6AS4wFVPqsGlRZ5o1CPGn0DetPHOCjDvDGwFtRjVRdR2wx+g==, tarball: file:projects/arm-azurestack.tgz}
+    name: '@rush-temp/arm-azurestack'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -16077,6 +16274,8 @@ packages:
         tarball: file:projects/arm-azurestackhci.tgz,
       }
     name: "@rush-temp/arm-azurestackhci"
+    resolution: {integrity: sha512-BmJwWMzZEuz+9kEe0boitvxgP+UZXowLbShpBFbVeVXL9w2qmPVt+SVoMYDNxa18Np1zGV+f2rMuYojTiLpRAA==, tarball: file:projects/arm-azurestackhci.tgz}
+    name: '@rush-temp/arm-azurestackhci'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -16109,6 +16308,8 @@ packages:
         tarball: file:projects/arm-baremetalinfrastructure.tgz,
       }
     name: "@rush-temp/arm-baremetalinfrastructure"
+    resolution: {integrity: sha512-/q0avj6jVss42BIo6yDXcEsYHNrmS1dVaLG475n5mdnT2uf3PWcwfGsGY138mZkFUv//2Nz7VE3MDX2NLi+IcQ==, tarball: file:projects/arm-baremetalinfrastructure.tgz}
+    name: '@rush-temp/arm-baremetalinfrastructure'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -16141,6 +16342,8 @@ packages:
         tarball: file:projects/arm-batch.tgz,
       }
     name: "@rush-temp/arm-batch"
+    resolution: {integrity: sha512-65g5toQcvVp6lFMFMg0NMh4+NBtzf9pX6SPncZTEuRm6SG1U3291KRrBDoWJ18D80P5Hmus/F1buulvNPCcVwg==, tarball: file:projects/arm-batch.tgz}
+    name: '@rush-temp/arm-batch'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -16173,6 +16376,8 @@ packages:
         tarball: file:projects/arm-billing.tgz,
       }
     name: "@rush-temp/arm-billing"
+    resolution: {integrity: sha512-uVGmF6bNlF/A7n9qeGKAjZ1n3/VnOBC8rD5s5W7VISgYkii9P5MSCGT2kHfk0nDLNeGzzrWDNdHoFQx1TNzSQA==, tarball: file:projects/arm-billing.tgz}
+    name: '@rush-temp/arm-billing'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -16204,6 +16409,8 @@ packages:
         tarball: file:projects/arm-billingbenefits.tgz,
       }
     name: "@rush-temp/arm-billingbenefits"
+    resolution: {integrity: sha512-EvJ9wt0LIzjR/RPIJCl3+ZsUwT/WZwySrvDQDoubZdba086LZIYFPMJKmc4oHSJz0kmlR7V1biB/1pGEaaATzw==, tarball: file:projects/arm-billingbenefits.tgz}
+    name: '@rush-temp/arm-billingbenefits'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -16235,6 +16442,8 @@ packages:
         tarball: file:projects/arm-botservice.tgz,
       }
     name: "@rush-temp/arm-botservice"
+    resolution: {integrity: sha512-ldp80vXRReW2KaOixkkFuZrJRT/+d5In2pZ+hhlgQiurNRd6mwpiWT9uQxpC6e2wpj0EBRJ57LEwcVcWcNiizA==, tarball: file:projects/arm-botservice.tgz}
+    name: '@rush-temp/arm-botservice'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -16267,6 +16476,8 @@ packages:
         tarball: file:projects/arm-cdn.tgz,
       }
     name: "@rush-temp/arm-cdn"
+    resolution: {integrity: sha512-xt149sQD+mYenXnkfyPwIF4T+5jx0XF5za3M9TK+z0fpTGMkY2v+xQ7eV8MocB+Cycp6+sq/FEyjSeArqDzffg==, tarball: file:projects/arm-cdn.tgz}
+    name: '@rush-temp/arm-cdn'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -16299,6 +16510,8 @@ packages:
         tarball: file:projects/arm-changeanalysis.tgz,
       }
     name: "@rush-temp/arm-changeanalysis"
+    resolution: {integrity: sha512-TFO0oIjzso4/pF6iYCv9xLGGIreaxmywsD/NuOJ+CcCaj8fpPapo4xdyGUvD2WdIfBbmFbGc6Jcv4DlFZi+Odw==, tarball: file:projects/arm-changeanalysis.tgz}
+    name: '@rush-temp/arm-changeanalysis'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -16329,6 +16542,8 @@ packages:
         tarball: file:projects/arm-changes.tgz,
       }
     name: "@rush-temp/arm-changes"
+    resolution: {integrity: sha512-QqrenayrvPlOcFomQ5GNwaCyj/NMbsD+9fMJEbKAJe26tN2EIjjig5anRHe9YA5aD6a89nydYl99cEZRtOGMrw==, tarball: file:projects/arm-changes.tgz}
+    name: '@rush-temp/arm-changes'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -16359,6 +16574,8 @@ packages:
         tarball: file:projects/arm-chaos.tgz,
       }
     name: "@rush-temp/arm-chaos"
+    resolution: {integrity: sha512-KKbivRy6rywNdIG9xR+oLbNzk1bYPcKBYkYKaw/LEdsmenzxkzWKRqYfnOndvRvf9xlqLO2dJspvWWkhhuWwkA==, tarball: file:projects/arm-chaos.tgz}
+    name: '@rush-temp/arm-chaos'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -16392,6 +16609,8 @@ packages:
         tarball: file:projects/arm-cognitiveservices.tgz,
       }
     name: "@rush-temp/arm-cognitiveservices"
+    resolution: {integrity: sha512-Kh8zlyqhpyH2SzAWOkzFFY1iJv8yr+WVlqrHb6gL/3LY2SAC6v8/yt1uoDPHQsDSaQoZATXypZwZqVNNSPWqXA==, tarball: file:projects/arm-cognitiveservices.tgz}
+    name: '@rush-temp/arm-cognitiveservices'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -16424,6 +16643,8 @@ packages:
         tarball: file:projects/arm-commerce-profile-2020-09-01-hybrid.tgz,
       }
     name: "@rush-temp/arm-commerce-profile-2020-09-01-hybrid"
+    resolution: {integrity: sha512-8Oy7QLqQEJxxQmu5PiiMHM+UpbvNIKpYH1+iN7JsaKSc93Fcrt4RWsbJ5GoytFHaUcdlpQm5YjRd6eBUAqzpLw==, tarball: file:projects/arm-commerce-profile-2020-09-01-hybrid.tgz}
+    name: '@rush-temp/arm-commerce-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -16455,6 +16676,8 @@ packages:
         tarball: file:projects/arm-commerce.tgz,
       }
     name: "@rush-temp/arm-commerce"
+    resolution: {integrity: sha512-coz+x1+dMhYbo76Hrb8OUhv4/vB6G4O2b2d5yr8A+oSM+prh+wmfN4lbd9T5GgghoEWKldSNPfOEZbRZ2UEqRA==, tarball: file:projects/arm-commerce.tgz}
+    name: '@rush-temp/arm-commerce'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -16485,6 +16708,8 @@ packages:
         tarball: file:projects/arm-commitmentplans.tgz,
       }
     name: "@rush-temp/arm-commitmentplans"
+    resolution: {integrity: sha512-HKf5ps3CLSrAy9v83HhgcE/TaOrfUjs7h205iL6pFwOejeU2p2nxQeb7RvEcUPgHAziVs2+BqiJD45NXlOTOKw==, tarball: file:projects/arm-commitmentplans.tgz}
+    name: '@rush-temp/arm-commitmentplans'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -16515,6 +16740,8 @@ packages:
         tarball: file:projects/arm-communication.tgz,
       }
     name: "@rush-temp/arm-communication"
+    resolution: {integrity: sha512-uYZpK8nt0Kyss9C2TGKKChppV9Z8LNqCDud3z+g6ts7L9/3CtLUvPJJcVS5MmfqIPRDi67Avz50pnGeSuz9AQg==, tarball: file:projects/arm-communication.tgz}
+    name: '@rush-temp/arm-communication'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -16547,6 +16774,8 @@ packages:
         tarball: file:projects/arm-compute-1.tgz,
       }
     name: "@rush-temp/arm-compute-1"
+    resolution: {integrity: sha512-W9boo9mylKlaTw0haPkFp0nuolqNmHyoSQypi04AM6XITcmatyDVh1SMhTNwk5o8nJ1eK2yWjpA/Epj6m2h59A==, tarball: file:projects/arm-compute-1.tgz}
+    name: '@rush-temp/arm-compute-1'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -16580,6 +16809,8 @@ packages:
         tarball: file:projects/arm-compute-profile-2020-09-01-hybrid.tgz,
       }
     name: "@rush-temp/arm-compute-profile-2020-09-01-hybrid"
+    resolution: {integrity: sha512-/eqUl6unRexbZ31IBYGFr9aUQxhBBpebjgswaVdB6rP7SDYJ64gG9tcxiL854PHt9M7hl0Gn+ZXX++DQIOqy7g==, tarball: file:projects/arm-compute-profile-2020-09-01-hybrid.tgz}
+    name: '@rush-temp/arm-compute-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -16612,6 +16843,8 @@ packages:
         tarball: file:projects/arm-compute.tgz,
       }
     name: "@rush-temp/arm-compute"
+    resolution: {integrity: sha512-s5IhxKceFpMrw+OdG14bujPfUNyIIb6N9OiUe7A+8OPblUN+76unp9SpK2iQqskINpmGsGm7UuXCjkhGSdmpPA==, tarball: file:projects/arm-compute.tgz}
+    name: '@rush-temp/arm-compute'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -16660,6 +16893,8 @@ packages:
         tarball: file:projects/arm-confidentialledger.tgz,
       }
     name: "@rush-temp/arm-confidentialledger"
+    resolution: {integrity: sha512-8wNLlv+zgvsE/gSv+WEto3ityF2dsYbEwRGZMQLP7wtnfX0aBOY8V4hDxI0XXm8t3pI+7m85cK0VUZ24dUCJGQ==, tarball: file:projects/arm-confidentialledger.tgz}
+    name: '@rush-temp/arm-confidentialledger'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -16672,12 +16907,13 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      mkdirp: 3.0.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.4.0
       rimraf: 5.0.5
-      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
       tslib: 2.6.2
-      typescript: 5.4.5
+      typescript: 5.3.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - "@swc/core"
@@ -16692,6 +16928,8 @@ packages:
         tarball: file:projects/arm-confluent.tgz,
       }
     name: "@rush-temp/arm-confluent"
+    resolution: {integrity: sha512-hUIqqarFWbfT7zJUq6B6PLATQzdsHWYZiGpPUayZqo1iVoKPJb59W11h4YMEXbPUxMRqmOfcOwYeC1M+ZepzBQ==, tarball: file:projects/arm-confluent.tgz}
+    name: '@rush-temp/arm-confluent'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -16724,6 +16962,8 @@ packages:
         tarball: file:projects/arm-connectedvmware.tgz,
       }
     name: "@rush-temp/arm-connectedvmware"
+    resolution: {integrity: sha512-8LqC0hnmAgEvXVfTI88hM6WSDNenrkldS6W1Mn7OkolVRMXuTMUTMa/1367EbEK4wIZRQBdnAjx01gizUYciRg==, tarball: file:projects/arm-connectedvmware.tgz}
+    name: '@rush-temp/arm-connectedvmware'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -16756,6 +16996,8 @@ packages:
         tarball: file:projects/arm-consumption.tgz,
       }
     name: "@rush-temp/arm-consumption"
+    resolution: {integrity: sha512-TYVD0Abqik6+IeRkKLj9a2y8Q9XFSn1A9G1ZebebEMyHwHYJN3AEcNaW05KX+fX82EGYUQWPpd++/GJQ0zXxHA==, tarball: file:projects/arm-consumption.tgz}
+    name: '@rush-temp/arm-consumption'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -16787,6 +17029,8 @@ packages:
         tarball: file:projects/arm-containerinstance.tgz,
       }
     name: "@rush-temp/arm-containerinstance"
+    resolution: {integrity: sha512-ShuykTgPAcXE84nH7XD+Fjq3njy/24mwcF1dj3pBP6VukEfTFH2N20466YET9jASMl3sAqNus7j/dEVRO6d6ug==, tarball: file:projects/arm-containerinstance.tgz}
+    name: '@rush-temp/arm-containerinstance'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -16819,6 +17063,8 @@ packages:
         tarball: file:projects/arm-containerregistry.tgz,
       }
     name: "@rush-temp/arm-containerregistry"
+    resolution: {integrity: sha512-7fh2GiUFRG6JhipP4zLLnEFZTC869bJZCBnAPV+VnfceXeKnjf2AMUiyHFBUr6IvEqax3C0SryaNFAUUpYktSA==, tarball: file:projects/arm-containerregistry.tgz}
+    name: '@rush-temp/arm-containerregistry'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -16851,6 +17097,8 @@ packages:
         tarball: file:projects/arm-containerservice-1.tgz,
       }
     name: "@rush-temp/arm-containerservice-1"
+    resolution: {integrity: sha512-K7674ALfuOHDQFYx/tcAqLshObquk0kvD5t85+u4WcR1WKd8+u7hWK6fBQ7AOW2cahbmw3bgc8S/3DwX936xTw==, tarball: file:projects/arm-containerservice-1.tgz}
+    name: '@rush-temp/arm-containerservice-1'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -16883,6 +17131,8 @@ packages:
         tarball: file:projects/arm-containerservice.tgz,
       }
     name: "@rush-temp/arm-containerservice"
+    resolution: {integrity: sha512-fCEK8sMUTP4HUMR5APU4nLHa+byYmPX4ClgxQ9p7MY1C3ar18HBmpTO61hHOCzaNPA5NRKN9IdzOU4bX0jBpGA==, tarball: file:projects/arm-containerservice.tgz}
+    name: '@rush-temp/arm-containerservice'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -16930,6 +17180,8 @@ packages:
         tarball: file:projects/arm-containerservicefleet.tgz,
       }
     name: "@rush-temp/arm-containerservicefleet"
+    resolution: {integrity: sha512-aMUnOZV0cjEAxWRo7hK9PSetLaD60cGxaIA0YQGCDv2y9M8f5uvlIRhkVw8GHiYTFOXbLTH8JxcLo2SVzflG1Q==, tarball: file:projects/arm-containerservicefleet.tgz}
+    name: '@rush-temp/arm-containerservicefleet'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -16962,6 +17214,8 @@ packages:
         tarball: file:projects/arm-cosmosdb.tgz,
       }
     name: "@rush-temp/arm-cosmosdb"
+    resolution: {integrity: sha512-jGp+HjxHFxs9PITSpuTDNc3hPrcjBQT3ph3BOSBYBPqbi3qG8awHhwkEE+g0A5mxJha94nlkXl+Q0RpIZ0sJqg==, tarball: file:projects/arm-cosmosdb.tgz}
+    name: '@rush-temp/arm-cosmosdb'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -16994,6 +17248,8 @@ packages:
         tarball: file:projects/arm-cosmosdbforpostgresql.tgz,
       }
     name: "@rush-temp/arm-cosmosdbforpostgresql"
+    resolution: {integrity: sha512-eRm7oyAQjozEfDLulfH9f7tuDN324EWbSOYOH8EeI2Rv3iNukFh/oX5WVvgqJMQeQyfzHjZgYO+EWUGPvCvqFA==, tarball: file:projects/arm-cosmosdbforpostgresql.tgz}
+    name: '@rush-temp/arm-cosmosdbforpostgresql'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -17026,6 +17282,8 @@ packages:
         tarball: file:projects/arm-costmanagement.tgz,
       }
     name: "@rush-temp/arm-costmanagement"
+    resolution: {integrity: sha512-HLboQSLLKBWHoS9m9JcXWYyx1LkE9IZo/YaNyekIBkJRCB3wlhKQIFfJDSVtOI0nljnH7ksSRokfHXIMEub6tw==, tarball: file:projects/arm-costmanagement.tgz}
+    name: '@rush-temp/arm-costmanagement'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -17058,6 +17316,8 @@ packages:
         tarball: file:projects/arm-customerinsights.tgz,
       }
     name: "@rush-temp/arm-customerinsights"
+    resolution: {integrity: sha512-0Xa3dAzWurK1CW3iBMnJwAsJG2xppVvIOaNjIOgme36AC0V7C/VAPh3G95h5sU9HqD7KhcgZnDlIQ1w4SCMkdw==, tarball: file:projects/arm-customerinsights.tgz}
+    name: '@rush-temp/arm-customerinsights'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -17089,6 +17349,8 @@ packages:
         tarball: file:projects/arm-dashboard.tgz,
       }
     name: "@rush-temp/arm-dashboard"
+    resolution: {integrity: sha512-9LNGTKy7ikAKZVpeYwlLSJBBXWGod02S36sme5fpbq1dtQ/giHgt9uxgdmQNqnCBAaSNjzKpqZ2JqQ/M21kKeA==, tarball: file:projects/arm-dashboard.tgz}
+    name: '@rush-temp/arm-dashboard'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -17121,6 +17383,8 @@ packages:
         tarball: file:projects/arm-databox.tgz,
       }
     name: "@rush-temp/arm-databox"
+    resolution: {integrity: sha512-wfhI3kUNSXXFMBHD/8PrGw+W0Rgt7PsGGaLMaay9I9COUBWewAQHnfZWAJZRec43eFrDhu4aHFDWRTmPZbdSYg==, tarball: file:projects/arm-databox.tgz}
+    name: '@rush-temp/arm-databox'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -17153,6 +17417,8 @@ packages:
         tarball: file:projects/arm-databoxedge-profile-2020-09-01-hybrid.tgz,
       }
     name: "@rush-temp/arm-databoxedge-profile-2020-09-01-hybrid"
+    resolution: {integrity: sha512-EeYKfoDro8/QXQo5Db+IGRV0/4cGGpv2fZyBo5wXq2gMf4xnKji5c+x92c/DEvC191amObUQy9VegZUR8ws42w==, tarball: file:projects/arm-databoxedge-profile-2020-09-01-hybrid.tgz}
+    name: '@rush-temp/arm-databoxedge-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -17185,6 +17451,8 @@ packages:
         tarball: file:projects/arm-databoxedge.tgz,
       }
     name: "@rush-temp/arm-databoxedge"
+    resolution: {integrity: sha512-EFs/8lFtPIU9qltnmDOxo9eRC9/1xuPBOjDahpUkXjrvLkHIGsgFC7V7Bk71VNMwXEs/SatJLs/hGCgHQXreyw==, tarball: file:projects/arm-databoxedge.tgz}
+    name: '@rush-temp/arm-databoxedge'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -17216,6 +17484,8 @@ packages:
         tarball: file:projects/arm-databricks.tgz,
       }
     name: "@rush-temp/arm-databricks"
+    resolution: {integrity: sha512-jN9AmZtw2mHweg9f7+dOFMJ2RBv8UbbxXkvgSKPByN01/IFlG8zGTOOp5E4XIvYJefRO0HKnkB0b76nRn6uKKg==, tarball: file:projects/arm-databricks.tgz}
+    name: '@rush-temp/arm-databricks'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -17248,6 +17518,8 @@ packages:
         tarball: file:projects/arm-datacatalog.tgz,
       }
     name: "@rush-temp/arm-datacatalog"
+    resolution: {integrity: sha512-yo5r4NIOjNcYTsB2vVGhtkwKvEBdIErl9HiDP2NlflKeLDMjM1FnyeE3w8SdzNL6HBTHvZc+wkoQzxL9VJcz/w==, tarball: file:projects/arm-datacatalog.tgz}
+    name: '@rush-temp/arm-datacatalog'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -17279,6 +17551,8 @@ packages:
         tarball: file:projects/arm-datadog.tgz,
       }
     name: "@rush-temp/arm-datadog"
+    resolution: {integrity: sha512-zVxs6FAy5gXmND+Zh9fWZHjWQMlqIjC+AsUWdNBX/OOsF58NhynabHYXfFje/exwLEKofVrkojGIoeuCMe3nEA==, tarball: file:projects/arm-datadog.tgz}
+    name: '@rush-temp/arm-datadog'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -17311,6 +17585,8 @@ packages:
         tarball: file:projects/arm-datafactory.tgz,
       }
     name: "@rush-temp/arm-datafactory"
+    resolution: {integrity: sha512-7Ts4PQrgB8g4bNdQFIu8uBaISDH7p11LQsqQ3fdbmDVX3f3bzYHhUNqz1FMxq3LR9qbLctskbOA6n9eXPnIUTw==, tarball: file:projects/arm-datafactory.tgz}
+    name: '@rush-temp/arm-datafactory'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -17343,6 +17619,8 @@ packages:
         tarball: file:projects/arm-datalake-analytics.tgz,
       }
     name: "@rush-temp/arm-datalake-analytics"
+    resolution: {integrity: sha512-svsYgAdcV8daYyD8vEn2KdDl7HitQgcH5Xh9j5K1pELGDXYFzDRG7IBwB+GIZqPPJiydF2XD1fj3ebQ8tq6fwA==, tarball: file:projects/arm-datalake-analytics.tgz}
+    name: '@rush-temp/arm-datalake-analytics'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -17374,6 +17652,8 @@ packages:
         tarball: file:projects/arm-datamigration.tgz,
       }
     name: "@rush-temp/arm-datamigration"
+    resolution: {integrity: sha512-1QKKkMqn/0QjbW81dr9IsMLG6qTulmwPt1UDsfjtcbHF7PZ3H+LAjlrINWlEXkPqnQkCD0TmHsTkfz5yXIRk+w==, tarball: file:projects/arm-datamigration.tgz}
+    name: '@rush-temp/arm-datamigration'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -17405,6 +17685,8 @@ packages:
         tarball: file:projects/arm-dataprotection.tgz,
       }
     name: "@rush-temp/arm-dataprotection"
+    resolution: {integrity: sha512-05DFGjZb9eGFUA+x4NxC6dzj831BWyYce2gBdTQwsOTd8PLD33b2nlj1ljUpmV4WIhqa7r/ROUBlJObj3azYNQ==, tarball: file:projects/arm-dataprotection.tgz}
+    name: '@rush-temp/arm-dataprotection'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -17437,6 +17719,8 @@ packages:
         tarball: file:projects/arm-defendereasm.tgz,
       }
     name: "@rush-temp/arm-defendereasm"
+    resolution: {integrity: sha512-Ll2xxeRZhuX5Jk4sJYl+CVz3YywMBT2WKeP5Hq2THiqmpaL9ZJR1NIIl42q8Am472daN9MHf4oCMeFphmiTM5Q==, tarball: file:projects/arm-defendereasm.tgz}
+    name: '@rush-temp/arm-defendereasm'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -17469,6 +17753,8 @@ packages:
         tarball: file:projects/arm-deploymentmanager.tgz,
       }
     name: "@rush-temp/arm-deploymentmanager"
+    resolution: {integrity: sha512-omCfLwAcyTliYcQwkLep+nH7s5AU3C6S13JcjBVzmk2iP91Mw/Kj94F+BZP2erPO6/4f13egWGplaRopXAZDJQ==, tarball: file:projects/arm-deploymentmanager.tgz}
+    name: '@rush-temp/arm-deploymentmanager'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -17500,6 +17786,8 @@ packages:
         tarball: file:projects/arm-desktopvirtualization.tgz,
       }
     name: "@rush-temp/arm-desktopvirtualization"
+    resolution: {integrity: sha512-mJ22nMRrTh9E8ykeo827N0teb2z/jxpdiZCGx68cMroKLZM+w88hiV13t9YXAyLW19yV6BWTY6betVzVOXx6KQ==, tarball: file:projects/arm-desktopvirtualization.tgz}
+    name: '@rush-temp/arm-desktopvirtualization'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -17531,6 +17819,8 @@ packages:
         tarball: file:projects/arm-devcenter.tgz,
       }
     name: "@rush-temp/arm-devcenter"
+    resolution: {integrity: sha512-sF6aTjKNJwDw5aalLbJZH7vOo2+bguBaC9+u4fd20AtXFgB9BzmHqwv3FeHNbN9T3iP3dzpJtt+EjPIoXsJkgg==, tarball: file:projects/arm-devcenter.tgz}
+    name: '@rush-temp/arm-devcenter'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -17563,6 +17853,8 @@ packages:
         tarball: file:projects/arm-devhub.tgz,
       }
     name: "@rush-temp/arm-devhub"
+    resolution: {integrity: sha512-gdwxlYYEovWDiHebrbmWnMYOLSN1itDP9ej43CESv1+ayDK1hXzOklOIqkW5gRc410FLtP15BHC0sAItMmNCBg==, tarball: file:projects/arm-devhub.tgz}
+    name: '@rush-temp/arm-devhub'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -17594,6 +17886,8 @@ packages:
         tarball: file:projects/arm-deviceprovisioningservices.tgz,
       }
     name: "@rush-temp/arm-deviceprovisioningservices"
+    resolution: {integrity: sha512-XwvTMW9L0DTvBryX4lfMNPdAtiXeec6N9K5sGJQ3dUy6PVlQx9AKJQMEHhmdbuk8pxMC1nKjklYzF3Ao8BF5vA==, tarball: file:projects/arm-deviceprovisioningservices.tgz}
+    name: '@rush-temp/arm-deviceprovisioningservices'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -17626,6 +17920,8 @@ packages:
         tarball: file:projects/arm-deviceupdate.tgz,
       }
     name: "@rush-temp/arm-deviceupdate"
+    resolution: {integrity: sha512-k8qxIci3zw7dEZHjZa2caslRK3WlX9kYKeg9JIlRxe1CU5wAF28Z5O7sLj+e4LgGX2dXE/Tn8jzx/UfCW4WN3Q==, tarball: file:projects/arm-deviceupdate.tgz}
+    name: '@rush-temp/arm-deviceupdate'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -17658,6 +17954,8 @@ packages:
         tarball: file:projects/arm-devspaces.tgz,
       }
     name: "@rush-temp/arm-devspaces"
+    resolution: {integrity: sha512-SFN/dR235EKszrCSzLu7ZcTjtmdhs5/EkEZxFr84NknAulGQy0t7e1/J8Iq45GwdJdA6MiAngFYrA0OGGrxS5w==, tarball: file:projects/arm-devspaces.tgz}
+    name: '@rush-temp/arm-devspaces'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -17689,6 +17987,8 @@ packages:
         tarball: file:projects/arm-devtestlabs.tgz,
       }
     name: "@rush-temp/arm-devtestlabs"
+    resolution: {integrity: sha512-uTSAgSkM6hUIumguZ6QKqao7h6OSvSndwYR7PMk/2PEsoYobwciLU53emkYFPu+PyCkbOYvDD4APi0fMRxMSLw==, tarball: file:projects/arm-devtestlabs.tgz}
+    name: '@rush-temp/arm-devtestlabs'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -17720,6 +18020,8 @@ packages:
         tarball: file:projects/arm-digitaltwins.tgz,
       }
     name: "@rush-temp/arm-digitaltwins"
+    resolution: {integrity: sha512-O0PP2/JL+drwFVJKYEDzk7fcvl9dTMlMNK54kI1j0s3E8ARpLXEoTR5rX93z8Sl5lBlX8a4fe5OQU7fzyVWt8A==, tarball: file:projects/arm-digitaltwins.tgz}
+    name: '@rush-temp/arm-digitaltwins'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -17752,6 +18054,8 @@ packages:
         tarball: file:projects/arm-dns-profile-2020-09-01-hybrid.tgz,
       }
     name: "@rush-temp/arm-dns-profile-2020-09-01-hybrid"
+    resolution: {integrity: sha512-PCZIHwJFRZ2C9O/X+Hu3JbUjHvslsT9yYLw+J9TWfaSPjb355X9qoD8HRyrVmY1f3TeKLxESSKI658p9RDm32w==, tarball: file:projects/arm-dns-profile-2020-09-01-hybrid.tgz}
+    name: '@rush-temp/arm-dns-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -17784,6 +18088,8 @@ packages:
         tarball: file:projects/arm-dns.tgz,
       }
     name: "@rush-temp/arm-dns"
+    resolution: {integrity: sha512-0lul1vFn2JCQRMAkk7Cm04e3Mxz6A6Bvn7s/3PGqgc50UWcOp/9iONX47laJ4uuVFKch73aNt5gECskQif7jpQ==, tarball: file:projects/arm-dns.tgz}
+    name: '@rush-temp/arm-dns'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -17815,6 +18121,8 @@ packages:
         tarball: file:projects/arm-dnsresolver.tgz,
       }
     name: "@rush-temp/arm-dnsresolver"
+    resolution: {integrity: sha512-e38SyofQYxaQv1Gk/f4e5V3TpTb//k+UoCJWg66LZ66vm7EhUfL0EOrUs/QaMGN/oOWbHQF8KEJMDtiTWhvqQA==, tarball: file:projects/arm-dnsresolver.tgz}
+    name: '@rush-temp/arm-dnsresolver'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -17847,6 +18155,8 @@ packages:
         tarball: file:projects/arm-domainservices.tgz,
       }
     name: "@rush-temp/arm-domainservices"
+    resolution: {integrity: sha512-ev82MztNdU/yZvgwmzadrEQLPx4gRB7vUmKmJRoyebOuKjSsepCb1RplhFZJTV9hY85UsBgidinJMAfGBXXEbg==, tarball: file:projects/arm-domainservices.tgz}
+    name: '@rush-temp/arm-domainservices'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -17878,6 +18188,8 @@ packages:
         tarball: file:projects/arm-dynatrace.tgz,
       }
     name: "@rush-temp/arm-dynatrace"
+    resolution: {integrity: sha512-iMePoFHmn8By8/8c0iFV8z14W81XHY3ksKku96pNMu5rhWSsOfqD9x2AGB0r+rv12zEuriUjuhgqI3NqcJCitg==, tarball: file:projects/arm-dynatrace.tgz}
+    name: '@rush-temp/arm-dynatrace'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -17910,6 +18222,8 @@ packages:
         tarball: file:projects/arm-education.tgz,
       }
     name: "@rush-temp/arm-education"
+    resolution: {integrity: sha512-2mcKnqWJY6dH/8FwFB0QHf3kXW6xTKotXAmDm0+5ABkoSEh/wP51fpfGVVFd33LgBGkC7kZ0z5AFeXIE/VDy8Q==, tarball: file:projects/arm-education.tgz}
+    name: '@rush-temp/arm-education'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -17941,6 +18255,8 @@ packages:
         tarball: file:projects/arm-elastic.tgz,
       }
     name: "@rush-temp/arm-elastic"
+    resolution: {integrity: sha512-qGqTDPRXuk9UCKgYNRQRnGZs/O7MRT4ppj453FmYry+70tLjGMQyXkT55Xmrb3ZCE13YmmsPDqU0ANL6W7moFg==, tarball: file:projects/arm-elastic.tgz}
+    name: '@rush-temp/arm-elastic'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -17973,6 +18289,8 @@ packages:
         tarball: file:projects/arm-elasticsan.tgz,
       }
     name: "@rush-temp/arm-elasticsan"
+    resolution: {integrity: sha512-VfgZ1G6GF4B3PbGmeBXZhDAH5Lw0gKDGFtefxKZ+bOeqVGIE48jv5Yv6fH+eqy0SFFFJ3Gg2aD6bP2pTfnsG+g==, tarball: file:projects/arm-elasticsan.tgz}
+    name: '@rush-temp/arm-elasticsan'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -18005,6 +18323,8 @@ packages:
         tarball: file:projects/arm-eventgrid.tgz,
       }
     name: "@rush-temp/arm-eventgrid"
+    resolution: {integrity: sha512-3A1aY7QSkegXxOxW2jUGJrj0RFZHPER5gPeZz9IZ3Gu2iW9FkgNBod+SyCMIWiefvYo9sqftO2mrRzfzMTzPwA==, tarball: file:projects/arm-eventgrid.tgz}
+    name: '@rush-temp/arm-eventgrid'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -18037,6 +18357,8 @@ packages:
         tarball: file:projects/arm-eventhub-profile-2020-09-01-hybrid.tgz,
       }
     name: "@rush-temp/arm-eventhub-profile-2020-09-01-hybrid"
+    resolution: {integrity: sha512-BIU0JvvPQapwFEXXQvm+NDmp3xtqtreMzpx7AT/bE5uaWpNz383dY82cymN7QIW0ATyR2N2W27RjailxVM00gg==, tarball: file:projects/arm-eventhub-profile-2020-09-01-hybrid.tgz}
+    name: '@rush-temp/arm-eventhub-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -18069,6 +18391,8 @@ packages:
         tarball: file:projects/arm-eventhub.tgz,
       }
     name: "@rush-temp/arm-eventhub"
+    resolution: {integrity: sha512-CNkxvWGfkVxm1krmgeu0K07OD8t+7qNik4Flv2jeJvILXT2agZqf+6kMWiWBnhoKz3xAf/DhMRBWXhfsmRlAFg==, tarball: file:projects/arm-eventhub.tgz}
+    name: '@rush-temp/arm-eventhub'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -18102,6 +18426,8 @@ packages:
         tarball: file:projects/arm-extendedlocation.tgz,
       }
     name: "@rush-temp/arm-extendedlocation"
+    resolution: {integrity: sha512-NCFHie8i8SZqMtj3VgEbmaimr9ERE3qS17i0k8QB8kiOxleLWDpvgYk7J3OGrm0VswFXIRkHdaGNNCNVZMyVUw==, tarball: file:projects/arm-extendedlocation.tgz}
+    name: '@rush-temp/arm-extendedlocation'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -18134,6 +18460,8 @@ packages:
         tarball: file:projects/arm-features.tgz,
       }
     name: "@rush-temp/arm-features"
+    resolution: {integrity: sha512-DTZJcXdK6OGPIIW//ymlUKGMTF19pGvwm21j3JBwYQTOepoO6prEg5c5KjKG9ZmcdjWt95Hx//aNJCww41CYWw==, tarball: file:projects/arm-features.tgz}
+    name: '@rush-temp/arm-features'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -18164,6 +18492,8 @@ packages:
         tarball: file:projects/arm-fluidrelay.tgz,
       }
     name: "@rush-temp/arm-fluidrelay"
+    resolution: {integrity: sha512-QKygf6wzivk0Mko6hV6UJPNAQ875Y1hKrdL2Kow3ihG6LphK9Uo/Q5TJfeNViKvLoO06bSnPjWWDNTiM7R4X1Q==, tarball: file:projects/arm-fluidrelay.tgz}
+    name: '@rush-temp/arm-fluidrelay'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -18195,6 +18525,8 @@ packages:
         tarball: file:projects/arm-frontdoor.tgz,
       }
     name: "@rush-temp/arm-frontdoor"
+    resolution: {integrity: sha512-KgrNhas/GA2bdzifyToNS9kZueU/5PB/QeEATrHY+WvHPIGNJB0le2u21/kHfQfKIFjxImoQQYOu0Fxqq8+tCA==, tarball: file:projects/arm-frontdoor.tgz}
+    name: '@rush-temp/arm-frontdoor'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -18227,6 +18559,8 @@ packages:
         tarball: file:projects/arm-graphservices.tgz,
       }
     name: "@rush-temp/arm-graphservices"
+    resolution: {integrity: sha512-gr3VTGxvH9FX9AWV0/JgWFdgELpgM0WkA/D9UIMyM0ZF12QhASVVqfmfumE9bNz1Elk6BPGy0fONKqkfVGojqw==, tarball: file:projects/arm-graphservices.tgz}
+    name: '@rush-temp/arm-graphservices'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -18259,6 +18593,8 @@ packages:
         tarball: file:projects/arm-hanaonazure.tgz,
       }
     name: "@rush-temp/arm-hanaonazure"
+    resolution: {integrity: sha512-c0P6WsGFKeXXqAZ1V0IrLZB9GqiipF4QatDEh7WP83s0wa3eXqSQAB+TTP64V+7+4t90UjrwnjyLsoy/lYtGYw==, tarball: file:projects/arm-hanaonazure.tgz}
+    name: '@rush-temp/arm-hanaonazure'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -18290,6 +18626,8 @@ packages:
         tarball: file:projects/arm-hardwaresecuritymodules.tgz,
       }
     name: "@rush-temp/arm-hardwaresecuritymodules"
+    resolution: {integrity: sha512-p1/u+BRT1pkbHLkhGq0gxxDhjW200og30P1Y3BbbAv8vWgRHoi+XdBC9VO2x4xfxl4c3V2IWW5R1/l3pVIZhzQ==, tarball: file:projects/arm-hardwaresecuritymodules.tgz}
+    name: '@rush-temp/arm-hardwaresecuritymodules'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -18322,6 +18660,8 @@ packages:
         tarball: file:projects/arm-hdinsight.tgz,
       }
     name: "@rush-temp/arm-hdinsight"
+    resolution: {integrity: sha512-ave91ffo4kWjwFr8z+zdCmJsc/MkwEMgT86J5qc3WSWZ65qgTpohydjVNEHYYwmczUYViyVfQFWlmmRPbhQekg==, tarball: file:projects/arm-hdinsight.tgz}
+    name: '@rush-temp/arm-hdinsight'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -18354,6 +18694,8 @@ packages:
         tarball: file:projects/arm-hdinsightcontainers.tgz,
       }
     name: "@rush-temp/arm-hdinsightcontainers"
+    resolution: {integrity: sha512-XgOMmKNwWJ4ghAqjN2cH/VSfpVs/ffuHo4w+6xys2vlmQlvJvv0QUDppDP4pv93DEjYUylfmnTmJcLYnZjzBUw==, tarball: file:projects/arm-hdinsightcontainers.tgz}
+    name: '@rush-temp/arm-hdinsightcontainers'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -18386,6 +18728,8 @@ packages:
         tarball: file:projects/arm-healthbot.tgz,
       }
     name: "@rush-temp/arm-healthbot"
+    resolution: {integrity: sha512-+HOUG5fzMkumwrm8jxIyVFH6XFmpwSm4U38KXeK6mbVH1fCeE7MUn8620dWl1pr6QS4/zy4MG1P5IN1TGxN6TQ==, tarball: file:projects/arm-healthbot.tgz}
+    name: '@rush-temp/arm-healthbot'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -18417,6 +18761,8 @@ packages:
         tarball: file:projects/arm-healthcareapis.tgz,
       }
     name: "@rush-temp/arm-healthcareapis"
+    resolution: {integrity: sha512-c+lh1YxWu2Ct8pJ15K7GUKYEFOH+T/r1h8uKjWBcZ9GMPAvYZUiWHMOSBXnz2n+rQi5OVGxfJRXocMPZ1mMWTg==, tarball: file:projects/arm-healthcareapis.tgz}
+    name: '@rush-temp/arm-healthcareapis'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -18449,6 +18795,8 @@ packages:
         tarball: file:projects/arm-hybridcompute.tgz,
       }
     name: "@rush-temp/arm-hybridcompute"
+    resolution: {integrity: sha512-JafbiThZRVpTCh/+J9q8Ds7IXIe1RdmIeK6DIU8h6xlLq0z959FUFQi7JVIFELXZt9+q/onNWerfffUG4a7DQQ==, tarball: file:projects/arm-hybridcompute.tgz}
+    name: '@rush-temp/arm-hybridcompute'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -18481,6 +18829,8 @@ packages:
         tarball: file:projects/arm-hybridconnectivity.tgz,
       }
     name: "@rush-temp/arm-hybridconnectivity"
+    resolution: {integrity: sha512-oEaxBoMQaILY6+j76wRvpSoxS2C0+vU9dhEV2rrcXYl7y1A00FF1qMdtBEFQpAldKxW0Sd+lEnVQVWO49who5A==, tarball: file:projects/arm-hybridconnectivity.tgz}
+    name: '@rush-temp/arm-hybridconnectivity'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -18512,6 +18862,8 @@ packages:
         tarball: file:projects/arm-hybridcontainerservice.tgz,
       }
     name: "@rush-temp/arm-hybridcontainerservice"
+    resolution: {integrity: sha512-1cCsQCA6wm4rknY+BOME1njBKnbIInRwAxuaFlxYsWIGnxki/QUMJLYNlT/4y0T0AeTbso5XlpoZQaZnnwWsJw==, tarball: file:projects/arm-hybridcontainerservice.tgz}
+    name: '@rush-temp/arm-hybridcontainerservice'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -18544,6 +18896,8 @@ packages:
         tarball: file:projects/arm-hybridkubernetes.tgz,
       }
     name: "@rush-temp/arm-hybridkubernetes"
+    resolution: {integrity: sha512-kSYrwkBYQ8uDLIbkynlwewGl5GqDc30XwaI/deooU/uEtA8r8JTCKEcc07jC8oUu691FMpzs8qOKKSxxKpXiPA==, tarball: file:projects/arm-hybridkubernetes.tgz}
+    name: '@rush-temp/arm-hybridkubernetes'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -18575,6 +18929,8 @@ packages:
         tarball: file:projects/arm-hybridnetwork.tgz,
       }
     name: "@rush-temp/arm-hybridnetwork"
+    resolution: {integrity: sha512-sjQgjYPxItk9fxu8QNkPJ765ThMpaQR6mw04bz4DRDDz8IHU/88tQW3yyiLxnUS62UGznHHDc+yDlwBaAeemUg==, tarball: file:projects/arm-hybridnetwork.tgz}
+    name: '@rush-temp/arm-hybridnetwork'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -18607,6 +18963,8 @@ packages:
         tarball: file:projects/arm-imagebuilder.tgz,
       }
     name: "@rush-temp/arm-imagebuilder"
+    resolution: {integrity: sha512-FgoqYM559RN/+YVYFGcrzXifj/SHG5nqsUHU2x0ODx5uTIGHsnUyhqHi/skQH6Uppx6END2z4qtX3YTOSxBivQ==, tarball: file:projects/arm-imagebuilder.tgz}
+    name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -18639,6 +18997,8 @@ packages:
         tarball: file:projects/arm-iotcentral.tgz,
       }
     name: "@rush-temp/arm-iotcentral"
+    resolution: {integrity: sha512-gOuxVIUUdoO7yKU9n9vgcCGwnCIQzalLxgpdeKJPYQBQOPszdFGIXqKSI+P+ayu1Msdk+bwA67fJg0t/AnCEeA==, tarball: file:projects/arm-iotcentral.tgz}
+    name: '@rush-temp/arm-iotcentral'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -18670,6 +19030,8 @@ packages:
         tarball: file:projects/arm-iotfirmwaredefense.tgz,
       }
     name: "@rush-temp/arm-iotfirmwaredefense"
+    resolution: {integrity: sha512-fZdhFMiIAQ2HSFS5oTBZUZLg7YMLxrwlWS7YEJTxnljiEjDQJ4mzFa16BfEj4cF1KjpwAbw7ECjGzHhyZaY8OQ==, tarball: file:projects/arm-iotfirmwaredefense.tgz}
+    name: '@rush-temp/arm-iotfirmwaredefense'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -18701,6 +19063,8 @@ packages:
         tarball: file:projects/arm-iothub-profile-2020-09-01-hybrid.tgz,
       }
     name: "@rush-temp/arm-iothub-profile-2020-09-01-hybrid"
+    resolution: {integrity: sha512-/ZVlsK5XohOT8TKAEp+PqIuAiVXyZi7Dz0rp6rm3st4+eUXzaZQpbwqKtf/HifeRdhJp0EQytK9iybQu1wAnAQ==, tarball: file:projects/arm-iothub-profile-2020-09-01-hybrid.tgz}
+    name: '@rush-temp/arm-iothub-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -18733,6 +19097,8 @@ packages:
         tarball: file:projects/arm-iothub.tgz,
       }
     name: "@rush-temp/arm-iothub"
+    resolution: {integrity: sha512-epwLCyNLgPaDqB/e3FrO7eIdXOaUsTODstcyMcQXdfrileSkwEXhieE8/8NfdZkWAqttQMc8JhMrL53+jD5L/w==, tarball: file:projects/arm-iothub.tgz}
+    name: '@rush-temp/arm-iothub'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -18765,6 +19131,8 @@ packages:
         tarball: file:projects/arm-keyvault-profile-2020-09-01-hybrid.tgz,
       }
     name: "@rush-temp/arm-keyvault-profile-2020-09-01-hybrid"
+    resolution: {integrity: sha512-Knel3NvGuS4TLpVoyB78gRLKSRG0aHGgDsVbMZbmaAvvmrV2Jpf7+5PF8QIBCqPaOg6LXfVH/d80X+Mgr6yhGA==, tarball: file:projects/arm-keyvault-profile-2020-09-01-hybrid.tgz}
+    name: '@rush-temp/arm-keyvault-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -18797,6 +19165,8 @@ packages:
         tarball: file:projects/arm-keyvault.tgz,
       }
     name: "@rush-temp/arm-keyvault"
+    resolution: {integrity: sha512-22WekHR5Wn1MtoF/LZ8egpwnBD0/hYvvO0WosRuGOJ+MDROhVu9+kTg98sbhDrrMuFwC3M/tUj5QQoABep0/zQ==, tarball: file:projects/arm-keyvault.tgz}
+    name: '@rush-temp/arm-keyvault'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -18829,6 +19199,8 @@ packages:
         tarball: file:projects/arm-kubernetesconfiguration.tgz,
       }
     name: "@rush-temp/arm-kubernetesconfiguration"
+    resolution: {integrity: sha512-ZawLoZTNj+kIEQvG+Nm1Hr+LbOn1g4hpvwMqsLVI1SLwNTAafa6yqaIHLUK5c5WJ0rM2HK6qXc7lWdfiYWD4bA==, tarball: file:projects/arm-kubernetesconfiguration.tgz}
+    name: '@rush-temp/arm-kubernetesconfiguration'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -18861,6 +19233,8 @@ packages:
         tarball: file:projects/arm-kusto.tgz,
       }
     name: "@rush-temp/arm-kusto"
+    resolution: {integrity: sha512-Zi1IWF7tDkM4PM21JIPUTdxzoB9ZzX8vFftVa6y/74GunzdDzVeXaVI/sYuSG3RLFtl1nqcydvW0mm+ndPrsWg==, tarball: file:projects/arm-kusto.tgz}
+    name: '@rush-temp/arm-kusto'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -18893,6 +19267,8 @@ packages:
         tarball: file:projects/arm-labservices.tgz,
       }
     name: "@rush-temp/arm-labservices"
+    resolution: {integrity: sha512-ibSKAY+p9q6Qdmuo8NYZERkDNbT36Q0+6gAkTgON4Ig6XCFb7YULfmdicojCVzRpPAfMKoZ8lj0aOSz0IgNwxQ==, tarball: file:projects/arm-labservices.tgz}
+    name: '@rush-temp/arm-labservices'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -18925,6 +19301,8 @@ packages:
         tarball: file:projects/arm-largeinstance.tgz,
       }
     name: "@rush-temp/arm-largeinstance"
+    resolution: {integrity: sha512-tT6aEz+4nugslxSPJQikF+3AFWT3HPwX97HWrISWx1s+fSVm8RqqW+L2I0HEg1nXem4ZHvvtE962XZthAtLWdw==, tarball: file:projects/arm-largeinstance.tgz}
+    name: '@rush-temp/arm-largeinstance'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -18957,6 +19335,8 @@ packages:
         tarball: file:projects/arm-links.tgz,
       }
     name: "@rush-temp/arm-links"
+    resolution: {integrity: sha512-1C4u8Gvu2DHOcaVGwYgvaIwFs+4WX1ssXFbbqXiYlfMOLBBQ4PYPfv0BI+vZGxbvq3gqNKTBVXNQ2sD/HJSXkQ==, tarball: file:projects/arm-links.tgz}
+    name: '@rush-temp/arm-links'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -18987,6 +19367,8 @@ packages:
         tarball: file:projects/arm-loadtesting.tgz,
       }
     name: "@rush-temp/arm-loadtesting"
+    resolution: {integrity: sha512-NcpvGsHbHhs5URMs1BK9FjXYUGNrGz4rq8lQZdAf1eU313GgwquLJsmok56xjlgMS9ZdFUo1lQ4Ujf7duZFSOQ==, tarball: file:projects/arm-loadtesting.tgz}
+    name: '@rush-temp/arm-loadtesting'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -19019,6 +19401,8 @@ packages:
         tarball: file:projects/arm-locks-profile-2020-09-01-hybrid.tgz,
       }
     name: "@rush-temp/arm-locks-profile-2020-09-01-hybrid"
+    resolution: {integrity: sha512-oHGepDKtRr35Hq9ipyCkiL6qaMSEV0dVbF+2RBw6u94n/dyKV3+n5cg9QuGda30RGF153bZSNT7bILNuNRmtZA==, tarball: file:projects/arm-locks-profile-2020-09-01-hybrid.tgz}
+    name: '@rush-temp/arm-locks-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -19050,6 +19434,8 @@ packages:
         tarball: file:projects/arm-locks.tgz,
       }
     name: "@rush-temp/arm-locks"
+    resolution: {integrity: sha512-QPOaHYJpSMUb28FOlXr80Ahg7/toAgF20Ck5Sk+8TDzBPVqTUMK97x7zD7afAC7cvU3e+zaUWnit5mILzXxGdQ==, tarball: file:projects/arm-locks.tgz}
+    name: '@rush-temp/arm-locks'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -19080,6 +19466,8 @@ packages:
         tarball: file:projects/arm-logic.tgz,
       }
     name: "@rush-temp/arm-logic"
+    resolution: {integrity: sha512-2EH/3G3rS0D3Ux1dOlQHSRGf+aVMo4FTZoV54Y/Hvps/u2Ul18wxO2iXN8XlsKWFBSvlqnhXlO8Jzwk2Qdr2sw==, tarball: file:projects/arm-logic.tgz}
+    name: '@rush-temp/arm-logic'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -19112,6 +19500,8 @@ packages:
         tarball: file:projects/arm-machinelearning.tgz,
       }
     name: "@rush-temp/arm-machinelearning"
+    resolution: {integrity: sha512-XwIE+/kSyi/z9fpzx0aYXfX3Mnz/Pk2CFTcXgJLq3QcmNkwh/971aFzvSFLbOl+vd9BbxKq1rrNQbUyYw/EMnQ==, tarball: file:projects/arm-machinelearning.tgz}
+    name: '@rush-temp/arm-machinelearning'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -19143,6 +19533,8 @@ packages:
         tarball: file:projects/arm-machinelearningcompute.tgz,
       }
     name: "@rush-temp/arm-machinelearningcompute"
+    resolution: {integrity: sha512-HKHRxH5R+gSlGstLHquCnDPY3AEN5WTpzBuJyB5S+B3exqXHt9Uf0aYEWl/d2SC7sw/FbnnPKr7gFC3tx+oPWg==, tarball: file:projects/arm-machinelearningcompute.tgz}
+    name: '@rush-temp/arm-machinelearningcompute'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -19174,6 +19566,8 @@ packages:
         tarball: file:projects/arm-machinelearningexperimentation.tgz,
       }
     name: "@rush-temp/arm-machinelearningexperimentation"
+    resolution: {integrity: sha512-HXTd4/xycIvONZ4afODmRf74sW29n4LV3CedzIdSBe3D9CJzkJO60QKA1B0v6r4FxlBaY+CJRN0Mnc+ery4/Ow==, tarball: file:projects/arm-machinelearningexperimentation.tgz}
+    name: '@rush-temp/arm-machinelearningexperimentation'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -19205,6 +19599,8 @@ packages:
         tarball: file:projects/arm-maintenance.tgz,
       }
     name: "@rush-temp/arm-maintenance"
+    resolution: {integrity: sha512-ESGkDUitT8Ga1V0TAY84Ex6HvhMhIxtyi+a2zTLVGHTIpOMsNS9FpgHta9C10hw3vd6iToM9Ge8JStaq0Rjy6A==, tarball: file:projects/arm-maintenance.tgz}
+    name: '@rush-temp/arm-maintenance'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -19233,6 +19629,8 @@ packages:
         tarball: file:projects/arm-managedapplications.tgz,
       }
     name: "@rush-temp/arm-managedapplications"
+    resolution: {integrity: sha512-15ePf9m72iaTHye+N4K/jkE57NF0QP6lH7+7GvbzUBfHEJWmYL8IVVNhtg4fOK10X6sJhLLHJjp2uZbSSHuXcQ==, tarball: file:projects/arm-managedapplications.tgz}
+    name: '@rush-temp/arm-managedapplications'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -19265,6 +19663,8 @@ packages:
         tarball: file:projects/arm-managednetworkfabric.tgz,
       }
     name: "@rush-temp/arm-managednetworkfabric"
+    resolution: {integrity: sha512-W0J/jJERnR0dmS+3e/Sh6+MAxKPVuCpV3Qg5DYAsuXE7Oiz6vzMhE5acwEWRs545e0PfVi7ltwYrZx/DCfin/w==, tarball: file:projects/arm-managednetworkfabric.tgz}
+    name: '@rush-temp/arm-managednetworkfabric'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -19297,6 +19697,8 @@ packages:
         tarball: file:projects/arm-managementgroups.tgz,
       }
     name: "@rush-temp/arm-managementgroups"
+    resolution: {integrity: sha512-sAeTBSjF0TrAg8ZDFuNbjLK7zw5p0JZoVpzTYEYBBH62cnivKu6rR/vE+5oU/xRXcj80MK5S+008rHl1XUk4bg==, tarball: file:projects/arm-managementgroups.tgz}
+    name: '@rush-temp/arm-managementgroups'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -19328,6 +19730,8 @@ packages:
         tarball: file:projects/arm-managementpartner.tgz,
       }
     name: "@rush-temp/arm-managementpartner"
+    resolution: {integrity: sha512-7g/7vAVROietCRqHhQczMO3TZ3G6/TNzCdjFbX+bMLLjlUbGHQ1DoDDx3RgT3bgvb7fjgtNf203l5iY6HA0yxg==, tarball: file:projects/arm-managementpartner.tgz}
+    name: '@rush-temp/arm-managementpartner'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -19359,6 +19763,8 @@ packages:
         tarball: file:projects/arm-maps.tgz,
       }
     name: "@rush-temp/arm-maps"
+    resolution: {integrity: sha512-4fpjOgv+ZmTYZiuk2hjEn95c6gqTHACf2MbXpnPTvIMBbSLRtfzar8odAaawQyRoSoFd3t1ua/SknvJbCROBVQ==, tarball: file:projects/arm-maps.tgz}
+    name: '@rush-temp/arm-maps'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -19390,6 +19796,8 @@ packages:
         tarball: file:projects/arm-mariadb.tgz,
       }
     name: "@rush-temp/arm-mariadb"
+    resolution: {integrity: sha512-qIGb9ovWfNUyIxnH1mVi8RxTO76sRZF35McDdDREHjKZUmrur48Wi7bwjjkcSo+31yXkpH034gWNTSVFN5oBjA==, tarball: file:projects/arm-mariadb.tgz}
+    name: '@rush-temp/arm-mariadb'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -19421,6 +19829,8 @@ packages:
         tarball: file:projects/arm-marketplaceordering.tgz,
       }
     name: "@rush-temp/arm-marketplaceordering"
+    resolution: {integrity: sha512-Cu1MXzrZhz8dtWEClKHozz2MS8Vgx+QXWiOCDE+F0m1SBvDfu8BbI3k8tr7XeSYSyS0u/cmZgNSH6pESRQZ6jw==, tarball: file:projects/arm-marketplaceordering.tgz}
+    name: '@rush-temp/arm-marketplaceordering'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -19452,6 +19862,8 @@ packages:
         tarball: file:projects/arm-mediaservices.tgz,
       }
     name: "@rush-temp/arm-mediaservices"
+    resolution: {integrity: sha512-wh2IhW+LI6oXMVopavVPYiePcxRtPX7Q4+hCwE0VB+VkoORyFvpUr5LoJSuShlKk4kCxzZ/NVR9PhGtLHw90SQ==, tarball: file:projects/arm-mediaservices.tgz}
+    name: '@rush-temp/arm-mediaservices'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -19484,6 +19896,8 @@ packages:
         tarball: file:projects/arm-migrate.tgz,
       }
     name: "@rush-temp/arm-migrate"
+    resolution: {integrity: sha512-nr7qBBHTJ9L5Wa3oPbacUn8WMG/b8XEUX2pBP2W99RMfZwQboDNoUmCJfZBAe3+bDgensRhAfCAFRUHC+NIC7Q==, tarball: file:projects/arm-migrate.tgz}
+    name: '@rush-temp/arm-migrate'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -19515,6 +19929,8 @@ packages:
         tarball: file:projects/arm-migrationdiscoverysap.tgz,
       }
     name: "@rush-temp/arm-migrationdiscoverysap"
+    resolution: {integrity: sha512-JXt91r/psiiYl90MmfHlnJDN01fNsrg3pQw1Mof62W2TnE+kFa9hyUK3xrnFX6iafF5xzxJ3Gbg9Q+1sDwRwng==, tarball: file:projects/arm-migrationdiscoverysap.tgz}
+    name: '@rush-temp/arm-migrationdiscoverysap'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -19547,6 +19963,8 @@ packages:
         tarball: file:projects/arm-mixedreality.tgz,
       }
     name: "@rush-temp/arm-mixedreality"
+    resolution: {integrity: sha512-mYMqtxQvCgM6ABzwqFzURTm/72HjAPuYAvON2hSW8DKVx+DwjNJBxtzUAiUaF9sz9kToQrZq4H3jEoSNi2cFDw==, tarball: file:projects/arm-mixedreality.tgz}
+    name: '@rush-temp/arm-mixedreality'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -19577,6 +19995,8 @@ packages:
         tarball: file:projects/arm-mobilenetwork.tgz,
       }
     name: "@rush-temp/arm-mobilenetwork"
+    resolution: {integrity: sha512-bgGOQUVrRpwJW9enEvKIWEkGXPRRvuBnHKUPXRWmLTBXXr+L9Q/J+nQa2jSZul0uA+zvGoFdfxdOMPanSOTMAw==, tarball: file:projects/arm-mobilenetwork.tgz}
+    name: '@rush-temp/arm-mobilenetwork'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -19609,6 +20029,8 @@ packages:
         tarball: file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz,
       }
     name: "@rush-temp/arm-monitor-profile-2020-09-01-hybrid"
+    resolution: {integrity: sha512-OtFztgi9ZebA89etMLxud59YzSAU0QWBojdhQc589R0m2bSgp7ezA/3F3no5Vpq5I3sbMiM3b2hJJcfCUCLpMg==, tarball: file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz}
+    name: '@rush-temp/arm-monitor-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -19640,6 +20062,8 @@ packages:
         tarball: file:projects/arm-monitor.tgz,
       }
     name: "@rush-temp/arm-monitor"
+    resolution: {integrity: sha512-wMiYuqaJ8u9egszQX+ncWxCZXmdjknUoKJqBmDp8c3+ex6e3GnklF5vEX+iNxvzzX91CSC8aUjWnycuk13Uj3g==, tarball: file:projects/arm-monitor.tgz}
+    name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -19672,6 +20096,8 @@ packages:
         tarball: file:projects/arm-msi.tgz,
       }
     name: "@rush-temp/arm-msi"
+    resolution: {integrity: sha512-dv59ZHFgayesinE0Q+Sv8PL6f7fcqhhQrfVJBKi9beg7S6oRwQdLxqvzLqqMOxWjkPB83xcL59cppYEdOmrshQ==, tarball: file:projects/arm-msi.tgz}
+    name: '@rush-temp/arm-msi'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -19703,6 +20129,8 @@ packages:
         tarball: file:projects/arm-mysql-flexible.tgz,
       }
     name: "@rush-temp/arm-mysql-flexible"
+    resolution: {integrity: sha512-vXu4wYvNy64Xl6lVKe3lc42zWm4OMsKGdkp5bJOYF9VUBM46i3BvvnDUw7mKrVDAleBD2tYTf3Gi3V32KNmIWQ==, tarball: file:projects/arm-mysql-flexible.tgz}
+    name: '@rush-temp/arm-mysql-flexible'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -19735,6 +20163,8 @@ packages:
         tarball: file:projects/arm-mysql.tgz,
       }
     name: "@rush-temp/arm-mysql"
+    resolution: {integrity: sha512-RDWCCNwD9/oULV1iPSGJIpASIxCBx2oDBw3+AtryMQhqe08jXxC031IZvarrDxzXIK7GUYHjGqjQif9TGrtapg==, tarball: file:projects/arm-mysql.tgz}
+    name: '@rush-temp/arm-mysql'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -19766,6 +20196,8 @@ packages:
         tarball: file:projects/arm-netapp.tgz,
       }
     name: "@rush-temp/arm-netapp"
+    resolution: {integrity: sha512-Qf9kJIuSp5yNPjG8i7jBo2P+ziQ5lW0y9hpgX+k2vWovl3DlLjrVcDezJCYyCBtfWv91XspXzujvaWmInBppvQ==, tarball: file:projects/arm-netapp.tgz}
+    name: '@rush-temp/arm-netapp'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -19798,6 +20230,8 @@ packages:
         tarball: file:projects/arm-network-1.tgz,
       }
     name: "@rush-temp/arm-network-1"
+    resolution: {integrity: sha512-K44Tfv430GlME5VXRzDJKIg91fH1BiaarTdjPxrrOo1ViCT8pEqFfDb8aNDI5gZnfRVxuxWYiZ1sTvCzzsrvmA==, tarball: file:projects/arm-network-1.tgz}
+    name: '@rush-temp/arm-network-1'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -19830,6 +20264,8 @@ packages:
         tarball: file:projects/arm-network-profile-2020-09-01-hybrid.tgz,
       }
     name: "@rush-temp/arm-network-profile-2020-09-01-hybrid"
+    resolution: {integrity: sha512-jUizsGft+IaSV4dVsGvqEs9YlNRXr95MLHdbPSJvaVg2Drg2DbJOIaTkuN8PA9ZioByQMaC2UkohnRDgKoSleQ==, tarball: file:projects/arm-network-profile-2020-09-01-hybrid.tgz}
+    name: '@rush-temp/arm-network-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -19862,6 +20298,8 @@ packages:
         tarball: file:projects/arm-network.tgz,
       }
     name: "@rush-temp/arm-network"
+    resolution: {integrity: sha512-EzCXricZ1HQ0zCnM+5Jb1IKDWgcYFfV55IbTIXNLZEirsKeU8p9aeVsvIC8cga91Sryc5jNB6rdqgTeJNelnmQ==, tarball: file:projects/arm-network.tgz}
+    name: '@rush-temp/arm-network'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -19909,6 +20347,8 @@ packages:
         tarball: file:projects/arm-networkanalytics.tgz,
       }
     name: "@rush-temp/arm-networkanalytics"
+    resolution: {integrity: sha512-FbPy+af4BwG/zlDJDCv+T8hlfJI5YeK8lNMgumKr9d0HpmznljtLVUCgNPPdz5xWKynTZA8UKau63FoOv09CTA==, tarball: file:projects/arm-networkanalytics.tgz}
+    name: '@rush-temp/arm-networkanalytics'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -19941,6 +20381,8 @@ packages:
         tarball: file:projects/arm-networkcloud.tgz,
       }
     name: "@rush-temp/arm-networkcloud"
+    resolution: {integrity: sha512-CH+eDQX6znEFeOhwYKpAqUEl70aI8SRBRuo4HsadCSuSXv5WuRKORchU4iUL5sFtvYctiXA8bfzsw4UXiaNlGA==, tarball: file:projects/arm-networkcloud.tgz}
+    name: '@rush-temp/arm-networkcloud'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -19973,6 +20415,8 @@ packages:
         tarball: file:projects/arm-networkfunction.tgz,
       }
     name: "@rush-temp/arm-networkfunction"
+    resolution: {integrity: sha512-1p84TW64zcorijPqmQV9K0jjAN7WAanXemkgowhDafVS2oQvPR17sPcCKArQt9oDNlArutTi0yWnSyeHQe2XHQ==, tarball: file:projects/arm-networkfunction.tgz}
+    name: '@rush-temp/arm-networkfunction'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -20004,6 +20448,8 @@ packages:
         tarball: file:projects/arm-newrelicobservability.tgz,
       }
     name: "@rush-temp/arm-newrelicobservability"
+    resolution: {integrity: sha512-7tZ6ua0b8kglesDXnBzmhjasXA1PoehWFQWkthfHMSzXlZALAJOR7y/D2bxyRJtOiYWfqGU47dwnxnFpgjgiew==, tarball: file:projects/arm-newrelicobservability.tgz}
+    name: '@rush-temp/arm-newrelicobservability'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -20036,6 +20482,8 @@ packages:
         tarball: file:projects/arm-nginx.tgz,
       }
     name: "@rush-temp/arm-nginx"
+    resolution: {integrity: sha512-kOCd9JlPiIjefAf1fQnmWCBg9hRtacG3PObAb6O7eR4OeZO7H34kF86AHKQhO6te96xpICKAFDKVem2uGX50fQ==, tarball: file:projects/arm-nginx.tgz}
+    name: '@rush-temp/arm-nginx'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -20068,6 +20516,8 @@ packages:
         tarball: file:projects/arm-notificationhubs.tgz,
       }
     name: "@rush-temp/arm-notificationhubs"
+    resolution: {integrity: sha512-mdH1zkuXmEs8/1tVb1wsei6uXgrMgwUi3y/Cqgi+jgiVED+hnwtdYZVg6XhLP6ilLujuOG1TvL4L4CCBXKb3VQ==, tarball: file:projects/arm-notificationhubs.tgz}
+    name: '@rush-temp/arm-notificationhubs'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -20100,6 +20550,8 @@ packages:
         tarball: file:projects/arm-oep.tgz,
       }
     name: "@rush-temp/arm-oep"
+    resolution: {integrity: sha512-ZP4TAA58pwh2Q65emluaL0n+yD658mcGzQQtJcaElaaG+X15ECjC3cyKgJrG7e4tOBIfA5Buu4lBYu/TksooIQ==, tarball: file:projects/arm-oep.tgz}
+    name: '@rush-temp/arm-oep'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -20131,6 +20583,8 @@ packages:
         tarball: file:projects/arm-operationalinsights.tgz,
       }
     name: "@rush-temp/arm-operationalinsights"
+    resolution: {integrity: sha512-3hIVH5xwnE8jc8LmmcYjbP2OeM6Y3n0Vsu+iFR8BtBs6F+kCkCVAc3yA2QY7jnHj0uxyShVEwuGX+cbYqehn9g==, tarball: file:projects/arm-operationalinsights.tgz}
+    name: '@rush-temp/arm-operationalinsights'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -20163,6 +20617,8 @@ packages:
         tarball: file:projects/arm-operations.tgz,
       }
     name: "@rush-temp/arm-operations"
+    resolution: {integrity: sha512-khD9/OBJegHMjKy18hczKQm6AmdXuqiyLGiyPPKVem0Flnk4lzPlWhgWvEQk2kvkGF0wB66wtQNXn6Y28mcxcQ==, tarball: file:projects/arm-operations.tgz}
+    name: '@rush-temp/arm-operations'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -20194,6 +20650,8 @@ packages:
         tarball: file:projects/arm-orbital.tgz,
       }
     name: "@rush-temp/arm-orbital"
+    resolution: {integrity: sha512-QcV454ox88w2w0OGVFWhL2hAImzJYJvLROeiCUXh4KFxKC3zOPiK5x3pGyalH+/RuBFjWYxSQrZU4zUFxbsQjw==, tarball: file:projects/arm-orbital.tgz}
+    name: '@rush-temp/arm-orbital'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -20226,6 +20684,8 @@ packages:
         tarball: file:projects/arm-paloaltonetworksngfw.tgz,
       }
     name: "@rush-temp/arm-paloaltonetworksngfw"
+    resolution: {integrity: sha512-dmQpMuwrt/NMMcOAscTmWh4RC9I6WkqCUu9GLOWuV0GMXmkHpdpkYwgauMJisEYTRosoBeIk3wh2+VMmyVDzKg==, tarball: file:projects/arm-paloaltonetworksngfw.tgz}
+    name: '@rush-temp/arm-paloaltonetworksngfw'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -20258,6 +20718,8 @@ packages:
         tarball: file:projects/arm-peering.tgz,
       }
     name: "@rush-temp/arm-peering"
+    resolution: {integrity: sha512-rtxI2gJqL42pzYLALYC6sIfWyouawnVCEP4yZKfGusbH8Ji0PYlBuXnepXlH8TT0ZafMQAvMY3IWiMYF1bznOg==, tarball: file:projects/arm-peering.tgz}
+    name: '@rush-temp/arm-peering'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -20288,6 +20750,8 @@ packages:
         tarball: file:projects/arm-playwrighttesting.tgz,
       }
     name: "@rush-temp/arm-playwrighttesting"
+    resolution: {integrity: sha512-NBAj3spwSLF52ttSdP2g7vlKpV6X//BeNBjiV0MW4E+ydPDaK6HjizNi3bPaavacAtQhP+ZPcYhzBMIZiWHzrQ==, tarball: file:projects/arm-playwrighttesting.tgz}
+    name: '@rush-temp/arm-playwrighttesting'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -20320,6 +20784,8 @@ packages:
         tarball: file:projects/arm-policy-profile-2020-09-01-hybrid.tgz,
       }
     name: "@rush-temp/arm-policy-profile-2020-09-01-hybrid"
+    resolution: {integrity: sha512-zPDkU8eaJgopLiIETF3KWE196D+QF40hvhAWsDnT1DGUbA8q0vQ3Rxav1AsxYeljBVD7H4Ii0VDXdGHcb7QRaA==, tarball: file:projects/arm-policy-profile-2020-09-01-hybrid.tgz}
+    name: '@rush-temp/arm-policy-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -20351,6 +20817,8 @@ packages:
         tarball: file:projects/arm-policy.tgz,
       }
     name: "@rush-temp/arm-policy"
+    resolution: {integrity: sha512-NHFC/SmpupeyJvwAttiBDpn5fLbk5I0yyZCj2maqgdOWJfHi2h8PrfmZNN06lqq60u9AbM/0Yf44NHo+ofncAA==, tarball: file:projects/arm-policy.tgz}
+    name: '@rush-temp/arm-policy'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -20382,6 +20850,8 @@ packages:
         tarball: file:projects/arm-policyinsights.tgz,
       }
     name: "@rush-temp/arm-policyinsights"
+    resolution: {integrity: sha512-bB474u4D11GZLz0E0R0N8XLSEFYu+2VURGYs8jbvf/0JQ3gZQ7pfyN280uJQLc31H2qMRrTHV172Clix3gyOeA==, tarball: file:projects/arm-policyinsights.tgz}
+    name: '@rush-temp/arm-policyinsights'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -20414,6 +20884,8 @@ packages:
         tarball: file:projects/arm-portal.tgz,
       }
     name: "@rush-temp/arm-portal"
+    resolution: {integrity: sha512-K58T8AIN4f6fRzmXTfiZkIo8wQTCsTZIUNCrFenWhibeaMwg/ALPvbIlMh6o/AZyQkeIbd6U8NkNTp+ejWoSrA==, tarball: file:projects/arm-portal.tgz}
+    name: '@rush-temp/arm-portal'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -20445,6 +20917,8 @@ packages:
         tarball: file:projects/arm-postgresql-flexible.tgz,
       }
     name: "@rush-temp/arm-postgresql-flexible"
+    resolution: {integrity: sha512-ORDOYg6+oif05eTNfQfBwvr//8vreOMVAZSmGuiH+VzAOrYBNP+nZmrm5qkTLWsZnKHHrYXQ/HkMgYX7AO2BJg==, tarball: file:projects/arm-postgresql-flexible.tgz}
+    name: '@rush-temp/arm-postgresql-flexible'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -20477,6 +20951,8 @@ packages:
         tarball: file:projects/arm-postgresql.tgz,
       }
     name: "@rush-temp/arm-postgresql"
+    resolution: {integrity: sha512-PLNqcAjyFud5qowPUfb9UuAmoO1j2Gy+FZPWrH3GPKzPwXfGsKhI0CXDdFa9ZFPNnvrxsRdwNIvzo2iqDmZWVA==, tarball: file:projects/arm-postgresql.tgz}
+    name: '@rush-temp/arm-postgresql'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -20508,6 +20984,8 @@ packages:
         tarball: file:projects/arm-powerbidedicated.tgz,
       }
     name: "@rush-temp/arm-powerbidedicated"
+    resolution: {integrity: sha512-5A4s9SJadP76+7jTriXhAOWicptvCtSTzoMzrUC8Y7LbJ8fLNl8mbGfZcnazs5odSesn5z3BLQO59TEAcdB8Fg==, tarball: file:projects/arm-powerbidedicated.tgz}
+    name: '@rush-temp/arm-powerbidedicated'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -20540,6 +21018,8 @@ packages:
         tarball: file:projects/arm-powerbiembedded.tgz,
       }
     name: "@rush-temp/arm-powerbiembedded"
+    resolution: {integrity: sha512-hvyKQimGddCrHmqr2ul5x2VIEX3lVPtMcgRupyIuPkUw8/oHl4j4RYPFXb5uTKnUn9WHTpg1qy6fxjcW6sziCA==, tarball: file:projects/arm-powerbiembedded.tgz}
+    name: '@rush-temp/arm-powerbiembedded'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -20571,6 +21051,8 @@ packages:
         tarball: file:projects/arm-privatedns.tgz,
       }
     name: "@rush-temp/arm-privatedns"
+    resolution: {integrity: sha512-laKSgoqQoPbziKfyqYmWcvVj1prxmwrQ+Tsn92VGjXABCAg4B7sD82oNiDxHXF3TUckYYZlITMOLSNz5hpRHiQ==, tarball: file:projects/arm-privatedns.tgz}
+    name: '@rush-temp/arm-privatedns'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -20603,6 +21085,8 @@ packages:
         tarball: file:projects/arm-purview.tgz,
       }
     name: "@rush-temp/arm-purview"
+    resolution: {integrity: sha512-cTfSKyI94MXx6wFkcyB76vxp8Xb3wPqP8U3Ct3T8kvJVlMcfFb8+xEd79mHVrt31kOOy8lasKGF+PWcqt/famQ==, tarball: file:projects/arm-purview.tgz}
+    name: '@rush-temp/arm-purview'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -20634,6 +21118,8 @@ packages:
         tarball: file:projects/arm-quantum.tgz,
       }
     name: "@rush-temp/arm-quantum"
+    resolution: {integrity: sha512-T45AhTnuZTQ1fE+XH7Z1XeJbNB1yJf7V632xME56OM4Uhkrp+1y4QFpzEGXg+wiYdgKyPA2niueZ24G4U/THhw==, tarball: file:projects/arm-quantum.tgz}
+    name: '@rush-temp/arm-quantum'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -20666,6 +21152,8 @@ packages:
         tarball: file:projects/arm-qumulo.tgz,
       }
     name: "@rush-temp/arm-qumulo"
+    resolution: {integrity: sha512-MzOJbRyF6ex6bgfHn0WEZCHog2tx1y22fqb+rTrM4jVfqPllFPNbIPONNoO50F811YKwx90CYIOszsJactcrCQ==, tarball: file:projects/arm-qumulo.tgz}
+    name: '@rush-temp/arm-qumulo'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -20698,6 +21186,8 @@ packages:
         tarball: file:projects/arm-quota.tgz,
       }
     name: "@rush-temp/arm-quota"
+    resolution: {integrity: sha512-e2HRsFbCS5BMkM4lE9S4wCKJS+Ia0WwIU+8CgKUiWxKRMM2zuVVCJ3tS8DLtPGu2j8vqhwbT07hYJugsECLb7w==, tarball: file:projects/arm-quota.tgz}
+    name: '@rush-temp/arm-quota'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -20730,6 +21220,8 @@ packages:
         tarball: file:projects/arm-recoveryservices-siterecovery.tgz,
       }
     name: "@rush-temp/arm-recoveryservices-siterecovery"
+    resolution: {integrity: sha512-IOAtKVxIFnxXYIzt/C3JWr0Jgea+mebizp/0uWK0PbKEqvoOMV4q107SPGgK2uxpnBBZj56yTjxkWXAe8/5OOw==, tarball: file:projects/arm-recoveryservices-siterecovery.tgz}
+    name: '@rush-temp/arm-recoveryservices-siterecovery'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -20762,6 +21254,8 @@ packages:
         tarball: file:projects/arm-recoveryservices.tgz,
       }
     name: "@rush-temp/arm-recoveryservices"
+    resolution: {integrity: sha512-QKF3Vybk9bpIGteIxZOf92L/L9MscdzqhVV4lOuYT3IelKo6Zx48A71rpp0edf+DFO8L5JhRbvUIs/OtQCZHnA==, tarball: file:projects/arm-recoveryservices.tgz}
+    name: '@rush-temp/arm-recoveryservices'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -20794,6 +21288,8 @@ packages:
         tarball: file:projects/arm-recoveryservicesbackup.tgz,
       }
     name: "@rush-temp/arm-recoveryservicesbackup"
+    resolution: {integrity: sha512-vsc89k+T+0juKkfKefUW+RvXe99MMn6TOxQJkyg73hdDKs4Ey0NzTv7h5iSJglEpRDpxjY+3a4hHKuqezZ4mPg==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
+    name: '@rush-temp/arm-recoveryservicesbackup'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -20826,6 +21322,8 @@ packages:
         tarball: file:projects/arm-recoveryservicesdatareplication.tgz,
       }
     name: "@rush-temp/arm-recoveryservicesdatareplication"
+    resolution: {integrity: sha512-jMbyshWHxwKg3WNpfAwcreWB9t6zzUztpF16Zc4BXIvDZyy9E1Pith6CDXgwyGQ687HjmdwpmHVW14aCD23prQ==, tarball: file:projects/arm-recoveryservicesdatareplication.tgz}
+    name: '@rush-temp/arm-recoveryservicesdatareplication'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -20858,6 +21356,8 @@ packages:
         tarball: file:projects/arm-rediscache.tgz,
       }
     name: "@rush-temp/arm-rediscache"
+    resolution: {integrity: sha512-EeUU34H3/QAF93a2Ulsp6Bk+N5IDS7ifw3gNBeYjdRPHP82EH/+OSRYb3MWupPrHqSdQVbiE8Qin3a705BpiMg==, tarball: file:projects/arm-rediscache.tgz}
+    name: '@rush-temp/arm-rediscache'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -20891,6 +21391,8 @@ packages:
         tarball: file:projects/arm-redisenterprisecache.tgz,
       }
     name: "@rush-temp/arm-redisenterprisecache"
+    resolution: {integrity: sha512-BjJaaAGIk5x5wByGv3aGnFZPr23FuoHxj3r3ak/E3eJz9FMn0HGycmIUbJZIieUMM9rRWwaso9wg4iDGgwnd8Q==, tarball: file:projects/arm-redisenterprisecache.tgz}
+    name: '@rush-temp/arm-redisenterprisecache'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -20923,6 +21425,8 @@ packages:
         tarball: file:projects/arm-relay.tgz,
       }
     name: "@rush-temp/arm-relay"
+    resolution: {integrity: sha512-JfG9KMmDNAjbxC5UE5dwqjGrWFB/t46UvX4iPl4XezHLmhOUEgt9iGnMmJ13/n5ldQGRWJlO/ygse+e/qGKayQ==, tarball: file:projects/arm-relay.tgz}
+    name: '@rush-temp/arm-relay'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -20955,6 +21459,8 @@ packages:
         tarball: file:projects/arm-reservations.tgz,
       }
     name: "@rush-temp/arm-reservations"
+    resolution: {integrity: sha512-566IfIiP/WsorBdginQBe+z0RNcZ5/VMBwSZt266yfnqp489MvAW1ADGyQOJSeRpyJPDBNzqfyD/Ulmp3xX8Zw==, tarball: file:projects/arm-reservations.tgz}
+    name: '@rush-temp/arm-reservations'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -20987,6 +21493,8 @@ packages:
         tarball: file:projects/arm-resourceconnector.tgz,
       }
     name: "@rush-temp/arm-resourceconnector"
+    resolution: {integrity: sha512-y0Qn29PJMNT/nkv8XWNzTgyR7DwOnAuyrF++EHmTywkgyHbj/LqEI1DmmBVeJRIoWE1QulgZBrN2ockFRTQNMw==, tarball: file:projects/arm-resourceconnector.tgz}
+    name: '@rush-temp/arm-resourceconnector'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -21019,6 +21527,8 @@ packages:
         tarball: file:projects/arm-resourcegraph.tgz,
       }
     name: "@rush-temp/arm-resourcegraph"
+    resolution: {integrity: sha512-8zO/C8iO5/GkqZBLzCAJKHZCZuAOMLVW3aWozDGUEfFoA2UtXu/G5jqLIfWiRw5ex8LrcE9y1+4wguhruc4nvw==, tarball: file:projects/arm-resourcegraph.tgz}
+    name: '@rush-temp/arm-resourcegraph'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -21049,6 +21559,8 @@ packages:
         tarball: file:projects/arm-resourcehealth.tgz,
       }
     name: "@rush-temp/arm-resourcehealth"
+    resolution: {integrity: sha512-24X7+rTC8culmoUoEu8rgtBP8VJuz+jdnJP4D/AHjeyuDDW3xqm5ZkfRBtZEKw94R5KXreTWqyTD0lB71VMriA==, tarball: file:projects/arm-resourcehealth.tgz}
+    name: '@rush-temp/arm-resourcehealth'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -21080,6 +21592,8 @@ packages:
         tarball: file:projects/arm-resourcemover.tgz,
       }
     name: "@rush-temp/arm-resourcemover"
+    resolution: {integrity: sha512-6o0qC1yDZTMzVp5FgE/D7m+Xz0H03YtoaAar3RxO0PRvihRAcEjBEFnbc1jwYHM57PwaMIUHYIW4T4kZCtWd6g==, tarball: file:projects/arm-resourcemover.tgz}
+    name: '@rush-temp/arm-resourcemover'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -21112,6 +21626,8 @@ packages:
         tarball: file:projects/arm-resources-profile-2020-09-01-hybrid.tgz,
       }
     name: "@rush-temp/arm-resources-profile-2020-09-01-hybrid"
+    resolution: {integrity: sha512-bbnMcksESPcsjC9r1VU4ydUAJDgnQGQ85lt6A9PQnYlOaVWXXoByeAOrmGkvP6kIwIZwJr1TvjD+ShO87wRKLQ==, tarball: file:projects/arm-resources-profile-2020-09-01-hybrid.tgz}
+    name: '@rush-temp/arm-resources-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -21144,6 +21660,8 @@ packages:
         tarball: file:projects/arm-resources-subscriptions.tgz,
       }
     name: "@rush-temp/arm-resources-subscriptions"
+    resolution: {integrity: sha512-vUy9B2ZqIdszArhaetgkI9Q9k3Bc26MlnUhrDtrjURlEBdbNoattunjWCwvwcOWF48l1UHFMXoW1ZdayA34aDw==, tarball: file:projects/arm-resources-subscriptions.tgz}
+    name: '@rush-temp/arm-resources-subscriptions'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -21175,6 +21693,8 @@ packages:
         tarball: file:projects/arm-resources.tgz,
       }
     name: "@rush-temp/arm-resources"
+    resolution: {integrity: sha512-FkPOpX84A57rNqKeCNdIYUbNfDkij6UVV8w1+Wcs4+3NTLo6p3T0Yii3CJoN5HbzUHfLFLr+/j6QhfaMJcsHug==, tarball: file:projects/arm-resources.tgz}
+    name: '@rush-temp/arm-resources'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -21207,6 +21727,8 @@ packages:
         tarball: file:projects/arm-resourcesdeploymentstacks.tgz,
       }
     name: "@rush-temp/arm-resourcesdeploymentstacks"
+    resolution: {integrity: sha512-CyKYFCZExcf76R/w2+zTpt9Ya4SKvRyRxXfq06AMU3qyPx8hwH7EnzwHXHRpOPGtZqdM9+9AWU7Weirc5oesaw==, tarball: file:projects/arm-resourcesdeploymentstacks.tgz}
+    name: '@rush-temp/arm-resourcesdeploymentstacks'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -21239,6 +21761,8 @@ packages:
         tarball: file:projects/arm-scvmm.tgz,
       }
     name: "@rush-temp/arm-scvmm"
+    resolution: {integrity: sha512-4TnOIz1GI/Ys8VeJxuUTtdKGZiPTNnpVGSCExmoq2VIDsffM6jOEcQ1ou4AxCAHCgLfEXmgS+FN4QsgU1V9+dw==, tarball: file:projects/arm-scvmm.tgz}
+    name: '@rush-temp/arm-scvmm'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -21271,6 +21795,8 @@ packages:
         tarball: file:projects/arm-search.tgz,
       }
     name: "@rush-temp/arm-search"
+    resolution: {integrity: sha512-MpoWE9dJJvruHEIk4BaQ77dpagQjifQZA+/S+I3xYs6YANkvj8qhwRX0zBnlZK7GpOCBmkimU+3aGlNSDp0hSA==, tarball: file:projects/arm-search.tgz}
+    name: '@rush-temp/arm-search'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -21303,6 +21829,8 @@ packages:
         tarball: file:projects/arm-security.tgz,
       }
     name: "@rush-temp/arm-security"
+    resolution: {integrity: sha512-aJ1sIQ1N8puWqo5WY1BOBaxl+jBy6OG3nIiZkZlDvkK80/kAbvfpGUPWJTKnUPGvnUS/VOS3Vs6miRtz/DrdCw==, tarball: file:projects/arm-security.tgz}
+    name: '@rush-temp/arm-security'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -21335,6 +21863,8 @@ packages:
         tarball: file:projects/arm-securitydevops.tgz,
       }
     name: "@rush-temp/arm-securitydevops"
+    resolution: {integrity: sha512-qAwc169lpOhPi88Tot4gDzRRbnbT9zuaD3hNnVkwlMezbp4yIXmw/pAIWZ5/bDK3Dr3bm45ZxJ4Ms5cAr2PXBg==, tarball: file:projects/arm-securitydevops.tgz}
+    name: '@rush-temp/arm-securitydevops'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -21367,6 +21897,8 @@ packages:
         tarball: file:projects/arm-securityinsight.tgz,
       }
     name: "@rush-temp/arm-securityinsight"
+    resolution: {integrity: sha512-nEEABCVRMN2Fh7BsUDZwpJgPb2Jl92qdozqRckSl8cu7LM2yTe6w1+tsKuY/BOb/r/lFik4YVQldOfkRL45Jdg==, tarball: file:projects/arm-securityinsight.tgz}
+    name: '@rush-temp/arm-securityinsight'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -21399,6 +21931,8 @@ packages:
         tarball: file:projects/arm-selfhelp.tgz,
       }
     name: "@rush-temp/arm-selfhelp"
+    resolution: {integrity: sha512-hr6TTDbSV12lJVpiea3BEoSJVlXeYOaJFcXrHWqjx/DeTs8gS3vK8vWBdAzQcYn+v6R7T5BFHbhA68w9h2HghA==, tarball: file:projects/arm-selfhelp.tgz}
+    name: '@rush-temp/arm-selfhelp'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -21431,6 +21965,8 @@ packages:
         tarball: file:projects/arm-serialconsole.tgz,
       }
     name: "@rush-temp/arm-serialconsole"
+    resolution: {integrity: sha512-dRoHynVL8KTkJ9bX82bHjCiDoYlHimXJVznVEvUvc52GODTqjErAlLg9zb6eH6MX0JgpY7xQ0TZyKemucxKzBQ==, tarball: file:projects/arm-serialconsole.tgz}
+    name: '@rush-temp/arm-serialconsole'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -21461,6 +21997,8 @@ packages:
         tarball: file:projects/arm-servicebus.tgz,
       }
     name: "@rush-temp/arm-servicebus"
+    resolution: {integrity: sha512-gOfMZoQtqKFaI5oH/96RiJORc4uCpISqAnVBKNAMKFgTxGq2B2HV/mGK9diue3B2qZ1rHQdJfvPXk6y+MAv1Bw==, tarball: file:projects/arm-servicebus.tgz}
+    name: '@rush-temp/arm-servicebus'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -21493,6 +22031,8 @@ packages:
         tarball: file:projects/arm-servicefabric-1.tgz,
       }
     name: "@rush-temp/arm-servicefabric-1"
+    resolution: {integrity: sha512-ERnynPwclFD0xhHpiCg+6820k68Qf8Ivz7zT17jq4Yn3lJBoUsvmJdF9DjE6sOQHq7u3e/KV+3/mv3yUNHkVnw==, tarball: file:projects/arm-servicefabric-1.tgz}
+    name: '@rush-temp/arm-servicefabric-1'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -21525,6 +22065,8 @@ packages:
         tarball: file:projects/arm-servicefabric.tgz,
       }
     name: "@rush-temp/arm-servicefabric"
+    resolution: {integrity: sha512-HrPgMeapIfK7BWL0Nd5yecMEx4jOkWzyYx8xbVUuA3KMkVN1SLiUk3oEyJ7HPb8WFMnnO4TCh6x3V4eu8Jy4FA==, tarball: file:projects/arm-servicefabric.tgz}
+    name: '@rush-temp/arm-servicefabric'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -21572,6 +22114,8 @@ packages:
         tarball: file:projects/arm-servicefabricmesh.tgz,
       }
     name: "@rush-temp/arm-servicefabricmesh"
+    resolution: {integrity: sha512-PSUIznFu2aXZ5y2081qR49LYJW5M+nRCdjRwwC1r7R1zt55mEoaLPGYIgNYW007/nC81dUN5g707mTkDIuOgLQ==, tarball: file:projects/arm-servicefabricmesh.tgz}
+    name: '@rush-temp/arm-servicefabricmesh'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -21603,6 +22147,8 @@ packages:
         tarball: file:projects/arm-servicelinker.tgz,
       }
     name: "@rush-temp/arm-servicelinker"
+    resolution: {integrity: sha512-rIxOXIUeBPKYTlefJCOpc7pA3l5DksCytLTx6+U/J8QzWZIC0U7liETRTZAt3ih+pMGTak8xM/pilgql0PA/ng==, tarball: file:projects/arm-servicelinker.tgz}
+    name: '@rush-temp/arm-servicelinker'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -21635,6 +22181,8 @@ packages:
         tarball: file:projects/arm-servicemap.tgz,
       }
     name: "@rush-temp/arm-servicemap"
+    resolution: {integrity: sha512-UR1+rvhOKOEefhf5zludXBj5sq4gAw0eTkssZaROBvwhmLy33FpZRt+xp0DtMUFZM8ksM11xon8xH1h3+8x93Q==, tarball: file:projects/arm-servicemap.tgz}
+    name: '@rush-temp/arm-servicemap'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -21666,6 +22214,8 @@ packages:
         tarball: file:projects/arm-servicenetworking.tgz,
       }
     name: "@rush-temp/arm-servicenetworking"
+    resolution: {integrity: sha512-d8KhtNq0jqB7QDIGEmhl0caezggY12cDh8I7Da0HbG0OcnyD6gjT2X9H75sWI1/9yHYWTn6N4C35VWwVJNA/JA==, tarball: file:projects/arm-servicenetworking.tgz}
+    name: '@rush-temp/arm-servicenetworking'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -21698,6 +22248,8 @@ packages:
         tarball: file:projects/arm-signalr.tgz,
       }
     name: "@rush-temp/arm-signalr"
+    resolution: {integrity: sha512-Awn4ZlCeTydXAEmla1Lb49I9eCRRN/NhnW74MjWarHebjsbSVV/zBR1IWKbkOAodeFuKeMVBDVwQ0qthccYLfQ==, tarball: file:projects/arm-signalr.tgz}
+    name: '@rush-temp/arm-signalr'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -21730,6 +22282,8 @@ packages:
         tarball: file:projects/arm-sphere.tgz,
       }
     name: "@rush-temp/arm-sphere"
+    resolution: {integrity: sha512-YKZgH9YZt9RWtguhfhXyXExtd49bIJKYnmStGtB6X0dAzm/o++Qq64HlDjYmYHUgNNAWMGttnYqOSM0eMXMc0A==, tarball: file:projects/arm-sphere.tgz}
+    name: '@rush-temp/arm-sphere'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -21762,6 +22316,8 @@ packages:
         tarball: file:projects/arm-springappdiscovery.tgz,
       }
     name: "@rush-temp/arm-springappdiscovery"
+    resolution: {integrity: sha512-Bysf9bonLoDUMKh3qLIIZck57KylaPBtVipU0bHeYhznmM7/2BPPRcqH3hGsYAg/957s0DTJoiq9eMKgcCm27w==, tarball: file:projects/arm-springappdiscovery.tgz}
+    name: '@rush-temp/arm-springappdiscovery'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -21794,6 +22350,8 @@ packages:
         tarball: file:projects/arm-sql.tgz,
       }
     name: "@rush-temp/arm-sql"
+    resolution: {integrity: sha512-6w1/sZWQG2Q1abZgTlItwD06IQOC+kAbE4hqM9TqatkZtejhG0J6Rbn1e6p/BpkrVvEVNw3tD57ecVq1Wz7UUQ==, tarball: file:projects/arm-sql.tgz}
+    name: '@rush-temp/arm-sql'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -21826,6 +22384,8 @@ packages:
         tarball: file:projects/arm-sqlvirtualmachine.tgz,
       }
     name: "@rush-temp/arm-sqlvirtualmachine"
+    resolution: {integrity: sha512-AndblFerTuFr7qeeNrLVsSpcnjt74zDK9WV05epg4rwzRm3s/2Cyvq4GriM3+thiwfrcUM6LDQIcc5+ZzU3Bjg==, tarball: file:projects/arm-sqlvirtualmachine.tgz}
+    name: '@rush-temp/arm-sqlvirtualmachine'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -21858,6 +22418,8 @@ packages:
         tarball: file:projects/arm-storage-profile-2020-09-01-hybrid.tgz,
       }
     name: "@rush-temp/arm-storage-profile-2020-09-01-hybrid"
+    resolution: {integrity: sha512-NMM2D3A4bLsqCUqS8JGEoU5R0PxvwpLl+ZG3arvZmd1VRrUYYEPOJYSQIa3sGqhC86cGq03ZwueFKPvqpx6QEw==, tarball: file:projects/arm-storage-profile-2020-09-01-hybrid.tgz}
+    name: '@rush-temp/arm-storage-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -21890,6 +22452,8 @@ packages:
         tarball: file:projects/arm-storage.tgz,
       }
     name: "@rush-temp/arm-storage"
+    resolution: {integrity: sha512-wPy14O+Trv5rPqsbZpZs2nKuagt3l7aROsORwe4NUciTubTp0fOBZ4whfweeaA7+PTrDNGG3ceeEcXIjnj8UCw==, tarball: file:projects/arm-storage.tgz}
+    name: '@rush-temp/arm-storage'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -21922,6 +22486,8 @@ packages:
         tarball: file:projects/arm-storageactions.tgz,
       }
     name: "@rush-temp/arm-storageactions"
+    resolution: {integrity: sha512-40TO799hXGnQxIkHwGvuJ21S8qtEMSB6+sZytugJ3EYwNAwryLO6l6EkJRs79NAzonwxEjWhaU/mb6BffLRZqQ==, tarball: file:projects/arm-storageactions.tgz}
+    name: '@rush-temp/arm-storageactions'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -21954,6 +22520,8 @@ packages:
         tarball: file:projects/arm-storagecache.tgz,
       }
     name: "@rush-temp/arm-storagecache"
+    resolution: {integrity: sha512-RJgiACG5Auq+Pa7TDPxhaFFe2R4Jh/ohChes/Cch2WATNtTf7IxyeqVnqPdmcKTtueGpoZUIMdpKff4yLz+GiQ==, tarball: file:projects/arm-storagecache.tgz}
+    name: '@rush-temp/arm-storagecache'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -21986,6 +22554,8 @@ packages:
         tarball: file:projects/arm-storageimportexport.tgz,
       }
     name: "@rush-temp/arm-storageimportexport"
+    resolution: {integrity: sha512-nYW1VT3ZHNA+1sCUszExPT+LKS9D0hMSqrX6O6QoTbVrqd+Y1zBjuuiDB9tdKdUtvfp9UCM9FGkBdJsCpi6OAw==, tarball: file:projects/arm-storageimportexport.tgz}
+    name: '@rush-temp/arm-storageimportexport'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -22017,6 +22587,8 @@ packages:
         tarball: file:projects/arm-storagemover.tgz,
       }
     name: "@rush-temp/arm-storagemover"
+    resolution: {integrity: sha512-+kzNdur/yZizlDfwUwFHkjDA0Fm9bCDTuzWzPdHAlktQDAfdt7BpoIw5cGmCcBHPhkeAKQ+B3sfP++BcQO/sHA==, tarball: file:projects/arm-storagemover.tgz}
+    name: '@rush-temp/arm-storagemover'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -22049,6 +22621,8 @@ packages:
         tarball: file:projects/arm-storagesync.tgz,
       }
     name: "@rush-temp/arm-storagesync"
+    resolution: {integrity: sha512-6mwPYWAQL/H01n5FXbgHlwGV8xlZxWpJ81fPiNsf1k/L/XKpFdBUaqjnj7OZ8Lctclj4KgayVTQt1CdFuVnIcg==, tarball: file:projects/arm-storagesync.tgz}
+    name: '@rush-temp/arm-storagesync'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -22080,6 +22654,8 @@ packages:
         tarball: file:projects/arm-storsimple1200series.tgz,
       }
     name: "@rush-temp/arm-storsimple1200series"
+    resolution: {integrity: sha512-qJQiDw4ybnrU/1aA9r1I+PjF8DfWUTWwsFlWf8krt8Et0TwjG/iyf55y5wMz8MvfqtuOrjJVw4IFrW+0iAlQCQ==, tarball: file:projects/arm-storsimple1200series.tgz}
+    name: '@rush-temp/arm-storsimple1200series'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -22111,6 +22687,8 @@ packages:
         tarball: file:projects/arm-storsimple8000series.tgz,
       }
     name: "@rush-temp/arm-storsimple8000series"
+    resolution: {integrity: sha512-ayXjT6NajN/qdoPO7Mr3jOHH62mUH5W+dabSul0mj57NBRwHhKZqw+zjbe7w2imO9GD97JAfRh2UqNksCxjB9g==, tarball: file:projects/arm-storsimple8000series.tgz}
+    name: '@rush-temp/arm-storsimple8000series'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -22142,6 +22720,8 @@ packages:
         tarball: file:projects/arm-streamanalytics.tgz,
       }
     name: "@rush-temp/arm-streamanalytics"
+    resolution: {integrity: sha512-7SLr89V2CyD22SRJ6EIx/MZhPuhXk1P5RFyqgxZEwB6KKK6nQvJLe0Vl0eiwSHhEZnpBnN830VHIt6X8uJDQkg==, tarball: file:projects/arm-streamanalytics.tgz}
+    name: '@rush-temp/arm-streamanalytics'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -22174,6 +22754,8 @@ packages:
         tarball: file:projects/arm-subscriptions-profile-2020-09-01-hybrid.tgz,
       }
     name: "@rush-temp/arm-subscriptions-profile-2020-09-01-hybrid"
+    resolution: {integrity: sha512-NizuL63SPjsZr41uDgstk4f9eE+zibFXqlH2Ihh+rY3/dKRRhJD90Er8vfZ7ZWHRHvLT2Csb/ltBl5vp1A0+NQ==, tarball: file:projects/arm-subscriptions-profile-2020-09-01-hybrid.tgz}
+    name: '@rush-temp/arm-subscriptions-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -22205,6 +22787,8 @@ packages:
         tarball: file:projects/arm-subscriptions.tgz,
       }
     name: "@rush-temp/arm-subscriptions"
+    resolution: {integrity: sha512-5IFFDs55Ah09DyFMJiNxY3gah8MmiyGxzgOPDi5+fJURYP5dBN67zHfp89T8yRk4fnzhHr1CIIVqxLaclHOtAw==, tarball: file:projects/arm-subscriptions.tgz}
+    name: '@rush-temp/arm-subscriptions'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -22236,6 +22820,8 @@ packages:
         tarball: file:projects/arm-support.tgz,
       }
     name: "@rush-temp/arm-support"
+    resolution: {integrity: sha512-2TthI7e9y9CxZ8B9fhCSUD1LpQb8r2TE/3uOSDoFiQxEAVg3eyIzuk1SUnqr+tgtwRheYy6vky8nOkiCSoUg4A==, tarball: file:projects/arm-support.tgz}
+    name: '@rush-temp/arm-support'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -22268,6 +22854,8 @@ packages:
         tarball: file:projects/arm-synapse.tgz,
       }
     name: "@rush-temp/arm-synapse"
+    resolution: {integrity: sha512-z/swGOIBeL5uJAopLi7EFbjfdCg5bmo+e3zDcY2HbwW0HjIiof+ixY090+1vZWHg92AThVkob2K2l536xuBGMw==, tarball: file:projects/arm-synapse.tgz}
+    name: '@rush-temp/arm-synapse'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -22300,6 +22888,8 @@ packages:
         tarball: file:projects/arm-templatespecs.tgz,
       }
     name: "@rush-temp/arm-templatespecs"
+    resolution: {integrity: sha512-nk1/2PRvCV+3FTkFsHpjP0uGfb6taDC5Z8Xs42icJkJ0jrIDDQItErgSQP+9pIarqWzR7Uby29JgFp9CeuWuTQ==, tarball: file:projects/arm-templatespecs.tgz}
+    name: '@rush-temp/arm-templatespecs'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -22330,6 +22920,8 @@ packages:
         tarball: file:projects/arm-timeseriesinsights.tgz,
       }
     name: "@rush-temp/arm-timeseriesinsights"
+    resolution: {integrity: sha512-B2U20KXCVEHr0i6jiouooJOJFfn3vjK5suZ36zFx75VbPg3Urj4WtmEWWV8NsHAd0ziBqvixajvqLbuJjiumqQ==, tarball: file:projects/arm-timeseriesinsights.tgz}
+    name: '@rush-temp/arm-timeseriesinsights'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -22362,6 +22954,8 @@ packages:
         tarball: file:projects/arm-trafficmanager.tgz,
       }
     name: "@rush-temp/arm-trafficmanager"
+    resolution: {integrity: sha512-e2YVynIEMreO5CAxja/J6jplz7kxXO0M2ciaOMfL+0Ipt1osirl2qdH9s4oGNmU2nwW7mTqFc6kjwazQIrQI4Q==, tarball: file:projects/arm-trafficmanager.tgz}
+    name: '@rush-temp/arm-trafficmanager'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -22393,6 +22987,8 @@ packages:
         tarball: file:projects/arm-visualstudio.tgz,
       }
     name: "@rush-temp/arm-visualstudio"
+    resolution: {integrity: sha512-0XtmAgA+2KwLtZDA9vGTZneXU1hoCPlUWKXNyWEHVKISIaQwykBeaUO0ja46aLmSNO17Y6pjXNLj1KE7StHAmw==, tarball: file:projects/arm-visualstudio.tgz}
+    name: '@rush-temp/arm-visualstudio'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -22424,6 +23020,8 @@ packages:
         tarball: file:projects/arm-vmwarecloudsimple.tgz,
       }
     name: "@rush-temp/arm-vmwarecloudsimple"
+    resolution: {integrity: sha512-aIiFvnKg7bl8Xsctw/9SUUv0myGxXzHqtc5gAZT+8f6hcPqkBEf0TWKK8U3mpdUWKiUnqBu9MjlTGahGyKQXDQ==, tarball: file:projects/arm-vmwarecloudsimple.tgz}
+    name: '@rush-temp/arm-vmwarecloudsimple'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -22456,6 +23054,8 @@ packages:
         tarball: file:projects/arm-voiceservices.tgz,
       }
     name: "@rush-temp/arm-voiceservices"
+    resolution: {integrity: sha512-d8ixsM8HyPte2Ysr5wPXXmTh51toKeHUdTo+U3zBi9HftuedvHQ5zfeHoiSXE70jYXtCJG2XsrVBPSCe5q3MuA==, tarball: file:projects/arm-voiceservices.tgz}
+    name: '@rush-temp/arm-voiceservices'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -22488,6 +23088,8 @@ packages:
         tarball: file:projects/arm-webpubsub.tgz,
       }
     name: "@rush-temp/arm-webpubsub"
+    resolution: {integrity: sha512-5E5XHxr1MSziR8ux+HvU6EkuL4PZO2X+slMyf0G0slPdnFHd36AgkEX3CPgXbhQRu3a5MR2G7dkoINR01iIg4A==, tarball: file:projects/arm-webpubsub.tgz}
+    name: '@rush-temp/arm-webpubsub'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -22520,6 +23122,8 @@ packages:
         tarball: file:projects/arm-webservices.tgz,
       }
     name: "@rush-temp/arm-webservices"
+    resolution: {integrity: sha512-O98HWJDvw+8Q5xZ75GATWFuxJo5T08bjtgLWwcZdnJ2YD2n09IAF+tfBFjaPu/g+uPHXkJ0ktvhxIs59PcjoxA==, tarball: file:projects/arm-webservices.tgz}
+    name: '@rush-temp/arm-webservices'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -22551,6 +23155,8 @@ packages:
         tarball: file:projects/arm-workloads.tgz,
       }
     name: "@rush-temp/arm-workloads"
+    resolution: {integrity: sha512-jfQsOfe6We8IuUnGX7UGXQrA/W787xIkTPDJ0iq8PhOmgCxmfr0lqduHy7SNQQlFopmS6habe546/V8o/TD3HA==, tarball: file:projects/arm-workloads.tgz}
+    name: '@rush-temp/arm-workloads'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -22583,6 +23189,8 @@ packages:
         tarball: file:projects/arm-workloadssapvirtualinstance.tgz,
       }
     name: "@rush-temp/arm-workloadssapvirtualinstance"
+    resolution: {integrity: sha512-e8xERrlxM9KRDGW2KOMcxzqrvJfEjx3fu+8G6bKdAKx1gCJ7iXtJuHN0WJ5n++lfcQXglKdofC0KK0ydEs07SA==, tarball: file:projects/arm-workloadssapvirtualinstance.tgz}
+    name: '@rush-temp/arm-workloadssapvirtualinstance'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -22615,6 +23223,8 @@ packages:
         tarball: file:projects/arm-workspaces.tgz,
       }
     name: "@rush-temp/arm-workspaces"
+    resolution: {integrity: sha512-OXUHPFH94t5w32NRDcsnDVquRPLC9b9yWt49VlHJ3JiXr2zKgIS5yjej/2FS8PpaI+rW+lsZe53ou9TuR1DEXw==, tarball: file:projects/arm-workspaces.tgz}
+    name: '@rush-temp/arm-workspaces'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -22645,6 +23255,8 @@ packages:
         tarball: file:projects/attestation.tgz,
       }
     name: "@rush-temp/attestation"
+    resolution: {integrity: sha512-lb9zN0aU8gGp1LquDkN958w0/5hj4NUK7aH3tkRqqDtjLIdbwVph+1SPpZVlQ16XKy4M9h+RxDr8bLS4fR4crw==, tarball: file:projects/attestation.tgz}
+    name: '@rush-temp/attestation'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -22699,6 +23311,8 @@ packages:
         tarball: file:projects/communication-alpha-ids.tgz,
       }
     name: "@rush-temp/communication-alpha-ids"
+    resolution: {integrity: sha512-ye4ZVidX1jh1ax5bhLP8URP2Qdy3vfbINu307fZvLkoShrQ4Vm2/5ucMjeIuD9dR5RF7NyGCPN7NZKzyBQmTMA==, tarball: file:projects/communication-alpha-ids.tgz}
+    name: '@rush-temp/communication-alpha-ids'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-recorder": 3.2.0
@@ -22745,6 +23359,8 @@ packages:
         tarball: file:projects/communication-call-automation.tgz,
       }
     name: "@rush-temp/communication-call-automation"
+    resolution: {integrity: sha512-Ud8LIjsav1X/kYyi63hrwffC4Eq9X+rS1cr5lOQz1tug9bRrg7zbbVxfWVtBn482dW2IPUuX1gO5yWxXOtQAgg==, tarball: file:projects/communication-call-automation.tgz}
+    name: '@rush-temp/communication-call-automation'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -22796,6 +23412,8 @@ packages:
         tarball: file:projects/communication-chat.tgz,
       }
     name: "@rush-temp/communication-chat"
+    resolution: {integrity: sha512-LsbGjr9EW8VTWF/5INwJsD2jzswejO0PtWkeP9T3VW/gU7HjW6IrwSw0pvEeJJqgSAES/He5SJVkvmUrZRCpww==, tarball: file:projects/communication-chat.tgz}
+    name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -22851,6 +23469,8 @@ packages:
         tarball: file:projects/communication-common.tgz,
       }
     name: "@rush-temp/communication-common"
+    resolution: {integrity: sha512-Y8j8dX2CZGGFAcNCg+HrM+n+lU4nRM/1ZeBiZgv1fOrCiVWgzjkOoZwe1CmSq/N7tyWxdayM77hvsG3Zr4bgsQ==, tarball: file:projects/communication-common.tgz}
+    name: '@rush-temp/communication-common'
     version: 0.0.0
     dependencies:
       "@azure/abort-controller": 1.1.0
@@ -22901,6 +23521,8 @@ packages:
         tarball: file:projects/communication-email.tgz,
       }
     name: "@rush-temp/communication-email"
+    resolution: {integrity: sha512-YF8eho3uqdYu/XPAY1Dn5xB+930nCJa2G6pm3suJ9HAhenZCb7zke3nz/ymTVmojiR/QmV8mYfj3viHBEeb4RQ==, tarball: file:projects/communication-email.tgz}
+    name: '@rush-temp/communication-email'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-recorder": 3.2.0
@@ -22945,6 +23567,8 @@ packages:
         tarball: file:projects/communication-identity.tgz,
       }
     name: "@rush-temp/communication-identity"
+    resolution: {integrity: sha512-Zb6QvyZp+c1yp/AX2xKy8Z/3V81TpZXGzMZLkYSOlnVWgf5HHPj4dHOO17c8mbuNxnfTJRMyca7LK7bMZ3XYow==, tarball: file:projects/communication-identity.tgz}
+    name: '@rush-temp/communication-identity'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -22995,6 +23619,8 @@ packages:
         tarball: file:projects/communication-job-router-1.tgz,
       }
     name: "@rush-temp/communication-job-router-1"
+    resolution: {integrity: sha512-Q7ue32A+VikgZLbtUgyCWy6tj5LXwZDPJObBTmqCoWjgZvR7VoPeQsq+v/gmRpfgDEMhi8HQgHhuwDSacc7scw==, tarball: file:projects/communication-job-router-1.tgz}
+    name: '@rush-temp/communication-job-router-1'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-recorder": 3.2.0
@@ -23047,6 +23673,8 @@ packages:
         tarball: file:projects/communication-job-router.tgz,
       }
     name: "@rush-temp/communication-job-router"
+    resolution: {integrity: sha512-ghJUQ+lWN6aAkr2wTq+9MbJKgx3e9q+1Fka9/MdbJAIa0iMs4og/U+wt0Y+CoUw4hDUCvGjvk617ll4J4ZAj9A==, tarball: file:projects/communication-job-router.tgz}
+    name: '@rush-temp/communication-job-router'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -23094,6 +23722,8 @@ packages:
         tarball: file:projects/communication-messages.tgz,
       }
     name: "@rush-temp/communication-messages"
+    resolution: {integrity: sha512-IQSUrk63aCPP8ws5ok4nZfQNns/QavJkNXUTiB+oKqJrO8G5/I/i+Smh1txrjjKyJCBGYyq+0e5rMKF/2j+7qg==, tarball: file:projects/communication-messages.tgz}
+    name: '@rush-temp/communication-messages'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -23142,6 +23772,8 @@ packages:
         tarball: file:projects/communication-phone-numbers.tgz,
       }
     name: "@rush-temp/communication-phone-numbers"
+    resolution: {integrity: sha512-NfEqbXhH300ySKFdhlYX9YZCzonMB3PndfnAh45U0syLn1NubzkkeJ7y5vnUfTG1P7HDrhpvz7zuYNqOeS14tA==, tarball: file:projects/communication-phone-numbers.tgz}
+    name: '@rush-temp/communication-phone-numbers'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -23190,6 +23822,8 @@ packages:
         tarball: file:projects/communication-recipient-verification.tgz,
       }
     name: "@rush-temp/communication-recipient-verification"
+    resolution: {integrity: sha512-N9xS+ouhVDjpSlnNf+G0qpQhjgwNsQGUc41U/rhgB5rvJplvhzTs5Ihb7APTvVH8jegUSuoiHMmjPUde8wbhoA==, tarball: file:projects/communication-recipient-verification.tgz}
+    name: '@rush-temp/communication-recipient-verification'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-recorder": 3.2.0
@@ -23239,6 +23873,8 @@ packages:
         tarball: file:projects/communication-rooms.tgz,
       }
     name: "@rush-temp/communication-rooms"
+    resolution: {integrity: sha512-iqteiWsOffskSsd5qHgXbrB9cUMpT322ZfA2D56q8peQrS9RmwF4tIwJdQrJVUKth8M4HPaRNbwHjAmFM6n1RA==, tarball: file:projects/communication-rooms.tgz}
+    name: '@rush-temp/communication-rooms'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -23278,6 +23914,8 @@ packages:
         tarball: file:projects/communication-short-codes.tgz,
       }
     name: "@rush-temp/communication-short-codes"
+    resolution: {integrity: sha512-25sB4SagMxMo1f//p12MxsimS9XMaP1BNi0nHAz/EHEuxn0gUu6vp2jtIhpU5f/7I2L2s5dwKl0VGYc5/LaKyw==, tarball: file:projects/communication-short-codes.tgz}
+    name: '@rush-temp/communication-short-codes'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-recorder": 3.2.0
@@ -23327,6 +23965,8 @@ packages:
         tarball: file:projects/communication-sms.tgz,
       }
     name: "@rush-temp/communication-sms"
+    resolution: {integrity: sha512-TuXAGQrV8ZcP3gnwh47137pjfcpTDB3kgVjhR00e53k2QVZHhuP0m4Y1gLFqgx0rCrJ5hSZWqJL4eBpa9cIZFg==, tarball: file:projects/communication-sms.tgz}
+    name: '@rush-temp/communication-sms'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -23376,6 +24016,8 @@ packages:
         tarball: file:projects/communication-tiering.tgz,
       }
     name: "@rush-temp/communication-tiering"
+    resolution: {integrity: sha512-Qd3nHFhZRLYtMiCrR2uv5JnMfpdwvG/xVeYvZNGV0QZ9JrleE++VT6SqyJMM3m4o3LPPJYk/3aQ9aQTCdRSuEA==, tarball: file:projects/communication-tiering.tgz}
+    name: '@rush-temp/communication-tiering'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-recorder": 3.2.0
@@ -23425,6 +24067,8 @@ packages:
         tarball: file:projects/communication-toll-free-verification.tgz,
       }
     name: "@rush-temp/communication-toll-free-verification"
+    resolution: {integrity: sha512-F9kAkGWb8Xobum5r2Ww/pg0Biy6uh9XepWSPOSht7nFl3z4r7Ln9yZQ8B55c2vFOyDBXjwMIiTjbRXglqvO41g==, tarball: file:projects/communication-toll-free-verification.tgz}
+    name: '@rush-temp/communication-toll-free-verification'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-recorder": 3.2.0
@@ -23471,6 +24115,8 @@ packages:
         tarball: file:projects/confidential-ledger.tgz,
       }
     name: "@rush-temp/confidential-ledger"
+    resolution: {integrity: sha512-VDCRWmch58A0tcMF+DOEB7+QomrjZmTSLjiZ5VnZE4INbxB/T7ZgVBfOtdWEKfajDyv+oxAoC8jihoowFiVO9Q==, tarball: file:projects/confidential-ledger.tgz}
+    name: '@rush-temp/confidential-ledger'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -23503,6 +24149,8 @@ packages:
         tarball: file:projects/container-registry.tgz,
       }
     name: "@rush-temp/container-registry"
+    resolution: {integrity: sha512-msBW4vXnrZrH4yRaxiG0ze0qEMHxRHeMHpwgOCXljaHa/38BR/TA3Wx0OP7LDLhwQSzc65dGH9aduPfcyTz6VQ==, tarball: file:projects/container-registry.tgz}
+    name: '@rush-temp/container-registry'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -23551,6 +24199,8 @@ packages:
         tarball: file:projects/core-amqp.tgz,
       }
     name: "@rush-temp/core-amqp"
+    resolution: {integrity: sha512-jK6A1tRN+R7bL5h8mEZ4SXGuhRZuzABqHqeewOhrEMhLFTlNVF/6Is2c5n5Rqo8+ipheRrY9v1Flemx76YrVRg==, tarball: file:projects/core-amqp.tgz}
+    name: '@rush-temp/core-amqp'
     version: 0.0.0
     dependencies:
       "@microsoft/api-extractor": 7.43.1(@types/node@18.19.31)
@@ -23572,7 +24222,7 @@ packages:
       mocha: 10.4.0
       nyc: 15.1.0
       process: 0.11.10
-      puppeteer: 22.6.5(typescript@5.4.5)
+      puppeteer: 22.7.0(typescript@5.4.5)
       rhea: 3.0.2
       rhea-promise: 3.0.1
       rimraf: 5.0.5
@@ -23597,6 +24247,8 @@ packages:
         tarball: file:projects/core-auth.tgz,
       }
     name: "@rush-temp/core-auth"
+    resolution: {integrity: sha512-bCOyafzGH2z9gBKkzcjSR75mz1NHyYMERMSALiTOJDpeC8FuoGsCDrSOmR9/v+m2I55d6rygWYZk9VnB1q7jIw==, tarball: file:projects/core-auth.tgz}
+    name: '@rush-temp/core-auth'
     version: 0.0.0
     dependencies:
       "@microsoft/api-extractor": 7.43.1(@types/node@18.19.31)
@@ -23633,6 +24285,8 @@ packages:
         tarball: file:projects/core-client-1.tgz,
       }
     name: "@rush-temp/core-client-1"
+    resolution: {integrity: sha512-vFG3Xm6fMnllPJx8cckEsmZlTfc33U5U44I/EqT762Ueazm/sjd9XkOTNL3pFyz521bkjd195kDerHz6i1caqg==, tarball: file:projects/core-client-1.tgz}
+    name: '@rush-temp/core-client-1'
     version: 0.0.0
     dependencies:
       "@microsoft/api-extractor": 7.43.1(@types/node@18.19.31)
@@ -23669,6 +24323,8 @@ packages:
         tarball: file:projects/core-client.tgz,
       }
     name: "@rush-temp/core-client"
+    resolution: {integrity: sha512-9Y4Hv03ZUSxtVhWnB/7WjSi1hkaOM+KrxsR2j5QNYDFQgw+48tdNqEG85DA2le+mGNkLYD2Dm01gCcZ8tqt/dg==, tarball: file:projects/core-client.tgz}
+    name: '@rush-temp/core-client'
     version: 0.0.0
     dependencies:
       "@microsoft/api-extractor": 7.43.1(@types/node@18.19.31)
@@ -23705,6 +24361,8 @@ packages:
         tarball: file:projects/core-http-compat.tgz,
       }
     name: "@rush-temp/core-http-compat"
+    resolution: {integrity: sha512-J4W8IFckLQ6CpdnZ0u8R0BlkC62b+VA4kDM4GtLFo7PusumrKRR/qbLaTp6Vn6yYOBLmtkH7MHL+R5lKResN7g==, tarball: file:projects/core-http-compat.tgz}
+    name: '@rush-temp/core-http-compat'
     version: 0.0.0
     dependencies:
       "@microsoft/api-extractor": 7.43.1(@types/node@18.19.31)
@@ -23740,6 +24398,8 @@ packages:
         tarball: file:projects/core-lro.tgz,
       }
     name: "@rush-temp/core-lro"
+    resolution: {integrity: sha512-xNfjfxr11dP/YNkxldpQJXR4ULuN4LX2v9Bg/+/Xqd4A0Feh+c4o59Liofcbq8JRKJx9oM8c1OkJh/qbSb0Dcg==, tarball: file:projects/core-lro.tgz}
+    name: '@rush-temp/core-lro'
     version: 0.0.0
     dependencies:
       "@microsoft/api-extractor": 7.43.1(@types/node@18.19.31)
@@ -23776,6 +24436,8 @@ packages:
         tarball: file:projects/core-paging.tgz,
       }
     name: "@rush-temp/core-paging"
+    resolution: {integrity: sha512-JDsLQhIMx3gZeamuiAl2GQPTST/XnBwbyGK1qssPbnNiHQLpgW9pvdPixPuDp9hbLRROu1/nAPeN3hLyVDJ3SA==, tarball: file:projects/core-paging.tgz}
+    name: '@rush-temp/core-paging'
     version: 0.0.0
     dependencies:
       "@microsoft/api-extractor": 7.43.1(@types/node@18.19.31)
@@ -23812,6 +24474,8 @@ packages:
         tarball: file:projects/core-rest-pipeline.tgz,
       }
     name: "@rush-temp/core-rest-pipeline"
+    resolution: {integrity: sha512-4Ldthvl/QZZ2NOY3YcN85PYPZzVRUV8KE9rJgtbsUM5Lx3nv+TXJ8ms/r/FdYBxEalqwgfqR9FeMcLrKldfByA==, tarball: file:projects/core-rest-pipeline.tgz}
+    name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
       "@microsoft/api-extractor": 7.43.1(@types/node@18.19.31)
@@ -23850,6 +24514,8 @@ packages:
         tarball: file:projects/core-sse.tgz,
       }
     name: "@rush-temp/core-sse"
+    resolution: {integrity: sha512-q/WK/OEeGAqY9Z1InykYCwTDXlvYwMpuXtcaJf3CRFduO5uTNIAzE6Oow/g+MZj4PScJsb8um0OoA6yEbbcZtw==, tarball: file:projects/core-sse.tgz}
+    name: '@rush-temp/core-sse'
     version: 0.0.0
     dependencies:
       "@microsoft/api-extractor": 7.43.1(@types/node@18.19.31)
@@ -23887,6 +24553,8 @@ packages:
         tarball: file:projects/core-tracing.tgz,
       }
     name: "@rush-temp/core-tracing"
+    resolution: {integrity: sha512-ZnVM5XObxvdJpujx8hFYgwyujkVN4I/lmFEIYHBHPMIqz9op1ExD3fbWZ24UdS0sjwRVbfA2Iw5oCugAe3YG5g==, tarball: file:projects/core-tracing.tgz}
+    name: '@rush-temp/core-tracing'
     version: 0.0.0
     dependencies:
       "@microsoft/api-extractor": 7.43.1(@types/node@18.19.31)
@@ -23923,6 +24591,8 @@ packages:
         tarball: file:projects/core-util.tgz,
       }
     name: "@rush-temp/core-util"
+    resolution: {integrity: sha512-BEIq8Mts7uMOT797uhwA/DTD2NA/nYRMNaBJ8REjpZi0TXSxiXwVc2snguaPiAWAiLZl0RLtlGxtVlnAEGLbEw==, tarball: file:projects/core-util.tgz}
+    name: '@rush-temp/core-util'
     version: 0.0.0
     dependencies:
       "@microsoft/api-extractor": 7.43.1(@types/node@18.19.31)
@@ -23959,6 +24629,8 @@ packages:
         tarball: file:projects/core-xml.tgz,
       }
     name: "@rush-temp/core-xml"
+    resolution: {integrity: sha512-7S8nEgU5KmSWmitmBY9gh0xLZHoVS/ixSWHNptOvY93kUj4EDoncE7cDQSwvsTZw4W9B1ydQbw6kyThRL97K1w==, tarball: file:projects/core-xml.tgz}
+    name: '@rush-temp/core-xml'
     version: 0.0.0
     dependencies:
       "@microsoft/api-extractor": 7.43.1(@types/node@18.19.31)
@@ -23997,6 +24669,8 @@ packages:
         tarball: file:projects/cosmos.tgz,
       }
     name: "@rush-temp/cosmos"
+    resolution: {integrity: sha512-u/mjs8zP+enMcQbOkWT1owc7f1uc7h2gl5Q8Q5z4DSpVipCFIV5I+Rxej0cbqUzl8pcr27k6JWB4w/sxZuGRRA==, tarball: file:projects/cosmos.tgz}
+    name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
       "@microsoft/api-extractor": 7.43.1(@types/node@18.19.31)
@@ -24041,6 +24715,8 @@ packages:
         tarball: file:projects/data-tables.tgz,
       }
     name: "@rush-temp/data-tables"
+    resolution: {integrity: sha512-J6sTMsb6jrVMKttoZygAtmXANtBpa80OHKbqy97k4E7wivzjo6oGauZCRRhjCXuR/pMZtOn3AncnnujIVV8aiw==, tarball: file:projects/data-tables.tgz}
+    name: '@rush-temp/data-tables'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -24088,6 +24764,8 @@ packages:
         tarball: file:projects/defender-easm.tgz,
       }
     name: "@rush-temp/defender-easm"
+    resolution: {integrity: sha512-mwphRJHZXN68Oh7PI1ZDQjGrprhx78XpcXgKR5XpcW81qdDTVc/myaLRFMsy1XNJNO4terLPZpAOkrpCKwrROA==, tarball: file:projects/defender-easm.tgz}
+    name: '@rush-temp/defender-easm'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -24136,6 +24814,8 @@ packages:
         tarball: file:projects/dev-tool.tgz,
       }
     name: "@rush-temp/dev-tool"
+    resolution: {integrity: sha512-g9g7FpOlBgd4Z0p3UhU0gT2MFZiteY1oL4n0h0SErQ6ofpTb/4OMrp0M5yVTNqA2FEdWJ/8yvKny4VY+bcJOWA==, tarball: file:projects/dev-tool.tgz}
+    name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
       "@_ts/max": /typescript@5.4.5
@@ -24153,6 +24833,21 @@ packages:
       "@types/node": 18.19.31
       "@types/semver": 7.5.8
       "@vitest/coverage-istanbul": 1.5.0(vitest@1.5.0)
+      '@_ts/max': /typescript@5.4.5
+      '@_ts/min': /typescript@4.2.4
+      '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
+      '@rollup/plugin-commonjs': 25.0.7(rollup@4.16.4)
+      '@rollup/plugin-inject': 5.0.5(rollup@4.16.4)
+      '@rollup/plugin-json': 6.1.0(rollup@4.16.4)
+      '@rollup/plugin-multi-entry': 6.0.1(rollup@4.16.4)
+      '@rollup/plugin-node-resolve': 15.2.3(rollup@4.16.4)
+      '@types/archiver': 6.0.2
+      '@types/decompress': 4.2.7
+      '@types/fs-extra': 11.0.4
+      '@types/minimist': 1.2.5
+      '@types/node': 18.19.31
+      '@types/semver': 7.5.8
+      '@vitest/coverage-istanbul': 1.5.0(vitest@1.5.0)
       archiver: 7.0.1
       autorest: 3.7.1
       builtin-modules: 3.3.0
@@ -24168,9 +24863,9 @@ packages:
       mkdirp: 3.0.1
       prettier: 3.2.5
       rimraf: 5.0.5
-      rollup: 4.16.2
-      rollup-plugin-polyfill-node: 0.13.0(rollup@4.16.2)
-      rollup-plugin-visualizer: 5.12.0(rollup@4.16.2)
+      rollup: 4.16.4
+      rollup-plugin-polyfill-node: 0.13.0(rollup@4.16.4)
+      rollup-plugin-visualizer: 5.12.0(rollup@4.16.4)
       semver: 7.6.0
       strip-json-comments: 5.0.1
       ts-morph: 22.0.0
@@ -24203,6 +24898,8 @@ packages:
         tarball: file:projects/developer-devcenter.tgz,
       }
     name: "@rush-temp/developer-devcenter"
+    resolution: {integrity: sha512-WDiUmv2dTqJRiWuYqWBldOGZQ/C0XJUNnZhvJmK2BQ5KEKwtaOxvja+sLDO2iORNa7e2FnQoUT0MozAlO2mDNw==, tarball: file:projects/developer-devcenter.tgz}
+    name: '@rush-temp/developer-devcenter'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -24251,6 +24948,8 @@ packages:
         tarball: file:projects/digital-twins-core.tgz,
       }
     name: "@rush-temp/digital-twins-core"
+    resolution: {integrity: sha512-DXfVnEcMtyPpc9ZqaucHcs3Li4CQmmBlNRFIFxIGW6pvtmHl0j+J5CbGHtvlj+ZKWOSEEWYsBhTpFWfehWwAqg==, tarball: file:projects/digital-twins-core.tgz}
+    name: '@rush-temp/digital-twins-core'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -24300,6 +24999,8 @@ packages:
         tarball: file:projects/eslint-plugin-azure-sdk-helper.tgz,
       }
     name: "@rush-temp/eslint-plugin-azure-sdk-helper"
+    resolution: {integrity: sha512-4kJjYGl8PS0sg8UvFeF7IfrjnNInmem6gSOgNfNFtjhdnX21Kab8XViSVfRPHl6O2YwbQhNqJAdkjFtY7FD22w==, tarball: file:projects/eslint-plugin-azure-sdk-helper.tgz}
+    name: '@rush-temp/eslint-plugin-azure-sdk-helper'
     version: 0.0.0
     dependencies:
       "@typescript-eslint/eslint-plugin": 5.57.1(@typescript-eslint/parser@5.57.1)(eslint@8.57.0)(typescript@5.4.5)
@@ -24323,6 +25024,8 @@ packages:
         tarball: file:projects/eslint-plugin-azure-sdk.tgz,
       }
     name: "@rush-temp/eslint-plugin-azure-sdk"
+    resolution: {integrity: sha512-O3a4WUWUd/g9VP0DdICyRi+llYZ4cjfKHUdrfpF8ifNk2VUfMyHYtfwMS2kN9Wa6wGNO8rGbfxjQH8MantWduw==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    name: '@rush-temp/eslint-plugin-azure-sdk'
     version: 0.0.0
     dependencies:
       "@eslint/eslintrc": 3.0.2
@@ -24374,6 +25077,8 @@ packages:
         tarball: file:projects/event-hubs.tgz,
       }
     name: "@rush-temp/event-hubs"
+    resolution: {integrity: sha512-akTsvkh2xsFi6CVPrlOZeOh1J2hy7g9MzWFMWrTy7xWPM0Exnf3TnfylGDBTiY7MbdLL+dFc5Op5xqj5EMswmQ==, tarball: file:projects/event-hubs.tgz}
+    name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-recorder": 3.2.0
@@ -24414,7 +25119,7 @@ packages:
       moment: 2.30.1
       nyc: 15.1.0
       process: 0.11.10
-      puppeteer: 22.6.5(typescript@5.4.5)
+      puppeteer: 22.7.0(typescript@5.4.5)
       rhea-promise: 3.0.1
       rimraf: 5.0.5
       sinon: 17.0.1
@@ -24437,6 +25142,8 @@ packages:
         tarball: file:projects/eventgrid-namespaces.tgz,
       }
     name: "@rush-temp/eventgrid-namespaces"
+    resolution: {integrity: sha512-zlgDLY2/atr0SEvFXbq0wzSIY49exfSfibktCPBtxYPIF4JrprNAnk7Ly3ytPM9rRWYHGwMKQzDeafNownfp3g==, tarball: file:projects/eventgrid-namespaces.tgz}
+    name: '@rush-temp/eventgrid-namespaces'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-recorder": 3.2.0
@@ -24486,6 +25193,8 @@ packages:
         tarball: file:projects/eventgrid.tgz,
       }
     name: "@rush-temp/eventgrid"
+    resolution: {integrity: sha512-bjJ+erjq20/NeE54kfldHhHpu0eBzMwPqfQtqt5/Nb61SmLbCiDlv6Vxq6OW0kaLzbtuqCuUiB18oU7xPxvOQA==, tarball: file:projects/eventgrid.tgz}
+    name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-recorder": 3.2.0
@@ -24533,6 +25242,8 @@ packages:
         tarball: file:projects/eventhubs-checkpointstore-blob.tgz,
       }
     name: "@rush-temp/eventhubs-checkpointstore-blob"
+    resolution: {integrity: sha512-gYOpBSzMBs/wUWGwU9ze5PTN+2Iz66I1Cplmz4PZ1tPyEx6QZRVc3gZabi2vfiGY8EEJM/zsOtmcxdTY57WejA==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
     dependencies:
       "@azure/abort-controller": 1.1.0
@@ -24586,6 +25297,8 @@ packages:
         tarball: file:projects/eventhubs-checkpointstore-table.tgz,
       }
     name: "@rush-temp/eventhubs-checkpointstore-table"
+    resolution: {integrity: sha512-fDjdl55fWeyQcCEjqJAAAJdefgTioeDwLK9uWdQHdFPBBlYFPfgOBkd5+SwSU0MXItniMhYsfl+WcIVmPayL7Q==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
+    name: '@rush-temp/eventhubs-checkpointstore-table'
     version: 0.0.0
     dependencies:
       "@azure/abort-controller": 1.1.0
@@ -24636,6 +25349,8 @@ packages:
         tarball: file:projects/functions-authentication-events.tgz,
       }
     name: "@rush-temp/functions-authentication-events"
+    resolution: {integrity: sha512-MD8hBtCuJtPmHs8+i3oNIJ3PqZAG5iG+PqejHqMU1rqc7KxuXscPejXajIYRq7MmItKBj5/rhEyWFISQSVuNqg==, tarball: file:projects/functions-authentication-events.tgz}
+    name: '@rush-temp/functions-authentication-events'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -24684,6 +25399,8 @@ packages:
         tarball: file:projects/health-insights-cancerprofiling.tgz,
       }
     name: "@rush-temp/health-insights-cancerprofiling"
+    resolution: {integrity: sha512-WasQNfrqnYqvOotvsseyfiTxeFHWQ+WUDauCMNdoV6+1TP1ne9+ZleD6cWlUAFBd1nodKXC+XhSPsdti0+tBEA==, tarball: file:projects/health-insights-cancerprofiling.tgz}
+    name: '@rush-temp/health-insights-cancerprofiling'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -24732,6 +25449,8 @@ packages:
         tarball: file:projects/health-insights-clinicalmatching.tgz,
       }
     name: "@rush-temp/health-insights-clinicalmatching"
+    resolution: {integrity: sha512-UG5umW6ZU+/dPMZU8w4iMQUvEbchYWFYfxZ3fh6NNjuqK9PRieJa0BjInMqFMPhQKruZhE3LO4DLBONmZusi5w==, tarball: file:projects/health-insights-clinicalmatching.tgz}
+    name: '@rush-temp/health-insights-clinicalmatching'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -24780,6 +25499,8 @@ packages:
         tarball: file:projects/health-insights-radiologyinsights.tgz,
       }
     name: "@rush-temp/health-insights-radiologyinsights"
+    resolution: {integrity: sha512-SWAxn9/n3re6Wv+aGXQHizDC3YRVHZEP3zUR+DzjlRvQW35Wi2ESmKW0VhHgU6KPFS8ZcSykOyiC9hMuaEKVjA==, tarball: file:projects/health-insights-radiologyinsights.tgz}
+    name: '@rush-temp/health-insights-radiologyinsights'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -24828,6 +25549,8 @@ packages:
         tarball: file:projects/identity-broker.tgz,
       }
     name: "@rush-temp/identity-broker"
+    resolution: {integrity: sha512-5Tx+xXaVFKyqQ0fHsF31Vmd+qkfCKBcxo5c3VkogP0t+BcS091YskB4rmD+jFPJrvA+Drho0XKiW/0OkbzTMkQ==, tarball: file:projects/identity-broker.tgz}
+    name: '@rush-temp/identity-broker'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-recorder": 3.2.0
@@ -24841,7 +25564,7 @@ packages:
       cross-env: 7.0.3
       eslint: 8.57.0
       mocha: 10.4.0
-      puppeteer: 22.6.5(typescript@5.4.5)
+      puppeteer: 22.7.0(typescript@5.4.5)
       rimraf: 5.0.5
       sinon: 17.0.1
       tslib: 2.6.2
@@ -24859,6 +25582,8 @@ packages:
         tarball: file:projects/identity-cache-persistence.tgz,
       }
     name: "@rush-temp/identity-cache-persistence"
+    resolution: {integrity: sha512-KpS9umQ/eBTqVsD4KZWksLoMOlEoQrCwzqMfNRJJtyPLRiyNwv2js/fK1BfMC0f/LFhtVOP3wSU73OTm3mnRZQ==, tarball: file:projects/identity-cache-persistence.tgz}
+    name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-recorder": 3.2.0
@@ -24876,7 +25601,7 @@ packages:
       inherits: 2.0.4
       keytar: 7.9.0
       mocha: 10.4.0
-      puppeteer: 22.6.5(typescript@5.4.5)
+      puppeteer: 22.7.0(typescript@5.4.5)
       rimraf: 5.0.5
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
@@ -24898,6 +25623,8 @@ packages:
         tarball: file:projects/identity-vscode.tgz,
       }
     name: "@rush-temp/identity-vscode"
+    resolution: {integrity: sha512-X4/ewlTjO8+I35hVHWIZzA0NI8PZ+6ttgQ0ae4WeEWkfj0+rKB4RgFTxB1jqLfRdyq82HA2Ck8Im6y5bL6DyJQ==, tarball: file:projects/identity-vscode.tgz}
+    name: '@rush-temp/identity-vscode'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-recorder": 3.2.0
@@ -24914,7 +25641,7 @@ packages:
       inherits: 2.0.4
       keytar: 7.9.0
       mocha: 10.4.0
-      puppeteer: 22.6.5(typescript@5.4.5)
+      puppeteer: 22.7.0(typescript@5.4.5)
       rimraf: 5.0.5
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
@@ -24936,6 +25663,8 @@ packages:
         tarball: file:projects/identity.tgz,
       }
     name: "@rush-temp/identity"
+    resolution: {integrity: sha512-b26a6yApt6TNkJUmrKbqvwAqS0cfQy4z3O4CzkbIAY46G2h1o9TSVigbGo4vbmvgSN70wQ4K1EzOJVlLYWwbDg==, tarball: file:projects/identity.tgz}
+    name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-recorder": 3.2.0
@@ -24973,7 +25702,7 @@ packages:
       ms: 2.1.3
       nyc: 15.1.0
       open: 8.4.2
-      puppeteer: 22.6.5(typescript@5.4.5)
+      puppeteer: 22.7.0(typescript@5.4.5)
       rimraf: 5.0.5
       sinon: 17.0.1
       stoppable: 1.1.0
@@ -24997,6 +25726,8 @@ packages:
         tarball: file:projects/iot-device-update.tgz,
       }
     name: "@rush-temp/iot-device-update"
+    resolution: {integrity: sha512-z2H4PXhQw+cP8/5gZa8YqNjbGvj0lHkxkEuL+grZb2EEIx3E0IBqh1yF3tDlUebR0PjoUWfVkfSaZwlho1nCbA==, tarball: file:projects/iot-device-update.tgz}
+    name: '@rush-temp/iot-device-update'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -25047,6 +25778,8 @@ packages:
         tarball: file:projects/iot-modelsrepository.tgz,
       }
     name: "@rush-temp/iot-modelsrepository"
+    resolution: {integrity: sha512-Z3r0s0MPewb2f8rUylf2xeUBdiM5MK9AFevBkBU/9z99pUjZyh1kvAk9zj0TQbHEJpuaGAw6fdFxvaZd0ye4gw==, tarball: file:projects/iot-modelsrepository.tgz}
+    name: '@rush-temp/iot-modelsrepository'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-recorder": 3.2.0
@@ -25095,6 +25828,8 @@ packages:
         tarball: file:projects/keyvault-admin.tgz,
       }
     name: "@rush-temp/keyvault-admin"
+    resolution: {integrity: sha512-ObBhbhLN2dNl+UzgcZrum1UJG7K1yrzRRrJ9+xVohxyGWiJPWoXSLNqnN6Af1sPT1JZuHz0HlcyFw8euGkc38Q==, tarball: file:projects/keyvault-admin.tgz}
+    name: '@rush-temp/keyvault-admin'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -25130,6 +25865,8 @@ packages:
         tarball: file:projects/keyvault-certificates.tgz,
       }
     name: "@rush-temp/keyvault-certificates"
+    resolution: {integrity: sha512-soa+iRsDt1JzsabxF0WnbuIzaoQQnvfY6zt8vfwtk5aMgLY1o+ruqUQmgZGlSDpoplTOGs/6OPJjlyCt+SxVhw==, tarball: file:projects/keyvault-certificates.tgz}
+    name: '@rush-temp/keyvault-certificates'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -25155,7 +25892,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
       nyc: 15.1.0
-      puppeteer: 22.6.5(typescript@5.4.5)
+      puppeteer: 22.7.0(typescript@5.4.5)
       rimraf: 5.0.5
       sinon: 17.0.1
       source-map-support: 0.5.21
@@ -25178,6 +25915,8 @@ packages:
         tarball: file:projects/keyvault-common.tgz,
       }
     name: "@rush-temp/keyvault-common"
+    resolution: {integrity: sha512-mrG4sYKJhHO8pBf2TgVe5QVyVLKbEmC7l7tLHbbEDgrnD8+7zvU8MQ+yplvPJh3X4tjYIAeMFwv3gt7fNBjsXQ==, tarball: file:projects/keyvault-common.tgz}
+    name: '@rush-temp/keyvault-common'
     version: 0.0.0
     dependencies:
       "@azure/abort-controller": 1.1.0
@@ -25188,7 +25927,7 @@ packages:
       eslint: 8.57.0
       mocha: 10.4.0
       nyc: 15.1.0
-      puppeteer: 22.6.5(typescript@5.4.5)
+      puppeteer: 22.7.0(typescript@5.4.5)
       rimraf: 5.0.5
       sinon: 17.0.1
       source-map-support: 0.5.21
@@ -25210,6 +25949,8 @@ packages:
         tarball: file:projects/keyvault-keys.tgz,
       }
     name: "@rush-temp/keyvault-keys"
+    resolution: {integrity: sha512-0vvsTMBjxmFEsYYH39fHG/2I7EMQ3tijTyJTvcWxUW6+TAB3Kg9o7IIK9KnSavpH49DnFX7rf+re5MykvWjp5g==, tarball: file:projects/keyvault-keys.tgz}
+    name: '@rush-temp/keyvault-keys'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -25236,7 +25977,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
       nyc: 15.1.0
-      puppeteer: 22.6.5(typescript@5.4.5)
+      puppeteer: 22.7.0(typescript@5.4.5)
       rimraf: 5.0.5
       sinon: 17.0.1
       source-map-support: 0.5.21
@@ -25259,6 +26000,8 @@ packages:
         tarball: file:projects/keyvault-secrets.tgz,
       }
     name: "@rush-temp/keyvault-secrets"
+    resolution: {integrity: sha512-b7H3Y50bDTpD1MaNvuMGJIZsmUtI5hgMu1AQKtCiM8FPu6lDviLxm0o2uGXXbZ1kqScgYT9n4icC3jqbvrJ22g==, tarball: file:projects/keyvault-secrets.tgz}
+    name: '@rush-temp/keyvault-secrets'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -25282,7 +26025,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
       nyc: 15.1.0
-      puppeteer: 22.6.5(typescript@5.4.5)
+      puppeteer: 22.7.0(typescript@5.4.5)
       rimraf: 5.0.5
       sinon: 17.0.1
       source-map-support: 0.5.21
@@ -25305,6 +26048,8 @@ packages:
         tarball: file:projects/load-testing.tgz,
       }
     name: "@rush-temp/load-testing"
+    resolution: {integrity: sha512-B6V59q8zcKEGvE0t8knlTyRMwu8cz5jl+LzWHQy0C3aP0x51sz9vWKMn72YZ6mbZhlAV8MOVGbSiZRYvbESosw==, tarball: file:projects/load-testing.tgz}
+    name: '@rush-temp/load-testing'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -25355,6 +26100,8 @@ packages:
         tarball: file:projects/logger.tgz,
       }
     name: "@rush-temp/logger"
+    resolution: {integrity: sha512-DXdgDzzwRLpM45GbytE0xo7X2nzZEMBB4fXm6sQdzhx/oqi24eMMVOdHnXZ3UtgoOaHTKni5cgnEaW7ySJQxQQ==, tarball: file:projects/logger.tgz}
+    name: '@rush-temp/logger'
     version: 0.0.0
     dependencies:
       "@microsoft/api-extractor": 7.43.1(@types/node@18.19.31)
@@ -25392,6 +26139,8 @@ packages:
         tarball: file:projects/maps-common.tgz,
       }
     name: "@rush-temp/maps-common"
+    resolution: {integrity: sha512-QIhTVn61xHtnfPSTPENVD1iSyZoHPvtoPCiLIvX7TdwAjqp8AvGSpuWA1G+h2k20qd3tRBjYzs0LzkDYyvSVEQ==, tarball: file:projects/maps-common.tgz}
+    name: '@rush-temp/maps-common'
     version: 0.0.0
     dependencies:
       "@azure/abort-controller": 1.1.0
@@ -25414,6 +26163,8 @@ packages:
         tarball: file:projects/maps-geolocation.tgz,
       }
     name: "@rush-temp/maps-geolocation"
+    resolution: {integrity: sha512-dw9U8GEHEvQmyP6B74rXyLJMsdz8W2L5QjmX1BiWVEJnXlyMAeOUY0BBWIEl+2RE9ayWIhixlk6c6h1rzGfgvw==, tarball: file:projects/maps-geolocation.tgz}
+    name: '@rush-temp/maps-geolocation'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -25462,6 +26213,8 @@ packages:
         tarball: file:projects/maps-render.tgz,
       }
     name: "@rush-temp/maps-render"
+    resolution: {integrity: sha512-qYc6fPZ15FNnWlkoQ1H/a1p/vdExMoyKomhhYaGCOXT12wFxjZmuxkJofPTKx2ge3qNzWU9vFuWoNtdLVUKoWQ==, tarball: file:projects/maps-render.tgz}
+    name: '@rush-temp/maps-render'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -25510,6 +26263,8 @@ packages:
         tarball: file:projects/maps-route.tgz,
       }
     name: "@rush-temp/maps-route"
+    resolution: {integrity: sha512-5vEkGd2V0lq1vZ/7MJjFdbWcmv0wwkjei5akXaxBa2htjmFyY77y7ZpVAinNV5vqiI0SrKnZPHCiITKzZn9KCg==, tarball: file:projects/maps-route.tgz}
+    name: '@rush-temp/maps-route'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -25558,6 +26313,8 @@ packages:
         tarball: file:projects/maps-search.tgz,
       }
     name: "@rush-temp/maps-search"
+    resolution: {integrity: sha512-rIreVVKjpgxa5lGOGFVMPEz5nWlPIgpoH89JyWBjfM3qjUrdmcRi6BCmZze729cQTmEgX4vHdZ9gYq0CE8fMiA==, tarball: file:projects/maps-search.tgz}
+    name: '@rush-temp/maps-search'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -25606,6 +26363,8 @@ packages:
         tarball: file:projects/mixed-reality-authentication.tgz,
       }
     name: "@rush-temp/mixed-reality-authentication"
+    resolution: {integrity: sha512-7fFi0pY8dZ2oeMj/KNywD/2OSZ3Xr/3yrbQMneyjeZrfuofr+1Ax4rL0eInBK10Y8f8/Ah7/x4hW3aZG31R9kA==, tarball: file:projects/mixed-reality-authentication.tgz}
+    name: '@rush-temp/mixed-reality-authentication'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -25653,6 +26412,8 @@ packages:
         tarball: file:projects/mixed-reality-remote-rendering.tgz,
       }
     name: "@rush-temp/mixed-reality-remote-rendering"
+    resolution: {integrity: sha512-srxS2ot+6Jixc9FbBUowl96W3gwv2bJ9ZU8ZIsqDZw7idzvP7q4j3UMHSoVIj6XwM8aAJUfKEuWIUQtTn84KQw==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
+    name: '@rush-temp/mixed-reality-remote-rendering'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-recorder": 3.2.0
@@ -25703,6 +26464,8 @@ packages:
         tarball: file:projects/mock-hub.tgz,
       }
     name: "@rush-temp/mock-hub"
+    resolution: {integrity: sha512-2u15yJgthiFRvamHInxtcoPhxPynLh1lNdXF95NDdXlt4Eoqn1RumKuzrSX/PzIQEVU+OUrNAi9EmktTV395/A==, tarball: file:projects/mock-hub.tgz}
+    name: '@rush-temp/mock-hub'
     version: 0.0.0
     dependencies:
       "@azure/abort-controller": 1.1.0
@@ -25727,6 +26490,8 @@ packages:
         tarball: file:projects/monitor-ingestion.tgz,
       }
     name: "@rush-temp/monitor-ingestion"
+    resolution: {integrity: sha512-/OJJz2NoUyawlaiET0FQN1Ra8aaNwqqOiFs01F5NAC/XjctGAUOXvE+TZdIPwmSpd/tZJ3OxyXI6FJGSXGPo+g==, tarball: file:projects/monitor-ingestion.tgz}
+    name: '@rush-temp/monitor-ingestion'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -25779,6 +26544,8 @@ packages:
         tarball: file:projects/monitor-opentelemetry-exporter.tgz,
       }
     name: "@rush-temp/monitor-opentelemetry-exporter"
+    resolution: {integrity: sha512-IyGEmbiGhKDqr+SrBzj/enLpBYKHJT+CFDry3fVFvmpX43AKdAfo0xb10+KoKl8a61/M1elJSOZRD46G3/DSsQ==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    name: '@rush-temp/monitor-opentelemetry-exporter'
     version: 0.0.0
     dependencies:
       "@microsoft/api-extractor": 7.43.1(@types/node@18.19.31)
@@ -25818,6 +26585,8 @@ packages:
         tarball: file:projects/monitor-opentelemetry.tgz,
       }
     name: "@rush-temp/monitor-opentelemetry"
+    resolution: {integrity: sha512-3T6Yr25Z4RU8nWAkk9MM0x03LDMZ9vcTyIAPXKStRTwaesDyQ+eashSLjKHPyNTpA0ew8ziaq2Xj+Va31tLc3g==, tarball: file:projects/monitor-opentelemetry.tgz}
+    name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
       "@azure/functions": 3.5.1
@@ -25868,6 +26637,8 @@ packages:
         tarball: file:projects/monitor-query.tgz,
       }
     name: "@rush-temp/monitor-query"
+    resolution: {integrity: sha512-PDmrkBH13QkDKOEMFpVbEOsftH6Jq55EjNLUIZmuD9xgGIJ22EQToVrWsAoeZuRvNLBrbSbVwtSLJikjhBtzaA==, tarball: file:projects/monitor-query.tgz}
+    name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -25916,6 +26687,8 @@ packages:
         tarball: file:projects/notification-hubs.tgz,
       }
     name: "@rush-temp/notification-hubs"
+    resolution: {integrity: sha512-IuTJot7puVmZJWEU6bao9U6/W22NXEdFG3Ho72I5yGzz6igZNK1rh9UHuf5Ijyp1fQLGWoYv6s2wEScUtnMnqA==, tarball: file:projects/notification-hubs.tgz}
+    name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
       "@microsoft/api-extractor": 7.43.1(@types/node@18.19.31)
@@ -25953,6 +26726,8 @@ packages:
         tarball: file:projects/openai-1.tgz,
       }
     name: "@rush-temp/openai-1"
+    resolution: {integrity: sha512-izpP1I7t1lwtB7MenA5PrdSSvI7vJXYncYtILfrecCEbv3DhcFEfWfv1ml/G8DbU+r/2G03w2yhu2Qg95axEAA==, tarball: file:projects/openai-1.tgz}
+    name: '@rush-temp/openai-1'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -25979,7 +26754,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
       nyc: 15.1.0
-      puppeteer: 22.6.5(typescript@5.4.5)
+      puppeteer: 22.7.0(typescript@5.4.5)
       rimraf: 3.0.2
       ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
       tslib: 2.6.2
@@ -26000,6 +26775,8 @@ packages:
         tarball: file:projects/openai-assistants.tgz,
       }
     name: "@rush-temp/openai-assistants"
+    resolution: {integrity: sha512-2d+8e7mfrwjpdQJNRHbErXypRwyfwymOyTfmjaUut92mqaJddRv4DhZ8ONkqoKXrWUcRy26tNdtir8rCEgWpUw==, tarball: file:projects/openai-assistants.tgz}
+    name: '@rush-temp/openai-assistants'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -26045,6 +26822,8 @@ packages:
         tarball: file:projects/openai.tgz,
       }
     name: "@rush-temp/openai"
+    resolution: {integrity: sha512-YCl9X0UlCUKuPLNUPXV4yew2s4mBVPAXkcPwLuDS8GId2QGI6mqwdbHuUaRIq3CAxJG3TVMXQ/B9aRttwcxRTQ==, tarball: file:projects/openai.tgz}
+    name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
       "@azure/abort-controller": 1.1.0
@@ -26067,6 +26846,8 @@ packages:
         tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz,
       }
     name: "@rush-temp/opentelemetry-instrumentation-azure-sdk"
+    resolution: {integrity: sha512-q1dsuFCQguLH76uBrlNFOFcwGPlhVrUhFVjGvVu+53f2HQQV5vBj13/YCK7AAo9yUbL9DaQ1RHpAd9RdW6QOtg==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
+    name: '@rush-temp/opentelemetry-instrumentation-azure-sdk'
     version: 0.0.0
     dependencies:
       "@microsoft/api-extractor": 7.43.1(@types/node@18.19.31)
@@ -26115,6 +26896,8 @@ packages:
         tarball: file:projects/perf-ai-form-recognizer.tgz,
       }
     name: "@rush-temp/perf-ai-form-recognizer"
+    resolution: {integrity: sha512-zf/qeCiSBzwBC+4vUSCNiAz2HXaoPEtGPQ3ZL4ow2fOIbM0G3krOCQgWwE/+CPPVcOIk2aXQ9styAYtXDeIK7g==, tarball: file:projects/perf-ai-form-recognizer.tgz}
+    name: '@rush-temp/perf-ai-form-recognizer'
     version: 0.0.0
     dependencies:
       "@types/node": 18.19.31
@@ -26137,6 +26920,8 @@ packages:
         tarball: file:projects/perf-ai-language-text.tgz,
       }
     name: "@rush-temp/perf-ai-language-text"
+    resolution: {integrity: sha512-V5eM5PdijHEVgo79ZTjq1gNvh0FTv3e678mZHhgeZsM0Z/n6siUKg9KzKrOkhOMSa80TgLV+3ZyIxmMyGnNt1A==, tarball: file:projects/perf-ai-language-text.tgz}
+    name: '@rush-temp/perf-ai-language-text'
     version: 0.0.0
     dependencies:
       "@types/node": 18.19.31
@@ -26159,6 +26944,8 @@ packages:
         tarball: file:projects/perf-ai-metrics-advisor.tgz,
       }
     name: "@rush-temp/perf-ai-metrics-advisor"
+    resolution: {integrity: sha512-EI0v5BNYVGw+UEvxRTVY/Yg2Intp7uxcy3dcfHSzdbdxwfBKj/S3xdOTC3eJ9hPu2kd1OWJZ1A6K6OQENIIO+Q==, tarball: file:projects/perf-ai-metrics-advisor.tgz}
+    name: '@rush-temp/perf-ai-metrics-advisor'
     version: 0.0.0
     dependencies:
       "@types/node": 18.19.31
@@ -26181,6 +26968,8 @@ packages:
         tarball: file:projects/perf-ai-text-analytics.tgz,
       }
     name: "@rush-temp/perf-ai-text-analytics"
+    resolution: {integrity: sha512-2VYDb+RN2Y79uOw7uJoUe9hxS5yZWUArmYGNxD4P15lFECy1y7Qsh8o9054mrqUHFLTZRcZo1KgzZOGjhuWB8A==, tarball: file:projects/perf-ai-text-analytics.tgz}
+    name: '@rush-temp/perf-ai-text-analytics'
     version: 0.0.0
     dependencies:
       "@types/node": 18.19.31
@@ -26203,6 +26992,8 @@ packages:
         tarball: file:projects/perf-app-configuration.tgz,
       }
     name: "@rush-temp/perf-app-configuration"
+    resolution: {integrity: sha512-mBRrscrjyagQGNmhRBeA0zYUchSX3PKH40/VJsKpHAuGawxZeVymmoEjA3uQCblY8YYyF6b3rST9ifn8RYbKMQ==, tarball: file:projects/perf-app-configuration.tgz}
+    name: '@rush-temp/perf-app-configuration'
     version: 0.0.0
     dependencies:
       "@azure/app-configuration": 1.5.0-beta.2
@@ -26226,6 +27017,8 @@ packages:
         tarball: file:projects/perf-container-registry.tgz,
       }
     name: "@rush-temp/perf-container-registry"
+    resolution: {integrity: sha512-gR4YkZbX7kyqHh9gh/Vbo90HQPdw08Pt0GiAZdrPdM1FW1mVIoR5BeIIC3H9Fb82/LQ1I+oFg+FY2VIQNZb4kA==, tarball: file:projects/perf-container-registry.tgz}
+    name: '@rush-temp/perf-container-registry'
     version: 0.0.0
     dependencies:
       "@types/node": 18.19.31
@@ -26248,6 +27041,8 @@ packages:
         tarball: file:projects/perf-core-rest-pipeline.tgz,
       }
     name: "@rush-temp/perf-core-rest-pipeline"
+    resolution: {integrity: sha512-ZHZpAZ/Qz808jXB7P/dLhwmYFufP164O0TLqxpmqfXcaHphgpik5b4x5xMKXrb4WFT61XNFDvFXrdJf1Az7rYA==, tarball: file:projects/perf-core-rest-pipeline.tgz}
+    name: '@rush-temp/perf-core-rest-pipeline'
     version: 0.0.0
     dependencies:
       "@types/express": 4.17.21
@@ -26260,7 +27055,7 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
       tslib: 2.6.2
       typescript: 5.4.5
-      undici: 6.14.0
+      undici: 6.14.1
     transitivePeerDependencies:
       - "@swc/core"
       - "@swc/wasm"
@@ -26274,6 +27069,8 @@ packages:
         tarball: file:projects/perf-data-tables.tgz,
       }
     name: "@rush-temp/perf-data-tables"
+    resolution: {integrity: sha512-FYo4ko2VEcSKWnaLMm6WsCAUMI4LcXN428YMm2iUorgWvWyeado13sbE+SHjSKgzkh26eUXB0bupEEdQKKc7bg==, tarball: file:projects/perf-data-tables.tgz}
+    name: '@rush-temp/perf-data-tables'
     version: 0.0.0
     dependencies:
       "@types/node": 18.19.31
@@ -26296,6 +27093,8 @@ packages:
         tarball: file:projects/perf-event-hubs.tgz,
       }
     name: "@rush-temp/perf-event-hubs"
+    resolution: {integrity: sha512-my2s1O4skXXIMxC89ecO1/eZlR3+IgNj4XN5vu3JG3a48TKuxiOw/EcTuaeFktt6xMo1dciv+LuYurbFSWh64A==, tarball: file:projects/perf-event-hubs.tgz}
+    name: '@rush-temp/perf-event-hubs'
     version: 0.0.0
     dependencies:
       "@types/node": 18.19.31
@@ -26321,6 +27120,8 @@ packages:
         tarball: file:projects/perf-eventgrid.tgz,
       }
     name: "@rush-temp/perf-eventgrid"
+    resolution: {integrity: sha512-a0a/rYZ7+OJo2V1ZNGNpyTkAPxxvTv+KFu7BUyms81FuggrrECUsybfwz3mbG8nIoh8UEB+BY5OXuyN48ZbZ0w==, tarball: file:projects/perf-eventgrid.tgz}
+    name: '@rush-temp/perf-eventgrid'
     version: 0.0.0
     dependencies:
       "@types/node": 18.19.31
@@ -26343,6 +27144,8 @@ packages:
         tarball: file:projects/perf-identity.tgz,
       }
     name: "@rush-temp/perf-identity"
+    resolution: {integrity: sha512-qCSQ/DGC/ektxrIAO19e0Vs/WCCUD1Z2C+bWpUVktBMk/y/dlXqvqa1aGbUDZr2leKcoNDHNCIITNRPxiOwoTQ==, tarball: file:projects/perf-identity.tgz}
+    name: '@rush-temp/perf-identity'
     version: 0.0.0
     dependencies:
       "@types/node": 18.19.31
@@ -26366,6 +27169,8 @@ packages:
         tarball: file:projects/perf-keyvault-certificates.tgz,
       }
     name: "@rush-temp/perf-keyvault-certificates"
+    resolution: {integrity: sha512-yGY/0yT8zg1HYq8Ucj3OpeaP715AgIiXcLFuwD8UTZ4Td5xoDRhpi+zs0sUnAZhDESM2JE45vFIaaSXc2fRzNg==, tarball: file:projects/perf-keyvault-certificates.tgz}
+    name: '@rush-temp/perf-keyvault-certificates'
     version: 0.0.0
     dependencies:
       "@types/node": 18.19.31
@@ -26390,6 +27195,8 @@ packages:
         tarball: file:projects/perf-keyvault-keys.tgz,
       }
     name: "@rush-temp/perf-keyvault-keys"
+    resolution: {integrity: sha512-39cRS8XoyWK9FnoWWQ53ytmG25u4YRLOkO6NHeGkBWngKGzyTL4XGDGJaupTnkg52b3/jQLB4M5KoVXeDFIlGg==, tarball: file:projects/perf-keyvault-keys.tgz}
+    name: '@rush-temp/perf-keyvault-keys'
     version: 0.0.0
     dependencies:
       "@types/node": 18.19.31
@@ -26414,6 +27221,8 @@ packages:
         tarball: file:projects/perf-keyvault-secrets.tgz,
       }
     name: "@rush-temp/perf-keyvault-secrets"
+    resolution: {integrity: sha512-n98oiCMoAu2WGDp7PAsTLQkfSv1s31Mr79hAP7KEVuPd+nGDGsW2FKCkiqUymnKNdZ8Lhq9Wf1U4RtKVTYGWtw==, tarball: file:projects/perf-keyvault-secrets.tgz}
+    name: '@rush-temp/perf-keyvault-secrets'
     version: 0.0.0
     dependencies:
       "@types/node": 18.19.31
@@ -26438,6 +27247,8 @@ packages:
         tarball: file:projects/perf-monitor-ingestion.tgz,
       }
     name: "@rush-temp/perf-monitor-ingestion"
+    resolution: {integrity: sha512-e+SLLqcGfUACYhdT3pVFDE2UwEzv3RFQoAxwFQrQDy9Dlcdq9mRfcj7uVD/qlwmV41Cc3nkTecR7CDPV2Lt+Sw==, tarball: file:projects/perf-monitor-ingestion.tgz}
+    name: '@rush-temp/perf-monitor-ingestion'
     version: 0.0.0
     dependencies:
       "@types/node": 18.19.31
@@ -26460,6 +27271,8 @@ packages:
         tarball: file:projects/perf-monitor-opentelemetry.tgz,
       }
     name: "@rush-temp/perf-monitor-opentelemetry"
+    resolution: {integrity: sha512-NIBhtV7js8LNjZFPQbm4sebhUGMBmocQnp1t/VpksvRjqaky0R6d58qJkdM2H+fmP7yoJ2WpCq2VeOElBYMtlQ==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
+    name: '@rush-temp/perf-monitor-opentelemetry'
     version: 0.0.0
     dependencies:
       "@opentelemetry/api": 1.8.0
@@ -26482,6 +27295,8 @@ packages:
         tarball: file:projects/perf-monitor-query.tgz,
       }
     name: "@rush-temp/perf-monitor-query"
+    resolution: {integrity: sha512-MrB6574lLqsFH/l+ul47XUkhX4sDjhuKDsjVbH1OOebyyyDOTf1zeNisWDbDFaTBOvLDkhpBHrZ+jTMsl7VaSg==, tarball: file:projects/perf-monitor-query.tgz}
+    name: '@rush-temp/perf-monitor-query'
     version: 0.0.0
     dependencies:
       "@types/node": 18.19.31
@@ -26504,6 +27319,8 @@ packages:
         tarball: file:projects/perf-schema-registry-avro.tgz,
       }
     name: "@rush-temp/perf-schema-registry-avro"
+    resolution: {integrity: sha512-9dTQa/x2rpqPpnMJ6z3qnLyLMH24VHVaK8kkfXP1jlNLaQEl52sPlJBE2/E/PKTl2uEAN6sS2gKDJtCRFSIHqA==, tarball: file:projects/perf-schema-registry-avro.tgz}
+    name: '@rush-temp/perf-schema-registry-avro'
     version: 0.0.0
     dependencies:
       "@types/node": 18.19.31
@@ -26526,6 +27343,8 @@ packages:
         tarball: file:projects/perf-search-documents.tgz,
       }
     name: "@rush-temp/perf-search-documents"
+    resolution: {integrity: sha512-UFP3FipO4FvsGdpFZDDoBA/Ll5b+wtD1wXkn3pih01oa0r68UmvYwY7lGZWpj3yCI1l2UGzayn/r4LIIUNT8iw==, tarball: file:projects/perf-search-documents.tgz}
+    name: '@rush-temp/perf-search-documents'
     version: 0.0.0
     dependencies:
       "@azure/search-documents": 12.0.0-beta.4
@@ -26549,6 +27368,8 @@ packages:
         tarball: file:projects/perf-service-bus.tgz,
       }
     name: "@rush-temp/perf-service-bus"
+    resolution: {integrity: sha512-X95Hh6NnKKUcwXClbV9iQIxP+1FeXIRs0AvD3NXMctlvTTHFwCmy8MrjwSbOZmbzedg6oVE+8rEBdl4nQpeyZQ==, tarball: file:projects/perf-service-bus.tgz}
+    name: '@rush-temp/perf-service-bus'
     version: 0.0.0
     dependencies:
       "@types/node": 18.19.31
@@ -26573,6 +27394,8 @@ packages:
         tarball: file:projects/perf-storage-blob.tgz,
       }
     name: "@rush-temp/perf-storage-blob"
+    resolution: {integrity: sha512-gnVzxlY1vrAzRzZwxxYq0IpU2a7YPUY19+GM3mhITC1zWOgyJG34mkJgcxO7zIXPJe/4cVUQju5/2ffQ2SpU8w==, tarball: file:projects/perf-storage-blob.tgz}
+    name: '@rush-temp/perf-storage-blob'
     version: 0.0.0
     dependencies:
       "@types/node": 18.19.31
@@ -26595,6 +27418,8 @@ packages:
         tarball: file:projects/perf-storage-file-datalake.tgz,
       }
     name: "@rush-temp/perf-storage-file-datalake"
+    resolution: {integrity: sha512-IqNMSbO7Zr0HoLvLmtadH8jS8exN3/o/yV+wmm82TAfGWzvo+H/AAHsbDQwE9KOUnfGzeprtrXw/cAW2+m75DA==, tarball: file:projects/perf-storage-file-datalake.tgz}
+    name: '@rush-temp/perf-storage-file-datalake'
     version: 0.0.0
     dependencies:
       "@azure/storage-file-datalake": 12.16.0
@@ -26619,6 +27444,8 @@ packages:
         tarball: file:projects/perf-storage-file-share.tgz,
       }
     name: "@rush-temp/perf-storage-file-share"
+    resolution: {integrity: sha512-R//6vCw8iYaZIH9hz0Cdc+eL42f8/wFyQPERFgqX1m5pjAOs67OLZsURMisUTvRa3GfDLxf34WD0G5CAVVhNgA==, tarball: file:projects/perf-storage-file-share.tgz}
+    name: '@rush-temp/perf-storage-file-share'
     version: 0.0.0
     dependencies:
       "@azure/storage-file-share": 12.17.0
@@ -26643,6 +27470,8 @@ packages:
         tarball: file:projects/perf-template.tgz,
       }
     name: "@rush-temp/perf-template"
+    resolution: {integrity: sha512-M95aBoz6WTfr7yf191nBbOEvzgjcfhbaNGn2UOL+gz4Tk9u4KoVOahyrqRagZ62e5jN8it0mWWEMXvzG659T8g==, tarball: file:projects/perf-template.tgz}
+    name: '@rush-temp/perf-template'
     version: 0.0.0
     dependencies:
       "@azure/app-configuration": 1.5.0-beta.2
@@ -26666,6 +27495,8 @@ packages:
         tarball: file:projects/purview-administration.tgz,
       }
     name: "@rush-temp/purview-administration"
+    resolution: {integrity: sha512-vlpKfFIUEiY+8k7jIH4iTqjMYwCTrDvJtsRhXyjQUs/m5HJLb3ETZJZrFpwTkMUFwWFg+OCY9kiE/BfpspDXzg==, tarball: file:projects/purview-administration.tgz}
+    name: '@rush-temp/purview-administration'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -26712,6 +27543,8 @@ packages:
         tarball: file:projects/purview-catalog.tgz,
       }
     name: "@rush-temp/purview-catalog"
+    resolution: {integrity: sha512-ECYUf1cSbC1okgd94qbVmQe7ONYTCdPZK9bkQ46thBumNoT4qOYhs4s1xba+0w2D1qO2KTuC9ramppKBPc4HOQ==, tarball: file:projects/purview-catalog.tgz}
+    name: '@rush-temp/purview-catalog'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -26758,6 +27591,8 @@ packages:
         tarball: file:projects/purview-datamap.tgz,
       }
     name: "@rush-temp/purview-datamap"
+    resolution: {integrity: sha512-wyojIgYGfilwobQKLSGat5SobZ3R/J5s492rXCWPKTK4Vz0Cj5vssEJcKdlvEdjnqTp90UON/W1OvZyj+DAT2Q==, tarball: file:projects/purview-datamap.tgz}
+    name: '@rush-temp/purview-datamap'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -26805,6 +27640,8 @@ packages:
         tarball: file:projects/purview-scanning.tgz,
       }
     name: "@rush-temp/purview-scanning"
+    resolution: {integrity: sha512-evTlMLTdLO9q2UhCi8Neul7e4hLH5CY0ixfXn4SJi/QRKmatnhchDVWVUgPfLiNmKrTiK258/WIYw/soj5rngA==, tarball: file:projects/purview-scanning.tgz}
+    name: '@rush-temp/purview-scanning'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -26851,6 +27688,8 @@ packages:
         tarball: file:projects/purview-sharing.tgz,
       }
     name: "@rush-temp/purview-sharing"
+    resolution: {integrity: sha512-7IY6MkwFRb1GjWNDjPN44FtwY+VB0Ak46zYC5fV5bwQmniAQlkmk0ktRy/Dcb1RKgAlciJ3tkm5TRafS0eV28g==, tarball: file:projects/purview-sharing.tgz}
+    name: '@rush-temp/purview-sharing'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -26899,6 +27738,8 @@ packages:
         tarball: file:projects/purview-workflow.tgz,
       }
     name: "@rush-temp/purview-workflow"
+    resolution: {integrity: sha512-dTYT0PnjHmJpgWG6cLBpJmn5Lt7+8t4grgdPa4hR8udWTfYkbzbLhE8tiMmcy6KIeXPLOhe1OOBg/GuZK9i5cA==, tarball: file:projects/purview-workflow.tgz}
+    name: '@rush-temp/purview-workflow'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -26946,6 +27787,8 @@ packages:
         tarball: file:projects/quantum-jobs.tgz,
       }
     name: "@rush-temp/quantum-jobs"
+    resolution: {integrity: sha512-eXwreIYT0prd/iB3BXgdhZTVoxGmGR2S2WCFibhZyu3Db4ENo2NypeY6ELwO/hfQjl1iIkj6GPzgevCFFQ6UiQ==, tarball: file:projects/quantum-jobs.tgz}
+    name: '@rush-temp/quantum-jobs'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -26996,6 +27839,8 @@ packages:
         tarball: file:projects/schema-registry-avro.tgz,
       }
     name: "@rush-temp/schema-registry-avro"
+    resolution: {integrity: sha512-awcnfa+fD85M4UYNR5fDyfnf81eg9DVKML6vHis5Eikq0gMHW9FiFIQrbfp0JHi/aK8TBWFSAnEmoysgYwUtJg==, tarball: file:projects/schema-registry-avro.tgz}
+    name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -27051,6 +27896,8 @@ packages:
         tarball: file:projects/schema-registry-json.tgz,
       }
     name: "@rush-temp/schema-registry-json"
+    resolution: {integrity: sha512-ld4h3EYyMLkENW+r6/6JN6UgVTic71fBTQvs1IKVcfdttl3/dATKTlJdaBKAKkoi6I3bTemOBbNEUi9XrdZ56A==, tarball: file:projects/schema-registry-json.tgz}
+    name: '@rush-temp/schema-registry-json'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -27096,6 +27943,8 @@ packages:
         tarball: file:projects/schema-registry.tgz,
       }
     name: "@rush-temp/schema-registry"
+    resolution: {integrity: sha512-M3TuQN7U/fohTsXEWlHtFHxJM1+jPe1jdTz7/DXjB7rXAgUSguDlQh0J41l+4b9QDkQroNnD62S2zDy2afZpsQ==, tarball: file:projects/schema-registry.tgz}
+    name: '@rush-temp/schema-registry'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -27139,6 +27988,8 @@ packages:
         tarball: file:projects/search-documents.tgz,
       }
     name: "@rush-temp/search-documents"
+    resolution: {integrity: sha512-sa6qkfaptnUkYgw4SY3db/F36C/KS9B7K2BkKGlcBkSlt5u/TBjvmt89RjVbxohw9VaonCXfEg5PeAyepxa65Q==, tarball: file:projects/search-documents.tgz}
+    name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-recorder": 3.2.0
@@ -27188,6 +28039,8 @@ packages:
         tarball: file:projects/service-bus.tgz,
       }
     name: "@rush-temp/service-bus"
+    resolution: {integrity: sha512-yHfj9cmSCf5EMy8JHrE1YBUQpk1ywl682XFGITgKsvl+a1FxupplrmDrduwmoU9lRoFYjYb67KRlFZLqynSjXw==, tarball: file:projects/service-bus.tgz}
+    name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-recorder": 3.2.0
@@ -27229,7 +28082,7 @@ packages:
       nyc: 15.1.0
       process: 0.11.10
       promise: 8.3.0
-      puppeteer: 22.6.5(typescript@5.4.5)
+      puppeteer: 22.7.0(typescript@5.4.5)
       rhea-promise: 3.0.1
       rimraf: 5.0.5
       sinon: 17.0.1
@@ -27253,6 +28106,8 @@ packages:
         tarball: file:projects/storage-blob-changefeed.tgz,
       }
     name: "@rush-temp/storage-blob-changefeed"
+    resolution: {integrity: sha512-GrJIh4kY/QKWymtReUWncFBfusq7Iq4Dt+XJBAXJqm0kA6ffzkn1AYg9XOBTeeuVQ/DYGzyZThIlJrn7WUd4Jw==, tarball: file:projects/storage-blob-changefeed.tgz}
+    name: '@rush-temp/storage-blob-changefeed'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-recorder": 3.2.0
@@ -27282,7 +28137,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
       nyc: 15.1.0
-      puppeteer: 22.6.5(typescript@5.4.5)
+      puppeteer: 22.7.0(typescript@5.4.5)
       rimraf: 5.0.5
       sinon: 17.0.1
       source-map-support: 0.5.21
@@ -27306,6 +28161,8 @@ packages:
         tarball: file:projects/storage-blob.tgz,
       }
     name: "@rush-temp/storage-blob"
+    resolution: {integrity: sha512-AmrE8vXzXiaBRvgaVksyzPy3i8KMhJoQRs0628TVlxTc7IlhyAjSDELmN2m86nDw3ZXHJnOaTXtW3VfECCcQfQ==, tarball: file:projects/storage-blob.tgz}
+    name: '@rush-temp/storage-blob'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -27333,7 +28190,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
       nyc: 15.1.0
-      puppeteer: 22.6.5(typescript@5.4.5)
+      puppeteer: 22.7.0(typescript@5.4.5)
       rimraf: 5.0.5
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
@@ -27356,6 +28213,8 @@ packages:
         tarball: file:projects/storage-file-datalake.tgz,
       }
     name: "@rush-temp/storage-file-datalake"
+    resolution: {integrity: sha512-V6IX3SSsrbQiMpkd1eoZUhth+A1t5p6xY7slOIYFbcFdvlACdklNKFMsKtStuCzp0vM4S1P5T0xzzMRmKzAhDA==, tarball: file:projects/storage-file-datalake.tgz}
+    name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -27386,7 +28245,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
       nyc: 15.1.0
-      puppeteer: 22.6.5(typescript@5.4.5)
+      puppeteer: 22.7.0(typescript@5.4.5)
       rimraf: 5.0.5
       sinon: 17.0.1
       source-map-support: 0.5.21
@@ -27410,6 +28269,8 @@ packages:
         tarball: file:projects/storage-file-share.tgz,
       }
     name: "@rush-temp/storage-file-share"
+    resolution: {integrity: sha512-pCX/X6Nqytbles7ldLJOV7lXVsgt+aqiDuAxY+RYPaFgQat1L5ZHePsH5nZAr0KFf/XI0nV0NnTutshLg/dJRQ==, tarball: file:projects/storage-file-share.tgz}
+    name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -27438,7 +28299,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
       nyc: 15.1.0
-      puppeteer: 22.6.5(typescript@5.4.5)
+      puppeteer: 22.7.0(typescript@5.4.5)
       rimraf: 5.0.5
       sinon: 17.0.1
       source-map-support: 0.5.21
@@ -27462,6 +28323,8 @@ packages:
         tarball: file:projects/storage-internal-avro.tgz,
       }
     name: "@rush-temp/storage-internal-avro"
+    resolution: {integrity: sha512-IxiPSZBWFNOFu/spFMWhJfWFPr0Hmv0ymxPvFxd2rzzErBq7FtCLXG50WN3lF4NKAnJz0Zq1g/PCmfDm1A7QrQ==, tarball: file:projects/storage-internal-avro.tgz}
+    name: '@rush-temp/storage-internal-avro'
     version: 0.0.0
     dependencies:
       "@azure/abort-controller": 1.1.0
@@ -27486,7 +28349,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
       nyc: 15.1.0
-      puppeteer: 22.6.5(typescript@5.4.5)
+      puppeteer: 22.7.0(typescript@5.4.5)
       rimraf: 5.0.5
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
@@ -27509,6 +28372,8 @@ packages:
         tarball: file:projects/storage-queue.tgz,
       }
     name: "@rush-temp/storage-queue"
+    resolution: {integrity: sha512-bj4+gdIv+3BijapoclmRYmJtGW4fznFTbSyoNJT3+0zX0gnKLaOv5hclE78NtZ+vHeb6/vSDYvYTYC/m9I9kLQ==, tarball: file:projects/storage-queue.tgz}
+    name: '@rush-temp/storage-queue'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-recorder": 3.2.0
@@ -27534,7 +28399,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
       nyc: 15.1.0
-      puppeteer: 22.6.5(typescript@5.4.5)
+      puppeteer: 22.7.0(typescript@5.4.5)
       rimraf: 5.0.5
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
@@ -27557,6 +28422,8 @@ packages:
         tarball: file:projects/synapse-access-control-1.tgz,
       }
     name: "@rush-temp/synapse-access-control-1"
+    resolution: {integrity: sha512-D+qk2JFH8xQnZEeqSa3J6dU4S28ZmJpKmz3L0Jro+sy0+VXaBpMbSbzZDlkP9tEZHY6o4ryhwnWt/okg1fACTQ==, tarball: file:projects/synapse-access-control-1.tgz}
+    name: '@rush-temp/synapse-access-control-1'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -27607,6 +28474,8 @@ packages:
         tarball: file:projects/synapse-access-control.tgz,
       }
     name: "@rush-temp/synapse-access-control"
+    resolution: {integrity: sha512-0eKmliIBl0+tOHF8Wk0SNhnN+TqQFi3RVDAJ05JEVkFti8ELm8Fb64YzsQ3DWfOFLFgFp+e4xHc2wn8sPI3xdg==, tarball: file:projects/synapse-access-control.tgz}
+    name: '@rush-temp/synapse-access-control'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -27658,6 +28527,8 @@ packages:
         tarball: file:projects/synapse-artifacts.tgz,
       }
     name: "@rush-temp/synapse-artifacts"
+    resolution: {integrity: sha512-qu+9mEaAT7+Z+2eWbpbitRvJ8SUFxYXV09a+9FYH07WginifGciKOP+nrUqyafD9uujl8Ql7vxLu8MtFi1wIOw==, tarball: file:projects/synapse-artifacts.tgz}
+    name: '@rush-temp/synapse-artifacts'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -27711,6 +28582,8 @@ packages:
         tarball: file:projects/synapse-managed-private-endpoints.tgz,
       }
     name: "@rush-temp/synapse-managed-private-endpoints"
+    resolution: {integrity: sha512-sPPukTVG3ONqxh4OJFZrPTe7faZikrhalOnWvhyWVvCKgkTLcthlY9PE4pg4+aGZmIj8EsMJIt1ttUkWeMLnFA==, tarball: file:projects/synapse-managed-private-endpoints.tgz}
+    name: '@rush-temp/synapse-managed-private-endpoints'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -27758,6 +28631,8 @@ packages:
         tarball: file:projects/synapse-monitoring.tgz,
       }
     name: "@rush-temp/synapse-monitoring"
+    resolution: {integrity: sha512-/pn7K5aHgiuipK/J03lnDvZ8dsCZZOa5L+Zw6wgUs9Y+2/9rMpDEq4xas4Vlade9q5Zwt6a/+uDzpwal16JzFw==, tarball: file:projects/synapse-monitoring.tgz}
+    name: '@rush-temp/synapse-monitoring'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -27799,6 +28674,8 @@ packages:
         tarball: file:projects/synapse-spark.tgz,
       }
     name: "@rush-temp/synapse-spark"
+    resolution: {integrity: sha512-ity8cgWaTsDvw/em7YgxONJ+FZX2b4Pw1csHRDGk+PJgl/YgAs6rwX7ANS3BYzPg1JEq/g8rpwHwiHZC9yyOQw==, tarball: file:projects/synapse-spark.tgz}
+    name: '@rush-temp/synapse-spark'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -27846,6 +28723,8 @@ packages:
         tarball: file:projects/template-dpg.tgz,
       }
     name: "@rush-temp/template-dpg"
+    resolution: {integrity: sha512-uA5DX3EkzXe7eBBynoO9XTfPJdgelyY8mmPZ7SesCLIWTtl1LMk6f+SaFn7hEmJLJ+xKAloAxoBztYwAV5b67g==, tarball: file:projects/template-dpg.tgz}
+    name: '@rush-temp/template-dpg'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -27870,7 +28749,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
       nyc: 15.1.0
-      puppeteer: 22.6.5(typescript@5.4.5)
+      puppeteer: 22.7.0(typescript@5.4.5)
       rimraf: 3.0.2
       ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
       tslib: 2.6.2
@@ -27892,6 +28771,8 @@ packages:
         tarball: file:projects/template.tgz,
       }
     name: "@rush-temp/template"
+    resolution: {integrity: sha512-1uRQsVe2MRPRgCI8k19j7fTAsZ/tNbgVTwNA/nBxxSnk7ukMePDyHwyA3vCiHEHYzdyIajUWtWBlnf2GwctRPA==, tarball: file:projects/template.tgz}
+    name: '@rush-temp/template'
     version: 0.0.0
     dependencies:
       "@microsoft/api-extractor": 7.43.1(@types/node@18.19.31)
@@ -27934,6 +28815,8 @@ packages:
         tarball: file:projects/test-credential.tgz,
       }
     name: "@rush-temp/test-credential"
+    resolution: {integrity: sha512-GV4XFVH74kBbd+wSeoqMkhGl2UHp4w4/1BUPaY3s92p9WUYECFqWE2ZQsICVoUG7/9T8vbyFvju3hb0ulML+Iw==, tarball: file:projects/test-credential.tgz}
+    name: '@rush-temp/test-credential'
     version: 0.0.0
     dependencies:
       "@microsoft/api-extractor": 7.43.1(@types/node@18.19.31)
@@ -27955,6 +28838,8 @@ packages:
         tarball: file:projects/test-perf.tgz,
       }
     name: "@rush-temp/test-perf"
+    resolution: {integrity: sha512-ZwPBFlm7U2LjZCUqsJJrNubufkZA5WPNQvRqlj9yXXYaSrtQtcV8LutkBWMy3BTFP3QlPU/7Omj/MeLt7BNnBA==, tarball: file:projects/test-perf.tgz}
+    name: '@rush-temp/test-perf'
     version: 0.0.0
     dependencies:
       "@types/fs-extra": 9.0.13
@@ -27987,6 +28872,8 @@ packages:
         tarball: file:projects/test-recorder.tgz,
       }
     name: "@rush-temp/test-recorder"
+    resolution: {integrity: sha512-s7ZZuZTwO6Jc5tCLlAQ7202In4yrcZdu469mveLuuHefzjSwdNqwtPYwPtwP2k+RGdt5JlK29gPh4glGuPfS7w==, tarball: file:projects/test-recorder.tgz}
+    name: '@rush-temp/test-recorder'
     version: 0.0.0
     dependencies:
       "@microsoft/api-extractor": 7.43.1(@types/node@18.19.31)
@@ -28028,6 +28915,8 @@ packages:
         tarball: file:projects/test-utils.tgz,
       }
     name: "@rush-temp/test-utils"
+    resolution: {integrity: sha512-u4u9CDY3LLHpKg7655DGRsaWaieW93zWY7S0K3e+VOzqwMfGtVPCynsjQ0pfH+7yWl2YuR4HA6Frnitfauq4JQ==, tarball: file:projects/test-utils.tgz}
+    name: '@rush-temp/test-utils'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-recorder": 3.2.0
@@ -28069,6 +28958,8 @@ packages:
         tarball: file:projects/ts-http-runtime.tgz,
       }
     name: "@rush-temp/ts-http-runtime"
+    resolution: {integrity: sha512-HXO7Lv/cwgn5X1kgOUzXUWEG4amdxRLrjwPFBKX/R7Zg7k3GjyTgDJTQ+pQkkc9rZd28xI+4EfnOKVulDojROQ==, tarball: file:projects/ts-http-runtime.tgz}
+    name: '@rush-temp/ts-http-runtime'
     version: 0.0.0
     dependencies:
       "@microsoft/api-extractor": 7.43.1(@types/node@18.19.31)
@@ -28108,6 +28999,8 @@ packages:
         tarball: file:projects/vite-plugin-browser-test-map.tgz,
       }
     name: "@rush-temp/vite-plugin-browser-test-map"
+    resolution: {integrity: sha512-qKZHdG8f3LTACHV3PdZsjAm8dC+A9GyANO24iYg7ATkihTPXf4nO8l7RR9Ur1bHkDyqqMq2AIosv0QhEH5pvnQ==, tarball: file:projects/vite-plugin-browser-test-map.tgz}
+    name: '@rush-temp/vite-plugin-browser-test-map'
     version: 0.0.0
     dependencies:
       "@types/node": 18.19.31
@@ -28127,6 +29020,8 @@ packages:
         tarball: file:projects/web-pubsub-client-protobuf.tgz,
       }
     name: "@rush-temp/web-pubsub-client-protobuf"
+    resolution: {integrity: sha512-9c5zYJPcAK7Qq9Q6WEQJ7uxsYhG1qUv1XMsduirLP1yU75IV4j84mhy8lsgcpYFPqBKqG4z13RUC8yMS8dlmwg==, tarball: file:projects/web-pubsub-client-protobuf.tgz}
+    name: '@rush-temp/web-pubsub-client-protobuf'
     version: 0.0.0
     dependencies:
       "@azure/web-pubsub-client": 1.0.0-beta.2
@@ -28165,9 +29060,9 @@ packages:
       nyc: 15.1.0
       protobufjs: 7.2.6
       protobufjs-cli: 1.1.2(protobufjs@7.2.6)
-      puppeteer: 22.6.5(typescript@5.4.5)
+      puppeteer: 22.7.0(typescript@5.4.5)
       rimraf: 5.0.5
-      rollup: 4.16.2
+      rollup: 4.16.4
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
@@ -28190,6 +29085,8 @@ packages:
         tarball: file:projects/web-pubsub-client.tgz,
       }
     name: "@rush-temp/web-pubsub-client"
+    resolution: {integrity: sha512-j0DWRYciVzqPJetH3pzpJlR514u11stH1Z8zKQJXMk+Ia6Go9gPlsYLTj7yqczH1J2H7YSBzW2on+0Z01unO4Q==, tarball: file:projects/web-pubsub-client.tgz}
+    name: '@rush-temp/web-pubsub-client'
     version: 0.0.0
     dependencies:
       "@azure/abort-controller": 1.1.0
@@ -28223,7 +29120,7 @@ packages:
       mocha: 10.4.0
       mock-socket: 9.3.1
       nyc: 15.1.0
-      puppeteer: 22.6.5(typescript@5.4.5)
+      puppeteer: 22.7.0(typescript@5.4.5)
       rimraf: 5.0.5
       sinon: 17.0.1
       source-map-support: 0.5.21
@@ -28248,6 +29145,8 @@ packages:
         tarball: file:projects/web-pubsub-express.tgz,
       }
     name: "@rush-temp/web-pubsub-express"
+    resolution: {integrity: sha512-F6zi+OEVdbjyA9WHbPYJ5IPxwqV4GftEL9ts0Un9XI69az7MRx4AzDqjBT2fMRRQqBev8nwSsFuaFjO/Ie5cDg==, tarball: file:projects/web-pubsub-express.tgz}
+    name: '@rush-temp/web-pubsub-express'
     version: 0.0.0
     dependencies:
       "@microsoft/api-extractor": 7.43.1(@types/node@18.19.31)
@@ -28265,7 +29164,7 @@ packages:
       express: 4.19.2
       mocha: 10.4.0
       nyc: 15.1.0
-      puppeteer: 22.6.5(typescript@5.4.5)
+      puppeteer: 22.7.0(typescript@5.4.5)
       rimraf: 5.0.5
       sinon: 17.0.1
       source-map-support: 0.5.21
@@ -28287,6 +29186,8 @@ packages:
         tarball: file:projects/web-pubsub.tgz,
       }
     name: "@rush-temp/web-pubsub"
+    resolution: {integrity: sha512-TaYq8TmqMGw0v7SvviW2IEiRCCeMwaH6FlxLxMsTJ6K5ZmKCHYIcs8oMZDFs+w/BI+S9FObuj5aBq+mE8L35Fg==, tarball: file:projects/web-pubsub.tgz}
+    name: '@rush-temp/web-pubsub'
     version: 0.0.0
     dependencies:
       "@azure-tools/test-credential": 1.0.4
@@ -28314,7 +29215,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.4.0
       nyc: 15.1.0
-      puppeteer: 22.6.5(typescript@5.4.5)
+      puppeteer: 22.7.0(typescript@5.4.5)
       rimraf: 5.0.5
       sinon: 17.0.1
       source-map-support: 0.5.21

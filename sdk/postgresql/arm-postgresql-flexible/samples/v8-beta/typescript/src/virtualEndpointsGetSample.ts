@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets information about a virtual endpoint.
  *
  * @summary Gets information about a virtual endpoint.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/VirtualEndpointsGet.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/VirtualEndpointsGet.json
  */
 async function getAVirtualEndpoint() {
   const subscriptionId =
@@ -31,12 +31,12 @@ async function getAVirtualEndpoint() {
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.virtualEndpoints.get(
     resourceGroupName,
     serverName,
-    virtualEndpointName
+    virtualEndpointName,
   );
   console.log(result);
 }
