@@ -208,6 +208,7 @@ export class CallAutomationClient {
         targetParticipant.sourceCallIdNumber,
       ),
       sourceDisplayName: targetParticipant.sourceDisplayName,
+      mediaStreamingConfiguration: options.mediaStreamingConfiguration,
     };
 
     return this.createCallInternal(request, options);
@@ -232,6 +233,7 @@ export class CallAutomationClient {
       callIntelligenceOptions: options.callIntelligenceOptions,
       sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(options.sourceCallIdNumber),
       sourceDisplayName: options.sourceDisplayName,
+      mediaStreamingConfiguration: options.mediaStreamingConfiguration,
     };
 
     return this.createCallInternal(request, options);
@@ -248,13 +250,19 @@ export class CallAutomationClient {
     callbackUrl: string,
     options: AnswerCallOptions = {},
   ): Promise<AnswerCallResult> {
-    const { callIntelligenceOptions, operationContext, ...operationOptions } = options;
+    const {
+      callIntelligenceOptions,
+      operationContext,
+      mediaStreamingConfiguration,
+      ...operationOptions
+    } = options;
     const request: AnswerCallRequest = {
       incomingCallContext,
       callIntelligenceOptions,
       operationContext,
       callbackUri: callbackUrl,
       answeredBy: this.sourceIdentity,
+      mediaStreamingConfiguration,
     };
     const optionsInternal = {
       ...operationOptions,

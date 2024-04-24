@@ -54,6 +54,7 @@ export interface AddParticipantSucceeded extends Omit<RestAddParticipantSucceede
 // @public
 export interface AnswerCallOptions extends OperationOptions {
     callIntelligenceOptions?: CallIntelligenceOptions;
+    mediaStreamingConfiguration?: MediaStreamingConfiguration;
     operationContext?: string;
 }
 
@@ -162,14 +163,17 @@ export type CallLocatorType = "serverCallLocator" | "groupCallLocator";
 export class CallMedia {
     constructor(callConnectionId: string, endpoint: string, credential: KeyCredential | TokenCredential, options?: CallAutomationApiClientOptionalParams);
     cancelAllOperations(): Promise<void>;
+    mediaStreamingState(): Promise<MediaStreamingStateResponse>;
     play(playSources: (FileSource | TextSource | SsmlSource)[], playTo: CommunicationIdentifier[], options?: PlayOptions): Promise<void>;
     playToAll(playSources: (FileSource | TextSource | SsmlSource)[], options?: PlayOptions): Promise<void>;
     sendDtmfTones(tones: Tone[] | DtmfTone[], targetParticipant: CommunicationIdentifier, options?: SendDtmfTonesOptions): Promise<SendDtmfTonesResult>;
     startContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, options?: ContinuousDtmfRecognitionOptions): Promise<void>;
+    startMediaStreaming(options?: StartMediaStreamingOptions): Promise<void>;
     // @deprecated
     startRecognizing(targetParticipant: CommunicationIdentifier, maxTonesToCollect: number, options: CallMediaRecognizeDtmfOptions): Promise<void>;
     startRecognizing(targetParticipant: CommunicationIdentifier, options: CallMediaRecognizeDtmfOptions | CallMediaRecognizeChoiceOptions | CallMediaRecognizeSpeechOptions | CallMediaRecognizeSpeechOrDtmfOptions): Promise<void>;
     stopContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, options?: ContinuousDtmfRecognitionOptions): Promise<void>;
+    stopMediaStreaming(options?: StopMediaStreamingOptions): Promise<void>;
 }
 
 // @public
@@ -347,6 +351,7 @@ export interface ContinuousDtmfRecognitionToneReceived extends Omit<RestContinuo
 // @public
 export interface CreateCallOptions extends OperationOptions {
     callIntelligenceOptions?: CallIntelligenceOptions;
+    mediaStreamingConfiguration?: MediaStreamingConfiguration;
     operationContext?: string;
     sourceCallIdNumber?: PhoneNumberIdentifier;
     sourceDisplayName?: string;
@@ -428,6 +433,36 @@ export interface ListParticipantsResult {
     nextLink?: string;
     values?: CallParticipant[];
 }
+
+// @public
+export type MediaStreamingAudioChannelType = "mixed" | "unmixed";
+
+// @public
+export interface MediaStreamingConfiguration {
+    audioChannelType: MediaStreamingAudioChannelType;
+    contentType: MediaStreamingContentType;
+    startMediaStreaming?: boolean;
+    transportType: MediaStreamingTransportType;
+    transportUrl: string;
+}
+
+// @public
+export type MediaStreamingContentType = "audio";
+
+// @public
+export interface MediaStreamingStateResponse {
+    // Warning: (ae-forgotten-export) The symbol "MediaStreamingState" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    mediaStreamingState?: MediaStreamingState;
+    // Warning: (ae-forgotten-export) The symbol "MediaStreamingType" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    mediaStreamingType?: MediaStreamingType;
+}
+
+// @public
+export type MediaStreamingTransportType = "websocket";
 
 // @public
 export interface MuteParticipantOption extends OperationOptions {
@@ -917,6 +952,12 @@ export interface SsmlSource extends PlaySource {
 }
 
 // @public
+export interface StartMediaStreamingOptions extends OperationOptions {
+    operationCallbackUri?: string;
+    operationContext?: string;
+}
+
+// @public
 export interface StartRecordingOptions extends OperationOptions {
     audioChannelParticipantOrdering?: CommunicationIdentifier[];
     callLocator: CallLocator;
@@ -927,6 +968,11 @@ export interface StartRecordingOptions extends OperationOptions {
     recordingFormat?: RecordingFormat;
     recordingStateCallbackEndpointUrl?: string;
     recordingStorage?: RecordingStorage;
+}
+
+// @public
+export interface StopMediaStreamingOptions extends OperationOptions {
+    operationCallbackUri?: string;
 }
 
 // @public

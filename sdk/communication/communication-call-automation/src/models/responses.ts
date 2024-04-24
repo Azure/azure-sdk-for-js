@@ -3,7 +3,12 @@
 
 import { CallConnection } from "../callConnection";
 import { CallConnectionProperties, CallParticipant } from "./models";
-import { RecordingState, RecordingKind } from "../generated/src";
+import {
+  RecordingState,
+  RecordingKind,
+  MediaStreamingState,
+  MediaStreamingType,
+} from "../generated/src";
 /**
  * The interface used as parent of [action]CallResult
  */
@@ -84,4 +89,10 @@ export interface CancelAddParticipantOperationResult {
   invitationId?: string;
   /** The operation context provided by client. */
   operationContext?: string;
+}
+
+/** Contains response data for the mediaStreamingState operation. */
+export interface MediaStreamingStateResponse {
+  mediaStreamingState?: MediaStreamingState;
+  mediaStreamingType?: MediaStreamingType;
 }

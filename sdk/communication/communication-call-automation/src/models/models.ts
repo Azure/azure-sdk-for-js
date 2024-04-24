@@ -231,3 +231,26 @@ export interface CallIntelligenceOptions {
   /** The identifier of the Cognitive Service resource assigned to this call. */
   cognitiveServicesEndpoint?: string;
 }
+
+/** Configuration of Media streaming. */
+export interface MediaStreamingConfiguration {
+  /** Transport URL for media streaming */
+  transportUrl: string;
+  /** The type of transport to be used for media streaming, eg. Websocket */
+  transportType: MediaStreamingTransportType;
+  /** Content type to stream, eg. audio */
+  contentType: MediaStreamingContentType;
+  /** Audio channel type to stream, eg. unmixed audio, mixed audio */
+  audioChannelType: MediaStreamingAudioChannelType;
+  /** Determines if the media streaming should be started immediately after call is answered or not. */
+  startMediaStreaming?: boolean;
+}
+
+/** Defines values for MediaStreamingTransportType. */
+export type MediaStreamingTransportType = "websocket";
+
+/** Defines values for MediaStreamingContentType. */
+export type MediaStreamingContentType = "audio";
+
+/** Defines values for MediaStreamingAudioChannelType. */
+export type MediaStreamingAudioChannelType = "mixed" | "unmixed";

@@ -66,6 +66,13 @@ export const CreateCallRequest: coreClient.CompositeMapper = {
           className: "CallIntelligenceOptionsInternal",
         },
       },
+      mediaStreamingConfiguration: {
+        serializedName: "mediaStreamingConfiguration",
+        type: {
+          name: "Composite",
+          className: "MediaStreamingConfigurationInternal",
+        },
+      },
     },
   },
 };
@@ -210,6 +217,49 @@ export const CallIntelligenceOptionsInternal: coreClient.CompositeMapper = {
         serializedName: "cognitiveServicesEndpoint",
         type: {
           name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const MediaStreamingConfigurationInternal: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MediaStreamingConfigurationInternal",
+    modelProperties: {
+      transportUrl: {
+        serializedName: "transportUrl",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      transportType: {
+        serializedName: "transportType",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      contentType: {
+        serializedName: "contentType",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      audioChannelType: {
+        serializedName: "audioChannelType",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      startMediaStreaming: {
+        serializedName: "startMediaStreaming",
+        type: {
+          name: "Boolean",
         },
       },
     },
@@ -397,6 +447,13 @@ export const AnswerCallRequest: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CommunicationUserIdentifierModel",
+        },
+      },
+      mediaStreamingConfiguration: {
+        serializedName: "mediaStreamingConfiguration",
+        type: {
+          name: "Composite",
+          className: "MediaStreamingConfigurationInternal",
         },
       },
     },
@@ -996,6 +1053,63 @@ export const SendDtmfTonesResult: coreClient.CompositeMapper = {
     modelProperties: {
       operationContext: {
         serializedName: "operationContext",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const StartMediaStreamingRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StartMediaStreamingRequest",
+    modelProperties: {
+      operationCallbackUri: {
+        serializedName: "operationCallbackUri",
+        type: {
+          name: "String",
+        },
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const StopMediaStreamingRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StopMediaStreamingRequest",
+    modelProperties: {
+      operationCallbackUri: {
+        serializedName: "operationCallbackUri",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const MediaStreamingStateResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MediaStreamingStateResponse",
+    modelProperties: {
+      mediaStreamingState: {
+        serializedName: "mediaStreamingState",
+        type: {
+          name: "String",
+        },
+      },
+      mediaStreamingType: {
+        serializedName: "mediaStreamingType",
         type: {
           name: "String",
         },

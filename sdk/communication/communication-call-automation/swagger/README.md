@@ -11,9 +11,9 @@ description: Call Automation Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: package-2024-04-15
+tag: package-2024-06-15-preview
 require:
-  - https://github.com/Azure/azure-rest-api-specs/blob/fdb69687a59b89fe0716782b94e5c8c61f20428b/specification/communication/data-plane/CallAutomation/readme.md
+  - https://github.com/Azure/azure-rest-api-specs/blob/76d763fab007ccb2644005379b755440487db0d4/specification/communication/data-plane/CallAutomation/readme.md
 package-version: 1.2.0-beta.1
 model-date-time-as-string: false
 optional-response-headers: true
@@ -62,6 +62,9 @@ directive:
   - rename-model:
       from: CustomCallingContext
       to: CustomCallingContextInternal
+  - rename-model:
+      from: MediaStreamingConfiguration
+      to: MediaStreamingConfigurationInternal
 ```
 
 ```yaml

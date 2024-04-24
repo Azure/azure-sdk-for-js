@@ -30,6 +30,8 @@ import {
   CallMediaRecognizeChoiceOptions,
   CallMediaRecognizeSpeechOptions,
   SendDtmfTonesOptions,
+  StartMediaStreamingOptions,
+  StopMediaStreamingOptions,
 } from "../src";
 
 // Current directory imports
@@ -313,6 +315,69 @@ describe("CallMedia Unit Tests", async function () {
     assert.deepEqual(data.tones, tones);
     assert.equal(data.operationContext, sendDtmfTonesOptions.operationContext);
     assert.equal(request.method, "POST");
+  });
+
+  it("makes successful start media streaming request with options", async function () {
+    const mockHttpClient = generateHttpClient(202);
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const mediaStreamingOptions: StartMediaStreamingOptions = {
+      operationContext: "startMediaStreamContext",
+      operationCallbackUri: "https://localhost",
+    };
+    await callMedia.startMediaStreaming(mediaStreamingOptions);
+    const request = spy.getCall(0).args[0];
+    const data = JSON.parse(request.body?.toString() || "");
+    assert.equal(data.operationContext, mediaStreamingOptions.operationContext);
+    assert.equal(data.operationCallbackUri, mediaStreamingOptions.operationCallbackUri);
+    assert.equal(request.method, "POST");
+  });
+
+  it("makes successful start media streaming request without options", async function () {
+    const mockHttpClient = generateHttpClient(202);
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    await callMedia.startMediaStreaming();
+    const request = spy.getCall(0).args[0];
+    const data = JSON.parse(request.body?.toString() || "");
+    assert.isUndefined(data.operationContext);
+    assert.isUndefined(data.operationCallbackUri);
+    assert.equal(request.method, "POST");
+  });
+
+  it("makes successful stop media streaming request with options", async function () {
+    const mockHttpClient = generateHttpClient(204);
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const options: StopMediaStreamingOptions = {
+      operationCallbackUri: "https://localhost",
+    };
+    await callMedia.stopMediaStreaming(options);
+    const request = spy.getCall(0).args[0];
+    const data = JSON.parse(request.body?.toString() || "");
+    assert.equal(data.operationCallbackUri, options.operationCallbackUri);
+    assert.equal(request.method, "POST");
+  });
+
+  it("makes successful stop media streaming request without options", async function () {
+    const mockHttpClient = generateHttpClient(204);
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+
+    await callMedia.stopMediaStreaming();
+    const request = spy.getCall(0).args[0];
+    const data = JSON.parse(request.body?.toString() || "");
+    assert.isUndefined(data.operationCallbackUri);
+    assert.equal(request.method, "POST");
+  });
+
+  it("makes successful media streaming state request", async function () {
+    const mockHttpClient = generateHttpClient(200);
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    await callMedia.mediaStreamingState();
+    const request = spy.getCall(0).args[0];
+    assert.equal(request.method, "GET");
   });
 });
 

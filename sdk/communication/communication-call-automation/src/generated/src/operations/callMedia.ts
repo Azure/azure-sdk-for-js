@@ -23,6 +23,12 @@ import {
   SendDtmfTonesRequest,
   CallMediaSendDtmfTonesOptionalParams,
   CallMediaSendDtmfTonesResponse,
+  StartMediaStreamingRequest,
+  CallMediaStartMediaStreamingOptionalParams,
+  StopMediaStreamingRequest,
+  CallMediaStopMediaStreamingOptionalParams,
+  CallMediaMediaStreamingStateOptionalParams,
+  CallMediaMediaStreamingStateResponse,
 } from "../models";
 
 /** Class containing CallMedia operations. */
@@ -136,6 +142,55 @@ export class CallMediaImpl implements CallMedia {
       sendDtmfTonesOperationSpec,
     );
   }
+
+  /**
+   * Starts media streaming in the call.
+   * @param callConnectionId The call connection id.
+   * @param startMediaStreamingRequest
+   * @param options The options parameters.
+   */
+  startMediaStreaming(
+    callConnectionId: string,
+    startMediaStreamingRequest: StartMediaStreamingRequest,
+    options?: CallMediaStartMediaStreamingOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { callConnectionId, startMediaStreamingRequest, options },
+      startMediaStreamingOperationSpec,
+    );
+  }
+
+  /**
+   * Stops media streaming in the call.
+   * @param callConnectionId The call connection id.
+   * @param stopMediaStreamingRequest stop media streaming request payload.
+   * @param options The options parameters.
+   */
+  stopMediaStreaming(
+    callConnectionId: string,
+    stopMediaStreamingRequest: StopMediaStreamingRequest,
+    options?: CallMediaStopMediaStreamingOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { callConnectionId, stopMediaStreamingRequest, options },
+      stopMediaStreamingOperationSpec,
+    );
+  }
+
+  /**
+   * Gets media streaming state in the call.
+   * @param callConnectionId The call connection id.
+   * @param options The options parameters.
+   */
+  mediaStreamingState(
+    callConnectionId: string,
+    options?: CallMediaMediaStreamingStateOptionalParams,
+  ): Promise<CallMediaMediaStreamingStateResponse> {
+    return this.client.sendOperationRequest(
+      { callConnectionId, options },
+      mediaStreamingStateOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -239,5 +294,53 @@ const sendDtmfTonesOperationSpec: coreClient.OperationSpec = {
     Parameters.repeatabilityFirstSent,
   ],
   mediaType: "json",
+  serializer,
+};
+const startMediaStreamingOperationSpec: coreClient.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}:startMediaStreaming",
+  httpMethod: "POST",
+  responses: {
+    202: {},
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
+  },
+  requestBody: Parameters.startMediaStreamingRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const stopMediaStreamingOperationSpec: coreClient.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}:stopMediaStreaming",
+  httpMethod: "POST",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
+  },
+  requestBody: Parameters.stopMediaStreamingRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const mediaStreamingStateOperationSpec: coreClient.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}:mediaStreamingState",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MediaStreamingStateResponse,
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [Parameters.accept],
   serializer,
 };

@@ -18,6 +18,8 @@ import {
   SendDtmfTonesRequest,
   Tone,
   SpeechOptions,
+  StartMediaStreamingRequest,
+  StopMediaStreamingRequest,
 } from "./generated/src";
 
 import { CallMediaImpl } from "./generated/src/operations";
@@ -38,9 +40,11 @@ import {
   SendDtmfTonesOptions,
   CallMediaRecognizeSpeechOptions,
   CallMediaRecognizeSpeechOrDtmfOptions,
+  StartMediaStreamingOptions,
+  StopMediaStreamingOptions,
 } from "./models/options";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { SendDtmfTonesResult } from "./models/responses";
+import { MediaStreamingStateResponse, SendDtmfTonesResult } from "./models/responses";
 import { v4 as uuidv4 } from "uuid";
 
 /**
@@ -414,5 +418,48 @@ export class CallMedia {
       ...result,
     };
     return sendDtmfTonesResult;
+  }
+
+  /**
+   * Starts media streaming in the call.
+   * @param options - Additional attributes for start media streaming.
+   */
+  public async startMediaStreaming(options: StartMediaStreamingOptions = {}): Promise<void> {
+    const startMediaStreamingRequest: StartMediaStreamingRequest = {
+      operationContext: options.operationContext,
+      operationCallbackUri: options.operationCallbackUri,
+    };
+    return this.callMedia.startMediaStreaming(
+      this.callConnectionId,
+      startMediaStreamingRequest,
+      options,
+    );
+  }
+
+  /**
+   * Stops media streaming in the call.
+   * @param options - Additional attributes for stop media streaming.
+   */
+  public async stopMediaStreaming(options: StopMediaStreamingOptions = {}): Promise<void> {
+    const stopMediaStreamingRequest: StopMediaStreamingRequest = {
+      operationCallbackUri: options.operationCallbackUri,
+    };
+    return this.callMedia.stopMediaStreaming(
+      this.callConnectionId,
+      stopMediaStreamingRequest,
+      options,
+    );
+  }
+
+  /**
+   * Gets media streaming state in the call.
+   */
+  public async mediaStreamingState(): Promise<MediaStreamingStateResponse> {
+    const response = await this.callMedia.mediaStreamingState(this.callConnectionId, {});
+    const mediaStreamingStateResponse: MediaStreamingStateResponse = {
+      mediaStreamingState: response.mediaStreamingState,
+      mediaStreamingType: response.mediaStreamingType,
+    };
+    return mediaStreamingStateResponse;
   }
 }

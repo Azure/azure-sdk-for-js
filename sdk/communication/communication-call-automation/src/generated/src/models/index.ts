@@ -27,6 +27,8 @@ export interface CreateCallRequest {
   callbackUri: string;
   /** AI options for the call. */
   callIntelligenceOptions?: CallIntelligenceOptionsInternal;
+  /** Media Streaming Configuration. */
+  mediaStreamingConfiguration?: MediaStreamingConfigurationInternal;
 }
 
 /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
@@ -79,6 +81,20 @@ export interface MicrosoftTeamsAppIdentifierModel {
 export interface CallIntelligenceOptionsInternal {
   /** The identifier of the Cognitive Service resource assigned to this call. */
   cognitiveServicesEndpoint?: string;
+}
+
+/** Configuration of Media streaming. */
+export interface MediaStreamingConfigurationInternal {
+  /** Transport URL for media streaming */
+  transportUrl: string;
+  /** The type of transport to be used for media streaming, eg. Websocket */
+  transportType: MediaStreamingTransportType;
+  /** Content type to stream, eg. audio, audio/video */
+  contentType: MediaStreamingContentType;
+  /** Audio channel type to stream, eg. unmixed audio, mixed audio */
+  audioChannelType: MediaStreamingAudioChannelType;
+  /** Determines if the media streaming should be started immediately after call is answered or not. */
+  startMediaStreaming?: boolean;
 }
 
 /** Properties of a call connection */
@@ -149,6 +165,8 @@ export interface AnswerCallRequest {
   callIntelligenceOptions?: CallIntelligenceOptionsInternal;
   /** The identifier of the call automation entity which answers the call */
   answeredBy?: CommunicationUserIdentifierModel;
+  /** Media Streaming Configuration. */
+  mediaStreamingConfiguration?: MediaStreamingConfigurationInternal;
 }
 
 /** The request payload for redirecting the call. */
@@ -356,6 +374,29 @@ export interface SendDtmfTonesRequest {
 export interface SendDtmfTonesResult {
   /** The operation context provided by client. */
   operationContext?: string;
+}
+
+export interface StartMediaStreamingRequest {
+  /**
+   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUri?: string;
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+}
+
+export interface StopMediaStreamingRequest {
+  /**
+   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUri?: string;
+}
+
+export interface MediaStreamingStateResponse {
+  mediaStreamingState?: MediaStreamingState;
+  mediaStreamingType?: MediaStreamingType;
 }
 
 /** The response payload for getting participants of the call. */
@@ -958,6 +999,54 @@ export enum KnownCommunicationCloudEnvironmentModel {
  */
 export type CommunicationCloudEnvironmentModel = string;
 
+/** Known values of {@link MediaStreamingTransportType} that the service accepts. */
+export enum KnownMediaStreamingTransportType {
+  /** Websocket */
+  Websocket = "websocket",
+}
+
+/**
+ * Defines values for MediaStreamingTransportType. \
+ * {@link KnownMediaStreamingTransportType} can be used interchangeably with MediaStreamingTransportType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **websocket**
+ */
+export type MediaStreamingTransportType = string;
+
+/** Known values of {@link MediaStreamingContentType} that the service accepts. */
+export enum KnownMediaStreamingContentType {
+  /** Audio */
+  Audio = "audio",
+}
+
+/**
+ * Defines values for MediaStreamingContentType. \
+ * {@link KnownMediaStreamingContentType} can be used interchangeably with MediaStreamingContentType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **audio**
+ */
+export type MediaStreamingContentType = string;
+
+/** Known values of {@link MediaStreamingAudioChannelType} that the service accepts. */
+export enum KnownMediaStreamingAudioChannelType {
+  /** Mixed */
+  Mixed = "mixed",
+  /** Unmixed */
+  Unmixed = "unmixed",
+}
+
+/**
+ * Defines values for MediaStreamingAudioChannelType. \
+ * {@link KnownMediaStreamingAudioChannelType} can be used interchangeably with MediaStreamingAudioChannelType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **mixed** \
+ * **unmixed**
+ */
+export type MediaStreamingAudioChannelType = string;
+
 /** Known values of {@link CallConnectionStateModel} that the service accepts. */
 export enum KnownCallConnectionStateModel {
   /** Unknown */
@@ -1134,6 +1223,39 @@ export enum KnownTone {
  * **asterisk**
  */
 export type Tone = string;
+
+/** Known values of {@link MediaStreamingState} that the service accepts. */
+export enum KnownMediaStreamingState {
+  /** Active */
+  Active = "active",
+  /** Inactive */
+  Inactive = "inactive",
+}
+
+/**
+ * Defines values for MediaStreamingState. \
+ * {@link KnownMediaStreamingState} can be used interchangeably with MediaStreamingState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **active** \
+ * **inactive**
+ */
+export type MediaStreamingState = string;
+
+/** Known values of {@link MediaStreamingType} that the service accepts. */
+export enum KnownMediaStreamingType {
+  /** Audio */
+  Audio = "audio",
+}
+
+/**
+ * Defines values for MediaStreamingType. \
+ * {@link KnownMediaStreamingType} can be used interchangeably with MediaStreamingType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **audio**
+ */
+export type MediaStreamingType = string;
 
 /** Known values of {@link CallLocatorKind} that the service accepts. */
 export enum KnownCallLocatorKind {
@@ -1460,6 +1582,21 @@ export interface CallMediaSendDtmfTonesOptionalParams
 
 /** Contains response data for the sendDtmfTones operation. */
 export type CallMediaSendDtmfTonesResponse = SendDtmfTonesResult;
+
+/** Optional parameters. */
+export interface CallMediaStartMediaStreamingOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface CallMediaStopMediaStreamingOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface CallMediaMediaStreamingStateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the mediaStreamingState operation. */
+export type CallMediaMediaStreamingStateResponse = MediaStreamingStateResponse;
 
 /** Optional parameters. */
 export interface CallRecordingStartRecordingOptionalParams

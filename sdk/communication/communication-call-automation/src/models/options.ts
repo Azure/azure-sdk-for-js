@@ -18,6 +18,7 @@ import {
   CallIntelligenceOptions,
   CustomCallingContext,
   RecordingStorage,
+  MediaStreamingConfiguration,
 } from "./models";
 
 /** Options to configure the recognize operation. */
@@ -106,6 +107,8 @@ export interface CreateCallOptions extends OperationOptions {
   callIntelligenceOptions?: CallIntelligenceOptions;
   /** The operation Context. */
   operationContext?: string;
+  /** Media Streaming Configuration. */
+  mediaStreamingConfiguration?: MediaStreamingConfiguration;
 }
 
 /**
@@ -116,6 +119,8 @@ export interface AnswerCallOptions extends OperationOptions {
   callIntelligenceOptions?: CallIntelligenceOptions;
   /** The operation context. */
   operationContext?: string;
+  /** Media Streaming Configuration. */
+  mediaStreamingConfiguration?: MediaStreamingConfiguration;
 }
 
 /**
@@ -318,4 +323,24 @@ export interface CancelAddParticipantOperationOptions extends OperationOptions {
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
    */
   operationCallbackUrl?: string;
+}
+
+/** Options for start media streaming request. */
+export interface StartMediaStreamingOptions extends OperationOptions {
+  /**
+   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUri?: string;
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+}
+
+/** Options for stop media streaming request. */
+export interface StopMediaStreamingOptions extends OperationOptions {
+  /**
+   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUri?: string;
 }
