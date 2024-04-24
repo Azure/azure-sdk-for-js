@@ -192,9 +192,8 @@ export interface PollerLike<TState extends OperationState<TResult>, TResult>
    */
   readonly operationState: TState | undefined;
   /**
-   * Returns the result value of the operation,
-   * regardless of the state of the poller.
-   * It can return undefined or an incomplete form of the final TResult value
+   * The result value of the operation, regardless of the state of the poller.
+   * It can be undefined or an incomplete form of the final TResult value
    * depending on the implementation.
    */
   readonly result: TResult | undefined;
