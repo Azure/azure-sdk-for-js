@@ -55,7 +55,7 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
 
   /**
    * Authenticates with Microsoft Entra ID and returns an access token if successful.
-   * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
+   * If authentication fails, a {@link CredentialUnavailableError} or {@link AuthenticationError} will be thrown with the details of the failure.
    *
    * @param scopes - The list of scopes for which the token will have access.
    * @param options - The options used to configure any requests this
@@ -84,6 +84,12 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
     return this.clientAssertionCredential.getToken(scopes, options);
   }
 
+  /**
+   *
+   * @param oidcRequestUrl oidc request url
+   * @param systemAccessToken system access token
+   * @returns OIDC token from Azure Pipelines
+   */
   private async requestOidcToken(
     oidcRequestUrl: string,
     systemAccessToken: string
