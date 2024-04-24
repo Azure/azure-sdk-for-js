@@ -5,17 +5,11 @@
 **Features**
 
   - Added Interface ServicePrincipalCredentialResource
-
-**Breaking Changes**
-
-  - Operation CredentialOperations.createOrUpdate has a new signature
-  - Interface ManagedIdentityCredential no longer has parameter resourceId
   - Type of parameter headers of interface AzureFunctionActivity is changed from {
         [propertyName: string]: string;
     } to {
         [propertyName: string]: any;
     }
-  - Type of parameter value of interface CredentialListResponse is changed from ManagedIdentityCredentialResource[] to CredentialResource[]
   - Type of parameter headers of interface WebActivity is changed from {
         [propertyName: string]: string;
     } to {
@@ -26,6 +20,12 @@
     } to {
         [propertyName: string]: any;
     }
+
+**Breaking Changes**
+
+  - Operation CredentialOperations.createOrUpdate has a new signature
+  - Interface ManagedIdentityCredential no longer has parameter resourceId
+  - Type of parameter value of interface CredentialListResponse is changed from ManagedIdentityCredentialResource[] to CredentialResource[]
     
     
 ## 14.1.0 (2024-03-11)
