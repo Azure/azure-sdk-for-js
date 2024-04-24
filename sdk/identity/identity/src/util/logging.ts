@@ -104,6 +104,7 @@ export function credentialLoggerInstance(
   function error(message: string): void {
     log.error(`${fullTitle} =>`, message);
   }
+
   return {
     title,
     fullTitle,

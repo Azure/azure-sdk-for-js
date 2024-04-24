@@ -86,8 +86,8 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
 
   /**
    *
-   * @param oidcRequestUrl oidc request url
-   * @param systemAccessToken system access token
+   * @param oidcRequestUrl - oidc request url
+   * @param systemAccessToken - system access token
    * @returns OIDC token from Azure Pipelines
    */
   private async requestOidcToken(
