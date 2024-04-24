@@ -412,6 +412,32 @@ describe("WebPubSubClient", function () {
       assert.equal(2, callback.callCount);
       client.stop();
     });
+
+    it("Quick sequence ack if diff more than limit", async () => {
+      const client = new WebPubSubClient("wss://service.com");
+      const testWs = new TestWebSocketClient(client);
+      makeStartable(testWs);
+
+      const mock = sinon.mock(client["_protocol"]);
+      mock.expects("parseMessages").returns([
+        { kind: "serverData", data: "a", dataType: "text", sequenceId: 1 } as ServerDataMessage,
+        { kind: "serverData", data: "a", dataType: "text", sequenceId: 302 } as ServerDataMessage, // semilate we got 300 messages
+      ]);
+
+      const writeMessageSpy = sinon.spy(client["_protocol"], "writeMessage");
+
+      await client.start();
+      // invoke any data as we mocked parseMessages
+      testWs.invokemessage("a");
+
+      // expect quick sequenceAck message
+      sinon.assert.calledWith(
+        writeMessageSpy,
+        sinon.match.has("kind", "sequenceAck").and(sinon.match.has("sequenceId", 302)),
+      );
+      mock.verify();
+      client.stop();
+    });
   });
 
   function makeStartable(ws: TestWebSocketClient): sinon.SinonStub<[fn: () => void], void> {
