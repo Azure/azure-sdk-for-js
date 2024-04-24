@@ -15907,7 +15907,7 @@ packages:
     dev: false
 
   file:projects/arm-postgresql-flexible.tgz:
-    resolution: {integrity: sha512-ORDOYg6+oif05eTNfQfBwvr//8vreOMVAZSmGuiH+VzAOrYBNP+nZmrm5qkTLWsZnKHHrYXQ/HkMgYX7AO2BJg==, tarball: file:projects/arm-postgresql-flexible.tgz}
+    resolution: {integrity: sha512-zrTObVeVbOcHdlWJlV4pj3nZJ1RKVz5VP+02jQ3nay6VPEwI6kBLF4KxNHDSVMdBVJgXWH7GHKD1GYoHgzdW/w==, tarball: file:projects/arm-postgresql-flexible.tgz}
     name: '@rush-temp/arm-postgresql-flexible'
     version: 0.0.0
     dependencies:
@@ -16128,7 +16128,7 @@ packages:
     dev: false
 
   file:projects/arm-quota.tgz:
-    resolution: {integrity: sha512-tTALUYIkJhPo3jQk0WRKu7s0C9nNoH5A6xOWNlHAFjqgLHlGPXN63yR8trH6ViE4c3v03XwV/UgbY1M5dfgEqQ==, tarball: file:projects/arm-quota.tgz}
+    resolution: {integrity: sha512-l2xSsZXWBTp2MF0o1eL/az/tTtHNTd9SXcz/+o3U5Ekxr0pGGf/fW7oU7MVYlxbST7jx0wFt/VzqcPnakGw0jg==, tarball: file:projects/arm-quota.tgz}
     name: '@rush-temp/arm-quota'
     version: 0.0.0
     dependencies:
@@ -16142,12 +16142,12 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      mkdirp: 2.1.6
+      mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
-      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
+      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
       tslib: 2.6.2
-      typescript: 5.3.3
+      typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - '@swc/core'
