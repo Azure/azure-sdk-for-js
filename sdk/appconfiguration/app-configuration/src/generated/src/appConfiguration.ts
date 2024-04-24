@@ -94,8 +94,8 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
    */
   constructor(
     endpoint: string,
-    apiVersion: ApiVersion20231001,
-    options?: AppConfigurationOptionalParams
+    apiVersion: ApiVersion20231101,
+    options?: AppConfigurationOptionalParams,
   ) {
     if (endpoint === undefined) {
       throw new Error("'endpoint' cannot be null");
@@ -997,7 +997,8 @@ const getRevisionsOperationSpec: coreClient.OperationSpec = {
     Parameters.after,
     Parameters.key,
     Parameters.label,
-    Parameters.select
+    Parameters.select,
+    Parameters.tags,
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [
@@ -1021,7 +1022,8 @@ const checkRevisionsOperationSpec: coreClient.OperationSpec = {
     Parameters.after,
     Parameters.key,
     Parameters.label,
-    Parameters.select
+    Parameters.select,
+    Parameters.tags,
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.syncToken, Parameters.acceptDatetime],

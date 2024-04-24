@@ -303,6 +303,9 @@ export interface ListSettingsOptions extends OptionalFields {
    * Reference: https://learn.microsoft.com/azure/azure-app-configuration/rest-api-key-value
    */
   labelFilter?: string;
+
+  /**Filter by tags */
+  tagsFilter?: string[];
 }
 
 /**

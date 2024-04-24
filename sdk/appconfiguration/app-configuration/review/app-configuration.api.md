@@ -82,6 +82,7 @@ export type ConfigurationSettingResponse<HeadersT> = ConfigurationSetting & Http
 export interface ConfigurationSettingsFilter {
     keyFilter: string;
     labelFilter?: string;
+    tagsFilter?: string[];
 }
 
 // @public
