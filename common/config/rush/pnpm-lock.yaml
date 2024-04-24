@@ -3448,7 +3448,7 @@ packages:
   /@types/fs-extra@8.1.5:
     resolution: {integrity: sha512-0dzKcwO+S8s2kuF5Z9oUWatQJj5Uq/iqphEtE3GQJVRRYm/tD1LglU2UnXi2A8jLq5umkGouOXOR9y0n613ZwQ==}
     dependencies:
-      '@types/node': 18.19.18
+      '@types/node': 20.10.8
     dev: false
 
   /@types/fs-extra@9.0.13:
@@ -3471,7 +3471,7 @@ packages:
   /@types/is-buffer@2.0.2:
     resolution: {integrity: sha512-G6OXy83Va+xEo8XgqAJYOuvOMxeey9xM5XKkvwJNmN8rVdcB+r15HvHsG86hl86JvU0y1aa7Z2ERkNFYWw9ySg==}
     dependencies:
-      '@types/node': 18.19.18
+      '@types/node': 20.10.8
     dev: false
 
   /@types/istanbul-lib-coverage@2.0.6:
@@ -3694,7 +3694,7 @@ packages:
   /@types/ws@8.5.10:
     resolution: {integrity: sha512-vmQSUcfalpIq0R9q7uTo2lXs6eGIpt9wtnLdMv9LVpIjCA/+ufZRozlVoVelIYixx1ugCBKDhn89vnsEGOCx9A==}
     dependencies:
-      '@types/node': 18.19.18
+      '@types/node': 20.10.8
     dev: false
 
   /@types/wtfnode@0.7.2:
@@ -8428,8 +8428,8 @@ packages:
       is-wsl: 2.2.0
     dev: false
 
-  /openai@4.38.3:
-    resolution: {integrity: sha512-mIL9WtrFNOanpx98mJ+X/wkoepcxdqqu0noWFoNQHl/yODQ47YM7NEYda7qp8JfjqpLFVxY9mQhshoS/Fqac0A==}
+  /openai@4.38.4:
+    resolution: {integrity: sha512-ef5d2YaXDULXkoK+JB/GqmXgOZF5dsPxYwB27QGh5Cv8ykaYugl6MFyKipiwvlhubmNrMtlnISibx3G6BOpR9g==}
     hasBin: true
     dependencies:
       '@types/node': 18.19.18
@@ -9860,11 +9860,6 @@ packages:
   /strip-json-comments@3.1.1:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
-    dev: false
-
-  /strip-json-comments@5.0.1:
-    resolution: {integrity: sha512-0fk9zBqO67Nq5M/m45qHCJxylV/DhBlIOVExqgOMiCCrzrhU6tCibRXNqE3jwJLftzE9SNuZtYbpzcO+i9FiKw==}
-    engines: {node: '>=14.16'}
     dev: false
 
   /strip-literal@2.0.0:
@@ -13044,7 +13039,7 @@ packages:
     dev: false
 
   file:projects/arm-confidentialledger.tgz:
-    resolution: {integrity: sha512-q2B73OWxu31kNy6b6nuvQ+5WkX17wMcxSwCJX9qksekbLXfwux9Af7kR+FBoQIpBKmEBcxHRRlZvC+2Q6mhI6Q==, tarball: file:projects/arm-confidentialledger.tgz}
+    resolution: {integrity: sha512-8wNLlv+zgvsE/gSv+WEto3ityF2dsYbEwRGZMQLP7wtnfX0aBOY8V4hDxI0XXm8t3pI+7m85cK0VUZ24dUCJGQ==, tarball: file:projects/arm-confidentialledger.tgz}
     name: '@rush-temp/arm-confidentialledger'
     version: 0.0.0
     dependencies:
@@ -13059,12 +13054,13 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      mkdirp: 3.0.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.3.0
       rimraf: 5.0.5
-      ts-node: 10.9.2(@types/node@18.19.18)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.18)(typescript@5.3.3)
       tslib: 2.6.2
-      typescript: 5.4.5
+      typescript: 5.3.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - '@swc/core'
@@ -16503,7 +16499,7 @@ packages:
     dev: false
 
   file:projects/arm-postgresql-flexible.tgz:
-    resolution: {integrity: sha512-ORDOYg6+oif05eTNfQfBwvr//8vreOMVAZSmGuiH+VzAOrYBNP+nZmrm5qkTLWsZnKHHrYXQ/HkMgYX7AO2BJg==, tarball: file:projects/arm-postgresql-flexible.tgz}
+    resolution: {integrity: sha512-zrTObVeVbOcHdlWJlV4pj3nZJ1RKVz5VP+02jQ3nay6VPEwI6kBLF4KxNHDSVMdBVJgXWH7GHKD1GYoHgzdW/w==, tarball: file:projects/arm-postgresql-flexible.tgz}
     name: '@rush-temp/arm-postgresql-flexible'
     version: 0.0.0
     dependencies:
@@ -16733,7 +16729,7 @@ packages:
     dev: false
 
   file:projects/arm-quota.tgz:
-    resolution: {integrity: sha512-e2HRsFbCS5BMkM4lE9S4wCKJS+Ia0WwIU+8CgKUiWxKRMM2zuVVCJ3tS8DLtPGu2j8vqhwbT07hYJugsECLb7w==, tarball: file:projects/arm-quota.tgz}
+    resolution: {integrity: sha512-l2xSsZXWBTp2MF0o1eL/az/tTtHNTd9SXcz/+o3U5Ekxr0pGGf/fW7oU7MVYlxbST7jx0wFt/VzqcPnakGw0jg==, tarball: file:projects/arm-quota.tgz}
     name: '@rush-temp/arm-quota'
     version: 0.0.0
     dependencies:
@@ -19939,7 +19935,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-g9g7FpOlBgd4Z0p3UhU0gT2MFZiteY1oL4n0h0SErQ6ofpTb/4OMrp0M5yVTNqA2FEdWJ/8yvKny4VY+bcJOWA==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-wv4b96SUvfuzpl0qyHw0jKsgW2LsHlPulE2HCuH1vidt6j0JFt5hFLjBk/qy++5Tw6BlQjCwfzqWVPGCP1AeXQ==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -19985,7 +19981,7 @@ packages:
       rollup-plugin-polyfill-node: 0.13.0(rollup@4.12.0)
       rollup-plugin-visualizer: 5.12.0(rollup@4.12.0)
       semver: 7.6.0
-      strip-json-comments: 5.0.1
+      strip-json-comments: 3.1.1
       ts-morph: 22.0.0
       ts-node: 10.9.2(@types/node@18.19.18)(typescript@5.4.5)
       tslib: 2.6.2
@@ -21841,7 +21837,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mkdirp: 2.1.6
       mocha: 10.3.0
-      openai: 4.38.3
+      openai: 4.38.4
       rimraf: 5.0.5
       source-map-support: 0.5.21
       tslib: 2.6.2

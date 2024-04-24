@@ -20,7 +20,7 @@ import {
   UsagesListResponse,
   UsagesGetOptionalParams,
   UsagesGetResponse,
-  UsagesListNextResponse
+  UsagesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -47,7 +47,7 @@ export class UsagesImpl implements Usages {
    */
   public list(
     scope: string,
-    options?: UsagesListOptionalParams
+    options?: UsagesListOptionalParams,
   ): PagedAsyncIterableIterator<CurrentUsagesBase> {
     const iter = this.listPagingAll(scope, options);
     return {
@@ -62,14 +62,14 @@ export class UsagesImpl implements Usages {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(scope, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     scope: string,
     options?: UsagesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CurrentUsagesBase[]> {
     let result: UsagesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -91,7 +91,7 @@ export class UsagesImpl implements Usages {
 
   private async *listPagingAll(
     scope: string,
-    options?: UsagesListOptionalParams
+    options?: UsagesListOptionalParams,
   ): AsyncIterableIterator<CurrentUsagesBase> {
     for await (const page of this.listPagingPage(scope, options)) {
       yield* page;
@@ -114,11 +114,11 @@ export class UsagesImpl implements Usages {
   get(
     resourceName: string,
     scope: string,
-    options?: UsagesGetOptionalParams
+    options?: UsagesGetOptionalParams,
   ): Promise<UsagesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceName, scope, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -133,11 +133,11 @@ export class UsagesImpl implements Usages {
    */
   private _list(
     scope: string,
-    options?: UsagesListOptionalParams
+    options?: UsagesListOptionalParams,
   ): Promise<UsagesListResponse> {
     return this.client.sendOperationRequest(
       { scope, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -154,11 +154,11 @@ export class UsagesImpl implements Usages {
   private _listNext(
     scope: string,
     nextLink: string,
-    options?: UsagesListNextOptionalParams
+    options?: UsagesListNextOptionalParams,
   ): Promise<UsagesListNextResponse> {
     return this.client.sendOperationRequest(
       { scope, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -171,16 +171,16 @@ const getOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.CurrentUsagesBase,
-      headersMapper: Mappers.UsagesGetHeaders
+      headersMapper: Mappers.UsagesGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ExceptionResponse
-    }
+      bodyMapper: Mappers.ExceptionResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.resourceName, Parameters.scope],
+  urlParameters: [Parameters.$host, Parameters.resourceName1, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Quota/usages",
@@ -188,16 +188,16 @@ const listOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.UsagesLimits,
-      headersMapper: Mappers.UsagesListHeaders
+      headersMapper: Mappers.UsagesListHeaders,
     },
     default: {
-      bodyMapper: Mappers.ExceptionResponse
-    }
+      bodyMapper: Mappers.ExceptionResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
@@ -205,13 +205,13 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.UsagesLimits,
-      headersMapper: Mappers.UsagesListNextHeaders
+      headersMapper: Mappers.UsagesListNextHeaders,
     },
     default: {
-      bodyMapper: Mappers.ExceptionResponse
-    }
+      bodyMapper: Mappers.ExceptionResponse,
+    },
   },
-  urlParameters: [Parameters.$host, Parameters.scope, Parameters.nextLink],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

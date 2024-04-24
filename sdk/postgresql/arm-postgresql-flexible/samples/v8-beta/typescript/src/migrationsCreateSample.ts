@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   MigrationResource,
-  PostgreSQLManagementFlexibleServerClient
+  PostgreSQLManagementFlexibleServerClient,
 } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a new migration.
  *
  * @summary Creates a new migration.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/Migrations_Create_Other_SourceTypes_Validate_Migrate.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/Migrations_Create_Other_SourceTypes_Validate_Migrate.json
  */
 async function createMigrationWithOtherSourceTypesForValidateAndMigrate() {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -38,12 +38,12 @@ async function createMigrationWithOtherSourceTypesForValidateAndMigrate() {
     secretParameters: {
       adminCredentials: {
         sourceServerPassword: "xxxxxxxx",
-        targetServerPassword: "xxxxxxxx"
-      }
+        targetServerPassword: "xxxxxxxx",
+      },
     },
     sourceDbServerResourceId: "testsource:5432@pguser",
     sourceType: "OnPremises",
-    sslMode: "Prefer"
+    sslMode: "Prefer",
   };
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(credential);
@@ -52,7 +52,7 @@ async function createMigrationWithOtherSourceTypesForValidateAndMigrate() {
     resourceGroupName,
     targetDbServerName,
     migrationName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -61,7 +61,7 @@ async function createMigrationWithOtherSourceTypesForValidateAndMigrate() {
  * This sample demonstrates how to Creates a new migration.
  *
  * @summary Creates a new migration.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/Migrations_Create_Validate_Only.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/Migrations_Create_Validate_Only.json
  */
 async function createPreMigrationValidation() {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -78,11 +78,11 @@ async function createPreMigrationValidation() {
     secretParameters: {
       adminCredentials: {
         sourceServerPassword: "xxxxxxxx",
-        targetServerPassword: "xxxxxxxx"
-      }
+        targetServerPassword: "xxxxxxxx",
+      },
     },
     sourceDbServerResourceId:
-      "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBForPostgreSql/servers/testsource"
+      "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBForPostgreSql/servers/testsource",
   };
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(credential);
@@ -91,7 +91,7 @@ async function createPreMigrationValidation() {
     resourceGroupName,
     targetDbServerName,
     migrationName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -100,7 +100,7 @@ async function createPreMigrationValidation() {
  * This sample demonstrates how to Creates a new migration.
  *
  * @summary Creates a new migration.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/Migrations_Create_With_Other_Users.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/Migrations_Create_With_Other_Users.json
  */
 async function migrationsCreateByPassingUserNames() {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -115,13 +115,13 @@ async function migrationsCreateByPassingUserNames() {
     secretParameters: {
       adminCredentials: {
         sourceServerPassword: "xxxxxxxx",
-        targetServerPassword: "xxxxxxxx"
+        targetServerPassword: "xxxxxxxx",
       },
       sourceServerUsername: "newadmin@testsource",
-      targetServerUsername: "targetadmin"
+      targetServerUsername: "targetadmin",
     },
     sourceDbServerResourceId:
-      "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBForPostgreSql/servers/testsource"
+      "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBForPostgreSql/servers/testsource",
   };
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(credential);
@@ -130,7 +130,7 @@ async function migrationsCreateByPassingUserNames() {
     resourceGroupName,
     targetDbServerName,
     migrationName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -139,7 +139,86 @@ async function migrationsCreateByPassingUserNames() {
  * This sample demonstrates how to Creates a new migration.
  *
  * @summary Creates a new migration.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/Migrations_Create.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/Migrations_Create_With_PrivateEndpoint_Servers.json
+ */
+async function migrationsCreateWithPrivateEndpoint() {
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName =
+    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+  const targetDbServerName = "testtarget";
+  const migrationName = "testmigration";
+  const parameters: MigrationResource = {
+    dbsToMigrate: ["db1", "db2", "db3", "db4"],
+    location: "westus",
+    migrationInstanceResourceId:
+      "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBForPostgreSql/flexibleServers/testsourcemigration",
+    migrationMode: "Offline",
+    overwriteDbsInTarget: "True",
+    secretParameters: {
+      adminCredentials: {
+        sourceServerPassword: "xxxxxxxx",
+        targetServerPassword: "xxxxxxxx",
+      },
+    },
+    sourceDbServerResourceId:
+      "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBForPostgreSql/servers/testsource",
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new PostgreSQLManagementFlexibleServerClient(credential);
+  const result = await client.migrations.create(
+    subscriptionId,
+    resourceGroupName,
+    targetDbServerName,
+    migrationName,
+    parameters,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates a new migration.
+ *
+ * @summary Creates a new migration.
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/Migrations_Create_With_Roles.json
+ */
+async function migrationsCreateWithRoles() {
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName =
+    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+  const targetDbServerName = "testtarget";
+  const migrationName = "testmigration";
+  const parameters: MigrationResource = {
+    dbsToMigrate: ["db1", "db2", "db3", "db4"],
+    location: "westus",
+    migrateRoles: "True",
+    migrationMode: "Offline",
+    overwriteDbsInTarget: "True",
+    secretParameters: {
+      adminCredentials: {
+        sourceServerPassword: "xxxxxxxx",
+        targetServerPassword: "xxxxxxxx",
+      },
+    },
+    sourceDbServerResourceId:
+      "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBForPostgreSql/servers/testsource",
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new PostgreSQLManagementFlexibleServerClient(credential);
+  const result = await client.migrations.create(
+    subscriptionId,
+    resourceGroupName,
+    targetDbServerName,
+    migrationName,
+    parameters,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates a new migration.
+ *
+ * @summary Creates a new migration.
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/Migrations_Create.json
  */
 async function migrationsCreate() {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -150,16 +229,18 @@ async function migrationsCreate() {
   const parameters: MigrationResource = {
     dbsToMigrate: ["db1", "db2", "db3", "db4"],
     location: "westus",
+    migrationInstanceResourceId:
+      "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBForPostgreSql/flexibleServers/testsourcemigration",
     migrationMode: "Offline",
     overwriteDbsInTarget: "True",
     secretParameters: {
       adminCredentials: {
         sourceServerPassword: "xxxxxxxx",
-        targetServerPassword: "xxxxxxxx"
-      }
+        targetServerPassword: "xxxxxxxx",
+      },
     },
     sourceDbServerResourceId:
-      "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBForPostgreSql/servers/testsource"
+      "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBForPostgreSql/servers/testsource",
   };
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(credential);
@@ -168,7 +249,7 @@ async function migrationsCreate() {
     resourceGroupName,
     targetDbServerName,
     migrationName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -177,6 +258,8 @@ async function main() {
   createMigrationWithOtherSourceTypesForValidateAndMigrate();
   createPreMigrationValidation();
   migrationsCreateByPassingUserNames();
+  migrationsCreateWithPrivateEndpoint();
+  migrationsCreateWithRoles();
   migrationsCreate();
 }
 
