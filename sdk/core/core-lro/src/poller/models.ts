@@ -189,6 +189,7 @@ export interface PollerLike<TState extends OperationState<TResult>, TResult>
   readonly isDone: boolean;
   /**
    * The state of the operation.
+   * It can be undefined if the poller has not been submitted yet.
    */
   readonly operationState: TState | undefined;
   /**
