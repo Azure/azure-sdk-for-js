@@ -1,6 +1,6 @@
 # Release History
     
-## 1.1.0-beta.1 (2024-04-17)
+## 1.1.0-beta.1 (2024-04-24)
     
 **Features**
 
@@ -167,6 +167,7 @@
   - Added Enum KnownEnvironmentType
   - Added Enum KnownGroupingIdType
   - Added Enum KnownRequestState
+  - Class AzureQuotaExtensionAPI has a new signature
     
     
 ## 1.0.0 (2023-11-23)
