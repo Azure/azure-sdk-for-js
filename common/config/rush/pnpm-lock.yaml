@@ -7953,12 +7953,6 @@ packages:
     hasBin: true
     dev: false
 
-  /mkdirp@2.1.6:
-    resolution: {integrity: sha512-+hEnITedc8LAtIP9u3HJDFIdcLV2vXP33sqLLIzkv1Db1zO/1OxbvYf0Y1OC/S/Qo5dxHXepofhmxL02PsKe+A==}
-    engines: {node: '>=10'}
-    hasBin: true
-    dev: false
-
   /mkdirp@3.0.1:
     resolution: {integrity: sha512-+NsyUUAZDmo6YVHzL/stxSu3t9YS1iljliy3BSDrXJ/dkn1KYdmtZODGGjLcc9XLgVVpH4KshHB8XmZgMhaBXg==}
     engines: {node: '>=10'}
@@ -17468,7 +17462,7 @@ packages:
     dev: false
 
   file:projects/arm-support.tgz:
-    resolution: {integrity: sha512-ulwgyhdN3+7hUty+h6tDtt4xtaiG4e4+aoQmsjie9dxRnb4p9ojylKmOXJZs4Tmgziyiw2bNOKAvy/iVL1JXbg==, tarball: file:projects/arm-support.tgz}
+    resolution: {integrity: sha512-2TthI7e9y9CxZ8B9fhCSUD1LpQb8r2TE/3uOSDoFiQxEAVg3eyIzuk1SUnqr+tgtwRheYy6vky8nOkiCSoUg4A==, tarball: file:projects/arm-support.tgz}
     name: '@rush-temp/arm-support'
     version: 0.0.0
     dependencies:
@@ -17482,12 +17476,12 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      mkdirp: 2.1.6
+      mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
-      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
+      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
       tslib: 2.6.2
-      typescript: 5.3.3
+      typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - '@swc/core'
