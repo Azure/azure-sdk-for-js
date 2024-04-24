@@ -1,28 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export {
-  supports,
-  versionsToTest,
-  SupportedVersions,
-  MultiVersionTestOptions,
-  TestFunctionWrapper,
-} from "./multiVersion";
-
-export { chai, assert, expect, should } from "./chai";
-export { matrix } from "./matrix";
-export { isNode, isNode8 } from "./utils";
-export { getYieldedValue } from "./getYieldedValue";
-
-export { TestSpan } from "./tracing/testSpan";
-export * from "./tracing/mockInstrumenter";
-export * from "./tracing/mockTracingSpan";
-export * from "./tracing/testTracer";
-export * from "./tracing/testTracerProvider";
-export * from "./tracing/spanGraphModel";
-
-export * from "./fakeTestSecrets";
-
-export { createXhrHttpClient } from "./xhrHttpClient";
-
-export { createMockTracingContext } from "./tracing/mockContext";
+export { chaiAzure } from "./chaiAzure.js";
+export { matrix } from "./matrix.js";
+export { getYieldedValue } from "./getYieldedValue.js";
+export { TestSpan } from "./tracing/testSpan.js";
+export * from "./tracing/mockInstrumenter.js";
+export * from "./tracing/mockTracingSpan.js";
+export * from "./tracing/testTracer.js";
+export * from "./tracing/testTracerProvider.js";
+export * from "./tracing/spanGraphModel.js";
+export * from "./fakeTestSecrets.js";
+export { createMockTracingContext } from "./tracing/mockContext.js";

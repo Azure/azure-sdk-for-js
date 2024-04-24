@@ -3,20 +3,15 @@
   "version": "1.0.0",
   "sdk-type": "utility",
   "description": "Test utilities library for the Azure SDK for JavaScript and TypeScript",
-  "main": "dist/index.js",
-  "module": "dist-esm/src/index.js",
-  "browser": {
-    "./dist-esm/src/global.js": "./dist-esm/src/global.browser.js"
-  },
-  "types": "./types/src/index.d.ts",
+  "type": "module",
   "engines": {
     "node": ">=18.0.0"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build": "npm run clean && tsc -p . && dev-tool run bundle",
-    "build:samples": "echo Skipped.",
-    "build:test": "tsc -p . && dev-tool run bundle",
+    "build:samples": "echo Obsolete",
+    "build:test": "npm run clean && tshy && dev-tool run build-test",
+    "build": "npm run clean && tshy",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist dist-* types *.tgz *.log",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
@@ -26,8 +21,8 @@
     "lint:fix": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src test --ext .ts",
     "pack": "npm pack 2>&1",
-    "unit-test:browser": "cross-env karma start --single-run",
-    "unit-test:node": "dev-tool run test:node-ts-input --no-test-proxy=true",
+    "unit-test:browser": "npm run build:test && dev-tool run test:vitest --no-test-proxy --browser",
+    "unit-test:node": "dev-tool run test:vitest --no-test-proxy",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "test:browser": "npm run clean && npm run build:test npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
@@ -35,8 +30,6 @@
   },
   "files": [
     "dist/",
-    "dist-esm/src/",
-    "types/src/index.d.ts",
     "README.md",
     "LICENSE"
   ],
@@ -56,35 +49,62 @@
   "sideEffects": false,
   "private": true,
   "dependencies": {
-    "@azure-tools/test-recorder": "^3.0.0",
+    "@azure-tools/test-recorder": "^4.0.0",
     "@azure/abort-controller": "^2.0.0",
-    "@azure/core-rest-pipeline": "^1.1.0",
-    "@azure/core-tracing": "^1.0.0",
+    "@azure/core-rest-pipeline": "^1.15.2",
+    "@azure/core-tracing": "^1.1.2",
     "@opentelemetry/api": "^1.8.0",
-    "@types/chai": "^4.1.6",
-    "@types/chai-as-promised": "^7.1.4",
-    "chai": "^4.2.0",
-    "chai-as-promised": "^7.1.1",
-    "chai-exclude": "^2.1.0",
-    "mocha": "^10.0.0",
-    "tslib": "^2.2.0"
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@microsoft/api-extractor": "^7.31.1",
-    "@types/mocha": "^10.0.0",
+    "@microsoft/api-extractor": "^7.43.1",
     "@types/node": "^18.0.0",
-    "@types/sinon": "^17.0.0",
-    "cross-env": "^7.0.2",
-    "eslint": "^8.0.0",
-    "karma": "^6.2.0",
-    "karma-chrome-launcher": "^3.0.0",
-    "karma-coverage": "^2.0.0",
-    "karma-env-preprocessor": "^0.1.1",
+    "@vitest/browser": "^1.5.0",
+    "@vitest/coverage-v8": "^1.5.0",
+    "eslint": "^8.57.0",
     "rimraf": "^5.0.5",
-    "sinon": "^17.0.0",
+    "tshy": "^1.14.0",
     "typescript": "~5.4.5",
-    "ts-node": "^10.0.0"
-  }
+    "vitest": "^1.5.0"
+  },
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "react-native"
+    ],
+    "selfLink": false
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
+  },
+  "main": "./dist/commonjs/index.js",
+  "types": "./dist/commonjs/index.d.ts"
 }

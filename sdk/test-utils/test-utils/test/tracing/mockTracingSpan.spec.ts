@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { MockTracingSpan } from "../../src";
-import { assert } from "chai";
+import { describe, it, assert, beforeEach } from "vitest";
+import { MockTracingSpan } from "../../src/index.js";
 
 describe("TestTracingSpan", function () {
   let subject: MockTracingSpan;

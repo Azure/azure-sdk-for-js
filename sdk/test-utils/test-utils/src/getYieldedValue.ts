@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { assert } from "vitest";
 
 /**
  * Returns the currently yielded value from an iterator if it exists, otherwise, it throws an assertion failure.

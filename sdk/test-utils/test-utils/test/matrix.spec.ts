@@ -1,45 +1,39 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import sinon from "sinon";
-import { matrix } from "../src";
+import { describe, it, assert, expect, vi } from "vitest";
+import { matrix } from "../src/matrix.js";
 
 describe("matrix test support", () => {
   it("should call handler with correct argument", () => {
-    const handler = sinon.spy();
+    const handler = vi.fn();
     matrix([[true, false]] as const, handler);
 
-    assert(handler.called);
-    assert(handler.calledWith(true));
-    assert(handler.calledWith(false));
+    expect(handler).toBeCalledWith(true);
+    expect(handler).toBeCalledWith(false);
   });
 
   it("should call handler with correct arguments", () => {
-    const handler = sinon.spy();
+    const handler = vi.fn();
     matrix([[true, false] as const, [1, 2, 3]], handler);
 
-    assert(handler.called);
-    assert(handler.calledWith(true, 1));
-    assert(handler.calledWith(false, 3));
+    expect(handler).toBeCalledWith(true, 1);
+    expect(handler).toBeCalledWith(false, 3);
   });
 
   it("arguments should have the correct type", () => {
-    const handler = sinon.spy();
+    const handler = vi.fn();
     matrix([[true, false] as const, [1, 2, 3]], handler);
 
-    assert(handler.called);
-
-    const call1Args = handler.getCall(0).args;
+    const call1Args = handler.mock.lastCall;
     assert.isBoolean(call1Args[0]);
     assert.isNumber(call1Args[1]);
   });
 
   it("should call handler correct amount of times", () => {
-    const handler = sinon.spy();
+    const handler = vi.fn();
     matrix([[true, false] as const, [1, 2, 3]], handler);
 
-    assert(handler.called);
-    assert.equal(handler.callCount, 6);
+    expect(handler).toBeCalledTimes(6);
   });
 });

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { assert } from "vitest";
 import { OperationTracingOptions } from "@azure/core-tracing";
-import { supportsTracing } from "./tracing/chaiAzureTrace";
+import { supportsTracing } from "./tracing/chaiAzureTrace.js";
 
 /**
  * Augments Chai with support for Azure specific assertions.
@@ -11,7 +11,7 @@ import { supportsTracing } from "./tracing/chaiAzureTrace";
  * Sample usage:
  *
  * ```ts
- * import chai from "chai";
+ * import { chai, describe, it, assert } from "vitest";
  * import { chaiAzure } from "@azure/test-utils";
  * chai.use(chaiAzure);
  *
