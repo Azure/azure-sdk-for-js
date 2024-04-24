@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get a list of server's Threat Protection state.
  *
  * @summary Get a list of server's Threat Protection state.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/ServerThreatProtectionSettingsListByServer.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerThreatProtectionSettingsListByServer.json
  */
 async function getAServerAdvancedThreatProtectionSettings() {
   const subscriptionId =

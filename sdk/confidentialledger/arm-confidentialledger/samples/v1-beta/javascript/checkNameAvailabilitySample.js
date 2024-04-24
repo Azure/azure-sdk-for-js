@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to To check whether a resource name is available.
  *
  * @summary To check whether a resource name is available.
- * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-01-26-preview/examples/CheckNameAvailability.json
+ * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-06-28-preview/examples/CheckNameAvailability.json
  */
 async function checkNameAvailability() {
   const subscriptionId =

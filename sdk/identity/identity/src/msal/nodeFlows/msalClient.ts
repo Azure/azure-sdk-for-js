@@ -20,6 +20,7 @@ import { AuthenticationRequiredError } from "../../errors";
 import { CertificateParts } from "../types";
 import { IdentityClient } from "../../client/identityClient";
 import { MsalNodeOptions } from "./msalNodeCommon";
+import { calculateRegionalAuthority } from "../../regionalAuthority";
 import { getLogLevel } from "@azure/logger";
 import { resolveTenantId } from "../../util/tenantIdUtils";
 
@@ -327,6 +328,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       msalApp.acquireTokenByClientCredential({
         scopes,
         authority: state.msalConfig.auth.authority,
+        azureRegion: calculateRegionalAuthority(),
         claims: options?.claims,
       }),
     );
@@ -347,6 +349,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       msalApp.acquireTokenByClientCredential({
         scopes,
         authority: state.msalConfig.auth.authority,
+        azureRegion: calculateRegionalAuthority(),
         claims: options?.claims,
         clientAssertion,
       }),
@@ -367,6 +370,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     return withSilentAuthentication(msalApp, scopes, options, () =>
       msalApp.acquireTokenByClientCredential({
         scopes,
+        azureRegion: calculateRegionalAuthority(),
         authority: state.msalConfig.auth.authority,
         claims: options?.claims,
       }),
