@@ -381,7 +381,7 @@ export function createFcmV1RegistrationDescription(description: FcmV1Registratio
 export function createFcmV1TemplateRegistrationDescription(description: FcmV1TemplateRegistrationDescriptionCommon): FcmV1TemplateRegistrationDescription;
 
 // @public
-export function createFirebaseLegacyNotificationBody(nativeMessage: FirebaseLegacyNativeMessage): string;
+export function createFirebaseLegacyNotificationBody(nativeMessage: FirebaseV1NativeMessageEnvelope): string;
 
 // @public
 export function createFirebaseV1NotificationBody(nativeMessage: FirebaseV1NativeMessage): string;
@@ -641,6 +641,11 @@ export interface FirebaseV1NativeMessage {
     token?: string;
     topic?: string;
     webpush?: FirebaseV1WebPushConfig;
+}
+
+// @public
+export interface FirebaseV1NativeMessageEnvelope {
+    message: FirebaseV1NativeMessage;
 }
 
 // @public
