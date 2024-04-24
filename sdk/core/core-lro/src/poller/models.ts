@@ -12,8 +12,8 @@ export interface OperationConfig {
   operationLocation?: string;
   /** The resource location */
   resourceLocation?: string;
-  /** The initial Url  */
-  initialUrl?: string;
+  /** The initial request Url  */
+  initialRequestUrl?: string;
   /** The request method */
   requestMethod?: string;
   /** metadata about the operation */

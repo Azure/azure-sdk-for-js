@@ -144,14 +144,20 @@ export async function initOperation<
 }): Promise<RestorableOperationState<TResult, TState>> {
   const { init, processResult, getOperationStatus, withOperationLocation, setErrorAsResult } =
     inputs;
-  const { operationLocation, resourceLocation, initialUrl, requestMethod, metadata, response } =
-    await init();
+  const {
+    operationLocation,
+    resourceLocation,
+    initialRequestUrl,
+    requestMethod,
+    metadata,
+    response,
+  } = await init();
   if (operationLocation) withOperationLocation?.(operationLocation, false);
   const config = {
     metadata,
     operationLocation,
     resourceLocation,
-    initialUrl,
+    initialRequestUrl,
     requestMethod,
   };
   logger.verbose(`LRO: Operation description:`, config);
