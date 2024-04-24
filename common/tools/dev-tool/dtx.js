@@ -13,7 +13,7 @@ const engine = process.argv0;
 
 const args = [path.resolve(__dirname, "launch.js"), "run", "vendored", ...process.argv.slice(2)];
 
-const subProcess = require("child_process").spawn(engine, args, { stdio: "inherit", shell: true });
+const subProcess = require("child_process").spawn(engine, args, { stdio: "inherit" });
 
 subProcess.on("exit", (code) => process.exit(code));
 subProcess.on("error", (error) => {

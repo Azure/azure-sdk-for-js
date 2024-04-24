@@ -18,6 +18,10 @@ const log = createPrinter("vendored");
 
 const DOT_BIN_PATH = path.resolve(__dirname, "..", "..", "..", "node_modules", ".bin");
 
+function isWindows() {
+  return process.platform === "win32";
+}
+
 /**
  * Wraps a command in an executor that satisfies the dev-tool command interface.
  *
@@ -25,15 +29,14 @@ const DOT_BIN_PATH = path.resolve(__dirname, "..", "..", "..", "node_modules", "
  * @returns a function that executes the command and returns a boolean status
  */
 function makeCommandExecutor(commandName: string): (...args: string[]) => Promise<boolean> {
-  const commandPath =
-    process.platform !== "win32"
-      ? path.join(DOT_BIN_PATH, commandName)
-      : path.join(DOT_BIN_PATH, `${commandName}.CMD`);
+  const commandPath = isWindows()
+    ? path.join(DOT_BIN_PATH, `${commandName}.CMD`)
+    : path.join(DOT_BIN_PATH, commandName);
 
   return (...args: string[]) =>
     new Promise<boolean>((resolve, reject) => {
       log.debug("Running vendored command:", commandPath);
-      const command = spawn(commandPath, args, { stdio: "inherit", shell: true });
+      const command = spawn(commandPath, args, { stdio: "inherit", shell: isWindows() });
 
       // If the command exited 0, then we treat that as a success
       command.on("exit", (code) => {

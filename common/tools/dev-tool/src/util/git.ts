@@ -19,13 +19,13 @@ export function hasDiff(treePath: string): Promise<boolean> {
     if (treePath.startsWith(tmpdir())) {
       resolve(false);
     } else {
-      const command = spawn(
-        "git",
-        ["diff", "--quiet", "HEAD", "--", path.resolve(process.cwd(), treePath)],
-        {
-          shell: true,
-        },
-      );
+      const command = spawn("git", [
+        "diff",
+        "--quiet",
+        "HEAD",
+        "--",
+        path.resolve(process.cwd(), treePath),
+      ]);
 
       // git diff --quiet returns nonzero if a diff exists.
       command.on("exit", (code) => {
@@ -47,7 +47,6 @@ export function commitAll(message: string): Promise<void> {
   return new Promise((resolve, reject) => {
     const command = spawn("git", ["commit", "-a", "-m", message], {
       stdio: "inherit",
-      shell: true,
     });
 
     command.on("exit", (code) => {
@@ -68,7 +67,6 @@ export function add(...paths: string[]): Promise<void> {
   return new Promise((resolve, reject) => {
     const command = spawn("git", ["add", ...paths], {
       stdio: "inherit",
-      shell: true,
     });
 
     command.on("exit", (code) => {
@@ -93,9 +91,7 @@ export function getConfig(
 ): Promise<string | undefined> {
   return new Promise((resolve, reject) => {
     const globalArg = options.global ? ["--global"] : [];
-    const command = spawn("git", ["config", ...globalArg, "--get", key], {
-      shell: true,
-    });
+    const command = spawn("git", ["config", ...globalArg, "--get", key]);
 
     let output = "";
     command.stdout.on("data", (data) => (output += data.toString()));
@@ -111,7 +107,6 @@ export function checkout(name: string, options: { create?: boolean } = {}): Prom
     const createArg = options.create ? ["-b"] : [];
     const command = spawn("git", ["checkout", ...createArg, name], {
       stdio: "inherit",
-      shell: true,
     });
 
     command.on("exit", (code) => {
@@ -123,9 +118,7 @@ export function checkout(name: string, options: { create?: boolean } = {}): Prom
 
 export function currentBranch(): Promise<string> {
   return new Promise((resolve, reject) => {
-    const command = spawn("git", ["rev-parse", "--abbrev-ref", "HEAD"], {
-      shell: true,
-    });
+    const command = spawn("git", ["rev-parse", "--abbrev-ref", "HEAD"]);
 
     let output = "";
     command.stdout.on("data", (data) => (output += data.toString()));

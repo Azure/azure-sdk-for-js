@@ -62,7 +62,7 @@ function updateChangelog(
     args.push("--ReleaseDate:" + releaseDate);
   }
 
-  child = spawnSync("pwsh", args, { shell: true,});
+  child = spawnSync("pwsh", args);
   const out = child.stdout.toString();
   const err = child.stderr.toString();
 
