@@ -3,7 +3,7 @@
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { ClientAssertionCredential } from "./clientAssertionCredential";
-import { CredentialUnavailableError } from "../errors";
+import { AuthenticationError, CredentialUnavailableError } from "../errors";
 import { credentialLogger } from "../util/logging";
 import { checkTenantId } from "../util/tenantIdUtils";
 import {
@@ -14,15 +14,15 @@ import {
 import { AzurePipelinesServiceConnectionCredentialOptions } from "./azurePipelinesServiceConnectionCredentialOptions";
 
 const credentialName = "AzurePipelinesServiceConnectionCredential";
-
+const OIDC_API_VERSION = "7.1";
 const logger = credentialLogger(credentialName);
 
 export class AzurePipelinesServiceConnectionCredential implements TokenCredential {
-  private client: ClientAssertionCredential | undefined;
+  private clientAssertionCredential: ClientAssertionCredential | undefined;
   private serviceConnectionId: string | undefined;
 
   /**
-   * AzurePipelinesServiceConnectionCredential supports Microsoft Entra Workload ID on Kubernetes.
+   * AzurePipelinesServiceConnectionCredential supports Federated Identity on Azure Pipelines through Service Connections.
    *
    * @param options - The identity client options to use for authentication.
    */
@@ -38,14 +38,13 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
     );
 
     if (clientId && tenantId && serviceConnectionId) {
-      // Ensure all system env vars are there to form the request uri for OIDC token
       this.ensurePipelinesSystemVars();
-      const oidcRequestUrl = `${process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI}${process.env.SYSTEM_TEAMPROJECTID}/_apis/distributedtask/hubs/build/plans/${process.env.SYSTEM_PLANID}/jobs/${process.env.SYSTEM_JOBID}/oidctoken?api-version=7.1-preview.1&serviceConnectionId=${this.serviceConnectionId}`;
+      const oidcRequestUrl = `${process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI}${process.env.SYSTEM_TEAMPROJECTID}/_apis/distributedtask/hubs/build/plans/${process.env.SYSTEM_PLANID}/jobs/${process.env.SYSTEM_JOBID}/oidctoken?api-version=${OIDC_API_VERSION}&serviceConnectionId=${this.serviceConnectionId}`;
       const systemAccessToken = `${process.env.SYSTEM_ACCESSTOKEN}`;
       logger.info(
         `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${clientId} and service connection id: ${serviceConnectionId}`
       );
-      this.client = new ClientAssertionCredential(
+      this.clientAssertionCredential = new ClientAssertionCredential(
         tenantId,
         clientId,
         this.requestOidcToken.bind(this, oidcRequestUrl, systemAccessToken),
@@ -65,11 +64,10 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
   public async getToken(
     scopes: string | string[],
     options?: GetTokenOptions
-  ): Promise<AccessToken | null> {
-    if (!this.client) {
-      const errorMessage = `${credentialName}: is unavailable. tenantId, clientId, and either tokenFilePath or serviceConnectionId are required parameters. 
-      To enable Workload Identity Federation please provide following environment variables based on the environment.
-      For Azure Pipelines env, in WorkloadIdentityCredential, these are required as inputs / env variables - 
+  ): Promise<AccessToken> {
+    if (!this.clientAssertionCredential) {
+      const errorMessage = `${credentialName}: is unavailable. tenantId, clientId, and either serviceConnectionId are required parameters. 
+      To use Federation Identity in Azure Pipelines, these are required as inputs / env variables - 
       tenantId,
       clientId,
       serviceConnectionId,
@@ -83,7 +81,7 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
       throw new CredentialUnavailableError(errorMessage);
     }
     logger.info("Invoking getToken() of Client Assertion Credential");
-    return this.client.getToken(scopes, options);
+    return this.clientAssertionCredential.getToken(scopes, options);
   }
 
   private async requestOidcToken(
@@ -107,22 +105,29 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
     const response = await httpClient.sendRequest(request);
     const text = response.bodyAsText;
     if (!text) {
-      throw new CredentialUnavailableError(
-        `${credentialName}: is unavailable. Received null token from OIDC request. Response status = ${response.status}`
+      throw new AuthenticationError(
+        response.status,
+        `${credentialName}: Authenticated Failed. Received null token from OIDC request.`
       );
     }
     const result = JSON.parse(text);
     if (result?.oidcToken) {
       return result.oidcToken;
     } else {
-      throw new CredentialUnavailableError(
-        `${credentialName}: is unavailable. oidcToken field not detected in the response. Response = ${JSON.stringify(
+      throw new AuthenticationError(
+        response.status,
+        `${credentialName}: Authentication Failed. oidcToken field not detected in the response. Response = ${JSON.stringify(
           result
         )}`
       );
     }
   }
 
+  /**
+   * Ensures all system env vars are there to form the request uri for OIDC token
+   * @returns void
+   * @throws CredentialUnavailableError
+   */
   private ensurePipelinesSystemVars(): void {
     if (
       process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI &&
@@ -135,9 +140,6 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
     }
     const missingEnvVars = [];
     let errorMessage = "";
-    if (!process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI) {
-      missingEnvVars.push("SYSTEM_TEAMFOUNDATIONCOLLECTIONURI");
-    }
     if (!process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI) {
       missingEnvVars.push("SYSTEM_TEAMFOUNDATIONCOLLECTIONURI");
     }
@@ -158,8 +160,3 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
     }
   }
 }
-
-// should we skip this check? https://microsoft.visualstudio.com/Edge/_git/edgeinternal.es?path=/UtilityLibraries/Microsoft.Edge.ES.Azure.Identity/AzureDevOpsFederatedTokenCredential.cs&version=GBmaster&line=124&lineEnd=125&lineStartColumn=1&lineEndColumn=1&lineStyle=plain&_a=contents
-// to not to tightly couple to Devops implementation in case they make changes in host support
-
-// check if system variables can be overridden
