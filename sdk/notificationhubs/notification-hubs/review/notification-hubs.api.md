@@ -561,7 +561,7 @@ export interface FirebaseLegacyWebNativePayload {
 // @public
 export interface FirebaseV1AndroidConfig {
     collapse_key?: string;
-    data?: Record<string, any>;
+    data?: Record<string, string>;
     direct_boot_ok?: boolean;
     fcm_options?: FirebaseV1AndroidFcmOptions;
     notification?: FirebaseV1AndroidNotification;
@@ -636,7 +636,7 @@ export interface FirebaseV1NativeMessage {
     android?: FirebaseV1AndroidConfig;
     apns?: FirebaseV1ApnsConfig;
     condition?: string;
-    data?: Record<string, any>;
+    data?: Record<string, string>;
     fcm_options?: FirebaseV1FcmOptions;
     notification?: FirebaseV1NativeNotification;
     token?: string;
@@ -685,7 +685,7 @@ export interface FirebaseV1WebPushNotification {
     }[];
     badge?: string;
     body?: string;
-    data?: Record<string, any>;
+    data?: Record<string, string>;
     dir?: "auto" | "ltr" | "rtl";
     icon?: string;
     image?: string;
