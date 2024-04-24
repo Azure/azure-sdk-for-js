@@ -35,7 +35,7 @@ const httpPoller = await createHttpPoller(pollerSetting, options);
 To
 
 ```typescript
-const pollerSetting: LongRunningOperation<TResult> = {
+const pollerSetting: RunningOperation<TResult> = {
   sendInitialRequest: async () => {
     // your code to send initial request
   },
