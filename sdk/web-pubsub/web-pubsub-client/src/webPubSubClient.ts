@@ -541,7 +541,7 @@ export class WebPubSubClient {
       return;
     }
     const [isUpdated, seqId] = this._sequenceId.tryGetSequenceId();
-    if (isUpdated) {
+    if (isUpdated && seqId) {
       const message: SequenceAckMessage = {
         kind: "sequenceAck",
         sequenceId: seqId!,
@@ -570,7 +570,7 @@ export class WebPubSubClient {
         if (this._isStopping) {
           try {
             client.close();
-          } catch {}
+          } catch { }
 
           reject(new Error(`The client is stopped`));
         }
@@ -658,7 +658,7 @@ export class WebPubSubClient {
 
               try {
                 await Promise.all(groupPromises);
-              } catch {}
+              } catch { }
             }
 
             this._safeEmitConnected(message.connectionId, message.userId);
@@ -796,7 +796,7 @@ export class WebPubSubClient {
           try {
             logger.verbose(`Delay time for reconnect attempt ${attempt}: ${delayInMs}`);
             await delay(delayInMs);
-          } catch {}
+          } catch { }
         }
       }
     } finally {
@@ -1110,8 +1110,8 @@ class RetryPolicy {
     this._retryOptions = retryOptions;
     this._maxRetriesToGetMaxDelay = Math.ceil(
       Math.log2(this._retryOptions.maxRetryDelayInMs!) -
-        Math.log2(this._retryOptions.retryDelayInMs!) +
-        1,
+      Math.log2(this._retryOptions.retryDelayInMs!) +
+      1,
     );
   }
 
@@ -1224,7 +1224,7 @@ class AbortableTask {
   public abort(): void {
     try {
       this._abortController.abort();
-    } catch {}
+    } catch { }
   }
 
   private async _start(): Promise<void> {
