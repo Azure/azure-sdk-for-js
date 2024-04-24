@@ -301,7 +301,7 @@ export function isOperationError(e: Error): boolean {
 /** Polls the long-running operation. */
 export async function pollHttpOperation<TState extends OperationState<TResult>, TResult>(inputs: {
   lro: RunningOperation;
-  processResult?: (result: unknown, state: TState) => TResult;
+  processResult?: (result: unknown, state: TState) => Promise<TResult>;
   updateState?: (state: TState, lastResponse: OperationResponse) => void;
   isDone?: (lastResponse: OperationResponse, state: TState) => boolean;
   setDelay: (intervalInMs: number) => void;
@@ -315,7 +315,7 @@ export async function pollHttpOperation<TState extends OperationState<TResult>, 
     setDelay,
     processResult: processResult
       ? ({ flatResponse }, inputState) => processResult(flatResponse, inputState)
-      : ({ flatResponse }) => flatResponse as TResult,
+      : ({ flatResponse }) => flatResponse as Promise<TResult>,
     getError: getErrorFromResponse,
     updateState,
     getPollingInterval: parseRetryAfter,

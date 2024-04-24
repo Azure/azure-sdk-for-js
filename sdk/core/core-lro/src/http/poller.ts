@@ -77,7 +77,7 @@ export function createHttpPoller<TResult, TState extends OperationState<TResult>
       updateState,
       processResult: processResult
         ? ({ flatResponse }, state) => processResult(flatResponse, state)
-        : ({ flatResponse }) => flatResponse as TResult,
+        : ({ flatResponse }) => flatResponse as Promise<TResult>,
     },
   );
 }
