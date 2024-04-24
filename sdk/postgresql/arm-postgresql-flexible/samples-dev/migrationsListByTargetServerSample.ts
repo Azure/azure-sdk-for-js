@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   MigrationsListByTargetServerOptionalParams,
-  PostgreSQLManagementFlexibleServerClient
+  PostgreSQLManagementFlexibleServerClient,
 } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to List all the migrations on a given target server.
  *
  * @summary List all the migrations on a given target server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/Migrations_ListByTargetServer.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/Migrations_ListByTargetServer.json
  */
 async function migrationsListByTargetServer() {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -30,7 +30,7 @@ async function migrationsListByTargetServer() {
   const targetDbServerName = "testtarget";
   const migrationListFilter = "All";
   const options: MigrationsListByTargetServerOptionalParams = {
-    migrationListFilter
+    migrationListFilter,
   };
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(credential);
@@ -39,7 +39,7 @@ async function migrationsListByTargetServer() {
     subscriptionId,
     resourceGroupName,
     targetDbServerName,
-    options
+    options,
   )) {
     resArray.push(item);
   }
