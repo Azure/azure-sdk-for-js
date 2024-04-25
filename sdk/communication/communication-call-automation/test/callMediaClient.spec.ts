@@ -20,6 +20,7 @@ import {
   SsmlSource,
   RecognitionChoice,
   DtmfTone,
+  MediaStreamingConfiguration,
 } from "../src/models/models";
 import {
   CallMediaRecognizeDtmfOptions,
@@ -32,6 +33,8 @@ import {
   SendDtmfTonesOptions,
   StartMediaStreamingOptions,
   StopMediaStreamingOptions,
+  CreateCallOptions,
+  AnswerCallOptions,
 } from "../src";
 
 // Current directory imports
@@ -596,6 +599,145 @@ describe("Call Media Client Live Tests", function () {
       8000,
     );
     assert.isDefined(continuousDtmfRecognitionStopped);
+
+    await callConnection.hangUp(true);
+    const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
+    assert.isDefined(callDisconnectedEvent);
+  }).timeout(60000);
+
+  it("Creates a call, start media streaming, and hangs up.", async function () {
+    testName = this.test?.fullTitle()
+      ? this.test?.fullTitle().replace(/ /g, "_")
+      : "create_call_start_media_streaming_and_hang_up";
+    await loadPersistedEvents(testName);
+    const phoneNumbers = await getPhoneNumbers(recorder);
+    assert.isAtLeast(
+      phoneNumbers.length,
+      2,
+      "Invalid PSTN setup, test needs at least 2 phone numbers",
+    );
+    callerPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
+    receiverPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
+
+    const callInvite: CallInvite = {
+      targetParticipant: receiverPhoneUser,
+      sourceCallIdNumber: callerPhoneUser,
+    };
+    const uniqueId = await serviceBusWithNewCall(callerPhoneUser, receiverPhoneUser);
+    const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+
+    const mediaStreamingConfiguration: MediaStreamingConfiguration = {
+      transportUrl: "wss://localhost",
+      transportType: "websocket",
+      contentType: "audio",
+      audioChannelType: "mixed",
+      startMediaStreaming: false,
+    };
+
+    const creatCallOptions: CreateCallOptions = {
+      mediaStreamingConfiguration: mediaStreamingConfiguration,
+    };
+
+    const result = await callerCallAutomationClient.createCall(
+      callInvite,
+      callBackUrl,
+      creatCallOptions,
+    );
+    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 30000);
+    const callConnectionId: string = result.callConnectionProperties.callConnectionId
+      ? result.callConnectionProperties.callConnectionId
+      : "";
+    assert.isDefined(incomingCallContext);
+
+    if (incomingCallContext) {
+      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
+    }
+    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+    assert.isDefined(callConnectedEvent);
+    callConnection = result.callConnection;
+
+    await callConnection.getCallMedia().startMediaStreaming();
+    const mediaStreamingStarted = await waitForEvent(
+      "MediaStreamingStarted",
+      callConnectionId,
+      8000,
+    );
+    assert.isDefined(mediaStreamingStarted);
+
+    const mediaStreamingStateResponse = await callConnection.getCallMedia().mediaStreamingState();
+    assert.equal(mediaStreamingStateResponse.mediaStreamingState, "active");
+    assert.equal(mediaStreamingStateResponse.mediaStreamingType, "audio");
+
+    await callConnection.getCallMedia().stopMediaStreaming();
+    const mediaStreamingStopped = await waitForEvent(
+      "MediaStreamingStopped",
+      callConnectionId,
+      8000,
+    );
+    assert.isDefined(mediaStreamingStopped);
+
+    await callConnection.hangUp(true);
+    const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
+    assert.isDefined(callDisconnectedEvent);
+  }).timeout(60000);
+
+  it("Answers a call, start media streaming, and hangs up", async function () {
+    testName = this.test?.fullTitle()
+      ? this.test?.fullTitle().replace(/ /g, "_")
+      : "answer_call_start_media_streaming_and_hang_up";
+    await loadPersistedEvents(testName);
+
+    const callInvite: CallInvite = { targetParticipant: testUser2 };
+    const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
+    const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+
+    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
+    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
+    const callConnectionId: string = result.callConnectionProperties.callConnectionId
+      ? result.callConnectionProperties.callConnectionId
+      : "";
+    assert.isDefined(incomingCallContext);
+
+    if (incomingCallContext) {
+      const mediaStreamingConfiguration: MediaStreamingConfiguration = {
+        transportUrl: "wss://localhost",
+        transportType: "websocket",
+        contentType: "audio",
+        audioChannelType: "mixed",
+        startMediaStreaming: false,
+      };
+      const answerCallOptions: AnswerCallOptions = {
+        mediaStreamingConfiguration: mediaStreamingConfiguration,
+      };
+      await receiverCallAutomationClient.answerCall(
+        incomingCallContext,
+        callBackUrl,
+        answerCallOptions,
+      );
+    }
+    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+    assert.isDefined(callConnectedEvent);
+    callConnection = result.callConnection;
+
+    await callConnection.getCallMedia().startMediaStreaming();
+    const mediaStreamingStarted = await waitForEvent(
+      "MediaStreamingStarted",
+      callConnectionId,
+      8000,
+    );
+    assert.isDefined(mediaStreamingStarted);
+
+    const mediaStreamingStateResponse = await callConnection.getCallMedia().mediaStreamingState();
+    assert.equal(mediaStreamingStateResponse.mediaStreamingState, "active");
+    assert.equal(mediaStreamingStateResponse.mediaStreamingType, "audio");
+
+    await callConnection.getCallMedia().stopMediaStreaming();
+    const mediaStreamingStopped = await waitForEvent(
+      "MediaStreamingStopped",
+      callConnectionId,
+      8000,
+    );
+    assert.isDefined(mediaStreamingStopped);
 
     await callConnection.hangUp(true);
     const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
