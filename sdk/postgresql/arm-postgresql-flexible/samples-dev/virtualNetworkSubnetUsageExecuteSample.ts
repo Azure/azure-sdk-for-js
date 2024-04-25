@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VirtualNetworkSubnetUsageParameter,
-  PostgreSQLManagementFlexibleServerClient
+  PostgreSQLManagementFlexibleServerClient,
 } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Get virtual network subnet usage for a given vNet resource id.
  *
  * @summary Get virtual network subnet usage for a given vNet resource id.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/VirtualNetworkSubnetUsage.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/VirtualNetworkSubnetUsage.json
  */
 async function virtualNetworkSubnetUsageList() {
   const subscriptionId =
@@ -30,16 +30,16 @@ async function virtualNetworkSubnetUsageList() {
   const locationName = "westus";
   const parameters: VirtualNetworkSubnetUsageParameter = {
     virtualNetworkArmResourceId:
-      "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworks/testvnet"
+      "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworks/testvnet",
   };
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.virtualNetworkSubnetUsage.execute(
     locationName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets information about a server.
  *
  * @summary Gets information about a server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/AdministratorGet.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/AdministratorGet.json
  */
 async function serverGet() {
   const subscriptionId =
@@ -31,12 +31,12 @@ async function serverGet() {
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.administrators.get(
     resourceGroupName,
     serverName,
-    objectId
+    objectId,
   );
   console.log(result);
 }

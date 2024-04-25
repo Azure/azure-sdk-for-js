@@ -8,6 +8,1111 @@
 
 import * as coreClient from "@azure/core-client";
 
+export const GroupQuotasEntityBase: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GroupQuotasEntityBase",
+    modelProperties: {
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String",
+        },
+      },
+      additionalAttributes: {
+        serializedName: "additionalAttributes",
+        type: {
+          name: "Composite",
+          className: "AdditionalAttributes",
+        },
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AdditionalAttributes: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AdditionalAttributes",
+    modelProperties: {
+      groupId: {
+        serializedName: "groupId",
+        type: {
+          name: "Composite",
+          className: "GroupingId",
+        },
+      },
+      environment: {
+        serializedName: "environment",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const GroupingId: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GroupingId",
+    modelProperties: {
+      groupingIdType: {
+        serializedName: "groupingIdType",
+        type: {
+          name: "String",
+        },
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const Resource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Resource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData",
+        },
+      },
+    },
+  },
+};
+
+export const SystemData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String",
+        },
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String",
+        },
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime",
+        },
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String",
+        },
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String",
+        },
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime",
+        },
+      },
+    },
+  },
+};
+
+export const LROResponseProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LROResponseProperties",
+    modelProperties: {
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
+};
+
+export const ErrorDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorDetail",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      details: {
+        serializedName: "details",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorDetail",
+            },
+          },
+        },
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorAdditionalInfo",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      info: {
+        serializedName: "info",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
+};
+
+export const GroupQuotasEntityBasePatch: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GroupQuotasEntityBasePatch",
+    modelProperties: {
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String",
+        },
+      },
+      additionalAttributes: {
+        serializedName: "additionalAttributes",
+        type: {
+          name: "Composite",
+          className: "AdditionalAttributesPatch",
+        },
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AdditionalAttributesPatch: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AdditionalAttributesPatch",
+    modelProperties: {
+      groupId: {
+        serializedName: "groupId",
+        type: {
+          name: "Composite",
+          className: "GroupingId",
+        },
+      },
+      environment: {
+        serializedName: "environment",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const GroupQuotaList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GroupQuotaList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GroupQuotasEntity",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const GroupQuotaSubscriptionIdProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GroupQuotaSubscriptionIdProperties",
+    modelProperties: {
+      subscriptionId: {
+        serializedName: "subscriptionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const GroupQuotaSubscriptionIdList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GroupQuotaSubscriptionIdList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GroupQuotaSubscriptionId",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const GroupQuotaSubscriptionRequestStatusList: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "GroupQuotaSubscriptionRequestStatusList",
+      modelProperties: {
+        value: {
+          serializedName: "value",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "GroupQuotaSubscriptionRequestStatus",
+              },
+            },
+          },
+        },
+        nextLink: {
+          serializedName: "nextLink",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const GroupQuotaSubscriptionRequestStatusProperties: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "GroupQuotaSubscriptionRequestStatusProperties",
+      modelProperties: {
+        subscriptionId: {
+          serializedName: "subscriptionId",
+          type: {
+            name: "String",
+          },
+        },
+        requestSubmitTime: {
+          serializedName: "requestSubmitTime",
+          type: {
+            name: "DateTime",
+          },
+        },
+        provisioningState: {
+          serializedName: "provisioningState",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const GroupQuotaDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GroupQuotaDetails",
+    modelProperties: {
+      region: {
+        serializedName: "region",
+        type: {
+          name: "String",
+        },
+      },
+      limit: {
+        serializedName: "limit",
+        type: {
+          name: "Number",
+        },
+      },
+      comment: {
+        serializedName: "comment",
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "Composite",
+          className: "GroupQuotaDetailsName",
+        },
+      },
+      unit: {
+        serializedName: "unit",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      availableLimit: {
+        serializedName: "availableLimit",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      allocatedToSubscriptions: {
+        serializedName: "allocatedToSubscriptions",
+        type: {
+          name: "Composite",
+          className: "AllocatedQuotaToSubscriptionList",
+        },
+      },
+    },
+  },
+};
+
+export const GroupQuotaDetailsName: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GroupQuotaDetailsName",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      localizedValue: {
+        serializedName: "localizedValue",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AllocatedQuotaToSubscriptionList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AllocatedQuotaToSubscriptionList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AllocatedToSubscription",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const AllocatedToSubscription: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AllocatedToSubscription",
+    modelProperties: {
+      subscriptionId: {
+        serializedName: "subscriptionId",
+        type: {
+          name: "String",
+        },
+      },
+      quotaAllocated: {
+        serializedName: "quotaAllocated",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const GroupQuotaLimitList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GroupQuotaLimitList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GroupQuotaLimit",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const SubmittedResourceRequestStatusProperties: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "SubmittedResourceRequestStatusProperties",
+      modelProperties: {
+        requestedResource: {
+          serializedName: "requestedResource",
+          type: {
+            name: "Composite",
+            className: "GroupQuotaRequestBase",
+          },
+        },
+        requestSubmitTime: {
+          serializedName: "requestSubmitTime",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        provisioningState: {
+          serializedName: "provisioningState",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        faultCode: {
+          serializedName: "faultCode",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const GroupQuotaRequestBase: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GroupQuotaRequestBase",
+    modelProperties: {
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "GroupQuotaRequestBaseProperties",
+        },
+      },
+    },
+  },
+};
+
+export const GroupQuotaRequestBaseProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GroupQuotaRequestBaseProperties",
+    modelProperties: {
+      limit: {
+        serializedName: "limit",
+        type: {
+          name: "Number",
+        },
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "Composite",
+          className: "GroupQuotaRequestBasePropertiesName",
+        },
+      },
+      region: {
+        serializedName: "region",
+        type: {
+          name: "String",
+        },
+      },
+      comments: {
+        serializedName: "comments",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const GroupQuotaRequestBasePropertiesName: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GroupQuotaRequestBasePropertiesName",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      localizedValue: {
+        serializedName: "localizedValue",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const SubmittedResourceRequestStatusList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SubmittedResourceRequestStatusList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubmittedResourceRequestStatus",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const SubscriptionQuotaAllocationsList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SubscriptionQuotaAllocationsList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubscriptionQuotaAllocations",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const SubscriptionQuotaDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SubscriptionQuotaDetails",
+    modelProperties: {
+      region: {
+        serializedName: "region",
+        type: {
+          name: "String",
+        },
+      },
+      limit: {
+        serializedName: "limit",
+        type: {
+          name: "Number",
+        },
+      },
+      shareableQuota: {
+        serializedName: "shareableQuota",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "Composite",
+          className: "SubscriptionQuotaDetailsName",
+        },
+      },
+    },
+  },
+};
+
+export const SubscriptionQuotaDetailsName: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SubscriptionQuotaDetailsName",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      localizedValue: {
+        serializedName: "localizedValue",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const QuotaAllocationRequestStatusProperties: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "QuotaAllocationRequestStatusProperties",
+      modelProperties: {
+        requestedResource: {
+          serializedName: "requestedResource",
+          type: {
+            name: "Composite",
+            className: "QuotaAllocationRequestBase",
+          },
+        },
+        requestSubmitTime: {
+          serializedName: "requestSubmitTime",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        provisioningState: {
+          serializedName: "provisioningState",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        faultCode: {
+          serializedName: "faultCode",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const QuotaAllocationRequestBase: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "QuotaAllocationRequestBase",
+    modelProperties: {
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "QuotaAllocationRequestBaseProperties",
+        },
+      },
+    },
+  },
+};
+
+export const QuotaAllocationRequestBaseProperties: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "QuotaAllocationRequestBaseProperties",
+      modelProperties: {
+        limit: {
+          serializedName: "limit",
+          type: {
+            name: "Number",
+          },
+        },
+        name: {
+          serializedName: "name",
+          type: {
+            name: "Composite",
+            className: "QuotaAllocationRequestBasePropertiesName",
+          },
+        },
+        region: {
+          serializedName: "region",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const QuotaAllocationRequestBasePropertiesName: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "QuotaAllocationRequestBasePropertiesName",
+      modelProperties: {
+        value: {
+          serializedName: "value",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        localizedValue: {
+          serializedName: "localizedValue",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const QuotaAllocationRequestStatusList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "QuotaAllocationRequestStatusList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "QuotaAllocationRequestStatus",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ResourceUsageList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceUsageList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceUsages",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const GroupQuotaUsagesBase: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GroupQuotaUsagesBase",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "Composite",
+          className: "GroupQuotaUsagesBaseName",
+        },
+      },
+      limit: {
+        serializedName: "limit",
+        type: {
+          name: "Number",
+        },
+      },
+      usages: {
+        serializedName: "usages",
+        type: {
+          name: "Number",
+        },
+      },
+      unit: {
+        serializedName: "unit",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const GroupQuotaUsagesBaseName: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GroupQuotaUsagesBaseName",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String",
+        },
+      },
+      localizedValue: {
+        serializedName: "localizedValue",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const GroupQuotasEnforcementResponseProperties: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "GroupQuotasEnforcementResponseProperties",
+      modelProperties: {
+        enforcementEnabled: {
+          serializedName: "enforcementEnabled",
+          type: {
+            name: "String",
+          },
+        },
+        provisioningState: {
+          serializedName: "provisioningState",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        faultCode: {
+          serializedName: "faultCode",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const GroupQuotasEnforcementListResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GroupQuotasEnforcementListResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GroupQuotasEnforcementResponse",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const CurrentUsagesBase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -17,32 +1122,32 @@ export const CurrentUsagesBase: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "UsagesProperties"
-        }
-      }
-    }
-  }
+          className: "UsagesProperties",
+        },
+      },
+    },
+  },
 };
 
 export const UsagesProperties: coreClient.CompositeMapper = {
@@ -54,52 +1159,52 @@ export const UsagesProperties: coreClient.CompositeMapper = {
         serializedName: "usages",
         type: {
           name: "Composite",
-          className: "UsagesObject"
-        }
+          className: "UsagesObject",
+        },
       },
       unit: {
         serializedName: "unit",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         type: {
           name: "Composite",
-          className: "ResourceName"
-        }
+          className: "ResourceName",
+        },
       },
       resourceType: {
         serializedName: "resourceType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       quotaPeriod: {
         serializedName: "quotaPeriod",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       isQuotaApplicable: {
         serializedName: "isQuotaApplicable",
         readOnly: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
 };
 
 export const UsagesObject: coreClient.CompositeMapper = {
@@ -111,17 +1216,17 @@ export const UsagesObject: coreClient.CompositeMapper = {
         serializedName: "value",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       usagesType: {
         serializedName: "usagesType",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ResourceName: coreClient.CompositeMapper = {
@@ -132,18 +1237,18 @@ export const ResourceName: coreClient.CompositeMapper = {
       value: {
         serializedName: "value",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       localizedValue: {
         serializedName: "localizedValue",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ExceptionResponse: coreClient.CompositeMapper = {
@@ -155,11 +1260,11 @@ export const ExceptionResponse: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ServiceError"
-        }
-      }
-    }
-  }
+          className: "ServiceError",
+        },
+      },
+    },
+  },
 };
 
 export const ServiceError: coreClient.CompositeMapper = {
@@ -170,14 +1275,14 @@ export const ServiceError: coreClient.CompositeMapper = {
       code: {
         serializedName: "code",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       details: {
         serializedName: "details",
@@ -187,13 +1292,13 @@ export const ServiceError: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ServiceErrorDetail"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ServiceErrorDetail",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ServiceErrorDetail: coreClient.CompositeMapper = {
@@ -205,18 +1310,18 @@ export const ServiceErrorDetail: coreClient.CompositeMapper = {
         serializedName: "code",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const UsagesLimits: coreClient.CompositeMapper = {
@@ -231,19 +1336,19 @@ export const UsagesLimits: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "CurrentUsagesBase"
-            }
-          }
-        }
+              className: "CurrentUsagesBase",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const CurrentQuotaLimitBase: coreClient.CompositeMapper = {
@@ -255,32 +1360,32 @@ export const CurrentQuotaLimitBase: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "QuotaProperties"
-        }
-      }
-    }
-  }
+          className: "QuotaProperties",
+        },
+      },
+    },
+  },
 };
 
 export const QuotaProperties: coreClient.CompositeMapper = {
@@ -292,52 +1397,52 @@ export const QuotaProperties: coreClient.CompositeMapper = {
         serializedName: "limit",
         type: {
           name: "Composite",
-          className: "LimitJsonObject"
-        }
+          className: "LimitJsonObject",
+        },
       },
       unit: {
         serializedName: "unit",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         type: {
           name: "Composite",
-          className: "ResourceName"
-        }
+          className: "ResourceName",
+        },
       },
       resourceType: {
         serializedName: "resourceType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       quotaPeriod: {
         serializedName: "quotaPeriod",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       isQuotaApplicable: {
         serializedName: "isQuotaApplicable",
         readOnly: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
 };
 
 export const LimitJsonObject: coreClient.CompositeMapper = {
@@ -347,18 +1452,18 @@ export const LimitJsonObject: coreClient.CompositeMapper = {
     uberParent: "LimitJsonObject",
     polymorphicDiscriminator: {
       serializedName: "limitObjectType",
-      clientName: "limitObjectType"
+      clientName: "limitObjectType",
     },
     modelProperties: {
       limitObjectType: {
         serializedName: "limitObjectType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const QuotaLimits: coreClient.CompositeMapper = {
@@ -373,19 +1478,19 @@ export const QuotaLimits: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "CurrentQuotaLimitBase"
-            }
-          }
-        }
+              className: "CurrentQuotaLimitBase",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const QuotaRequestDetails: coreClient.CompositeMapper = {
@@ -397,32 +1502,32 @@ export const QuotaRequestDetails: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "QuotaRequestProperties"
-        }
-      }
-    }
-  }
+          className: "QuotaRequestProperties",
+        },
+      },
+    },
+  },
 };
 
 export const QuotaRequestProperties: coreClient.CompositeMapper = {
@@ -434,29 +1539,29 @@ export const QuotaRequestProperties: coreClient.CompositeMapper = {
         serializedName: "provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       error: {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ServiceErrorDetail"
-        }
+          className: "ServiceErrorDetail",
+        },
       },
       requestSubmitTime: {
         serializedName: "requestSubmitTime",
         readOnly: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       value: {
         serializedName: "value",
@@ -465,13 +1570,13 @@ export const QuotaRequestProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SubRequest"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "SubRequest",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const SubRequest: coreClient.CompositeMapper = {
@@ -483,52 +1588,52 @@ export const SubRequest: coreClient.CompositeMapper = {
         serializedName: "name",
         type: {
           name: "Composite",
-          className: "ResourceName"
-        }
+          className: "ResourceName",
+        },
       },
       resourceType: {
         serializedName: "resourceType",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       unit: {
         serializedName: "unit",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       provisioningState: {
         serializedName: "provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       subRequestId: {
         serializedName: "subRequestId",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       limit: {
         serializedName: "limit",
         type: {
           name: "Composite",
-          className: "LimitJsonObject"
-        }
-      }
-    }
-  }
+          className: "LimitJsonObject",
+        },
+      },
+    },
+  },
 };
 
 export const QuotaRequestDetailsList: coreClient.CompositeMapper = {
@@ -543,19 +1648,19 @@ export const QuotaRequestDetailsList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "QuotaRequestDetails"
-            }
-          }
-        }
+              className: "QuotaRequestDetails",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const OperationList: coreClient.CompositeMapper = {
@@ -570,19 +1675,19 @@ export const OperationList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "OperationResponse"
-            }
-          }
-        }
+              className: "OperationResponse",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const OperationResponse: coreClient.CompositeMapper = {
@@ -593,24 +1698,24 @@ export const OperationResponse: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       display: {
         serializedName: "display",
         type: {
           name: "Composite",
-          className: "OperationDisplay"
-        }
+          className: "OperationDisplay",
+        },
       },
       origin: {
         serializedName: "origin",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const OperationDisplay: coreClient.CompositeMapper = {
@@ -621,29 +1726,152 @@ export const OperationDisplay: coreClient.CompositeMapper = {
       provider: {
         serializedName: "provider",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resource: {
         serializedName: "resource",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       operation: {
         serializedName: "operation",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       description: {
         serializedName: "description",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const SubscriptionQuotaAllocationRequestList: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "SubscriptionQuotaAllocationRequestList",
+      modelProperties: {
+        value: {
+          serializedName: "value",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "QuotaAllocationRequestStatus",
+              },
+            },
+          },
+        },
+        nextLink: {
+          serializedName: "nextLink",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const SubscriptionGroupQuotaAssignment: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SubscriptionGroupQuotaAssignment",
+    modelProperties: {
+      groupQuotaId: {
+        serializedName: "groupQuotaId",
+        type: {
+          name: "String",
+        },
+      },
+      quotaAllocated: {
+        serializedName: "quotaAllocated",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const SubscriptionQuotaAllocationsStatusList: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "SubscriptionQuotaAllocationsStatusList",
+      modelProperties: {
+        value: {
+          serializedName: "value",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "SubmittedResourceRequestStatus",
+              },
+            },
+          },
+        },
+        nextLink: {
+          serializedName: "nextLink",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const ResourceBaseRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceBaseRequest",
+    modelProperties: {
+      resourceName: {
+        serializedName: "resourceName",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      limit: {
+        serializedName: "limit",
+        type: {
+          name: "Number",
+        },
+      },
+      unit: {
+        serializedName: "unit",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const BillingAccountId: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BillingAccountId",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const CommonResourceProperties: coreClient.CompositeMapper = {
@@ -655,25 +1883,25 @@ export const CommonResourceProperties: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const QuotaLimitsResponse: coreClient.CompositeMapper = {
@@ -688,19 +1916,19 @@ export const QuotaLimitsResponse: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "CurrentQuotaLimitBase"
-            }
-          }
-        }
+              className: "CurrentQuotaLimitBase",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const CreateGenericQuotaRequestParameters: coreClient.CompositeMapper = {
@@ -715,51 +1943,52 @@ export const CreateGenericQuotaRequestParameters: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "CurrentQuotaLimitBase"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "CurrentQuotaLimitBase",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
-export const QuotaRequestOneResourceSubmitResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "QuotaRequestOneResourceSubmitResponse",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
+export const QuotaRequestOneResourceSubmitResponse: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "QuotaRequestOneResourceSubmitResponse",
+      modelProperties: {
+        id: {
+          serializedName: "id",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        name: {
+          serializedName: "name",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
         type: {
-          name: "String"
-        }
+          serializedName: "type",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        properties: {
+          serializedName: "properties",
+          type: {
+            name: "Composite",
+            className: "QuotaRequestOneResourceProperties",
+          },
+        },
       },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "QuotaRequestOneResourceProperties"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const QuotaRequestOneResourceProperties: coreClient.CompositeMapper = {
   type: {
@@ -770,86 +1999,86 @@ export const QuotaRequestOneResourceProperties: coreClient.CompositeMapper = {
         serializedName: "provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       requestSubmitTime: {
         serializedName: "requestSubmitTime",
         readOnly: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       limit: {
         serializedName: "limit",
         type: {
           name: "Composite",
-          className: "LimitObject"
-        }
+          className: "LimitObject",
+        },
       },
       currentValue: {
         serializedName: "currentValue",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       unit: {
         serializedName: "unit",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         type: {
           name: "Composite",
-          className: "ResourceName"
-        }
+          className: "ResourceName",
+        },
       },
       resourceType: {
         serializedName: "resourceType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       quotaPeriod: {
         serializedName: "quotaPeriod",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       isQuotaApplicable: {
         serializedName: "isQuotaApplicable",
         readOnly: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       error: {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ServiceErrorDetail"
-        }
+          className: "ServiceErrorDetail",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
 };
 
 export const QuotaRequestSubmitResponse: coreClient.CompositeMapper = {
@@ -861,32 +2090,32 @@ export const QuotaRequestSubmitResponse: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "QuotaRequestProperties"
-        }
+          className: "QuotaRequestProperties",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const QuotaRequestSubmitResponse202: coreClient.CompositeMapper = {
@@ -898,32 +2127,32 @@ export const QuotaRequestSubmitResponse202: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "QuotaRequestStatusDetails"
-        }
-      }
-    }
-  }
+          className: "QuotaRequestStatusDetails",
+        },
+      },
+    },
+  },
 };
 
 export const QuotaRequestStatusDetails: coreClient.CompositeMapper = {
@@ -935,58 +2164,68 @@ export const QuotaRequestStatusDetails: coreClient.CompositeMapper = {
         serializedName: "provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       limit: {
         serializedName: "limit",
         type: {
           name: "Composite",
-          className: "LimitObject"
-        }
+          className: "LimitObject",
+        },
       },
       unit: {
         serializedName: "unit",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         type: {
           name: "Composite",
-          className: "ResourceName"
-        }
+          className: "ResourceName",
+        },
       },
       resourceType: {
         serializedName: "resourceType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       quotaPeriod: {
         serializedName: "quotaPeriod",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
+};
+
+export const ProxyResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ProxyResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+    },
+  },
 };
 
 export const LimitObject: coreClient.CompositeMapper = {
@@ -1002,18 +2241,538 @@ export const LimitObject: coreClient.CompositeMapper = {
         serializedName: "value",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       limitType: {
         serializedName: "limitType",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
+
+export const GroupQuotasEntity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GroupQuotasEntity",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "GroupQuotasEntityBase",
+        },
+      },
+    },
+  },
+};
+
+export const LROResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LROResponse",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "LROResponseProperties",
+        },
+      },
+    },
+  },
+};
+
+export const GroupQuotasEntityPatch: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GroupQuotasEntityPatch",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "GroupQuotasEntityBasePatch",
+        },
+      },
+    },
+  },
+};
+
+export const GroupQuotaSubscriptionId: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GroupQuotaSubscriptionId",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "GroupQuotaSubscriptionIdProperties",
+        },
+      },
+    },
+  },
+};
+
+export const GroupQuotaSubscriptionRequestStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GroupQuotaSubscriptionRequestStatus",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "GroupQuotaSubscriptionRequestStatusProperties",
+        },
+      },
+    },
+  },
+};
+
+export const GroupQuotaLimit: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GroupQuotaLimit",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "GroupQuotaDetails",
+        },
+      },
+    },
+  },
+};
+
+export const SubmittedResourceRequestStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SubmittedResourceRequestStatus",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "SubmittedResourceRequestStatusProperties",
+        },
+      },
+    },
+  },
+};
+
+export const SubscriptionQuotaAllocations: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SubscriptionQuotaAllocations",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "SubscriptionQuotaDetails",
+        },
+      },
+    },
+  },
+};
+
+export const QuotaAllocationRequestStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "QuotaAllocationRequestStatus",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "QuotaAllocationRequestStatusProperties",
+        },
+      },
+    },
+  },
+};
+
+export const ResourceUsages: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceUsages",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "GroupQuotaUsagesBase",
+        },
+      },
+    },
+  },
+};
+
+export const GroupQuotasEnforcementResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GroupQuotasEnforcementResponse",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "GroupQuotasEnforcementResponseProperties",
+        },
+      },
+    },
+  },
+};
+
+export const GroupQuotasCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GroupQuotasCreateOrUpdateHeaders",
+    modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const GroupQuotasUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GroupQuotasUpdateHeaders",
+    modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const GroupQuotasDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GroupQuotasDeleteHeaders",
+    modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const GroupQuotaSubscriptionsCreateOrUpdateHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "GroupQuotaSubscriptionsCreateOrUpdateHeaders",
+      modelProperties: {
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const GroupQuotaSubscriptionsUpdateHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "GroupQuotaSubscriptionsUpdateHeaders",
+      modelProperties: {
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const GroupQuotaSubscriptionsDeleteHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "GroupQuotaSubscriptionsDeleteHeaders",
+      modelProperties: {
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const GroupQuotaLimitsRequestCreateOrUpdateHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "GroupQuotaLimitsRequestCreateOrUpdateHeaders",
+      modelProperties: {
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const GroupQuotaLimitsRequestUpdateHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "GroupQuotaLimitsRequestUpdateHeaders",
+      modelProperties: {
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const GroupQuotaSubscriptionAllocationRequestCreateOrUpdateHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "GroupQuotaSubscriptionAllocationRequestCreateOrUpdateHeaders",
+      modelProperties: {
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const GroupQuotaSubscriptionAllocationRequestUpdateHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "GroupQuotaSubscriptionAllocationRequestUpdateHeaders",
+      modelProperties: {
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const GroupQuotaLocationSettingsCreateOrUpdateHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "GroupQuotaLocationSettingsCreateOrUpdateHeaders",
+      modelProperties: {
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const GroupQuotaLocationSettingsUpdateHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "GroupQuotaLocationSettingsUpdateHeaders",
+      modelProperties: {
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
 
 export const UsagesGetHeaders: coreClient.CompositeMapper = {
   type: {
@@ -1023,11 +2782,11 @@ export const UsagesGetHeaders: coreClient.CompositeMapper = {
       eTag: {
         serializedName: "etag",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const UsagesListHeaders: coreClient.CompositeMapper = {
@@ -1038,11 +2797,11 @@ export const UsagesListHeaders: coreClient.CompositeMapper = {
       eTag: {
         serializedName: "etag",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const UsagesListNextHeaders: coreClient.CompositeMapper = {
@@ -1053,11 +2812,11 @@ export const UsagesListNextHeaders: coreClient.CompositeMapper = {
       eTag: {
         serializedName: "etag",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const QuotaGetHeaders: coreClient.CompositeMapper = {
@@ -1068,11 +2827,11 @@ export const QuotaGetHeaders: coreClient.CompositeMapper = {
       eTag: {
         serializedName: "etag",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const QuotaListHeaders: coreClient.CompositeMapper = {
@@ -1083,11 +2842,11 @@ export const QuotaListHeaders: coreClient.CompositeMapper = {
       eTag: {
         serializedName: "etag",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const QuotaListNextHeaders: coreClient.CompositeMapper = {
@@ -1098,14 +2857,14 @@ export const QuotaListNextHeaders: coreClient.CompositeMapper = {
       eTag: {
         serializedName: "etag",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export let discriminators = {
   LimitJsonObject: LimitJsonObject,
-  "LimitJsonObject.LimitValue": LimitObject
+  "LimitJsonObject.LimitValue": LimitObject,
 };
