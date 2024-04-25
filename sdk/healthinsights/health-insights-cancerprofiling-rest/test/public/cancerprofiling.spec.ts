@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 
 import { Recorder } from "@azure-tools/test-recorder";
+import { assert } from "chai";
 import { Context } from "mocha";
-import { CancerProfilingRestClient } from "../../src";
+import { CancerProfilingRestClient, getLongRunningPoller } from "../../src";
 import { createClient, createRecorder } from "./utils/recordedClient";
 
 const patientInfo = {
@@ -118,9 +119,9 @@ describe("My test", () => {
   });
 
   it("cancer profiling test", async function () {
-    await client.path("/oncophenotype/jobs").post(parameters);
-    /*     const poller = await getLongRunningPoller(client, result);
-        const res = await poller.pollUntilDone();
-        assert.equal(res.status, "200"); */
+    const result = await client.path("/oncophenotype/jobs").post(parameters);
+    const poller = await getLongRunningPoller(client, result);
+    const res = await poller.pollUntilDone();
+    assert.equal(res.status, "200");
   });
 });
