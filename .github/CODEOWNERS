@@ -744,6 +744,9 @@
 /sdk/search/arm-search/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/standbypool/arm-standbypool/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/springappdiscovery/arm-springappdiscovery/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
