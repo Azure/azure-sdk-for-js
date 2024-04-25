@@ -26,7 +26,7 @@ import {
   IndexesGetStatisticsResponse,
   AnalyzeRequest,
   IndexesAnalyzeOptionalParams,
-  IndexesAnalyzeResponse
+  IndexesAnalyzeResponse,
 } from "../models";
 
 /** Class containing Indexes operations. */
@@ -48,11 +48,11 @@ export class IndexesImpl implements Indexes {
    */
   create(
     index: SearchIndex,
-    options?: IndexesCreateOptionalParams
+    options?: IndexesCreateOptionalParams,
   ): Promise<IndexesCreateResponse> {
     return this.client.sendOperationRequest(
       { index, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -73,11 +73,11 @@ export class IndexesImpl implements Indexes {
   createOrUpdate(
     indexName: string,
     index: SearchIndex,
-    options?: IndexesCreateOrUpdateOptionalParams
+    options?: IndexesCreateOrUpdateOptionalParams,
   ): Promise<IndexesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { indexName, index, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -90,11 +90,11 @@ export class IndexesImpl implements Indexes {
    */
   delete(
     indexName: string,
-    options?: IndexesDeleteOptionalParams
+    options?: IndexesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { indexName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -105,11 +105,11 @@ export class IndexesImpl implements Indexes {
    */
   get(
     indexName: string,
-    options?: IndexesGetOptionalParams
+    options?: IndexesGetOptionalParams,
   ): Promise<IndexesGetResponse> {
     return this.client.sendOperationRequest(
       { indexName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -120,11 +120,11 @@ export class IndexesImpl implements Indexes {
    */
   getStatistics(
     indexName: string,
-    options?: IndexesGetStatisticsOptionalParams
+    options?: IndexesGetStatisticsOptionalParams,
   ): Promise<IndexesGetStatisticsResponse> {
     return this.client.sendOperationRequest(
       { indexName, options },
-      getStatisticsOperationSpec
+      getStatisticsOperationSpec,
     );
   }
 
@@ -137,11 +137,11 @@ export class IndexesImpl implements Indexes {
   analyze(
     indexName: string,
     request: AnalyzeRequest,
-    options?: IndexesAnalyzeOptionalParams
+    options?: IndexesAnalyzeOptionalParams,
   ): Promise<IndexesAnalyzeResponse> {
     return this.client.sendOperationRequest(
       { indexName, request, options },
-      analyzeOperationSpec
+      analyzeOperationSpec,
     );
   }
 }
@@ -153,48 +153,48 @@ const createOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     201: {
-      bodyMapper: Mappers.SearchIndex
+      bodyMapper: Mappers.SearchIndex,
     },
     default: {
-      bodyMapper: Mappers.SearchError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.index,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/indexes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListIndexesResult
+      bodyMapper: Mappers.ListIndexesResult,
     },
     default: {
-      bodyMapper: Mappers.SearchError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.select],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/indexes('{indexName}')",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SearchIndex
+      bodyMapper: Mappers.SearchIndex,
     },
     201: {
-      bodyMapper: Mappers.SearchIndex
+      bodyMapper: Mappers.SearchIndex,
     },
     default: {
-      bodyMapper: Mappers.SearchError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.index,
   queryParameters: [Parameters.apiVersion, Parameters.allowIndexDowntime],
@@ -204,10 +204,10 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.accept,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
-    Parameters.prefer
+    Parameters.prefer,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/indexes('{indexName}')",
@@ -216,65 +216,65 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     204: {},
     404: {},
     default: {
-      bodyMapper: Mappers.SearchError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.indexName],
   headerParameters: [
     Parameters.accept,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
   ],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/indexes('{indexName}')",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SearchIndex
+      bodyMapper: Mappers.SearchIndex,
     },
     default: {
-      bodyMapper: Mappers.SearchError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.indexName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getStatisticsOperationSpec: coreClient.OperationSpec = {
   path: "/indexes('{indexName}')/search.stats",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GetIndexStatisticsResult
+      bodyMapper: Mappers.GetIndexStatisticsResult,
     },
     default: {
-      bodyMapper: Mappers.SearchError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.indexName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const analyzeOperationSpec: coreClient.OperationSpec = {
   path: "/indexes('{indexName}')/search.analyze",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AnalyzeResult
+      bodyMapper: Mappers.AnalyzeResult,
     },
     default: {
-      bodyMapper: Mappers.SearchError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.request,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.indexName],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

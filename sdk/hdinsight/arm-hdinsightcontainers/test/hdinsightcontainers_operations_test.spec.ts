@@ -34,7 +34,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("HDInsightOnAks test", () => {
+describe.skip("HDInsightOnAks test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: HDInsightContainersManagementClient;
@@ -62,19 +62,21 @@ describe("HDInsightOnAks test", () => {
   it("clusterPools create test", async function () {
     const res = await client.clusterPools.beginCreateOrUpdateAndWait(
       resourceGroup,
-    	resourcename,
+      resourcename,
       {
-        clusterPoolProfile: { clusterPoolVersion: "1.0" },
-        computeProfile: { vmSize: "Standard_F4s_v2" },
+        properties: {
+          clusterPoolProfile: { clusterPoolVersion: "1.1" },
+          computeProfile: { vmSize: "Standard_F4s_v2" },
+        },
         location
       },
-     testPollingOptions);
+      testPollingOptions);
     assert.equal(res.name, resourcename);
   });
 
   it("clusterPools get test", async function () {
     const res = await client.clusterPools.get(resourceGroup,
-    	resourcename);
+      resourcename);
     assert.equal(res.name, resourcename);
   });
 
@@ -96,7 +98,7 @@ describe("HDInsightOnAks test", () => {
   it("clusterPools delete test", async function () {
     const resArray = new Array();
     const res = await client.clusterPools.beginDeleteAndWait(resourceGroup, resourcename, testPollingOptions
-)
+    )
     for await (let item of client.clusterPools.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

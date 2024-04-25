@@ -3,7 +3,7 @@
 
 import * as msalNode from "@azure/msal-node";
 
-import { CACHE_CAE_SUFFIX, CACHE_NON_CAE_SUFFIX } from "../../constants";
+import { CACHE_CAE_SUFFIX, CACHE_NON_CAE_SUFFIX, DEFAULT_TOKEN_CACHE_NAME } from "../../constants";
 
 import { MsalClientOptions } from "./msalClient";
 import { NativeBrokerPluginControl } from "../../plugins/provider";
@@ -17,15 +17,36 @@ export interface PluginConfiguration {
    * Configuration for the cache plugin.
    */
   cache: {
+    /**
+     * The non-CAE cache plugin handler.
+     */
     cachePlugin?: Promise<msalNode.ICachePlugin>;
+    /**
+     * The CAE cache plugin handler - persisted to a different file.
+     */
     cachePluginCae?: Promise<msalNode.ICachePlugin>;
   };
   /**
    * Configuration for the broker plugin.
    */
   broker: {
+    /**
+     * True if the broker plugin is enabled and available. False otherwise.
+     *
+     * It is a bug if this is true and the broker plugin is not available.
+     */
+    isEnabled: boolean;
+    /**
+     * If true, MSA account will be passed through, required for WAM authentication.
+     */
     enableMsaPassthrough: boolean;
+    /**
+     * The parent window handle for the broker.
+     */
     parentWindowHandle?: Uint8Array;
+    /**
+     * The native broker plugin handler.
+     */
     nativeBrokerPlugin?: msalNode.INativeBrokerPlugin;
   };
 }
@@ -86,6 +107,7 @@ function generatePluginConfiguration(options: MsalClientOptions): PluginConfigur
   const config: PluginConfiguration = {
     cache: {},
     broker: {
+      isEnabled: options.brokerOptions?.enabled ?? false,
       enableMsaPassthrough: options.brokerOptions?.legacyEnableMsaPassthrough ?? false,
       parentWindowHandle: options.brokerOptions?.parentWindowHandle,
     },
@@ -103,12 +125,13 @@ function generatePluginConfiguration(options: MsalClientOptions): PluginConfigur
       );
     }
 
+    const cacheBaseName = options.tokenCachePersistenceOptions.name || DEFAULT_TOKEN_CACHE_NAME;
     config.cache.cachePlugin = persistenceProvider({
-      name: `${options.tokenCachePersistenceOptions.name}.${CACHE_NON_CAE_SUFFIX}`,
+      name: `${cacheBaseName}.${CACHE_NON_CAE_SUFFIX}`,
       ...options.tokenCachePersistenceOptions,
     });
     config.cache.cachePluginCae = persistenceProvider({
-      name: `${options.tokenCachePersistenceOptions.name}.${CACHE_CAE_SUFFIX}`,
+      name: `${cacheBaseName}.${CACHE_CAE_SUFFIX}`,
       ...options.tokenCachePersistenceOptions,
     });
   }
@@ -124,7 +147,6 @@ function generatePluginConfiguration(options: MsalClientOptions): PluginConfigur
         ].join(" "),
       );
     }
-
     config.broker.nativeBrokerPlugin = nativeBrokerInfo!.broker;
   }
 

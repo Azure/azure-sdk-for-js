@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as sinon from "sinon";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { createTimerLoop } from "../../src/util/timerLoop";
 
 describe("createTimerLoop", function () {

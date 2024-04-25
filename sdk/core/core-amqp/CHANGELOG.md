@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Handle translation of ErrorEvent properly [PR #29297](https://github.com/Azure/azure-sdk-for-js/pull/29297)
+
 ### Other Changes
 
 - Add support for the `deleteMessages` operation in @azure/service-bus.

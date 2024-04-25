@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { env, Recorder, isRecordMode } from "@azure-tools/test-recorder";
 
 import { CertificateClient } from "../../src";

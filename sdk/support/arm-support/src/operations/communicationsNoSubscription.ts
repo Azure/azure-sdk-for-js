@@ -6,6 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { CommunicationsNoSubscription } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -14,23 +16,29 @@ import { MicrosoftSupport } from "../microsoftSupport";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
+  CommunicationDetails,
+  CommunicationsNoSubscriptionListNextOptionalParams,
+  CommunicationsNoSubscriptionListOptionalParams,
+  CommunicationsNoSubscriptionListResponse,
   CheckNameAvailabilityInput,
   CommunicationsNoSubscriptionCheckNameAvailabilityOptionalParams,
   CommunicationsNoSubscriptionCheckNameAvailabilityResponse,
   CommunicationsNoSubscriptionGetOptionalParams,
   CommunicationsNoSubscriptionGetResponse,
-  CommunicationDetails,
   CommunicationsNoSubscriptionCreateOptionalParams,
-  CommunicationsNoSubscriptionCreateResponse
+  CommunicationsNoSubscriptionCreateResponse,
+  CommunicationsNoSubscriptionListNextResponse,
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Class containing CommunicationsNoSubscription operations. */
 export class CommunicationsNoSubscriptionImpl
-  implements CommunicationsNoSubscription {
+  implements CommunicationsNoSubscription
+{
   private readonly client: MicrosoftSupport;
 
   /**
@@ -39,6 +47,73 @@ export class CommunicationsNoSubscriptionImpl
    */
   constructor(client: MicrosoftSupport) {
     this.client = client;
+  }
+
+  /**
+   * Lists all communications (attachments not included) for a support ticket. <br/></br> You can also
+   * filter support ticket communications by _CreatedDate_ or _CommunicationType_ using the $filter
+   * parameter. The only type of communication supported today is _Web_. Output will be a paged result
+   * with _nextLink_, using which you can retrieve the next set of Communication results.
+   * <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was
+   * created more than 18 months ago, a request for data might cause an error.
+   * @param supportTicketName Support ticket name
+   * @param options The options parameters.
+   */
+  public list(
+    supportTicketName: string,
+    options?: CommunicationsNoSubscriptionListOptionalParams,
+  ): PagedAsyncIterableIterator<CommunicationDetails> {
+    const iter = this.listPagingAll(supportTicketName, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(supportTicketName, options, settings);
+      },
+    };
+  }
+
+  private async *listPagingPage(
+    supportTicketName: string,
+    options?: CommunicationsNoSubscriptionListOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<CommunicationDetails[]> {
+    let result: CommunicationsNoSubscriptionListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(supportTicketName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(
+        supportTicketName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listPagingAll(
+    supportTicketName: string,
+    options?: CommunicationsNoSubscriptionListOptionalParams,
+  ): AsyncIterableIterator<CommunicationDetails> {
+    for await (const page of this.listPagingPage(supportTicketName, options)) {
+      yield* page;
+    }
   }
 
   /**
@@ -51,11 +126,31 @@ export class CommunicationsNoSubscriptionImpl
   checkNameAvailability(
     supportTicketName: string,
     checkNameAvailabilityInput: CheckNameAvailabilityInput,
-    options?: CommunicationsNoSubscriptionCheckNameAvailabilityOptionalParams
+    options?: CommunicationsNoSubscriptionCheckNameAvailabilityOptionalParams,
   ): Promise<CommunicationsNoSubscriptionCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { supportTicketName, checkNameAvailabilityInput, options },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
+    );
+  }
+
+  /**
+   * Lists all communications (attachments not included) for a support ticket. <br/></br> You can also
+   * filter support ticket communications by _CreatedDate_ or _CommunicationType_ using the $filter
+   * parameter. The only type of communication supported today is _Web_. Output will be a paged result
+   * with _nextLink_, using which you can retrieve the next set of Communication results.
+   * <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was
+   * created more than 18 months ago, a request for data might cause an error.
+   * @param supportTicketName Support ticket name
+   * @param options The options parameters.
+   */
+  private _list(
+    supportTicketName: string,
+    options?: CommunicationsNoSubscriptionListOptionalParams,
+  ): Promise<CommunicationsNoSubscriptionListResponse> {
+    return this.client.sendOperationRequest(
+      { supportTicketName, options },
+      listOperationSpec,
     );
   }
 
@@ -68,11 +163,11 @@ export class CommunicationsNoSubscriptionImpl
   get(
     supportTicketName: string,
     communicationName: string,
-    options?: CommunicationsNoSubscriptionGetOptionalParams
+    options?: CommunicationsNoSubscriptionGetOptionalParams,
   ): Promise<CommunicationsNoSubscriptionGetResponse> {
     return this.client.sendOperationRequest(
       { supportTicketName, communicationName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -87,7 +182,7 @@ export class CommunicationsNoSubscriptionImpl
     supportTicketName: string,
     communicationName: string,
     createCommunicationParameters: CommunicationDetails,
-    options?: CommunicationsNoSubscriptionCreateOptionalParams
+    options?: CommunicationsNoSubscriptionCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CommunicationsNoSubscriptionCreateResponse>,
@@ -96,21 +191,20 @@ export class CommunicationsNoSubscriptionImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CommunicationsNoSubscriptionCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -119,8 +213,8 @@ export class CommunicationsNoSubscriptionImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -128,8 +222,8 @@ export class CommunicationsNoSubscriptionImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -139,9 +233,9 @@ export class CommunicationsNoSubscriptionImpl
         supportTicketName,
         communicationName,
         createCommunicationParameters,
-        options
+        options,
       },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       CommunicationsNoSubscriptionCreateResponse,
@@ -149,7 +243,7 @@ export class CommunicationsNoSubscriptionImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -166,89 +260,138 @@ export class CommunicationsNoSubscriptionImpl
     supportTicketName: string,
     communicationName: string,
     createCommunicationParameters: CommunicationDetails,
-    options?: CommunicationsNoSubscriptionCreateOptionalParams
+    options?: CommunicationsNoSubscriptionCreateOptionalParams,
   ): Promise<CommunicationsNoSubscriptionCreateResponse> {
     const poller = await this.beginCreate(
       supportTicketName,
       communicationName,
       createCommunicationParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * ListNext
+   * @param supportTicketName Support ticket name
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    supportTicketName: string,
+    nextLink: string,
+    options?: CommunicationsNoSubscriptionListNextOptionalParams,
+  ): Promise<CommunicationsNoSubscriptionListNextResponse> {
+    return this.client.sendOperationRequest(
+      { supportTicketName, nextLink, options },
+      listNextOperationSpec,
+    );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Support/supportTickets/{supportTicketName}/checkNameAvailability",
+  path: "/providers/Microsoft.Support/supportTickets/{supportTicketName}/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameAvailabilityOutput
+      bodyMapper: Mappers.CheckNameAvailabilityOutput,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.checkNameAvailabilityInput,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.supportTicketName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Support/supportTickets/{supportTicketName}/communications/{communicationName}",
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Support/supportTickets/{supportTicketName}/communications",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CommunicationDetails
+      bodyMapper: Mappers.CommunicationsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.filter],
+  urlParameters: [Parameters.$host, Parameters.supportTicketName],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Support/supportTickets/{supportTicketName}/communications/{communicationName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommunicationDetails,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.supportTicketName,
-    Parameters.communicationName
+    Parameters.communicationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Support/supportTickets/{supportTicketName}/communications/{communicationName}",
+  path: "/providers/Microsoft.Support/supportTickets/{supportTicketName}/communications/{communicationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.CommunicationDetails
+      bodyMapper: Mappers.CommunicationDetails,
     },
     201: {
-      bodyMapper: Mappers.CommunicationDetails
+      bodyMapper: Mappers.CommunicationDetails,
     },
     202: {
-      bodyMapper: Mappers.CommunicationDetails
+      bodyMapper: Mappers.CommunicationDetails,
     },
     204: {
-      bodyMapper: Mappers.CommunicationDetails
+      bodyMapper: Mappers.CommunicationDetails,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.createCommunicationParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.supportTicketName,
-    Parameters.communicationName
+    Parameters.communicationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommunicationsListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.supportTicketName,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

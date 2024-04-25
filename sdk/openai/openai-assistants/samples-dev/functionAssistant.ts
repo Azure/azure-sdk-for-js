@@ -130,7 +130,7 @@ export async function main() {
         case "getWeatherAtLocation":
           toolOutput.output = getWeatherAtLocation(
             functionArgs.location,
-            functionArgs.temperatureUnit
+            functionArgs.temperatureUnit,
           );
           break;
         default:
@@ -168,7 +168,7 @@ export async function main() {
         runResponse = await assistantsClient.submitToolOutputsToRun(
           threadId,
           runResponse.id,
-          toolOutputs
+          toolOutputs,
         );
       }
     }

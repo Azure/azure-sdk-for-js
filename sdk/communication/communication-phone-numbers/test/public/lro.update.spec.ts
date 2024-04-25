@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { matrix } from "@azure/test-utils";
+import { matrix } from "@azure-tools/test-utils";
 import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
@@ -18,7 +18,8 @@ matrix([[true, false]], async function (useAad) {
     let client: PhoneNumbersClient;
 
     before(function (this: Context) {
-      const skipPhoneNumbersTests = env.COMMUNICATION_SKIP_INT_PHONENUMBERS_TESTS === "true";
+      const skipPhoneNumbersTests =
+        !isPlaybackMode() && env.COMMUNICATION_SKIP_INT_PHONENUMBERS_TESTS === "true";
       const skipUpdateCapabilitiesLiveTests =
         !isPlaybackMode() && env.SKIP_UPDATE_CAPABILITIES_LIVE_TESTS === "true";
 

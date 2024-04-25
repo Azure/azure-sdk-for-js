@@ -11,7 +11,7 @@ import {
   ChatTranscriptDetails,
   ChatTranscriptsListOptionalParams,
   ChatTranscriptsGetOptionalParams,
-  ChatTranscriptsGetResponse
+  ChatTranscriptsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,7 +24,7 @@ export interface ChatTranscripts {
    */
   list(
     supportTicketName: string,
-    options?: ChatTranscriptsListOptionalParams
+    options?: ChatTranscriptsListOptionalParams,
   ): PagedAsyncIterableIterator<ChatTranscriptDetails>;
   /**
    * Returns chatTranscript details for a support ticket under a subscription.
@@ -35,6 +35,6 @@ export interface ChatTranscripts {
   get(
     supportTicketName: string,
     chatTranscriptName: string,
-    options?: ChatTranscriptsGetOptionalParams
+    options?: ChatTranscriptsGetOptionalParams,
   ): Promise<ChatTranscriptsGetResponse>;
 }

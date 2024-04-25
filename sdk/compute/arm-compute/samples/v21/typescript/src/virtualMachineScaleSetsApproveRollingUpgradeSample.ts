@@ -11,7 +11,7 @@
 import {
   VirtualMachineScaleSetVMInstanceIDs,
   VirtualMachineScaleSetsApproveRollingUpgradeOptionalParams,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -31,18 +31,19 @@ async function virtualMachineScaleSetApproveRollingUpgrade() {
     process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "vmssToApproveRollingUpgradeOn";
   const vmInstanceIDs: VirtualMachineScaleSetVMInstanceIDs = {
-    instanceIds: ["0", "1", "2"]
+    instanceIds: ["0", "1", "2"],
   };
   const options: VirtualMachineScaleSetsApproveRollingUpgradeOptionalParams = {
-    vmInstanceIDs
+    vmInstanceIDs,
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginApproveRollingUpgradeAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    options
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginApproveRollingUpgradeAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      options,
+    );
   console.log(result);
 }
 

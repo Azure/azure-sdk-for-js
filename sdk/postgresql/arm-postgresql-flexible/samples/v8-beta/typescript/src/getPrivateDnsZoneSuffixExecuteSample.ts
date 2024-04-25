@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get private DNS zone suffix in the cloud
  *
  * @summary Get private DNS zone suffix in the cloud
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/GetPrivateDnsZoneSuffix.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/GetPrivateDnsZoneSuffix.json
  */
 async function getPrivateDnsZoneSuffix() {
   const credential = new DefaultAzureCredential();

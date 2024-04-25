@@ -30,7 +30,7 @@ async function getsAListOfExperiments() {
   const resArray = new Array();
   for await (let item of client.experiments.listByProfile(
     resourceGroupName,
-    profileName
+    profileName,
   )) {
     resArray.push(item);
   }

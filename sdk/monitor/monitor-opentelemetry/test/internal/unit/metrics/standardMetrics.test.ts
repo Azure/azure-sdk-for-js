@@ -104,10 +104,10 @@ describe("#StandardMetricsHandler", () => {
     assert.strictEqual(scopeMetrics.length, 1, "scopeMetrics count");
     const metrics = scopeMetrics[0].metrics;
     assert.strictEqual(metrics.length, 4, "metrics count");
-    assert.strictEqual(metrics[0].descriptor.name, "azureMonitor.http.requestDuration");
-    assert.strictEqual(metrics[1].descriptor.name, "azureMonitor.http.dependencyDuration");
-    assert.strictEqual(metrics[2].descriptor.name, "azureMonitor.exceptionCount");
-    assert.strictEqual(metrics[3].descriptor.name, "azureMonitor.traceCount");
+    assert.strictEqual(metrics[0].descriptor.name, "requests/duration");
+    assert.strictEqual(metrics[1].descriptor.name, "dependencies/duration");
+    assert.strictEqual(metrics[2].descriptor.name, "exceptions/count");
+    assert.strictEqual(metrics[3].descriptor.name, "traces/count");
 
     // Requests
     assert.strictEqual(metrics[0].dataPoints.length, 2, "dataPoints count");
@@ -211,7 +211,7 @@ describe("#StandardMetricsHandler", () => {
     assert.strictEqual(scopeMetrics.length, 1, "scopeMetrics count");
     const metrics = scopeMetrics[0].metrics;
     assert.strictEqual(metrics.length, 1, "metrics count");
-    assert.strictEqual(metrics[0].descriptor.name, "azureMonitor.http.requestDuration");
+    assert.strictEqual(metrics[0].descriptor.name, "requests/duration");
     assert.equal(metrics[0].dataPoints[0].attributes["operation/synthetic"], "True");
   });
 

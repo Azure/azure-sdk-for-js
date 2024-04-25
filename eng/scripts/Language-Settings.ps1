@@ -117,13 +117,13 @@ function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory) {
   return $resultObj
 }
 
-function Get-javascript-DocsMsMetadataForPackage($PackageInfo) { 
-  $docsReadmeName = "" 
-  if ($PackageInfo.DirectoryPath) { 
+function Get-javascript-DocsMsMetadataForPackage($PackageInfo) {
+  $docsReadmeName = ""
+  if ($PackageInfo.DirectoryPath) {
     $docsReadmeName = Split-Path -Path $PackageInfo.DirectoryPath -Leaf
   }
   Write-Host "Docs.ms Readme name: $($docsReadmeName)"
-  New-Object PSObject -Property @{ 
+  New-Object PSObject -Property @{
     DocsMsReadMeName      = $docsReadmeName
     LatestReadMeLocation  = 'docs-ref-services/latest'
     PreviewReadMeLocation = 'docs-ref-services/preview'
@@ -133,27 +133,28 @@ function Get-javascript-DocsMsMetadataForPackage($PackageInfo) {
 }
 
 # In the case of NPM packages, the "dev version" produced for the given build
-# may not have been published if the code is identical to the code already 
-# published at the "dev" tag. To prevent using a version which does not exist in 
+# may not have been published if the code is identical to the code already
+# published at the "dev" tag. To prevent using a version which does not exist in
 # NPM, use the "dev" tag instead.
 function Get-javascript-DocsMsDevLanguageSpecificPackageInfo($packageInfo) {
-  try {
-    $npmPackageInfo = Invoke-RestMethod -Uri "https://registry.npmjs.com/$($packageInfo.Name)"
+  if ($packageInfo.DevVersion) {
+    try {
+      $npmPackageInfo = Invoke-RestMethod -Uri "https://registry.npmjs.com/$($packageInfo.Name)"
 
-    if ($npmPackageInfo.'dist-tags'.dev) {
-      Write-Host "Using published version at 'dev' tag: '$($npmPackageInfo.'dist-tags'.dev)'"
-      $packageInfo.Version = $npmPackageInfo.'dist-tags'.dev
+      if ($npmPackageInfo.'dist-tags'.dev) {
+        Write-Host "Using published version at 'dev' tag: '$($npmPackageInfo.'dist-tags'.dev)'"
+        $packageInfo.DevVersion = $npmPackageInfo.'dist-tags'.dev
+      }
+      else {
+        LogWarning "No 'dev' dist-tag available for '$($packageInfo.Name)'. Keeping current version '$($packageInfo.Version)'"
+      }
     }
-    else {
-      LogWarning "No 'dev' dist-tag available for '$($packageInfo.Name)'. Keeping current version '$($packageInfo.Version)'"
+    catch {
+      LogWarning "Error getting package info from NPM for $($packageInfo.Name)"
+      LogWarning $_.Exception
+      LogWarning $_.Exception.StackTrace
     }
   }
-  catch {
-    LogWarning "Error getting package info from NPM for $($packageInfo.Name)"
-    LogWarning $_.Exception
-    LogWarning $_.Exception.StackTrace
-  }
-
   return $packageInfo
 }
 
@@ -207,8 +208,8 @@ function Get-javascript-GithubIoDocIndex() {
 }
 
 # "@azure/package-name@1.2.3" -> "@azure/package-name"
-function Get-PackageNameFromDocsMsConfig($DocsConfigName) { 
-  if ($DocsConfigName -match '^(?<pkgName>.+?)(?<pkgVersion>@.+)?$') { 
+function Get-PackageNameFromDocsMsConfig($DocsConfigName) {
+  if ($DocsConfigName -match '^(?<pkgName>.+?)(?<pkgVersion>@.+)?$') {
     return $Matches['pkgName']
   }
   LogWarning "Could not find package name in ($DocsConfigName)"
@@ -218,7 +219,7 @@ function Get-PackageNameFromDocsMsConfig($DocsConfigName) {
 # Given the name of a package (possibly of the form "@azure/package-name@1.2.3")
 # return a package name with the version specified in $packageVersion
 # "@azure/package-name@1.2.3" "1.3.0" -> "@azure/package-name@1.3.0"
-function Get-DocsMsPackageName($packageName, $packageVersion) { 
+function Get-DocsMsPackageName($packageName, $packageVersion) {
   return "$(Get-PackageNameFromDocsMsConfig $packageName)@$packageVersion"
 }
 
@@ -236,7 +237,7 @@ function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata, $Doc
     $FilteredMetadata `
   (Join-Path $DocsRepoLocation 'ci-configs/packages-preview.json.log') `
     $DocValidationImageId
-  
+
   UpdateDocsMsPackages `
   (Join-Path $DocsRepoLocation 'ci-configs/packages-latest.json') `
     'latest' `
@@ -273,14 +274,14 @@ function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata, $PackageHist
       continue
     }
 
-    if ($matchingPublishedPackageArray.Count -gt 1) { 
+    if ($matchingPublishedPackageArray.Count -gt 1) {
       LogWarning "Found more than one matching published package in metadata for $(package.name); only updating first entry"
     }
     $matchingPublishedPackage = $matchingPublishedPackageArray[0]
 
-    if ($Mode -eq 'preview' -and !$matchingPublishedPackage.VersionPreview.Trim()) { 
+    if ($Mode -eq 'preview' -and !$matchingPublishedPackage.VersionPreview.Trim()) {
       # If we are in preview mode and the package does not have a superseding
-      # preview version, remove the package from the list. 
+      # preview version, remove the package from the list.
       Write-Host "Remove superseded preview package: $($package.name)"
       continue
     }
@@ -290,11 +291,11 @@ function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata, $PackageHist
       $packageVersion = $matchingPublishedPackage.VersionPreview
     }
 
-    # Package name comes in the form "<package-name>@<version>". The version may 
-    # have changed. This parses the name of the package from the input and 
+    # Package name comes in the form "<package-name>@<version>". The version may
+    # have changed. This parses the name of the package from the input and
     # appends the version specified in the metadata.
     # Mutate the package name because there may be other properties of the
-    # package which are not accounted for in this code (e.g. "folder" in JS 
+    # package which are not accounted for in this code (e.g. "folder" in JS
     # packages)
     $package.name = Get-DocsMsPackageName $package.name $packageVersion
     Write-Host "Keep tracked package: $($package.name)"
@@ -306,8 +307,8 @@ function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata, $PackageHist
     $outputPackagesHash[(Get-PackageNameFromDocsMsConfig $package.name)] = $true
   }
 
-  $remainingPackages = @() 
-  if ($Mode -eq 'preview') { 
+  $remainingPackages = @()
+  if ($Mode -eq 'preview') {
     $remainingPackages = $DocsMetadata.Where({
         $_.VersionPreview.Trim() -and !$outputPackagesHash.ContainsKey($_.Package)
       })
@@ -372,7 +373,7 @@ function Find-javascript-Artifacts-For-Apireview($artifactDir, $packageName) {
   $artifactPath = Join-Path $artifactDir $packageName
   if (Test-Path $artifactPath) {
     Write-Host "Searching for *.api.json in path $($artifactPath)"
-    $files = Get-ChildItem "${artifactPath}" | Where-Object -FilterScript { $_.Name.EndsWith(".api.json") }
+    $files =  @(Get-ChildItem "${artifactPath}" | Where-Object -FilterScript { $_.Name.EndsWith(".api.json") })
     if (!$files) {
       Write-Host "$($packageName) does not have api review json"
       Write-Host "API Extractor must be enabled for $($packageName). Please ensure api-extractor.json is present in package directory and api extract script included in build script"
@@ -387,7 +388,7 @@ function Find-javascript-Artifacts-For-Apireview($artifactDir, $packageName) {
   else {
     Write-Host "$($pkgName) does not have api review json"
     return $null
-  } 
+  }
   $packages = @{
     $files[0].Name = $files[0].FullName
   }
@@ -423,7 +424,7 @@ function GetExistingPackageVersions ($PackageName, $GroupId = $null) {
 }
 
 # Defined in common.ps1 as:
-# $ValidateDocsMsPackagesFn = "Validate-${Language}-DocMsPackages" 
+# $ValidateDocsMsPackagesFn = "Validate-${Language}-DocMsPackages"
 function Validate-javascript-DocMsPackages ($PackageInfo, $PackageInfos, $DocRepoLocation, $DocValidationImageId) {
   if (!$PackageInfos) {
     $PackageInfos = @($PackageInfo)
@@ -435,7 +436,7 @@ function Validate-javascript-DocMsPackages ($PackageInfo, $PackageInfos, $DocRep
     $outputLocation = New-Item `
       -ItemType Directory `
       -Path (Join-Path ([System.IO.Path]::GetTempPath()) ([System.IO.Path]::GetRandomFileName()))
-    
+
     Write-Host "type2docfx `"$($packageInfo.Name)@$($packageInfo.Version)`" $outputLocation"
     $output = & type2docfx "$($packageInfo.Name)@$($packageInfo.Version)" $outputLocation 2>&1
     if ($LASTEXITCODE) {
@@ -450,7 +451,7 @@ function Validate-javascript-DocMsPackages ($PackageInfo, $PackageInfos, $DocRep
 
 function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
   $moduleFolders = Get-Content $PackageDirectoriesFile | ConvertFrom-Json
-  
+
   $directoriesWithErrors = @()
 
   foreach ($directory in $moduleFolders) {

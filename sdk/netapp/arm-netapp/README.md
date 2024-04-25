@@ -6,7 +6,7 @@ Microsoft NetApp Files Azure Resource Provider specification
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/netapp/arm-netapp) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-netapp) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-netapp?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-netapp) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

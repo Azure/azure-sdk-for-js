@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */ {
+ */{
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -14,7 +14,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.112.1",
+  "rushVersion": "5.120.6",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -421,11 +421,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure-rest/ai-personalizer",
-      "projectFolder": "sdk/personalizer/ai-personalizer-rest",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure/search-documents",
       "projectFolder": "sdk/search/search-documents",
       "versionPolicyName": "client"
@@ -463,11 +458,6 @@
     {
       "packageName": "@azure/communication-identity",
       "projectFolder": "sdk/communication/communication-identity",
-      "versionPolicyName": "client"
-    },
-    {
-      "packageName": "@azure/communication-network-traversal",
-      "projectFolder": "sdk/communication/communication-network-traversal",
       "versionPolicyName": "client"
     },
     {
@@ -618,6 +608,11 @@
     {
       "packageName": "@azure/eventgrid",
       "projectFolder": "sdk/eventgrid/eventgrid",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/eventgrid-namespaces",
+      "projectFolder": "sdk/eventgrid/eventgrid-namespaces",
       "versionPolicyName": "client"
     },
     {
@@ -859,12 +854,12 @@
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure/test-utils-perf",
+      "packageName": "@azure-tools/test-perf",
       "projectFolder": "sdk/test-utils/perf",
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure/test-utils",
+      "packageName": "@azure-tools/test-utils",
       "projectFolder": "sdk/test-utils/test-utils",
       "versionPolicyName": "utility"
     },
@@ -2189,6 +2184,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-workloadssapvirtualinstance",
+      "projectFolder": "sdk/workloads/arm-workloadssapvirtualinstance",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-astro",
       "projectFolder": "sdk/astro/arm-astro",
       "versionPolicyName": "management"
@@ -2201,6 +2201,21 @@
     {
       "packageName": "@azure/arm-springappdiscovery",
       "projectFolder": "sdk/springappdiscovery/arm-springappdiscovery",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-migrationdiscoverysap",
+      "projectFolder": "sdk/migrationdiscovery/arm-migrationdiscoverysap",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storageactions",
+      "projectFolder": "sdk/storageactions/arm-storageactions",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-standbypool",
+      "projectFolder": "sdk/standbypool/arm-standbypool",
       "versionPolicyName": "management"
     }
   ]

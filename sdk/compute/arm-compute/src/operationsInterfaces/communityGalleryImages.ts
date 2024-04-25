@@ -11,7 +11,7 @@ import {
   CommunityGalleryImage,
   CommunityGalleryImagesListOptionalParams,
   CommunityGalleryImagesGetOptionalParams,
-  CommunityGalleryImagesGetResponse
+  CommunityGalleryImagesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface CommunityGalleryImages {
   list(
     location: string,
     publicGalleryName: string,
-    options?: CommunityGalleryImagesListOptionalParams
+    options?: CommunityGalleryImagesListOptionalParams,
   ): PagedAsyncIterableIterator<CommunityGalleryImage>;
   /**
    * Get a community gallery image.
@@ -39,6 +39,6 @@ export interface CommunityGalleryImages {
     location: string,
     publicGalleryName: string,
     galleryImageName: string,
-    options?: CommunityGalleryImagesGetOptionalParams
+    options?: CommunityGalleryImagesGetOptionalParams,
   ): Promise<CommunityGalleryImagesGetResponse>;
 }

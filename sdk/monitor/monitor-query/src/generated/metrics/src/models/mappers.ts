@@ -255,6 +255,22 @@ export const MetricValue: coreClient.CompositeMapper = {
   }
 };
 
+export const ErrorContract: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorContract",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorResponse"
+        }
+      }
+    }
+  }
+};
+
 export const ErrorResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -262,14 +278,154 @@ export const ErrorResponse: coreClient.CompositeMapper = {
     modelProperties: {
       code: {
         serializedName: "code",
+        readOnly: true,
         type: {
           name: "String"
         }
       },
       message: {
         serializedName: "message",
+        readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorResponse"
+            }
+          }
+        }
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorAdditionalInfo",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      info: {
+        serializedName: "info",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const SubscriptionScopeMetricsRequestBodyParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SubscriptionScopeMetricsRequestBodyParameters",
+    modelProperties: {
+      timespan: {
+        serializedName: "timespan",
+        type: {
+          name: "String"
+        }
+      },
+      interval: {
+        serializedName: "interval",
+        type: {
+          name: "String"
+        }
+      },
+      metricNames: {
+        serializedName: "metricNames",
+        type: {
+          name: "String"
+        }
+      },
+      aggregation: {
+        serializedName: "aggregation",
+        type: {
+          name: "String"
+        }
+      },
+      filter: {
+        serializedName: "filter",
+        type: {
+          name: "String"
+        }
+      },
+      top: {
+        serializedName: "top",
+        type: {
+          name: "Number"
+        }
+      },
+      orderBy: {
+        serializedName: "orderBy",
+        type: {
+          name: "String"
+        }
+      },
+      rollUpBy: {
+        serializedName: "rollUpBy",
+        type: {
+          name: "String"
+        }
+      },
+      resultType: {
+        serializedName: "resultType",
+        type: {
+          name: "String"
+        }
+      },
+      metricNamespace: {
+        serializedName: "metricNamespace",
+        type: {
+          name: "String"
+        }
+      },
+      autoAdjustTimegrain: {
+        serializedName: "autoAdjustTimegrain",
+        type: {
+          name: "Boolean"
+        }
+      },
+      validateDimensions: {
+        serializedName: "validateDimensions",
+        type: {
+          name: "Boolean"
         }
       }
     }

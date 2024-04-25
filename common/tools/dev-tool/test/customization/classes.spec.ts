@@ -236,8 +236,9 @@ class MyClass {}
         parameters: [{ name: "foo", type: "string" }],
       });
       augmentConstructor(customConstructor, originalClass!);
-
-      assert.lengthOf(originalFile.getClass("MyClass")?.getConstructors()!, 1);
+      const constructorDeclarations = originalFile.getClass("MyClass")?.getConstructors();
+      assert.isDefined(constructorDeclarations);
+      if (constructorDeclarations) assert.lengthOf(constructorDeclarations, 1);
     });
 
     it("should replace the original constructor with the custom constructor", () => {
@@ -249,11 +250,12 @@ class MyClass {}
       });
       augmentConstructor(customConstructor, originalClass!);
 
-      assert.lengthOf(originalFile.getClass("MyClass")?.getConstructors()!, 1);
-      assert.isDefined(originalFile.getClass("MyClass")?.getConstructors()[0].getParameter("foo"));
-      assert.isUndefined(
-        originalFile.getClass("MyClass")?.getConstructors()[0].getParameter("bar"),
-      );
+      const constructorDeclarations = originalFile.getClass("MyClass")?.getConstructors();
+      assert.isDefined(constructorDeclarations);
+      if (!constructorDeclarations) assert.fail("constructorDeclarations is undefined");
+      assert.lengthOf(constructorDeclarations, 1);
+      assert.isDefined(constructorDeclarations[0].getParameter("foo"));
+      assert.isUndefined(constructorDeclarations[0].getParameter("bar"));
     });
 
     it("should augment constructor with original constructor", () => {
@@ -285,34 +287,17 @@ class MyClass {}
 
       augmentConstructor(customConstructor, originalClass!);
 
-      assert.lengthOf(originalFile.getClass("MyClass")?.getConstructors()!, 1);
-      assert.equal(originalFile.getClass("MyClass")?.getConstructors()[0].getJsDocs().length, 1);
-      assert.equal(
-        originalFile.getClass("MyClass")?.getConstructors()[0].getJsDocs()[0].getDescription(),
-        "Customized docs",
-      );
-      assert.isDefined(
-        originalFile.getClass("MyClass")?.getConstructors()[0].getParameter("endpoint"),
-      );
-      assert.isUndefined(
-        originalFile.getClass("MyClass")?.getConstructors()[0].getParameter("baseUrl"),
-      );
-      assert.include(
-        originalFile.getClass("MyClass")?.getConstructors()[0].getText(),
-        "console.log('custom');",
-      );
-      assert.include(
-        originalFile.getClass("MyClass")?.getConstructors()[0].getText(),
-        "console.log('original');",
-      );
-      assert.notInclude(
-        originalFile.getClass("MyClass")?.getConstructors()[0].getText(),
-        "// @azsdk-constructor-end",
-      );
-      assert.include(
-        originalFile.getClass("MyClass")?.getConstructors()[0].getText(),
-        "console.log('finish custom');",
-      );
+      const constructorDeclarations = originalFile.getClass("MyClass")?.getConstructors();
+      if (!constructorDeclarations) assert.fail("constructorDeclarations is undefined");
+      assert.lengthOf(constructorDeclarations, 1);
+      assert.equal(constructorDeclarations[0].getJsDocs().length, 1);
+      assert.equal(constructorDeclarations[0].getJsDocs()[0].getDescription(), "Customized docs");
+      assert.isDefined(constructorDeclarations[0].getParameter("endpoint"));
+      assert.isUndefined(constructorDeclarations[0].getParameter("baseUrl"));
+      assert.include(constructorDeclarations[0].getText(), "console.log('custom');");
+      assert.include(constructorDeclarations[0].getText(), "console.log('original');");
+      assert.notInclude(constructorDeclarations[0].getText(), "// @azsdk-constructor-end");
+      assert.include(constructorDeclarations[0].getText(), "console.log('finish custom');");
     });
   });
 });

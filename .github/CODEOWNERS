@@ -103,10 +103,6 @@
 # ServiceLabel: %Communication - Phone Numbers
 /sdk/communication/communication-phone-numbers/ @miguhern @whisper6284 @RoyHerrod @danielav7
 
-# PRLabel: %Communication - Network Traversal
-# ServiceLabel: %Communication - Network Traversal
-/sdk/communication/communication-network-traversal/ @ajpeacock0 @nathpete-msft
-
 # PRLabel: %Communication - Rooms
 # ServiceLabel: %Communication - Rooms
 /sdk/communication/communication-rooms/ @anujissarMS @minnieliu @paolamvhz @shwali-msft @allchiang-msft
@@ -526,6 +522,9 @@
 /sdk/hybridnetwork/arm-hybridnetwork/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/newrelicobservability/arm-newrelicobservability/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/hybridkubernetes/arm-hybridkubernetes/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -581,6 +580,9 @@
 
 # PRLabel: %Mgmt
 /sdk/machinelearningcompute/arm-machinelearningcompute/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/migrationdiscovery/arm-migrationdiscoverysap/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/machinelearningexperimentation/arm-machinelearningexperimentation/ @qiaozha @MaryGao
@@ -742,6 +744,9 @@
 /sdk/search/arm-search/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/standbypool/arm-standbypool/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/springappdiscovery/arm-springappdiscovery/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -782,6 +787,9 @@
 
 # PRLabel: %Mgmt
 /sdk/storage/arm-storage/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/storageactions/arm-storageactions/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/storage/arm-storage-profile-2020-09-01-hybrid/ @qiaozha @MaryGao
@@ -867,6 +875,12 @@
 # PRLabel: %Mgmt
 /sdk/dnsresolver/arm-dnsresolver/ @qiaozha @MaryGao
 
+# PRLabel: %Mgmt
+/sdk/workloads/arm-workloads/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/workloads/arm-workloadssapvirtualinstance/ @qiaozha @MaryGao
+
 # PRLabel: %Monitor
 /sdk/monitor/monitor-ingestion/ @srnagar @lmolkova @Azure/azure-sdk-write-monitor-data-plane
 /sdk/monitor/monitor-opentelemetry @hectorhdzg @JacksonWeber
@@ -935,7 +949,7 @@
 #/<NotInRepo>/          @antcp @AzureAppServiceCLI
 
 # ServiceLabel: %App Configuration %Service Attention
-#/<NotInRepo>/          @shenmuxiaosen @avanigupta
+#/<NotInRepo>/          @Eskibear @avanigupta
 
 # ServiceLabel: %ARO %Service Attention
 #/<NotInRepo>/          @mjudeikis @jim-minter @julienstroheker @amanohar
@@ -1197,7 +1211,7 @@
 #/<NotInRepo>/          @azmonapplicationinsights
 
 # ServiceLabel: %Monitor - Exporter %Service Attention
-#/<NotInRepo>/          @@cijothomas @@reyang @@rajkumar-rangaraj @@TimothyMothra @@vishweshbankwar @@ramthi
+#/<NotInRepo>/          @JacksonWeber @hectorhdzg @ramthi
 
 # ServiceLabel: %MySQL %Service Attention
 #/<NotInRepo>/          @ambhatna @savjani

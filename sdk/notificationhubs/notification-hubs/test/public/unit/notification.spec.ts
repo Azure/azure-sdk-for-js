@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { describe, it, assert } from "vitest";
 import * as Constants from "../../../src/utils/constants.js";
 import {
   createAdmNotification,
@@ -16,7 +17,6 @@ import {
   createWindowsTileNotification,
   createWindowsToastNotification,
 } from "../../../src/models/notification.js";
-import { assert } from "@azure/test-utils";
 
 describe("createAppleNotification", () => {
   it("should create an apple message with defaults", () => {
@@ -28,17 +28,61 @@ describe("createAppleNotification", () => {
     assert.equal(notification.platform, "apple");
     assert.equal(notification.body, `{"aps":{"alert":"Hello"}}`);
   });
+
+  it("should create an apple message with custom object", () => {
+    const notification = createAppleNotification({
+      body: { aps: { alert: "Hello" } },
+    });
+
+    assert.equal(notification.contentType, Constants.JSON_CONTENT_TYPE);
+    assert.equal(notification.platform, "apple");
+    assert.equal(notification.body, `{"aps":{"alert":"Hello"}}`);
+  });
+
+  it("should create an apple message with Apple Headers", () => {
+    const notification = createAppleNotification({
+      body: `{"aps":{"alert":"Hello"}}`,
+      headers: {
+        "apns-push-type": "alert",
+        "apns-id": "1234",
+        "apns-expiration": "100",
+        "apns-priority": "10",
+        "apns-topic": "com.example.myapp",
+        "apns-collapse-id": "1234",
+      },
+    });
+
+    assert.equal(notification.contentType, Constants.JSON_CONTENT_TYPE);
+    assert.equal(notification.platform, "apple");
+    assert.equal(notification.body, `{"aps":{"alert":"Hello"}}`);
+    assert.equal(notification.headers!["apns-push-type"], "alert");
+    assert.equal(notification.headers!["apns-id"], "1234");
+    assert.equal(notification.headers!["apns-expiration"], "100");
+    assert.equal(notification.headers!["apns-priority"], "10");
+    assert.equal(notification.headers!["apns-topic"], "com.example.myapp");
+    assert.equal(notification.headers!["apns-collapse-id"], "1234");
+  });
 });
 
 describe("createAdmNotification", () => {
   it("should create an ADM message with defaults", () => {
     const notification = createAdmNotification({
-      body: `{"data":{"message":"Hello}}`,
+      body: `{"data":{"message":"Hello"}}`,
     });
 
     assert.equal(notification.contentType, Constants.JSON_CONTENT_TYPE);
     assert.equal(notification.platform, "adm");
-    assert.equal(notification.body, `{"data":{"message":"Hello}}`);
+    assert.equal(notification.body, `{"data":{"message":"Hello"}}`);
+  });
+
+  it("should create an ADM message with custom object", () => {
+    const notification = createAdmNotification({
+      body: { data: { message: "Hello" } },
+    });
+
+    assert.equal(notification.contentType, Constants.JSON_CONTENT_TYPE);
+    assert.equal(notification.platform, "adm");
+    assert.equal(notification.body, `{"data":{"message":"Hello"}}`);
   });
 });
 
@@ -52,12 +96,32 @@ describe("createBaiduNotification", () => {
     assert.equal(notification.platform, "baidu");
     assert.equal(notification.body, `{"title":"(Hello title)","description":"Hello"}`);
   });
+
+  it("should create a Baidu message with custom object", () => {
+    const notification = createBaiduNotification({
+      body: { title: "(Hello title)", description: "Hello" },
+    });
+
+    assert.equal(notification.contentType, Constants.JSON_CONTENT_TYPE);
+    assert.equal(notification.platform, "baidu");
+    assert.equal(notification.body, `{"title":"(Hello title)","description":"Hello"}`);
+  });
 });
 
 describe("createBrowserNotification", () => {
-  it("should create a Baidu message with defaults", () => {
+  it("should create a Web Push message with defaults", () => {
     const notification = createBrowserNotification({
       body: `{"title":"(Hello title)","body":"Hello"}`,
+    });
+
+    assert.equal(notification.contentType, Constants.JSON_CONTENT_TYPE);
+    assert.equal(notification.platform, "browser");
+    assert.equal(notification.body, `{"title":"(Hello title)","body":"Hello"}`);
+  });
+
+  it("should create a Web Push message with custom object", () => {
+    const notification = createBrowserNotification({
+      body: { title: "(Hello title)", body: "Hello" },
     });
 
     assert.equal(notification.contentType, Constants.JSON_CONTENT_TYPE);
@@ -69,24 +133,44 @@ describe("createBrowserNotification", () => {
 describe("createFcmV1Notification", () => {
   it("should create a Firebase message with defaults", () => {
     const notification = createFcmV1Notification({
-      body: `{"notification":{"title":"TITLE","body":"Hello}}`,
+      body: `{"notification":{"title":"TITLE","body":"Hello"}}`,
     });
 
     assert.equal(notification.contentType, Constants.JSON_CONTENT_TYPE);
     assert.equal(notification.platform, "fcmv1");
-    assert.equal(notification.body, `{"notification":{"title":"TITLE","body":"Hello}}`);
+    assert.equal(notification.body, `{"notification":{"title":"TITLE","body":"Hello"}}`);
+  });
+
+  it("should create a Firebase message with custom object", () => {
+    const notification = createFcmV1Notification({
+      body: { notification: { title: "TITLE", body: "Hello" } },
+    });
+
+    assert.equal(notification.contentType, Constants.JSON_CONTENT_TYPE);
+    assert.equal(notification.platform, "fcmv1");
+    assert.equal(notification.body, `{"notification":{"title":"TITLE","body":"Hello"}}`);
   });
 });
 
 describe("createFcmLegacyNotification", () => {
   it("should create a Firebase message with defaults", () => {
     const notification = createFcmLegacyNotification({
-      body: `{"notification":{"title":"TITLE","body":"Hello}}`,
+      body: `{"notification":{"title":"TITLE","body":"Hello"}}`,
     });
 
     assert.equal(notification.contentType, Constants.JSON_CONTENT_TYPE);
     assert.equal(notification.platform, "gcm");
-    assert.equal(notification.body, `{"notification":{"title":"TITLE","body":"Hello}}`);
+    assert.equal(notification.body, `{"notification":{"title":"TITLE","body":"Hello"}}`);
+  });
+
+  it("should create a Firebase message with custom object", () => {
+    const notification = createFcmLegacyNotification({
+      body: { notification: { title: "TITLE", body: "Hello" } },
+    });
+
+    assert.equal(notification.contentType, Constants.JSON_CONTENT_TYPE);
+    assert.equal(notification.platform, "gcm");
+    assert.equal(notification.body, `{"notification":{"title":"TITLE","body":"Hello"}}`);
   });
 });
 
@@ -100,17 +184,37 @@ describe("createTemplateNotification", () => {
     assert.equal(notification.platform, "template");
     assert.equal(notification.body, `{"title":"(Hello title)","body":"Hello"}`);
   });
+
+  it("should create a Template message with custom object", () => {
+    const notification = createTemplateNotification({
+      body: { title: "(Hello title)", body: "Hello" },
+    });
+
+    assert.equal(notification.contentType, Constants.JSON_CONTENT_TYPE);
+    assert.equal(notification.platform, "template");
+    assert.equal(notification.body, `{"title":"(Hello title)","body":"Hello"}`);
+  });
 });
 
 describe("createXiaomiNotification", () => {
   it("should create a Xiaomi message with defaults", () => {
     const notification = createXiaomiNotification({
-      body: `{"data":{"message":"Hello}}`,
+      body: `{"data":{"message":"Hello"}}`,
     });
 
     assert.equal(notification.contentType, Constants.JSON_CONTENT_TYPE);
     assert.equal(notification.platform, "xiaomi");
-    assert.equal(notification.body, `{"data":{"message":"Hello}}`);
+    assert.equal(notification.body, `{"data":{"message":"Hello"}}`);
+  });
+
+  it("should create a Xiaomi message with custom object", () => {
+    const notification = createXiaomiNotification({
+      body: { data: { message: "Hello" } },
+    });
+
+    assert.equal(notification.contentType, Constants.JSON_CONTENT_TYPE);
+    assert.equal(notification.platform, "xiaomi");
+    assert.equal(notification.body, `{"data":{"message":"Hello"}}`);
   });
 });
 

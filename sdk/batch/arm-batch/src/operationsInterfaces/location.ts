@@ -15,7 +15,7 @@ import {
   LocationGetQuotasResponse,
   CheckNameAvailabilityParameters,
   LocationCheckNameAvailabilityOptionalParams,
-  LocationCheckNameAvailabilityResponse
+  LocationCheckNameAvailabilityResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface Location {
    */
   listSupportedVirtualMachineSkus(
     locationName: string,
-    options?: LocationListSupportedVirtualMachineSkusOptionalParams
+    options?: LocationListSupportedVirtualMachineSkusOptionalParams,
   ): PagedAsyncIterableIterator<SupportedSku>;
   /**
    * Gets the list of Batch supported Cloud Service VM sizes available at the given location.
@@ -37,7 +37,7 @@ export interface Location {
    */
   listSupportedCloudServiceSkus(
     locationName: string,
-    options?: LocationListSupportedCloudServiceSkusOptionalParams
+    options?: LocationListSupportedCloudServiceSkusOptionalParams,
   ): PagedAsyncIterableIterator<SupportedSku>;
   /**
    * Gets the Batch service quotas for the specified subscription at the given location.
@@ -46,7 +46,7 @@ export interface Location {
    */
   getQuotas(
     locationName: string,
-    options?: LocationGetQuotasOptionalParams
+    options?: LocationGetQuotasOptionalParams,
   ): Promise<LocationGetQuotasResponse>;
   /**
    * Checks whether the Batch account name is available in the specified region.
@@ -57,6 +57,6 @@ export interface Location {
   checkNameAvailability(
     locationName: string,
     parameters: CheckNameAvailabilityParameters,
-    options?: LocationCheckNameAvailabilityOptionalParams
+    options?: LocationCheckNameAvailabilityOptionalParams,
   ): Promise<LocationCheckNameAvailabilityResponse>;
 }

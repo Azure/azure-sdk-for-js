@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient";
 import {
   GetPrivateDnsZoneSuffixExecuteOptionalParams,
-  GetPrivateDnsZoneSuffixExecuteResponse
+  GetPrivateDnsZoneSuffixExecuteResponse,
 } from "../models";
 
 /** Class containing GetPrivateDnsZoneSuffix operations. */
@@ -33,7 +33,7 @@ export class GetPrivateDnsZoneSuffixImpl implements GetPrivateDnsZoneSuffix {
    * @param options The options parameters.
    */
   execute(
-    options?: GetPrivateDnsZoneSuffixExecuteOptionalParams
+    options?: GetPrivateDnsZoneSuffixExecuteOptionalParams,
   ): Promise<GetPrivateDnsZoneSuffixExecuteResponse> {
     return this.client.sendOperationRequest({ options }, executeOperationSpec);
   }
@@ -46,14 +46,14 @@ const executeOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: { type: { name: "String" } }
+      bodyMapper: { type: { name: "String" } },
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
