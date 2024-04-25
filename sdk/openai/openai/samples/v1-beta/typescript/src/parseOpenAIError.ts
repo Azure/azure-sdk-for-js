@@ -11,10 +11,10 @@ import { isOpenAIError } from "@azure/openai";
 export function parseOpenAIError(error: any): void {
   if (isOpenAIError(error)) {
     console.error("The sample encountered an error:");
-    console.log(`Error message: ${error.message}`);
-    console.log(`Error type: ${error.type}`);
-    console.log(`Error param: ${error.param}`);
-    console.log(`Error code: ${error.code}`);
+    console.error(`Error message: ${error.message}`);
+    console.error(`Error type: ${error.type}`);
+    console.error(`Error param: ${error.param}`);
+    console.error(`Error code: ${error.code}`);
   } else {
     console.error("The sample encountered an error:", error);
   }
