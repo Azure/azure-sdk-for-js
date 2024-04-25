@@ -2,25 +2,10 @@
 // Licensed under the MIT license.
 
 import { AzurePipelinesServiceConnectionCredential } from "../../../src";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
-import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
+import { env, isLiveMode } from "@azure-tools/test-recorder";
 import { assert } from "@azure/test-utils";
 
 describe("AzurePipelinesServiceConnectionCredential", function () {
-  let cleanup: MsalTestCleanup;
-  let recorder: Recorder;
-
-  beforeEach(async function (this: Context) {
-    const setup = await msalNodeTestSetup(this.currentTest);
-    cleanup = setup.cleanup;
-    recorder = setup.recorder;
-    await recorder.setMatcher("BodilessMatcher");
-  });
-  afterEach(async function () {
-    await cleanup();
-  });
-
   const scope = "https://vault.azure.net/.default";
   const tenantId = env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!;
   //const clientId = env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!;
