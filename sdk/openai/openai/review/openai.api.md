@@ -624,6 +624,7 @@ export interface GetChatCompletionsOptions extends OperationOptions {
     functionCall?: FunctionCallPreset | FunctionName;
     functions?: FunctionDefinition[];
     logitBias?: Record<string, number>;
+    logprobs?: boolean;
     maxTokens?: number;
     n?: number;
     presencePenalty?: number;
@@ -633,6 +634,7 @@ export interface GetChatCompletionsOptions extends OperationOptions {
     temperature?: number;
     toolChoice?: ChatCompletionsNamedToolSelectionUnion;
     tools?: ChatCompletionsToolDefinitionUnion[];
+    topLogprobs?: number;
     topP?: number;
     user?: string;
 }

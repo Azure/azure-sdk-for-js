@@ -1,0 +1,1903 @@
+Found configuration in /home/codespace/workspace/rush.json
+
+[1mRush Multi-Project Build Tool 5.120.6[33m[39m[22m - Node.js 18.19.0 (LTS)
+> "dev-tool run test:node-ts-input -- \"test/internal/{,!(browser)/**/}*.spec.ts\" \"test/public/{,!(browser)/**/}*.spec.ts\""
+
+[test-info] ===TEST_MODE="live"===
+[node-tests] (node:36065) ExperimentalWarning: `--experimental-loader` may be removed in the future; instead use `register()`:
+[node-tests] --import 'data:text/javascript,import { register } from "node:module"; import { pathToFileURL } from "node:url"; register("ts-node/esm", pathToFileURL("./"));'
+[node-tests] (Use `node --trace-warnings ...` to show where the warning was created)
+[node-tests] 
+[node-tests] 
+[node-tests]   OpenAI
+[node-tests]     [AzureAPIKey] Client
+[node-tests]       chat completions
+[node-tests]         getChatCompletions
+[node-tests] Available deployments (13): text-davinci-002, gpt-35-turbo, text-similarity-curie-001, text-davinci-003, gpt-4, gpt-4-32k, text-embedding-ada-002, gpt-35-turbo-0613, gpt-4-0613, gpt-35-turbo-16k, gpt-35-turbo-0613-plugins, gpt-35-turbo-instruct, text-embedding-3-small
+[node-tests] Available models (28): davinci-002, dall-e-2, tts-1-hd-1106, tts-1-hd, dall-e-3, gpt-4, gpt-3.5-turbo-16k-0613, gpt-4-0613, gpt-3.5-turbo-instruct-0914, gpt-3.5-turbo-0613, gpt-3.5-turbo-instruct, gpt-3.5-turbo-0301, babbage-002, tts-1-1106, gpt-4-0125-preview, gpt-4-1106-preview, text-embedding-3-large, gpt-4-turbo-preview, gpt-3.5-turbo, gpt-3.5-turbo-0125, gpt-4-1106-vision-preview, text-embedding-3-small, gpt-4-vision-preview, gpt-4-32k-0314, gpt-4-0314, gpt-4-turbo-2024-04-09, gpt-3.5-turbo-1106, gpt-4-turbo
+[node-tests] [1/13] testing with text-davinci-002
+[node-tests] Handled error: {"code":"OperationNotSupported","message":"The chatCompletion operation does not work with the specified model, text-davinci-002. Please choose different model and try again. You can learn more about which models can be used with each operation here: https://go.microsoft.com/fwlink/?linkid=2197993."}
+[node-tests] [2/13] testing with gpt-35-turbo
+[node-tests] [
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       73
+[node-tests]     ],
+[node-tests]     "logprob": -0.035651263,
+[node-tests]     "token": "I",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           73
+[node-tests]         ],
+[node-tests]         "logprob": -0.035651263,
+[node-tests]         "token": "I"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           65,
+[node-tests]           115
+[node-tests]         ],
+[node-tests]         "logprob": -4.256835,
+[node-tests]         "token": "As"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           83,
+[node-tests]           111,
+[node-tests]           114,
+[node-tests]           114,
+[node-tests]           121
+[node-tests]         ],
+[node-tests]         "logprob": -4.3595953,
+[node-tests]         "token": "Sorry"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       32,
+[node-tests]       97,
+[node-tests]       112,
+[node-tests]       111,
+[node-tests]       108,
+[node-tests]       111,
+[node-tests]       103,
+[node-tests]       105,
+[node-tests]       122,
+[node-tests]       101
+[node-tests]     ],
+[node-tests]     "logprob": -1.6099905,
+[node-tests]     "token": " apologize",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           39,
+[node-tests]           109
+[node-tests]         ],
+[node-tests]         "logprob": -0.35087526,
+[node-tests]         "token": "'m"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           97,
+[node-tests]           112,
+[node-tests]           111,
+[node-tests]           108,
+[node-tests]           111,
+[node-tests]           103,
+[node-tests]           105,
+[node-tests]           122,
+[node-tests]           101
+[node-tests]         ],
+[node-tests]         "logprob": -1.6099905,
+[node-tests]         "token": " apologize"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           97,
+[node-tests]           109
+[node-tests]         ],
+[node-tests]         "logprob": -2.3853202,
+[node-tests]         "token": " am"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       44
+[node-tests]     ],
+[node-tests]     "logprob": -0.00596885,
+[node-tests]     "token": ",",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           44
+[node-tests]         ],
+[node-tests]         "logprob": -0.00596885,
+[node-tests]         "token": ","
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           102,
+[node-tests]           111,
+[node-tests]           114
+[node-tests]         ],
+[node-tests]         "logprob": -5.6194353,
+[node-tests]         "token": " for"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           97,
+[node-tests]           115
+[node-tests]         ],
+[node-tests]         "logprob": -6.257884,
+[node-tests]         "token": " as"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       32,
+[node-tests]       98,
+[node-tests]       117,
+[node-tests]       116
+[node-tests]     ],
+[node-tests]     "logprob": -0.026486881,
+[node-tests]     "token": " but",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           98,
+[node-tests]           117,
+[node-tests]           116
+[node-tests]         ],
+[node-tests]         "logprob": -0.026486881,
+[node-tests]         "token": " but"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           73
+[node-tests]         ],
+[node-tests]         "logprob": -4.0324874,
+[node-tests]         "token": " I"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           97,
+[node-tests]           115
+[node-tests]         ],
+[node-tests]         "logprob": -4.8034434,
+[node-tests]         "token": " as"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       32,
+[node-tests]       97,
+[node-tests]       115
+[node-tests]     ],
+[node-tests]     "logprob": -0.06370288,
+[node-tests]     "token": " as",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           97,
+[node-tests]           115
+[node-tests]         ],
+[node-tests]         "logprob": -0.06370288,
+[node-tests]         "token": " as"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           73
+[node-tests]         ],
+[node-tests]         "logprob": -2.7912571,
+[node-tests]         "token": " I"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           115,
+[node-tests]           105,
+[node-tests]           110,
+[node-tests]           99,
+[node-tests]           101
+[node-tests]         ],
+[node-tests]         "logprob": -8.32895,
+[node-tests]         "token": " since"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       32,
+[node-tests]       97,
+[node-tests]       110
+[node-tests]     ],
+[node-tests]     "logprob": -0.0047772108,
+[node-tests]     "token": " an",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           97,
+[node-tests]           110
+[node-tests]         ],
+[node-tests]         "logprob": -0.0047772108,
+[node-tests]         "token": " an"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           97
+[node-tests]         ],
+[node-tests]         "logprob": -5.3650336,
+[node-tests]         "token": " a"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           73
+[node-tests]         ],
+[node-tests]         "logprob": -9.971509,
+[node-tests]         "token": " I"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       32,
+[node-tests]       65,
+[node-tests]       73
+[node-tests]     ],
+[node-tests]     "logprob": -0.0033879068,
+[node-tests]     "token": " AI",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           65,
+[node-tests]           73
+[node-tests]         ],
+[node-tests]         "logprob": -0.0033879068,
+[node-tests]         "token": " AI"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           108,
+[node-tests]           97,
+[node-tests]           110,
+[node-tests]           103,
+[node-tests]           117,
+[node-tests]           97,
+[node-tests]           103,
+[node-tests]           101
+[node-tests]         ],
+[node-tests]         "logprob": -5.706158,
+[node-tests]         "token": " language"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           116,
+[node-tests]           101,
+[node-tests]           120,
+[node-tests]           116
+[node-tests]         ],
+[node-tests]         "logprob": -10.638855,
+[node-tests]         "token": " text"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       44
+[node-tests]     ],
+[node-tests]     "logprob": -1.905334,
+[node-tests]     "token": ",",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           108,
+[node-tests]           97,
+[node-tests]           110,
+[node-tests]           103,
+[node-tests]           117,
+[node-tests]           97,
+[node-tests]           103,
+[node-tests]           101
+[node-tests]         ],
+[node-tests]         "logprob": -0.34415385,
+[node-tests]         "token": " language"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           44
+[node-tests]         ],
+[node-tests]         "logprob": -1.905334,
+[node-tests]         "token": ","
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           116,
+[node-tests]           101,
+[node-tests]           120,
+[node-tests]           116
+[node-tests]         ],
+[node-tests]         "logprob": -2.485393,
+[node-tests]         "token": " text"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       32,
+[node-tests]       73
+[node-tests]     ],
+[node-tests]     "logprob": -0.0003485746,
+[node-tests]     "token": " I",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           73
+[node-tests]         ],
+[node-tests]         "logprob": -0.0003485746,
+[node-tests]         "token": " I"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           109,
+[node-tests]           121
+[node-tests]         ],
+[node-tests]         "logprob": -7.9837565,
+[node-tests]         "token": " my"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32
+[node-tests]         ],
+[node-tests]         "logprob": -13.283131,
+[node-tests]         "token": " "
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       32,
+[node-tests]       100,
+[node-tests]       111,
+[node-tests]       110
+[node-tests]     ],
+[node-tests]     "logprob": -1.5929579,
+[node-tests]     "token": " don",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           100,
+[node-tests]           111
+[node-tests]         ],
+[node-tests]         "logprob": -0.34235513,
+[node-tests]         "token": " do"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           100,
+[node-tests]           111,
+[node-tests]           110
+[node-tests]         ],
+[node-tests]         "logprob": -1.5929579,
+[node-tests]         "token": " don"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           97,
+[node-tests]           109
+[node-tests]         ],
+[node-tests]         "logprob": -2.7707992,
+[node-tests]         "token": " am"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       39,
+[node-tests]       116
+[node-tests]     ],
+[node-tests]     "logprob": -0.00027647105,
+[node-tests]     "token": "'t",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           39,
+[node-tests]           116
+[node-tests]         ],
+[node-tests]         "logprob": -0.00027647105,
+[node-tests]         "token": "'t"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           226,
+[node-tests]           128,
+[node-tests]           153,
+[node-tests]           116
+[node-tests]         ],
+[node-tests]         "logprob": -8.194164,
+[node-tests]         "token": "’t"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           39
+[node-tests]         ],
+[node-tests]         "logprob": -16.373178,
+[node-tests]         "token": "'"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       32,
+[node-tests]       104,
+[node-tests]       97,
+[node-tests]       118,
+[node-tests]       101
+[node-tests]     ],
+[node-tests]     "logprob": -0.0019651512,
+[node-tests]     "token": " have",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           104,
+[node-tests]           97,
+[node-tests]           118,
+[node-tests]           101
+[node-tests]         ],
+[node-tests]         "logprob": -0.0019651512,
+[node-tests]         "token": " have"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           112,
+[node-tests]           111,
+[node-tests]           115,
+[node-tests]           115,
+[node-tests]           101,
+[node-tests]           115,
+[node-tests]           115
+[node-tests]         ],
+[node-tests]         "logprob": -6.3368936,
+[node-tests]         "token": " possess"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           112,
+[node-tests]           114,
+[node-tests]           111,
+[node-tests]           118,
+[node-tests]           105,
+[node-tests]           100,
+[node-tests]           101
+[node-tests]         ],
+[node-tests]         "logprob": -9.050014,
+[node-tests]         "token": " provide"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       32,
+[node-tests]       114,
+[node-tests]       101,
+[node-tests]       97,
+[node-tests]       108
+[node-tests]     ],
+[node-tests]     "logprob": -0.18479867,
+[node-tests]     "token": " real",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           114,
+[node-tests]           101,
+[node-tests]           97,
+[node-tests]           108
+[node-tests]         ],
+[node-tests]         "logprob": -0.18479867,
+[node-tests]         "token": " real"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           97,
+[node-tests]           99,
+[node-tests]           99,
+[node-tests]           101,
+[node-tests]           115,
+[node-tests]           115
+[node-tests]         ],
+[node-tests]         "logprob": -2.0139537,
+[node-tests]         "token": " access"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           116,
+[node-tests]           104,
+[node-tests]           101
+[node-tests]         ],
+[node-tests]         "logprob": -3.4714885,
+[node-tests]         "token": " the"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       45,
+[node-tests]       116,
+[node-tests]       105,
+[node-tests]       109,
+[node-tests]       101
+[node-tests]     ],
+[node-tests]     "logprob": -0.000045252596,
+[node-tests]     "token": "-time",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           45,
+[node-tests]           116,
+[node-tests]           105,
+[node-tests]           109,
+[node-tests]           101
+[node-tests]         ],
+[node-tests]         "logprob": -0.000045252596,
+[node-tests]         "token": "-time"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           116,
+[node-tests]           105,
+[node-tests]           109,
+[node-tests]           101
+[node-tests]         ],
+[node-tests]         "logprob": -10.058688,
+[node-tests]         "token": " time"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           45,
+[node-tests]           116
+[node-tests]         ],
+[node-tests]         "logprob": -13.577338,
+[node-tests]         "token": "-t"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       32,
+[node-tests]       100,
+[node-tests]       97,
+[node-tests]       116,
+[node-tests]       97
+[node-tests]     ],
+[node-tests]     "logprob": -0.20360152,
+[node-tests]     "token": " data",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           100,
+[node-tests]           97,
+[node-tests]           116,
+[node-tests]           97
+[node-tests]         ],
+[node-tests]         "logprob": -0.20360152,
+[node-tests]         "token": " data"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           105,
+[node-tests]           110,
+[node-tests]           102,
+[node-tests]           111,
+[node-tests]           114,
+[node-tests]           109,
+[node-tests]           97,
+[node-tests]           116,
+[node-tests]           105,
+[node-tests]           111,
+[node-tests]           110
+[node-tests]         ],
+[node-tests]         "logprob": -1.7933766,
+[node-tests]         "token": " information"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           97,
+[node-tests]           99,
+[node-tests]           99,
+[node-tests]           101,
+[node-tests]           115,
+[node-tests]           115
+[node-tests]         ],
+[node-tests]         "logprob": -4.1987567,
+[node-tests]         "token": " access"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       46
+[node-tests]     ],
+[node-tests]     "logprob": -0.033744015,
+[node-tests]     "token": ".",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           46
+[node-tests]         ],
+[node-tests]         "logprob": -0.033744015,
+[node-tests]         "token": "."
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           97,
+[node-tests]           99,
+[node-tests]           99,
+[node-tests]           101,
+[node-tests]           115,
+[node-tests]           115
+[node-tests]         ],
+[node-tests]         "logprob": -4.269761,
+[node-tests]         "token": " access"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           111,
+[node-tests]           114
+[node-tests]         ],
+[node-tests]         "logprob": -4.8617754,
+[node-tests]         "token": " or"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       32,
+[node-tests]       72,
+[node-tests]       111,
+[node-tests]       119,
+[node-tests]       101,
+[node-tests]       118,
+[node-tests]       101,
+[node-tests]       114
+[node-tests]     ],
+[node-tests]     "logprob": -0.11020247,
+[node-tests]     "token": " However",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           72,
+[node-tests]           111,
+[node-tests]           119,
+[node-tests]           101,
+[node-tests]           118,
+[node-tests]           101,
+[node-tests]           114
+[node-tests]         ],
+[node-tests]         "logprob": -0.11020247,
+[node-tests]         "token": " However"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           89,
+[node-tests]           111,
+[node-tests]           117
+[node-tests]         ],
+[node-tests]         "logprob": -3.502895,
+[node-tests]         "token": " You"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           87,
+[node-tests]           101,
+[node-tests]           97,
+[node-tests]           116,
+[node-tests]           104,
+[node-tests]           101,
+[node-tests]           114
+[node-tests]         ],
+[node-tests]         "logprob": -3.9974458,
+[node-tests]         "token": " Weather"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       44
+[node-tests]     ],
+[node-tests]     "logprob": -0.00003488188,
+[node-tests]     "token": ",",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           44
+[node-tests]         ],
+[node-tests]         "logprob": -0.00003488188,
+[node-tests]         "token": ","
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           121,
+[node-tests]           111,
+[node-tests]           117
+[node-tests]         ],
+[node-tests]         "logprob": -10.378459,
+[node-tests]         "token": " you"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           44,
+[node-tests]           121
+[node-tests]         ],
+[node-tests]         "logprob": -13.933057,
+[node-tests]         "token": ",y"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       32,
+[node-tests]       121,
+[node-tests]       111,
+[node-tests]       117
+[node-tests]     ],
+[node-tests]     "logprob": -0.0030838326,
+[node-tests]     "token": " you",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           121,
+[node-tests]           111,
+[node-tests]           117
+[node-tests]         ],
+[node-tests]         "logprob": -0.0030838326,
+[node-tests]         "token": " you"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           73
+[node-tests]         ],
+[node-tests]         "logprob": -6.0847163,
+[node-tests]         "token": " I"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           97,
+[node-tests]           116
+[node-tests]         ],
+[node-tests]         "logprob": -8.504068,
+[node-tests]         "token": " at"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       32,
+[node-tests]       99,
+[node-tests]       97,
+[node-tests]       110
+[node-tests]     ],
+[node-tests]     "logprob": -0.0002634815,
+[node-tests]     "token": " can",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           99,
+[node-tests]           97,
+[node-tests]           110
+[node-tests]         ],
+[node-tests]         "logprob": -0.0002634815,
+[node-tests]         "token": " can"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           99,
+[node-tests]           111,
+[node-tests]           117,
+[node-tests]           108,
+[node-tests]           100
+[node-tests]         ],
+[node-tests]         "logprob": -8.892757,
+[node-tests]         "token": " could"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           109,
+[node-tests]           97,
+[node-tests]           121
+[node-tests]         ],
+[node-tests]         "logprob": -9.148842,
+[node-tests]         "token": " may"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       32,
+[node-tests]       99,
+[node-tests]       104,
+[node-tests]       101,
+[node-tests]       99,
+[node-tests]       107
+[node-tests]     ],
+[node-tests]     "logprob": -0.8602606,
+[node-tests]     "token": " check",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           101,
+[node-tests]           97,
+[node-tests]           115,
+[node-tests]           105,
+[node-tests]           108,
+[node-tests]           121
+[node-tests]         ],
+[node-tests]         "logprob": -0.56550276,
+[node-tests]         "token": " easily"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           99,
+[node-tests]           104,
+[node-tests]           101,
+[node-tests]           99,
+[node-tests]           107
+[node-tests]         ],
+[node-tests]         "logprob": -0.8602606,
+[node-tests]         "token": " check"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           117,
+[node-tests]           115,
+[node-tests]           101
+[node-tests]         ],
+[node-tests]         "logprob": -6.142916,
+[node-tests]         "token": " use"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       32,
+[node-tests]       116,
+[node-tests]       104,
+[node-tests]       101
+[node-tests]     ],
+[node-tests]     "logprob": -0.0027027584,
+[node-tests]     "token": " the",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           116,
+[node-tests]           104,
+[node-tests]           101
+[node-tests]         ],
+[node-tests]         "logprob": -0.0027027584,
+[node-tests]         "token": " the"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           97
+[node-tests]         ],
+[node-tests]         "logprob": -7.193138,
+[node-tests]         "token": " a"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           99,
+[node-tests]           117,
+[node-tests]           114,
+[node-tests]           114,
+[node-tests]           101,
+[node-tests]           110,
+[node-tests]           116
+[node-tests]         ],
+[node-tests]         "logprob": -7.3115635,
+[node-tests]         "token": " current"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       32,
+[node-tests]       119,
+[node-tests]       101,
+[node-tests]       97,
+[node-tests]       116,
+[node-tests]       104,
+[node-tests]       101,
+[node-tests]       114
+[node-tests]     ],
+[node-tests]     "logprob": -0.6337274,
+[node-tests]     "token": " weather",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           119,
+[node-tests]           101,
+[node-tests]           97,
+[node-tests]           116,
+[node-tests]           104,
+[node-tests]           101,
+[node-tests]           114
+[node-tests]         ],
+[node-tests]         "logprob": -0.6337274,
+[node-tests]         "token": " weather"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           99,
+[node-tests]           117,
+[node-tests]           114,
+[node-tests]           114,
+[node-tests]           101,
+[node-tests]           110,
+[node-tests]           116
+[node-tests]         ],
+[node-tests]         "logprob": -0.765632,
+[node-tests]         "token": " current"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           108,
+[node-tests]           97,
+[node-tests]           116,
+[node-tests]           101,
+[node-tests]           115,
+[node-tests]           116
+[node-tests]         ],
+[node-tests]         "logprob": -5.9825644,
+[node-tests]         "token": " latest"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       32,
+[node-tests]       105,
+[node-tests]       110
+[node-tests]     ],
+[node-tests]     "logprob": -0.008984912,
+[node-tests]     "token": " in",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           105,
+[node-tests]           110
+[node-tests]         ],
+[node-tests]         "logprob": -0.008984912,
+[node-tests]         "token": " in"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           102,
+[node-tests]           111,
+[node-tests]           114,
+[node-tests]           101,
+[node-tests]           99,
+[node-tests]           97,
+[node-tests]           115,
+[node-tests]           116
+[node-tests]         ],
+[node-tests]         "logprob": -4.795858,
+[node-tests]         "token": " forecast"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           102,
+[node-tests]           111,
+[node-tests]           114
+[node-tests]         ],
+[node-tests]         "logprob": -7.974529,
+[node-tests]         "token": " for"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       32,
+[node-tests]       66,
+[node-tests]       111,
+[node-tests]       115,
+[node-tests]       116,
+[node-tests]       111,
+[node-tests]       110
+[node-tests]     ],
+[node-tests]     "logprob": -0.000013663626,
+[node-tests]     "token": " Boston",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           66,
+[node-tests]           111,
+[node-tests]           115,
+[node-tests]           116,
+[node-tests]           111,
+[node-tests]           110
+[node-tests]         ],
+[node-tests]         "logprob": -0.000013663626,
+[node-tests]         "token": " Boston"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           114,
+[node-tests]           101,
+[node-tests]           97,
+[node-tests]           108
+[node-tests]         ],
+[node-tests]         "logprob": -11.849585,
+[node-tests]         "token": " real"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           97,
+[node-tests]           110,
+[node-tests]           121
+[node-tests]         ],
+[node-tests]         "logprob": -13.391987,
+[node-tests]         "token": " any"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       32,
+[node-tests]       98,
+[node-tests]       121
+[node-tests]     ],
+[node-tests]     "logprob": -0.17030066,
+[node-tests]     "token": " by",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           98,
+[node-tests]           121
+[node-tests]         ],
+[node-tests]         "logprob": -0.17030066,
+[node-tests]         "token": " by"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           117,
+[node-tests]           115,
+[node-tests]           105,
+[node-tests]           110,
+[node-tests]           103
+[node-tests]         ],
+[node-tests]         "logprob": -2.4633038,
+[node-tests]         "token": " using"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           116,
+[node-tests]           104,
+[node-tests]           114,
+[node-tests]           111,
+[node-tests]           117,
+[node-tests]           103,
+[node-tests]           104
+[node-tests]         ],
+[node-tests]         "logprob": -3.0188572,
+[node-tests]         "token": " through"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       32,
+[node-tests]       117,
+[node-tests]       115,
+[node-tests]       105,
+[node-tests]       110,
+[node-tests]       103
+[node-tests]     ],
+[node-tests]     "logprob": -0.19514893,
+[node-tests]     "token": " using",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           117,
+[node-tests]           115,
+[node-tests]           105,
+[node-tests]           110,
+[node-tests]           103
+[node-tests]         ],
+[node-tests]         "logprob": -0.19514893,
+[node-tests]         "token": " using"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           115,
+[node-tests]           101,
+[node-tests]           97,
+[node-tests]           114,
+[node-tests]           99,
+[node-tests]           104,
+[node-tests]           105,
+[node-tests]           110,
+[node-tests]           103
+[node-tests]         ],
+[node-tests]         "logprob": -2.0224118,
+[node-tests]         "token": " searching"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           114,
+[node-tests]           101,
+[node-tests]           102,
+[node-tests]           101,
+[node-tests]           114,
+[node-tests]           114,
+[node-tests]           105,
+[node-tests]           110,
+[node-tests]           103
+[node-tests]         ],
+[node-tests]         "logprob": -4.529042,
+[node-tests]         "token": " referring"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       32,
+[node-tests]       97
+[node-tests]     ],
+[node-tests]     "logprob": -0.06611465,
+[node-tests]     "token": " a",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           97
+[node-tests]         ],
+[node-tests]         "logprob": -0.06611465,
+[node-tests]         "token": " a"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           118,
+[node-tests]           97,
+[node-tests]           114,
+[node-tests]           105,
+[node-tests]           111,
+[node-tests]           117,
+[node-tests]           115
+[node-tests]         ],
+[node-tests]         "logprob": -3.5220244,
+[node-tests]         "token": " various"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           97,
+[node-tests]           110,
+[node-tests]           121
+[node-tests]         ],
+[node-tests]         "logprob": -4.179884,
+[node-tests]         "token": " any"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       32,
+[node-tests]       114,
+[node-tests]       101,
+[node-tests]       108,
+[node-tests]       105,
+[node-tests]       97,
+[node-tests]       98,
+[node-tests]       108,
+[node-tests]       101
+[node-tests]     ],
+[node-tests]     "logprob": -1.6067855,
+[node-tests]     "token": " reliable",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           119,
+[node-tests]           101,
+[node-tests]           97,
+[node-tests]           116,
+[node-tests]           104,
+[node-tests]           101,
+[node-tests]           114
+[node-tests]         ],
+[node-tests]         "logprob": -0.38247752,
+[node-tests]         "token": " weather"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           114,
+[node-tests]           101,
+[node-tests]           108,
+[node-tests]           105,
+[node-tests]           97,
+[node-tests]           98,
+[node-tests]           108,
+[node-tests]           101
+[node-tests]         ],
+[node-tests]         "logprob": -1.6067855,
+[node-tests]         "token": " reliable"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           115,
+[node-tests]           101,
+[node-tests]           97,
+[node-tests]           114,
+[node-tests]           99,
+[node-tests]           104
+[node-tests]         ],
+[node-tests]         "logprob": -2.2140052,
+[node-tests]         "token": " search"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       32,
+[node-tests]       111,
+[node-tests]       110,
+[node-tests]       108,
+[node-tests]       105,
+[node-tests]       110,
+[node-tests]       101
+[node-tests]     ],
+[node-tests]     "logprob": -4.1630583,
+[node-tests]     "token": " online",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           119,
+[node-tests]           101,
+[node-tests]           97,
+[node-tests]           116,
+[node-tests]           104,
+[node-tests]           101,
+[node-tests]           114
+[node-tests]         ],
+[node-tests]         "logprob": -0.018862741,
+[node-tests]         "token": " weather"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           111,
+[node-tests]           110,
+[node-tests]           108,
+[node-tests]           105,
+[node-tests]           110,
+[node-tests]           101
+[node-tests]         ],
+[node-tests]         "logprob": -4.1630583,
+[node-tests]         "token": " online"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           119,
+[node-tests]           101,
+[node-tests]           98,
+[node-tests]           115,
+[node-tests]           105,
+[node-tests]           116,
+[node-tests]           101
+[node-tests]         ],
+[node-tests]         "logprob": -6.100024,
+[node-tests]         "token": " website"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       32,
+[node-tests]       119,
+[node-tests]       101,
+[node-tests]       97,
+[node-tests]       116,
+[node-tests]       104,
+[node-tests]       101,
+[node-tests]       114
+[node-tests]     ],
+[node-tests]     "logprob": -0.0037232419,
+[node-tests]     "token": " weather",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           119,
+[node-tests]           101,
+[node-tests]           97,
+[node-tests]           116,
+[node-tests]           104,
+[node-tests]           101,
+[node-tests]           114
+[node-tests]         ],
+[node-tests]         "logprob": -0.0037232419,
+[node-tests]         "token": " weather"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           115,
+[node-tests]           111,
+[node-tests]           117,
+[node-tests]           114,
+[node-tests]           99,
+[node-tests]           101
+[node-tests]         ],
+[node-tests]         "logprob": -5.6641464,
+[node-tests]         "token": " source"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           112,
+[node-tests]           108,
+[node-tests]           97,
+[node-tests]           116,
+[node-tests]           102,
+[node-tests]           111,
+[node-tests]           114,
+[node-tests]           109
+[node-tests]         ],
+[node-tests]         "logprob": -9.193535,
+[node-tests]         "token": " platform"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       32,
+[node-tests]       115,
+[node-tests]       101,
+[node-tests]       114,
+[node-tests]       118,
+[node-tests]       105,
+[node-tests]       99,
+[node-tests]       101
+[node-tests]     ],
+[node-tests]     "logprob": -0.1935055,
+[node-tests]     "token": " service",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           115,
+[node-tests]           101,
+[node-tests]           114,
+[node-tests]           118,
+[node-tests]           105,
+[node-tests]           99,
+[node-tests]           101
+[node-tests]         ],
+[node-tests]         "logprob": -0.1935055,
+[node-tests]         "token": " service"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           119,
+[node-tests]           101,
+[node-tests]           98,
+[node-tests]           115,
+[node-tests]           105,
+[node-tests]           116,
+[node-tests]           101
+[node-tests]         ],
+[node-tests]         "logprob": -2.2583363,
+[node-tests]         "token": " website"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           102,
+[node-tests]           111,
+[node-tests]           114,
+[node-tests]           101,
+[node-tests]           99,
+[node-tests]           97,
+[node-tests]           115,
+[node-tests]           116,
+[node-tests]           105,
+[node-tests]           110,
+[node-tests]           103
+[node-tests]         ],
+[node-tests]         "logprob": -3.4735425,
+[node-tests]         "token": " forecasting"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       32,
+[node-tests]       111,
+[node-tests]       114
+[node-tests]     ],
+[node-tests]     "logprob": -0.015408314,
+[node-tests]     "token": " or",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           111,
+[node-tests]           114
+[node-tests]         ],
+[node-tests]         "logprob": -0.015408314,
+[node-tests]         "token": " or"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           44
+[node-tests]         ],
+[node-tests]         "logprob": -4.2027597,
+[node-tests]         "token": ","
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           115,
+[node-tests]           117,
+[node-tests]           99,
+[node-tests]           104
+[node-tests]         ],
+[node-tests]         "logprob": -8.647403,
+[node-tests]         "token": " such"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       32,
+[node-tests]       99,
+[node-tests]       104,
+[node-tests]       101,
+[node-tests]       99,
+[node-tests]       107,
+[node-tests]       105,
+[node-tests]       110,
+[node-tests]       103
+[node-tests]     ],
+[node-tests]     "logprob": -0.26964378,
+[node-tests]     "token": " checking",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           99,
+[node-tests]           104,
+[node-tests]           101,
+[node-tests]           99,
+[node-tests]           107,
+[node-tests]           105,
+[node-tests]           110,
+[node-tests]           103
+[node-tests]         ],
+[node-tests]         "logprob": -0.26964378,
+[node-tests]         "token": " checking"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           98,
+[node-tests]           121
+[node-tests]         ],
+[node-tests]         "logprob": -1.5560207,
+[node-tests]         "token": " by"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           97
+[node-tests]         ],
+[node-tests]         "logprob": -4.4100666,
+[node-tests]         "token": " a"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       32,
+[node-tests]       97
+[node-tests]     ],
+[node-tests]     "logprob": -0.7466416,
+[node-tests]     "token": " a",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           97
+[node-tests]         ],
+[node-tests]         "logprob": -0.7466416,
+[node-tests]         "token": " a"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           116,
+[node-tests]           104,
+[node-tests]           101
+[node-tests]         ],
+[node-tests]         "logprob": -0.96769947,
+[node-tests]         "token": " the"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           119,
+[node-tests]           105,
+[node-tests]           116,
+[node-tests]           104
+[node-tests]         ],
+[node-tests]         "logprob": -2.4141603,
+[node-tests]         "token": " with"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       32,
+[node-tests]       119,
+[node-tests]       101,
+[node-tests]       97,
+[node-tests]       116,
+[node-tests]       104,
+[node-tests]       101,
+[node-tests]       114
+[node-tests]     ],
+[node-tests]     "logprob": -0.097052254,
+[node-tests]     "token": " weather",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           119,
+[node-tests]           101,
+[node-tests]           97,
+[node-tests]           116,
+[node-tests]           104,
+[node-tests]           101,
+[node-tests]           114
+[node-tests]         ],
+[node-tests]         "logprob": -0.097052254,
+[node-tests]         "token": " weather"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           108,
+[node-tests]           111,
+[node-tests]           99,
+[node-tests]           97,
+[node-tests]           108
+[node-tests]         ],
+[node-tests]         "logprob": -2.4402072,
+[node-tests]         "token": " local"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           116,
+[node-tests]           114,
+[node-tests]           117,
+[node-tests]           115,
+[node-tests]           116,
+[node-tests]           101,
+[node-tests]           100
+[node-tests]         ],
+[node-tests]         "logprob": -6.020869,
+[node-tests]         "token": " trusted"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       32,
+[node-tests]       97,
+[node-tests]       112,
+[node-tests]       112
+[node-tests]     ],
+[node-tests]     "logprob": -0.056910623,
+[node-tests]     "token": " app",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           97,
+[node-tests]           112,
+[node-tests]           112
+[node-tests]         ],
+[node-tests]         "logprob": -0.056910623,
+[node-tests]         "token": " app"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           119,
+[node-tests]           101,
+[node-tests]           98,
+[node-tests]           115,
+[node-tests]           105,
+[node-tests]           116,
+[node-tests]           101
+[node-tests]         ],
+[node-tests]         "logprob": -4.0858374,
+[node-tests]         "token": " website"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           97,
+[node-tests]           112,
+[node-tests]           112,
+[node-tests]           108,
+[node-tests]           105,
+[node-tests]           99,
+[node-tests]           97,
+[node-tests]           116,
+[node-tests]           105,
+[node-tests]           111,
+[node-tests]           110
+[node-tests]         ],
+[node-tests]         "logprob": -4.1708975,
+[node-tests]         "token": " application"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       32,
+[node-tests]       111,
+[node-tests]       110
+[node-tests]     ],
+[node-tests]     "logprob": -0.19858833,
+[node-tests]     "token": " on",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           111,
+[node-tests]           110
+[node-tests]         ],
+[node-tests]         "logprob": -0.19858833,
+[node-tests]         "token": " on"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           46
+[node-tests]         ],
+[node-tests]         "logprob": -1.7815733,
+[node-tests]         "token": "."
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           102,
+[node-tests]           111,
+[node-tests]           114
+[node-tests]         ],
+[node-tests]         "logprob": -4.7748613,
+[node-tests]         "token": " for"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       32,
+[node-tests]       121,
+[node-tests]       111,
+[node-tests]       117,
+[node-tests]       114
+[node-tests]     ],
+[node-tests]     "logprob": -0.0003771688,
+[node-tests]     "token": " your",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           121,
+[node-tests]           111,
+[node-tests]           117,
+[node-tests]           114
+[node-tests]         ],
+[node-tests]         "logprob": -0.0003771688,
+[node-tests]         "token": " your"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           97
+[node-tests]         ],
+[node-tests]         "logprob": -7.897939,
+[node-tests]         "token": " a"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           97,
+[node-tests]           110,
+[node-tests]           121
+[node-tests]         ],
+[node-tests]         "logprob": -13.1097975,
+[node-tests]         "token": " any"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       32,
+[node-tests]       115,
+[node-tests]       109,
+[node-tests]       97,
+[node-tests]       114,
+[node-tests]       116,
+[node-tests]       112,
+[node-tests]       104,
+[node-tests]       111,
+[node-tests]       110,
+[node-tests]       101
+[node-tests]     ],
+[node-tests]     "logprob": -0.9323805,
+[node-tests]     "token": " smartphone",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           112,
+[node-tests]           104,
+[node-tests]           111,
+[node-tests]           110,
+[node-tests]           101
+[node-tests]         ],
+[node-tests]         "logprob": -0.79613477,
+[node-tests]         "token": " phone"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           115,
+[node-tests]           109,
+[node-tests]           97,
+[node-tests]           114,
+[node-tests]           116,
+[node-tests]           112,
+[node-tests]           104,
+[node-tests]           111,
+[node-tests]           110,
+[node-tests]           101
+[node-tests]         ],
+[node-tests]         "logprob": -0.9323805,
+[node-tests]         "token": " smartphone"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           100,
+[node-tests]           101,
+[node-tests]           118,
+[node-tests]           105,
+[node-tests]           99,
+[node-tests]           101
+[node-tests]         ],
+[node-tests]         "logprob": -2.2669942,
+[node-tests]         "token": " device"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   },
+[node-tests]   {
+[node-tests]     "bytes": [
+[node-tests]       46
+[node-tests]     ],
+[node-tests]     "logprob": -0.3345395,
+[node-tests]     "token": ".",
+[node-tests]     "topLogprobs": [
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           46
+[node-tests]         ],
+[node-tests]         "logprob": -0.3345395,
+[node-tests]         "token": "."
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           111,
+[node-tests]           114
+[node-tests]         ],
+[node-tests]         "logprob": -1.2628995,
+[node-tests]         "token": " or"
+[node-tests]       },
+[node-tests]       {
+[node-tests]         "bytes": [
+[node-tests]           32,
+[node-tests]           102,
+[node-tests]           111,
+[node-tests]           114
+[node-tests]         ],
+[node-tests]         "logprob": -6.835499,
+[node-tests]         "token": " for"
+[node-tests]       }
+[node-tests]     ]
+[node-tests]   }
+[node-tests] ]
+[node-tests] [3/13] testing with text-similarity-curie-001
+[node-tests] Handled error: {"code":"OperationNotSupported","message":"The chatCompletion operation does not work with the specified model, text-similarity-curie-001. Please choose different model and try again. You can learn more about which models can be used with each operation here: https://go.microsoft.com/fwlink/?linkid=2197993."}
+[node-tests] [4/13] testing with text-davinci-003
+[node-tests] Handled error: {"code":"OperationNotSupported","message":"The chatCompletion operation does not work with the specified model, text-davinci-003. Please choose different model and try again. You can learn more about which models can be used with each operation here: https://go.microsoft.com/fwlink/?linkid=2197993."}
+[node-tests] [5/13] testing with gpt-4
+[node-tests] mocha --loader=ts-node/esm --reporter ../../../common/tools/mocha-multi-reporter.js --reporter-option output=test-results.xml --full-trace "test/internal/{,!(browser)/**/}*.spec.ts" "test/public/{,!(browser)/**/}*.spec.ts" exited with code SIGINT

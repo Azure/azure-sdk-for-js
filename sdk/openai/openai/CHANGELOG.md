@@ -2,6 +2,10 @@
 
 ## 1.0.0-beta.13 (Unreleased)
 
+### Features Added
+
+- Adds support for `logprobs` and `topLogprobs` in `GetChatCompletionsOptions` to support log probabilities for chat completions
+
 ### Bugs Fixed
 
 - Fix a bug where `ChatCompletions` did not expose the `model` property.

@@ -21,6 +21,8 @@ import {
   ChatCompletionsToolCallUnion,
   ChatFinishDetails,
   ChatResponseMessage,
+  ChatTokenLogProbabilityInfo,
+  ChatTokenLogProbabilityResult,
   Choice,
   Completions,
   CompletionsLogProbabilityModel,
@@ -277,12 +279,26 @@ function assertChatChoice(choice: ChatChoice, options: ChatCompletionTestOptions
     assert.isUndefined(choice.delta);
   }
   assert.isNumber(choice.index);
+  ifDefined(choice.logprobs?.content, (content) => assertNonEmptyArray(content, assertLogprobResult));
   ifDefined(choice.contentFilterResults, assertContentFilterResultsForChoice);
   ifDefined(choice.finishReason, assert.isString);
   ifDefined(choice.finishDetails, assertChatFinishDetails);
   ifDefined(choice.enhancements, assertAzureChatEnhancements);
 }
 
+function assertLogprobResult(logprobResult: ChatTokenLogProbabilityResult): void {
+  assert.isNumber(logprobResult.logprob);
+  assert.isString(logprobResult.token);
+  ifDefined(logprobResult.bytes, (bytes) => assertNonEmptyArray(bytes, assert.isNumber));
+  ifDefined(logprobResult.topLogprobs, (topLogprobs) => assertNonEmptyArray(topLogprobs, assertTokenLogProbInfo));
+}
+
+function assertTokenLogProbInfo(tokenLogprobInfo: ChatTokenLogProbabilityInfo): void {
+  ifDefined(tokenLogprobInfo.bytes, (bytes) => assertNonEmptyArray(bytes, assert.isNumber));
+  assert.isNumber(tokenLogprobInfo.logprob);
+  assert.isString(tokenLogprobInfo.token);
+  
+}
 function assertUsage(usage: CompletionsUsage | undefined): void {
   assert.isDefined(usage);
   const castUsage = usage as CompletionsUsage;

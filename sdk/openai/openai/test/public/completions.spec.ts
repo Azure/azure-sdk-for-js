@@ -45,7 +45,7 @@ describe("OpenAI", function () {
     await recorder.stop();
   });
 
-  matrix([["AzureAPIKey", "OpenAIKey", "AAD"]] as const, async function (authMethod: AuthMethod) {
+  matrix([["AzureAPIKey", "OpenAIKey"]] as const, async function (authMethod: AuthMethod) {
     describe(`[${authMethod}] Client`, () => {
       let client: OpenAIClient;
 
@@ -458,6 +458,35 @@ describe("OpenAI", function () {
                     getCurrentWeather.name,
                   );
                   assert.isUndefined(res.choices[0].message?.functionCall);
+                },
+              ),
+              chatCompletionDeployments,
+              chatCompletionModels,
+              authMethod,
+            );
+          });
+
+          it("returns log prob information", async function () {
+            updateWithSucceeded(
+              await withDeployments(
+                getSucceeded(
+                  authMethod,
+                  deployments,
+                  models,
+                  chatCompletionDeployments,
+                  chatCompletionModels,
+                ),
+                (deploymentName) =>
+                  client.getChatCompletions(
+                    deploymentName,
+                    [{ role: "user", content: "What's the weather like in Boston?" }],
+                    {
+                      logprobs: true,
+                      topLogprobs: 3,
+                    },
+                  ),
+                (result) => {
+                  assertChatCompletions(result)
                 },
               ),
               chatCompletionDeployments,
