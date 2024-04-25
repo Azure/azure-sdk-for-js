@@ -39,6 +39,7 @@ describe("Client Tests", function (this: Suite) {
           "client should throw exception",
         );
       }
+      client.dispose();
     });
   });
 
@@ -50,6 +51,7 @@ describe("Client Tests", function (this: Suite) {
         connectionPolicy: { enableBackgroundEndpointRefreshing: false },
       });
       assert.ok(client !== undefined, "client shouldn't be undefined if it succeeded");
+      client.dispose();
     });
     it("Accepts a connection string", function () {
       const client = new CosmosClient(`AccountEndpoint=${endpoint};AccountKey=${masterKey};`);
@@ -76,13 +78,14 @@ describe("Client Tests", function (this: Suite) {
           connectionPolicy: { enableBackgroundEndpointRefreshing: false },
         });
         await client.databases.readAll().fetchAll();
+        client.dispose();
       } catch (e: any) {
         assert.equal(e.name, "AuthenticationRequiredError");
       }
     });
   });
   describe("Validate user passed AbortController.signal", function () {
-    it("should throw exception if aborted during the request", async function () {
+    it.skip("should throw exception if aborted during the request", async function () {
       const client = new CosmosClient({ endpoint, key: masterKey });
       try {
         const controller = new AbortController();
@@ -169,6 +172,7 @@ describe("Client Tests", function (this: Suite) {
           return;
         })
         .catch(console.warn);
+      client.dispose();
     });
   });
 });

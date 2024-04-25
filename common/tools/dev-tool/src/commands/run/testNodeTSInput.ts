@@ -24,7 +24,9 @@ export default leafCommand(commandInfo, async (options) => {
   const isModuleProj = await isModuleProject();
   const reporterArgs =
     "--reporter ../../../common/tools/mocha-multi-reporter.js --reporter-option output=test-results.xml";
-  const defaultMochaArgs = `${reporterArgs} --full-trace`;
+  const defaultMochaArgs = `${
+    isModuleProj ? "--loader=ts-node/esm " : "-r esm "
+  }-r ts-node/register ${reporterArgs} --full-trace`;
   const updatedArgs = options["--"]?.map((opt) =>
     opt.includes("**") && !opt.startsWith("'") && !opt.startsWith('"') ? `"${opt}"` : opt,
   );
