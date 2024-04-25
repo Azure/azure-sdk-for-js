@@ -29,6 +29,8 @@ const messages = [
   { body: "Nikolaus Kopernikus" },
 ];
 
+const max32BitNumber = 2147483647;
+
 async function main() {
   const sbClient = new ServiceBusClient(connectionString);
   try {
@@ -36,17 +38,17 @@ async function main() {
     // If receiving from a subscription you can use the createReceiver(topicName, subscriptionName) overload
     const queueReceiver = sbClient.createReceiver(queueName, { receiveMode: "receiveAndDelete" });
 
-    let peekedMessages = await queueReceiver.peekMessages(2147483647);
+    let peekedMessages = await queueReceiver.peekMessages(max32BitNumber);
     console.log(`Number of messages in the queue: ${peekedMessages.length}`);
-    console.log("Clear all messages in the queue");
-    await queueReceiver.deleteMessages({ maxMessageCount: 4000 });
-    peekedMessages = await queueReceiver.peekMessages(2147483647);
+    console.log("Deleting all messages from the queue");
+    await queueReceiver.purgeMessages();
+    peekedMessages = await queueReceiver.peekMessages(max32BitNumber);
     console.log(`Number of messages in the queue after clearing: ${peekedMessages.length}`);
 
     console.log("Sending 10 messages...");
     await sender.sendMessages(messages);
 
-    peekedMessages = await queueReceiver.peekMessages(10);
+    peekedMessages = await queueReceiver.peekMessages(max32BitNumber);
     console.log(`Peeked messages (1): ${peekedMessages.length}.`); // should be 10
 
     let deletedCount = await queueReceiver.deleteMessages({ maxMessageCount: 10 });
@@ -55,12 +57,12 @@ async function main() {
 
     // Sending 10 messages again
     await sender.sendMessages(messages);
-    // This UTC time specifying a filter on messages to delete
+    // This UTC time is used to specify a filter on messages to delete
     const timeMarkUtc = new Date();
     // Sending another 10 messages
     await sender.sendMessages(messages);
 
-    peekedMessages = await queueReceiver.peekMessages(30);
+    peekedMessages = await queueReceiver.peekMessages(max32BitNumber);
     console.log(`Peeked messages (2): ${peekedMessages.length}.`); // should be 20
 
     deletedCount = await queueReceiver.deleteMessages({

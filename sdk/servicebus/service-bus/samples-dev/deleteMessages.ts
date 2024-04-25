@@ -42,8 +42,8 @@ export async function main() {
 
     let peekedMessages = await queueReceiver.peekMessages(max32BitNumber);
     console.log(`Number of messages in the queue: ${peekedMessages.length}`);
-    console.log("Clear all messages in the queue");
-    await queueReceiver.deleteMessages({ maxMessageCount: 4000 });
+    console.log("Deleting all messages from the queue");
+    await queueReceiver.purgeMessages();
     peekedMessages = await queueReceiver.peekMessages(max32BitNumber);
     console.log(`Number of messages in the queue after clearing: ${peekedMessages.length}`);
 
@@ -59,7 +59,7 @@ export async function main() {
 
     // Sending 10 messages again
     await sender.sendMessages(messages);
-    // This UTC time specifying a filter on messages to delete
+    // This UTC time is used to specify a filter on messages to delete
     const timeMarkUtc = new Date();
     // Sending another 10 messages
     await sender.sendMessages(messages);
