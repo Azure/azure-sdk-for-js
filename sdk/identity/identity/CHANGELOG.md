@@ -12,6 +12,8 @@
 
 ### Other Changes
 
+- `ClientSecretCredential`, `ClientCertificateCredential`, and `ClientAssertionCredential` migrated to use MSALClient internally instead of MSALNode flow. This is an internal refactoring and should not result in any behavioral changes. [#28873](https://github.com/Azure/azure-sdk-for-js/pull/28873)
+
 ## 4.1.0 (2024-04-09)
 
 ### Features Added
