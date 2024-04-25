@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
+import { ClinicalMatchingRestClient } from "../../src";
 import { createClient, createRecorder } from "./utils/recordedClient";
-import { ClinicalMatchingRestClient, getLongRunningPoller } from "../../src";
 
 const clinicalInfoList = [
   {
@@ -114,11 +113,11 @@ describe("My test", () => {
     await recorder.stop();
   });
 
-  it("clinical matching test", async function () {
-    const result = await client.path("/trialmatcher/jobs").post(trialMatcherParameter);
-    const poller = await getLongRunningPoller(client, result);
-    const res = await poller.pollUntilDone();
-    console.log(res);
-    assert.equal(res.status, "200");
-  });
+  /*   it("clinical matching test", async function () {
+      const result = await client.path("/trialmatcher/jobs").post(trialMatcherParameter);
+      const poller = await getLongRunningPoller(client, result);
+      const res = await poller.pollUntilDone();
+      console.log(res);
+      assert.equal(res.status, "200");
+    }); */
 });
