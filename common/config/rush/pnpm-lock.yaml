@@ -9661,11 +9661,6 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
-  /strip-json-comments@5.0.1:
-    resolution: {integrity: sha512-0fk9zBqO67Nq5M/m45qHCJxylV/DhBlIOVExqgOMiCCrzrhU6tCibRXNqE3jwJLftzE9SNuZtYbpzcO+i9FiKw==}
-    engines: {node: '>=14.16'}
-    dev: false
-
   /strip-literal@2.1.0:
     resolution: {integrity: sha512-Op+UycaUt/8FbN/Z2TWPBLge3jWrP3xj10f3fnYxf052bKuS3EKs1ZQcVGjnEMdsNVAM+plXRdmjrZ/KgG3Skw==}
     dependencies:
@@ -19186,7 +19181,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-kJelWWZ7mp2zIuZtMHCPX164vdHoSCySOVWMXH91FXykMcI6NnnMGzRIsR6DdgtpgfZIGRRgnp2OguhTd/4PWQ==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-wv4b96SUvfuzpl0qyHw0jKsgW2LsHlPulE2HCuH1vidt6j0JFt5hFLjBk/qy++5Tw6BlQjCwfzqWVPGCP1AeXQ==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -19224,7 +19219,7 @@ packages:
       rollup-plugin-polyfill-node: 0.13.0(rollup@4.16.4)
       rollup-plugin-visualizer: 5.12.0(rollup@4.16.4)
       semver: 7.6.0
-      strip-json-comments: 5.0.1
+      strip-json-comments: 3.1.1
       ts-morph: 22.0.0
       ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
       tslib: 2.6.2
