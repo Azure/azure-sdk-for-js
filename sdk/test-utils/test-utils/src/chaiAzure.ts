@@ -12,7 +12,7 @@ import { supportsTracing } from "./tracing/chaiAzureTrace";
  *
  * ```ts
  * import chai from "chai";
- * import { chaiAzure } from "@azure/test-utils";
+ * import { chaiAzure } from "@azure-tools/test-utils";
  * chai.use(chaiAzure);
  *
  * it("supportsTracing", async () => {

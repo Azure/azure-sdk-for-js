@@ -13,8 +13,8 @@ import { PublicClientApplication } from "@azure/msal-node";
 import Sinon from "sinon";
 import { Recorder, isLiveMode, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { nativeBrokerPlugin } from "../../../src";
-import { isNode } from "@azure/core-util";
-import { assert } from "@azure/test-utils";
+import { isNodeLike } from "@azure/core-util";
+import { assert } from "@azure-tools/test-utils";
 import http from "http";
 
 describe("InteractiveBrowserCredential (internal)", function (this: Mocha.Suite) {
@@ -40,7 +40,7 @@ describe("InteractiveBrowserCredential (internal)", function (this: Mocha.Suite)
     await cleanup();
   });
   it("Throws error when no plugin is imported", async function (this: Mocha.Context) {
-    if (isNode) {
+    if (isNodeLike) {
       // OSX asks for passwords on CI, so we need to skip these tests from our automation
       if (process.platform !== "win32") {
         this.skip();
@@ -69,7 +69,7 @@ describe("InteractiveBrowserCredential (internal)", function (this: Mocha.Suite)
     }
   });
   it("Accepts interactiveBrowserCredentialOptions", async function (this: Mocha.Context) {
-    if (isNode) {
+    if (isNodeLike) {
       // OSX asks for passwords on CI, so we need to skip these tests from our automation
       if (process.platform !== "win32") {
         this.skip();
