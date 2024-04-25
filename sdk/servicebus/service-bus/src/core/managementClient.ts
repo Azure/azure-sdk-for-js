@@ -957,11 +957,15 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       const result = await this._makeManagementRequest(request, receiverLogger, updatedOptions);
       if (result.application_properties!.statusCode === 200) {
         return result.body["message-count"];
-      } else if (result.application_properties!.statusCode === 204 &&
-        result.application_properties!.errorCondition === "com.microsoft:message-not-found") {
+      } else if (
+        result.application_properties!.statusCode === 204 &&
+        result.application_properties!.errorCondition === "com.microsoft:message-not-found"
+      ) {
         return 0;
       } else {
-        throw new Error(`Unexpected response with status code of ${result.application_properties!.statusCode}`);
+        throw new Error(
+          `Unexpected response with status code of ${result.application_properties!.statusCode}`,
+        );
       }
     } catch (err: any) {
       const error = translateServiceBusError(err) as MessagingError;

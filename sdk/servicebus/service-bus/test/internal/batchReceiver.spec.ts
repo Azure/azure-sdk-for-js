@@ -782,71 +782,6 @@ describe("Batching Receiver", () => {
       },
     );
 
-    const getMessage = () => ({ body: `${Date.now()}-${Math.random().toString()}` });
-
-    it(
-      TestClientType.PartitionedQueue + ": deleteMessages request on the receiver",
-      async function (): Promise<void> {
-        await beforeEachTest(TestClientType.PartitionedQueue, "receiveAndDelete");
-
-        const numMessages = 3;
-        const toSend = [];
-        for (let i = 0; i < numMessages; i++) {
-          toSend.push(getMessage());
-        }
-        await sender.sendMessages(toSend);
-
-        await testPeekMsgsLength(receiver, numMessages);
-
-        await receiver.deleteMessages({ maxMessageCount: numMessages });
-
-        await testPeekMsgsLength(receiver, 0);
-      },
-    );
-
-    it(
-      TestClientType.PartitionedQueue + ": deleteMessages with max message count of zero",
-      async function (): Promise<void> {
-        await beforeEachTest(TestClientType.PartitionedQueue, "receiveAndDelete");
-
-        const numMessages = 3;
-        const toSend = [];
-        for (let i = 0; i < numMessages; i++) {
-          toSend.push(getMessage());
-        }
-        await sender.sendMessages(toSend);
-
-        await testPeekMsgsLength(receiver, numMessages);
-
-        await receiver.deleteMessages({ maxMessageCount: 0});
-
-        await testPeekMsgsLength(receiver, 3);
-      },
-    );
-
-    it(
-      TestClientType.PartitionedQueueWithSessions + ": deleteMessages request on the receiver",
-      async function (): Promise<void> {
-        await beforeEachTest(TestClientType.PartitionedQueueWithSessions, "receiveAndDelete");
-        const testMessage = TestMessage.getSessionSample();
-        testMessage.timeToLive = 24 * 60 * 60 * 1000;
-
-        const numMessages = 3;
-        const toSend = [];
-        for (let i = 0; i < numMessages; i++) {
-          toSend.push(getMessage());
-        }
-        await sender.sendMessages(toSend);
-
-        const peeked = await receiver.peekMessages(numMessages + 1);
-        assert.equal(peeked.length, numMessages);
-
-        await receiver.deleteMessages({ maxMessageCount: numMessages });
-
-        await testPeekMsgsLength(receiver, 0);
-      },
-    );
-
     it(
       noSessionTestClientType + ": Abort receiveDeferredMessages request on the receiver",
       async function (): Promise<void> {
@@ -878,6 +813,89 @@ describe("Batching Receiver", () => {
         } catch (err: any) {
           err.message.should.equal(StandardAbortMessage);
         }
+      },
+    );
+
+    const getMessage = () => ({ body: `${Date.now()}-${Math.random().toString()}` });
+
+    it(
+      noSessionTestClientType + ": deleteMessages request on the receiver",
+      async function (): Promise<void> {
+        await beforeEachTest(noSessionTestClientType);
+        const receiver2 = await serviceBusClient.test.createReceiveAndDeleteReceiver(entityNames);
+
+        const numMessages = 3;
+        const toSend = [];
+        for (let i = 0; i < numMessages; i++) {
+          toSend.push(getMessage());
+        }
+        await sender.sendMessages(toSend);
+
+        await testPeekMsgsLength(receiver2, numMessages);
+
+        await receiver2.deleteMessages({ maxMessageCount: numMessages });
+
+        await testPeekMsgsLength(receiver2, 0);
+      },
+    );
+
+    it(
+      TestClientType.PartitionedQueue +
+        ": deleteMessages with max message count of zero throws error",
+      async function (): Promise<void> {
+        await beforeEachTest(TestClientType.PartitionedQueue, "receiveAndDelete");
+
+        const numMessages = 3;
+        const toSend = [];
+        for (let i = 0; i < numMessages; i++) {
+          toSend.push(getMessage());
+        }
+        await sender.sendMessages(toSend);
+
+        await testPeekMsgsLength(receiver, numMessages);
+
+        try {
+          await receiver.deleteMessages({ maxMessageCount: 0 });
+          throw new Error("Test failure");
+        } catch (err: any) {
+          err.message.should.equal(
+            "Error 0: TypeError: 'messageCount' must be a number greater than 0.",
+          );
+        }
+      },
+    );
+
+    it(
+      withSessionTestClientType + ": deleteMessages request on the receiver",
+      async function (): Promise<void> {
+        const randomSessionId = Math.random().toString();
+        const names = await serviceBusClient.test.createTestEntities(withSessionTestClientType);
+        const sender2 = serviceBusClient.test.addToCleanup(
+          serviceBusClient.createSender(names.queue ?? names.topic!),
+        );
+        const receiver2 = await serviceBusClient.test.createReceiveAndDeleteReceiver({
+          ...names,
+          sessionId: randomSessionId,
+        });
+
+        const numMessages = 3;
+        const toSend = [];
+        for (let i = 0; i < numMessages; i++) {
+          const testMessage = {
+            ...getMessage(),
+            sessionId: randomSessionId,
+            timeToLive: 24 * 60 * 60 * 1000,
+          };
+          toSend.push(testMessage);
+        }
+        await sender2.sendMessages(toSend);
+
+        const peeked = await receiver2.peekMessages(numMessages + 1);
+        assert.equal(peeked.length, numMessages);
+
+        await receiver2.deleteMessages({ maxMessageCount: numMessages });
+
+        await testPeekMsgsLength(receiver2, 0);
       },
     );
   });
