@@ -159,7 +159,7 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
     }
     if (missingEnvVars.length > 0) {
       throw new CredentialUnavailableError(
-        `${credentialName}: is unavailable.Please ensure that you're running this task in an Azure Pipeline, so that following missing system variable(s) can be defined- ${missingEnvVars.join(
+        `${credentialName}: is unavailable. Ensure that you're running this task in an Azure Pipeline, so that following missing system variable(s) can be defined- ${missingEnvVars.join(
           ", "
         )}.${errorMessage}`
       );
