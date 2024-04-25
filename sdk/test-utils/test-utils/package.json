@@ -61,13 +61,13 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@microsoft/api-extractor": "^7.43.1",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^1.5.0",
-    "@vitest/coverage-v8": "^1.5.0",
+    "@vitest/browser": "^1.5.2",
+    "@vitest/coverage-v8": "^1.5.2",
     "eslint": "^8.57.0",
     "rimraf": "^5.0.5",
     "tshy": "^1.14.0",
     "typescript": "~5.4.5",
-    "vitest": "^1.5.0"
+    "vitest": "^1.5.2"
   },
   "tshy": {
     "exports": {
