@@ -3,7 +3,7 @@
 
 import { AzurePipelinesServiceConnectionCredential } from "../../../src";
 import { env, isLiveMode } from "@azure-tools/test-recorder";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 
 describe("AzurePipelinesServiceConnectionCredential", function () {
   const scope = "https://vault.azure.net/.default";
@@ -21,7 +21,7 @@ describe("AzurePipelinesServiceConnectionCredential", function () {
     const credential = new AzurePipelinesServiceConnectionCredential(
       clientId,
       tenantId,
-      existingServiceConnectionId,
+      existingServiceConnectionId
     );
     try {
       const token = await credential.getToken(scope);
