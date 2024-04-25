@@ -181,7 +181,7 @@ export const ConnectionContextBase = {
       host: parameters.config.host,
       hostname: parameters.config.amqpHostname ?? parameters.config.host,
       username: parameters.config.sharedAccessKeyName,
-      port: parameters.config.port ?? parameters.config.useDevelopmentEmulator ? 5672 : 5671,
+      port: parameters.config.port ?? (parameters.config.useDevelopmentEmulator ? 5672 : 5671),
       reconnect: false,
       properties: {
         product: parameters.connectionProperties.product,
