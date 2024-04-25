@@ -6,6 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./groupQuotas";
+export * from "./groupQuotaSubscriptions";
+export * from "./groupQuotaSubscriptionRequests";
+export * from "./groupQuotaLimits";
+export * from "./groupQuotaLimitsRequest";
+export * from "./groupQuotaSubscriptionAllocation";
+export * from "./groupQuotaSubscriptionAllocationRequest";
+export * from "./groupQuotaUsages";
+export * from "./groupQuotaLocationSettings";
 export * from "./usages";
 export * from "./quota";
 export * from "./quotaRequestStatus";

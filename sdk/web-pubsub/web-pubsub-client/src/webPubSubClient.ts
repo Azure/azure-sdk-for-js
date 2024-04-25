@@ -68,11 +68,14 @@ export class WebPubSubClient {
   private readonly _sequenceId: SequenceId;
   private readonly _messageRetryPolicy: RetryPolicy;
   private readonly _reconnectRetryPolicy: RetryPolicy;
+  private readonly _quickSequenceAckDiff = 300;
+  private readonly _activeTimeoutInMs = 20000;
 
   private readonly _emitter: EventEmitter = new EventEmitter();
   private _state: WebPubSubClientState;
   private _isStopping: boolean = false;
   private _ackId: number;
+  private _activeKeepaliveTask: AbortableTask | undefined;
 
   // connection lifetime
   private _wsClient?: WebSocketClientLike;
@@ -144,11 +147,19 @@ export class WebPubSubClient {
       abortSignal = options.abortSignal;
     }
 
+    if (!this._activeKeepaliveTask) {
+      this._activeKeepaliveTask = this._getActiveKeepaliveTask();
+    }
+
     try {
       await this._startCore(abortSignal);
     } catch (err) {
       // this two sentense should be set together. Consider client.stop() is called during _startCore()
       this._changeState(WebPubSubClientState.Stopped);
+      if (this._activeKeepaliveTask) {
+        this._activeKeepaliveTask.abort();
+        this._activeKeepaliveTask = undefined;
+      }
       this._isStopping = false;
       throw err;
     }
@@ -211,6 +222,10 @@ export class WebPubSubClient {
       this._wsClient.close();
     } else {
       this._isStopping = false;
+    }
+    if (this._activeKeepaliveTask) {
+      this._activeKeepaliveTask.abort();
+      this._activeKeepaliveTask = undefined;
     }
   }
 
@@ -521,6 +536,24 @@ export class WebPubSubClient {
     return new WebSocketClientFactory();
   }
 
+  private async _trySendSequenceAck(): Promise<void> {
+    if (!this._protocol.isReliableSubProtocol) {
+      return;
+    }
+    const [isUpdated, seqId] = this._sequenceId.tryGetSequenceId();
+    if (isUpdated && seqId) {
+      const message: SequenceAckMessage = {
+        kind: "sequenceAck",
+        sequenceId: seqId!,
+      };
+      try {
+        await this._sendMessage(message);
+      } catch {
+        this._sequenceId.tryUpdate(seqId!); // If sending failed, mark it as updated so that it can be sent again.
+      }
+    }
+  }
+
   private _connectCore(uri: string): Promise<void> {
     if (this._isStopping) {
       throw new Error("Can't start a client during stopping");
@@ -548,14 +581,7 @@ export class WebPubSubClient {
             this._sequenceAckTask.abort();
           }
           this._sequenceAckTask = new AbortableTask(async () => {
-            const [isUpdated, seqId] = this._sequenceId.tryGetSequenceId();
-            if (isUpdated) {
-              const message: SequenceAckMessage = {
-                kind: "sequenceAck",
-                sequenceId: seqId!,
-              };
-              await this._sendMessage(message);
-            }
+            await this._trySendSequenceAck();
           }, 1000);
         }
 
@@ -645,9 +671,15 @@ export class WebPubSubClient {
 
         const handleGroupDataMessage = (message: GroupDataMessage): void => {
           if (message.sequenceId != null) {
-            if (!this._sequenceId.tryUpdate(message.sequenceId)) {
+            const diff = this._sequenceId.tryUpdate(message.sequenceId);
+            if (diff === 0) {
               // drop duplicated message
               return;
+            }
+
+            // If the diff is larger than the threshold, we must ack quicker to avoid slow client drop.
+            if (diff > this._quickSequenceAckDiff) {
+              this._trySendSequenceAck();
             }
           }
 
@@ -656,9 +688,15 @@ export class WebPubSubClient {
 
         const handleServerDataMessage = (message: ServerDataMessage): void => {
           if (message.sequenceId != null) {
-            if (!this._sequenceId.tryUpdate(message.sequenceId)) {
+            const diff = this._sequenceId.tryUpdate(message.sequenceId);
+            if (diff === 0) {
               // drop duplicated message
               return;
+            }
+
+            // If the diff is larger than the threshold, we must ack quicker to avoid slow client drop.
+            if (diff > this._quickSequenceAckDiff) {
+              this._trySendSequenceAck();
             }
           }
 
@@ -774,15 +812,21 @@ export class WebPubSubClient {
     this._safeEmitStopped();
   }
 
+  private _getActiveKeepaliveTask(): AbortableTask {
+    return new AbortableTask(async () => {
+      this._sequenceId.tryUpdate(0); // force update
+    }, this._activeTimeoutInMs);
+  }
+
   private async _sendMessage(
     message: WebPubSubMessage,
     abortSignal?: AbortSignalLike,
   ): Promise<void> {
-    const payload = this._protocol.writeMessage(message);
-
     if (!this._wsClient || !this._wsClient.isOpen()) {
       throw new Error("The connection is not connected.");
     }
+
+    const payload = this._protocol.writeMessage(message);
     await this._wsClient!.send(payload, abortSignal);
   }
 
@@ -1138,13 +1182,14 @@ class SequenceId {
     this._isUpdate = false;
   }
 
-  public tryUpdate(sequenceId: number): boolean {
+  public tryUpdate(sequenceId: number): number {
     this._isUpdate = true;
     if (sequenceId > this._sequenceId) {
+      const diff = sequenceId - this._sequenceId;
       this._sequenceId = sequenceId;
-      return true;
+      return diff;
     }
-    return false;
+    return 0;
   }
 
   public tryGetSequenceId(): [boolean, number | null] {
