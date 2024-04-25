@@ -39,6 +39,7 @@ describe("Client Tests", function (this: Suite) {
           "client should throw exception",
         );
       }
+      client.dispose();
     });
   });
 
@@ -50,6 +51,7 @@ describe("Client Tests", function (this: Suite) {
         connectionPolicy: { enableBackgroundEndpointRefreshing: false },
       });
       assert.ok(client !== undefined, "client shouldn't be undefined if it succeeded");
+      client.dispose();
     });
     it("Accepts a connection string", function () {
       const client = new CosmosClient(`AccountEndpoint=${endpoint};AccountKey=${masterKey};`);
@@ -76,6 +78,7 @@ describe("Client Tests", function (this: Suite) {
           connectionPolicy: { enableBackgroundEndpointRefreshing: false },
         });
         await client.databases.readAll().fetchAll();
+        client.dispose();
       } catch (e: any) {
         assert.equal(e.name, "AuthenticationRequiredError");
       }
@@ -83,17 +86,17 @@ describe("Client Tests", function (this: Suite) {
   });
   describe("Validate user passed AbortController.signal", function () {
     it("should throw exception if aborted during the request", async function () {
-      const client = new CosmosClient({ endpoint, key: masterKey });
+      const client1 = new CosmosClient({ endpoint, key: masterKey });
       try {
         const controller = new AbortController();
         const signal = controller.signal;
         setTimeout(() => controller.abort(), 1);
-        await client.getDatabaseAccount({ abortSignal: signal });
+        await client1.getDatabaseAccount({ abortSignal: signal });
         assert.fail("Must throw when trying to connect to database");
       } catch (err: any) {
         assert.equal(err.name, "AbortError", "client should throw exception");
       }
-      client.dispose();
+      client1.dispose();
     });
     it("should throw exception if passed an already aborted signal", async function () {
       const client = new CosmosClient({ endpoint, key: masterKey });
@@ -169,6 +172,7 @@ describe("Client Tests", function (this: Suite) {
           return;
         })
         .catch(console.warn);
+      client.dispose();
     });
   });
 });
