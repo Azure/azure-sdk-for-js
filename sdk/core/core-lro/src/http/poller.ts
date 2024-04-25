@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
 import { RunningOperation, OperationResponse } from "./models.js";
 import { OperationState, PollerLike } from "../poller/models.js";
 import {
@@ -52,20 +49,13 @@ export function createHttpPoller<TResult, TState extends OperationState<TResult>
       init: async () => {
         const response = await lro.sendInitialRequest();
         const config = inferLroMode(response.rawResponse, resourceLocationConfig);
-        const metadata: Record<string, string> = {};
-        if (config?.mode) {
-          metadata["mode"] = config.mode;
-        }
-        if (resourceLocationConfig) {
-          metadata["resourceLocationConfig"] = resourceLocationConfig;
-        }
         return {
           response,
           operationLocation: config?.operationLocation,
           resourceLocation: config?.resourceLocation,
-          initialUrl: config?.initialUrl,
+          initialRequestUrl: config?.initialRequestUrl,
           requestMethod: config?.requestMethod,
-          metadata,
+          ...(config?.mode ? { metadata: { mode: config.mode } } : {}),
         };
       },
       poll: lro.sendPollRequest,
@@ -77,7 +67,7 @@ export function createHttpPoller<TResult, TState extends OperationState<TResult>
       updateState,
       processResult: processResult
         ? ({ flatResponse }, state) => processResult(flatResponse, state)
-        : ({ flatResponse }) => flatResponse as TResult,
+        : ({ flatResponse }) => flatResponse as Promise<TResult>,
     },
   );
 }

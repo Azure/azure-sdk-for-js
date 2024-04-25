@@ -73,7 +73,7 @@ async function processOperationStatus<
   status: OperationStatus;
   response: TResponse;
   state: RestorableOperationState<TResult, TState>;
-  processResult?: (result: TResponse, state: TState) => TResult | Promise<TResult>;
+  processResult?: (result: TResponse, state: TState) => Promise<TResult>;
   getError?: (response: TResponse) => LroError | undefined;
   isDone?: (lastResponse: TResponse, state: TState) => boolean;
   setErrorAsResult: boolean;
@@ -118,7 +118,7 @@ async function processOperationStatus<
 async function buildResult<TResponse, TResult, TState>(inputs: {
   response: TResponse;
   state: TState;
-  processResult?: (result: TResponse, state: TState) => TResult | Promise<TResult>;
+  processResult?: (result: TResponse, state: TState) => Promise<TResult>;
 }): Promise<TResult> {
   const { processResult, response, state } = inputs;
   return processResult ? processResult(response, state) : (response as unknown as TResult);
@@ -138,20 +138,26 @@ export async function initOperation<
     state: RestorableOperationState<TResult, TState>;
     operationLocation?: string;
   }) => OperationStatus;
-  processResult?: (result: TResponse, state: TState) => TResult | Promise<TResult>;
+  processResult?: (result: TResponse, state: TState) => Promise<TResult>;
   withOperationLocation?: (operationLocation: string, isUpdated: boolean) => void;
   setErrorAsResult: boolean;
 }): Promise<RestorableOperationState<TResult, TState>> {
   const { init, processResult, getOperationStatus, withOperationLocation, setErrorAsResult } =
     inputs;
-  const { operationLocation, resourceLocation, initialUrl, requestMethod, metadata, response } =
-    await init();
+  const {
+    operationLocation,
+    resourceLocation,
+    initialRequestUrl,
+    requestMethod,
+    metadata,
+    response,
+  } = await init();
   if (operationLocation) withOperationLocation?.(operationLocation, false);
   const config = {
     metadata,
     operationLocation,
     resourceLocation,
-    initialUrl,
+    initialRequestUrl,
     requestMethod,
   };
   logger.verbose(`LRO: Operation description:`, config);
@@ -250,7 +256,7 @@ export async function pollOperation<
     state: RestorableOperationState<TResult, TState>,
   ) => string | undefined;
   withOperationLocation?: (operationLocation: string, isUpdated: boolean) => void;
-  processResult?: (result: TResponse, state: TState) => TResult | Promise<TResult>;
+  processResult?: (result: TResponse, state: TState) => Promise<TResult>;
   getError?: (response: TResponse) => LroError | undefined;
   updateState?: (state: TState, lastResponse: TResponse) => void;
   isDone?: (lastResponse: TResponse, state: TState) => boolean;

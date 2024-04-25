@@ -12,8 +12,8 @@ export interface OperationConfig {
   operationLocation?: string;
   /** The resource location */
   resourceLocation?: string;
-  /** The initial Url  */
-  initialUrl?: string;
+  /** The initial request Url  */
+  initialRequestUrl?: string;
   /** The request method */
   requestMethod?: string;
   /** metadata about the operation */
@@ -62,7 +62,7 @@ export interface CreatePollerOptions<TResponse, TResult, TState> {
   /**
    * A function to process the result of the LRO.
    */
-  processResult?: (result: TResponse, state: TState) => TResult | Promise<TResult>;
+  processResult?: (result: TResponse, state: TState) => Promise<TResult>;
   /**
    * A function to process the state of the LRO.
    */
@@ -179,22 +179,22 @@ export interface OperationState<TResult> {
 export type CancelOnProgress = () => void;
 
 /**
- * A simple poller interface.
+ * A poller for an operation.
  */
 export interface PollerLike<TState extends OperationState<TResult>, TResult>
   extends Promise<TResult> {
   /**
-   * Returns true if the poller has finished polling.
+   * Is true if the poller has finished polling.
    */
   readonly isDone: boolean;
   /**
-   * Returns the state of the operation.
+   * The state of the operation.
+   * It can be undefined if the poller has not been submitted yet.
    */
   readonly operationState: TState | undefined;
   /**
-   * Returns the result value of the operation,
-   * regardless of the state of the poller.
-   * It can return undefined or an incomplete form of the final TResult value
+   * The result value of the operation, regardless of the state of the poller.
+   * It can be undefined or an incomplete form of the final TResult value
    * depending on the implementation.
    */
   readonly result: TResult | undefined;

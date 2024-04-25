@@ -2248,7 +2248,7 @@ matrix(
               config: {
                 metadata: { mode: "Body" },
                 operationLocation: "path",
-                initialUrl: "path",
+                initialRequestUrl: "path",
                 requestMethod: "PUT",
               },
               result: retResult,
@@ -2318,7 +2318,7 @@ matrix(
               config: {
                 metadata: { mode: "OperationLocation" },
                 operationLocation: "pollingPath",
-                initialUrl: "path",
+                initialRequestUrl: "path",
                 requestMethod: "POST",
               },
             },
@@ -2774,7 +2774,7 @@ matrix(
               metadata: { mode: "Body" },
               operationLocation: "path",
               resourceLocation: undefined,
-              initialUrl: "path",
+              initialRequestUrl: "path",
               requestMethod: "PUT",
             },
             result: {

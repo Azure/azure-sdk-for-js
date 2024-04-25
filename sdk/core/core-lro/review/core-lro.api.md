@@ -28,7 +28,7 @@ export function deserializeState<TResult, TState extends OperationState<TResult>
 
 // @public
 export interface OperationConfig {
-    initialUrl?: string;
+    initialRequestUrl?: string;
     metadata?: Record<string, string>;
     operationLocation?: string;
     requestMethod?: string;
