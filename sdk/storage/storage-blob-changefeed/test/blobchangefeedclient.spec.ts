@@ -5,7 +5,7 @@ import { isPlaybackMode, Recorder, env } from "@azure-tools/test-recorder";
 import { recorderEnvSetup, getBlobChangeFeedClient, streamToString, uriSanitizers } from "./utils";
 import { BlobChangeFeedClient, BlobChangeFeedEvent, BlobChangeFeedEventPage } from "../src";
 import { AbortController } from "@azure/abort-controller";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { BlobServiceClient, RequestPolicy } from "@azure/storage-blob";
 import { SDK_VERSION } from "../src/utils/constants";
 import * as fs from "fs";
