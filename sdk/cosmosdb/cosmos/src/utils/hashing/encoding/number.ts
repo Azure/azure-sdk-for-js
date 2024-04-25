@@ -51,7 +51,7 @@ function encodeNumberAsUInt64JSBI(value: number): JSBI {
   const rawValueBits = getRawBitsJSBI(value);
   const mask = JSBI.BigInt(0x8000000000000000);
   const returned =
-    rawValueBits < mask
+    JSBI.toNumber(rawValueBits) < JSBI.toNumber(mask)
       ? JSBI.bitwiseXor(rawValueBits, mask)
       : JSBI.add(JSBI.bitwiseNot(rawValueBits), JSBI.BigInt(1));
   return returned;
