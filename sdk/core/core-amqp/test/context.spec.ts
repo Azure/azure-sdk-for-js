@@ -3,7 +3,7 @@
 
 import * as chai from "chai";
 const should = chai.should();
-import { CbsClient, ConnectionConfig, ConnectionContextBase } from "../src";
+import { CbsClient, ConnectionConfig, ConnectionContextBase, Constants } from "../src";
 import { Connection } from "rhea-promise";
 import { ConnectionOptions as TlsConnectionOptions } from "tls";
 
@@ -295,7 +295,8 @@ describe("ConnectionContextBase", function () {
     });
     should.exist(context.connection);
     context.connection.should.be.instanceOf(Connection);
-    context.connection.options.transport!.should.equal("tcp");
+    context.connection.options.transport!.should.equal(Constants.TCP);
+    (context.connection.options as TlsConnectionOptions).port!.should.equal(5672);
   });
 
   describe("#refreshConnection", function () {
