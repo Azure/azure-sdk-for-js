@@ -25,17 +25,21 @@ export interface PartDescriptor {
   /**
    * The disposition type of this part (for example, "form-data" for parts making up a multipart/form-data request). If set, this value
    * will be used to set the Content-Disposition MIME header for this part, in addition to the `name` and `filename` properties.
+   * If the `name` or `filename` properties are set while `dispositionType` is left undefined, `dispositionType` will default to "form-data".
+   *
    * Explicitly setting the Content-Disposition header in the headers bag will override this value.
    */
   dispositionType?: string;
 
   /**
-   * The field name associated with this part. This value will be appended to the Content-Disposition header if dispositionType is set.
+   * The field name associated with this part. This value will be used to construct the Content-Disposition header,
+   * along with the `dispositionType` and `filename` properties, if the header has not been set in the `headers` bag.
    */
   name?: string;
 
   /**
-   * The file name of the content if it is a file. This will be appended to the Content-Disposition header value if dispositionType is set.
+   * The file name of the content if it is a file. This value will be used to construct the Content-Disposition header,
+   * along with the `dispositionType` and `name` properties, if the header has not been set in the `headers` bag.
    */
   filename?: string;
 
