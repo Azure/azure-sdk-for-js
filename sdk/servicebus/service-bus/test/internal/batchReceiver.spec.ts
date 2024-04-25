@@ -818,26 +818,54 @@ describe("Batching Receiver", () => {
 
     const getMessage = () => ({ body: `${Date.now()}-${Math.random().toString()}` });
 
-    it(
-      noSessionTestClientType + ": deleteMessages request on the receiver",
-      async function (): Promise<void> {
-        await beforeEachTest(noSessionTestClientType);
-        const receiver2 = await serviceBusClient.test.createReceiveAndDeleteReceiver(entityNames);
+    it(noSessionTestClientType + ": deleteMessages", async function (): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
+      const receiver2 = await serviceBusClient.test.createReceiveAndDeleteReceiver(entityNames);
 
-        const numMessages = 3;
-        const toSend = [];
-        for (let i = 0; i < numMessages; i++) {
-          toSend.push(getMessage());
+      const numMessages = 3;
+      const toSend = [];
+      for (let i = 0; i < numMessages; i++) {
+        toSend.push(getMessage());
+      }
+      await sender.sendMessages(toSend);
+
+      await testPeekMsgsLength(receiver2, numMessages);
+
+      // wait for things to be ready
+      await delay(10 * 1000);
+      await receiver2.deleteMessages({ maxMessageCount: numMessages });
+
+      await testPeekMsgsLength(receiver2, 0);
+    });
+
+    it(noSessionTestClientType + ": purgeMessages", async function (): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
+      const receiver2 = await serviceBusClient.test.createReceiveAndDeleteReceiver(entityNames);
+
+      const numMessages = 5000;
+      let i = 0;
+      let batch = await sender.createMessageBatch();
+      while (i < numMessages) {
+        const message = getMessage();
+        if (!batch.tryAddMessage(message)) {
+          // Send the current batch as it is full and create a new one
+          await sender.sendMessages(batch);
+          batch = await sender.createMessageBatch();
+        } else {
+          i++;
         }
-        await sender.sendMessages(toSend);
+      }
+      if (batch.count) {
+        // Send the last batch
+        await sender.sendMessages(batch);
+      }
 
-        await testPeekMsgsLength(receiver2, numMessages);
+      // wait for things to be ready
+      await delay(10 * 1000);
+      await receiver2.purgeMessages();
 
-        await receiver2.deleteMessages({ maxMessageCount: numMessages });
-
-        await testPeekMsgsLength(receiver2, 0);
-      },
-    );
+      await testPeekMsgsLength(receiver2, 0);
+    });
 
     it(
       TestClientType.PartitionedQueue +
@@ -865,39 +893,38 @@ describe("Batching Receiver", () => {
       },
     );
 
-    it(
-      withSessionTestClientType + ": deleteMessages request on the receiver",
-      async function (): Promise<void> {
-        const randomSessionId = Math.random().toString();
-        const names = await serviceBusClient.test.createTestEntities(withSessionTestClientType);
-        const sender2 = serviceBusClient.test.addToCleanup(
-          serviceBusClient.createSender(names.queue ?? names.topic!),
-        );
-        const receiver2 = await serviceBusClient.test.createReceiveAndDeleteReceiver({
-          ...names,
+    it(withSessionTestClientType + ": deleteMessages (session)", async function (): Promise<void> {
+      const randomSessionId = Math.random().toString();
+      const names = await serviceBusClient.test.createTestEntities(withSessionTestClientType);
+      const sender2 = serviceBusClient.test.addToCleanup(
+        serviceBusClient.createSender(names.queue ?? names.topic!),
+      );
+      const receiver2 = await serviceBusClient.test.createReceiveAndDeleteReceiver({
+        ...names,
+        sessionId: randomSessionId,
+      });
+
+      const numMessages = 3;
+      const toSend = [];
+      for (let i = 0; i < numMessages; i++) {
+        const testMessage = {
+          ...getMessage(),
           sessionId: randomSessionId,
-        });
+          timeToLive: 24 * 60 * 60 * 1000,
+        };
+        toSend.push(testMessage);
+      }
+      await sender2.sendMessages(toSend);
 
-        const numMessages = 3;
-        const toSend = [];
-        for (let i = 0; i < numMessages; i++) {
-          const testMessage = {
-            ...getMessage(),
-            sessionId: randomSessionId,
-            timeToLive: 24 * 60 * 60 * 1000,
-          };
-          toSend.push(testMessage);
-        }
-        await sender2.sendMessages(toSend);
+      const peeked = await receiver2.peekMessages(numMessages + 1);
+      assert.equal(peeked.length, numMessages);
 
-        const peeked = await receiver2.peekMessages(numMessages + 1);
-        assert.equal(peeked.length, numMessages);
+      // wait for things to be ready
+      await delay(10 * 1000);
+      await receiver2.deleteMessages({ maxMessageCount: numMessages });
 
-        await receiver2.deleteMessages({ maxMessageCount: numMessages });
-
-        await testPeekMsgsLength(receiver2, 0);
-      },
-    );
+      await testPeekMsgsLength(receiver2, 0);
+    });
   });
 
   describe("Batch Receiver - disconnects", () => {
