@@ -166,7 +166,7 @@ function findFollowUpCommunicationInferences(res: any): void {
               if ("recipient" in inference) {
                 console.log("Recipient: " + inference.recipient.join(" "));
               }
-              console.log("   Aknowledged: " + inference.wasAcknowledged);
+              console.log("Aknowledged: " + inference.wasAcknowledged);
             }
           },
         );
