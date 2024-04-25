@@ -7,6 +7,7 @@
 import { AzureKeyCredential } from '@azure/core-auth';
 import { ClientOptions } from '@azure-rest/core-client';
 import { ErrorModel } from '@azure-rest/core-client';
+import { EventGridDeserializer } from '@azure/eventgrid';
 import { OperationOptions } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -57,6 +58,8 @@ export class EventGridClient {
 // @public (undocumented)
 export interface EventGridClientOptions extends ClientOptions {
 }
+
+export { EventGridDeserializer }
 
 // @public
 export interface FailedLockToken {

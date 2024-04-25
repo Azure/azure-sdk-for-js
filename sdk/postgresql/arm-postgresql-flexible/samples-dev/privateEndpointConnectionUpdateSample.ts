@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   PrivateEndpointConnection,
-  PostgreSQLManagementFlexibleServerClient
+  PostgreSQLManagementFlexibleServerClient,
 } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Approve or reject a private endpoint connection with a given name.
  *
  * @summary Approve or reject a private endpoint connection with a given name.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/PrivateEndpointConnectionUpdate.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/PrivateEndpointConnectionUpdate.json
  */
 async function approveOrRejectAPrivateEndpointConnectionWithAGivenName() {
   const subscriptionId =
@@ -35,20 +35,21 @@ async function approveOrRejectAPrivateEndpointConnectionWithAGivenName() {
   const parameters: PrivateEndpointConnection = {
     privateLinkServiceConnectionState: {
       description: "Approved by johndoe@contoso.com",
-      status: "Approved"
-    }
+      status: "Approved",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
-  const result = await client.privateEndpointConnectionOperations.beginUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    privateEndpointConnectionName,
-    parameters
-  );
+  const result =
+    await client.privateEndpointConnectionOperations.beginUpdateAndWait(
+      resourceGroupName,
+      serverName,
+      privateEndpointConnectionName,
+      parameters,
+    );
   console.log(result);
 }
 

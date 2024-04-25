@@ -37,7 +37,7 @@ async function runSingle(name: string, accumulatedErrors: Array<[string, string]
       const { main: sampleMain } = await import(name);
       await sampleMain();
     }
-  } catch (err: any) {
+  } catch (err: unknown) {
     const truncatedError: string = (err as Error).toString().split("\n")[0].slice(0, 100);
     accumulatedErrors.push([path.basename(name), truncatedError]);
     log.warn(`Error in ${name}:`);
