@@ -66,7 +66,7 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
     options?: GetTokenOptions
   ): Promise<AccessToken> {
     if (!this.clientAssertionCredential) {
-      const errorMessage = `${credentialName}: is unavailable. tenantId, clientId, and either serviceConnectionId are required parameters. 
+      const errorMessage = `${credentialName}: is unavailable. tenantId, clientId, and serviceConnectionId are required parameters. 
       To use Federation Identity in Azure Pipelines, these are required as inputs / env variables - 
       tenantId,
       clientId,
