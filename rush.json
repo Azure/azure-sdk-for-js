@@ -859,7 +859,7 @@
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure/test-utils",
+      "packageName": "@azure-tools/test-utils",
       "projectFolder": "sdk/test-utils/test-utils",
       "versionPolicyName": "utility"
     },

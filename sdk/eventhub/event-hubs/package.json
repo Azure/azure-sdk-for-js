@@ -116,7 +116,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.0.1",
     "@azure/mock-hub": "^1.0.0",
-    "@azure/test-utils": "^1.0.0",
+    "@azure-tools/test-utils": "^1.0.0",
     "@azure-tools/test-recorder": "^3.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/async-lock": "^1.1.0",
