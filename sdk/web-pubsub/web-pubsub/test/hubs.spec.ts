@@ -3,7 +3,7 @@
 /* eslint-disable no-invalid-this */
 import { Recorder, isLiveMode, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { WebPubSubServiceClient, AzureKeyCredential } from "../src";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import recorderOptions from "./testEnv";
 import { FullOperationResponse } from "@azure/core-client";
 import { createTestCredential } from "@azure-tools/test-credential";

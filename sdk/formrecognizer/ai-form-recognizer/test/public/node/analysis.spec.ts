@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { matrix } from "@azure/test-utils";
+import { matrix } from "@azure-tools/test-utils";
 import { assert } from "chai";
 import fs from "fs";
 import { Context } from "mocha";
