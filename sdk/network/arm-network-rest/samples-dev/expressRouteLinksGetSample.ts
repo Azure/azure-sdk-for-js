@@ -33,7 +33,7 @@ async function expressRouteLinkGet() {
       subscriptionId,
       resourceGroupName,
       expressRoutePortName,
-      linkName
+      linkName,
     )
     .get(options);
   console.log(result);

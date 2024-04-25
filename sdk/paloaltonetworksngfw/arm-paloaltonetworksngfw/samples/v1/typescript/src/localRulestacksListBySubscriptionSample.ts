@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List LocalRulestackResource resources by subscription ID
  *
  * @summary List LocalRulestackResource resources by subscription ID
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/LocalRulestacks_ListBySubscription_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRulestacks_ListBySubscription_MaximumSet_Gen.json
  */
 async function localRulestacksListBySubscriptionMaximumSetGen() {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function localRulestacksListBySubscriptionMaximumSetGen() {
  * This sample demonstrates how to List LocalRulestackResource resources by subscription ID
  *
  * @summary List LocalRulestackResource resources by subscription ID
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/LocalRulestacks_ListBySubscription_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRulestacks_ListBySubscription_MinimumSet_Gen.json
  */
 async function localRulestacksListBySubscriptionMinimumSetGen() {
   const subscriptionId =

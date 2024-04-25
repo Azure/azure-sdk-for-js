@@ -11,7 +11,7 @@
 import {
   LinkNotificationHubParameters,
   CommunicationServicesLinkNotificationHubOptionalParams,
-  CommunicationServiceManagementClient
+  CommunicationServiceManagementClient,
 } from "@azure/arm-communication";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Links an Azure Notification Hub to this communication service.
  *
  * @summary Links an Azure Notification Hub to this communication service.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/communicationServices/linkNotificationHub.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/linkNotificationHub.json
  */
 async function linkNotificationHub() {
   const subscriptionId =
@@ -35,20 +35,20 @@ async function linkNotificationHub() {
     connectionString:
       "Endpoint=sb://MyNamespace.servicebus.windows.net/;SharedAccessKey=abcd1234",
     resourceId:
-      "/subscriptions/11112222-3333-4444-5555-666677778888/resourceGroups/MyOtherResourceGroup/providers/Microsoft.NotificationHubs/namespaces/MyNamespace/notificationHubs/MyHub"
+      "/subscriptions/11112222-3333-4444-5555-666677778888/resourceGroups/MyOtherResourceGroup/providers/Microsoft.NotificationHubs/namespaces/MyNamespace/notificationHubs/MyHub",
   };
   const options: CommunicationServicesLinkNotificationHubOptionalParams = {
-    linkNotificationHubParameters
+    linkNotificationHubParameters,
   };
   const credential = new DefaultAzureCredential();
   const client = new CommunicationServiceManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.communicationServices.linkNotificationHub(
     resourceGroupName,
     communicationServiceName,
-    options
+    options,
   );
   console.log(result);
 }

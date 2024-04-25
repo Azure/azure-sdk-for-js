@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import { ErrorResponse } from "../request";
 
 /**
@@ -26,7 +27,7 @@ export class ResourceThrottleRetryPolicy {
   constructor(
     private maxTries: number = 9,
     private fixedRetryIntervalInMs: number = 0,
-    timeoutInSeconds: number = 30
+    timeoutInSeconds: number = 30,
   ) {
     this.timeoutInMs = timeoutInSeconds * 1000;
     this.currentRetryAttemptCount = 0;
@@ -36,7 +37,10 @@ export class ResourceThrottleRetryPolicy {
    * Determines whether the request should be retried or not.
    * @param err - Error returned by the request.
    */
-  public async shouldRetry(err: ErrorResponse): Promise<boolean> {
+  public async shouldRetry(
+    err: ErrorResponse,
+    diagnosticNode: DiagnosticNodeInternal,
+  ): Promise<boolean> {
     // TODO: any custom error object
     if (err) {
       if (this.currentRetryAttemptCount < this.maxTries) {
@@ -51,6 +55,7 @@ export class ResourceThrottleRetryPolicy {
 
         if (this.cummulativeWaitTimeinMs < this.timeoutInMs) {
           this.cummulativeWaitTimeinMs += this.retryAfterInMs;
+          diagnosticNode.addData({ successfulRetryPolicy: "resourceThrottle" });
           return true;
         }
       }

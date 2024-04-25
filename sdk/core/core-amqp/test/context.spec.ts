@@ -215,7 +215,7 @@ describe("ConnectionContextBase", function () {
     context.connection.options.properties!["user-agent"].should.equal("/js-amqp-client");
     context.connection.options.properties!.version.should.equal("1.0.0");
     context.connection.options.webSocketOptions!.url.should.equal(
-      `wss://hostname.servicebus.windows.net:443/`
+      `wss://hostname.servicebus.windows.net:443/`,
     );
     context.cbsSession.should.instanceOf(CbsClient);
   });
@@ -251,7 +251,7 @@ describe("ConnectionContextBase", function () {
     context.connection.options.properties!["user-agent"].should.equal("/js-amqp-client");
     context.connection.options.properties!.version.should.equal("1.0.0");
     context.connection.options.webSocketOptions!.url.should.equal(
-      `wss://hostname.servicebus.windows.net:1111/`
+      `wss://hostname.servicebus.windows.net:1111/`,
     );
     context.cbsSession.should.instanceOf(CbsClient);
   });

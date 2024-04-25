@@ -63,7 +63,7 @@ describe("CosmosDBForPostgreSQL test", () => {
       resourceGroup,
       resourcename,
       {
-        administratorLoginPassword: "*******",
+        administratorLoginPassword: "********",//need replace password value to ******** after testing.
         citusVersion: "11.1",
         coordinatorEnablePublicIpAccess: true,
         coordinatorServerEdition: "GeneralPurpose",
@@ -78,7 +78,7 @@ describe("CosmosDBForPostgreSQL test", () => {
         nodeStorageQuotaInMb: 524288,
         nodeVCores: 8,
         postgresqlVersion: "15",
-        preferredPrimaryZone: "1",
+        // preferredPrimaryZone: "1",
         tags: {}
       },
       testPollingOptions);
@@ -99,13 +99,14 @@ describe("CosmosDBForPostgreSQL test", () => {
     assert.equal(resArray.length, 1);
   });
 
+  //need run this case 1h later
   it("clusters delete test", async function () {
     const resArray = new Array();
-    const res = await client.clusters.beginDeleteAndWait(resourceGroup, resourcename
+    const res = await client.clusters.beginDeleteAndWait(resourceGroup, resourcename, testPollingOptions
     )
     for await (let item of client.clusters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
-  });
+  }).timeout(3600000);
 })

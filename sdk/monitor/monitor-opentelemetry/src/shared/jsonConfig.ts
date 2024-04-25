@@ -3,7 +3,11 @@
 
 import * as fs from "fs";
 import * as path from "path";
-import { AzureMonitorOpenTelemetryOptions, InstrumentationOptions } from "./types";
+import {
+  BrowserSdkLoaderOptions,
+  AzureMonitorOpenTelemetryOptions,
+  InstrumentationOptions,
+} from "../types";
 import { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
 import { Logger } from "./logging";
 
@@ -18,13 +22,23 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
   /** The rate of telemetry items tracked that should be transmitted (Default 1.0) */
   public samplingRatio?: number;
   /** Azure Monitor Exporter Configuration */
-  public azureMonitorExporterConfig?: AzureMonitorExporterOptions;
+  public azureMonitorExporterOptions?: AzureMonitorExporterOptions;
   /**
    * OpenTelemetry Instrumentations configuration included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4)
    */
   public instrumentationOptions?: InstrumentationOptions;
+  /** Enable Live Metrics feature */
+  public enableLiveMetrics?: boolean;
+  /** Enable Standard Metrics feature */
+  public enableStandardMetrics?: boolean;
+  /** Enable log sampling based on trace (Default true) */
+  public enableTraceBasedSamplingForLogs?: boolean;
+
+  public browserSdkLoaderOptions?: BrowserSdkLoaderOptions;
 
   private static _instance: JsonConfig;
+
+  private _tempDir: string;
 
   /** Get Singleton instance */
   public static getInstance() {
@@ -38,11 +52,8 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
    * Initializes a new instance of the JsonConfig class.
    */
   constructor() {
-    this._loadJsonFile();
-  }
-
-  private _loadJsonFile() {
     let jsonString = "";
+    this._tempDir = "";
     const contentJsonConfig = process.env[ENV_CONTENT];
     // JSON string added directly in env variable
     if (contentJsonConfig) {
@@ -52,26 +63,30 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
     else {
       let configFileName = "applicationinsights.json";
       let rootPath = path.join(__dirname, "../../../"); // Root of folder (__dirname = ../dist-esm/src)
-      let tempDir = path.join(rootPath, configFileName); // default
+      this._tempDir = path.join(rootPath, configFileName); // default
       let configFile = process.env[ENV_CONFIGURATION_FILE];
       if (configFile) {
         if (path.isAbsolute(configFile)) {
-          tempDir = configFile;
+          this._tempDir = configFile;
         } else {
-          tempDir = path.join(rootPath, configFile); // Relative path to applicationinsights folder
+          this._tempDir = path.join(rootPath, configFile); // Relative path to applicationinsights folder
         }
       }
       try {
-        jsonString = fs.readFileSync(tempDir, "utf8");
+        jsonString = fs.readFileSync(this._tempDir, "utf8");
       } catch (err) {
         Logger.getInstance().info("Failed to read JSON config file: ", err);
       }
     }
     try {
       const jsonConfig: AzureMonitorOpenTelemetryOptions = JSON.parse(jsonString);
-      this.azureMonitorExporterConfig = jsonConfig.azureMonitorExporterConfig;
+      this.azureMonitorExporterOptions = jsonConfig.azureMonitorExporterOptions;
       this.samplingRatio = jsonConfig.samplingRatio;
       this.instrumentationOptions = jsonConfig.instrumentationOptions;
+      this.browserSdkLoaderOptions = jsonConfig.browserSdkLoaderOptions;
+      this.enableLiveMetrics = jsonConfig.enableLiveMetrics;
+      this.enableStandardMetrics = jsonConfig.enableStandardMetrics;
+      this.enableTraceBasedSamplingForLogs = jsonConfig.enableTraceBasedSamplingForLogs;
     } catch (err) {
       Logger.getInstance().info("Missing or invalid JSON config file: ", err);
     }

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Policy,
   ReplicationPoliciesListOptionalParams,
@@ -19,7 +19,7 @@ import {
   ReplicationPoliciesDeleteOptionalParams,
   UpdatePolicyInput,
   ReplicationPoliciesUpdateOptionalParams,
-  ReplicationPoliciesUpdateResponse
+  ReplicationPoliciesUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface ReplicationPolicies {
   list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationPoliciesListOptionalParams
+    options?: ReplicationPoliciesListOptionalParams,
   ): PagedAsyncIterableIterator<Policy>;
   /**
    * Gets the details of a replication policy.
@@ -49,7 +49,7 @@ export interface ReplicationPolicies {
     resourceName: string,
     resourceGroupName: string,
     policyName: string,
-    options?: ReplicationPoliciesGetOptionalParams
+    options?: ReplicationPoliciesGetOptionalParams,
   ): Promise<ReplicationPoliciesGetResponse>;
   /**
    * The operation to create a replication policy.
@@ -65,10 +65,10 @@ export interface ReplicationPolicies {
     resourceGroupName: string,
     policyName: string,
     input: CreatePolicyInput,
-    options?: ReplicationPoliciesCreateOptionalParams
+    options?: ReplicationPoliciesCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationPoliciesCreateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationPoliciesCreateResponse>,
       ReplicationPoliciesCreateResponse
     >
   >;
@@ -86,7 +86,7 @@ export interface ReplicationPolicies {
     resourceGroupName: string,
     policyName: string,
     input: CreatePolicyInput,
-    options?: ReplicationPoliciesCreateOptionalParams
+    options?: ReplicationPoliciesCreateOptionalParams,
   ): Promise<ReplicationPoliciesCreateResponse>;
   /**
    * The operation to delete a replication policy.
@@ -100,8 +100,8 @@ export interface ReplicationPolicies {
     resourceName: string,
     resourceGroupName: string,
     policyName: string,
-    options?: ReplicationPoliciesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ReplicationPoliciesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete a replication policy.
    * @param resourceName The name of the recovery services vault.
@@ -114,7 +114,7 @@ export interface ReplicationPolicies {
     resourceName: string,
     resourceGroupName: string,
     policyName: string,
-    options?: ReplicationPoliciesDeleteOptionalParams
+    options?: ReplicationPoliciesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * The operation to update a replication policy.
@@ -130,10 +130,10 @@ export interface ReplicationPolicies {
     resourceGroupName: string,
     policyName: string,
     input: UpdatePolicyInput,
-    options?: ReplicationPoliciesUpdateOptionalParams
+    options?: ReplicationPoliciesUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationPoliciesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationPoliciesUpdateResponse>,
       ReplicationPoliciesUpdateResponse
     >
   >;
@@ -151,6 +151,6 @@ export interface ReplicationPolicies {
     resourceGroupName: string,
     policyName: string,
     input: UpdatePolicyInput,
-    options?: ReplicationPoliciesUpdateOptionalParams
+    options?: ReplicationPoliciesUpdateOptionalParams,
   ): Promise<ReplicationPoliciesUpdateResponse>;
 }

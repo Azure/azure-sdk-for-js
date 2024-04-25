@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
-import { CosmosDiagnosticContext } from "../../CosmosDiagnosticsContext";
+import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import {
   createDocumentUri,
   getIdFromLink,
@@ -14,11 +14,12 @@ import { PartitionKey, PartitionKeyInternal, convertToInternalPartitionKey } fro
 import { extractPartitionKeys, undefinedPartitionKey } from "../../extractPartitionKey";
 import { RequestOptions, Response } from "../../request";
 import { PatchRequestBody } from "../../utils/patch";
-import { readAndRecordPartitionKeyDefinition } from "../ClientUtils";
+import { readPartitionKeyDefinition } from "../ClientUtils";
 import { Container } from "../Container";
 import { Resource } from "../Resource";
 import { ItemDefinition } from "./ItemDefinition";
 import { ItemResponse } from "./ItemResponse";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
 
 /**
  * Used to perform operations on a specific item.
@@ -44,7 +45,7 @@ export class Item {
     public readonly container: Container,
     public readonly id: string,
     private readonly clientContext: ClientContext,
-    partitionKey?: PartitionKey
+    partitionKey?: PartitionKey,
   ) {
     this.partitionKey =
       partitionKey === undefined ? undefined : convertToInternalPartitionKey(partitionKey);
@@ -75,42 +76,45 @@ export class Item {
    * ```
    */
   public async read<T extends ItemDefinition = any>(
-    options: RequestOptions = {}
+    options: RequestOptions = {},
   ): Promise<ItemResponse<T>> {
-    let diagnosticContext: CosmosDiagnosticContext;
-    if (this.partitionKey === undefined) {
-      const partitionKeyResponse = await readAndRecordPartitionKeyDefinition(this.container);
-      this.partitionKey = undefinedPartitionKey(partitionKeyResponse.partitionKeyDefinition);
-      diagnosticContext = partitionKeyResponse.diagnosticContext;
-    }
-
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
-    let response: Response<T & Resource>;
-    try {
-      response = await this.clientContext.read<T>({
-        path,
-        resourceType: ResourceType.item,
-        resourceId: id,
-        options,
-        partitionKey: this.partitionKey,
-        diagnosticContext,
-      });
-    } catch (error: any) {
-      if (error.code !== StatusCodes.NotFound) {
-        throw error;
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      if (this.partitionKey === undefined) {
+        const partitionKeyDefinition = await readPartitionKeyDefinition(
+          diagnosticNode,
+          this.container,
+        );
+        this.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
       }
-      response = error;
-    }
 
-    return new ItemResponse(
-      response.result,
-      response.headers,
-      response.code,
-      response.substatus,
-      this,
-      response.diagnostics
-    );
+      const path = getPathFromLink(this.url);
+      const id = getIdFromLink(this.url);
+      let response: Response<T & Resource>;
+      try {
+        response = await this.clientContext.read<T>({
+          path,
+          resourceType: ResourceType.item,
+          resourceId: id,
+          options,
+          partitionKey: this.partitionKey,
+          diagnosticNode,
+        });
+      } catch (error: any) {
+        if (error.code !== StatusCodes.NotFound) {
+          throw error;
+        }
+        response = error;
+      }
+
+      return new ItemResponse(
+        response.result,
+        response.headers,
+        response.code,
+        response.substatus,
+        this,
+        getEmptyCosmosDiagnostics(),
+      );
+    }, this.clientContext);
   }
 
   /**
@@ -123,7 +127,7 @@ export class Item {
    */
   public replace(
     body: ItemDefinition,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<ItemResponse<ItemDefinition>>;
   /**
    * Replace the item's definition.
@@ -138,44 +142,47 @@ export class Item {
    */
   public replace<T extends ItemDefinition>(
     body: T,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<ItemResponse<T>>;
   public async replace<T extends ItemDefinition>(
     body: T,
-    options: RequestOptions = {}
+    options: RequestOptions = {},
   ): Promise<ItemResponse<T>> {
-    let diagnosticContext: CosmosDiagnosticContext;
-    if (this.partitionKey === undefined) {
-      const partitionKeyResponse = await readAndRecordPartitionKeyDefinition(this.container);
-      this.partitionKey = extractPartitionKeys(body, partitionKeyResponse.partitionKeyDefinition);
-      diagnosticContext = partitionKeyResponse.diagnosticContext;
-    }
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      if (this.partitionKey === undefined) {
+        const partitionKeyResponse = await readPartitionKeyDefinition(
+          diagnosticNode,
+          this.container,
+        );
+        this.partitionKey = extractPartitionKeys(body, partitionKeyResponse);
+      }
 
-    const err = {};
-    if (!isItemResourceValid(body, err)) {
-      throw err;
-    }
+      const err = {};
+      if (!isItemResourceValid(body, err)) {
+        throw err;
+      }
 
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
+      const path = getPathFromLink(this.url);
+      const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.replace<T>({
-      body,
-      path,
-      resourceType: ResourceType.item,
-      resourceId: id,
-      options,
-      partitionKey: this.partitionKey,
-      diagnosticContext,
-    });
-    return new ItemResponse(
-      response.result,
-      response.headers,
-      response.code,
-      response.substatus,
-      this,
-      response.diagnostics
-    );
+      const response = await this.clientContext.replace<T>({
+        body,
+        path,
+        resourceType: ResourceType.item,
+        resourceId: id,
+        options,
+        partitionKey: this.partitionKey,
+        diagnosticNode,
+      });
+      return new ItemResponse(
+        response.result,
+        response.headers,
+        response.code,
+        response.substatus,
+        this,
+        getEmptyCosmosDiagnostics(),
+      );
+    }, this.clientContext);
   }
 
   /**
@@ -187,34 +194,38 @@ export class Item {
    * @param options - Additional options for the request
    */
   public async delete<T extends ItemDefinition = any>(
-    options: RequestOptions = {}
+    options: RequestOptions = {},
   ): Promise<ItemResponse<T>> {
-    let diagnosticContext: CosmosDiagnosticContext;
-    if (this.partitionKey === undefined) {
-      const partitionKeyResponse = await readAndRecordPartitionKeyDefinition(this.container);
-      this.partitionKey = undefinedPartitionKey(partitionKeyResponse.partitionKeyDefinition);
-      diagnosticContext = partitionKeyResponse.diagnosticContext;
-    }
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      if (this.partitionKey === undefined) {
+        const partitionKeyResponse = await readPartitionKeyDefinition(
+          diagnosticNode,
+          this.container,
+        );
+        this.partitionKey = undefinedPartitionKey(partitionKeyResponse);
+      }
 
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
+      const path = getPathFromLink(this.url);
+      const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete<T>({
-      path,
-      resourceType: ResourceType.item,
-      resourceId: id,
-      options,
-      partitionKey: this.partitionKey,
-      diagnosticContext,
-    });
-    return new ItemResponse(
-      response.result,
-      response.headers,
-      response.code,
-      response.substatus,
-      this,
-      response.diagnostics
-    );
+      const response = await this.clientContext.delete<T>({
+        path,
+        resourceType: ResourceType.item,
+        resourceId: id,
+        options,
+        partitionKey: this.partitionKey,
+        diagnosticNode,
+      });
+
+      return new ItemResponse(
+        response.result,
+        response.headers,
+        response.code,
+        response.substatus,
+        this,
+        getEmptyCosmosDiagnostics(),
+      );
+    }, this.clientContext);
   }
 
   /**
@@ -227,34 +238,38 @@ export class Item {
    */
   public async patch<T extends ItemDefinition = any>(
     body: PatchRequestBody,
-    options: RequestOptions = {}
+    options: RequestOptions = {},
   ): Promise<ItemResponse<T>> {
-    let diagnosticContext: CosmosDiagnosticContext;
-    if (this.partitionKey === undefined) {
-      const partitionKeyResponse = await readAndRecordPartitionKeyDefinition(this.container);
-      this.partitionKey = extractPartitionKeys(body, partitionKeyResponse.partitionKeyDefinition);
-      diagnosticContext = partitionKeyResponse.diagnosticContext;
-    }
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      if (this.partitionKey === undefined) {
+        const partitionKeyResponse = await readPartitionKeyDefinition(
+          diagnosticNode,
+          this.container,
+        );
+        this.partitionKey = extractPartitionKeys(body, partitionKeyResponse);
+      }
 
-    const path = getPathFromLink(this.url);
-    const id = getIdFromLink(this.url);
+      const path = getPathFromLink(this.url);
+      const id = getIdFromLink(this.url);
 
-    const response = await this.clientContext.patch<T>({
-      body,
-      path,
-      resourceType: ResourceType.item,
-      resourceId: id,
-      options,
-      partitionKey: this.partitionKey,
-      diagnosticContext,
-    });
-    return new ItemResponse(
-      response.result,
-      response.headers,
-      response.code,
-      response.substatus,
-      this,
-      response.diagnostics
-    );
+      const response = await this.clientContext.patch<T>({
+        body,
+        path,
+        resourceType: ResourceType.item,
+        resourceId: id,
+        options,
+        partitionKey: this.partitionKey,
+        diagnosticNode,
+      });
+
+      return new ItemResponse(
+        response.result,
+        response.headers,
+        response.code,
+        response.substatus,
+        this,
+        getEmptyCosmosDiagnostics(),
+      );
+    }, this.clientContext);
   }
 }

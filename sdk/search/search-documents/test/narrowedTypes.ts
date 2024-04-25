@@ -9,18 +9,15 @@
 
 import { SearchClient, SelectFields } from "../src/index";
 import {
+  NarrowedModel as GenericNarrowedModel,
   SearchFieldArray,
   SearchPick,
   SelectArray,
-  NarrowedModel as GenericNarrowedModel,
   SuggestNarrowedModel,
 } from "../src/indexModels";
 
-type Equals<T1, T2> = (<T>() => T extends T1 ? true : false) extends <T>() => T extends T2
-  ? true
-  : false
-  ? any
-  : never;
+type Equals<T1, T2> =
+  (<T>() => T extends T1 ? true : false) extends <T>() => T extends T2 ? true : false ? any : never;
 
 type Model = {
   key?: string;
@@ -249,7 +246,9 @@ function testNarrowedClient() {
   async () => {
     type VectorFields = NonNullable<
       NonNullable<
-        NonNullable<Parameters<(typeof client)["search"]>[1]>["vectors"]
+        NonNullable<
+          NonNullable<Parameters<(typeof client)["search"]>[1]>["vectorSearchOptions"]
+        >["queries"]
       >[number]["fields"]
     >;
     const a: Equals<VectorFields, readonly ModelFields[]> = "pass";
@@ -382,7 +381,9 @@ function testWideClient() {
   async () => {
     type VectorFields = NonNullable<
       NonNullable<
-        NonNullable<Parameters<(typeof client)["search"]>[1]>["vectors"]
+        NonNullable<
+          NonNullable<Parameters<(typeof client)["search"]>[1]>["vectorSearchOptions"]
+        >["queries"]
       >[number]["fields"]
     >;
     const a: Equals<VectorFields, readonly string[]> = "pass";

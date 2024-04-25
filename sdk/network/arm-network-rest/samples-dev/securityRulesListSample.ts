@@ -32,7 +32,7 @@ async function listNetworkSecurityRulesInNetworkSecurityGroup() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules",
       subscriptionId,
       resourceGroupName,
-      networkSecurityGroupName
+      networkSecurityGroupName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

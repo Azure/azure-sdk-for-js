@@ -50,7 +50,7 @@ export async function createRecordedClient<T extends InputSchema>(
   options: {
     removeApiEventsSuffixBool?: boolean;
     additionalPolicies?: AdditionalPolicyConfig[];
-  } = {}
+  } = {},
 ): Promise<RecordedClient<T>> {
   const recorder = new Recorder(currentTest);
   await recorder.start(recorderOptions);
@@ -71,7 +71,7 @@ export async function createRecordedClient<T extends InputSchema>(
       new AzureKeyCredential(assertEnvironmentVariable(apiKeyEnv)),
       recorder.configureClientOptions({
         additionalPolicies: options.additionalPolicies,
-      })
+      }),
     ),
     recorder,
   };

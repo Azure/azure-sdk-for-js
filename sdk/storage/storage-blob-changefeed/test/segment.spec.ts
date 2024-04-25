@@ -69,7 +69,7 @@ describe("Segment", async () => {
       const changedEvent = await segment.getChange();
       assert.equal(
         changedEvent,
-        ((i + 2) % shardCount) as unknown as BlobChangeFeedEvent | undefined
+        ((i + 2) % shardCount) as unknown as BlobChangeFeedEvent | undefined,
       );
     }
     const event2 = await segment.getChange();

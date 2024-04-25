@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Links an Azure Notification Hub to this communication service.
  *
  * @summary Links an Azure Notification Hub to this communication service.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/communicationServices/linkNotificationHub.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/linkNotificationHub.json
  */
 async function linkNotificationHub() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function linkNotificationHub() {
   const result = await client.communicationServices.linkNotificationHub(
     resourceGroupName,
     communicationServiceName,
-    options
+    options,
   );
   console.log(result);
 }

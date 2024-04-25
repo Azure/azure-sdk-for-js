@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get a list of Data Transfer jobs.
  *
  * @summary Get a list of Data Transfer jobs.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/data-transfer-service/CosmosDBDataTransferJobFeed.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/data-transfer-service/CosmosDBDataTransferJobFeed.json
  */
 async function cosmosDbDataTransferJobFeed() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -27,7 +27,7 @@ async function cosmosDbDataTransferJobFeed() {
   const resArray = new Array();
   for await (let item of client.dataTransferJobs.listByDatabaseAccount(
     resourceGroupName,
-    accountName
+    accountName,
   )) {
     resArray.push(item);
   }

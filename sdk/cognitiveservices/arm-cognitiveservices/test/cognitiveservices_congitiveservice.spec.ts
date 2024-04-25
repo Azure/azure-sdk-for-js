@@ -63,7 +63,7 @@ describe("CognitiveServices test", () => {
       identity: {
         type: "SystemAssigned"
       }
-    });
+    }, testPollingOptions);
     assert.equal(res.name, accountName);
   });
 
@@ -86,12 +86,12 @@ describe("CognitiveServices test", () => {
   });
 
   it("accounts update test", async function () {
-    const res = await client.accounts.beginUpdateAndWait(resourceGroup, accountName, { tags: { tag1: "value1" } });
+    const res = await client.accounts.beginUpdateAndWait(resourceGroup, accountName, { tags: { tag1: "value1" } }, testPollingOptions);
     assert.equal(res.type, "Microsoft.CognitiveServices/accounts")
   });
 
   it("accounts delete test", async function () {
-    const res = await client.accounts.beginDeleteAndWait(resourceGroup, accountName);
+    const res = await client.accounts.beginDeleteAndWait(resourceGroup, accountName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.accounts.listByResourceGroup(resourceGroup)) {
       resArray.push(item);

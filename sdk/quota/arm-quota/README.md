@@ -2,7 +2,7 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for AzureQuotaExtensionApi client.
 
-Microsoft Azure Quota Resource Provider
+Microsoft Azure Quota Resource Provider. This Swagger is for Azure Group Quota using GroupQuota Entity.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/quota/arm-quota) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-quota) |

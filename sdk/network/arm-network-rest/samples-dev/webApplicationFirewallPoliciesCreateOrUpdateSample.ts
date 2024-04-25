@@ -128,7 +128,7 @@ async function createsOrUpdatesAWafPolicyWithinAResourceGroup() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/{policyName}",
       subscriptionId,
       resourceGroupName,
-      policyName
+      policyName,
     )
     .put(options);
   console.log(result);

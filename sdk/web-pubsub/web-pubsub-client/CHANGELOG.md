@@ -1,14 +1,17 @@
 # Release History
 
-## 1.0.0-beta.4 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.0.1 (2024-04-24)
 
 ### Other Changes
+
+- Update the `sequenceAck` logic to make it more efficient when receiving rate is high
+- Periodically send message to detect the connection alive especially when the connection is idle
+
+## 1.0.0 (2023-12-01)
+
+### Other Changes
+
+- Use overload for `SendToGroup` and `SendEvent`
 
 ## 1.0.0-beta.3 (2023-04-10)
 

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the entity state (Etag) version of the backend specified by its identifier.
  *
  * @summary Gets the entity state (Etag) version of the backend specified by its identifier.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementHeadBackend.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementHeadBackend.json
  */
 async function apiManagementHeadBackend() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

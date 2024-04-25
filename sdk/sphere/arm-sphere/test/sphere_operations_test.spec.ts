@@ -51,14 +51,13 @@ describe("Sphere test", () => {
     location = "eastus";
     resourceGroup = "myjstest";
     resourcename = "resourcetest";
-
   });
 
   afterEach(async function () {
     await recorder.stop();
   });
 
-  it.skip("catalogs create test", async function () {
+  it("catalogs create test", async function () {
     const res = await client.catalogs.beginCreateOrUpdateAndWait(
       resourceGroup,
       resourcename,
@@ -89,9 +88,9 @@ describe("Sphere test", () => {
     assert.notEqual(resArray.length, 0);
   });
 
-  it.skip("catalogs delete test", async function () {
+  it("catalogs delete test", async function () {
     const res = await client.catalogs.beginDeleteAndWait(resourceGroup,
-      resourcename);
+      resourcename, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.catalogs.listByResourceGroup(resourceGroup)) {
       resArray.push(item);

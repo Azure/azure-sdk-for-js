@@ -5,8 +5,8 @@ import { RegistrationDescription, RegistrationChannel } from "../models/registra
 import { listRegistrationPagingPage, listRegistrationsAll } from "./internal/_listRegistrations.js";
 import { NotificationHubsClientContext } from "./index.js";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { RestError } from "@azure/core-rest-pipeline";
 import { RegistrationQueryLimitOptions } from "../models/options.js";
+import { getFilterByChannel } from "../utils/registrationUtils.js";
 import { tracingClient } from "../utils/tracing.js";
 
 /**
@@ -19,7 +19,7 @@ import { tracingClient } from "../utils/tracing.js";
 export function listRegistrationsByChannel(
   context: NotificationHubsClientContext,
   channel: RegistrationChannel,
-  options: RegistrationQueryLimitOptions = {}
+  options: RegistrationQueryLimitOptions = {},
 ): PagedAsyncIterableIterator<RegistrationDescription> {
   const newOptions = {
     ...options,
@@ -27,7 +27,7 @@ export function listRegistrationsByChannel(
   };
   const { span, updatedOptions } = tracingClient.startSpan(
     "NotificationHubsClientContext.listRegistrationsByDevice",
-    newOptions
+    newOptions,
   );
   try {
     const iter = listRegistrationsAll(context, updatedOptions);
@@ -47,28 +47,5 @@ export function listRegistrationsByChannel(
     throw e;
   } finally {
     span.end();
-  }
-}
-
-function getFilterByChannel(device: RegistrationChannel): string {
-  switch (device.kind) {
-    case "adm":
-      return `AdmRegistrationId eq '${device.admRegistrationId}'`;
-    case "apple":
-      return `DeviceToken eq '${device.deviceToken.toLocaleUpperCase()}'`;
-    case "baidu":
-      return `BaiduChannelId eq ${device.baiduChannelId}' and BaiduUserId eq '${device.baiduUserId}'`;
-    case "browser":
-      return `Endpoint eq '${encodeURIComponent(device.endpoint)}' and P256DH eq '${
-        device.p256dh
-      }' and Auth eq '${device.auth}'`;
-    case "gcm":
-      return `GcmRegistrationId eq '${device.gcmRegistrationId}'`;
-    case "windows":
-      return `ChannelUri eq '${encodeURIComponent(device.channelUri)}'`;
-    default:
-      throw new RestError(`Device type is unsupported`, {
-        statusCode: 400,
-      });
   }
 }

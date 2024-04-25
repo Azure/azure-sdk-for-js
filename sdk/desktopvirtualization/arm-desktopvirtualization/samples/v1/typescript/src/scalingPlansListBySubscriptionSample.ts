@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to List scaling plans in subscription.
  *
  * @summary List scaling plans in subscription.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2022-09-09/examples/ScalingPlan_ListBySubscription.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/ScalingPlan_ListBySubscription.json
  */
 async function scalingPlansListBySubscription() {
   const subscriptionId =

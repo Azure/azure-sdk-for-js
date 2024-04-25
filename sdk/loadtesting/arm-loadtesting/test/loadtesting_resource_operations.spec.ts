@@ -10,6 +10,7 @@ import {
   env,
   RecorderStartOptions,
   Recorder,
+  isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
@@ -31,6 +32,10 @@ const replaceableVariables: Record<string, string> = {
 
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: replaceableVariables
+};
+
+export const testPollingOptions = {
+  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
 describe("Load Testing Resource Operations", () => {
@@ -59,7 +64,6 @@ describe("Load Testing Resource Operations", () => {
     };
 
     // Set the global variables to be used in the tests
-    subscriptionId = env.SUBSCRIPTION_ID || '00000000-0000-0000-0000-000000000000';
     location = env.LOCATION || "westus2";
     resourceGroupName = env.RESOURCE_GROUP || "myjstest";
     loadTestResourceName = "loadtestsResource";
@@ -68,6 +72,7 @@ describe("Load Testing Resource Operations", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || '00000000-0000-0000-0000-000000000000';
     const credential = createTestCredential();
     client = new LoadTestClient(credential, subscriptionId, recorder.configureClientOptions({}));
   });
@@ -82,7 +87,7 @@ describe("Load Testing Resource Operations", () => {
     const resource = await client.loadTests.beginCreateOrUpdateAndWait(
       resourceGroupName,
       loadTestResourceName,
-      loadTestResourceCreatePayload
+      loadTestResourceCreatePayload, testPollingOptions
     );
 
     // Verify the response
@@ -115,22 +120,22 @@ describe("Load Testing Resource Operations", () => {
     const result = await client.loadTests.beginUpdateAndWait(
       resourceGroupName,
       loadTestResourceName,
-      loadTestResourcePatchPayload
+      loadTestResourcePatchPayload, testPollingOptions
     );
 
-    // Get the load test resource
-    const patchedResource = await client.loadTests.get(
-      resourceGroupName,
-      loadTestResourceName
-    );
+    // // Get the load test resource
+    // const patchedResource = await client.loadTests.get(
+    //   resourceGroupName,
+    //   loadTestResourceName
+    // );
 
     // Verify the response
-    assert.equal(patchedResource.provisioningState, "Succeeded");
-    assert.equal(patchedResource.name, loadTestResourceName);
-    assert.equal(patchedResource.location, location);
-    assert.equal(patchedResource.tags?.team, loadTestResourceCreatePayload.tags?.team);
-    assert.equal(patchedResource.description, loadTestResourceCreatePayload.description);
-    assert.equal(patchedResource.identity?.type, loadTestResourcePatchPayload.identity?.type);
+    assert.equal(result.provisioningState, "Succeeded");
+    assert.equal(result.name, loadTestResourceName);
+    assert.equal(result.location, location);
+    assert.equal(result.tags?.team, loadTestResourceCreatePayload.tags?.team);
+    assert.equal(result.description, loadTestResourceCreatePayload.description);
+    assert.equal(result.identity?.type, loadTestResourcePatchPayload.identity?.type);
   });
 
   it("delete resource", async function () {

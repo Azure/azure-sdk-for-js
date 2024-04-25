@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the Single-Sign-On token for the API Management Service which is valid for 5 Minutes.
  *
  * @summary Gets the Single-Sign-On token for the API Management Service which is valid for 5 Minutes.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementServiceGetSsoToken.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementServiceGetSsoToken.json
  */
 async function apiManagementServiceGetSsoToken() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

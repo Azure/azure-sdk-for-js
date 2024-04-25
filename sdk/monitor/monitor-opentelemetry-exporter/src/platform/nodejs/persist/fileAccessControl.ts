@@ -30,14 +30,14 @@ export class FileAccessControl {
         // This guarantees we can immediately fail setDiskRetryMode if we need to
         try {
           FileAccessControl.OS_PROVIDES_FILE_PROTECTION = fs.existsSync(
-            FileAccessControl.ICACLS_PATH
+            FileAccessControl.ICACLS_PATH,
           );
         } catch (e: any) {
           // Ignore error
         }
         if (!FileAccessControl.OS_PROVIDES_FILE_PROTECTION) {
           diag.warn(
-            "Could not find ICACLS in expected location! This is necessary to use disk retry mode on Windows."
+            "Could not find ICACLS in expected location! This is necessary to use disk retry mode on Windows.",
           );
         }
       } else {
@@ -56,7 +56,7 @@ export class FileAccessControl {
         FileAccessControl.ACLED_DIRECTORIES[directory] = false;
         try {
           // Restrict this directory to only current user and administrator access
-          let identity = await this._getACLIdentity();
+          const identity = await this._getACLIdentity();
           await this._runICACLS(this._getACLArguments(directory, identity));
           FileAccessControl.ACLED_DIRECTORIES[directory] = true;
         } catch (ex: any) {
@@ -87,7 +87,7 @@ export class FileAccessControl {
 
   private static _runICACLS(args: string[]): Promise<void> {
     return new Promise((resolve, reject) => {
-      var aclProc = child_process.spawn(FileAccessControl.ICACLS_PATH, args, <any>{
+      const aclProc = child_process.spawn(FileAccessControl.ICACLS_PATH, args, <any>{
         windowsHide: true,
       });
       aclProc.on("error", (e: Error) => reject(e));
@@ -96,7 +96,7 @@ export class FileAccessControl {
           resolve();
         } else {
           reject(
-            new Error(`Setting ACL restrictions did not succeed (ICACLS returned code ${code})`)
+            new Error(`Setting ACL restrictions did not succeed (ICACLS returned code ${code})`),
           );
         }
       });
@@ -106,14 +106,14 @@ export class FileAccessControl {
   private static _runICACLSSync(args: string[]) {
     // Some very old versions of Node (< 0.11) don't have this
     if (child_process.spawnSync) {
-      var aclProc = child_process.spawnSync(FileAccessControl.ICACLS_PATH, args, <any>{
+      const aclProc = child_process.spawnSync(FileAccessControl.ICACLS_PATH, args, <any>{
         windowsHide: true,
       });
       if (aclProc.error) {
         throw aclProc.error;
       } else if (aclProc.status !== 0) {
         throw new Error(
-          `Setting ACL restrictions did not succeed (ICACLS returned code ${aclProc.status})`
+          `Setting ACL restrictions did not succeed (ICACLS returned code ${aclProc.status})`,
         );
       }
     } else {
@@ -126,13 +126,13 @@ export class FileAccessControl {
       if (FileAccessControl.ACL_IDENTITY) {
         resolve(FileAccessControl.ACL_IDENTITY);
       }
-      var psProc = child_process.spawn(
+      const psProc = child_process.spawn(
         FileAccessControl.POWERSHELL_PATH,
         ["-Command", "[System.Security.Principal.WindowsIdentity]::GetCurrent().Name"],
         <any>{
           windowsHide: true,
           stdio: ["ignore", "pipe", "pipe"], // Needed to prevent hanging on Win 7
-        }
+        },
       );
       let data = "";
       psProc.stdout.on("data", (d: string) => (data += d));
@@ -154,13 +154,13 @@ export class FileAccessControl {
     }
     // Some very old versions of Node (< 0.11) don't have this
     if (child_process.spawnSync) {
-      var psProc = child_process.spawnSync(
+      const psProc = child_process.spawnSync(
         FileAccessControl.POWERSHELL_PATH,
         ["-Command", "[System.Security.Principal.WindowsIdentity]::GetCurrent().Name"],
         <any>{
           windowsHide: true,
           stdio: ["ignore", "pipe", "pipe"], // Needed to prevent hanging on Win 7
-        }
+        },
       );
       if (psProc.error) {
         throw psProc.error;

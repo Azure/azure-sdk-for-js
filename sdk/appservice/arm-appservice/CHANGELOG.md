@@ -1,6 +1,6 @@
 # Release History
 
-## 14.0.1 (Unreleased)
+## 14.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,40 @@
 
 ### Other Changes
 
+## 14.1.0 (2023-11-16)
+    
+**Features**
+
+  - Added operation group GetUsagesInLocation
+  - Added Interface AseRegion
+  - Added Interface AseRegionCollection
+  - Added Interface DaprConfig
+  - Added Interface DiagnosticData_2
+  - Added Interface GetUsagesInLocationListNextOptionalParams
+  - Added Interface GetUsagesInLocationListOptionalParams
+  - Added Interface ListAseRegionsNextOptionalParams
+  - Added Interface ListAseRegionsOptionalParams
+  - Added Interface ResourceConfig
+  - Added Type Alias DaprLogLevel
+  - Added Type Alias GetUsagesInLocationListNextResponse
+  - Added Type Alias GetUsagesInLocationListResponse
+  - Added Type Alias ListAseRegionsNextResponse
+  - Added Type Alias ListAseRegionsResponse
+  - Added Type Alias TlsCipherSuites
+  - Interface CheckNameAvailabilityOptionalParams has a new optional parameter environmentId
+  - Interface ResourceNameAvailabilityRequest has a new optional parameter environmentId
+  - Interface Site has a new optional parameter daprConfig
+  - Interface Site has a new optional parameter resourceConfig
+  - Interface Site has a new optional parameter workloadProfileName
+  - Interface SiteConfig has a new optional parameter minTlsCipherSuite
+  - Interface SiteConfigResource has a new optional parameter minTlsCipherSuite
+  - Added Enum KnownDaprLogLevel
+  - Added Enum KnownTlsCipherSuites
+  - Added Enum KnownWorkflowState
+  - Class WebSiteManagementClient has a new signature
+  - Type of parameter dataset of interface DetectorResponse is changed from DiagnosticData[] to DiagnosticData_2[]
+    
+    
 ## 14.0.0 (2023-03-10)
     
 **Features**
@@ -747,4 +781,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).

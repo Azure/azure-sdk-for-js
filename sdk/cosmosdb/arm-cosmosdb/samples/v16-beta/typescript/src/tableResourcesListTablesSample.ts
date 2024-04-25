@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the Tables under an existing Azure Cosmos DB database account.
  *
  * @summary Lists the Tables under an existing Azure Cosmos DB database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBTableList.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBTableList.json
  */
 async function cosmosDbTableList() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -29,7 +29,7 @@ async function cosmosDbTableList() {
   const resArray = new Array();
   for await (let item of client.tableResources.listTables(
     resourceGroupName,
-    accountName
+    accountName,
   )) {
     resArray.push(item);
   }

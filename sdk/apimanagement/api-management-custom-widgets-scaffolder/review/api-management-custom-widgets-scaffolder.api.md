@@ -26,6 +26,8 @@ export function generateProject(widgetConfig: CustomWidgetCommonConfig, deployme
 
 // @public
 export interface Options {
+    configAdvancedRedirectUri?: string;
+    configAdvancedTenantId?: string;
     openUrl?: string;
 }
 

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the private link resources for cluster.
  *
  * @summary Gets the private link resources for cluster.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/PrivateLinkResourceListByCluster.json
+ * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/PrivateLinkResourceListByCluster.json
  */
 async function getsThePrivateLinkResourcesForCluster() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function getsThePrivateLinkResourcesForCluster() {
   const resArray = new Array();
   for await (let item of client.privateLinkResources.listByCluster(
     resourceGroupName,
-    clusterName
+    clusterName,
   )) {
     resArray.push(item);
   }

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AccessToken } from "@azure/core-auth";
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 interface JwtToken {
   exp: number;

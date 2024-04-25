@@ -13,4 +13,5 @@ export * from "./signalRCustomCertificates";
 export * from "./signalRCustomDomains";
 export * from "./signalRPrivateEndpointConnections";
 export * from "./signalRPrivateLinkResources";
+export * from "./signalRReplicas";
 export * from "./signalRSharedPrivateLinkResources";

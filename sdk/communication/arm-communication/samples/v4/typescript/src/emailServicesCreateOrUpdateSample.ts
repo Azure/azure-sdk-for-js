@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   EmailServiceResource,
-  CommunicationServiceManagementClient
+  CommunicationServiceManagementClient,
 } from "@azure/arm-communication";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create a new EmailService or update an existing EmailService.
  *
  * @summary Create a new EmailService or update an existing EmailService.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/emailServices/createOrUpdate.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/emailServices/createOrUpdate.json
  */
 async function createOrUpdateEmailServiceResource() {
   const subscriptionId =
@@ -32,17 +32,17 @@ async function createOrUpdateEmailServiceResource() {
   const emailServiceName = "MyEmailServiceResource";
   const parameters: EmailServiceResource = {
     dataLocation: "United States",
-    location: "Global"
+    location: "Global",
   };
   const credential = new DefaultAzureCredential();
   const client = new CommunicationServiceManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.emailServices.beginCreateOrUpdateAndWait(
     resourceGroupName,
     emailServiceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

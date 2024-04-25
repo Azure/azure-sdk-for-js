@@ -36,7 +36,9 @@ import {
   ImportRDBParameters,
   RedisImportDataOptionalParams,
   ExportRDBParameters,
-  RedisExportDataOptionalParams
+  RedisExportDataOptionalParams,
+  RedisFlushCacheOptionalParams,
+  RedisFlushCacheResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,7 +46,7 @@ import {
 export interface Redis {
   /**
    * Gets any upgrade notifications for a Redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param history how many minutes in past to look for upgrade notifications
    * @param options The options parameters.
@@ -57,7 +59,7 @@ export interface Redis {
   ): PagedAsyncIterableIterator<UpgradeNotification>;
   /**
    * Lists all Redis caches in a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
@@ -83,7 +85,7 @@ export interface Redis {
   ): Promise<void>;
   /**
    * Create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param parameters Parameters supplied to the Create Redis operation.
    * @param options The options parameters.
@@ -98,7 +100,7 @@ export interface Redis {
   >;
   /**
    * Create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param parameters Parameters supplied to the Create Redis operation.
    * @param options The options parameters.
@@ -111,7 +113,7 @@ export interface Redis {
   ): Promise<RedisCreateResponse>;
   /**
    * Update an existing Redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param parameters Parameters supplied to the Update Redis operation.
    * @param options The options parameters.
@@ -126,7 +128,7 @@ export interface Redis {
   >;
   /**
    * Update an existing Redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param parameters Parameters supplied to the Update Redis operation.
    * @param options The options parameters.
@@ -139,7 +141,7 @@ export interface Redis {
   ): Promise<RedisUpdateResponse>;
   /**
    * Deletes a Redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param options The options parameters.
    */
@@ -150,7 +152,7 @@ export interface Redis {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param options The options parameters.
    */
@@ -161,7 +163,7 @@ export interface Redis {
   ): Promise<void>;
   /**
    * Gets a Redis cache (resource description).
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param options The options parameters.
    */
@@ -173,7 +175,7 @@ export interface Redis {
   /**
    * Retrieve a Redis cache's access keys. This operation requires write permission to the cache
    * resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param options The options parameters.
    */
@@ -185,7 +187,7 @@ export interface Redis {
   /**
    * Regenerate Redis cache's access keys. This operation requires write permission to the cache
    * resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param parameters Specifies which key to regenerate.
    * @param options The options parameters.
@@ -199,7 +201,7 @@ export interface Redis {
   /**
    * Reboot specified Redis node(s). This operation requires write permission to the cache resource.
    * There can be potential data loss.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param parameters Specifies which Redis node(s) to reboot.
    * @param options The options parameters.
@@ -212,7 +214,7 @@ export interface Redis {
   ): Promise<RedisForceRebootOperationResponse>;
   /**
    * Import data into Redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param parameters Parameters for Redis import operation.
    * @param options The options parameters.
@@ -225,7 +227,7 @@ export interface Redis {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Import data into Redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param parameters Parameters for Redis import operation.
    * @param options The options parameters.
@@ -238,7 +240,7 @@ export interface Redis {
   ): Promise<void>;
   /**
    * Export data from the redis cache to blobs in a container.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param parameters Parameters for Redis export operation.
    * @param options The options parameters.
@@ -251,7 +253,7 @@ export interface Redis {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Export data from the redis cache to blobs in a container.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param parameters Parameters for Redis export operation.
    * @param options The options parameters.
@@ -262,4 +264,31 @@ export interface Redis {
     parameters: ExportRDBParameters,
     options?: RedisExportDataOptionalParams
   ): Promise<void>;
+  /**
+   * Deletes all of the keys in a cache.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName The name of the Redis cache.
+   * @param options The options parameters.
+   */
+  beginFlushCache(
+    resourceGroupName: string,
+    cacheName: string,
+    options?: RedisFlushCacheOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<RedisFlushCacheResponse>,
+      RedisFlushCacheResponse
+    >
+  >;
+  /**
+   * Deletes all of the keys in a cache.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cacheName The name of the Redis cache.
+   * @param options The options parameters.
+   */
+  beginFlushCacheAndWait(
+    resourceGroupName: string,
+    cacheName: string,
+    options?: RedisFlushCacheOptionalParams
+  ): Promise<RedisFlushCacheResponse>;
 }

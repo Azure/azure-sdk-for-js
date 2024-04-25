@@ -1,6 +1,6 @@
 # Release History
 
-## 4.7.3 (Unreleased)
+## 4.8.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,27 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 4.8.0 (2024-02-14)
+
+### Features Added
+
+Since 4.7.2:
+- Added `hsmPlatform` property to `KeyProperties`.
+
+### Other Changes
+
+- The default service version is now `7.5`.
+
+## 4.8.0-beta.1 (2023-11-08)
+
+### Features Added
+
+- Added `hsmPlatform` property to `KeyProperties`.
+
+### Other Changes
+
+- The default service version is now `7.5-preview.1`.
 
 ## 4.7.2 (2023-08-10)
 

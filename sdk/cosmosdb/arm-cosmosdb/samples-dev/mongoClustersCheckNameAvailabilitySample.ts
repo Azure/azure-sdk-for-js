@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CheckNameAvailabilityRequest,
-  CosmosDBManagementClient
+  CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Check the availability of name for resource
  *
  * @summary Check the availability of name for resource
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/mongo-cluster/CosmosDBMongoClusterNameAvailability.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/mongo-cluster/CosmosDBMongoClusterNameAvailability.json
  */
 async function checkNameAvailability() {
   const subscriptionId =
@@ -30,13 +30,13 @@ async function checkNameAvailability() {
   const location = "westus2";
   const parameters: CheckNameAvailabilityRequest = {
     name: "newmongocluster",
-    type: "Microsoft.DocumentDB/mongoClusters"
+    type: "Microsoft.DocumentDB/mongoClusters",
   };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const result = await client.mongoClusters.checkNameAvailability(
     location,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -45,7 +45,7 @@ async function checkNameAvailability() {
  * This sample demonstrates how to Check the availability of name for resource
  *
  * @summary Check the availability of name for resource
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/mongo-cluster/CosmosDBMongoClusterNameAvailability_AlreadyExists.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/mongo-cluster/CosmosDBMongoClusterNameAvailability_AlreadyExists.json
  */
 async function checkNameAvailabilityAlreadyExistsResult() {
   const subscriptionId =
@@ -54,13 +54,13 @@ async function checkNameAvailabilityAlreadyExistsResult() {
   const location = "westus2";
   const parameters: CheckNameAvailabilityRequest = {
     name: "existingmongocluster",
-    type: "Microsoft.DocumentDB/mongoClusters"
+    type: "Microsoft.DocumentDB/mongoClusters",
   };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const result = await client.mongoClusters.checkNameAvailability(
     location,
-    parameters
+    parameters,
   );
   console.log(result);
 }

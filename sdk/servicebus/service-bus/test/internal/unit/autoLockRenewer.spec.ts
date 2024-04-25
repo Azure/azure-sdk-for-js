@@ -63,7 +63,7 @@ describe("autoLockRenewer unit tests", () => {
         },
       },
       limits.maxAdditionalTimeToRenewLock,
-      "peekLock"
+      "peekLock",
     )!;
 
     // always just start the next auto-renew timer after 5 milliseconds to keep things simple.
@@ -91,7 +91,7 @@ describe("autoLockRenewer unit tests", () => {
     assert.equal(
       lockRenewalTimersTotal,
       0,
-      "Should be no active lock timers after test have completed."
+      "Should be no active lock timers after test have completed.",
     );
 
     // the per-link map is not cleaned up automatically - you must
@@ -100,7 +100,7 @@ describe("autoLockRenewer unit tests", () => {
     assert.equal(
       autoLockRenewer["_messageRenewLockTimers"].size,
       0,
-      "The auto lock renewal timers should be removed"
+      "The auto lock renewal timers should be removed",
     );
 
     clock.restore();
@@ -114,19 +114,19 @@ describe("autoLockRenewer unit tests", () => {
         lockedUntilUtc: new Date(),
         messageId: "message id",
       },
-      onErrorFake
+      onErrorFake,
     );
 
     clock.tick(limits.msToNextRenewal - 1); // right before the renew timer would run
 
     assert.exists(
       autoLockRenewer["_messageRenewLockTimers"].get(testLinkEntity.name)?.get("message id"),
-      "auto-renew timer should be set up"
+      "auto-renew timer should be set up",
     );
 
     assert.isFalse(
       renewLockSpy.calledOnce,
-      "Our timeout duration should not fire yet and so we shouldn't renew anything."
+      "Our timeout duration should not fire yet and so we shouldn't renew anything.",
     );
 
     clock.tick(1); // tick 1 more ms - timeout for the renewal should now fire.
@@ -161,12 +161,12 @@ describe("autoLockRenewer unit tests", () => {
         lockedUntilUtc: new Date(Date.now() + limits.maxAdditionalTimeToRenewLock + 1),
         messageId: "message id",
       },
-      onErrorFake
+      onErrorFake,
     );
 
     assert.isFalse(
       renewLockSpy.calledOnce,
-      "No lock renewal - the lockedUntilUtc of this message is longer than the current time + our max auto renewal time"
+      "No lock renewal - the lockedUntilUtc of this message is longer than the current time + our max auto renewal time",
     );
 
     assert.isFalse(onErrorFake.called, "no errors");
@@ -180,7 +180,7 @@ describe("autoLockRenewer unit tests", () => {
         lockedUntilUtc: new Date(),
         messageId: "message id",
       },
-      onErrorFake
+      onErrorFake,
     );
 
     // force one tick - we'll renew the lock, which will extend it's lifetime by limits.nextLockExpirationTime
@@ -199,7 +199,7 @@ describe("autoLockRenewer unit tests", () => {
 
     assert.isFalse(
       renewLockSpy.calledOnce,
-      "No lock renewal. We exceeded the max allowed lock time."
+      "No lock renewal. We exceeded the max allowed lock time.",
     );
     assert.isFalse(onErrorFake.called, "no errors");
   });
@@ -210,12 +210,12 @@ describe("autoLockRenewer unit tests", () => {
       {
         messageId: "my message id",
       },
-      onErrorFake
+      onErrorFake,
     );
 
     assert.equal(
       (onErrorFake.args[0][0] as Error).message,
-      "Can't start auto lock renewal for message with message id 'my message id' since it does not have a lock token."
+      "Can't start auto lock renewal for message with message id 'my message id' since it does not have a lock token.",
     );
 
     assert.isTrue(onErrorFake.calledOnce, "Should only have a single error");
@@ -233,12 +233,12 @@ describe("autoLockRenewer unit tests", () => {
       const autoLockRenewer2 = LockRenewer.create(
         unusedMgmtClient,
         1, // this is okay,
-        "receiveAndDelete" // this is not okay - there aren't any locks to renew in receiveAndDelete mode.
+        "receiveAndDelete", // this is not okay - there aren't any locks to renew in receiveAndDelete mode.
       );
 
       assert.notExists(
         autoLockRenewer2,
-        "Shouldn't create an autolockRenewer in receiveAndDelete mode"
+        "Shouldn't create an autolockRenewer in receiveAndDelete mode",
       );
     });
 
@@ -247,12 +247,12 @@ describe("autoLockRenewer unit tests", () => {
         const autoLockRenewer2 = LockRenewer.create(
           unusedMgmtClient,
           invalidMaxAutoRenewLockDurationInMs,
-          "peekLock" // this is okay
+          "peekLock", // this is okay
         );
 
         assert.notExists(
           autoLockRenewer2,
-          "Shouldn't create an autolockRenewer when the auto lock duration is invalid"
+          "Shouldn't create an autolockRenewer when the auto lock duration is invalid",
         );
       });
     });

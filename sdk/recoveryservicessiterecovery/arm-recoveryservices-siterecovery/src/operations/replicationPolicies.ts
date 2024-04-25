@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Policy,
   ReplicationPoliciesListNextOptionalParams,
@@ -29,7 +33,7 @@ import {
   UpdatePolicyInput,
   ReplicationPoliciesUpdateOptionalParams,
   ReplicationPoliciesUpdateResponse,
-  ReplicationPoliciesListNextResponse
+  ReplicationPoliciesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -55,7 +59,7 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
   public list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationPoliciesListOptionalParams
+    options?: ReplicationPoliciesListOptionalParams,
   ): PagedAsyncIterableIterator<Policy> {
     const iter = this.listPagingAll(resourceName, resourceGroupName, options);
     return {
@@ -73,9 +77,9 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
           resourceName,
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -83,7 +87,7 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
     resourceName: string,
     resourceGroupName: string,
     options?: ReplicationPoliciesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Policy[]> {
     let result: ReplicationPoliciesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +103,7 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
         resourceName,
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -111,12 +115,12 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
   private async *listPagingAll(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationPoliciesListOptionalParams
+    options?: ReplicationPoliciesListOptionalParams,
   ): AsyncIterableIterator<Policy> {
     for await (const page of this.listPagingPage(
       resourceName,
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -132,11 +136,11 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
   private _list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationPoliciesListOptionalParams
+    options?: ReplicationPoliciesListOptionalParams,
   ): Promise<ReplicationPoliciesListResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -152,11 +156,11 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
     resourceName: string,
     resourceGroupName: string,
     policyName: string,
-    options?: ReplicationPoliciesGetOptionalParams
+    options?: ReplicationPoliciesGetOptionalParams,
   ): Promise<ReplicationPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, policyName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -174,30 +178,29 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
     resourceGroupName: string,
     policyName: string,
     input: CreatePolicyInput,
-    options?: ReplicationPoliciesCreateOptionalParams
+    options?: ReplicationPoliciesCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationPoliciesCreateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationPoliciesCreateResponse>,
       ReplicationPoliciesCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReplicationPoliciesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -206,8 +209,8 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -215,19 +218,22 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceName, resourceGroupName, policyName, input, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceName, resourceGroupName, policyName, input, options },
+      spec: createOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ReplicationPoliciesCreateResponse,
+      OperationState<ReplicationPoliciesCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -247,14 +253,14 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
     resourceGroupName: string,
     policyName: string,
     input: CreatePolicyInput,
-    options?: ReplicationPoliciesCreateOptionalParams
+    options?: ReplicationPoliciesCreateOptionalParams,
   ): Promise<ReplicationPoliciesCreateResponse> {
     const poller = await this.beginCreate(
       resourceName,
       resourceGroupName,
       policyName,
       input,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -271,25 +277,24 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
     resourceName: string,
     resourceGroupName: string,
     policyName: string,
-    options?: ReplicationPoliciesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: ReplicationPoliciesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -298,8 +303,8 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -307,19 +312,19 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceName, resourceGroupName, policyName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceName, resourceGroupName, policyName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -337,13 +342,13 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
     resourceName: string,
     resourceGroupName: string,
     policyName: string,
-    options?: ReplicationPoliciesDeleteOptionalParams
+    options?: ReplicationPoliciesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceName,
       resourceGroupName,
       policyName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -362,30 +367,29 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
     resourceGroupName: string,
     policyName: string,
     input: UpdatePolicyInput,
-    options?: ReplicationPoliciesUpdateOptionalParams
+    options?: ReplicationPoliciesUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationPoliciesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationPoliciesUpdateResponse>,
       ReplicationPoliciesUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReplicationPoliciesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -394,8 +398,8 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -403,19 +407,22 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceName, resourceGroupName, policyName, input, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceName, resourceGroupName, policyName, input, options },
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ReplicationPoliciesUpdateResponse,
+      OperationState<ReplicationPoliciesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -435,14 +442,14 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
     resourceGroupName: string,
     policyName: string,
     input: UpdatePolicyInput,
-    options?: ReplicationPoliciesUpdateOptionalParams
+    options?: ReplicationPoliciesUpdateOptionalParams,
   ): Promise<ReplicationPoliciesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceName,
       resourceGroupName,
       policyName,
       input,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -459,11 +466,11 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
     resourceName: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: ReplicationPoliciesListNextOptionalParams
+    options?: ReplicationPoliciesListNextOptionalParams,
   ): Promise<ReplicationPoliciesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -471,32 +478,12 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyCollection
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies/{policyName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Policy
-    }
+      bodyMapper: Mappers.PolicyCollection,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -504,28 +491,45 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
-    Parameters.policyName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies/{policyName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Policy,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.resourceName,
+    Parameters.policyName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies/{policyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies/{policyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Policy
+      bodyMapper: Mappers.Policy,
     },
     201: {
-      bodyMapper: Mappers.Policy
+      bodyMapper: Mappers.Policy,
     },
     202: {
-      bodyMapper: Mappers.Policy
+      bodyMapper: Mappers.Policy,
     },
     204: {
-      bodyMapper: Mappers.Policy
-    }
+      bodyMapper: Mappers.Policy,
+    },
   },
   requestBody: Parameters.input7,
   queryParameters: [Parameters.apiVersion],
@@ -534,15 +538,14 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
-    Parameters.policyName
+    Parameters.policyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies/{policyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies/{policyName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {} },
   queryParameters: [Parameters.apiVersion],
@@ -551,27 +554,26 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
-    Parameters.policyName
+    Parameters.policyName,
   ],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies/{policyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies/{policyName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Policy
+      bodyMapper: Mappers.Policy,
     },
     201: {
-      bodyMapper: Mappers.Policy
+      bodyMapper: Mappers.Policy,
     },
     202: {
-      bodyMapper: Mappers.Policy
+      bodyMapper: Mappers.Policy,
     },
     204: {
-      bodyMapper: Mappers.Policy
-    }
+      bodyMapper: Mappers.Policy,
+    },
   },
   requestBody: Parameters.input8,
   queryParameters: [Parameters.apiVersion],
@@ -580,27 +582,27 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
-    Parameters.policyName
+    Parameters.policyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyCollection
-    }
+      bodyMapper: Mappers.PolicyCollection,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

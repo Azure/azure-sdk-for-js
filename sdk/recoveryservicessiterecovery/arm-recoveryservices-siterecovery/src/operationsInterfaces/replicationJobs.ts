@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Job,
   ReplicationJobsListOptionalParams,
@@ -22,7 +22,7 @@ import {
   ReplicationJobsResumeResponse,
   JobQueryParameter,
   ReplicationJobsExportOptionalParams,
-  ReplicationJobsExportResponse
+  ReplicationJobsExportResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,7 +38,7 @@ export interface ReplicationJobs {
   list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationJobsListOptionalParams
+    options?: ReplicationJobsListOptionalParams,
   ): PagedAsyncIterableIterator<Job>;
   /**
    * Get the details of an Azure Site Recovery job.
@@ -52,7 +52,7 @@ export interface ReplicationJobs {
     resourceName: string,
     resourceGroupName: string,
     jobName: string,
-    options?: ReplicationJobsGetOptionalParams
+    options?: ReplicationJobsGetOptionalParams,
   ): Promise<ReplicationJobsGetResponse>;
   /**
    * The operation to cancel an Azure Site Recovery job.
@@ -66,10 +66,10 @@ export interface ReplicationJobs {
     resourceName: string,
     resourceGroupName: string,
     jobName: string,
-    options?: ReplicationJobsCancelOptionalParams
+    options?: ReplicationJobsCancelOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationJobsCancelResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationJobsCancelResponse>,
       ReplicationJobsCancelResponse
     >
   >;
@@ -85,7 +85,7 @@ export interface ReplicationJobs {
     resourceName: string,
     resourceGroupName: string,
     jobName: string,
-    options?: ReplicationJobsCancelOptionalParams
+    options?: ReplicationJobsCancelOptionalParams,
   ): Promise<ReplicationJobsCancelResponse>;
   /**
    * The operation to restart an Azure Site Recovery job.
@@ -99,10 +99,10 @@ export interface ReplicationJobs {
     resourceName: string,
     resourceGroupName: string,
     jobName: string,
-    options?: ReplicationJobsRestartOptionalParams
+    options?: ReplicationJobsRestartOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationJobsRestartResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationJobsRestartResponse>,
       ReplicationJobsRestartResponse
     >
   >;
@@ -118,7 +118,7 @@ export interface ReplicationJobs {
     resourceName: string,
     resourceGroupName: string,
     jobName: string,
-    options?: ReplicationJobsRestartOptionalParams
+    options?: ReplicationJobsRestartOptionalParams,
   ): Promise<ReplicationJobsRestartResponse>;
   /**
    * The operation to resume an Azure Site Recovery job.
@@ -134,10 +134,10 @@ export interface ReplicationJobs {
     resourceGroupName: string,
     jobName: string,
     resumeJobParams: ResumeJobParams,
-    options?: ReplicationJobsResumeOptionalParams
+    options?: ReplicationJobsResumeOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationJobsResumeResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationJobsResumeResponse>,
       ReplicationJobsResumeResponse
     >
   >;
@@ -155,7 +155,7 @@ export interface ReplicationJobs {
     resourceGroupName: string,
     jobName: string,
     resumeJobParams: ResumeJobParams,
-    options?: ReplicationJobsResumeOptionalParams
+    options?: ReplicationJobsResumeOptionalParams,
   ): Promise<ReplicationJobsResumeResponse>;
   /**
    * The operation to export the details of the Azure Site Recovery jobs of the vault.
@@ -169,10 +169,10 @@ export interface ReplicationJobs {
     resourceName: string,
     resourceGroupName: string,
     jobQueryParameter: JobQueryParameter,
-    options?: ReplicationJobsExportOptionalParams
+    options?: ReplicationJobsExportOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationJobsExportResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationJobsExportResponse>,
       ReplicationJobsExportResponse
     >
   >;
@@ -188,6 +188,6 @@ export interface ReplicationJobs {
     resourceName: string,
     resourceGroupName: string,
     jobQueryParameter: JobQueryParameter,
-    options?: ReplicationJobsExportOptionalParams
+    options?: ReplicationJobsExportOptionalParams,
   ): Promise<ReplicationJobsExportResponse>;
 }

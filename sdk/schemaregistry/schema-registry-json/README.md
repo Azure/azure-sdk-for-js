@@ -65,39 +65,46 @@ const { createEventDataAdapter } = require("@azure/event-hubs");
 const { SchemaRegistryClient } = require("@azure/schema-registry");
 const { JsonSerializer } = require("@azure/schema-registry-json");
 
-const client = new SchemaRegistryClient(
-  "<fully qualified namespace>",
-  new DefaultAzureCredential()
-);
-const serializer = new JsonSerializer(client, {
-  groupName: "<group>",
-  messageAdapter: createEventDataAdapter(),
-});
+async function main(){
+  const client = new SchemaRegistryClient(
+    "<fully qualified namespace>",
+    new DefaultAzureCredential()
+  );
+  const serializer = new JsonSerializer(client, {
+    groupName: "<group>",
+    messageAdapter: createEventDataAdapter(),
+  });
 
-// Example Json schema
-const schema = JSON.stringify({  
-  $schema: "http://json-schema.org/draft-04/schema#",
-  $id: "person",
-  title: "Student",
-  description: "A student in the class",
-  type: "object",
-  properties: {
-    name: {
-      type: "string",
-      description: "The name of the student",
+  // Example Json schema
+  const schema = JSON.stringify({  
+    $schema: "http://json-schema.org/draft-04/schema#",
+    $id: "person",
+    title: "Student",
+    description: "A student in the class",
+    type: "object",
+    properties: {
+      name: {
+        type: "string",
+        description: "The name of the student",
+      },
     },
-  },
-  required: ["name"]
+    required: ["name"]
+  });
+
+  // Example value that matches the Json schema above
+  const value = { name: "Bob" };
+
+  // Serialize value to a message
+  const message = await serializer.serialize(value, schema);
+
+  // Deserialize a message to value
+  const deserializedValue = await serializer.deserialize(message);
+}
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
 });
 
-// Example value that matches the Json schema above
-const value = { name: "Bob" };
-
-// Serialize value to a message
-const message = await serializer.serialize(value, schema);
-
-// Deserialize a message to value
-const deserializedValue = await serializer.deserialize(message);
 ```
 
 The serializer doesn't check whether the deserialized value matches the schema 

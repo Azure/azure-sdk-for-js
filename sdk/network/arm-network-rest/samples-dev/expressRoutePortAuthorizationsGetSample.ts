@@ -33,7 +33,7 @@ async function getExpressRoutePortAuthorization() {
       subscriptionId,
       resourceGroupName,
       expressRoutePortName,
-      authorizationName
+      authorizationName,
     )
     .get(options);
   console.log(result);

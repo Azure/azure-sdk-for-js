@@ -47,7 +47,7 @@ matrix([[true, false]] as const, async (useAad) => {
       client = new DocumentAnalysisClient(
         endpoint(),
         makeCredential(useAad),
-        recorder.configureClientOptions({})
+        recorder.configureClientOptions({}),
       );
     });
 
@@ -65,7 +65,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Layout,
           stream,
-          testPollingOptions
+          testPollingOptions,
         );
         const { pages, tables } = await poller.pollUntilDone();
 
@@ -85,13 +85,13 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocument(
           "prebuilt-layout",
           stream,
-          testPollingOptions
+          testPollingOptions,
         );
         const { pages, paragraphs } = await poller.pollUntilDone();
 
         assert.ok(
           paragraphs && paragraphs.length > 0,
-          `Expected non-empty paragraphs but got ${paragraphs}.`
+          `Expected non-empty paragraphs but got ${paragraphs}.`,
         );
 
         assert.ok(pages && pages.length > 0, `Expect no-empty pages but got ${pages}`);
@@ -104,7 +104,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Layout,
           stream,
-          testPollingOptions
+          testPollingOptions,
         );
         const { pages, tables } = await poller.pollUntilDone();
 
@@ -123,7 +123,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Layout,
           stream,
-          testPollingOptions
+          testPollingOptions,
         );
         const { pages, tables } = await poller.pollUntilDone();
 
@@ -142,7 +142,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Layout,
           stream,
-          testPollingOptions
+          testPollingOptions,
         );
         const { pages, tables } = await poller.pollUntilDone();
 
@@ -160,7 +160,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocumentFromUrl(
           PrebuiltModels.Layout,
           url,
-          testPollingOptions
+          testPollingOptions,
         );
         const { pages, tables } = await poller.pollUntilDone();
 
@@ -179,7 +179,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Layout,
           stream,
-          testPollingOptions
+          testPollingOptions,
         );
 
         const { pages } = await poller.pollUntilDone();
@@ -284,7 +284,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocumentFromUrl(
           "prebuilt-layout",
           url,
-          testPollingOptions
+          testPollingOptions,
         );
 
         const { pages } = await poller.pollUntilDone();
@@ -359,17 +359,17 @@ matrix([[true, false]] as const, async (useAad) => {
           const trainingClient = new DocumentModelAdministrationClient(
             endpoint(),
             makeCredential(useAad),
-            recorder.configureClientOptions({})
+            recorder.configureClientOptions({}),
           );
           modelName = recorder.variable(
             "customFormModelName",
-            `customFormModelName${getRandomNumber()}`
+            `customFormModelName${getRandomNumber()}`,
           );
           const poller = await trainingClient.beginBuildDocumentModel(
             modelName,
             assertEnvironmentVariable("FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL"),
             DocumentModelBuildMode.Template,
-            testPollingOptions
+            testPollingOptions,
           );
           _model = await poller.pollUntilDone();
 
@@ -415,7 +415,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Invoice,
           stream,
-          testPollingOptions
+          testPollingOptions,
         );
 
         const { documents } = await poller.pollUntilDone();
@@ -466,7 +466,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Receipt,
           stream,
-          testPollingOptions
+          testPollingOptions,
         );
         const { documents } = await poller.pollUntilDone();
         assert.isNotEmpty(documents);
@@ -513,7 +513,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Receipt,
           stream,
-          testPollingOptions
+          testPollingOptions,
         );
         const { documents } = await poller.pollUntilDone();
 
@@ -559,7 +559,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocumentFromUrl(
           PrebuiltModels.Receipt,
           url,
-          testPollingOptions
+          testPollingOptions,
         );
         const { documents } = await poller.pollUntilDone();
 
@@ -617,7 +617,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Receipt,
           stream,
-          testPollingOptions
+          testPollingOptions,
         );
         const { documents } = await poller.pollUntilDone();
 
@@ -691,7 +691,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.BusinessCard,
           stream,
-          testPollingOptions
+          testPollingOptions,
         );
         const { documents } = await poller.pollUntilDone();
 
@@ -713,7 +713,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocumentFromUrl(
           PrebuiltModels.BusinessCard,
           url,
-          testPollingOptions
+          testPollingOptions,
         );
         const { documents } = await poller.pollUntilDone();
         const businessCard = documents?.[0];
@@ -774,7 +774,7 @@ matrix([[true, false]] as const, async (useAad) => {
             {
               locale: "thisIsNotAValidLocaleString",
               ...testPollingOptions,
-            }
+            },
           );
 
           await poller.pollUntilDone();
@@ -833,7 +833,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.Invoice,
           stream,
-          testPollingOptions
+          testPollingOptions,
         );
         const { documents, pages, tables } = await poller.pollUntilDone();
         const invoice = documents?.[0];
@@ -854,7 +854,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocumentFromUrl(
           PrebuiltModels.Invoice,
           url,
-          testPollingOptions
+          testPollingOptions,
         );
         const { documents, pages, tables } = await poller.pollUntilDone();
         const invoice = documents?.[0];
@@ -921,7 +921,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.IdentityDocument,
           stream,
-          testPollingOptions
+          testPollingOptions,
         );
 
         const { documents } = await poller.pollUntilDone();
@@ -965,7 +965,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocumentFromUrl(
           PrebuiltModels.IdentityDocument,
           url,
-          testPollingOptions
+          testPollingOptions,
         );
         const { documents, pages } = await poller.pollUntilDone();
         const idDocumentNaive = documents?.[0];
@@ -996,7 +996,7 @@ matrix([[true, false]] as const, async (useAad) => {
             {
               locale: "thisIsNotAValidLocaleString",
               ...testPollingOptions,
-            }
+            },
           );
 
           await poller.pollUntilDone();
@@ -1102,7 +1102,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.TaxUsW2,
           stream,
-          testPollingOptions
+          testPollingOptions,
         );
 
         const { documents } = await poller.pollUntilDone();
@@ -1154,7 +1154,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.HealthInsuranceCardUs,
           stream,
-          testPollingOptions
+          testPollingOptions,
         );
 
         const { documents } = await poller.pollUntilDone();

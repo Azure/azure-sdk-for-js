@@ -48,8 +48,6 @@ extends:
         safeName: azurecoreclient
       - name: azure-rest-core-client
         safeName: azurerestcoreclient
-      - name: azure-core-http
-        safeName: azurecorehttp
       - name: azure-core-rest-pipeline
         safeName: azurecorerestpipeline
         # TODO: Remove when REX validation tool is integrated: https://github.com/Azure/azure-sdk-for-js/issues/26770
@@ -68,3 +66,9 @@ extends:
         safeName: azurelogger
       - name: azure-core-http-compat
         safeName: azurecorehttpcompat
+      - name: azure-core-sse
+        safeName: azurecoresse
+      - name: typespec-ts-http-runtime
+        safeName: typespectshttpruntime
+        # TODO: Remove when REX validation tool is integrated: https://github.com/Azure/azure-sdk-for-js/issues/26770
+        skipPublishDocMs: true

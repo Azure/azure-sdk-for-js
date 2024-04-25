@@ -15,15 +15,20 @@ export type ActionType = string;
 
 // @public
 export interface Association extends TrackedResource {
-    associationType?: AssociationType;
-    readonly provisioningState?: ProvisioningState;
-    subnet?: AssociationSubnet;
+    properties?: AssociationProperties;
 }
 
 // @public
 export interface AssociationListResult {
     nextLink?: string;
     value: Association[];
+}
+
+// @public
+export interface AssociationProperties {
+    associationType: AssociationType;
+    readonly provisioningState?: ProvisioningState;
+    subnet?: AssociationSubnet;
 }
 
 // @public
@@ -106,11 +111,16 @@ export type AssociationType = string;
 
 // @public
 export interface AssociationUpdate {
-    associationType?: AssociationType;
-    subnet?: AssociationSubnetUpdate;
+    properties?: AssociationUpdateProperties;
     tags?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface AssociationUpdateProperties {
+    associationType?: AssociationType;
+    subnet?: AssociationSubnetUpdate;
 }
 
 // @public
@@ -138,14 +148,19 @@ export interface ErrorResponse {
 
 // @public
 export interface Frontend extends TrackedResource {
-    readonly fqdn?: string;
-    readonly provisioningState?: ProvisioningState;
+    properties?: FrontendProperties;
 }
 
 // @public
 export interface FrontendListResult {
     nextLink?: string;
     value: Frontend[];
+}
+
+// @public
+export interface FrontendProperties {
+    readonly fqdn?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -366,10 +381,7 @@ export interface TrackedResource extends Resource {
 
 // @public
 export interface TrafficController extends TrackedResource {
-    readonly associations?: ResourceId[];
-    readonly configurationEndpoints?: string[];
-    readonly frontends?: ResourceId[];
-    readonly provisioningState?: ProvisioningState;
+    properties?: TrafficControllerProperties;
 }
 
 // @public
@@ -456,6 +468,14 @@ export type TrafficControllerInterfaceUpdateResponse = TrafficController;
 export interface TrafficControllerListResult {
     nextLink?: string;
     value: TrafficController[];
+}
+
+// @public
+export interface TrafficControllerProperties {
+    readonly associations?: ResourceId[];
+    readonly configurationEndpoints?: string[];
+    readonly frontends?: ResourceId[];
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public

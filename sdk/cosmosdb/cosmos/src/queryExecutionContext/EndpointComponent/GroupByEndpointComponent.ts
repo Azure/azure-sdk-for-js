@@ -8,7 +8,7 @@ import { hashObject } from "../../utils/hashObject";
 import { Aggregator, createAggregator } from "../Aggregators";
 import { getInitialHeader, mergeHeaders } from "../headerUtils";
 import { emptyGroup, extractAggregateResult } from "./emptyGroup";
-import { getEmptyCosmosDiagnostics } from "../../CosmosDiagnostics";
+import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 
 interface GroupByResponse {
   result: GroupByResult;
@@ -22,19 +22,21 @@ interface GroupByResult {
 
 /** @hidden */
 export class GroupByEndpointComponent implements ExecutionContext {
-  constructor(private executionContext: ExecutionContext, private queryInfo: QueryInfo) {}
+  constructor(
+    private executionContext: ExecutionContext,
+    private queryInfo: QueryInfo,
+  ) {}
 
   private readonly groupings: Map<string, Map<string, Aggregator>> = new Map();
   private readonly aggregateResultArray: any[] = [];
   private completed: boolean = false;
 
-  public async nextItem(): Promise<Response<any>> {
+  public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
     // If we have a full result set, begin returning results
     if (this.aggregateResultArray.length > 0) {
       return {
         result: this.aggregateResultArray.pop(),
         headers: getInitialHeader(),
-        diagnostics: getEmptyCosmosDiagnostics(),
       };
     }
 
@@ -42,7 +44,6 @@ export class GroupByEndpointComponent implements ExecutionContext {
       return {
         result: undefined,
         headers: getInitialHeader(),
-        diagnostics: getEmptyCosmosDiagnostics(),
       };
     }
 
@@ -50,7 +51,9 @@ export class GroupByEndpointComponent implements ExecutionContext {
 
     while (this.executionContext.hasMoreResults()) {
       // Grab the next result
-      const { result, headers } = (await this.executionContext.nextItem()) as GroupByResponse;
+      const { result, headers } = (await this.executionContext.nextItem(
+        diagnosticNode,
+      )) as GroupByResponse;
       mergeHeaders(aggregateHeaders, headers);
 
       // If it exists, process it via aggregators
@@ -100,7 +103,6 @@ export class GroupByEndpointComponent implements ExecutionContext {
     return {
       result: this.aggregateResultArray.pop(),
       headers: aggregateHeaders,
-      diagnostics: getEmptyCosmosDiagnostics(),
     };
   }
 

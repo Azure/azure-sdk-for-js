@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Approves or Rejects a private endpoint connection with a given name.
  *
  * @summary Approves or Rejects a private endpoint connection with a given name.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/PrivateEndpointConnectionCreateOrUpdate.json
+ * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/PrivateEndpointConnectionCreateOrUpdate.json
  */
 async function approvesOrRejectsAPrivateEndpointConnectionWithAGivenName() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function approvesOrRejectsAPrivateEndpointConnectionWithAGivenName() {
     resourceGroupName,
     clusterName,
     privateEndpointConnectionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -17,7 +17,7 @@ export = {
   meta: getRuleMetaData(
     "ts-package-json-bugs",
     "force package.json's bugs.url value to be 'https://github.com/Azure/azure-sdk-for-js/issues'",
-    "code"
+    "code",
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const verifiers = getVerifiers(context, {
@@ -25,7 +25,7 @@ export = {
       inner: "url",
       expected: "https://github.com/Azure/azure-sdk-for-js/issues",
     });
-    return stripPath(context.getFilename()) === "package.json"
+    return stripPath(context.filename) === "package.json"
       ? ({
           // callback functions
 

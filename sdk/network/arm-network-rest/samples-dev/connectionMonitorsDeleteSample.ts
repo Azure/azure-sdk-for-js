@@ -34,7 +34,7 @@ async function deleteConnectionMonitor() {
       subscriptionId,
       resourceGroupName,
       networkWatcherName,
-      connectionMonitorName
+      connectionMonitorName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

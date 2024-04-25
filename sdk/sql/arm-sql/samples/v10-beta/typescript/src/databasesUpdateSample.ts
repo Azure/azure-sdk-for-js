@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates an existing database.
  *
  * @summary Updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/PatchVCoreDatabaseAssignMaintenanceConfiguration.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/PatchVCoreDatabaseAssignMaintenanceConfiguration.json
  */
 async function assignsMaintenanceWindowToADatabase() {
   const subscriptionId =
@@ -48,7 +48,7 @@ async function assignsMaintenanceWindowToADatabase() {
  * This sample demonstrates how to Updates an existing database.
  *
  * @summary Updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/PatchDatabaseVBSEnclave.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/PatchDatabaseVBSEnclave.json
  */
 async function createsADatabaseWithVbsEnclaveType() {
   const subscriptionId =
@@ -74,7 +74,7 @@ async function createsADatabaseWithVbsEnclaveType() {
  * This sample demonstrates how to Updates an existing database.
  *
  * @summary Updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/PatchVCoreDatabaseWithKeysAndEncryptionProtector.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/PatchVCoreDatabaseWithKeysAndEncryptionProtector.json
  */
 async function patchADatabaseWithDatabaseLevelCustomerManagedKeys() {
   const subscriptionId =
@@ -115,7 +115,7 @@ async function patchADatabaseWithDatabaseLevelCustomerManagedKeys() {
  * This sample demonstrates how to Updates an existing database.
  *
  * @summary Updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/PatchVCoreDatabaseResetMaintenanceConfiguration.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/PatchVCoreDatabaseResetMaintenanceConfiguration.json
  */
 async function resetsMaintenanceWindowOfADatabaseToDefault() {
   const subscriptionId =
@@ -145,7 +145,7 @@ async function resetsMaintenanceWindowOfADatabaseToDefault() {
  * This sample demonstrates how to Updates an existing database.
  *
  * @summary Updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/PatchDatabaseDefaultEnclave.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/PatchDatabaseDefaultEnclave.json
  */
 async function updatesADatabaseWithDefaultEnclaveType() {
   const subscriptionId =
@@ -171,7 +171,7 @@ async function updatesADatabaseWithDefaultEnclaveType() {
  * This sample demonstrates how to Updates an existing database.
  *
  * @summary Updates an existing database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/PatchVCoreDatabase.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/PatchVCoreDatabase.json
  */
 async function updatesADatabase() {
   const subscriptionId =

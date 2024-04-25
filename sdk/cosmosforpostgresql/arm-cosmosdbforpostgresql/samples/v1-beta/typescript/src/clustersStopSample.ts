@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Stops compute on all cluster nodes.
  *
  * @summary Stops compute on all cluster nodes.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ClusterStop.json
+ * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterStop.json
  */
 async function stopAllServersInTheCluster() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function stopAllServersInTheCluster() {
   const client = new CosmosDBForPostgreSQL(credential, subscriptionId);
   const result = await client.clusters.beginStopAndWait(
     resourceGroupName,
-    clusterName
+    clusterName,
   );
   console.log(result);
 }

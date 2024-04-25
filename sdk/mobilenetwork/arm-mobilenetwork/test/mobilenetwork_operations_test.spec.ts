@@ -86,7 +86,7 @@ describe("MobileNetwork test", () => {
 
   it("mobileNetworks delete test", async function () {
     const resArray = new Array();
-    const res = await client.mobileNetworks.beginDeleteAndWait(resourceGroup, resourcename
+    const res = await client.mobileNetworks.beginDeleteAndWait(resourceGroup, resourcename, testPollingOptions
     )
     for await (let item of client.mobileNetworks.listByResourceGroup(resourceGroup)) {
       resArray.push(item);

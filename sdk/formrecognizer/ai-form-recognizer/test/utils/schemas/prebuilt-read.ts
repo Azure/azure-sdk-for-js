@@ -12,7 +12,7 @@ import * as fr from "../../../src";
  * Extract text from documents.
  */
 export const PrebuiltReadModel = fr.createModelFromSchema(
-  modelInfo()
+  modelInfo(),
 ) as fr.DocumentModel<PrebuiltReadResult>;
 
 export interface PrebuiltReadResult extends fr.AnalyzeResultCommon {

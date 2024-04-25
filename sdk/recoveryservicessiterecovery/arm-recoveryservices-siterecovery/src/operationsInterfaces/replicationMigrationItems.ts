@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   MigrationItem,
   ReplicationMigrationItemsListByReplicationProtectionContainersOptionalParams,
@@ -38,7 +38,7 @@ import {
   ReplicationMigrationItemsTestMigrateResponse,
   TestMigrateCleanupInput,
   ReplicationMigrationItemsTestMigrateCleanupOptionalParams,
-  ReplicationMigrationItemsTestMigrateCleanupResponse
+  ReplicationMigrationItemsTestMigrateCleanupResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -58,7 +58,7 @@ export interface ReplicationMigrationItems {
     resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
-    options?: ReplicationMigrationItemsListByReplicationProtectionContainersOptionalParams
+    options?: ReplicationMigrationItemsListByReplicationProtectionContainersOptionalParams,
   ): PagedAsyncIterableIterator<MigrationItem>;
   /**
    * Gets the list of migration items in the vault.
@@ -70,7 +70,7 @@ export interface ReplicationMigrationItems {
   list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationMigrationItemsListOptionalParams
+    options?: ReplicationMigrationItemsListOptionalParams,
   ): PagedAsyncIterableIterator<MigrationItem>;
   /**
    * Gets the details of a migration item.
@@ -88,7 +88,7 @@ export interface ReplicationMigrationItems {
     fabricName: string,
     protectionContainerName: string,
     migrationItemName: string,
-    options?: ReplicationMigrationItemsGetOptionalParams
+    options?: ReplicationMigrationItemsGetOptionalParams,
   ): Promise<ReplicationMigrationItemsGetResponse>;
   /**
    * The operation to create an ASR migration item (enable migration).
@@ -108,10 +108,10 @@ export interface ReplicationMigrationItems {
     protectionContainerName: string,
     migrationItemName: string,
     input: EnableMigrationInput,
-    options?: ReplicationMigrationItemsCreateOptionalParams
+    options?: ReplicationMigrationItemsCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationMigrationItemsCreateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationMigrationItemsCreateResponse>,
       ReplicationMigrationItemsCreateResponse
     >
   >;
@@ -133,7 +133,7 @@ export interface ReplicationMigrationItems {
     protectionContainerName: string,
     migrationItemName: string,
     input: EnableMigrationInput,
-    options?: ReplicationMigrationItemsCreateOptionalParams
+    options?: ReplicationMigrationItemsCreateOptionalParams,
   ): Promise<ReplicationMigrationItemsCreateResponse>;
   /**
    * The operation to delete an ASR migration item.
@@ -151,8 +151,8 @@ export interface ReplicationMigrationItems {
     fabricName: string,
     protectionContainerName: string,
     migrationItemName: string,
-    options?: ReplicationMigrationItemsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ReplicationMigrationItemsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete an ASR migration item.
    * @param resourceName The name of the recovery services vault.
@@ -169,7 +169,7 @@ export interface ReplicationMigrationItems {
     fabricName: string,
     protectionContainerName: string,
     migrationItemName: string,
-    options?: ReplicationMigrationItemsDeleteOptionalParams
+    options?: ReplicationMigrationItemsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * The operation to update the recovery settings of an ASR migration item.
@@ -189,10 +189,10 @@ export interface ReplicationMigrationItems {
     protectionContainerName: string,
     migrationItemName: string,
     input: UpdateMigrationItemInput,
-    options?: ReplicationMigrationItemsUpdateOptionalParams
+    options?: ReplicationMigrationItemsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationMigrationItemsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationMigrationItemsUpdateResponse>,
       ReplicationMigrationItemsUpdateResponse
     >
   >;
@@ -214,7 +214,7 @@ export interface ReplicationMigrationItems {
     protectionContainerName: string,
     migrationItemName: string,
     input: UpdateMigrationItemInput,
-    options?: ReplicationMigrationItemsUpdateOptionalParams
+    options?: ReplicationMigrationItemsUpdateOptionalParams,
   ): Promise<ReplicationMigrationItemsUpdateResponse>;
   /**
    * The operation to initiate migration of the item.
@@ -234,10 +234,10 @@ export interface ReplicationMigrationItems {
     protectionContainerName: string,
     migrationItemName: string,
     migrateInput: MigrateInput,
-    options?: ReplicationMigrationItemsMigrateOptionalParams
+    options?: ReplicationMigrationItemsMigrateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationMigrationItemsMigrateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationMigrationItemsMigrateResponse>,
       ReplicationMigrationItemsMigrateResponse
     >
   >;
@@ -259,7 +259,7 @@ export interface ReplicationMigrationItems {
     protectionContainerName: string,
     migrationItemName: string,
     migrateInput: MigrateInput,
-    options?: ReplicationMigrationItemsMigrateOptionalParams
+    options?: ReplicationMigrationItemsMigrateOptionalParams,
   ): Promise<ReplicationMigrationItemsMigrateResponse>;
   /**
    * The operation to initiate pause replication of the item.
@@ -279,10 +279,10 @@ export interface ReplicationMigrationItems {
     protectionContainerName: string,
     migrationItemName: string,
     pauseReplicationInput: PauseReplicationInput,
-    options?: ReplicationMigrationItemsPauseReplicationOptionalParams
+    options?: ReplicationMigrationItemsPauseReplicationOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationMigrationItemsPauseReplicationResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationMigrationItemsPauseReplicationResponse>,
       ReplicationMigrationItemsPauseReplicationResponse
     >
   >;
@@ -304,7 +304,7 @@ export interface ReplicationMigrationItems {
     protectionContainerName: string,
     migrationItemName: string,
     pauseReplicationInput: PauseReplicationInput,
-    options?: ReplicationMigrationItemsPauseReplicationOptionalParams
+    options?: ReplicationMigrationItemsPauseReplicationOptionalParams,
   ): Promise<ReplicationMigrationItemsPauseReplicationResponse>;
   /**
    * The operation to initiate resume replication of the item.
@@ -324,10 +324,10 @@ export interface ReplicationMigrationItems {
     protectionContainerName: string,
     migrationItemName: string,
     resumeReplicationInput: ResumeReplicationInput,
-    options?: ReplicationMigrationItemsResumeReplicationOptionalParams
+    options?: ReplicationMigrationItemsResumeReplicationOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationMigrationItemsResumeReplicationResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationMigrationItemsResumeReplicationResponse>,
       ReplicationMigrationItemsResumeReplicationResponse
     >
   >;
@@ -349,7 +349,7 @@ export interface ReplicationMigrationItems {
     protectionContainerName: string,
     migrationItemName: string,
     resumeReplicationInput: ResumeReplicationInput,
-    options?: ReplicationMigrationItemsResumeReplicationOptionalParams
+    options?: ReplicationMigrationItemsResumeReplicationOptionalParams,
   ): Promise<ReplicationMigrationItemsResumeReplicationResponse>;
   /**
    * The operation to resynchronize replication of an ASR migration item.
@@ -369,10 +369,10 @@ export interface ReplicationMigrationItems {
     protectionContainerName: string,
     migrationItemName: string,
     input: ResyncInput,
-    options?: ReplicationMigrationItemsResyncOptionalParams
+    options?: ReplicationMigrationItemsResyncOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationMigrationItemsResyncResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationMigrationItemsResyncResponse>,
       ReplicationMigrationItemsResyncResponse
     >
   >;
@@ -394,7 +394,7 @@ export interface ReplicationMigrationItems {
     protectionContainerName: string,
     migrationItemName: string,
     input: ResyncInput,
-    options?: ReplicationMigrationItemsResyncOptionalParams
+    options?: ReplicationMigrationItemsResyncOptionalParams,
   ): Promise<ReplicationMigrationItemsResyncResponse>;
   /**
    * The operation to initiate test migration of the item.
@@ -414,10 +414,10 @@ export interface ReplicationMigrationItems {
     protectionContainerName: string,
     migrationItemName: string,
     testMigrateInput: TestMigrateInput,
-    options?: ReplicationMigrationItemsTestMigrateOptionalParams
+    options?: ReplicationMigrationItemsTestMigrateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationMigrationItemsTestMigrateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationMigrationItemsTestMigrateResponse>,
       ReplicationMigrationItemsTestMigrateResponse
     >
   >;
@@ -439,7 +439,7 @@ export interface ReplicationMigrationItems {
     protectionContainerName: string,
     migrationItemName: string,
     testMigrateInput: TestMigrateInput,
-    options?: ReplicationMigrationItemsTestMigrateOptionalParams
+    options?: ReplicationMigrationItemsTestMigrateOptionalParams,
   ): Promise<ReplicationMigrationItemsTestMigrateResponse>;
   /**
    * The operation to initiate test migrate cleanup.
@@ -459,10 +459,10 @@ export interface ReplicationMigrationItems {
     protectionContainerName: string,
     migrationItemName: string,
     testMigrateCleanupInput: TestMigrateCleanupInput,
-    options?: ReplicationMigrationItemsTestMigrateCleanupOptionalParams
+    options?: ReplicationMigrationItemsTestMigrateCleanupOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationMigrationItemsTestMigrateCleanupResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationMigrationItemsTestMigrateCleanupResponse>,
       ReplicationMigrationItemsTestMigrateCleanupResponse
     >
   >;
@@ -484,6 +484,6 @@ export interface ReplicationMigrationItems {
     protectionContainerName: string,
     migrationItemName: string,
     testMigrateCleanupInput: TestMigrateCleanupInput,
-    options?: ReplicationMigrationItemsTestMigrateCleanupOptionalParams
+    options?: ReplicationMigrationItemsTestMigrateCleanupOptionalParams,
   ): Promise<ReplicationMigrationItemsTestMigrateCleanupResponse>;
 }

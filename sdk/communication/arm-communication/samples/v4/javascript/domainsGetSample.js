@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the Domains resource and its properties.
  *
  * @summary Get the Domains resource and its properties.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/domains/get.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/domains/get.json
  */
 async function getDomainsResource() {
   const subscriptionId =

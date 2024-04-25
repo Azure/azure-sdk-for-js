@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   ManagedCluster as ManagedClusterMapper,
@@ -21,7 +21,8 @@ import {
   AgentPool as AgentPoolMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   PrivateLinkResource as PrivateLinkResourceMapper,
-  Snapshot as SnapshotMapper
+  Snapshot as SnapshotMapper,
+  TrustedAccessRoleBinding as TrustedAccessRoleBindingMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -31,9 +32,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -42,50 +43,47 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-07-01",
+    defaultValue: "2024-01-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
-    constraints: {
-      MinLength: 1
-    },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "Uuid",
+    },
+  },
 };
 
 export const location: OperationURLParameter = {
   parameterPath: "location",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "location",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceType: OperationQueryParameter = {
@@ -93,9 +91,9 @@ export const resourceType: OperationQueryParameter = {
   mapper: {
     serializedName: "resource-type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -103,14 +101,14 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceName: OperationURLParameter = {
@@ -118,17 +116,17 @@ export const resourceName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp(
-        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"
+        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$",
       ),
       MaxLength: 63,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const roleName: OperationURLParameter = {
@@ -137,9 +135,9 @@ export const roleName: OperationURLParameter = {
     serializedName: "roleName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const serverFqdn: OperationQueryParameter = {
@@ -147,9 +145,9 @@ export const serverFqdn: OperationQueryParameter = {
   mapper: {
     serializedName: "server-fqdn",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const format: OperationQueryParameter = {
@@ -157,9 +155,9 @@ export const format: OperationQueryParameter = {
   mapper: {
     serializedName: "format",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -169,34 +167,34 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ManagedClusterMapper
+  mapper: ManagedClusterMapper,
 };
 
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
-  mapper: TagsObjectMapper
+  mapper: TagsObjectMapper,
 };
 
 export const parameters2: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ManagedClusterServicePrincipalProfileMapper
+  mapper: ManagedClusterServicePrincipalProfileMapper,
 };
 
 export const parameters3: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ManagedClusterAADProfileMapper
+  mapper: ManagedClusterAADProfileMapper,
 };
 
 export const requestPayload: OperationParameter = {
   parameterPath: "requestPayload",
-  mapper: RunCommandRequestMapper
+  mapper: RunCommandRequestMapper,
 };
 
 export const commandId: OperationURLParameter = {
@@ -205,9 +203,27 @@ export const commandId: OperationURLParameter = {
     serializedName: "commandId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const mode: OperationURLParameter = {
+  parameterPath: "mode",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$",
+      ),
+      MaxLength: 24,
+      MinLength: 1,
+    },
+    serializedName: "mode",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -216,10 +232,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const configName: OperationURLParameter = {
@@ -228,14 +244,14 @@ export const configName: OperationURLParameter = {
     serializedName: "configName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters4: OperationParameter = {
   parameterPath: "parameters",
-  mapper: MaintenanceConfigurationMapper
+  mapper: MaintenanceConfigurationMapper,
 };
 
 export const agentPoolName: OperationURLParameter = {
@@ -244,30 +260,19 @@ export const agentPoolName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-z][a-z0-9]{0,11}$"),
       MaxLength: 12,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "agentPoolName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters5: OperationParameter = {
   parameterPath: "parameters",
-  mapper: AgentPoolMapper
-};
-
-export const agentPoolName1: OperationURLParameter = {
-  parameterPath: "agentPoolName",
-  mapper: {
-    serializedName: "agentPoolName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+  mapper: AgentPoolMapper,
 };
 
 export const privateEndpointConnectionName: OperationURLParameter = {
@@ -276,22 +281,43 @@ export const privateEndpointConnectionName: OperationURLParameter = {
     serializedName: "privateEndpointConnectionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters6: OperationParameter = {
   parameterPath: "parameters",
-  mapper: PrivateEndpointConnectionMapper
+  mapper: PrivateEndpointConnectionMapper,
 };
 
 export const parameters7: OperationParameter = {
   parameterPath: "parameters",
-  mapper: PrivateLinkResourceMapper
+  mapper: PrivateLinkResourceMapper,
 };
 
 export const parameters8: OperationParameter = {
   parameterPath: "parameters",
-  mapper: SnapshotMapper
+  mapper: SnapshotMapper,
+};
+
+export const trustedAccessRoleBindingName: OperationURLParameter = {
+  parameterPath: "trustedAccessRoleBindingName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^([A-Za-z0-9-])+$"),
+      MaxLength: 24,
+      MinLength: 1,
+    },
+    serializedName: "trustedAccessRoleBindingName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const trustedAccessRoleBinding: OperationParameter = {
+  parameterPath: "trustedAccessRoleBinding",
+  mapper: TrustedAccessRoleBindingMapper,
 };

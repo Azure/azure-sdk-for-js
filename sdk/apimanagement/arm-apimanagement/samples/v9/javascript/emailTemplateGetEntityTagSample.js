@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the entity state (Etag) version of the email template specified by its identifier.
  *
  * @summary Gets the entity state (Etag) version of the email template specified by its identifier.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementHeadEmailTemplate.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementHeadEmailTemplate.json
  */
 async function apiManagementHeadEmailTemplate() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

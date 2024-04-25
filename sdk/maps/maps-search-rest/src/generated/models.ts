@@ -1,192 +1,110 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/** A valid `GeoJSON` object. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3) for details. */
-export interface GeoJsonObjectParent {
-  type:
-    | "GeoJsonObject"
-    | "GeoJsonGeometry"
-    | "LineString"
-    | "Point"
-    | "MultiPoint"
-    | "MultiLineString"
-    | "Polygon"
-    | "MultiPolygon"
-    | "GeometryCollection"
-    | "Feature"
-    | "FeatureCollection";
-}
-
-/** This type represents the request body for the Search Inside Geometry service. */
-export interface SearchInsideGeometryRequest {
-  /** A valid `GeoJSON` object. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3) for details. */
-  geometry?: Record<string, unknown>;
-}
-
-/** This type represents the request body for the Search Along Route service. */
-export interface SearchAlongRouteRequest {
-  /** A valid `GeoJSON LineString` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.4) for details. */
-  route?: GeoJsonLineString;
-}
-
-/** A valid `GeoJSON LineString` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.4) for details. */
-export interface GeoJsonLineString
-  extends GeoJsonGeometryParent,
-    GeoJsonLineStringData {
-  type: "LineString";
-}
-
-/** A valid `GeoJSON` geometry object. The type must be one of the seven valid GeoJSON geometry types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon and GeometryCollection. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1) for details. */
-export interface GeoJsonGeometryParent extends GeoJsonObjectParent {
-  type:
-    | "GeoJsonGeometry"
-    | "LineString"
-    | "Point"
-    | "MultiPoint"
-    | "MultiLineString"
-    | "Polygon"
-    | "MultiPolygon"
-    | "GeometryCollection";
-}
-
-export interface GeoJsonLineStringData {
-  /** Coordinates for the `GeoJson LineString` geometry. */
-  coordinates: Array<Array<number>>;
-}
-
-/** This type represents the request body for the Batch service. */
-export interface BatchRequest {
+/** The list of address geocoding queries/requests to process. The list can contain a max of 100 queries and must contain at least 1 query. */
+export interface GeocodingBatchRequestBody {
   /** The list of queries to process. */
-  batchItems?: Array<BatchRequestItem>;
+  batchItems?: Array<GeocodingBatchRequestItem>;
 }
 
-/** Batch request object */
-export interface BatchRequestItem {
-  /** This parameter contains a query string used to perform an unstructured geocoding operation. The query string will be passed verbatim to the search API for processing. */
+/** Batch Query object */
+export interface GeocodingBatchRequestItem {
+  /** id of the request which would show in corresponding batchItem */
+  optionalId?: string;
+  /** Maximum number of responses that will be returned. Default: 5, minimum: 1 and maximum: 20. */
+  top?: number;
+  /** A string that contains information about a location, such as an address or landmark name. */
   query?: string;
+  /**
+   * The official street line of an address relative to the area, as specified by the locality, or postalCode, properties. Typical use of this element would be to provide a street address or any official address.
+   *
+   * **If query is given, should not use this parameter.**
+   */
+  addressLine?: string;
+  /**
+   * Restrict the geocoding result to an [ISO 3166-1 Alpha-2 region/country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) that is specified e.g. FR. This will limit the search to the specified region.
+   *
+   * **If query is given, should not use this parameter.**
+   */
+  countryRegion?: string;
+  /**
+   * A rectangular area on the earth defined as a bounding box object. The sides of the rectangles are defined by longitude and latitude values. For more information, see Location and Area Types. When you specify this parameter, the geographical area is taken into account when computing the results of a location query.
+   *
+   * Example: [lon1, lat1, lon2, lat2]
+   */
+  bbox?: Array<number>;
+  /** A string that specifies an [ISO 3166-1 Alpha-2 region/country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). This will alter Geopolitical disputed borders and labels to align with the specified user region. */
+  view?: string;
+  /** A point on the earth specified as a longitude and latitude. When you specify this parameter, the user’s location is taken into account and the results returned may be more relevant to the user. Example: [lon, lat] */
+  coordinates?: Array<number>;
+  /**
+   * The country subdivision portion of an address, such as WA.
+   *
+   * **If query is given, should not use this parameter.**
+   */
+  adminDistrict?: string;
+  /**
+   * The county for the structured address, such as King.
+   *
+   * **If query is given, should not use this parameter.**
+   */
+  adminDistrict2?: string;
+  /**
+   * The named area for the structured address.
+   *
+   * **If query is given, should not use this parameter.**
+   */
+  adminDistrict3?: string;
+  /**
+   * The locality portion of an address, such as Seattle.
+   *
+   * **If query is given, should not use this parameter.**
+   */
+  locality?: string;
+  /**
+   * The postal code portion of an address.
+   *
+   * **If query is given, should not use this parameter.**
+   */
+  postalCode?: string;
 }
 
-/** A valid `GeoJSON Point` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.2) for details. */
-export interface GeoJsonPoint extends GeoJsonGeometryParent, GeoJsonPointData {
-  type: "Point";
+/** The list of reverse geocoding queries/requests to process. The list can contain a max of 100 queries and must contain at least 1 query. */
+export interface ReverseGeocodingBatchRequestBody {
+  /** The list of queries to process. */
+  batchItems?: Array<ReverseGeocodingBatchRequestItem>;
 }
 
-/** Data contained by a `GeoJson Point`. */
-export interface GeoJsonPointData {
-  /** A `Position` is an array of numbers with two or more elements. The first two elements are _longitude_ and _latitude_, precisely in that order. _Altitude/Elevation_ is an optional third element. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.1) for details. */
-  coordinates: Array<number>;
+/** Batch Query object */
+export interface ReverseGeocodingBatchRequestItem {
+  /** id of the request which would show in corresponding batchItem */
+  optionalId?: string;
+  /** The coordinates of the location that you want to reverse geocode. Example: [lon,lat] */
+  coordinates?: Array<number>;
+  /**
+   * Specify entity types that you want in the response. Only the types you specify will be returned. If the point cannot be mapped to the entity types you specify, no location information is returned in the response.
+   * Default value is all possible entities.
+   * A comma separated list of entity types selected from the following options.
+   *
+   * - Address
+   * - Neighborhood
+   * - PopulatedPlace
+   * - Postcode1
+   * - AdminDivision1
+   * - AdminDivision2
+   * - CountryRegion
+   *
+   * These entity types are ordered from the most specific entity to the least specific entity. When entities of more than one entity type are found, only the most specific entity is returned. For example, if you specify Address and AdminDistrict1 as entity types and entities were found for both types, only the Address entity information is returned in the response.
+   */
+  resultTypes?: Array<
+    | "Address"
+    | "Neighborhood"
+    | "PopulatedPlace"
+    | "Postcode1"
+    | "AdminDivision1"
+    | "AdminDivision2"
+    | "CountryRegion"
+  >;
+  /** A string that specifies an [ISO 3166-1 Alpha-2 region/country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). This will alter Geopolitical disputed borders and labels to align with the specified user region. */
+  view?: string;
 }
-
-/** A valid `GeoJSON MultiPoint` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.3) for details. */
-export interface GeoJsonMultiPoint
-  extends GeoJsonGeometryParent,
-    GeoJsonMultiPointData {
-  type: "MultiPoint";
-}
-
-/** Data contained by a `GeoJson MultiPoint`. */
-export interface GeoJsonMultiPointData {
-  /** Coordinates for the `GeoJson MultiPoint` geometry. */
-  coordinates: Array<Array<number>>;
-}
-
-/** A valid `GeoJSON MultiLineString` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.5) for details. */
-export interface GeoJsonMultiLineString
-  extends GeoJsonGeometryParent,
-    GeoJsonMultiLineStringData {
-  type: "MultiLineString";
-}
-
-export interface GeoJsonMultiLineStringData {
-  /** Coordinates for the `GeoJson MultiLineString` geometry. */
-  coordinates: Array<Array<Array<number>>>;
-}
-
-/** A valid `GeoJSON Polygon` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.6) for details. */
-export interface GeoJsonPolygon
-  extends GeoJsonGeometryParent,
-    GeoJsonPolygonData {
-  type: "Polygon";
-}
-
-export interface GeoJsonPolygonData {
-  /** Coordinates for the `GeoJson Polygon` geometry type. */
-  coordinates: Array<Array<Array<number>>>;
-}
-
-/** A valid `GeoJSON MultiPolygon` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.7) for details. */
-export interface GeoJsonMultiPolygon
-  extends GeoJsonGeometryParent,
-    GeoJsonMultiPolygonData {
-  type: "MultiPolygon";
-}
-
-export interface GeoJsonMultiPolygonData {
-  /** Contains a list of valid `GeoJSON Polygon` objects. **Note** that coordinates in GeoJSON are in x, y order (longitude, latitude). */
-  coordinates: Array<Array<Array<Array<number>>>>;
-}
-
-/** A valid `GeoJSON GeometryCollection` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.8) for details. */
-export interface GeoJsonGeometryCollection
-  extends GeoJsonGeometryParent,
-    GeoJsonGeometryCollectionData {
-  type: "GeometryCollection";
-}
-
-export interface GeoJsonGeometryCollectionData {
-  /** Contains a list of valid `GeoJSON` geometry objects. **Note** that coordinates in GeoJSON are in x, y order (longitude, latitude). */
-  geometries: Array<GeoJsonGeometry>;
-}
-
-/** A valid `GeoJSON Feature` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.2) for details. */
-export interface GeoJsonFeature
-  extends GeoJsonObjectParent,
-    GeoJsonFeatureData {
-  type: "Feature";
-}
-
-export interface GeoJsonFeatureData {
-  /** A valid `GeoJSON` geometry object. The type must be one of the seven valid GeoJSON geometry types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon and GeometryCollection. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1) for details. */
-  geometry: GeoJsonGeometry;
-  /** Properties can contain any additional metadata about the `Feature`. Value can be any JSON object or a JSON null value */
-  properties?: Record<string, unknown>;
-  /** Identifier for the feature. */
-  id?: string;
-  /** The type of the feature. The value depends on the data model the current feature is part of. Some data models may have an empty value. */
-  featureType?: string;
-}
-
-/** A valid `GeoJSON FeatureCollection` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3) for details. */
-export interface GeoJsonFeatureCollection
-  extends GeoJsonObjectParent,
-    GeoJsonFeatureCollectionData {
-  type: "FeatureCollection";
-}
-
-export interface GeoJsonFeatureCollectionData {
-  /** Contains a list of valid `GeoJSON Feature` objects. */
-  features: Array<GeoJsonFeature>;
-}
-
-/** A valid `GeoJSON` object. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3) for details. */
-export type GeoJsonObject =
-  | GeoJsonGeometry
-  | GeoJsonLineString
-  | GeoJsonPoint
-  | GeoJsonMultiPoint
-  | GeoJsonMultiLineString
-  | GeoJsonPolygon
-  | GeoJsonMultiPolygon
-  | GeoJsonGeometryCollection
-  | GeoJsonFeature
-  | GeoJsonFeatureCollection;
-/** A valid `GeoJSON` geometry object. The type must be one of the seven valid GeoJSON geometry types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon and GeometryCollection. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1) for details. */
-export type GeoJsonGeometry =
-  | GeoJsonGeometryParent
-  | GeoJsonLineString
-  | GeoJsonPoint
-  | GeoJsonMultiPoint
-  | GeoJsonMultiLineString
-  | GeoJsonPolygon
-  | GeoJsonMultiPolygon
-  | GeoJsonGeometryCollection;

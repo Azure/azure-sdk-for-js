@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates the specific named value.
  *
  * @summary Updates the specific named value.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementUpdateNamedValue.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUpdateNamedValue.json
  */
 async function apiManagementUpdateNamedValue() {
   const subscriptionId =

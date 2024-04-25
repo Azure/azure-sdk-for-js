@@ -1,0 +1,7 @@
+directory: specification/ai/HealthInsights/HealthInsights.RadiologyInsights
+additionalDirectories:
+  - specification/ai/HealthInsights/HealthInsights.Common
+  - specification/ai/HealthInsights/HealthInsights.OpenAPI
+commit: 09db900b1d9155361899e5f8fb1331a30055df41
+repo: Azure/azure-rest-api-specs
+cleanup: false

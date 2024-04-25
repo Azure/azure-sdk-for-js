@@ -81,13 +81,13 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
 }
 
 export async function createRecordedCommunicationIdentityClient(
-  context: Context
+  context: Context,
 ): Promise<RecordedClient<CommunicationIdentityClient>> {
   const recorder = await createRecorder(context.currentTest);
 
   const client = new CommunicationIdentityClient(
     env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING ?? "",
-    recorder.configureClientOptions({})
+    recorder.configureClientOptions({}),
   );
 
   return {
@@ -97,13 +97,13 @@ export async function createRecordedCommunicationIdentityClient(
 }
 
 export async function createRecordedCommunicationIdentityClientWithToken(
-  context: Context
+  context: Context,
 ): Promise<RecordedClient<CommunicationIdentityClient>> {
   const recorder = await createRecorder(context.currentTest);
 
   let credential: TokenCredential;
   const endpoint = parseConnectionString(
-    env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING ?? ""
+    env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING ?? "",
   ).endpoint;
   if (isPlaybackMode()) {
     credential = {
@@ -118,7 +118,7 @@ export async function createRecordedCommunicationIdentityClientWithToken(
   const client = new CommunicationIdentityClient(
     endpoint,
     credential,
-    recorder.configureClientOptions({})
+    recorder.configureClientOptions({}),
   );
 
   return { client, recorder };

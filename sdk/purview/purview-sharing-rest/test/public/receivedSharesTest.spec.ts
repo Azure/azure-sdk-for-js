@@ -9,7 +9,7 @@ import {
   PurviewSharingClient,
   ReceivedShareListOutput,
 } from "../../src";
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
@@ -19,7 +19,7 @@ describe("Received Shares Operations", () => {
   let client: PurviewSharingClient;
 
   let receivedShareId = "206016dd-fd49-420c-9545-9663badda4e3";
-  const pollingIntervalMs = 30000;
+  const pollingIntervalMs = isPlaybackMode() ? 0 : 30000;
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);

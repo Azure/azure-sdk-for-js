@@ -70,11 +70,14 @@ export const Constants = {
 
     // Our custom Azure Cosmos DB headers
     Continuation: "x-ms-continuation",
+    ContinuationToken: "x-ms-continuation-token",
     PageSize: "x-ms-max-item-count",
     ItemCount: "x-ms-item-count",
+    ChangeFeedWireFormatVersion: "x-ms-cosmos-changefeed-wire-format-version",
 
     // Request sender generated. Simply echoed by backend.
     ActivityId: "x-ms-activity-id",
+    CorrelatedActivityId: "x-ms-cosmos-correlated-activityid",
     PreTriggerInclude: "x-ms-documentdb-pre-trigger-include",
     PreTriggerExclude: "x-ms-documentdb-pre-trigger-exclude",
     PostTriggerInclude: "x-ms-documentdb-post-trigger-include",
@@ -119,6 +122,13 @@ export const Constants = {
     // Partition Key
     PartitionKey: "x-ms-documentdb-partitionkey",
     PartitionKeyRangeID: "x-ms-documentdb-partitionkeyrangeid",
+
+    // Epk Range headers
+    StartEpk: "x-ms-start-epk",
+    EndEpk: "x-ms-end-epk",
+
+    // Read Feed Type
+    ReadFeedKeyType: "x-ms-read-key-type",
 
     // Quota Info
     MaxEntityCount: "x-ms-root-entity-max-count",
@@ -165,9 +175,13 @@ export const Constants = {
 
     // Dedicated Gateway Headers
     DedicatedGatewayPerRequestCacheStaleness: "x-ms-dedicatedgateway-max-age",
+    DedicatedGatewayPerRequestBypassCache: "x-ms-dedicatedgateway-bypass-cache",
 
     // Cache Refresh header
     ForceRefresh: "x-ms-force-refresh",
+
+    // Priority Based throttling header
+    PriorityLevel: "x-ms-cosmos-priority-level",
   },
 
   // GlobalDB related constants
@@ -190,7 +204,10 @@ export const Constants = {
   AzureNamespace: "Azure.Cosmos",
   AzurePackageName: "@azure/cosmos",
   SDKName: "azure-cosmos-js",
-  SDKVersion: "4.0.0",
+  SDKVersion: "4.0.1",
+
+  // Diagnostics
+  CosmosDbDiagnosticLevelEnvVarName: "AZURE_COSMOSDB_DIAGNOSTICS_LEVEL",
 
   // Bulk Operations
   DefaultMaxBulkRequestBodySizeInBytes: 220201,
@@ -244,6 +261,9 @@ export const Constants = {
     MinimumInclusiveEffectivePartitionKey: "",
     MaximumExclusiveEffectivePartitionKey: "FF",
   },
+  // Changefeed AllVersionsAndDeletesMode formatting version
+  AllVersionsAndDeletesChangeFeedWireFormatVersion: "2021-09-15",
+  ChangeFeedIfNoneMatchStartFromNowHeader: "*",
 };
 
 /**

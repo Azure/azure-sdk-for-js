@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Approve or reject a private endpoint connection with a given name.
  *
  * @summary Approve or reject a private endpoint connection with a given name.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-05-02/examples/KustoPrivateEndpointConnectionsCreateOrUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoPrivateEndpointConnectionsCreateOrUpdate.json
  */
 async function approveOrRejectAPrivateEndpointConnectionWithAGivenName() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function approveOrRejectAPrivateEndpointConnectionWithAGivenName() {
     resourceGroupName,
     clusterName,
     privateEndpointConnectionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

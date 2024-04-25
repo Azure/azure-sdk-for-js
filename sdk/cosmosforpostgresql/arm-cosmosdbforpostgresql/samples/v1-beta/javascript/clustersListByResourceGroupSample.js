@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all clusters in a resource group.
  *
  * @summary Lists all clusters in a resource group.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ClusterListByResourceGroup.json
+ * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterListByResourceGroup.json
  */
 async function listTheClustersByResourceGroup() {
   const subscriptionId =

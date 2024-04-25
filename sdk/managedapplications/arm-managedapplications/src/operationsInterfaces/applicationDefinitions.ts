@@ -7,20 +7,25 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   ApplicationDefinition,
   ApplicationDefinitionsListByResourceGroupOptionalParams,
+  ApplicationDefinitionsListBySubscriptionOptionalParams,
   ApplicationDefinitionsGetOptionalParams,
   ApplicationDefinitionsGetResponse,
   ApplicationDefinitionsDeleteOptionalParams,
   ApplicationDefinitionsCreateOrUpdateOptionalParams,
   ApplicationDefinitionsCreateOrUpdateResponse,
+  ApplicationDefinitionPatchable,
+  ApplicationDefinitionsUpdateOptionalParams,
+  ApplicationDefinitionsUpdateResponse,
   ApplicationDefinitionsGetByIdOptionalParams,
   ApplicationDefinitionsGetByIdResponse,
   ApplicationDefinitionsDeleteByIdOptionalParams,
   ApplicationDefinitionsCreateOrUpdateByIdOptionalParams,
-  ApplicationDefinitionsCreateOrUpdateByIdResponse
+  ApplicationDefinitionsCreateOrUpdateByIdResponse,
+  ApplicationDefinitionsUpdateByIdOptionalParams,
+  ApplicationDefinitionsUpdateByIdResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,6 +41,13 @@ export interface ApplicationDefinitions {
     options?: ApplicationDefinitionsListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<ApplicationDefinition>;
   /**
+   * Lists all the application definitions within a subscription.
+   * @param options The options parameters.
+   */
+  listBySubscription(
+    options?: ApplicationDefinitionsListBySubscriptionOptionalParams
+  ): PagedAsyncIterableIterator<ApplicationDefinition>;
+  /**
    * Gets the managed application definition.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param applicationDefinitionName The name of the managed application definition.
@@ -49,56 +61,40 @@ export interface ApplicationDefinitions {
   /**
    * Deletes the managed application definition.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param applicationDefinitionName The name of the managed application definition to delete.
+   * @param applicationDefinitionName The name of the managed application definition.
    * @param options The options parameters.
    */
-  beginDelete(
-    resourceGroupName: string,
-    applicationDefinitionName: string,
-    options?: ApplicationDefinitionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
-  /**
-   * Deletes the managed application definition.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param applicationDefinitionName The name of the managed application definition to delete.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
+  delete(
     resourceGroupName: string,
     applicationDefinitionName: string,
     options?: ApplicationDefinitionsDeleteOptionalParams
   ): Promise<void>;
   /**
-   * Creates a new managed application definition.
+   * Creates or updates a managed application definition.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param applicationDefinitionName The name of the managed application definition.
    * @param parameters Parameters supplied to the create or update an managed application definition.
    * @param options The options parameters.
    */
-  beginCreateOrUpdate(
-    resourceGroupName: string,
-    applicationDefinitionName: string,
-    parameters: ApplicationDefinition,
-    options?: ApplicationDefinitionsCreateOrUpdateOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<ApplicationDefinitionsCreateOrUpdateResponse>,
-      ApplicationDefinitionsCreateOrUpdateResponse
-    >
-  >;
-  /**
-   * Creates a new managed application definition.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param applicationDefinitionName The name of the managed application definition.
-   * @param parameters Parameters supplied to the create or update an managed application definition.
-   * @param options The options parameters.
-   */
-  beginCreateOrUpdateAndWait(
+  createOrUpdate(
     resourceGroupName: string,
     applicationDefinitionName: string,
     parameters: ApplicationDefinition,
     options?: ApplicationDefinitionsCreateOrUpdateOptionalParams
   ): Promise<ApplicationDefinitionsCreateOrUpdateResponse>;
+  /**
+   * Updates the managed application definition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applicationDefinitionName The name of the managed application definition.
+   * @param parameters Parameters supplied to the update a managed application definition.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    applicationDefinitionName: string,
+    parameters: ApplicationDefinitionPatchable,
+    options?: ApplicationDefinitionsUpdateOptionalParams
+  ): Promise<ApplicationDefinitionsUpdateResponse>;
   /**
    * Gets the managed application definition.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -116,51 +112,35 @@ export interface ApplicationDefinitions {
    * @param applicationDefinitionName The name of the managed application definition.
    * @param options The options parameters.
    */
-  beginDeleteById(
-    resourceGroupName: string,
-    applicationDefinitionName: string,
-    options?: ApplicationDefinitionsDeleteByIdOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
-  /**
-   * Deletes the managed application definition.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param applicationDefinitionName The name of the managed application definition.
-   * @param options The options parameters.
-   */
-  beginDeleteByIdAndWait(
+  deleteById(
     resourceGroupName: string,
     applicationDefinitionName: string,
     options?: ApplicationDefinitionsDeleteByIdOptionalParams
   ): Promise<void>;
   /**
-   * Creates a new managed application definition.
+   * Creates or updates a managed application definition.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param applicationDefinitionName The name of the managed application definition.
    * @param parameters Parameters supplied to the create or update a managed application definition.
    * @param options The options parameters.
    */
-  beginCreateOrUpdateById(
-    resourceGroupName: string,
-    applicationDefinitionName: string,
-    parameters: ApplicationDefinition,
-    options?: ApplicationDefinitionsCreateOrUpdateByIdOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<ApplicationDefinitionsCreateOrUpdateByIdResponse>,
-      ApplicationDefinitionsCreateOrUpdateByIdResponse
-    >
-  >;
-  /**
-   * Creates a new managed application definition.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param applicationDefinitionName The name of the managed application definition.
-   * @param parameters Parameters supplied to the create or update a managed application definition.
-   * @param options The options parameters.
-   */
-  beginCreateOrUpdateByIdAndWait(
+  createOrUpdateById(
     resourceGroupName: string,
     applicationDefinitionName: string,
     parameters: ApplicationDefinition,
     options?: ApplicationDefinitionsCreateOrUpdateByIdOptionalParams
   ): Promise<ApplicationDefinitionsCreateOrUpdateByIdResponse>;
+  /**
+   * Updates the managed application definition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applicationDefinitionName The name of the managed application definition.
+   * @param parameters Parameters supplied to the update a managed application definition.
+   * @param options The options parameters.
+   */
+  updateById(
+    resourceGroupName: string,
+    applicationDefinitionName: string,
+    parameters: ApplicationDefinitionPatchable,
+    options?: ApplicationDefinitionsUpdateByIdOptionalParams
+  ): Promise<ApplicationDefinitionsUpdateByIdResponse>;
 }

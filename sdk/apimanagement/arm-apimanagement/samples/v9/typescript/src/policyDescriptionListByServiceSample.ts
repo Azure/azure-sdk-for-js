@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all policy descriptions.
  *
  * @summary Lists all policy descriptions.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListPolicyDescriptions.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListPolicyDescriptions.json
  */
 async function apiManagementListPolicyDescriptions() {
   const subscriptionId =

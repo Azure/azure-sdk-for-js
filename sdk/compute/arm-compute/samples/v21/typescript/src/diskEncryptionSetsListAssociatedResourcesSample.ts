@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all resources that are encrypted with this disk encryption set.
  *
  * @summary Lists all resources that are encrypted with this disk encryption set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_ListAssociatedResources.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_ListAssociatedResources.json
  */
 async function listAllResourcesThatAreEncryptedWithThisDiskEncryptionSet() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function listAllResourcesThatAreEncryptedWithThisDiskEncryptionSet() {
   const resArray = new Array();
   for await (let item of client.diskEncryptionSets.listAssociatedResources(
     resourceGroupName,
-    diskEncryptionSetName
+    diskEncryptionSetName,
   )) {
     resArray.push(item);
   }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Starts stopped compute on all cluster nodes.
  *
  * @summary Starts stopped compute on all cluster nodes.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ClusterStart.json
+ * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterStart.json
  */
 async function startAllServersInTheCluster() {
   const subscriptionId =

@@ -33,16 +33,16 @@ describe("invalid parameters", () => {
     // new sender/receiver clients before each test. Doing it once for each describe block.
     before(async () => {
       const entityNames = await serviceBusClient.test.createTestEntities(
-        TestClientType.PartitionedQueueWithSessions
+        TestClientType.PartitionedQueueWithSessions,
       );
 
       sender = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createSender(entityNames.queue!)
+        serviceBusClient.createSender(entityNames.queue!),
       );
 
       receiver = await serviceBusClient.test.acceptSessionWithPeekLock(
         entityNames,
-        TestMessage.sessionId
+        TestMessage.sessionId,
       );
 
       await sender.sendMessages(TestMessage.getSessionSample());
@@ -56,7 +56,7 @@ describe("invalid parameters", () => {
       let errorCaught: string = "";
       try {
         const { queue } = serviceBusClient.test.getTestEntities(
-          TestClientType.PartitionedQueueWithSessions
+          TestClientType.PartitionedQueueWithSessions,
         );
 
         await serviceBusClient.acceptSession(queue!, TestMessage.sessionId, {
@@ -65,10 +65,11 @@ describe("invalid parameters", () => {
       } catch (error: any) {
         errorCaught = error.message;
       }
-      should.equal(
+      expect(
         errorCaught,
+        "Did not throw error if created a client with invalid receiveMode.",
+      ).includes(
         `Invalid receiveMode '123' provided. Valid values are 'peekLock' and 'receiveAndDelete'`,
-        "Did not throw error if created a client with invalid receiveMode."
       );
     });
 
@@ -81,7 +82,7 @@ describe("invalid parameters", () => {
         } catch (error: any) {
           should.equal(error && error.name, "TypeError");
           expect(error.message, "Validation error for maxMessageCount not thrown").includes(
-            "maxMessageCount"
+            "maxMessageCount",
           );
         }
       });
@@ -96,7 +97,7 @@ describe("invalid parameters", () => {
         } catch (error: any) {
           should.equal(error && error.name, "TypeError");
           expect(error.message, "Validation error for maxMessageCount not thrown").includes(
-            "maxMessageCount"
+            "maxMessageCount",
           );
         }
       });
@@ -113,38 +114,36 @@ describe("invalid parameters", () => {
         } catch (error: any) {
           should.equal(error && error.name, "TypeError");
           expect(error.message, "Validation error for maxMessageCount not thrown").includes(
-            "maxMessageCount"
+            "maxMessageCount",
           );
         }
       });
     });
 
-    it("PeekBySequenceNumber: Wrong type sequenceNumber in SessionReceiver", async function (): Promise<void> {
+    it("PeekBySequenceNumber: Wrong type fromSequenceNumber in SessionReceiver", async function (): Promise<void> {
       let caughtError: Error | undefined;
       try {
         await receiver.peekMessages(1, { fromSequenceNumber: "somestring" as any });
       } catch (error: any) {
         caughtError = error;
       }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(
-        caughtError && caughtError.message,
-        `The parameter "fromSequenceNumber" should be of type "Long"`
+      should.equal(caughtError?.name, "TypeError");
+      expect(caughtError?.message).includes(
+        `The parameter "fromSequenceNumber" should be of type "Long"`,
       );
     });
 
     [false, 0, -0, "", NaN].forEach((falsyValue) => {
-      it("PeekBySequenceNumber: Wrong type sequenceNumber in SessionReceiver when passing falsy value that is not undefined or null", async function (): Promise<void> {
+      it("PeekBySequenceNumber: Wrong type fromSequenceNumber in SessionReceiver when passing falsy value that is not undefined or null", async function (): Promise<void> {
         let caughtError: Error | undefined;
         try {
           await receiver.peekMessages(1, { fromSequenceNumber: falsyValue as any });
         } catch (error: any) {
           caughtError = error;
         }
-        should.equal(caughtError && caughtError.name, "TypeError");
-        should.equal(
-          caughtError && caughtError.message,
-          `The parameter "fromSequenceNumber" should be of type "Long"`
+        should.equal(caughtError?.name, "TypeError");
+        expect(caughtError?.message).includes(
+          `The parameter "fromSequenceNumber" should be of type "Long"`,
         );
       });
     });
@@ -156,8 +155,8 @@ describe("invalid parameters", () => {
       } catch (error: any) {
         caughtError = error;
       }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(caughtError && caughtError.message, `Invalid "MessageHandlers" provided.`);
+      should.equal(caughtError?.name, "TypeError");
+      expect(caughtError?.message).includes(`Invalid "MessageHandlers" provided.`);
     });
 
     it("RegisterMessageHandler: Wrong type for onMessage in SessionReceiver", async function (): Promise<void> {
@@ -167,21 +166,21 @@ describe("invalid parameters", () => {
       } catch (error: any) {
         caughtError = error;
       }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(caughtError && caughtError.message, `Invalid "MessageHandlers" provided.`);
+      should.equal(caughtError?.name, "TypeError");
+      expect(caughtError?.message).includes(`Invalid "MessageHandlers" provided.`);
     });
 
-    it("ReceiveDeferredMessages: Wrong type sequenceNumber in SessionReceiver", async function (): Promise<void> {
+    it("ReceiveDeferredMessages: Wrong type sequenceNumbers in SessionReceiver", async function (): Promise<void> {
       let caughtError: Error | undefined;
       try {
         await receiver.receiveDeferredMessages("somestring" as any);
       } catch (error: any) {
         caughtError = error;
       }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(
-        caughtError && caughtError.message,
-        `The parameter "sequenceNumbers" should be of type "Long"`
+      should.equal(caughtError?.name, "TypeError");
+      console.log(caughtError?.message);
+      expect(caughtError?.message).includes(
+        `The parameter "sequenceNumbers" should be of type "Long"`,
       );
     });
 
@@ -192,8 +191,8 @@ describe("invalid parameters", () => {
       } catch (error: any) {
         caughtError = error;
       }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(caughtError && caughtError.message, `Missing parameter "sequenceNumbers"`);
+      should.equal(caughtError?.name, "TypeError");
+      expect(caughtError?.message).includes(`Missing parameter "sequenceNumbers"`);
     });
 
     it("ReceiveDeferredMessages: Wrong type sequenceNumber array in SessionReceiver", async function (): Promise<void> {
@@ -203,10 +202,9 @@ describe("invalid parameters", () => {
       } catch (error: any) {
         caughtError = error;
       }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(
-        caughtError && caughtError.message,
-        `The parameter "sequenceNumbers" should be an array of type "Long"`
+      should.equal(caughtError?.name, "TypeError");
+      expect(caughtError?.message).includes(
+        `The parameter "sequenceNumbers" should be an array of type "Long"`,
       );
     });
   });
@@ -225,10 +223,11 @@ describe("invalid parameters", () => {
       } catch (error: any) {
         errorCaught = error.message;
       }
-      should.equal(
+      expect(
         errorCaught,
+        "Did not throw error if created a client with invalid receiveMode.",
+      ).includes(
         `Invalid receiveMode '123' provided. Valid values are 'peekLock' and 'receiveAndDelete'`,
-        "Did not throw error if created a client with invalid receiveMode."
       );
     });
 
@@ -240,10 +239,11 @@ describe("invalid parameters", () => {
       } catch (error: any) {
         errorCaught = error.message;
       }
-      should.equal(
+      expect(
         errorCaught,
+        "Did not throw error if created a client with invalid subQueue.",
+      ).includes(
         `Invalid subQueueType '123' provided. Valid values are 'deadLetter' and 'transferDeadLetter'`,
-        "Did not throw error if created a client with invalid subQueue."
       );
     });
 
@@ -256,7 +256,7 @@ describe("invalid parameters", () => {
         } catch (error: any) {
           should.equal(error && error.name, "TypeError");
           expect(error.message, "Validation error for maxMessageCount not thrown").includes(
-            "maxMessageCount"
+            "maxMessageCount",
           );
         }
       });
@@ -271,7 +271,7 @@ describe("invalid parameters", () => {
         } catch (error: any) {
           should.equal(error && error.name, "TypeError");
           expect(error.message, "Validation error for maxMessageCount not thrown").includes(
-            "maxMessageCount"
+            "maxMessageCount",
           );
         }
       });
@@ -288,7 +288,7 @@ describe("invalid parameters", () => {
         } catch (error: any) {
           should.equal(error && error.name, "TypeError");
           expect(error.message, "Validation error for maxMessageCount not thrown").includes(
-            "maxMessageCount"
+            "maxMessageCount",
           );
         }
       });
@@ -301,10 +301,9 @@ describe("invalid parameters", () => {
       } catch (error: any) {
         caughtError = error;
       }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(
-        caughtError && caughtError.message,
-        `The parameter "fromSequenceNumber" should be of type "Long"`
+      should.equal(caughtError?.name, "TypeError");
+      expect(caughtError?.message).includes(
+        `The parameter "fromSequenceNumber" should be of type "Long"`,
       );
     });
 
@@ -316,10 +315,9 @@ describe("invalid parameters", () => {
         } catch (error: any) {
           caughtError = error;
         }
-        should.equal(caughtError && caughtError.name, "TypeError");
-        should.equal(
-          caughtError && caughtError.message,
-          `The parameter "fromSequenceNumber" should be of type "Long"`
+        should.equal(caughtError?.name, "TypeError");
+        expect(caughtError?.message).includes(
+          `The parameter "fromSequenceNumber" should be of type "Long"`,
         );
       });
     });
@@ -331,8 +329,8 @@ describe("invalid parameters", () => {
       } catch (error: any) {
         caughtError = error;
       }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(caughtError && caughtError.message, `Invalid "MessageHandlers" provided.`);
+      should.equal(caughtError?.name, "TypeError");
+      expect(caughtError?.message).includes(`Invalid "MessageHandlers" provided.`);
     });
 
     it("RegisterMessageHandler: Wrong type for onMessage in Receiver", async function (): Promise<void> {
@@ -342,8 +340,8 @@ describe("invalid parameters", () => {
       } catch (error: any) {
         caughtError = error;
       }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(caughtError && caughtError.message, `Invalid "MessageHandlers" provided.`);
+      should.equal(caughtError?.name, "TypeError");
+      expect(caughtError?.message).includes(`Invalid "MessageHandlers" provided.`);
     });
 
     it("ReceiveDeferredMessages: Wrong type sequenceNumber in Receiver", async function (): Promise<void> {
@@ -353,10 +351,9 @@ describe("invalid parameters", () => {
       } catch (error: any) {
         caughtError = error;
       }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(
-        caughtError && caughtError.message,
-        `The parameter "sequenceNumbers" should be of type "Long"`
+      should.equal(caughtError?.name, "TypeError");
+      expect(caughtError?.message).includes(
+        `The parameter "sequenceNumbers" should be of type "Long"`,
       );
     });
 
@@ -367,8 +364,8 @@ describe("invalid parameters", () => {
       } catch (error: any) {
         caughtError = error;
       }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(caughtError && caughtError.message, `Missing parameter "sequenceNumbers"`);
+      should.equal(caughtError?.name, "TypeError");
+      expect(caughtError?.message).includes(`Missing parameter "sequenceNumbers"`);
     });
 
     it("ReceiveDeferredMessages: Wrong type sequenceNumber array in Receiver", async function (): Promise<void> {
@@ -378,10 +375,9 @@ describe("invalid parameters", () => {
       } catch (error: any) {
         caughtError = error;
       }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(
-        caughtError && caughtError.message,
-        `The parameter "sequenceNumbers" should be an array of type "Long"`
+      should.equal(caughtError?.name, "TypeError");
+      expect(caughtError?.message).includes(
+        `The parameter "sequenceNumbers" should be an array of type "Long"`,
       );
     });
   });
@@ -399,11 +395,8 @@ describe("invalid parameters", () => {
       } catch (error: any) {
         caughtError = error;
       }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(
-        caughtError && caughtError.message,
-        `Missing parameter "scheduledEnqueueTimeUtc"`
-      );
+      should.equal(caughtError?.name, "TypeError");
+      expect(caughtError?.message).includes(`Missing parameter "scheduledEnqueueTimeUtc"`);
     });
 
     it("ScheduledMessages: Missing messages in Sender", async function (): Promise<void> {
@@ -413,8 +406,8 @@ describe("invalid parameters", () => {
       } catch (error: any) {
         caughtError = error;
       }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(caughtError && caughtError.message, `Missing parameter "messages"`);
+      should.equal(caughtError?.name, "TypeError");
+      expect(caughtError?.message).includes(`Missing parameter "messages"`);
     });
 
     it("CancelScheduledMessages: Wrong type sequenceNumber in Sender", async function (): Promise<void> {
@@ -424,10 +417,9 @@ describe("invalid parameters", () => {
       } catch (error: any) {
         caughtError = error;
       }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(
-        caughtError && caughtError.message,
-        `The parameter "sequenceNumbers" should be of type "Long"`
+      should.equal(caughtError?.name, "TypeError");
+      expect(caughtError?.message).includes(
+        `The parameter "sequenceNumbers" should be of type "Long"`,
       );
     });
 
@@ -438,8 +430,8 @@ describe("invalid parameters", () => {
       } catch (error: any) {
         caughtError = error;
       }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(caughtError && caughtError.message, `Missing parameter "sequenceNumbers"`);
+      should.equal(caughtError?.name, "TypeError");
+      expect(caughtError?.message).includes(`Missing parameter "sequenceNumbers"`);
     });
 
     it("CancelScheduledMessages: Wrong type sequenceNumbers array in Sender", async function (): Promise<void> {
@@ -449,10 +441,9 @@ describe("invalid parameters", () => {
       } catch (error: any) {
         caughtError = error;
       }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(
-        caughtError && caughtError.message,
-        `The parameter "sequenceNumbers" should be an array of type "Long"`
+      should.equal(caughtError?.name, "TypeError");
+      expect(caughtError?.message).includes(
+        `The parameter "sequenceNumbers" should be an array of type "Long"`,
       );
     });
   });

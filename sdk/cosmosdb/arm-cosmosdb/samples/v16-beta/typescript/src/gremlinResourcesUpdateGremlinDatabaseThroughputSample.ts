@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ThroughputSettingsUpdateParameters,
-  CosmosDBManagementClient
+  CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update RUs per second of an Azure Cosmos DB Gremlin database
  *
  * @summary Update RUs per second of an Azure Cosmos DB Gremlin database
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBGremlinDatabaseThroughputUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBGremlinDatabaseThroughputUpdate.json
  */
 async function cosmosDbGremlinDatabaseThroughputUpdate() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -31,16 +31,17 @@ async function cosmosDbGremlinDatabaseThroughputUpdate() {
   const updateThroughputParameters: ThroughputSettingsUpdateParameters = {
     location: "West US",
     resource: { throughput: 400 },
-    tags: {}
+    tags: {},
   };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.gremlinResources.beginUpdateGremlinDatabaseThroughputAndWait(
-    resourceGroupName,
-    accountName,
-    databaseName,
-    updateThroughputParameters
-  );
+  const result =
+    await client.gremlinResources.beginUpdateGremlinDatabaseThroughputAndWait(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      updateThroughputParameters,
+    );
   console.log(result);
 }
 

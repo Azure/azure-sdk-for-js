@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes a private endpoint connection with a given name.
  *
  * @summary Deletes a private endpoint connection with a given name.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/PrivateEndpointConnectionsDelete.json
+ * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/PrivateEndpointConnectionsDelete.json
  */
 async function deletesAPrivateEndpointConnectionWithAGivenName() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function deletesAPrivateEndpointConnectionWithAGivenName() {
   const result = await client.privateEndpointConnections.beginDeleteAndWait(
     resourceGroupName,
     clusterName,
-    privateEndpointConnectionName
+    privateEndpointConnectionName,
   );
   console.log(result);
 }

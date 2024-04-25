@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists servers of a cluster.
  *
  * @summary Lists servers of a cluster.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ServerListByCluster.json
+ * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ServerListByCluster.json
  */
 async function listServersOfTheCluster() {
   const subscriptionId =

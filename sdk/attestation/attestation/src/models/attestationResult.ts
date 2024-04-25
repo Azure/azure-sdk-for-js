@@ -369,7 +369,7 @@ export class AttestationResultImpl implements AttestationResult {
  * @internal
  */
 export function _attestationResultFromGenerated(
-  generated: GeneratedAttestationResult
+  generated: GeneratedAttestationResult,
 ): AttestationResultImpl {
   return new AttestationResultImpl({
     issuer: generated.iss,

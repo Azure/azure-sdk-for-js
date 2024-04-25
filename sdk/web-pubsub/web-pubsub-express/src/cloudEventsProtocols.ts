@@ -243,7 +243,7 @@ export interface WebPubSubEventHandlerOptions {
    */
   handleUserEvent?: (
     userEventRequest: UserEventRequest,
-    userEventResponse: UserEventResponseHandler
+    userEventResponse: UserEventResponseHandler,
   ) => void;
 
   /**

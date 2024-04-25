@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Get all deleted apps for a subscription at location
  *
  * @summary Description for Get all deleted apps for a subscription at location
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/ListDeletedWebAppsByLocation.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/ListDeletedWebAppsByLocation.json
  */
 async function listDeletedWebAppByLocation() {
   const subscriptionId =

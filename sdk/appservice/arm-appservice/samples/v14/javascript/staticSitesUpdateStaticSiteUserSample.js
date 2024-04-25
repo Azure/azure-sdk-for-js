@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Updates a user entry with the listed roles
  *
  * @summary Description for Updates a user entry with the listed roles
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/UpdateStaticSiteUser.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/UpdateStaticSiteUser.json
  */
 async function createOrUpdateAUserForAStaticSite() {
   const subscriptionId =

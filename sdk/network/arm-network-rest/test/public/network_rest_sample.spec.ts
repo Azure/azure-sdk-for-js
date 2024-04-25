@@ -95,7 +95,7 @@ describe("Network test", () => {
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
         subscriptionId,
         resourceGroupName,
-        virtualNetworkName
+        virtualNetworkName,
       )
       .put(option);
 
@@ -123,7 +123,7 @@ describe("Network test", () => {
         subscriptionId,
         resourceGroupName,
         virtualNetworkName,
-        subnet_name
+        subnet_name,
       )
       .put(option);
 
@@ -153,7 +153,7 @@ describe("Network test", () => {
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
         subscriptionId,
         resourceGroupName,
-        ipGroupName
+        ipGroupName,
       )
       .put(option);
 
@@ -174,7 +174,7 @@ describe("Network test", () => {
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
         subscriptionId,
         resourceGroupName,
-        virtualNetworkName
+        virtualNetworkName,
       )
       .get(option);
 
@@ -194,7 +194,7 @@ describe("Network test", () => {
         subscriptionId,
         resourceGroupName,
         virtualNetworkName,
-        subnet_name
+        subnet_name,
       )
       .get(option);
 
@@ -215,7 +215,7 @@ describe("Network test", () => {
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
         subscriptionId,
         resourceGroupName,
-        ipGroupName
+        ipGroupName,
       )
       .get(option);
 
@@ -235,7 +235,7 @@ describe("Network test", () => {
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks",
         subscriptionId,
-        resourceGroupName
+        resourceGroupName,
       )
       .get(option);
 
@@ -256,7 +256,7 @@ describe("Network test", () => {
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets",
         subscriptionId,
         resourceGroupName,
-        virtualNetworkName
+        virtualNetworkName,
       )
       .get(option);
 
@@ -276,7 +276,7 @@ describe("Network test", () => {
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups",
         subscriptionId,
-        resourceGroupName
+        resourceGroupName,
       )
       .get(option);
 
@@ -298,7 +298,7 @@ describe("Network test", () => {
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
         subscriptionId,
         resourceGroupName,
-        virtualNetworkName
+        virtualNetworkName,
       )
       .patch(options);
 
@@ -319,7 +319,7 @@ describe("Network test", () => {
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
         subscriptionId,
         resourceGroupName,
-        ipGroupName
+        ipGroupName,
       )
       .delete(options);
 
@@ -337,7 +337,7 @@ describe("Network test", () => {
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups",
         subscriptionId,
-        resourceGroupName
+        resourceGroupName,
       )
       .get(option);
 
@@ -359,7 +359,7 @@ describe("Network test", () => {
         subscriptionId,
         resourceGroupName,
         virtualNetworkName,
-        subnet_name
+        subnet_name,
       )
       .delete(options);
 
@@ -378,7 +378,7 @@ describe("Network test", () => {
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets",
         subscriptionId,
         resourceGroupName,
-        virtualNetworkName
+        virtualNetworkName,
       )
       .get(option);
 
@@ -399,7 +399,7 @@ describe("Network test", () => {
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
         subscriptionId,
         resourceGroupName,
-        virtualNetworkName
+        virtualNetworkName,
       )
       .delete(options);
 
@@ -417,7 +417,7 @@ describe("Network test", () => {
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks",
         subscriptionId,
-        resourceGroupName
+        resourceGroupName,
       )
       .get(option);
 

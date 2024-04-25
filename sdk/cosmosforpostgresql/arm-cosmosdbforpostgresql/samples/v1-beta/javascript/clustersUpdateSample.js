@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates an existing cluster. The request body can contain one or several properties from the cluster definition.
  *
  * @summary Updates an existing cluster. The request body can contain one or several properties from the cluster definition.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ClusterScaleCompute.json
+ * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterScaleCompute.json
  */
 async function scaleComputeUpOrDown() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function scaleComputeUpOrDown() {
   const result = await client.clusters.beginUpdateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -38,7 +38,7 @@ async function scaleComputeUpOrDown() {
  * This sample demonstrates how to Updates an existing cluster. The request body can contain one or several properties from the cluster definition.
  *
  * @summary Updates an existing cluster. The request body can contain one or several properties from the cluster definition.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ClusterAddNode.json
+ * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterAddNode.json
  */
 async function scaleOutAddNewWorkerNodes() {
   const subscriptionId =
@@ -51,7 +51,7 @@ async function scaleOutAddNewWorkerNodes() {
   const result = await client.clusters.beginUpdateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -60,7 +60,7 @@ async function scaleOutAddNewWorkerNodes() {
  * This sample demonstrates how to Updates an existing cluster. The request body can contain one or several properties from the cluster definition.
  *
  * @summary Updates an existing cluster. The request body can contain one or several properties from the cluster definition.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ClusterScaleStorage.json
+ * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterScaleStorage.json
  */
 async function scaleUpStorage() {
   const subscriptionId =
@@ -73,7 +73,7 @@ async function scaleUpStorage() {
   const result = await client.clusters.beginUpdateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -82,7 +82,7 @@ async function scaleUpStorage() {
  * This sample demonstrates how to Updates an existing cluster. The request body can contain one or several properties from the cluster definition.
  *
  * @summary Updates an existing cluster. The request body can contain one or several properties from the cluster definition.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ClusterUpdate.json
+ * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterUpdate.json
  */
 async function updateMultipleConfigurationSettingsOfTheCluster() {
   const subscriptionId =
@@ -100,7 +100,7 @@ async function updateMultipleConfigurationSettingsOfTheCluster() {
   const result = await client.clusters.beginUpdateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -109,7 +109,7 @@ async function updateMultipleConfigurationSettingsOfTheCluster() {
  * This sample demonstrates how to Updates an existing cluster. The request body can contain one or several properties from the cluster definition.
  *
  * @summary Updates an existing cluster. The request body can contain one or several properties from the cluster definition.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ClusterUpdateMaintenanceWindow.json
+ * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterUpdateMaintenanceWindow.json
  */
 async function updateOrDefineMaintenanceWindow() {
   const subscriptionId =
@@ -129,7 +129,7 @@ async function updateOrDefineMaintenanceWindow() {
   const result = await client.clusters.beginUpdateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

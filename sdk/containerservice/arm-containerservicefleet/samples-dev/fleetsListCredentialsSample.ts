@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the user credentials of a Fleet.
  *
  * @summary Lists the user credentials of a Fleet.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-03-15-preview/examples/Fleets_ListCredentialsResult.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2024-02-02-preview/examples/Fleets_ListCredentialsResult.json
  */
 async function listsTheUserCredentialsOfAFleet() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function listsTheUserCredentialsOfAFleet() {
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
   const result = await client.fleets.listCredentials(
     resourceGroupName,
-    fleetName
+    fleetName,
   );
   console.log(result);
 }

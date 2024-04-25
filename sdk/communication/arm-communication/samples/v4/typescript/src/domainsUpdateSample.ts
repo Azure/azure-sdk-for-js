@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   UpdateDomainRequestParameters,
-  CommunicationServiceManagementClient
+  CommunicationServiceManagementClient,
 } from "@azure/arm-communication";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Operation to update an existing Domains resource.
  *
  * @summary Operation to update an existing Domains resource.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/domains/update.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/domains/update.json
  */
 async function updateDomainsResource() {
   const subscriptionId =
@@ -32,18 +32,18 @@ async function updateDomainsResource() {
   const emailServiceName = "MyEmailServiceResource";
   const domainName = "mydomain.com";
   const parameters: UpdateDomainRequestParameters = {
-    userEngagementTracking: "Enabled"
+    userEngagementTracking: "Enabled",
   };
   const credential = new DefaultAzureCredential();
   const client = new CommunicationServiceManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.domains.beginUpdateAndWait(
     resourceGroupName,
     emailServiceName,
     domainName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

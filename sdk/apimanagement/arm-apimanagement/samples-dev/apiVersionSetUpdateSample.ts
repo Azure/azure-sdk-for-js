@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates the details of the Api VersionSet specified by its identifier.
  *
  * @summary Updates the details of the Api VersionSet specified by its identifier.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementUpdateApiVersionSet.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUpdateApiVersionSet.json
  */
 async function apiManagementUpdateApiVersionSet() {
   const subscriptionId =

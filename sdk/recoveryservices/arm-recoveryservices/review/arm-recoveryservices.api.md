@@ -267,6 +267,13 @@ export enum KnownInfrastructureEncryptionState {
 }
 
 // @public
+export enum KnownMultiUserAuthorization {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    Invalid = "Invalid"
+}
+
+// @public
 export enum KnownPrivateEndpointConnectionStatus {
     Approved = "Approved",
     Disconnected = "Disconnected",
@@ -311,9 +318,25 @@ export enum KnownResourceMoveState {
 }
 
 // @public
+export enum KnownSecureScoreLevel {
+    Adequate = "Adequate",
+    Maximum = "Maximum",
+    Minimum = "Minimum",
+    None = "None"
+}
+
+// @public
 export enum KnownSkuName {
     RS0 = "RS0",
     Standard = "Standard"
+}
+
+// @public
+export enum KnownSoftDeleteState {
+    AlwaysON = "AlwaysON",
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    Invalid = "Invalid"
 }
 
 // @public
@@ -375,6 +398,9 @@ export interface MonitoringSummary {
     unHealthyVmCount?: number;
     unsupportedProviderCount?: number;
 }
+
+// @public
+export type MultiUserAuthorization = string;
 
 // @public
 export interface NameInfo {
@@ -673,8 +699,13 @@ export interface RestoreSettings {
 }
 
 // @public
+export type SecureScoreLevel = string;
+
+// @public
 export interface SecuritySettings {
     immutabilitySettings?: ImmutabilitySettings;
+    readonly multiUserAuthorization?: MultiUserAuthorization;
+    softDeleteSettings?: SoftDeleteSettings;
 }
 
 // @public
@@ -688,6 +719,16 @@ export interface Sku {
 
 // @public
 export type SkuName = string;
+
+// @public
+export interface SoftDeleteSettings {
+    softDeleteRetentionPeriodInDays?: number;
+    // (undocumented)
+    softDeleteState?: SoftDeleteState;
+}
+
+// @public
+export type SoftDeleteState = string;
 
 // @public
 export type StandardTierStorageRedundancy = string;
@@ -835,6 +876,7 @@ export interface VaultProperties {
     publicNetworkAccess?: PublicNetworkAccess;
     redundancySettings?: VaultPropertiesRedundancySettings;
     restoreSettings?: RestoreSettings;
+    readonly secureScore?: SecureScoreLevel;
     securitySettings?: SecuritySettings;
     upgradeDetails?: UpgradeDetails;
 }

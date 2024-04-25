@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists developer portal's content items specified by the provided content type.
  *
  * @summary Lists developer portal's content items specified by the provided content type.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListContentTypeContentItems.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListContentTypeContentItems.json
  */
 async function apiManagementListContentTypeContentItems() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

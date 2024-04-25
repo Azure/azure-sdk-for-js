@@ -31,7 +31,7 @@ async function getDscpConfiguration() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dscpConfigurations/{dscpConfigurationName}",
       subscriptionId,
       resourceGroupName,
-      dscpConfigurationName
+      dscpConfigurationName,
     )
     .get(options);
   console.log(result);

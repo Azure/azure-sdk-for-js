@@ -46,7 +46,7 @@ describe("Certificates client - create, read, update and delete", () => {
     secretClient = new SecretClient(
       keyVaultUrl,
       credential,
-      recorder.configureClientOptions({ disableChallengeResourceVerification: !isLiveMode() })
+      recorder.configureClientOptions({ disableChallengeResourceVerification: !isLiveMode() }),
     );
   });
 
@@ -61,13 +61,13 @@ describe("Certificates client - create, read, update and delete", () => {
     const poller = await client.beginCreateCertificate(
       certificateName,
       basicCertificatePolicy,
-      testPollerProperties
+      testPollerProperties,
     );
     const pendingCertificate = poller.getResult(); // Pending certificate
     assert.equal(
       pendingCertificate!.properties.name,
       certificateName,
-      "Unexpected name in result from beginCreateCertificate()."
+      "Unexpected name in result from beginCreateCertificate().",
     );
   });
 
@@ -91,7 +91,7 @@ describe("Certificates client - create, read, update and delete", () => {
       await client.beginCreateCertificate(
         certificateName,
         basicCertificatePolicy,
-        testPollerProperties
+        testPollerProperties,
       );
       assert.fail("Expected an error");
     } catch (e) {
@@ -106,7 +106,7 @@ describe("Certificates client - create, read, update and delete", () => {
     await client.beginCreateCertificate(
       certificateName,
       basicCertificatePolicy,
-      testPollerProperties
+      testPollerProperties,
     );
     await client.updateCertificateProperties(certificateName, "", {
       tags: {
@@ -118,7 +118,7 @@ describe("Certificates client - create, read, update and delete", () => {
     assert.equal(
       updated!.properties.tags!.customTag!,
       "value",
-      "Expect attribute 'tags' to be updated."
+      "Expect attribute 'tags' to be updated.",
     );
   });
 
@@ -128,7 +128,7 @@ describe("Certificates client - create, read, update and delete", () => {
     const poller = await client.beginCreateCertificate(
       certificateName,
       basicCertificatePolicy,
-      testPollerProperties
+      testPollerProperties,
     );
 
     let result = await poller.pollUntilDone();
@@ -149,7 +149,7 @@ describe("Certificates client - create, read, update and delete", () => {
     const poller = await client.beginCreateCertificate(
       certificateName,
       basicCertificatePolicy,
-      testPollerProperties
+      testPollerProperties,
     );
 
     let result = await poller.pollUntilDone();
@@ -171,13 +171,13 @@ describe("Certificates client - create, read, update and delete", () => {
     await client.beginCreateCertificate(
       certificateName,
       basicCertificatePolicy,
-      testPollerProperties
+      testPollerProperties,
     );
     const result = await client.getCertificate(certificateName);
     assert.equal(
       result.properties.name,
       certificateName,
-      "Unexpected certificate name in result from beginCreateCertificate()."
+      "Unexpected certificate name in result from beginCreateCertificate().",
     );
   });
 
@@ -191,7 +191,7 @@ describe("Certificates client - create, read, update and delete", () => {
     const createPoller = await client.beginCreateCertificate(
       certificateName,
       basicCertificatePolicy,
-      testPollerProperties
+      testPollerProperties,
     );
 
     await createPoller.pollUntilDone();
@@ -205,7 +205,7 @@ describe("Certificates client - create, read, update and delete", () => {
     // Obtaining only the public certificate.
     // We send "-passin 'pass:'" because our self-signed certificate doesn't specify a password on its issuer.
     childProcess.execSync(
-      "openssl pkcs12 -in pkcs12.p12 -out pkcs12.crt.pem -clcerts -nokeys -passin pass:"
+      "openssl pkcs12 -in pkcs12.p12 -out pkcs12.crt.pem -clcerts -nokeys -passin pass:",
     );
 
     // To generate a PEM private key out of a KeyVault Certificate
@@ -224,7 +224,7 @@ describe("Certificates client - create, read, update and delete", () => {
         .split(/-----(BEGIN|END) CERTIFICATE-----/g)[2]
         .split(os.EOL)
         .join("")
-        .replace(/\n/g, "")
+        .replace(/\n/g, ""),
     );
   });
 
@@ -241,7 +241,7 @@ describe("Certificates client - create, read, update and delete", () => {
         subject: "cn=MyCert",
         contentType: "application/x-pem-file",
       },
-      testPollerProperties
+      testPollerProperties,
     );
 
     await createPoller.pollUntilDone();
@@ -266,7 +266,7 @@ describe("Certificates client - create, read, update and delete", () => {
     await client.beginCreateCertificate(
       certificateName,
       basicCertificatePolicy,
-      testPollerProperties
+      testPollerProperties,
     );
 
     const result = await client.getCertificate(certificateName);
@@ -274,7 +274,7 @@ describe("Certificates client - create, read, update and delete", () => {
     assert.equal(
       result.properties.name,
       certificateName,
-      "Unexpected certificate name in result from beginCreateCertificate()."
+      "Unexpected certificate name in result from beginCreateCertificate().",
     );
   });
 
@@ -297,7 +297,7 @@ describe("Certificates client - create, read, update and delete", () => {
     await client.beginCreateCertificate(
       certificateName,
       basicCertificatePolicy,
-      testPollerProperties
+      testPollerProperties,
     );
     const poller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
     const result = poller.getResult()!;
@@ -339,19 +339,19 @@ describe("Certificates client - create, read, update and delete", () => {
       const certificatePoller = await client.beginCreateCertificate(
         certificateName,
         basicCertificatePolicy,
-        testPollerProperties
+        testPollerProperties,
       );
       await certificatePoller.pollUntilDone();
 
       const deletePoller = await client.beginDeleteCertificate(
         certificateName,
-        testPollerProperties
+        testPollerProperties,
       );
       const deletedCertificate = await deletePoller.pollUntilDone();
       assert.equal(
         deletedCertificate.name,
         certificateName,
-        "Unexpected certificate name in result from pollUntilDone()."
+        "Unexpected certificate name in result from pollUntilDone().",
       );
     });
 
@@ -360,13 +360,13 @@ describe("Certificates client - create, read, update and delete", () => {
       const certificatePoller = await client.beginCreateCertificate(
         certificateName,
         basicCertificatePolicy,
-        testPollerProperties
+        testPollerProperties,
       );
       await certificatePoller.pollUntilDone();
 
       const deletePoller = await client.beginDeleteCertificate(
         certificateName,
-        testPollerProperties
+        testPollerProperties,
       );
       await deletePoller.pollUntilDone();
 
@@ -374,7 +374,7 @@ describe("Certificates client - create, read, update and delete", () => {
       assert.equal(
         deletedCertificate.name,
         certificateName,
-        "Unexpected certificate name in result from getDeletedCertificate()."
+        "Unexpected certificate name in result from getDeletedCertificate().",
       );
     });
 
@@ -418,7 +418,7 @@ describe("Certificates client - create, read, update and delete", () => {
         issuerName,
         subject: "cn=MyCert",
       },
-      testPollerProperties
+      testPollerProperties,
     );
 
     // Reading the issuer from the certificate
@@ -465,7 +465,7 @@ describe("Certificates client - create, read, update and delete", () => {
     await client.beginCreateCertificate(
       certificateName,
       basicCertificatePolicy,
-      testPollerProperties
+      testPollerProperties,
     );
     const result = await client.getCertificate(certificateName);
     assert.equal(result.policy!.issuerName, "Self");
@@ -485,12 +485,12 @@ describe("Certificates client - create, read, update and delete", () => {
 
     const certificateName = recorder.variable(
       "crudcertoperation",
-      `crudcertoperation-${Math.floor(Math.random() * 10000)}`
+      `crudcertoperation-${Math.floor(Math.random() * 10000)}`,
     );
     await client.beginCreateCertificate(
       certificateName,
       basicCertificatePolicy,
-      testPollerProperties
+      testPollerProperties,
     );
 
     let certificateOperation: any;
@@ -538,11 +538,11 @@ describe("Certificates client - create, read, update and delete", () => {
     const getResponse = await client.getContacts();
     assert.equal(
       getResponse && getResponse[0] && getResponse[0].name ? getResponse[0].name : undefined,
-      "a"
+      "a",
     );
     assert.equal(
       getResponse && getResponse[1] && getResponse[1].name ? getResponse[1].name : undefined,
-      "b"
+      "b",
     );
 
     await client.deleteContacts();
@@ -567,7 +567,7 @@ describe("Certificates client - create, read, update and delete", () => {
           {
             ...testPollerProperties,
             ...tracingOptions,
-          }
+          },
         );
         await poller.pollUntilDone();
         await client.getCertificate(certificateName, { ...tracingOptions });
@@ -577,7 +577,7 @@ describe("Certificates client - create, read, update and delete", () => {
         "CreateCertificatePoller.getPlainCertificateOperation",
         "CreateCertificatePoller.getCertificate",
         "CertificateClient.getCertificate",
-      ]
+      ],
     );
   });
 });

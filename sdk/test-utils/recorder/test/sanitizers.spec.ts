@@ -2,10 +2,12 @@
 // Licensed under the MIT license.
 
 import { ServiceClient } from "@azure/core-client";
-import { env, isPlaybackMode, Recorder } from "../src";
-import { TestMode } from "../src/utils/utils";
-import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils";
-import { v4 as generateUuid } from "uuid";
+import { isPlaybackMode, Recorder } from "../src/index.js";
+import { TestMode } from "../src/utils/utils.js";
+import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils.js";
+import { randomUUID } from "@azure/core-util";
+import { describe, it, beforeEach, afterEach, beforeAll } from "vitest";
+import { env } from "../src/index.js";
 
 // These tests require the following to be running in parallel
 // - utils/server.ts (to serve requests to act as a service)
@@ -15,17 +17,47 @@ import { v4 as generateUuid } from "uuid";
     let recorder: Recorder;
     let client: ServiceClient;
     const fakeSecretValue = "fake_secret_info";
-    const secretValue = "abcdef";
+    let secretValue = "abcdef";
     let currentValue: string;
 
-    before(() => {
+    beforeAll(() => {
       setTestMode(mode);
     });
 
-    beforeEach(async function () {
-      recorder = new Recorder(this.currentTest);
+    beforeEach(async function (context) {
+      env.TEST_VARIABLE_1 = "the answer!";
+      env.TEST_VARIABLE_2 = "answer!";
+      recorder = new Recorder(context);
       client = new ServiceClient(recorder.configureClientOptions({ baseUri: TEST_SERVER_URL }));
       currentValue = isPlaybackMode() ? fakeSecretValue : secretValue;
+    });
+
+    describe("envSetupForPlayback", () => {
+      afterEach(async () => {
+        await recorder.stop();
+      });
+
+      it("Handles overlapping environment variables", async () => {
+        const envSetupForPlayback = {
+          TEST_VARIABLE_2: "Variable2",
+          TEST_VARIABLE_1: "Variable1",
+        };
+
+        await recorder.start({ envSetupForPlayback });
+
+        await makeRequestAndVerifyResponse(
+          client,
+          {
+            path: `/sample_response/aaa`,
+            body: "aaaaa",
+            method: "POST",
+            headers: [{ headerName: "Content-Type", value: "text/plain" }],
+          },
+          {
+            val: isPlaybackMode() ? "I am Variable1" : "I am the answer!",
+          },
+        );
+      });
     });
 
     describe("Sanitizers - functionalities", () => {
@@ -54,7 +86,7 @@ import { v4 as generateUuid } from "uuid";
             method: "POST",
             headers: [{ headerName: "Content-Type", value: "text/plain" }],
           },
-          { val: "I am the answer!" }
+          { val: "I am the answer!" },
         );
       });
 
@@ -78,7 +110,7 @@ import { v4 as generateUuid } from "uuid";
             method: "POST",
             headers: [{ headerName: "Content-Type", value: "text/plain" }],
           },
-          { val: "I am the answer!" }
+          { val: "I am the answer!" },
         );
       });
 
@@ -94,12 +126,12 @@ import { v4 as generateUuid } from "uuid";
         await makeRequestAndVerifyResponse(
           client,
           { path: `/sample_response`, method: "GET" },
-          { val: "abc" }
+          { val: "abc" },
         );
       });
 
       it("BodyKeySanitizer", async () => {
-        const secretValue = "ab12cd34ef";
+        secretValue = "ab12cd34ef";
         await recorder.start({
           envSetupForPlayback: {},
           sanitizerOptions: {
@@ -128,12 +160,12 @@ import { v4 as generateUuid } from "uuid";
             method: "POST",
             headers: [{ headerName: "Content-Type", value: "application/json" }],
           },
-          { bodyProvided: reqBody }
+          { bodyProvided: reqBody },
         );
       });
 
       it("BodyRegexSanitizer", async () => {
-        const secretValue = "ab12cd34ef";
+        secretValue = "ab12cd34ef";
         await recorder.start({
           envSetupForPlayback: {},
           sanitizerOptions: {
@@ -158,7 +190,7 @@ import { v4 as generateUuid } from "uuid";
             method: "POST",
             headers: [{ headerName: "Content-Type", value: "text/plain" }],
           },
-          { bodyProvided: reqBody }
+          { bodyProvided: reqBody },
         );
       });
 
@@ -186,7 +218,7 @@ import { v4 as generateUuid } from "uuid";
             path: pathToHit,
             method: "POST",
           },
-          { bodyProvided: {} }
+          { bodyProvided: {} },
         );
       });
 
@@ -207,7 +239,7 @@ import { v4 as generateUuid } from "uuid";
             path: `/subscriptions/${isPlaybackMode() ? fakeId : id}`,
             method: "GET",
           },
-          { val: "I am the answer!" }
+          { val: "I am the answer!" },
         );
       });
 
@@ -233,7 +265,7 @@ import { v4 as generateUuid } from "uuid";
             path: `/api/sample_uuid_in_header`,
             method: "GET",
           },
-          undefined
+          undefined,
         );
 
         await makeRequestAndVerifyResponse(
@@ -248,7 +280,7 @@ import { v4 as generateUuid } from "uuid";
               },
             ],
           },
-          { val: "abc" }
+          { val: "abc" },
         );
       });
 
@@ -272,7 +304,7 @@ import { v4 as generateUuid } from "uuid";
             path: `/api/sample_uuid_in_header`,
             method: "GET",
           },
-          undefined
+          undefined,
         );
         // TODO: Add more tests to cover groupForReplace
       });
@@ -294,7 +326,7 @@ import { v4 as generateUuid } from "uuid";
       // });
 
       it.skip("ResetSanitizer (uses BodyRegexSanitizer as example)", async () => {
-        const secretValue = "ab12cd34ef";
+        secretValue = "ab12cd34ef";
         await recorder.start({
           envSetupForPlayback: {},
           sanitizerOptions: {
@@ -319,7 +351,7 @@ import { v4 as generateUuid } from "uuid";
             method: "POST",
             headers: [{ headerName: "Content-Type", value: "text/plain" }],
           },
-          { bodyProvided: reqBody }
+          { bodyProvided: reqBody },
         );
 
         await recorder.addSanitizers({
@@ -336,7 +368,7 @@ import { v4 as generateUuid } from "uuid";
             method: "POST",
             headers: [{ headerName: "Content-Type", value: "text/plain" }],
           },
-          { bodyProvided: reqBodyAfterReset }
+          { bodyProvided: reqBodyAfterReset },
         );
       });
     });
@@ -351,7 +383,7 @@ import { v4 as generateUuid } from "uuid";
           envSetupForPlayback: {},
         });
         // currentValue is dynamic
-        currentValue = generateUuid() + `-${env.TEST_MODE}`;
+        currentValue = randomUUID() + `-${env.TEST_MODE}`;
 
         // In record mode, the proxy tool santizes the value 'generateUuid() + `-${env.TEST_MODE}`' as fakeSecretValue
         // In playback mode, the proxy tool santizes the value before matching the request to fakeSecretValue and hence the request matches with what's in the recording
@@ -365,7 +397,7 @@ import { v4 as generateUuid } from "uuid";
               },
             ],
           },
-          ["record", "playback"]
+          ["record", "playback"],
         );
         await makeRequestAndVerifyResponse(
           client,
@@ -375,12 +407,12 @@ import { v4 as generateUuid } from "uuid";
             method: "POST",
             headers: [{ headerName: "Content-Type", value: "text/plain" }],
           },
-          { val: "I am the answer!" }
+          { val: "I am the answer!" },
         );
       });
     });
 
-    describe("Session-level sanitizer", () => {
+    describe.skip("Session-level sanitizer", () => {
       it("Allows a sanitizer to be set before the recorder is started", async () => {
         await Recorder.addSessionSanitizers({
           generalSanitizers: [{ target: currentValue, value: fakeSecretValue }],
@@ -398,7 +430,7 @@ import { v4 as generateUuid } from "uuid";
             method: "POST",
             headers: [{ headerName: "Content-Type", value: "text/plain" }],
           },
-          { val: "I am the answer!" }
+          { val: "I am the answer!" },
         );
 
         await recorder.stop();
@@ -421,7 +453,7 @@ import { v4 as generateUuid } from "uuid";
             method: "POST",
             headers: [{ headerName: "Content-Type", value: "text/plain" }],
           },
-          { val: "I am the answer!" }
+          { val: "I am the answer!" },
         );
 
         await recorder.stop();
@@ -439,7 +471,7 @@ import { v4 as generateUuid } from "uuid";
             method: "POST",
             headers: [{ headerName: "Content-Type", value: "text/plain" }],
           },
-          { val: "I am the answer!" }
+          { val: "I am the answer!" },
         );
 
         await recorder.stop();

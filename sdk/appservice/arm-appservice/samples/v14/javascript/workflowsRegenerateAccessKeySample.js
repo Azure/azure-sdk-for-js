@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Regenerates the callback URL access key for request triggers.
  *
  * @summary Regenerates the callback URL access key for request triggers.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/Workflows_RegenerateAccessKey.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/Workflows_RegenerateAccessKey.json
  */
 async function regenerateTheCallbackUrlAccessKeyForRequestTriggers() {
   const subscriptionId =

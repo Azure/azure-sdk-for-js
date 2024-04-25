@@ -17,7 +17,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 const options: AzureMonitorOpenTelemetryOptions = {
-  azureMonitorExporterConfig: {
+  azureMonitorExporterOptions: {
     connectionString:
       process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
   },
@@ -56,8 +56,8 @@ function doWork(parent: Span) {
   span.end();
 }
 
-main().catch((error) => {
+main().catch(async (error) => {
   console.error("An error occurred:", error);
-  shutdownAzureMonitor();
+  await shutdownAzureMonitor();
   process.exit(1);
 });

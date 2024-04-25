@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ApiManagementClient } from "../apiManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   NamedValueContract,
   NamedValueListByServiceNextOptionalParams,
@@ -53,7 +57,7 @@ export class NamedValueImpl implements NamedValue {
 
   /**
    * Lists a collection of named values defined within a service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -137,7 +141,7 @@ export class NamedValueImpl implements NamedValue {
 
   /**
    * Lists a collection of named values defined within a service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -154,7 +158,7 @@ export class NamedValueImpl implements NamedValue {
 
   /**
    * Gets the entity state (Etag) version of the named value specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
    * @param options The options parameters.
@@ -173,7 +177,7 @@ export class NamedValueImpl implements NamedValue {
 
   /**
    * Gets the details of the named value specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
    * @param options The options parameters.
@@ -192,7 +196,7 @@ export class NamedValueImpl implements NamedValue {
 
   /**
    * Creates or updates named value.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
    * @param parameters Create parameters.
@@ -205,8 +209,8 @@ export class NamedValueImpl implements NamedValue {
     parameters: NamedValueCreateContract,
     options?: NamedValueCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<NamedValueCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<NamedValueCreateOrUpdateResponse>,
       NamedValueCreateOrUpdateResponse
     >
   > {
@@ -216,7 +220,7 @@ export class NamedValueImpl implements NamedValue {
     ): Promise<NamedValueCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -249,15 +253,24 @@ export class NamedValueImpl implements NamedValue {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serviceName, namedValueId, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        serviceName,
+        namedValueId,
+        parameters,
+        options
+      },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      NamedValueCreateOrUpdateResponse,
+      OperationState<NamedValueCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -265,7 +278,7 @@ export class NamedValueImpl implements NamedValue {
 
   /**
    * Creates or updates named value.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
    * @param parameters Create parameters.
@@ -290,7 +303,7 @@ export class NamedValueImpl implements NamedValue {
 
   /**
    * Updates the specific named value.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -306,8 +319,8 @@ export class NamedValueImpl implements NamedValue {
     parameters: NamedValueUpdateParameters,
     options?: NamedValueUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<NamedValueUpdateResponse>,
+    SimplePollerLike<
+      OperationState<NamedValueUpdateResponse>,
       NamedValueUpdateResponse
     >
   > {
@@ -317,7 +330,7 @@ export class NamedValueImpl implements NamedValue {
     ): Promise<NamedValueUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -350,9 +363,9 @@ export class NamedValueImpl implements NamedValue {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serviceName,
         namedValueId,
@@ -360,12 +373,15 @@ export class NamedValueImpl implements NamedValue {
         parameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      NamedValueUpdateResponse,
+      OperationState<NamedValueUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -373,7 +389,7 @@ export class NamedValueImpl implements NamedValue {
 
   /**
    * Updates the specific named value.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -402,7 +418,7 @@ export class NamedValueImpl implements NamedValue {
 
   /**
    * Deletes specific named value from the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -424,7 +440,7 @@ export class NamedValueImpl implements NamedValue {
 
   /**
    * Gets the secret of the named value specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
    * @param options The options parameters.
@@ -443,7 +459,7 @@ export class NamedValueImpl implements NamedValue {
 
   /**
    * Refresh the secret of the named value specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
    * @param options The options parameters.
@@ -454,8 +470,8 @@ export class NamedValueImpl implements NamedValue {
     namedValueId: string,
     options?: NamedValueRefreshSecretOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<NamedValueRefreshSecretResponse>,
+    SimplePollerLike<
+      OperationState<NamedValueRefreshSecretResponse>,
       NamedValueRefreshSecretResponse
     >
   > {
@@ -465,7 +481,7 @@ export class NamedValueImpl implements NamedValue {
     ): Promise<NamedValueRefreshSecretResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -498,15 +514,18 @@ export class NamedValueImpl implements NamedValue {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serviceName, namedValueId, options },
-      refreshSecretOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, serviceName, namedValueId, options },
+      spec: refreshSecretOperationSpec
+    });
+    const poller = await createHttpPoller<
+      NamedValueRefreshSecretResponse,
+      OperationState<NamedValueRefreshSecretResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -514,7 +533,7 @@ export class NamedValueImpl implements NamedValue {
 
   /**
    * Refresh the secret of the named value specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param namedValueId Identifier of the NamedValue.
    * @param options The options parameters.
@@ -536,7 +555,7 @@ export class NamedValueImpl implements NamedValue {
 
   /**
    * ListByServiceNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the ListByService method.
    * @param options The options parameters.
@@ -656,7 +675,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters44,
+  requestBody: Parameters.parameters53,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -698,7 +717,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters45,
+  requestBody: Parameters.parameters54,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

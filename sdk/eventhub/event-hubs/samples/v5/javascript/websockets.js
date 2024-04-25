@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT Licence.
+// Licensed under the MIT License.
 
 /**
  * @summary Demonstrates how to connect to Azure Event Hubs over websockets to work over an HTTP proxy.
@@ -11,7 +11,6 @@
  */
 
 const WebSocket = require("ws");
-const url = require("url");
 const { HttpsProxyAgent } = require("https-proxy-agent");
 
 const { EventHubConsumerClient } = require("@azure/event-hubs");
@@ -27,8 +26,7 @@ const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "";
 // Create an instance of the `HttpsProxyAgent` class with the proxy server information like
 // proxy url, username and password
 // Skip this section if you are not behind a proxy server
-const urlParts = url.parse("http://localhost:3128");
-urlParts.auth = "username:password"; // Skip this if proxy server does not need authentication.
+const urlParts = new URL("http://localhost:3128");
 const proxyAgent = new HttpsProxyAgent(urlParts);
 
 async function main() {

@@ -28,7 +28,7 @@ async function networkVirtualApplianceSkuListResult() {
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkVirtualApplianceSkus",
-      subscriptionId
+      subscriptionId,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

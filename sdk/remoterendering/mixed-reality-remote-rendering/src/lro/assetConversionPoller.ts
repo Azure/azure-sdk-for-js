@@ -79,7 +79,7 @@ class AssetConversionOperation
   constructor(
     accountId: string,
     operations: RemoteRendering,
-    state: AssetConversionOperationState
+    state: AssetConversionOperationState,
   ) {
     this.operations = operations;
     this.accountId = accountId;
@@ -94,7 +94,7 @@ class AssetConversionOperation
       this.accountId,
       this.operations,
       this.state.latestResponse.conversionId,
-      "AssetConversionOperation-Update"
+      "AssetConversionOperation-Update",
     );
     return this;
   }
@@ -121,14 +121,14 @@ export class AssetConversionPoller extends Poller<AssetConversionOperationState,
     accountId: string,
     operations: RemoteRendering,
     assetConversion: AssetConversion,
-    options: AssetConversionPollerOptions
+    options: AssetConversionPollerOptions,
   ) {
     super(
       new AssetConversionOperation(
         accountId,
         operations,
-        new AssetConversionOperationStateImpl(assetConversion)
-      )
+        new AssetConversionOperationStateImpl(assetConversion),
+      ),
     );
     this.intervalInMs = options.intervalInMs ? options.intervalInMs : 10000;
   }

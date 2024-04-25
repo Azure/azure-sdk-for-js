@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets Kubernetes Cluster Extension.
  *
  * @summary Gets Kubernetes Cluster Extension.
- * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2022-11-01/examples/GetExtension.json
+ * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2023-05-01/examples/GetExtension.json
  */
 async function getExtension() {
   const subscriptionId =
@@ -48,7 +48,7 @@ async function getExtension() {
  * This sample demonstrates how to Gets Kubernetes Cluster Extension.
  *
  * @summary Gets Kubernetes Cluster Extension.
- * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2022-11-01/examples/GetExtensionWithPlan.json
+ * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2023-05-01/examples/GetExtensionWithPlan.json
  */
 async function getExtensionWithPlan() {
   const subscriptionId =

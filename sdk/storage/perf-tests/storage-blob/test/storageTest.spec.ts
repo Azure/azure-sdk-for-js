@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { randomUUID } from "@azure/core-util";
-import { PerfTest, getEnvVar } from "@azure/test-utils-perf";
+import { PerfTest, getEnvVar } from "@azure-tools/test-perf";
 import {
   BlobServiceClient,
   ContainerClient,
@@ -25,7 +25,7 @@ export abstract class StorageBlobTest<TOptions> extends PerfTest<TOptions> {
     const connectionString = getEnvVar("STORAGE_CONNECTION_STRING");
     this.sharedKeyCredential = new StorageSharedKeyCredential(
       getValueInConnString(connectionString, "AccountName"),
-      getValueInConnString(connectionString, "AccountKey")
+      getValueInConnString(connectionString, "AccountKey"),
     );
     this.blobServiceClient = BlobServiceClient.fromConnectionString(connectionString);
     const options = this.configureClientOptions({ additionalPolicies: [] });

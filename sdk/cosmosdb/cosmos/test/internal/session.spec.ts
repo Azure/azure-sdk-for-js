@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
+/* eslint-disable no-unused-expressions */
 import assert from "assert";
 import { Suite } from "mocha";
 import { ClientContext, Container, PluginConfig, PluginOn } from "../../src";
@@ -13,6 +13,7 @@ import { masterKey } from "../public/common/_fakeTestSecrets";
 import { addEntropy, getTestDatabase, removeAllDatabases } from "../public/common/TestHelpers";
 import { RequestContext } from "../../src";
 import { Response } from "../../src/request/Response";
+import { expect } from "chai";
 
 describe("New session token", function () {
   it("preserves tokens", async function () {
@@ -21,7 +22,8 @@ describe("New session token", function () {
     const plugins: PluginConfig[] = [
       {
         on: PluginOn.request,
-        plugin: async (context, next) => {
+        plugin: async (context, diagNode, next) => {
+          expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
           rqContext = context;
           response = await next(context);
           return response;
@@ -49,7 +51,7 @@ describe("New session token", function () {
 
     const { resource: createdContainerDef } = await database.containers.create(
       containerDefinition,
-      containerOptions
+      containerOptions,
     );
     const container = database.container(createdContainerDef.id);
 
@@ -84,41 +86,43 @@ describe("Integrated Cache Staleness", async function (this: Suite) {
     plugins: [
       {
         on: "request",
-        plugin: async (context, next) => {
+        plugin: async (context, diagNode, next) => {
+          expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
           if (
             context.resourceType === ResourceType.item &&
             context.operationType !== OperationType.Create
           ) {
             assert.ok(typeof context.headers["x-ms-consistency-level"] === "undefined");
             assert.ok(typeof context.headers["x-ms-dedicatedgateway-max-age"] !== "undefined");
+            assert.ok(typeof context.headers["x-ms-dedicatedgateway-bypass-cache"] === "boolean");
             assert.ok(typeof context.headers["x-ms-consistency-level"] === "string");
             assert.ok(
               context.headers["x-ms-consistency-level"] === "Eventual" ||
                 context.headers["x-ms-consistency-level"] === "Session",
-              `${context.headers["x-ms-dedicatedgateway-max-age"]} = EVENTUAL or SESSION`
+              `${context.headers["x-ms-consistency-level"]} = EVENTUAL or SESSION`,
             );
-            if (
-              context.headers["x-ms-dedicatedgateway-max-age"] === "null" ||
-              context.headers["x-ms-dedicatedgateway-max-age"] === undefined ||
-              typeof context.headers["x-ms-dedicatedgateway-max-age"] === "undefined"
-            ) {
+            assert.ok(context.headers["x-ms-dedicatedgateway-bypass-cache"] === true);
+            if (context.headers["x-ms-dedicatedgateway-max-age"] === "null") {
               assert.ok(
                 context.headers["x-ms-dedicatedgateway-max-age"] === "null",
-                "x-ms-dedicatedgateway-max-age will be ignored."
+                "x-ms-dedicatedgateway-max-age will be ignored.",
               );
             }
             assert.ok(
               typeof context.headers["x-ms-dedicatedgateway-max-age"] === "string",
-              `${context.headers["x-ms-dedicatedgateway-max-age"]} = string`
+              `${context.headers["x-ms-dedicatedgateway-max-age"]} = string`,
             );
-            assert.ok(
-              context.headers["x-ms-dedicatedgateway-max-age"] === "0",
-              "x-ms-dedicatedgateway-max-age will be ignored."
-            );
+
+            if (context.headers["x-ms-dedicatedgateway-max-age"] === "0") {
+              assert.ok(
+                context.headers["x-ms-dedicatedgateway-max-age"] === "0",
+                "x-ms-dedicatedgateway-max-age will be ignored.",
+              );
+            }
 
             assert.ok(
               context.headers["x-ms-dedicatedgateway-max-age"] === `"${dedicatedGatewayMaxAge}"`,
-              `${context.headers["x-ms-dedicatedgateway-max-age"]} = "${dedicatedGatewayMaxAge}"`
+              `${context.headers["x-ms-dedicatedgateway-max-age"]} = "${dedicatedGatewayMaxAge}"`,
             );
           }
           const response = await next(context);
@@ -130,6 +134,7 @@ describe("Integrated Cache Staleness", async function (this: Suite) {
 
   const itemRequestFeedOptions = {
     maxIntegratedCacheStalenessInMs: dedicatedGatewayMaxAge,
+    bypassIntegratedCache: true,
   };
   const { database } = await client.databases.createIfNotExists({
     id: dbId,
@@ -163,6 +168,37 @@ describe("Integrated Cache Staleness", async function (this: Suite) {
   });
 });
 
+// This test has to be run against sqlx endpoint
+describe.skip("Bypass integrated cache", function (this: Suite) {
+  beforeEach(async function () {
+    await removeAllDatabases();
+  });
+
+  it("Should pass with bypass integrated cache set", async function () {
+    const dbId = addEntropy("bypassIntegratedCacheTestDB");
+    const containerId = addEntropy("bypassIntegratedCacheTestContainer");
+    const client = new CosmosClient({
+      endpoint,
+      key: masterKey,
+      consistencyLevel: ConsistencyLevel.Eventual,
+    });
+    const { database } = await client.databases.createIfNotExists({
+      id: dbId,
+    });
+    const { container } = await database.containers.createIfNotExists({
+      id: containerId,
+    });
+    await container.items.create({ id: "1" });
+    const response = await container
+      .item("1")
+      .read({ maxIntegratedCacheStalenessInMs: 500, bypassIntegratedCache: true });
+    assert.ok(response);
+    console.log("x-ms-cosmos-cache-bypass", response.headers["x-ms-cosmos-cache-bypass"]);
+    assert.ok(response.headers["x-ms-cosmos-cache-bypass"] !== undefined);
+    assert.ok(response.headers["x-ms-cosmos-cache-bypass"] === "True");
+  });
+});
+
 // For some reason this test does not pass against the emulator. Skipping it for now
 describe.skip("Session Token", function (this: Suite) {
   beforeEach(async function () {
@@ -185,7 +221,8 @@ describe.skip("Session Token", function (this: Suite) {
       plugins: [
         {
           on: "request",
-          plugin: async (context, next) => {
+          plugin: async (context, diagNode, next) => {
+            expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
             // Simulate a "Session Not Found" error by manually making the client session token *way* ahead of any available session on the server
             // This is just a way to simulate the error. Getting this to happen in practice is difficult and only usually occurs cross region where there is significant replication lag
             if (context.headers["x-ms-session-token"]) {

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import ts from "typescript";
-import { EOL } from "os";
+import { EOL } from "node:os";
 
 /**
  * The type of the emitter function.
@@ -17,7 +17,7 @@ export type EmitError = (message: string, node: ts.Node, suggest?: string) => vo
  */
 export function createDiagnosticEmitter(
   sourceFile: ts.SourceFile,
-  onError?: (e: string) => void
+  onError?: (e: string) => void,
 ): EmitError {
   const diagnosticHost = {
     getNewLine: () => EOL,

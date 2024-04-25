@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Detach the tag from the Product.
  *
  * @summary Detach the tag from the Product.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementDeleteProductTag.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteProductTag.json
  */
 async function apiManagementDeleteProductTag() {
   const subscriptionId =

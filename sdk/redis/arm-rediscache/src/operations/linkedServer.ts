@@ -48,7 +48,7 @@ export class LinkedServerImpl implements LinkedServer {
 
   /**
    * Gets the list of linked servers associated with this redis cache (requires Premium SKU).
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the redis cache.
    * @param options The options parameters.
    */
@@ -119,7 +119,7 @@ export class LinkedServerImpl implements LinkedServer {
 
   /**
    * Adds a linked server to the Redis cache (requires Premium SKU).
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param linkedServerName The name of the linked server that is being added to the Redis cache.
    * @param parameters Parameters supplied to the Create Linked server operation.
@@ -194,7 +194,7 @@ export class LinkedServerImpl implements LinkedServer {
 
   /**
    * Adds a linked server to the Redis cache (requires Premium SKU).
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param linkedServerName The name of the linked server that is being added to the Redis cache.
    * @param parameters Parameters supplied to the Create Linked server operation.
@@ -219,7 +219,7 @@ export class LinkedServerImpl implements LinkedServer {
 
   /**
    * Deletes the linked server from a redis cache (requires Premium SKU).
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the redis cache.
    * @param linkedServerName The name of the linked server that is being added to the Redis cache.
    * @param options The options parameters.
@@ -284,7 +284,7 @@ export class LinkedServerImpl implements LinkedServer {
 
   /**
    * Deletes the linked server from a redis cache (requires Premium SKU).
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the redis cache.
    * @param linkedServerName The name of the linked server that is being added to the Redis cache.
    * @param options The options parameters.
@@ -306,7 +306,7 @@ export class LinkedServerImpl implements LinkedServer {
 
   /**
    * Gets the detailed information about a linked server of a redis cache (requires Premium SKU).
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the redis cache.
    * @param linkedServerName The name of the linked server.
    * @param options The options parameters.
@@ -325,7 +325,7 @@ export class LinkedServerImpl implements LinkedServer {
 
   /**
    * Gets the list of linked servers associated with this redis cache (requires Premium SKU).
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the redis cache.
    * @param options The options parameters.
    */
@@ -342,7 +342,7 @@ export class LinkedServerImpl implements LinkedServer {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the redis cache.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.

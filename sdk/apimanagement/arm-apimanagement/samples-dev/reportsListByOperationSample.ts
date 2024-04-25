@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists report records by API Operations.
  *
  * @summary Lists report records by API Operations.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementGetReportsByOperation.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetReportsByOperation.json
  */
 async function apiManagementGetReportsByOperation() {
   const subscriptionId =

@@ -1,6 +1,6 @@
-# Azure Communication Services (ACS) Job Router SDK for JavaScript
+# Azure Communication Services Job Router SDK for JavaScript
 
-This package contains the JavaScript SDK for the Azure Communication Services (ACS) Job Router Service.
+This package contains the JavaScript SDK for the Azure Communication Services Job Router Service.
 
 ## Getting Started
 
@@ -11,8 +11,8 @@ Refer to our [Job Router key concepts documentation](https://learn.microsoft.com
 ### Prerequisites
 
 - An [Azure subscription][azure_sub].
-- An Azure Communication Services (ACS) resource.
-  - If you need to create an ACS resource, you can use the [Azure Portal][azure_portal], [Azure PowerShell][azure_powershell], or the [Azure CLI][azure_cli].
+- An Azure Communication Services resource.
+  - If you need to create an Azure Communication resource, you can use the [Azure Portal][azure_portal], [Azure PowerShell][azure_powershell], or the [Azure CLI][azure_cli].
 
 ### Installing
 
@@ -24,7 +24,7 @@ npm install @azure/communication-job-router
 
 To use Azure SDK libraries on a website, you need to convert your code to work inside the browser. You do this using a tool called a **bundler**. Refer to our [bundling documentation](https://aka.ms/AzureSDKBundling) to better understand bundling.
 
-## Tutorial: Route jobs to workers using the Azure Communication Services (ACS) Job Router SDK
+## Tutorial: Route jobs to workers using the Azure Communication Services Job Router SDK
 
 In this tutorial, you will learn:
 
@@ -58,13 +58,13 @@ npm install
 DEBUG=routerquickstart:* npm start
 ```
 
-### Have an ACS Resource
+### Have an Azure Communication Services Resource
 
-Create an ACS resource in the [Azure Portal](https://ms.portal.azure.com/#home) or use an existing resource.
+Create an Azure Communication Services resource in the [Azure Portal](https://ms.portal.azure.com/#home) or use an existing resource.
 
-### Install the Azure ACS Job Router SDK
+### Install the Azure Azure Communication Services Job Router SDK
 
-In the `RouterQuickStart` folder, install the ACS Job Router SDK by executing `npm install @azure/communication-job-router --save`.
+In the `RouterQuickStart` folder, install the Azure Communication Services Job Router SDK by executing `npm install @azure/communication-job-router --save`.
 
 ## Routing Jobs
 
@@ -98,7 +98,7 @@ const distributionPolicy = await jobRouterAdministrationClient.createDistributio
     name: "Default Distribution Policy",
     offerExpiresAfterSeconds: 30,
     mode: {
-      objectType: "longest-idle",
+      kind: "longest-idle",
       minConcurrentOffers: 1,
       maxConcurrentOffers: 3,
     },
@@ -115,7 +115,7 @@ This policy classifies jobs upon creation.
 ```js
 const classificationPolicy = await jobRouterAdministrationClient.createClassificationPolicy("default-classification-policy-id", {
   name: "Default Classification Policy",
-  fallbackQueueId: salesQueueResponse.Id,
+  fallbackQueueId: salesQueueResponse.id,
   queueSelectors: [{
     kind: "static",
     labelSelector: { key: "department", labelOperator: "equal", value: "xbox" }
@@ -126,7 +126,7 @@ const classificationPolicy = await jobRouterAdministrationClient.createClassific
   }],
   prioritizationRule: {
     kind: "expression-rule",
-    language: "powerFx";
+    language: "powerFx",
     expression: "If(job.department = \"xbox\", 2, 1)"
   }
 });
@@ -139,7 +139,7 @@ This queue offers jobs to workers according to our previously created distributi
 ```js
 const salesQueueResponse = await jobRouterAdministrationClient.createQueue("sales-queue-id", {
   name: "Sales",
-  distributionPolicyId: distributionPolicy.Id,
+  distributionPolicyId: distributionPolicy.id,
   labels: {
     department: "xbox",
   },
@@ -160,10 +160,10 @@ These workers are assigned to our previously created "Sales" queue and have some
     totalCapacity: 120,
     labels: {
       Xbox: 5,
-      german: 4
-      name: "Alice",
+      german: 4,
+      name: "Alice"
     },
-    queueAssignments: { [salesQueueResponse.Id]: {} },
+    queueAssignments: { [salesQueueResponse.id]: {} },
     availableForOffers: true
   });
 
@@ -173,10 +173,10 @@ const workerBobResponse = await jobRouterClient.createWorker(workerBobId, {
   totalCapacity: 100,
   labels: {
     xbox: 5,
-    english: 3
+    english: 3,
     name: "Bob"
   },
-  queueAssignments: { [salesQueueResponse]: {} },
+  queueAssignments: { [salesQueueResponse.id]: {} },
   availableForOffers: true
 });
 
@@ -196,7 +196,7 @@ const job = await jobRouterClient.createJob("job-id", {
   channelReference: "66e4362e-aad5-4d71-bb51-448672ebf492",
   channelId: "voice",
   priority: 2,
-  queueId: salesQueueResponse.Id,
+  queueId: salesQueueResponse.id,
 });
 ```
 
@@ -205,11 +205,11 @@ const job = await jobRouterClient.createJob("job-id", {
 This job will be classified with our previously created classification policy. It also has a label.
 
 ```js
-const classificationJob = await JobRouterClient.createJob("classification-job-id", {
+const classificationJob = await jobRouterClient.createJob("classification-job-id", {
   // e.g. callId or chat threadId
   channelReference: "66e4362e-aad5-4d71-bb51-448672ebf492",
   channelId: "voice",
-  classificationPolicyId: classificationPolicy.Id,
+  classificationPolicyId: classificationPolicy.id,
   labels: {
     department: "xbox",
   },
@@ -262,9 +262,9 @@ Example `RouterWorkerOfferIssued` JSON shape:
 
 ### Subscribing to Events
 
-One way to subscribe to ACS Job Router events is through the Azure Portal.
+One way to subscribe to Azure Communication Services Job Router events is through the Azure Portal.
 
-1. Navigate to your ACS resource in the Azure Portal and open the “Events” blade.
+1. Navigate to your Azure Communication Services resource in the Azure Portal and open the “Events” blade.
 2. Add an event subscription for the “RouterWorkerOfferIssued” event.
 3. Select an appropriate means to receive the event (e.g. Webhook, Azure Functions, Service Bus).
 

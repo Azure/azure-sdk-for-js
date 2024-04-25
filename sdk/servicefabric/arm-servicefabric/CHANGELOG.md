@@ -1,6 +1,6 @@
 # Release History
 
-## 2.1.1 (Unreleased)
+## 3.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,32 @@
 
 ### Other Changes
 
+## 3.0.0 (2023-12-05)
+    
+**Features**
+
+  - Added Interface ApplicationsListNextOptionalParams
+  - Added Interface ApplicationTypesListNextOptionalParams
+  - Added Interface ApplicationTypeVersionsListNextOptionalParams
+  - Added Interface ClustersListByResourceGroupNextOptionalParams
+  - Added Interface ClustersListNextOptionalParams
+  - Added Interface ServicesListNextOptionalParams
+  - Added Type Alias ApplicationsListNextResponse
+  - Added Type Alias ApplicationTypesListNextResponse
+  - Added Type Alias ApplicationTypeVersionsListNextResponse
+  - Added Type Alias ClustersListByResourceGroupNextResponse
+  - Added Type Alias ClustersListNextResponse
+  - Added Type Alias ClusterVersionsEnvironment
+  - Added Type Alias ServicesListNextResponse
+  - Added Enum KnownClusterVersionsEnvironment
+
+**Breaking Changes**
+
+  - Operation ClusterVersions.getByEnvironment has a new signature
+  - Operation ClusterVersions.listByEnvironment has a new signature
+  - Removed Enum KnownEnum14
+    
+    
 ## 2.1.0 (2022-12-12)
     
 **Features**
@@ -47,4 +73,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

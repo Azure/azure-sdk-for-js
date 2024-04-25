@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Adds an API to the specified Gateway.
  *
  * @summary Adds an API to the specified Gateway.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateGatewayApi.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateGatewayApi.json
  */
 async function apiManagementCreateGatewayApi() {
   const subscriptionId =

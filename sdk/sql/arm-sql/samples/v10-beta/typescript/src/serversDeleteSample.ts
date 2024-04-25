@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a server.
  *
  * @summary Deletes a server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ServerDelete.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ServerDelete.json
  */
 async function deleteServer() {
   const subscriptionId =

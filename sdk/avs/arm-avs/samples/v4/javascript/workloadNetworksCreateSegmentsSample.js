@@ -39,7 +39,7 @@ async function workloadNetworksCreateSegments() {
     resourceGroupName,
     privateCloudName,
     segmentId,
-    workloadNetworkSegment
+    workloadNetworkSegment,
   );
   console.log(result);
 }

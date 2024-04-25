@@ -5,10 +5,10 @@
 ## Configuration
 
 ```yaml
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/blob/dba6ed1f03bda88ac6884c0a883246446cc72495/specification/monitor/resource-manager/Microsoft.Insights/stable/2018-01-01/metrics_API.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/0b64ca7cbe3af8cd13228dfb783a16b8272b8be2/specification/monitor/resource-manager/Microsoft.Insights/stable/2024-02-01/metrics_API.json
 output-folder: ../src/generated/metrics
 package-name: "monitor-metrics"
-package-version: "1.0.1"
+package-version: "1.2.0"
 clear-output-folder: true
 generate-metadata: false
 add-credentials: false
@@ -21,4 +21,17 @@ api-version-parameter: choice
 hide-clients: true
 v3: true
 typescript: true
+title: MonitorManagementClient
+use-extension:
+  "@autorest/typescript": "6.0.0-beta.15"
+```
+
+### Add missing x-ms-parameter-location for SubscriptionIdParameter
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.SubscriptionIdParameter
+    transform: >
+      $["x-ms-parameter-location"] = "method";
 ```

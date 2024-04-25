@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update an Azure Cosmos DB Graph.
  *
  * @summary Create or update an Azure Cosmos DB Graph.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBGraphResourceCreateUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBGraphResourceCreateUpdate.json
  */
 async function cosmosDbGraphCreateUpdate() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -35,7 +35,7 @@ async function cosmosDbGraphCreateUpdate() {
     resourceGroupName,
     accountName,
     graphName,
-    createUpdateGraphParameters
+    createUpdateGraphParameters,
   );
   console.log(result);
 }

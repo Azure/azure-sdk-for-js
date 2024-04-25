@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   SenderUsernameResource,
-  CommunicationServiceManagementClient
+  CommunicationServiceManagementClient,
 } from "@azure/arm-communication";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Add a new SenderUsername resource under the parent Domains resource or update an existing SenderUsername resource.
  *
  * @summary Add a new SenderUsername resource under the parent Domains resource or update an existing SenderUsername resource.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/senderUsernames/createOrUpdate.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/senderUsernames/createOrUpdate.json
  */
 async function createOrUpdateSenderUsernamesResource() {
   const subscriptionId =
@@ -34,19 +34,19 @@ async function createOrUpdateSenderUsernamesResource() {
   const senderUsername = "contosoNewsAlerts";
   const parameters: SenderUsernameResource = {
     displayName: "Contoso News Alerts",
-    username: "contosoNewsAlerts"
+    username: "contosoNewsAlerts",
   };
   const credential = new DefaultAzureCredential();
   const client = new CommunicationServiceManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.senderUsernames.createOrUpdate(
     resourceGroupName,
     emailServiceName,
     domainName,
     senderUsername,
-    parameters
+    parameters,
   );
   console.log(result);
 }

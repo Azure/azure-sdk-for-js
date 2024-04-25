@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates policy configuration for the API Operation level.
  *
  * @summary Creates or updates policy configuration for the API Operation level.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateApiOperationPolicy.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateApiOperationPolicy.json
  */
 async function apiManagementCreateApiOperationPolicy() {
   const subscriptionId =

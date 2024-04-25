@@ -21,7 +21,7 @@ export function isSendNotificationOptions(options: unknown): options is SendNoti
  * @returns true if DirectSendNotificationOptions otherwise false.
  */
 export function isDirectSendNotificationOptions(
-  options: unknown
+  options: unknown,
 ): options is DirectSendNotificationOptions {
   return objectHasProperty(options, "deviceHandle");
 }

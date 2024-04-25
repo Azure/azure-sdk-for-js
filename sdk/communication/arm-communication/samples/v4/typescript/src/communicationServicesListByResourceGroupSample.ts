@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Handles requests to list all resources in a resource group.
  *
  * @summary Handles requests to list all resources in a resource group.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/communicationServices/listByResourceGroup.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/listByResourceGroup.json
  */
 async function listByResourceGroup() {
   const subscriptionId =
@@ -29,11 +29,11 @@ async function listByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new CommunicationServiceManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const resArray = new Array();
   for await (let item of client.communicationServices.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

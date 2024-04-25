@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   NameAvailabilityParameters,
-  CommunicationServiceManagementClient
+  CommunicationServiceManagementClient,
 } from "@azure/arm-communication";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Checks that the CommunicationService name is valid and is not already in use.
  *
  * @summary Checks that the CommunicationService name is valid and is not already in use.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/communicationServices/checkNameAvailabilityAvailable.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/checkNameAvailabilityAvailable.json
  */
 async function checkNameAvailabilityAvailable() {
   const subscriptionId =
@@ -29,15 +29,15 @@ async function checkNameAvailabilityAvailable() {
     "11112222-3333-4444-5555-666677778888";
   const nameAvailabilityParameters: NameAvailabilityParameters = {
     name: "MyCommunicationService",
-    type: "Microsoft.Communication/CommunicationServices"
+    type: "Microsoft.Communication/CommunicationServices",
   };
   const credential = new DefaultAzureCredential();
   const client = new CommunicationServiceManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.communicationServices.checkNameAvailability(
-    nameAvailabilityParameters
+    nameAvailabilityParameters,
   );
   console.log(result);
 }
@@ -46,7 +46,7 @@ async function checkNameAvailabilityAvailable() {
  * This sample demonstrates how to Checks that the CommunicationService name is valid and is not already in use.
  *
  * @summary Checks that the CommunicationService name is valid and is not already in use.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/communicationServices/checkNameAvailabilityUnavailable.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/checkNameAvailabilityUnavailable.json
  */
 async function checkNameAvailabilityUnavailable() {
   const subscriptionId =
@@ -54,15 +54,15 @@ async function checkNameAvailabilityUnavailable() {
     "11112222-3333-4444-5555-666677778888";
   const nameAvailabilityParameters: NameAvailabilityParameters = {
     name: "MyCommunicationService",
-    type: "Microsoft.Communication/CommunicationServices"
+    type: "Microsoft.Communication/CommunicationServices",
   };
   const credential = new DefaultAzureCredential();
   const client = new CommunicationServiceManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.communicationServices.checkNameAvailability(
-    nameAvailabilityParameters
+    nameAvailabilityParameters,
   );
   console.log(result);
 }

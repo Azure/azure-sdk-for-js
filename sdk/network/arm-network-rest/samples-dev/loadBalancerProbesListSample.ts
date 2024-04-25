@@ -32,7 +32,7 @@ async function loadBalancerProbeList() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes",
       subscriptionId,
       resourceGroupName,
-      loadBalancerName
+      loadBalancerName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../ClientContext";
-import { CosmosDiagnosticContext } from "../CosmosDiagnosticsContext";
 import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import { FeedOptions } from "../request/FeedOptions";
 import { DocumentProducer } from "./documentProducer";
@@ -35,7 +34,7 @@ export class OrderByQueryExecutionContext
     query: string | SqlQuerySpec,
     options: FeedOptions,
     partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
-    diagnosticContext: CosmosDiagnosticContext
+    correlatedActivityId: string,
   ) {
     // Calling on base class constructor
     super(
@@ -44,7 +43,7 @@ export class OrderByQueryExecutionContext
       query,
       options,
       partitionedQueryExecutionInfo,
-      diagnosticContext
+      correlatedActivityId,
     );
     this.orderByComparator = new OrderByDocumentProducerComparator(this.sortOrders);
   }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets information of a configuration for worker nodes.
  *
  * @summary Gets information of a configuration for worker nodes.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ConfigurationGetNode.json
+ * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ConfigurationGetNode.json
  */
 async function getConfigurationDetailsForNode() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function getConfigurationDetailsForNode() {
   const result = await client.configurations.getNode(
     resourceGroupName,
     clusterName,
-    configurationName
+    configurationName,
   );
   console.log(result);
 }

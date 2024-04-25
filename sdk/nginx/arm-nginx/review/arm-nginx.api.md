@@ -6,15 +6,66 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
+
+// @public
+export interface AnalysisCreate {
+    // (undocumented)
+    config: AnalysisCreateConfig;
+}
+
+// @public (undocumented)
+export interface AnalysisCreateConfig {
+    // (undocumented)
+    files?: NginxConfigurationFile[];
+    // (undocumented)
+    package?: NginxConfigurationPackage;
+    // (undocumented)
+    protectedFiles?: NginxConfigurationFile[];
+    rootFile?: string;
+}
+
+// @public
+export interface AnalysisDiagnostic {
+    // (undocumented)
+    description: string;
+    // (undocumented)
+    directive: string;
+    file: string;
+    id?: string;
+    // (undocumented)
+    line: number;
+    // (undocumented)
+    message: string;
+    // (undocumented)
+    rule: string;
+}
+
+// @public
+export interface AnalysisResult {
+    // (undocumented)
+    data?: AnalysisResultData;
+    status: string;
+}
+
+// @public (undocumented)
+export interface AnalysisResultData {
+    // (undocumented)
+    errors?: AnalysisDiagnostic[];
+}
+
+// @public
+export interface AutoUpgradeProfile {
+    upgradeChannel: string;
+}
 
 // @public
 export interface Certificates {
-    beginCreateOrUpdate(resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<CertificatesCreateOrUpdateResponse>, CertificatesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CertificatesCreateOrUpdateResponse>, CertificatesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesCreateOrUpdateOptionalParams): Promise<CertificatesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesGetOptionalParams): Promise<CertificatesGetResponse>;
     list(resourceGroupName: string, deploymentName: string, options?: CertificatesListOptionalParams): PagedAsyncIterableIterator<NginxCertificate>;
@@ -59,13 +110,22 @@ export type CertificatesListResponse = NginxCertificateListResponse;
 
 // @public
 export interface Configurations {
-    beginCreateOrUpdate(resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ConfigurationsCreateOrUpdateResponse>, ConfigurationsCreateOrUpdateResponse>>;
+    analysis(resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsAnalysisOptionalParams): Promise<ConfigurationsAnalysisResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ConfigurationsCreateOrUpdateResponse>, ConfigurationsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsCreateOrUpdateOptionalParams): Promise<ConfigurationsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsGetOptionalParams): Promise<ConfigurationsGetResponse>;
     list(resourceGroupName: string, deploymentName: string, options?: ConfigurationsListOptionalParams): PagedAsyncIterableIterator<NginxConfiguration>;
 }
+
+// @public
+export interface ConfigurationsAnalysisOptionalParams extends coreClient.OperationOptions {
+    body?: AnalysisCreate;
+}
+
+// @public
+export type ConfigurationsAnalysisResponse = AnalysisResult;
 
 // @public
 export interface ConfigurationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -109,11 +169,11 @@ export type CreatedByType = string;
 
 // @public
 export interface Deployments {
-    beginCreateOrUpdate(resourceGroupName: string, deploymentName: string, options?: DeploymentsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DeploymentsCreateOrUpdateResponse>, DeploymentsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, deploymentName: string, options?: DeploymentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentsCreateOrUpdateResponse>, DeploymentsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, deploymentName: string, options?: DeploymentsCreateOrUpdateOptionalParams): Promise<DeploymentsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, deploymentName: string, options?: DeploymentsUpdateOptionalParams): Promise<PollerLike<PollOperationState<DeploymentsUpdateResponse>, DeploymentsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, deploymentName: string, options?: DeploymentsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentsUpdateResponse>, DeploymentsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, deploymentName: string, options?: DeploymentsUpdateOptionalParams): Promise<DeploymentsUpdateResponse>;
     get(resourceGroupName: string, deploymentName: string, options?: DeploymentsGetOptionalParams): Promise<DeploymentsGetResponse>;
     list(options?: DeploymentsListOptionalParams): PagedAsyncIterableIterator<NginxDeployment>;
@@ -183,16 +243,19 @@ export interface DeploymentsUpdateOptionalParams extends coreClient.OperationOpt
 // @public
 export type DeploymentsUpdateResponse = NginxDeployment;
 
-// @public (undocumented)
-export interface ErrorResponseBody {
-    // (undocumented)
-    code?: string;
-    // (undocumented)
-    details?: ErrorResponseBody[];
-    // (undocumented)
-    message?: string;
-    // (undocumented)
-    target?: string;
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
 }
 
 // @public
@@ -256,10 +319,15 @@ export interface NginxCertificate {
     // (undocumented)
     properties?: NginxCertificateProperties;
     readonly systemData?: SystemData;
-    tags?: {
-        [propertyName: string]: string;
-    };
     readonly type?: string;
+}
+
+// @public (undocumented)
+export interface NginxCertificateErrorResponseBody {
+    // (undocumented)
+    code?: string;
+    // (undocumented)
+    message?: string;
 }
 
 // @public (undocumented)
@@ -273,12 +341,17 @@ export interface NginxCertificateListResponse {
 // @public (undocumented)
 export interface NginxCertificateProperties {
     // (undocumented)
+    certificateError?: NginxCertificateErrorResponseBody;
+    // (undocumented)
     certificateVirtualPath?: string;
+    readonly keyVaultSecretCreated?: Date;
     // (undocumented)
     keyVaultSecretId?: string;
+    readonly keyVaultSecretVersion?: string;
     // (undocumented)
     keyVirtualPath?: string;
     readonly provisioningState?: ProvisioningState;
+    readonly sha1Thumbprint?: string;
 }
 
 // @public (undocumented)
@@ -290,9 +363,6 @@ export interface NginxConfiguration {
     // (undocumented)
     properties?: NginxConfigurationProperties;
     readonly systemData?: SystemData;
-    tags?: {
-        [propertyName: string]: string;
-    };
     readonly type?: string;
 }
 
@@ -314,6 +384,8 @@ export interface NginxConfigurationListResponse {
 export interface NginxConfigurationPackage {
     // (undocumented)
     data?: string;
+    // (undocumented)
+    protectedFiles?: string[];
 }
 
 // @public (undocumented)
@@ -358,6 +430,7 @@ export interface NginxDeploymentListResponse {
 
 // @public (undocumented)
 export interface NginxDeploymentProperties {
+    autoUpgradeProfile?: AutoUpgradeProfile;
     // (undocumented)
     enableDiagnosticsSupport?: boolean;
     readonly ipAddress?: string;
@@ -368,6 +441,17 @@ export interface NginxDeploymentProperties {
     networkProfile?: NginxNetworkProfile;
     readonly nginxVersion?: string;
     readonly provisioningState?: ProvisioningState;
+    scalingProperties?: NginxDeploymentScalingProperties;
+    // (undocumented)
+    userProfile?: NginxDeploymentUserProfile;
+}
+
+// @public
+export interface NginxDeploymentScalingProperties {
+    // (undocumented)
+    capacity?: number;
+    // (undocumented)
+    profiles?: ScaleProfile[];
 }
 
 // @public (undocumented)
@@ -387,10 +471,19 @@ export interface NginxDeploymentUpdateParameters {
 
 // @public (undocumented)
 export interface NginxDeploymentUpdateProperties {
+    autoUpgradeProfile?: AutoUpgradeProfile;
     // (undocumented)
     enableDiagnosticsSupport?: boolean;
     // (undocumented)
     logging?: NginxLogging;
+    scalingProperties?: NginxDeploymentScalingProperties;
+    // (undocumented)
+    userProfile?: NginxDeploymentUserProfile;
+}
+
+// @public (undocumented)
+export interface NginxDeploymentUserProfile {
+    preferredEmail?: string;
 }
 
 // @public (undocumented)
@@ -519,13 +612,25 @@ export type ProvisioningState = string;
 
 // @public (undocumented)
 export interface ResourceProviderDefaultErrorResponse {
-    // (undocumented)
-    error?: ErrorResponseBody;
+    error?: ErrorDetail;
 }
 
 // @public (undocumented)
 export interface ResourceSku {
     name: string;
+}
+
+// @public
+export interface ScaleProfile {
+    capacity: ScaleProfileCapacity;
+    // (undocumented)
+    name: string;
+}
+
+// @public
+export interface ScaleProfileCapacity {
+    max: number;
+    min: number;
 }
 
 // @public

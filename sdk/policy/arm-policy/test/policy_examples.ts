@@ -71,7 +71,7 @@ describe("Policy test", () => {
   it("policyDefinitions create test", async function () {
     const result = await managementclient.managementGroups.beginCreateOrUpdateAndWait(
       groupId,
-      { name: groupId }
+      { name: groupId }, testPollingOptions
     )
 
     const res = await client.policyDefinitions.createOrUpdateAtManagementGroup(policyName, groupId, {

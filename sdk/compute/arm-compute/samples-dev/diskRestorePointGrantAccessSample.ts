@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Grants access to a diskRestorePoint.
  *
  * @summary Grants access to a diskRestorePoint.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskRestorePointExamples/DiskRestorePoint_BeginGetAccess.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskRestorePointExamples/DiskRestorePoint_BeginGetAccess.json
  */
 async function grantsAccessToADiskRestorePoint() {
   const subscriptionId =
@@ -32,17 +32,18 @@ async function grantsAccessToADiskRestorePoint() {
   const grantAccessData: GrantAccessData = {
     access: "Read",
     durationInSeconds: 300,
-    fileFormat: "VHDX"
+    fileFormat: "VHDX",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.diskRestorePointOperations.beginGrantAccessAndWait(
-    resourceGroupName,
-    restorePointCollectionName,
-    vmRestorePointName,
-    diskRestorePointName,
-    grantAccessData
-  );
+  const result =
+    await client.diskRestorePointOperations.beginGrantAccessAndWait(
+      resourceGroupName,
+      restorePointCollectionName,
+      vmRestorePointName,
+      diskRestorePointName,
+      grantAccessData,
+    );
   console.log(result);
 }
 

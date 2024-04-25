@@ -17,7 +17,7 @@ import { Rule } from "eslint";
  * @returns a list of Symbols containing type information for all top-level exports, or undefined if improperly configured
  */
 const getExports = (context: Rule.RuleContext): TSSymbol[] | undefined => {
-  const parserServices = context.parserServices as ParserServices;
+  const parserServices = context.sourceCode.parserServices as ParserServices;
   if (parserServices.program === undefined) {
     return undefined;
   }
@@ -37,10 +37,10 @@ const getExports = (context: Rule.RuleContext): TSSymbol[] | undefined => {
   return typeChecker
     .getExportsOfModule(symbol)
     .map((packageExport: TSSymbol): TSSymbol | undefined =>
-      typeChecker.getDeclaredTypeOfSymbol(packageExport).getSymbol()
+      typeChecker.getDeclaredTypeOfSymbol(packageExport).getSymbol(),
     )
     .filter(
-      (exportSymbol: TSSymbol | undefined): boolean => exportSymbol !== undefined
+      (exportSymbol: TSSymbol | undefined): boolean => exportSymbol !== undefined,
     ) as TSSymbol[];
 };
 
@@ -102,12 +102,12 @@ export const getLocalExports = (context: Rule.RuleContext): TSSymbol[] | undefin
 
     if (exportSymbol.exports !== undefined) {
       exportSymbol.exports.forEach((exportedSymbol: TSSymbol): void =>
-        addToSeenLocalExports(exportedSymbol, localExports)
+        addToSeenLocalExports(exportedSymbol, localExports),
       );
     }
     if (exportSymbol.members !== undefined) {
       exportSymbol.members.forEach((memberSymbol: TSSymbol): void =>
-        addToSeenLocalExports(memberSymbol, localExports)
+        addToSeenLocalExports(memberSymbol, localExports),
       );
     }
   });

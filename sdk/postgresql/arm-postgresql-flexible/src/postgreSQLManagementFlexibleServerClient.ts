@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
@@ -25,14 +25,20 @@ import {
   DatabasesImpl,
   FirewallRulesImpl,
   ServersImpl,
+  FlexibleServerImpl,
+  LtrBackupOperationsImpl,
   MigrationsImpl,
   OperationsImpl,
   GetPrivateDnsZoneSuffixImpl,
+  PrivateEndpointConnectionsImpl,
+  PrivateEndpointConnectionOperationsImpl,
+  PrivateLinkResourcesImpl,
+  QuotaUsagesImpl,
   ReplicasImpl,
   LogFilesImpl,
+  ServerThreatProtectionSettingsImpl,
+  VirtualEndpointsImpl,
   VirtualNetworkSubnetUsageImpl,
-  FlexibleServerImpl,
-  LtrBackupOperationsImpl
 } from "./operations";
 import {
   Administrators,
@@ -45,14 +51,20 @@ import {
   Databases,
   FirewallRules,
   Servers,
+  FlexibleServer,
+  LtrBackupOperations,
   Migrations,
   Operations,
   GetPrivateDnsZoneSuffix,
+  PrivateEndpointConnections,
+  PrivateEndpointConnectionOperations,
+  PrivateLinkResources,
+  QuotaUsages,
   Replicas,
   LogFiles,
+  ServerThreatProtectionSettings,
+  VirtualEndpoints,
   VirtualNetworkSubnetUsage,
-  FlexibleServer,
-  LtrBackupOperations
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -60,30 +72,46 @@ import {
   PostgreSQLManagementFlexibleServerClientOptionalParams,
   MigrationNameAvailabilityResource,
   CheckMigrationNameAvailabilityOptionalParams,
-  CheckMigrationNameAvailabilityResponse
+  CheckMigrationNameAvailabilityResponse,
 } from "./models";
 
 export class PostgreSQLManagementFlexibleServerClient extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId: string;
+  subscriptionId?: string;
   apiVersion: string;
 
   /**
    * Initializes a new instance of the PostgreSQLManagementFlexibleServerClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: PostgreSQLManagementFlexibleServerClientOptionalParams
+    options?: PostgreSQLManagementFlexibleServerClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: PostgreSQLManagementFlexibleServerClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?:
+      | PostgreSQLManagementFlexibleServerClientOptionalParams
+      | string,
+    options?: PostgreSQLManagementFlexibleServerClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -92,10 +120,10 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
     }
     const defaults: PostgreSQLManagementFlexibleServerClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-postgresql-flexible/8.0.0-beta.3`;
+    const packageDetails = `azsdk-js-arm-postgresql-flexible/8.0.0-beta.6`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -105,20 +133,21 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -128,7 +157,7 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -138,9 +167,9 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -148,27 +177,34 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-03-01-preview";
+    this.apiVersion = options.apiVersion || "2023-12-01-preview";
     this.administrators = new AdministratorsImpl(this);
     this.backups = new BackupsImpl(this);
     this.locationBasedCapabilities = new LocationBasedCapabilitiesImpl(this);
     this.serverCapabilities = new ServerCapabilitiesImpl(this);
     this.checkNameAvailability = new CheckNameAvailabilityImpl(this);
-    this.checkNameAvailabilityWithLocation = new CheckNameAvailabilityWithLocationImpl(
-      this
-    );
+    this.checkNameAvailabilityWithLocation =
+      new CheckNameAvailabilityWithLocationImpl(this);
     this.configurations = new ConfigurationsImpl(this);
     this.databases = new DatabasesImpl(this);
     this.firewallRules = new FirewallRulesImpl(this);
     this.servers = new ServersImpl(this);
+    this.flexibleServer = new FlexibleServerImpl(this);
+    this.ltrBackupOperations = new LtrBackupOperationsImpl(this);
     this.migrations = new MigrationsImpl(this);
     this.operations = new OperationsImpl(this);
     this.getPrivateDnsZoneSuffix = new GetPrivateDnsZoneSuffixImpl(this);
+    this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
+    this.privateEndpointConnectionOperations =
+      new PrivateEndpointConnectionOperationsImpl(this);
+    this.privateLinkResources = new PrivateLinkResourcesImpl(this);
+    this.quotaUsages = new QuotaUsagesImpl(this);
     this.replicas = new ReplicasImpl(this);
     this.logFiles = new LogFilesImpl(this);
+    this.serverThreatProtectionSettings =
+      new ServerThreatProtectionSettingsImpl(this);
+    this.virtualEndpoints = new VirtualEndpointsImpl(this);
     this.virtualNetworkSubnetUsage = new VirtualNetworkSubnetUsageImpl(this);
-    this.flexibleServer = new FlexibleServerImpl(this);
-    this.ltrBackupOperations = new LtrBackupOperationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -181,7 +217,7 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -195,7 +231,7 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -213,7 +249,7 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
     resourceGroupName: string,
     targetDbServerName: string,
     parameters: MigrationNameAvailabilityResource,
-    options?: CheckMigrationNameAvailabilityOptionalParams
+    options?: CheckMigrationNameAvailabilityOptionalParams,
   ): Promise<CheckMigrationNameAvailabilityResponse> {
     return this.sendOperationRequest(
       {
@@ -221,9 +257,9 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
         resourceGroupName,
         targetDbServerName,
         parameters,
-        options
+        options,
       },
-      checkMigrationNameAvailabilityOperationSpec
+      checkMigrationNameAvailabilityOperationSpec,
     );
   }
 
@@ -237,39 +273,44 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
   databases: Databases;
   firewallRules: FirewallRules;
   servers: Servers;
+  flexibleServer: FlexibleServer;
+  ltrBackupOperations: LtrBackupOperations;
   migrations: Migrations;
   operations: Operations;
   getPrivateDnsZoneSuffix: GetPrivateDnsZoneSuffix;
+  privateEndpointConnections: PrivateEndpointConnections;
+  privateEndpointConnectionOperations: PrivateEndpointConnectionOperations;
+  privateLinkResources: PrivateLinkResources;
+  quotaUsages: QuotaUsages;
   replicas: Replicas;
   logFiles: LogFiles;
+  serverThreatProtectionSettings: ServerThreatProtectionSettings;
+  virtualEndpoints: VirtualEndpoints;
   virtualNetworkSubnetUsage: VirtualNetworkSubnetUsage;
-  flexibleServer: FlexibleServer;
-  ltrBackupOperations: LtrBackupOperations;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkMigrationNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{targetDbServerName}/checkMigrationNameAvailability",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{targetDbServerName}/checkMigrationNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationNameAvailabilityResource
+      bodyMapper: Mappers.MigrationNameAvailabilityResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters10,
+  requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId1,
     Parameters.resourceGroupName1,
-    Parameters.targetDbServerName
+    Parameters.targetDbServerName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

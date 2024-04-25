@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes an existing Azure Cosmos DB Cassandra view.
  *
  * @summary Deletes an existing Azure Cosmos DB Cassandra view.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBCassandraViewDelete.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBCassandraViewDelete.json
  */
 async function cosmosDbCassandraViewDelete() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -28,12 +28,13 @@ async function cosmosDbCassandraViewDelete() {
   const viewName = "viewname";
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.cassandraResources.beginDeleteCassandraViewAndWait(
-    resourceGroupName,
-    accountName,
-    keyspaceName,
-    viewName
-  );
+  const result =
+    await client.cassandraResources.beginDeleteCassandraViewAndWait(
+      resourceGroupName,
+      accountName,
+      keyspaceName,
+      viewName,
+    );
   console.log(result);
 }
 

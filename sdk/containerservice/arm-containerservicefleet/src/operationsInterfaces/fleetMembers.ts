@@ -18,7 +18,7 @@ import {
   FleetMemberUpdate,
   FleetMembersUpdateOptionalParams,
   FleetMembersUpdateResponse,
-  FleetMembersDeleteOptionalParams
+  FleetMembersDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface FleetMembers {
   listByFleet(
     resourceGroupName: string,
     fleetName: string,
-    options?: FleetMembersListByFleetOptionalParams
+    options?: FleetMembersListByFleetOptionalParams,
   ): PagedAsyncIterableIterator<FleetMember>;
   /**
    * Get a FleetMember
@@ -46,7 +46,7 @@ export interface FleetMembers {
     resourceGroupName: string,
     fleetName: string,
     fleetMemberName: string,
-    options?: FleetMembersGetOptionalParams
+    options?: FleetMembersGetOptionalParams,
   ): Promise<FleetMembersGetResponse>;
   /**
    * Create a FleetMember
@@ -61,7 +61,7 @@ export interface FleetMembers {
     fleetName: string,
     fleetMemberName: string,
     resource: FleetMember,
-    options?: FleetMembersCreateOptionalParams
+    options?: FleetMembersCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<FleetMembersCreateResponse>,
@@ -81,7 +81,7 @@ export interface FleetMembers {
     fleetName: string,
     fleetMemberName: string,
     resource: FleetMember,
-    options?: FleetMembersCreateOptionalParams
+    options?: FleetMembersCreateOptionalParams,
   ): Promise<FleetMembersCreateResponse>;
   /**
    * Update a FleetMember
@@ -91,12 +91,32 @@ export interface FleetMembers {
    * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
-  update(
+  beginUpdate(
     resourceGroupName: string,
     fleetName: string,
     fleetMemberName: string,
     properties: FleetMemberUpdate,
-    options?: FleetMembersUpdateOptionalParams
+    options?: FleetMembersUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<FleetMembersUpdateResponse>,
+      FleetMembersUpdateResponse
+    >
+  >;
+  /**
+   * Update a FleetMember
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param fleetName The name of the Fleet resource.
+   * @param fleetMemberName The name of the Fleet member resource.
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    resourceGroupName: string,
+    fleetName: string,
+    fleetMemberName: string,
+    properties: FleetMemberUpdate,
+    options?: FleetMembersUpdateOptionalParams,
   ): Promise<FleetMembersUpdateResponse>;
   /**
    * Delete a FleetMember
@@ -109,7 +129,7 @@ export interface FleetMembers {
     resourceGroupName: string,
     fleetName: string,
     fleetMemberName: string,
-    options?: FleetMembersDeleteOptionalParams
+    options?: FleetMembersDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a FleetMember
@@ -122,6 +142,6 @@ export interface FleetMembers {
     resourceGroupName: string,
     fleetName: string,
     fleetMemberName: string,
-    options?: FleetMembersDeleteOptionalParams
+    options?: FleetMembersDeleteOptionalParams,
   ): Promise<void>;
 }

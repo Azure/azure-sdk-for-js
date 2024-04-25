@@ -18,7 +18,7 @@ import {
   VirtualMachineScaleSetVMExtensionsGetOptionalParams,
   VirtualMachineScaleSetVMExtensionsGetResponse,
   VirtualMachineScaleSetVMExtensionsListOptionalParams,
-  VirtualMachineScaleSetVMExtensionsListResponse
+  VirtualMachineScaleSetVMExtensionsListResponse,
 } from "../models";
 
 /** Interface representing a VirtualMachineScaleSetVMExtensions. */
@@ -38,7 +38,7 @@ export interface VirtualMachineScaleSetVMExtensions {
     instanceId: string,
     vmExtensionName: string,
     extensionParameters: VirtualMachineScaleSetVMExtension,
-    options?: VirtualMachineScaleSetVMExtensionsCreateOrUpdateOptionalParams
+    options?: VirtualMachineScaleSetVMExtensionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualMachineScaleSetVMExtensionsCreateOrUpdateResponse>,
@@ -60,7 +60,7 @@ export interface VirtualMachineScaleSetVMExtensions {
     instanceId: string,
     vmExtensionName: string,
     extensionParameters: VirtualMachineScaleSetVMExtension,
-    options?: VirtualMachineScaleSetVMExtensionsCreateOrUpdateOptionalParams
+    options?: VirtualMachineScaleSetVMExtensionsCreateOrUpdateOptionalParams,
   ): Promise<VirtualMachineScaleSetVMExtensionsCreateOrUpdateResponse>;
   /**
    * The operation to update the VMSS VM extension.
@@ -77,7 +77,7 @@ export interface VirtualMachineScaleSetVMExtensions {
     instanceId: string,
     vmExtensionName: string,
     extensionParameters: VirtualMachineScaleSetVMExtensionUpdate,
-    options?: VirtualMachineScaleSetVMExtensionsUpdateOptionalParams
+    options?: VirtualMachineScaleSetVMExtensionsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualMachineScaleSetVMExtensionsUpdateResponse>,
@@ -99,7 +99,7 @@ export interface VirtualMachineScaleSetVMExtensions {
     instanceId: string,
     vmExtensionName: string,
     extensionParameters: VirtualMachineScaleSetVMExtensionUpdate,
-    options?: VirtualMachineScaleSetVMExtensionsUpdateOptionalParams
+    options?: VirtualMachineScaleSetVMExtensionsUpdateOptionalParams,
   ): Promise<VirtualMachineScaleSetVMExtensionsUpdateResponse>;
   /**
    * The operation to delete the VMSS VM extension.
@@ -114,7 +114,7 @@ export interface VirtualMachineScaleSetVMExtensions {
     vmScaleSetName: string,
     instanceId: string,
     vmExtensionName: string,
-    options?: VirtualMachineScaleSetVMExtensionsDeleteOptionalParams
+    options?: VirtualMachineScaleSetVMExtensionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete the VMSS VM extension.
@@ -129,7 +129,7 @@ export interface VirtualMachineScaleSetVMExtensions {
     vmScaleSetName: string,
     instanceId: string,
     vmExtensionName: string,
-    options?: VirtualMachineScaleSetVMExtensionsDeleteOptionalParams
+    options?: VirtualMachineScaleSetVMExtensionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * The operation to get the VMSS VM extension.
@@ -144,7 +144,7 @@ export interface VirtualMachineScaleSetVMExtensions {
     vmScaleSetName: string,
     instanceId: string,
     vmExtensionName: string,
-    options?: VirtualMachineScaleSetVMExtensionsGetOptionalParams
+    options?: VirtualMachineScaleSetVMExtensionsGetOptionalParams,
   ): Promise<VirtualMachineScaleSetVMExtensionsGetResponse>;
   /**
    * The operation to get all extensions of an instance in Virtual Machine Scaleset.
@@ -157,6 +157,6 @@ export interface VirtualMachineScaleSetVMExtensions {
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMExtensionsListOptionalParams
+    options?: VirtualMachineScaleSetVMExtensionsListOptionalParams,
   ): Promise<VirtualMachineScaleSetVMExtensionsListResponse>;
 }

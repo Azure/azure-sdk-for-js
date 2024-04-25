@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { v4 as generateUuid } from "uuid";
+import { randomUUID } from "@azure/core-util";
 import { Aborter, BlockBlobURL } from "@azure/storage-blob";
-import { PerfOptionDictionary } from "@azure/test-utils-perf";
+import { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { StorageBlobTest } from "./storageTest.spec";
 interface StorageBlobUploadTestOptions {
   size: number;
@@ -19,13 +19,13 @@ export class StorageBlobUploadTest extends StorageBlobTest<StorageBlobUploadTest
       description: "Size in bytes",
       shortName: "sz",
       longName: "size",
-      defaultValue: 10240
-    }
+      defaultValue: 10240,
+    },
   };
 
   constructor() {
     super();
-    this.blobName = generateUuid();
+    this.blobName = randomUUID();
     this.blockBlobClient = BlockBlobURL.fromContainerURL(this.containerClient, this.blobName);
     this.buffer = Buffer.alloc(this.parsedOptions.size.value!);
   }

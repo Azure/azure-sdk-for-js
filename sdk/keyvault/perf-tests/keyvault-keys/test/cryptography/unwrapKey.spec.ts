@@ -9,7 +9,7 @@ export class UnwrapKeyTest extends CryptographyTest {
   async setup() {
     const wrapResult = await CryptographyTest.cryptoClient!.wrapKey(
       this.wrapAlgorithm,
-      randomBytes(32)
+      randomBytes(32),
     );
     this.encryptedKey = wrapResult.result;
   }

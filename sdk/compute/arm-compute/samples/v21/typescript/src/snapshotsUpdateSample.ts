@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates (patches) a snapshot.
  *
  * @summary Updates (patches) a snapshot.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/snapshotExamples/Snapshot_Update_WithAcceleratedNetwork.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/snapshotExamples/Snapshot_Update_WithAcceleratedNetwork.json
  */
 async function updateASnapshotWithAcceleratedNetworking() {
   const subscriptionId =
@@ -29,14 +29,14 @@ async function updateASnapshotWithAcceleratedNetworking() {
   const snapshot: SnapshotUpdate = {
     diskSizeGB: 20,
     supportedCapabilities: { acceleratedNetwork: false },
-    tags: { department: "Development", project: "UpdateSnapshots" }
+    tags: { department: "Development", project: "UpdateSnapshots" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.snapshots.beginUpdateAndWait(
     resourceGroupName,
     snapshotName,
-    snapshot
+    snapshot,
   );
   console.log(result);
 }
@@ -45,7 +45,7 @@ async function updateASnapshotWithAcceleratedNetworking() {
  * This sample demonstrates how to Updates (patches) a snapshot.
  *
  * @summary Updates (patches) a snapshot.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/snapshotExamples/Snapshot_Update.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/snapshotExamples/Snapshot_Update.json
  */
 async function updateASnapshot() {
   const subscriptionId =
@@ -55,14 +55,14 @@ async function updateASnapshot() {
   const snapshotName = "mySnapshot";
   const snapshot: SnapshotUpdate = {
     diskSizeGB: 20,
-    tags: { department: "Development", project: "UpdateSnapshots" }
+    tags: { department: "Development", project: "UpdateSnapshots" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.snapshots.beginUpdateAndWait(
     resourceGroupName,
     snapshotName,
-    snapshot
+    snapshot,
   );
   console.log(result);
 }

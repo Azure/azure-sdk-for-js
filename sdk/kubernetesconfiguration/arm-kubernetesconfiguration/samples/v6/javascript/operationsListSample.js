@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List all the available operations the KubernetesConfiguration resource provider supports.
  *
  * @summary List all the available operations the KubernetesConfiguration resource provider supports.
- * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2022-11-01/examples/OperationsList.json
+ * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2023-05-01/examples/OperationsList.json
  */
 async function batchAccountDelete() {
   const subscriptionId =

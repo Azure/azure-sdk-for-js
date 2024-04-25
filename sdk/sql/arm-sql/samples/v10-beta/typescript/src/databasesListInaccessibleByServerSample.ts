@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of inaccessible databases in a logical server
  *
  * @summary Gets a list of inaccessible databases in a logical server
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ListVCoreInaccessibleDatabasesByServer.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/ListVCoreInaccessibleDatabasesByServer.json
  */
 async function getsAListOfInaccessibleDatabasesInALogicalServer() {
   const subscriptionId =

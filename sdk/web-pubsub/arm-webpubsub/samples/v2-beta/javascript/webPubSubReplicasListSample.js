@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List all replicas belong to this resource
  *
  * @summary List all replicas belong to this resource
- * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/preview/2023-06-01-preview/examples/WebPubSubReplicas_List.json
+ * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/preview/2023-08-01-preview/examples/WebPubSubReplicas_List.json
  */
 async function webPubSubReplicasList() {
   const subscriptionId =

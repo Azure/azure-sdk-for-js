@@ -33,7 +33,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe.skip("Iothub test", () => {
+describe("Iothub test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: IotHubClient;

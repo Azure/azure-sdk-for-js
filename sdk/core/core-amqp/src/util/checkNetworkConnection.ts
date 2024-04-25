@@ -16,7 +16,7 @@ export function checkNetworkConnection(host: string): Promise<boolean> {
         logger.verbose(
           "Error thrown from dns.resolve in network connection check: '%s', %O",
           err.code || err.name,
-          err
+          err,
         );
         // List of possible DNS error codes: https://nodejs.org/dist/latest-v12.x/docs/api/dns.html#dns_error_codes
         // We only resolve with `false` when dnsResolve fails with an error we expect to see when the network is down.

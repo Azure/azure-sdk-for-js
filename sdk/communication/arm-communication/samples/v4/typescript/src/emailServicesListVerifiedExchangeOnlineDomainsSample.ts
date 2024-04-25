@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a list of domains that are fully verified in Exchange Online.
  *
  * @summary Get a list of domains that are fully verified in Exchange Online.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/emailServices/getVerifiedExchangeOnlineDomains.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/emailServices/getVerifiedExchangeOnlineDomains.json
  */
 async function getVerifiedExchangeOnlineDomains() {
   const subscriptionId =
@@ -27,7 +27,7 @@ async function getVerifiedExchangeOnlineDomains() {
   const credential = new DefaultAzureCredential();
   const client = new CommunicationServiceManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.emailServices.listVerifiedExchangeOnlineDomains();
   console.log(result);

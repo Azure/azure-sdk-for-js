@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Creates an ownership identifier for a domain or updates identifier details for an existing identifier
  *
  * @summary Description for Creates an ownership identifier for a domain or updates identifier details for an existing identifier
- * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2022-09-01/examples/UpdateAppServiceDomainOwnershipIdentifier.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2023-01-01/examples/UpdateAppServiceDomainOwnershipIdentifier.json
  */
 async function updateAppServiceDomainOwnershipIdentifier() {
   const subscriptionId =

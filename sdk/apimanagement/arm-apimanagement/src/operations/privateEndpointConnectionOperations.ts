@@ -12,8 +12,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ApiManagementClient } from "../apiManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   PrivateEndpointConnection,
   PrivateEndpointConnectionListByServiceOptionalParams,
@@ -46,7 +50,7 @@ export class PrivateEndpointConnectionOperationsImpl
 
   /**
    * Lists all private endpoint connections of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -108,7 +112,7 @@ export class PrivateEndpointConnectionOperationsImpl
 
   /**
    * Lists all private endpoint connections of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -125,7 +129,7 @@ export class PrivateEndpointConnectionOperationsImpl
 
   /**
    * Gets the details of the Private Endpoint Connection specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param privateEndpointConnectionName Name of the private endpoint connection.
    * @param options The options parameters.
@@ -149,7 +153,7 @@ export class PrivateEndpointConnectionOperationsImpl
 
   /**
    * Creates a new Private Endpoint Connection or updates an existing one.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param privateEndpointConnectionName Name of the private endpoint connection.
    * @param privateEndpointConnectionRequest A request to approve or reject a private endpoint connection
@@ -162,8 +166,8 @@ export class PrivateEndpointConnectionOperationsImpl
     privateEndpointConnectionRequest: PrivateEndpointConnectionRequest,
     options?: PrivateEndpointConnectionCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PrivateEndpointConnectionCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PrivateEndpointConnectionCreateOrUpdateResponse>,
       PrivateEndpointConnectionCreateOrUpdateResponse
     >
   > {
@@ -173,7 +177,7 @@ export class PrivateEndpointConnectionOperationsImpl
     ): Promise<PrivateEndpointConnectionCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -206,19 +210,22 @@ export class PrivateEndpointConnectionOperationsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serviceName,
         privateEndpointConnectionName,
         privateEndpointConnectionRequest,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PrivateEndpointConnectionCreateOrUpdateResponse,
+      OperationState<PrivateEndpointConnectionCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -227,7 +234,7 @@ export class PrivateEndpointConnectionOperationsImpl
 
   /**
    * Creates a new Private Endpoint Connection or updates an existing one.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param privateEndpointConnectionName Name of the private endpoint connection.
    * @param privateEndpointConnectionRequest A request to approve or reject a private endpoint connection
@@ -252,7 +259,7 @@ export class PrivateEndpointConnectionOperationsImpl
 
   /**
    * Deletes the specified Private Endpoint Connection.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param privateEndpointConnectionName Name of the private endpoint connection.
    * @param options The options parameters.
@@ -262,14 +269,14 @@ export class PrivateEndpointConnectionOperationsImpl
     serviceName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -302,18 +309,18 @@ export class PrivateEndpointConnectionOperationsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         serviceName,
         privateEndpointConnectionName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -322,7 +329,7 @@ export class PrivateEndpointConnectionOperationsImpl
 
   /**
    * Deletes the specified Private Endpoint Connection.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param privateEndpointConnectionName Name of the private endpoint connection.
    * @param options The options parameters.
@@ -344,7 +351,7 @@ export class PrivateEndpointConnectionOperationsImpl
 
   /**
    * Gets the private link resources
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -361,7 +368,7 @@ export class PrivateEndpointConnectionOperationsImpl
 
   /**
    * Gets the private link resources
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param privateLinkSubResourceName Name of the private link resource.
    * @param options The options parameters.

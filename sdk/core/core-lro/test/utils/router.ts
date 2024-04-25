@@ -17,12 +17,12 @@ import {
   State,
   createProcessor,
   generate,
-} from "./utils";
-import { LroEngine, LroResponse, SimplePollerLike, createHttpPoller } from "../../src";
-import { LroResourceLocationConfig, RawResponse, ResponseBody } from "../../src/http/models";
+} from "./utils.js";
+import { LroEngine, LroResponse, SimplePollerLike, createHttpPoller } from "../../src/index.js";
+import { LroResourceLocationConfig, RawResponse, ResponseBody } from "../../src/http/models.js";
 import { AbortError } from "@azure/abort-controller";
-import { createCoreRestPipelineLro } from "./coreRestPipelineLro";
-import { getYieldedValue } from "@azure/test-utils";
+import { createCoreRestPipelineLro } from "./coreRestPipelineLro.js";
+import { getYieldedValue } from "../getYieldedValue.js";
 
 /**
  * Dummy value for the path of the initial request
@@ -87,7 +87,7 @@ function createClient(inputs: {
         if (response.status >= 400 && throwOnNon2xxResponse) {
           throw new RestError(
             `Received unexpected HTTP status code ${response.status} while polling. This may indicate a server issue.`,
-            { statusCode: response.status }
+            { statusCode: response.status },
           );
         }
         return response;
@@ -179,7 +179,7 @@ export function createTestPoller(settings: {
           updateState: (state, rawResponse) =>
             updateState?.(state, { rawResponse, flatResponse: undefined as any }),
           resolveOnUnsuccessful: !throwOnNon2xxResponse,
-        })
+        }),
       );
     }
     default: {

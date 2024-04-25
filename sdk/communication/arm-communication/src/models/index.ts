@@ -164,6 +164,40 @@ export interface CommunicationServiceResourceList {
   nextLink?: string;
 }
 
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /**
+   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: {
+    [propertyName: string]: UserAssignedIdentity | null;
+  };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
@@ -347,6 +381,8 @@ export interface ProxyResource extends Resource {}
 
 /** A class representing update parameters for CommunicationService resource. */
 export interface CommunicationServiceResourceUpdate extends TaggedResource {
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: ManagedServiceIdentity;
   /** List of email Domain resource Ids. */
   linkedDomains?: string[];
 }
@@ -362,6 +398,8 @@ export interface EmailServiceResourceUpdate extends TaggedResource {}
 
 /** A class representing a CommunicationService resource. */
 export interface CommunicationServiceResource extends TrackedResource {
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: ManagedServiceIdentity;
   /**
    * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -527,7 +565,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -544,7 +582,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -561,7 +599,7 @@ export enum KnownCheckNameAvailabilityReason {
   /** Invalid */
   Invalid = "Invalid",
   /** AlreadyExists */
-  AlreadyExists = "AlreadyExists"
+  AlreadyExists = "AlreadyExists",
 }
 
 /**
@@ -593,7 +631,7 @@ export enum KnownCommunicationServicesProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Moving */
-  Moving = "Moving"
+  Moving = "Moving",
 }
 
 /**
@@ -613,6 +651,30 @@ export enum KnownCommunicationServicesProvisioningState {
  */
 export type CommunicationServicesProvisioningState = string;
 
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  /** None */
+  None = "None",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+}
+
+/**
+ * Defines values for ManagedServiceIdentityType. \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned,UserAssigned**
+ */
+export type ManagedServiceIdentityType = string;
+
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
   /** User */
@@ -622,7 +684,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -656,7 +718,7 @@ export enum KnownDomainsProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Moving */
-  Moving = "Moving"
+  Moving = "Moving",
 }
 
 /**
@@ -683,7 +745,7 @@ export enum KnownDomainManagement {
   /** CustomerManaged */
   CustomerManaged = "CustomerManaged",
   /** CustomerManagedInExchangeOnline */
-  CustomerManagedInExchangeOnline = "CustomerManagedInExchangeOnline"
+  CustomerManagedInExchangeOnline = "CustomerManagedInExchangeOnline",
 }
 
 /**
@@ -710,7 +772,7 @@ export enum KnownVerificationStatus {
   /** Verified */
   Verified = "Verified",
   /** CancellationRequested */
-  CancellationRequested = "CancellationRequested"
+  CancellationRequested = "CancellationRequested",
 }
 
 /**
@@ -732,7 +794,7 @@ export enum KnownUserEngagementTracking {
   /** Disabled */
   Disabled = "Disabled",
   /** Enabled */
-  Enabled = "Enabled"
+  Enabled = "Enabled",
 }
 
 /**
@@ -756,7 +818,7 @@ export enum KnownVerificationType {
   /** Dkim2 */
   Dkim2 = "DKIM2",
   /** Dmarc */
-  Dmarc = "DMARC"
+  Dmarc = "DMARC",
 }
 
 /**
@@ -791,7 +853,7 @@ export enum KnownEmailServicesProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Moving */
-  Moving = "Moving"
+  Moving = "Moving",
 }
 
 /**
@@ -830,7 +892,7 @@ export enum KnownProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Moving */
-  Moving = "Moving"
+  Moving = "Moving",
 }
 
 /**
@@ -871,7 +933,8 @@ export interface CommunicationServicesCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type CommunicationServicesCheckNameAvailabilityResponse = CheckNameAvailabilityResponse;
+export type CommunicationServicesCheckNameAvailabilityResponse =
+  CheckNameAvailabilityResponse;
 
 /** Optional parameters. */
 export interface CommunicationServicesLinkNotificationHubOptionalParams
@@ -881,21 +944,24 @@ export interface CommunicationServicesLinkNotificationHubOptionalParams
 }
 
 /** Contains response data for the linkNotificationHub operation. */
-export type CommunicationServicesLinkNotificationHubResponse = LinkedNotificationHub;
+export type CommunicationServicesLinkNotificationHubResponse =
+  LinkedNotificationHub;
 
 /** Optional parameters. */
 export interface CommunicationServicesListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type CommunicationServicesListBySubscriptionResponse = CommunicationServiceResourceList;
+export type CommunicationServicesListBySubscriptionResponse =
+  CommunicationServiceResourceList;
 
 /** Optional parameters. */
 export interface CommunicationServicesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type CommunicationServicesListByResourceGroupResponse = CommunicationServiceResourceList;
+export type CommunicationServicesListByResourceGroupResponse =
+  CommunicationServiceResourceList;
 
 /** Optional parameters. */
 export interface CommunicationServicesUpdateOptionalParams
@@ -921,7 +987,8 @@ export interface CommunicationServicesCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type CommunicationServicesCreateOrUpdateResponse = CommunicationServiceResource;
+export type CommunicationServicesCreateOrUpdateResponse =
+  CommunicationServiceResource;
 
 /** Optional parameters. */
 export interface CommunicationServicesDeleteOptionalParams
@@ -944,21 +1011,24 @@ export interface CommunicationServicesRegenerateKeyOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the regenerateKey operation. */
-export type CommunicationServicesRegenerateKeyResponse = CommunicationServiceKeys;
+export type CommunicationServicesRegenerateKeyResponse =
+  CommunicationServiceKeys;
 
 /** Optional parameters. */
 export interface CommunicationServicesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type CommunicationServicesListBySubscriptionNextResponse = CommunicationServiceResourceList;
+export type CommunicationServicesListBySubscriptionNextResponse =
+  CommunicationServiceResourceList;
 
 /** Optional parameters. */
 export interface CommunicationServicesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type CommunicationServicesListByResourceGroupNextResponse = CommunicationServiceResourceList;
+export type CommunicationServicesListByResourceGroupNextResponse =
+  CommunicationServiceResourceList;
 
 /** Optional parameters. */
 export interface DomainsGetOptionalParams extends coreClient.OperationOptions {}
@@ -1016,7 +1086,8 @@ export interface DomainsInitiateVerificationOptionalParams
 }
 
 /** Contains response data for the initiateVerification operation. */
-export type DomainsInitiateVerificationResponse = DomainsInitiateVerificationHeaders;
+export type DomainsInitiateVerificationResponse =
+  DomainsInitiateVerificationHeaders;
 
 /** Optional parameters. */
 export interface DomainsCancelVerificationOptionalParams
@@ -1028,7 +1099,8 @@ export interface DomainsCancelVerificationOptionalParams
 }
 
 /** Contains response data for the cancelVerification operation. */
-export type DomainsCancelVerificationResponse = DomainsCancelVerificationHeaders;
+export type DomainsCancelVerificationResponse =
+  DomainsCancelVerificationHeaders;
 
 /** Optional parameters. */
 export interface DomainsListByEmailServiceResourceNextOptionalParams
@@ -1106,21 +1178,24 @@ export interface EmailServicesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type EmailServicesListBySubscriptionNextResponse = EmailServiceResourceList;
+export type EmailServicesListBySubscriptionNextResponse =
+  EmailServiceResourceList;
 
 /** Optional parameters. */
 export interface EmailServicesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type EmailServicesListByResourceGroupNextResponse = EmailServiceResourceList;
+export type EmailServicesListByResourceGroupNextResponse =
+  EmailServiceResourceList;
 
 /** Optional parameters. */
 export interface SenderUsernamesListByDomainsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDomains operation. */
-export type SenderUsernamesListByDomainsResponse = SenderUsernameResourceCollection;
+export type SenderUsernamesListByDomainsResponse =
+  SenderUsernameResourceCollection;
 
 /** Optional parameters. */
 export interface SenderUsernamesGetOptionalParams
@@ -1145,7 +1220,8 @@ export interface SenderUsernamesListByDomainsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDomainsNext operation. */
-export type SenderUsernamesListByDomainsNextResponse = SenderUsernameResourceCollection;
+export type SenderUsernamesListByDomainsNextResponse =
+  SenderUsernameResourceCollection;
 
 /** Optional parameters. */
 export interface CommunicationServiceManagementClientOptionalParams

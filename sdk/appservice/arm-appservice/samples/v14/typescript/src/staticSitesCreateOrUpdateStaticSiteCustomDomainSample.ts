@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Creates a new static site custom domain in an existing resource group and static site.
  *
  * @summary Description for Creates a new static site custom domain in an existing resource group and static site.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/CreateOrUpdateStaticSiteCustomDomain.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/CreateOrUpdateStaticSiteCustomDomain.json
  */
 async function createOrUpdateACustomDomainForAStaticSite() {
   const subscriptionId =

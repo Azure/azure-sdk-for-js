@@ -41,7 +41,7 @@ describe("Errors", function () {
         should.equal(
           translatedError.message,
           cases[i].outputErrorMessage,
-          "Unexpected error message."
+          "Unexpected error message.",
         );
       }
     });
@@ -56,6 +56,28 @@ describe("Errors", function () {
       const testError = new RangeError("Out of range!!");
       const translatedError = Errors.translate(testError);
       translatedError.should.deep.equal(testError);
+    });
+
+    it("handles an ErrorEvent", function () {
+      const testError = {
+        message: "getaddrinfo ENOTFOUND example.invalid",
+        error: {
+          code: "ENOTFOUND",
+          errno: "-3008",
+          syscall: "getaddrinfo",
+          message: "getaddrinfo ENOTFOUND example.invalid",
+          stack:
+            "'Error: getaddrinfo ENOTFOUND example.invalid\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:118:26)\n    at GetAddrInfoReqWrap.callbackTrampoline (node:internal/async_hooks:130:17)'",
+        },
+      };
+      const translatedError = Errors.translate(testError) as Errors.MessagingError;
+      translatedError.message.should.equal(testError.error.message);
+      should.equal(translatedError.name, "MessagingError");
+      should.equal(translatedError.code, "ENOTFOUND");
+      translatedError.code!.should.equal(testError.error.code);
+      translatedError.message.should.equal(testError.error.message);
+      translatedError.stack!.should.equal(testError.error.stack);
+      translatedError.retryable.should.equal(false);
     });
 
     it("Sets retryable to true, if input is custom error and name is OperationTimeoutError", function () {
@@ -182,7 +204,7 @@ describe("Errors", function () {
           } else {
             translatedError.retryable.should.equal(false);
           }
-        }
+        },
       );
     });
   });

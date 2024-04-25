@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ServiceResourceCreateUpdateParameters,
-  CosmosDBManagementClient
+  CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a service.
  *
  * @summary Creates a service.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBDataTransferServiceCreate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBDataTransferServiceCreate.json
  */
 async function dataTransferServiceCreate() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -31,7 +31,7 @@ async function dataTransferServiceCreate() {
   const createUpdateParameters: ServiceResourceCreateUpdateParameters = {
     instanceCount: 1,
     instanceSize: "Cosmos.D4s",
-    serviceType: "DataTransfer"
+    serviceType: "DataTransfer",
   };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
@@ -39,7 +39,7 @@ async function dataTransferServiceCreate() {
     resourceGroupName,
     accountName,
     serviceName,
-    createUpdateParameters
+    createUpdateParameters,
   );
   console.log(result);
 }
@@ -48,7 +48,7 @@ async function dataTransferServiceCreate() {
  * This sample demonstrates how to Creates a service.
  *
  * @summary Creates a service.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBGraphAPIComputeServiceCreate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBGraphAPIComputeServiceCreate.json
  */
 async function graphApiComputeServiceCreate() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -58,7 +58,7 @@ async function graphApiComputeServiceCreate() {
   const createUpdateParameters: ServiceResourceCreateUpdateParameters = {
     instanceCount: 1,
     instanceSize: "Cosmos.D4s",
-    serviceType: "GraphAPICompute"
+    serviceType: "GraphAPICompute",
   };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
@@ -66,7 +66,7 @@ async function graphApiComputeServiceCreate() {
     resourceGroupName,
     accountName,
     serviceName,
-    createUpdateParameters
+    createUpdateParameters,
   );
   console.log(result);
 }
@@ -75,7 +75,7 @@ async function graphApiComputeServiceCreate() {
  * This sample demonstrates how to Creates a service.
  *
  * @summary Creates a service.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBMaterializedViewsBuilderServiceCreate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBMaterializedViewsBuilderServiceCreate.json
  */
 async function materializedViewsBuilderServiceCreate() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -85,7 +85,7 @@ async function materializedViewsBuilderServiceCreate() {
   const createUpdateParameters: ServiceResourceCreateUpdateParameters = {
     instanceCount: 1,
     instanceSize: "Cosmos.D4s",
-    serviceType: "MaterializedViewsBuilder"
+    serviceType: "MaterializedViewsBuilder",
   };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
@@ -93,7 +93,7 @@ async function materializedViewsBuilderServiceCreate() {
     resourceGroupName,
     accountName,
     serviceName,
-    createUpdateParameters
+    createUpdateParameters,
   );
   console.log(result);
 }
@@ -102,7 +102,7 @@ async function materializedViewsBuilderServiceCreate() {
  * This sample demonstrates how to Creates a service.
  *
  * @summary Creates a service.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBSqlDedicatedGatewayServiceCreate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBSqlDedicatedGatewayServiceCreate.json
  */
 async function sqlDedicatedGatewayServiceCreate() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -112,7 +112,7 @@ async function sqlDedicatedGatewayServiceCreate() {
   const createUpdateParameters: ServiceResourceCreateUpdateParameters = {
     instanceCount: 1,
     instanceSize: "Cosmos.D4s",
-    serviceType: "SqlDedicatedGateway"
+    serviceType: "SqlDedicatedGateway",
   };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
@@ -120,7 +120,7 @@ async function sqlDedicatedGatewayServiceCreate() {
     resourceGroupName,
     accountName,
     serviceName,
-    createUpdateParameters
+    createUpdateParameters,
   );
   console.log(result);
 }

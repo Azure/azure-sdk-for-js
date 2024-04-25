@@ -30,6 +30,10 @@ const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: replaceableVariables
 };
 
+export const testPollingOptions = {
+  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
+};
+
 describe("Links test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
@@ -60,13 +64,13 @@ describe("Links test", () => {
   });
 
   async function create_resourceId() {
-    const result = await resources_client.resources.beginCreateOrUpdateAndWait(resourceGroup, "Microsoft.Compute", "", "availabilitySets", resourceName, "2019-07-01", { location: "eastus" });
+    const result = await resources_client.resources.beginCreateOrUpdateAndWait(resourceGroup, "Microsoft.Compute", "", "availabilitySets", resourceName, "2019-07-01", { location: "eastus" }, testPollingOptions);
     console.log(result)
     return result;
   }
 
   async function create_resourceId2() {
-    const result = await resources_client.resources.beginCreateOrUpdateAndWait(resourceGroup, "Microsoft.Compute", "", "availabilitySets", resourceName + "2", "2019-07-01", { location: "eastus" });
+    const result = await resources_client.resources.beginCreateOrUpdateAndWait(resourceGroup, "Microsoft.Compute", "", "availabilitySets", resourceName + "2", "2019-07-01", { location: "eastus" }, testPollingOptions);
     console.log(result)
     return result;
   }

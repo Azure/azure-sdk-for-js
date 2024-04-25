@@ -14,7 +14,7 @@ import {
   PacketCoreControlPlaneVersionsGetOptionalParams,
   PacketCoreControlPlaneVersionsGetResponse,
   PacketCoreControlPlaneVersionsGetBySubscriptionOptionalParams,
-  PacketCoreControlPlaneVersionsGetBySubscriptionResponse
+  PacketCoreControlPlaneVersionsGetBySubscriptionResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -25,14 +25,14 @@ export interface PacketCoreControlPlaneVersions {
    * @param options The options parameters.
    */
   list(
-    options?: PacketCoreControlPlaneVersionsListOptionalParams
+    options?: PacketCoreControlPlaneVersionsListOptionalParams,
   ): PagedAsyncIterableIterator<PacketCoreControlPlaneVersion>;
   /**
    * Lists all supported packet core control planes versions.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: PacketCoreControlPlaneVersionsListBySubscriptionOptionalParams
+    options?: PacketCoreControlPlaneVersionsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<PacketCoreControlPlaneVersion>;
   /**
    * Gets information about the specified packet core control plane version.
@@ -41,7 +41,7 @@ export interface PacketCoreControlPlaneVersions {
    */
   get(
     versionName: string,
-    options?: PacketCoreControlPlaneVersionsGetOptionalParams
+    options?: PacketCoreControlPlaneVersionsGetOptionalParams,
   ): Promise<PacketCoreControlPlaneVersionsGetResponse>;
   /**
    * Gets information about the specified packet core control plane version.
@@ -50,6 +50,6 @@ export interface PacketCoreControlPlaneVersions {
    */
   getBySubscription(
     versionName: string,
-    options?: PacketCoreControlPlaneVersionsGetBySubscriptionOptionalParams
+    options?: PacketCoreControlPlaneVersionsGetBySubscriptionOptionalParams,
   ): Promise<PacketCoreControlPlaneVersionsGetBySubscriptionResponse>;
 }

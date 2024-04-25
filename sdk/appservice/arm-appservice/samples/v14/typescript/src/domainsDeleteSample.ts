@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Delete a domain.
  *
  * @summary Description for Delete a domain.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2022-09-01/examples/DeleteAppServiceDomain.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2023-01-01/examples/DeleteAppServiceDomain.json
  */
 async function deleteAppServiceDomain() {
   const subscriptionId =

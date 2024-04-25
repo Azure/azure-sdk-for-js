@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List all the roles in a given cluster.
  *
  * @summary List all the roles in a given cluster.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/RoleListByCluster.json
+ * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/RoleListByCluster.json
  */
 async function roleList() {
   const subscriptionId =

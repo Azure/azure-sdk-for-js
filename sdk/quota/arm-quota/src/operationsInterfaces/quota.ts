@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   CurrentQuotaLimitBase,
   QuotaListOptionalParams,
@@ -16,7 +16,7 @@ import {
   QuotaCreateOrUpdateOptionalParams,
   QuotaCreateOrUpdateResponse,
   QuotaUpdateOptionalParams,
-  QuotaUpdateResponse
+  QuotaUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface Quota {
    */
   list(
     scope: string,
-    options?: QuotaListOptionalParams
+    options?: QuotaListOptionalParams,
   ): PagedAsyncIterableIterator<CurrentQuotaLimitBase>;
   /**
    * Get the quota limit of a resource. The response can be used to determine the remaining quota to
@@ -53,7 +53,7 @@ export interface Quota {
   get(
     resourceName: string,
     scope: string,
-    options?: QuotaGetOptionalParams
+    options?: QuotaGetOptionalParams,
   ): Promise<QuotaGetResponse>;
   /**
    * Create or update the quota limit for the specified resource with the requested value. To update the
@@ -79,10 +79,10 @@ export interface Quota {
     resourceName: string,
     scope: string,
     createQuotaRequest: CurrentQuotaLimitBase,
-    options?: QuotaCreateOrUpdateOptionalParams
+    options?: QuotaCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<QuotaCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<QuotaCreateOrUpdateResponse>,
       QuotaCreateOrUpdateResponse
     >
   >;
@@ -110,7 +110,7 @@ export interface Quota {
     resourceName: string,
     scope: string,
     createQuotaRequest: CurrentQuotaLimitBase,
-    options?: QuotaCreateOrUpdateOptionalParams
+    options?: QuotaCreateOrUpdateOptionalParams,
   ): Promise<QuotaCreateOrUpdateResponse>;
   /**
    * Update the quota limit for a specific resource to the specified value:
@@ -135,9 +135,9 @@ export interface Quota {
     resourceName: string,
     scope: string,
     createQuotaRequest: CurrentQuotaLimitBase,
-    options?: QuotaUpdateOptionalParams
+    options?: QuotaUpdateOptionalParams,
   ): Promise<
-    PollerLike<PollOperationState<QuotaUpdateResponse>, QuotaUpdateResponse>
+    SimplePollerLike<OperationState<QuotaUpdateResponse>, QuotaUpdateResponse>
   >;
   /**
    * Update the quota limit for a specific resource to the specified value:
@@ -162,6 +162,6 @@ export interface Quota {
     resourceName: string,
     scope: string,
     createQuotaRequest: CurrentQuotaLimitBase,
-    options?: QuotaUpdateOptionalParams
+    options?: QuotaUpdateOptionalParams,
   ): Promise<QuotaUpdateResponse>;
 }

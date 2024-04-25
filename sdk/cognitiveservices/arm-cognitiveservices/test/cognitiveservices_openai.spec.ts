@@ -66,7 +66,7 @@ describe("CognitiveServices OpenAI test", () => {
       identity: {
         type: "SystemAssigned"
       }
-    });
+    }, testPollingOptions);
     assert.equal(res.name, accountName);
   });
 
@@ -81,7 +81,7 @@ describe("CognitiveServices OpenAI test", () => {
       resourceGroup,
       accountName,
       deploymentName,
-      deployment
+      deployment, testPollingOptions
     );
     assert.equal(result.name, deploymentName);
   });
@@ -106,7 +106,7 @@ describe("CognitiveServices OpenAI test", () => {
     }
     assert.isTrue(deploymentNames.has(deploymentName));
     deploymentNames.clear()
-    await client.deployments.beginDeleteAndWait(resourceGroup, accountName, deploymentName);
+    await client.deployments.beginDeleteAndWait(resourceGroup, accountName, deploymentName, testPollingOptions);
     for await (let item of client.deployments.list(resourceGroup, accountName)) {
       deploymentNames.add(item.name);
     }
@@ -114,7 +114,7 @@ describe("CognitiveServices OpenAI test", () => {
   });
 
   it("should delete an account", async function () {
-    await client.accounts.beginDeleteAndWait(resourceGroup, accountName);
+    await client.accounts.beginDeleteAndWait(resourceGroup, accountName, testPollingOptions);
     const accountNames = new Set();
     for await (let item of client.accounts.listByResourceGroup(resourceGroup)) {
       accountNames.add(item.name);

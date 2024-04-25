@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   SqlTriggerCreateUpdateParameters,
-  CosmosDBManagementClient
+  CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update an Azure Cosmos DB SQL trigger
  *
  * @summary Create or update an Azure Cosmos DB SQL trigger
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBSqlTriggerCreateUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBSqlTriggerCreateUpdate.json
  */
 async function cosmosDbSqlTriggerCreateUpdate() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -36,8 +36,8 @@ async function cosmosDbSqlTriggerCreateUpdate() {
       body: "body",
       id: "triggerName",
       triggerOperation: "triggerOperation",
-      triggerType: "triggerType"
-    }
+      triggerType: "triggerType",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
@@ -47,7 +47,7 @@ async function cosmosDbSqlTriggerCreateUpdate() {
     databaseName,
     containerName,
     triggerName,
-    createUpdateSqlTriggerParameters
+    createUpdateSqlTriggerParameters,
   );
   console.log(result);
 }

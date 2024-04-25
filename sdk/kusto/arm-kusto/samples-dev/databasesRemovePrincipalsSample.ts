@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Remove Database principals permissions.
  *
  * @summary Remove Database principals permissions.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-05-02/examples/KustoDatabaseRemovePrincipals.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDatabaseRemovePrincipals.json
  */
 async function kustoDatabaseRemovePrincipals() {
   const subscriptionId =

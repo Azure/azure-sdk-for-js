@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get tenant access information details.
  *
  * @summary Get tenant access information details.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListSecretsTenantAccess.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListSecretsTenantAccess.json
  */
 async function apiManagementListSecretsTenantAccess() {
   const subscriptionId =

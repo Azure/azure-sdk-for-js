@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   DomainResource,
-  CommunicationServiceManagementClient
+  CommunicationServiceManagementClient,
 } from "@azure/arm-communication";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Add a new Domains resource under the parent EmailService resource or update an existing Domains resource.
  *
  * @summary Add a new Domains resource under the parent EmailService resource or update an existing Domains resource.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/domains/createOrUpdate.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/domains/createOrUpdate.json
  */
 async function createOrUpdateDomainsResource() {
   const subscriptionId =
@@ -33,18 +33,18 @@ async function createOrUpdateDomainsResource() {
   const domainName = "mydomain.com";
   const parameters: DomainResource = {
     domainManagement: "CustomerManaged",
-    location: "Global"
+    location: "Global",
   };
   const credential = new DefaultAzureCredential();
   const client = new CommunicationServiceManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.domains.beginCreateOrUpdateAndWait(
     resourceGroupName,
     emailServiceName,
     domainName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

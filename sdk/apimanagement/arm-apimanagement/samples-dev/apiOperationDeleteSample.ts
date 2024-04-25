@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified operation in the API.
  *
  * @summary Deletes the specified operation in the API.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementDeleteApiOperation.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteApiOperation.json
  */
 async function apiManagementDeleteApiOperation() {
   const subscriptionId =

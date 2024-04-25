@@ -27,7 +27,10 @@ import {
   RegenerateKeyParameters,
   SignalRRegenerateKeyOptionalParams,
   SignalRRegenerateKeyResponse,
+  SignalRListReplicaSkusOptionalParams,
+  SignalRListReplicaSkusResponse,
   SignalRRestartOptionalParams,
+  SignalRRestartResponse,
   SignalRListSkusOptionalParams,
   SignalRListSkusResponse
 } from "../models";
@@ -44,8 +47,7 @@ export interface SignalR {
   ): PagedAsyncIterableIterator<SignalRResource>;
   /**
    * Handles requests to list all resources in a resource group.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
@@ -65,8 +67,7 @@ export interface SignalR {
   ): Promise<SignalRCheckNameAvailabilityResponse>;
   /**
    * Get the resource and its properties.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -77,8 +78,7 @@ export interface SignalR {
   ): Promise<SignalRGetResponse>;
   /**
    * Create or update a resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters Parameters for the create or update operation
    * @param options The options parameters.
@@ -96,8 +96,7 @@ export interface SignalR {
   >;
   /**
    * Create or update a resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters Parameters for the create or update operation
    * @param options The options parameters.
@@ -110,8 +109,7 @@ export interface SignalR {
   ): Promise<SignalRCreateOrUpdateResponse>;
   /**
    * Operation to delete a resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -122,8 +120,7 @@ export interface SignalR {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Operation to delete a resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -134,8 +131,7 @@ export interface SignalR {
   ): Promise<void>;
   /**
    * Operation to update an exiting resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters Parameters for the update operation
    * @param options The options parameters.
@@ -153,8 +149,7 @@ export interface SignalR {
   >;
   /**
    * Operation to update an exiting resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters Parameters for the update operation
    * @param options The options parameters.
@@ -167,8 +162,7 @@ export interface SignalR {
   ): Promise<SignalRUpdateResponse>;
   /**
    * Get the access keys of the resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -180,8 +174,7 @@ export interface SignalR {
   /**
    * Regenerate the access key for the resource. PrimaryKey and SecondaryKey cannot be regenerated at the
    * same time.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters Parameter that describes the Regenerate Key Operation.
    * @param options The options parameters.
@@ -200,8 +193,7 @@ export interface SignalR {
   /**
    * Regenerate the access key for the resource. PrimaryKey and SecondaryKey cannot be regenerated at the
    * same time.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters Parameter that describes the Regenerate Key Operation.
    * @param options The options parameters.
@@ -213,9 +205,21 @@ export interface SignalR {
     options?: SignalRRegenerateKeyOptionalParams
   ): Promise<SignalRRegenerateKeyResponse>;
   /**
+   * List all available skus of the replica resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the resource.
+   * @param replicaName The name of the replica.
+   * @param options The options parameters.
+   */
+  listReplicaSkus(
+    resourceGroupName: string,
+    resourceName: string,
+    replicaName: string,
+    options?: SignalRListReplicaSkusOptionalParams
+  ): Promise<SignalRListReplicaSkusResponse>;
+  /**
    * Operation to restart a resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -223,11 +227,15 @@ export interface SignalR {
     resourceGroupName: string,
     resourceName: string,
     options?: SignalRRestartOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<SignalRRestartResponse>,
+      SignalRRestartResponse
+    >
+  >;
   /**
    * Operation to restart a resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
@@ -235,11 +243,10 @@ export interface SignalR {
     resourceGroupName: string,
     resourceName: string,
     options?: SignalRRestartOptionalParams
-  ): Promise<void>;
+  ): Promise<SignalRRestartResponse>;
   /**
    * List all available skus of the resource.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */

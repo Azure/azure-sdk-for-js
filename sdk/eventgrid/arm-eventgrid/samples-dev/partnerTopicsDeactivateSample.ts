@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deactivate specific partner topic.
  *
  * @summary Deactivate specific partner topic.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-06-01-preview/examples/PartnerTopics_Deactivate.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/PartnerTopics_Deactivate.json
  */
 async function partnerTopicsDeactivate() {
   const subscriptionId =

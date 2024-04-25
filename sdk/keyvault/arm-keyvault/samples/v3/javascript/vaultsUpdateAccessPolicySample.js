@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update access policies in a key vault in the specified subscription.
  *
  * @summary Update access policies in a key vault in the specified subscription.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-02-01/examples/updateAccessPoliciesAdd.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/updateAccessPoliciesAdd.json
  */
 async function addAnAccessPolicyOrUpdateAnAccessPolicyWithNewPermissions() {
   const subscriptionId =

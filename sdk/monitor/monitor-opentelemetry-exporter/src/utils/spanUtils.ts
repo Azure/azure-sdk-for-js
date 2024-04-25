@@ -5,11 +5,42 @@ import { URL } from "url";
 import { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { diag, SpanKind, SpanStatusCode, Link, Attributes } from "@opentelemetry/api";
-import { SemanticAttributes, DbSystemValues } from "@opentelemetry/semantic-conventions";
+import {
+  DBSYSTEMVALUES_MONGODB,
+  DBSYSTEMVALUES_MYSQL,
+  DBSYSTEMVALUES_POSTGRESQL,
+  DBSYSTEMVALUES_REDIS,
+  SEMATTRS_DB_NAME,
+  SEMATTRS_DB_OPERATION,
+  SEMATTRS_DB_STATEMENT,
+  SEMATTRS_DB_SYSTEM,
+  SEMATTRS_ENDUSER_ID,
+  SEMATTRS_EXCEPTION_ESCAPED,
+  SEMATTRS_EXCEPTION_MESSAGE,
+  SEMATTRS_EXCEPTION_STACKTRACE,
+  SEMATTRS_EXCEPTION_TYPE,
+  SEMATTRS_HTTP_CLIENT_IP,
+  SEMATTRS_HTTP_HOST,
+  SEMATTRS_HTTP_METHOD,
+  SEMATTRS_HTTP_ROUTE,
+  SEMATTRS_HTTP_STATUS_CODE,
+  SEMATTRS_HTTP_URL,
+  SEMATTRS_HTTP_USER_AGENT,
+  SEMATTRS_NET_PEER_IP,
+  SEMATTRS_NET_PEER_NAME,
+  SEMATTRS_PEER_SERVICE,
+  SEMATTRS_RPC_GRPC_STATUS_CODE,
+  SEMATTRS_RPC_SYSTEM,
+} from "@opentelemetry/semantic-conventions";
 
-import { createTagsFromResource, getDependencyTarget, getUrl, isSqlDB } from "./common";
+import {
+  createTagsFromResource,
+  getDependencyTarget,
+  getUrl,
+  hrTimeToDate,
+  isSqlDB,
+} from "./common";
 import { Tags, Properties, MSLink, Measurements } from "../types";
-import { msToTimeSpan } from "./breezeUtils";
 import { parseEventHubSpan } from "./eventhub";
 import { AzureMonitorSampleRate, DependencyTypes, MS_LINKS } from "./constants/applicationinsights";
 import { AzNamespace, MicrosoftEventHub } from "./constants/span/azAttributes";
@@ -22,6 +53,7 @@ import {
   KnownContextTagKeys,
   TelemetryExceptionDetails,
 } from "../generated";
+import { msToTimeSpan } from "./breezeUtils";
 
 function createTagsFromSpan(span: ReadableSpan): Tags {
   const tags: Tags = createTagsFromResource(span.resource);
@@ -29,18 +61,22 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
   if (span.parentSpanId) {
     tags[KnownContextTagKeys.AiOperationParentId] = span.parentSpanId;
   }
-  const httpUserAgent = span.attributes[SemanticAttributes.HTTP_USER_AGENT];
+  const endUserId = span.attributes[SEMATTRS_ENDUSER_ID];
+  if (endUserId) {
+    tags[KnownContextTagKeys.AiUserId] = String(endUserId);
+  }
+  const httpUserAgent = span.attributes[SEMATTRS_HTTP_USER_AGENT];
   if (httpUserAgent) {
     // TODO: Not exposed in Swagger, need to update def
     tags["ai.user.userAgent"] = String(httpUserAgent);
   }
   if (span.kind === SpanKind.SERVER) {
-    const httpMethod = span.attributes[SemanticAttributes.HTTP_METHOD];
-    const httpClientIp = span.attributes[SemanticAttributes.HTTP_CLIENT_IP];
-    const netPeerIp = span.attributes[SemanticAttributes.NET_PEER_IP];
+    const httpMethod = span.attributes[SEMATTRS_HTTP_METHOD];
+    const httpClientIp = span.attributes[SEMATTRS_HTTP_CLIENT_IP];
+    const netPeerIp = span.attributes[SEMATTRS_NET_PEER_IP];
     if (httpMethod) {
-      const httpRoute = span.attributes[SemanticAttributes.HTTP_ROUTE];
-      const httpUrl = span.attributes[SemanticAttributes.HTTP_URL];
+      const httpRoute = span.attributes[SEMATTRS_HTTP_ROUTE];
+      const httpUrl = span.attributes[SEMATTRS_HTTP_URL];
       tags[KnownContextTagKeys.AiOperationName] = span.name; // Default
       if (httpRoute) {
         tags[KnownContextTagKeys.AiOperationName] = `${httpMethod as string} ${
@@ -79,21 +115,24 @@ function createPropertiesFromSpanAttributes(attributes?: Attributes): {
       if (
         !(
           key.startsWith("_MS.") ||
-          key == SemanticAttributes.NET_PEER_IP ||
-          key == SemanticAttributes.NET_PEER_NAME ||
-          key == SemanticAttributes.PEER_SERVICE ||
-          key == SemanticAttributes.HTTP_METHOD ||
-          key == SemanticAttributes.HTTP_URL ||
-          key == SemanticAttributes.HTTP_STATUS_CODE ||
-          key == SemanticAttributes.HTTP_ROUTE ||
-          key == SemanticAttributes.HTTP_HOST ||
-          key == SemanticAttributes.HTTP_URL ||
-          key == SemanticAttributes.DB_SYSTEM ||
-          key == SemanticAttributes.DB_STATEMENT ||
-          key == SemanticAttributes.DB_OPERATION ||
-          key == SemanticAttributes.DB_NAME ||
-          key == SemanticAttributes.RPC_SYSTEM ||
-          key == SemanticAttributes.RPC_GRPC_STATUS_CODE
+          key === SEMATTRS_NET_PEER_IP ||
+          key === SEMATTRS_NET_PEER_NAME ||
+          key === SEMATTRS_PEER_SERVICE ||
+          key === SEMATTRS_HTTP_METHOD ||
+          key === SEMATTRS_HTTP_URL ||
+          key === SEMATTRS_HTTP_STATUS_CODE ||
+          key === SEMATTRS_HTTP_ROUTE ||
+          key === SEMATTRS_HTTP_HOST ||
+          key === SEMATTRS_HTTP_URL ||
+          key === SEMATTRS_DB_SYSTEM ||
+          key === SEMATTRS_DB_STATEMENT ||
+          key === SEMATTRS_DB_OPERATION ||
+          key === SEMATTRS_DB_NAME ||
+          key === SEMATTRS_RPC_SYSTEM ||
+          key === SEMATTRS_RPC_GRPC_STATUS_CODE ||
+          key === SEMATTRS_EXCEPTION_TYPE ||
+          key === SEMATTRS_EXCEPTION_MESSAGE ||
+          key === SEMATTRS_EXCEPTION_STACKTRACE
         )
       ) {
         properties[key] = attributes[key] as string;
@@ -121,7 +160,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
   const remoteDependencyData: RemoteDependencyData = {
     name: span.name, // Default
     id: `${span.spanContext().spanId}`,
-    success: span.status.code != SpanStatusCode.ERROR,
+    success: span.status?.code !== SpanStatusCode.ERROR,
     resultCode: "0",
     type: "Dependency",
     duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
@@ -134,12 +173,12 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
     remoteDependencyData.type = DependencyTypes.InProc;
   }
 
-  const httpMethod = span.attributes[SemanticAttributes.HTTP_METHOD];
-  const dbSystem = span.attributes[SemanticAttributes.DB_SYSTEM];
-  const rpcSystem = span.attributes[SemanticAttributes.RPC_SYSTEM];
+  const httpMethod = span.attributes[SEMATTRS_HTTP_METHOD];
+  const dbSystem = span.attributes[SEMATTRS_DB_SYSTEM];
+  const rpcSystem = span.attributes[SEMATTRS_RPC_SYSTEM];
   // HTTP Dependency
   if (httpMethod) {
-    const httpUrl = span.attributes[SemanticAttributes.HTTP_URL];
+    const httpUrl = span.attributes[SEMATTRS_HTTP_URL];
     if (httpUrl) {
       try {
         const dependencyUrl = new URL(String(httpUrl));
@@ -148,7 +187,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
     }
     remoteDependencyData.type = DependencyTypes.Http;
     remoteDependencyData.data = getUrl(span.attributes);
-    const httpStatusCode = span.attributes[SemanticAttributes.HTTP_STATUS_CODE];
+    const httpStatusCode = span.attributes[SEMATTRS_HTTP_STATUS_CODE];
     if (httpStatusCode) {
       remoteDependencyData.resultCode = String(httpStatusCode);
     }
@@ -158,10 +197,13 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
         // Remove default port
         const portRegex = new RegExp(/(https?)(:\/\/.*)(:\d+)(\S*)/);
         const res = portRegex.exec(target);
-        if (res != null) {
+        if (res !== null) {
           const protocol = res[1];
           const port = res[3];
-          if ((protocol == "https" && port == ":443") || (protocol == "http" && port == ":80")) {
+          if (
+            (protocol === "https" && port === ":443") ||
+            (protocol === "http" && port === ":80")
+          ) {
             // Drop port
             target = res[1] + res[2] + res[4];
           }
@@ -173,28 +215,28 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
   // DB Dependency
   else if (dbSystem) {
     // TODO: Remove special logic when Azure UX supports OpenTelemetry dbSystem
-    if (String(dbSystem) === DbSystemValues.MYSQL) {
+    if (String(dbSystem) === DBSYSTEMVALUES_MYSQL) {
       remoteDependencyData.type = "mysql";
-    } else if (String(dbSystem) === DbSystemValues.POSTGRESQL) {
+    } else if (String(dbSystem) === DBSYSTEMVALUES_POSTGRESQL) {
       remoteDependencyData.type = "postgresql";
-    } else if (String(dbSystem) === DbSystemValues.MONGODB) {
+    } else if (String(dbSystem) === DBSYSTEMVALUES_MONGODB) {
       remoteDependencyData.type = "mongodb";
-    } else if (String(dbSystem) === DbSystemValues.REDIS) {
+    } else if (String(dbSystem) === DBSYSTEMVALUES_REDIS) {
       remoteDependencyData.type = "redis";
     } else if (isSqlDB(String(dbSystem))) {
       remoteDependencyData.type = "SQL";
     } else {
       remoteDependencyData.type = String(dbSystem);
     }
-    const dbStatement = span.attributes[SemanticAttributes.DB_STATEMENT];
-    const dbOperation = span.attributes[SemanticAttributes.DB_OPERATION];
+    const dbStatement = span.attributes[SEMATTRS_DB_STATEMENT];
+    const dbOperation = span.attributes[SEMATTRS_DB_OPERATION];
     if (dbStatement) {
       remoteDependencyData.data = String(dbStatement);
     } else if (dbOperation) {
       remoteDependencyData.data = String(dbOperation);
     }
     const target = getDependencyTarget(span.attributes);
-    const dbName = span.attributes[SemanticAttributes.DB_NAME];
+    const dbName = span.attributes[SEMATTRS_DB_NAME];
     if (target) {
       remoteDependencyData.target = dbName ? `${target}|${dbName}` : `${target}`;
     } else {
@@ -203,8 +245,12 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
   }
   // grpc Dependency
   else if (rpcSystem) {
-    remoteDependencyData.type = DependencyTypes.Grpc;
-    const grpcStatusCode = span.attributes[SemanticAttributes.RPC_GRPC_STATUS_CODE];
+    if (rpcSystem == DependencyTypes.Wcf) {
+      remoteDependencyData.type = DependencyTypes.Wcf;
+    } else {
+      remoteDependencyData.type = DependencyTypes.Grpc;
+    }
+    const grpcStatusCode = span.attributes[SEMATTRS_RPC_GRPC_STATUS_CODE];
     if (grpcStatusCode) {
       remoteDependencyData.resultCode = String(grpcStatusCode);
     }
@@ -221,17 +267,17 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
 function createRequestData(span: ReadableSpan): RequestData {
   const requestData: RequestData = {
     id: `${span.spanContext().spanId}`,
-    success: span.status.code != SpanStatusCode.ERROR,
+    success: span.status.code !== SpanStatusCode.ERROR,
     responseCode: "0",
     duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
     version: 2,
     source: undefined,
   };
-  const httpMethod = span.attributes[SemanticAttributes.HTTP_METHOD];
-  const grpcStatusCode = span.attributes[SemanticAttributes.RPC_GRPC_STATUS_CODE];
+  const httpMethod = span.attributes[SEMATTRS_HTTP_METHOD];
+  const grpcStatusCode = span.attributes[SEMATTRS_RPC_GRPC_STATUS_CODE];
   if (httpMethod) {
     requestData.url = getUrl(span.attributes);
-    const httpStatusCode = span.attributes[SemanticAttributes.HTTP_STATUS_CODE];
+    const httpStatusCode = span.attributes[SEMATTRS_HTTP_STATUS_CODE];
     if (httpStatusCode) {
       requestData.responseCode = String(httpStatusCode);
     }
@@ -250,7 +296,7 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
   let baseType: "RemoteDependencyData" | "RequestData";
   let baseData: RemoteDependencyData | RequestData;
 
-  const time = new Date(hrTimeToMilliseconds(span.startTime));
+  const time = hrTimeToDate(span.startTime);
   const instrumentationKey = ikey;
   const tags = createTagsFromSpan(span);
   const [properties, measurements] = createPropertiesFromSpan(span);
@@ -317,7 +363,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
   if (span.events) {
     span.events.forEach((event: TimedEvent) => {
       let baseType: "ExceptionData" | "MessageData";
-      const time = new Date(hrTimeToMilliseconds(event.time));
+      const time = hrTimeToDate(event.time);
       let name = "";
       let baseData: TelemetryExceptionData | MessageData;
       const properties = createPropertiesFromSpanAttributes(event.attributes);
@@ -330,7 +376,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
       }
 
       // Only generate exception telemetry for incoming requests
-      if (event.name == "exception" && span.kind == SpanKind.SERVER) {
+      if (event.name === "exception" && span.kind === SpanKind.SERVER) {
         name = "Microsoft.ApplicationInsights.Exception";
         baseType = "ExceptionData";
         let typeName = "";
@@ -338,18 +384,18 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
         let stack = "";
         let hasFullStack = false;
         if (event.attributes) {
-          typeName = String(event.attributes[SemanticAttributes.EXCEPTION_TYPE]);
-          stack = String(event.attributes[SemanticAttributes.EXCEPTION_STACKTRACE]);
+          typeName = String(event.attributes[SEMATTRS_EXCEPTION_TYPE]);
+          stack = String(event.attributes[SEMATTRS_EXCEPTION_STACKTRACE]);
           if (stack) {
             hasFullStack = true;
           }
-          const exceptionMsg = event.attributes[SemanticAttributes.EXCEPTION_MESSAGE];
+          const exceptionMsg = event.attributes[SEMATTRS_EXCEPTION_MESSAGE];
           if (exceptionMsg) {
             message = String(exceptionMsg);
           }
-          const escaped = event.attributes[SemanticAttributes.EXCEPTION_ESCAPED];
-          if (escaped != undefined) {
-            properties[SemanticAttributes.EXCEPTION_ESCAPED] = String(escaped);
+          const escaped = event.attributes[SEMATTRS_EXCEPTION_ESCAPED];
+          if (escaped !== undefined) {
+            properties[SEMATTRS_EXCEPTION_ESCAPED] = String(escaped);
           }
         }
         const exceptionDetails: TelemetryExceptionDetails = {

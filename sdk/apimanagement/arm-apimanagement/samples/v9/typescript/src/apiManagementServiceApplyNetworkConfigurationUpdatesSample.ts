@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Updates the Microsoft.ApiManagement resource running in the Virtual network to pick the updated DNS changes.
  *
  * @summary Updates the Microsoft.ApiManagement resource running in the Virtual network to pick the updated DNS changes.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementApplyNetworkConfigurationUpdates.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementApplyNetworkConfigurationUpdates.json
  */
 async function apiManagementApplyNetworkConfigurationUpdates() {
   const subscriptionId =

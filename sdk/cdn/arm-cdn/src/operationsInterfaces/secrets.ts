@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Secret,
   SecretsListByProfileOptionalParams,
@@ -15,7 +15,7 @@ import {
   SecretsGetResponse,
   SecretsCreateOptionalParams,
   SecretsCreateResponse,
-  SecretsDeleteOptionalParams
+  SecretsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface Secrets {
   listByProfile(
     resourceGroupName: string,
     profileName: string,
-    options?: SecretsListByProfileOptionalParams
+    options?: SecretsListByProfileOptionalParams,
   ): PagedAsyncIterableIterator<Secret>;
   /**
    * Gets an existing Secret within a profile.
@@ -45,7 +45,7 @@ export interface Secrets {
     resourceGroupName: string,
     profileName: string,
     secretName: string,
-    options?: SecretsGetOptionalParams
+    options?: SecretsGetOptionalParams,
   ): Promise<SecretsGetResponse>;
   /**
    * Creates a new Secret within the specified profile.
@@ -61,9 +61,12 @@ export interface Secrets {
     profileName: string,
     secretName: string,
     secret: Secret,
-    options?: SecretsCreateOptionalParams
+    options?: SecretsCreateOptionalParams,
   ): Promise<
-    PollerLike<PollOperationState<SecretsCreateResponse>, SecretsCreateResponse>
+    SimplePollerLike<
+      OperationState<SecretsCreateResponse>,
+      SecretsCreateResponse
+    >
   >;
   /**
    * Creates a new Secret within the specified profile.
@@ -79,7 +82,7 @@ export interface Secrets {
     profileName: string,
     secretName: string,
     secret: Secret,
-    options?: SecretsCreateOptionalParams
+    options?: SecretsCreateOptionalParams,
   ): Promise<SecretsCreateResponse>;
   /**
    * Deletes an existing Secret within profile.
@@ -93,8 +96,8 @@ export interface Secrets {
     resourceGroupName: string,
     profileName: string,
     secretName: string,
-    options?: SecretsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: SecretsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing Secret within profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
@@ -107,6 +110,6 @@ export interface Secrets {
     resourceGroupName: string,
     profileName: string,
     secretName: string,
-    options?: SecretsDeleteOptionalParams
+    options?: SecretsDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -10,7 +10,7 @@ import {
   ContainerAppsRevisionReplicasGetReplicaOptionalParams,
   ContainerAppsRevisionReplicasGetReplicaResponse,
   ContainerAppsRevisionReplicasListReplicasOptionalParams,
-  ContainerAppsRevisionReplicasListReplicasResponse
+  ContainerAppsRevisionReplicasListReplicasResponse,
 } from "../models";
 
 /** Interface representing a ContainerAppsRevisionReplicas. */
@@ -28,7 +28,7 @@ export interface ContainerAppsRevisionReplicas {
     containerAppName: string,
     revisionName: string,
     replicaName: string,
-    options?: ContainerAppsRevisionReplicasGetReplicaOptionalParams
+    options?: ContainerAppsRevisionReplicasGetReplicaOptionalParams,
   ): Promise<ContainerAppsRevisionReplicasGetReplicaResponse>;
   /**
    * List replicas for a Container App Revision.
@@ -41,6 +41,6 @@ export interface ContainerAppsRevisionReplicas {
     resourceGroupName: string,
     containerAppName: string,
     revisionName: string,
-    options?: ContainerAppsRevisionReplicasListReplicasOptionalParams
+    options?: ContainerAppsRevisionReplicasListReplicasOptionalParams,
   ): Promise<ContainerAppsRevisionReplicasListReplicasResponse>;
 }

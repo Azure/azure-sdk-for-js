@@ -90,7 +90,7 @@ describe("ResourceConnector test", () => {
 
   it("appliances delete test", async function () {
     const resArray = new Array();
-    const res = await client.appliances.beginDeleteAndWait(resourceGroup, resourcename
+    const res = await client.appliances.beginDeleteAndWait(resourceGroup, resourcename, testPollingOptions
     )
     for await (let item of client.appliances.listByResourceGroup(resourceGroup)) {
       resArray.push(item);

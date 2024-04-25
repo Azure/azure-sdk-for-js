@@ -6,7 +6,12 @@ import { ContainerDefinition, CosmosClient } from "../../../src";
 import { Container } from "../../../src/";
 import { endpoint } from "../common/_testConfig";
 import { masterKey } from "../common/_fakeTestSecrets";
-import { getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
+import {
+  getTestContainer,
+  getTestDatabase,
+  removeAllDatabases,
+  testForDiagnostics,
+} from "../common/TestHelpers";
 import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents";
 
 const client = new CosmosClient({
@@ -68,7 +73,21 @@ describe("Queries", function (this: Suite) {
 
     it("fetchAll", async function () {
       const queryIterator = resources.container.items.readAll({ maxItemCount: 2 });
-      const { resources: docs } = await queryIterator.fetchAll();
+
+      const { resources: docs } = await testForDiagnostics(
+        async () => {
+          return queryIterator.fetchAll();
+        },
+        {
+          locationEndpointsContacted: 1,
+          // metadataCallCount: 7,
+          retryCount: 0,
+          gatewayStatisticsTestSpec: [{}, {}], // Two backend data calls.
+        },
+        true,
+      );
+
+      // const { resources: docs } = await queryIterator.fetchAll();
       assert.equal(docs.length, 3, "queryIterator should return all documents using continuation");
       assert.equal(docs[0].id, resources.doc1.id);
       assert.equal(docs[1].id, resources.doc2.id);
@@ -94,19 +113,32 @@ describe("Queries", function (this: Suite) {
       let queryIterator = resources.container.items.readAll({
         maxItemCount: 2,
       });
-      const firstResponse = await queryIterator.fetchNext();
+
+      const firstResponse = await testForDiagnostics(
+        async () => {
+          return queryIterator.fetchNext();
+        },
+        {
+          locationEndpointsContacted: 1,
+          // metadataCallCount: 5,
+          retryCount: 0,
+          gatewayStatisticsTestSpec: [{}], // One backend data calls.
+        },
+        true,
+      );
+      // const firstResponse = await queryIterator.fetchNext();
       assert(firstResponse.continuationToken);
       assert(firstResponse.requestCharge > 0, "RequestCharge has to be non-zero");
       assert.equal(firstResponse.resources.length, 2, "first batch size should be 2");
       assert.equal(
         firstResponse.resources[0].id,
         resources.doc1.id,
-        "first batch first document should be doc1"
+        "first batch first document should be doc1",
       );
       assert.equal(
         firstResponse.resources[1].id,
         resources.doc2.id,
-        "batch first second document should be doc2"
+        "batch first second document should be doc2",
       );
       const { resources: docs2 } = await queryIterator.fetchNext();
       assert.equal(docs2.length, 1, "second batch size is unexpected");
@@ -118,17 +150,16 @@ describe("Queries", function (this: Suite) {
         continuationToken: firstResponse.continuationToken,
       });
       const secondResponse = await queryIterator.fetchNext();
-      // console.log(secondResponse);
       assert(secondResponse.requestCharge > 0, "RequestCharge has to be non-zero");
       assert.equal(
         secondResponse.resources.length,
         1,
-        "second batch size with continuation token is unexpected"
+        "second batch size with continuation token is unexpected",
       );
       assert.equal(
         secondResponse.resources[0].id,
         resources.doc3.id,
-        "second batch element should be doc3"
+        "second batch element should be doc3",
       );
     });
     it("fails with invalid continuation token", async function () {
@@ -160,7 +191,7 @@ describe("Queries", function (this: Suite) {
           {
             throughput: 10100,
             partitionKey: "/id",
-          }
+          },
         );
         await container.items.create({ id: "5eded6f8asdfasdfasdfaa21be0109ae34e29", age: 22 });
         await container.items.create({ id: "5eded6f8a21be0109ae34e29", age: 22 });
@@ -180,7 +211,7 @@ describe("Queries", function (this: Suite) {
           {
             throughput: 10100,
             partitionKey: "/id",
-          }
+          },
         );
         await container.items.create({ id: "5eded6f8asdfasdfasdfaa21be0109ae34e29", age: 22 });
         await container.items.create({ id: "5eded6f8a21be0109ae34e29", age: 22 });
@@ -200,7 +231,7 @@ describe("Queries", function (this: Suite) {
           {
             throughput: 10100,
             partitionKey: "/id",
-          }
+          },
         );
         await container.items.create({ id: "5eded6f8asdfasdfasdfaa21be0109ae34e29", age: 22 });
         await container.items.create({ id: "5eded6f8a21be0109ae34e29", age: 22 });
@@ -220,7 +251,7 @@ describe("Queries", function (this: Suite) {
           {
             throughput: 10100,
             partitionKey: "/id",
-          }
+          },
         );
         await container.items.create({ id: "5eded6f8asdfasdfasdfaa21be0109ae34e29", age: 22 });
         await container.items.create({ id: "5eded6f8a21be0109ae34e29", age: 22 });
@@ -252,7 +283,7 @@ describe("Queries", function (this: Suite) {
       const container = await getTestContainer(
         "Validate QueryIterator Functionality",
         client,
-        containerDef
+        containerDef,
       );
       const { resource: doc1 } = await container.items.create({ id: "doc1", prop1: "a", prop2: 1 });
       const { resource: doc2 } = await container.items.create({ id: "doc2", prop1: "a", prop2: 1 });
@@ -318,12 +349,12 @@ describe("Queries", function (this: Suite) {
       assert.equal(
         firstResponse.resources[0].id,
         resources.doc1.id,
-        "first batch first document should be doc1"
+        "first batch first document should be doc1",
       );
       assert.equal(
         firstResponse.resources[1].id,
         resources.doc2.id,
-        "batch first second document should be doc2"
+        "batch first second document should be doc2",
       );
       const { resources: docs2 } = await queryIterator.fetchNext();
       assert.equal(docs2.length, 1, "second batch size is unexpected");
@@ -336,17 +367,16 @@ describe("Queries", function (this: Suite) {
         partitionKey: ["a", 1],
       });
       const secondResponse = await queryIterator.fetchNext();
-      // console.log(secondResponse);
       assert(secondResponse.requestCharge > 0, "RequestCharge has to be non-zero");
       assert.equal(
         secondResponse.resources.length,
         1,
-        "second batch size with continuation token is unexpected"
+        "second batch size with continuation token is unexpected",
       );
       assert.equal(
         secondResponse.resources[0].id,
         resources.doc3.id,
-        "second batch element should be doc3"
+        "second batch element should be doc3",
       );
     });
     it("fails with invalid continuation token", async function () {
@@ -383,7 +413,7 @@ describe("Queries", function (this: Suite) {
               version: PartitionKeyDefinitionVersion.V2,
               kind: PartitionKeyKind.MultiHash,
             },
-          }
+          },
         );
         await container.items.create({
           id: "5eded6f8asdfasdfasdfaa21be0109ae34e29",

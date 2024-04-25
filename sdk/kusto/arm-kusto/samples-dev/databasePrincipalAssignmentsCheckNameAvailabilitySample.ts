@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Checks that the database principal assignment is valid and is not already in use.
  *
  * @summary Checks that the database principal assignment is valid and is not already in use.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-05-02/examples/KustoDatabasePrincipalAssignmentsCheckNameAvailability.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDatabasePrincipalAssignmentsCheckNameAvailability.json
  */
 async function kustoDatabaseCheckNameAvailability() {
   const subscriptionId =

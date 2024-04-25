@@ -28,7 +28,7 @@ import {
 export interface EmailTemplate {
   /**
    * Gets all email templates
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -39,7 +39,7 @@ export interface EmailTemplate {
   ): PagedAsyncIterableIterator<EmailTemplateContract>;
   /**
    * Gets the entity state (Etag) version of the email template specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param templateName Email Template Name Identifier.
    * @param options The options parameters.
@@ -52,7 +52,7 @@ export interface EmailTemplate {
   ): Promise<EmailTemplateGetEntityTagResponse>;
   /**
    * Gets the details of the email template specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param templateName Email Template Name Identifier.
    * @param options The options parameters.
@@ -65,7 +65,7 @@ export interface EmailTemplate {
   ): Promise<EmailTemplateGetResponse>;
   /**
    * Updates an Email Template.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param templateName Email Template Name Identifier.
    * @param parameters Email Template update parameters.
@@ -80,7 +80,7 @@ export interface EmailTemplate {
   ): Promise<EmailTemplateCreateOrUpdateResponse>;
   /**
    * Updates API Management email template
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param templateName Email Template Name Identifier.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
@@ -98,7 +98,7 @@ export interface EmailTemplate {
   ): Promise<EmailTemplateUpdateResponse>;
   /**
    * Reset the Email Template to default template provided by the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param templateName Email Template Name Identifier.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header

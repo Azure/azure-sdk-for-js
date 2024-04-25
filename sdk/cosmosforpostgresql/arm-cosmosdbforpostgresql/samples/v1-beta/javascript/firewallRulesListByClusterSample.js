@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all the firewall rules on cluster.
  *
  * @summary Lists all the firewall rules on cluster.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/FirewallRuleListByCluster.json
+ * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/FirewallRuleListByCluster.json
  */
 async function listFirewallRulesOfTheCluster() {
   const subscriptionId =

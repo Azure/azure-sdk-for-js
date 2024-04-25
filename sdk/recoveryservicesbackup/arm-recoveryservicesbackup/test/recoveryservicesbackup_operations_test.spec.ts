@@ -53,7 +53,7 @@ describe("RecoveryServicesBackup test", () => {
     client = new RecoveryServicesBackupClient(credential, subscriptionId, recorder.configureClientOptions({}));
     rsclient = new RecoveryServicesClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
-    resourceGroup = "czwjstest";
+    resourceGroup = "myjstest";
     resourcename = "resourcetest";
     vaultsname = "vaultstest";
 
@@ -129,7 +129,7 @@ describe("RecoveryServicesBackup test", () => {
 
   it("protectionPolicies delete test", async function () {
     const resArray = new Array();
-    const res = await client.protectionPolicies.beginDeleteAndWait(vaultsname, resourceGroup, resourcename
+    const res = await client.protectionPolicies.beginDeleteAndWait(vaultsname, resourceGroup, resourcename, testPollingOptions
     )
   });
 

@@ -13,6 +13,19 @@ import { SimplePollerLike } from '@azure/core-lro';
 // @public
 export type ActionType = string;
 
+// @public
+export interface AgentProfile {
+    subnetId?: string;
+    vmSize?: string;
+}
+
+// @public
+export interface APIServerAccessProfile {
+    enablePrivateCluster?: boolean;
+    enableVnetIntegration?: boolean;
+    subnetId?: string;
+}
+
 // @public (undocumented)
 export class ContainerServiceFleetClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -24,6 +37,8 @@ export class ContainerServiceFleetClient extends coreClient.ServiceClient {
     fleetMembers: FleetMembers;
     // (undocumented)
     fleets: Fleets;
+    // (undocumented)
+    fleetUpdateStrategies: FleetUpdateStrategies;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -66,6 +81,7 @@ export interface ErrorResponse {
 export interface Fleet extends TrackedResource {
     readonly eTag?: string;
     hubProfile?: FleetHubProfile;
+    identity?: ManagedServiceIdentity;
     readonly provisioningState?: FleetProvisioningState;
 }
 
@@ -82,14 +98,17 @@ export interface FleetCredentialResults {
 
 // @public
 export interface FleetHubProfile {
+    agentProfile?: AgentProfile;
+    apiServerAccessProfile?: APIServerAccessProfile;
     dnsPrefix?: string;
     readonly fqdn?: string;
     readonly kubernetesVersion?: string;
+    readonly portalFqdn?: string;
 }
 
 // @public
 export interface FleetListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: Fleet[];
 }
 
@@ -103,7 +122,7 @@ export interface FleetMember extends ProxyResource {
 
 // @public
 export interface FleetMemberListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: FleetMember[];
 }
 
@@ -116,9 +135,10 @@ export interface FleetMembers {
     beginCreateAndWait(resourceGroupName: string, fleetName: string, fleetMemberName: string, resource: FleetMember, options?: FleetMembersCreateOptionalParams): Promise<FleetMembersCreateResponse>;
     beginDelete(resourceGroupName: string, fleetName: string, fleetMemberName: string, options?: FleetMembersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, fleetName: string, fleetMemberName: string, options?: FleetMembersDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, fleetName: string, fleetMemberName: string, properties: FleetMemberUpdate, options?: FleetMembersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FleetMembersUpdateResponse>, FleetMembersUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, fleetName: string, fleetMemberName: string, properties: FleetMemberUpdate, options?: FleetMembersUpdateOptionalParams): Promise<FleetMembersUpdateResponse>;
     get(resourceGroupName: string, fleetName: string, fleetMemberName: string, options?: FleetMembersGetOptionalParams): Promise<FleetMembersGetResponse>;
     listByFleet(resourceGroupName: string, fleetName: string, options?: FleetMembersListByFleetOptionalParams): PagedAsyncIterableIterator<FleetMember>;
-    update(resourceGroupName: string, fleetName: string, fleetMemberName: string, properties: FleetMemberUpdate, options?: FleetMembersUpdateOptionalParams): Promise<FleetMembersUpdateResponse>;
 }
 
 // @public
@@ -172,8 +192,16 @@ export interface FleetMembersListByFleetOptionalParams extends coreClient.Operat
 export type FleetMembersListByFleetResponse = FleetMemberListResult;
 
 // @public
+export interface FleetMembersUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface FleetMembersUpdateOptionalParams extends coreClient.OperationOptions {
     ifMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -186,6 +214,7 @@ export interface FleetMemberUpdate {
 
 // @public
 export interface FleetPatch {
+    identity?: ManagedServiceIdentity;
     tags?: {
         [propertyName: string]: string;
     };
@@ -200,11 +229,12 @@ export interface Fleets {
     beginCreateOrUpdateAndWait(resourceGroupName: string, fleetName: string, resource: Fleet, options?: FleetsCreateOrUpdateOptionalParams): Promise<FleetsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, fleetName: string, options?: FleetsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, fleetName: string, options?: FleetsDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, fleetName: string, properties: FleetPatch, options?: FleetsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FleetsUpdateResponse>, FleetsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, fleetName: string, properties: FleetPatch, options?: FleetsUpdateOptionalParams): Promise<FleetsUpdateResponse>;
     get(resourceGroupName: string, fleetName: string, options?: FleetsGetOptionalParams): Promise<FleetsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: FleetsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Fleet>;
     listBySubscription(options?: FleetsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Fleet>;
     listCredentials(resourceGroupName: string, fleetName: string, options?: FleetsListCredentialsOptionalParams): Promise<FleetsListCredentialsResponse>;
-    update(resourceGroupName: string, fleetName: string, properties: FleetPatch, options?: FleetsUpdateOptionalParams): Promise<FleetsUpdateResponse>;
 }
 
 // @public
@@ -279,12 +309,96 @@ export interface FleetsListCredentialsOptionalParams extends coreClient.Operatio
 export type FleetsListCredentialsResponse = FleetCredentialResults;
 
 // @public
+export interface FleetsUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface FleetsUpdateOptionalParams extends coreClient.OperationOptions {
     ifMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
 export type FleetsUpdateResponse = Fleet;
+
+// @public
+export interface FleetUpdateStrategies {
+    beginCreateOrUpdate(resourceGroupName: string, fleetName: string, updateStrategyName: string, resource: FleetUpdateStrategy, options?: FleetUpdateStrategiesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FleetUpdateStrategiesCreateOrUpdateResponse>, FleetUpdateStrategiesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, fleetName: string, updateStrategyName: string, resource: FleetUpdateStrategy, options?: FleetUpdateStrategiesCreateOrUpdateOptionalParams): Promise<FleetUpdateStrategiesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, fleetName: string, updateStrategyName: string, options?: FleetUpdateStrategiesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, fleetName: string, updateStrategyName: string, options?: FleetUpdateStrategiesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, fleetName: string, updateStrategyName: string, options?: FleetUpdateStrategiesGetOptionalParams): Promise<FleetUpdateStrategiesGetResponse>;
+    listByFleet(resourceGroupName: string, fleetName: string, options?: FleetUpdateStrategiesListByFleetOptionalParams): PagedAsyncIterableIterator<FleetUpdateStrategy>;
+}
+
+// @public
+export interface FleetUpdateStrategiesCreateOrUpdateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface FleetUpdateStrategiesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type FleetUpdateStrategiesCreateOrUpdateResponse = FleetUpdateStrategy;
+
+// @public
+export interface FleetUpdateStrategiesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface FleetUpdateStrategiesDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface FleetUpdateStrategiesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FleetUpdateStrategiesGetResponse = FleetUpdateStrategy;
+
+// @public
+export interface FleetUpdateStrategiesListByFleetNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FleetUpdateStrategiesListByFleetNextResponse = FleetUpdateStrategyListResult;
+
+// @public
+export interface FleetUpdateStrategiesListByFleetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FleetUpdateStrategiesListByFleetResponse = FleetUpdateStrategyListResult;
+
+// @public
+export interface FleetUpdateStrategy extends ProxyResource {
+    readonly eTag?: string;
+    readonly provisioningState?: FleetUpdateStrategyProvisioningState;
+    strategy?: UpdateRunStrategy;
+}
+
+// @public
+export interface FleetUpdateStrategyListResult {
+    readonly nextLink?: string;
+    value: FleetUpdateStrategy[];
+}
+
+// @public
+export type FleetUpdateStrategyProvisioningState = string;
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
@@ -323,9 +437,31 @@ export enum KnownFleetProvisioningState {
 }
 
 // @public
+export enum KnownFleetUpdateStrategyProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownManagedClusterUpgradeType {
+    ControlPlaneOnly = "ControlPlaneOnly",
     Full = "Full",
     NodeImageOnly = "NodeImageOnly"
+}
+
+// @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownNodeImageSelectionType {
+    Consistent = "Consistent",
+    Latest = "Latest"
 }
 
 // @public
@@ -333,6 +469,14 @@ export enum KnownOrigin {
     System = "system",
     User = "user",
     UserSystem = "user,system"
+}
+
+// @public
+export enum KnownTargetType {
+    AfterStageWait = "AfterStageWait",
+    Group = "Group",
+    Member = "Member",
+    Stage = "Stage"
 }
 
 // @public
@@ -348,12 +492,14 @@ export enum KnownUpdateState {
     Failed = "Failed",
     NotStarted = "NotStarted",
     Running = "Running",
+    Skipped = "Skipped",
     Stopped = "Stopped",
     Stopping = "Stopping"
 }
 
 // @public
 export interface ManagedClusterUpdate {
+    nodeImageSelection?: NodeImageSelection;
     upgrade: ManagedClusterUpgradeSpec;
 }
 
@@ -367,11 +513,43 @@ export interface ManagedClusterUpgradeSpec {
 export type ManagedClusterUpgradeType = string;
 
 // @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity;
+    };
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
+
+// @public
 export interface MemberUpdateStatus {
     readonly clusterResourceId?: string;
+    readonly message?: string;
     readonly name?: string;
     readonly operationId?: string;
     readonly status?: UpdateStatus;
+}
+
+// @public
+export interface NodeImageSelection {
+    type: NodeImageSelectionType;
+}
+
+// @public
+export interface NodeImageSelectionStatus {
+    readonly selectedNodeImageVersions?: NodeImageVersion[];
+}
+
+// @public
+export type NodeImageSelectionType = string;
+
+// @public
+export interface NodeImageVersion {
+    readonly version?: string;
 }
 
 // @public
@@ -432,6 +610,17 @@ export interface Resource {
 }
 
 // @public
+export interface SkipProperties {
+    targets: SkipTarget[];
+}
+
+// @public
+export interface SkipTarget {
+    name: string;
+    type: TargetType;
+}
+
+// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -440,6 +629,9 @@ export interface SystemData {
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
 }
+
+// @public
+export type TargetType = string;
 
 // @public
 export interface TrackedResource extends Resource {
@@ -468,11 +660,12 @@ export interface UpdateRun extends ProxyResource {
     readonly provisioningState?: UpdateRunProvisioningState;
     readonly status?: UpdateRunStatus;
     strategy?: UpdateRunStrategy;
+    updateStrategyId?: string;
 }
 
 // @public
 export interface UpdateRunListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: UpdateRun[];
 }
 
@@ -485,6 +678,8 @@ export interface UpdateRuns {
     beginCreateOrUpdateAndWait(resourceGroupName: string, fleetName: string, updateRunName: string, resource: UpdateRun, options?: UpdateRunsCreateOrUpdateOptionalParams): Promise<UpdateRunsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsDeleteOptionalParams): Promise<void>;
+    beginSkip(resourceGroupName: string, fleetName: string, updateRunName: string, body: SkipProperties, options?: UpdateRunsSkipOptionalParams): Promise<SimplePollerLike<OperationState<UpdateRunsSkipResponse>, UpdateRunsSkipResponse>>;
+    beginSkipAndWait(resourceGroupName: string, fleetName: string, updateRunName: string, body: SkipProperties, options?: UpdateRunsSkipOptionalParams): Promise<UpdateRunsSkipResponse>;
     beginStart(resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsStartOptionalParams): Promise<SimplePollerLike<OperationState<UpdateRunsStartResponse>, UpdateRunsStartResponse>>;
     beginStartAndWait(resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsStartOptionalParams): Promise<UpdateRunsStartResponse>;
     beginStop(resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsStopOptionalParams): Promise<SimplePollerLike<OperationState<UpdateRunsStopResponse>, UpdateRunsStopResponse>>;
@@ -544,6 +739,22 @@ export interface UpdateRunsListByFleetOptionalParams extends coreClient.Operatio
 export type UpdateRunsListByFleetResponse = UpdateRunListResult;
 
 // @public
+export interface UpdateRunsSkipHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface UpdateRunsSkipOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type UpdateRunsSkipResponse = UpdateRun;
+
+// @public
 export interface UpdateRunsStartHeaders {
     location?: string;
     retryAfter?: number;
@@ -577,6 +788,7 @@ export type UpdateRunsStopResponse = UpdateRun;
 
 // @public
 export interface UpdateRunStatus {
+    readonly nodeImageSelection?: NodeImageSelectionStatus;
     readonly stages?: UpdateStageStatus[];
     readonly status?: UpdateStatus;
 }
@@ -610,6 +822,12 @@ export interface UpdateStatus {
     readonly error?: ErrorDetail;
     readonly startTime?: Date;
     readonly state?: UpdateState;
+}
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
 // @public

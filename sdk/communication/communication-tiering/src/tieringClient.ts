@@ -62,7 +62,7 @@ export class TieringClient {
   public constructor(
     connectionStringOrUrl: string,
     credentialOrOptions?: KeyCredential | TokenCredential | TieringClientOptions,
-    maybeOptions: TieringClientOptions = {}
+    maybeOptions: TieringClientOptions = {},
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
     const options = isTieringClientOptions(credentialOrOptions)
@@ -90,14 +90,14 @@ export class TieringClient {
    */
   public getAcquiredNumberLimits(
     resourceId: string,
-    options: NumberAllotmentGetAcquiredNumberLimitsOptionalParams = {}
+    options: NumberAllotmentGetAcquiredNumberLimitsOptionalParams = {},
   ): Promise<AssetDetailsModel> {
     return tracingClient.withSpan(
       "numberAllotment.getAcquiredNumberLimits",
       options,
       (updatedOptions) => {
         return this.client.numberAllotment.getAcquiredNumberLimits(resourceId, updatedOptions);
-      }
+      },
     );
   }
 
@@ -108,7 +108,7 @@ export class TieringClient {
    */
   public getTierByResourceId(
     resourceId: string,
-    options: TieringGetByResourceIdOptionalParams = {}
+    options: TieringGetByResourceIdOptionalParams = {},
   ): Promise<AcsTier> {
     return tracingClient.withSpan("tiering.getTierByResourceId", options, (updatedOptions) => {
       return this.client.tiering.getByResourceId(resourceId, updatedOptions);

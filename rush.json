@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */{
+ */ {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -14,7 +14,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.101.0",
+  "rushVersion": "5.120.6",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -23,7 +23,7 @@
    * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
    * for details about these alternatives.
    */
-  "pnpmVersion": "7.33.5",
+  "pnpmVersion": "8.15.3",
   // "npmVersion": "4.5.0",
   // "yarnVersion": "1.9.4",
   /**
@@ -34,7 +34,7 @@
    * Specify a SemVer range to ensure developers use a NodeJS version that is appropriate
    * for your repo.
    */
-  "nodeSupportedVersionRange": ">=14.0.0",
+  "nodeSupportedVersionRange": ">=18.0.0",
   /**
    * Odd-numbered major versions of Node.js are experimental.  Even-numbered releases
    * spend six months in a stabilization period before the first Long Term Support (LTS) version.
@@ -311,6 +311,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/ai-document-intelligence",
+      "projectFolder": "sdk/documentintelligence/ai-document-intelligence-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/purview-administration",
       "projectFolder": "sdk/purview/purview-administration-rest",
       "versionPolicyName": "client"
@@ -318,6 +323,11 @@
     {
       "packageName": "@azure-rest/purview-catalog",
       "projectFolder": "sdk/purview/purview-catalog-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/purview-datamap",
+      "projectFolder": "sdk/purview/purview-datamap-rest",
       "versionPolicyName": "client"
     },
     {
@@ -346,6 +356,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/defender-easm",
+      "projectFolder": "sdk/easm/defender-easm-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/confidential-ledger",
       "projectFolder": "sdk/confidentialledger/confidential-ledger-rest",
       "versionPolicyName": "client"
@@ -353,6 +368,11 @@
     {
       "packageName": "@azure-rest/ai-anomaly-detector",
       "projectFolder": "sdk/anomalydetector/ai-anomaly-detector-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/ai-content-safety",
+      "projectFolder": "sdk/contentsafety/ai-content-safety-rest",
       "versionPolicyName": "client"
     },
     {
@@ -381,18 +401,23 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/openai-assistants",
+      "projectFolder": "sdk/openai/openai-assistants",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/openai",
       "projectFolder": "sdk/openai/openai",
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/ai-metrics-advisor",
-      "projectFolder": "sdk/metricsadvisor/ai-metrics-advisor",
+      "packageName": "@azure-rest/openai",
+      "projectFolder": "sdk/openai/openai-rest",
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure-rest/ai-personalizer",
-      "projectFolder": "sdk/personalizer/ai-personalizer-rest",
+      "packageName": "@azure/ai-metrics-advisor",
+      "projectFolder": "sdk/metricsadvisor/ai-metrics-advisor",
       "versionPolicyName": "client"
     },
     {
@@ -436,11 +461,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/communication-network-traversal",
-      "projectFolder": "sdk/communication/communication-network-traversal",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure/communication-phone-numbers",
       "projectFolder": "sdk/communication/communication-phone-numbers",
       "versionPolicyName": "client"
@@ -481,6 +501,16 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/communication-job-router",
+      "projectFolder": "sdk/communication/communication-job-router-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/communication-messages",
+      "projectFolder": "sdk/communication/communication-messages-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/container-registry",
       "projectFolder": "sdk/containerregistry/container-registry",
       "versionPolicyName": "client"
@@ -501,18 +531,23 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/core-sse",
+      "projectFolder": "sdk/core/core-sse",
+      "versionPolicyName": "core"
+    },
+    {
       "packageName": "@azure/core-client",
       "projectFolder": "sdk/core/core-client",
       "versionPolicyName": "core"
     },
     {
-      "packageName": "@azure/core-http",
-      "projectFolder": "sdk/core/core-http",
+      "packageName": "@azure/core-rest-pipeline",
+      "projectFolder": "sdk/core/core-rest-pipeline",
       "versionPolicyName": "core"
     },
     {
-      "packageName": "@azure/core-rest-pipeline",
-      "projectFolder": "sdk/core/core-rest-pipeline",
+      "packageName": "@typespec/ts-http-runtime",
+      "projectFolder": "sdk/core/ts-http-runtime",
       "versionPolicyName": "core"
     },
     {
@@ -576,6 +611,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/eventgrid-namespaces",
+      "projectFolder": "sdk/eventgrid/eventgrid-namespaces",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/event-hubs",
       "projectFolder": "sdk/eventhub/event-hubs",
       "versionPolicyName": "client"
@@ -598,6 +638,7 @@
     {
       "packageName": "@azure/identity",
       "projectFolder": "sdk/identity/identity",
+      "decoupledLocalDependencies": ["@azure/keyvault-keys"],
       "versionPolicyName": "client"
     },
     {
@@ -608,6 +649,11 @@
     {
       "packageName": "@azure/identity-cache-persistence",
       "projectFolder": "sdk/identity/identity-cache-persistence",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/identity-broker",
+      "projectFolder": "sdk/identity/identity-broker",
       "versionPolicyName": "client"
     },
     {
@@ -791,6 +837,11 @@
       "versionPolicyName": "utility"
     },
     {
+      "packageName": "@azure-tools/vite-plugin-browser-test-map",
+      "projectFolder": "common/tools/vite-plugin-browser-test-map",
+      "versionPolicyName": "utility"
+    },
+    {
       "packageName": "@azure-tools/test-recorder",
       "projectFolder": "sdk/test-utils/recorder",
       "versionPolicyName": "utility"
@@ -801,7 +852,7 @@
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure/test-utils-perf",
+      "packageName": "@azure-tools/test-perf",
       "projectFolder": "sdk/test-utils/perf",
       "versionPolicyName": "utility"
     },
@@ -1413,6 +1464,11 @@
     {
       "packageName": "@azure-rest/health-insights-clinicalmatching",
       "projectFolder": "sdk/healthinsights/health-insights-clinicalmatching-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/health-insights-radiologyinsights",
+      "projectFolder": "sdk/healthinsights/health-insights-radiologyinsights-rest",
       "versionPolicyName": "client"
     },
     {
@@ -2066,8 +2122,93 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-maintenance",
+      "projectFolder": "sdk/maintenance/arm-maintenance",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-resourcesdeploymentstacks",
+      "projectFolder": "sdk/resourcesdeploymentstacks/arm-resourcesdeploymentstacks",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-apicenter",
+      "projectFolder": "sdk/apicenter/arm-apicenter",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-hdinsightcontainers",
+      "projectFolder": "sdk/hdinsight/arm-hdinsightcontainers",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-defendereasm",
       "projectFolder": "sdk/defendereasm/arm-defendereasm",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-hybridconnectivity",
+      "projectFolder": "sdk/hybridconnectivity/arm-hybridconnectivity",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-tests/perf-monitor-opentelemetry",
+      "projectFolder": "sdk/monitor/perf-tests/monitor-opentelemetry",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure/arm-recoveryservicesdatareplication",
+      "projectFolder": "sdk/recoveryservicesdatareplication/arm-recoveryservicesdatareplication",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-playwrighttesting",
+      "projectFolder": "sdk/playwrighttesting/arm-playwrighttesting",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/ai-vision-image-analysis",
+      "projectFolder": "sdk/vision/ai-vision-image-analysis-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-hybridnetwork",
+      "projectFolder": "sdk/hybridnetwork/arm-hybridnetwork",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-networkanalytics",
+      "projectFolder": "sdk/networkanalytics/arm-networkanalytics",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-workloadssapvirtualinstance",
+      "projectFolder": "sdk/workloads/arm-workloadssapvirtualinstance",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-astro",
+      "projectFolder": "sdk/astro/arm-astro",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-largeinstance",
+      "projectFolder": "sdk/largeinstance/arm-largeinstance",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-springappdiscovery",
+      "projectFolder": "sdk/springappdiscovery/arm-springappdiscovery",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-migrationdiscoverysap",
+      "projectFolder": "sdk/migrationdiscovery/arm-migrationdiscoverysap",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storageactions",
+      "projectFolder": "sdk/storageactions/arm-storageactions",
       "versionPolicyName": "management"
     }
   ]

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or Updates the IdentityProvider configuration.
  *
  * @summary Creates or Updates the IdentityProvider configuration.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateIdentityProvider.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateIdentityProvider.json
  */
 async function apiManagementCreateIdentityProvider() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

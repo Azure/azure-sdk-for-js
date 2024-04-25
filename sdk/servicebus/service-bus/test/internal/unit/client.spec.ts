@@ -8,7 +8,7 @@ describe("ServiceBusClient unit tests", function (): void {
     it("respects customEndpointAddress when using connection string", () => {
       const client = new ServiceBusClient(
         "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=my-event-hub-name",
-        { customEndpointAddress: "sb://foo.private.bar:111" }
+        { customEndpointAddress: "sb://foo.private.bar:111" },
       );
       client.should.be.an.instanceof(ServiceBusClient);
       client["_connectionContext"].config.host.should.equal("foo.private.bar");

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to update a capacity reservation.
  *
  * @summary The operation to update a capacity reservation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-03-01/examples/capacityReservationExamples/CapacityReservation_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/capacityReservationExamples/CapacityReservation_Update_MaximumSet_Gen.json
  */
 async function capacityReservationUpdateMaximumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -45,7 +45,7 @@ async function capacityReservationUpdateMaximumSetGen() {
     resourceGroupName,
     capacityReservationGroupName,
     capacityReservationName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -54,7 +54,7 @@ async function capacityReservationUpdateMaximumSetGen() {
  * This sample demonstrates how to The operation to update a capacity reservation.
  *
  * @summary The operation to update a capacity reservation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-03-01/examples/capacityReservationExamples/CapacityReservation_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/capacityReservationExamples/CapacityReservation_Update_MinimumSet_Gen.json
  */
 async function capacityReservationUpdateMinimumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -68,7 +68,7 @@ async function capacityReservationUpdateMinimumSetGen() {
     resourceGroupName,
     capacityReservationGroupName,
     capacityReservationName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

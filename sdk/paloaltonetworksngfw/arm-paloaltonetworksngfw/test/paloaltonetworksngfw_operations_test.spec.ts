@@ -49,7 +49,7 @@ describe("paloaltonetworksngfw test", () => {
     const credential = createTestCredential();
     client = new PaloAltoNetworksCloudngfw(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
-    resourceGroup = "czwjstest";
+    resourceGroup = "myjstest";
     resourcename = "resourcetest";
   });
 
@@ -90,7 +90,7 @@ describe("paloaltonetworksngfw test", () => {
     const resArray = new Array();
     const res = await client.localRulestacks.beginDeleteAndWait(
       resourceGroup,
-      resourcename,
+      resourcename, testPollingOptions
     )
     for await (let item of client.localRulestacks.listByResourceGroup(resourceGroup)) {
       resArray.push(item);

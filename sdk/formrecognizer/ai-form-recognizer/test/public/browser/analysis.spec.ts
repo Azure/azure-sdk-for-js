@@ -16,7 +16,7 @@ describe("analysis (browser)", () => {
     ({ recorder, client } = await createRecordedClient(
       this.currentTest,
       DocumentAnalysisClient,
-      true
+      true,
     ));
   });
 
@@ -28,17 +28,21 @@ describe("analysis (browser)", () => {
 
   it("recognizes receipt from a url", async () => {
     const testingContainerUrl: string = assertEnvironmentVariable(
-      "FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL"
+      "FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL",
     );
     const urlParts = testingContainerUrl.split("?");
     const url = `${urlParts[0]}/contoso-allinone.jpg?${urlParts[1]}`;
 
-    const poller = await client.beginAnalyzeDocument("prebuilt-receipt", url, testPollingOptions);
+    const poller = await client.beginAnalyzeDocumentFromUrl(
+      "prebuilt-receipt",
+      url,
+      testPollingOptions,
+    );
     const { documents: receipts } = await poller.pollUntilDone();
 
     assert.ok(
       receipts && receipts.length > 0,
-      `Expected at least one receipt, but got ${receipts}`
+      `Expected at least one receipt, but got ${receipts}`,
     );
     const receipt = receipts![0];
     assert.equal(receipt.docType, "receipt.retailMeal");

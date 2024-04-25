@@ -8,7 +8,7 @@
 
 import {
   OperationsListOptionalParams,
-  OperationsListResponse
+  OperationsListResponse,
 } from "../models";
 
 /** Interface representing a Operations. */

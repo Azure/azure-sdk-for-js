@@ -47,7 +47,7 @@ export class BackendImpl implements Backend {
 
   /**
    * Lists a collection of backends in the specified service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -131,7 +131,7 @@ export class BackendImpl implements Backend {
 
   /**
    * Lists a collection of backends in the specified service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -148,7 +148,7 @@ export class BackendImpl implements Backend {
 
   /**
    * Gets the entity state (Etag) version of the backend specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param backendId Identifier of the Backend entity. Must be unique in the current API Management
    *                  service instance.
@@ -168,7 +168,7 @@ export class BackendImpl implements Backend {
 
   /**
    * Gets the details of the backend specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param backendId Identifier of the Backend entity. Must be unique in the current API Management
    *                  service instance.
@@ -188,7 +188,7 @@ export class BackendImpl implements Backend {
 
   /**
    * Creates or Updates a backend.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param backendId Identifier of the Backend entity. Must be unique in the current API Management
    *                  service instance.
@@ -210,7 +210,7 @@ export class BackendImpl implements Backend {
 
   /**
    * Updates an existing backend.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param backendId Identifier of the Backend entity. Must be unique in the current API Management
    *                  service instance.
@@ -242,7 +242,7 @@ export class BackendImpl implements Backend {
 
   /**
    * Deletes the specified backend.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param backendId Identifier of the Backend entity. Must be unique in the current API Management
    *                  service instance.
@@ -264,9 +264,9 @@ export class BackendImpl implements Backend {
   }
 
   /**
-   * Notifies the APIM proxy to create a new connection to the backend after the specified timeout. If no
-   * timeout was specified, timeout of 2 minutes is used.
-   * @param resourceGroupName The name of the resource group.
+   * Notifies the API Management gateway to create a new connection to the backend after the specified
+   * timeout. If no timeout was specified, timeout of 2 minutes is used.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param backendId Identifier of the Backend entity. Must be unique in the current API Management
    *                  service instance.
@@ -286,7 +286,7 @@ export class BackendImpl implements Backend {
 
   /**
    * ListByServiceNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param nextLink The nextLink from the previous successful call to the ListByService method.
    * @param options The options parameters.
@@ -397,7 +397,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters18,
+  requestBody: Parameters.parameters27,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -427,7 +427,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters19,
+  requestBody: Parameters.parameters28,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -476,7 +476,7 @@ const reconnectOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters20,
+  requestBody: Parameters.parameters29,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

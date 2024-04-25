@@ -17,7 +17,7 @@ import {
 export interface TagResource {
   /**
    * Lists a collection of resources associated with tags.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */

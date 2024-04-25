@@ -74,7 +74,7 @@ describe("workloads test", () => {
       routingPreference: "RouteAll",
       tags: { key: "value" }
     };
-    const res = await client.monitors.beginCreateAndWait(resourceGroup, monitorName, monitorParameter)
+    const res = await client.monitors.beginCreateAndWait(resourceGroup, monitorName, monitorParameter, testPollingOptions)
     assert.equal(res.name, monitorName);
   });
 
@@ -125,7 +125,8 @@ describe("workloads test", () => {
           managedResourceGroupConfiguration: {
             "name": "mrg-Y13-bf4ab3"
           }
-        }
+        },
+        updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
       }
     );
     assert.equal(res.name, monitorName);
@@ -158,7 +159,7 @@ describe("workloads test", () => {
 
   //delete monitors
   it("Workloads delete test", async function () {
-    const res = await client.monitors.beginDeleteAndWait(resourceGroup, monitorName);
+    const res = await client.monitors.beginDeleteAndWait(resourceGroup, monitorName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.monitors.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
@@ -168,7 +169,7 @@ describe("workloads test", () => {
 
   //delete svi
   it.skip("svi delete test", async function () {
-    const res = await client.sAPVirtualInstances.beginDeleteAndWait(resourceGroup, sapVirtualInstanceName);
+    const res = await client.sAPVirtualInstances.beginDeleteAndWait(resourceGroup, sapVirtualInstanceName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.sAPVirtualInstances.listByResourceGroup(resourceGroup)) {
       resArray.push(item);

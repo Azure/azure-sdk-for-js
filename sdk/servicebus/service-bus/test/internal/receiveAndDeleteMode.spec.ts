@@ -48,12 +48,12 @@ describe("receive and delete", () => {
 
   async function beforeEachTest(
     entityType: TestClientType,
-    receiveMode?: "peekLock" | "receiveAndDelete"
+    receiveMode?: "peekLock" | "receiveAndDelete",
   ): Promise<EntityName> {
     entityName = await serviceBusClient.test.createTestEntities(entityType);
 
     sender = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityName.queue ?? entityName.topic!)
+      serviceBusClient.createSender(entityName.queue ?? entityName.topic!),
     );
     if (receiveMode === "peekLock") {
       receiver = await serviceBusClient.test.createPeekLockReceiver(entityName);
@@ -81,7 +81,7 @@ describe("receive and delete", () => {
       should.equal(
         !msgs[0].lockToken,
         true,
-        "Msgs in receiveAndDelete mode should not have locktoken! We use this assumption to differentiate between the two receive modes."
+        "Msgs in receiveAndDelete mode should not have locktoken! We use this assumption to differentiate between the two receive modes.",
       );
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -90,7 +90,7 @@ describe("receive and delete", () => {
       should.equal(
         msgs[0].messageId,
         testMessages.messageId,
-        "MessageId is different than expected"
+        "MessageId is different than expected",
       );
       should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
     }
@@ -109,7 +109,7 @@ describe("receive and delete", () => {
       async function (): Promise<void> {
         await beforeEachTest(noSessionTestClientType);
         await testNoSettlement();
-      }
+      },
     );
 
     it(
@@ -117,7 +117,7 @@ describe("receive and delete", () => {
       async function (): Promise<void> {
         await beforeEachTest(withSessionTestClientType);
         await testNoSettlement();
-      }
+      },
     );
   });
 
@@ -130,7 +130,7 @@ describe("receive and delete", () => {
 
     async function sendReceiveMsg(
       testMessages: ServiceBusMessage,
-      autoCompleteFlag: boolean
+      autoCompleteFlag: boolean,
     ): Promise<void> {
       await sender.sendMessages(testMessages);
 
@@ -146,7 +146,7 @@ describe("receive and delete", () => {
             errors.push(args.error.message);
           },
         },
-        { autoCompleteMessages: autoCompleteFlag }
+        { autoCompleteMessages: autoCompleteFlag },
       );
 
       const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
@@ -156,18 +156,18 @@ describe("receive and delete", () => {
       should.equal(
         receivedMsgs[0].body,
         testMessages.body,
-        "MessageBody is different than expected"
+        "MessageBody is different than expected",
       );
       should.equal(
         receivedMsgs[0].messageId,
         testMessages.messageId,
-        "MessageId is different than expected"
+        "MessageId is different than expected",
       );
 
       should.equal(
         errorFromErrorHandler,
         undefined,
-        errorFromErrorHandler && errorFromErrorHandler.message
+        errorFromErrorHandler && errorFromErrorHandler.message,
       );
 
       await testPeekMsgsLength(receiver, 0);
@@ -188,7 +188,7 @@ describe("receive and delete", () => {
       async function (): Promise<void> {
         await beforeEachTest(noSessionTestClientType);
         await testNoSettlement(true);
-      }
+      },
     );
 
     it(
@@ -197,7 +197,7 @@ describe("receive and delete", () => {
       async function (): Promise<void> {
         await beforeEachTest(withSessionTestClientType);
         await testNoSettlement(true);
-      }
+      },
     );
 
     it(
@@ -206,7 +206,7 @@ describe("receive and delete", () => {
       async function (): Promise<void> {
         await beforeEachTest(noSessionTestClientType);
         await testNoSettlement(false);
-      }
+      },
     );
 
     it(
@@ -215,7 +215,7 @@ describe("receive and delete", () => {
       async function (): Promise<void> {
         await beforeEachTest(withSessionTestClientType);
         await testNoSettlement(false);
-      }
+      },
     );
   });
 
@@ -225,7 +225,7 @@ describe("receive and delete", () => {
     });
 
     async function sendReceiveMsg(
-      testMessages: ServiceBusMessage
+      testMessages: ServiceBusMessage,
     ): Promise<ServiceBusReceivedMessage> {
       await sender.sendMessages(testMessages);
       const msgs = await receiver.receiveMessages(1);
@@ -236,7 +236,7 @@ describe("receive and delete", () => {
       should.equal(
         msgs[0].messageId,
         testMessages.messageId,
-        "MessageId is different than expected"
+        "MessageId is different than expected",
       );
       should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
 
@@ -245,7 +245,7 @@ describe("receive and delete", () => {
 
     const testError = (err: Error): void => {
       expect(err.message, "ErrorMessage is different than expected").equals(
-        InvalidOperationInReceiveAndDeleteMode
+        InvalidOperationInReceiveAndDeleteMode,
       );
     };
 
@@ -322,7 +322,7 @@ describe("receive and delete", () => {
         should.equal(
           err.message,
           InvalidOperationInReceiveAndDeleteMode,
-          "ErrorMessage is different than expected"
+          "ErrorMessage is different than expected",
         );
         errorWasThrown = true;
       });
@@ -335,7 +335,7 @@ describe("receive and delete", () => {
       async function (): Promise<void> {
         await beforeEachTest(noSessionTestClientType);
         await testRenewLock();
-      }
+      },
     );
   });
 
@@ -360,7 +360,7 @@ describe("receive and delete", () => {
       should.equal(
         msgs[0].messageId,
         testMessages.messageId,
-        "MessageId is different than expected"
+        "MessageId is different than expected",
       );
       should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
 
@@ -369,7 +369,7 @@ describe("receive and delete", () => {
     }
 
     async function testDeferredMessage(
-      testClientType: TestClientType
+      testClientType: TestClientType,
     ): Promise<ServiceBusReceivedMessage> {
       const sequenceNumber = await deferMessage(testClientType);
       await receiver.close();
@@ -413,7 +413,7 @@ describe("receive and delete", () => {
       withSessionTestClientType + ": No settlement of the message removes message",
       async function (): Promise<void> {
         await testDeferredMessage(withSessionTestClientType);
-      }
+      },
     );
   });
 
@@ -425,7 +425,7 @@ describe("receive and delete", () => {
     let entityNames: EntityName;
 
     async function testDeferredMessage(
-      testClientType: TestClientType
+      testClientType: TestClientType,
     ): Promise<ServiceBusReceivedMessage> {
       entityNames = await beforeEachTest(testClientType, "peekLock");
 
@@ -453,13 +453,13 @@ describe("receive and delete", () => {
 
     const testError = (err: Error): void => {
       expect(err.message, "ErrorMessage is different than expected").equals(
-        InvalidOperationInReceiveAndDeleteMode
+        InvalidOperationInReceiveAndDeleteMode,
       );
     };
 
     async function testSettlement(
       testClienttype: TestClientType,
-      operation: DispositionType
+      operation: DispositionType,
     ): Promise<void> {
       const deferredMsg = await testDeferredMessage(testClienttype);
 
@@ -520,7 +520,7 @@ describe("receive and delete", () => {
         should.equal(
           err.message,
           InvalidOperationInReceiveAndDeleteMode,
-          "ErrorMessage is different than expected"
+          "ErrorMessage is different than expected",
         );
         errorWasThrown = true;
       });
@@ -532,7 +532,7 @@ describe("receive and delete", () => {
       noSessionTestClientType + ": Renew message lock throws error",
       async function (): Promise<void> {
         await testRenewLock(noSessionTestClientType);
-      }
+      },
     );
   });
 });

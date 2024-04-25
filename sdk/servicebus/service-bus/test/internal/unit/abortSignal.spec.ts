@@ -26,6 +26,8 @@ import { MessageSession } from "../../../src/session/messageSession";
 import { ProcessErrorArgs } from "../../../src";
 import { ReceiveMode } from "../../../src/models";
 
+const abortMsgRegex = new RegExp(StandardAbortMessage);
+
 describe("AbortSignal", () => {
   const defaultOptions = {
     lockRenewer: undefined,
@@ -62,7 +64,7 @@ describe("AbortSignal", () => {
         "serviceBusClientId",
         connectionContext,
         "fakeEntityPath",
-        {}
+        {},
       );
       closeables.push(sender);
 
@@ -108,7 +110,7 @@ describe("AbortSignal", () => {
         });
         assert.fail("AbortError should be thrown when the signal is already in an aborted state");
       } catch (err: any) {
-        assert.equal(err.message, StandardAbortMessage);
+        assert.match(err.message, abortMsgRegex);
 
         // we aborted in the sync part of the abort check so these event listeners are never set up
         assert.isFalse(abortSignal.addWasCalled);
@@ -158,7 +160,7 @@ describe("AbortSignal", () => {
 
         assert.match(
           err.message,
-          /.*was not able to send the message right now, due to operation timeout.*/
+          /.*was not able to send the message right now, due to operation timeout.*/,
         );
 
         assert.isTrue((err as any).retryable);
@@ -204,7 +206,7 @@ describe("AbortSignal", () => {
         "serviceBusClientId",
         createConnectionContextForTests(),
         "fakeEntityPath",
-        {}
+        {},
       );
       closeables.push(sender);
 
@@ -214,7 +216,7 @@ describe("AbortSignal", () => {
         await sender.open(undefined, abortSignal);
         assert.fail("Should have thrown an AbortError");
       } catch (err: any) {
-        assert.equal(err.message, StandardAbortMessage);
+        assert.match(err.message, abortMsgRegex);
         assert.equal(err.name, "AbortError");
       }
     });
@@ -224,7 +226,7 @@ describe("AbortSignal", () => {
         "serviceBusClientId",
         createConnectionContextForTests(),
         "fakeEntityPath",
-        {}
+        {},
       );
       closeables.push(sender);
 
@@ -234,7 +236,7 @@ describe("AbortSignal", () => {
         await sender.open(undefined, abortSignal);
         assert.fail("Should have thrown an AbortError");
       } catch (err: any) {
-        assert.equal(err.message, StandardAbortMessage);
+        assert.match(err.message, abortMsgRegex);
         assert.equal(err.name, "AbortError");
       }
     });
@@ -251,7 +253,7 @@ describe("AbortSignal", () => {
           },
         }),
         "fakeEntityPath",
-        {}
+        {},
       );
       closeables.push(sender);
 
@@ -263,7 +265,7 @@ describe("AbortSignal", () => {
         await sender.createBatch({ abortSignal: taggedAbortSignal });
         assert.fail("Should have thrown an AbortError");
       } catch (err: any) {
-        assert.equal(err.message, StandardAbortMessage);
+        assert.match(err.message, abortMsgRegex);
         assert.equal(err.name, "AbortError");
       }
     });
@@ -280,7 +282,7 @@ describe("AbortSignal", () => {
           },
         }),
         "fakeEntityPath",
-        {}
+        {},
       );
       closeables.push(sender);
 
@@ -292,7 +294,7 @@ describe("AbortSignal", () => {
         await sender.createBatch({ abortSignal: taggedAbortSignal });
         assert.fail("Should have thrown an AbortError");
       } catch (err: any) {
-        assert.equal(err.message, StandardAbortMessage);
+        assert.match(err.message, abortMsgRegex);
         assert.equal(err.name, "AbortError");
       }
     });
@@ -304,7 +306,7 @@ describe("AbortSignal", () => {
         "serviceBusClientId",
         createConnectionContextForTests(),
         "fakeEntityPath",
-        defaultOptions
+        defaultOptions,
       );
       closeables.push(messageReceiver);
 
@@ -324,7 +326,7 @@ describe("AbortSignal", () => {
         "serviceBusClientId",
         createConnectionContextForTests(),
         "fakeEntityPath",
-        defaultOptions
+        defaultOptions,
       );
       closeables.push(messageReceiver);
 
@@ -357,7 +359,7 @@ describe("AbortSignal", () => {
         "serviceBusClientId",
         fakeContext,
         "fakeEntityPath",
-        defaultOptions
+        defaultOptions,
       );
       closeables.push(messageReceiver);
 
@@ -393,7 +395,7 @@ describe("AbortSignal", () => {
           retryOptions: undefined,
           skipParsingBodyAsJson: false,
           skipConvertingDate: false,
-        }
+        },
       );
 
       const session = new ServiceBusSessionReceiverImpl(
@@ -402,7 +404,7 @@ describe("AbortSignal", () => {
         "entityPath",
         "peekLock",
         false,
-        false
+        false,
       );
 
       try {
@@ -420,7 +422,7 @@ describe("AbortSignal", () => {
           },
           {
             abortSignal,
-          }
+          },
         );
 
         assert.equal(receivedErrors[0].message, "The operation was aborted.");
@@ -436,7 +438,7 @@ describe("AbortSignal", () => {
         "entityPath",
         "peekLock",
         1,
-        false
+        false,
       );
 
       try {
@@ -456,11 +458,11 @@ describe("AbortSignal", () => {
             },
             {
               abortSignal,
-            }
+            },
           );
         });
 
-        assert.equal(receivedErrors[0].message, "The operation was aborted.");
+        assert.match(receivedErrors[0].message, abortMsgRegex);
         assert.equal(receivedErrors[0].name, "AbortError");
       } finally {
         await receiver.close();

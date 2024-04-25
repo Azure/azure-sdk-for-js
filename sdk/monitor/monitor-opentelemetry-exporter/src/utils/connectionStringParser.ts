@@ -35,7 +35,7 @@ export class ConnectionStringParser {
       diag.error(
         `Connection string key-value pair is invalid: ${kv}`,
         `Entire connection string will be discarded`,
-        connectionString
+        connectionString,
       );
       isValid = false;
       return fields;
@@ -61,13 +61,13 @@ export class ConnectionStringParser {
         : Constants.DEFAULT_LIVEMETRICS_ENDPOINT;
       if (result.authorization && result.authorization.toLowerCase() !== "ikey") {
         diag.warn(
-          `Connection String contains an unsupported 'Authorization' value: ${result.authorization!}. Defaulting to 'Authorization=ikey'. Instrumentation Key ${result.instrumentationkey!}`
+          `Connection String contains an unsupported 'Authorization' value: ${result.authorization!}. Defaulting to 'Authorization=ikey'. Instrumentation Key ${result.instrumentationkey!}`,
         );
       }
     } else {
       diag.error(
         "An invalid connection string was passed in. There may be telemetry loss",
-        connectionString
+        connectionString,
       );
     }
 
@@ -81,9 +81,20 @@ export class ConnectionStringParser {
       newUrl = newUrl.replace("http://", "https://");
     }
     // Remove final slash if present
-    if (newUrl[newUrl.length - 1] == "/") {
+    if (newUrl[newUrl.length - 1] === "/") {
       newUrl = newUrl.slice(0, -1);
     }
     return newUrl;
+  }
+
+  public static validateInstrumentationKey(iKey: string): boolean {
+    if (iKey.startsWith("InstrumentationKey=")) {
+      const startIndex = iKey.indexOf("InstrumentationKey=") + "InstrumentationKey=".length;
+      const endIndex = iKey.indexOf(";", startIndex);
+      iKey = iKey.substring(startIndex, endIndex);
+    }
+    const UUID_Regex = "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$";
+    const regexp = new RegExp(UUID_Regex);
+    return regexp.test(iKey);
   }
 }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update an Azure Cosmos DB SQL storedProcedure
  *
  * @summary Create or update an Azure Cosmos DB SQL storedProcedure
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBSqlStoredProcedureCreateUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBSqlStoredProcedureCreateUpdate.json
  */
 async function cosmosDbSqlStoredProcedureCreateUpdate() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -37,7 +37,7 @@ async function cosmosDbSqlStoredProcedureCreateUpdate() {
     databaseName,
     containerName,
     storedProcedureName,
-    createUpdateSqlStoredProcedureParameters
+    createUpdateSqlStoredProcedureParameters,
   );
   console.log(result);
 }

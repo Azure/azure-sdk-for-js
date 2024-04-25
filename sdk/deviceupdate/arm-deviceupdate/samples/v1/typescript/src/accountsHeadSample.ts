@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Checks whether account exists.
  *
  * @summary Checks whether account exists.
- * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/Accounts/Accounts_Head.json
+ * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2023-07-01/examples/Accounts/Accounts_Head.json
  */
 async function checksWhetherAccountExists() {
   const subscriptionId =

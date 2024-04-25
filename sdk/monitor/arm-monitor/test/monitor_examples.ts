@@ -75,7 +75,7 @@ describe("Monitor test", () => {
     location = "eastus";
     resourceGroup = "myjstest";
     workflowName = "myworkflowxxx";
-    storageAccountName = "mystorageaccountyyy";
+    storageAccountName = "mystorageaccountyyy1";
     namespaceName = "mynamespacexxx";
     eventhubName = "myeventhubxxx";
     workspaceName = "myworkspacexxx";
@@ -128,7 +128,7 @@ describe("Monitor test", () => {
         key1: "value1",
         key2: "value2",
       }
-    });
+    }, testPollingOptions);
     storageId = storageaccount.id || "";
 
     //namespaces.beginCreateOrUpdateAndWait
@@ -142,10 +142,27 @@ describe("Monitor test", () => {
         tag1: "value1",
         tag2: "value2",
       }
-    })
+    }, testPollingOptions)
     //namespaces.createOrUpdateAuthorizationRule
     const authorization = await eventhub_client.namespaces.createOrUpdateAuthorizationRule(resourceGroup, namespaceName, authorizationRuleName, { rights: ["Listen", "Send", "Manage"] });
-    //eventHubs.createOrUpdate
+    authorizationId = authorization.id || "";
+
+    //workspaces.beginCreateOrUpdateAndWait
+    const workspace = await op_client.workspaces.beginCreateOrUpdateAndWait(resourceGroup, workspaceName, {
+      sku: {
+        name: "PerNode"
+      },
+      retentionInDays: 30,
+      location: location,
+      tags: {
+        tag1: "value1"
+      }
+    }, testPollingOptions)
+    workspaceId = workspace.id || "";
+  });
+  // need ask mary or qiaoqiao to add "Storage Blob Data Contributor" permission before create eventhub
+  it("eventhub create test", async function () {
+    // eventHubs.createOrUpdate
     const eventhub = await eventhub_client.eventHubs.createOrUpdate(resourceGroup, namespaceName, eventhubName, {
       messageRetentionInDays: 4,
       partitionCount: 4,
@@ -163,23 +180,13 @@ describe("Monitor test", () => {
         }
       }
     });
-    authorizationId = authorization.id || "";
-
-    //workspaces.beginCreateOrUpdateAndWait
-    const workspace = await op_client.workspaces.beginCreateOrUpdateAndWait(resourceGroup, workspaceName, {
-      sku: {
-        name: "PerNode"
-      },
-      retentionInDays: 30,
-      location: location,
-      tags: {
-        tag1: "value1"
-      }
-    })
-    workspaceId = workspace.id || "";
-  });
+  })
 
   it("diagnosticSettings create test", async function () {
+    workflowsId = ((await logic_client.workflows.get(resourceGroup, workflowName)).id || "/").substring(1)
+    storageId = (await storage_client.storageAccounts.getProperties(resourceGroup, storageAccountName)).id || "";
+    authorizationId = (await eventhub_client.namespaces.getAuthorizationRule(resourceGroup, namespaceName, authorizationRuleName)).id || "";
+    workspaceId = (await op_client.workspaces.get(resourceGroup, workspaceName)).id || "";
     const res = await client.diagnosticSettings.createOrUpdate(workflowsId, diagnosticName, {
       storageAccountId: storageId,
       workspaceId: workspaceId,
@@ -279,18 +286,36 @@ describe("Monitor test", () => {
 
   it("workspace delete test", async function () {
     const resArray = new Array();
-    const res = await client.azureMonitorWorkspaces.delete(resourceGroup, azureMonitorWorkspaceName)
+    const res = await client.azureMonitorWorkspaces.beginDeleteAndWait(resourceGroup, azureMonitorWorkspaceName)
     for await (let item of client.azureMonitorWorkspaces.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
 
+  it("metric listAtSubscriptionScope test", async function () {
+    const res = await client.metricsOperations.listAtSubscriptionScope(
+      location,
+      {
+        metricnamespace: "microsoft.compute/virtualmachines"
+      }
+    );
+  });
+
+  it("metric list test", async function () {
+    const res = await client.metricsOperations.list(
+      "subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.Storage/storageAccounts/" + storageAccountName + "/blobServices/default",
+      {
+        metricnamespace: "Microsoft.Storage/storageAccounts/blobServices"
+      }
+    );
+  });
+
   it("delete parameters for diagnosticSettings", async function () {
     const workflowDlete = await logic_client.workflows.delete(resourceGroup, workflowName);
     const storageDelete = await storage_client.storageAccounts.delete(resourceGroup, storageAccountName);
-    const namespaceDelete = await eventhub_client.namespaces.beginDeleteAndWait(resourceGroup, namespaceName);
-    const workspaceDelete = await op_client.workspaces.beginDeleteAndWait(resourceGroup, workspaceName);
+    const namespaceDelete = await eventhub_client.namespaces.beginDeleteAndWait(resourceGroup, namespaceName, testPollingOptions);
+    const workspaceDelete = await op_client.workspaces.beginDeleteAndWait(resourceGroup, workspaceName, testPollingOptions);
   });
 
   it("logProfiles delete test", async function () {

@@ -61,7 +61,7 @@ async function updateASimpleGalleryApplicationVersion() {
       resourceGroupName,
       galleryName,
       galleryApplicationName,
-      galleryApplicationVersionName
+      galleryApplicationVersionName,
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);

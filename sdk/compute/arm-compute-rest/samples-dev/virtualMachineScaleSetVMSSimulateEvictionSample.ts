@@ -33,7 +33,7 @@ async function simulateEvictionAVirtualMachine() {
       subscriptionId,
       resourceGroupName,
       vmScaleSetName,
-      instanceId
+      instanceId,
     )
     .post(options);
   console.log(result);

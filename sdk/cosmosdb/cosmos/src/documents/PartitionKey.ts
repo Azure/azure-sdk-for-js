@@ -44,11 +44,13 @@ export class PartitionKeyBuilder {
     this.values.push(value);
     return this;
   }
-  public addNullValue(): void {
+  public addNullValue(): PartitionKeyBuilder {
     this.values.push(NullPartitionKeyLiteral);
+    return this;
   }
-  public addNoneValue(): void {
+  public addNoneValue(): PartitionKeyBuilder {
     this.values.push(NonePartitionKeyLiteral);
+    return this;
   }
   public build(): PartitionKey {
     return [...this.values];

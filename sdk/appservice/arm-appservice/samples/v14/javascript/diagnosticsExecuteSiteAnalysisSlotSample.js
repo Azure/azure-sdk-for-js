@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Execute Analysis
  *
  * @summary Description for Execute Analysis
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/Diagnostics_ExecuteSiteAnalysis.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/Diagnostics_ExecuteSiteAnalysis.json
  */
 async function executeSiteAnalysis() {
   const subscriptionId =
@@ -43,7 +43,7 @@ async function executeSiteAnalysis() {
  * This sample demonstrates how to Description for Execute Analysis
  *
  * @summary Description for Execute Analysis
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/Diagnostics_ExecuteSiteAnalysisSlot.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/Diagnostics_ExecuteSiteAnalysisSlot.json
  */
 async function executeSiteSlotAnalysis() {
   const subscriptionId =

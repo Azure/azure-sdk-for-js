@@ -23,6 +23,7 @@ import {
   replaceOrUpsertItem,
   addEntropy,
   getTestContainer,
+  testForDiagnostics,
 } from "../../common/TestHelpers";
 import { endpoint } from "../../common/_testConfig";
 import { masterKey } from "../../common/_fakeTestSecrets";
@@ -32,6 +33,8 @@ import {
   PartitionKeyDefinitionVersion,
   PartitionKeyKind,
 } from "../../../../src/documents";
+import { PriorityLevel } from "../../../../src/documents/PriorityLevel";
+import { getCurrentTimestampInMs } from "../../../../src/utils/time";
 
 /**
  * Tests Item api.
@@ -119,7 +122,7 @@ async function CRUDTestRunner(dataset: CRUDTestDataSet, isUpsertTest: boolean): 
       container,
       itemDefinition,
       { disableAutomaticIdGeneration: true },
-      isUpsertTest
+      isUpsertTest,
     );
     assert.fail("id generation disabled must throw with invalid id");
   } catch (err: any) {
@@ -131,11 +134,11 @@ async function CRUDTestRunner(dataset: CRUDTestDataSet, isUpsertTest: boolean): 
     container,
     itemDefinition,
     undefined,
-    isUpsertTest
+    isUpsertTest,
   );
   assert.equal(
     extractNestedPropertyFromObject(document, dataset.propertyToCheck),
-    extractNestedPropertyFromObject(itemDefinition, dataset.propertyToCheck)
+    extractNestedPropertyFromObject(itemDefinition, dataset.propertyToCheck),
   );
   assert(document.id !== undefined);
   // read documents after creation
@@ -143,7 +146,7 @@ async function CRUDTestRunner(dataset: CRUDTestDataSet, isUpsertTest: boolean): 
   assert.equal(
     documents2.length,
     beforeCreateDocumentsCount + 1,
-    "create should increase the number of documents"
+    "create should increase the number of documents",
   );
   // query documents
   const querySpec = {
@@ -167,7 +170,7 @@ async function CRUDTestRunner(dataset: CRUDTestDataSet, isUpsertTest: boolean): 
     replaceDocument,
     undefined,
     isUpsertTest,
-    dataset.originalItemPartitionKey
+    dataset.originalItemPartitionKey,
   );
   assert.equal(replacedDocument.name, replaceDocument.name, "document name property should change");
   assert.equal(replacedDocument.foo, replaceDocument.foo, "property should have changed");
@@ -225,7 +228,7 @@ describe("Item CRUD hierarchical partition", function (this: Suite) {
       container,
       itemDefinition,
       undefined,
-      false
+      false,
     );
     assert.equal(document.name, itemDefinition.name);
     assert(document.id !== undefined);
@@ -234,7 +237,7 @@ describe("Item CRUD hierarchical partition", function (this: Suite) {
     assert.equal(
       documents2.length,
       beforeCreateDocumentsCount + 1,
-      "create should increase the number of documents"
+      "create should increase the number of documents",
     );
   });
 });
@@ -249,7 +252,7 @@ describe("Create, Upsert, Read, Update, Replace, Delete Operations on Item", fun
     const database = await getTestDatabase(dataset.dbName);
     const { resource: containerdef } = await database.containers.create(
       { ...dataset.containerDef, partitionKey: dataset.partitinKeyDef },
-      dataset.containerRequestOps
+      dataset.containerRequestOps,
     );
     const container = database.container(containerdef.id);
     let returnedDocuments = await bulkInsertItems(container, dataset.documents);
@@ -264,7 +267,7 @@ describe("Create, Upsert, Read, Update, Replace, Delete Operations on Item", fun
     assert.equal(
       successDocuments.length,
       returnedDocuments.length,
-      "Expected " + returnedDocuments.length + " documents to be succesfully read"
+      "Expected " + returnedDocuments.length + " documents to be succesfully read",
     );
     successDocuments.sort(function (doc1, doc2) {
       return doc1.id.localeCompare(doc2.id);
@@ -272,7 +275,7 @@ describe("Create, Upsert, Read, Update, Replace, Delete Operations on Item", fun
     assert.equal(
       JSON.stringify(successDocuments),
       JSON.stringify(returnedDocuments),
-      "Unexpected documents are returned"
+      "Unexpected documents are returned",
     );
     returnedDocuments.forEach(function (document) {
       document.prop ? ++document.prop : null; // eslint-disable-line no-unused-expressions
@@ -280,14 +283,14 @@ describe("Create, Upsert, Read, Update, Replace, Delete Operations on Item", fun
     const newReturnedDocuments = await bulkReplaceItems(
       container,
       returnedDocuments,
-      dataset.partitinKeyDef
+      dataset.partitinKeyDef,
     );
     returnedDocuments = newReturnedDocuments;
     await bulkQueryItemsWithPartitionKey(
       container,
       returnedDocuments,
       dataset.singleDocFetchQuery,
-      dataset.parameterGenerator
+      dataset.parameterGenerator,
     );
     const querySpec = {
       query: "SELECT * FROM Root",
@@ -302,12 +305,12 @@ describe("Create, Upsert, Read, Update, Replace, Delete Operations on Item", fun
     assert.equal(
       results.length,
       returnedDocuments.length,
-      "Expected " + returnedDocuments.length + " documents to be succesfully queried"
+      "Expected " + returnedDocuments.length + " documents to be succesfully queried",
     );
     assert.equal(
       JSON.stringify(results),
       JSON.stringify(returnedDocuments),
-      "Unexpected query results"
+      "Unexpected query results",
     );
 
     await bulkDeleteItems(container, returnedDocuments, dataset.partitinKeyDef);
@@ -549,6 +552,123 @@ describe("Create, Upsert, Read, Update, Replace, Delete Operations on Item", fun
         key2: 2,
       });
       assert.strictEqual(resource1.id, resource2.id);
+    });
+  });
+
+  describe("Test diagnostics for item CRUD", async function () {
+    const container = await getTestContainer("db1", undefined, {
+      throughput: 20000,
+      partitionKey: "/id",
+    });
+    // Test diagnostic for item create
+    const itemId = "2";
+    it("Test diagnostics for item.create", async function () {
+      const startTimestamp = getCurrentTimestampInMs();
+      await testForDiagnostics(
+        async () => {
+          return container.items.create({ id: itemId });
+        },
+        {
+          requestStartTimeUTCInMsLowerLimit: startTimestamp,
+          requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
+          retryCount: 0,
+          // metadataCallCount: 5,
+          locationEndpointsContacted: 1,
+        },
+      );
+    });
+
+    // Test diagnostic for item read
+    it("Test diagnostics for item.read", async function () {
+      const readTimestamp = getCurrentTimestampInMs();
+      await testForDiagnostics(
+        async () => {
+          return container.item(itemId, itemId).read();
+        },
+        {
+          requestStartTimeUTCInMsLowerLimit: readTimestamp,
+          requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
+          retryCount: 0,
+          // metadataCallCount: 2, // 2 calls for database account
+          locationEndpointsContacted: 1,
+        },
+      );
+    });
+
+    // Test diagnostic for item update
+    it("Test diagnostics for item.upsert", async function () {
+      const upsertTimestamp = getCurrentTimestampInMs();
+      await testForDiagnostics(
+        async () => {
+          return container.items.upsert({
+            id: itemId,
+            value: "3",
+          });
+        },
+        {
+          requestStartTimeUTCInMsLowerLimit: upsertTimestamp,
+          requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
+          retryCount: 0,
+          // metadataCallCount: 2, // 2 call for database account.
+          locationEndpointsContacted: 1,
+        },
+      );
+    });
+
+    // Test diagnostic for item replace
+    it("Test diagnostics for item.replace", async function () {
+      const replaceTimestamp = getCurrentTimestampInMs();
+      await testForDiagnostics(
+        async () => {
+          return container.item(itemId, itemId).replace({
+            id: itemId,
+            value: "4",
+          });
+        },
+        {
+          requestStartTimeUTCInMsLowerLimit: replaceTimestamp,
+          requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
+          retryCount: 0,
+          // metadataCallCount: 2, // 2 call for database account.
+          locationEndpointsContacted: 1,
+        },
+      );
+    });
+
+    // Test diagnostic for item query fetchAll
+    it("Test diagnostics for items.query fetchAll", async function () {
+      const fetchAllTimestamp = getCurrentTimestampInMs();
+      await testForDiagnostics(
+        async () => {
+          return container.items.query("select * from c ").fetchAll();
+        },
+        {
+          requestStartTimeUTCInMsLowerLimit: fetchAllTimestamp,
+          requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
+          retryCount: 0,
+          // metadataCallCount: 11,
+          locationEndpointsContacted: 1,
+        },
+        true,
+      );
+    });
+
+    // Test diagnostic for item query fetchAll
+    it("Test diagnostics for item.query fetchNext", async function () {
+      const fetchNextTimestamp = getCurrentTimestampInMs();
+      await testForDiagnostics(
+        async () => {
+          return container.items.query("select * from c ").fetchNext();
+        },
+        {
+          requestStartTimeUTCInMsLowerLimit: fetchNextTimestamp,
+          requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
+          retryCount: 0,
+          // metadataCallCount: 5,
+          locationEndpointsContacted: 1,
+        },
+        true,
+      );
     });
   });
 });
@@ -806,5 +926,112 @@ describe("patch operations", function () {
         .patch({ condition, operations });
       assert.strictEqual(conditionItem.newImproved, "it works");
     });
+  });
+});
+
+describe("Item CRUD with priority", function (this: Suite) {
+  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
+  beforeEach(async function () {
+    await removeAllDatabases();
+  });
+  const documentCRUDTest = async function (isUpsertTest: boolean): Promise<void> {
+    // create database
+    const database = await getTestDatabase("sample 中文 database");
+    // create container
+    const { resource: containerdef } = await database.containers.create(
+      { id: "sample container" },
+      { priorityLevel: PriorityLevel.Low },
+    );
+    const container: Container = database.container(containerdef.id);
+
+    // read items
+    const { resources: items } = await container.items
+      .readAll({ priorityLevel: PriorityLevel.Low })
+      .fetchAll();
+    assert(Array.isArray(items), "Value should be an array");
+
+    // create an item
+    const beforeCreateDocumentsCount = items.length;
+    const itemDefinition: TestItem = {
+      name: "sample document",
+      foo: "bar",
+      key: "value",
+      replace: "new property",
+    };
+
+    const { resource: document } = await createOrUpsertItem(
+      container,
+      itemDefinition,
+      { priorityLevel: PriorityLevel.Low },
+      isUpsertTest,
+    );
+    assert.equal(document.name, itemDefinition.name);
+    assert(document.id !== undefined);
+    // read documents after creation
+    const { resources: documents2 } = await container.items
+      .readAll({ priorityLevel: PriorityLevel.Low })
+      .fetchAll();
+    assert.equal(
+      documents2.length,
+      beforeCreateDocumentsCount + 1,
+      "create should increase the number of documents",
+    );
+    // query documents
+    const querySpec = {
+      query: "SELECT * FROM root r WHERE r.id=@id",
+      parameters: [
+        {
+          name: "@id",
+          value: document.id,
+        },
+      ],
+    };
+    const { resources: results } = await container.items
+      .query(querySpec, { priorityLevel: PriorityLevel.Low })
+      .fetchAll();
+    assert(results.length > 0, "number of results for the query should be > 0");
+
+    // replace document
+    document.name = "replaced document";
+    document.foo = "not bar";
+    const { resource: replacedDocument } = await replaceOrUpsertItem(
+      container,
+      document,
+      { priorityLevel: PriorityLevel.Low },
+      isUpsertTest,
+    );
+    assert.equal(
+      replacedDocument.name,
+      "replaced document",
+      "document name property should change",
+    );
+    assert.equal(replacedDocument.foo, "not bar", "property should have changed");
+    assert.equal(document.id, replacedDocument.id, "document id should stay the same");
+    // read document
+    const response2 = await container
+      .item(replacedDocument.id, undefined)
+      .read<TestItem>({ priorityLevel: PriorityLevel.Low });
+    const document2 = response2.resource;
+    assert.equal(replacedDocument.id, document2.id);
+    assert.equal(typeof response2.requestCharge, "number");
+    // delete document
+    await container
+      .item(replacedDocument.id, undefined)
+      .delete({ priorityLevel: PriorityLevel.Low });
+
+    // read documents after deletion
+    const response = await container
+      .item(replacedDocument.id, undefined)
+      .read({ priorityLevel: PriorityLevel.Low });
+    assert.equal(response.statusCode, 404, "response should return error code 404");
+    assert.equal(response.resource, undefined);
+  };
+
+  it("Should do document CRUD operations successfully", async function () {
+    await documentCRUDTest(false);
+  });
+
+  it("Should do document CRUD operations successfully with upsert", async function () {
+    await documentCRUDTest(true);
   });
 });

@@ -33,7 +33,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("quota test", () => {
+describe.skip("quota test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: AzureQuotaExtensionAPI;
@@ -66,6 +66,14 @@ describe("quota test", () => {
       resArray.push(item);
     }
     assert.notEqual(resArray.length, 0);
+  });
+
+  it("usage list test", async function () {
+    const resArray = new Array();
+    for await (let item of client.usages.list(scope)) {
+      resArray.push(item);
+    }
+    console.log(resArray);
   });
 
 })

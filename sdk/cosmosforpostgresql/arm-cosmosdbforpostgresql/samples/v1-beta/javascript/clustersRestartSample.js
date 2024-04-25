@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Restarts all nodes in the cluster.
  *
  * @summary Restarts all nodes in the cluster.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ClusterRestart.json
+ * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterRestart.json
  */
 async function restartAllServersInTheCluster() {
   const subscriptionId =

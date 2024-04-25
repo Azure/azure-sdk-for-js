@@ -6,7 +6,7 @@ Help RP provider
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/selfhelp/arm-selfhelp) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-selfhelp) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-selfhelp) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-selfhelp?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
@@ -60,7 +60,7 @@ const client = new HelpRP(new DefaultAzureCredential());
 //   tenantId: "<YOUR_TENANT_ID>",
 //   clientId: "<YOUR_CLIENT_ID>"
 // });
-// const client = new HelpRP(credential, subscriptionId);
+// const client = new HelpRP(credential);
 ```
 
 

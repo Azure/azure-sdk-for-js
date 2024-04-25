@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes specific authorization server instance.
  *
  * @summary Deletes specific authorization server instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementDeleteAuthorizationServer.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteAuthorizationServer.json
  */
 async function apiManagementDeleteAuthorizationServer() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Deploys zipped content to a specific environment of a static site.
  *
  * @summary Description for Deploys zipped content to a specific environment of a static site.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/StaticSiteBuildZipDeploy.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/StaticSiteBuildZipDeploy.json
  */
 async function deployASiteFromAZippedPackageToAParticularStaticSiteBuild() {
   const subscriptionId =

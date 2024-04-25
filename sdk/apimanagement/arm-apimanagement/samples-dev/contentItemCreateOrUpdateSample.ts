@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a new developer portal's content item specified by the provided content type.
  *
  * @summary Creates a new developer portal's content item specified by the provided content type.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateContentTypeContentItem.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateContentTypeContentItem.json
  */
 async function apiManagementCreateContentTypeContentItem() {
   const subscriptionId =

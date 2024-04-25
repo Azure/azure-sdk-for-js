@@ -4,7 +4,6 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import chaiExclude from "chai-exclude";
-import * as dotenv from "dotenv";
 import {
   CorrelationRuleFilter,
   ServiceBusReceivedMessage,
@@ -20,8 +19,6 @@ import { getConnectionString } from "../public/utils/testutils2";
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);
 const should = chai.should();
-
-dotenv.config();
 
 const serviceBusAtomManagementClient: ServiceBusAdministrationClient =
   new ServiceBusAdministrationClient(getConnectionString());
@@ -45,13 +42,13 @@ describe("Filter messages with the rules set by the ATOM API", () => {
     messagesToSend: ServiceBusMessage[],
     filter: SqlRuleFilter | CorrelationRuleFilter,
     numberOfMessagesToBeFiltered: number,
-    toCheck: (msg: ServiceBusReceivedMessage) => void
+    toCheck: (msg: ServiceBusReceivedMessage) => void,
   ): Promise<void> {
     await serviceBusAtomManagementClient.createRule(
       topicName,
       subscriptionName,
       "rule-name",
-      filter
+      filter,
     );
 
     await serviceBusClient.createSender(topicName).sendMessages(messagesToSend);
@@ -62,7 +59,7 @@ describe("Filter messages with the rules set by the ATOM API", () => {
     should.equal(
       receivedMessages.length,
       numberOfMessagesToBeFiltered,
-      "Unexpected number of messages received"
+      "Unexpected number of messages received",
     );
 
     // Making sure the filtered message is same as the expected one.
@@ -80,7 +77,7 @@ describe("Filter messages with the rules set by the ATOM API", () => {
       1,
       (msg) => {
         chai.assert.deepEqual(msg.subject, subject, "Unexpected subject on the message");
-      }
+      },
     );
   });
 
@@ -124,7 +121,7 @@ describe("getSubscriptionRuntimeProperties", () => {
     const activeMessageCount = (
       await serviceBusAtomManagementClient.getSubscriptionRuntimeProperties(
         topicName,
-        subscriptionName1
+        subscriptionName1,
       )
     ).activeMessageCount;
     chai.assert.equal(activeMessageCount, messages.length, "Unexpected active message count");
@@ -143,12 +140,12 @@ describe("getSubscriptionRuntimeProperties", () => {
     await receiveMessagesAndAbandon(subscriptionName2);
 
     for await (const subscription of serviceBusAtomManagementClient.listSubscriptionsRuntimeProperties(
-      topicName
+      topicName,
     )) {
       chai.assert.equal(
         subscription.activeMessageCount,
         messages.length,
-        "Unexpected active message count"
+        "Unexpected active message count",
       );
     }
   });

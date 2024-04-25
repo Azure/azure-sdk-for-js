@@ -33,7 +33,7 @@ async function virtualMachineScaleSetsDeleteInstancesMaximumSetGen() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/delete",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -63,7 +63,7 @@ async function virtualMachineScaleSetsDeleteInstancesMinimumSetGen() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/delete",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

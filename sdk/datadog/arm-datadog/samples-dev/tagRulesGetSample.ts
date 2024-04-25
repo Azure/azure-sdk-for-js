@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { MicrosoftDatadogClient } from "@azure/arm-datadog";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get a tag rule set for a given monitor resource.
  *
  * @summary Get a tag rule set for a given monitor resource.
- * x-ms-original-file: specification/datadog/resource-manager/Microsoft.Datadog/stable/2021-03-01/examples/TagRules_Get.json
+ * x-ms-original-file: specification/datadog/resource-manager/Microsoft.Datadog/stable/2023-01-01/examples/TagRules_Get.json
  */
 async function tagRulesGet() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["DATADOG_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["DATADOG_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
   const ruleSetName = "default";
   const credential = new DefaultAzureCredential();
@@ -32,4 +38,8 @@ async function tagRulesGet() {
   console.log(result);
 }
 
-tagRulesGet().catch(console.error);
+async function main() {
+  tagRulesGet();
+}
+
+main().catch(console.error);

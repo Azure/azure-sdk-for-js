@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the entity state (Etag) version of the product specified by its identifier.
  *
  * @summary Gets the entity state (Etag) version of the product specified by its identifier.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementHeadProduct.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementHeadProduct.json
  */
 async function apiManagementHeadProduct() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

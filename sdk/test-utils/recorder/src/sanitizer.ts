@@ -1,8 +1,11 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { HttpClient } from "@azure/core-rest-pipeline";
-import { logger } from "./log";
-import { getRealAndFakePairs } from "./utils/connectionStringHelpers";
-import { createRecordingRequest } from "./utils/createRecordingRequest";
-import { paths } from "./utils/paths";
+import { logger } from "./log.js";
+import { getRealAndFakePairs } from "./utils/connectionStringHelpers.js";
+import { createRecordingRequest } from "./utils/createRecordingRequest.js";
+import { paths } from "./utils/paths.js";
 import {
   ConnectionStringSanitizer,
   ContinuationSanitizer,
@@ -15,7 +18,7 @@ import {
   RecorderError,
   RemoveHeaderSanitizer,
   SanitizerOptions,
-} from "./utils/utils";
+} from "./utils/utils.js";
 
 /**
  * Signature of a function that adds a sanitizer of type T.
@@ -24,7 +27,7 @@ type AddSanitizer<T> = (
   httpClient: HttpClient,
   url: string,
   recordingId: string | undefined,
-  sanitizer: T
+  sanitizer: T,
 ) => Promise<void>;
 
 /**
@@ -34,9 +37,9 @@ type AddSanitizer<T> = (
 const pluralize =
   <T>(singular: AddSanitizer<T>): AddSanitizer<T[]> =>
   async (httpClient, url, recordingId, sanitizers) => {
-    await Promise.all(
-      sanitizers.map((sanitizer) => singular(httpClient, url, recordingId, sanitizer))
-    );
+    for (const sanitizer of sanitizers) {
+      await singular(httpClient, url, recordingId, sanitizer);
+    }
   };
 
 /**
@@ -74,7 +77,7 @@ const makeAddBodilessSanitizer =
 const makeAddFindReplaceSanitizer =
   (
     regexSanitizerName: ProxyToolSanitizers,
-    stringSanitizerName: ProxyToolSanitizers
+    stringSanitizerName: ProxyToolSanitizers,
   ): AddSanitizer<FindReplaceSanitizer> =>
   async (httpClient, url, recordingId, sanitizer): Promise<void> => {
     if (isStringSanitizer(sanitizer)) {
@@ -107,7 +110,7 @@ const addConnectionStringSanitizer: AddSanitizer<ConnectionStringSanitizer> = as
   httpClient,
   url,
   recordingId,
-  { actualConnString, fakeConnString }
+  { actualConnString, fakeConnString },
 ) => {
   if (!actualConnString) {
     if (!isRecordMode()) return;
@@ -115,7 +118,7 @@ const addConnectionStringSanitizer: AddSanitizer<ConnectionStringSanitizer> = as
       `Attempted to add an invalid sanitizer - ${JSON.stringify({
         actualConnString: actualConnString,
         fakeConnString: fakeConnString,
-      })}`
+      })}`,
     );
   }
   // extract connection string parts and match call
@@ -134,7 +137,7 @@ const addContinuationSanitizer: AddSanitizer<ContinuationSanitizer> = async (
   httpClient,
   url,
   recordingId,
-  sanitizer
+  sanitizer,
 ) => {
   await addSanitizer(httpClient, url, recordingId, {
     sanitizer: "ContinuationSanitizer",
@@ -152,7 +155,7 @@ const addRemoveHeaderSanitizer: AddSanitizer<RemoveHeaderSanitizer> = async (
   httpClient,
   url,
   recordingId,
-  sanitizer
+  sanitizer,
 ) => {
   await addSanitizer(httpClient, url, recordingId, {
     sanitizer: "RemoveHeaderSanitizer",
@@ -173,7 +176,7 @@ const addHeaderSanitizer: AddSanitizer<HeaderSanitizer> = async (
   httpClient,
   url,
   recordingId,
-  sanitizer
+  sanitizer,
 ) => {
   if (sanitizer.regex || !sanitizer.target) {
     await addSanitizer(httpClient, url, recordingId, {
@@ -201,10 +204,10 @@ const addSanitizersActions: {
   [K in keyof SanitizerOptions]: AddSanitizer<Exclude<SanitizerOptions[K], undefined>>;
 } = {
   generalSanitizers: pluralize(
-    makeAddFindReplaceSanitizer("GeneralRegexSanitizer", "GeneralStringSanitizer")
+    makeAddFindReplaceSanitizer("GeneralRegexSanitizer", "GeneralStringSanitizer"),
   ),
   bodySanitizers: pluralize(
-    makeAddFindReplaceSanitizer("BodyRegexSanitizer", "BodyStringSanitizer")
+    makeAddFindReplaceSanitizer("BodyRegexSanitizer", "BodyStringSanitizer"),
   ),
   headerSanitizers: pluralize(addHeaderSanitizer),
   uriSanitizers: pluralize(makeAddFindReplaceSanitizer("UriRegexSanitizer", "UriStringSanitizer")),
@@ -221,7 +224,7 @@ export async function addSanitizers(
   httpClient: HttpClient,
   url: string,
   recordingId: string | undefined,
-  options: SanitizerOptions
+  options: SanitizerOptions,
 ): Promise<void> {
   await Promise.all(
     Object.entries(options).map(([key, sanitizer]) => {
@@ -231,7 +234,7 @@ export async function addSanitizers(
       }
 
       return action(httpClient, url, recordingId, sanitizer);
-    })
+    }),
   );
 }
 
@@ -245,7 +248,7 @@ async function addSanitizer(
   options: {
     sanitizer: ProxyToolSanitizers;
     body: Record<string, unknown> | undefined;
-  }
+  },
 ): Promise<void> {
   const uri = `${url}${paths.admin}${
     options.sanitizer !== "Reset" ? paths.addSanitizer : paths.reset
@@ -274,14 +277,14 @@ async function addSanitizer(
 export async function transformsInfo(
   httpClient: HttpClient,
   url: string,
-  recordingId: string
+  recordingId: string,
 ): Promise<string | null | undefined> {
   if (recordingId) {
     const infoUri = `${url}${paths.info}${paths.available}`;
     const req = createRecordingRequest(infoUri, undefined, recordingId, "GET");
     if (!httpClient) {
       throw new RecorderError(
-        `Something went wrong, Sanitizer.httpClient should not have been undefined in ${getTestMode()} mode.`
+        `Something went wrong, Sanitizer.httpClient should not have been undefined in ${getTestMode()} mode.`,
       );
     }
     const rsp = await httpClient.sendRequest({

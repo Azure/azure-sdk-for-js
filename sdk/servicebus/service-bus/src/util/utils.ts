@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import Long from "long";
-import { logger, receiverLogger, messageLogger } from "../log";
-import { OperationTimeoutError, generate_uuid } from "rhea-promise";
+import { logger, receiverLogger, messageLogger, ServiceBusLogger } from "../log";
+import { AmqpError, OperationTimeoutError, generate_uuid } from "rhea-promise";
 import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
 import * as Constants from "../util/constants";
@@ -11,7 +11,8 @@ import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { PipelineResponse } from "@azure/core-rest-pipeline";
 import { isDefined } from "@azure/core-util";
 import { HttpResponse, toHttpResponse } from "./compat";
-import { StandardAbortMessage } from "@azure/core-amqp";
+import { ErrorNameConditionMapper, StandardAbortMessage, delay } from "@azure/core-amqp";
+import { translateServiceBusError } from "../serviceBusError";
 
 // This is the only dependency we have on DOM types, so rather than require
 // the DOM lib we can just shim this in.
@@ -141,7 +142,7 @@ export function toBuffer(input: unknown): Buffer {
   let result: any;
   messageLogger.verbose(
     "[utils.toBuffer] The given message body that needs to be converted to buffer is: ",
-    input
+    input,
   );
   if (isBuffer(input)) {
     result = input;
@@ -175,7 +176,7 @@ export function getString(value: unknown, nameOfProperty: string): string {
   const result = getStringOrUndefined(value);
   if (result === undefined) {
     throw new Error(
-      `"${nameOfProperty}" received from service expected to be a string value and not undefined.`
+      `"${nameOfProperty}" received from service expected to be a string value and not undefined.`,
     );
   }
   return result;
@@ -203,7 +204,7 @@ export function getInteger(value: unknown, nameOfProperty: string): number {
   const result = getIntegerOrUndefined(value);
   if (result === undefined) {
     throw new Error(
-      `"${nameOfProperty}" received from service expected to be a number value and not undefined.`
+      `"${nameOfProperty}" received from service expected to be a number value and not undefined.`,
     );
   }
   return result;
@@ -240,7 +241,7 @@ export function getBoolean(value: unknown, nameOfProperty: string): boolean {
   const result = getBooleanOrUndefined(value);
   if (result === undefined) {
     throw new Error(
-      `"${nameOfProperty}" received from service expected to be a boolean value and not undefined.`
+      `"${nameOfProperty}" received from service expected to be a boolean value and not undefined.`,
     );
   }
   return result;
@@ -315,23 +316,23 @@ export function getXMLNSPrefix(value: any): string {
   if (!value[Constants.XML_METADATA_MARKER]) {
     throw new Error(
       `Error occurred while parsing the response body - cannot find the XML_METADATA_MARKER "$" on the object ${JSON.stringify(
-        value
-      )}`
+        value,
+      )}`,
     );
   }
   const keys = Object.keys(value[Constants.XML_METADATA_MARKER]);
   if (keys.length !== 1) {
     throw new Error(
       `Error occurred while parsing the response body - unexpected number of "xmlns:\${prefix}" keys at ${JSON.stringify(
-        value[Constants.XML_METADATA_MARKER]
-      )}`
+        value[Constants.XML_METADATA_MARKER],
+      )}`,
     );
   }
   if (!keys[0].startsWith("xmlns:")) {
     throw new Error(
       `Error occurred while parsing the response body - unexpected key at ${JSON.stringify(
-        value[Constants.XML_METADATA_MARKER]
-      )}`
+        value[Constants.XML_METADATA_MARKER],
+      )}`,
     );
   }
   // Pick the substring that's after "xmlns:"
@@ -339,8 +340,8 @@ export function getXMLNSPrefix(value: any): string {
   if (!xmlnsPrefix) {
     throw new Error(
       `Error occurred while parsing the response body - unexpected xmlns prefix at ${JSON.stringify(
-        value[Constants.XML_METADATA_MARKER]
-      )}`
+        value[Constants.XML_METADATA_MARKER],
+      )}`,
     );
   }
   return xmlnsPrefix;
@@ -452,8 +453,8 @@ export function getRawAuthorizationRules(authorizationRules: AuthorizationRule[]
       `authorizationRules must be an array of AuthorizationRule objects or undefined, but received ${JSON.stringify(
         authorizationRules,
         undefined,
-        2
-      )}`
+        2,
+      )}`,
     );
   }
 
@@ -475,8 +476,8 @@ function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
       `Expected authorizationRule input to be a JS object value, but received ${JSON.stringify(
         authorizationRule,
         undefined,
-        2
-      )}`
+        2,
+      )}`,
     );
   }
 
@@ -602,7 +603,7 @@ export async function waitForTimeoutOrAbortOrResolve<T>(args: {
  */
 export function checkAndRegisterWithAbortSignal(
   onAbortFn: (abortError: AbortError) => void,
-  abortSignal?: AbortSignalLike
+  abortSignal?: AbortSignalLike,
 ): () => void {
   if (abortSignal == null) {
     return () => {
@@ -654,3 +655,58 @@ export const getHttpResponseOnly = (pipelineResponse: PipelineResponse): HttpRes
  * Type with the service versions for the ATOM API.
  */
 export type ServiceBusAtomAPIVersion = "2021-05" | "2017-04";
+
+/**
+ * @internal
+ * Waits for one second if a sender is not sendable then check again. Throws
+ * SenderBusyError if it is still not sendable.
+ * Only waits when operation timeout is greater than one second.
+ * @returns the actual waiting time.
+ */
+export async function waitForSendable(
+  sendLogger: ServiceBusLogger,
+  logPrefix: string,
+  name: string,
+  timeout: number,
+  sender:
+    | {
+        sendable: () => boolean;
+        credit: number;
+      }
+    | undefined,
+  outgoingAvaiable: number,
+): Promise<number> {
+  let waitTimeForSendable = 1000;
+  if (!sender?.sendable() && timeout > waitTimeForSendable) {
+    sendLogger.verbose(
+      "%s Sender '%s', waiting for 1 second for sender to become sendable",
+      logPrefix,
+      name,
+    );
+
+    await delay(waitTimeForSendable);
+
+    sendLogger.verbose(
+      "%s Sender '%s' after waiting for a second, credit: %d available: %d",
+      logPrefix,
+      name,
+      sender?.credit,
+      outgoingAvaiable,
+    );
+  } else {
+    waitTimeForSendable = 0;
+  }
+
+  if (!sender?.sendable()) {
+    // let us retry to send the message after some time.
+    const msg =
+      `[${logPrefix}] Sender "${name}", ` + `cannot send the message right now. Please try later.`;
+    sendLogger.warning(msg);
+    const amqpError: AmqpError = {
+      condition: ErrorNameConditionMapper.SenderBusyError,
+      description: msg,
+    };
+    throw translateServiceBusError(amqpError);
+  }
+  return waitTimeForSendable;
+}

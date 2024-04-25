@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import chalk from "chalk";
-import path from "path";
+import path from "node:path";
 
 const printModes = ["info", "warn", "error", "success", "debug"] as const;
 
@@ -148,11 +148,14 @@ const finalLogger: ModeMap<Fn> = {
  */
 export function createPrinter(name: string): Printer {
   const prefix = "[" + name + "]";
-  const base = ((...values: string[]) => console.log(chalk.reset(prefix, ...values))) as Printer;
+  const base = ((...values: string[]) => {
+    console.log(chalk.reset(prefix, ...values));
+  }) as Printer;
 
   for (const mode of printModes) {
-    base[mode] = (...values: string[]) =>
+    base[mode] = (...values: string[]) => {
       finalLogger[mode](...[prefix, ...values].map((value: string) => colors[mode](value)));
+    };
   }
   return base;
 }

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import { describe, it, assert } from "vitest";
 import { parseNotificationDetails } from "../../../src/serializers/notificationDetailsSerializer.js";
 
 const NOTIFICATION_DETAILS = `<NotificationDetails xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
@@ -35,13 +35,13 @@ describe("parseNotificationDetails", () => {
     assert.equal(parsedXML.targetPlatforms, "windows");
     assert.equal(
       parsedXML.location,
-      "sb://{Your namespace}.servicebus.windows.net/{your hub name}/messages/{your message id}?api-version=2015-04"
+      "sb://{Your namespace}.servicebus.windows.net/{your hub name}/messages/{your message id}?api-version=2015-04",
     );
     assert.equal(parsedXML.state, "Completed");
     assert.equal(parsedXML.notificationId, "{Your message id}");
     assert.equal(
       parsedXML.notificationBody,
-      `<?xml version="1.0" encoding="utf-16"?><toast><visual><binding template="ToastText01"><text id="1">Hello from a .NET App!</text></binding></visual></toast>`
+      `<?xml version="1.0" encoding="utf-16"?><toast><visual><binding template="ToastText01"><text id="1">Hello from a .NET App!</text></binding></visual></toast>`,
     );
     assert.isUndefined(parsedXML.admOutcomeCounts);
     assert.isUndefined(parsedXML.apnsOutcomeCounts);

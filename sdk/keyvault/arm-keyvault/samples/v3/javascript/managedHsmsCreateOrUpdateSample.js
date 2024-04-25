@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update a managed HSM Pool in the specified subscription.
  *
  * @summary Create or update a managed HSM Pool in the specified subscription.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-02-01/examples/ManagedHsm_CreateOrUpdate.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/ManagedHsm_CreateOrUpdate.json
  */
 async function createANewManagedHsmPoolOrUpdateAnExistingManagedHsmPool() {
   const subscriptionId =

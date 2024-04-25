@@ -37,7 +37,7 @@ describe("User Defined Function", function (this: Suite) {
     assert.equal(
       udfsAfterCreate.length,
       beforeCreateUdfsCount + 1,
-      "create should increase the number of udfs"
+      "create should increase the number of udfs",
     );
 
     // query udfs

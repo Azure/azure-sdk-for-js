@@ -10,7 +10,7 @@ import {
   MetricAlertsStatusListOptionalParams,
   MetricAlertsStatusListResponse,
   MetricAlertsStatusListByNameOptionalParams,
-  MetricAlertsStatusListByNameResponse
+  MetricAlertsStatusListByNameResponse,
 } from "../models";
 
 /** Interface representing a MetricAlertsStatus. */
@@ -24,7 +24,7 @@ export interface MetricAlertsStatus {
   list(
     resourceGroupName: string,
     ruleName: string,
-    options?: MetricAlertsStatusListOptionalParams
+    options?: MetricAlertsStatusListOptionalParams,
   ): Promise<MetricAlertsStatusListResponse>;
   /**
    * Retrieve an alert rule status.
@@ -37,6 +37,6 @@ export interface MetricAlertsStatus {
     resourceGroupName: string,
     ruleName: string,
     statusName: string,
-    options?: MetricAlertsStatusListByNameOptionalParams
+    options?: MetricAlertsStatusListByNameOptionalParams,
   ): Promise<MetricAlertsStatusListByNameResponse>;
 }

@@ -47,7 +47,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       assert.equal(
         triggersAfterCreation.length,
         beforeCreateTriggersCount + 1,
-        "create should increase the number of triggers"
+        "create should increase the number of triggers",
       );
 
       // query triggers
@@ -146,27 +146,27 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       // create document
       const { resource: document } = await container.items.create(
         { id: "doc1", key: "value" },
-        { preTriggerInclude: "t1" }
+        { preTriggerInclude: "t1" },
       );
       assert.equal(document.id, "DOC1t1", "name should be capitalized");
       const { resource: document2 } = await container.items.create(
         { id: "doc2", key2: "value2" },
-        { preTriggerInclude: "t2" }
+        { preTriggerInclude: "t2" },
       );
       assert.equal(document2.id, "doc2", "name shouldn't change");
       const { resource: document3 } = await container.items.create(
         { id: "Doc3", prop: "empty" },
-        { preTriggerInclude: "t3" }
+        { preTriggerInclude: "t3" },
       );
       assert.equal(document3.id, "doc3t3");
       const { resource: document4 } = await container.items.create(
         { id: "testing post trigger" },
-        { postTriggerInclude: "response1", preTriggerInclude: "t1" }
+        { postTriggerInclude: "response1", preTriggerInclude: "t1" },
       );
       assert.equal(document4.id, "TESTING POST TRIGGERt1");
       const { resource: document5 } = await container.items.create(
         { id: "responseheaders" },
-        { preTriggerInclude: "t1" }
+        { preTriggerInclude: "t1" },
       );
       assert.equal(document5.id, "RESPONSEHEADERSt1");
       try {

@@ -10,20 +10,27 @@
 // Licensed under the MIT License.
 import {
   UpdateRecoveryPlanInput,
-  SiteRecoveryManagementClient
+  SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to The operation to update a recovery plan.
  *
  * @summary The operation to update a recovery plan.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2022-10-01/examples/ReplicationRecoveryPlans_Update.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationRecoveryPlans_Update.json
  */
 async function updatesTheGivenRecoveryPlan() {
-  const subscriptionId = "c183865e-6077-46f2-a3b1-deb0f4f4650a";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
+    "c183865e-6077-46f2-a3b1-deb0f4f4650a";
   const resourceName = "vault1";
-  const resourceGroupName = "resourceGroupPS1";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] ||
+    "resourceGroupPS1";
   const recoveryPlanName = "RPtest1";
   const input: UpdateRecoveryPlanInput = {
     properties: {
@@ -32,40 +39,38 @@ async function updatesTheGivenRecoveryPlan() {
           endGroupActions: [],
           groupType: "Shutdown",
           replicationProtectedItems: [],
-          startGroupActions: []
+          startGroupActions: [],
         },
         {
           endGroupActions: [],
           groupType: "Failover",
           replicationProtectedItems: [],
-          startGroupActions: []
+          startGroupActions: [],
         },
         {
           endGroupActions: [],
           groupType: "Boot",
           replicationProtectedItems: [
             {
-              id:
-                "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationProtectionContainers/cloud_6d224fc6-f326-5d35-96de-fbf51efb3179/replicationProtectedItems/f8491e4f-817a-40dd-a90c-af773978c75b",
-              virtualMachineId: "f8491e4f-817a-40dd-a90c-af773978c75b"
-            }
+              id: "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationProtectionContainers/cloud_6d224fc6-f326-5d35-96de-fbf51efb3179/replicationProtectedItems/f8491e4f-817a-40dd-a90c-af773978c75b",
+              virtualMachineId: "f8491e4f-817a-40dd-a90c-af773978c75b",
+            },
           ],
-          startGroupActions: []
+          startGroupActions: [],
         },
         {
           endGroupActions: [],
           groupType: "Boot",
           replicationProtectedItems: [
             {
-              id:
-                "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationProtectionContainers/cloud_6d224fc6-f326-5d35-96de-fbf51efb3179/replicationProtectedItems/c0c14913-3d7a-48ea-9531-cc99e0e686e6",
-              virtualMachineId: "c0c14913-3d7a-48ea-9531-cc99e0e686e6"
-            }
+              id: "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationProtectionContainers/cloud_6d224fc6-f326-5d35-96de-fbf51efb3179/replicationProtectedItems/c0c14913-3d7a-48ea-9531-cc99e0e686e6",
+              virtualMachineId: "c0c14913-3d7a-48ea-9531-cc99e0e686e6",
+            },
           ],
-          startGroupActions: []
-        }
-      ]
-    }
+          startGroupActions: [],
+        },
+      ],
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
@@ -73,9 +78,13 @@ async function updatesTheGivenRecoveryPlan() {
     resourceName,
     resourceGroupName,
     recoveryPlanName,
-    input
+    input,
   );
   console.log(result);
 }
 
-updatesTheGivenRecoveryPlan().catch(console.error);
+async function main() {
+  updatesTheGivenRecoveryPlan();
+}
+
+main().catch(console.error);

@@ -219,7 +219,7 @@ describe("storageMover test", () => {
 
   it("jobDefinitions delete test", async function () {
     const resArray = new Array();
-    const res = await client.jobDefinitions.beginDeleteAndWait(resourceGroup, storageMoverName, projectName, jobDefinitionName)
+    const res = await client.jobDefinitions.beginDeleteAndWait(resourceGroup, storageMoverName, projectName, jobDefinitionName, testPollingOptions)
     for await (let item of client.jobDefinitions.list(resourceGroup, storageMoverName, projectName)) {
       resArray.push(item);
     }
@@ -228,7 +228,7 @@ describe("storageMover test", () => {
 
   it("agent delete test", async function () {
     const resArray = new Array();
-    const res = await client.agents.beginDeleteAndWait(resourceGroup, storageMoverName, agentName)
+    const res = await client.agents.beginDeleteAndWait(resourceGroup, storageMoverName, agentName, testPollingOptions)
     for await (let item of client.agents.list(resourceGroup, storageMoverName)) {
       resArray.push(item);
     }
@@ -237,8 +237,8 @@ describe("storageMover test", () => {
 
   it("endpoints delete test", async function () {
     const resArray = new Array();
-    const res = await client.endpoints.beginDeleteAndWait(resourceGroup, storageMoverName, endpointName)
-    const res1 = await client.endpoints.beginDeleteAndWait(resourceGroup, storageMoverName, endpointName1)
+    const res = await client.endpoints.beginDeleteAndWait(resourceGroup, storageMoverName, endpointName, testPollingOptions)
+    const res1 = await client.endpoints.beginDeleteAndWait(resourceGroup, storageMoverName, endpointName1, testPollingOptions)
     for await (let item of client.endpoints.list(resourceGroup, storageMoverName)) {
       resArray.push(item);
     }
@@ -247,7 +247,7 @@ describe("storageMover test", () => {
 
   it("projects delete test", async function () {
     const resArray = new Array();
-    const res = await client.projects.beginDeleteAndWait(resourceGroup, storageMoverName, projectName)
+    const res = await client.projects.beginDeleteAndWait(resourceGroup, storageMoverName, projectName, testPollingOptions)
     for await (let item of client.projects.list(resourceGroup, storageMoverName)) {
       resArray.push(item);
     }
@@ -256,7 +256,7 @@ describe("storageMover test", () => {
 
   it("storageMovers delete test", async function () {
     const resArray = new Array();
-    const res = await client.storageMovers.beginDeleteAndWait(resourceGroup, storageMoverName)
+    const res = await client.storageMovers.beginDeleteAndWait(resourceGroup, storageMoverName, testPollingOptions)
     for await (let item of client.storageMovers.listBySubscription()) {
       resArray.push(item);
     }

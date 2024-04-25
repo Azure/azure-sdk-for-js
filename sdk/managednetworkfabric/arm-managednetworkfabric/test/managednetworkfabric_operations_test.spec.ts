@@ -95,7 +95,7 @@ describe("managednetworkfabric test", () => {
 
   it("ipPrefixes delete test", async function () {
     const resArray = new Array();
-    const res = await client.ipPrefixes.beginDeleteAndWait(resourceGroup, resourcename
+    const res = await client.ipPrefixes.beginDeleteAndWait(resourceGroup, resourcename, testPollingOptions
     )
     for await (let item of client.ipPrefixes.listByResourceGroup(resourceGroup)) {
       resArray.push(item);

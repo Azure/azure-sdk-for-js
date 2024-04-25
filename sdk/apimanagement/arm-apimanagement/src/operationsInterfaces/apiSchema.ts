@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SchemaContract,
   ApiSchemaListByApiOptionalParams,
@@ -25,7 +25,7 @@ import {
 export interface ApiSchema {
   /**
    * Get the schema configuration at the API level.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -39,7 +39,7 @@ export interface ApiSchema {
   ): PagedAsyncIterableIterator<SchemaContract>;
   /**
    * Gets the entity state (Etag) version of the schema specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -55,7 +55,7 @@ export interface ApiSchema {
   ): Promise<ApiSchemaGetEntityTagResponse>;
   /**
    * Get the schema configuration at the API level.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -71,7 +71,7 @@ export interface ApiSchema {
   ): Promise<ApiSchemaGetResponse>;
   /**
    * Creates or updates schema configuration for the API.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -87,14 +87,14 @@ export interface ApiSchema {
     parameters: SchemaContract,
     options?: ApiSchemaCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ApiSchemaCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ApiSchemaCreateOrUpdateResponse>,
       ApiSchemaCreateOrUpdateResponse
     >
   >;
   /**
    * Creates or updates schema configuration for the API.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
@@ -112,7 +112,7 @@ export interface ApiSchema {
   ): Promise<ApiSchemaCreateOrUpdateResponse>;
   /**
    * Deletes the schema configuration at the Api.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.

@@ -33,13 +33,13 @@ async function createOrUpdateALogProfile() {
     serviceBusRuleId: "",
     storageAccountId:
       "/subscriptions/df602c9c-7aa0-407d-a6fb-eb20c8bd1192/resourceGroups/JohnKemTest/providers/Microsoft.Storage/storageAccounts/johnkemtest8162",
-    tags: {}
+    tags: {},
   };
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.logProfiles.createOrUpdate(
     logProfileName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

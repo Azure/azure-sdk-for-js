@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SupportTicketDetails,
   SupportTicketsListOptionalParams,
@@ -20,7 +20,7 @@ import {
   SupportTicketsUpdateOptionalParams,
   SupportTicketsUpdateResponse,
   SupportTicketsCreateOptionalParams,
-  SupportTicketsCreateResponse
+  SupportTicketsCreateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,14 +28,14 @@ import {
 export interface SupportTickets {
   /**
    * Lists all the support tickets for an Azure subscription. You can also filter the support tickets by
-   * _Status_ or _CreatedDate_ using the $filter parameter. Output will be a paged result with
-   * _nextLink_, using which you can retrieve the next set of support tickets. <br/><br/>Support ticket
-   * data is available for 18 months after ticket creation. If a ticket was created more than 18 months
-   * ago, a request for data might cause an error.
+   * _Status_, _CreatedDate_, _ServiceId_, and _ProblemClassificationId_ using the $filter parameter.
+   * Output will be a paged result with _nextLink_, using which you can retrieve the next set of support
+   * tickets. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket
+   * was created more than 18 months ago, a request for data might cause an error.
    * @param options The options parameters.
    */
   list(
-    options?: SupportTicketsListOptionalParams
+    options?: SupportTicketsListOptionalParams,
   ): PagedAsyncIterableIterator<SupportTicketDetails>;
   /**
    * Check the availability of a resource name. This API should be used to check the uniqueness of the
@@ -45,7 +45,7 @@ export interface SupportTickets {
    */
   checkNameAvailability(
     checkNameAvailabilityInput: CheckNameAvailabilityInput,
-    options?: SupportTicketsCheckNameAvailabilityOptionalParams
+    options?: SupportTicketsCheckNameAvailabilityOptionalParams,
   ): Promise<SupportTicketsCheckNameAvailabilityResponse>;
   /**
    * Get ticket details for an Azure subscription. Support ticket data is available for 18 months after
@@ -56,16 +56,14 @@ export interface SupportTickets {
    */
   get(
     supportTicketName: string,
-    options?: SupportTicketsGetOptionalParams
+    options?: SupportTicketsGetOptionalParams,
   ): Promise<SupportTicketsGetResponse>;
   /**
-   * This API allows you to update the severity level, ticket status, and your contact information in the
-   * support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively
-   * being worked upon by an Azure support engineer. In such a case, contact your support engineer to
-   * request severity update by adding a new communication using the Communications
-   * API.<br/><br/>Changing the ticket status to _closed_ is allowed only on an unassigned case. When an
-   * engineer is actively working on the ticket, send your ticket closure request by sending a note to
-   * your engineer.
+   * This API allows you to update the severity level, ticket status, advanced diagnostic consent and
+   * your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed
+   * if a support ticket is actively being worked upon by an Azure support engineer. In such a case,
+   * contact your support engineer to request severity update by adding a new communication using the
+   * Communications API.
    * @param supportTicketName Support ticket name.
    * @param updateSupportTicket UpdateSupportTicket object.
    * @param options The options parameters.
@@ -73,7 +71,7 @@ export interface SupportTickets {
   update(
     supportTicketName: string,
     updateSupportTicket: UpdateSupportTicket,
-    options?: SupportTicketsUpdateOptionalParams
+    options?: SupportTicketsUpdateOptionalParams,
   ): Promise<SupportTicketsUpdateResponse>;
   /**
    * Creates a new support ticket for Subscription and Service limits (Quota), Technical, Billing, and
@@ -100,10 +98,10 @@ export interface SupportTickets {
   beginCreate(
     supportTicketName: string,
     createSupportTicketParameters: SupportTicketDetails,
-    options?: SupportTicketsCreateOptionalParams
+    options?: SupportTicketsCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SupportTicketsCreateResponse>,
+    SimplePollerLike<
+      OperationState<SupportTicketsCreateResponse>,
       SupportTicketsCreateResponse
     >
   >;
@@ -132,6 +130,6 @@ export interface SupportTickets {
   beginCreateAndWait(
     supportTicketName: string,
     createSupportTicketParameters: SupportTicketDetails,
-    options?: SupportTicketsCreateOptionalParams
+    options?: SupportTicketsCreateOptionalParams,
   ): Promise<SupportTicketsCreateResponse>;
 }

@@ -18,7 +18,7 @@ const OPERATION_NAME = "listNotificationHubJobs";
  */
 export function listNotificationHubJobs(
   context: NotificationHubsClientContext,
-  options: OperationOptions = {}
+  options: OperationOptions = {},
 ): Promise<NotificationHubJob[]> {
   return tracingClient.withSpan(
     `NotificationHubsClientContext.${OPERATION_NAME}`,
@@ -34,6 +34,6 @@ export function listNotificationHubJobs(
       const response = await sendRequest(context, request, 200);
 
       return parseNotificationHubJobFeed(response.bodyAsText!);
-    }
+    },
   );
 }

@@ -17,14 +17,14 @@ export = {
   meta: getRuleMetaData(
     "ts-package-json-repo",
     "force package.json's repository value to be 'github:Azure/azure-sdk-for-js'",
-    "code"
+    "code",
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const verifiers = getVerifiers(context, {
       outer: "repository",
       expected: "github:Azure/azure-sdk-for-js",
     });
-    return stripPath(context.getFilename()) === "package.json"
+    return stripPath(context.filename) === "package.json"
       ? ({
           // callback functions
 

@@ -7,7 +7,9 @@
  */
 
 export * from "./marketplaceAgreements";
+export * from "./creationSupported";
 export * from "./monitors";
 export * from "./operations";
 export * from "./tagRules";
 export * from "./singleSignOnConfigurations";
+export * from "./monitoredSubscriptions";

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CassandraTableCreateUpdateParameters,
-  CosmosDBManagementClient
+  CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update an Azure Cosmos DB Cassandra Table
  *
  * @summary Create or update an Azure Cosmos DB Cassandra Table
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBCassandraTableCreateUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBCassandraTableCreateUpdate.json
  */
 async function cosmosDbCassandraTableCreateUpdate() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -29,30 +29,32 @@ async function cosmosDbCassandraTableCreateUpdate() {
   const accountName = "ddb1";
   const keyspaceName = "keyspaceName";
   const tableName = "tableName";
-  const createUpdateCassandraTableParameters: CassandraTableCreateUpdateParameters = {
-    location: "West US",
-    options: {},
-    resource: {
-      schema: {
-        clusterKeys: [{ name: "columnA", orderBy: "Asc" }],
-        columns: [{ name: "columnA", type: "Ascii" }],
-        partitionKeys: [{ name: "columnA" }]
+  const createUpdateCassandraTableParameters: CassandraTableCreateUpdateParameters =
+    {
+      location: "West US",
+      options: {},
+      resource: {
+        schema: {
+          clusterKeys: [{ name: "columnA", orderBy: "Asc" }],
+          columns: [{ name: "columnA", type: "Ascii" }],
+          partitionKeys: [{ name: "columnA" }],
+        },
+        analyticalStorageTtl: 500,
+        defaultTtl: 100,
+        id: "tableName",
       },
-      analyticalStorageTtl: 500,
-      defaultTtl: 100,
-      id: "tableName"
-    },
-    tags: {}
-  };
+      tags: {},
+    };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.cassandraResources.beginCreateUpdateCassandraTableAndWait(
-    resourceGroupName,
-    accountName,
-    keyspaceName,
-    tableName,
-    createUpdateCassandraTableParameters
-  );
+  const result =
+    await client.cassandraResources.beginCreateUpdateCassandraTableAndWait(
+      resourceGroupName,
+      accountName,
+      keyspaceName,
+      tableName,
+      createUpdateCassandraTableParameters,
+    );
   console.log(result);
 }
 

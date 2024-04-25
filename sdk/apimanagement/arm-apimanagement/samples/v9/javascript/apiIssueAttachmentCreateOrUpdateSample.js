@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates a new Attachment for the Issue in an API or updates an existing one.
  *
  * @summary Creates a new Attachment for the Issue in an API or updates an existing one.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateApiIssueAttachment.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateApiIssueAttachment.json
  */
 async function apiManagementCreateApiIssueAttachment() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

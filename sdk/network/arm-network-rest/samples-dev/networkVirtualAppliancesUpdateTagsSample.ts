@@ -32,7 +32,7 @@ async function updateNetworkVirtualAppliance() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}",
       subscriptionId,
       resourceGroupName,
-      networkVirtualApplianceName
+      networkVirtualApplianceName,
     )
     .patch(options);
   console.log(result);

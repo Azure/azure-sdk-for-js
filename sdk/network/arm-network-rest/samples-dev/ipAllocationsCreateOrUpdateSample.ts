@@ -43,7 +43,7 @@ async function createIPAllocation() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations/{ipAllocationName}",
       subscriptionId,
       resourceGroupName,
-      ipAllocationName
+      ipAllocationName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

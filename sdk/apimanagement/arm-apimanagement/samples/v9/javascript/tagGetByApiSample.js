@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get tag associated with the API.
  *
  * @summary Get tag associated with the API.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementGetApiTag.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetApiTag.json
  */
 async function apiManagementGetApiTag() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

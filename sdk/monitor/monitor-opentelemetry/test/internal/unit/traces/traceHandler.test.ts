@@ -11,6 +11,7 @@ import { InternalConfig } from "../../../../src/shared";
 import { HttpInstrumentationConfig } from "@opentelemetry/instrumentation-http";
 import { BasicTracerProvider, ReadableSpan, SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { ProxyTracerProvider, Span, metrics, trace } from "@opentelemetry/api";
+import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 
 describe("Library/TraceHandler", () => {
   let http: any = null;
@@ -22,21 +23,18 @@ describe("Library/TraceHandler", () => {
 
   before(() => {
     _config = new InternalConfig();
-    if (_config.azureMonitorExporterConfig) {
-      _config.azureMonitorExporterConfig.connectionString =
+    if (_config.azureMonitorExporterOptions) {
+      _config.azureMonitorExporterOptions.connectionString =
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
     }
     sandbox = sinon.createSandbox();
   });
 
-  beforeEach(() => {
-    trace.disable();
-    metrics.disable();
-    (TraceHandler["_instance"] as any) = null;
-    (MetricHandler["_instance"] as any) = null;
-  });
-
   afterEach(() => {
+    metricHandler.shutdown();
+    handler.shutdown();
+    metrics.disable();
+    trace.disable();
     mockHttpServer.close();
     sandbox.restore();
     exportStub.resetHistory();
@@ -48,8 +46,8 @@ describe("Library/TraceHandler", () => {
 
   function createHandler(httpConfig: HttpInstrumentationConfig) {
     _config.instrumentationOptions.http = httpConfig;
-    metricHandler = MetricHandler.getInstance(_config);
-    handler = TraceHandler.getInstance(_config, metricHandler);
+    metricHandler = new MetricHandler(_config);
+    handler = new TraceHandler(_config, metricHandler);
     exportStub = sinon.stub(handler["_azureExporter"], "export").callsFake(
       (spans: any, resultCallback: any) =>
         new Promise((resolve) => {
@@ -57,8 +55,12 @@ describe("Library/TraceHandler", () => {
             code: ExportResultCode.SUCCESS,
           });
           resolve(spans);
-        })
+        }),
     );
+    const tracerProvider = new NodeTracerProvider();
+    tracerProvider.addSpanProcessor(handler.getAzureMonitorSpanProcessor());
+    tracerProvider.addSpanProcessor(handler.getBatchSpanProcessor());
+    trace.setGlobalTracerProvider(tracerProvider);
 
     // Load Http modules, HTTP instrumentation hook will be created in OpenTelemetry
     http = require("http") as any;
@@ -76,7 +78,7 @@ describe("Library/TraceHandler", () => {
         res.write(
           JSON.stringify({
             success: true,
-          })
+          }),
         );
         res.end();
       }
@@ -110,8 +112,8 @@ describe("Library/TraceHandler", () => {
       createHandler({ enabled: true });
       makeHttpRequest()
         .then(() => {
-          handler
-            .flush()
+          ((trace.getTracerProvider() as ProxyTracerProvider).getDelegate() as NodeTracerProvider)
+            .forceFlush()
             .then(() => {
               assert.ok(exportStub.calledOnce, "Export called");
               const spans = exportStub.args[0][0];
@@ -120,7 +122,7 @@ describe("Library/TraceHandler", () => {
               assert.deepStrictEqual(spans[0].name, "GET");
               assert.deepStrictEqual(
                 spans[0].instrumentationLibrary.name,
-                "@opentelemetry/instrumentation-http"
+                "@opentelemetry/instrumentation-http",
               );
               assert.deepStrictEqual(spans[0].kind, 1, "Span Kind");
               assert.deepStrictEqual(spans[0].status.code, 0, "Span Success"); // Success
@@ -128,7 +130,7 @@ describe("Library/TraceHandler", () => {
               assert.ok(spans[0].endTime);
               assert.deepStrictEqual(
                 spans[0].attributes["http.host"],
-                `localhost:${mockHttpServerPort}`
+                `localhost:${mockHttpServerPort}`,
               );
               assert.deepStrictEqual(spans[0].attributes["http.method"], "GET");
               assert.deepStrictEqual(spans[0].attributes["http.status_code"], 200);
@@ -136,7 +138,7 @@ describe("Library/TraceHandler", () => {
               assert.deepStrictEqual(spans[0].attributes["http.target"], "/test");
               assert.deepStrictEqual(
                 spans[0].attributes["http.url"],
-                `http://localhost:${mockHttpServerPort}/test`
+                `http://localhost:${mockHttpServerPort}/test`,
               );
               assert.deepStrictEqual(spans[0].attributes["net.host.name"], "localhost");
               assert.deepStrictEqual(spans[0].attributes["net.host.port"], mockHttpServerPort);
@@ -144,7 +146,7 @@ describe("Library/TraceHandler", () => {
               assert.deepStrictEqual(spans[1].name, "GET");
               assert.deepStrictEqual(
                 spans[1].instrumentationLibrary.name,
-                "@opentelemetry/instrumentation-http"
+                "@opentelemetry/instrumentation-http",
               );
               assert.deepStrictEqual(spans[1].kind, 2, "Span Kind");
               assert.deepStrictEqual(spans[1].status.code, 0, "Span Success"); // Success
@@ -152,7 +154,7 @@ describe("Library/TraceHandler", () => {
               assert.ok(spans[1].endTime);
               assert.deepStrictEqual(
                 spans[1].attributes["http.host"],
-                `localhost:${mockHttpServerPort}`
+                `localhost:${mockHttpServerPort}`,
               );
               assert.deepStrictEqual(spans[1].attributes["http.method"], "GET");
               assert.deepStrictEqual(spans[1].attributes["http.status_code"], 200);
@@ -160,26 +162,26 @@ describe("Library/TraceHandler", () => {
               assert.deepStrictEqual(spans[1].attributes["http.target"], "/test");
               assert.deepStrictEqual(
                 spans[1].attributes["http.url"],
-                `http://localhost:${mockHttpServerPort}/test`
+                `http://localhost:${mockHttpServerPort}/test`,
               );
               assert.deepStrictEqual(spans[1].attributes["net.peer.name"], "localhost");
               assert.deepStrictEqual(spans[1].attributes["net.peer.port"], mockHttpServerPort);
 
               assert.deepStrictEqual(
                 spans[0]["_spanContext"]["traceId"],
-                spans[1]["_spanContext"]["traceId"]
+                spans[1]["_spanContext"]["traceId"],
               );
               assert.notDeepStrictEqual(
                 spans[0]["_spanContext"]["spanId"],
-                spans[1]["_spanContext"]["spanId"]
+                spans[1]["_spanContext"]["spanId"],
               );
               done();
             })
-            .catch((error) => {
+            .catch((error: Error) => {
               done(error);
             });
         })
-        .catch((error) => {
+        .catch((error: Error) => {
           done(error);
         });
     });
@@ -205,8 +207,8 @@ describe("Library/TraceHandler", () => {
       ).addSpanProcessor(customSpanProcessor);
       makeHttpRequest()
         .then(() => {
-          handler
-            .flush()
+          ((trace.getTracerProvider() as ProxyTracerProvider).getDelegate() as NodeTracerProvider)
+            .forceFlush()
             .then(() => {
               assert.ok(exportStub.calledOnce, "Export called");
               const spans = exportStub.args[0][0];
@@ -219,7 +221,7 @@ describe("Library/TraceHandler", () => {
               assert.deepStrictEqual(spans[1].attributes["endAttribute"], "SomeValue2");
               done();
             })
-            .catch((error) => {
+            .catch((error: Error) => {
               done(error);
             });
         })
@@ -232,8 +234,8 @@ describe("Library/TraceHandler", () => {
       createHandler({ enabled: true });
       makeHttpRequest()
         .then(() => {
-          handler
-            .flush()
+          ((trace.getTracerProvider() as ProxyTracerProvider).getDelegate() as NodeTracerProvider)
+            .forceFlush()
             .then(() => {
               assert.ok(exportStub.calledOnce, "Export called");
               const spans = exportStub.args[0][0];
@@ -241,12 +243,12 @@ describe("Library/TraceHandler", () => {
               // Incoming request
               assert.deepStrictEqual(
                 spans[0].attributes["_MS.ProcessedByMetricExtractors"],
-                "(Name:'Requests', Ver:'1.1')"
+                "(Name:'Requests', Ver:'1.1')",
               );
               // Outgoing request
               assert.deepStrictEqual(
                 spans[1].attributes["_MS.ProcessedByMetricExtractors"],
-                "(Name:'Dependencies', Ver:'1.1')"
+                "(Name:'Dependencies', Ver:'1.1')",
               );
               done();
             })
@@ -267,8 +269,8 @@ describe("Library/TraceHandler", () => {
       createHandler(httpConfig);
       makeHttpRequest()
         .then(() => {
-          handler
-            .flush()
+          ((trace.getTracerProvider() as ProxyTracerProvider).getDelegate() as NodeTracerProvider)
+            .forceFlush()
             .then(() => {
               assert.ok(exportStub.calledOnce, "Export called");
               const spans = exportStub.args[0][0];
@@ -293,8 +295,8 @@ describe("Library/TraceHandler", () => {
       createHandler(httpConfig);
       makeHttpRequest()
         .then(() => {
-          handler
-            .flush()
+          ((trace.getTracerProvider() as ProxyTracerProvider).getDelegate() as NodeTracerProvider)
+            .forceFlush()
             .then(() => {
               assert.ok(exportStub.calledOnce, "Export called");
               const spans = exportStub.args[0][0];
@@ -317,8 +319,12 @@ describe("Library/TraceHandler", () => {
         .then(() => {
           makeHttpRequest()
             .then(() => {
-              handler
-                .flush()
+              (
+                (
+                  trace.getTracerProvider() as ProxyTracerProvider
+                ).getDelegate() as NodeTracerProvider
+              )
+                .forceFlush()
                 .then(() => {
                   assert.ok(exportStub.notCalled, "Export not called");
                   done();

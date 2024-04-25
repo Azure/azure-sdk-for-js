@@ -31,7 +31,7 @@ async function networkGroupsGet() {
       subscriptionId,
       resourceGroupName,
       networkManagerName,
-      networkGroupName
+      networkGroupName,
     )
     .get(options);
   console.log(result);

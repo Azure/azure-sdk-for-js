@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { isProxyToolActive, startTestProxy, TestProxy } from "./testProxyUtils";
 import concurrently, { Command as ConcurrentlyCommand } from "concurrently";
 import { createPrinter } from "./printer";
@@ -17,7 +20,7 @@ async function shouldRunProxyTool(): Promise<boolean> {
       log.info(
         `Proxy tool seems to be active, not attempting to start the test proxy at http://localhost:${
           process.env.TEST_PROXY_HTTP_PORT ?? 5000
-        } & https://localhost:${process.env.TEST_PROXY_HTTPS_PORT ?? 5001}.\n`
+        } & https://localhost:${process.env.TEST_PROXY_HTTPS_PORT ?? 5001}.\n`,
       );
     }
     return !isActive;
@@ -25,7 +28,7 @@ async function shouldRunProxyTool(): Promise<boolean> {
 }
 
 export async function runTestsWithProxyTool(
-  testCommandObj: Partial<ConcurrentlyCommand> & { command: string }
+  testCommandObj: Partial<ConcurrentlyCommand> & { command: string },
 ): Promise<boolean> {
   let testProxy: TestProxy | undefined = undefined;
   if (

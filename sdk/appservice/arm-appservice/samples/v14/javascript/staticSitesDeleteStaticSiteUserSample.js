@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Deletes the user entry from the static site.
  *
  * @summary Description for Deletes the user entry from the static site.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/DeleteStaticSiteUser.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/DeleteStaticSiteUser.json
  */
 async function deleteAUserForAStaticSite() {
   const subscriptionId =

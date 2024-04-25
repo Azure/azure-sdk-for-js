@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ThroughputSettingsUpdateParameters,
-  CosmosDBManagementClient
+  CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update the RUs per second of an Azure Cosmos DB MongoDB collection
  *
  * @summary Update the RUs per second of an Azure Cosmos DB MongoDB collection
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBMongoDBCollectionThroughputUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBMongoDBCollectionThroughputUpdate.json
  */
 async function cosmosDbMongoDbcollectionThroughputUpdate() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -32,17 +32,18 @@ async function cosmosDbMongoDbcollectionThroughputUpdate() {
   const updateThroughputParameters: ThroughputSettingsUpdateParameters = {
     location: "West US",
     resource: { throughput: 400 },
-    tags: {}
+    tags: {},
   };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.mongoDBResources.beginUpdateMongoDBCollectionThroughputAndWait(
-    resourceGroupName,
-    accountName,
-    databaseName,
-    collectionName,
-    updateThroughputParameters
-  );
+  const result =
+    await client.mongoDBResources.beginUpdateMongoDBCollectionThroughputAndWait(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      collectionName,
+      updateThroughputParameters,
+    );
   console.log(result);
 }
 

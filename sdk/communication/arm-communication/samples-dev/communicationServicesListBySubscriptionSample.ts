@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Handles requests to list all resources in a subscription.
  *
  * @summary Handles requests to list all resources in a subscription.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/communicationServices/listBySubscription.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/listBySubscription.json
  */
 async function listBySubscription() {
   const subscriptionId =
@@ -27,7 +27,7 @@ async function listBySubscription() {
   const credential = new DefaultAzureCredential();
   const client = new CommunicationServiceManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const resArray = new Array();
   for await (let item of client.communicationServices.listBySubscription()) {

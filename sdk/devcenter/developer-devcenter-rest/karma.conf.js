@@ -20,6 +20,7 @@ module.exports = function (config) {
       "karma-mocha",
       "karma-mocha-reporter",
       "karma-chrome-launcher",
+      "karma-edge-launcher",
       "karma-firefox-launcher",
       "karma-env-preprocessor",
       "karma-coverage",

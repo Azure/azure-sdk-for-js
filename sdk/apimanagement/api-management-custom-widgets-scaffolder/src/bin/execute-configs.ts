@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Configs, DeploymentConfig, Options, TECHNOLOGIES, WidgetConfig } from "../scaffolding";
+import { Configs, ServiceInformation, Options, TECHNOLOGIES, WidgetConfig } from "../scaffolding";
 
 import inquirer from "inquirer";
 
 export const fieldIdToName: Record<
-  keyof (WidgetConfig & DeploymentConfig & Options) | string,
+  keyof (WidgetConfig & ServiceInformation & Options) | string,
   string
 > = {
   displayName: "Widget display name",
@@ -19,6 +19,8 @@ export const fieldIdToName: Record<
   apiVersion: "Management API version",
 
   openUrl: "Developer portal URL",
+  configAdvancedTenantId: "Tenant ID",
+  configAdvancedRedirectUri: "Redirect URI",
 };
 
 export const prefixUrlProtocol = (value: string): string =>
@@ -34,8 +36,8 @@ const validateUrl =
     name: string,
     msg = (input: string) =>
       `Provided “${name}” parameter value (“${prefixUrlProtocol(
-        input
-      )}”) isn’t a valid URL. Use the correct URL format, e.g., https://contoso.com.`
+        input,
+      )}”) isn’t a valid URL. Use the correct URL format, e.g., https://contoso.com.`,
   ) =>
   (input: string) => {
     try {
@@ -70,7 +72,7 @@ export const validateWidgetConfig: Validate<WidgetConfig> = {
   },
 };
 
-export const validateDeployConfig: Validate<DeploymentConfig> = {
+export const validateDeployConfig: Validate<ServiceInformation> = {
   resourceId: (input) => {
     const required = validateRequired(fieldIdToName.resourceId)(input);
     if (required !== true) return required;
@@ -86,6 +88,13 @@ export const validateDeployConfig: Validate<DeploymentConfig> = {
 
 export const validateMiscConfig: Validate<Options> = {
   openUrl: (input) => {
+    if (!input) return true;
+    return validateUrl(fieldIdToName.openUrl)(input);
+  },
+  configAdvancedTenantId: () => {
+    return true;
+  },
+  configAdvancedRedirectUri: (input) => {
     if (!input) return true;
     return validateUrl(fieldIdToName.openUrl)(input);
   },
@@ -111,10 +120,12 @@ export const promptWidgetConfig = (partial: Partial<WidgetConfig>): Promise<Widg
         ],
       },
     ],
-    partial
+    partial,
   );
 
-export const promptDeployConfig = (partial: Partial<DeploymentConfig>): Promise<DeploymentConfig> =>
+export const promptServiceInformation = (
+  partial: Partial<ServiceInformation>,
+): Promise<ServiceInformation> =>
   inquirer.prompt(
     [
       {
@@ -144,7 +155,7 @@ export const promptDeployConfig = (partial: Partial<DeploymentConfig>): Promise<
         message: fieldIdToName.apiVersion + " (optional; e.g., 2021-08-01)",
       },
     ],
-    partial
+    partial,
   );
 
 export const promptMiscConfig = (partial: Partial<Options>): Promise<Options> =>
@@ -159,6 +170,22 @@ export const promptMiscConfig = (partial: Partial<Options>): Promise<Options> =>
         transformer: prefixUrlProtocol,
         validate: validateMiscConfig.openUrl,
       },
+      {
+        name: "configAdvancedTenantId",
+        type: "input",
+        message:
+          fieldIdToName.configAdvancedTenantId +
+          " to be used in Azure Identity InteractiveBrowserCredential class (optional)",
+        validate: validateMiscConfig.openUrl,
+      },
+      {
+        name: "configAdvancedRedirectUri",
+        type: "input",
+        message:
+          fieldIdToName.configAdvancedRedirectUri +
+          " to be used in Azure Identity InteractiveBrowserCredential class (optional; default is http://localhost:1337)",
+        validate: validateMiscConfig.openUrl,
+      },
     ],
-    partial
+    partial,
   );

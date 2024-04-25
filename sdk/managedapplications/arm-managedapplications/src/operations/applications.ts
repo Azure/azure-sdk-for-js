@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ApplicationClient } from "../applicationClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Application,
   ApplicationsListByResourceGroupNextOptionalParams,
@@ -37,6 +41,14 @@ import {
   ApplicationsCreateOrUpdateByIdResponse,
   ApplicationsUpdateByIdOptionalParams,
   ApplicationsUpdateByIdResponse,
+  ApplicationsRefreshPermissionsOptionalParams,
+  ApplicationsListAllowedUpgradePlansOptionalParams,
+  ApplicationsListAllowedUpgradePlansResponse,
+  UpdateAccessDefinition,
+  ApplicationsUpdateAccessOptionalParams,
+  ListTokenRequest,
+  ApplicationsListTokensOptionalParams,
+  ApplicationsListTokensResponse,
   ApplicationsListByResourceGroupNextResponse,
   ApplicationsListBySubscriptionNextResponse
 } from "../models";
@@ -55,7 +67,7 @@ export class ApplicationsImpl implements Applications {
   }
 
   /**
-   * Gets all the applications within a resource group.
+   * Lists all the applications within a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -124,7 +136,7 @@ export class ApplicationsImpl implements Applications {
   }
 
   /**
-   * Gets all the applications within a subscription.
+   * Lists all the applications within a subscription.
    * @param options The options parameters.
    */
   public listBySubscription(
@@ -204,14 +216,14 @@ export class ApplicationsImpl implements Applications {
     resourceGroupName: string,
     applicationName: string,
     options?: ApplicationsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -244,14 +256,15 @@ export class ApplicationsImpl implements Applications {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, applicationName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, applicationName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -277,7 +290,7 @@ export class ApplicationsImpl implements Applications {
   }
 
   /**
-   * Creates a new managed application.
+   * Creates or updates a managed application.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param applicationName The name of the managed application.
    * @param parameters Parameters supplied to the create or update a managed application.
@@ -289,8 +302,8 @@ export class ApplicationsImpl implements Applications {
     parameters: Application,
     options?: ApplicationsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ApplicationsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ApplicationsCreateOrUpdateResponse>,
       ApplicationsCreateOrUpdateResponse
     >
   > {
@@ -300,7 +313,7 @@ export class ApplicationsImpl implements Applications {
     ): Promise<ApplicationsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -333,21 +346,25 @@ export class ApplicationsImpl implements Applications {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, applicationName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, applicationName, parameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ApplicationsCreateOrUpdateResponse,
+      OperationState<ApplicationsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Creates a new managed application.
+   * Creates or updates a managed application.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param applicationName The name of the managed application.
    * @param parameters Parameters supplied to the create or update a managed application.
@@ -369,25 +386,98 @@ export class ApplicationsImpl implements Applications {
   }
 
   /**
-   * Updates an existing managed application. The only value that can be updated via PATCH currently is
-   * the tags.
+   * Updates an existing managed application.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param applicationName The name of the managed application.
    * @param options The options parameters.
    */
-  update(
+  async beginUpdate(
+    resourceGroupName: string,
+    applicationName: string,
+    options?: ApplicationsUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ApplicationsUpdateResponse>,
+      ApplicationsUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ApplicationsUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, applicationName, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ApplicationsUpdateResponse,
+      OperationState<ApplicationsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Updates an existing managed application.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applicationName The name of the managed application.
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
     resourceGroupName: string,
     applicationName: string,
     options?: ApplicationsUpdateOptionalParams
   ): Promise<ApplicationsUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, applicationName, options },
-      updateOperationSpec
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      applicationName,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
-   * Gets all the applications within a resource group.
+   * Lists all the applications within a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -402,7 +492,7 @@ export class ApplicationsImpl implements Applications {
   }
 
   /**
-   * Gets all the applications within a subscription.
+   * Lists all the applications within a subscription.
    * @param options The options parameters.
    */
   private _listBySubscription(
@@ -441,14 +531,14 @@ export class ApplicationsImpl implements Applications {
   async beginDeleteById(
     applicationId: string,
     options?: ApplicationsDeleteByIdOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -481,14 +571,15 @@ export class ApplicationsImpl implements Applications {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { applicationId, options },
-      deleteByIdOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { applicationId, options },
+      spec: deleteByIdOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -510,7 +601,7 @@ export class ApplicationsImpl implements Applications {
   }
 
   /**
-   * Creates a new managed application.
+   * Creates or updates a managed application.
    * @param applicationId The fully qualified ID of the managed application, including the managed
    *                      application name and the managed application resource type. Use the format,
    *                      /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/applications/{application-name}
@@ -522,8 +613,8 @@ export class ApplicationsImpl implements Applications {
     parameters: Application,
     options?: ApplicationsCreateOrUpdateByIdOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ApplicationsCreateOrUpdateByIdResponse>,
+    SimplePollerLike<
+      OperationState<ApplicationsCreateOrUpdateByIdResponse>,
       ApplicationsCreateOrUpdateByIdResponse
     >
   > {
@@ -533,7 +624,7 @@ export class ApplicationsImpl implements Applications {
     ): Promise<ApplicationsCreateOrUpdateByIdResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -566,21 +657,25 @@ export class ApplicationsImpl implements Applications {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { applicationId, parameters, options },
-      createOrUpdateByIdOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { applicationId, parameters, options },
+      spec: createOrUpdateByIdOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ApplicationsCreateOrUpdateByIdResponse,
+      OperationState<ApplicationsCreateOrUpdateByIdResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Creates a new managed application.
+   * Creates or updates a managed application.
    * @param applicationId The fully qualified ID of the managed application, including the managed
    *                      application name and the managed application resource type. Use the format,
    *                      /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/applications/{application-name}
@@ -601,20 +696,296 @@ export class ApplicationsImpl implements Applications {
   }
 
   /**
-   * Updates an existing managed application. The only value that can be updated via PATCH currently is
-   * the tags.
+   * Updates an existing managed application.
    * @param applicationId The fully qualified ID of the managed application, including the managed
    *                      application name and the managed application resource type. Use the format,
    *                      /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/applications/{application-name}
    * @param options The options parameters.
    */
-  updateById(
+  async beginUpdateById(
+    applicationId: string,
+    options?: ApplicationsUpdateByIdOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ApplicationsUpdateByIdResponse>,
+      ApplicationsUpdateByIdResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ApplicationsUpdateByIdResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { applicationId, options },
+      spec: updateByIdOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ApplicationsUpdateByIdResponse,
+      OperationState<ApplicationsUpdateByIdResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Updates an existing managed application.
+   * @param applicationId The fully qualified ID of the managed application, including the managed
+   *                      application name and the managed application resource type. Use the format,
+   *                      /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/applications/{application-name}
+   * @param options The options parameters.
+   */
+  async beginUpdateByIdAndWait(
     applicationId: string,
     options?: ApplicationsUpdateByIdOptionalParams
   ): Promise<ApplicationsUpdateByIdResponse> {
+    const poller = await this.beginUpdateById(applicationId, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Refresh Permissions for application.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applicationName The name of the managed application.
+   * @param options The options parameters.
+   */
+  async beginRefreshPermissions(
+    resourceGroupName: string,
+    applicationName: string,
+    options?: ApplicationsRefreshPermissionsOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, applicationName, options },
+      spec: refreshPermissionsOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Refresh Permissions for application.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applicationName The name of the managed application.
+   * @param options The options parameters.
+   */
+  async beginRefreshPermissionsAndWait(
+    resourceGroupName: string,
+    applicationName: string,
+    options?: ApplicationsRefreshPermissionsOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginRefreshPermissions(
+      resourceGroupName,
+      applicationName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * List allowed upgrade plans for application.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applicationName The name of the managed application.
+   * @param options The options parameters.
+   */
+  listAllowedUpgradePlans(
+    resourceGroupName: string,
+    applicationName: string,
+    options?: ApplicationsListAllowedUpgradePlansOptionalParams
+  ): Promise<ApplicationsListAllowedUpgradePlansResponse> {
     return this.client.sendOperationRequest(
-      { applicationId, options },
-      updateByIdOperationSpec
+      { resourceGroupName, applicationName, options },
+      listAllowedUpgradePlansOperationSpec
+    );
+  }
+
+  /**
+   * Update access for application.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applicationName The name of the managed application.
+   * @param parameters Request body parameters to list tokens.
+   * @param options The options parameters.
+   */
+  async beginUpdateAccess(
+    resourceGroupName: string,
+    applicationName: string,
+    parameters: UpdateAccessDefinition,
+    options?: ApplicationsUpdateAccessOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, applicationName, parameters, options },
+      spec: updateAccessOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Update access for application.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applicationName The name of the managed application.
+   * @param parameters Request body parameters to list tokens.
+   * @param options The options parameters.
+   */
+  async beginUpdateAccessAndWait(
+    resourceGroupName: string,
+    applicationName: string,
+    parameters: UpdateAccessDefinition,
+    options?: ApplicationsUpdateAccessOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginUpdateAccess(
+      resourceGroupName,
+      applicationName,
+      parameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * List tokens for application.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applicationName The name of the managed application.
+   * @param parameters Request body parameters to list tokens.
+   * @param options The options parameters.
+   */
+  listTokens(
+    resourceGroupName: string,
+    applicationName: string,
+    parameters: ListTokenRequest,
+    options?: ApplicationsListTokensOptionalParams
+  ): Promise<ApplicationsListTokensResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, applicationName, parameters, options },
+      listTokensOperationSpec
     );
   }
 
@@ -669,9 +1040,9 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.applicationName,
-    Parameters.subscriptionId
+    Parameters.applicationName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -692,9 +1063,9 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.applicationName,
-    Parameters.subscriptionId
+    Parameters.applicationName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -724,9 +1095,9 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.applicationName,
-    Parameters.subscriptionId
+    Parameters.applicationName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -738,7 +1109,16 @@ const updateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Application
+      bodyMapper: Mappers.ApplicationPatchable
+    },
+    201: {
+      bodyMapper: Mappers.ApplicationPatchable
+    },
+    202: {
+      bodyMapper: Mappers.ApplicationPatchable
+    },
+    204: {
+      bodyMapper: Mappers.ApplicationPatchable
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -748,9 +1128,9 @@ const updateOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.applicationName,
-    Parameters.subscriptionId
+    Parameters.applicationName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -771,8 +1151,8 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -860,15 +1240,118 @@ const updateByIdOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Application
+      bodyMapper: Mappers.ApplicationPatchable
     },
+    201: {
+      bodyMapper: Mappers.ApplicationPatchable
+    },
+    202: {
+      bodyMapper: Mappers.ApplicationPatchable
+    },
+    204: {
+      bodyMapper: Mappers.ApplicationPatchable
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.applicationId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const refreshPermissionsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applications/{applicationName}/refreshPermissions",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.applicationName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listAllowedUpgradePlansOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applications/{applicationName}/listAllowedUpgradePlans",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AllowedUpgradePlansResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.applicationName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const updateAccessOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applications/{applicationName}/updateAccess",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.applicationId],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.applicationName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const listTokensOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applications/{applicationName}/listTokens",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ManagedIdentityTokenResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters3,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.applicationName
+  ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
@@ -884,12 +1367,11 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -905,7 +1387,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all soft-deleted services available for undelete for the given subscription.
  *
  * @summary Lists all soft-deleted services available for undelete for the given subscription.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementDeletedServicesListBySubscription.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeletedServicesListBySubscription.json
  */
 async function apiManagementDeletedServicesListBySubscription() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

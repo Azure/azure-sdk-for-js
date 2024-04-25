@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { spawn } from "child_process";
-import { tmpdir } from "os";
-
-import path from "path";
+import { spawn } from "node:child_process";
+import { tmpdir } from "node:os";
+import path from "node:path";
 
 /**
  * Uses the git command line to ask whether a path has any tracked, unstaged changes (if they would appear in a git
@@ -29,7 +28,9 @@ export function hasDiff(treePath: string): Promise<boolean> {
       ]);
 
       // git diff --quiet returns nonzero if a diff exists.
-      command.on("exit", (code) => resolve(code !== 0));
+      command.on("exit", (code) => {
+        resolve(code !== 0);
+      });
       command.on("error", reject);
     }
   });
@@ -48,7 +49,9 @@ export function commitAll(message: string): Promise<void> {
       stdio: "inherit",
     });
 
-    command.on("exit", (code) => (code === 0 ? resolve() : reject("git exited nonzero")));
+    command.on("exit", (code) => {
+      code === 0 ? resolve() : reject("git exited nonzero");
+    });
     command.on("error", reject);
   });
 }
@@ -66,7 +69,9 @@ export function add(...paths: string[]): Promise<void> {
       stdio: "inherit",
     });
 
-    command.on("exit", (code) => (code === 0 ? resolve() : reject("git exited nonzero")));
+    command.on("exit", (code) => {
+      code === 0 ? resolve() : reject("git exited nonzero");
+    });
     command.on("error", reject);
   });
 }
@@ -82,7 +87,7 @@ export function add(...paths: string[]): Promise<void> {
  */
 export function getConfig(
   key: string,
-  options: { global?: boolean } = {}
+  options: { global?: boolean } = {},
 ): Promise<string | undefined> {
   return new Promise((resolve, reject) => {
     const globalArg = options.global ? ["--global"] : [];
@@ -90,7 +95,9 @@ export function getConfig(
 
     let output = "";
     command.stdout.on("data", (data) => (output += data.toString()));
-    command.on("exit", (code) => (code === 0 ? resolve(output.trim()) : resolve(undefined)));
+    command.on("exit", (code) => {
+      code === 0 ? resolve(output.trim()) : resolve(undefined);
+    });
     command.on("error", reject);
   });
 }
@@ -102,7 +109,9 @@ export function checkout(name: string, options: { create?: boolean } = {}): Prom
       stdio: "inherit",
     });
 
-    command.on("exit", (code) => (code === 0 ? resolve() : reject("git exited nonzero")));
+    command.on("exit", (code) => {
+      code === 0 ? resolve() : reject("git exited nonzero");
+    });
     command.on("error", reject);
   });
 }
@@ -113,9 +122,9 @@ export function currentBranch(): Promise<string> {
 
     let output = "";
     command.stdout.on("data", (data) => (output += data.toString()));
-    command.on("exit", (code) =>
-      code === 0 ? resolve(output.trim()) : reject("git exited nonzero")
-    );
+    command.on("exit", (code) => {
+      code === 0 ? resolve(output.trim()) : reject("git exited nonzero");
+    });
     command.on("error", reject);
   });
 }

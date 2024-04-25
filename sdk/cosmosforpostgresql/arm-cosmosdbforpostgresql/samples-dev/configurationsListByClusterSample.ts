@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all the configurations of a cluster.
  *
  * @summary List all the configurations of a cluster.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ConfigurationListByCluster.json
+ * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ConfigurationListByCluster.json
  */
 async function listConfigurationsOfTheCluster() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function listConfigurationsOfTheCluster() {
   const resArray = new Array();
   for await (let item of client.configurations.listByCluster(
     resourceGroupName,
-    clusterName
+    clusterName,
   )) {
     resArray.push(item);
   }

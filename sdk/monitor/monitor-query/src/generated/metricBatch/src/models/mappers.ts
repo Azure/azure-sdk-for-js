@@ -71,7 +71,7 @@ export const MetricResultsResponseValuesItem: coreClient.CompositeMapper = {
       interval: {
         serializedName: "interval",
         type: {
-          name: "TimeSpan"
+          name: "String"
         }
       },
       namespace: {
@@ -121,6 +121,13 @@ export const Metric: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
       name: {
         serializedName: "name",
         type: {
@@ -130,14 +137,18 @@ export const Metric: coreClient.CompositeMapper = {
       },
       displayDescription: {
         serializedName: "displayDescription",
-        required: true,
         type: {
           name: "String"
         }
       },
-      type: {
-        serializedName: "type",
-        required: true,
+      errorCode: {
+        serializedName: "errorCode",
+        type: {
+          name: "String"
+        }
+      },
+      errorMessage: {
+        serializedName: "errorMessage",
         type: {
           name: "String"
         }
@@ -146,22 +157,7 @@ export const Metric: coreClient.CompositeMapper = {
         serializedName: "unit",
         required: true,
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Count",
-            "Bytes",
-            "Seconds",
-            "CountPerSecond",
-            "BytesPerSecond",
-            "Percent",
-            "MilliSeconds",
-            "ByteSeconds",
-            "Unspecified",
-            "Cores",
-            "MilliCores",
-            "NanoCores",
-            "BitsPerSecond"
-          ]
+          name: "String"
         }
       },
       timeseries: {
@@ -175,18 +171,6 @@ export const Metric: coreClient.CompositeMapper = {
               className: "TimeSeriesElement"
             }
           }
-        }
-      },
-      errorCode: {
-        serializedName: "errorCode",
-        type: {
-          name: "String"
-        }
-      },
-      errorMessage: {
-        serializedName: "errorMessage",
-        type: {
-          name: "String"
         }
       }
     }
@@ -316,82 +300,106 @@ export const MetricValue: coreClient.CompositeMapper = {
   }
 };
 
-export const AdditionalInfoErrorResponse: coreClient.CompositeMapper = {
+export const ErrorResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AdditionalInfoErrorResponse",
+    className: "ErrorResponse",
     modelProperties: {
       error: {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "AdditionalInfoErrorResponseError"
+          className: "ErrorDetail"
         }
       }
     }
   }
 };
 
-export const AdditionalInfoErrorResponseError: coreClient.CompositeMapper = {
+export const ErrorDetail: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AdditionalInfoErrorResponseError",
+    className: "ErrorDetail",
     modelProperties: {
-      additionalInfo: {
-        serializedName: "additionalInfo",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AdditionalInfoErrorResponseErrorAdditionalInfoItem"
-            }
-          }
-        }
-      },
       code: {
         serializedName: "code",
-        required: true,
+        readOnly: true,
         type: {
           name: "String"
         }
       },
       message: {
         serializedName: "message",
-        required: true,
+        readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorDetail"
+            }
+          }
+        }
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo"
+            }
+          }
         }
       }
     }
   }
 };
 
-export const AdditionalInfoErrorResponseErrorAdditionalInfoItem: coreClient.CompositeMapper = {
+export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AdditionalInfoErrorResponseErrorAdditionalInfoItem",
+    className: "ErrorAdditionalInfo",
     modelProperties: {
       type: {
         serializedName: "type",
+        readOnly: true,
         type: {
           name: "String"
         }
       },
       info: {
         serializedName: "info",
+        readOnly: true,
         type: {
-          name: "String"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
   }
 };
 
-export const MetricsBatchExceptionHeaders: coreClient.CompositeMapper = {
+export const MetricsBatchBatchExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "MetricsBatchExceptionHeaders",
+    className: "MetricsBatchBatchExceptionHeaders",
     modelProperties: {
       xMsErrorCode: {
         serializedName: "x-ms-error-code",

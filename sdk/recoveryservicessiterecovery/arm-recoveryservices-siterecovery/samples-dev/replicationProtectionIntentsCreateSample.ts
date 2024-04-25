@@ -10,20 +10,27 @@
 // Licensed under the MIT License.
 import {
   CreateProtectionIntentInput,
-  SiteRecoveryManagementClient
+  SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to The operation to create an ASR replication protection intent item.
  *
  * @summary The operation to create an ASR replication protection intent item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2022-10-01/examples/ReplicationProtectionIntents_Create.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectionIntents_Create.json
  */
 async function createProtectionIntentResource() {
-  const subscriptionId = "509099b2-9d2c-4636-b43e-bd5cafb6be69";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
+    "509099b2-9d2c-4636-b43e-bd5cafb6be69";
   const resourceName = "vault1";
-  const resourceGroupName = "resourceGroupPS1";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] ||
+    "resourceGroupPS1";
   const intentObjectName = "vm1";
   const input: CreateProtectionIntentInput = {
     properties: {
@@ -36,9 +43,9 @@ async function createProtectionIntentResource() {
         recoveryLocation: "westus2",
         recoveryResourceGroupId:
           "/subscriptions/509099b2-9d2c-4636-b43e-bd5cafb6be69/resourceGroups/removeOne-asr",
-        recoverySubscriptionId: "ed5bcdf6-d61e-47bd-8ea9-f2bd379a2640"
-      }
-    }
+        recoverySubscriptionId: "ed5bcdf6-d61e-47bd-8ea9-f2bd379a2640",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
@@ -46,9 +53,13 @@ async function createProtectionIntentResource() {
     resourceName,
     resourceGroupName,
     intentObjectName,
-    input
+    input,
   );
   console.log(result);
 }
 
-createProtectionIntentResource().catch(console.error);
+async function main() {
+  createProtectionIntentResource();
+}
+
+main().catch(console.error);

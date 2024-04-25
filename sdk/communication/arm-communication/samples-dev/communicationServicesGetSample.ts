@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the CommunicationService and its properties.
  *
  * @summary Get the CommunicationService and its properties.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/communicationServices/get.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/get.json
  */
 async function getResource() {
   const subscriptionId =
@@ -30,11 +30,11 @@ async function getResource() {
   const credential = new DefaultAzureCredential();
   const client = new CommunicationServiceManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.communicationServices.get(
     resourceGroupName,
-    communicationServiceName
+    communicationServiceName,
   );
   console.log(result);
 }

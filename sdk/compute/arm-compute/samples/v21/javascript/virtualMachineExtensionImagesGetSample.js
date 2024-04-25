@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a virtual machine extension image.
  *
  * @summary Gets a virtual machine extension image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-03-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_Get_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_Get_MaximumSet_Gen.json
  */
 async function virtualMachineExtensionImageGetMaximumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -30,7 +30,7 @@ async function virtualMachineExtensionImageGetMaximumSetGen() {
     location,
     publisherName,
     typeParam,
-    version
+    version,
   );
   console.log(result);
 }
@@ -39,7 +39,7 @@ async function virtualMachineExtensionImageGetMaximumSetGen() {
  * This sample demonstrates how to Gets a virtual machine extension image.
  *
  * @summary Gets a virtual machine extension image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-03-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_Get_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_Get_MinimumSet_Gen.json
  */
 async function virtualMachineExtensionImageGetMinimumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -53,7 +53,7 @@ async function virtualMachineExtensionImageGetMinimumSetGen() {
     location,
     publisherName,
     typeParam,
-    version
+    version,
   );
   console.log(result);
 }

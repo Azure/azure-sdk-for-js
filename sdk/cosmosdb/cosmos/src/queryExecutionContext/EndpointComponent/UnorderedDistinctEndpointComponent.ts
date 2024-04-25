@@ -3,6 +3,7 @@
 import { Response } from "../../request";
 import { ExecutionContext } from "../ExecutionContext";
 import { hashObject } from "../../utils/hashObject";
+import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 
 /** @hidden */
 export class UnorderedDistinctEndpointComponent implements ExecutionContext {
@@ -11,16 +12,16 @@ export class UnorderedDistinctEndpointComponent implements ExecutionContext {
     this.hashedResults = new Set();
   }
 
-  public async nextItem(): Promise<Response<any>> {
-    const { headers, result, diagnostics } = await this.executionContext.nextItem();
+  public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+    const { headers, result } = await this.executionContext.nextItem(diagnosticNode);
     if (result) {
       const hashedResult = await hashObject(result);
       if (this.hashedResults.has(hashedResult)) {
-        return { result: undefined, headers, diagnostics };
+        return { result: undefined, headers };
       }
       this.hashedResults.add(hashedResult);
     }
-    return { result, headers, diagnostics };
+    return { result, headers };
   }
 
   public hasMoreResults(): boolean {

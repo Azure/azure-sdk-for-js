@@ -26,7 +26,7 @@ import { tracingClient } from "./generated/src/tracing";
 export interface RecipientVerificationClientOptions extends CommonClientOptions {}
 
 const isRecipientVerificationClientOptions = (
-  options: any
+  options: any,
 ): options is RecipientVerificationClientOptions =>
   options && !isKeyCredential(options) && !isTokenCredential(options);
 
@@ -57,7 +57,7 @@ export class RecipientVerificationClient {
   public constructor(
     endpoint: string,
     credential: KeyCredential,
-    options?: RecipientVerificationClientOptions
+    options?: RecipientVerificationClientOptions,
   );
 
   /**
@@ -70,13 +70,13 @@ export class RecipientVerificationClient {
   public constructor(
     endpoint: string,
     credential: TokenCredential,
-    options?: RecipientVerificationClientOptions
+    options?: RecipientVerificationClientOptions,
   );
 
   public constructor(
     connectionStringOrUrl: string,
     credentialOrOptions?: KeyCredential | TokenCredential | RecipientVerificationClientOptions,
-    maybeOptions: RecipientVerificationClientOptions = {}
+    maybeOptions: RecipientVerificationClientOptions = {},
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
     const options = isRecipientVerificationClientOptions(credentialOrOptions)
@@ -103,14 +103,14 @@ export class RecipientVerificationClient {
    * @param options - Additional request options.
    */
   public getVerifications(
-    options: AcsVerificationGetVerificationsOptionalParams = {}
+    options: AcsVerificationGetVerificationsOptionalParams = {},
   ): Promise<AcsVerification[]> {
     return tracingClient.withSpan(
       "RecipientVerification.getVerifications",
       options,
       (updatedOptions) => {
         return this.client.acsVerificationOperations.getVerifications(updatedOptions);
-      }
+      },
     );
   }
 
@@ -122,7 +122,7 @@ export class RecipientVerificationClient {
    */
   public deleteVerification(
     verificationId: string,
-    options: AcsVerificationDeleteVerificationOptionalParams = {}
+    options: AcsVerificationDeleteVerificationOptionalParams = {},
   ): Promise<void> {
     return tracingClient.withSpan(
       "RecipientVerification.deleteVerification",
@@ -130,9 +130,9 @@ export class RecipientVerificationClient {
       (updatedOptions) => {
         return this.client.acsVerificationOperations.deleteVerification(
           verificationId,
-          updatedOptions
+          updatedOptions,
         );
-      }
+      },
     );
   }
 
@@ -144,14 +144,14 @@ export class RecipientVerificationClient {
    */
   public verifyIdentity(
     verificationId: string,
-    options: AcsVerificationVerifyIdentityOptionalParams = {}
+    options: AcsVerificationVerifyIdentityOptionalParams = {},
   ): Promise<AcsVerificationVerifyIdentityResponse> {
     return tracingClient.withSpan(
       "RecipientVerification.verifyIdentity",
       options,
       (updatedOptions) => {
         return this.client.acsVerificationOperations.verifyIdentity(verificationId, updatedOptions);
-      }
+      },
     );
   }
 
@@ -161,14 +161,14 @@ export class RecipientVerificationClient {
    * @param options - Additional request options.
    */
   public getVerificationConstants(
-    options: AcsVerificationGetVerificationConstantsOptionalParams = {}
+    options: AcsVerificationGetVerificationConstantsOptionalParams = {},
   ): Promise<VerificationConstantsResponse> {
     return tracingClient.withSpan(
       "RecipientVerification.getVerificationConstants",
       options,
       (updatedOptions) => {
         return this.client.acsVerificationOperations.getVerificationConstants(updatedOptions);
-      }
+      },
     );
   }
 
@@ -178,14 +178,14 @@ export class RecipientVerificationClient {
    * @param options - Additional request options.
    */
   public requestVerification(
-    options: AcsVerificationRequestVerificationOptionalParams = {}
+    options: AcsVerificationRequestVerificationOptionalParams = {},
   ): Promise<AcsVerificationRequestVerificationResponse> {
     return tracingClient.withSpan(
       "RecipientVerification.requestVerification",
       options,
       (updatedOptions) => {
         return this.client.acsVerificationOperations.requestVerification(updatedOptions);
-      }
+      },
     );
   }
 }

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   MongoUserDefinitionCreateUpdateParameters,
-  CosmosDBManagementClient
+  CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates an Azure Cosmos DB Mongo User Definition.
  *
  * @summary Creates or updates an Azure Cosmos DB Mongo User Definition.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBMongoDBUserDefinitionCreateUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBMongoDBUserDefinitionCreateUpdate.json
  */
 async function cosmosDbMongoDbuserDefinitionCreateUpdate() {
   const subscriptionId =
@@ -30,22 +30,24 @@ async function cosmosDbMongoDbuserDefinitionCreateUpdate() {
   const resourceGroupName =
     process.env["COSMOSDB_RESOURCE_GROUP"] || "myResourceGroupName";
   const accountName = "myAccountName";
-  const createUpdateMongoUserDefinitionParameters: MongoUserDefinitionCreateUpdateParameters = {
-    customData: "My custom data",
-    databaseName: "sales",
-    mechanisms: "SCRAM-SHA-256",
-    password: "myPassword",
-    roles: [{ db: "sales", role: "myReadRole" }],
-    userName: "myUserName"
-  };
+  const createUpdateMongoUserDefinitionParameters: MongoUserDefinitionCreateUpdateParameters =
+    {
+      customData: "My custom data",
+      databaseName: "sales",
+      mechanisms: "SCRAM-SHA-256",
+      password: "myPassword",
+      roles: [{ db: "sales", role: "myReadRole" }],
+      userName: "myUserName",
+    };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.mongoDBResources.beginCreateUpdateMongoUserDefinitionAndWait(
-    mongoUserDefinitionId,
-    resourceGroupName,
-    accountName,
-    createUpdateMongoUserDefinitionParameters
-  );
+  const result =
+    await client.mongoDBResources.beginCreateUpdateMongoUserDefinitionAndWait(
+      mongoUserDefinitionId,
+      resourceGroupName,
+      accountName,
+      createUpdateMongoUserDefinitionParameters,
+    );
   console.log(result);
 }
 

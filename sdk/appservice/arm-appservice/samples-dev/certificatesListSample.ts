@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Get all certificates for a subscription.
  *
  * @summary Description for Get all certificates for a subscription.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/ListCertificates.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/ListCertificates.json
  */
 async function listCertificatesForSubscription() {
   const subscriptionId =

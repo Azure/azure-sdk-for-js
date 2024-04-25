@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a failover group.
  *
  * @summary Deletes a failover group.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-11-01-preview/examples/FailoverGroupDelete.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/FailoverGroupDelete.json
  */
 async function deleteFailoverGroup() {
   const subscriptionId =

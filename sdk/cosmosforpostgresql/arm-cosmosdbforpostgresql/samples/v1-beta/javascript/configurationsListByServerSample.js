@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List all the configurations of a server in cluster.
  *
  * @summary List all the configurations of a server in cluster.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ConfigurationListByServer.json
+ * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ConfigurationListByServer.json
  */
 async function listConfigurationsOfTheServerThatInTheCluster() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function listConfigurationsOfTheServerThatInTheCluster() {
   for await (let item of client.configurations.listByServer(
     resourceGroupName,
     clusterName,
-    serverName
+    serverName,
   )) {
     resArray.push(item);
   }

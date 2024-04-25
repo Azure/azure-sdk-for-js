@@ -8,7 +8,7 @@ import { hashObject } from "../../utils/hashObject";
 import { Aggregator, createAggregator } from "../Aggregators";
 import { getInitialHeader, mergeHeaders } from "../headerUtils";
 import { emptyGroup, extractAggregateResult } from "./emptyGroup";
-import { getEmptyCosmosDiagnostics } from "../../CosmosDiagnostics";
+import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 
 interface GroupByResponse {
   result: GroupByResult;
@@ -27,18 +27,20 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
   private aggregateType: AggregateType;
   private completed: boolean = false;
 
-  constructor(private executionContext: ExecutionContext, private queryInfo: QueryInfo) {
+  constructor(
+    private executionContext: ExecutionContext,
+    private queryInfo: QueryInfo,
+  ) {
     // VALUE queries will only every have a single grouping
     this.aggregateType = this.queryInfo.aggregates[0];
   }
 
-  public async nextItem(): Promise<Response<any>> {
+  public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
     // Start returning results if we have processed a full results set
     if (this.aggregateResultArray.length > 0) {
       return {
         result: this.aggregateResultArray.pop(),
         headers: getInitialHeader(),
-        diagnostics: getEmptyCosmosDiagnostics(),
       };
     }
 
@@ -46,7 +48,6 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
       return {
         result: undefined,
         headers: getInitialHeader(),
-        diagnostics: getEmptyCosmosDiagnostics(),
       };
     }
 
@@ -54,7 +55,9 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
 
     while (this.executionContext.hasMoreResults()) {
       // Grab the next result
-      const { result, headers } = (await this.executionContext.nextItem()) as GroupByResponse;
+      const { result, headers } = (await this.executionContext.nextItem(
+        diagnosticNode,
+      )) as GroupByResponse;
       mergeHeaders(aggregateHeaders, headers);
 
       // If it exists, process it via aggregators
@@ -93,7 +96,6 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
       return {
         result: undefined,
         headers: aggregateHeaders,
-        diagnostics: getEmptyCosmosDiagnostics(),
       };
     }
     // If no results are left in the underlying execution context, convert our aggregate results to an array
@@ -104,7 +106,6 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
     return {
       result: this.aggregateResultArray.pop(),
       headers: aggregateHeaders,
-      diagnostics: getEmptyCosmosDiagnostics(),
     };
   }
 

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets list of private endpoint connections on a cluster.
  *
  * @summary Gets list of private endpoint connections on a cluster.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/PrivateEndpointConnectionsListByCluster.json
+ * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/PrivateEndpointConnectionsListByCluster.json
  */
 async function getsListOfPrivateEndpointConnectionsOnACluster() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function getsListOfPrivateEndpointConnectionsOnACluster() {
   const resArray = new Array();
   for await (let item of client.privateEndpointConnections.listByCluster(
     resourceGroupName,
-    clusterName
+    clusterName,
   )) {
     resArray.push(item);
   }

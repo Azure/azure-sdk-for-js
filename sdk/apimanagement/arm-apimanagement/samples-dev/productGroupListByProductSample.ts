@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the collection of developer groups associated with the specified product.
  *
  * @summary Lists the collection of developer groups associated with the specified product.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementListProductGroups.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListProductGroups.json
  */
 async function apiManagementListProductGroups() {
   const subscriptionId =

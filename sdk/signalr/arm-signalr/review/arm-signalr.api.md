@@ -22,7 +22,6 @@ export interface CustomCertificate extends ProxyResource {
     keyVaultSecretName: string;
     keyVaultSecretVersion?: string;
     readonly provisioningState?: ProvisioningState;
-    readonly systemData?: SystemData;
 }
 
 // @public
@@ -36,7 +35,6 @@ export interface CustomDomain extends ProxyResource {
     customCertificate: ResourceReference;
     domainName: string;
     readonly provisioningState?: ProvisioningState;
-    readonly systemData?: SystemData;
 }
 
 // @public
@@ -78,6 +76,12 @@ export type FeatureFlags = string;
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
+export interface IPRule {
+    action?: ACLAction;
+    value?: string;
+}
 
 // @public
 type KeyType_2 = string;
@@ -314,7 +318,6 @@ export interface PrivateEndpointConnection extends ProxyResource {
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     readonly provisioningState?: ProvisioningState;
-    readonly systemData?: SystemData;
 }
 
 // @public
@@ -360,9 +363,24 @@ export interface RegenerateKeyParameters {
 }
 
 // @public
+export interface Replica extends TrackedResource {
+    readonly provisioningState?: ProvisioningState;
+    regionEndpointEnabled?: string;
+    resourceStopped?: string;
+    sku?: ResourceSku;
+}
+
+// @public (undocumented)
+export interface ReplicaList {
+    nextLink?: string;
+    value?: Replica[];
+}
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -433,7 +451,6 @@ export interface SharedPrivateLinkResource extends ProxyResource {
     readonly provisioningState?: ProvisioningState;
     requestMessage?: string;
     readonly status?: SharedPrivateLinkResourceStatus;
-    readonly systemData?: SystemData;
 }
 
 // @public
@@ -453,8 +470,8 @@ export interface SignalR {
     beginDeleteAndWait(resourceGroupName: string, resourceName: string, options?: SignalRDeleteOptionalParams): Promise<void>;
     beginRegenerateKey(resourceGroupName: string, resourceName: string, parameters: RegenerateKeyParameters, options?: SignalRRegenerateKeyOptionalParams): Promise<SimplePollerLike<OperationState<SignalRRegenerateKeyResponse>, SignalRRegenerateKeyResponse>>;
     beginRegenerateKeyAndWait(resourceGroupName: string, resourceName: string, parameters: RegenerateKeyParameters, options?: SignalRRegenerateKeyOptionalParams): Promise<SignalRRegenerateKeyResponse>;
-    beginRestart(resourceGroupName: string, resourceName: string, options?: SignalRRestartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRestartAndWait(resourceGroupName: string, resourceName: string, options?: SignalRRestartOptionalParams): Promise<void>;
+    beginRestart(resourceGroupName: string, resourceName: string, options?: SignalRRestartOptionalParams): Promise<SimplePollerLike<OperationState<SignalRRestartResponse>, SignalRRestartResponse>>;
+    beginRestartAndWait(resourceGroupName: string, resourceName: string, options?: SignalRRestartOptionalParams): Promise<SignalRRestartResponse>;
     beginUpdate(resourceGroupName: string, resourceName: string, parameters: SignalRResource, options?: SignalRUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SignalRUpdateResponse>, SignalRUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, resourceName: string, parameters: SignalRResource, options?: SignalRUpdateOptionalParams): Promise<SignalRUpdateResponse>;
     checkNameAvailability(location: string, parameters: NameAvailabilityParameters, options?: SignalRCheckNameAvailabilityOptionalParams): Promise<SignalRCheckNameAvailabilityResponse>;
@@ -462,6 +479,7 @@ export interface SignalR {
     listByResourceGroup(resourceGroupName: string, options?: SignalRListByResourceGroupOptionalParams): PagedAsyncIterableIterator<SignalRResource>;
     listBySubscription(options?: SignalRListBySubscriptionOptionalParams): PagedAsyncIterableIterator<SignalRResource>;
     listKeys(resourceGroupName: string, resourceName: string, options?: SignalRListKeysOptionalParams): Promise<SignalRListKeysResponse>;
+    listReplicaSkus(resourceGroupName: string, resourceName: string, replicaName: string, options?: SignalRListReplicaSkusOptionalParams): Promise<SignalRListReplicaSkusResponse>;
     listSkus(resourceGroupName: string, resourceName: string, options?: SignalRListSkusOptionalParams): Promise<SignalRListSkusResponse>;
 }
 
@@ -641,6 +659,13 @@ export interface SignalRListKeysOptionalParams extends coreClient.OperationOptio
 export type SignalRListKeysResponse = SignalRKeys;
 
 // @public
+export interface SignalRListReplicaSkusOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SignalRListReplicaSkusResponse = SkuList;
+
+// @public
 export interface SignalRListSkusOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -667,6 +692,8 @@ export class SignalRManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     signalRPrivateLinkResources: SignalRPrivateLinkResources;
     // (undocumented)
+    signalRReplicas: SignalRReplicas;
+    // (undocumented)
     signalRSharedPrivateLinkResources: SignalRSharedPrivateLinkResources;
     // (undocumented)
     subscriptionId: string;
@@ -684,6 +711,7 @@ export interface SignalRManagementClientOptionalParams extends coreClient.Servic
 // @public
 export interface SignalRNetworkACLs {
     defaultAction?: ACLAction;
+    ipRules?: IPRule[];
     privateEndpoints?: PrivateEndpointACL[];
     publicNetwork?: NetworkACL;
 }
@@ -751,6 +779,12 @@ export interface SignalRPrivateLinkResourcesListOptionalParams extends coreClien
 export type SignalRPrivateLinkResourcesListResponse = PrivateLinkResourceList;
 
 // @public
+export interface SignalRRegenerateKeyHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface SignalRRegenerateKeyOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -758,6 +792,83 @@ export interface SignalRRegenerateKeyOptionalParams extends coreClient.Operation
 
 // @public
 export type SignalRRegenerateKeyResponse = SignalRKeys;
+
+// @public
+export interface SignalRReplicas {
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, replicaName: string, parameters: Replica, options?: SignalRReplicasCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SignalRReplicasCreateOrUpdateResponse>, SignalRReplicasCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, replicaName: string, parameters: Replica, options?: SignalRReplicasCreateOrUpdateOptionalParams): Promise<SignalRReplicasCreateOrUpdateResponse>;
+    beginRestart(resourceGroupName: string, resourceName: string, replicaName: string, options?: SignalRReplicasRestartOptionalParams): Promise<SimplePollerLike<OperationState<SignalRReplicasRestartResponse>, SignalRReplicasRestartResponse>>;
+    beginRestartAndWait(resourceGroupName: string, resourceName: string, replicaName: string, options?: SignalRReplicasRestartOptionalParams): Promise<SignalRReplicasRestartResponse>;
+    beginUpdate(resourceGroupName: string, resourceName: string, replicaName: string, parameters: Replica, options?: SignalRReplicasUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SignalRReplicasUpdateResponse>, SignalRReplicasUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, resourceName: string, replicaName: string, parameters: Replica, options?: SignalRReplicasUpdateOptionalParams): Promise<SignalRReplicasUpdateResponse>;
+    delete(resourceGroupName: string, resourceName: string, replicaName: string, options?: SignalRReplicasDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, resourceName: string, replicaName: string, options?: SignalRReplicasGetOptionalParams): Promise<SignalRReplicasGetResponse>;
+    list(resourceGroupName: string, resourceName: string, options?: SignalRReplicasListOptionalParams): PagedAsyncIterableIterator<Replica>;
+}
+
+// @public
+export interface SignalRReplicasCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SignalRReplicasCreateOrUpdateResponse = Replica;
+
+// @public
+export interface SignalRReplicasDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface SignalRReplicasGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SignalRReplicasGetResponse = Replica;
+
+// @public
+export interface SignalRReplicasListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SignalRReplicasListNextResponse = ReplicaList;
+
+// @public
+export interface SignalRReplicasListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SignalRReplicasListResponse = ReplicaList;
+
+// @public
+export interface SignalRReplicasRestartHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface SignalRReplicasRestartOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SignalRReplicasRestartResponse = SignalRReplicasRestartHeaders;
+
+// @public
+export interface SignalRReplicasUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface SignalRReplicasUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SignalRReplicasUpdateResponse = Replica;
 
 // @public
 export type SignalRRequestType = string;
@@ -779,12 +890,13 @@ export interface SignalRResource extends TrackedResource {
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: string;
     readonly publicPort?: number;
+    regionEndpointEnabled?: string;
     resourceLogConfiguration?: ResourceLogConfiguration;
+    resourceStopped?: string;
     serverless?: ServerlessSettings;
     readonly serverPort?: number;
     readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
     sku?: ResourceSku;
-    readonly systemData?: SystemData;
     tls?: SignalRTlsSettings;
     upstream?: ServerlessUpstreamSettings;
     readonly version?: string;
@@ -797,10 +909,19 @@ export interface SignalRResourceList {
 }
 
 // @public
+export interface SignalRRestartHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface SignalRRestartOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type SignalRRestartResponse = SignalRRestartHeaders;
 
 // @public
 export interface SignalRSharedPrivateLinkResources {
@@ -854,6 +975,12 @@ export type SignalRSkuTier = string;
 // @public
 export interface SignalRTlsSettings {
     clientCertEnabled?: boolean;
+}
+
+// @public
+export interface SignalRUpdateHeaders {
+    // (undocumented)
+    location?: string;
 }
 
 // @public
@@ -920,7 +1047,7 @@ export interface SystemData {
 
 // @public
 export interface TrackedResource extends Resource {
-    location?: string;
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };

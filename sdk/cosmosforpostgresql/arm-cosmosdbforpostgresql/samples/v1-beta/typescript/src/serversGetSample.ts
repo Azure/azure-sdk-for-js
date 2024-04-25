@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets information about a server in cluster.
  *
  * @summary Gets information about a server in cluster.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ServerGet.json
+ * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ServerGet.json
  */
 async function getTheServerOfCluster() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function getTheServerOfCluster() {
   const result = await client.servers.get(
     resourceGroupName,
     clusterName,
-    serverName
+    serverName,
   );
   console.log(result);
 }

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Origin,
   OriginsListByEndpointOptionalParams,
@@ -18,7 +18,7 @@ import {
   OriginUpdateParameters,
   OriginsUpdateOptionalParams,
   OriginsUpdateResponse,
-  OriginsDeleteOptionalParams
+  OriginsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface Origins {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: OriginsListByEndpointOptionalParams
+    options?: OriginsListByEndpointOptionalParams,
   ): PagedAsyncIterableIterator<Origin>;
   /**
    * Gets an existing origin within an endpoint.
@@ -50,7 +50,7 @@ export interface Origins {
     profileName: string,
     endpointName: string,
     originName: string,
-    options?: OriginsGetOptionalParams
+    options?: OriginsGetOptionalParams,
   ): Promise<OriginsGetResponse>;
   /**
    * Creates a new origin within the specified endpoint.
@@ -67,9 +67,12 @@ export interface Origins {
     endpointName: string,
     originName: string,
     origin: Origin,
-    options?: OriginsCreateOptionalParams
+    options?: OriginsCreateOptionalParams,
   ): Promise<
-    PollerLike<PollOperationState<OriginsCreateResponse>, OriginsCreateResponse>
+    SimplePollerLike<
+      OperationState<OriginsCreateResponse>,
+      OriginsCreateResponse
+    >
   >;
   /**
    * Creates a new origin within the specified endpoint.
@@ -86,7 +89,7 @@ export interface Origins {
     endpointName: string,
     originName: string,
     origin: Origin,
-    options?: OriginsCreateOptionalParams
+    options?: OriginsCreateOptionalParams,
   ): Promise<OriginsCreateResponse>;
   /**
    * Updates an existing origin within an endpoint.
@@ -103,9 +106,12 @@ export interface Origins {
     endpointName: string,
     originName: string,
     originUpdateProperties: OriginUpdateParameters,
-    options?: OriginsUpdateOptionalParams
+    options?: OriginsUpdateOptionalParams,
   ): Promise<
-    PollerLike<PollOperationState<OriginsUpdateResponse>, OriginsUpdateResponse>
+    SimplePollerLike<
+      OperationState<OriginsUpdateResponse>,
+      OriginsUpdateResponse
+    >
   >;
   /**
    * Updates an existing origin within an endpoint.
@@ -122,7 +128,7 @@ export interface Origins {
     endpointName: string,
     originName: string,
     originUpdateProperties: OriginUpdateParameters,
-    options?: OriginsUpdateOptionalParams
+    options?: OriginsUpdateOptionalParams,
   ): Promise<OriginsUpdateResponse>;
   /**
    * Deletes an existing origin within an endpoint.
@@ -137,8 +143,8 @@ export interface Origins {
     profileName: string,
     endpointName: string,
     originName: string,
-    options?: OriginsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: OriginsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing origin within an endpoint.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
@@ -152,6 +158,6 @@ export interface Origins {
     profileName: string,
     endpointName: string,
     originName: string,
-    options?: OriginsDeleteOptionalParams
+    options?: OriginsDeleteOptionalParams,
   ): Promise<void>;
 }

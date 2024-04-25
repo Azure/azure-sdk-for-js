@@ -35,7 +35,7 @@ async function staticMembersDelete() {
       resourceGroupName,
       networkManagerName,
       networkGroupName,
-      staticMemberName
+      staticMemberName,
     )
     .delete(options);
   console.log(result);

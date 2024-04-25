@@ -111,6 +111,7 @@ The [`AppConfigurationClient`](https://docs.microsoft.com/javascript/api/@azure/
 
 - Key/Value pairs are represented as [`ConfigurationSetting`](https://docs.microsoft.com/javascript/api/@azure/app-configuration/configurationsetting) objects
 - Locking and unlocking a setting is represented in the `isReadOnly` field, which you can toggle using `setReadOnly`.
+- Snapshots are represented as `ConfigurationSnapshot` objects.
 
 The client follows a simple design methodology - [`ConfigurationSetting`](https://docs.microsoft.com/javascript/api/@azure/app-configuration/configurationsetting) can be passed into any method that takes a [`ConfigurationSettingParam`](https://docs.microsoft.com/javascript/api/@azure/app-configuration/configurationsettingparam) or [`ConfigurationSettingId`](https://docs.microsoft.com/javascript/api/@azure/app-configuration/configurationsettingid).
 
@@ -204,7 +205,7 @@ async function run() {
   const poller = await client.beginCreateSnapshot({
     name:"testsnapshot",
     retentionPeriod: 2592000,
-    filters: [{key, label}],
+    filters: [{keyFilter: key, labelFilter: label}],
   });
   const snapshot = await poller.pollUntilDone();
 }
@@ -217,7 +218,7 @@ You can also use `beginCreateSnapshotAndWait` to have the result of the creation
 const snapshot  = await client.beginCreateSnapshotAndWait({
   name:"testsnapshot",
   retentionPeriod: 2592000,
-  filters: [{key, label}],
+  filters: [{keyFilter: key, labelFilter: label}],
 });
 ```
 
@@ -230,9 +231,7 @@ console.log("Retrieved snapshot:", retrievedSnapshot);
 
 ### List the `ConfigurationSetting` in the snapshot
 ```javascript
-let retrievedSnapshotSettings = await client.listConfigurationSettings({
-  snapshotFilter: "testsnapshot"
-});
+let retrievedSnapshotSettings = await client.listConfigurationSettingsForSnapshot("testsnapshot");
 
 for await (const setting of retrievedSnapshotSettings) {
   console.log(`Found key: ${setting.key}, label: ${setting.label}`);
@@ -251,13 +250,14 @@ for await (const snapshot of snapshots) {
 ### Recover and archive the snapshot
 ```javascript
 // Snapshot is in ready status
-let archivedSnapshot = await client.archiveSnapshot({name: "testsnapshot"});
+let archivedSnapshot = await client.archiveSnapshot("testsnapshot");
 console.log("Snapshot updated status is:", archivedSnapshot.status);
 
 // Snapshot is in archive status
-let recoverSnapshot = await client.recoverSnapshot({name: "testsnapshot"});
+let recoverSnapshot = await client.recoverSnapshot("testsnapshot");
 console.log("Snapshot updated status is:", recoverSnapshot.status);
 ```
+
 ## Troubleshooting
 
 ### Logging
@@ -287,6 +287,7 @@ The following samples show you the various ways you can interact with App Config
 - [`getSettingOnlyIfChanged.ts`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/getSettingOnlyIfChanged.ts) - Get a setting only if it changed from the last time you got it.
 - [`listRevisions.ts`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/listRevisions.ts) - List the revisions of a key, allowing you to see previous values and when they were set.
 - [`secretReference.ts`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/secretReference.ts) - SecretReference represents a configuration setting that references as KeyVault secret.
+- [`snapshot.ts`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/snapshot.ts) - Create, list configuration settings, and archive snapshots.
 - [`featureFlag.ts`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/featureFlag.ts) - Feature flags are settings that follow specific JSON schema for the value.
 
 More in-depth examples can be found in the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1/) folder on GitHub.

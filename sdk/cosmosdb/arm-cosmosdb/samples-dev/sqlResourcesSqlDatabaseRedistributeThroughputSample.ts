@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   RedistributeThroughputParameters,
-  CosmosDBManagementClient
+  CosmosDBManagementClient,
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Redistribute throughput for an Azure Cosmos DB SQL database
  *
  * @summary Redistribute throughput for an Azure Cosmos DB SQL database
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBSqlDatabaseRedistributeThroughput.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-02-15-preview/examples/CosmosDBSqlDatabaseRedistributeThroughput.json
  */
 async function cosmosDbSqlDatabaseRedistributeThroughput() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -32,23 +32,24 @@ async function cosmosDbSqlDatabaseRedistributeThroughput() {
     resource: {
       sourcePhysicalPartitionThroughputInfo: [
         { id: "2", throughput: 5000 },
-        { id: "3" }
+        { id: "3" },
       ],
       targetPhysicalPartitionThroughputInfo: [
         { id: "0", throughput: 5000 },
-        { id: "1", throughput: 5000 }
+        { id: "1", throughput: 5000 },
       ],
-      throughputPolicy: "custom"
-    }
+      throughputPolicy: "custom",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
-  const result = await client.sqlResources.beginSqlDatabaseRedistributeThroughputAndWait(
-    resourceGroupName,
-    accountName,
-    databaseName,
-    redistributeThroughputParameters
-  );
+  const result =
+    await client.sqlResources.beginSqlDatabaseRedistributeThroughputAndWait(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      redistributeThroughputParameters,
+    );
   console.log(result);
 }
 

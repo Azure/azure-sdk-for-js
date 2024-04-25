@@ -12,7 +12,7 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { RecoveryServicesBackupClient } from "../recoveryServicesBackupClient";
 import {
-  ValidateOperationRequestUnion,
+  ValidateOperationRequestResource,
   OperationValidateOptionalParams,
   OperationValidateResponse
 } from "../models";
@@ -40,7 +40,7 @@ export class OperationImpl implements Operation {
   validate(
     vaultName: string,
     resourceGroupName: string,
-    parameters: ValidateOperationRequestUnion,
+    parameters: ValidateOperationRequestResource,
     options?: OperationValidateOptionalParams
   ): Promise<OperationValidateResponse> {
     return this.client.sendOperationRequest(

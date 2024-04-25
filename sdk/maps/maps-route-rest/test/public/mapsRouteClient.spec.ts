@@ -55,7 +55,7 @@ describe("Endpoint can be overwritten", function (this: Suite) {
 
   it("should be executed with different baseUrl", async function () {
     const client = createClient(
-      recorder.configureClientOptions({ baseUrl: "https://us.atlas.microsoft.com/" })
+      recorder.configureClientOptions({ baseUrl: "https://us.atlas.microsoft.com/" }),
     );
     const routeDirectionsResult = await client.path("/route/directions/{format}", "json").get({
       queryParameters: {

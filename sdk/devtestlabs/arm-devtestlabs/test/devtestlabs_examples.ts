@@ -59,7 +59,7 @@ describe("DevTestLabs test", () => {
   });
 
   it("labs create test", async function () {
-    const res = await client.labs.beginCreateOrUpdateAndWait(resourceGroup, name, { location: location });
+    const res = await client.labs.beginCreateOrUpdateAndWait(resourceGroup, name, { location: location }, testPollingOptions);
     assert.equal(res.name, name);
   });
 
@@ -86,7 +86,7 @@ describe("DevTestLabs test", () => {
   });
 
   it("labs delete test", async function () {
-    const res = await client.labs.beginDeleteAndWait(resourceGroup, name);
+    const res = await client.labs.beginDeleteAndWait(resourceGroup, name, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.labs.listByResourceGroup(resourceGroup)) {
       resArray.push(item);

@@ -37,7 +37,7 @@ export class NotificationRecipientUserImpl
 
   /**
    * Gets the list of the Notification Recipient User subscribed to the notification.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param notificationName Notification Name Identifier.
    * @param options The options parameters.
@@ -56,7 +56,7 @@ export class NotificationRecipientUserImpl
 
   /**
    * Determine if the Notification Recipient User is subscribed to the notification.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param notificationName Notification Name Identifier.
    * @param userId User identifier. Must be unique in the current API Management service instance.
@@ -77,7 +77,7 @@ export class NotificationRecipientUserImpl
 
   /**
    * Adds the API Management User to the list of Recipients for the Notification.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param notificationName Notification Name Identifier.
    * @param userId User identifier. Must be unique in the current API Management service instance.
@@ -98,7 +98,7 @@ export class NotificationRecipientUserImpl
 
   /**
    * Removes the API Management user from the list of Notification.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param notificationName Notification Name Identifier.
    * @param userId User identifier. Must be unique in the current API Management service instance.

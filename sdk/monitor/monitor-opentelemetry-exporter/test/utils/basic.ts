@@ -11,7 +11,6 @@ import {
 
 import { AzureMonitorTraceExporter, AzureMonitorMetricExporter } from "../../src";
 import { Expectation, Scenario } from "./types";
-import { msToTimeSpan } from "../../src/utils/breezeUtils";
 import { SpanStatusCode } from "@opentelemetry/api";
 import { TelemetryItem as Envelope } from "../../src/generated";
 import { FlushSpanProcessor } from "./flushSpanProcessor";
@@ -29,7 +28,8 @@ function delay<T>(t: number, value?: T): Promise<T | void> {
 }
 
 const COMMON_ENVELOPE_PARAMS: Partial<Envelope> = {
-  instrumentationKey: process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "ikey",
+  instrumentationKey:
+    process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
   sampleRate: 100,
 };
 
@@ -79,9 +79,9 @@ export class TraceBasicScenario implements Scenario {
           numbers: "123",
         },
       },
-      ctx
+      ctx,
     );
-    let eventAttributes: any = {};
+    const eventAttributes: any = {};
     eventAttributes["SomeAttribute"] = "Test";
     child1.addEvent("TestEvent", eventAttributes);
     child1.end(100);
@@ -126,7 +126,6 @@ export class TraceBasicScenario implements Scenario {
         baseData: {
           version: 2,
           name: "TraceBasicScenario.Root",
-          duration: msToTimeSpan(600),
           responseCode: "0",
           success: true,
           properties: {
@@ -143,7 +142,6 @@ export class TraceBasicScenario implements Scenario {
             baseData: {
               version: 2,
               name: "TraceBasicScenario.Child.1",
-              duration: msToTimeSpan(100),
               success: true,
               resultCode: "0",
               properties: {
@@ -222,9 +220,9 @@ export class MetricBasicScenario implements Scenario {
 
   async run(): Promise<void> {
     const meter = this._provider.getMeter("basic");
-    let counter = meter.createCounter("testCounter");
-    let counter2 = meter.createCounter("testCounter2");
-    let histogram = meter.createHistogram("testHistogram");
+    const counter = meter.createCounter("testCounter");
+    const counter2 = meter.createCounter("testCounter2");
+    const histogram = meter.createHistogram("testHistogram");
     let attributes: any = { testAttribute: "testValue" };
     counter.add(1);
     counter.add(2);
@@ -233,7 +231,7 @@ export class MetricBasicScenario implements Scenario {
     histogram.record(2);
     histogram.record(3);
     histogram.record(4);
-    let dependencyDurationMetric = meter.createHistogram("TestDependencyDuration");
+    const dependencyDurationMetric = meter.createHistogram("TestDependencyDuration");
 
     attributes = {
       "Dependency.Success": "False",
@@ -258,7 +256,7 @@ export class MetricBasicScenario implements Scenario {
       "request/resultCode": "200",
     };
 
-    let requestyDurationMetric = meter.createHistogram("TestRequestDuration");
+    const requestyDurationMetric = meter.createHistogram("TestRequestDuration");
     requestyDurationMetric.record(4567, attributes);
     await delay(0);
   }
@@ -419,7 +417,7 @@ export class LogBasicScenario implements Scenario {
       attributes: { foo: "bar" },
     });
     // emit a exception record
-    let attributes: any = [];
+    const attributes: any = [];
     attributes[SemanticAttributes.EXCEPTION_TYPE] = "test exception type";
     attributes[SemanticAttributes.EXCEPTION_MESSAGE] = "test exception message";
     attributes[SemanticAttributes.EXCEPTION_STACKTRACE] = "test exception stack";

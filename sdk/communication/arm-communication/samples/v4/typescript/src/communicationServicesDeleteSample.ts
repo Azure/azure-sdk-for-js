@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Operation to delete a CommunicationService.
  *
  * @summary Operation to delete a CommunicationService.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-03-31/examples/communicationServices/delete.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/delete.json
  */
 async function deleteResource() {
   const subscriptionId =
@@ -30,11 +30,11 @@ async function deleteResource() {
   const credential = new DefaultAzureCredential();
   const client = new CommunicationServiceManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.communicationServices.beginDeleteAndWait(
     resourceGroupName,
-    communicationServiceName
+    communicationServiceName,
   );
   console.log(result);
 }

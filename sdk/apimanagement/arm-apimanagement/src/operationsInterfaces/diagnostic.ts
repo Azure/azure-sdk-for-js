@@ -26,7 +26,7 @@ import {
 export interface Diagnostic {
   /**
    * Lists all diagnostics of the API Management service instance.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
    */
@@ -37,7 +37,7 @@ export interface Diagnostic {
   ): PagedAsyncIterableIterator<DiagnosticContract>;
   /**
    * Gets the entity state (Etag) version of the Diagnostic specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param diagnosticId Diagnostic identifier. Must be unique in the current API Management service
    *                     instance.
@@ -51,7 +51,7 @@ export interface Diagnostic {
   ): Promise<DiagnosticGetEntityTagResponse>;
   /**
    * Gets the details of the Diagnostic specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param diagnosticId Diagnostic identifier. Must be unique in the current API Management service
    *                     instance.
@@ -65,7 +65,7 @@ export interface Diagnostic {
   ): Promise<DiagnosticGetResponse>;
   /**
    * Creates a new Diagnostic or updates an existing one.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param diagnosticId Diagnostic identifier. Must be unique in the current API Management service
    *                     instance.
@@ -81,7 +81,7 @@ export interface Diagnostic {
   ): Promise<DiagnosticCreateOrUpdateResponse>;
   /**
    * Updates the details of the Diagnostic specified by its identifier.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param diagnosticId Diagnostic identifier. Must be unique in the current API Management service
    *                     instance.
@@ -100,7 +100,7 @@ export interface Diagnostic {
   ): Promise<DiagnosticUpdateResponse>;
   /**
    * Deletes the specified Diagnostic.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of the API Management service.
    * @param diagnosticId Diagnostic identifier. Must be unique in the current API Management service
    *                     instance.

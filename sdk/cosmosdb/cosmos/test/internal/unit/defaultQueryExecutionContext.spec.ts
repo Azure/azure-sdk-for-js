@@ -7,8 +7,8 @@ import {
 import { FeedOptions } from "../../../src";
 import assert from "assert";
 import { sleep } from "../../../src/common";
-import { getEmptyCosmosDiagnostics } from "../../../src/CosmosDiagnostics";
-import { CosmosDiagnosticContext } from "../../../src/CosmosDiagnosticsContext";
+import { createDummyDiagnosticNode } from "../../public/common/TestHelpers";
+import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics";
 
 describe("defaultQueryExecutionContext", function () {
   it("should not buffer items if bufferItems is false", async function () {
@@ -34,21 +34,18 @@ describe("defaultQueryExecutionContext", function () {
       bufferItems: false,
     };
 
-    const context = new DefaultQueryExecutionContext(
-      options,
-      fetchFunction,
-      new CosmosDiagnosticContext()
-    );
+    const correlatedId = "random-id";
+    const context = new DefaultQueryExecutionContext(options, fetchFunction, correlatedId);
 
     assert.strictEqual(calledCount, 0, "Nothing should be fetched at this point");
 
-    await context.fetchMore();
+    await context.fetchMore(createDummyDiagnosticNode());
 
     await sleep(10); // small sleep to make sure we give up event loop so any other fetch functions can get called
 
     assert.strictEqual(calledCount, 1, "Should have only fetched 1 page");
 
-    await context.fetchMore();
+    await context.fetchMore(createDummyDiagnosticNode());
 
     await sleep(10); // small sleep to make sure we give up event loop so any other fetch functions can get called
 
@@ -77,22 +74,18 @@ describe("defaultQueryExecutionContext", function () {
     const options: FeedOptions = {
       bufferItems: true,
     };
-
-    const context = new DefaultQueryExecutionContext(
-      options,
-      fetchFunction,
-      new CosmosDiagnosticContext()
-    );
+    const correlatedId = "random-id";
+    const context = new DefaultQueryExecutionContext(options, fetchFunction, correlatedId);
 
     assert.strictEqual(calledCount, 0, "Nothing should be fetched at this point");
 
-    await context.fetchMore();
+    await context.fetchMore(createDummyDiagnosticNode());
 
     await sleep(10); // small sleep to make sure we give up event loop so any other fetch functions can get called
 
     assert.strictEqual(calledCount, 2, "Should have fetched 2 pages (one buffered)");
 
-    await context.fetchMore();
+    await context.fetchMore(createDummyDiagnosticNode());
 
     await sleep(10); // small sleep to make sure we give up event loop so any other fetch functions can get called
 

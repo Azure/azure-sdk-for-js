@@ -14,8 +14,10 @@ import { DocumentProducer } from "./documentProducer";
 import { ExecutionContext } from "./ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import { SqlQuerySpec } from "./SqlQuerySpec";
-import { CosmosDiagnosticContext } from "../CosmosDiagnosticsContext";
-import { getEmptyCosmosDiagnostics } from "../CosmosDiagnostics";
+import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
+import { addDignosticChild } from "../utils/diagnostics";
+import { MetadataLookUpType } from "../CosmosDiagnostics";
+import { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel";
 
 /** @hidden */
 const logger: AzureLogger = createClientLogger("parallelQueryExecutionContextBase");
@@ -39,6 +41,10 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   private orderByPQ: PriorityQueue<DocumentProducer>;
   private sem: any;
   private waitingForInternalExecutionContexts: number;
+  private diagnosticNodeWrapper: {
+    consumed: boolean;
+    diagnosticNode: DiagnosticNodeInternal;
+  };
   /**
    * Provides the ParallelQueryExecutionContextBase.
    * This is the base class that ParallelQueryExecutionContext and OrderByQueryExecutionContext will derive from.
@@ -58,14 +64,23 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     private query: string | SqlQuerySpec,
     private options: FeedOptions,
     private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
-    private diagnosticContext: CosmosDiagnosticContext
+    private correlatedActivityId: string,
   ) {
     this.clientContext = clientContext;
     this.collectionLink = collectionLink;
     this.query = query;
     this.options = options;
     this.partitionedQueryExecutionInfo = partitionedQueryExecutionInfo;
-
+    this.correlatedActivityId = correlatedActivityId;
+    this.diagnosticNodeWrapper = {
+      consumed: false,
+      diagnosticNode: new DiagnosticNodeInternal(
+        clientContext.diagnosticLevel,
+        DiagnosticNodeType.PARALLEL_QUERY_NODE,
+        null,
+      ),
+    };
+    this.diagnosticNodeWrapper.diagnosticNode.addData({ stateful: true });
     this.err = undefined;
     this.state = ParallelQueryExecutionContextBase.STATES.started;
     this.routingProvider = new SmartRoutingMapProvider(this.clientContext);
@@ -78,7 +93,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     // Make priority queue for documentProducers
     // The comparator is supplied by the derived class
     this.orderByPQ = new PriorityQueue<DocumentProducer>(
-      (a: DocumentProducer, b: DocumentProducer) => this.documentProducerComparator(b, a)
+      (a: DocumentProducer, b: DocumentProducer) => this.documentProducerComparator(b, a),
     );
     // Creating the documentProducers
     this.sem = semaphore(1);
@@ -99,7 +114,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           "Query starting against " +
             targetPartitionRanges.length +
             " ranges with parallelism of " +
-            maxDegreeOfParallelism
+            maxDegreeOfParallelism,
         );
 
         const parallelismSem = semaphore(maxDegreeOfParallelism);
@@ -118,7 +133,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           // TODO: any partitionTargetRange
           // no async callback
           targetPartitionQueryExecutionContextList.push(
-            this._createTargetPartitionQueryExecutionContext(partitionTargetRange)
+            this._createTargetPartitionQueryExecutionContext(partitionTargetRange),
           );
         });
 
@@ -127,7 +142,9 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           // has async callback
           const throttledFunc = async (): Promise<void> => {
             try {
-              const { result: document, headers } = await documentProducer.current();
+              const { result: document, headers } = await documentProducer.current(
+                this.getDiagnosticNode(),
+              );
               this._mergeWithActiveResponseHeaders(headers);
               if (document === undefined) {
                 // no results on this one
@@ -161,7 +178,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
   protected abstract documentProducerComparator(
     dp1: DocumentProducer,
-    dp2: DocumentProducer
+    dp2: DocumentProducer,
   ): number;
 
   private _decrementInitiationLock(): void {
@@ -186,6 +203,10 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     return ret;
   }
 
+  private getDiagnosticNode(): DiagnosticNodeInternal {
+    return this.diagnosticNodeWrapper.diagnosticNode;
+  }
+
   private async _onTargetPartitionRanges(): Promise<any[]> {
     // invokes the callback when the target partition ranges are ready
     const parsedRanges = this.partitionedQueryExecutionInfo.queryRanges;
@@ -193,7 +214,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     return this.routingProvider.getOverlappingRanges(
       this.collectionLink,
       queryRanges,
-      this.diagnosticContext
+      this.getDiagnosticNode(),
     );
   }
 
@@ -201,7 +222,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * Gets the replacement ranges for a partitionkeyrange that has been split
    */
   private async _getReplacementPartitionKeyRanges(
-    documentProducer: DocumentProducer
+    documentProducer: DocumentProducer,
   ): Promise<any[]> {
     const partitionKeyRange = documentProducer.targetPartitionKeyRange;
     // Download the new routing map
@@ -211,7 +232,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     return this.routingProvider.getOverlappingRanges(
       this.collectionLink,
       [queryRange],
-      this.diagnosticContext
+      this.getDiagnosticNode(),
     );
   }
 
@@ -221,32 +242,34 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * replaces that document producer with child document producers,
    * then reexecutes the originFunction with the corrrected executionContext
    */
-  private async _repairExecutionContext(originFunction: any): Promise<void> {
+  private async _repairExecutionContext(
+    diagnosticNode: DiagnosticNodeInternal,
+    originFunction: any,
+  ): Promise<void> {
     // TODO: any
     // Get the replacement ranges
     // Removing the invalid documentProducer from the orderByPQ
     const parentDocumentProducer = this.orderByPQ.deq();
     try {
-      const replacementPartitionKeyRanges: any[] = await this._getReplacementPartitionKeyRanges(
-        parentDocumentProducer
-      );
+      const replacementPartitionKeyRanges: any[] =
+        await this._getReplacementPartitionKeyRanges(parentDocumentProducer);
       const replacementDocumentProducers: DocumentProducer[] = [];
       // Create the replacement documentProducers
       replacementPartitionKeyRanges.forEach((partitionKeyRange) => {
         // Create replacment document producers with the parent's continuationToken
         const replacementDocumentProducer = this._createTargetPartitionQueryExecutionContext(
           partitionKeyRange,
-          parentDocumentProducer.continuationToken
+          parentDocumentProducer.continuationToken,
         );
         replacementDocumentProducers.push(replacementDocumentProducer);
       });
       // We need to check if the documentProducers even has anything left to fetch from before enqueing them
       const checkAndEnqueueDocumentProducer = async (
         documentProducerToCheck: DocumentProducer,
-        checkNextDocumentProducerCallback: any
+        checkNextDocumentProducerCallback: any,
       ): Promise<void> => {
         try {
-          const { result: afterItem } = await documentProducerToCheck.current();
+          const { result: afterItem } = await documentProducerToCheck.current(diagnosticNode);
           if (afterItem === undefined) {
             // no more results left in this document producer, so we don't enqueue it
           } else {
@@ -294,16 +317,24 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * if so it repairs the execution context and executes the ifCallback,
    * else it continues with the current execution context and executes the elseCallback
    */
-  private async _repairExecutionContextIfNeeded(ifCallback: any, elseCallback: any): Promise<void> {
+  private async _repairExecutionContextIfNeeded(
+    diagnosticNode: DiagnosticNodeInternal,
+    ifCallback: any,
+    elseCallback: any,
+  ): Promise<void> {
     const documentProducer = this.orderByPQ.peek();
     // Check if split happened
     try {
-      await documentProducer.current();
+      await documentProducer.current(diagnosticNode);
       elseCallback();
     } catch (err: any) {
       if (ParallelQueryExecutionContextBase._needPartitionKeyRangeCacheRefresh(err)) {
         // Split has happened so we need to repair execution context before continueing
-        return this._repairExecutionContext(ifCallback);
+        return addDignosticChild(
+          (childNode) => this._repairExecutionContext(childNode, ifCallback),
+          diagnosticNode,
+          DiagnosticNodeType.QUERY_REPAIR_NODE,
+        );
       } else {
         // Something actually bad happened ...
         this.err = err;
@@ -315,13 +346,25 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   /**
    * Fetches the next element in the ParallelQueryExecutionContextBase.
    */
-  public async nextItem(): Promise<Response<any>> {
+  public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
     if (this.err) {
       // if there is a prior error return error
       throw this.err;
     }
     return new Promise<Response<any>>((resolve, reject) => {
       this.sem.take(() => {
+        if (!this.diagnosticNodeWrapper.consumed) {
+          diagnosticNode.addChildNode(
+            this.diagnosticNodeWrapper.diagnosticNode,
+            CosmosDbDiagnosticLevel.debug,
+            MetadataLookUpType.QueryPlanLookUp,
+          );
+          this.diagnosticNodeWrapper.diagnosticNode = undefined;
+          this.diagnosticNodeWrapper.consumed = true;
+        } else {
+          this.diagnosticNodeWrapper.diagnosticNode = diagnosticNode;
+        }
+
         // NOTE: lock must be released before invoking quitting
         if (this.err) {
           // release the lock before invoking callback
@@ -340,7 +383,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           return resolve({
             result: undefined,
             headers: this._getAndResetActiveResponseHeaders(),
-            diagnostics: getEmptyCosmosDiagnostics(),
           });
         }
 
@@ -348,7 +390,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           // Release the semaphore to avoid deadlock
           this.sem.leave();
           // Reexcute the function
-          return resolve(this.nextItem());
+          return resolve(this.nextItem(diagnosticNode));
         };
         const elseCallback = async (): Promise<void> => {
           let documentProducer: DocumentProducer;
@@ -367,12 +409,10 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
           let item: any;
           let headers: CosmosHeaders;
-          let diagnostics;
           try {
-            const response = await documentProducer.nextItem();
+            const response = await documentProducer.nextItem(diagnosticNode);
             item = response.result;
             headers = response.headers;
-            diagnostics = response.diagnostics;
             this._mergeWithActiveResponseHeaders(headers);
             if (item === undefined) {
               // this should never happen
@@ -380,20 +420,19 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               // assert item !== undefined
               this.err = new Error(
                 `Extracted DocumentProducer from the priority queue \
-                                            doesn't have any buffered item!`
+                                            doesn't have any buffered item!`,
               );
               // release the lock before invoking callback
               this.sem.leave();
               return resolve({
                 result: undefined,
                 headers: this._getAndResetActiveResponseHeaders(),
-                diagnostics,
               });
             }
           } catch (err: any) {
             this.err = new Error(
               `Extracted DocumentProducer from the priority queue fails to get the \
-                                    buffered item. Due to ${JSON.stringify(err)}`
+                                    buffered item. Due to ${JSON.stringify(err)}`,
             );
             this.err.headers = this._getAndResetActiveResponseHeaders();
             // release the lock before invoking callback
@@ -405,7 +444,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           // we need to put back the document producer to the queue if it has more elements.
           // the lock will be released after we know document producer must be put back in the queue or not
           try {
-            const { result: afterItem, headers: otherHeaders } = await documentProducer.current();
+            const { result: afterItem, headers: otherHeaders } =
+              await documentProducer.current(diagnosticNode);
             this._mergeWithActiveResponseHeaders(otherHeaders);
             if (afterItem === undefined) {
               // no more results is left in this document producer
@@ -414,7 +454,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
                 const headItem = documentProducer.fetchResults[0];
                 if (typeof headItem === "undefined") {
                   throw new Error(
-                    "Extracted DocumentProducer from PQ is invalid state with no result!"
+                    "Extracted DocumentProducer from PQ is invalid state with no result!",
                   );
                 }
                 this.orderByPQ.enq(documentProducer);
@@ -442,10 +482,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           return resolve({
             result: item,
             headers: this._getAndResetActiveResponseHeaders(),
-            diagnostics,
           });
         };
-        this._repairExecutionContextIfNeeded(ifCallback, elseCallback).catch(reject);
+        this._repairExecutionContextIfNeeded(diagnosticNode, ifCallback, elseCallback).catch(
+          reject,
+        );
       });
     });
   }
@@ -466,7 +507,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    */
   private _createTargetPartitionQueryExecutionContext(
     partitionKeyTargetRange: any,
-    continuationToken?: any
+    continuationToken?: any,
   ): DocumentProducer {
     // TODO: any
     // creates target partition range Query Execution Context
@@ -496,7 +537,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       sqlQuerySpec,
       partitionKeyTargetRange,
       options,
-      this.diagnosticContext
+      this.correlatedActivityId,
     );
   }
 }

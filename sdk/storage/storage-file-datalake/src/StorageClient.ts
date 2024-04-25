@@ -29,6 +29,7 @@ function getCoreClientOptions(pipeline: Pipeline): ExtendedServiceClientOptions 
   }
   return {
     ...restOptions,
+    allowInsecureConnection: true,
     httpClient,
     pipeline: corePipeline,
   };
@@ -100,12 +101,12 @@ export abstract class StorageClient {
     const blobClient = new BlobServiceClient(url, pipeline);
     this.storageClientContext = new StorageContextClient(
       this.dfsEndpointUrl,
-      getCoreClientOptions(pipeline)
+      getCoreClientOptions(pipeline),
     );
 
     this.storageClientContextToBlobEndpoint = new StorageContextClient(
       this.blobEndpointUrl,
-      getCoreClientOptions(pipeline)
+      getCoreClientOptions(pipeline),
     );
 
     this.isHttps = iEqual(getURLScheme(this.url) || "", "https");

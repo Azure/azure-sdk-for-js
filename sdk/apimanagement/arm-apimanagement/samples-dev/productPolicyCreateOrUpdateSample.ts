@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates policy configuration for the Product.
  *
  * @summary Creates or updates policy configuration for the Product.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateProductPolicy.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateProductPolicy.json
  */
 async function apiManagementCreateProductPolicy() {
   const subscriptionId =
