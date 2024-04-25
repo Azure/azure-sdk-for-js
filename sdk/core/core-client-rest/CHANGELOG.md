@@ -1,16 +1,10 @@
 # Release History
 
-## 2.0.0 (Unreleased)
-
-### Features Added
+## 2.0.0 (2024-04-25)
 
 ### Breaking Changes
 
 - Changed the format accepted for `multipart/form-data` requests.
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 1.4.0 (2024-04-09)
 
