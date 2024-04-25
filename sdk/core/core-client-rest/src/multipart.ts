@@ -140,11 +140,15 @@ function getContentDisposition(descriptor: PartDescriptor): HeaderValue | undefi
     disposition += `; name=${escapeDispositionField(descriptor.name)}`;
   }
 
-  const filename =
-    descriptor.filename ??
-    (typeof File !== "undefined" && descriptor.body instanceof File
-      ? descriptor.body.name || undefined
-      : undefined);
+  let filename: string | undefined = undefined;
+  if (descriptor.filename) {
+    filename = descriptor.filename;
+  } else if (typeof File !== "undefined" && descriptor.body instanceof File) {
+    const filenameFromFile = (descriptor.body as File).name;
+    if (filenameFromFile !== "") {
+      filename = filenameFromFile;
+    }
+  }
 
   if (filename) {
     disposition += `; filename=${escapeDispositionField(filename)}`;
@@ -168,7 +172,7 @@ function normalizeBody(body?: unknown, contentType?: HeaderValue): MultipartBody
   }
 
   // stringify objects for JSON-ish content types e.g. application/json, application/merge-patch+json, application/vnd.oci.manifest.v1+json, application.json; charset=UTF-8
-  if (contentType && /application\/(.+\+)?json(;.+)?/.test(String(contentType))) {
+  if (contentType && /application\/(.+\+)?json(;.+)?/i.test(String(contentType))) {
     return stringToUint8Array(JSON.stringify(body), "utf-8");
   }
 

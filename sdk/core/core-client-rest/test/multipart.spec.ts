@@ -211,7 +211,15 @@ describe("multipart buildBodyPart", () => {
         description: "stringifies more complicated JSON content type",
         descriptor: {
           body: { key: "value" },
-          contentType: "application/merge-patch+json",
+          contentType: "application/merge-patch+JSON",
+        },
+        expected: stringToUint8Array(JSON.stringify({ key: "value" }), "utf-8"),
+      },
+      {
+        description: "is case-insensitive when checking JSON content type",
+        descriptor: {
+          body: { key: "value" },
+          contentType: "application/merge-patch+JSON",
         },
         expected: stringToUint8Array(JSON.stringify({ key: "value" }), "utf-8"),
       },
