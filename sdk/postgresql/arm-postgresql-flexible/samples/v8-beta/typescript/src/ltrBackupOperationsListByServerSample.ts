@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the result of the give long term retention backup operations for the flexible server.
  *
  * @summary Gets the result of the give long term retention backup operations for the flexible server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/LongTermRetentionOperationListByServer.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/LongTermRetentionOperationListByServer.json
  */
 async function sampleListOfLongTernRetentionOperationsByFlexibleServer() {
   const subscriptionId =
@@ -30,12 +30,12 @@ async function sampleListOfLongTernRetentionOperationsByFlexibleServer() {
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const resArray = new Array();
   for await (let item of client.ltrBackupOperations.listByServer(
     resourceGroupName,
-    serverName
+    serverName,
   )) {
     resArray.push(item);
   }

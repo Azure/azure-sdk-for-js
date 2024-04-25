@@ -16,7 +16,7 @@ import {
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { ShareServiceClient, ShareItem, ShareRootSquash } from "../src";
 import { Context } from "mocha";
-import { getYieldedValue } from "@azure/test-utils";
+import { getYieldedValue } from "@azure-tools/test-utils";
 
 describe("FileServiceClient", () => {
   let recorder: Recorder;

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { Durations, MetricsQueryClient } from "../../../src";
 
 it("verify tracing", async () => {
