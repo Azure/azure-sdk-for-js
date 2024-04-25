@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how deleteMessages() method can be used to delete messages in batch.
+ * This sample demonstrates deleting messages from a queue.
  *
- * @summary Demonstrates how to delete messages in batch mode
+ * @summary Demonstrates deleting messages from a queue.
  * @azsdk-weight 80
  */
 
@@ -41,23 +41,30 @@ export async function main() {
     const queueReceiver = sbClient.createReceiver(queueName, { receiveMode: "receiveAndDelete" });
 
     let peekedMessages = await queueReceiver.peekMessages(10);
-    console.log(`Peeked messages: ${peekedMessages.length}.`);
+    console.log(`Peeked messages: ${peekedMessages.length}.`); // should be 10
 
     let deletedCount = await queueReceiver.deleteMessages({ maxMessageCount: 10 });
 
-    console.log(`${deletedCount} messages has been deleted.`);
+    console.log(`Number of messages deleted: ${deletedCount}.`);
 
-    // Sending the same messages again
+    // Sending 10 messages again
     await sender.sendMessages(messages);
-    peekedMessages = await queueReceiver.peekMessages(10);
-    console.log(`Peeked messages (2): ${peekedMessages.length}.`);
+    // This time specifying a filter on messages to delete
+    const timeMark = new Date();
+    // Sending another 10 messages
+    await sender.sendMessages(messages);
 
-    // This time specifying a filter on messages to batch-delete
+    peekedMessages = await queueReceiver.peekMessages(30);
+    console.log(`Peeked messages (2): ${peekedMessages.length}.`); // should be 20
+
     deletedCount = await queueReceiver.deleteMessages({
-      maxMessageCount: 10,
-      beforeEnqueueTime: new Date(1970, 1, 1),
+      maxMessageCount: 20,
+      beforeEnqueueTime: timeMark,
     });
-    console.log(`${deletedCount} messages has been deleted this time.`); // Should be 0
+    console.log(`Number of messages deleted this time: ${deletedCount}.`); // should be 10
+
+    peekedMessages = await queueReceiver.peekMessages(30);
+    console.log(`Peeked messages (3): ${peekedMessages.length}.`); // should be 10 message left
 
     await queueReceiver.close();
   } finally {

@@ -957,9 +957,9 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       const result = await this._makeManagementRequest(request, receiverLogger, updatedOptions);
       if (result.application_properties!.statusCode === 200) {
         return result.body["message-count"];
+      } else {
+        throw new Error(`Unexpected response with status code of ${result.application_properties!.statusCode}`);
       }
-
-      return 0;
     } catch (err: any) {
       const error = translateServiceBusError(err) as MessagingError;
       receiverLogger.logError(
