@@ -16,9 +16,6 @@ import {
   ProblemClassification,
   ProblemClassificationsListOptionalParams,
   ProblemClassificationsListResponse,
-  ProblemClassificationsClassificationInput,
-  ProblemClassificationsClassifyProblemsOptionalParams,
-  ProblemClassificationsClassifyProblemsResponse,
   ProblemClassificationsGetOptionalParams,
   ProblemClassificationsGetResponse,
 } from "../models";
@@ -85,28 +82,6 @@ export class ProblemClassificationsImpl implements ProblemClassifications {
   }
 
   /**
-   * Classify the right problem classifications (categories) available for a specific Azure service.
-   * @param problemServiceName Name of the Azure service for which the problem classifications need to be
-   *                           retrieved.
-   * @param problemClassificationsClassificationInput Input to check.
-   * @param options The options parameters.
-   */
-  classifyProblems(
-    problemServiceName: string,
-    problemClassificationsClassificationInput: ProblemClassificationsClassificationInput,
-    options?: ProblemClassificationsClassifyProblemsOptionalParams,
-  ): Promise<ProblemClassificationsClassifyProblemsResponse> {
-    return this.client.sendOperationRequest(
-      {
-        problemServiceName,
-        problemClassificationsClassificationInput,
-        options,
-      },
-      classifyProblemsOperationSpec,
-    );
-  }
-
-  /**
    * Lists all the problem classifications (categories) available for a specific Azure service. Always
    * use the service and problem classifications obtained programmatically. This practice ensures that
    * you always have the most recent set of service and problem classification Ids.
@@ -126,8 +101,7 @@ export class ProblemClassificationsImpl implements ProblemClassifications {
 
   /**
    * Get problem classification details for a specific Azure service.
-   * @param serviceName Name of the Azure service for which the problem classifications need to be
-   *                    retrieved.
+   * @param serviceName Name of the Azure service available for support.
    * @param problemClassificationName Name of problem classification.
    * @param options The options parameters.
    */
@@ -145,28 +119,6 @@ export class ProblemClassificationsImpl implements ProblemClassifications {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const classifyProblemsOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Support/services/{problemServiceName}/classifyProblems",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ProblemClassificationsClassificationOutput,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.problemClassificationsClassificationInput,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.problemServiceName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Support/services/{serviceName}/problemClassifications",
   httpMethod: "GET",

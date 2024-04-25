@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves a list of available API operations
  *
  * @summary Retrieves a list of available API operations
- * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-01-26-preview/examples/Operations_Get.json
+ * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-06-28-preview/examples/Operations_Get.json
  */
 async function operationsGet() {
   const subscriptionId =

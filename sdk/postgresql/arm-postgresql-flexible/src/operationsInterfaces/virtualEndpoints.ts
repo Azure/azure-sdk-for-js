@@ -19,7 +19,7 @@ import {
   VirtualEndpointsDeleteOptionalParams,
   VirtualEndpointsDeleteResponse,
   VirtualEndpointsGetOptionalParams,
-  VirtualEndpointsGetResponse
+  VirtualEndpointsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface VirtualEndpoints {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: VirtualEndpointsListByServerOptionalParams
+    options?: VirtualEndpointsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<VirtualEndpointResource>;
   /**
    * Creates a new virtual endpoint for PostgreSQL flexible server.
@@ -49,7 +49,7 @@ export interface VirtualEndpoints {
     serverName: string,
     virtualEndpointName: string,
     parameters: VirtualEndpointResource,
-    options?: VirtualEndpointsCreateOptionalParams
+    options?: VirtualEndpointsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualEndpointsCreateResponse>,
@@ -69,7 +69,7 @@ export interface VirtualEndpoints {
     serverName: string,
     virtualEndpointName: string,
     parameters: VirtualEndpointResource,
-    options?: VirtualEndpointsCreateOptionalParams
+    options?: VirtualEndpointsCreateOptionalParams,
   ): Promise<VirtualEndpointsCreateResponse>;
   /**
    * Updates an existing virtual endpoint. The request body can contain one to many of the properties
@@ -85,7 +85,7 @@ export interface VirtualEndpoints {
     serverName: string,
     virtualEndpointName: string,
     parameters: VirtualEndpointResourceForPatch,
-    options?: VirtualEndpointsUpdateOptionalParams
+    options?: VirtualEndpointsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualEndpointsUpdateResponse>,
@@ -106,7 +106,7 @@ export interface VirtualEndpoints {
     serverName: string,
     virtualEndpointName: string,
     parameters: VirtualEndpointResourceForPatch,
-    options?: VirtualEndpointsUpdateOptionalParams
+    options?: VirtualEndpointsUpdateOptionalParams,
   ): Promise<VirtualEndpointsUpdateResponse>;
   /**
    * Deletes a virtual endpoint.
@@ -119,7 +119,7 @@ export interface VirtualEndpoints {
     resourceGroupName: string,
     serverName: string,
     virtualEndpointName: string,
-    options?: VirtualEndpointsDeleteOptionalParams
+    options?: VirtualEndpointsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualEndpointsDeleteResponse>,
@@ -137,7 +137,7 @@ export interface VirtualEndpoints {
     resourceGroupName: string,
     serverName: string,
     virtualEndpointName: string,
-    options?: VirtualEndpointsDeleteOptionalParams
+    options?: VirtualEndpointsDeleteOptionalParams,
   ): Promise<VirtualEndpointsDeleteResponse>;
   /**
    * Gets information about a virtual endpoint.
@@ -150,6 +150,6 @@ export interface VirtualEndpoints {
     resourceGroupName: string,
     serverName: string,
     virtualEndpointName: string,
-    options?: VirtualEndpointsGetOptionalParams
+    options?: VirtualEndpointsGetOptionalParams,
   ): Promise<VirtualEndpointsGetResponse>;
 }

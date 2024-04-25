@@ -1,5 +1,5 @@
 {
-  "name": "@azure/test-utils",
+  "name": "@azure-tools/test-utils",
   "version": "1.0.0",
   "sdk-type": "utility",
   "description": "Test utilities library for the Azure SDK for JavaScript and TypeScript",
