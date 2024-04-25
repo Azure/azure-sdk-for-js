@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
 import { describe, it, assert } from "vitest";
 import { sendRequest } from "../src/sendRequest.js";
 import {
