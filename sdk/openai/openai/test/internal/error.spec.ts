@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { isOpenAIError } from "../../src/api/util.js";
 import { OpenAIError } from "../../src/models/models.js";
 import { RestError } from "@azure/core-rest-pipeline";
