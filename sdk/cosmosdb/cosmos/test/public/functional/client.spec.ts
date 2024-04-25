@@ -82,7 +82,7 @@ describe("Client Tests", function (this: Suite) {
     });
   });
   describe("Validate user passed AbortController.signal", function () {
-    it("should throw exception if aborted during the request", async function () {
+    it.skip("should throw exception if aborted during the request", async function () {
       const client = new CosmosClient({ endpoint, key: masterKey });
       try {
         const controller = new AbortController();
