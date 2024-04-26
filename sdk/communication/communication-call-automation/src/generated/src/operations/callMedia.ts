@@ -23,6 +23,16 @@ import {
   SendDtmfTonesRequest,
   CallMediaSendDtmfTonesOptionalParams,
   CallMediaSendDtmfTonesResponse,
+  HoldRequest,
+  CallMediaHoldOptionalParams,
+  UnholdRequest,
+  CallMediaUnholdOptionalParams,
+  StartMediaStreamingRequest,
+  CallMediaStartMediaStreamingOptionalParams,
+  StopMediaStreamingRequest,
+  CallMediaStopMediaStreamingOptionalParams,
+  CallMediaMediaStreamingStateOptionalParams,
+  CallMediaMediaStreamingStateResponse,
 } from "../models";
 
 /** Class containing CallMedia operations. */
@@ -136,6 +146,89 @@ export class CallMediaImpl implements CallMedia {
       sendDtmfTonesOperationSpec,
     );
   }
+
+  /**
+   * Hold participant from the call using identifier.
+   * @param callConnectionId The call connection id.
+   * @param holdRequest The participants to be hold from the call.
+   * @param options The options parameters.
+   */
+  hold(
+    callConnectionId: string,
+    holdRequest: HoldRequest,
+    options?: CallMediaHoldOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { callConnectionId, holdRequest, options },
+      holdOperationSpec,
+    );
+  }
+
+  /**
+   * Unhold participants from the call using identifier.
+   * @param callConnectionId The call connection id.
+   * @param unholdRequest The participants to be hold from the call.
+   * @param options The options parameters.
+   */
+  unhold(
+    callConnectionId: string,
+    unholdRequest: UnholdRequest,
+    options?: CallMediaUnholdOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { callConnectionId, unholdRequest, options },
+      unholdOperationSpec,
+    );
+  }
+
+  /**
+   * Starts media streaming in the call.
+   * @param callConnectionId The call connection id.
+   * @param startMediaStreamingRequest
+   * @param options The options parameters.
+   */
+  startMediaStreaming(
+    callConnectionId: string,
+    startMediaStreamingRequest: StartMediaStreamingRequest,
+    options?: CallMediaStartMediaStreamingOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { callConnectionId, startMediaStreamingRequest, options },
+      startMediaStreamingOperationSpec,
+    );
+  }
+
+  /**
+   * Stops media streaming in the call.
+   * @param callConnectionId The call connection id.
+   * @param stopMediaStreamingRequest stop media streaming request payload.
+   * @param options The options parameters.
+   */
+  stopMediaStreaming(
+    callConnectionId: string,
+    stopMediaStreamingRequest: StopMediaStreamingRequest,
+    options?: CallMediaStopMediaStreamingOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { callConnectionId, stopMediaStreamingRequest, options },
+      stopMediaStreamingOperationSpec,
+    );
+  }
+
+  /**
+   * Gets media streaming state in the call.
+   * @param callConnectionId The call connection id.
+   * @param options The options parameters.
+   */
+  mediaStreamingState(
+    callConnectionId: string,
+    options?: CallMediaMediaStreamingStateOptionalParams,
+  ): Promise<CallMediaMediaStreamingStateResponse> {
+    return this.client.sendOperationRequest(
+      { callConnectionId, options },
+      mediaStreamingStateOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -239,5 +332,85 @@ const sendDtmfTonesOperationSpec: coreClient.OperationSpec = {
     Parameters.repeatabilityFirstSent,
   ],
   mediaType: "json",
+  serializer,
+};
+const holdOperationSpec: coreClient.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}:hold",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
+  },
+  requestBody: Parameters.holdRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const unholdOperationSpec: coreClient.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}:unhold",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
+  },
+  requestBody: Parameters.unholdRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const startMediaStreamingOperationSpec: coreClient.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}:startMediaStreaming",
+  httpMethod: "POST",
+  responses: {
+    202: {},
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
+  },
+  requestBody: Parameters.startMediaStreamingRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const stopMediaStreamingOperationSpec: coreClient.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}:stopMediaStreaming",
+  httpMethod: "POST",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
+  },
+  requestBody: Parameters.stopMediaStreamingRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const mediaStreamingStateOperationSpec: coreClient.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}:mediaStreamingState",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MediaStreamingStateResponse,
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [Parameters.accept],
   serializer,
 };

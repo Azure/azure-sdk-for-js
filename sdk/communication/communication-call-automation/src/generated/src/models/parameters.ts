@@ -25,6 +25,10 @@ import {
   RecognizeRequest as RecognizeRequestMapper,
   ContinuousDtmfRecognitionRequest as ContinuousDtmfRecognitionRequestMapper,
   SendDtmfTonesRequest as SendDtmfTonesRequestMapper,
+  HoldRequest as HoldRequestMapper,
+  UnholdRequest as UnholdRequestMapper,
+  StartMediaStreamingRequest as StartMediaStreamingRequestMapper,
+  StopMediaStreamingRequest as StopMediaStreamingRequestMapper,
   StartCallRecordingRequest as StartCallRecordingRequestMapper,
 } from "../models/mappers";
 
@@ -72,7 +76,7 @@ export const endpoint: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-04-15",
+    defaultValue: "2024-06-15-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -193,6 +197,26 @@ export const continuousDtmfRecognitionRequest: OperationParameter = {
 export const sendDtmfTonesRequest: OperationParameter = {
   parameterPath: "sendDtmfTonesRequest",
   mapper: SendDtmfTonesRequestMapper,
+};
+
+export const holdRequest: OperationParameter = {
+  parameterPath: "holdRequest",
+  mapper: HoldRequestMapper,
+};
+
+export const unholdRequest: OperationParameter = {
+  parameterPath: "unholdRequest",
+  mapper: UnholdRequestMapper,
+};
+
+export const startMediaStreamingRequest: OperationParameter = {
+  parameterPath: "startMediaStreamingRequest",
+  mapper: StartMediaStreamingRequestMapper,
+};
+
+export const stopMediaStreamingRequest: OperationParameter = {
+  parameterPath: "stopMediaStreamingRequest",
+  mapper: StopMediaStreamingRequestMapper,
 };
 
 export const startCallRecording: OperationParameter = {

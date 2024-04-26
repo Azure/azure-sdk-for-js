@@ -82,7 +82,7 @@ export class CallAutomationApiClient extends coreClient.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2024-04-15";
+    this.apiVersion = options.apiVersion || "2024-06-15-preview";
     this.callConnection = new CallConnectionImpl(this);
     this.callMedia = new CallMediaImpl(this);
     this.callRecording = new CallRecordingImpl(this);
