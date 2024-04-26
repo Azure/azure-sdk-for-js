@@ -9,7 +9,7 @@ import { Recorder, delay, env, isRecordMode } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
 import { ClientSecretCredential } from "../../../src";
 import { Context } from "mocha";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 
 describe("ClientSecretCredential", function () {
   let cleanup: MsalTestCleanup;

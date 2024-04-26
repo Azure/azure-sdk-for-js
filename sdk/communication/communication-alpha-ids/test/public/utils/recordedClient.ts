@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import * as dotenv from "dotenv";
 
+import * as dotenv from "dotenv";
 import { ClientSecretCredential, DefaultAzureCredential, TokenCredential } from "@azure/identity";
 import {
   Recorder,
@@ -12,11 +12,11 @@ import {
 } from "@azure-tools/test-recorder";
 import { AlphaIdsClient } from "../../../src";
 import { Context } from "mocha";
-import { isNode } from "@azure/test-utils";
+import { isNodeLike } from "@azure/core-util";
 import { parseConnectionString } from "@azure/communication-common";
 import { createMSUserAgentPolicy } from "./msUserAgentPolicy";
 
-if (isNode) {
+if (isNodeLike) {
   dotenv.config();
 }
 
@@ -117,7 +117,7 @@ export async function createRecordedClientWithToken(
     };
   }
 
-  if (isNode) {
+  if (isNodeLike) {
     credential = new DefaultAzureCredential();
   } else {
     credential = new ClientSecretCredential(

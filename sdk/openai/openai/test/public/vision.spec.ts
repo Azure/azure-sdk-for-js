@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert, matrix } from "@azure/test-utils";
+import { assert, matrix } from "@azure-tools/test-utils";
 import { Context } from "mocha";
 import { createClient, startRecorder } from "./utils/recordedClient.js";
 import { assertChatCompletions } from "./utils/asserts.js";

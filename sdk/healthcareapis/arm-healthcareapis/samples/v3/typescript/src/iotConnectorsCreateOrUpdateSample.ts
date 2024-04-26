@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   IotConnector,
-  HealthcareApisManagementClient
+  HealthcareApisManagementClient,
 } from "@azure/arm-healthcareapis";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates an IoT Connector resource with the specified parameters.
  *
  * @summary Creates or updates an IoT Connector resource with the specified parameters.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/iotconnectors/iotconnector_Create.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/iotconnectors/iotconnector_Create.json
  */
 async function createAnIoTConnector() {
   const subscriptionId =
@@ -44,28 +44,28 @@ async function createAnIoTConnector() {
                 {
                   required: "true",
                   valueExpression: "$.heartrate",
-                  valueName: "hr"
-                }
-              ]
+                  valueName: "hr",
+                },
+              ],
             },
-            templateType: "JsonPathContent"
-          }
+            templateType: "JsonPathContent",
+          },
         ],
-        templateType: "CollectionContent"
-      }
+        templateType: "CollectionContent",
+      },
     },
     identity: { type: "SystemAssigned" },
     ingestionEndpointConfiguration: {
       consumerGroup: "ConsumerGroupA",
       eventHubName: "MyEventHubName",
-      fullyQualifiedEventHubNamespace: "myeventhub.servicesbus.windows.net"
+      fullyQualifiedEventHubNamespace: "myeventhub.servicesbus.windows.net",
     },
     location: "westus",
     tags: {
       additionalProp1: "string",
       additionalProp2: "string",
-      additionalProp3: "string"
-    }
+      additionalProp3: "string",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new HealthcareApisManagementClient(credential, subscriptionId);
@@ -73,7 +73,7 @@ async function createAnIoTConnector() {
     resourceGroupName,
     workspaceName,
     iotConnectorName,
-    iotConnector
+    iotConnector,
   );
   console.log(result);
 }
