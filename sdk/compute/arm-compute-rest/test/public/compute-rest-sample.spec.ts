@@ -152,7 +152,7 @@ describe.skip("Compute test", () => {
     console.log(nic_info);
   }
 
-  it.skip("availabilitySets create test", async function () {
+  it("availabilitySets create test", async function () {
     const options: AvailabilitySetsCreateOrUpdateParameters = {
       body: {
         location: "westus",
