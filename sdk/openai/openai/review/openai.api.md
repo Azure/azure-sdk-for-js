@@ -9,6 +9,8 @@ import { ClientOptions } from '@azure-rest/core-client';
 import { ErrorModel } from '@azure-rest/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure-rest/core-client';
+import { RestError } from '@azure/core-rest-pipeline';
+import { RestErrorOptions } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -716,6 +718,9 @@ export type ImageGenerationStyle = string;
 export type ImageSize = string;
 
 // @public
+export function isOpenAIError(e: unknown): e is OpenAIError;
+
+// @public
 export interface MaxTokensFinishDetails extends ChatFinishDetails {
     type: "max_tokens";
 }
@@ -820,8 +825,15 @@ export class OpenAIClient {
     streamCompletions(deploymentName: string, prompt: string[], options?: GetCompletionsOptions): Promise<EventStream<Omit<Completions, "usage">>>;
 }
 
-// @public (undocumented)
+// @public
 export interface OpenAIClientOptions extends ClientOptions {
+}
+
+// @public
+export class OpenAIError extends RestError {
+    constructor(message: string, param?: string | null, type?: string | null, options?: RestErrorOptions);
+    param: string | null;
+    type: string | null;
 }
 
 // @public

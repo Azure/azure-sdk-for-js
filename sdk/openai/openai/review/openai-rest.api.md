@@ -7,7 +7,6 @@
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { ErrorModel } from '@azure-rest/core-client';
-import { ErrorResponse } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
@@ -695,6 +694,11 @@ export interface EmbeddingsUsageOutput {
 }
 
 // @public
+export interface ErrorResponse {
+    error: OpenAIErrorModel;
+}
+
+// @public
 export interface FunctionCall {
     arguments: string;
     name: string;
@@ -1222,6 +1226,14 @@ export type OnYourDataVectorizationSourceType = string | "endpoint" | "deploymen
 export type OpenAIContext = Client & {
     path: Routes;
 };
+
+// @public
+export interface OpenAIErrorModel {
+    code: string | null;
+    message: string;
+    param: string | null;
+    type: string | null;
+}
 
 // @public
 export interface PineconeChatExtensionConfiguration extends AzureChatExtensionConfigurationParent {
