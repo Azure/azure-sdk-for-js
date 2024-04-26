@@ -786,6 +786,7 @@ export interface RestPlayCompleted {
 export interface RestPlayFailed {
     callConnectionId?: string;
     correlationId?: string;
+    failedPlaySourceIndex?: number;
     operationContext?: string;
     resultInformation?: RestResultInformation;
     serverCallId?: string;
@@ -816,6 +817,7 @@ export interface RestRecognizeCompleted {
 export interface RestRecognizeFailed {
     callConnectionId?: string;
     correlationId?: string;
+    failedPlaySourceIndex?: number;
     operationContext?: string;
     resultInformation?: RestResultInformation;
     serverCallId?: string;

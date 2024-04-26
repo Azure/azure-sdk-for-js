@@ -605,6 +605,8 @@ describe("Call Media Client Live Tests", function () {
     assert.isDefined(callDisconnectedEvent);
   }).timeout(60000);
 
+  // TODO revisit LIVE Test as we yet to deploy new api changes
+
   it("Creates a call, start media streaming, and hangs up.", async function () {
     testName = this.test?.fullTitle()
       ? this.test?.fullTitle().replace(/ /g, "_")
