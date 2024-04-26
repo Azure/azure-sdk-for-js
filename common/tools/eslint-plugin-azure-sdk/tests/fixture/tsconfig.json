@@ -2,5 +2,13 @@
   "compilerOptions": {
     "strict": true
   },
-  "include": ["file.ts", "package.json", "not_package.json", "src/test.ts", "tests/test.ts"]
+  "include": [
+    "file.ts",
+    "package.json",
+    "not_package.json",
+    "src/test.ts",
+    "tests/test.ts",
+    "service-bus/package.json",
+    "invalid/package.json"
+  ]
 }

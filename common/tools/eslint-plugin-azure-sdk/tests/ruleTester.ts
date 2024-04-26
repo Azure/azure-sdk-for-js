@@ -12,8 +12,6 @@ RuleTester.it = vitest.it;
 RuleTester.itOnly = vitest.it.only;
 RuleTester.describe = vitest.describe;
 
-export { RuleTester };
-
 export function createRuleTester() {
   const ruleTester = new RuleTester({
     parser: require.resolve("@typescript-eslint/parser"),
