@@ -6,7 +6,7 @@ To migrate the existing applications to v3, please refer to [Migration Guide](ht
 
 Compared with v3.0.0-beta.1 there are following changes.
 
-### Breaking Changes
+### Other Changes
 
 - Remove the `isStopped` considering we deprecate `stopPolling`
 - The return type for `processResult` is changed from `TResult` to `Promise<TResult>`
@@ -21,6 +21,26 @@ Compared with v3.0.0-beta.1 there are following changes.
 ## 3.0.0-beta.1 (2024-02-25)
 
 Initial implementation of next-generation for Long Running Operations (LROs) in which we deprecate the `LroEngine` support and change the return type of `createHttpPoller` from `Promise<SimplePollerLike>` to `PollerLike`.
+
+### Breaking Changes
+
+- `LroEngine` is deprecated and no long supported
+- The return type of `createHttpPoller` is changed from `Promise<SimplePollerLike>` to `PollerLike`
+- Interfaces are renamed. `SimplePollerLike` is renamed as `PollerLike`, `LroResponse` is renamed as `OperationResponse` and `LroResourceLocationConfig` is to `ResourceLocationConfig`
+- Functions `getOperationState()`, `getResult()`, `isDone()` and `isStopped()` are changed to read-only attributes `operationState`, `result`, `isDone` and `isStopped`
+- Deprecate the attributes `requestMethod` and `requestPath` in `LongRunningOperation`
+- `LongRunningOperation` is renamed to `RunningOperation`
+- The return type for `processResult` is changed from `TResult` to `Promise<TResult>`
+
+### Features Added
+
+- Add a new function `serialize` to help serialize the poller
+- Add a new function `submitted` to help wait for the poller submitted
+
+### Other Changes
+
+- Add a new parameter `TRequest` for `OperationResponse` to accept the raw request
+- Export the function `deserializeState` to the public
 
 ## 2.7.1 (2024-03-20)
 
