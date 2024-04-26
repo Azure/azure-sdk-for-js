@@ -17,6 +17,6 @@ export interface Skus {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: SkusListBySubscriptionOptionalParams
+    options?: SkusListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<DevCenterSku>;
 }
