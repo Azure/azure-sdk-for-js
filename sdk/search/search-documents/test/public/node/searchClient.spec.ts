@@ -6,7 +6,7 @@ import { assert } from "chai";
 import { Context, Suite } from "mocha";
 
 import { OpenAIClient } from "@azure/openai";
-import { versionsToTest } from "@azure/test-utils";
+import { versionsToTest } from "@azure-tools/test-utils";
 import {
   AutocompleteResult,
   AzureKeyCredential,

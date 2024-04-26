@@ -3,7 +3,7 @@
 
 import * as sinon from "sinon";
 import { AbortController } from "@azure/abort-controller";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { checkOnInterval } from "../../src/partitionReceiver";
 
 describe("checkOnInterval", function () {

@@ -5,7 +5,7 @@ import {
   MockTracingSpan,
   assert,
   createMockTracingContext,
-} from "@azure/test-utils";
+} from "@azure-tools/test-utils";
 import {
   TRACEPARENT_PROPERTY,
   instrumentMessage,

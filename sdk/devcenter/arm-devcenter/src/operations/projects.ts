@@ -16,7 +16,7 @@ import { DevCenterClient } from "../devCenterClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -35,8 +35,9 @@ import {
   ProjectsUpdateOptionalParams,
   ProjectsUpdateResponse,
   ProjectsDeleteOptionalParams,
+  ProjectsDeleteResponse,
   ProjectsListBySubscriptionNextResponse,
-  ProjectsListByResourceGroupNextResponse
+  ProjectsListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,7 +58,7 @@ export class ProjectsImpl implements Projects {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: ProjectsListBySubscriptionOptionalParams
+    options?: ProjectsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Project> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -72,13 +73,13 @@ export class ProjectsImpl implements Projects {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: ProjectsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Project[]> {
     let result: ProjectsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +100,7 @@ export class ProjectsImpl implements Projects {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: ProjectsListBySubscriptionOptionalParams
+    options?: ProjectsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<Project> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -113,7 +114,7 @@ export class ProjectsImpl implements Projects {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: ProjectsListByResourceGroupOptionalParams
+    options?: ProjectsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Project> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -130,16 +131,16 @@ export class ProjectsImpl implements Projects {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: ProjectsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Project[]> {
     let result: ProjectsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -154,7 +155,7 @@ export class ProjectsImpl implements Projects {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -165,11 +166,11 @@ export class ProjectsImpl implements Projects {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: ProjectsListByResourceGroupOptionalParams
+    options?: ProjectsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Project> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -180,11 +181,11 @@ export class ProjectsImpl implements Projects {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: ProjectsListBySubscriptionOptionalParams
+    options?: ProjectsListBySubscriptionOptionalParams,
   ): Promise<ProjectsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -195,11 +196,11 @@ export class ProjectsImpl implements Projects {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: ProjectsListByResourceGroupOptionalParams
+    options?: ProjectsListByResourceGroupOptionalParams,
   ): Promise<ProjectsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -212,11 +213,11 @@ export class ProjectsImpl implements Projects {
   get(
     resourceGroupName: string,
     projectName: string,
-    options?: ProjectsGetOptionalParams
+    options?: ProjectsGetOptionalParams,
   ): Promise<ProjectsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, projectName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -231,7 +232,7 @@ export class ProjectsImpl implements Projects {
     resourceGroupName: string,
     projectName: string,
     body: Project,
-    options?: ProjectsCreateOrUpdateOptionalParams
+    options?: ProjectsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProjectsCreateOrUpdateResponse>,
@@ -240,21 +241,20 @@ export class ProjectsImpl implements Projects {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ProjectsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -263,8 +263,8 @@ export class ProjectsImpl implements Projects {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -272,15 +272,15 @@ export class ProjectsImpl implements Projects {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, projectName, body, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ProjectsCreateOrUpdateResponse,
@@ -288,7 +288,7 @@ export class ProjectsImpl implements Projects {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -305,13 +305,13 @@ export class ProjectsImpl implements Projects {
     resourceGroupName: string,
     projectName: string,
     body: Project,
-    options?: ProjectsCreateOrUpdateOptionalParams
+    options?: ProjectsCreateOrUpdateOptionalParams,
   ): Promise<ProjectsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       projectName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -327,7 +327,7 @@ export class ProjectsImpl implements Projects {
     resourceGroupName: string,
     projectName: string,
     body: ProjectUpdate,
-    options?: ProjectsUpdateOptionalParams
+    options?: ProjectsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProjectsUpdateResponse>,
@@ -336,21 +336,20 @@ export class ProjectsImpl implements Projects {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ProjectsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -359,8 +358,8 @@ export class ProjectsImpl implements Projects {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -368,15 +367,15 @@ export class ProjectsImpl implements Projects {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, projectName, body, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       ProjectsUpdateResponse,
@@ -384,7 +383,7 @@ export class ProjectsImpl implements Projects {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -401,13 +400,13 @@ export class ProjectsImpl implements Projects {
     resourceGroupName: string,
     projectName: string,
     body: ProjectUpdate,
-    options?: ProjectsUpdateOptionalParams
+    options?: ProjectsUpdateOptionalParams,
   ): Promise<ProjectsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       projectName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -421,25 +420,29 @@ export class ProjectsImpl implements Projects {
   async beginDelete(
     resourceGroupName: string,
     projectName: string,
-    options?: ProjectsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    options?: ProjectsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ProjectsDeleteResponse>,
+      ProjectsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<ProjectsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -448,8 +451,8 @@ export class ProjectsImpl implements Projects {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -457,20 +460,23 @@ export class ProjectsImpl implements Projects {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, projectName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      ProjectsDeleteResponse,
+      OperationState<ProjectsDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -485,12 +491,12 @@ export class ProjectsImpl implements Projects {
   async beginDeleteAndWait(
     resourceGroupName: string,
     projectName: string,
-    options?: ProjectsDeleteOptionalParams
-  ): Promise<void> {
+    options?: ProjectsDeleteOptionalParams,
+  ): Promise<ProjectsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       projectName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -502,11 +508,11 @@ export class ProjectsImpl implements Projects {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: ProjectsListBySubscriptionNextOptionalParams
+    options?: ProjectsListBySubscriptionNextOptionalParams,
   ): Promise<ProjectsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -519,11 +525,11 @@ export class ProjectsImpl implements Projects {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: ProjectsListByResourceGroupNextOptionalParams
+    options?: ProjectsListByResourceGroupNextOptionalParams,
   ): Promise<ProjectsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -531,85 +537,81 @@ export class ProjectsImpl implements Projects {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DevCenter/projects",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DevCenter/projects",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProjectListResult
+      bodyMapper: Mappers.ProjectListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProjectListResult
+      bodyMapper: Mappers.ProjectListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Project
+      bodyMapper: Mappers.Project,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.projectName
+    Parameters.projectName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Project
+      bodyMapper: Mappers.Project,
     },
     201: {
-      bodyMapper: Mappers.Project
+      bodyMapper: Mappers.Project,
     },
     202: {
-      bodyMapper: Mappers.Project
+      bodyMapper: Mappers.Project,
     },
     204: {
-      bodyMapper: Mappers.Project
+      bodyMapper: Mappers.Project,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
@@ -617,32 +619,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.projectName
+    Parameters.projectName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Project
+      bodyMapper: Mappers.Project,
     },
     201: {
-      bodyMapper: Mappers.Project
+      bodyMapper: Mappers.Project,
     },
     202: {
-      bodyMapper: Mappers.Project
+      bodyMapper: Mappers.Project,
     },
     204: {
-      bodyMapper: Mappers.Project
+      bodyMapper: Mappers.Project,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body3,
   queryParameters: [Parameters.apiVersion],
@@ -650,71 +651,78 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.projectName
+    Parameters.projectName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.ProjectsDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.ProjectsDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.ProjectsDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.ProjectsDeleteHeaders,
+    },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.projectName
+    Parameters.projectName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProjectListResult
+      bodyMapper: Mappers.ProjectListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProjectListResult
+      bodyMapper: Mappers.ProjectListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for DataFactoryManagementClient.",
-  "version": "14.1.1",
+  "version": "15.0.1",
   "engines": {
     "node": ">=18.0.0"
   },

@@ -16,7 +16,7 @@ import {
   TroubleshootersEndOptionalParams,
   TroubleshootersEndResponse,
   TroubleshootersRestartOptionalParams,
-  TroubleshootersRestartResponse
+  TroubleshootersRestartResponse,
 } from "../models";
 
 /** Interface representing a Troubleshooters. */
@@ -39,7 +39,7 @@ export interface Troubleshooters {
   create(
     scope: string,
     troubleshooterName: string,
-    options?: TroubleshootersCreateOptionalParams
+    options?: TroubleshootersCreateOptionalParams,
   ): Promise<TroubleshootersCreateResponse>;
   /**
    * Gets troubleshooter instance result which includes the step status/result of the troubleshooter
@@ -55,7 +55,7 @@ export interface Troubleshooters {
   get(
     scope: string,
     troubleshooterName: string,
-    options?: TroubleshootersGetOptionalParams
+    options?: TroubleshootersGetOptionalParams,
   ): Promise<TroubleshootersGetResponse>;
   /**
    * Uses ‘stepId’ and ‘responses’ as the trigger to continue the troubleshooting steps for the
@@ -71,7 +71,7 @@ export interface Troubleshooters {
   continue(
     scope: string,
     troubleshooterName: string,
-    options?: TroubleshootersContinueOptionalParams
+    options?: TroubleshootersContinueOptionalParams,
   ): Promise<TroubleshootersContinueResponse>;
   /**
    * Ends the troubleshooter action
@@ -84,7 +84,7 @@ export interface Troubleshooters {
   end(
     scope: string,
     troubleshooterName: string,
-    options?: TroubleshootersEndOptionalParams
+    options?: TroubleshootersEndOptionalParams,
   ): Promise<TroubleshootersEndResponse>;
   /**
    * Restarts the troubleshooter API using applicable troubleshooter resource name as the input.<br/> It
@@ -99,6 +99,6 @@ export interface Troubleshooters {
   restart(
     scope: string,
     troubleshooterName: string,
-    options?: TroubleshootersRestartOptionalParams
+    options?: TroubleshootersRestartOptionalParams,
   ): Promise<TroubleshootersRestartResponse>;
 }

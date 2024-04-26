@@ -4,7 +4,8 @@
 
 ### Features Added
 
-- Adds support for `logprobs` and `topLogprobs` in `GetChatCompletionsOptions` to support log probabilities for chat completions
+- Create a new `OpenAIError` model to represent the error model returned.
+- Adds support for `logprobs` and `topLogprobs` in `GetChatCompletionsOptions` to support log probabilities for chat completions.
 
 ### Bugs Fixed
 

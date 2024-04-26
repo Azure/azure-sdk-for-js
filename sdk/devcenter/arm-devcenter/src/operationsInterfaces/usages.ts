@@ -19,6 +19,6 @@ export interface Usages {
    */
   listByLocation(
     location: string,
-    options?: UsagesListByLocationOptionalParams
+    options?: UsagesListByLocationOptionalParams,
   ): PagedAsyncIterableIterator<Usage>;
 }

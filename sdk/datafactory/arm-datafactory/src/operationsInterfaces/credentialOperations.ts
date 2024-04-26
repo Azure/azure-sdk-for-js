@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  ManagedIdentityCredentialResource,
+  CredentialResource,
   CredentialOperationsListByFactoryOptionalParams,
   CredentialOperationsCreateOrUpdateOptionalParams,
   CredentialOperationsCreateOrUpdateResponse,
@@ -30,7 +30,7 @@ export interface CredentialOperations {
     resourceGroupName: string,
     factoryName: string,
     options?: CredentialOperationsListByFactoryOptionalParams,
-  ): PagedAsyncIterableIterator<ManagedIdentityCredentialResource>;
+  ): PagedAsyncIterableIterator<CredentialResource>;
   /**
    * Creates or updates a credential.
    * @param resourceGroupName The resource group name.
@@ -43,7 +43,7 @@ export interface CredentialOperations {
     resourceGroupName: string,
     factoryName: string,
     credentialName: string,
-    credential: ManagedIdentityCredentialResource,
+    credential: CredentialResource,
     options?: CredentialOperationsCreateOrUpdateOptionalParams,
   ): Promise<CredentialOperationsCreateOrUpdateResponse>;
   /**
