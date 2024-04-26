@@ -282,6 +282,8 @@ export interface SsmlSourceInternal {
 export interface PlayOptionsInternal {
   /** The option to play the provided audio source in loop when set to true */
   loop: boolean;
+  /** If set play can barge into other existing queued-up/currently-processing requests. */
+  interruptCallMediaOperation?: boolean;
 }
 
 export interface RecognizeRequest {
@@ -289,6 +291,7 @@ export interface RecognizeRequest {
   recognizeInputType: RecognizeInputType;
   /** The source of the audio to be played for recognition. */
   playPrompt?: PlaySourceInternal;
+  playPrompts?: PlaySourceInternal[];
   /** If set recognize can barge into other existing queued-up/currently-processing requests. */
   interruptCallMediaOperation?: boolean;
   /** Defines options for recognition. */
@@ -376,6 +379,32 @@ export interface SendDtmfTonesResult {
   operationContext?: string;
 }
 
+/** The request payload for holding participant from the call. */
+export interface HoldRequest {
+  /** Participant to be held from the call. */
+  targetParticipant: CommunicationIdentifierModel;
+  /** Prompt to play while in hold. */
+  playSourceInfo?: PlaySourceInternal;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /**
+   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUri?: string;
+}
+
+/** The request payload for holding participant from the call. */
+export interface UnholdRequest {
+  /**
+   * Participants to be hold from the call.
+   * Only ACS Users are supported.
+   */
+  targetParticipant: CommunicationIdentifierModel;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+}
+
 export interface StartMediaStreamingRequest {
   /**
    * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
@@ -413,6 +442,8 @@ export interface CallParticipantInternal {
   identifier?: CommunicationIdentifierModel;
   /** Is participant muted */
   isMuted?: boolean;
+  /** Is participant on hold. */
+  isOnHold?: boolean;
 }
 
 /** The request payload for adding participant to the call. */
@@ -795,6 +826,8 @@ export interface PlayFailed {
   operationContext?: string;
   /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
+  /** Contains the index of the failed play source. */
+  failedPlaySourceIndex?: number;
 }
 
 export interface PlayCanceled {
@@ -867,6 +900,8 @@ export interface RecognizeFailed {
   operationContext?: string;
   /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
+  /** Contains the index of the failed play source. */
+  failedPlaySourceIndex?: number;
 }
 
 export interface RecognizeCanceled {
@@ -1582,6 +1617,14 @@ export interface CallMediaSendDtmfTonesOptionalParams
 
 /** Contains response data for the sendDtmfTones operation. */
 export type CallMediaSendDtmfTonesResponse = SendDtmfTonesResult;
+
+/** Optional parameters. */
+export interface CallMediaHoldOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface CallMediaUnholdOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface CallMediaStartMediaStreamingOptionalParams

@@ -771,6 +771,12 @@ export const PlayOptionsInternal: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
+      interruptCallMediaOperation: {
+        serializedName: "interruptCallMediaOperation",
+        type: {
+          name: "Boolean",
+        },
+      },
     },
   },
 };
@@ -792,6 +798,18 @@ export const RecognizeRequest: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "PlaySourceInternal",
+        },
+      },
+      playPrompts: {
+        serializedName: "playPrompts",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PlaySourceInternal",
+            },
+          },
         },
       },
       interruptCallMediaOperation: {
@@ -1061,6 +1079,63 @@ export const SendDtmfTonesResult: coreClient.CompositeMapper = {
   },
 };
 
+export const HoldRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HoldRequest",
+    modelProperties: {
+      targetParticipant: {
+        serializedName: "targetParticipant",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel",
+        },
+      },
+      playSourceInfo: {
+        serializedName: "playSourceInfo",
+        type: {
+          name: "Composite",
+          className: "PlaySourceInternal",
+        },
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String",
+        },
+      },
+      operationCallbackUri: {
+        serializedName: "operationCallbackUri",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const UnholdRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UnholdRequest",
+    modelProperties: {
+      targetParticipant: {
+        serializedName: "targetParticipant",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel",
+        },
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const StartMediaStreamingRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1160,6 +1235,12 @@ export const CallParticipantInternal: coreClient.CompositeMapper = {
       },
       isMuted: {
         serializedName: "isMuted",
+        type: {
+          name: "Boolean",
+        },
+      },
+      isOnHold: {
+        serializedName: "isOnHold",
         type: {
           name: "Boolean",
         },
@@ -2202,6 +2283,12 @@ export const PlayFailed: coreClient.CompositeMapper = {
           className: "ResultInformation",
         },
       },
+      failedPlaySourceIndex: {
+        serializedName: "failedPlaySourceIndex",
+        type: {
+          name: "Number",
+        },
+      },
     },
   },
 };
@@ -2397,6 +2484,12 @@ export const RecognizeFailed: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ResultInformation",
+        },
+      },
+      failedPlaySourceIndex: {
+        serializedName: "failedPlaySourceIndex",
+        type: {
+          name: "Number",
         },
       },
     },

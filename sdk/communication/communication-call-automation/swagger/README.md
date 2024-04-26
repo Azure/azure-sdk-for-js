@@ -13,8 +13,8 @@ license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 tag: package-2024-06-15-preview
 require:
-  - https://github.com/Azure/azure-rest-api-specs/blob/76d763fab007ccb2644005379b755440487db0d4/specification/communication/data-plane/CallAutomation/readme.md
-package-version: 1.2.0-beta.1
+  - https://github.com/Azure/azure-rest-api-specs/blob/e1baf5cb70826b106db749ac9c616fb092a285a5/specification/communication/data-plane/CallAutomation/readme.md
+package-version: 1.2.0
 model-date-time-as-string: false
 optional-response-headers: true
 typescript: true
