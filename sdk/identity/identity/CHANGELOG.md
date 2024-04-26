@@ -1,5 +1,17 @@
 # Release History
 
+## 4.3.0-beta.1 (Unreleased)
+
+### Features Added
+
+- Introducing a new credential `AzurePipelinesServiceConnectionCredential` for supporting workload identity in federation in ADO Pipelines with service connections.
+
+### Breaking Changes
+
+### Bug Fixes
+
+### Other Changes
+
 ## 4.2.0 (2024-04-30)
 
 ### Features Added

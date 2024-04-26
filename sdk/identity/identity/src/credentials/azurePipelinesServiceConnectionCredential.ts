@@ -27,21 +27,21 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
 
   /**
    * AzurePipelinesServiceConnectionCredential supports Federated Identity on Azure Pipelines through Service Connections.
-   * @param clientId - clientId associated with the service connection
    * @param tenantId - tenantId associated with the service connection
+   * @param clientId - clientId associated with the service connection
    * @param serviceConnectionId - id for the service connection
    * @param options - The identity client options to use for authentication.
    */
   constructor(
-    clientId: string,
     tenantId: string,
+    clientId: string,
     serviceConnectionId: string,
     options?: AzurePipelinesServiceConnectionCredentialOptions
   ) {
     if (!clientId || !tenantId || !serviceConnectionId)
-      throw new CredentialUnavailableError(
+      {throw new CredentialUnavailableError(
         `${credentialName}: is unavailable. tenantId, clientId, and serviceConnectionId are required parameters.`
-      );
+      );}
 
     checkTenantId(logger, tenantId);
     logger.info(

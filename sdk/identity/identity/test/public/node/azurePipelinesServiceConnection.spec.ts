@@ -8,7 +8,7 @@ import { assert } from "@azure-tools/test-utils";
 describe("AzurePipelinesServiceConnectionCredential", function () {
   const scope = "https://vault.azure.net/.default";
   const tenantId = env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!;
-  //const clientId = env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!;
+  // const clientId = env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!;
 
   it("authenticates with a valid service connection", async function () {
     if (!isLiveMode()) {
@@ -19,8 +19,8 @@ describe("AzurePipelinesServiceConnectionCredential", function () {
     // clientId for above service connection
     const clientId = "203c27cb-6778-4ecc-9bfd-9f03a61f3408";
     const credential = new AzurePipelinesServiceConnectionCredential(
-      clientId,
       tenantId,
+      clientId,
       existingServiceConnectionId
     );
     try {
