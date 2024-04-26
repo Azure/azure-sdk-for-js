@@ -1,32 +1,16 @@
 # Release History
 
-## 3.0.0 (Unreleased)
+## 3.0.0-beta.2 (2024-04-26)
 
-Marks the first release of LRO v3. To migrate the existing applications to v3, please refer to [Migration Guide](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-lro/docs/MIGRATION.md).
+To migrate the existing applications to v3, please refer to [Migration Guide](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-lro/docs/MIGRATION.md).
 
-Compared with v2.7.2 there are following changes.
+Compared with v3.0.0-beta.1 there are following changes.
 
 ### Breaking Changes
 
-- `LroEngine` is deprecated and no long supported
-- The return type of `createHttpPoller` is changed from `Promise<SimplePollerLike>` to `PollerLike`
-- Interfaces are renamed. `SimplePollerLike` is renamed as `PollerLike`, `LroResponse` is renamed as `OperationResponse` and `LroResourceLocationConfig` is to `ResourceLocationConfig`
-- Functions `getOperationState()`, `getResult()`, `isDone()` and `isStopped()` are changed to read-only attributes `operationState`, `result`, `isDone` and `isStopped`
-- Deprecate the attributes `requestMethod` and `requestPath` in `LongRunningOperation`
-- `LongRunningOperation` is renamed to `RunningOperation`
 - Remove the `isStopped` considering we deprecate `stopPolling`
 - The return type for `processResult` is changed from `TResult` to `Promise<TResult>`
-
-### Features Added
-
-- Add a new property `initialRequestUrl` for `OperationConfig`
-- Add a new function `serialize` to help serialize the poller
-- Add a new function `submitted` to help wait for the poller submitted
-
-### Other Changes
-
-- Add a new parameter `TRequest` for `OperationResponse` to accept the raw request
-- Export the function `deserializeState` to the public
+- Rename the property from `initialUrl` to `initialRequestUrl` for `OperationConfig`
 
 ## 2.7.2 (2024-04-09)
 
