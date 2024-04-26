@@ -15,6 +15,7 @@ import { AzurePipelinesServiceConnectionCredentialOptions } from "./azurePipelin
 
 const credentialName = "AzurePipelinesServiceConnectionCredential";
 const logger = credentialLogger(credentialName);
+const OIDC_API_VERSION = "7.1";
 
 /**
  * This credential is designed to be used in ADO Pipelines with service connections
@@ -22,7 +23,6 @@ const logger = credentialLogger(credentialName);
  */
 export class AzurePipelinesServiceConnectionCredential implements TokenCredential {
   private clientAssertionCredential: ClientAssertionCredential | undefined;
-  private serviceConnectionId: string | undefined;
 
   /**
    * AzurePipelinesServiceConnectionCredential supports Federated Identity on Azure Pipelines through Service Connections.
@@ -50,7 +50,7 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
 
     if (clientId && tenantId && serviceConnectionId) {
       this.ensurePipelinesSystemVars();
-      const oidcRequestUrl = `${process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI}${process.env.SYSTEM_TEAMPROJECTID}/_apis/distributedtask/hubs/build/plans/${process.env.SYSTEM_PLANID}/jobs/${process.env.SYSTEM_JOBID}/oidctoken?api-version=7.1&serviceConnectionId=${this.serviceConnectionId}`;
+      const oidcRequestUrl = `${process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI}${process.env.SYSTEM_TEAMPROJECTID}/_apis/distributedtask/hubs/build/plans/${process.env.SYSTEM_PLANID}/jobs/${process.env.SYSTEM_JOBID}/oidctoken?api-version=${OIDC_API_VERSION}&serviceConnectionId=${serviceConnectionId}`;
       const systemAccessToken = `${process.env.SYSTEM_ACCESSTOKEN}`;
       logger.info(
         `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${clientId} and service connection id: ${serviceConnectionId}`
@@ -77,8 +77,7 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
     options?: GetTokenOptions
   ): Promise<AccessToken> {
     if (!this.clientAssertionCredential) {
-      const errorMessage = `${credentialName}: is unavailable. tenantId, clientId, and serviceConnectionId are required parameters. 
-      To use Federation Identity in Azure Pipelines, these are required as inputs / env variables - 
+      const errorMessage = `${credentialName}: is unavailable. To use Federation Identity in Azure Pipelines, these are required as input parameters / env variables - 
       tenantId,
       clientId,
       serviceConnectionId,
