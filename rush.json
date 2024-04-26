@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */{
+ */ {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -859,7 +859,7 @@
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure/test-utils",
+      "packageName": "@azure-tools/test-utils",
       "projectFolder": "sdk/test-utils/test-utils",
       "versionPolicyName": "utility"
     },
@@ -2216,6 +2216,16 @@
     {
       "packageName": "@azure/arm-guestconfiguration",
       "projectFolder": "sdk/guestconfiguration/arm-guestconfiguration",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-deviceregistry",
+      "projectFolder": "sdk/deviceregistry/arm-deviceregistry",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-standbypool",
+      "projectFolder": "sdk/standbypool/arm-standbypool",
       "versionPolicyName": "management"
     }
   ]

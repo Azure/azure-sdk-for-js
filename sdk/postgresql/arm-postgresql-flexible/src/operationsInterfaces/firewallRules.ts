@@ -15,7 +15,7 @@ import {
   FirewallRulesCreateOrUpdateResponse,
   FirewallRulesDeleteOptionalParams,
   FirewallRulesGetOptionalParams,
-  FirewallRulesGetResponse
+  FirewallRulesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface FirewallRules {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: FirewallRulesListByServerOptionalParams
+    options?: FirewallRulesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<FirewallRule>;
   /**
    * Creates a new firewall rule or updates an existing firewall rule.
@@ -45,7 +45,7 @@ export interface FirewallRules {
     serverName: string,
     firewallRuleName: string,
     parameters: FirewallRule,
-    options?: FirewallRulesCreateOrUpdateOptionalParams
+    options?: FirewallRulesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<FirewallRulesCreateOrUpdateResponse>,
@@ -65,7 +65,7 @@ export interface FirewallRules {
     serverName: string,
     firewallRuleName: string,
     parameters: FirewallRule,
-    options?: FirewallRulesCreateOrUpdateOptionalParams
+    options?: FirewallRulesCreateOrUpdateOptionalParams,
   ): Promise<FirewallRulesCreateOrUpdateResponse>;
   /**
    * Deletes a PostgreSQL server firewall rule.
@@ -78,7 +78,7 @@ export interface FirewallRules {
     resourceGroupName: string,
     serverName: string,
     firewallRuleName: string,
-    options?: FirewallRulesDeleteOptionalParams
+    options?: FirewallRulesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a PostgreSQL server firewall rule.
@@ -91,7 +91,7 @@ export interface FirewallRules {
     resourceGroupName: string,
     serverName: string,
     firewallRuleName: string,
-    options?: FirewallRulesDeleteOptionalParams
+    options?: FirewallRulesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * List all the firewall rules in a given server.
@@ -104,6 +104,6 @@ export interface FirewallRules {
     resourceGroupName: string,
     serverName: string,
     firewallRuleName: string,
-    options?: FirewallRulesGetOptionalParams
+    options?: FirewallRulesGetOptionalParams,
   ): Promise<FirewallRulesGetResponse>;
 }

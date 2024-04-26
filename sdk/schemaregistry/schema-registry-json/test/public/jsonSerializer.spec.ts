@@ -6,7 +6,7 @@ import {
   createTestSerializer,
   registerTestSchema,
 } from "./utils/mockedSerializer";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { createContentType, encoder, testGroup, testSchema, testValue } from "./utils/dummies";
 import { Context } from "mocha";
 import { MessageContent } from "../../src";

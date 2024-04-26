@@ -452,6 +452,10 @@
 
 # PRLabel: %Mgmt
 /sdk/devspaces/arm-devspaces/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/deviceregistry/arm-deviceregistry/ @qiaozha @MaryGao
+
 # PRLabel: %Mgmt
 /sdk/defendereasm/arm-defendereasm/ @qiaozha @MaryGao
 
@@ -745,6 +749,9 @@
 
 # PRLabel: %Mgmt
 /sdk/search/arm-search/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/standbypool/arm-standbypool/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/springappdiscovery/arm-springappdiscovery/ @qiaozha @MaryGao

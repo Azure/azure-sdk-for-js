@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update the metadata of a service instance.
  *
  * @summary Create or update the metadata of a service instance.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/legacy/ServiceCreate.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/legacy/ServiceCreate.json
  */
 async function createOrUpdateAServiceWithAllParameters() {
   const subscriptionId = process.env["HEALTHCAREAPIS_SUBSCRIPTION_ID"] || "subid";
@@ -67,7 +67,7 @@ async function createOrUpdateAServiceWithAllParameters() {
  * This sample demonstrates how to Create or update the metadata of a service instance.
  *
  * @summary Create or update the metadata of a service instance.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/legacy/ServiceCreateInDataSovereignRegionWithCmkEnabled.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/legacy/ServiceCreateInDataSovereignRegionWithCmkEnabled.json
  */
 async function createOrUpdateAServiceWithAllParametersAndCmkEnabledInADataSovereignRegion() {
   const subscriptionId = process.env["HEALTHCAREAPIS_SUBSCRIPTION_ID"] || "subid";
@@ -119,7 +119,7 @@ async function createOrUpdateAServiceWithAllParametersAndCmkEnabledInADataSovere
  * This sample demonstrates how to Create or update the metadata of a service instance.
  *
  * @summary Create or update the metadata of a service instance.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/legacy/ServiceCreateMinimum.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/legacy/ServiceCreateMinimum.json
  */
 async function createOrUpdateAServiceWithMinimumParameters() {
   const subscriptionId = process.env["HEALTHCAREAPIS_SUBSCRIPTION_ID"] || "subid";

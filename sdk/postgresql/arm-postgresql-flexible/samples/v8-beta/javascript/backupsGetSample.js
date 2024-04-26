@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get specific backup for a given server.
  *
  * @summary Get specific backup for a given server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/BackupGet.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/BackupGet.json
  */
 async function getABackupForAServer() {
   const subscriptionId =

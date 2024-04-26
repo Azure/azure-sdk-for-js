@@ -1,0 +1,129 @@
+# client library samples for TypeScript (Beta)
+
+These sample programs show how to use the TypeScript client libraries for in some common scenarios.
+
+| **File Name**                                                                                                       | **Description**                                                                                                                                                                                                                                                                                                                  |
+| ------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [extensionMetadataGetSample.ts][extensionmetadatagetsample]                                                         | Gets an Extension Metadata based on location, publisher, extensionType and version x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/extension/ExtensionMetadata_Get.json                                                                             |
+| [extensionMetadataListSample.ts][extensionmetadatalistsample]                                                       | Gets all Extension versions based on location, publisher, extensionType x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/extension/ExtensionMetadata_List.json                                                                                       |
+| [machineExtensionsCreateOrUpdateSample.ts][machineextensionscreateorupdatesample]                                   | The operation to create or update the extension. x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/extension/Extension_CreateOrUpdate.json                                                                                                            |
+| [machineExtensionsDeleteSample.ts][machineextensionsdeletesample]                                                   | The operation to delete the extension. x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/extension/Extension_Delete.json                                                                                                                              |
+| [machineExtensionsGetSample.ts][machineextensionsgetsample]                                                         | The operation to get the extension. x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/extension/Extension_Get.json                                                                                                                                    |
+| [machineExtensionsListSample.ts][machineextensionslistsample]                                                       | The operation to get all extensions of a non-Azure machine x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/extension/Extension_List.json                                                                                                            |
+| [machineExtensionsUpdateSample.ts][machineextensionsupdatesample]                                                   | The operation to create or update the extension. x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/extension/Extension_Update.json                                                                                                                    |
+| [machineRunCommandsCreateOrUpdateSample.ts][machineruncommandscreateorupdatesample]                                 | The operation to create or update a run command. x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/runCommand/RunCommands_CreateOrUpdate.json                                                                                                         |
+| [machineRunCommandsDeleteSample.ts][machineruncommandsdeletesample]                                                 | The operation to delete a run command. x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/runCommand/RunCommands_Delete.json                                                                                                                           |
+| [machineRunCommandsGetSample.ts][machineruncommandsgetsample]                                                       | The operation to get a run command. x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/runCommand/RunCommands_Get.json                                                                                                                                 |
+| [machineRunCommandsListSample.ts][machineruncommandslistsample]                                                     | The operation to get all the run commands of a non-Azure machine. x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/runCommand/RunCommands_List.json                                                                                                  |
+| [machinesAssessPatchesSample.ts][machinesassesspatchessample]                                                       | The operation to assess patches on a hybrid machine identity in Azure. x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/machine/Machine_AssessPatches.json                                                                                           |
+| [machinesDeleteSample.ts][machinesdeletesample]                                                                     | The operation to delete a hybrid machine. x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/machine/Machines_Delete.json                                                                                                                              |
+| [machinesGetSample.ts][machinesgetsample]                                                                           | Retrieves information about the model view or the instance view of a hybrid machine. x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/machine/Machines_Get.json                                                                                      |
+| [machinesInstallPatchesSample.ts][machinesinstallpatchessample]                                                     | The operation to install patches on a hybrid machine identity in Azure. x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/machine/Machine_InstallPatches.json                                                                                         |
+| [machinesListByResourceGroupSample.ts][machineslistbyresourcegroupsample]                                           | Lists all the hybrid machines in the specified resource group. Use the nextLink property in the response to get the next page of hybrid machines. x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/machine/Machines_ListByResourceGroup.json         |
+| [machinesListBySubscriptionSample.ts][machineslistbysubscriptionsample]                                             | Lists all the hybrid machines in the specified subscription. Use the nextLink property in the response to get the next page of hybrid machines. x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/machine/Machines_ListBySubscription.json            |
+| [networkProfileGetSample.ts][networkprofilegetsample]                                                               | The operation to get network information of hybrid machine x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/NetworkProfile_Get.json                                                                                                                  |
+| [operationsListSample.ts][operationslistsample]                                                                     | Gets a list of hybrid compute operations. x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/Operations_List.json                                                                                                                                      |
+| [privateEndpointConnectionsCreateOrUpdateSample.ts][privateendpointconnectionscreateorupdatesample]                 | Approve or reject a private endpoint connection with a given name. x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/privateEndpoint/PrivateEndpointConnection_Update.json                                                                            |
+| [privateEndpointConnectionsDeleteSample.ts][privateendpointconnectionsdeletesample]                                 | Deletes a private endpoint connection with a given name. x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/privateEndpoint/PrivateEndpointConnection_Delete.json                                                                                      |
+| [privateEndpointConnectionsGetSample.ts][privateendpointconnectionsgetsample]                                       | Gets a private endpoint connection. x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/privateEndpoint/PrivateEndpointConnection_Get.json                                                                                                              |
+| [privateEndpointConnectionsListByPrivateLinkScopeSample.ts][privateendpointconnectionslistbyprivatelinkscopesample] | Gets all private endpoint connections on a private link scope. x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/privateEndpoint/PrivateEndpointConnection_List.json                                                                                  |
+| [privateLinkResourcesGetSample.ts][privatelinkresourcesgetsample]                                                   | Gets the private link resources that need to be created for a Azure Monitor PrivateLinkScope. x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/privateLinkScope/PrivateLinkScopePrivateLinkResource_Get.json                                         |
+| [privateLinkResourcesListByPrivateLinkScopeSample.ts][privatelinkresourceslistbyprivatelinkscopesample]             | Gets the private link resources that need to be created for a Azure Monitor PrivateLinkScope. x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/privateLinkScope/PrivateLinkScopePrivateLinkResource_ListGet.json                                     |
+| [privateLinkScopesCreateOrUpdateSample.ts][privatelinkscopescreateorupdatesample]                                   | Creates (or updates) a Azure Arc PrivateLinkScope. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation. x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/privateLinkScope/PrivateLinkScopes_Create.json |
+| [privateLinkScopesDeleteSample.ts][privatelinkscopesdeletesample]                                                   | Deletes a Azure Arc PrivateLinkScope. x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/privateLinkScope/PrivateLinkScopes_Delete.json                                                                                                                |
+| [privateLinkScopesGetSample.ts][privatelinkscopesgetsample]                                                         | Returns a Azure Arc PrivateLinkScope. x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/privateLinkScope/PrivateLinkScopes_Get.json                                                                                                                   |
+| [privateLinkScopesGetValidationDetailsForMachineSample.ts][privatelinkscopesgetvalidationdetailsformachinesample]   | Returns a Azure Arc PrivateLinkScope's validation details for a given machine. x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/privateLinkScope/PrivateLinkScopes_GetValidationForMachine.json                                                      |
+| [privateLinkScopesGetValidationDetailsSample.ts][privatelinkscopesgetvalidationdetailssample]                       | Returns a Azure Arc PrivateLinkScope's validation details. x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/privateLinkScope/PrivateLinkScopes_GetValidation.json                                                                                    |
+| [privateLinkScopesListByResourceGroupSample.ts][privatelinkscopeslistbyresourcegroupsample]                         | Gets a list of Azure Arc PrivateLinkScopes within a resource group. x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/privateLinkScope/PrivateLinkScopes_ListByResourceGroup.json                                                                     |
+| [privateLinkScopesListSample.ts][privatelinkscopeslistsample]                                                       | Gets a list of all Azure Arc PrivateLinkScopes within a subscription. x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/privateLinkScope/PrivateLinkScopes_List.json                                                                                  |
+| [privateLinkScopesUpdateTagsSample.ts][privatelinkscopesupdatetagssample]                                           | Updates an existing PrivateLinkScope's tags. To update other fields use the CreateOrUpdate method. x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/privateLinkScope/PrivateLinkScopes_UpdateTagsOnly.json                                           |
+| [upgradeExtensionsSample.ts][upgradeextensionssample]                                                               | The operation to Upgrade Machine Extensions. x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-10-03-preview/examples/extension/Extensions_Upgrade.json                                                                                                                      |
+
+## Prerequisites
+
+The sample programs are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
+
+Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript]. Install the TypeScript compiler using:
+
+```bash
+npm install -g typescript
+```
+
+You need [an Azure subscription][freesub] to run these sample programs.
+
+Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
+
+Adapting the samples to run in the browser may require some additional consideration. For details, please see the [package README][package].
+
+## Setup
+
+To run the samples using the published version of the package:
+
+1. Install the dependencies using `npm`:
+
+```bash
+npm install
+```
+
+2. Compile the samples:
+
+```bash
+npm run build
+```
+
+3. Edit the file `sample.env`, adding the correct credentials to access the Azure service and run the samples. Then rename the file from `sample.env` to just `.env`. The sample programs will read this file automatically.
+
+4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
+
+```bash
+node dist/extensionMetadataGetSample.js
+```
+
+Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+
+```bash
+npx cross-env HYBRIDCOMPUTE_SUBSCRIPTION_ID="<hybridcompute subscription id>" node dist/extensionMetadataGetSample.js
+```
+
+## Next Steps
+
+Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
+
+[extensionmetadatagetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/extensionMetadataGetSample.ts
+[extensionmetadatalistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/extensionMetadataListSample.ts
+[machineextensionscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/machineExtensionsCreateOrUpdateSample.ts
+[machineextensionsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/machineExtensionsDeleteSample.ts
+[machineextensionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/machineExtensionsGetSample.ts
+[machineextensionslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/machineExtensionsListSample.ts
+[machineextensionsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/machineExtensionsUpdateSample.ts
+[machineruncommandscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/machineRunCommandsCreateOrUpdateSample.ts
+[machineruncommandsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/machineRunCommandsDeleteSample.ts
+[machineruncommandsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/machineRunCommandsGetSample.ts
+[machineruncommandslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/machineRunCommandsListSample.ts
+[machinesassesspatchessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/machinesAssessPatchesSample.ts
+[machinesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/machinesDeleteSample.ts
+[machinesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/machinesGetSample.ts
+[machinesinstallpatchessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/machinesInstallPatchesSample.ts
+[machineslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/machinesListByResourceGroupSample.ts
+[machineslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/machinesListBySubscriptionSample.ts
+[networkprofilegetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/networkProfileGetSample.ts
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/operationsListSample.ts
+[privateendpointconnectionscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/privateEndpointConnectionsCreateOrUpdateSample.ts
+[privateendpointconnectionsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/privateEndpointConnectionsDeleteSample.ts
+[privateendpointconnectionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/privateEndpointConnectionsGetSample.ts
+[privateendpointconnectionslistbyprivatelinkscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/privateEndpointConnectionsListByPrivateLinkScopeSample.ts
+[privatelinkresourcesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/privateLinkResourcesGetSample.ts
+[privatelinkresourceslistbyprivatelinkscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/privateLinkResourcesListByPrivateLinkScopeSample.ts
+[privatelinkscopescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/privateLinkScopesCreateOrUpdateSample.ts
+[privatelinkscopesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/privateLinkScopesDeleteSample.ts
+[privatelinkscopesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/privateLinkScopesGetSample.ts
+[privatelinkscopesgetvalidationdetailsformachinesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/privateLinkScopesGetValidationDetailsForMachineSample.ts
+[privatelinkscopesgetvalidationdetailssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/privateLinkScopesGetValidationDetailsSample.ts
+[privatelinkscopeslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/privateLinkScopesListByResourceGroupSample.ts
+[privatelinkscopeslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/privateLinkScopesListSample.ts
+[privatelinkscopesupdatetagssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/privateLinkScopesUpdateTagsSample.ts
+[upgradeextensionssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcompute/arm-hybridcompute/samples/v4-beta/typescript/src/upgradeExtensionsSample.ts
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-hybridcompute?view=azure-node-preview
+[freesub]: https://azure.microsoft.com/free/
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hybridcompute/arm-hybridcompute/README.md
+[typescript]: https://www.typescriptlang.org/docs/home.html

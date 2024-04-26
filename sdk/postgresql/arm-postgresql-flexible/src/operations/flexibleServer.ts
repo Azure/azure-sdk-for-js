@@ -14,7 +14,7 @@ import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagemen
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -23,7 +23,7 @@ import {
   FlexibleServerTriggerLtrPreBackupResponse,
   LtrBackupRequest,
   FlexibleServerStartLtrBackupOptionalParams,
-  FlexibleServerStartLtrBackupResponse
+  FlexibleServerStartLtrBackupResponse,
 } from "../models";
 
 /** Class containing FlexibleServer operations. */
@@ -50,11 +50,11 @@ export class FlexibleServerImpl implements FlexibleServer {
     resourceGroupName: string,
     serverName: string,
     parameters: LtrPreBackupRequest,
-    options?: FlexibleServerTriggerLtrPreBackupOptionalParams
+    options?: FlexibleServerTriggerLtrPreBackupOptionalParams,
   ): Promise<FlexibleServerTriggerLtrPreBackupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, parameters, options },
-      triggerLtrPreBackupOperationSpec
+      triggerLtrPreBackupOperationSpec,
     );
   }
 
@@ -69,7 +69,7 @@ export class FlexibleServerImpl implements FlexibleServer {
     resourceGroupName: string,
     serverName: string,
     parameters: LtrBackupRequest,
-    options?: FlexibleServerStartLtrBackupOptionalParams
+    options?: FlexibleServerStartLtrBackupOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<FlexibleServerStartLtrBackupResponse>,
@@ -78,21 +78,20 @@ export class FlexibleServerImpl implements FlexibleServer {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<FlexibleServerStartLtrBackupResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -101,8 +100,8 @@ export class FlexibleServerImpl implements FlexibleServer {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -110,15 +109,15 @@ export class FlexibleServerImpl implements FlexibleServer {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serverName, parameters, options },
-      spec: startLtrBackupOperationSpec
+      spec: startLtrBackupOperationSpec,
     });
     const poller = await createHttpPoller<
       FlexibleServerStartLtrBackupResponse,
@@ -126,7 +125,7 @@ export class FlexibleServerImpl implements FlexibleServer {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -143,13 +142,13 @@ export class FlexibleServerImpl implements FlexibleServer {
     resourceGroupName: string,
     serverName: string,
     parameters: LtrBackupRequest,
-    options?: FlexibleServerStartLtrBackupOptionalParams
+    options?: FlexibleServerStartLtrBackupOptionalParams,
   ): Promise<FlexibleServerStartLtrBackupResponse> {
     const poller = await this.beginStartLtrBackup(
       resourceGroupName,
       serverName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -158,18 +157,17 @@ export class FlexibleServerImpl implements FlexibleServer {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const triggerLtrPreBackupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/ltrPreBackup",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/ltrPreBackup",
   httpMethod: "POST",
   responses: {
     200: {
       bodyMapper: Mappers.LtrPreBackupResponse,
-      headersMapper: Mappers.FlexibleServerTriggerLtrPreBackupHeaders
+      headersMapper: Mappers.FlexibleServerTriggerLtrPreBackupHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
-      headersMapper: Mappers.FlexibleServerTriggerLtrPreBackupExceptionHeaders
-    }
+      headersMapper: Mappers.FlexibleServerTriggerLtrPreBackupExceptionHeaders,
+    },
   },
   requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion],
@@ -177,37 +175,36 @@ const triggerLtrPreBackupOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const startLtrBackupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/startLtrBackup",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/startLtrBackup",
   httpMethod: "POST",
   responses: {
     200: {
       bodyMapper: Mappers.LtrBackupResponse,
-      headersMapper: Mappers.FlexibleServerStartLtrBackupHeaders
+      headersMapper: Mappers.FlexibleServerStartLtrBackupHeaders,
     },
     201: {
       bodyMapper: Mappers.LtrBackupResponse,
-      headersMapper: Mappers.FlexibleServerStartLtrBackupHeaders
+      headersMapper: Mappers.FlexibleServerStartLtrBackupHeaders,
     },
     202: {
       bodyMapper: Mappers.LtrBackupResponse,
-      headersMapper: Mappers.FlexibleServerStartLtrBackupHeaders
+      headersMapper: Mappers.FlexibleServerStartLtrBackupHeaders,
     },
     204: {
       bodyMapper: Mappers.LtrBackupResponse,
-      headersMapper: Mappers.FlexibleServerStartLtrBackupHeaders
+      headersMapper: Mappers.FlexibleServerStartLtrBackupHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
-      headersMapper: Mappers.FlexibleServerStartLtrBackupExceptionHeaders
-    }
+      headersMapper: Mappers.FlexibleServerStartLtrBackupExceptionHeaders,
+    },
   },
   requestBody: Parameters.parameters9,
   queryParameters: [Parameters.apiVersion],
@@ -215,9 +212,9 @@ const startLtrBackupOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

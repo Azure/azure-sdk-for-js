@@ -4,7 +4,7 @@
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
 import { Context } from "mocha";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { getError } from "../../authTestUtils";
 
 // TODO: Use the real one once we decide to re-enable this on the public API.
