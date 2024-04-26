@@ -20,7 +20,7 @@ import {
   ImageVersionsListByImageResponse,
   ImageVersionsGetOptionalParams,
   ImageVersionsGetResponse,
-  ImageVersionsListByImageNextResponse
+  ImageVersionsListByImageNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -49,14 +49,14 @@ export class ImageVersionsImpl implements ImageVersions {
     devCenterName: string,
     galleryName: string,
     imageName: string,
-    options?: ImageVersionsListByImageOptionalParams
+    options?: ImageVersionsListByImageOptionalParams,
   ): PagedAsyncIterableIterator<ImageVersion> {
     const iter = this.listByImagePagingAll(
       resourceGroupName,
       devCenterName,
       galleryName,
       imageName,
-      options
+      options,
     );
     return {
       next() {
@@ -75,9 +75,9 @@ export class ImageVersionsImpl implements ImageVersions {
           galleryName,
           imageName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -87,7 +87,7 @@ export class ImageVersionsImpl implements ImageVersions {
     galleryName: string,
     imageName: string,
     options?: ImageVersionsListByImageOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ImageVersion[]> {
     let result: ImageVersionsListByImageResponse;
     let continuationToken = settings?.continuationToken;
@@ -97,7 +97,7 @@ export class ImageVersionsImpl implements ImageVersions {
         devCenterName,
         galleryName,
         imageName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -111,7 +111,7 @@ export class ImageVersionsImpl implements ImageVersions {
         galleryName,
         imageName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -125,14 +125,14 @@ export class ImageVersionsImpl implements ImageVersions {
     devCenterName: string,
     galleryName: string,
     imageName: string,
-    options?: ImageVersionsListByImageOptionalParams
+    options?: ImageVersionsListByImageOptionalParams,
   ): AsyncIterableIterator<ImageVersion> {
     for await (const page of this.listByImagePagingPage(
       resourceGroupName,
       devCenterName,
       galleryName,
       imageName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -151,11 +151,11 @@ export class ImageVersionsImpl implements ImageVersions {
     devCenterName: string,
     galleryName: string,
     imageName: string,
-    options?: ImageVersionsListByImageOptionalParams
+    options?: ImageVersionsListByImageOptionalParams,
   ): Promise<ImageVersionsListByImageResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, devCenterName, galleryName, imageName, options },
-      listByImageOperationSpec
+      listByImageOperationSpec,
     );
   }
 
@@ -174,7 +174,7 @@ export class ImageVersionsImpl implements ImageVersions {
     galleryName: string,
     imageName: string,
     versionName: string,
-    options?: ImageVersionsGetOptionalParams
+    options?: ImageVersionsGetOptionalParams,
   ): Promise<ImageVersionsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -183,9 +183,9 @@ export class ImageVersionsImpl implements ImageVersions {
         galleryName,
         imageName,
         versionName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -204,7 +204,7 @@ export class ImageVersionsImpl implements ImageVersions {
     galleryName: string,
     imageName: string,
     nextLink: string,
-    options?: ImageVersionsListByImageNextOptionalParams
+    options?: ImageVersionsListByImageNextOptionalParams,
   ): Promise<ImageVersionsListByImageNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -213,9 +213,9 @@ export class ImageVersionsImpl implements ImageVersions {
         galleryName,
         imageName,
         nextLink,
-        options
+        options,
       },
-      listByImageNextOperationSpec
+      listByImageNextOperationSpec,
     );
   }
 }
@@ -223,40 +223,15 @@ export class ImageVersionsImpl implements ImageVersions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByImageOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/galleries/{galleryName}/images/{imageName}/versions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/galleries/{galleryName}/images/{imageName}/versions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ImageVersionListResult
+      bodyMapper: Mappers.ImageVersionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.devCenterName,
-    Parameters.galleryName,
-    Parameters.imageName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/galleries/{galleryName}/images/{imageName}/versions/{versionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ImageVersion
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -266,21 +241,44 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.devCenterName,
     Parameters.galleryName,
     Parameters.imageName,
-    Parameters.versionName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/galleries/{galleryName}/images/{imageName}/versions/{versionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ImageVersion,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.devCenterName,
+    Parameters.galleryName,
+    Parameters.imageName,
+    Parameters.versionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByImageNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ImageVersionListResult
+      bodyMapper: Mappers.ImageVersionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -289,8 +287,8 @@ const listByImageNextOperationSpec: coreClient.OperationSpec = {
     Parameters.devCenterName,
     Parameters.nextLink,
     Parameters.galleryName,
-    Parameters.imageName
+    Parameters.imageName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a virtual machine image.
  *
  * @summary Gets a virtual machine image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineImageExamples/VirtualMachineImage_Get_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineImageExamples/VirtualMachineImage_Get_MaximumSet_Gen.json
  */
 async function virtualMachineImageGetMaximumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -41,7 +41,7 @@ async function virtualMachineImageGetMaximumSetGen() {
  * This sample demonstrates how to Gets a virtual machine image.
  *
  * @summary Gets a virtual machine image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineImageExamples/VirtualMachineImage_Get_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineImageExamples/VirtualMachineImage_Get_MinimumSet_Gen.json
  */
 async function virtualMachineImageGetMinimumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

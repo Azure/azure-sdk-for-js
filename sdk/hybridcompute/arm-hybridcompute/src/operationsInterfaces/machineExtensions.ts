@@ -18,7 +18,7 @@ import {
   MachineExtensionsUpdateResponse,
   MachineExtensionsDeleteOptionalParams,
   MachineExtensionsGetOptionalParams,
-  MachineExtensionsGetResponse
+  MachineExtensionsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface MachineExtensions {
   list(
     resourceGroupName: string,
     machineName: string,
-    options?: MachineExtensionsListOptionalParams
+    options?: MachineExtensionsListOptionalParams,
   ): PagedAsyncIterableIterator<MachineExtension>;
   /**
    * The operation to create or update the extension.
@@ -48,7 +48,7 @@ export interface MachineExtensions {
     machineName: string,
     extensionName: string,
     extensionParameters: MachineExtension,
-    options?: MachineExtensionsCreateOrUpdateOptionalParams
+    options?: MachineExtensionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MachineExtensionsCreateOrUpdateResponse>,
@@ -68,7 +68,7 @@ export interface MachineExtensions {
     machineName: string,
     extensionName: string,
     extensionParameters: MachineExtension,
-    options?: MachineExtensionsCreateOrUpdateOptionalParams
+    options?: MachineExtensionsCreateOrUpdateOptionalParams,
   ): Promise<MachineExtensionsCreateOrUpdateResponse>;
   /**
    * The operation to create or update the extension.
@@ -83,7 +83,7 @@ export interface MachineExtensions {
     machineName: string,
     extensionName: string,
     extensionParameters: MachineExtensionUpdate,
-    options?: MachineExtensionsUpdateOptionalParams
+    options?: MachineExtensionsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MachineExtensionsUpdateResponse>,
@@ -103,7 +103,7 @@ export interface MachineExtensions {
     machineName: string,
     extensionName: string,
     extensionParameters: MachineExtensionUpdate,
-    options?: MachineExtensionsUpdateOptionalParams
+    options?: MachineExtensionsUpdateOptionalParams,
   ): Promise<MachineExtensionsUpdateResponse>;
   /**
    * The operation to delete the extension.
@@ -116,7 +116,7 @@ export interface MachineExtensions {
     resourceGroupName: string,
     machineName: string,
     extensionName: string,
-    options?: MachineExtensionsDeleteOptionalParams
+    options?: MachineExtensionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete the extension.
@@ -129,7 +129,7 @@ export interface MachineExtensions {
     resourceGroupName: string,
     machineName: string,
     extensionName: string,
-    options?: MachineExtensionsDeleteOptionalParams
+    options?: MachineExtensionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * The operation to get the extension.
@@ -142,6 +142,6 @@ export interface MachineExtensions {
     resourceGroupName: string,
     machineName: string,
     extensionName: string,
-    options?: MachineExtensionsGetOptionalParams
+    options?: MachineExtensionsGetOptionalParams,
   ): Promise<MachineExtensionsGetResponse>;
 }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all private endpoint connections for a workspace.
  *
  * @summary Lists all private endpoint connections for a workspace.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/privatelink/WorkspaceListPrivateEndpointConnections.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/privatelink/WorkspaceListPrivateEndpointConnections.json
  */
 async function workspacePrivateEndpointConnectionList() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function workspacePrivateEndpointConnectionList() {
   const resArray = new Array();
   for await (let item of client.workspacePrivateEndpointConnections.listByWorkspace(
     resourceGroupName,
-    workspaceName
+    workspaceName,
   )) {
     resArray.push(item);
   }

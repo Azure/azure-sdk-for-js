@@ -25,10 +25,10 @@
     "test": "npm run clean && npm run build:test && npm run unit-test",
     "test:browser": "npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "dev-tool run test:node-tsx-ts --no-test-proxy=true -- --timeout 1200000 \"test/internal/unit/**/*.test.ts\"",
+    "unit-test:node": "dev-tool run test:node-tsx-ts --no-test-proxy -- --timeout 1200000 \"test/internal/unit/**/*.test.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "integration-test:browser": "echo skipped",
-    "integration-test:node": "dev-tool run test:node-ts-input --no-test-proxy=true -- \"test/internal/functional/**/*.test.ts\"",
+    "integration-test:node": "dev-tool run test:node-ts-input --no-test-proxy -- \"test/internal/functional/**/*.test.ts\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "test-opentelemetry-versions": "node test-opentelemetry-versions.js 2>&1",
     "pack": "npm pack 2>&1"
@@ -64,7 +64,7 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/test-utils": "^1.0.0",
+    "@azure-tools/test-utils": "^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/mocha": "^10.0.0",
     "@types/node": "^18.0.0",

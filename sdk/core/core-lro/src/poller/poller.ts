@@ -8,47 +8,20 @@ import {
   Operation,
   OperationState,
   RestorableOperationState,
-  SimplePollerLike,
-  StateProxy,
+  PollerLike,
 } from "./models.js";
 import { deserializeState, initOperation, pollOperation } from "./operation.js";
 import { POLL_INTERVAL_IN_MS } from "./constants.js";
 import { delay } from "@azure/core-util";
-
-const createStateProxy: <TResult, TState extends OperationState<TResult>>() => StateProxy<
-  TState,
-  TResult
-> = () => ({
-  /**
-   * The state at this point is created to be of type OperationState<TResult>.
-   * It will be updated later to be of type TState when the
-   * customer-provided callback, `updateState`, is called during polling.
-   */
-  initState: (config) => ({ status: "running", config }) as any,
-  setCanceled: (state) => (state.status = "canceled"),
-  setError: (state, error) => (state.error = error),
-  setResult: (state, result) => (state.result = result),
-  setRunning: (state) => (state.status = "running"),
-  setSucceeded: (state) => (state.status = "succeeded"),
-  setFailed: (state) => (state.status = "failed"),
-
-  getError: (state) => state.error,
-  getResult: (state) => state.result,
-  isCanceled: (state) => state.status === "canceled",
-  isFailed: (state) => state.status === "failed",
-  isRunning: (state) => state.status === "running",
-  isSucceeded: (state) => state.status === "succeeded",
-});
-
 /**
  * Returns a poller factory.
  */
 export function buildCreatePoller<TResponse, TResult, TState extends OperationState<TResult>>(
-  inputs: BuildCreatePollerOptions<TResponse, TState>,
+  inputs: BuildCreatePollerOptions<TResponse, TResult, TState>,
 ): (
   lro: Operation<TResponse, { abortSignal?: AbortSignalLike }>,
   options?: CreatePollerOptions<TResponse, TResult, TState>,
-) => Promise<SimplePollerLike<TState, TResult>> {
+) => PollerLike<TState, TResult> {
   const {
     getOperationLocation,
     getStatusFromInitialResponse,
@@ -59,7 +32,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
     getError,
     resolveOnUnsuccessful,
   } = inputs;
-  return async (
+  return (
     { init, poll }: Operation<TResponse, { abortSignal?: AbortSignalLike }>,
     options?: CreatePollerOptions<TResponse, TResult, TState>,
   ) => {
@@ -70,7 +43,6 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
       intervalInMs = POLL_INTERVAL_IN_MS,
       restoreFrom,
     } = options || {};
-    const stateProxy = createStateProxy<TResult, TState>();
     const withOperationLocation = withOperationLocationCallback
       ? (() => {
           let called = false;
@@ -81,16 +53,20 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
           };
         })()
       : undefined;
-    const state: RestorableOperationState<TState> = restoreFrom
-      ? deserializeState(restoreFrom)
-      : await initOperation({
-          init,
-          stateProxy,
-          processResult,
-          getOperationStatus: getStatusFromInitialResponse,
-          withOperationLocation,
-          setErrorAsResult: !resolveOnUnsuccessful,
-        });
+    let statePromise: Promise<TState>;
+    let state: RestorableOperationState<TResult, TState>;
+    if (restoreFrom) {
+      state = deserializeState(restoreFrom);
+      statePromise = Promise.resolve(state);
+    } else {
+      statePromise = initOperation({
+        init,
+        processResult,
+        getOperationStatus: getStatusFromInitialResponse,
+        withOperationLocation,
+        setErrorAsResult: !resolveOnUnsuccessful,
+      }).then((s) => (state = s));
+    }
     let resultPromise: Promise<TResult> | undefined;
     const abortController = new AbortController();
     // Progress handlers
@@ -100,25 +76,36 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
     const cancelErrMsg = "Operation was canceled";
     let currentPollIntervalInMs = intervalInMs;
 
-    const poller: SimplePollerLike<TState, TResult> = {
-      getOperationState: () => state,
-      getResult: () => state.result,
-      isDone: () => ["succeeded", "failed", "canceled"].includes(state.status),
-      isStopped: () => resultPromise === undefined,
-      stopPolling: () => {
-        abortController.abort();
+    const poller: PollerLike<TState, TResult> = {
+      get operationState(): TState | undefined {
+        return state;
       },
-      toString: () =>
-        JSON.stringify({
-          state,
-        }),
+      get result(): TResult | undefined {
+        return state?.result;
+      },
+      get isDone(): boolean {
+        return ["succeeded", "failed", "canceled"].includes(state?.status ?? "");
+      },
       onProgress: (callback: (state: TState) => void) => {
         const s = Symbol();
         handlers.set(s, callback);
         return () => handlers.delete(s);
       },
-      pollUntilDone: (pollOptions?: { abortSignal?: AbortSignalLike }) =>
-        (resultPromise ??= (async () => {
+      serialize: async () => {
+        await statePromise;
+        return JSON.stringify({
+          state,
+        });
+      },
+      submitted: async () => {
+        await statePromise;
+      },
+      pollUntilDone: async (pollOptions?: { abortSignal?: AbortSignalLike }) => {
+        resultPromise ??= (async () => {
+          await statePromise;
+          if (!state) {
+            throw new Error("Poller should be initialized but it is not!");
+          }
           const { abortSignal: inputAbortSignal } = pollOptions || {};
           // In the future we can use AbortSignal.any() instead
           function abortListener(): void {
@@ -132,9 +119,9 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
           }
 
           try {
-            if (!poller.isDone()) {
+            if (!poller.isDone) {
               await poller.poll({ abortSignal });
-              while (!poller.isDone()) {
+              while (!poller.isDone) {
                 await delay(currentPollIntervalInMs, { abortSignal });
                 await poller.poll({ abortSignal });
               }
@@ -143,11 +130,11 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
             inputAbortSignal?.removeEventListener("abort", abortListener);
           }
           if (resolveOnUnsuccessful) {
-            return poller.getResult() as TResult;
+            return poller.result as TResult;
           } else {
             switch (state.status) {
               case "succeeded":
-                return poller.getResult() as TResult;
+                return poller.result as TResult;
               case "canceled":
                 throw new Error(cancelErrMsg);
               case "failed":
@@ -159,14 +146,20 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
           }
         })().finally(() => {
           resultPromise = undefined;
-        })),
-      async poll(pollOptions?: { abortSignal?: AbortSignalLike }): Promise<void> {
+        });
+        return resultPromise;
+      },
+      async poll(pollOptions?: { abortSignal?: AbortSignalLike }): Promise<TState> {
+        await statePromise;
+        if (!state) {
+          throw new Error("Poller should be initialized but it is not!");
+        }
         if (resolveOnUnsuccessful) {
-          if (poller.isDone()) return;
+          if (poller.isDone) return state;
         } else {
           switch (state.status) {
             case "succeeded":
-              return;
+              return state;
             case "canceled":
               throw new Error(cancelErrMsg);
             case "failed":
@@ -176,7 +169,6 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
         await pollOperation({
           poll,
           state,
-          stateProxy,
           getOperationLocation,
           isOperationError,
           withOperationLocation,
@@ -201,7 +193,24 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
               throw state.error;
           }
         }
+
+        return state;
       },
+      then<TResult1 = TResult, TResult2 = never>(
+        onfulfilled?: ((value: TResult) => TResult1 | PromiseLike<TResult1>) | undefined | null,
+        onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null,
+      ): Promise<TResult1 | TResult2> {
+        return poller.pollUntilDone().then(onfulfilled, onrejected);
+      },
+      catch<TResult2 = never>(
+        onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null,
+      ): Promise<TResult | TResult2> {
+        return poller.pollUntilDone().catch(onrejected);
+      },
+      finally(onfinally?: (() => void) | undefined | null): Promise<TResult> {
+        return poller.pollUntilDone().finally(onfinally);
+      },
+      [Symbol.toStringTag]: "Poller",
     };
     return poller;
   };
