@@ -1,20 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { LongRunningOperation, LroResponse } from "../../src/index.js";
+import { RunningOperation, OperationResponse } from "../../src/index.js";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PipelineRequest } from "@azure/core-rest-pipeline";
 
-type SendOperationFn<T> = (request: PipelineRequest) => Promise<LroResponse<T>>;
+type SendOperationFn<T> = (request: PipelineRequest) => Promise<OperationResponse<T>>;
 
 export function createCoreRestPipelineLro<T>(inputs: {
   sendOperationFn: SendOperationFn<T>;
   request: PipelineRequest;
-}): LongRunningOperation<T> {
+}): RunningOperation<T> {
   const { request, sendOperationFn } = inputs;
   return {
-    requestMethod: request.method,
-    requestPath: request.url,
     sendInitialRequest: () => sendOperationFn(request),
     sendPollRequest: (url: string, options?: { abortSignal?: AbortSignalLike }) =>
       sendOperationFn({
