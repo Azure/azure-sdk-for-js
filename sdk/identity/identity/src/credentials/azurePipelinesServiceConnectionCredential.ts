@@ -36,16 +36,17 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
     tenantId: string,
     clientId: string,
     serviceConnectionId: string,
-    options?: AzurePipelinesServiceConnectionCredentialOptions
+    options?: AzurePipelinesServiceConnectionCredentialOptions,
   ) {
-    if (!clientId || !tenantId || !serviceConnectionId)
-      {throw new CredentialUnavailableError(
-        `${credentialName}: is unavailable. tenantId, clientId, and serviceConnectionId are required parameters.`
-      );}
+    if (!clientId || !tenantId || !serviceConnectionId) {
+      throw new CredentialUnavailableError(
+        `${credentialName}: is unavailable. tenantId, clientId, and serviceConnectionId are required parameters.`,
+      );
+    }
 
     checkTenantId(logger, tenantId);
     logger.info(
-      `Invoking AzurePipelinesServiceConnectionCredential with tenant ID: ${tenantId}, clientId: ${clientId} and service connection id: ${serviceConnectionId}`
+      `Invoking AzurePipelinesServiceConnectionCredential with tenant ID: ${tenantId}, clientId: ${clientId} and service connection id: ${serviceConnectionId}`,
     );
 
     if (clientId && tenantId && serviceConnectionId) {
@@ -53,13 +54,13 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
       const oidcRequestUrl = `${process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI}${process.env.SYSTEM_TEAMPROJECTID}/_apis/distributedtask/hubs/build/plans/${process.env.SYSTEM_PLANID}/jobs/${process.env.SYSTEM_JOBID}/oidctoken?api-version=${OIDC_API_VERSION}&serviceConnectionId=${this.serviceConnectionId}`;
       const systemAccessToken = `${process.env.SYSTEM_ACCESSTOKEN}`;
       logger.info(
-        `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${clientId} and service connection id: ${serviceConnectionId}`
+        `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${clientId} and service connection id: ${serviceConnectionId}`,
       );
       this.clientAssertionCredential = new ClientAssertionCredential(
         tenantId,
         clientId,
         this.requestOidcToken.bind(this, oidcRequestUrl, systemAccessToken),
-        options
+        options,
       );
     }
   }
@@ -74,7 +75,7 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
    */
   public async getToken(
     scopes: string | string[],
-    options?: GetTokenOptions
+    options?: GetTokenOptions,
   ): Promise<AccessToken> {
     if (!this.clientAssertionCredential) {
       const errorMessage = `${credentialName}: is unavailable. tenantId, clientId, and serviceConnectionId are required parameters. 
@@ -103,7 +104,7 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
    */
   private async requestOidcToken(
     oidcRequestUrl: string,
-    systemAccessToken: string
+    systemAccessToken: string,
   ): Promise<string> {
     logger.info("Requesting OIDC token from Azure Pipelines...");
     logger.info(oidcRequestUrl);
@@ -124,7 +125,7 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
     if (!text) {
       throw new AuthenticationError(
         response.status,
-        `${credentialName}: Authenticated Failed. Received null token from OIDC request.`
+        `${credentialName}: Authenticated Failed. Received null token from OIDC request.`,
       );
     }
     const result = JSON.parse(text);
@@ -134,8 +135,8 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
       throw new AuthenticationError(
         response.status,
         `${credentialName}: Authentication Failed. oidcToken field not detected in the response. Response = ${JSON.stringify(
-          result
-        )}`
+          result,
+        )}`,
       );
     }
   }
@@ -171,8 +172,8 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
     if (missingEnvVars.length > 0) {
       throw new CredentialUnavailableError(
         `${credentialName}: is unavailable. Ensure that you're running this task in an Azure Pipeline, so that following missing system variable(s) can be defined- ${missingEnvVars.join(
-          ", "
-        )}.${errorMessage}`
+          ", ",
+        )}.${errorMessage}`,
       );
     }
   }
