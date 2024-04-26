@@ -363,6 +363,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 [8]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/interactivebrowsercredential.html
 [9]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/usernamepasswordcredential.html
 [azure_cli]: https://learn.microsoft.com/cli/azure
+[azure_developer_cli]: https://learn.microsoft.com/azure/developer/azure-developer-cli
 [azure_powershell]: https://learn.microsoft.com/powershell/azure/
 [azureclilogin_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/identity/identity/images/AzureCliLogin.png
 [azureclilogindevicecode_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/identity/identity/images/AzureCliLoginDeviceCode.png
