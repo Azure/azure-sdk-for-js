@@ -486,7 +486,7 @@ describe("OpenAI", function () {
                     },
                   ),
                 (result) => {
-                  assertChatCompletions(result)
+                  assertChatCompletions(result);
                 },
               ),
               chatCompletionDeployments,
