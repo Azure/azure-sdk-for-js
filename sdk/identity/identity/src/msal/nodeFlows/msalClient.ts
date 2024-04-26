@@ -74,6 +74,12 @@ export interface MsalClient {
     clientSecret: string,
     options?: GetTokenOptions,
   ): Promise<AccessToken>;
+
+  getTokenByManagedIdentity(
+    scopes: string[],
+    userAssignedClientId?: string,
+    options?: GetTokenOptions,
+  ): Promise<AccessToken>;
 }
 
 /**
@@ -377,9 +383,42 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     );
   }
 
+  async function getTokenByManagedIdentity(
+    scopes: string[],
+    userAssignedClientId?: string,
+    options: GetTokenOptions = {},
+  ): Promise<AccessToken> {
+    msalLogger.getToken.info(`Attempting to acquire token using managed identity`);
+
+    const managedIdentityApp = new msal.ManagedIdentityApplication({
+      ...state.msalConfig,
+      managedIdentityIdParams: {
+        userAssignedClientId,
+      },
+    });
+
+    msalLogger.getToken.info(`scopes: ${scopes}`);
+
+    // TODO: what about multiple
+    const request: msal.ManagedIdentityRequestParams = {
+      resource: scopes[0],
+    };
+
+    const response = await managedIdentityApp.acquireToken(request);
+    console.log(response);
+
+    ensureValidMsalToken(scopes, response, options);
+
+    return {
+      token: response.accessToken,
+      expiresOnTimestamp: response.expiresOn.getTime(),
+    };
+  }
+
   return {
     getTokenByClientSecret,
     getTokenByClientAssertion,
     getTokenByClientCertificate,
+    getTokenByManagedIdentity,
   };
 }
