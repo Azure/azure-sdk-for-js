@@ -10,9 +10,12 @@
 // Licensed under the MIT License.
 import {
   CurrentQuotaLimitBase,
-  AzureQuotaExtensionAPI
+  AzureQuotaExtensionAPI,
 } from "@azure/arm-quota";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Update the quota limit for a specific resource to the specified value:
@@ -22,7 +25,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Update the quota limit for a specific resource to the specified value:
 1. Use the Usages-GET and Quota-GET operations to determine the remaining quota for the specific resource and to calculate the new quota limit. These steps are detailed in [this example](https://techcommunity.microsoft.com/t5/azure-governance-and-management/using-the-new-quota-rest-api/ba-p/2183670).
 2. Use this PUT operation to update the quota limit. Please check the URI in location header for the detailed status of the request.
- * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2021-03-15-preview/examples/patchComputeQuotaRequest.json
+ * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/patchComputeQuotaRequest.json
  */
 async function quotasRequestPatchForCompute() {
   const resourceName = "standardFSv2Family";
@@ -31,20 +34,18 @@ async function quotasRequestPatchForCompute() {
   const createQuotaRequest: CurrentQuotaLimitBase = {
     properties: {
       name: { value: "standardFSv2Family" },
-      limit: { limitObjectType: "LimitValue", value: 10 }
-    }
+      limit: { limitObjectType: "LimitValue", value: 10 },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);
   const result = await client.quota.beginUpdateAndWait(
     resourceName,
     scope,
-    createQuotaRequest
+    createQuotaRequest,
   );
   console.log(result);
 }
-
-quotasRequestPatchForCompute().catch(console.error);
 
 /**
  * This sample demonstrates how to Update the quota limit for a specific resource to the specified value:
@@ -54,7 +55,7 @@ quotasRequestPatchForCompute().catch(console.error);
  * @summary Update the quota limit for a specific resource to the specified value:
 1. Use the Usages-GET and Quota-GET operations to determine the remaining quota for the specific resource and to calculate the new quota limit. These steps are detailed in [this example](https://techcommunity.microsoft.com/t5/azure-governance-and-management/using-the-new-quota-rest-api/ba-p/2183670).
 2. Use this PUT operation to update the quota limit. Please check the URI in location header for the detailed status of the request.
- * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2021-03-15-preview/examples/patchNetworkOneSkuQuotaRequest.json
+ * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/patchNetworkOneSkuQuotaRequest.json
  */
 async function quotasRequestPatchForNetwork() {
   const resourceName = "MinPublicIpInterNetworkPrefixLength";
@@ -64,17 +65,22 @@ async function quotasRequestPatchForNetwork() {
     properties: {
       name: { value: "MinPublicIpInterNetworkPrefixLength" },
       limit: { limitObjectType: "LimitValue", value: 10 },
-      resourceType: "MinPublicIpInterNetworkPrefixLength"
-    }
+      resourceType: "MinPublicIpInterNetworkPrefixLength",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);
   const result = await client.quota.beginUpdateAndWait(
     resourceName,
     scope,
-    createQuotaRequest
+    createQuotaRequest,
   );
   console.log(result);
 }
 
-quotasRequestPatchForNetwork().catch(console.error);
+async function main() {
+  quotasRequestPatchForCompute();
+  quotasRequestPatchForNetwork();
+}
+
+main().catch(console.error);
