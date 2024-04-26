@@ -15,7 +15,7 @@ import { AzurePipelinesServiceConnectionCredentialOptions } from "./azurePipelin
 
 const credentialName = "AzurePipelinesServiceConnectionCredential";
 const logger = credentialLogger(credentialName);
-const OIDC_API_VERSION = "7.1-preview.1";
+const OIDC_API_VERSION = "7.1";
 
 /**
  * This credential is designed to be used in ADO Pipelines with service connections
@@ -121,17 +121,23 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
     const response = await httpClient.sendRequest(request);
     const text = response.bodyAsText;
     if (!text) {
-      throw new AuthenticationError(
-        response.status,
-        `${credentialName}: Authenticated Failed. Received null token from OIDC request.`
+      logger.error(
+        `${credentialName}: Authenticated Failed. Received null token from OIDC request. Response status- ${response.status}`
+      );
+      throw new CredentialUnavailableError(
+        `${credentialName}: Authenticated Failed. Received null token from OIDC request. Response status- ${response.status}`
       );
     }
     const result = JSON.parse(text);
     if (result?.oidcToken) {
       return result.oidcToken;
     } else {
-      throw new AuthenticationError(
-        response.status,
+      logger.error(
+        `${credentialName}: Authentication Failed. oidcToken field not detected in the response. Response = ${JSON.stringify(
+          result
+        )}`
+      );
+      throw new CredentialUnavailableError(
         `${credentialName}: Authentication Failed. oidcToken field not detected in the response. Response = ${JSON.stringify(
           result
         )}`
