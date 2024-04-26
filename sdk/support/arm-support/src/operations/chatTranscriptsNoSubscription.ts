@@ -40,7 +40,7 @@ export class ChatTranscriptsNoSubscriptionImpl
 
   /**
    * Lists all chat transcripts for a support ticket
-   * @param supportTicketName Support ticket name.
+   * @param supportTicketName Support ticket name
    * @param options The options parameters.
    */
   public list(
@@ -102,7 +102,7 @@ export class ChatTranscriptsNoSubscriptionImpl
 
   /**
    * Lists all chat transcripts for a support ticket
-   * @param supportTicketName Support ticket name.
+   * @param supportTicketName Support ticket name
    * @param options The options parameters.
    */
   private _list(
@@ -134,7 +134,7 @@ export class ChatTranscriptsNoSubscriptionImpl
 
   /**
    * ListNext
-   * @param supportTicketName Support ticket name.
+   * @param supportTicketName Support ticket name
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */

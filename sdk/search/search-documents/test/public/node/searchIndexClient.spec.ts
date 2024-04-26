@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { versionsToTest } from "@azure/test-utils";
+import { versionsToTest } from "@azure-tools/test-utils";
 import { assert } from "chai";
 import { Context, Suite } from "mocha";
 import {

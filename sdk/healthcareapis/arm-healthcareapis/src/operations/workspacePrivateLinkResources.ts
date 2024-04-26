@@ -17,13 +17,14 @@ import {
   WorkspacePrivateLinkResourcesListByWorkspaceOptionalParams,
   WorkspacePrivateLinkResourcesListByWorkspaceResponse,
   WorkspacePrivateLinkResourcesGetOptionalParams,
-  WorkspacePrivateLinkResourcesGetResponse
+  WorkspacePrivateLinkResourcesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing WorkspacePrivateLinkResources operations. */
 export class WorkspacePrivateLinkResourcesImpl
-  implements WorkspacePrivateLinkResources {
+  implements WorkspacePrivateLinkResources
+{
   private readonly client: HealthcareApisManagementClient;
 
   /**
@@ -43,12 +44,12 @@ export class WorkspacePrivateLinkResourcesImpl
   public listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacePrivateLinkResourcesListByWorkspaceOptionalParams
+    options?: WorkspacePrivateLinkResourcesListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResourceDescription> {
     const iter = this.listByWorkspacePagingAll(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     );
     return {
       next() {
@@ -65,9 +66,9 @@ export class WorkspacePrivateLinkResourcesImpl
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -75,13 +76,13 @@ export class WorkspacePrivateLinkResourcesImpl
     resourceGroupName: string,
     workspaceName: string,
     options?: WorkspacePrivateLinkResourcesListByWorkspaceOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<PrivateLinkResourceDescription[]> {
     let result: WorkspacePrivateLinkResourcesListByWorkspaceResponse;
     result = await this._listByWorkspace(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -89,12 +90,12 @@ export class WorkspacePrivateLinkResourcesImpl
   private async *listByWorkspacePagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacePrivateLinkResourcesListByWorkspaceOptionalParams
+    options?: WorkspacePrivateLinkResourcesListByWorkspaceOptionalParams,
   ): AsyncIterableIterator<PrivateLinkResourceDescription> {
     for await (const page of this.listByWorkspacePagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -109,11 +110,11 @@ export class WorkspacePrivateLinkResourcesImpl
   private _listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacePrivateLinkResourcesListByWorkspaceOptionalParams
+    options?: WorkspacePrivateLinkResourcesListByWorkspaceOptionalParams,
   ): Promise<WorkspacePrivateLinkResourcesListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listByWorkspaceOperationSpec
+      listByWorkspaceOperationSpec,
     );
   }
 
@@ -128,11 +129,11 @@ export class WorkspacePrivateLinkResourcesImpl
     resourceGroupName: string,
     workspaceName: string,
     groupName: string,
-    options?: WorkspacePrivateLinkResourcesGetOptionalParams
+    options?: WorkspacePrivateLinkResourcesGetOptionalParams,
   ): Promise<WorkspacePrivateLinkResourcesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, groupName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -140,38 +141,36 @@ export class WorkspacePrivateLinkResourcesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/privateLinkResources",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/privateLinkResources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResourceListResultDescription
+      bodyMapper: Mappers.PrivateLinkResourceListResultDescription,
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
+      bodyMapper: Mappers.ErrorDetails,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/privateLinkResources/{groupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/privateLinkResources/{groupName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResourceDescription
+      bodyMapper: Mappers.PrivateLinkResourceDescription,
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
+      bodyMapper: Mappers.ErrorDetails,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -179,8 +178,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.groupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

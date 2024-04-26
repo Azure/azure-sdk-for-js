@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import { createMockServer } from "../public/utils/mockService";

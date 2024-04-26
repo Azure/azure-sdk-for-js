@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { SinonSandbox, SinonSpy, createSandbox } from "sinon";
 import { KeyClient } from "../../src";
 import { LATEST_API_VERSION } from "../../src/keysModels";
@@ -12,7 +12,7 @@ import {
   createHttpHeaders,
 } from "@azure/core-rest-pipeline";
 import { ClientSecretCredential } from "@azure/identity";
-import { versionsToTest } from "@azure/test-utils";
+import { versionsToTest } from "@azure-tools/test-utils";
 import { serviceVersions } from "../public/utils/common";
 
 describe("The Keys client should set the serviceVersion", () => {

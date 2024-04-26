@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the properties of the specified IoT Connector.
  *
  * @summary Gets the properties of the specified IoT Connector.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/iotconnectors/iotconnector_Get.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/iotconnectors/iotconnector_Get.json
  */
 async function getAnIoTConnector() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function getAnIoTConnector() {
   const result = await client.iotConnectors.get(
     resourceGroupName,
     workspaceName,
-    iotConnectorName
+    iotConnectorName,
   );
   console.log(result);
 }

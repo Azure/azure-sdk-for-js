@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Patch an IoT Connector.
  *
  * @summary Patch an IoT Connector.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/iotconnectors/iotconnector_Patch.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/iotconnectors/iotconnector_Patch.json
  */
 async function patchAnIoTConnector() {
   const subscriptionId = process.env["HEALTHCAREAPIS_SUBSCRIPTION_ID"] || "subid";
