@@ -22,7 +22,7 @@ describe("AzurePipelinesServiceConnectionCredential", function () {
     const credential = new AzurePipelinesServiceConnectionCredential(
       tenantId,
       clientId,
-      existingServiceConnectionId
+      existingServiceConnectionId,
     );
     try {
       const token = await credential.getToken(scope);
