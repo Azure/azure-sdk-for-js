@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all FHIR Services for the given workspace
  *
  * @summary Lists all FHIR Services for the given workspace
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/fhirservices/FhirServices_List.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/fhirservices/FhirServices_List.json
  */
 async function listFhirservices() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function listFhirservices() {
   const resArray = new Array();
   for await (let item of client.fhirServices.listByWorkspace(
     resourceGroupName,
-    workspaceName
+    workspaceName,
   )) {
     resArray.push(item);
   }

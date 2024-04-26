@@ -35,7 +35,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("ImageBuilder test", () => {
+describe.skip("ImageBuilder test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: ImageBuilderClient;

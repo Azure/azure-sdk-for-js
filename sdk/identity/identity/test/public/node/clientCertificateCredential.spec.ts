@@ -12,7 +12,7 @@ import { AbortController } from "@azure/abort-controller";
 import { ClientCertificateCredential } from "../../../src";
 import { Context } from "mocha";
 import { PipelineResponse } from "@azure/core-rest-pipeline";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import fs from "fs";
 
 const ASSET_PATH = "assets";

@@ -11,7 +11,7 @@ import {
   ExtensionValue,
   ExtensionMetadataListOptionalParams,
   ExtensionMetadataGetOptionalParams,
-  ExtensionMetadataGetResponse
+  ExtensionMetadataGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface ExtensionMetadata {
     location: string,
     publisher: string,
     extensionType: string,
-    options?: ExtensionMetadataListOptionalParams
+    options?: ExtensionMetadataListOptionalParams,
   ): PagedAsyncIterableIterator<ExtensionValue>;
   /**
    * Gets an Extension Metadata based on location, publisher, extensionType and version
@@ -43,6 +43,6 @@ export interface ExtensionMetadata {
     publisher: string,
     extensionType: string,
     version: string,
-    options?: ExtensionMetadataGetOptionalParams
+    options?: ExtensionMetadataGetOptionalParams,
   ): Promise<ExtensionMetadataGetResponse>;
 }

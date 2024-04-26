@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a DICOM Service.
  *
  * @summary Deletes a DICOM Service.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/dicomservices/DicomServices_Delete.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/dicomservices/DicomServices_Delete.json
  */
 async function deleteADicomservice() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function deleteADicomservice() {
   const result = await client.dicomServices.beginDeleteAndWait(
     resourceGroupName,
     dicomServiceName,
-    workspaceName
+    workspaceName,
   );
   console.log(result);
 }

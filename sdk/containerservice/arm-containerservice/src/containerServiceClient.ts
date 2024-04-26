@@ -19,24 +19,30 @@ import {
   ManagedClustersImpl,
   MaintenanceConfigurationsImpl,
   AgentPoolsImpl,
+  MachinesImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
   ResolvePrivateLinkServiceIdImpl,
+  OperationStatusResultOperationsImpl,
   SnapshotsImpl,
-  TrustedAccessRoleBindingsImpl,
+  ManagedClusterSnapshotsImpl,
   TrustedAccessRolesImpl,
+  TrustedAccessRoleBindingsImpl,
 } from "./operations";
 import {
   Operations,
   ManagedClusters,
   MaintenanceConfigurations,
   AgentPools,
+  Machines,
   PrivateEndpointConnections,
   PrivateLinkResources,
   ResolvePrivateLinkServiceId,
+  OperationStatusResultOperations,
   Snapshots,
-  TrustedAccessRoleBindings,
+  ManagedClusterSnapshots,
   TrustedAccessRoles,
+  TrustedAccessRoleBindings,
 } from "./operationsInterfaces";
 import { ContainerServiceClientOptionalParams } from "./models";
 
@@ -72,7 +78,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-containerservice/19.8.1`;
+    const packageDetails = `azsdk-js-arm-containerservice/20.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -126,19 +132,23 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-01-01";
+    this.apiVersion = options.apiVersion || "2024-02-02-preview";
     this.operations = new OperationsImpl(this);
     this.managedClusters = new ManagedClustersImpl(this);
     this.maintenanceConfigurations = new MaintenanceConfigurationsImpl(this);
     this.agentPools = new AgentPoolsImpl(this);
+    this.machines = new MachinesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.resolvePrivateLinkServiceId = new ResolvePrivateLinkServiceIdImpl(
       this,
     );
+    this.operationStatusResultOperations =
+      new OperationStatusResultOperationsImpl(this);
     this.snapshots = new SnapshotsImpl(this);
-    this.trustedAccessRoleBindings = new TrustedAccessRoleBindingsImpl(this);
+    this.managedClusterSnapshots = new ManagedClusterSnapshotsImpl(this);
     this.trustedAccessRoles = new TrustedAccessRolesImpl(this);
+    this.trustedAccessRoleBindings = new TrustedAccessRoleBindingsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -174,10 +184,13 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
   managedClusters: ManagedClusters;
   maintenanceConfigurations: MaintenanceConfigurations;
   agentPools: AgentPools;
+  machines: Machines;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
   resolvePrivateLinkServiceId: ResolvePrivateLinkServiceId;
+  operationStatusResultOperations: OperationStatusResultOperations;
   snapshots: Snapshots;
-  trustedAccessRoleBindings: TrustedAccessRoleBindings;
+  managedClusterSnapshots: ManagedClusterSnapshots;
   trustedAccessRoles: TrustedAccessRoles;
+  trustedAccessRoleBindings: TrustedAccessRoleBindings;
 }

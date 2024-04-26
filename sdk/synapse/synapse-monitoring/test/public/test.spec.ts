@@ -1,6 +1,6 @@
 import { MonitoringClient } from "../../src/monitoringClient";
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 
