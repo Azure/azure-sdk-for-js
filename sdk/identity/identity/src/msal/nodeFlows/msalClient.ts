@@ -23,6 +23,7 @@ import { MsalNodeOptions } from "./msalNodeCommon";
 import { calculateRegionalAuthority } from "../../regionalAuthority";
 import { getLogLevel } from "@azure/logger";
 import { resolveTenantId } from "../../util/tenantIdUtils";
+import { mapScopesToResource } from "../../credentials/managedIdentityCredential/utils";
 
 /**
  * The logger for all MsalClient instances.
@@ -391,7 +392,6 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     msalLogger.getToken.info(`Attempting to acquire token using managed identity`);
 
     const managedIdentityApp = new msal.ManagedIdentityApplication({
-      ...state.msalConfig,
       managedIdentityIdParams: {
         userAssignedClientId,
       },
@@ -399,9 +399,15 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
 
     msalLogger.getToken.info(`scopes: ${scopes}`);
 
-    // TODO: what about multiple
+    // TODO: use mapScopesToResource helper
+    // TODO: allowInsecureConnection settings
+    const resource = mapScopesToResource(scopes);
+    if (!resource) {
+      throw new Error("Could not map scopes to resource");
+    }
+
     const request: msal.ManagedIdentityRequestParams = {
-      resource: scopes[0],
+      resource,
     };
 
     const response = await managedIdentityApp.acquireToken(request);
