@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AzurePipelinesServiceConnectionCredential } from "../../../src";
-import { env, isLiveMode } from "@azure-tools/test-recorder";
+import { isLiveMode } from "@azure-tools/test-recorder";
 import { assert } from "@azure-tools/test-utils";
 
 describe("AzurePipelinesServiceConnectionCredential", function () {
