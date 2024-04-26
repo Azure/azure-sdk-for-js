@@ -16,7 +16,7 @@ import { FrontDoorManagementClient } from "../frontDoorManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -36,7 +36,7 @@ import {
   FrontDoorsValidateCustomDomainOptionalParams,
   FrontDoorsValidateCustomDomainResponse,
   FrontDoorsListNextResponse,
-  FrontDoorsListByResourceGroupNextResponse
+  FrontDoorsListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,7 +57,7 @@ export class FrontDoorsImpl implements FrontDoors {
    * @param options The options parameters.
    */
   public list(
-    options?: FrontDoorsListOptionalParams
+    options?: FrontDoorsListOptionalParams,
   ): PagedAsyncIterableIterator<FrontDoor> {
     const iter = this.listPagingAll(options);
     return {
@@ -72,13 +72,13 @@ export class FrontDoorsImpl implements FrontDoors {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: FrontDoorsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<FrontDoor[]> {
     let result: FrontDoorsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +99,7 @@ export class FrontDoorsImpl implements FrontDoors {
   }
 
   private async *listPagingAll(
-    options?: FrontDoorsListOptionalParams
+    options?: FrontDoorsListOptionalParams,
   ): AsyncIterableIterator<FrontDoor> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -113,7 +113,7 @@ export class FrontDoorsImpl implements FrontDoors {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: FrontDoorsListByResourceGroupOptionalParams
+    options?: FrontDoorsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<FrontDoor> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -130,16 +130,16 @@ export class FrontDoorsImpl implements FrontDoors {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: FrontDoorsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<FrontDoor[]> {
     let result: FrontDoorsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -154,7 +154,7 @@ export class FrontDoorsImpl implements FrontDoors {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -165,11 +165,11 @@ export class FrontDoorsImpl implements FrontDoors {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: FrontDoorsListByResourceGroupOptionalParams
+    options?: FrontDoorsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<FrontDoor> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -180,7 +180,7 @@ export class FrontDoorsImpl implements FrontDoors {
    * @param options The options parameters.
    */
   private _list(
-    options?: FrontDoorsListOptionalParams
+    options?: FrontDoorsListOptionalParams,
   ): Promise<FrontDoorsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -192,11 +192,11 @@ export class FrontDoorsImpl implements FrontDoors {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: FrontDoorsListByResourceGroupOptionalParams
+    options?: FrontDoorsListByResourceGroupOptionalParams,
   ): Promise<FrontDoorsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -210,11 +210,11 @@ export class FrontDoorsImpl implements FrontDoors {
   get(
     resourceGroupName: string,
     frontDoorName: string,
-    options?: FrontDoorsGetOptionalParams
+    options?: FrontDoorsGetOptionalParams,
   ): Promise<FrontDoorsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, frontDoorName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -229,7 +229,7 @@ export class FrontDoorsImpl implements FrontDoors {
     resourceGroupName: string,
     frontDoorName: string,
     frontDoorParameters: FrontDoor,
-    options?: FrontDoorsCreateOrUpdateOptionalParams
+    options?: FrontDoorsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<FrontDoorsCreateOrUpdateResponse>,
@@ -238,21 +238,20 @@ export class FrontDoorsImpl implements FrontDoors {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<FrontDoorsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -261,8 +260,8 @@ export class FrontDoorsImpl implements FrontDoors {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -270,15 +269,15 @@ export class FrontDoorsImpl implements FrontDoors {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, frontDoorName, frontDoorParameters, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       FrontDoorsCreateOrUpdateResponse,
@@ -286,7 +285,7 @@ export class FrontDoorsImpl implements FrontDoors {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -303,13 +302,13 @@ export class FrontDoorsImpl implements FrontDoors {
     resourceGroupName: string,
     frontDoorName: string,
     frontDoorParameters: FrontDoor,
-    options?: FrontDoorsCreateOrUpdateOptionalParams
+    options?: FrontDoorsCreateOrUpdateOptionalParams,
   ): Promise<FrontDoorsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       frontDoorName,
       frontDoorParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -323,25 +322,24 @@ export class FrontDoorsImpl implements FrontDoors {
   async beginDelete(
     resourceGroupName: string,
     frontDoorName: string,
-    options?: FrontDoorsDeleteOptionalParams
+    options?: FrontDoorsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -350,8 +348,8 @@ export class FrontDoorsImpl implements FrontDoors {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -359,20 +357,20 @@ export class FrontDoorsImpl implements FrontDoors {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, frontDoorName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -387,12 +385,12 @@ export class FrontDoorsImpl implements FrontDoors {
   async beginDeleteAndWait(
     resourceGroupName: string,
     frontDoorName: string,
-    options?: FrontDoorsDeleteOptionalParams
+    options?: FrontDoorsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       frontDoorName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -408,11 +406,11 @@ export class FrontDoorsImpl implements FrontDoors {
     resourceGroupName: string,
     frontDoorName: string,
     customDomainProperties: ValidateCustomDomainInput,
-    options?: FrontDoorsValidateCustomDomainOptionalParams
+    options?: FrontDoorsValidateCustomDomainOptionalParams,
   ): Promise<FrontDoorsValidateCustomDomainResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, frontDoorName, customDomainProperties, options },
-      validateCustomDomainOperationSpec
+      validateCustomDomainOperationSpec,
     );
   }
 
@@ -423,11 +421,11 @@ export class FrontDoorsImpl implements FrontDoors {
    */
   private _listNext(
     nextLink: string,
-    options?: FrontDoorsListNextOptionalParams
+    options?: FrontDoorsListNextOptionalParams,
   ): Promise<FrontDoorsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -440,11 +438,11 @@ export class FrontDoorsImpl implements FrontDoors {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: FrontDoorsListByResourceGroupNextOptionalParams
+    options?: FrontDoorsListByResourceGroupNextOptionalParams,
   ): Promise<FrontDoorsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -452,85 +450,81 @@ export class FrontDoorsImpl implements FrontDoors {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/frontDoors",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/frontDoors",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FrontDoorListResult
+      bodyMapper: Mappers.FrontDoorListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FrontDoorListResult
+      bodyMapper: Mappers.FrontDoorListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.FrontDoor
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.frontDoorName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FrontDoor,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.frontDoorName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.FrontDoor
+      bodyMapper: Mappers.FrontDoor,
     },
     201: {
-      bodyMapper: Mappers.FrontDoor
+      bodyMapper: Mappers.FrontDoor,
     },
     202: {
-      bodyMapper: Mappers.FrontDoor
+      bodyMapper: Mappers.FrontDoor,
     },
     204: {
-      bodyMapper: Mappers.FrontDoor
+      bodyMapper: Mappers.FrontDoor,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.frontDoorParameters,
   queryParameters: [Parameters.apiVersion1],
@@ -538,15 +532,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.frontDoorName
+    Parameters.frontDoorName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -554,30 +547,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.frontDoorName
+    Parameters.frontDoorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const validateCustomDomainOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/validateCustomDomain",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/validateCustomDomain",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ValidateCustomDomainOutput
+      bodyMapper: Mappers.ValidateCustomDomainOutput,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.customDomainProperties,
   queryParameters: [Parameters.apiVersion1],
@@ -585,48 +577,48 @@ const validateCustomDomainOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.frontDoorName
+    Parameters.frontDoorName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FrontDoorListResult
+      bodyMapper: Mappers.FrontDoorListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FrontDoorListResult
+      bodyMapper: Mappers.FrontDoorListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

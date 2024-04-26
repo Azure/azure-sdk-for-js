@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AppConfigurationClient } from "@azure/app-configuration";
-import { PerfTest, getEnvVar } from "@azure/test-utils-perf";
+import { PerfTest, getEnvVar } from "@azure-tools/test-perf";
 import { ConfigurationClient } from "@azure/template";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -23,7 +23,7 @@ export abstract class TemplateTest<TOptions> extends PerfTest<TOptions> {
     this.templateClient = new ConfigurationClient(endpointUrl, new DefaultAzureCredential());
     this.appConfigurationClient = new AppConfigurationClient(
       endpointUrl,
-      new DefaultAzureCredential()
+      new DefaultAzureCredential(),
     );
   }
 }

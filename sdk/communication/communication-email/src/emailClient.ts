@@ -45,13 +45,13 @@ export class EmailClient {
   constructor(
     endpoint: string,
     credential: KeyCredential | TokenCredential,
-    options?: EmailClientOptions
+    options?: EmailClientOptions,
   );
 
   constructor(
     connectionStringOrUrl: string,
     credentialOrOptions?: EmailClientOptions | TokenCredential | KeyCredential,
-    maybeOptions: EmailClientOptions = {}
+    maybeOptions: EmailClientOptions = {},
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
     const options = isEmailClientOptions(credentialOrOptions) ? credentialOrOptions : maybeOptions;
@@ -77,7 +77,7 @@ export class EmailClient {
    */
   beginSend(
     message: EmailMessage,
-    options?: EmailSendOptionalParams
+    options?: EmailSendOptionalParams,
   ): Promise<PollerLike<PollOperationState<EmailSendResponse>, EmailSendResponse>> {
     return this.generatedClient.email.beginSend(message, options);
   }

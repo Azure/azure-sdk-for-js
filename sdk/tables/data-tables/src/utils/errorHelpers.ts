@@ -23,7 +23,7 @@ export type TableServiceErrorResponse = PipelineResponse & {
 
 export function handleTableAlreadyExists(
   error: unknown,
-  options: OperationOptions & { tableName?: string; logger?: AzureLogger } = {}
+  options: OperationOptions & { tableName?: string; logger?: AzureLogger } = {},
 ): void {
   const responseError = getErrorResponse(error);
   if (
@@ -60,7 +60,7 @@ function isRestError(error: unknown): error is RestError {
 }
 
 function isTableServiceErrorResponse(
-  errorResponseBody: any
+  errorResponseBody: any,
 ): errorResponseBody is TableServiceError {
   return Boolean(errorResponseBody?.odataError);
 }

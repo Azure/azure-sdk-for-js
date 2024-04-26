@@ -24,10 +24,10 @@ export type BarrierMessage = {
 
 const getBarrierMessage = async (
   message: BarrierMessageType,
-  stage: Stage
+  stage: Stage,
 ): Promise<BarrierMessage> =>
   multicoreUtils.getMessage(
-    (m: Message) => m.tag === "barrier" && m.message === message && m.stage === stage
+    (m: Message) => m.tag === "barrier" && m.message === message && m.stage === stage,
   ) as Promise<BarrierMessage>;
 
 /**
@@ -42,7 +42,7 @@ export const performStage = async (stage: Stage) => {
   // before we send the messages to everyone. If we don't, a message might be missed due to the race condition since we don't buffer
   // the messages.
   const allComplete = multicoreUtils.getMessageFromAll(
-    (msg) => msg.tag === "barrier" && msg.stage === stage && msg.message === "exit"
+    (msg) => msg.tag === "barrier" && msg.stage === stage && msg.message === "exit",
   );
 
   // Send a message to all workers so they start working
@@ -58,7 +58,8 @@ export const performStage = async (stage: Stage) => {
   // manager doesn't continue until all of the workers are guaranteed to have received the completion message. Again,
   // we start waiting for acknowledgements before broadcasting the completion message so that we don't miss any acks.
   const allAcked = multicoreUtils.getMessageFromAll(
-    (msg) => msg.tag === "barrier" && msg.stage === stage && msg.message === "acknowledgeCompletion"
+    (msg) =>
+      msg.tag === "barrier" && msg.stage === stage && msg.message === "acknowledgeCompletion",
   );
 
   multicoreUtils.broadcastMessage({

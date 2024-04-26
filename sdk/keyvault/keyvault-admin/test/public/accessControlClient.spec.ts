@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
 import { assertEnvironmentVariable, env, Recorder } from "@azure-tools/test-recorder";
-import { getYieldedValue } from "@azure/test-utils";
+import { assert, getYieldedValue } from "@azure-tools/test-utils";
 
 import {
   KeyVaultAccessControlClient,
@@ -47,7 +46,7 @@ describe("KeyVaultAccessControlClient", () => {
 
     it("can list role definitions", async function () {
       const expectedType = "Microsoft.Authorization/roleDefinitions";
-      let receivedRoles: string[] = [];
+      const receivedRoles: string[] = [];
 
       for await (const roleDefinition of client.listRoleDefinitions(globalScope)) {
         // Each role definition will have the shape of:
@@ -71,7 +70,7 @@ describe("KeyVaultAccessControlClient", () => {
     describe("getRoleDefinition", function () {
       it("returns a role definition by name", async function () {
         const anyRoleDefinition = getYieldedValue(
-          await client.listRoleDefinitions(globalScope).next()
+          await client.listRoleDefinitions(globalScope).next(),
         );
 
         const roleDefinition = await client.getRoleDefinition(globalScope, anyRoleDefinition.name);
@@ -126,7 +125,7 @@ describe("KeyVaultAccessControlClient", () => {
       for await (const definition of client.listRoleDefinitions(globalScope)) {
         if (definition.id === roleDefinition.id) {
           assert.fail(
-            "expected to successfully delete custom role definition, but it still exists."
+            "expected to successfully delete custom role definition, but it still exists.",
           );
         }
       }
@@ -139,7 +138,7 @@ describe("KeyVaultAccessControlClient", () => {
             roleDefinitionName: "foo unique value",
             roleName: "foo role definition name",
             permissions: [],
-          })
+          }),
         );
       });
 
@@ -161,7 +160,7 @@ describe("KeyVaultAccessControlClient", () => {
             roleDefinitionName: builtInDefinition.name,
             roleName: builtInDefinition.roleName,
             permissions,
-          })
+          }),
         );
       });
     });
@@ -192,7 +191,7 @@ describe("KeyVaultAccessControlClient", () => {
   describe("role assignments", async function () {
     it("can list role assignments", async function () {
       const expectedType = "Microsoft.Authorization/roleAssignments";
-      let receivedRoles: string[] = [];
+      const receivedRoles: string[] = [];
 
       for await (const roleAssignment of client.listRoleAssignments(globalScope)) {
         // Each role assignment will have the shape of:
@@ -229,11 +228,11 @@ describe("KeyVaultAccessControlClient", () => {
         assert.fail(`Unable to find role definition with name ${roleName}`);
       }
 
-      let assignment = await client.createRoleAssignment(
+      const assignment = await client.createRoleAssignment(
         globalScope,
         assignmentName,
         roleDefinition.id,
-        assertEnvironmentVariable("CLIENT_OBJECT_ID")
+        assertEnvironmentVariable("CLIENT_OBJECT_ID"),
       );
       assert.equal(assignment.name, assignmentName);
       assert.equal(assignment.properties?.roleDefinitionId, roleDefinition.id);
@@ -282,7 +281,7 @@ describe("KeyVaultAccessControlClient", () => {
             roleAssignmentName,
             roleDefinition.id,
             assertEnvironmentVariable("CLIENT_OBJECT_ID"),
-            options
+            options,
           );
           await client.getRoleAssignment(KnownRoleScope.Global, roleAssignmentName, options);
           await client.listRoleAssignments(KnownRoleScope.Global, options).next();
@@ -299,7 +298,7 @@ describe("KeyVaultAccessControlClient", () => {
           "KeyVaultAccessControlClient.listRoleDefinitionsPage",
           "KeyVaultAccessControlClient.deleteRoleAssignment",
           "KeyVaultAccessControlClient.deleteRoleDefinition",
-        ]
+        ],
       );
     });
   });

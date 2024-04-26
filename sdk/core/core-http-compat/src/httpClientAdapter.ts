@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
-import { RequestPolicy } from "./policies/requestPolicyFactoryPolicy";
-import { toPipelineResponse } from "./response";
-import { toWebResourceLike } from "./util";
+import { RequestPolicy } from "./policies/requestPolicyFactoryPolicy.js";
+import { toPipelineResponse } from "./response.js";
+import { toWebResourceLike } from "./util.js";
 
 /**
  * Converts a RequestPolicy based HttpClient to a PipelineRequest based HttpClient.
@@ -15,7 +15,7 @@ export function convertHttpClient(requestPolicyClient: RequestPolicy): HttpClien
   return {
     sendRequest: async (request: PipelineRequest): Promise<PipelineResponse> => {
       const response = await requestPolicyClient.sendRequest(
-        toWebResourceLike(request, { createProxy: true })
+        toWebResourceLike(request, { createProxy: true }),
       );
       return toPipelineResponse(response);
     },

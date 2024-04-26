@@ -36,7 +36,7 @@ async function listArpTable() {
       resourceGroupName,
       circuitName,
       peeringName,
-      devicePath
+      devicePath,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

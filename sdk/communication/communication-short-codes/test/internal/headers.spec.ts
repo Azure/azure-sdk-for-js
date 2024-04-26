@@ -10,7 +10,7 @@ import { TokenCredential } from "@azure/identity";
 import { assert } from "chai";
 import { createMockToken } from "../public/utils/recordedClient";
 import { getUSProgramBriefHttpClient } from "../public/utils/mockHttpClients";
-import { isNode } from "@azure/test-utils";
+import { isNodeLike } from "@azure/core-util";
 import sinon from "sinon";
 
 describe("ShortCodesClient - headers", function () {
@@ -34,17 +34,17 @@ describe("ShortCodesClient - headers", function () {
   });
 
   it("[node] sets correct host", function (this: Context) {
-    if (!isNode) {
+    if (!isNodeLike) {
       this.skip();
     }
     assert.equal(request.headers.get("host"), "contoso.spool.azure.local");
   });
 
   it("sets correct default user-agent", function () {
-    const userAgentHeader = isNode ? "user-agent" : "x-ms-useragent";
+    const userAgentHeader = isNodeLike ? "user-agent" : "x-ms-useragent";
     assert.match(
       request.headers.get(userAgentHeader) as string,
-      new RegExp(`azsdk-js-communication-short-codes/${SDK_VERSION}`, "g")
+      new RegExp(`azsdk-js-communication-short-codes/${SDK_VERSION}`, "g"),
     );
   });
 
@@ -57,7 +57,7 @@ describe("ShortCodesClient - headers", function () {
     assert.isDefined(request.headers.get("authorization"));
     assert.match(
       request.headers.get("authorization") as string,
-      /HMAC-SHA256 SignedHeaders=.+&Signature=.+/
+      /HMAC-SHA256 SignedHeaders=.+&Signature=.+/,
     );
   });
 
@@ -74,7 +74,7 @@ describe("ShortCodesClient - headers", function () {
     assert.isDefined(request.headers.get("authorization"));
     assert.match(
       request.headers.get("authorization") as string,
-      /HMAC-SHA256 SignedHeaders=.+&Signature=.+/
+      /HMAC-SHA256 SignedHeaders=.+&Signature=.+/,
     );
   });
 
@@ -108,13 +108,13 @@ describe("ShortCodesClient - headers", function () {
 
     request = spy.getCall(0).args[0];
 
-    const userAgentHeader = isNode ? "user-agent" : "x-ms-useragent";
+    const userAgentHeader = isNodeLike ? "user-agent" : "x-ms-useragent";
     assert.match(
       request.headers.get(userAgentHeader) as string,
       new RegExp(
         `shortcodesclient-headers-test azsdk-js-communication-short-codes/${SDK_VERSION}`,
-        "g"
-      )
+        "g",
+      ),
     );
   });
 });

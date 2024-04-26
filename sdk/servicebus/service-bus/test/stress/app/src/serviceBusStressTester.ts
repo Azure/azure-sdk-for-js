@@ -82,7 +82,7 @@ export class ServiceBusStressTester {
   sessionLockRenewalInfo = initializeLockRenewalOperationInfo();
   // Queue Management
   serviceBusAdministrationClient = new ServiceBusAdministrationClient(
-    process.env.SERVICEBUS_CONNECTION_STRING!
+    process.env.SERVICEBUS_CONNECTION_STRING!,
   );
   queueName!: string;
 
@@ -132,7 +132,7 @@ export class ServiceBusStressTester {
     numberOfMessages = 1,
     useSessions = false,
     useScheduleApi = false,
-    numberOfSessions = 0 // Will be used only if useSessions is true
+    numberOfSessions = 0, // Will be used only if useSessions is true
   ) {
     for (const sender of senders) {
       try {
@@ -170,7 +170,7 @@ export class ServiceBusStressTester {
     receiver: ServiceBusReceiver,
     maxMsgCount = 10,
     maxWaitTimeInMs = 10000,
-    settleMessageOnReceive = false
+    settleMessageOnReceive = false,
   ): Promise<ServiceBusReceivedMessage[]> {
     try {
       const messages = await receiver.receiveMessages(maxMsgCount, {
@@ -179,7 +179,7 @@ export class ServiceBusStressTester {
       this.addReceivedMessage(messages);
       if (settleMessageOnReceive && receiver.receiveMode === "peekLock") {
         await Promise.all(
-          messages.map((msg: ServiceBusReceivedMessage) => this.completeMessage(receiver, msg))
+          messages.map((msg: ServiceBusReceivedMessage) => this.completeMessage(receiver, msg)),
         );
       }
       return messages;
@@ -204,7 +204,7 @@ export class ServiceBusStressTester {
   public async peekMessages(
     receiver: ServiceBusReceiver,
     maxMsgCount = 10,
-    fromSequenceNumber?: Long
+    fromSequenceNumber?: Long,
   ): Promise<ServiceBusReceivedMessage[]> {
     try {
       const messages = await receiver.peekMessages(maxMsgCount, {
@@ -229,7 +229,7 @@ export class ServiceBusStressTester {
       completeMessageAfterDuration: boolean;
       maxAutoRenewLockDurationInMs: number;
       settleMessageOnReceive: boolean;
-    }
+    },
   ) {
     const startTime = new Date();
     const processMessage = async (message: ServiceBusReceivedMessage) => {
@@ -248,7 +248,7 @@ export class ServiceBusStressTester {
             message,
             receiver,
             duration - elapsedTime,
-            options.completeMessageAfterDuration
+            options.completeMessageAfterDuration,
           );
         }
       }
@@ -264,7 +264,7 @@ export class ServiceBusStressTester {
         processMessage,
         processError,
       },
-      options
+      options,
     );
     await delay(duration);
     await subscriber.close();
@@ -286,7 +286,7 @@ export class ServiceBusStressTester {
       | "sessionlockrenewal"
       | "close",
     exception: Error | unknown,
-    extraProperties?: Record<string, string>
+    extraProperties?: Record<string, string>,
   ) {
     ++this._numErrors;
     defaultClient.trackException({
@@ -304,7 +304,7 @@ export class ServiceBusStressTester {
     message: ServiceBusReceivedMessage,
     receiver: ServiceBusReceiver,
     duration: number,
-    completeMessageAfterDuration: boolean
+    completeMessageAfterDuration: boolean,
   ) {
     // TODO: pass in max number of lock renewals?
     const startTime = new Date();
@@ -329,14 +329,14 @@ export class ServiceBusStressTester {
             message,
             receiver,
             duration - elapsedTime,
-            completeMessageAfterDuration
+            completeMessageAfterDuration,
           );
         } else {
           await this.completeMessage(receiver, message);
           clearTimeout(this.messageLockRenewalInfo.lockRenewalTimers[message.messageId as string]);
         }
       },
-      message.lockedUntilUtc!.valueOf() - startTime.valueOf() - 10000
+      message.lockedUntilUtc!.valueOf() - startTime.valueOf() - 10000,
     );
   }
 
@@ -358,31 +358,34 @@ export class ServiceBusStressTester {
   public renewSessionLockUntil(receiver: ServiceBusSessionReceiver, duration: number) {
     // TODO: pass in max number of lock renewals? and close the receiver at the end of max??
     const startTime = new Date();
-    this.sessionLockRenewalInfo.lockRenewalTimers[receiver.sessionId] = setTimeout(async () => {
-      try {
-        await receiver.renewSessionLock();
-        this.sessionLockRenewalInfo.numberOfSuccesses++;
-        const currentRenewalCount = this.sessionLockRenewalInfo.renewalCount[receiver.sessionId];
-        this.sessionLockRenewalInfo.renewalCount[receiver.sessionId] =
-          currentRenewalCount === undefined ? 1 : currentRenewalCount + 1;
-        const elapsedTime = new Date().valueOf() - startTime.valueOf();
-        if (duration - elapsedTime > 0) {
-          this.renewSessionLockUntil(receiver, duration - elapsedTime);
-        } else {
-          // Code reaches here only after the duration given has passed by
-          // TODO: Close the receiver maybe?
+    this.sessionLockRenewalInfo.lockRenewalTimers[receiver.sessionId] = setTimeout(
+      async () => {
+        try {
+          await receiver.renewSessionLock();
+          this.sessionLockRenewalInfo.numberOfSuccesses++;
+          const currentRenewalCount = this.sessionLockRenewalInfo.renewalCount[receiver.sessionId];
+          this.sessionLockRenewalInfo.renewalCount[receiver.sessionId] =
+            currentRenewalCount === undefined ? 1 : currentRenewalCount + 1;
+          const elapsedTime = new Date().valueOf() - startTime.valueOf();
+          if (duration - elapsedTime > 0) {
+            this.renewSessionLockUntil(receiver, duration - elapsedTime);
+          } else {
+            // Code reaches here only after the duration given has passed by
+            // TODO: Close the receiver maybe?
+          }
+        } catch (error: any) {
+          this.sessionLockRenewalInfo.numberOfFailures++;
+          this.trackError("sessionlockrenewal", error);
+          console.error("Error in session lock renewal: ", error);
         }
-      } catch (error: any) {
-        this.sessionLockRenewalInfo.numberOfFailures++;
-        this.trackError("sessionlockrenewal", error);
-        console.error("Error in session lock renewal: ", error);
-      }
-    }, receiver.sessionLockedUntilUtc!.valueOf() - startTime.valueOf() - 10000);
+      },
+      receiver.sessionLockedUntilUtc!.valueOf() - startTime.valueOf() - 10000,
+    );
   }
 
   public async callClose(
     object: ServiceBusSender | ServiceBusReceiver | ServiceBusSessionReceiver | ServiceBusClient,
-    type: "sender" | "receiver" | "client"
+    type: "sender" | "receiver" | "client",
   ) {
     try {
       await object.close();
@@ -477,7 +480,7 @@ export class ServiceBusStressTester {
    */
   public async runStressTest(
     stressTest: (serviceBusClient: ServiceBusClient) => Promise<void>,
-    initOptions?: StressTestInitOptions
+    initOptions?: StressTestInitOptions,
   ): Promise<void> {
     let serviceBusClient: ServiceBusClient | undefined;
 
@@ -529,7 +532,7 @@ export function getUniqueQueueName(): string {
 
 export async function createRandomQueue(
   queueName: string,
-  queueOptions?: CreateQueueOptions
+  queueOptions?: CreateQueueOptions,
 ): Promise<void> {
   const serviceBusAdministrationClient = createAdminClient();
   await serviceBusAdministrationClient.createQueue(queueName, queueOptions);
@@ -562,7 +565,7 @@ export function createServiceBusClient(options?: ServiceBusClientOptions): Servi
 export async function loopForever(
   fn: () => Promise<void>,
   delay: number,
-  abortSignal?: AbortSignalLike
+  abortSignal?: AbortSignalLike,
 ) {
   const timeout = () => new Promise((resolve) => setTimeout(() => resolve(true), delay));
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfOptionDictionary } from "@azure/test-utils-perf";
+import { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { TablesTest } from "./tables.spec";
 import { TransactionAction } from "@azure/data-tables";
 import { createBatch } from "./utils/createBaseEntity";
@@ -35,7 +35,7 @@ export class CreateComplexEntityBatchTest extends TablesTest<TablesCreateComplex
   async run(): Promise<void> {
     const batches: TransactionAction[][] = createBatch(
       "complex",
-      this.parsedOptions.batchSize.value!
+      this.parsedOptions.batchSize.value!,
     );
 
     for (const batch of batches) {

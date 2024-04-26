@@ -6,27 +6,45 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
+  Cluster,
+  ClustersListByResourceGroupOptionalParams,
+  ClustersListOptionalParams,
   ClustersGetOptionalParams,
   ClustersGetResponse,
-  Cluster,
   ClustersCreateOrUpdateOptionalParams,
   ClustersCreateOrUpdateResponse,
   ClusterUpdateParameters,
   ClustersUpdateOptionalParams,
   ClustersUpdateResponse,
   ClustersDeleteOptionalParams,
-  ClustersListByResourceGroupOptionalParams,
-  ClustersListByResourceGroupResponse,
-  ClustersListOptionalParams,
-  ClustersListResponse,
   ClustersListUpgradableVersionsOptionalParams,
   ClustersListUpgradableVersionsResponse
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a Clusters. */
 export interface Clusters {
+  /**
+   * Gets all Service Fabric cluster resources created or in the process of being created in the resource
+   * group.
+   * @param resourceGroupName The name of the resource group.
+   * @param options The options parameters.
+   */
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: ClustersListByResourceGroupOptionalParams
+  ): PagedAsyncIterableIterator<Cluster>;
+  /**
+   * Gets all Service Fabric cluster resources created or in the process of being created in the
+   * subscription.
+   * @param options The options parameters.
+   */
+  list(
+    options?: ClustersListOptionalParams
+  ): PagedAsyncIterableIterator<Cluster>;
   /**
    * Get a Service Fabric cluster resource created or in the process of being created in the specified
    * resource group.
@@ -52,8 +70,8 @@ export interface Clusters {
     parameters: Cluster,
     options?: ClustersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ClustersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ClustersCreateOrUpdateResponse>,
       ClustersCreateOrUpdateResponse
     >
   >;
@@ -84,8 +102,8 @@ export interface Clusters {
     parameters: ClusterUpdateParameters,
     options?: ClustersUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ClustersUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ClustersUpdateResponse>,
       ClustersUpdateResponse
     >
   >;
@@ -114,22 +132,6 @@ export interface Clusters {
     clusterName: string,
     options?: ClustersDeleteOptionalParams
   ): Promise<void>;
-  /**
-   * Gets all Service Fabric cluster resources created or in the process of being created in the resource
-   * group.
-   * @param resourceGroupName The name of the resource group.
-   * @param options The options parameters.
-   */
-  listByResourceGroup(
-    resourceGroupName: string,
-    options?: ClustersListByResourceGroupOptionalParams
-  ): Promise<ClustersListByResourceGroupResponse>;
-  /**
-   * Gets all Service Fabric cluster resources created or in the process of being created in the
-   * subscription.
-   * @param options The options parameters.
-   */
-  list(options?: ClustersListOptionalParams): Promise<ClustersListResponse>;
   /**
    * If a target is not provided, it will get the minimum and maximum versions available from the current
    * cluster version. If a target is given, it will provide the required path to get from the current

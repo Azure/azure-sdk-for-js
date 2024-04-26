@@ -19,7 +19,7 @@ import {
   VpnConnectionsStartPacketCaptureOptionalParams,
   VpnConnectionsStartPacketCaptureResponse,
   VpnConnectionsStopPacketCaptureOptionalParams,
-  VpnConnectionsStopPacketCaptureResponse
+  VpnConnectionsStopPacketCaptureResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface VpnConnections {
   listByVpnGateway(
     resourceGroupName: string,
     gatewayName: string,
-    options?: VpnConnectionsListByVpnGatewayOptionalParams
+    options?: VpnConnectionsListByVpnGatewayOptionalParams,
   ): PagedAsyncIterableIterator<VpnConnection>;
   /**
    * Retrieves the details of a vpn connection.
@@ -47,7 +47,7 @@ export interface VpnConnections {
     resourceGroupName: string,
     gatewayName: string,
     connectionName: string,
-    options?: VpnConnectionsGetOptionalParams
+    options?: VpnConnectionsGetOptionalParams,
   ): Promise<VpnConnectionsGetResponse>;
   /**
    * Creates a vpn connection to a scalable vpn gateway if it doesn't exist else updates the existing
@@ -63,7 +63,7 @@ export interface VpnConnections {
     gatewayName: string,
     connectionName: string,
     vpnConnectionParameters: VpnConnection,
-    options?: VpnConnectionsCreateOrUpdateOptionalParams
+    options?: VpnConnectionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VpnConnectionsCreateOrUpdateResponse>,
@@ -84,7 +84,7 @@ export interface VpnConnections {
     gatewayName: string,
     connectionName: string,
     vpnConnectionParameters: VpnConnection,
-    options?: VpnConnectionsCreateOrUpdateOptionalParams
+    options?: VpnConnectionsCreateOrUpdateOptionalParams,
   ): Promise<VpnConnectionsCreateOrUpdateResponse>;
   /**
    * Deletes a vpn connection.
@@ -97,7 +97,7 @@ export interface VpnConnections {
     resourceGroupName: string,
     gatewayName: string,
     connectionName: string,
-    options?: VpnConnectionsDeleteOptionalParams
+    options?: VpnConnectionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a vpn connection.
@@ -110,7 +110,7 @@ export interface VpnConnections {
     resourceGroupName: string,
     gatewayName: string,
     connectionName: string,
-    options?: VpnConnectionsDeleteOptionalParams
+    options?: VpnConnectionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Starts packet capture on Vpn connection in the specified resource group.
@@ -123,7 +123,7 @@ export interface VpnConnections {
     resourceGroupName: string,
     gatewayName: string,
     vpnConnectionName: string,
-    options?: VpnConnectionsStartPacketCaptureOptionalParams
+    options?: VpnConnectionsStartPacketCaptureOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VpnConnectionsStartPacketCaptureResponse>,
@@ -141,7 +141,7 @@ export interface VpnConnections {
     resourceGroupName: string,
     gatewayName: string,
     vpnConnectionName: string,
-    options?: VpnConnectionsStartPacketCaptureOptionalParams
+    options?: VpnConnectionsStartPacketCaptureOptionalParams,
   ): Promise<VpnConnectionsStartPacketCaptureResponse>;
   /**
    * Stops packet capture on Vpn connection in the specified resource group.
@@ -154,7 +154,7 @@ export interface VpnConnections {
     resourceGroupName: string,
     gatewayName: string,
     vpnConnectionName: string,
-    options?: VpnConnectionsStopPacketCaptureOptionalParams
+    options?: VpnConnectionsStopPacketCaptureOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VpnConnectionsStopPacketCaptureResponse>,
@@ -172,6 +172,6 @@ export interface VpnConnections {
     resourceGroupName: string,
     gatewayName: string,
     vpnConnectionName: string,
-    options?: VpnConnectionsStopPacketCaptureOptionalParams
+    options?: VpnConnectionsStopPacketCaptureOptionalParams,
   ): Promise<VpnConnectionsStopPacketCaptureResponse>;
 }

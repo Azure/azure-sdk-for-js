@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import express from "express";
-import { PerfOptionDictionary, PerfTest } from "@azure/test-utils-perf";
-import { Server } from "http";
-import { AddressInfo } from "net";
+import { PerfOptionDictionary, PerfTest } from "@azure-tools/test-perf";
+import { Server } from "node:http";
+import { AddressInfo } from "node:net";
 
 let app: express.Application;
 let server: Server;

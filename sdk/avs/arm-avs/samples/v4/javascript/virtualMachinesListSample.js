@@ -30,7 +30,7 @@ async function listClusterVirtualMachines() {
   for await (let item of client.virtualMachines.list(
     resourceGroupName,
     privateCloudName,
-    clusterName
+    clusterName,
   )) {
     resArray.push(item);
   }

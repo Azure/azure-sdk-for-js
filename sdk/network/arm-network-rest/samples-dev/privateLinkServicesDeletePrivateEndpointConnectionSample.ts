@@ -34,7 +34,7 @@ async function deletePrivateEndPointConnectionForAPrivateLinkService() {
       subscriptionId,
       resourceGroupName,
       serviceName,
-      peConnectionName
+      peConnectionName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { Context } from "mocha";
 import {
   ChatCompletionsFunctionToolCall,
   ChatRequestAssistantMessage,
-  ChatRequestMessage,
+  ChatRequestMessageUnion,
   ChatRequestToolMessage,
   OpenAIClient,
 } from "../../src/index.js";
@@ -31,14 +31,14 @@ describe("README samples", () => {
     it("Generate Chatbot Response", async function () {
       const deploymentId = "gpt-35-turbo";
 
-      const messages: ChatRequestMessage[] = [
+      const messages: ChatRequestMessageUnion[] = [
         { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
         { role: "user", content: "Can you help me?" },
         { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" },
         { role: "user", content: "What's the best way to train a parrot?" },
       ];
 
-      const events = client.listChatCompletions(deploymentId, messages, { maxTokens: 128 });
+      const events = await client.streamChatCompletions(deploymentId, messages, { maxTokens: 128 });
       for await (const event of events) {
         for (const choice of event.choices) {
           const delta = choice.delta?.content;
@@ -146,7 +146,7 @@ describe("README samples", () => {
       const choice = result.choices[0];
       const responseMessage = choice.message;
       if (responseMessage?.role === "assistant") {
-        const requestedToolCalls = responseMessage?.toolCalls;
+        const requestedToolCalls = responseMessage?.toolCalls as ChatCompletionsFunctionToolCall[];
         if (requestedToolCalls?.length) {
           const toolCallResolutionMessages = [
             ...messages,
@@ -155,7 +155,7 @@ describe("README samples", () => {
           ];
           const finalResult = await client.getChatCompletions(
             deploymentName,
-            toolCallResolutionMessages
+            toolCallResolutionMessages,
           );
           assert.isDefined(finalResult.choices[0].message?.content);
         }
@@ -188,7 +188,7 @@ describe("README samples", () => {
       const url =
         "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg";
       const deploymentName = "gpt-4-1106-preview";
-      const messages: ChatRequestMessage[] = [
+      const messages: ChatRequestMessageUnion[] = [
         {
           role: "user",
           content: [

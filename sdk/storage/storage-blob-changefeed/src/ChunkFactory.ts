@@ -29,7 +29,7 @@ export class ChunkFactory {
   constructor(
     avroReaderFactory: AvroReaderFactory,
     lazyLoadingBlobStreamFactory: LazyLoadingBlobStreamFactory,
-    maxTransferSize?: number
+    maxTransferSize?: number,
   ) {
     this.avroReaderFactory = avroReaderFactory;
     this.lazyLoadingBlobStreamFactory = lazyLoadingBlobStreamFactory;
@@ -41,7 +41,7 @@ export class ChunkFactory {
     chunkPath: string,
     blockOffset?: number,
     eventIndex?: number,
-    options: CreateChunkOptions = {}
+    options: CreateChunkOptions = {},
   ): Promise<Chunk> {
     const blobClient = containerClient.getBlobClient(chunkPath);
     blockOffset = blockOffset || 0;
@@ -52,8 +52,8 @@ export class ChunkFactory {
         blobClient,
         blockOffset,
         this.maxTransferSize ? this.maxTransferSize : CHANGE_FEED_CHUNK_BLOCK_DOWNLOAD_SIZE,
-        options
-      )
+        options,
+      ),
     );
 
     let avroReader: AvroReader;
@@ -63,8 +63,8 @@ export class ChunkFactory {
           blobClient,
           0,
           this.maxTransferSize ? this.maxTransferSize : CHANGE_FEED_CHUNK_BLOCK_DOWNLOAD_SIZE,
-          options
-        )
+          options,
+        ),
       );
       avroReader = this.avroReaderFactory.create(dataStream, headerStream, blockOffset, eventIndex);
     } else {

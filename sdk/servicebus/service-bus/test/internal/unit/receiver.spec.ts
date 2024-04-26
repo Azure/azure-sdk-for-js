@@ -35,7 +35,7 @@ describe("Receiver unit tests", () => {
         receiveMode: "peekLock",
         skipParsingBodyAsJson: false,
         skipConvertingDate: false,
-      }
+      },
     );
     const options = batchingReceiver["_createReceiverOptions"](false, {});
     assert.equal(options.target, "serviceBusClientId");
@@ -55,7 +55,7 @@ describe("Receiver unit tests", () => {
           receiveMode: "peekLock",
           skipParsingBodyAsJson: false,
           skipConvertingDate: false,
-        }
+        },
       );
 
       let initWasCalled = false;
@@ -85,7 +85,7 @@ describe("Receiver unit tests", () => {
           receiveMode: "peekLock",
           skipParsingBodyAsJson: false,
           skipConvertingDate: false,
-        }
+        },
       );
 
       await messageReceiver2.close();
@@ -98,7 +98,7 @@ describe("Receiver unit tests", () => {
       messageReceiver2["_negotiateClaim"] = async () => {
         negotiateClaimWasCalled = true;
         throw new Error(
-          "Negotiate claim was called - we should have early exited and never tried to init a close()'d instance."
+          "Negotiate claim was called - we should have early exited and never tried to init a close()'d instance.",
         );
       };
 
@@ -126,7 +126,7 @@ describe("Receiver unit tests", () => {
         "fakeEntityPath",
         "peekLock",
         1,
-        false
+        false,
       );
 
       const subscription = await subscribeAndWaitForInitialize(receiverImpl);
@@ -143,7 +143,7 @@ describe("Receiver unit tests", () => {
           {
             name: "Error",
             message: `The receiver for "${receiverImpl.entityPath}" is already receiving messages.`,
-          }
+          },
         );
       }
 
@@ -165,7 +165,7 @@ describe("Receiver unit tests", () => {
         "fakeEntityPath",
         "peekLock",
         1,
-        false
+        false,
       );
 
       const subscription = await subscribeAndWaitForInitialize(receiverImpl);
@@ -175,7 +175,7 @@ describe("Receiver unit tests", () => {
 
       assert.isFalse(
         closeWasCalled,
-        "closing a subscription does NOT close the receiver (it should be re-usable)"
+        "closing a subscription does NOT close the receiver (it should be re-usable)",
       );
 
       const subscription2 = await subscribeAndWaitForInitialize(receiverImpl);
@@ -183,7 +183,7 @@ describe("Receiver unit tests", () => {
       assert.equal(
         originalStreamingReceiver?.name,
         receiverImpl["_streamingReceiver"]?.name,
-        "StreamingReceiver is closed but not replaced - this allows us to just stop and start at will without losing anything."
+        "StreamingReceiver is closed but not replaced - this allows us to just stop and start at will without losing anything.",
       );
 
       await subscription2.close();
@@ -197,7 +197,7 @@ describe("Receiver unit tests", () => {
         "fakeEntityPath",
         "peekLock",
         1,
-        false
+        false,
       );
 
       const abortSignal = {
@@ -215,7 +215,7 @@ describe("Receiver unit tests", () => {
         },
         {
           abortSignal,
-        }
+        },
       );
 
       // subscription should just be auto-closed already
@@ -241,7 +241,7 @@ describe("Receiver unit tests", () => {
         "entity path",
         "peekLock",
         1,
-        false
+        false,
       );
 
       const abortSignal = createAbortSignalForTest(true);
@@ -271,7 +271,7 @@ describe("Receiver unit tests", () => {
           retryOptions: undefined,
           skipParsingBodyAsJson: false,
           skipConvertingDate: false,
-        }
+        },
       );
 
       const impl = new ServiceBusSessionReceiverImpl(
@@ -281,7 +281,7 @@ describe("Receiver unit tests", () => {
         "peekLock",
         false,
         false,
-        undefined
+        undefined,
       );
 
       const abortSignal = createAbortSignalForTest(true);
@@ -329,7 +329,7 @@ describe("Receiver unit tests", () => {
       assert.equal(
         impl["_streamingReceiver"],
         existingStreamingReceiver,
-        "original receiver should be intact - we should not create a new one.."
+        "original receiver should be intact - we should not create a new one..",
       );
 
       assert.isTrue(subscribeStub.calledOnce);
@@ -349,7 +349,7 @@ describe("Receiver unit tests", () => {
 });
 
 async function subscribeAndWaitForInitialize(
-  receiver: ServiceBusReceiverImpl
+  receiver: ServiceBusReceiverImpl,
 ): Promise<ReturnType<(typeof receiver)["subscribe"]>> {
   const sub = await new Promise<{
     close(): Promise<void>;
@@ -369,12 +369,12 @@ async function subscribeAndWaitForInitialize(
 
   assert.exists(
     receiver["_streamingReceiver"],
-    "streaming receiver has been initialized in the context"
+    "streaming receiver has been initialized in the context",
   );
 
   assert.isTrue(
     receiver["_streamingReceiver"]?.isSubscribeActive,
-    "streaming receiver should indicate it's receiving messages"
+    "streaming receiver should indicate it's receiving messages",
   );
 
   return sub;

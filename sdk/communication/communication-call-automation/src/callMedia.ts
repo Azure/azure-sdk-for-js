@@ -23,6 +23,8 @@ import {
   StartTranscriptionRequest,
   StopTranscriptionRequest,
   UpdateTranscriptionRequest,
+  HoldRequest,
+  UnholdRequest,
 } from "./generated/src";
 
 import { CallMediaImpl } from "./generated/src/operations";
@@ -43,6 +45,8 @@ import {
   CallMediaRecognizeSpeechOrDtmfOptions,
   StartTranscriptionOptions,
   StopTranscriptionOptions,
+  HoldOptions,
+  UnholdOptions,
 } from "./models/options";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
@@ -74,12 +78,12 @@ export class CallMedia {
     endpoint: string,
     credential: KeyCredential | TokenCredential,
     eventProcessor: CallAutomationEventProcessor,
-    options?: CallAutomationApiClientOptionalParams
+    options?: CallAutomationApiClientOptionalParams,
   ) {
     this.callAutomationApiClient = createCustomCallAutomationApiClient(
       credential,
       options,
-      endpoint
+      endpoint,
     );
     this.callConnectionId = callConnectionId;
     this.callAutomationEventProcessor = eventProcessor;
@@ -87,7 +91,7 @@ export class CallMedia {
   }
 
   private createPlaySourceInternal(
-    playSource: FileSource | TextSource | SsmlSource
+    playSource: FileSource | TextSource | SsmlSource,
   ): PlaySourceInternal {
     if (playSource.kind === "fileSource") {
       const fileSource: FileSourceInternal = {
@@ -141,7 +145,7 @@ export class CallMedia {
   public async play(
     playSources: (FileSource | TextSource | SsmlSource)[],
     playTo: CommunicationIdentifier[],
-    options: PlayOptions = { loop: false }
+    options: PlayOptions = { loop: false },
   ): Promise<PlayResult> {
     const playRequest: PlayRequest = {
       playSources: playSources.map((source) => this.createPlaySourceInternal(source)),
@@ -187,7 +191,7 @@ export class CallMedia {
             }
           },
           abortSignal,
-          timeoutInMs
+          timeoutInMs,
         );
         return playEventResult;
       },
@@ -203,7 +207,7 @@ export class CallMedia {
    */
   public async playToAll(
     playSources: (FileSource | TextSource | SsmlSource)[],
-    options: PlayOptions = { loop: false }
+    options: PlayOptions = { loop: false },
   ): Promise<PlayResult> {
     const playRequest: PlayRequest = {
       playSources: playSources.map((source) => this.createPlaySourceInternal(source)),
@@ -249,7 +253,7 @@ export class CallMedia {
             }
           },
           abortSignal,
-          timeoutInMs
+          timeoutInMs,
         );
         return playEventResult;
       },
@@ -263,7 +267,7 @@ export class CallMedia {
       | CallMediaRecognizeDtmfOptions
       | CallMediaRecognizeChoiceOptions
       | CallMediaRecognizeSpeechOptions
-      | CallMediaRecognizeSpeechOrDtmfOptions
+      | CallMediaRecognizeSpeechOrDtmfOptions,
   ): RecognizeRequest {
     if (recognizeOptions.kind === "callMediaRecognizeDtmfOptions") {
       const dtmfOptionsInternal: DtmfOptions = {
@@ -385,7 +389,7 @@ export class CallMedia {
   public async startRecognizing(
     targetParticipant: CommunicationIdentifier,
     maxTonesToCollect: number,
-    options: CallMediaRecognizeDtmfOptions
+    options: CallMediaRecognizeDtmfOptions,
   ): Promise<StartRecognizingResult>;
 
   /**
@@ -399,7 +403,7 @@ export class CallMedia {
       | CallMediaRecognizeDtmfOptions
       | CallMediaRecognizeChoiceOptions
       | CallMediaRecognizeSpeechOptions
-      | CallMediaRecognizeSpeechOrDtmfOptions
+      | CallMediaRecognizeSpeechOrDtmfOptions,
   ): Promise<StartRecognizingResult>;
   async startRecognizing(
     targetParticipant: CommunicationIdentifier,
@@ -409,18 +413,18 @@ export class CallMedia {
       | CallMediaRecognizeChoiceOptions
       | CallMediaRecognizeSpeechOptions
       | CallMediaRecognizeSpeechOrDtmfOptions,
-    options?: CallMediaRecognizeDtmfOptions
+    options?: CallMediaRecognizeDtmfOptions,
   ): Promise<StartRecognizingResult> {
     if (typeof maxTonesOrOptions === "number" && options) {
       // Old function signature logic
       console.warn(
-        "Deprecated function signature used. Please use the new signature with targetParticipant and options params instead, and set maxTonesToCollect in options."
+        "Deprecated function signature used. Please use the new signature with targetParticipant and options params instead, and set maxTonesToCollect in options.",
       );
       options.maxTonesToCollect = maxTonesOrOptions;
       await this.callMedia.recognize(
         this.callConnectionId,
         this.createRecognizeRequest(targetParticipant, options),
-        {}
+        {},
       );
     } else if (typeof maxTonesOrOptions !== "number" && !options) {
       maxTonesOrOptions.operationContext = maxTonesOrOptions.operationContext
@@ -430,7 +434,7 @@ export class CallMedia {
       await this.callMedia.recognize(
         this.callConnectionId,
         this.createRecognizeRequest(targetParticipant, maxTonesOrOptions),
-        {}
+        {},
       );
       const startRecognizingResult: StartRecognizingResult = {
         waitForEventProcessor: async (abortSignal, timeoutInMs) => {
@@ -460,7 +464,7 @@ export class CallMedia {
               }
             },
             abortSignal,
-            timeoutInMs
+            timeoutInMs,
           );
           return startRecognizingEventResult;
         },
@@ -499,7 +503,7 @@ export class CallMedia {
             }
           },
           abortSignal,
-          timeoutInMs
+          timeoutInMs,
         );
         return cancelAllMediaOperationsEventResult;
       },
@@ -514,7 +518,7 @@ export class CallMedia {
    * */
   public async startContinuousDtmfRecognition(
     targetParticipant: CommunicationIdentifier,
-    options: ContinuousDtmfRecognitionOptions = {}
+    options: ContinuousDtmfRecognitionOptions = {},
   ): Promise<void> {
     const continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
@@ -523,7 +527,7 @@ export class CallMedia {
     return this.callMedia.startContinuousDtmfRecognition(
       this.callConnectionId,
       continuousDtmfRecognitionRequest,
-      {}
+      {},
     );
   }
 
@@ -534,7 +538,7 @@ export class CallMedia {
    * */
   public async stopContinuousDtmfRecognition(
     targetParticipant: CommunicationIdentifier,
-    options: ContinuousDtmfRecognitionOptions = {}
+    options: ContinuousDtmfRecognitionOptions = {},
   ): Promise<void> {
     const continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
@@ -544,7 +548,7 @@ export class CallMedia {
     return this.callMedia.stopContinuousDtmfRecognition(
       this.callConnectionId,
       continuousDtmfRecognitionRequest,
-      {}
+      {},
     );
   }
 
@@ -557,7 +561,7 @@ export class CallMedia {
   public async sendDtmfTones(
     tones: Tone[] | DtmfTone[],
     targetParticipant: CommunicationIdentifier,
-    options: SendDtmfTonesOptions = {}
+    options: SendDtmfTonesOptions = {},
   ): Promise<SendDtmfTonesResult> {
     const sendDtmfTonesRequest: SendDtmfTonesRequest = {
       tones: tones,
@@ -595,7 +599,7 @@ export class CallMedia {
             }
           },
           abortSignal,
-          timeoutInMs
+          timeoutInMs,
         );
         return sendDtmfEventResult;
       },
@@ -607,35 +611,83 @@ export class CallMedia {
    * Put participant on hold while playing audio.
    *
    * @param targetParticipant - The targets to play to.
-   * @param playSource - A PlaySource representing the source to play.
-   * @param loop - To play the audio continously until stopped.
-   * @param operationContext - Operation Context.
+   * @param options - Additional attributes for hold participant.
    */
-  public async startHoldMusic(
+  public async hold(
     targetParticipant: CommunicationIdentifier,
-    playSource: FileSource | TextSource | SsmlSource,
-    loop: boolean = true,
-    operationContext: string | undefined = undefined
+    options: HoldOptions = {},
   ): Promise<void> {
-    const holdRequest: StartHoldMusicRequest = {
+    const holdRequest: HoldRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      playSourceInfo: this.createPlaySourceInternal(playSource),
-      loop: loop,
-      operationContext: operationContext,
+      playSourceInfo:
+        options.playSource !== undefined
+          ? this.createPlaySourceInternal(options.playSource)
+          : undefined,
+      operationContext:
+        options.operationContext !== undefined ? options.operationContext : undefined,
+      operationCallbackUri:
+        options.operationCallbackUri !== undefined ? options.operationCallbackUri : undefined,
     };
-
-    return this.callMedia.startHoldMusic(this.callConnectionId, holdRequest);
+    return this.callMedia.hold(this.callConnectionId, holdRequest);
   }
 
   /**
    * Remove participant from hold.
    *
    * @param targetParticipant - The targets to play to.
+   * @param options - Additional attributes for unhold participant.
+   */
+  public async unhold(
+    targetParticipant: CommunicationIdentifier,
+    options: UnholdOptions = {},
+  ): Promise<void> {
+    const unholdRequest: UnholdRequest = {
+      targetParticipant: serializeCommunicationIdentifier(targetParticipant),
+      operationContext:
+        options.operationContext !== undefined ? options.operationContext : undefined,
+    };
+    return this.callMedia.unhold(this.callConnectionId, unholdRequest);
+  }
+
+  /**
+   * Put participant on hold while playing audio.
+   *
+   * @deprecated - This operations is deprecated, please use hold instead.
+   * @param targetParticipant - The targets to play to.
+   * @param playSource - A PlaySource representing the source to play.
+   * @param operationContext - Operation Context.
+   * @param operationCallbackUri - Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   */
+  public async startHoldMusic(
+    targetParticipant: CommunicationIdentifier,
+    playSource: FileSource | TextSource | SsmlSource | undefined = undefined,
+    loop?: boolean,
+    operationContext: string | undefined = undefined,
+    operationCallbackUri: string | undefined = undefined,
+  ): Promise<void> {
+    const holdRequest: StartHoldMusicRequest = {
+      targetParticipant: serializeCommunicationIdentifier(targetParticipant),
+      playSourceInfo:
+        playSource !== undefined ? this.createPlaySourceInternal(playSource) : undefined,
+      operationContext: operationContext,
+      operationCallbackUri: operationCallbackUri,
+    };
+    if (loop) {
+      // Do nothing. Added since it needs to be backwards compatible.
+    }
+    return this.callMedia.startHoldMusic(this.callConnectionId, holdRequest);
+  }
+
+  /**
+   * Remove participant from hold.
+   *
+   * @deprecated - This operations is deprecated, please use unhold instead.
+   * @param targetParticipant - The targets to play to.
    * @param operationContext - Operation Context.
    */
   public async stopHoldMusic(
     targetParticipant: CommunicationIdentifier,
-    operationContext: string | undefined = undefined
+    operationContext: string | undefined = undefined,
   ): Promise<void> {
     const unholdRequest: StopHoldMusicRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
@@ -679,7 +731,7 @@ export class CallMedia {
     return this.callMedia.updateTranscription(
       this.callConnectionId,
       updateTranscriptionRequest,
-      {}
+      {},
     );
   }
 }

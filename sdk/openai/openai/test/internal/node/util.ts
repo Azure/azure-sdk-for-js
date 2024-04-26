@@ -6,7 +6,7 @@ import { PassThrough } from "stream";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 
 export function createStream(
-  cb: (write: (chunk: Uint8Array) => void) => void
+  cb: (write: (chunk: Uint8Array) => void) => void,
 ): NodeJS.ReadableStream {
   const stream = new PassThrough();
   cb((c) => stream.write(c));

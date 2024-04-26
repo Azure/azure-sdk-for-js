@@ -32,7 +32,7 @@ async function p2SVpnGatewayDelete() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}",
       subscriptionId,
       resourceGroupName,
-      gatewayName
+      gatewayName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

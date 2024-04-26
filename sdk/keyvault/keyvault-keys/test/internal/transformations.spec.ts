@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import {
   DeletedKeyBundle,
   DeletedKeyItem,
@@ -340,7 +340,7 @@ describe("Transformations", () => {
       assert.deepEqualExcludingEvery(
         keyRotationTransformations.propertiesToGenerated(publicPolicy),
         expected,
-        ["created", "updated"] as any
+        ["created", "updated"] as any,
       );
     });
   });

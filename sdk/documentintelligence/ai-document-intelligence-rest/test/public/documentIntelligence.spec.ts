@@ -24,7 +24,7 @@ describe("DocumentIntelligenceClient", () => {
     client = DocumentIntelligence(
       assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_ENDPOINT"),
       { key: assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_API_KEY") },
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
   });
 
@@ -40,7 +40,7 @@ describe("DocumentIntelligenceClient", () => {
     assert.strictEqual(
       response.body.customDocumentModels.limit,
       20000,
-      "expected customDocumentModels limit should be 20000"
+      "expected customDocumentModels limit should be 20000",
     );
   });
 
@@ -48,7 +48,7 @@ describe("DocumentIntelligenceClient", () => {
     client = DocumentIntelligence(
       assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_ENDPOINT"),
       createTestCredential(),
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
     const response = await client.path("/info").get();
     if (isUnexpected(response)) {
@@ -57,7 +57,7 @@ describe("DocumentIntelligenceClient", () => {
     assert.strictEqual(
       response.body.customDocumentModels.limit,
       20000,
-      "expected customDocumentModels limit should be 20000"
+      "expected customDocumentModels limit should be 20000",
     );
   });
 
@@ -66,7 +66,7 @@ describe("DocumentIntelligenceClient", () => {
       body: {
         classifierId: recorder.variable(
           "customClassifierId",
-          `customClassifier${getRandomNumber()}`
+          `customClassifier${getRandomNumber()}`,
         ),
         description: "Custom classifier description",
         docTypes: {
@@ -95,7 +95,7 @@ describe("DocumentIntelligenceClient", () => {
     assert.strictEqual(
       response.result?.classifierId,
       recorder.variable("customClassifierId"),
-      "expected classifierId to match"
+      "expected classifierId to match",
     );
   });
 });

@@ -4,7 +4,7 @@
 import { Context } from "mocha";
 import { OpenAIClient } from "../../src/index.js";
 import { createClient } from "./utils/recordedClient.js";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { AbortController } from "@azure/abort-controller";
 import { isLiveMode } from "@azure-tools/test-recorder";
 
@@ -37,7 +37,7 @@ describe("AbortSignal", () => {
     const abortSignal = abortController.signal;
     let currentMessage = "";
     try {
-      const events = client.listChatCompletions(deploymentName, messages, {
+      const events = await client.streamChatCompletions(deploymentName, messages, {
         maxTokens: 800,
         temperature: 0.7,
         presencePenalty: 0,

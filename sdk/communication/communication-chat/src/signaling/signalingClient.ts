@@ -8,18 +8,20 @@ import { AzureLogger } from "@azure/logger";
 export interface SignalingClientOptions {
   environment?: string;
   resourceEndpoint?: string;
+  gatewayApiVersion?: string;
 }
 
 export const getSignalingClient = (
   credential: CommunicationTokenCredential,
   logger: AzureLogger,
-  options?: SignalingClientOptions
+  options?: SignalingClientOptions,
 ): SignalingClient | undefined => {
   if (typeof navigator !== "undefined" && navigator.product === "ReactNative") {
     // In React Native
     return new CommunicationSignalingClient(credential, logger, {
       environment: options?.environment ?? undefined,
       resourceEndpoint: options?.resourceEndpoint ?? undefined,
+      gatewayApiVersion: options?.gatewayApiVersion ?? undefined,
     });
   }
 

@@ -142,7 +142,7 @@ export function toBuffer(input: unknown): Buffer {
   let result: any;
   messageLogger.verbose(
     "[utils.toBuffer] The given message body that needs to be converted to buffer is: ",
-    input
+    input,
   );
   if (isBuffer(input)) {
     result = input;
@@ -176,7 +176,7 @@ export function getString(value: unknown, nameOfProperty: string): string {
   const result = getStringOrUndefined(value);
   if (result === undefined) {
     throw new Error(
-      `"${nameOfProperty}" received from service expected to be a string value and not undefined.`
+      `"${nameOfProperty}" received from service expected to be a string value and not undefined.`,
     );
   }
   return result;
@@ -204,7 +204,7 @@ export function getInteger(value: unknown, nameOfProperty: string): number {
   const result = getIntegerOrUndefined(value);
   if (result === undefined) {
     throw new Error(
-      `"${nameOfProperty}" received from service expected to be a number value and not undefined.`
+      `"${nameOfProperty}" received from service expected to be a number value and not undefined.`,
     );
   }
   return result;
@@ -241,7 +241,7 @@ export function getBoolean(value: unknown, nameOfProperty: string): boolean {
   const result = getBooleanOrUndefined(value);
   if (result === undefined) {
     throw new Error(
-      `"${nameOfProperty}" received from service expected to be a boolean value and not undefined.`
+      `"${nameOfProperty}" received from service expected to be a boolean value and not undefined.`,
     );
   }
   return result;
@@ -316,23 +316,23 @@ export function getXMLNSPrefix(value: any): string {
   if (!value[Constants.XML_METADATA_MARKER]) {
     throw new Error(
       `Error occurred while parsing the response body - cannot find the XML_METADATA_MARKER "$" on the object ${JSON.stringify(
-        value
-      )}`
+        value,
+      )}`,
     );
   }
   const keys = Object.keys(value[Constants.XML_METADATA_MARKER]);
   if (keys.length !== 1) {
     throw new Error(
       `Error occurred while parsing the response body - unexpected number of "xmlns:\${prefix}" keys at ${JSON.stringify(
-        value[Constants.XML_METADATA_MARKER]
-      )}`
+        value[Constants.XML_METADATA_MARKER],
+      )}`,
     );
   }
   if (!keys[0].startsWith("xmlns:")) {
     throw new Error(
       `Error occurred while parsing the response body - unexpected key at ${JSON.stringify(
-        value[Constants.XML_METADATA_MARKER]
-      )}`
+        value[Constants.XML_METADATA_MARKER],
+      )}`,
     );
   }
   // Pick the substring that's after "xmlns:"
@@ -340,8 +340,8 @@ export function getXMLNSPrefix(value: any): string {
   if (!xmlnsPrefix) {
     throw new Error(
       `Error occurred while parsing the response body - unexpected xmlns prefix at ${JSON.stringify(
-        value[Constants.XML_METADATA_MARKER]
-      )}`
+        value[Constants.XML_METADATA_MARKER],
+      )}`,
     );
   }
   return xmlnsPrefix;
@@ -453,8 +453,8 @@ export function getRawAuthorizationRules(authorizationRules: AuthorizationRule[]
       `authorizationRules must be an array of AuthorizationRule objects or undefined, but received ${JSON.stringify(
         authorizationRules,
         undefined,
-        2
-      )}`
+        2,
+      )}`,
     );
   }
 
@@ -476,8 +476,8 @@ function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
       `Expected authorizationRule input to be a JS object value, but received ${JSON.stringify(
         authorizationRule,
         undefined,
-        2
-      )}`
+        2,
+      )}`,
     );
   }
 
@@ -603,7 +603,7 @@ export async function waitForTimeoutOrAbortOrResolve<T>(args: {
  */
 export function checkAndRegisterWithAbortSignal(
   onAbortFn: (abortError: AbortError) => void,
-  abortSignal?: AbortSignalLike
+  abortSignal?: AbortSignalLike,
 ): () => void {
   if (abortSignal == null) {
     return () => {
@@ -674,14 +674,14 @@ export async function waitForSendable(
         credit: number;
       }
     | undefined,
-  outgoingAvaiable: number
+  outgoingAvaiable: number,
 ): Promise<number> {
   let waitTimeForSendable = 1000;
   if (!sender?.sendable() && timeout > waitTimeForSendable) {
     sendLogger.verbose(
       "%s Sender '%s', waiting for 1 second for sender to become sendable",
       logPrefix,
-      name
+      name,
     );
 
     await delay(waitTimeForSendable);
@@ -691,7 +691,7 @@ export async function waitForSendable(
       logPrefix,
       name,
       sender?.credit,
-      outgoingAvaiable
+      outgoingAvaiable,
     );
   } else {
     waitTimeForSendable = 0;

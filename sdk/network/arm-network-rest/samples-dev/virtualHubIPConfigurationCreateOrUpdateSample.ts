@@ -41,7 +41,7 @@ async function virtualHubIPConfigurationPut() {
       subscriptionId,
       resourceGroupName,
       virtualHubName,
-      ipConfigName
+      ipConfigName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

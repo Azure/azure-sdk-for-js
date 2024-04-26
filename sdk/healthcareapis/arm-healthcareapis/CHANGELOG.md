@@ -1,15 +1,48 @@
 # Release History
+    
+## 3.1.0 (2024-04-19)
+    
+**Features**
 
-## 2.2.1 (Unreleased)
+  - Added Interface SmartIdentityProviderApplication
+  - Added Interface SmartIdentityProviderConfiguration
+  - Added Interface StorageConfiguration
+  - Added Type Alias SmartDataActions
+  - Interface DicomService has a new optional parameter enableDataPartitions
+  - Interface DicomService has a new optional parameter storageConfiguration
+  - Interface FhirServiceAuthenticationConfiguration has a new optional parameter smartIdentityProviders
+  - Added Enum KnownSmartDataActions
+    
+    
+## 3.0.0 (2023-12-07)
+    
+**Features**
 
-### Features Added
+  - Added Interface CorsConfiguration
+  - Added Interface Encryption
+  - Added Interface EncryptionCustomerManagedKeyEncryption
+  - Added Interface FhirServiceImportConfiguration
+  - Added Interface ImplementationGuidesConfiguration
+  - Added Interface ServiceImportConfigurationInfo
+  - Interface DicomService has a new optional parameter corsConfiguration
+  - Interface DicomService has a new optional parameter encryption
+  - Interface DicomService has a new optional parameter eventState
+  - Interface FhirService has a new optional parameter encryption
+  - Interface FhirService has a new optional parameter implementationGuidesConfiguration
+  - Interface FhirService has a new optional parameter importConfiguration
+  - Interface MetricSpecification has a new optional parameter enableRegionalMdmAccount
+  - Interface MetricSpecification has a new optional parameter isInternal
+  - Interface MetricSpecification has a new optional parameter metricFilterPattern
+  - Interface MetricSpecification has a new optional parameter resourceIdDimensionNameOverride
+  - Interface MetricSpecification has a new optional parameter sourceMdmAccount
+  - Interface ServiceCosmosDbConfigurationInfo has a new optional parameter crossTenantCmkApplicationId
+  - Interface ServicesProperties has a new optional parameter importConfiguration
 
-### Breaking Changes
+**Breaking Changes**
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface FhirService no longer has parameter accessPolicies
+    
+    
 ## 2.2.0 (2022-11-25)
     
 **Features**

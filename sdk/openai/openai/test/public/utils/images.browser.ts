@@ -9,7 +9,7 @@ interface Dimensions {
 }
 
 export async function getImageDimensionsFromResponse(
-  response: PipelineResponse
+  response: PipelineResponse,
 ): Promise<Dimensions> {
   const blob = await response.blobBody;
   if (!blob) {

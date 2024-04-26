@@ -41,7 +41,7 @@ async function expressRoutePortCreate() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}",
       subscriptionId,
       resourceGroupName,
-      expressRoutePortName
+      expressRoutePortName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -80,7 +80,7 @@ async function expressRoutePortUpdateLink() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}",
       subscriptionId,
       resourceGroupName,
-      expressRoutePortName
+      expressRoutePortName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

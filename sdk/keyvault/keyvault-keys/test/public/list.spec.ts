@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { Context } from "mocha";
 import { Recorder, env, isRecordMode } from "@azure-tools/test-recorder";
 
@@ -71,7 +71,7 @@ describe("Keys client - list keys in various ways", () => {
       assert.equal(
         version.name,
         keyName,
-        "Unexpected key name in result from listPropertiesOfKeyVersions()."
+        "Unexpected key name in result from listPropertiesOfKeyVersions().",
       );
       totalVersions += 1;
     }
@@ -95,7 +95,7 @@ describe("Keys client - list keys in various ways", () => {
         assert.equal(
           version.name,
           keyName,
-          "Unexpected key name in result from listPropertiesOfKeyVersions()."
+          "Unexpected key name in result from listPropertiesOfKeyVersions().",
         );
         totalVersions += 1;
       }
@@ -111,7 +111,7 @@ describe("Keys client - list keys in various ways", () => {
       assert.equal(
         version.name,
         keyName,
-        "Unexpected key name in result from listPropertiesOfKeyVersions()."
+        "Unexpected key name in result from listPropertiesOfKeyVersions().",
       );
       totalVersions += 1;
     }
@@ -126,7 +126,7 @@ describe("Keys client - list keys in various ways", () => {
         assert.equal(
           version.name,
           keyName,
-          "Unexpected key name in result from listPropertiesOfKeyVersions()."
+          "Unexpected key name in result from listPropertiesOfKeyVersions().",
         );
         totalVersions += 1;
       }

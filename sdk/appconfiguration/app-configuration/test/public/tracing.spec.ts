@@ -5,7 +5,7 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { createAppConfigurationClientForTests, startRecorder } from "./utils/testHelpers";
 import { AppConfigurationClient } from "../../src/appConfigurationClient";
 import { Context } from "mocha";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 
 describe("supports tracing", () => {
   let client: AppConfigurationClient;
@@ -23,7 +23,7 @@ describe("supports tracing", () => {
   it("can trace through the various options", async function () {
     const key = recorder.variable(
       "noLabelTests",
-      `noLabelTests${Math.floor(Math.random() * 1000)}`
+      `noLabelTests${Math.floor(Math.random() * 1000)}`,
     );
     await assert.supportsTracing(
       async (options) => {
@@ -43,7 +43,7 @@ describe("supports tracing", () => {
         "AppConfigurationClient.setConfigurationSetting",
         "AppConfigurationClient.setReadOnly",
         "AppConfigurationClient.deleteConfigurationSetting",
-      ]
+      ],
     );
     try {
       await client.setReadOnly({ key: key }, false);

@@ -2,12 +2,18 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+
 import { IdentityClient } from "../../client/identityClient";
 
 /**
  * @internal
  */
 export interface MSIConfiguration {
+  retryConfig: {
+    maxRetries: number;
+    startDelayInMs: number;
+    intervalIncrement: number;
+  };
   identityClient: IdentityClient;
   scopes: string | string[];
   clientId?: string;
@@ -35,6 +41,6 @@ export interface MSI {
   }): Promise<boolean>;
   getToken(
     configuration: MSIConfiguration,
-    getTokenOptions?: GetTokenOptions
+    getTokenOptions?: GetTokenOptions,
   ): Promise<MSIToken | null>;
 }

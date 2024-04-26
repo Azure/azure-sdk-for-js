@@ -17,13 +17,14 @@ dotenv.config();
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 const azureApiKey = process.env["AZURE_API_KEY"] || "<api key>";
+const audioFilePath = process.env["AUDIO_FILE_PATH"] || "<audio file path>";
 
 export async function main() {
   console.log("== Transcribe Audio Sample ==");
 
   const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
   const deploymentName = "whisper";
-  const audio = await readFile("./assets/audio/countdown.wav");
+  const audio = await readFile(audioFilePath);
   const result = await client.getAudioTranscription(deploymentName, audio);
 
   console.log(`Transcription: ${result.text}`);

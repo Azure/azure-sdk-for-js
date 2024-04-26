@@ -20,7 +20,7 @@ import {
   AvailabilitySetsUpdateResponse,
   AvailabilitySetsDeleteOptionalParams,
   AvailabilitySetsGetOptionalParams,
-  AvailabilitySetsGetResponse
+  AvailabilitySetsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface AvailabilitySets {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: AvailabilitySetsListBySubscriptionOptionalParams
+    options?: AvailabilitySetsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<AvailabilitySet>;
   /**
    * Lists all availability sets in a resource group.
@@ -40,7 +40,7 @@ export interface AvailabilitySets {
    */
   list(
     resourceGroupName: string,
-    options?: AvailabilitySetsListOptionalParams
+    options?: AvailabilitySetsListOptionalParams,
   ): PagedAsyncIterableIterator<AvailabilitySet>;
   /**
    * Lists all available virtual machine sizes that can be used to create a new virtual machine in an
@@ -52,7 +52,7 @@ export interface AvailabilitySets {
   listAvailableSizes(
     resourceGroupName: string,
     availabilitySetName: string,
-    options?: AvailabilitySetsListAvailableSizesOptionalParams
+    options?: AvailabilitySetsListAvailableSizesOptionalParams,
   ): PagedAsyncIterableIterator<VirtualMachineSize>;
   /**
    * Create or update an availability set.
@@ -65,7 +65,7 @@ export interface AvailabilitySets {
     resourceGroupName: string,
     availabilitySetName: string,
     parameters: AvailabilitySet,
-    options?: AvailabilitySetsCreateOrUpdateOptionalParams
+    options?: AvailabilitySetsCreateOrUpdateOptionalParams,
   ): Promise<AvailabilitySetsCreateOrUpdateResponse>;
   /**
    * Update an availability set.
@@ -78,7 +78,7 @@ export interface AvailabilitySets {
     resourceGroupName: string,
     availabilitySetName: string,
     parameters: AvailabilitySetUpdate,
-    options?: AvailabilitySetsUpdateOptionalParams
+    options?: AvailabilitySetsUpdateOptionalParams,
   ): Promise<AvailabilitySetsUpdateResponse>;
   /**
    * Delete an availability set.
@@ -89,7 +89,7 @@ export interface AvailabilitySets {
   delete(
     resourceGroupName: string,
     availabilitySetName: string,
-    options?: AvailabilitySetsDeleteOptionalParams
+    options?: AvailabilitySetsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieves information about an availability set.
@@ -100,6 +100,6 @@ export interface AvailabilitySets {
   get(
     resourceGroupName: string,
     availabilitySetName: string,
-    options?: AvailabilitySetsGetOptionalParams
+    options?: AvailabilitySetsGetOptionalParams,
   ): Promise<AvailabilitySetsGetResponse>;
 }

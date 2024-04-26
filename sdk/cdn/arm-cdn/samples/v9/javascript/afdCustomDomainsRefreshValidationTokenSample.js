@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates the domain validation token.
  *
  * @summary Updates the domain validation token.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/AFDCustomDomains_RefreshValidationToken.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/AFDCustomDomains_RefreshValidationToken.json
  */
 async function afdCustomDomainsDelete() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function afdCustomDomainsDelete() {
   const result = await client.afdCustomDomains.beginRefreshValidationTokenAndWait(
     resourceGroupName,
     profileName,
-    customDomainName
+    customDomainName,
   );
   console.log(result);
 }

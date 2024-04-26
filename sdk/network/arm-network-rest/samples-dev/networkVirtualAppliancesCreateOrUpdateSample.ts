@@ -60,7 +60,7 @@ async function createNetworkVirtualAppliance() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}",
       subscriptionId,
       resourceGroupName,
-      networkVirtualApplianceName
+      networkVirtualApplianceName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

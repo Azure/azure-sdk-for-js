@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Copy an existing long term retention backup.
  *
  * @summary Copy an existing long term retention backup.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-05-01-preview/examples/LongTermRetentionBackupCopy.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/LongTermRetentionBackupCopy.json
  */
 async function copyTheLongTermRetentionBackup() {
   const subscriptionId =

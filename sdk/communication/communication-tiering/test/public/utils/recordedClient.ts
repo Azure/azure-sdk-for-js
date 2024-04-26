@@ -12,10 +12,10 @@ import {
 } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { TieringClient } from "../../../src";
-import { isNode } from "@azure/test-utils";
+import { isNodeLike } from "@azure/core-util";
 import { parseConnectionString } from "@azure/communication-common";
 
-if (isNode) {
+if (isNodeLike) {
   dotenv.config();
 }
 
@@ -52,7 +52,7 @@ export const recorderOptions: RecorderStartOptions = {
 };
 
 export async function createRecordedClient(
-  context: Context
+  context: Context,
 ): Promise<RecordedClient<TieringClient>> {
   const recorder = new Recorder(context.currentTest);
   await recorder.start(recorderOptions);
@@ -67,7 +67,7 @@ export async function createRecordedClient(
   return {
     client: new TieringClient(
       assertEnvironmentVariable("COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"),
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     ),
     recorder,
   };
@@ -84,14 +84,14 @@ export function createMockToken(): {
 }
 
 export async function createRecordedClientWithToken(
-  context: Context
+  context: Context,
 ): Promise<RecordedClient<TieringClient> | undefined> {
   const recorder = new Recorder(context.currentTest);
   await recorder.start(recorderOptions);
 
   let credential: TokenCredential;
   const endpoint = parseConnectionString(
-    assertEnvironmentVariable("COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING")
+    assertEnvironmentVariable("COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"),
   ).endpoint;
 
   if (isPlaybackMode()) {
@@ -104,13 +104,13 @@ export async function createRecordedClientWithToken(
     };
   }
 
-  if (isNode) {
+  if (isNodeLike) {
     credential = new DefaultAzureCredential();
   } else {
     credential = new ClientSecretCredential(
       assertEnvironmentVariable("AZURE_TENANT_ID"),
       assertEnvironmentVariable("AZURE_CLIENT_ID"),
-      assertEnvironmentVariable("AZURE_CLIENT_SECRET")
+      assertEnvironmentVariable("AZURE_CLIENT_SECRET"),
     );
   }
 

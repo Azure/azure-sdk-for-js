@@ -29,7 +29,7 @@ export = {
 
           // check the node corresponding to types to see if its value is a TypeScript declaration file
           "ExpressionStatement > ObjectExpression > Property[key.value='version']": (
-            node: Property
+            node: Property,
           ): void => {
             if (node.value.type !== "Literal") {
               context.report({
@@ -43,7 +43,7 @@ export = {
 
             // check for violations specific to semver
             const versionMatch = version.match(
-              /^(0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-(.+)|$)/
+              /^(0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-(.+)|$)/,
             );
             if (versionMatch === null) {
               context.report({

@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 
 export async function assertAsyncIterable<T>(
-  iter: AsyncIterable<T>,
+  iter: Promise<AsyncIterable<T>>,
   count: number,
-  validate: (x: T) => void
+  validate: (x: T) => void,
 ): Promise<void> {
   let i = 0;
-  for await (const item of iter) {
+  for await (const item of await iter) {
     validate(item);
     i++;
   }

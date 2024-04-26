@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { HealthcareApisManagementClient } from "../healthcareApisManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DicomService,
   DicomServicesListByWorkspaceNextOptionalParams,
@@ -28,7 +32,7 @@ import {
   DicomServicesUpdateOptionalParams,
   DicomServicesUpdateResponse,
   DicomServicesDeleteOptionalParams,
-  DicomServicesListByWorkspaceNextResponse
+  DicomServicesListByWorkspaceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -53,12 +57,12 @@ export class DicomServicesImpl implements DicomServices {
   public listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DicomServicesListByWorkspaceOptionalParams
+    options?: DicomServicesListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<DicomService> {
     const iter = this.listByWorkspacePagingAll(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     );
     return {
       next() {
@@ -75,9 +79,9 @@ export class DicomServicesImpl implements DicomServices {
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -85,7 +89,7 @@ export class DicomServicesImpl implements DicomServices {
     resourceGroupName: string,
     workspaceName: string,
     options?: DicomServicesListByWorkspaceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DicomService[]> {
     let result: DicomServicesListByWorkspaceResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,7 +97,7 @@ export class DicomServicesImpl implements DicomServices {
       result = await this._listByWorkspace(
         resourceGroupName,
         workspaceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -105,7 +109,7 @@ export class DicomServicesImpl implements DicomServices {
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,12 +121,12 @@ export class DicomServicesImpl implements DicomServices {
   private async *listByWorkspacePagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DicomServicesListByWorkspaceOptionalParams
+    options?: DicomServicesListByWorkspaceOptionalParams,
   ): AsyncIterableIterator<DicomService> {
     for await (const page of this.listByWorkspacePagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -137,11 +141,11 @@ export class DicomServicesImpl implements DicomServices {
   private _listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DicomServicesListByWorkspaceOptionalParams
+    options?: DicomServicesListByWorkspaceOptionalParams,
   ): Promise<DicomServicesListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listByWorkspaceOperationSpec
+      listByWorkspaceOperationSpec,
     );
   }
 
@@ -156,11 +160,11 @@ export class DicomServicesImpl implements DicomServices {
     resourceGroupName: string,
     workspaceName: string,
     dicomServiceName: string,
-    options?: DicomServicesGetOptionalParams
+    options?: DicomServicesGetOptionalParams,
   ): Promise<DicomServicesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, dicomServiceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -177,30 +181,29 @@ export class DicomServicesImpl implements DicomServices {
     workspaceName: string,
     dicomServiceName: string,
     dicomservice: DicomService,
-    options?: DicomServicesCreateOrUpdateOptionalParams
+    options?: DicomServicesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<DicomServicesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DicomServicesCreateOrUpdateResponse>,
       DicomServicesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DicomServicesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -209,8 +212,8 @@ export class DicomServicesImpl implements DicomServices {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -218,25 +221,28 @@ export class DicomServicesImpl implements DicomServices {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         dicomServiceName,
         dicomservice,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      DicomServicesCreateOrUpdateResponse,
+      OperationState<DicomServicesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -255,14 +261,14 @@ export class DicomServicesImpl implements DicomServices {
     workspaceName: string,
     dicomServiceName: string,
     dicomservice: DicomService,
-    options?: DicomServicesCreateOrUpdateOptionalParams
+    options?: DicomServicesCreateOrUpdateOptionalParams,
   ): Promise<DicomServicesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       workspaceName,
       dicomServiceName,
       dicomservice,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -280,30 +286,29 @@ export class DicomServicesImpl implements DicomServices {
     dicomServiceName: string,
     workspaceName: string,
     dicomservicePatchResource: DicomServicePatchResource,
-    options?: DicomServicesUpdateOptionalParams
+    options?: DicomServicesUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<DicomServicesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DicomServicesUpdateResponse>,
       DicomServicesUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DicomServicesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -312,8 +317,8 @@ export class DicomServicesImpl implements DicomServices {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -321,25 +326,28 @@ export class DicomServicesImpl implements DicomServices {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         dicomServiceName,
         workspaceName,
         dicomservicePatchResource,
-        options
+        options,
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      DicomServicesUpdateResponse,
+      OperationState<DicomServicesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -358,14 +366,14 @@ export class DicomServicesImpl implements DicomServices {
     dicomServiceName: string,
     workspaceName: string,
     dicomservicePatchResource: DicomServicePatchResource,
-    options?: DicomServicesUpdateOptionalParams
+    options?: DicomServicesUpdateOptionalParams,
   ): Promise<DicomServicesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       dicomServiceName,
       workspaceName,
       dicomservicePatchResource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -381,25 +389,24 @@ export class DicomServicesImpl implements DicomServices {
     resourceGroupName: string,
     dicomServiceName: string,
     workspaceName: string,
-    options?: DicomServicesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: DicomServicesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -408,8 +415,8 @@ export class DicomServicesImpl implements DicomServices {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -417,19 +424,19 @@ export class DicomServicesImpl implements DicomServices {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, dicomServiceName, workspaceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, dicomServiceName, workspaceName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -446,13 +453,13 @@ export class DicomServicesImpl implements DicomServices {
     resourceGroupName: string,
     dicomServiceName: string,
     workspaceName: string,
-    options?: DicomServicesDeleteOptionalParams
+    options?: DicomServicesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       dicomServiceName,
       workspaceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -468,11 +475,11 @@ export class DicomServicesImpl implements DicomServices {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: DicomServicesListByWorkspaceNextOptionalParams
+    options?: DicomServicesListByWorkspaceNextOptionalParams,
   ): Promise<DicomServicesListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listByWorkspaceNextOperationSpec
+      listByWorkspaceNextOperationSpec,
     );
   }
 }
@@ -480,38 +487,15 @@ export class DicomServicesImpl implements DicomServices {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/dicomservices",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/dicomservices",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DicomServiceCollection
+      bodyMapper: Mappers.DicomServiceCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/dicomservices/{dicomServiceName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DicomService
+      bodyMapper: Mappers.ErrorDetails,
     },
-    default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -519,31 +503,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.dicomServiceName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/dicomservices/{dicomServiceName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DicomService,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorDetails,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.dicomServiceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/dicomservices/{dicomServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/dicomservices/{dicomServiceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DicomService
+      bodyMapper: Mappers.DicomService,
     },
     201: {
-      bodyMapper: Mappers.DicomService
+      bodyMapper: Mappers.DicomService,
     },
     202: {
-      bodyMapper: Mappers.DicomService
+      bodyMapper: Mappers.DicomService,
     },
     204: {
-      bodyMapper: Mappers.DicomService
+      bodyMapper: Mappers.DicomService,
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
+      bodyMapper: Mappers.ErrorDetails,
+    },
   },
   requestBody: Parameters.dicomservice,
   queryParameters: [Parameters.apiVersion],
@@ -552,32 +556,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.dicomServiceName
+    Parameters.dicomServiceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/dicomservices/{dicomServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/dicomservices/{dicomServiceName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.DicomService
+      bodyMapper: Mappers.DicomService,
     },
     201: {
-      bodyMapper: Mappers.DicomService
+      bodyMapper: Mappers.DicomService,
     },
     202: {
-      bodyMapper: Mappers.DicomService
+      bodyMapper: Mappers.DicomService,
     },
     204: {
-      bodyMapper: Mappers.DicomService
+      bodyMapper: Mappers.DicomService,
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
+      bodyMapper: Mappers.ErrorDetails,
+    },
   },
   requestBody: Parameters.dicomservicePatchResource,
   queryParameters: [Parameters.apiVersion],
@@ -586,15 +589,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.dicomServiceName
+    Parameters.dicomServiceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/dicomservices/{dicomServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/dicomservices/{dicomServiceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -602,8 +604,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -611,30 +613,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.dicomServiceName
+    Parameters.dicomServiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DicomServiceCollection
+      bodyMapper: Mappers.DicomServiceCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
+      bodyMapper: Mappers.ErrorDetails,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

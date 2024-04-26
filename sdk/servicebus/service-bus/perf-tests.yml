@@ -13,7 +13,7 @@ PackageVersions:
   '@azure/core-paging': 1.4.0
   '@azure/core-rest-pipeline': 1.10.0
   '@azure/core-tracing': 1.0.1
-  '@azure/core-util': 1.1.1
+  '@azure/core-util': 1.3.2
   '@azure/core-xml': 1.3.0
   '@azure/abort-controller': 1.1.0
   '@azure/logger': 1.0.3

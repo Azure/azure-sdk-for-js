@@ -17,11 +17,10 @@
 import { JsonSerializer } from "../../src";
 import { EventData, createEventDataAdapter } from "@azure/event-hubs";
 import { MessagingTestClient } from "./clients/models";
-import { assert } from "@azure/test-utils";
+import { assert, matrix } from "@azure-tools/test-utils";
 import { createEventHubsClient } from "./clients/eventHubs";
 import { createMockedMessagingClient } from "./clients/mocked";
 import { createTestSerializer } from "./utils/mockedSerializer";
-import { matrix } from "@azure/test-utils";
 import { testGroup } from "./utils/dummies";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import { SchemaRegistry } from "@azure/schema-registry";
@@ -43,7 +42,7 @@ matrix([[true, false]] as const, async (skipParsingJson: boolean) => {
         alreadyEnqueued,
         eventHubName: alreadyEnqueued ? inputEventHubName : eventHubName,
         eventHubsConnectionString,
-      })
+      }),
     );
     client.initialize({
       skipParsingBodyAsJson,
@@ -107,7 +106,7 @@ matrix([[true, false]] as const, async (skipParsingJson: boolean) => {
       if (errors.length > 0) {
         throw new Error(
           "The following error(s) occurred:\n" +
-            errors.map(({ error, language }) => `${language}:\t${error.message}`).join("\n")
+            errors.map(({ error, language }) => `${language}:\t${error.message}`).join("\n"),
         );
       }
     }

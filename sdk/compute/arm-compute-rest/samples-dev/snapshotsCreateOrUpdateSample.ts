@@ -43,7 +43,7 @@ async function createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscripti
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}",
       subscriptionId,
       resourceGroupName,
-      snapshotName
+      snapshotName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -81,7 +81,7 @@ async function createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}",
       subscriptionId,
       resourceGroupName,
-      snapshotName
+      snapshotName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -120,7 +120,7 @@ async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscri
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}",
       subscriptionId,
       resourceGroupName,
-      snapshotName
+      snapshotName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -129,7 +129,7 @@ async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscri
 }
 
 createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscriptionInADifferentRegion().catch(
-  console.error
+  console.error,
 );
 /**
  * This sample demonstrates how to Creates or updates a snapshot.
@@ -161,7 +161,7 @@ async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscri
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}",
       subscriptionId,
       resourceGroupName,
-      snapshotName
+      snapshotName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

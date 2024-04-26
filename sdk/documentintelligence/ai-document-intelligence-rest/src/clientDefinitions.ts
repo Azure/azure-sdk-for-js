@@ -82,91 +82,91 @@ import { Client, StreamableMethod } from "@azure-rest/core-client";
 export interface ListOperations {
   /** Lists all operations. */
   get(
-    options?: ListOperationsParameters
+    options?: ListOperationsParameters,
   ): StreamableMethod<ListOperations200Response | ListOperationsDefaultResponse>;
 }
 
 export interface GetDocumentModelBuildOperation {
   /** Gets operation info. */
   get(
-    options?: GetDocumentModelBuildOperationParameters
+    options?: GetDocumentModelBuildOperationParameters,
   ): StreamableMethod<
     GetDocumentModelBuildOperation200Response | GetDocumentModelBuildOperationDefaultResponse
   >;
   /** Gets operation info. */
   get(
-    options?: GetDocumentModelComposeOperationParameters
+    options?: GetDocumentModelComposeOperationParameters,
   ): StreamableMethod<
     GetDocumentModelComposeOperation200Response | GetDocumentModelComposeOperationDefaultResponse
   >;
   /** Gets operation info. */
   get(
-    options?: GetDocumentModelCopyToOperationParameters
+    options?: GetDocumentModelCopyToOperationParameters,
   ): StreamableMethod<
     GetDocumentModelCopyToOperation200Response | GetDocumentModelCopyToOperationDefaultResponse
   >;
   /** Gets operation info. */
   get(
-    options?: GetDocumentClassifierBuildOperationParameters
+    options?: GetDocumentClassifierBuildOperationParameters,
   ): StreamableMethod<
     | GetDocumentClassifierBuildOperation200Response
     | GetDocumentClassifierBuildOperationDefaultResponse
   >;
   /** Gets operation info. */
   get(
-    options?: GetOperationParameters
+    options?: GetOperationParameters,
   ): StreamableMethod<GetOperation200Response | GetOperationDefaultResponse>;
 }
 
 export interface GetResourceInfo {
   /** Return information about the current resource. */
   get(
-    options?: GetResourceInfoParameters
+    options?: GetResourceInfoParameters,
   ): StreamableMethod<GetResourceInfo200Response | GetResourceInfoDefaultResponse>;
 }
 
 export interface GetAnalyzeResult {
   /** Gets the result of document analysis. */
   get(
-    options?: GetAnalyzeResultParameters
+    options?: GetAnalyzeResultParameters,
   ): StreamableMethod<GetAnalyzeResult200Response | GetAnalyzeResultDefaultResponse>;
 }
 
 export interface AnalyzeDocumentFromStream {
   /** Analyzes document with document model. */
   post(
-    options: AnalyzeDocumentFromStreamParameters
+    options: AnalyzeDocumentFromStreamParameters,
   ): StreamableMethod<
     AnalyzeDocumentFromStream202Response | AnalyzeDocumentFromStreamDefaultResponse
   >;
   /** Analyzes document with document model. */
   post(
-    options: AnalyzeDocumentParameters
+    options: AnalyzeDocumentParameters,
   ): StreamableMethod<AnalyzeDocument202Response | AnalyzeDocumentDefaultResponse>;
 }
 
 export interface GetModel {
   /** Gets detailed document model information. */
   get(
-    options?: GetModelParameters
+    options?: GetModelParameters,
   ): StreamableMethod<GetModel200Response | GetModelDefaultResponse>;
   /** Deletes document model. */
   delete(
-    options?: DeleteModelParameters
+    options?: DeleteModelParameters,
   ): StreamableMethod<DeleteModel204Response | DeleteModelDefaultResponse>;
 }
 
 export interface BuildModel {
   /** Builds a custom document analysis model. */
   post(
-    options: BuildModelParameters
+    options: BuildModelParameters,
   ): StreamableMethod<BuildModel202Response | BuildModelDefaultResponse>;
 }
 
 export interface ComposeModel {
   /** Creates a new document model from document types of existing document models. */
   post(
-    options: ComposeModelParameters
+    options: ComposeModelParameters,
   ): StreamableMethod<ComposeModel202Response | ComposeModelDefaultResponse>;
 }
 
@@ -176,66 +176,66 @@ export interface AuthorizeModelCopy {
    * specified modelId and optional description.
    */
   post(
-    options: AuthorizeModelCopyParameters
+    options: AuthorizeModelCopyParameters,
   ): StreamableMethod<AuthorizeModelCopy200Response | AuthorizeModelCopyDefaultResponse>;
 }
 
 export interface CopyModelTo {
   /** Copies document model to the target resource, region, and modelId. */
   post(
-    options: CopyModelToParameters
+    options: CopyModelToParameters,
   ): StreamableMethod<CopyModelTo202Response | CopyModelToDefaultResponse>;
 }
 
 export interface ListModels {
   /** List all document models */
   get(
-    options?: ListModelsParameters
+    options?: ListModelsParameters,
   ): StreamableMethod<ListModels200Response | ListModelsDefaultResponse>;
 }
 
 export interface BuildClassifier {
   /** Builds a custom document classifier. */
   post(
-    options: BuildClassifierParameters
+    options: BuildClassifierParameters,
   ): StreamableMethod<BuildClassifier202Response | BuildClassifierDefaultResponse>;
 }
 
 export interface ListClassifiers {
   /** List all document classifiers. */
   get(
-    options?: ListClassifiersParameters
+    options?: ListClassifiersParameters,
   ): StreamableMethod<ListClassifiers200Response | ListClassifiersDefaultResponse>;
 }
 
 export interface GetClassifier {
   /** Gets detailed document classifier information. */
   get(
-    options?: GetClassifierParameters
+    options?: GetClassifierParameters,
   ): StreamableMethod<GetClassifier200Response | GetClassifierDefaultResponse>;
   /** Deletes document classifier. */
   delete(
-    options?: DeleteClassifierParameters
+    options?: DeleteClassifierParameters,
   ): StreamableMethod<DeleteClassifier204Response | DeleteClassifierDefaultResponse>;
 }
 
 export interface ClassifyDocumentFromStream {
   /** Classifies document with document classifier. */
   post(
-    options: ClassifyDocumentFromStreamParameters
+    options: ClassifyDocumentFromStreamParameters,
   ): StreamableMethod<
     ClassifyDocumentFromStream202Response | ClassifyDocumentFromStreamDefaultResponse
   >;
   /** Classifies document with document classifier. */
   post(
-    options: ClassifyDocumentParameters
+    options: ClassifyDocumentParameters,
   ): StreamableMethod<ClassifyDocument202Response | ClassifyDocumentDefaultResponse>;
 }
 
 export interface GetClassifyResult {
   /** Gets the result of document classifier. */
   get(
-    options?: GetClassifyResultParameters
+    options?: GetClassifyResultParameters,
   ): StreamableMethod<GetClassifyResult200Response | GetClassifyResultDefaultResponse>;
 }
 
@@ -250,7 +250,7 @@ export interface Routes {
   (
     path: "/documentModels/{modelId}/analyzeResults/{resultId}",
     modelId: string,
-    resultId: string
+    resultId: string,
   ): GetAnalyzeResult;
   /** Resource for '/documentModels/\{modelId\}:analyze' has methods for the following verbs: post */
   (path: "/documentModels/{modelId}:analyze", modelId: string): AnalyzeDocumentFromStream;
@@ -275,13 +275,13 @@ export interface Routes {
   /** Resource for '/documentClassifiers/\{classifierId\}:analyze' has methods for the following verbs: post */
   (
     path: "/documentClassifiers/{classifierId}:analyze",
-    classifierId: string
+    classifierId: string,
   ): ClassifyDocumentFromStream;
   /** Resource for '/documentClassifiers/\{classifierId\}/analyzeResults/\{resultId\}' has methods for the following verbs: get */
   (
     path: "/documentClassifiers/{classifierId}/analyzeResults/{resultId}",
     classifierId: string,
-    resultId: string
+    resultId: string,
   ): GetClassifyResult;
 }
 

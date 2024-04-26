@@ -14,7 +14,7 @@ import { FarmBeatsClient } from "./clientDefinitions";
 export default function createClient(
   $host: string,
   credentials: TokenCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): FarmBeatsClient {
   const baseUrl = options.baseUrl ?? `${$host}`;
   options.apiVersion = options.apiVersion ?? "2022-11-01-preview";

@@ -253,7 +253,7 @@ export interface ListJobsQueryParamProperties {
   /**
    * If specified, filter jobs by status.
    *
-   * Possible values: all, pendingClassification, queued, assigned, completed, closed, cancelled, classificationFailed, created, pendingSchedule, scheduled, scheduleFailed, waitingForActivation, active
+   * Possible values: "all", "pendingClassification", "queued", "assigned", "completed", "closed", "cancelled", "classificationFailed", "created", "pendingSchedule", "scheduled", "scheduleFailed", "waitingForActivation", "active"
    */
   status?: string;
   /** If specified, filter jobs by queue. */
@@ -328,7 +328,7 @@ export interface ListWorkersQueryParamProperties {
   /**
    * If specified, select workers by worker state.
    *
-   * Possible values: active, draining, inactive, all
+   * Possible values: "active", "draining", "inactive", "all"
    */
   state?: string;
   /** If specified, select workers who have a channel configuration with this channel. */

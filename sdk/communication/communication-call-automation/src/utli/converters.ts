@@ -27,7 +27,7 @@ import {
 import { CallParticipant } from "../models/models";
 
 function extractKind(
-  identifierModel: CommunicationIdentifierModel
+  identifierModel: CommunicationIdentifierModel,
 ): CommunicationIdentifierModelKind {
   if (identifierModel.communicationUser !== undefined) {
     return KnownCommunicationIdentifierModelKind.CommunicationUser;
@@ -43,7 +43,7 @@ function extractKind(
 
 /** Convert PhoneNumberIdentifier to PhoneNumberIdentifierModel(Internal usage class) */
 export function PhoneNumberIdentifierModelConverter(
-  phoneNumberIdentifier: PhoneNumberIdentifier | undefined
+  phoneNumberIdentifier: PhoneNumberIdentifier | undefined,
 ): PhoneNumberIdentifierModel | undefined {
   if (phoneNumberIdentifier === undefined || phoneNumberIdentifier.phoneNumber === undefined) {
     return undefined;
@@ -56,7 +56,7 @@ export function PhoneNumberIdentifierModelConverter(
 
 /** Convert SerializedPhoneNumberIdentifier to PhoneNumberIdentifier(Public usage class) */
 export function phoneNumberIdentifierConverter(
-  serializedPhoneNumberIdentifier: SerializedPhoneNumberIdentifier | undefined
+  serializedPhoneNumberIdentifier: SerializedPhoneNumberIdentifier | undefined,
 ): PhoneNumberIdentifier | undefined {
   if (
     serializedPhoneNumberIdentifier === undefined ||
@@ -73,7 +73,7 @@ export function phoneNumberIdentifierConverter(
 
 /** Convert CommunicationIdentifierModel to CommunicationIdentifier(Public usage class) */
 export function communicationIdentifierConverter(
-  identifierModel: CommunicationIdentifierModel
+  identifierModel: CommunicationIdentifierModel,
 ): CommunicationIdentifier {
   const rawId = identifierModel.rawId;
   const kind =
@@ -121,7 +121,7 @@ export function communicationIdentifierConverter(
 
 /** Convert CommunicationIdentifier to CommunicationIdentifierModel(Internal usage class) */
 export function communicationIdentifierModelConverter(
-  identifier: CommunicationIdentifier
+  identifier: CommunicationIdentifier,
 ): CommunicationIdentifierModel {
   const serializedIdentifier: SerializedCommunicationIdentifier =
     serializeCommunicationIdentifier(identifier);
@@ -162,7 +162,7 @@ export function communicationIdentifierModelConverter(
 
 /** Convert CallParticipantInternal to CallParticipant */
 export function callParticipantConverter(
-  acsCallParticipant: CallParticipantInternal
+  acsCallParticipant: CallParticipantInternal,
 ): CallParticipant {
   const callParticipant: CallParticipant = {
     ...acsCallParticipant,
@@ -175,7 +175,7 @@ export function callParticipantConverter(
 
 /** Convert CommunicationUserIdentifier to CommunicationUserIdentifierModel (Internal usage class) */
 export function communicationUserIdentifierModelConverter(
-  identifier: CommunicationUserIdentifier | undefined
+  identifier: CommunicationUserIdentifier | undefined,
 ): CommunicationUserIdentifierModel | undefined {
   if (!identifier || !identifier.communicationUserId) {
     return undefined;
@@ -186,7 +186,7 @@ export function communicationUserIdentifierModelConverter(
 
 /** Convert CommunicationUserIdentifierModel to CommunicationUserIdentifier (Public usage class) */
 export function communicationUserIdentifierConverter(
-  identifier: CommunicationUserIdentifierModel | undefined
+  identifier: CommunicationUserIdentifierModel | undefined,
 ): CommunicationUserIdentifier | undefined {
   if (!identifier || !identifier.id) {
     return undefined;

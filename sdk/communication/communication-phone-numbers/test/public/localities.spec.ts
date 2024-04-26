@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { matrix } from "@azure/test-utils";
+import { matrix } from "@azure-tools/test-utils";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
@@ -43,7 +43,7 @@ matrix([[true, false]], async function (useAad) {
       for await (const locality of client.listAvailableLocalities("US", request)) {
         assert.equal(
           locality.administrativeDivision?.abbreviatedName,
-          firstLocality.value.administrativeDivision.abbreviatedName
+          firstLocality.value.administrativeDivision.abbreviatedName,
         );
       }
     }).timeout(60000);

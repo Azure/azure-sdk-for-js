@@ -427,8 +427,454 @@ export interface FirebaseLegacyWebNativePayload {
  * @returns The JSON body to send to Notification Hubs.
  */
 export function createFirebaseLegacyNotificationBody(
-  nativeMessage: FirebaseLegacyNativeMessage,
+  nativeMessage: FirebaseV1NativeMessageEnvelope,
 ): string {
+  return JSON.stringify(nativeMessage);
+}
+
+/**
+ * Represents the Firebase V1 native message envelope.
+ */
+export interface FirebaseV1NativeMessageEnvelope {
+  /**
+   * The Firebase V1 native message.
+   */
+  message: FirebaseV1NativeMessage;
+}
+
+/**
+ * Represents the targets, options, and payload for HTTP JSON messages for the Firebase V1 interface.
+ */
+export interface FirebaseV1NativeMessage {
+  /**
+   * Custom key-value pairs of the message's payload.
+   */
+  data?: Record<string, string>;
+
+  /**
+   * The predefined, user-visible key-value pairs of the notification payload.
+   */
+  notification?: FirebaseV1NativeNotification;
+
+  /**
+   * Android specific options for messages sent through FCM connection server.
+   */
+  android?: FirebaseV1AndroidConfig;
+
+  /**
+   * Webpush protocol options.
+   */
+  webpush?: FirebaseV1WebPushConfig;
+
+  /**
+   * APNs specific options.
+   */
+  apns?: FirebaseV1ApnsConfig;
+
+  /**
+   * FCM options.
+   */
+  fcm_options?: FirebaseV1FcmOptions;
+
+  /**
+   * Registration token to send a message to.
+   */
+  token?: string;
+
+  /**
+   * Topic name to send a message to, e.g. "weather".
+   */
+  topic?: string;
+
+  /**
+   * Condition to send a message to, e.g. "'foo' in topics && 'bar' in topics".
+   */
+  condition?: string;
+}
+
+/**
+ * Represents a native FCM V1 notification message payload.
+ */
+export interface FirebaseV1NativeNotification {
+  /**
+   * The notification's title.
+   */
+  title?: string;
+
+  /**
+   * The notification's body text.
+   */
+  body?: string;
+
+  /**
+   * Contains the URL of an image that is going to be downloaded on the device and displayed in a notification.
+   */
+  image?: string;
+}
+
+/**
+ * Android specific options for messages sent through FCM connection server.
+ */
+export interface FirebaseV1AndroidConfig {
+  /**
+   * An identifier of a group of messages that can be collapsed, so that only the last message gets sent when delivery can be resumed.
+   */
+  collapse_key?: string;
+
+  /**
+   * Message priority. Can take "normal" and "high" values.
+   */
+  priority?: "normal" | "high";
+
+  /**
+   * How long (in seconds) the message should be kept in FCM storage if the device is offline.
+   */
+  ttl?: string;
+
+  /**
+   * Package name of the application where the registration token must match in order to receive the message.
+   */
+  restricted_package_name?: string;
+
+  /**
+   * Custom key-value pairs of the message's payload.
+   */
+  data?: Record<string, string>;
+
+  /**
+   * Notification to send to android devices.
+   */
+  notification?: FirebaseV1AndroidNotification;
+
+  /**
+   * Options for features provided by the FCM SDK for Android.
+   */
+  fcm_options?: FirebaseV1AndroidFcmOptions;
+
+  /**
+   * If set to true, messages will be allowed to be delivered to the app while the device is in direct boot mode.
+   */
+  direct_boot_ok?: boolean;
+}
+
+/**
+ * Notification to send to android devices.
+ */
+export interface FirebaseV1AndroidNotification {
+  /**
+   * The notification's title.
+   */
+  title?: string;
+
+  /**
+   * The notification's body text.
+   */
+  body?: string;
+
+  /**
+   * The notification's icon.
+   */
+  icon?: string;
+
+  /**
+   * The notification's icon color, expressed in #rrggbb format.
+   */
+  color?: string;
+
+  /**
+   * The sound to play when the device receives the notification.
+   */
+  sound?: string;
+
+  /**
+   * Identifier used to replace existing notifications in the notification drawer.
+   */
+  tag?: string;
+
+  /**
+   * The action associated with a user click on the notification.
+   */
+  click_action?: string;
+
+  /**
+   * The key to the body string in the app's string resources to use to localize the body text to the user's current localization.
+   */
+  body_loc_key?: string;
+
+  /**
+   * Variable string values to be used in place of the format specifiers in body_loc_key to use to localize the body text to the user's current localization.
+   */
+  body_loc_args?: string[];
+
+  /**
+   * The key to the title string in the app's string resources to use to localize the title text to the user's current localization.
+   */
+  title_loc_key?: string;
+
+  /**
+   * Variable string values to be used in place of the format specifiers in title_loc_key to use to localize the title text to the user's current localization.
+   */
+  title_loc_args?: string[];
+
+  /**
+   * The notification's channel id (new in Android O).
+   */
+  channel_id?: string;
+
+  /**
+   * Sets the "ticker" text, which is sent to accessibility services.
+   */
+  ticker?: string;
+
+  /**
+   * When set to false or unset, the notification is automatically dismissed when the user clicks it in the panel.
+   */
+  sticky?: boolean;
+
+  /**
+   * Set the time that the event in the notification occurred.
+   */
+  event_time?: string;
+
+  /**
+   * Set whether or not this notification is relevant only to the current device.
+   */
+  local_only?: boolean;
+
+  /**
+   * Set the relative priority for this notification.
+   */
+  notification_priority?: number;
+
+  /**
+   * If set to true, use the Android framework's default sound for the notification.
+   */
+  default_sound?: boolean;
+
+  /**
+   * If set to true, use the Android framework's default vibrate pattern for the notification.
+   */
+  default_vibrate_timings?: boolean;
+
+  /**
+   * If set to true, use the Android framework's default light settings for the notification.
+   */
+  default_light_settings?: boolean;
+
+  /**
+   * Set the vibration pattern to use.
+   */
+  vibrate_timings?: string[];
+
+  /**
+   * Set the Notification.visibility of the notification.
+   */
+  visibility?: number;
+
+  /**
+   * Sets the number of items this notification represents.
+   */
+  notification_count?: number;
+
+  /**
+   * Settings to control the notification's LED blinking rate and color if LED is available on the device.
+   */
+  light_settings?: {
+    color: {
+      red: number;
+      green: number;
+      blue: number;
+      alpha: number;
+    };
+    light_on_duration: string;
+    light_off_duration: string;
+  };
+
+  /**
+   * Contains the URL of an image that is going to be displayed in a notification.
+   */
+  image?: string;
+}
+
+/**
+ * Options for features provided by the FCM SDK for Android.
+ */
+export interface FirebaseV1AndroidFcmOptions {
+  /**
+   * The label associated with the message's analytics data.
+   */
+  analytics_label?: string;
+}
+
+export interface FirebaseV1WebPushConfig {
+  /**
+   * A collection of WebPush protocol options.
+   */
+  headers?: Record<string, string>;
+
+  /**
+   * A collection of WebPush protocol options.
+   */
+  data?: Record<string, string>;
+
+  /**
+   * Web Notification options as a JSON object.
+   */
+  notification?: FirebaseV1WebPushNotification;
+
+  /**
+   * A collection of WebPush protocol options.
+   */
+  fcm_options?: FirebaseV1WebPushFcmOptions;
+}
+
+/**
+ * Represents a Web Push notification payload.
+ */
+export interface FirebaseV1WebPushNotification {
+  /**
+   * An array of actions to display in the notification.
+   */
+  actions?: {
+    action?: string;
+    title?: string;
+    icon?: string;
+  }[];
+
+  /**
+   * Defines a title for the notification.
+   */
+  title?: string;
+
+  /**
+   * The body string of the notification
+   */
+  body?: string;
+
+  /**
+   * A string containing the URL of an icon to be displayed in the notification.
+   */
+  icon?: string;
+
+  /**
+   * A string containing the URL of an image to represent the notification when there is not enough space to display the notification itself such as for example, the Android Notification Bar.
+   */
+  badge?: string;
+
+  /**
+   * The notification's data.
+   */
+  data?: Record<string, string>;
+
+  /**
+   * The direction in which to display the notification.
+   */
+  dir?: "auto" | "ltr" | "rtl";
+
+  /**
+   * A string containing the URL of an image to be displayed in the notification.
+   */
+  image?: string;
+
+  /**
+   * The notification's language.
+   */
+  lang?: string;
+
+  /**
+   * A boolean value specifying whether the user should be notified after a new notification replaces an old one.
+   */
+  renotify?: boolean;
+
+  /**
+   * Indicates that a notification should remain active until the user clicks or dismisses it, rather than closing automatically.
+   */
+  requireInteraction?: boolean;
+
+  /**
+   * A boolean value specifying whether the notification is silent
+   */
+  silent?: boolean;
+
+  /**
+   * A string representing an identifying tag for the notification.
+   */
+  tag?: string;
+
+  /**
+   * A number representing the time at which a notification is created or applicable
+   */
+  timestamp?: number;
+
+  /**
+   * A vibration pattern for the device's vibration hardware to emit with the notification.
+   */
+  vibrate?: number[];
+}
+
+/**
+ * Options for features provided by the FCM SDK for Web.
+ */
+export interface FirebaseV1WebPushFcmOptions {
+  /**
+   * The link to open when the user clicks on the notification.
+   */
+  link?: string;
+
+  /**
+   * Label associated with the message's analytics data.
+   */
+  analytics_label?: string;
+}
+
+/**
+ * Apple Push Notification Service specific options.
+ */
+export interface FirebaseV1ApnsConfig {
+  /**
+   * A collection of APNs headers.
+   */
+  headers?: Record<string, string>;
+
+  /**
+   * A collection of APNs headers.
+   */
+  payload?: AppleNativeMessage;
+
+  /**
+   * A collection of APNs headers.
+   */
+  fcm_options?: FirebaseV1ApnsFcmOptions;
+}
+
+/**
+ * Options for features provided by the FCM SDK for iOS.
+ */
+export interface FirebaseV1ApnsFcmOptions {
+  /**
+   * Label associated with the message's analytics data.
+   */
+  analytics_label?: string;
+
+  /**
+   * Contains the URL of an image that is going to be displayed in a notification.
+   */
+  image?: string;
+}
+
+export interface FirebaseV1FcmOptions {
+  /**
+   * Label associated with the message's analytics data.
+   */
+  analytics_label?: string;
+}
+
+/**
+ * Creates a FcmV1Notification from a native Firebase payload.
+ * @param nativeMessage - The native message payload to send to Notification Hubs.
+ * @returns The JSON body to send to Notification Hubs.
+ */
+export function createFirebaseV1NotificationBody(nativeMessage: FirebaseV1NativeMessage): string {
   return JSON.stringify(nativeMessage);
 }
 
@@ -519,13 +965,7 @@ export interface AdmNativeNotification {
   /**
    * Set the relative priority for this notification.
    */
-  notification_priority?:
-    | "PRIORITY_UNSPECIFIED"
-    | "PRIORITY_MIN"
-    | "PRIORITY_LOW"
-    | "PRIORITY_DEFAULT"
-    | "PRIORITY_HIGH"
-    | "PRIORITY_MAX";
+  notification_priority?: number;
 
   /**
    * If set to true, use the Android framework's default sound for the notification.
@@ -535,7 +975,7 @@ export interface AdmNativeNotification {
   /**
    * Set the Notification.visibility of the notification.
    */
-  visibility?: "VISIBILITY_UNSPECIFIED" | "PRIVATE" | "PUBLIC" | "SECRET";
+  visibility?: number;
 
   /**
    * Sets the number of items this notification represents.

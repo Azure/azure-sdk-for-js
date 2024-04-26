@@ -17,7 +17,7 @@ import {
   listAllTrunks,
   resetUniqueFqdns,
 } from "./utils/recordedClient";
-import { matrix } from "@azure/test-utils";
+import { matrix } from "@azure-tools/test-utils";
 
 matrix([[true, false]], async function (useAad) {
   describe(`SipRoutingClient - set routes${useAad ? " [AAD]" : ""}`, function () {
@@ -235,7 +235,7 @@ matrix([[true, false]], async function (useAad) {
         assert.equal(error.code, "UnprocessableConfiguration");
         const storedRoutes = await listAllRoutes(client);
         assert.isUndefined(
-          storedRoutes.find((item) => item.name === "invalidDuplicatedRoutingTrunksRoute")
+          storedRoutes.find((item) => item.name === "invalidDuplicatedRoutingTrunksRoute"),
         );
         return;
       }

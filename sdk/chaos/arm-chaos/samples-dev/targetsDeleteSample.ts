@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete a Target resource that extends a tracked regional resource.
  *
  * @summary Delete a Target resource that extends a tracked regional resource.
- * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2023-11-01/examples/DeleteTarget.json
+ * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/DeleteTarget.json
  */
 async function deleteATargetThatExtendsAVirtualMachineResource() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function deleteATargetThatExtendsAVirtualMachineResource() {
     parentProviderNamespace,
     parentResourceType,
     parentResourceName,
-    targetName
+    targetName,
   );
   console.log(result);
 }

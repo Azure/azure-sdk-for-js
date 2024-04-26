@@ -10,7 +10,7 @@ import {
   uriSanitizers,
 } from "./utils";
 import { delay, Recorder } from "@azure-tools/test-recorder";
-import { getYieldedValue } from "@azure/test-utils";
+import { getYieldedValue } from "@azure-tools/test-utils";
 import { configureStorageClient, getUniqueName, recorderEnvSetup } from "./utils/index.browser";
 import { Context } from "mocha";
 
@@ -334,7 +334,7 @@ describe("QueueServiceClient", () => {
 
   it("can be created from a sas connection string", async () => {
     const newClient = QueueServiceClient.fromConnectionString(
-      getSASConnectionStringFromEnvironment(recorder)
+      getSASConnectionStringFromEnvironment(recorder),
     );
     configureStorageClient(recorder, newClient);
 
@@ -371,7 +371,7 @@ describe("QueueServiceClient", () => {
     assert.equal(err.details.errorCode, "QueueNotFound", "Error does not contain details property");
     assert.ok(
       err.message.startsWith("The specified queue does not exist."),
-      "Error doesn't say `QueueNotFound`"
+      "Error doesn't say `QueueNotFound`",
     );
   });
 

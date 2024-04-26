@@ -3,7 +3,7 @@
 
 import { assertEnvironmentVariable, setEnvironmentVariables } from "@azure-tools/test-recorder";
 import { EventHubConsumerClient, EventHubProducerClient, EventPosition } from "../../../src";
-import { TestTracer, resetTracer, setTracer } from "@azure/test-utils";
+import { TestTracer, resetTracer, setTracer } from "@azure-tools/test-utils";
 import { delay } from "@azure/core-amqp";
 import { loggerForTest } from "./logHelpers";
 
@@ -63,7 +63,7 @@ export async function loopUntil(args: {
   }
 
   throw new Error(
-    `Waited way too long for ${args.name}: ${args.errorMessageFn ? args.errorMessageFn() : ""}`
+    `Waited way too long for ${args.name}: ${args.errorMessageFn ? args.errorMessageFn() : ""}`,
   );
 }
 
@@ -71,7 +71,7 @@ export async function getStartingPositionsForTests(
   client: Pick<
     EventHubConsumerClient | EventHubProducerClient,
     "getPartitionProperties" | "getEventHubProperties"
-  >
+  >,
 ): Promise<{ [partitionId: string]: EventPosition }> {
   const eventHubProperties = await client.getEventHubProperties();
 
@@ -87,7 +87,7 @@ export async function getStartingPositionsForTests(
 }
 
 export function setTracerForTest<T extends TestTracer>(
-  tracer?: T
+  tracer?: T,
 ): { tracer: T; resetTracer: () => void } {
   tracer = tracer ?? (new TestTracer() as T);
   setTracer(tracer);

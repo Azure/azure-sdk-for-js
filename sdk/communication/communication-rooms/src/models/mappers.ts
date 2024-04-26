@@ -26,7 +26,7 @@ const defaultRole: ParticipantRole = "Attendee";
  * Mapping room participant customer model to room participant REST model.
  */
 export const mapToRoomParticipantRestModel = (
-  roomParticipant: RoomParticipantPatch
+  roomParticipant: RoomParticipantPatch,
 ): RESTRoomParticipant => {
   const { id, role } = roomParticipant;
   if (getIdentifierKind(id).kind !== "communicationUser") {
@@ -43,7 +43,7 @@ export const mapToRoomParticipantRestModel = (
  * Mapping room participant REST model to room participant customer model
  */
 export const mapToRoomParticipantSDKModel = (
-  roomParticipant: RESTRoomParticipant
+  roomParticipant: RESTRoomParticipant,
 ): RoomParticipant => {
   const { rawId, role } = roomParticipant;
   return {
@@ -57,7 +57,7 @@ export const mapToRoomParticipantSDKModel = (
  * Mapping room participant role to participants rawId.
  */
 export const mapRoomParticipantToRawId = (
-  participants?: RoomParticipantPatch[]
+  participants?: RoomParticipantPatch[],
 ): Record<string, ParticipantProperties> => {
   participants = participants ?? [];
   const mappedParticipants: Record<string, RestModel.ParticipantProperties> = {};
@@ -74,7 +74,7 @@ export const mapRoomParticipantToRawId = (
  * Mapping communication identifier for removal.
  */
 export const mapRoomParticipantForRemoval = (
-  ids: CommunicationIdentifier[]
+  ids: CommunicationIdentifier[],
 ): Record<string, ParticipantProperties> => {
   const mappedParticipants: Record<string, any> = {};
   for (const id of ids) {

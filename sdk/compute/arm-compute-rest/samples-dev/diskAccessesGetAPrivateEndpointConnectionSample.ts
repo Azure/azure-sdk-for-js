@@ -33,7 +33,7 @@ async function getInformationAboutAPrivateEndpointConnectionUnderADiskAccessReso
       subscriptionId,
       resourceGroupName,
       diskAccessName,
-      privateEndpointConnectionName
+      privateEndpointConnectionName,
     )
     .get(options);
   console.log(result);

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfOptionDictionary, getEnvVar, drainStream } from "@azure/test-utils-perf";
+import { PerfOptionDictionary, getEnvVar, drainStream } from "@azure-tools/test-perf";
 import { StorageBlobTest } from "./storageTest.spec";
 import {
   BlockBlobClient,
@@ -35,7 +35,7 @@ export class StorageBlobDownloadWithSASTest extends StorageBlobTest<StorageBlobD
   constructor() {
     super();
     this.blockBlobClient = this.containerClient.getBlockBlobClient(
-      StorageBlobDownloadWithSASTest.blobName
+      StorageBlobDownloadWithSASTest.blobName,
     );
     const sasParams = generateBlobSASQueryParameters(
       {
@@ -45,12 +45,12 @@ export class StorageBlobDownloadWithSASTest extends StorageBlobTest<StorageBlobD
         blobName: StorageBlobDownloadWithSASTest.blobName,
         permissions: BlobSASPermissions.parse("r"),
       },
-      this.sharedKeyCredential
+      this.sharedKeyCredential,
     ).toString();
 
     this.sasUrl = `https://${getValueInConnString(
       getEnvVar("STORAGE_CONNECTION_STRING"),
-      "AccountName"
+      "AccountName",
     )}.blob.core.windows.net/${StorageBlobDownloadWithSASTest.containerName}/${
       StorageBlobDownloadWithSASTest.blobName
     }?${sasParams}`;
@@ -63,7 +63,7 @@ export class StorageBlobDownloadWithSASTest extends StorageBlobTest<StorageBlobD
     // Create a blob
     await this.blockBlobClient.upload(
       Buffer.alloc(this.parsedOptions.size.value),
-      this.parsedOptions.size.value
+      this.parsedOptions.size.value,
     );
   }
 

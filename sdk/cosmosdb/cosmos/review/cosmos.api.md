@@ -8,7 +8,6 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { AbortError } from '@azure/abort-controller';
-import { AbortSignal as AbortSignal_2 } from 'node-abort-controller';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
@@ -68,6 +67,7 @@ export class ChangeFeedIterator<T> {
 
 // @public
 export interface ChangeFeedIteratorOptions {
+    changeFeedMode?: ChangeFeedMode;
     changeFeedStartFrom?: ChangeFeedStartFrom;
     maxItemCount?: number;
     sessionToken?: string;
@@ -87,6 +87,14 @@ export class ChangeFeedIteratorResponse<T> {
     readonly subStatusCode?: number;
 }
 
+// @public (undocumented)
+export enum ChangeFeedMode {
+    // (undocumented)
+    AllVersionsAndDeletes = "Full-Fidelity Feed",
+    // (undocumented)
+    LatestVersion = "Incremental Feed"
+}
+
 // @public
 export interface ChangeFeedOptions {
     continuation?: string;
@@ -94,6 +102,13 @@ export interface ChangeFeedOptions {
     sessionToken?: string;
     startFromBeginning?: boolean;
     startTime?: Date;
+}
+
+// @public
+export class ChangeFeedPolicy {
+    constructor(retentionDuration: ChangeFeedRetentionTimeSpan);
+    // (undocumented)
+    retentionDuration: number;
 }
 
 // @public
@@ -116,6 +131,11 @@ export class ChangeFeedResponse<T> {
     readonly result: T;
     get sessionToken(): string;
     readonly statusCode: number;
+}
+
+// @public (undocumented)
+export class ChangeFeedRetentionTimeSpan {
+    static fromMinutes(minutes: number): ChangeFeedRetentionTimeSpan;
 }
 
 // @public
@@ -206,7 +226,7 @@ export class ClientContext {
     getClientConfig(): ClientConfigDiagnostic;
     getDatabaseAccount(diagnosticNode: DiagnosticNodeInternal, options?: RequestOptions): Promise<Response_2<DatabaseAccount>>;
     // (undocumented)
-    getQueryPlan(path: string, resourceType: ResourceType, resourceId: string, query: SqlQuerySpec | string, options: FeedOptions, diagnosticNode: DiagnosticNodeInternal): Promise<Response_2<PartitionedQueryExecutionInfo>>;
+    getQueryPlan(path: string, resourceType: ResourceType, resourceId: string, query: SqlQuerySpec | string, options: FeedOptions, diagnosticNode: DiagnosticNodeInternal, correlatedActivityId?: string): Promise<Response_2<PartitionedQueryExecutionInfo>>;
     // (undocumented)
     getReadEndpoint(diagnosticNode: DiagnosticNodeInternal): Promise<string>;
     // (undocumented)
@@ -232,7 +252,7 @@ export class ClientContext {
         diagnosticNode: DiagnosticNodeInternal;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
-    queryFeed<T>({ path, resourceType, resourceId, resultFn, query, options, diagnosticNode, partitionKeyRangeId, partitionKey, startEpk, endEpk, }: {
+    queryFeed<T>({ path, resourceType, resourceId, resultFn, query, options, diagnosticNode, partitionKeyRangeId, partitionKey, startEpk, endEpk, correlatedActivityId, }: {
         path: string;
         resourceType: ResourceType;
         resourceId: string;
@@ -246,6 +266,7 @@ export class ClientContext {
         partitionKey?: PartitionKey;
         startEpk?: string | undefined;
         endEpk?: string | undefined;
+        correlatedActivityId?: string;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
     queryPartitionKeyRanges(collectionLink: string, query?: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<PartitionKeyRange>;
@@ -305,6 +326,15 @@ export type ClientSideRequestStatistics = {
     totalRequestPayloadLengthInBytes: number;
     totalResponsePayloadLengthInBytes: number;
 };
+
+// @public (undocumented)
+export interface ComputedProperty {
+    // (undocumented)
+    [key: string]: any;
+    name: string;
+    // (undocumented)
+    query: string;
+}
 
 // @public
 export class Conflict {
@@ -446,7 +476,9 @@ export const Constants: {
         ContinuationToken: string;
         PageSize: string;
         ItemCount: string;
+        ChangeFeedWireFormatVersion: string;
         ActivityId: string;
+        CorrelatedActivityId: string;
         PreTriggerInclude: string;
         PreTriggerExclude: string;
         PostTriggerInclude: string;
@@ -504,6 +536,7 @@ export const Constants: {
         IsBatchAtomic: string;
         BatchContinueOnError: string;
         DedicatedGatewayPerRequestCacheStaleness: string;
+        DedicatedGatewayPerRequestBypassCache: string;
         ForceRefresh: string;
         PriorityLevel: string;
     };
@@ -556,6 +589,8 @@ export const Constants: {
         MinimumInclusiveEffectivePartitionKey: string;
         MaximumExclusiveEffectivePartitionKey: string;
     };
+    AllVersionsAndDeletesChangeFeedWireFormatVersion: string;
+    ChangeFeedIfNoneMatchStartFromNowHeader: string;
 };
 
 // @public
@@ -591,6 +626,8 @@ export class Container {
 
 // @public (undocumented)
 export interface ContainerDefinition {
+    changeFeedPolicy?: ChangeFeedPolicy;
+    computedProperties?: ComputedProperty[];
     conflictResolutionPolicy?: ConflictResolutionPolicy;
     defaultTtl?: number;
     geospatialConfig?: {
@@ -915,21 +952,21 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
 // @public (undocumented)
 export enum DiagnosticNodeType {
     // (undocumented)
-    BACKGROUND_REFRESH_THREAD = "BACKGROUND_REFRESH_THREAD",
+    BACKGROUND_REFRESH_THREAD = "BACKGROUND_REFRESH_THREAD",// Top most node representing client operations.
     // (undocumented)
-    BATCH_REQUEST = "BATCH_REQUEST",
+    BATCH_REQUEST = "BATCH_REQUEST",// Node representing a metadata request.
     // (undocumented)
-    CLIENT_REQUEST_NODE = "CLIENT_REQUEST_NODE",
+    CLIENT_REQUEST_NODE = "CLIENT_REQUEST_NODE",// Node representing REST call to backend services.
     // (undocumented)
-    DEFAULT_QUERY_NODE = "DEFAULT_QUERY_NODE",
+    DEFAULT_QUERY_NODE = "DEFAULT_QUERY_NODE",// Node representing batch request.
     // (undocumented)
-    HTTP_REQUEST = "HTTP_REQUEST",
+    HTTP_REQUEST = "HTTP_REQUEST",// Node representing parallel query execution.
     // (undocumented)
-    METADATA_REQUEST_NODE = "METADATA_REQUEST_NODE",
+    METADATA_REQUEST_NODE = "METADATA_REQUEST_NODE",// Node representing default query execution.
     // (undocumented)
-    PARALLEL_QUERY_NODE = "PARALLEL_QUERY_NODE",
+    PARALLEL_QUERY_NODE = "PARALLEL_QUERY_NODE",// Node representing query repair.
     // (undocumented)
-    QUERY_REPAIR_NODE = "QUERY_REPAIR_NODE",
+    QUERY_REPAIR_NODE = "QUERY_REPAIR_NODE",// Node representing background refresh.
     // (undocumented)
     REQUEST_ATTEMPTS = "REQUEST_ATTEMPTS"
 }
@@ -2113,7 +2150,8 @@ export function setAuthorizationTokenHeaderUsingMasterKey(verb: HTTPMethod, reso
 
 // @public
 export interface SharedOptions {
-    abortSignal?: AbortSignal_2;
+    abortSignal?: AbortSignal;
+    bypassIntegratedCache?: boolean;
     initialHeaders?: CosmosHeaders;
     maxIntegratedCacheStalenessInMs?: number;
     priorityLevel?: PriorityLevel;

@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { TypeSpecRuntimeLogger } from "../src/logger/logger";
-import { RequestBodyType } from "../src/interfaces";
-import { isNodeReadableStream, isWebReadableStream } from "../src/util/typeGuards";
+import { assert } from "vitest";
+import { TypeSpecRuntimeLogger } from "../src/logger/logger.js";
+import { RequestBodyType } from "../src/interfaces.js";
+import { isNodeReadableStream } from "../src/util/typeGuards.js";
 
 export function makeTestLogger(): {
   logger: TypeSpecRuntimeLogger;
@@ -36,14 +36,14 @@ export function makeTestLogger(): {
 export function assertUint8ArraySame(
   actual: Uint8Array,
   expected: Uint8Array,
-  message?: string
+  message?: string,
 ): void {
   assert.sameOrderedMembers([...actual], [...expected], message);
 }
 
 export async function assertBodyMatches(
   resettableActual: RequestBodyType | undefined,
-  expected: Uint8Array
+  expected: Uint8Array,
 ): Promise<void> {
   if (!resettableActual) {
     assert.fail("Expected a request body");
@@ -51,8 +51,8 @@ export async function assertBodyMatches(
 
   const actual = typeof resettableActual === "function" ? resettableActual() : resettableActual;
 
-  if (isWebReadableStream(actual)) {
-    const actualBytes = new Uint8Array(await new Response(actual).arrayBuffer());
+  if (actual instanceof Blob) {
+    const actualBytes = new Uint8Array(await actual.arrayBuffer());
     assertUint8ArraySame(actualBytes, expected, "body does not match");
   } else if (isNodeReadableStream(actual)) {
     const buffers: Buffer[] = [];

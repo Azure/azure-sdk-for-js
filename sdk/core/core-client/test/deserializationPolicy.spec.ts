@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as sinon from "sinon";
+import { describe, it, assert, vi } from "vitest";
 import {
   CompositeMapper,
   FullOperationResponse,
@@ -10,7 +10,7 @@ import {
   SerializerOptions,
   createSerializer,
   deserializationPolicy,
-} from "../src";
+} from "../src/index.js";
 import {
   PipelineResponse,
   RawHttpHeaders,
@@ -18,8 +18,7 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { assert } from "chai";
-import { getOperationRequestInfo } from "../src/operationHelpers";
+import { getOperationRequestInfo } from "../src/operationHelpers.js";
 import { parseXML } from "@azure/core-xml";
 
 describe("deserializationPolicy", function () {
@@ -684,7 +683,7 @@ describe("deserializationPolicy", function () {
         assert.strictEqual(e.response.parsedBody.code, "ContainerAlreadyExists");
         assert.strictEqual(
           e.response.parsedBody.message,
-          "The specified container already exists."
+          "The specified container already exists.",
         );
       }
     });
@@ -805,7 +804,7 @@ async function getDeserializedResponse(
     bodyAsText?: string;
     xmlContentTypes?: string[];
     serializerOptions?: SerializerOptions;
-  } = {}
+  } = {},
 ): Promise<FullOperationResponse> {
   const policy = deserializationPolicy({
     expectedContentTypes: { xml: options.xmlContentTypes },
@@ -823,8 +822,8 @@ async function getDeserializedResponse(
     bodyAsText: options.bodyAsText,
     status: options.status ?? 200,
   };
-  const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-  next.resolves(res);
+  const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+  next.mockResolvedValue(res);
 
   const response = await policy.sendRequest(request, next);
   return response;

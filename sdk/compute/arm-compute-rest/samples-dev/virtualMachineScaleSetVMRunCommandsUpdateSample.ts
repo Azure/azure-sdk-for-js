@@ -39,7 +39,7 @@ async function updateVirtualMachineScaleSetVMRunCommand() {
       resourceGroupName,
       vmScaleSetName,
       instanceId,
-      runCommandName
+      runCommandName,
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);

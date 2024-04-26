@@ -13,15 +13,15 @@ import {
 
 export async function getLongRunningPoller(
   client: AzureLoadTestingClient,
-  initialResponse: TestUploadFileSuccessResponse
+  initialResponse: TestUploadFileSuccessResponse,
 ): Promise<FileUploadAndValidatePoller>;
 export async function getLongRunningPoller(
   client: AzureLoadTestingClient,
-  initialResponse: TestRunCreateOrUpdateSuccessResponse
+  initialResponse: TestRunCreateOrUpdateSuccessResponse,
 ): Promise<TestRunCompletionPoller>;
 export async function getLongRunningPoller(
   client: AzureLoadTestingClient,
-  initialResponse: TestRunCreateOrUpdateSuccessResponse | TestUploadFileSuccessResponse
+  initialResponse: TestRunCreateOrUpdateSuccessResponse | TestUploadFileSuccessResponse,
 ): Promise<TestRunCompletionPoller | FileUploadAndValidatePoller> {
   if (isFileUpload(initialResponse)) {
     return getFileValidationPoller(client, initialResponse);

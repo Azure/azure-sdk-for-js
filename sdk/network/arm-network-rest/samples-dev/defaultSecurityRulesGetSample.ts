@@ -33,7 +33,7 @@ async function defaultSecurityRuleGet() {
       subscriptionId,
       resourceGroupName,
       networkSecurityGroupName,
-      defaultSecurityRuleName
+      defaultSecurityRuleName,
     )
     .get(options);
   console.log(result);

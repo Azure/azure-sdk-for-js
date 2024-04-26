@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a new origin group within the specified endpoint.
  *
  * @summary Creates a new origin group within the specified endpoint.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/OriginGroups_Create.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/OriginGroups_Create.json
  */
 async function originGroupsCreate() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -31,18 +31,17 @@ async function originGroupsCreate() {
       probeIntervalInSeconds: 120,
       probePath: "/health.aspx",
       probeProtocol: "Http",
-      probeRequestType: "GET"
+      probeRequestType: "GET",
     },
     origins: [
       {
-        id:
-          "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/origins/origin1"
-      }
+        id: "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/origins/origin1",
+      },
     ],
     responseBasedOriginErrorDetectionSettings: {
       responseBasedDetectedErrorTypes: "TcpErrorsOnly",
-      responseBasedFailoverThresholdPercentage: 10
-    }
+      responseBasedFailoverThresholdPercentage: 10,
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
@@ -51,7 +50,7 @@ async function originGroupsCreate() {
     profileName,
     endpointName,
     originGroupName,
-    originGroup
+    originGroup,
   );
   console.log(result);
 }

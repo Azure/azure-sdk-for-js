@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { Context } from "mocha";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
@@ -55,7 +55,7 @@ onVersions({ minVer: "7.2" }).describe(
         cryptoClient = new CryptographyClient(
           keyVaultKey.id!,
           credential,
-          recorder.configureClientOptions({ disableChallengeResourceVerification: !isLiveMode() })
+          recorder.configureClientOptions({ disableChallengeResourceVerification: !isLiveMode() }),
         );
         const text = this.test!.title;
         const encryptResult = await cryptoClient.encrypt({
@@ -83,7 +83,7 @@ onVersions({ minVer: "7.2" }).describe(
         cryptoClient = new CryptographyClient(
           keyVaultKey.id!,
           credential,
-          recorder.configureClientOptions({ disableChallengeResourceVerification: !isLiveMode() })
+          recorder.configureClientOptions({ disableChallengeResourceVerification: !isLiveMode() }),
         );
         const text = this.test!.title;
         // We are using a predictable IV to support our recorded tests; however, you should use a cryptographically secure IV or omit it and
@@ -104,5 +104,5 @@ onVersions({ minVer: "7.2" }).describe(
         await testClient?.flushKey(keyName);
       });
     });
-  }
+  },
 );

@@ -34,7 +34,7 @@ async function deleteServiceEndpointPolicyDefinitionsFromServiceEndpointPolicy()
       subscriptionId,
       resourceGroupName,
       serviceEndpointPolicyName,
-      serviceEndpointPolicyDefinitionName
+      serviceEndpointPolicyDefinitionName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

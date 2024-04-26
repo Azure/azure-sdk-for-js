@@ -3,11 +3,10 @@
 
 import { Edm, TableClient, TableEntity, TableEntityResult, odata } from "../../src";
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
-import { isNode, isNode8 } from "@azure/test-utils";
-
+import { isNodeLike } from "@azure/core-util";
 import { Context } from "mocha";
 import { FullOperationResponse, OperationOptions } from "@azure/core-client";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { createTableClient } from "./utils/recordedClient";
 
 describe("special characters", function () {
@@ -51,7 +50,7 @@ describe(`TableClient`, function () {
   let client: TableClient;
   let unRecordedClient: TableClient;
   let recorder: Recorder;
-  const suffix = isNode ? "node" : "browser";
+  const suffix = isNodeLike ? "node" : "browser";
   const tableName = `tableClientTest${suffix}`;
   const listPartitionKey = "listEntitiesTest";
 
@@ -143,13 +142,13 @@ describe(`TableClient`, function () {
       for (let i = 0; i < barItems; i++) {
         assert.isTrue(
           all.some((e) => e.rowKey === `${i}`),
-          `Couldn't find entity with row key ${i}`
+          `Couldn't find entity with row key ${i}`,
         );
       }
 
       assert.isTrue(
         all.some((e) => e.rowKey === `binary1`),
-        `Couldn't find entity with row key binary1`
+        `Couldn't find entity with row key binary1`,
       );
     });
 
@@ -167,7 +166,7 @@ describe(`TableClient`, function () {
       for (let i = 0; i < barItems; i++) {
         assert.isTrue(
           all.some((e) => e.rowKey === `${i}`),
-          `Couldn't find entity with row key ${i}`
+          `Couldn't find entity with row key ${i}`,
         );
       }
     });
@@ -184,11 +183,11 @@ describe(`TableClient`, function () {
         all = [...all, entity];
       }
 
-      if (isNode) {
+      if (isNodeLike) {
         assert.deepEqual(all[0].foo, Buffer.from("Bar"));
       }
 
-      if (!isNode) {
+      if (!isNodeLike) {
         assert.deepEqual(String.fromCharCode(...all[0].foo), "Bar");
       }
     });
@@ -307,12 +306,12 @@ describe(`TableClient`, function () {
 
       const result = await client.getEntity<TestResult>(expected.partitionKey, expected.rowKey);
 
-      if (isNode) {
+      if (isNodeLike) {
         assert.deepEqual(result.binary, Buffer.from("Bar"));
         assert.deepEqual(result.binaryMetadata, Buffer.from("Bar"));
       }
 
-      if (!isNode) {
+      if (!isNodeLike) {
         assert.deepEqual(String.fromCharCode(...result.binary), "Bar");
         assert.deepEqual(String.fromCharCode(...result.binaryMetadata), "Bar");
       }
@@ -428,9 +427,6 @@ describe(`TableClient`, function () {
     });
 
     it("should createEntity with Int64", async function (this: Mocha.Context) {
-      if (isNode8) {
-        this.skip();
-      }
       type TestType = {
         testField: Edm<"Int64">;
       };
@@ -481,7 +477,7 @@ describe(`TableClient`, function () {
       await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
       const result = await client.getEntity<ResponseType>(
         testEntity.partitionKey,
-        testEntity.rowKey
+        testEntity.rowKey,
       );
       await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey, {
         onResponse: (res) => (deleteResult = res),
@@ -519,7 +515,7 @@ describe(`TableClient`, function () {
       await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
       const result = await client.getEntity<ResponseType>(
         testEntity.partitionKey,
-        testEntity.rowKey
+        testEntity.rowKey,
       );
       await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey, {
         onResponse: (res) => (deleteResult = res),
@@ -688,7 +684,7 @@ describe(`TableClient`, function () {
           "TableClient.listEntitiesPage",
           "TableClient.deleteEntity",
           "TableClient.deleteTable",
-        ]
+        ],
       );
     });
   });

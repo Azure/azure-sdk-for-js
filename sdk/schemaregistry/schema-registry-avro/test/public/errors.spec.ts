@@ -78,7 +78,7 @@ describe("Error scenarios", function () {
             data: Uint8Array.from([0]),
             contentType: `avro/binary+${uuid()}`,
           }),
-          /does not exist/
+          /does not exist/,
         );
       });
     });
@@ -122,7 +122,7 @@ describe("Error scenarios", function () {
             name: "",
             favoriteNumber: 1,
           },
-          JSON.stringify(writerSchema)
+          JSON.stringify(writerSchema),
         );
         await assertError(
           serializer.deserialize(message, {
@@ -130,7 +130,7 @@ describe("Error scenarios", function () {
           }),
           {
             causeMessage: /missing array items/,
-          }
+          },
         );
         schemaList.push(`${writerSchema.namespace}.${writerSchema.name}`);
       });
@@ -170,7 +170,7 @@ describe("Error scenarios", function () {
             name: "",
             favoriteNumber: 1,
           },
-          JSON.stringify(writerSchema)
+          JSON.stringify(writerSchema),
         );
         await assertError(
           serializer.deserialize(message, {
@@ -178,7 +178,7 @@ describe("Error scenarios", function () {
           }),
           {
             causeMessage: /no matching field for default-less validation.AvroUser.age/,
-          }
+          },
         );
         schemaList.push(`${writerSchema.namespace}.${writerSchema.name}`);
       });
@@ -215,7 +215,7 @@ describe("Error scenarios", function () {
             name: "",
             favoriteNumber: 1,
           },
-          JSON.stringify(writerSchema)
+          JSON.stringify(writerSchema),
         );
         await assertError(
           serializer.deserialize({
@@ -224,7 +224,7 @@ describe("Error scenarios", function () {
           }),
           {
             causeMessage: /Unexpected end of JSON input/,
-          }
+          },
         );
       });
       it("incompatible writer schema", async function () {
@@ -269,7 +269,7 @@ describe("Error scenarios", function () {
             name: "",
             favoriteNumber: 1,
           },
-          JSON.stringify(writerSchema1)
+          JSON.stringify(writerSchema1),
         );
         await assertError(
           serializer.deserialize({
@@ -278,7 +278,7 @@ describe("Error scenarios", function () {
           }),
           {
             causeMessage: /truncated buffer/,
-          }
+          },
         );
         schemaList.push("test", `${writerSchema1.namespace}.${writerSchema1.name}`);
       });
@@ -291,7 +291,7 @@ describe("Error scenarios", function () {
             data: Buffer.alloc(1),
             contentType: "application/json+1234",
           }),
-          /application\/json.*avro\/binary/
+          /application\/json.*avro\/binary/,
         );
       });
       it("a schema with non-avro format", async function (this: Context) {
@@ -302,7 +302,7 @@ describe("Error scenarios", function () {
             format: "notavro",
             groupName: testGroup,
           }),
-          /Invalid schema type for PUT request.*notavro/
+          /Invalid schema type for PUT request.*notavro/,
         );
       });
       it("not JSON schema", async function () {
@@ -319,7 +319,7 @@ describe("Error scenarios", function () {
           serializer.serialize(null, null as any),
           {
             causeMessage: /invalid type: null/,
-          }
+          },
         );
       });
       it("schema without a name", async function () {
@@ -332,11 +332,11 @@ describe("Error scenarios", function () {
             JSON.stringify({
               type: "array",
               items: "int",
-            })
+            }),
           ),
           {
             message: /Schema must have a name/,
-          }
+          },
         );
       });
       it("enum schema without symbols", async function () {
@@ -354,11 +354,11 @@ describe("Error scenarios", function () {
                   },
                 },
               ],
-            })
+            }),
           ),
           {
             causeMessage: /invalid enum symbols: undefined/,
-          }
+          },
         );
       });
       it("fixed schema without size", async function () {
@@ -376,11 +376,11 @@ describe("Error scenarios", function () {
                   },
                 },
               ],
-            })
+            }),
           ),
           {
             causeMessage: /invalid fixed size/,
-          }
+          },
         );
       });
       it("array schema without items", async function () {
@@ -398,11 +398,11 @@ describe("Error scenarios", function () {
                   },
                 },
               ],
-            })
+            }),
           ),
           {
             causeMessage: /missing array items: {"type":"array"}/,
-          }
+          },
         );
       });
       it("map schema without values", async function () {
@@ -420,11 +420,11 @@ describe("Error scenarios", function () {
                   },
                 },
               ],
-            })
+            }),
           ),
           {
             causeMessage: /missing map values: {"type":"map"}/,
-          }
+          },
         );
       });
       it("record schema without fields", async function () {
@@ -434,11 +434,11 @@ describe("Error scenarios", function () {
             JSON.stringify({
               type: "record",
               name: "foo",
-            })
+            }),
           ),
           {
             causeMessage: /non-array record fields: undefined/,
-          }
+          },
         );
       });
     });
@@ -490,11 +490,11 @@ describe("Error scenarios", function () {
                 type: "null",
               },
             ],
-          })
+          }),
         ),
         {
           causeMessage: /invalid "null": 1/,
-        }
+        },
       );
       assert.isTrue(ran, `Expected a service call to register the schema but non was sent!`);
     });
@@ -514,11 +514,11 @@ describe("Error scenarios", function () {
                 type: "null",
               },
             ],
-          })
+          }),
         ),
         {
           causeMessage: /invalid "null": 1/,
-        }
+        },
       );
     });
     it("boolean", async function () {
@@ -537,11 +537,11 @@ describe("Error scenarios", function () {
                 type: "boolean",
               },
             ],
-          })
+          }),
         ),
         {
           causeMessage: /invalid "boolean": 1/,
-        }
+        },
       );
     });
     it("int", async function () {
@@ -560,11 +560,11 @@ describe("Error scenarios", function () {
                 type: "int",
               },
             ],
-          })
+          }),
         ),
         {
           causeMessage: /invalid "int": null/,
-        }
+        },
       );
     });
     it("long", async function () {
@@ -583,11 +583,11 @@ describe("Error scenarios", function () {
                 type: "long",
               },
             ],
-          })
+          }),
         ),
         {
           causeMessage: /invalid "long": 9007199254740991/,
-        }
+        },
       );
     });
     it("long with logical DateTime type", async function () {
@@ -601,11 +601,11 @@ describe("Error scenarios", function () {
             name: "User",
             namespace: "validation",
             fields: [{ name: "time", type: { type: "long", logicalType: "timestamp-millis" } }],
-          })
+          }),
         ),
         {
           causeMessage: /invalid "long": null/,
-        }
+        },
       );
     });
     it("float", async function () {
@@ -624,11 +624,11 @@ describe("Error scenarios", function () {
                 type: "float",
               },
             ],
-          })
+          }),
         ),
         {
           causeMessage: /invalid "float": ""/,
-        }
+        },
       );
     });
     it("double", async function () {
@@ -647,11 +647,11 @@ describe("Error scenarios", function () {
                 type: "double",
               },
             ],
-          })
+          }),
         ),
         {
           causeMessage: /invalid "double": ""/,
-        }
+        },
       );
     });
     it("string", async function () {
@@ -670,11 +670,11 @@ describe("Error scenarios", function () {
                 type: "string",
               },
             ],
-          })
+          }),
         ),
         {
           causeMessage: /invalid "string": 1/,
-        }
+        },
       );
     });
     it("bytes", async function () {
@@ -693,11 +693,11 @@ describe("Error scenarios", function () {
                 type: "bytes",
               },
             ],
-          })
+          }),
         ),
         {
           causeMessage: /invalid "bytes": 1/,
-        }
+        },
       );
     });
     it("union", async function () {
@@ -716,11 +716,11 @@ describe("Error scenarios", function () {
                 type: ["null", "string"],
               },
             ],
-          })
+          }),
         ),
         {
           causeMessage: /invalid \["null","string"\]: 1/,
-        }
+        },
       );
     });
     it("enum", async function () {
@@ -743,12 +743,12 @@ describe("Error scenarios", function () {
                 },
               },
             ],
-          })
+          }),
         ),
         {
           causeMessage:
             /invalid {"name":"validation.foo","type":"enum","symbols":\["A","B"\]}: "x"/,
-        }
+        },
       );
     });
     it("fixed", async function () {
@@ -771,11 +771,11 @@ describe("Error scenarios", function () {
                 },
               },
             ],
-          })
+          }),
         ),
         {
           causeMessage: /invalid {"name":"validation.foo","type":"fixed","size":16}: "x"/,
-        }
+        },
       );
     });
     it("map", async function () {
@@ -801,11 +801,11 @@ describe("Error scenarios", function () {
                 },
               },
             ],
-          })
+          }),
         ),
         {
           causeMessage: /invalid {"type":"map","values":"long"}: "x"/,
-        }
+        },
       );
     });
     it("array", async function () {
@@ -831,11 +831,11 @@ describe("Error scenarios", function () {
                 },
               },
             ],
-          })
+          }),
         ),
         {
           causeMessage: /invalid {"type":"array","items":"long"}: "x"/,
-        }
+        },
       );
     });
     it("record", async function () {
@@ -852,11 +852,11 @@ describe("Error scenarios", function () {
                 type: "int",
               },
             ],
-          })
+          }),
         ),
         {
           causeMessage: /invalid "int": undefined/,
-        }
+        },
       );
     });
   });
@@ -886,7 +886,7 @@ describe("Error scenarios", function () {
               type: "string",
             },
           ],
-        })
+        }),
       );
       assert.deepEqual(serializedValue.data, Uint8Array.from([2, 2, 120]));
       serializedValue.data = Buffer.from([2, 2]);
@@ -913,11 +913,11 @@ describe("Error scenarios", function () {
               type: "long",
             },
           ],
-        })
+        }),
       );
       assert.deepEqual(
         serializedValue.data,
-        Uint8Array.from([252, 255, 255, 255, 255, 255, 255, 31])
+        Uint8Array.from([252, 255, 255, 255, 255, 255, 255, 31]),
       );
       serializedValue.data = Uint8Array.from([252, 255, 255, 255, 255, 255, 255, 32]);
       await assertError(serializer.deserialize(serializedValue), {
@@ -939,7 +939,7 @@ describe("Error scenarios", function () {
               type: ["null", "string"],
             },
           ],
-        })
+        }),
       );
       assert.deepEqual(serializedValue.data, Uint8Array.from([2, 2, 120]));
       serializedValue.data = Uint8Array.from([5, 2, 120]);
@@ -966,7 +966,7 @@ describe("Error scenarios", function () {
               },
             },
           ],
-        })
+        }),
       );
       assert.deepEqual(serializedValue.data, Uint8Array.from([0]));
       serializedValue.data = Uint8Array.from([10]);
@@ -1004,7 +1004,7 @@ describe("Error scenarios", function () {
         }),
         {
           causeMessage: /Invalid date/,
-        }
+        },
       );
 
       schemaList.push(testSchemaName);

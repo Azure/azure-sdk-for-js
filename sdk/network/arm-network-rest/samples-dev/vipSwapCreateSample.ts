@@ -35,7 +35,7 @@ async function putVipSwapOperation() {
       subscriptionId,
       groupName,
       resourceName,
-      singletonResource
+      singletonResource,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

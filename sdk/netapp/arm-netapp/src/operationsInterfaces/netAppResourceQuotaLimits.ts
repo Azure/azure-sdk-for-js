@@ -11,7 +11,7 @@ import {
   SubscriptionQuotaItem,
   NetAppResourceQuotaLimitsListOptionalParams,
   NetAppResourceQuotaLimitsGetOptionalParams,
-  NetAppResourceQuotaLimitsGetResponse
+  NetAppResourceQuotaLimitsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -19,22 +19,22 @@ import {
 export interface NetAppResourceQuotaLimits {
   /**
    * Get the default and current limits for quotas
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   list(
     location: string,
-    options?: NetAppResourceQuotaLimitsListOptionalParams
+    options?: NetAppResourceQuotaLimitsListOptionalParams,
   ): PagedAsyncIterableIterator<SubscriptionQuotaItem>;
   /**
    * Get the default and current subscription quota limit
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param quotaLimitName The name of the Quota Limit
    * @param options The options parameters.
    */
   get(
     location: string,
     quotaLimitName: string,
-    options?: NetAppResourceQuotaLimitsGetOptionalParams
+    options?: NetAppResourceQuotaLimitsGetOptionalParams,
   ): Promise<NetAppResourceQuotaLimitsGetResponse>;
 }

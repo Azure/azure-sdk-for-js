@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates a new rule set within the specified profile.
  *
  * @summary Creates a new rule set within the specified profile.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/RuleSets_Create.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/RuleSets_Create.json
  */
 async function ruleSetsCreate() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";

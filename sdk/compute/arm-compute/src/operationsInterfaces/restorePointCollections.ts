@@ -19,7 +19,7 @@ import {
   RestorePointCollectionsUpdateResponse,
   RestorePointCollectionsDeleteOptionalParams,
   RestorePointCollectionsGetOptionalParams,
-  RestorePointCollectionsGetResponse
+  RestorePointCollectionsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface RestorePointCollections {
    */
   list(
     resourceGroupName: string,
-    options?: RestorePointCollectionsListOptionalParams
+    options?: RestorePointCollectionsListOptionalParams,
   ): PagedAsyncIterableIterator<RestorePointCollection>;
   /**
    * Gets the list of restore point collections in the subscription. Use nextLink property in the
@@ -41,7 +41,7 @@ export interface RestorePointCollections {
    * @param options The options parameters.
    */
   listAll(
-    options?: RestorePointCollectionsListAllOptionalParams
+    options?: RestorePointCollectionsListAllOptionalParams,
   ): PagedAsyncIterableIterator<RestorePointCollection>;
   /**
    * The operation to create or update the restore point collection. Please refer to
@@ -56,7 +56,7 @@ export interface RestorePointCollections {
     resourceGroupName: string,
     restorePointCollectionName: string,
     parameters: RestorePointCollection,
-    options?: RestorePointCollectionsCreateOrUpdateOptionalParams
+    options?: RestorePointCollectionsCreateOrUpdateOptionalParams,
   ): Promise<RestorePointCollectionsCreateOrUpdateResponse>;
   /**
    * The operation to update the restore point collection.
@@ -69,7 +69,7 @@ export interface RestorePointCollections {
     resourceGroupName: string,
     restorePointCollectionName: string,
     parameters: RestorePointCollectionUpdate,
-    options?: RestorePointCollectionsUpdateOptionalParams
+    options?: RestorePointCollectionsUpdateOptionalParams,
   ): Promise<RestorePointCollectionsUpdateResponse>;
   /**
    * The operation to delete the restore point collection. This operation will also delete all the
@@ -81,7 +81,7 @@ export interface RestorePointCollections {
   beginDelete(
     resourceGroupName: string,
     restorePointCollectionName: string,
-    options?: RestorePointCollectionsDeleteOptionalParams
+    options?: RestorePointCollectionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete the restore point collection. This operation will also delete all the
@@ -93,7 +93,7 @@ export interface RestorePointCollections {
   beginDeleteAndWait(
     resourceGroupName: string,
     restorePointCollectionName: string,
-    options?: RestorePointCollectionsDeleteOptionalParams
+    options?: RestorePointCollectionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * The operation to get the restore point collection.
@@ -104,6 +104,6 @@ export interface RestorePointCollections {
   get(
     resourceGroupName: string,
     restorePointCollectionName: string,
-    options?: RestorePointCollectionsGetOptionalParams
+    options?: RestorePointCollectionsGetOptionalParams,
   ): Promise<RestorePointCollectionsGetResponse>;
 }

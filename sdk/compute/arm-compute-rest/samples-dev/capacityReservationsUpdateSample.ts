@@ -52,7 +52,7 @@ async function capacityReservationsUpdateMaximumSetGen() {
       subscriptionId,
       resourceGroupName,
       capacityReservationGroupName,
-      capacityReservationName
+      capacityReservationName,
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -84,7 +84,7 @@ async function capacityReservationsUpdateMinimumSetGen() {
       subscriptionId,
       resourceGroupName,
       capacityReservationGroupName,
-      capacityReservationName
+      capacityReservationName,
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);

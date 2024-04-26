@@ -2,18 +2,18 @@
 // Licensed under the MIT license.
 
 import {
-  TracingClient,
-  TracingContext,
-  TracingSpan,
+  type TracingClient,
+  type TracingContext,
+  type TracingSpan,
   createTracingClient,
 } from "@azure/core-tracing";
-import { SDK_VERSION } from "../constants";
-import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
-import { PipelinePolicy } from "../pipeline";
-import { getUserAgentValue } from "../util/userAgent";
-import { logger } from "../log";
+import { SDK_VERSION } from "../constants.js";
+import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+import type { PipelinePolicy } from "../pipeline.js";
+import { getUserAgentValue } from "../util/userAgent.js";
+import { logger } from "../log.js";
 import { getErrorMessage, isError } from "@azure/core-util";
-import { isRestError } from "../restError";
+import { isRestError } from "../restError.js";
 
 /**
  * The programmatic identifier of the tracingPolicy.
@@ -83,7 +83,7 @@ function tryCreateTracingClient(): TracingClient | undefined {
 function tryCreateSpan(
   tracingClient: TracingClient,
   request: PipelineRequest,
-  userAgent?: string
+  userAgent?: string,
 ): { span: TracingSpan; tracingContext: TracingContext } | undefined {
   try {
     // As per spec, we do not need to differentiate between HTTP and HTTPS in span name.
@@ -97,7 +97,7 @@ function tryCreateSpan(
           "http.url": request.url,
           requestId: request.requestId,
         },
-      }
+      },
     );
 
     // If the span is not recording, don't do any more work.
@@ -112,7 +112,7 @@ function tryCreateSpan(
 
     // set headers
     const headers = tracingClient.createRequestHeaders(
-      updatedOptions.tracingOptions.tracingContext
+      updatedOptions.tracingOptions.tracingContext,
     );
     for (const [key, value] of Object.entries(headers)) {
       request.headers.set(key, value);

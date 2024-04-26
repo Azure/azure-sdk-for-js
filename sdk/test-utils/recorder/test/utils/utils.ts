@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import { createPipelineRequest, HttpMethods, PipelineResponse } from "@azure/core-rest-pipeline";
-import { expect } from "chai";
-import { env } from "../../src";
-import { isLiveMode, TestMode } from "../../src/utils/utils";
+import { expect } from "vitest";
+import { isLiveMode, TestMode } from "../../src/utils/utils.js";
 import { ServiceClient } from "@azure/core-client";
+import { env } from "../../src/utils/env.js";
 
 export const setTestMode = (mode: TestMode): TestMode => {
   env.TEST_MODE = mode;
@@ -29,7 +29,7 @@ export async function makeRequestAndVerifyResponse(
     method: HttpMethods;
   },
   expectedResponse: { [key: string]: unknown } | undefined,
-  expectedHeaders?: { [key: string]: string }
+  expectedHeaders?: { [key: string]: string },
 ): Promise<PipelineResponse> {
   const req = createPipelineRequest({
     url: request.url ?? TEST_SERVER_URL + request.path,

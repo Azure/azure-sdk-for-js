@@ -64,28 +64,28 @@ function getEndpointAndAPIKeyFromResourceType(resourceType: DeploymentType): {
     case "dalle":
       return {
         endpoint: assertEnvironmentVariable(
-          environmentVariableNamesForResourceType[resourceType].ENDPOINT_DALLE
+          environmentVariableNamesForResourceType[resourceType].ENDPOINT_DALLE,
         ),
         apiKey: assertEnvironmentVariable(
-          environmentVariableNamesForResourceType[resourceType].AZURE_API_KEY_DALLE
+          environmentVariableNamesForResourceType[resourceType].AZURE_API_KEY_DALLE,
         ),
       };
     case "whisper":
       return {
         endpoint: assertEnvironmentVariable(
-          environmentVariableNamesForResourceType[resourceType].ENDPOINT_WHISPER
+          environmentVariableNamesForResourceType[resourceType].ENDPOINT_WHISPER,
         ),
         apiKey: assertEnvironmentVariable(
-          environmentVariableNamesForResourceType[resourceType].AZURE_API_KEY_WHISPER
+          environmentVariableNamesForResourceType[resourceType].AZURE_API_KEY_WHISPER,
         ),
       };
     case "completions":
       return {
         endpoint: assertEnvironmentVariable(
-          environmentVariableNamesForResourceType[resourceType].ENDPOINT_COMPLETIONS
+          environmentVariableNamesForResourceType[resourceType].ENDPOINT_COMPLETIONS,
         ),
         apiKey: assertEnvironmentVariable(
-          environmentVariableNamesForResourceType[resourceType].AZURE_API_KEY_COMPLETIONS
+          environmentVariableNamesForResourceType[resourceType].AZURE_API_KEY_COMPLETIONS,
         ),
       };
   }
@@ -97,7 +97,7 @@ export function createClient(
   options: {
     recorder?: Recorder;
     clientOptions?: ClientOptions;
-  }
+  },
 ): OpenAIClient {
   const { recorder, clientOptions = {} } = options;
   const updatedOptions = recorder ? recorder.configureClientOptions(clientOptions) : clientOptions;
@@ -110,7 +110,7 @@ export function createClient(
     case "OpenAIKey": {
       return new OpenAIClient(
         new OpenAIKeyCredential(assertEnvironmentVariable(EnvironmentVariableNames.OPENAI_API_KEY)),
-        updatedOptions
+        updatedOptions,
       );
     }
     case "AAD": {

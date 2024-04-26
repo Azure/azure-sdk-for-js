@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { env, Recorder, isRecordMode } from "@azure-tools/test-recorder";
 
 import { CertificateClient } from "../../src";
@@ -70,7 +70,7 @@ describe("Certificates client - list certificates in various ways", () => {
       const createPoller = await client.beginCreateCertificate(
         name,
         basicCertificatePolicy,
-        testPollerProperties
+        testPollerProperties,
       );
       await createPoller.pollUntilDone();
     }
@@ -92,7 +92,7 @@ describe("Certificates client - list certificates in various ways", () => {
       const createPoller = await client.beginCreateCertificate(
         name,
         basicCertificatePolicy,
-        testPollerProperties
+        testPollerProperties,
       );
       await createPoller.pollUntilDone();
     }
@@ -122,7 +122,7 @@ describe("Certificates client - list certificates in various ways", () => {
       const createPoller = await client.beginCreateCertificate(
         name,
         basicCertificatePolicy,
-        testPollerProperties
+        testPollerProperties,
       );
       await createPoller.pollUntilDone();
     }
@@ -146,7 +146,7 @@ describe("Certificates client - list certificates in various ways", () => {
       const createPoller = await client.beginCreateCertificate(
         name,
         basicCertificatePolicy,
-        testPollerProperties
+        testPollerProperties,
       );
       await createPoller.pollUntilDone();
     }
@@ -190,7 +190,7 @@ describe("Certificates client - list certificates in various ways", () => {
           ...testPollerProperties,
           tags: { tag },
           enabled: true,
-        }
+        },
       );
       const response = await createPoller.pollUntilDone();
       // Versions don't match. Something must be happening under the hood.
@@ -222,7 +222,7 @@ describe("Certificates client - list certificates in various ways", () => {
         assert.equal(
           version.name,
           certificateName,
-          "Unexpected certificate name in result from listKeyVersions()."
+          "Unexpected certificate name in result from listKeyVersions().",
         );
         totalVersions += 1;
       }

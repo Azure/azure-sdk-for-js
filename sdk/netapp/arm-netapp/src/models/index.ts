@@ -98,6 +98,55 @@ export interface LogSpecification {
   displayName?: string;
 }
 
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
 /** Resource name availability request content. */
 export interface ResourceNameAvailabilityRequest {
   /** Resource name to verify. */
@@ -145,7 +194,7 @@ export interface SubscriptionQuotaItemList {
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -233,55 +282,6 @@ export interface NicInfo {
   readonly ipAddress?: string;
   /** Volume resource Ids */
   volumeResourceIds?: string[];
-}
-
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
-export interface ErrorResponse {
-  /** The error object. */
-  error?: ErrorDetail;
-}
-
-/** The error detail. */
-export interface ErrorDetail {
-  /**
-   * The error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The error target.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  /**
-   * The error details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: ErrorDetail[];
-  /**
-   * The error additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly info?: Record<string, unknown>;
 }
 
 /** Network sibling set update. */
@@ -426,7 +426,9 @@ export interface ManagedServiceIdentity {
   /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+  userAssignedIdentities?: {
+    [propertyName: string]: UserAssignedIdentity | null;
+  };
 }
 
 /** User assigned identity properties */
@@ -480,20 +482,6 @@ export interface NetAppAccountPatch {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly disableShowmount?: boolean;
-}
-
-/** An error response from the service. */
-export interface CloudError {
-  /** Cloud error body. */
-  error?: CloudErrorBody;
-}
-
-/** An error response from the service. */
-export interface CloudErrorBody {
-  /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
-  code?: string;
-  /** A message describing the error, intended to be suitable for display in a user interface. */
-  message?: string;
 }
 
 /** List of capacity pool resources */
@@ -1091,8 +1079,6 @@ export interface VolumeGroupMetaData {
   applicationIdentifier?: string;
   /** Application specific placement rules for the volume group */
   globalPlacementRules?: PlacementKeyValuePairs[];
-  /** Application specific identifier of deployment rules for the volume group */
-  deploymentSpecId?: string;
   /**
    * Number of volumes in volume group
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1455,6 +1441,20 @@ export interface SnapshotPolicyDetails {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
+}
+
+/** An error response from the service. */
+export interface CloudError {
+  /** Cloud error body. */
+  error?: CloudErrorBody;
+}
+
+/** An error response from the service. */
+export interface CloudErrorBody {
+  /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
+  code?: string;
+  /** A message describing the error, intended to be suitable for display in a user interface. */
+  message?: string;
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
@@ -1840,6 +1840,11 @@ export interface VolumesPopulateAvailabilityZoneHeaders {
   location?: string;
 }
 
+/** Defines headers for Volumes_resetCifsPassword operation. */
+export interface VolumesResetCifsPasswordHeaders {
+  location?: string;
+}
+
 /** Defines headers for Volumes_breakFileLocks operation. */
 export interface VolumesBreakFileLocksHeaders {
   location?: string;
@@ -1853,7 +1858,7 @@ export interface VolumesListGetGroupIdListForLdapUserHeaders {
 /** Known values of {@link MetricAggregationType} that the service accepts. */
 export enum KnownMetricAggregationType {
   /** Average */
-  Average = "Average"
+  Average = "Average",
 }
 
 /**
@@ -1874,7 +1879,7 @@ export enum KnownCheckNameResourceTypes {
   /** MicrosoftNetAppNetAppAccountsCapacityPoolsVolumes */
   MicrosoftNetAppNetAppAccountsCapacityPoolsVolumes = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes",
   /** MicrosoftNetAppNetAppAccountsCapacityPoolsVolumesSnapshots */
-  MicrosoftNetAppNetAppAccountsCapacityPoolsVolumesSnapshots = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots"
+  MicrosoftNetAppNetAppAccountsCapacityPoolsVolumesSnapshots = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots",
 }
 
 /**
@@ -1894,7 +1899,7 @@ export enum KnownInAvailabilityReasonType {
   /** Invalid */
   Invalid = "Invalid",
   /** AlreadyExists */
-  AlreadyExists = "AlreadyExists"
+  AlreadyExists = "AlreadyExists",
 }
 
 /**
@@ -1916,7 +1921,7 @@ export enum KnownCheckQuotaNameResourceTypes {
   /** MicrosoftNetAppNetAppAccountsCapacityPoolsVolumes */
   MicrosoftNetAppNetAppAccountsCapacityPoolsVolumes = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes",
   /** MicrosoftNetAppNetAppAccountsCapacityPoolsVolumesSnapshots */
-  MicrosoftNetAppNetAppAccountsCapacityPoolsVolumesSnapshots = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots"
+  MicrosoftNetAppNetAppAccountsCapacityPoolsVolumesSnapshots = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots",
 }
 
 /**
@@ -1940,7 +1945,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -1972,7 +1977,7 @@ export enum KnownRegionStorageToNetworkProximity {
   /** Standard T2 and AcrossT2 network connectivity. */
   T2AndAcrossT2 = "T2AndAcrossT2",
   /** Standard T1, T2 and AcrossT2 network connectivity. */
-  T1AndT2AndAcrossT2 = "T1AndT2AndAcrossT2"
+  T1AndT2AndAcrossT2 = "T1AndT2AndAcrossT2",
 }
 
 /**
@@ -2000,7 +2005,7 @@ export enum KnownNetworkFeatures {
   /** Updating from Basic to Standard network features. */
   BasicStandard = "Basic_Standard",
   /** Updating from Standard to Basic network features. */
-  StandardBasic = "Standard_Basic"
+  StandardBasic = "Standard_Basic",
 }
 
 /**
@@ -2024,7 +2029,7 @@ export enum KnownNetworkSiblingSetProvisioningState {
   /** Canceled */
   Canceled = "Canceled",
   /** Updating */
-  Updating = "Updating"
+  Updating = "Updating",
 }
 
 /**
@@ -2050,7 +2055,7 @@ export enum KnownActiveDirectoryStatus {
   /** Error with the Active Directory */
   Error = "Error",
   /** Active Directory Updating */
-  Updating = "Updating"
+  Updating = "Updating",
 }
 
 /**
@@ -2071,7 +2076,7 @@ export enum KnownKeySource {
   /** Microsoft-managed key encryption */
   MicrosoftNetApp = "Microsoft.NetApp",
   /** Customer-managed key encryption */
-  MicrosoftKeyVault = "Microsoft.KeyVault"
+  MicrosoftKeyVault = "Microsoft.KeyVault",
 }
 
 /**
@@ -2095,7 +2100,7 @@ export enum KnownKeyVaultStatus {
   /** Error with the KeyVault connection */
   Error = "Error",
   /** KeyVault connection Updating */
-  Updating = "Updating"
+  Updating = "Updating",
 }
 
 /**
@@ -2120,7 +2125,7 @@ export enum KnownManagedServiceIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
 }
 
 /**
@@ -2144,7 +2149,7 @@ export enum KnownServiceLevel {
   /** Ultra service level */
   Ultra = "Ultra",
   /** Zone redundant storage service level */
-  StandardZRS = "StandardZRS"
+  StandardZRS = "StandardZRS",
 }
 
 /**
@@ -2164,7 +2169,7 @@ export enum KnownQosType {
   /** qos type Auto */
   Auto = "Auto",
   /** qos type Manual */
-  Manual = "Manual"
+  Manual = "Manual",
 }
 
 /**
@@ -2182,7 +2187,7 @@ export enum KnownEncryptionType {
   /** EncryptionType Single, volumes will use single encryption at rest */
   Single = "Single",
   /** EncryptionType Double, volumes will use double encryption at rest */
-  Double = "Double"
+  Double = "Double",
 }
 
 /**
@@ -2200,7 +2205,7 @@ export enum KnownChownMode {
   /** Restricted */
   Restricted = "Restricted",
   /** Unrestricted */
-  Unrestricted = "Unrestricted"
+  Unrestricted = "Unrestricted",
 }
 
 /**
@@ -2222,7 +2227,7 @@ export enum KnownVolumeStorageToNetworkProximity {
   /** Standard T2 storage to network connectivity. */
   T2 = "T2",
   /** Standard AcrossT2 storage to network connectivity. */
-  AcrossT2 = "AcrossT2"
+  AcrossT2 = "AcrossT2",
 }
 
 /**
@@ -2242,7 +2247,7 @@ export enum KnownEndpointType {
   /** Src */
   Src = "src",
   /** Dst */
-  Dst = "dst"
+  Dst = "dst",
 }
 
 /**
@@ -2262,7 +2267,7 @@ export enum KnownReplicationSchedule {
   /** Hourly */
   Hourly = "hourly",
   /** Daily */
-  Daily = "daily"
+  Daily = "daily",
 }
 
 /**
@@ -2281,7 +2286,7 @@ export enum KnownSecurityStyle {
   /** Ntfs */
   Ntfs = "ntfs",
   /** Unix */
-  Unix = "unix"
+  Unix = "unix",
 }
 
 /**
@@ -2299,7 +2304,7 @@ export enum KnownSmbAccessBasedEnumeration {
   /** smbAccessBasedEnumeration share setting is disabled */
   Disabled = "Disabled",
   /** smbAccessBasedEnumeration share setting is enabled */
-  Enabled = "Enabled"
+  Enabled = "Enabled",
 }
 
 /**
@@ -2317,7 +2322,7 @@ export enum KnownSmbNonBrowsable {
   /** smbNonBrowsable share setting is disabled */
   Disabled = "Disabled",
   /** smbNonBrowsable share setting is enabled */
-  Enabled = "Enabled"
+  Enabled = "Enabled",
 }
 
 /**
@@ -2335,7 +2340,7 @@ export enum KnownEncryptionKeySource {
   /** Microsoft-managed key encryption */
   MicrosoftNetApp = "Microsoft.NetApp",
   /** Customer-managed key encryption */
-  MicrosoftKeyVault = "Microsoft.KeyVault"
+  MicrosoftKeyVault = "Microsoft.KeyVault",
 }
 
 /**
@@ -2355,7 +2360,7 @@ export enum KnownCoolAccessRetrievalPolicy {
   /** OnRead */
   OnRead = "OnRead",
   /** Never */
-  Never = "Never"
+  Never = "Never",
 }
 
 /**
@@ -2374,7 +2379,7 @@ export enum KnownFileAccessLogs {
   /** fileAccessLogs are enabled */
   Enabled = "Enabled",
   /** fileAccessLogs are not enabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -2392,7 +2397,7 @@ export enum KnownAvsDataStore {
   /** avsDataStore is enabled */
   Enabled = "Enabled",
   /** avsDataStore is disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -2410,7 +2415,7 @@ export enum KnownEnableSubvolumes {
   /** subvolumes are enabled */
   Enabled = "Enabled",
   /** subvolumes are not enabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -2428,7 +2433,11 @@ export enum KnownRelationshipStatus {
   /** Idle */
   Idle = "Idle",
   /** Transferring */
-  Transferring = "Transferring"
+  Transferring = "Transferring",
+  /** Failed */
+  Failed = "Failed",
+  /** Unknown */
+  Unknown = "Unknown",
 }
 
 /**
@@ -2437,7 +2446,9 @@ export enum KnownRelationshipStatus {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Idle** \
- * **Transferring**
+ * **Transferring** \
+ * **Failed** \
+ * **Unknown**
  */
 export type RelationshipStatus = string;
 
@@ -2448,7 +2459,7 @@ export enum KnownMirrorState {
   /** Mirrored */
   Mirrored = "Mirrored",
   /** Broken */
-  Broken = "Broken"
+  Broken = "Broken",
 }
 
 /**
@@ -2471,7 +2482,7 @@ export enum KnownType {
   /** Individual user quota */
   IndividualUserQuota = "IndividualUserQuota",
   /** Individual group quota */
-  IndividualGroupQuota = "IndividualGroupQuota"
+  IndividualGroupQuota = "IndividualGroupQuota",
 }
 
 /**
@@ -2491,7 +2502,7 @@ export enum KnownApplicationType {
   /** SAPHana */
   SAPHana = "SAP-HANA",
   /** Oracle */
-  Oracle = "ORACLE"
+  Oracle = "ORACLE",
 }
 
 /**
@@ -2525,21 +2536,24 @@ export interface NetAppResourceCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type NetAppResourceCheckNameAvailabilityResponse = CheckAvailabilityResponse;
+export type NetAppResourceCheckNameAvailabilityResponse =
+  CheckAvailabilityResponse;
 
 /** Optional parameters. */
 export interface NetAppResourceCheckFilePathAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkFilePathAvailability operation. */
-export type NetAppResourceCheckFilePathAvailabilityResponse = CheckAvailabilityResponse;
+export type NetAppResourceCheckFilePathAvailabilityResponse =
+  CheckAvailabilityResponse;
 
 /** Optional parameters. */
 export interface NetAppResourceCheckQuotaAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkQuotaAvailability operation. */
-export type NetAppResourceCheckQuotaAvailabilityResponse = CheckAvailabilityResponse;
+export type NetAppResourceCheckQuotaAvailabilityResponse =
+  CheckAvailabilityResponse;
 
 /** Optional parameters. */
 export interface NetAppResourceQueryRegionInfoOptionalParams
@@ -2786,6 +2800,9 @@ export interface VolumesResetCifsPasswordOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the resetCifsPassword operation. */
+export type VolumesResetCifsPasswordResponse = VolumesResetCifsPasswordHeaders;
+
 /** Optional parameters. */
 export interface VolumesBreakFileLocksOptionalParams
   extends coreClient.OperationOptions {
@@ -2807,7 +2824,8 @@ export interface VolumesListGetGroupIdListForLdapUserOptionalParams
 }
 
 /** Contains response data for the listGetGroupIdListForLdapUser operation. */
-export type VolumesListGetGroupIdListForLdapUserResponse = GetGroupIdListForLdapUserResponse;
+export type VolumesListGetGroupIdListForLdapUserResponse =
+  GetGroupIdListForLdapUserResponse;
 
 /** Optional parameters. */
 export interface VolumesBreakReplicationOptionalParams

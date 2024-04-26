@@ -29,7 +29,7 @@ async function getManagementGroupNetworkManagerConnection() {
     .path(
       "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}",
       managementGroupId,
-      networkManagerConnectionName
+      networkManagerConnectionName,
     )
     .get(options);
   console.log(result);

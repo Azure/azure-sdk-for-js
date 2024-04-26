@@ -22,7 +22,10 @@ export class MixedRealityAccountKeyCredential implements TokenCredential {
    * @param accountId - The Mixed Reality service account identifier.
    * @param accountKey - The Mixed Reality service account primary or secondary key.
    */
-  constructor(public readonly accountId: string, accountKey: string | AzureKeyCredential) {
+  constructor(
+    public readonly accountId: string,
+    accountKey: string | AzureKeyCredential,
+  ) {
     if (typeof accountKey === "string") {
       this.accountKey = new AzureKeyCredential(accountKey);
     } else {

@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { HelpRP } from "../helpRP";
 import {
   CheckNameAvailabilityPostOptionalParams,
-  CheckNameAvailabilityPostResponse
+  CheckNameAvailabilityPostResponse,
 } from "../models";
 
 /** Class containing CheckNameAvailability operations. */
@@ -31,17 +31,18 @@ export class CheckNameAvailabilityImpl implements CheckNameAvailability {
   /**
    * This API is used to check the uniqueness of a resource name used for a diagnostic, troubleshooter or
    * solutions
-   * @param scope This is an extension resource provider and only resource level extension is supported
-   *              at the moment.
+   * @param scope scope = resourceUri of affected resource.<br/> For example:
+   *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
+   *
    * @param options The options parameters.
    */
   post(
     scope: string,
-    options?: CheckNameAvailabilityPostOptionalParams
+    options?: CheckNameAvailabilityPostOptionalParams,
   ): Promise<CheckNameAvailabilityPostResponse> {
     return this.client.sendOperationRequest(
       { scope, options },
-      postOperationSpec
+      postOperationSpec,
     );
   }
 }
@@ -53,16 +54,16 @@ const postOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameAvailabilityResponse
+      bodyMapper: Mappers.CheckNameAvailabilityResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.checkNameAvailabilityRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

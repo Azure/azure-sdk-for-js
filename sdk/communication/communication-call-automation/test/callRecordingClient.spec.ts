@@ -93,7 +93,7 @@ describe("CallRecording Unit Tests", async function () {
     assert.equal(request.method, "POST");
     assert.equal(
       request.url,
-      `${baseUri}/calling/recordings?api-version=${apiVersion.mapper.defaultValue}`
+      `${baseUri}/calling/recordings?api-version=${apiVersion.mapper.defaultValue}`,
     );
   });
 
@@ -124,7 +124,7 @@ describe("CallRecording Unit Tests", async function () {
     assert.equal(request.method, "POST");
     assert.equal(
       request.url,
-      `${baseUri}/calling/recordings?api-version=${apiVersion.mapper.defaultValue}`
+      `${baseUri}/calling/recordings?api-version=${apiVersion.mapper.defaultValue}`,
     );
   });
 
@@ -144,7 +144,7 @@ describe("CallRecording Unit Tests", async function () {
     assert.equal(request.method, "GET");
     assert.equal(
       request.url,
-      `${baseUri}/calling/recordings/${RECORDING_ID}?api-version=${apiVersion.mapper.defaultValue}`
+      `${baseUri}/calling/recordings/${RECORDING_ID}?api-version=${apiVersion.mapper.defaultValue}`,
     );
   });
 
@@ -157,7 +157,7 @@ describe("CallRecording Unit Tests", async function () {
 
     assert.equal(
       request.url,
-      `${baseUri}/calling/recordings/${RECORDING_ID}?api-version=${apiVersion.mapper.defaultValue}`
+      `${baseUri}/calling/recordings/${RECORDING_ID}?api-version=${apiVersion.mapper.defaultValue}`,
     );
     assert.equal(request.method, "DELETE");
   });
@@ -171,7 +171,7 @@ describe("CallRecording Unit Tests", async function () {
 
     assert.equal(
       request.url,
-      `${baseUri}/calling/recordings/${RECORDING_ID}:pause?api-version=${apiVersion.mapper.defaultValue}`
+      `${baseUri}/calling/recordings/${RECORDING_ID}:pause?api-version=${apiVersion.mapper.defaultValue}`,
     );
     assert.equal(request.method, "POST");
   });
@@ -185,13 +185,13 @@ describe("CallRecording Unit Tests", async function () {
 
     assert.equal(
       request.url,
-      `${baseUri}/calling/recordings/${RECORDING_ID}:resume?api-version=${apiVersion.mapper.defaultValue}`
+      `${baseUri}/calling/recordings/${RECORDING_ID}:resume?api-version=${apiVersion.mapper.defaultValue}`,
     );
     assert.equal(request.method, "POST");
   });
 });
 
-describe.skip("SKIP test until Javascript is updated with TextProxy. CallRecording Live Tests", function () {
+describe("CallRecording Live Tests", function () {
   let recorder: Recorder;
   let callerCallAutomationClient: CallAutomationClient;
   let receiverCallAutomationClient: CallAutomationClient;
@@ -210,13 +210,6 @@ describe.skip("SKIP test until Javascript is updated with TextProxy. CallRecordi
 
   afterEach(async function (this: Context) {
     persistEvents(testName);
-    if (callConnection) {
-      try {
-        await callConnection.hangUp(true);
-      } catch (e) {
-        console.log(e);
-      }
-    }
     serviceBusReceivers.forEach((receiver) => {
       receiver.close();
     });
@@ -227,6 +220,13 @@ describe.skip("SKIP test until Javascript is updated with TextProxy. CallRecordi
     serviceBusReceivers.clear();
     incomingCallContexts.clear();
     await recorder.stop();
+    if (callConnection) {
+      try {
+        await callConnection.hangUp(true);
+      } catch {
+        return;
+      }
+    }
   });
 
   it("Creates a call, start recording, and hangs up", async function () {
@@ -243,7 +243,7 @@ describe.skip("SKIP test until Javascript is updated with TextProxy. CallRecordi
     const result = await callerCallAutomationClient.createCall(
       callInvite,
       callBackUrl,
-      createCallOption
+      createCallOption,
     );
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
     const callConnectionId: string = result.callConnectionProperties.callConnectionId
@@ -256,7 +256,7 @@ describe.skip("SKIP test until Javascript is updated with TextProxy. CallRecordi
       await receiverCallAutomationClient.answerCall(
         incomingCallContext,
         callBackUrl,
-        answerCallOption
+        answerCallOption,
       );
     }
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);

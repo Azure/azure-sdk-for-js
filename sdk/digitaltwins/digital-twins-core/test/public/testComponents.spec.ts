@@ -373,7 +373,7 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
         DIGITAL_TWIN_ID,
         "Component1",
         telemetry,
-        test_messageId
+        test_messageId,
       );
     } finally {
       await deleteDigitalTwin(DIGITAL_TWIN_ID);
@@ -395,7 +395,7 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
         DIGITAL_TWIN_ID,
         "Component1",
         telemetry,
-        test_messageId
+        test_messageId,
       );
     } finally {
       await deleteDigitalTwin(DIGITAL_TWIN_ID);
@@ -418,7 +418,7 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
         DIGITAL_TWIN_ID,
         "Component2",
         telemetry,
-        test_messageId
+        test_messageId,
       );
     } catch (error: any) {
       errorWasThrown = true;

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to move replications from a process server to another process server.
  *
  * @summary The operation to move replications from a process server to another process server.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationFabrics_ReassociateGateway.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationFabrics_ReassociateGateway.json
  */
 async function performFailoverOfTheProcessServer() {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function performFailoverOfTheProcessServer() {
     resourceName,
     resourceGroupName,
     fabricName,
-    failoverProcessServerRequest
+    failoverProcessServerRequest,
   );
   console.log(result);
 }

@@ -8,7 +8,7 @@ import {
 
 const eventTrigger: AzureFunction = async (
   context: Context,
-  onTokenIssuanceStartRequest: TokenIssuanceStartRequest
+  onTokenIssuanceStartRequest: TokenIssuanceStartRequest,
 ): Promise<AuthenticationEventResponse> => {
   try {
     //Is the request successful and did the token validation pass./
@@ -20,7 +20,7 @@ const eventTrigger: AzureFunction = async (
         createProvideClaimsForToken({
           DateOfBirth: "2000-01-01",
           CustomRoles: ["Writer", "Reader"],
-        })
+        }),
       );
     } else {
       //If the request failed for any reason, i.e. Token validation, output the failed request status

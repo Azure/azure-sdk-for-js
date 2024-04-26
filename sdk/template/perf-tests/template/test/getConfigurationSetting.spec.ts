@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { randomUUID } from "@azure/core-util";
-import { PerfOptionDictionary } from "@azure/test-utils-perf";
+import { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { TemplateTest } from "./templateBase.spec";
 
 interface GetConfigurationSettingTestOptions {
@@ -35,7 +35,7 @@ export class GetConfigurationSettingTest extends TemplateTest<GetConfigurationSe
 
   async run(): Promise<void> {
     await this.templateClient.getConfigurationSetting(
-      GetConfigurationSettingTest.prefix + this.parsedOptions.settingName.value
+      GetConfigurationSettingTest.prefix + this.parsedOptions.settingName.value,
     );
   }
 

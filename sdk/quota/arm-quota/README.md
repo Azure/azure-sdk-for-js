@@ -2,11 +2,11 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for AzureQuotaExtensionApi client.
 
-Microsoft Azure Quota Resource Provider
+Microsoft Azure Quota Resource Provider. This Swagger is for Azure Group Quota using GroupQuota Entity.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/quota/arm-quota) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-quota) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-quota) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-quota?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
@@ -53,14 +53,15 @@ const { AzureQuotaExtensionAPI } = require("@azure/arm-quota");
 const { DefaultAzureCredential } = require("@azure/identity");
 // For client-side applications running in the browser, use InteractiveBrowserCredential instead of DefaultAzureCredential. See https://aka.ms/azsdk/js/identity/examples for more details.
 
-const client = new AzureQuotaExtensionAPI(new DefaultAzureCredential());
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
+const client = new AzureQuotaExtensionAPI(new DefaultAzureCredential(), subscriptionId);
 
 // For client-side applications running in the browser, use this code instead:
 // const credential = new InteractiveBrowserCredential({
 //   tenantId: "<YOUR_TENANT_ID>",
 //   clientId: "<YOUR_CLIENT_ID>"
 // });
-// const client = new AzureQuotaExtensionAPI(credential);
+// const client = new AzureQuotaExtensionAPI(credential, subscriptionId);
 ```
 
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfTest, getEnvVar } from "@azure/test-utils-perf";
+import { PerfTest, getEnvVar } from "@azure-tools/test-perf";
 import { ShareClient, ShareDirectoryClient, ShareServiceClient } from "@azure/storage-file-share";
 
 // Expects the .env file at the same level as the "test" folder
@@ -20,7 +20,7 @@ export abstract class StorageFileShareTest<TOptions> extends PerfTest<TOptions> 
   constructor() {
     super();
     this.shareServiceClient = ShareServiceClient.fromConnectionString(
-      getEnvVar("STORAGE_CONNECTION_STRING")
+      getEnvVar("STORAGE_CONNECTION_STRING"),
     );
     this.shareClient = this.shareServiceClient.getShareClient(StorageFileShareTest.shareName);
     this.directoryClient = this.shareClient.getDirectoryClient(StorageFileShareTest.dirName);

@@ -1,10 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { redirectPolicy } from "../src/policies/redirectPolicy";
-import * as sinon from "sinon";
-import { PipelineResponse, SendRequest, createHttpHeaders, createPipelineRequest } from "../src";
+import { describe, it, assert, expect, vi } from "vitest";
+import { redirectPolicy } from "../src/policies/redirectPolicy.js";
+import {
+  PipelineResponse,
+  SendRequest,
+  createHttpHeaders,
+  createPipelineRequest,
+} from "../src/index.js";
 
 describe("RedirectPolicy", () => {
   it("should not follow redirect if no location header", async () => {
@@ -22,9 +26,9 @@ describe("RedirectPolicy", () => {
     };
 
     const policy = redirectPolicy();
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.onFirstCall().resolves(redirectResponse);
-    next.onSecondCall().resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValueOnce(redirectResponse);
+    next.mockResolvedValueOnce(successResponse);
     const result = await policy.sendRequest(request, next);
 
     assert.strictEqual(result.status, 301);
@@ -46,9 +50,9 @@ describe("RedirectPolicy", () => {
     };
 
     const policy = redirectPolicy();
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.onFirstCall().resolves(redirectResponse);
-    next.onSecondCall().resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValueOnce(redirectResponse);
+    next.mockResolvedValueOnce(successResponse);
     const result = await policy.sendRequest(request, next);
 
     assert.strictEqual(result.status, expectedStatusCode);
@@ -70,9 +74,9 @@ describe("RedirectPolicy", () => {
     };
 
     const policy = redirectPolicy();
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.onFirstCall().resolves(redirectResponse);
-    next.onSecondCall().resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValueOnce(redirectResponse);
+    next.mockResolvedValueOnce(successResponse);
     const result = await policy.sendRequest(request, next);
     assert.strictEqual(result.status, expectedStatusCode);
   });
@@ -93,9 +97,9 @@ describe("RedirectPolicy", () => {
     };
 
     const policy = redirectPolicy();
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.onFirstCall().resolves(redirectResponse);
-    next.onSecondCall().resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValueOnce(redirectResponse);
+    next.mockResolvedValueOnce(successResponse);
     const result = await policy.sendRequest(request, next);
     assert.strictEqual(result.status, expectedStatusCode);
   });
@@ -116,9 +120,9 @@ describe("RedirectPolicy", () => {
     };
 
     const policy = redirectPolicy();
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.onFirstCall().resolves(redirectResponse);
-    next.onSecondCall().resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValueOnce(redirectResponse);
+    next.mockResolvedValueOnce(successResponse);
     const result = await policy.sendRequest(request, next);
 
     assert.strictEqual(result.status, expectedStatusCode);
@@ -140,9 +144,9 @@ describe("RedirectPolicy", () => {
     };
 
     const policy = redirectPolicy();
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.onFirstCall().resolves(redirectResponse);
-    next.onSecondCall().resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValueOnce(redirectResponse);
+    next.mockResolvedValueOnce(successResponse);
 
     const result = await policy.sendRequest(request, next);
     assert.strictEqual(result.status, expectedStatusCode);
@@ -164,9 +168,9 @@ describe("RedirectPolicy", () => {
     };
 
     const policy = redirectPolicy();
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.onFirstCall().resolves(redirectResponse);
-    next.onSecondCall().resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValueOnce(redirectResponse);
+    next.mockResolvedValueOnce(successResponse);
 
     const result = await policy.sendRequest(request, next);
     assert.strictEqual(result.status, expectedStatusCode);
@@ -188,13 +192,13 @@ describe("RedirectPolicy", () => {
     };
 
     const policy = redirectPolicy();
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.onFirstCall().resolves(redirectResponse);
-    next.onSecondCall().resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValueOnce(redirectResponse);
+    next.mockResolvedValueOnce(successResponse);
 
     const result = await policy.sendRequest(request, next);
-    assert.strictEqual(next.lastCall.args[0].method, "GET");
-    assert.isUndefined(next.lastCall.args[0].body);
+    assert.strictEqual(next.mock.lastCall?.[0].method, "GET");
+    assert.isUndefined(next.mock.lastCall?.[0].body);
     assert.strictEqual(result.status, expectedStatusCode);
   });
 
@@ -214,9 +218,9 @@ describe("RedirectPolicy", () => {
     };
 
     const policy = redirectPolicy();
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.onFirstCall().resolves(redirectResponse);
-    next.onSecondCall().resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValueOnce(redirectResponse);
+    next.mockResolvedValueOnce(successResponse);
 
     const result = await policy.sendRequest(request, next);
     assert.strictEqual(result.status, expectedStatusCode);
@@ -238,9 +242,9 @@ describe("RedirectPolicy", () => {
     };
 
     const policy = redirectPolicy();
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.onFirstCall().resolves(redirectResponse);
-    next.onSecondCall().resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValueOnce(redirectResponse);
+    next.mockResolvedValueOnce(successResponse);
 
     const result = await policy.sendRequest(request, next);
     assert.strictEqual(result.status, expectedStatusCode);
@@ -262,9 +266,9 @@ describe("RedirectPolicy", () => {
     };
 
     const policy = redirectPolicy();
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.onFirstCall().resolves(redirectResponse);
-    next.onSecondCall().resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValueOnce(redirectResponse);
+    next.mockResolvedValueOnce(successResponse);
 
     const result = await policy.sendRequest(request, next);
     assert.strictEqual(result.status, expectedStatusCode);
@@ -287,10 +291,10 @@ describe("RedirectPolicy", () => {
     };
 
     const policy = redirectPolicy({ maxRetries });
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.onFirstCall().resolves(redirectResponse);
-    next.onSecondCall().resolves(redirectResponse);
-    next.onThirdCall().resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValueOnce(redirectResponse);
+    next.mockResolvedValueOnce(redirectResponse);
+    next.mockResolvedValueOnce(successResponse);
 
     const result = await policy.sendRequest(request, next);
     assert.strictEqual(result.status, expectedStatusCode);
@@ -306,13 +310,13 @@ describe("RedirectPolicy", () => {
     };
 
     const policy = redirectPolicy();
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(redirectResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValue(redirectResponse);
 
     const result = await policy.sendRequest(request, next);
 
     assert.strictEqual(result.status, expectedStatusCode);
-    assert.strictEqual(next.callCount, 21);
+    expect(next).toHaveBeenCalledTimes(21);
   });
 
   it("should remove Authorization header on redirected request", async function () {
@@ -336,11 +340,11 @@ describe("RedirectPolicy", () => {
     };
 
     const policy = redirectPolicy();
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.onFirstCall().resolves(redirectResponse);
-    next.onSecondCall().resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValueOnce(redirectResponse);
+    next.mockResolvedValueOnce(successResponse);
 
     await policy.sendRequest(request, next);
-    assert.isFalse(next.args[1][0].headers.has("Authorization"));
+    assert.isFalse(next.mock.calls[1][0].headers.has("Authorization"));
   });
 });

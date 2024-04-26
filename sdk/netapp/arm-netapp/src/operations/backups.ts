@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { NetAppManagementClient } from "../netAppManagementClient";
 import {
   BackupsGetVolumeRestoreStatusOptionalParams,
-  BackupsGetVolumeRestoreStatusResponse
+  BackupsGetVolumeRestoreStatusResponse,
 } from "../models";
 
 /** Class containing Backups operations. */
@@ -41,11 +41,11 @@ export class BackupsImpl implements Backups {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: BackupsGetVolumeRestoreStatusOptionalParams
+    options?: BackupsGetVolumeRestoreStatusOptionalParams,
   ): Promise<BackupsGetVolumeRestoreStatusResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, poolName, volumeName, options },
-      getVolumeRestoreStatusOperationSpec
+      getVolumeRestoreStatusOperationSpec,
     );
   }
 }
@@ -53,14 +53,15 @@ export class BackupsImpl implements Backups {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getVolumeRestoreStatusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/restoreStatus",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/restoreStatus",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RestoreStatus
+      bodyMapper: Mappers.RestoreStatus,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -69,8 +70,8 @@ const getVolumeRestoreStatusOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.poolName,
-    Parameters.volumeName
+    Parameters.volumeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

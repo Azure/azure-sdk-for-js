@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfTest, PerfOptionDictionary, getEnvVar } from "@azure/test-utils-perf";
+import { PerfTest, PerfOptionDictionary, getEnvVar } from "@azure-tools/test-perf";
 import {
   AzureKeyCredential,
   TextAnalysisClient,
@@ -31,7 +31,7 @@ export class LanguageDetectionTest extends PerfTest<LanguageDetectionPerfTestOpt
     super();
     this.options = this.parsedOptions;
     this.docs = Array(this.parsedOptions["documents-count"]?.value).fill(
-      "Detta är ett dokument skrivet på engelska."
+      "Detta är ett dokument skrivet på engelska.",
     );
     const endpoint = getEnvVar("ENDPOINT");
 
@@ -40,7 +40,7 @@ export class LanguageDetectionTest extends PerfTest<LanguageDetectionPerfTestOpt
     } catch (e) {
       this.client = new TextAnalysisClient(
         endpoint,
-        new AzureKeyCredential(getEnvVar("LANGUAGE_API_KEY"))
+        new AzureKeyCredential(getEnvVar("LANGUAGE_API_KEY")),
       );
     }
   }

@@ -30,7 +30,7 @@ export class PartitionPump {
     private _context: ConnectionContext,
     partitionProcessor: PartitionProcessor,
     private readonly _startPosition: EventPosition,
-    options: CommonEventProcessorOptions
+    options: CommonEventProcessorOptions,
   ) {
     this._partitionProcessor = partitionProcessor;
     this._processorOptions = options;
@@ -54,7 +54,7 @@ export class PartitionPump {
     // execute and can be stopped by calling .stop()
     this._receiveEvents(this._partitionProcessor.partitionId);
     logger.info(
-      `Successfully started the receiver for partition "${this._partitionProcessor.partitionId}".`
+      `Successfully started the receiver for partition "${this._partitionProcessor.partitionId}".`,
     );
   }
 
@@ -66,7 +66,7 @@ export class PartitionPump {
    */
   private _setOrReplaceReceiver(
     partitionId: string,
-    lastSeenSequenceNumber: number
+    lastSeenSequenceNumber: number,
   ): PartitionReceiver {
     // Determine what the new EventPosition should be.
     // If this PartitionPump has received events, we'll start from the last
@@ -93,7 +93,7 @@ export class PartitionPump {
         retryOptions: this._processorOptions.retryOptions,
         skipParsingBodyAsJson: this._processorOptions.skipParsingBodyAsJson,
         prefetchCount: this._processorOptions.prefetchCount,
-      }
+      },
     );
 
     return this._receiver;
@@ -113,7 +113,7 @@ export class PartitionPump {
         const receivedEvents = await receiver.receiveBatch(
           this._processorOptions.maxBatchSize,
           this._processorOptions.maxWaitTimeInSeconds,
-          this._abortController.signal
+          this._abortController.signal,
         );
 
         if (
@@ -136,7 +136,7 @@ export class PartitionPump {
           "PartitionPump.process",
           {},
           () => this._partitionProcessor.processEvents(receivedEvents),
-          toProcessingSpanOptions(receivedEvents, this._context.config)
+          toProcessingSpanOptions(receivedEvents, this._context.config),
         );
       } catch (err: any) {
         // check if this pump is still receiving
@@ -147,7 +147,7 @@ export class PartitionPump {
         }
 
         logger.warning(
-          `An error was thrown while receiving or processing events on partition "${this._partitionProcessor.partitionId}"`
+          `An error was thrown while receiving or processing events on partition "${this._partitionProcessor.partitionId}"`,
         );
         logErrorStackTrace(err);
         // forward error to user's processError and swallow errors they may throw
@@ -172,7 +172,7 @@ export class PartitionPump {
             // Using verbose over warning because this error is swallowed.
             logger.verbose(
               `An error occurred while closing the receiver with reason ${CloseReason.Shutdown}: `,
-              errorFromStop
+              errorFromStop,
             );
           }
         }
@@ -207,7 +207,7 @@ export class PartitionPump {
  */
 export function toProcessingSpanOptions(
   receivedEvents: ReceivedEventData[],
-  eventHubProperties: Pick<EventHubConnectionConfig, "entityPath" | "host">
+  eventHubProperties: Pick<EventHubConnectionConfig, "entityPath" | "host">,
 ): TracingSpanOptions {
   const spanLinks: TracingSpanLink[] = [];
   for (const receivedEvent of receivedEvents) {

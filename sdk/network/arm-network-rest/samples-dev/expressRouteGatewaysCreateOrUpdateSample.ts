@@ -41,7 +41,7 @@ async function expressRouteGatewayCreate() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}",
       subscriptionId,
       resourceGroupName,
-      expressRouteGatewayName
+      expressRouteGatewayName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

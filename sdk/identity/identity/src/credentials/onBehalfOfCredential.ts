@@ -23,7 +23,7 @@ const credentialName = "OnBehalfOfCredential";
 const logger = credentialLogger(credentialName);
 
 /**
- * Enables authentication to Microsoft Entra ID using the [On Behalf Of flow](https://learn.microsoft.com/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow).
+ * Enables authentication to Microsoft Entra ID using the [On Behalf Of flow](https://learn.microsoft.com/entra/identity-platform/v2-oauth2-on-behalf-of-flow).
  */
 export class OnBehalfOfCredential implements TokenCredential {
   private tenantId: string;
@@ -53,7 +53,7 @@ export class OnBehalfOfCredential implements TokenCredential {
   constructor(
     options: OnBehalfOfCredentialCertificateOptions &
       MultiTenantTokenCredentialOptions &
-      CredentialPersistenceOptions
+      CredentialPersistenceOptions,
   );
   /**
    * Creates an instance of the {@link OnBehalfOfCredential} with the details
@@ -79,7 +79,7 @@ export class OnBehalfOfCredential implements TokenCredential {
   constructor(
     options: OnBehalfOfCredentialSecretOptions &
       MultiTenantTokenCredentialOptions &
-      CredentialPersistenceOptions
+      CredentialPersistenceOptions,
   );
 
   constructor(private options: OnBehalfOfCredentialOptions) {
@@ -93,13 +93,13 @@ export class OnBehalfOfCredential implements TokenCredential {
     } = options;
     if (!tenantId || !clientId || !(clientSecret || certificatePath) || !userAssertionToken) {
       throw new Error(
-        `${credentialName}: tenantId, clientId, clientSecret (or certificatePath) and userAssertionToken are required parameters.`
+        `${credentialName}: tenantId, clientId, clientSecret (or certificatePath) and userAssertionToken are required parameters.`,
       );
     }
 
     this.tenantId = tenantId;
     this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
-      additionallyAllowedTenantIds
+      additionallyAllowedTenantIds,
     );
 
     this.msalFlow = new MsalOnBehalfOf({
@@ -122,7 +122,7 @@ export class OnBehalfOfCredential implements TokenCredential {
         this.tenantId,
         newOptions,
         this.additionallyAllowedTenantIds,
-        logger
+        logger,
       );
 
       const arrayScopes = ensureScopes(scopes);

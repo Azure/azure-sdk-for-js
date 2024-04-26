@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import CustomWidgetBlobService, { Config } from "./CustomWidgetBlobService";
+import CustomWidgetBlobService, { Config } from "./CustomWidgetBlobService.js";
 import { InteractiveBrowserCredentialNodeOptions } from "@azure/identity";
-import { APIM_CONFIG_FILE_NAME } from "../paths";
-import fs from "fs";
-import getStorageSasUrl from "./getStorageSasUrl";
-import readdir from "./readdir";
+import { APIM_CONFIG_FILE_NAME } from "../paths.js";
+import fs from "node:fs";
+import getStorageSasUrl from "./getStorageSasUrl.js";
+import readdir from "./readdir.js";
 
 /**
  * resourceId - resource ID of API Management service "subscriptions/[subscription-id]/resourceGroups/[resource-group-name]/providers/Microsoft.ApiManagement/service/[service-name]"
@@ -47,7 +47,7 @@ async function deploy(
   {
     rootLocal = "./dist/",
     interactiveBrowserCredentialOptions = { redirectUri: "http://localhost:1337" },
-  }: DeployConfig = {}
+  }: DeployConfig = {},
 ): Promise<void> {
   console.log("\n\n");
   console.log("Starting deploy process of custom widget: " + name);
@@ -55,7 +55,7 @@ async function deploy(
 
   const blobStorageUrl = await getStorageSasUrl(
     serviceInformation,
-    interactiveBrowserCredentialOptions
+    interactiveBrowserCredentialOptions,
   );
   const customWidgetBlobService = new CustomWidgetBlobService(blobStorageUrl, name);
 

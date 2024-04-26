@@ -49,7 +49,7 @@ export class ApplicationInsightsSampler implements Sampler {
     spanKind: SpanKind,
     attributes: Attributes,
     // @ts-ignore
-    links: Link[]
+    links: Link[],
   ): SamplingResult {
     let isSampledIn = false;
     if (this._sampleRate == 100) {

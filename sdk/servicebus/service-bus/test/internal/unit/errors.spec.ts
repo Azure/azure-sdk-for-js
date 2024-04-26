@@ -35,11 +35,11 @@ describe("errors", () => {
       assert.isTrue(warningSpy.calledOnce, "errors are logged to the .warning stream by default");
       assert.isFalse(
         infoSpy.calledOnce,
-        "info only gets used for AbortError, not for normal errors"
+        "info only gets used for AbortError, not for normal errors",
       );
       assert.isTrue(
         verboseSpy.calledOnce,
-        "verbose is used for the stack trace when it's available"
+        "verbose is used for the stack trace when it's available",
       );
 
       // check that we call the stream with the proper args

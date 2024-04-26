@@ -13,10 +13,11 @@ import {
   delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { createTestCredential } from "@azure-tools/test-credential";
+import { NoOpCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { ContainerServiceClient } from "../src/containerServiceClient";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -33,11 +34,16 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
+export function createTestCredential() {
+  return isPlaybackMode()
+    ? new NoOpCredential()
+    : new DefaultAzureCredential();
+}
+
 describe("ContainerService test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let clientId: string;
-  let secret: string;
   let client: ContainerServiceClient;
   let location: string;
   let resourceGroupName: string;
@@ -48,7 +54,6 @@ describe("ContainerService test", () => {
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     clientId = env.AZURE_CLIENT_ID || '';
-    secret = env.AZURE_CLIENT_SECRET || '';
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new ContainerServiceClient(credential, subscriptionId, recorder.configureClientOptions({}));
@@ -59,6 +64,14 @@ describe("ContainerService test", () => {
 
   afterEach(async function () {
     await recorder.stop();
+  });
+
+  it.only("operation list test", async function () {
+    const resArray = new Array();
+    for await (let item of client.operations.list()) {
+      resArray.push(item);
+    }
+    assert.notEqual(resArray.length, 0);
   });
 
   it("managedClusters create test", async function () {
@@ -80,11 +93,30 @@ describe("ContainerService test", () => {
       ],
       servicePrincipalProfile: {
         clientId: clientId,
-        secret: secret
+        secret: ""
       },
       location: location
     }, testPollingOptions);
     assert.equal(res.name, resourceName);
+  });
+
+  it("agentPools create test", async function () {
+    const res = await client.agentPools.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      resourceName,
+      "aksagent1",
+      {
+        count: 3,
+        mode: "User",
+        orchestratorVersion: "",
+        osDiskSizeGB: 64,
+        osType: "Linux",
+        vmSize: "Standard_DS2_v2",
+        workloadRuntime: "OCIContainer"
+      },
+      testPollingOptions,
+    );
+    assert.equal(res.name, "aksagent1");
   });
 
   it("managedClusters get test", async function () {
@@ -100,6 +132,17 @@ describe("ContainerService test", () => {
   it("managedClusters list test", async function () {
     const resArray = new Array();
     for await (let item of client.managedClusters.listByResourceGroup(resourceGroupName)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 1);
+  });
+
+  it("agentPools list test", async function () {
+    const resArray = new Array();
+    for await (let item of client.agentPools.list(
+      resourceGroupName,
+      resourceName
+    )) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);

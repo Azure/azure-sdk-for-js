@@ -36,7 +36,7 @@ export interface CreateConnectionContextForTestsOptions {
  *
  */
 export function createConnectionContextForTests(
-  options?: CreateConnectionContextForTestsOptions
+  options?: CreateConnectionContextForTestsOptions,
 ): ConnectionContext & {
   initWasCalled: boolean;
 } {
@@ -131,7 +131,7 @@ export function createConnectionContextForTests(
  */
 export function createConnectionContextForTestsWithSessionId(
   sessionId: string = "hello",
-  options?: CreateConnectionContextForTestsOptions
+  options?: CreateConnectionContextForTestsOptions,
 ): ConnectionContext & {
   initWasCalled: boolean;
 } {
@@ -272,13 +272,13 @@ export const retryableErrorForTests = (() => {
  */
 export function addTestStreamingReceiver(): (
   entityPath: string,
-  options?: ReceiveOptions
+  options?: ReceiveOptions,
 ) => StreamingReceiver {
   const closeables = addCloseablesCleanup();
 
   function createTestStreamingReceiver(
     entityPath: string,
-    options?: ReceiveOptions
+    options?: ReceiveOptions,
   ): StreamingReceiver {
     const connectionContext = createConnectionContextForTests();
 
@@ -296,7 +296,7 @@ export function addTestStreamingReceiver(): (
       "serviceBusClientId",
       connectionContext,
       entityPath,
-      options
+      options,
     );
     closeables.push(streamingReceiver);
     return streamingReceiver;

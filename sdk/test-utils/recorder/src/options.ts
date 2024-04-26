@@ -1,6 +1,9 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { createHttpHeaders, createPipelineRequest, HttpClient } from "@azure/core-rest-pipeline";
-import { paths } from "./utils/paths";
-import { RecorderError } from "./utils/utils";
+import { paths } from "./utils/paths.js";
+import { RecorderError } from "./utils/utils.js";
 
 export type RecordingOptions = {
   handleRedirects?: boolean;
@@ -10,8 +13,8 @@ export type RecordingOptions = {
 export async function setRecordingOptions(
   recorderUrl: string,
   httpClient: HttpClient,
-  { handleRedirects, tlsValidationCert }: RecordingOptions
-) {
+  { handleRedirects, tlsValidationCert }: RecordingOptions,
+): Promise<void> {
   const rawBody: Record<string, any> = {
     HandleRedirects: handleRedirects,
   };

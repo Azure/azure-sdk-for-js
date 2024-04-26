@@ -19,7 +19,7 @@ import {
   NetworkSecurityGroupsCreateOrUpdateResponse,
   TagsObject,
   NetworkSecurityGroupsUpdateTagsOptionalParams,
-  NetworkSecurityGroupsUpdateTagsResponse
+  NetworkSecurityGroupsUpdateTagsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface NetworkSecurityGroups {
    * @param options The options parameters.
    */
   listAll(
-    options?: NetworkSecurityGroupsListAllOptionalParams
+    options?: NetworkSecurityGroupsListAllOptionalParams,
   ): PagedAsyncIterableIterator<NetworkSecurityGroup>;
   /**
    * Gets all network security groups in a resource group.
@@ -39,7 +39,7 @@ export interface NetworkSecurityGroups {
    */
   list(
     resourceGroupName: string,
-    options?: NetworkSecurityGroupsListOptionalParams
+    options?: NetworkSecurityGroupsListOptionalParams,
   ): PagedAsyncIterableIterator<NetworkSecurityGroup>;
   /**
    * Deletes the specified network security group.
@@ -50,7 +50,7 @@ export interface NetworkSecurityGroups {
   beginDelete(
     resourceGroupName: string,
     networkSecurityGroupName: string,
-    options?: NetworkSecurityGroupsDeleteOptionalParams
+    options?: NetworkSecurityGroupsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified network security group.
@@ -61,7 +61,7 @@ export interface NetworkSecurityGroups {
   beginDeleteAndWait(
     resourceGroupName: string,
     networkSecurityGroupName: string,
-    options?: NetworkSecurityGroupsDeleteOptionalParams
+    options?: NetworkSecurityGroupsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the specified network security group.
@@ -72,7 +72,7 @@ export interface NetworkSecurityGroups {
   get(
     resourceGroupName: string,
     networkSecurityGroupName: string,
-    options?: NetworkSecurityGroupsGetOptionalParams
+    options?: NetworkSecurityGroupsGetOptionalParams,
   ): Promise<NetworkSecurityGroupsGetResponse>;
   /**
    * Creates or updates a network security group in the specified resource group.
@@ -85,7 +85,7 @@ export interface NetworkSecurityGroups {
     resourceGroupName: string,
     networkSecurityGroupName: string,
     parameters: NetworkSecurityGroup,
-    options?: NetworkSecurityGroupsCreateOrUpdateOptionalParams
+    options?: NetworkSecurityGroupsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkSecurityGroupsCreateOrUpdateResponse>,
@@ -103,7 +103,7 @@ export interface NetworkSecurityGroups {
     resourceGroupName: string,
     networkSecurityGroupName: string,
     parameters: NetworkSecurityGroup,
-    options?: NetworkSecurityGroupsCreateOrUpdateOptionalParams
+    options?: NetworkSecurityGroupsCreateOrUpdateOptionalParams,
   ): Promise<NetworkSecurityGroupsCreateOrUpdateResponse>;
   /**
    * Updates a network security group tags.
@@ -116,6 +116,6 @@ export interface NetworkSecurityGroups {
     resourceGroupName: string,
     networkSecurityGroupName: string,
     parameters: TagsObject,
-    options?: NetworkSecurityGroupsUpdateTagsOptionalParams
+    options?: NetworkSecurityGroupsUpdateTagsOptionalParams,
   ): Promise<NetworkSecurityGroupsUpdateTagsResponse>;
 }

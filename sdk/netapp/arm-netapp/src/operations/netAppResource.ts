@@ -14,7 +14,7 @@ import { NetAppManagementClient } from "../netAppManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -32,7 +32,7 @@ import {
   NetAppResourceQueryNetworkSiblingSetResponse,
   NetworkFeatures,
   NetAppResourceUpdateNetworkSiblingSetOptionalParams,
-  NetAppResourceUpdateNetworkSiblingSetResponse
+  NetAppResourceUpdateNetworkSiblingSetResponse,
 } from "../models";
 
 /** Class containing NetAppResource operations. */
@@ -49,7 +49,7 @@ export class NetAppResourceImpl implements NetAppResource {
 
   /**
    * Check if a resource name is available.
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param name Resource name to verify.
    * @param typeParam Resource type used for verification.
    * @param resourceGroup Resource group name.
@@ -60,17 +60,17 @@ export class NetAppResourceImpl implements NetAppResource {
     name: string,
     typeParam: CheckNameResourceTypes,
     resourceGroup: string,
-    options?: NetAppResourceCheckNameAvailabilityOptionalParams
+    options?: NetAppResourceCheckNameAvailabilityOptionalParams,
   ): Promise<NetAppResourceCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { location, name, typeParam, resourceGroup, options },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
     );
   }
 
   /**
    * Check if a file path is available.
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param name File path to verify.
    * @param subnetId The Azure Resource URI for a delegated subnet. Must have the delegation
    *                 Microsoft.NetApp/volumes
@@ -80,17 +80,17 @@ export class NetAppResourceImpl implements NetAppResource {
     location: string,
     name: string,
     subnetId: string,
-    options?: NetAppResourceCheckFilePathAvailabilityOptionalParams
+    options?: NetAppResourceCheckFilePathAvailabilityOptionalParams,
   ): Promise<NetAppResourceCheckFilePathAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { location, name, subnetId, options },
-      checkFilePathAvailabilityOperationSpec
+      checkFilePathAvailabilityOperationSpec,
     );
   }
 
   /**
    * Check if a quota is available.
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param name Name of the resource to verify.
    * @param typeParam Resource type used for verification.
    * @param resourceGroup Resource group name.
@@ -101,32 +101,32 @@ export class NetAppResourceImpl implements NetAppResource {
     name: string,
     typeParam: CheckQuotaNameResourceTypes,
     resourceGroup: string,
-    options?: NetAppResourceCheckQuotaAvailabilityOptionalParams
+    options?: NetAppResourceCheckQuotaAvailabilityOptionalParams,
   ): Promise<NetAppResourceCheckQuotaAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { location, name, typeParam, resourceGroup, options },
-      checkQuotaAvailabilityOperationSpec
+      checkQuotaAvailabilityOperationSpec,
     );
   }
 
   /**
    * Provides storage to network proximity and logical zone mapping information.
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   queryRegionInfo(
     location: string,
-    options?: NetAppResourceQueryRegionInfoOptionalParams
+    options?: NetAppResourceQueryRegionInfoOptionalParams,
   ): Promise<NetAppResourceQueryRegionInfoResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      queryRegionInfoOperationSpec
+      queryRegionInfoOperationSpec,
     );
   }
 
   /**
    * Get details of the specified network sibling set.
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param networkSiblingSetId Network Sibling Set ID for a group of volumes sharing networking
    *                            resources in a subnet.
    * @param subnetId The Azure Resource URI for a delegated subnet. Must have the delegation
@@ -138,17 +138,17 @@ export class NetAppResourceImpl implements NetAppResource {
     location: string,
     networkSiblingSetId: string,
     subnetId: string,
-    options?: NetAppResourceQueryNetworkSiblingSetOptionalParams
+    options?: NetAppResourceQueryNetworkSiblingSetOptionalParams,
   ): Promise<NetAppResourceQueryNetworkSiblingSetResponse> {
     return this.client.sendOperationRequest(
       { location, networkSiblingSetId, subnetId, options },
-      queryNetworkSiblingSetOperationSpec
+      queryNetworkSiblingSetOperationSpec,
     );
   }
 
   /**
    * Update the network features of the specified network sibling set.
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param networkSiblingSetId Network Sibling Set ID for a group of volumes sharing networking
    *                            resources in a subnet.
    * @param subnetId The Azure Resource URI for a delegated subnet. Must have the delegation
@@ -165,7 +165,7 @@ export class NetAppResourceImpl implements NetAppResource {
     subnetId: string,
     networkSiblingSetStateId: string,
     networkFeatures: NetworkFeatures,
-    options?: NetAppResourceUpdateNetworkSiblingSetOptionalParams
+    options?: NetAppResourceUpdateNetworkSiblingSetOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetAppResourceUpdateNetworkSiblingSetResponse>,
@@ -174,21 +174,20 @@ export class NetAppResourceImpl implements NetAppResource {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetAppResourceUpdateNetworkSiblingSetResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -197,8 +196,8 @@ export class NetAppResourceImpl implements NetAppResource {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -206,8 +205,8 @@ export class NetAppResourceImpl implements NetAppResource {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -219,9 +218,9 @@ export class NetAppResourceImpl implements NetAppResource {
         subnetId,
         networkSiblingSetStateId,
         networkFeatures,
-        options
+        options,
       },
-      spec: updateNetworkSiblingSetOperationSpec
+      spec: updateNetworkSiblingSetOperationSpec,
     });
     const poller = await createHttpPoller<
       NetAppResourceUpdateNetworkSiblingSetResponse,
@@ -229,7 +228,7 @@ export class NetAppResourceImpl implements NetAppResource {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -237,7 +236,7 @@ export class NetAppResourceImpl implements NetAppResource {
 
   /**
    * Update the network features of the specified network sibling set.
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param networkSiblingSetId Network Sibling Set ID for a group of volumes sharing networking
    *                            resources in a subnet.
    * @param subnetId The Azure Resource URI for a delegated subnet. Must have the delegation
@@ -254,7 +253,7 @@ export class NetAppResourceImpl implements NetAppResource {
     subnetId: string,
     networkSiblingSetStateId: string,
     networkFeatures: NetworkFeatures,
-    options?: NetAppResourceUpdateNetworkSiblingSetOptionalParams
+    options?: NetAppResourceUpdateNetworkSiblingSetOptionalParams,
   ): Promise<NetAppResourceUpdateNetworkSiblingSetResponse> {
     const poller = await this.beginUpdateNetworkSiblingSet(
       location,
@@ -262,7 +261,7 @@ export class NetAppResourceImpl implements NetAppResource {
       subnetId,
       networkSiblingSetStateId,
       networkFeatures,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -271,170 +270,172 @@ export class NetAppResourceImpl implements NetAppResource {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/checkNameAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckAvailabilityResponse
+      bodyMapper: Mappers.CheckAvailabilityResponse,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: {
     parameterPath: {
       name: ["name"],
       typeParam: ["typeParam"],
-      resourceGroup: ["resourceGroup"]
+      resourceGroup: ["resourceGroup"],
     },
-    mapper: { ...Mappers.ResourceNameAvailabilityRequest, required: true }
+    mapper: { ...Mappers.ResourceNameAvailabilityRequest, required: true },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const checkFilePathAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/checkFilePathAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/checkFilePathAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckAvailabilityResponse
+      bodyMapper: Mappers.CheckAvailabilityResponse,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: {
     parameterPath: { name: ["name"], subnetId: ["subnetId"] },
-    mapper: { ...Mappers.FilePathAvailabilityRequest, required: true }
+    mapper: { ...Mappers.FilePathAvailabilityRequest, required: true },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const checkQuotaAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/checkQuotaAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/checkQuotaAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckAvailabilityResponse
+      bodyMapper: Mappers.CheckAvailabilityResponse,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: {
     parameterPath: {
       name: ["name"],
       typeParam: ["typeParam"],
-      resourceGroup: ["resourceGroup"]
+      resourceGroup: ["resourceGroup"],
     },
-    mapper: { ...Mappers.QuotaAvailabilityRequest, required: true }
+    mapper: { ...Mappers.QuotaAvailabilityRequest, required: true },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const queryRegionInfoOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/regionInfo",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/regionInfo",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RegionInfo
+      bodyMapper: Mappers.RegionInfo,
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const queryNetworkSiblingSetOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/queryNetworkSiblingSet",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/queryNetworkSiblingSet",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkSiblingSet
+      bodyMapper: Mappers.NetworkSiblingSet,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: {
     parameterPath: {
       networkSiblingSetId: ["networkSiblingSetId"],
-      subnetId: ["subnetId"]
+      subnetId: ["subnetId"],
     },
-    mapper: { ...Mappers.QueryNetworkSiblingSetRequest, required: true }
+    mapper: { ...Mappers.QueryNetworkSiblingSetRequest, required: true },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateNetworkSiblingSetOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/updateNetworkSiblingSet",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/updateNetworkSiblingSet",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkSiblingSet
+      bodyMapper: Mappers.NetworkSiblingSet,
     },
     201: {
-      bodyMapper: Mappers.NetworkSiblingSet
+      bodyMapper: Mappers.NetworkSiblingSet,
     },
     202: {
-      bodyMapper: Mappers.NetworkSiblingSet
+      bodyMapper: Mappers.NetworkSiblingSet,
     },
     204: {
-      bodyMapper: Mappers.NetworkSiblingSet
+      bodyMapper: Mappers.NetworkSiblingSet,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: {
     parameterPath: {
       networkSiblingSetId: ["networkSiblingSetId"],
       subnetId: ["subnetId"],
       networkSiblingSetStateId: ["networkSiblingSetStateId"],
-      networkFeatures: ["networkFeatures"]
+      networkFeatures: ["networkFeatures"],
     },
-    mapper: { ...Mappers.UpdateNetworkSiblingSetRequest, required: true }
+    mapper: { ...Mappers.UpdateNetworkSiblingSetRequest, required: true },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

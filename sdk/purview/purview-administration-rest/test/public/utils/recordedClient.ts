@@ -27,7 +27,7 @@ const recorderOptions: RecorderStartOptions = {
 
 export async function createAccountClient(
   recorder: Recorder,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): Promise<PurviewAccount.Client.PurviewAccountRestClient> {
   const credential = createTestCredential();
   await recorder.start(recorderOptions);
@@ -35,13 +35,13 @@ export async function createAccountClient(
   return PurviewAccountClient(
     env.ENDPOINT ?? "",
     credential,
-    recorder.configureClientOptions({ options })
+    recorder.configureClientOptions({ options }),
   );
 }
 
 export async function createMetadataClient(
   recorder: Recorder,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): Promise<PurviewMetadataPolicies.Client.PurviewMetadataPoliciesRestClient> {
   const credential = createTestCredential();
   await recorder.start(recorderOptions);
@@ -49,6 +49,6 @@ export async function createMetadataClient(
   return PurviewMetadataPoliciesClient(
     env.ENDPOINT ?? "",
     credential,
-    recorder.configureClientOptions({ options })
+    recorder.configureClientOptions({ options }),
   );
 }

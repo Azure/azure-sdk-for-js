@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import { matrix } from "@azure/test-utils";
+import { matrix } from "@azure-tools/test-utils";
 import { Context } from "mocha";
 import { createClient, startRecorder } from "./utils/recordedClient.js";
 import {
@@ -61,18 +61,18 @@ describe("OpenAI", function () {
                 deployments,
                 models,
                 imageGenerationDeployments,
-                imageGenerationModels
+                imageGenerationModels,
               ),
               (deploymentName) =>
                 client.getImages(deploymentName, prompt, {
                   n: numberOfImages,
                   size,
                 }),
-              (item) => assertImageGenerationsWithURLs(item, recorder, height, width)
+              (item) => assertImageGenerationsWithURLs(item, recorder, height, width),
             ),
             imageGenerationDeployments,
             imageGenerationModels,
-            authMethod
+            authMethod,
           );
         });
 
@@ -84,7 +84,7 @@ describe("OpenAI", function () {
                 deployments,
                 models,
                 imageGenerationDeployments,
-                imageGenerationModels
+                imageGenerationModels,
               ),
               (deploymentName) =>
                 client.getImages(deploymentName, prompt, {
@@ -92,11 +92,11 @@ describe("OpenAI", function () {
                   size,
                   responseFormat: "b64_json",
                 }),
-              (item) => assertImageGenerationsWithString(item, height, width)
+              (item) => assertImageGenerationsWithString(item, height, width),
             ),
             imageGenerationDeployments,
             imageGenerationModels,
-            authMethod
+            authMethod,
           );
         });
       });

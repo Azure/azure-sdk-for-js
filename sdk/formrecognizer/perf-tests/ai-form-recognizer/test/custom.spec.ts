@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfOptionDictionary, PerfTest, getEnvVar } from "@azure/test-utils-perf";
+import { PerfOptionDictionary, PerfTest, getEnvVar } from "@azure-tools/test-perf";
 import {
   AzureKeyCredential,
   DocumentModelDetails,
@@ -67,7 +67,7 @@ export class CustomModelRecognitionTest extends PerfTest<CustomModelRecognitionT
       const poller = await this.trainingClient.beginBuildDocumentModel(
         randomUUID(),
         trainingContainerSasUrl,
-        "template"
+        "template",
       );
 
       CustomModelRecognitionTest.sessionModel = await poller.pollUntilDone();
@@ -98,7 +98,7 @@ export class CustomModelRecognitionTest extends PerfTest<CustomModelRecognitionT
       this.documentUrl,
       {
         updateIntervalInMs: this.parsedOptions.updateIntervalInMs?.value,
-      }
+      },
     );
 
     await poller.pollUntilDone();

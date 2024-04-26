@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update a VM scale set.
  *
  * @summary Update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Update_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetUpdateMaximumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -48,6 +48,7 @@ async function virtualMachineScaleSetUpdateMaximumSetGen() {
       automaticOSUpgradePolicy: {
         disableAutomaticRollback: true,
         enableAutomaticOSUpgrade: true,
+        osRollingUpgradeDeferral: true,
       },
       mode: "Manual",
       rollingUpgradePolicy: {
@@ -237,6 +238,7 @@ async function virtualMachineScaleSetUpdateMaximumSetGen() {
         },
         osDisk: {
           caching: "ReadWrite",
+          diffDiskSettings: { option: "Local", placement: "CacheDisk" },
           diskSizeGB: 6,
           image: {
             uri: "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk.vhd",
@@ -257,7 +259,7 @@ async function virtualMachineScaleSetUpdateMaximumSetGen() {
   const result = await client.virtualMachineScaleSets.beginUpdateAndWait(
     resourceGroupName,
     vmScaleSetName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -266,7 +268,7 @@ async function virtualMachineScaleSetUpdateMaximumSetGen() {
  * This sample demonstrates how to Update a VM scale set.
  *
  * @summary Update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Update_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetUpdateMinimumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -278,7 +280,7 @@ async function virtualMachineScaleSetUpdateMinimumSetGen() {
   const result = await client.virtualMachineScaleSets.beginUpdateAndWait(
     resourceGroupName,
     vmScaleSetName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

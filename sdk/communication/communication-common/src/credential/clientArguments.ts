@@ -53,7 +53,7 @@ export type UrlWithCredential = {
  */
 export const parseClientArguments = (
   connectionStringOrUrl: string,
-  credentialOrOptions?: unknown
+  credentialOrOptions?: unknown,
 ): UrlWithCredential => {
   if (isKeyCredential(credentialOrOptions) || isTokenCredential(credentialOrOptions)) {
     assertValidEndpoint(connectionStringOrUrl);

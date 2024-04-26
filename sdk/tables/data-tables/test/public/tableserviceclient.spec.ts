@@ -3,16 +3,16 @@
 
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { TableItem, TableItemResultPage, TableServiceClient, odata } from "../../src";
-
 import { Context } from "mocha";
 import { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { createTableServiceClient } from "./utils/recordedClient";
-import { isNode, assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
+import { isNodeLike } from "@azure/core-util";
 
 describe(`TableServiceClient`, function () {
   let client: TableServiceClient;
   let recorder: Recorder;
-  const suffix = isNode ? `node` : `browser`;
+  const suffix = isNodeLike ? `node` : `browser`;
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
@@ -86,7 +86,7 @@ describe(`TableServiceClient`, function () {
       for (let i = 0; i < expectedTotalItems; i++) {
         assert.isTrue(
           all.some((t) => t.name === `ListTableTest${suffix}${i}`),
-          `Couldn't find table ListTableTest${suffix}${i}`
+          `Couldn't find table ListTableTest${suffix}${i}`,
         );
       }
     });
@@ -118,7 +118,7 @@ describe(`TableServiceClient`, function () {
       for (let i = 0; i < expectedTotalItems; i++) {
         assert.isTrue(
           all.some((t) => t.name === `ListTableTest${suffix}${i}`),
-          `Couldn't find table ListTableTest${suffix}${i}`
+          `Couldn't find table ListTableTest${suffix}${i}`,
         );
       }
     });
@@ -199,7 +199,7 @@ describe(`TableServiceClient`, function () {
           "TableServiceClient.setProperties",
           "TableServiceClient.getStatistics",
           "TableServiceClient.deleteTable",
-        ]
+        ],
       );
     });
   });

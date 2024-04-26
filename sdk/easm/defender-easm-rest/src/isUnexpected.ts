@@ -86,82 +86,82 @@ const responseMap: Record<string, string[]> = {
 };
 
 export function isUnexpected(
-  response: ListAssetResource200Response | ListAssetResourceDefaultResponse
+  response: ListAssetResource200Response | ListAssetResourceDefaultResponse,
 ): response is ListAssetResourceDefaultResponse;
 export function isUnexpected(
-  response: UpdateAssets200Response | UpdateAssetsDefaultResponse
+  response: UpdateAssets200Response | UpdateAssetsDefaultResponse,
 ): response is UpdateAssetsDefaultResponse;
 export function isUnexpected(
-  response: GetAssetResource200Response | GetAssetResourceDefaultResponse
+  response: GetAssetResource200Response | GetAssetResourceDefaultResponse,
 ): response is GetAssetResourceDefaultResponse;
 export function isUnexpected(
-  response: ListDataConnection200Response | ListDataConnectionDefaultResponse
+  response: ListDataConnection200Response | ListDataConnectionDefaultResponse,
 ): response is ListDataConnectionDefaultResponse;
 export function isUnexpected(
-  response: ValidateDataConnection200Response | ValidateDataConnectionDefaultResponse
+  response: ValidateDataConnection200Response | ValidateDataConnectionDefaultResponse,
 ): response is ValidateDataConnectionDefaultResponse;
 export function isUnexpected(
-  response: GetDataConnection200Response | GetDataConnectionDefaultResponse
+  response: GetDataConnection200Response | GetDataConnectionDefaultResponse,
 ): response is GetDataConnectionDefaultResponse;
 export function isUnexpected(
-  response: CreateOrReplaceDataConnection200Response | CreateOrReplaceDataConnectionDefaultResponse
+  response: CreateOrReplaceDataConnection200Response | CreateOrReplaceDataConnectionDefaultResponse,
 ): response is CreateOrReplaceDataConnectionDefaultResponse;
 export function isUnexpected(
-  response: DeleteDataConnection204Response | DeleteDataConnectionDefaultResponse
+  response: DeleteDataConnection204Response | DeleteDataConnectionDefaultResponse,
 ): response is DeleteDataConnectionDefaultResponse;
 export function isUnexpected(
-  response: ListDiscoGroup200Response | ListDiscoGroupDefaultResponse
+  response: ListDiscoGroup200Response | ListDiscoGroupDefaultResponse,
 ): response is ListDiscoGroupDefaultResponse;
 export function isUnexpected(
-  response: ValidateDiscoGroup200Response | ValidateDiscoGroupDefaultResponse
+  response: ValidateDiscoGroup200Response | ValidateDiscoGroupDefaultResponse,
 ): response is ValidateDiscoGroupDefaultResponse;
 export function isUnexpected(
-  response: GetDiscoGroup200Response | GetDiscoGroupDefaultResponse
+  response: GetDiscoGroup200Response | GetDiscoGroupDefaultResponse,
 ): response is GetDiscoGroupDefaultResponse;
 export function isUnexpected(
-  response: CreateOrReplaceDiscoGroup200Response | CreateOrReplaceDiscoGroupDefaultResponse
+  response: CreateOrReplaceDiscoGroup200Response | CreateOrReplaceDiscoGroupDefaultResponse,
 ): response is CreateOrReplaceDiscoGroupDefaultResponse;
 export function isUnexpected(
-  response: RunDiscoGroup204Response | RunDiscoGroupDefaultResponse
+  response: RunDiscoGroup204Response | RunDiscoGroupDefaultResponse,
 ): response is RunDiscoGroupDefaultResponse;
 export function isUnexpected(
-  response: ListRuns200Response | ListRunsDefaultResponse
+  response: ListRuns200Response | ListRunsDefaultResponse,
 ): response is ListRunsDefaultResponse;
 export function isUnexpected(
-  response: ListDiscoTemplate200Response | ListDiscoTemplateDefaultResponse
+  response: ListDiscoTemplate200Response | ListDiscoTemplateDefaultResponse,
 ): response is ListDiscoTemplateDefaultResponse;
 export function isUnexpected(
-  response: GetDiscoTemplate200Response | GetDiscoTemplateDefaultResponse
+  response: GetDiscoTemplate200Response | GetDiscoTemplateDefaultResponse,
 ): response is GetDiscoTemplateDefaultResponse;
 export function isUnexpected(
-  response: GetBillable200Response | GetBillableDefaultResponse
+  response: GetBillable200Response | GetBillableDefaultResponse,
 ): response is GetBillableDefaultResponse;
 export function isUnexpected(
-  response: GetSnapshot200Response | GetSnapshotDefaultResponse
+  response: GetSnapshot200Response | GetSnapshotDefaultResponse,
 ): response is GetSnapshotDefaultResponse;
 export function isUnexpected(
-  response: GetSummary200Response | GetSummaryDefaultResponse
+  response: GetSummary200Response | GetSummaryDefaultResponse,
 ): response is GetSummaryDefaultResponse;
 export function isUnexpected(
-  response: ListSavedFilter200Response | ListSavedFilterDefaultResponse
+  response: ListSavedFilter200Response | ListSavedFilterDefaultResponse,
 ): response is ListSavedFilterDefaultResponse;
 export function isUnexpected(
-  response: GetSavedFilter200Response | GetSavedFilterDefaultResponse
+  response: GetSavedFilter200Response | GetSavedFilterDefaultResponse,
 ): response is GetSavedFilterDefaultResponse;
 export function isUnexpected(
-  response: CreateOrReplaceSavedFilter200Response | CreateOrReplaceSavedFilterDefaultResponse
+  response: CreateOrReplaceSavedFilter200Response | CreateOrReplaceSavedFilterDefaultResponse,
 ): response is CreateOrReplaceSavedFilterDefaultResponse;
 export function isUnexpected(
-  response: DeleteSavedFilter204Response | DeleteSavedFilterDefaultResponse
+  response: DeleteSavedFilter204Response | DeleteSavedFilterDefaultResponse,
 ): response is DeleteSavedFilterDefaultResponse;
 export function isUnexpected(
-  response: ListTask200Response | ListTaskDefaultResponse
+  response: ListTask200Response | ListTaskDefaultResponse,
 ): response is ListTaskDefaultResponse;
 export function isUnexpected(
-  response: GetTask200Response | GetTaskDefaultResponse
+  response: GetTask200Response | GetTaskDefaultResponse,
 ): response is GetTaskDefaultResponse;
 export function isUnexpected(
-  response: CancelTask200Response | CancelTaskDefaultResponse
+  response: CancelTask200Response | CancelTaskDefaultResponse,
 ): response is CancelTaskDefaultResponse;
 export function isUnexpected(
   response:
@@ -216,7 +216,7 @@ export function isUnexpected(
     | GetTask200Response
     | GetTaskDefaultResponse
     | CancelTask200Response
-    | CancelTaskDefaultResponse
+    | CancelTaskDefaultResponse,
 ): response is
   | ListAssetResourceDefaultResponse
   | UpdateAssetsDefaultResponse
@@ -285,7 +285,7 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
         // {guid} ==> $
         // {guid}:export ==> :export$
         const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || ""
+          pathParts[j] || "",
         );
 
         if (!isMatched) {

@@ -1,14 +1,57 @@
 # Release History
 
-## 1.13.1 (Unreleased)
+## 1.16.0 (Unreleased)
 
 ### Features Added
+
+- The FormData global is now a supported request body type in Node in addition to the browser.
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.15.2 (2024-04-09)
+
+### Other Changes
+
+- Revert TypeScript output target to ES2017.
+
+## 1.15.1 (2024-03-20)
+
+### Bugs Fixed
+
+- Fixed an issue where `proxyPolicy` was ignoring a custom port setting. [PR #28974](https://github.com/Azure/azure-sdk-for-js/pull/28974)
+
+### Other Changes
+
+- Add top-level `browser` field to `package.json` as fallback for legacy bundlers that do not support the `exports` field.
+
+## 1.15.0 (2024-03-12)
+
+### Bugs Fixed
+
+- Fix issue where files created using `createFileFromStream` were not properly supported in the browser.
+
+### Other Changes
+
+- In the browser, `formDataPolicy` once again uses `multipartPolicy` when content type is `multipart/form-data`. This functionality was removed in 1.14.0, but has now been re-enabled.
+- Migrated the codebase to ESM. This change is internal and should not affect customers.
+- Migrated unit tests to vitest.
+
+## 1.14.0 (2024-02-01)
+
+### Bugs Fixed
+
+- Fix support for `multipart/form-data` request bodies in browser where server does not support `HTTP/2`.
+- Guard against unrecognized value types in the form data policy.
+- Form file uploads now have content type `application/octet-stream` if no other content type was specified.
+- Fix `multipart/form-data` requests failing in versions of Node 18 below 18.13 and versions of Node 20 below 20.6.
+
+### Other Changes
+
+- Upgrade dependency `@azure/abort-controller` version to `^2.0.0`.
 
 ## 1.13.0 (2023-12-07)
 

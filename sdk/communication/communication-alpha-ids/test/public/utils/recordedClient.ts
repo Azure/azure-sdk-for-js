@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import * as dotenv from "dotenv";
 
+import * as dotenv from "dotenv";
 import { ClientSecretCredential, DefaultAzureCredential, TokenCredential } from "@azure/identity";
 import {
   Recorder,
@@ -12,11 +12,11 @@ import {
 } from "@azure-tools/test-recorder";
 import { AlphaIdsClient } from "../../../src";
 import { Context } from "mocha";
-import { isNode } from "@azure/test-utils";
+import { isNodeLike } from "@azure/core-util";
 import { parseConnectionString } from "@azure/communication-common";
 import { createMSUserAgentPolicy } from "./msUserAgentPolicy";
 
-if (isNode) {
+if (isNodeLike) {
   dotenv.config();
 }
 
@@ -53,7 +53,7 @@ export const recorderOptions: RecorderStartOptions = {
 };
 
 export async function createRecordedClient(
-  context: Context
+  context: Context,
 ): Promise<RecordedClient<AlphaIdsClient>> {
   const recorder = new Recorder(context.currentTest);
   await recorder.start(recorderOptions);
@@ -69,7 +69,7 @@ export async function createRecordedClient(
             position: "perCall",
           },
         ],
-      })
+      }),
     ),
     recorder,
   };
@@ -86,14 +86,14 @@ export function createMockToken(): {
 }
 
 export async function createRecordedClientWithToken(
-  context: Context
+  context: Context,
 ): Promise<RecordedClient<AlphaIdsClient> | undefined> {
   const recorder = new Recorder(context.currentTest);
   await recorder.start(recorderOptions);
 
   let credential: TokenCredential;
   const endpoint = parseConnectionString(
-    assertEnvironmentVariable("COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING")
+    assertEnvironmentVariable("COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"),
   ).endpoint;
 
   if (isPlaybackMode()) {
@@ -111,19 +111,19 @@ export async function createRecordedClientWithToken(
               position: "perCall",
             },
           ],
-        })
+        }),
       ),
       recorder,
     };
   }
 
-  if (isNode) {
+  if (isNodeLike) {
     credential = new DefaultAzureCredential();
   } else {
     credential = new ClientSecretCredential(
       assertEnvironmentVariable("AZURE_TENANT_ID"),
       assertEnvironmentVariable("AZURE_CLIENT_ID"),
-      assertEnvironmentVariable("AZURE_CLIENT_SECRET")
+      assertEnvironmentVariable("AZURE_CLIENT_SECRET"),
     );
   }
 
@@ -139,7 +139,7 @@ export async function createRecordedClientWithToken(
             position: "perCall",
           },
         ],
-      })
+      }),
     ),
     recorder,
   };

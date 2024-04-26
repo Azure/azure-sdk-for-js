@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   IotConnector,
   IotConnectorsListByWorkspaceOptionalParams,
@@ -18,7 +18,7 @@ import {
   IotConnectorPatchResource,
   IotConnectorsUpdateOptionalParams,
   IotConnectorsUpdateResponse,
-  IotConnectorsDeleteOptionalParams
+  IotConnectorsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface IotConnectors {
   listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: IotConnectorsListByWorkspaceOptionalParams
+    options?: IotConnectorsListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<IotConnector>;
   /**
    * Gets the properties of the specified IoT Connector.
@@ -46,7 +46,7 @@ export interface IotConnectors {
     resourceGroupName: string,
     workspaceName: string,
     iotConnectorName: string,
-    options?: IotConnectorsGetOptionalParams
+    options?: IotConnectorsGetOptionalParams,
   ): Promise<IotConnectorsGetResponse>;
   /**
    * Creates or updates an IoT Connector resource with the specified parameters.
@@ -61,10 +61,10 @@ export interface IotConnectors {
     workspaceName: string,
     iotConnectorName: string,
     iotConnector: IotConnector,
-    options?: IotConnectorsCreateOrUpdateOptionalParams
+    options?: IotConnectorsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<IotConnectorsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<IotConnectorsCreateOrUpdateResponse>,
       IotConnectorsCreateOrUpdateResponse
     >
   >;
@@ -81,7 +81,7 @@ export interface IotConnectors {
     workspaceName: string,
     iotConnectorName: string,
     iotConnector: IotConnector,
-    options?: IotConnectorsCreateOrUpdateOptionalParams
+    options?: IotConnectorsCreateOrUpdateOptionalParams,
   ): Promise<IotConnectorsCreateOrUpdateResponse>;
   /**
    * Patch an IoT Connector.
@@ -96,10 +96,10 @@ export interface IotConnectors {
     iotConnectorName: string,
     workspaceName: string,
     iotConnectorPatchResource: IotConnectorPatchResource,
-    options?: IotConnectorsUpdateOptionalParams
+    options?: IotConnectorsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<IotConnectorsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<IotConnectorsUpdateResponse>,
       IotConnectorsUpdateResponse
     >
   >;
@@ -116,7 +116,7 @@ export interface IotConnectors {
     iotConnectorName: string,
     workspaceName: string,
     iotConnectorPatchResource: IotConnectorPatchResource,
-    options?: IotConnectorsUpdateOptionalParams
+    options?: IotConnectorsUpdateOptionalParams,
   ): Promise<IotConnectorsUpdateResponse>;
   /**
    * Deletes an IoT Connector.
@@ -129,8 +129,8 @@ export interface IotConnectors {
     resourceGroupName: string,
     iotConnectorName: string,
     workspaceName: string,
-    options?: IotConnectorsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: IotConnectorsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an IoT Connector.
    * @param resourceGroupName The name of the resource group that contains the service instance.
@@ -142,6 +142,6 @@ export interface IotConnectors {
     resourceGroupName: string,
     iotConnectorName: string,
     workspaceName: string,
-    options?: IotConnectorsDeleteOptionalParams
+    options?: IotConnectorsDeleteOptionalParams,
   ): Promise<void>;
 }

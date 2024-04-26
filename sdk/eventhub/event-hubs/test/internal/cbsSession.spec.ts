@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import { createMockServer } from "../public/utils/mockService";
@@ -31,11 +31,11 @@ testWithServiceTypes((serviceVersion) => {
     before("validate environment", () => {
       assert.exists(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
       );
       assert.exists(
         env[EnvVarKeys.EVENTHUB_NAME],
-        "define EVENTHUB_NAME in your environment before running integration tests."
+        "define EVENTHUB_NAME in your environment before running integration tests.",
       );
     });
     let context: ConnectionContext;

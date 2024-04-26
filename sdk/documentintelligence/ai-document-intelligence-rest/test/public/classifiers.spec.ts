@@ -29,7 +29,7 @@ describe.skip("classifiers", () => {
     client = DocumentIntelligence(
       assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_ENDPOINT"),
       { key: assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_API_KEY") },
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
   });
 
@@ -50,7 +50,7 @@ describe.skip("classifiers", () => {
     if (!_classifier) {
       _classifierId = recorder.variable(
         "customClassifierId",
-        `customClassifier${getRandomNumber()}`
+        `customClassifier${getRandomNumber()}`,
       );
 
       const initialResponse = await client.path("/documentClassifiers:build").post({

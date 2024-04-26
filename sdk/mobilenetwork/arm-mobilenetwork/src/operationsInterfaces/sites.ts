@@ -20,7 +20,7 @@ import {
   SitesUpdateTagsOptionalParams,
   SitesUpdateTagsResponse,
   SiteDeletePacketCore,
-  SitesDeletePacketCoreOptionalParams
+  SitesDeletePacketCoreOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface Sites {
   listByMobileNetwork(
     resourceGroupName: string,
     mobileNetworkName: string,
-    options?: SitesListByMobileNetworkOptionalParams
+    options?: SitesListByMobileNetworkOptionalParams,
   ): PagedAsyncIterableIterator<Site>;
   /**
    * Deletes the specified mobile network site. This will also delete any network functions that are a
@@ -49,7 +49,7 @@ export interface Sites {
     resourceGroupName: string,
     mobileNetworkName: string,
     siteName: string,
-    options?: SitesDeleteOptionalParams
+    options?: SitesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified mobile network site. This will also delete any network functions that are a
@@ -63,7 +63,7 @@ export interface Sites {
     resourceGroupName: string,
     mobileNetworkName: string,
     siteName: string,
-    options?: SitesDeleteOptionalParams
+    options?: SitesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets information about the specified mobile network site.
@@ -76,7 +76,7 @@ export interface Sites {
     resourceGroupName: string,
     mobileNetworkName: string,
     siteName: string,
-    options?: SitesGetOptionalParams
+    options?: SitesGetOptionalParams,
   ): Promise<SitesGetResponse>;
   /**
    * Creates or updates a mobile network site. Must be created in the same location as its parent mobile
@@ -92,7 +92,7 @@ export interface Sites {
     mobileNetworkName: string,
     siteName: string,
     parameters: Site,
-    options?: SitesCreateOrUpdateOptionalParams
+    options?: SitesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SitesCreateOrUpdateResponse>,
@@ -113,7 +113,7 @@ export interface Sites {
     mobileNetworkName: string,
     siteName: string,
     parameters: Site,
-    options?: SitesCreateOrUpdateOptionalParams
+    options?: SitesCreateOrUpdateOptionalParams,
   ): Promise<SitesCreateOrUpdateResponse>;
   /**
    * Updates site tags.
@@ -128,7 +128,7 @@ export interface Sites {
     mobileNetworkName: string,
     siteName: string,
     parameters: TagsObject,
-    options?: SitesUpdateTagsOptionalParams
+    options?: SitesUpdateTagsOptionalParams,
   ): Promise<SitesUpdateTagsResponse>;
   /**
    * Deletes a packet core under the specified mobile network site.
@@ -143,7 +143,7 @@ export interface Sites {
     mobileNetworkName: string,
     siteName: string,
     parameters: SiteDeletePacketCore,
-    options?: SitesDeletePacketCoreOptionalParams
+    options?: SitesDeletePacketCoreOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a packet core under the specified mobile network site.
@@ -158,6 +158,6 @@ export interface Sites {
     mobileNetworkName: string,
     siteName: string,
     parameters: SiteDeletePacketCore,
-    options?: SitesDeletePacketCoreOptionalParams
+    options?: SitesDeletePacketCoreOptionalParams,
   ): Promise<void>;
 }

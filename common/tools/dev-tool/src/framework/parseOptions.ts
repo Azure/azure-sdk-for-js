@@ -2,7 +2,6 @@
 // Licensed under the MIT license
 
 import getArgs from "minimist";
-
 import { createPrinter } from "../util/printer";
 import { CommandOptions, StringOptionDescription, BooleanOptionDescription } from "./CommandInfo";
 

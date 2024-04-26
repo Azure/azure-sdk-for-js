@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { randomUUID } from "@azure/core-util";
-import { PerfOptionDictionary, executeParallel } from "@azure/test-utils-perf";
+import { PerfOptionDictionary, executeParallel } from "@azure-tools/test-perf";
 import { AppConfigTest } from "./appConfigBase.spec";
 
 interface ListTestOptions {
@@ -35,7 +35,7 @@ export class ListSettingsTest extends AppConfigTest<ListTestOptions> {
         });
       },
       this.parsedOptions.count.value,
-      32
+      32,
     );
   }
 
@@ -67,7 +67,7 @@ export class ListSettingsTest extends AppConfigTest<ListTestOptions> {
         await this.client.deleteConfigurationSetting({ key: keys[count] });
       },
       this.parsedOptions.count.value,
-      32
+      32,
     );
   }
 }

@@ -16,7 +16,7 @@ describe("Library/ApplicationInsightsSampler", () => {
       assert.equal(
         result.decision,
         SamplingDecision.RECORD,
-        "data should not pass but Span needs to be available for standard metrics"
+        "data should not pass but Span needs to be available for standard metrics",
       );
     });
 
@@ -32,7 +32,7 @@ describe("Library/ApplicationInsightsSampler", () => {
           "",
           SpanKind.INTERNAL,
           {},
-          []
+          [],
         );
         if (result.decision === SamplingDecision.RECORD_AND_SAMPLED) accepted++;
       }
@@ -53,7 +53,7 @@ describe("Library/ApplicationInsightsSampler", () => {
           "",
           SpanKind.INTERNAL,
           {},
-          []
+          [],
         );
         if (result.decision === SamplingDecision.RECORD_AND_SAMPLED) accepted++;
       }
@@ -74,7 +74,7 @@ describe("Library/ApplicationInsightsSampler", () => {
           "",
           SpanKind.INTERNAL,
           {},
-          []
+          [],
         );
         if (result.decision === SamplingDecision.RECORD_AND_SAMPLED) accepted++;
       }

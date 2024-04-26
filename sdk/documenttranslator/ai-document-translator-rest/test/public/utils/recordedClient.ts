@@ -15,14 +15,14 @@ const envSetupForPlayback: { [k: string]: string } = {
 
 export async function createClient(
   recorder: Recorder,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): Promise<DocumentTranslatorClient> {
   await recorder.start({ envSetupForPlayback });
   const credential = { key: env.DOCUMENT_TRANSLATOR_API_KEY ?? "" };
   const client = DocumentTranslator(
     env.ENDPOINT ?? "",
     credential,
-    recorder.configureClientOptions(options || {})
+    recorder.configureClientOptions(options || {}),
   );
   return client;
 }

@@ -42,7 +42,7 @@ export async function main() {
         password: "<password>"
       }
       */
-    }
+    },
   );
 
   // Create a share

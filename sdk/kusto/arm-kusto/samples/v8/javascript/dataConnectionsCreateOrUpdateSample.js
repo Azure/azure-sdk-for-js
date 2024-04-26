@@ -45,7 +45,7 @@ async function kustoDataConnectionsCosmosDbCreateOrUpdate() {
     clusterName,
     databaseName,
     dataConnectionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -79,7 +79,7 @@ async function kustoDataConnectionsCreateOrUpdate() {
     clusterName,
     databaseName,
     dataConnectionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -123,7 +123,7 @@ async function kustoDataConnectionsEventGridCreateOrUpdate() {
     clusterName,
     databaseName,
     dataConnectionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
