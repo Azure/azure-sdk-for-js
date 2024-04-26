@@ -15,7 +15,7 @@ import { AzurePipelinesServiceConnectionCredentialOptions } from "./azurePipelin
 
 const credentialName = "AzurePipelinesServiceConnectionCredential";
 const logger = credentialLogger(credentialName);
-const OIDC_API_VERSION = "7.1";
+const OIDC_API_VERSION = "7.1-preview.1";
 
 /**
  * This credential is designed to be used in ADO Pipelines with service connections
