@@ -11,7 +11,7 @@ describe("AzurePipelinesServiceConnectionCredential", function () {
   const tenantId = "72f988bf-86f1-41af-91ab-2d7cd011db47";
   // const clientId = env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!;
 
-  it.only("authenticates with a valid service connection", async function () {
+  it("authenticates with a valid service connection", async function () {
     if (!isLiveMode()) {
       this.skip();
     }
