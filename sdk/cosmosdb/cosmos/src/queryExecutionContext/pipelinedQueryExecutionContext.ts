@@ -9,6 +9,7 @@ import { OrderByEndpointComponent } from "./EndpointComponent/OrderByEndpointCom
 import { OrderedDistinctEndpointComponent } from "./EndpointComponent/OrderedDistinctEndpointComponent";
 import { UnorderedDistinctEndpointComponent } from "./EndpointComponent/UnorderedDistinctEndpointComponent";
 import { GroupByEndpointComponent } from "./EndpointComponent/GroupByEndpointComponent";
+import { NonStreamingOrderByEndpointComponent } from "./EndpointComponent/NonStreamingOrderByEndpointComponent";
 import { ExecutionContext } from "./ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import { OrderByQueryExecutionContext } from "./orderByQueryExecutionContext";
@@ -16,6 +17,8 @@ import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext";
 import { GroupByValueEndpointComponent } from "./EndpointComponent/GroupByValueEndpointComponent";
 import { SqlQuerySpec } from "./SqlQuerySpec";
 import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
+import { NonStreamingOrderByAsceDocumentComparator } from "./nonStreamingOrderByAsceDocumentComparator";
+import { NonStreamingOrderByDescDocumentComparator } from "./nonStreamingOrderByDescDocumentComparator";
 
 /** @hidden */
 export class PipelinedQueryExecutionContext implements ExecutionContext {
@@ -24,12 +27,13 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   private endpoint: ExecutionContext;
   private pageSize: number;
   private static DEFAULT_PAGE_SIZE = 10;
+  private isNonStreamingOrderBy: boolean = true; //just placed here to simulate non streaming order by
   constructor(
     private clientContext: ClientContext,
     private collectionLink: string,
     private query: string | SqlQuerySpec,
     private options: FeedOptions,
-    private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
+    private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo, // query plan
     correlatedActivityId: string,
   ) {
     this.endpoint = null;
@@ -41,18 +45,36 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     // Pick between parallel vs order by execution context
     const sortOrders = partitionedQueryExecutionInfo.queryInfo.orderBy;
     if (Array.isArray(sortOrders) && sortOrders.length > 0) {
-      // Need to wrap orderby execution context in endpoint component, since the data is nested as a \
-      //      "payload" property.
-      this.endpoint = new OrderByEndpointComponent(
-        new OrderByQueryExecutionContext(
-          this.clientContext,
-          this.collectionLink,
-          this.query,
-          this.options,
-          this.partitionedQueryExecutionInfo,
-          correlatedActivityId,
-        ),
-      );
+      if (this.isNonStreamingOrderBy) {
+        const comparator =
+          sortOrders[0] === "Ascending"
+            ? new NonStreamingOrderByAsceDocumentComparator()
+            : new NonStreamingOrderByDescDocumentComparator();
+        this.endpoint = new NonStreamingOrderByEndpointComponent(
+          new ParallelQueryExecutionContext(
+            this.clientContext,
+            this.collectionLink,
+            this.query,
+            this.options,
+            this.partitionedQueryExecutionInfo,
+            correlatedActivityId,
+          ),
+          comparator.compare,
+        );
+      } else {
+        // Need to wrap orderby execution context in endpoint component, since the data is nested as a \
+        //      "payload" property.
+        this.endpoint = new OrderByEndpointComponent(
+          new OrderByQueryExecutionContext(
+            this.clientContext,
+            this.collectionLink,
+            this.query,
+            this.options,
+            this.partitionedQueryExecutionInfo,
+            correlatedActivityId,
+          ),
+        );
+      }
     } else {
       this.endpoint = new ParallelQueryExecutionContext(
         this.clientContext,

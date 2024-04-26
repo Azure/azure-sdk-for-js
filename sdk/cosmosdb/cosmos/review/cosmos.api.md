@@ -637,6 +637,8 @@ export interface ContainerDefinition {
     indexingPolicy?: IndexingPolicy;
     partitionKey?: PartitionKeyDefinition;
     uniqueKeyPolicy?: UniqueKeyPolicy;
+    // (undocumented)
+    vectorEmbeddingPolicy?: VectorEmbeddingPolicy;
 }
 
 // Warning: (ae-forgotten-export) The symbol "VerboseOmit" needs to be exported by the entry point index.d.ts
@@ -1183,6 +1185,8 @@ export interface IndexingPolicy {
     indexingMode?: keyof typeof IndexingMode;
     // (undocumented)
     spatialIndexes?: SpatialIndex[];
+    // (undocumented)
+    vectorIndexes?: VectorIndex[];
 }
 
 // @public
@@ -2525,6 +2529,28 @@ export class Users {
     query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
     readAll(options?: FeedOptions): QueryIterator<UserDefinition & Resource>;
     upsert(body: UserDefinition, options?: RequestOptions): Promise<UserResponse>;
+}
+
+// @public (undocumented)
+export interface VectorEmbedding {
+    dataType: "float16" | "float32" | "uint8" | "int8";
+    dimensions: number;
+    distanceFunction: "euclidean" | "cosine" | "dotproduct";
+    path: string;
+}
+
+// @public (undocumented)
+export interface VectorEmbeddingPolicy {
+    // (undocumented)
+    vectorEmbeddings: VectorEmbedding[];
+}
+
+// @public (undocumented)
+export interface VectorIndex {
+    // (undocumented)
+    path: string;
+    // (undocumented)
+    type: "flat" | "diskANN" | "quantizedFlat";
 }
 
 // (No @packageDocumentation comment for this package)
