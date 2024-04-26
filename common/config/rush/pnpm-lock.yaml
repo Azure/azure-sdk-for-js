@@ -266,6 +266,9 @@ dependencies:
   '@rush-temp/arm-deviceprovisioningservices':
     specifier: file:./projects/arm-deviceprovisioningservices.tgz
     version: file:projects/arm-deviceprovisioningservices.tgz
+  '@rush-temp/arm-deviceregistry':
+    specifier: file:./projects/arm-deviceregistry.tgz
+    version: file:projects/arm-deviceregistry.tgz
   '@rush-temp/arm-deviceupdate':
     specifier: file:./projects/arm-deviceupdate.tgz
     version: file:projects/arm-deviceupdate.tgz
@@ -13538,6 +13541,36 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      mkdirp: 3.0.1
+      mocha: 10.4.0
+      rimraf: 5.0.5
+      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
+      tslib: 2.6.2
+      typescript: 5.4.5
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
+  file:projects/arm-deviceregistry.tgz:
+    resolution: {integrity: sha512-rt9bG8kZpBqqAJx2+WpHHznBcszYbbrbgwOh6QtXtYUzcIzNEHeS85cKBMweOdRUZ2I42SPvNcobolcwZ0xOTg==, tarball: file:projects/arm-deviceregistry.tgz}
+    name: '@rush-temp/arm-deviceregistry'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-credential': 1.0.4
+      '@azure-tools/test-recorder': 3.2.0
+      '@azure/abort-controller': 1.1.0
+      '@azure/identity': 4.1.0
+      '@microsoft/api-extractor': 7.43.1(@types/node@18.19.31)
+      '@types/chai': 4.3.14
+      '@types/mocha': 10.0.6
+      '@types/node': 18.19.31
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.4.5
+      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
