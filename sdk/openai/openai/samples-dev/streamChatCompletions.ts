@@ -43,5 +43,5 @@ export async function main() {
 }
 
 main().catch((err) => {
-  parseOpenAIError(err)
+  parseOpenAIError(err);
 });
