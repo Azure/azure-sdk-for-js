@@ -12851,7 +12851,7 @@ packages:
     dev: false
 
   file:projects/arm-containerservice-1.tgz:
-    resolution: {integrity: sha512-KSwm10oiKBHoNo2pLMhUT8t5TrEN8ZUREDuM3ySohY+0SUtMuA4ATN11TuY7t8EsrWvxz010joNnY/hW9Oh/tw==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-5oOD++h70KXtxqgWs6WswyjPQvjjXUTsYK2i10PaDJ7KI1yd4E6XdWFZ60SyrR293vJbqpPLdZUrMbZ+sqdUDQ==, tarball: file:projects/arm-containerservice-1.tgz}
     name: '@rush-temp/arm-containerservice-1'
     version: 0.0.0
     dependencies:
@@ -12866,6 +12866,7 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -17003,7 +17004,7 @@ packages:
     dev: false
 
   file:projects/arm-selfhelp.tgz:
-    resolution: {integrity: sha512-n9pxlM+H5cqHMIa2k6gAZ4mjkVavdvg69HG5dk6Tln+uDlyleAFHVulbOUBe0weqtXHw/TmFiebqHns+MS9pxg==, tarball: file:projects/arm-selfhelp.tgz}
+    resolution: {integrity: sha512-gtlBCPGQM1d77ONVe90VrlL/vVk2CnqvSKaihG9EqxDMKSm468XViezQ9WmSLhwm7Da8IObuAo38rvLFUMe9ig==, tarball: file:projects/arm-selfhelp.tgz}
     name: '@rush-temp/arm-selfhelp'
     version: 0.0.0
     dependencies:
