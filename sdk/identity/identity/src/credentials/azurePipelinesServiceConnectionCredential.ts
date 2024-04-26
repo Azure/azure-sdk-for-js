@@ -122,10 +122,14 @@ export class AzurePipelinesServiceConnectionCredential implements TokenCredentia
     const text = response.bodyAsText;
     if (!text) {
       logger.error(
-        `${credentialName}: Authenticated Failed. Received null token from OIDC request. Response status- ${response.status}`
+        `${credentialName}: Authenticated Failed. Received null token from OIDC request. Response status- ${
+          response.status
+        }. Complete response - ${JSON.stringify(response)}`
       );
       throw new CredentialUnavailableError(
-        `${credentialName}: Authenticated Failed. Received null token from OIDC request. Response status- ${response.status}`
+        `${credentialName}: Authenticated Failed. Received null token from OIDC request. Response status- ${
+          response.status
+        }. Complete response - ${JSON.stringify(response)}`
       );
     }
     const result = JSON.parse(text);
