@@ -28,14 +28,14 @@ import {
   RestartDevBox202Response,
   RestartDevBoxDefaultResponse,
   RestartDevBoxLogicalResponse,
-  CreateOrUpdateEnvironment201Response,
-  CreateOrUpdateEnvironmentDefaultResponse,
-  CreateOrUpdateEnvironmentLogicalResponse,
+  CreateOrReplaceEnvironment201Response,
+  CreateOrReplaceEnvironmentDefaultResponse,
+  CreateOrReplaceEnvironmentLogicalResponse,
   DeleteEnvironment202Response,
   DeleteEnvironment204Response,
   DeleteEnvironmentDefaultResponse,
   DeleteEnvironmentLogicalResponse,
-} from "./responses";
+} from "./responses.js";
 /**
  * Helper function that builds a Poller object to help polling a long running operation.
  * @param client - Client to use for sending the request to get additional pages.
@@ -80,11 +80,13 @@ export async function getLongRunningPoller<
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
   TResult extends
-    | CreateOrUpdateEnvironmentLogicalResponse
-    | CreateOrUpdateEnvironmentDefaultResponse,
+    | CreateOrReplaceEnvironmentLogicalResponse
+    | CreateOrReplaceEnvironmentDefaultResponse,
 >(
   client: Client,
-  initialResponse: CreateOrUpdateEnvironment201Response | CreateOrUpdateEnvironmentDefaultResponse,
+  initialResponse:
+    | CreateOrReplaceEnvironment201Response
+    | CreateOrReplaceEnvironmentDefaultResponse,
   options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>,
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<

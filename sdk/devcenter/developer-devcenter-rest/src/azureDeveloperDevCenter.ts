@@ -2,24 +2,24 @@
 // Licensed under the MIT license.
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { logger } from "./logger";
+import { logger } from "./logger.js";
 import { TokenCredential } from "@azure/core-auth";
-import { AzureDeveloperDevCenterClient } from "./clientDefinitions";
+import { AzureDeveloperDevCenterClient } from "./clientDefinitions.js";
 
 /**
  * Initialize a new instance of `AzureDeveloperDevCenterClient`
- * @param endpoint - The DevCenter-specific URI to operate on.
+ * @param endpointParam - The DevCenter-specific URI to operate on.
  * @param credentials - uniquely identify client credential
  * @param options - the parameter for all optional parameters
  */
 export default function createClient(
-  endpoint: string,
+  endpointParam: string,
   credentials: TokenCredential,
   options: ClientOptions = {},
 ): AzureDeveloperDevCenterClient {
-  const baseUrl = options.baseUrl ?? `${endpoint}`;
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
   options.apiVersion = options.apiVersion ?? "2023-04-01";
-  const userAgentInfo = `azsdk-js-developer-devcenter-rest/1.0.0-beta.4`;
+  const userAgentInfo = `azsdk-js-developer-devcenter-rest/1.0.0`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
@@ -37,7 +37,7 @@ export default function createClient(
     },
   };
 
-  const client = getClient(baseUrl, credentials, options) as AzureDeveloperDevCenterClient;
+  const client = getClient(endpointUrl, credentials, options) as AzureDeveloperDevCenterClient;
 
   return client;
 }
