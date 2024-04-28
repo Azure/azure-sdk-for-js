@@ -7,6 +7,7 @@ import nock from "nock";
 import { successfulBreezeResponse } from "../../utils/breezeTestUtils";
 import { TelemetryItem as Envelope } from "../../utils/models/index";
 
+/** TODO: Add winston-transport check functional test */
 describe("Log Exporter Scenarios", () => {
   describe(LogBasicScenario.prototype.constructor.name, () => {
     const scenario = new LogBasicScenario();

@@ -18,7 +18,7 @@ import {
   UsagesListByLocationNextOptionalParams,
   UsagesListByLocationOptionalParams,
   UsagesListByLocationResponse,
-  UsagesListByLocationNextResponse
+  UsagesListByLocationNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export class UsagesImpl implements Usages {
    */
   public listByLocation(
     location: string,
-    options?: UsagesListByLocationOptionalParams
+    options?: UsagesListByLocationOptionalParams,
   ): PagedAsyncIterableIterator<Usage> {
     const iter = this.listByLocationPagingAll(location, options);
     return {
@@ -56,14 +56,14 @@ export class UsagesImpl implements Usages {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listByLocationPagingPage(location, options, settings);
-      }
+      },
     };
   }
 
   private async *listByLocationPagingPage(
     location: string,
     options?: UsagesListByLocationOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Usage[]> {
     let result: UsagesListByLocationResponse;
     let continuationToken = settings?.continuationToken;
@@ -78,7 +78,7 @@ export class UsagesImpl implements Usages {
       result = await this._listByLocationNext(
         location,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -89,7 +89,7 @@ export class UsagesImpl implements Usages {
 
   private async *listByLocationPagingAll(
     location: string,
-    options?: UsagesListByLocationOptionalParams
+    options?: UsagesListByLocationOptionalParams,
   ): AsyncIterableIterator<Usage> {
     for await (const page of this.listByLocationPagingPage(location, options)) {
       yield* page;
@@ -103,11 +103,11 @@ export class UsagesImpl implements Usages {
    */
   private _listByLocation(
     location: string,
-    options?: UsagesListByLocationOptionalParams
+    options?: UsagesListByLocationOptionalParams,
   ): Promise<UsagesListByLocationResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listByLocationOperationSpec
+      listByLocationOperationSpec,
     );
   }
 
@@ -120,11 +120,11 @@ export class UsagesImpl implements Usages {
   private _listByLocationNext(
     location: string,
     nextLink: string,
-    options?: UsagesListByLocationNextOptionalParams
+    options?: UsagesListByLocationNextOptionalParams,
   ): Promise<UsagesListByLocationNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
-      listByLocationNextOperationSpec
+      listByLocationNextOperationSpec,
     );
   }
 }
@@ -132,43 +132,42 @@ export class UsagesImpl implements Usages {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByLocationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DevCenter/locations/{location}/usages",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DevCenter/locations/{location}/usages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListUsagesResult
+      bodyMapper: Mappers.ListUsagesResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByLocationNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListUsagesResult
+      bodyMapper: Mappers.ListUsagesResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
