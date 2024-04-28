@@ -448,7 +448,7 @@ describe("WebPubSubClient", function () {
       await client.start();
 
       // simulate a update
-      client["_sequenceId"].tryUpdate(0)
+      client["_sequenceId"].tryUpdate(0);
 
       // simulate a call
       client["_trySendSequenceAck"]();
