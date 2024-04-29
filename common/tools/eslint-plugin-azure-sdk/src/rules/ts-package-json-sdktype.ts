@@ -21,6 +21,7 @@ export default createRule({
     docs: {
       description:
         "force package.json's sdk-type to exist and for its value to be 'client' or 'mgmt'",
+      recommended: "recommended",
     },
     messages: {
       ...VerifierMessages,

@@ -20,6 +20,7 @@ export default createRule({
     type: "suggestion",
     docs: {
       description: "force usage of built-in promises over external ones",
+      recommended: "recommended",
     },
     messages: {
       NoExternalPromise:

@@ -16,6 +16,7 @@ export default createRule({
     type: "suggestion",
     docs: {
       description: "forbid usage of window",
+      recommended: "recommended",
     },
     messages: {
       useSelf: "`window` should not be used, please use `self` instead.",

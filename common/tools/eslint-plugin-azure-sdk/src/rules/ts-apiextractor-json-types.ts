@@ -19,6 +19,7 @@ export default createRule({
     type: "suggestion",
     docs: {
       description: "force api-extractor.json to configure types in a consistent way",
+      recommended: "recommended",
     },
     messages: {
       ...VerifierMessages,

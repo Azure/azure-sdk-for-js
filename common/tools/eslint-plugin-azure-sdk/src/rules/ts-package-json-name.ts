@@ -20,6 +20,7 @@ export default createRule({
     type: "suggestion",
     docs: {
       description: "force package.json's name value to be set to @azure/<service>",
+      recommended: "recommended",
     },
     messages: {
       ...VerifierMessages,

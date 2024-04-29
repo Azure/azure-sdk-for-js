@@ -18,6 +18,7 @@ export default createRule({
     type: "suggestion",
     docs: {
       description: "force package.json's sideEffects value to be false",
+      recommended: "recommended",
     },
     messages: {
       ...VerifierMessages,

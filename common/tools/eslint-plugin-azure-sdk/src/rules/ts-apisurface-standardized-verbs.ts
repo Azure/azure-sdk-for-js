@@ -32,6 +32,7 @@ export default createRule({
     docs: {
       description:
         "require client methods to use standardized verb prefixes and suffixes where possible",
+      recommended: "recommended",
     },
     messages: {
       bannedPrefix:

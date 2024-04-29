@@ -35,6 +35,7 @@ export default createRule<Options, VerifierMessageIds>({
     type: "suggestion",
     docs: {
       description: "Check engines field is set to current Node LTS",
+      recommended: "recommended",
     },
     messages: {
       ...VerifierMessages,

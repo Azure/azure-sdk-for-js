@@ -19,6 +19,7 @@ export default createRule({
     type: "suggestion",
     docs: {
       description: "force package.json's module value to be the ES6 entrypoint to the application",
+      recommended: "recommended",
     },
     messages: {
       ...VerifierMessages,

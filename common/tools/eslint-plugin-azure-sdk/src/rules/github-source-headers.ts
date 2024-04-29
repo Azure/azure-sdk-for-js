@@ -24,6 +24,7 @@ export default createRule({
     type: "suggestion",
     docs: {
       description: "require copyright headers in every source file",
+      recommended: "recommended",
     },
     messages: {
       noCopyrightHeader: "the file does not have a correct copyright header",

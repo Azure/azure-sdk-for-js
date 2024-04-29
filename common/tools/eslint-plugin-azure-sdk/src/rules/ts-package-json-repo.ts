@@ -18,6 +18,7 @@ export default createRule({
     type: "suggestion",
     docs: {
       description: "force package.json's repository value to be 'github:Azure/azure-sdk-for-js'",
+      recommended: "recommended",
     },
     messages: {
       ...VerifierMessages,
