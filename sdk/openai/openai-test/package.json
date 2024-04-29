@@ -44,7 +44,6 @@
     "@azure/core-rest-pipeline": "^1.13.0",
     "@azure/core-util": "^1.4.0",
     "@azure/core-auth": "^1.4.0",
-    "@azure/openai": "^1.0.0-beta.12",
     "@azure/arm-cognitiveservices": "^7.5.0",
     "@azure-tools/test-credential": "^1.0.0",
     "@types/node": "^18.0.0",
