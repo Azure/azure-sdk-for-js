@@ -234,8 +234,8 @@ export interface GetChatCompletionsOptions extends OperationOptions {
    */
   azureExtensionOptions?: AzureExtensionsOptions;
   /**
-   * Whether to return log probabilities of the output tokens or not.If true, returns the log probabilities of
-   * each output token returned in the `content` of `message`. This option is currently not available on the `gpt-4-vision-preview` model.
+   * Whether to return log probabilities of the output tokens. If true, the log probabilities of
+   * each output token are returned in the `content` of `message`.
    */
   logprobs?: boolean;
   /**

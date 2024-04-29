@@ -45,7 +45,7 @@ describe("OpenAI", function () {
     await recorder.stop();
   });
 
-  matrix([["AzureAPIKey", "OpenAIKey"]] as const, async function (authMethod: AuthMethod) {
+  matrix([["AzureAPIKey", "OpenAIKey", "AAD"]] as const, async function (authMethod: AuthMethod) {
     describe(`[${authMethod}] Client`, () => {
       let client: OpenAIClient;
 
