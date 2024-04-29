@@ -33,6 +33,7 @@
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "bundle:bin": "rollup -c rollup.config.bin.mjs",
+    "build:test": "echo skip",
     "build:samples": "echo skipped",
     "build": "npm run clean && tshy && npm run bundle:bin && dev-tool run extract-api",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore --ignore-path ./.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
