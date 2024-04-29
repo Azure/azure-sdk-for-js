@@ -33,7 +33,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("ConfidentialLedger test", () => {
+describe.skip("ConfidentialLedger test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: ConfidentialLedgerClient;

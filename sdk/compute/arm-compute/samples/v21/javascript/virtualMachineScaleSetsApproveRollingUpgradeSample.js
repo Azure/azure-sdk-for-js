@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Approve upgrade on deferred rolling upgrades for OS disks in the virtual machines in a VM scale set.
  *
  * @summary Approve upgrade on deferred rolling upgrades for OS disks in the virtual machines in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ApproveRollingUpgrade.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ApproveRollingUpgrade.json
  */
 async function virtualMachineScaleSetApproveRollingUpgrade() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

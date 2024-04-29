@@ -125,98 +125,6 @@ export interface Service {
   displayName?: string;
   /** ARM Resource types. */
   resourceTypes?: string[];
-  /**
-   * Metadata about the service, only visible for 1P clients
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly metadata?: { [propertyName: string]: string };
-}
-
-/** Input to problem classification Classification API. */
-export interface ServiceClassificationRequest {
-  /** Natural language description of the customer’s issue. */
-  issueSummary?: string;
-  /** ARM resource Id of the resource that is having the issue. */
-  resourceId?: string;
-  /** Additional information in the form of a string. */
-  additionalContext?: string;
-}
-
-/** Output of the service classification API. */
-export interface ServiceClassificationOutput {
-  /** Set of problem classification objects classified. */
-  serviceClassificationResults?: ServiceClassificationAnswer[];
-}
-
-/** Service Classification result object. */
-export interface ClassificationService {
-  /**
-   * Azure resource Id of the service.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serviceId?: string;
-  /**
-   * Localized name of the azure service.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayName?: string;
-  /** List of applicable ARM resource types for this service. */
-  resourceTypes?: string[];
-}
-
-/** Input to problem classification Classification API. */
-export interface ProblemClassificationsClassificationInput {
-  /** Natural language description of the customer’s issue. */
-  issueSummary: string;
-  /** ARM resource Id of the resource that is having the issue. */
-  resourceId?: string;
-}
-
-/** Output of the problem classification Classification API. */
-export interface ProblemClassificationsClassificationOutput {
-  /** Set of problem classification objects classified. */
-  problemClassificationResults?: ProblemClassificationsClassificationResult[];
-}
-
-/** ProblemClassification Classification result object. */
-export interface ProblemClassificationsClassificationResult {
-  /**
-   * Identifier that may be used for solution discovery or some other purposes.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly problemId?: string;
-  /**
-   * Title of the problem classification result.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly title?: string;
-  /**
-   * Description of the problem classification result.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
-  /**
-   * Identifier of the service associated with this problem classification result.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serviceId?: string;
-  /**
-   * Identifier that may be used for support ticket creation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly problemClassificationId?: string;
-  /**
-   * Azure resource Id of the service.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serviceIdRelatedServiceId?: string;
-  /**
-   * Localized name of the azure service.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayName?: string;
-  /** List of applicable ARM resource types for this service. */
-  resourceTypes?: string[];
 }
 
 /** Collection of ProblemClassification resources. */
@@ -246,13 +154,6 @@ export interface ProblemClassification {
   displayName?: string;
   /** This property indicates whether secondary consent is present for problem classification */
   secondaryConsentEnabled?: SecondaryConsentEnabled[];
-  /**
-   * String-to-string dictionary for additional metadata.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly metadata?: { [propertyName: string]: string };
-  /** Reference to the parent problem classification which has same structure as problem classification */
-  parentProblemClassification?: ProblemClassification;
 }
 
 /** This property indicates whether secondary consent is present for problem classification. */
@@ -318,28 +219,28 @@ export interface SupportTicketDetails {
   /** System generated support ticket Id that is unique. */
   supportTicketId?: string;
   /** Detailed description of the question or issue. */
-  description?: string;
+  description: string;
   /** Each Azure service has its own set of issue categories, also known as problem classification. This parameter is the unique Id for the type of problem you are experiencing. */
-  problemClassificationId?: string;
+  problemClassificationId: string;
   /**
    * Localized name of problem classification.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly problemClassificationDisplayName?: string;
   /** A value that indicates the urgency of the case, which in turn determines the response time according to the service level agreement of the technical support plan you have with Azure. Note: 'Highest critical impact', also known as the 'Emergency - Severe impact' level in the Azure portal is reserved only for our Premium customers. */
-  severity?: SeverityLevel;
+  severity: SeverityLevel;
   /** Enrollment Id associated with the support ticket. */
   enrollmentId?: string;
   /** Indicates if this requires a 24x7 response from Azure. */
   require24X7Response?: boolean;
   /** Advanced diagnostic consent to be updated on the support ticket. */
-  advancedDiagnosticConsent?: Consent;
+  advancedDiagnosticConsent: Consent;
   /** Problem scoping questions associated with the support ticket. */
   problemScopingQuestions?: string;
   /** Support plan id associated with the support ticket. */
   supportPlanId?: string;
   /** Contact information of the user requesting to create a support ticket. */
-  contactDetails?: ContactProfile;
+  contactDetails: ContactProfile;
   /** Service Level Agreement information for this support ticket. */
   serviceLevelAgreement?: ServiceLevelAgreement;
   /** Information about the support engineer working on this support ticket. */
@@ -355,11 +256,11 @@ export interface SupportTicketDetails {
    */
   readonly supportPlanDisplayName?: string;
   /** Title of the support ticket. */
-  title?: string;
+  title: string;
   /** Time in UTC (ISO 8601 format) when the problem started. */
   problemStartTime?: Date;
   /** This is the resource Id of the Azure service resource associated with the support ticket. */
-  serviceId?: string;
+  serviceId: string;
   /**
    * Localized name of the Azure service.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -477,7 +378,7 @@ export interface SecondaryConsent {
   type?: string;
 }
 
-/** Updates severity, ticket status, and contact details in the support ticket. */
+/** Updates severity, ticket status, contact details, advanced diagnostic consent and secondary consent in the support ticket. */
 export interface UpdateSupportTicket {
   /** Severity level. */
   severity?: SeverityLevel;
@@ -551,9 +452,9 @@ export interface CommunicationDetails {
   /** Email address of the sender. This property is required if called by a service principal. */
   sender?: string;
   /** Subject of the communication. */
-  subject?: string;
+  subject: string;
   /** Body of the communication. */
-  body?: string;
+  body: string;
   /**
    * Time in UTC (ISO 8601 format) when the communication was created.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -584,7 +485,7 @@ export interface MessageProperties {
   /** Name of the sender. */
   sender?: string;
   /** Body of the communication. */
-  body: string;
+  body?: string;
   /**
    * Time in UTC (ISO 8601 format) when the communication was created.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -648,26 +549,6 @@ export interface UploadFile {
   chunkIndex?: number;
 }
 
-/** The look up resource Id request body */
-export interface LookUpResourceIdRequest {
-  /** The System generated Id that is unique. Use supportTicketId property for Microsoft.Support/supportTickets resource type. */
-  identifier?: string;
-  /** The type of resource. */
-  type?: "Microsoft.Support/supportTickets";
-}
-
-/** The look up resource id response */
-export interface LookUpResourceIdResponse {
-  /** The resource Id of support resource type. */
-  resourceId?: string;
-}
-
-/** Service Classification result object. */
-export interface ServiceClassificationAnswer extends ClassificationService {
-  /** Child service. */
-  childService?: ClassificationService;
-}
-
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
@@ -703,11 +584,11 @@ export interface FileDetails extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly createdOn?: Date;
-  /** Size of each chunk */
+  /** Size of each chunk. The size of each chunk should be provided in bytes and must not exceed 2.5 megabytes (MB). */
   chunkSize?: number;
-  /** Size of the file to be uploaded */
+  /** Size of the file to be uploaded. The file size must not exceed 5 MB and should be provided in bytes. */
   fileSize?: number;
-  /** Number of chunks to be uploaded */
+  /** Number of chunks to be uploaded. The maximum number of allowed chunks is 2. */
   numberOfChunks?: number;
 }
 
@@ -931,38 +812,6 @@ export interface ServicesGetOptionalParams
 
 /** Contains response data for the get operation. */
 export type ServicesGetResponse = Service;
-
-/** Optional parameters. */
-export interface ServiceClassificationsNoSubscriptionClassifyServicesOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the classifyServices operation. */
-export type ServiceClassificationsNoSubscriptionClassifyServicesResponse =
-  ServiceClassificationOutput;
-
-/** Optional parameters. */
-export interface ServiceClassificationsClassifyServicesOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the classifyServices operation. */
-export type ServiceClassificationsClassifyServicesResponse =
-  ServiceClassificationOutput;
-
-/** Optional parameters. */
-export interface ProblemClassificationsNoSubscriptionClassifyProblemsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the classifyProblems operation. */
-export type ProblemClassificationsNoSubscriptionClassifyProblemsResponse =
-  ProblemClassificationsClassificationOutput;
-
-/** Optional parameters. */
-export interface ProblemClassificationsClassifyProblemsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the classifyProblems operation. */
-export type ProblemClassificationsClassifyProblemsResponse =
-  ProblemClassificationsClassificationOutput;
 
 /** Optional parameters. */
 export interface ProblemClassificationsListOptionalParams
@@ -1312,13 +1161,6 @@ export interface FilesNoSubscriptionListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type FilesNoSubscriptionListNextResponse = FilesListResult;
-
-/** Optional parameters. */
-export interface LookUpResourceIdPostOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the post operation. */
-export type LookUpResourceIdPostResponse = LookUpResourceIdResponse;
 
 /** Optional parameters. */
 export interface MicrosoftSupportOptionalParams

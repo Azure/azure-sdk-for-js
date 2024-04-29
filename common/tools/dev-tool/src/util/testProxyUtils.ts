@@ -299,15 +299,26 @@ export async function isProxyToolActive(): Promise<boolean> {
 
 async function getTargetVersion() {
   // Grab the tag from the `/eng/common/testproxy/target_version.txt` file [..is used to control the default version]
+  //
+  // In times of longer lived version override, the file eng/target_proxy_version.txt can be used to override this version
+  // in both CI and local development.
   // Example content:
   //
   // 1.0.0-dev.20220224.2
   // (Bot regularly updates the tag in the file above.)
   try {
-    const contentInVersionFile = await fs.readFile(
-      `${path.join(await resolveRoot(), "eng/common/testproxy/target_version.txt")}`,
-      "utf-8",
-    );
+    let contentInVersionFile: string;
+    const overrideFile = `${path.join(await resolveRoot(), "eng/target_proxy_version.txt")}`;
+    const overrideExists = await fs.exists(overrideFile);
+
+    if (overrideExists) {
+      contentInVersionFile = await fs.readFile(overrideFile, "utf-8");
+    } else {
+      contentInVersionFile = await fs.readFile(
+        `${path.join(await resolveRoot(), "eng/common/testproxy/target_version.txt")}`,
+        "utf-8",
+      );
+    }
 
     const tag = contentInVersionFile.trim();
 

@@ -5,7 +5,7 @@ import Sinon, { createSandbox } from "sinon";
 
 import { AzureCliCredential } from "../../../src/credentials/azureCliCredential";
 import { GetTokenOptions } from "@azure/core-auth";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import child_process from "child_process";
 
 describe("AzureCliCredential (internal)", function () {

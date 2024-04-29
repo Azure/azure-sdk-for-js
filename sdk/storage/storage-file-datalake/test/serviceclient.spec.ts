@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { getYieldedValue, isNode } from "@azure/test-utils";
+import { getYieldedValue } from "@azure-tools/test-utils";
 import { assert } from "chai";
 import { Context } from "mocha";
-
+import { isNodeLike } from "@azure/core-util";
 import {
   DataLakeServiceClient,
   DataLakeServiceProperties,
@@ -237,7 +237,7 @@ describe("DataLakeServiceClient", () => {
 
   it("ListFileSystems with all parameters configured", async function (this: Context) {
     // Skip browser mock test because of account name replacement issue with recorded requests
-    if (!isNode && !isLiveMode()) {
+    if (!isNodeLike && !isLiveMode()) {
       this.skip();
     }
 
@@ -371,7 +371,7 @@ describe("DataLakeServiceClient", () => {
 
   it("Verify PagedAsyncIterableIterator(byPage()) for ListFileSystems", async function (this: Context) {
     // Skip browser mock test because of account name replacement issue with recorded requests
-    if (!isNode && !isLiveMode()) {
+    if (!isNodeLike && !isLiveMode()) {
       this.skip();
     }
 
@@ -412,7 +412,7 @@ describe("DataLakeServiceClient", () => {
 
   it("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for ListFileSystems", async function (this: Context) {
     // Skip browser mock test because of account name replacement issue with recorded requests
-    if (!isNode && !isLiveMode()) {
+    if (!isNodeLike && !isLiveMode()) {
       this.skip();
     }
 
