@@ -167,7 +167,7 @@ try {
                 Write-Host "npm dist-tag add $nameAndVersion $tag"
                 npm dist-tag add $nameAndVersion $tag
             }
-            if (![string]::IsNullOrWhitespace($additionalTag) && $additionalTag -ne $tag) {
+            if (![string]::IsNullOrWhitespace($additionalTag) && ($additionalTag -ne $tag)) {
                 Write-Host "Tag: '$tag'"
                 Write-Host "Additional tag: '$additionalTag'"
                 Write-Host "Adding additional tag for package"
