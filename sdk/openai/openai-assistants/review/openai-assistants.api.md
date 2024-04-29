@@ -103,7 +103,6 @@ export interface AssistantThread {
 
 // @public
 export interface AssistantThreadCreationOptions {
-    // Warning: (ae-forgotten-export) The symbol "ThreadInitializationMessage" needs to be exported by the entry point index.d.ts
     messages?: ThreadInitializationMessage[];
     metadata?: Record<string, string>;
 }
@@ -547,6 +546,14 @@ export interface SubmitToolOutputsToRunOptions extends OperationOptions {
 
 // @public
 export interface ThreadDeletionStatus extends DeletionStatus {
+}
+
+// @public
+export interface ThreadInitializationMessage {
+    content: string;
+    fileIds?: string[];
+    metadata?: Record<string, string> | null;
+    role: MessageRole;
 }
 
 // @public
