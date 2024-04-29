@@ -27,7 +27,7 @@
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "unit-test": "npm run unit-test:node",
-    "unit-test:node": "cross-env VITE_CJS_IGNORE_WARNING=true vitest",
+    "unit-test:node": "vitest",
     "unit-test:browser": "echo skipped",
     
     "test": "echo Skipped."

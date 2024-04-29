@@ -17,10 +17,7 @@ export default defineConfig({
     coverage: {
       include: ["src/**/*.ts"],
       exclude: [
-        "src/**/*-browser.mts",
-        "src/**/*-react-native.mts",
         "vitest*.config.ts",
-        "samples-dev/**/*.ts",
       ],
       provider: "istanbul",
       reporter: ["text", "json", "html"],
