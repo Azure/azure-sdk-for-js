@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, matrix } from "@azure/test-utils";
+import { assert, matrix } from "@azure-tools/test-utils";
 import { Context } from "mocha";
-import { createClient } from "../utils/createClient";
-import { AuthMethod } from "../utils/types";
+import { createClient } from "../utils/createClient.js";
+import { AuthMethod } from "../utils/types.js";
 import OpenAI from "openai";
 
 describe("Images", function () {

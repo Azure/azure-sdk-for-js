@@ -12,6 +12,7 @@
   "engines": {
     "node": ">=18.0.0"
   },
+  "type": "module",
   "module": "dist-esm/src/index.js",
   "exports": {},
   "main": "dist-esm/src/index.js",
