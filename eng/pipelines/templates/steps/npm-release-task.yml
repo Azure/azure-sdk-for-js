@@ -8,7 +8,7 @@ parameters:
 
 steps:
   - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
-  - ${{if eq(parameters.Registry, 'https://registry.npmjs.org/')}}:
+  - ${{ if eq(parameters.Registry, 'https://registry.npmjs.org/') }}:
       - task: EsrpRelease@6
         inputs:
           displayName: 'Publish ${{parameters.Artifact.name}} to ESRP'
@@ -23,7 +23,7 @@ steps:
           DomainTenantId: '72f988bf-86f1-41af-91ab-2d7cd011db47'
           ProductStateField: ${{parameters.Tag}}
 
-      - ${{if ne(parameters.AdditionalTag, '')}}:
+      - ${{ if ne(parameters.AdditionalTag, '') }}:
         - task: PowerShell@2
           displayName: Add Additional Tag
           inputs:
