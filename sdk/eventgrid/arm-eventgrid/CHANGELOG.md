@@ -1,6 +1,6 @@
 # Release History
     
-## 15.0.0-beta.1 (2024-04-29)
+## 14.2.0-beta.4 (2024-04-29)
     
 **Features**
 
@@ -372,9 +372,6 @@
   - Enum KnownEndpointType has a new value PartnerDestination
   - Enum KnownPrivateEndpointConnectionsParentType has a new value Namespaces
   - Enum KnownPublicNetworkAccess has a new value SecuredByPerimeter
-
-**Breaking Changes**
-
   - Class EventGridManagementClient has a new signature
     
     
