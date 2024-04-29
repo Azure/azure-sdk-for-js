@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the private link resources that need to be created for a service.
  *
  * @summary Gets the private link resources that need to be created for a service.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/legacy/PrivateLinkResourcesListByService.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/legacy/PrivateLinkResourcesListByService.json
  */
 async function privateLinkResourcesListGroupIds() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function privateLinkResourcesListGroupIds() {
   const client = new HealthcareApisManagementClient(credential, subscriptionId);
   const result = await client.privateLinkResources.listByService(
     resourceGroupName,
-    resourceName
+    resourceName,
   );
   console.log(result);
 }

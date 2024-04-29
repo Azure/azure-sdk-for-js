@@ -16,7 +16,7 @@ import { HybridComputeManagementClient } from "../hybridComputeManagementClient"
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -32,7 +32,7 @@ import {
   MachineExtensionsDeleteOptionalParams,
   MachineExtensionsGetOptionalParams,
   MachineExtensionsGetResponse,
-  MachineExtensionsListNextResponse
+  MachineExtensionsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,7 +57,7 @@ export class MachineExtensionsImpl implements MachineExtensions {
   public list(
     resourceGroupName: string,
     machineName: string,
-    options?: MachineExtensionsListOptionalParams
+    options?: MachineExtensionsListOptionalParams,
   ): PagedAsyncIterableIterator<MachineExtension> {
     const iter = this.listPagingAll(resourceGroupName, machineName, options);
     return {
@@ -75,9 +75,9 @@ export class MachineExtensionsImpl implements MachineExtensions {
           resourceGroupName,
           machineName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -85,7 +85,7 @@ export class MachineExtensionsImpl implements MachineExtensions {
     resourceGroupName: string,
     machineName: string,
     options?: MachineExtensionsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<MachineExtension[]> {
     let result: MachineExtensionsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -101,7 +101,7 @@ export class MachineExtensionsImpl implements MachineExtensions {
         resourceGroupName,
         machineName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -113,12 +113,12 @@ export class MachineExtensionsImpl implements MachineExtensions {
   private async *listPagingAll(
     resourceGroupName: string,
     machineName: string,
-    options?: MachineExtensionsListOptionalParams
+    options?: MachineExtensionsListOptionalParams,
   ): AsyncIterableIterator<MachineExtension> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       machineName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -137,7 +137,7 @@ export class MachineExtensionsImpl implements MachineExtensions {
     machineName: string,
     extensionName: string,
     extensionParameters: MachineExtension,
-    options?: MachineExtensionsCreateOrUpdateOptionalParams
+    options?: MachineExtensionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MachineExtensionsCreateOrUpdateResponse>,
@@ -146,21 +146,20 @@ export class MachineExtensionsImpl implements MachineExtensions {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MachineExtensionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -169,8 +168,8 @@ export class MachineExtensionsImpl implements MachineExtensions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -178,8 +177,8 @@ export class MachineExtensionsImpl implements MachineExtensions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -190,16 +189,16 @@ export class MachineExtensionsImpl implements MachineExtensions {
         machineName,
         extensionName,
         extensionParameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       MachineExtensionsCreateOrUpdateResponse,
       OperationState<MachineExtensionsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -218,14 +217,14 @@ export class MachineExtensionsImpl implements MachineExtensions {
     machineName: string,
     extensionName: string,
     extensionParameters: MachineExtension,
-    options?: MachineExtensionsCreateOrUpdateOptionalParams
+    options?: MachineExtensionsCreateOrUpdateOptionalParams,
   ): Promise<MachineExtensionsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       machineName,
       extensionName,
       extensionParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -243,7 +242,7 @@ export class MachineExtensionsImpl implements MachineExtensions {
     machineName: string,
     extensionName: string,
     extensionParameters: MachineExtensionUpdate,
-    options?: MachineExtensionsUpdateOptionalParams
+    options?: MachineExtensionsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MachineExtensionsUpdateResponse>,
@@ -252,21 +251,20 @@ export class MachineExtensionsImpl implements MachineExtensions {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MachineExtensionsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -275,8 +273,8 @@ export class MachineExtensionsImpl implements MachineExtensions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -284,8 +282,8 @@ export class MachineExtensionsImpl implements MachineExtensions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -296,16 +294,16 @@ export class MachineExtensionsImpl implements MachineExtensions {
         machineName,
         extensionName,
         extensionParameters,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       MachineExtensionsUpdateResponse,
       OperationState<MachineExtensionsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -324,14 +322,14 @@ export class MachineExtensionsImpl implements MachineExtensions {
     machineName: string,
     extensionName: string,
     extensionParameters: MachineExtensionUpdate,
-    options?: MachineExtensionsUpdateOptionalParams
+    options?: MachineExtensionsUpdateOptionalParams,
   ): Promise<MachineExtensionsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       machineName,
       extensionName,
       extensionParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -347,25 +345,24 @@ export class MachineExtensionsImpl implements MachineExtensions {
     resourceGroupName: string,
     machineName: string,
     extensionName: string,
-    options?: MachineExtensionsDeleteOptionalParams
+    options?: MachineExtensionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -374,8 +371,8 @@ export class MachineExtensionsImpl implements MachineExtensions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -383,19 +380,19 @@ export class MachineExtensionsImpl implements MachineExtensions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, machineName, extensionName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -412,13 +409,13 @@ export class MachineExtensionsImpl implements MachineExtensions {
     resourceGroupName: string,
     machineName: string,
     extensionName: string,
-    options?: MachineExtensionsDeleteOptionalParams
+    options?: MachineExtensionsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       machineName,
       extensionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -434,11 +431,11 @@ export class MachineExtensionsImpl implements MachineExtensions {
     resourceGroupName: string,
     machineName: string,
     extensionName: string,
-    options?: MachineExtensionsGetOptionalParams
+    options?: MachineExtensionsGetOptionalParams,
   ): Promise<MachineExtensionsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, machineName, extensionName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -451,11 +448,11 @@ export class MachineExtensionsImpl implements MachineExtensions {
   private _list(
     resourceGroupName: string,
     machineName: string,
-    options?: MachineExtensionsListOptionalParams
+    options?: MachineExtensionsListOptionalParams,
   ): Promise<MachineExtensionsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, machineName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -470,11 +467,11 @@ export class MachineExtensionsImpl implements MachineExtensions {
     resourceGroupName: string,
     machineName: string,
     nextLink: string,
-    options?: MachineExtensionsListNextOptionalParams
+    options?: MachineExtensionsListNextOptionalParams,
   ): Promise<MachineExtensionsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, machineName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -482,25 +479,24 @@ export class MachineExtensionsImpl implements MachineExtensions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/extensions/{extensionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/extensions/{extensionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.MachineExtension
+      bodyMapper: Mappers.MachineExtension,
     },
     201: {
-      bodyMapper: Mappers.MachineExtension
+      bodyMapper: Mappers.MachineExtension,
     },
     202: {
-      bodyMapper: Mappers.MachineExtension
+      bodyMapper: Mappers.MachineExtension,
     },
     204: {
-      bodyMapper: Mappers.MachineExtension
+      bodyMapper: Mappers.MachineExtension,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.extensionParameters,
   queryParameters: [Parameters.apiVersion],
@@ -509,32 +505,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.machineName,
-    Parameters.extensionName
+    Parameters.extensionName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/extensions/{extensionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/extensions/{extensionName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.MachineExtension
+      bodyMapper: Mappers.MachineExtension,
     },
     201: {
-      bodyMapper: Mappers.MachineExtension
+      bodyMapper: Mappers.MachineExtension,
     },
     202: {
-      bodyMapper: Mappers.MachineExtension
+      bodyMapper: Mappers.MachineExtension,
     },
     204: {
-      bodyMapper: Mappers.MachineExtension
+      bodyMapper: Mappers.MachineExtension,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.extensionParameters1,
   queryParameters: [Parameters.apiVersion],
@@ -543,15 +538,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.machineName,
-    Parameters.extensionName
+    Parameters.extensionName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/extensions/{extensionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/extensions/{extensionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -559,8 +553,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -568,22 +562,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.machineName,
-    Parameters.extensionName
+    Parameters.extensionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/extensions/{extensionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/extensions/{extensionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MachineExtension
+      bodyMapper: Mappers.MachineExtension,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -591,51 +584,50 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.machineName,
-    Parameters.extensionName
+    Parameters.extensionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/extensions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/extensions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MachineExtensionsListResult
+      bodyMapper: Mappers.MachineExtensionsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand1],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.machineName
+    Parameters.machineName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MachineExtensionsListResult
+      bodyMapper: Mappers.MachineExtensionsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.machineName,
     Parameters.nextLink,
-    Parameters.machineName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

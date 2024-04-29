@@ -452,6 +452,10 @@
 
 # PRLabel: %Mgmt
 /sdk/devspaces/arm-devspaces/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/deviceregistry/arm-deviceregistry/ @qiaozha @MaryGao
+
 # PRLabel: %Mgmt
 /sdk/defendereasm/arm-defendereasm/ @qiaozha @MaryGao
 
@@ -490,6 +494,9 @@
 
 # PRLabel: %Mgmt
 /sdk/frontdoor/arm-frontdoor/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/guestconfiguration/arm-guestconfiguration/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/hanaonazure/arm-hanaonazure/ @qiaozha @MaryGao

@@ -9,16 +9,32 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   EnvironmentDefinition,
+  EnvironmentDefinitionsListByProjectCatalogOptionalParams,
   EnvironmentDefinitionsListByCatalogOptionalParams,
+  EnvironmentDefinitionsGetByProjectCatalogOptionalParams,
+  EnvironmentDefinitionsGetByProjectCatalogResponse,
   EnvironmentDefinitionsGetOptionalParams,
   EnvironmentDefinitionsGetResponse,
   EnvironmentDefinitionsGetErrorDetailsOptionalParams,
-  EnvironmentDefinitionsGetErrorDetailsResponse
+  EnvironmentDefinitionsGetErrorDetailsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a EnvironmentDefinitions. */
 export interface EnvironmentDefinitions {
+  /**
+   * Lists the environment definitions in this project catalog.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName The name of the project.
+   * @param catalogName The name of the Catalog.
+   * @param options The options parameters.
+   */
+  listByProjectCatalog(
+    resourceGroupName: string,
+    projectName: string,
+    catalogName: string,
+    options?: EnvironmentDefinitionsListByProjectCatalogOptionalParams,
+  ): PagedAsyncIterableIterator<EnvironmentDefinition>;
   /**
    * List environment definitions in the catalog.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -30,8 +46,23 @@ export interface EnvironmentDefinitions {
     resourceGroupName: string,
     devCenterName: string,
     catalogName: string,
-    options?: EnvironmentDefinitionsListByCatalogOptionalParams
+    options?: EnvironmentDefinitionsListByCatalogOptionalParams,
   ): PagedAsyncIterableIterator<EnvironmentDefinition>;
+  /**
+   * Gets an environment definition from the catalog.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName The name of the project.
+   * @param catalogName The name of the Catalog.
+   * @param environmentDefinitionName The name of the Environment Definition.
+   * @param options The options parameters.
+   */
+  getByProjectCatalog(
+    resourceGroupName: string,
+    projectName: string,
+    catalogName: string,
+    environmentDefinitionName: string,
+    options?: EnvironmentDefinitionsGetByProjectCatalogOptionalParams,
+  ): Promise<EnvironmentDefinitionsGetByProjectCatalogResponse>;
   /**
    * Gets an environment definition from the catalog.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -45,7 +76,7 @@ export interface EnvironmentDefinitions {
     devCenterName: string,
     catalogName: string,
     environmentDefinitionName: string,
-    options?: EnvironmentDefinitionsGetOptionalParams
+    options?: EnvironmentDefinitionsGetOptionalParams,
   ): Promise<EnvironmentDefinitionsGetResponse>;
   /**
    * Gets Environment Definition error details
@@ -60,6 +91,6 @@ export interface EnvironmentDefinitions {
     devCenterName: string,
     catalogName: string,
     environmentDefinitionName: string,
-    options?: EnvironmentDefinitionsGetErrorDetailsOptionalParams
+    options?: EnvironmentDefinitionsGetErrorDetailsOptionalParams,
   ): Promise<EnvironmentDefinitionsGetErrorDetailsResponse>;
 }
