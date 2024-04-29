@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { ErrorModel } from "@azure-rest/core-client";
+import { RestError, RestErrorOptions } from "@azure/core-rest-pipeline";
 
 /** The configuration information for an audio transcription request. */
 export interface AudioTranscriptionOptions {
@@ -1297,6 +1298,8 @@ export interface ChatCompletionsFunctionToolSelection {
 export interface ChatCompletions {
   /** A unique identifier associated with this chat completions response. */
   id: string;
+  /** The current model used for the chat completions request. */
+  model: string;
   /**
    * The first timestamp associated with generation activity for this completions response,
    * represented as seconds since the beginning of the Unix epoch of 00:00 on 1 Jan 1970.
@@ -1726,6 +1729,31 @@ export interface EmbeddingsUsage {
   promptTokens: number;
   /** Total number of tokens transacted in this request/response. */
   totalTokens: number;
+}
+
+/**
+ * The OpenAI error class
+ */
+export class OpenAIError extends RestError {
+  /**
+   * The type of the error
+   */
+  public type: string | null;
+  /**
+   * The param meter of the error
+   */
+  public param: string | null;
+  constructor(
+    message: string,
+    param: string | null = null,
+    type: string | null = null,
+    options?: RestErrorOptions,
+  ) {
+    super(message, { code: options?.code ?? undefined, ...options });
+    this.name = "OpenAIError";
+    this.type = type;
+    this.param = param;
+  }
 }
 
 /** Alias for ChatRequestMessageUnion */

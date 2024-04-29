@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   PrivateEndpointConnection,
-  HealthcareApisManagementClient
+  HealthcareApisManagementClient,
 } from "@azure/arm-healthcareapis";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update the state of the specified private endpoint connection associated with the service.
  *
  * @summary Update the state of the specified private endpoint connection associated with the service.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/legacy/ServiceCreatePrivateEndpointConnection.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/legacy/ServiceCreatePrivateEndpointConnection.json
  */
 async function privateEndpointConnectionCreateOrUpdate() {
   const subscriptionId =
@@ -33,17 +33,18 @@ async function privateEndpointConnectionCreateOrUpdate() {
   const properties: PrivateEndpointConnection = {
     privateLinkServiceConnectionState: {
       description: "Auto-Approved",
-      status: "Approved"
-    }
+      status: "Approved",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new HealthcareApisManagementClient(credential, subscriptionId);
-  const result = await client.privateEndpointConnections.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    privateEndpointConnectionName,
-    properties
-  );
+  const result =
+    await client.privateEndpointConnections.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      resourceName,
+      privateEndpointConnectionName,
+      properties,
+    );
   console.log(result);
 }
 

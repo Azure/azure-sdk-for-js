@@ -59,7 +59,7 @@ import {
   AudioResult,
   GetAudioTranslationOptions,
 } from "../models/audio.js";
-import { snakeCaseKeys, camelCaseKeys } from "./util.js";
+import { snakeCaseKeys, camelCaseKeys, createOpenAIError } from "./util.js";
 
 /**
  * Returns the transcription of an audio file in a simple JSON format.
@@ -226,7 +226,7 @@ export async function _getCompletionsDeserialize(
   result: GetCompletions200Response | GetCompletionsDefaultResponse,
 ): Promise<Completions> {
   if (isUnexpected(result)) {
-    throw result.body.error;
+    throw createOpenAIError(result);
   }
 
   return getCompletionsResult(result.body);
@@ -264,10 +264,16 @@ export function getCompletionsResult(
 export async function getCompletions(
   context: Client,
   deploymentId: string,
-  body: CompletionsOptions,
+  prompt: string[],
   options: GetCompletionsOptions = { requestOptions: {} },
 ): Promise<Completions> {
-  const result = await _getCompletionsSend(context, deploymentId, body, options);
+  const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
+  const result = await _getCompletionsSend(
+    context,
+    deploymentId,
+    { prompt, ...rest },
+    { abortSignal, onResponse, requestOptions, tracingOptions },
+  );
   return _getCompletionsDeserialize(result);
 }
 
@@ -349,9 +355,8 @@ export async function _getChatCompletionsDeserialize(
   result: GetChatCompletions200Response | GetChatCompletionsDefaultResponse,
 ): Promise<ChatCompletions> {
   if (isUnexpected(result)) {
-    throw result.body.error;
+    throw createOpenAIError(result);
   }
-
   return getChatCompletionsResult(result.body);
 }
 
@@ -480,7 +485,7 @@ export async function _getImageGenerationsDeserialize(
   result: GetImageGenerations200Response | GetImageGenerationsDefaultResponse,
 ): Promise<ImageGenerations> {
   if (isUnexpected(result)) {
-    throw result.body.error;
+    throw createOpenAIError(result);
   }
 
   return {
@@ -565,10 +570,16 @@ export async function _getImageGenerationsDeserialize(
 export async function getImageGenerations(
   context: Client,
   deploymentId: string,
-  body: ImageGenerationOptions,
+  prompt: string,
   options: GetImagesOptions = { requestOptions: {} },
 ): Promise<ImageGenerations> {
-  const result = await _getImageGenerationsSend(context, deploymentId, body, options);
+  const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
+  const result = await _getImageGenerationsSend(
+    context,
+    deploymentId,
+    { prompt, ...rest },
+    { abortSignal, onResponse, requestOptions, tracingOptions },
+  );
   return _getImageGenerationsDeserialize(result);
 }
 
@@ -593,7 +604,7 @@ export async function _getEmbeddingsDeserialize(
   result: GetEmbeddings200Response | GetEmbeddingsDefaultResponse,
 ): Promise<Embeddings> {
   if (isUnexpected(result)) {
-    throw result.body.error;
+    throw createOpenAIError(result);
   }
 
   return {
@@ -612,10 +623,16 @@ export async function _getEmbeddingsDeserialize(
 export async function getEmbeddings(
   context: Client,
   deploymentId: string,
-  body: EmbeddingsOptions,
+  input: string[],
   options: GetEmbeddingsOptions = { requestOptions: {} },
 ): Promise<Embeddings> {
-  const result = await _getEmbeddingsSend(context, deploymentId, body, options);
+  const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
+  const result = await _getEmbeddingsSend(
+    context,
+    deploymentId,
+    { input, ...rest },
+    { abortSignal, onResponse, requestOptions, tracingOptions },
+  );
   return _getEmbeddingsDeserialize(result);
 }
 

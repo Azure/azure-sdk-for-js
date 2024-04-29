@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
-import { Context } from "mocha";
-import { ConfigurationClient } from "../../src";
+import { assert } from "@azure-tools/test-utils";
+import { ConfigurationClient } from "../../src/index.js";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, beforeEach, afterEach } from "vitest";
 
 // When the recorder observes the values of these environment variables in any
 // recorded HTTP request or response, it will replace them with the values they
@@ -52,11 +52,11 @@ describe("[AAD] ConfigurationClient functional tests", function () {
   // NOTE: use of "function" and not ES6 arrow-style functions with the
   // beforeEach hook is IMPORTANT due to the use of `this` in the function
   // body.
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (context) {
     // The recorder has some convenience methods, and we need to store a
     // reference to it so that we can `stop()` the recorder later in the
     // `afterEach` hook.
-    recorder = new Recorder(this.currentTest);
+    recorder = new Recorder(context);
 
     await recorder.start({ envSetupForPlayback: replaceableVariables });
 
@@ -85,10 +85,11 @@ describe("[AAD] ConfigurationClient functional tests", function () {
       assert.equal(expectedValue, setting.value);
     });
 
+    // TODO: Waiting on https://github.com/Azure/azure-sdk-for-js/issues/29287
     // The supportsTracing assertion from chaiAzure can be used to verify that
     // the `getConfigurationSetting` method is being traced correctly, that the
     // tracing span is properly parented and closed.
-    it("supports tracing", async () => {
+    it.skip("supports tracing", async () => {
       // Playback fails in the browser without the "HeaderlessMatcher"
       //
       // If-Modified-Since & If-None-Match headers are not present in the recording and the request in playback has these headers

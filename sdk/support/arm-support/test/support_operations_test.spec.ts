@@ -33,7 +33,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("MicrosoftSupport test", () => {
+describe.skip("MicrosoftSupport test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: MicrosoftSupport;

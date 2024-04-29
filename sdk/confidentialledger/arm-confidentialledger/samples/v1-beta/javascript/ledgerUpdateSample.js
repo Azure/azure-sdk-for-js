@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates properties of Confidential Ledger
  *
  * @summary Updates properties of Confidential Ledger
- * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-01-26-preview/examples/ConfidentialLedger_Update.json
+ * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-06-28-preview/examples/ConfidentialLedger_Update.json
  */
 async function confidentialLedgerUpdate() {
   const subscriptionId =
@@ -52,7 +52,7 @@ async function confidentialLedgerUpdate() {
   const result = await client.ledger.beginUpdateAndWait(
     resourceGroupName,
     ledgerName,
-    confidentialLedger
+    confidentialLedger,
   );
   console.log(result);
 }

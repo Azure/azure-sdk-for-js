@@ -6,14 +6,8 @@
     "outDir": "./dist-esm",
     "declarationDir": "./types",
     "paths": {
-      "@azure/monitor-opentelemetry-exporter": [
-        "./src/index"
-      ]
+      "@azure/monitor-opentelemetry-exporter": ["./src/index"]
     }
   },
-  "include": [
-    "src/**/*.ts",
-    "test/**/*.ts",
-    "samples-dev/**/*.ts"
-  ]
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }

@@ -39,6 +39,7 @@ export default leafCommand(commandInfo, async (options) => {
 
   let moduleField = info.packageJson.module;
   if (!moduleField) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const defaultExport = info.packageJson.exports?.["."]?.import as any;
     if (defaultExport) {
       moduleField = defaultExport?.default;
@@ -52,6 +53,7 @@ export default leafCommand(commandInfo, async (options) => {
 
   // Read the imports
   const importMap = new Map<string, string>();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const importField = (info.packageJson as any)?.imports;
   if (importField) {
     const keys = Object.keys(importField);

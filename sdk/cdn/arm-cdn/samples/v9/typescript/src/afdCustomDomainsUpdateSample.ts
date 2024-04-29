@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates an existing domain within a profile.
  *
  * @summary Updates an existing domain within a profile.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/AFDCustomDomains_Update.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/AFDCustomDomains_Update.json
  */
 async function afdCustomDomainsUpdate() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -29,8 +29,8 @@ async function afdCustomDomainsUpdate() {
     azureDnsZone: { id: "" },
     tlsSettings: {
       certificateType: "CustomerCertificate",
-      minimumTlsVersion: "TLS12"
-    }
+      minimumTlsVersion: "TLS12",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
@@ -38,7 +38,7 @@ async function afdCustomDomainsUpdate() {
     resourceGroupName,
     profileName,
     customDomainName,
-    customDomainUpdateProperties
+    customDomainUpdateProperties,
   );
   console.log(result);
 }

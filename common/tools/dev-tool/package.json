@@ -20,6 +20,7 @@
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
+    "integration-test": "echo skipped",
     "lint:fix": "eslint --no-eslintrc -c ../../../sdk/.eslintrc.internal.json package.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint --no-eslintrc -c ../../../sdk/.eslintrc.internal.json package.json src test --ext .ts",
     "pack": "npm pack 2>&1",
@@ -61,11 +62,11 @@
     "rollup-plugin-polyfill-node": "^0.13.0",
     "rollup-plugin-visualizer": "^5.9.3",
     "semver": "^7.6.0",
-    "strip-json-comments": "^5.0.1",
+    "strip-json-comments": "^3.1.1",
     "ts-morph": "^22.0.0",
     "ts-node": "^10.9.1",
     "tslib": "^2.2.0",
-    "typescript": "~5.3.3",
+    "typescript": "~5.4.5",
     "yaml": "^2.3.4"
   },
   "devDependencies": {

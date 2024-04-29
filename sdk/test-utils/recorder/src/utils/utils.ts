@@ -133,7 +133,7 @@ export function isStringSanitizer(sanitizer: FindReplaceSanitizer): sanitizer is
  *
  * If the body is NOT a JSON object, this sanitizer will NOT be applied.
  */
-type BodyKeySanitizer = {
+export type BodyKeySanitizer = {
   regex?: string;
 
   value?: string;

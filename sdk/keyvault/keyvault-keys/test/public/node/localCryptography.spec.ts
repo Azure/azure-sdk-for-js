@@ -10,7 +10,7 @@ import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 import { RsaCryptographyProvider } from "../../../src/cryptography/rsaCryptographyProvider";
 import { getServiceVersion } from "../utils/common";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 
 describe("Local cryptography public tests", () => {
   const keyPrefix = `localCrypto${env.KEY_NAME || "KeyName"}`;

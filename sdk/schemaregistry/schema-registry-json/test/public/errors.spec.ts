@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { JsonSerializer } from "../../src";
 import { Context } from "mocha";
 import { SchemaRegistry } from "@azure/schema-registry";

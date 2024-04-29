@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import {
   AudioResult,
   AudioResultFormat,
@@ -321,6 +321,7 @@ function assertChatCompletionsNoUsage(
   ifDefined(completions.id, assert.isString, { defined: !allowEmptyId });
   assertContentFilterResultsForPrompt(completions.promptFilterResults ?? []);
   ifDefined(completions.systemFingerprint, assert.isString);
+  ifDefined(completions.model, assert.isString);
 }
 
 export function assertCompletions(completions: Completions): void {
