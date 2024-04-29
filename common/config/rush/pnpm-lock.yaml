@@ -8428,8 +8428,8 @@ packages:
       is-wsl: 2.2.0
     dev: false
 
-  /openai@4.38.4:
-    resolution: {integrity: sha512-ef5d2YaXDULXkoK+JB/GqmXgOZF5dsPxYwB27QGh5Cv8ykaYugl6MFyKipiwvlhubmNrMtlnISibx3G6BOpR9g==}
+  /openai@4.38.5:
+    resolution: {integrity: sha512-Ym5GJL98ZhLJJ7enBx53jjG3vwN/fsB+Ozh46nnRZZS9W1NiYqbwkJ+sXd3dkCIiWIgcyyOPL2Zr8SQAzbpj3g==}
     hasBin: true
     dependencies:
       '@types/node': 18.19.18
@@ -21812,10 +21812,11 @@ packages:
     dev: false
 
   file:projects/openai-test.tgz:
-    resolution: {integrity: sha512-gMzH8EkZswRvf9TQqG1ewMy19Hfi5vAGxMY7X+1c2pkmCPQxjpVDt1OkLxhnW9lQBb3/Q9htCp2lyyZptdSR0g==, tarball: file:projects/openai-test.tgz}
+    resolution: {integrity: sha512-VoXOqSst5leBl2lehCIBNtUiMA9Mui1f7Cef3Dw4Hu2n08txMjoKciWmk7b3dk9ZLdGadKKF/+FB0D/NceyjbQ==, tarball: file:projects/openai-test.tgz}
     name: '@rush-temp/openai-test'
     version: 0.0.0
     dependencies:
+      '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.2.0
       '@microsoft/api-extractor': 7.41.0(@types/node@18.19.18)
       '@types/node': 18.19.18
@@ -21837,7 +21838,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mkdirp: 2.1.6
       mocha: 10.3.0
-      openai: 4.38.4
+      openai: 4.38.5
       rimraf: 5.0.5
       source-map-support: 0.5.21
       tslib: 2.6.2

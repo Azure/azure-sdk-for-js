@@ -39,7 +39,8 @@ function getEndpointAndAPIKeyFromResourceType(resourceType: DeploymentType): {
         azureApiKey: assertEnvironmentVariable(
           environmentVariableNamesForResourceType[resourceType].AZURE_API_KEY_DALLE,
         ),
-        deployment: environmentVariableNamesForResourceType[resourceType].DEPLOYMENT_NAME_DALLE,
+        // TODO: remove deployment once the client is not tied to a specific one
+        deployment: assertEnvironmentVariable(environmentVariableNamesForResourceType[resourceType].DEPLOYMENT_NAME_DALLE),
         
       };
     case "whisper":
@@ -50,7 +51,7 @@ function getEndpointAndAPIKeyFromResourceType(resourceType: DeploymentType): {
         azureApiKey: assertEnvironmentVariable(
           environmentVariableNamesForResourceType[resourceType].AZURE_API_KEY_WHISPER,
         ),
-        deployment: environmentVariableNamesForResourceType[resourceType].DEPLOYMENT_NAME_WHISPER,
+        deployment: assertEnvironmentVariable(environmentVariableNamesForResourceType[resourceType].DEPLOYMENT_NAME_WHISPER),
       };
     case "completions":
       return {
@@ -60,7 +61,7 @@ function getEndpointAndAPIKeyFromResourceType(resourceType: DeploymentType): {
         azureApiKey: assertEnvironmentVariable(
           environmentVariableNamesForResourceType[resourceType].AZURE_API_KEY_COMPLETIONS,
         ),
-        deployment: environmentVariableNamesForResourceType[resourceType].DEPLOYMENT_NAME_COMPLETIONS,
+        deployment: assertEnvironmentVariable(environmentVariableNamesForResourceType[resourceType].DEPLOYMENT_NAME_COMPLETIONS),
       };
     case "embedding":
       return {
@@ -70,7 +71,7 @@ function getEndpointAndAPIKeyFromResourceType(resourceType: DeploymentType): {
         azureApiKey: assertEnvironmentVariable(
           environmentVariableNamesForResourceType[resourceType].AZURE_API_KEY_EMBEDDINGS,
         ),
-        deployment: environmentVariableNamesForResourceType[resourceType].DEPLOYMENT_NAME_EMBEDDINGS,
+        deployment: assertEnvironmentVariable(environmentVariableNamesForResourceType[resourceType].DEPLOYMENT_NAME_EMBEDDINGS),
       };
   }
 }
