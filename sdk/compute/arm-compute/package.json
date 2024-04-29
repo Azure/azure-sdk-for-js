@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for ComputeManagementClient.",
-  "version": "21.5.1",
+  "version": "21.6.1",
   "engines": {
     "node": ">=18.0.0"
   },

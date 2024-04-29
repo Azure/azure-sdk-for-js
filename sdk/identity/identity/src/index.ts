@@ -82,7 +82,8 @@ export {
   DeviceCodeInfo,
 } from "./credentials/deviceCodeCredentialOptions";
 export { DeviceCodeCredentialOptions } from "./credentials/deviceCodeCredentialOptions";
-
+export { AzurePipelinesServiceConnectionCredential } from "./credentials/azurePipelinesServiceConnectionCredential";
+export { AzurePipelinesServiceConnectionCredentialOptions } from "./credentials/azurePipelinesServiceConnectionCredentialOptions";
 export { AuthorizationCodeCredential } from "./credentials/authorizationCodeCredential";
 export { AuthorizationCodeCredentialOptions } from "./credentials/authorizationCodeCredentialOptions";
 export { AzurePowerShellCredential } from "./credentials/azurePowerShellCredential";

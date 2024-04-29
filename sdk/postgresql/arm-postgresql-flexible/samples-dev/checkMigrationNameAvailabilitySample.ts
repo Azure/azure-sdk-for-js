@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   MigrationNameAvailabilityResource,
-  PostgreSQLManagementFlexibleServerClient
+  PostgreSQLManagementFlexibleServerClient,
 } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to This method checks whether a proposed migration name is valid and available.
  *
  * @summary This method checks whether a proposed migration name is valid and available.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/CheckMigrationNameAvailability.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/CheckMigrationNameAvailability.json
  */
 async function checkMigrationNameAvailability() {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -30,7 +30,7 @@ async function checkMigrationNameAvailability() {
   const targetDbServerName = "testtarget";
   const parameters: MigrationNameAvailabilityResource = {
     name: "name1",
-    type: "Microsoft.DBforPostgreSQL/flexibleServers/migrations"
+    type: "Microsoft.DBforPostgreSQL/flexibleServers/migrations",
   };
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(credential);
@@ -38,7 +38,7 @@ async function checkMigrationNameAvailability() {
     subscriptionId,
     resourceGroupName,
     targetDbServerName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

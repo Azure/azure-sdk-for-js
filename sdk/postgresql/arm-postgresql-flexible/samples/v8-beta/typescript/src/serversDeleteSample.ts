@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a server.
  *
  * @summary Deletes a server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/ServerDelete.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerDelete.json
  */
 async function serverDelete() {
   const subscriptionId =
@@ -30,11 +30,11 @@ async function serverDelete() {
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.servers.beginDeleteAndWait(
     resourceGroupName,
-    serverName
+    serverName,
   );
   console.log(result);
 }

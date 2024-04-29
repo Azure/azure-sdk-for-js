@@ -4,7 +4,7 @@
 import { Client } from "@azure-rest/core-client";
 import { getOaiSSEs } from "../../src/api/oaiSse.js";
 import { assertAsyncIterable, createDataEvent, createDataLine, encoder } from "./util.js";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 
 const toEvent = <T>(e: T): T => e;
 

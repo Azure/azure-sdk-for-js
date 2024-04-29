@@ -14,7 +14,7 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DataFactoryManagementClient } from "../dataFactoryManagementClient";
 import {
-  ManagedIdentityCredentialResource,
+  CredentialResource,
   CredentialOperationsListByFactoryNextOptionalParams,
   CredentialOperationsListByFactoryOptionalParams,
   CredentialOperationsListByFactoryResponse,
@@ -49,7 +49,7 @@ export class CredentialOperationsImpl implements CredentialOperations {
     resourceGroupName: string,
     factoryName: string,
     options?: CredentialOperationsListByFactoryOptionalParams,
-  ): PagedAsyncIterableIterator<ManagedIdentityCredentialResource> {
+  ): PagedAsyncIterableIterator<CredentialResource> {
     const iter = this.listByFactoryPagingAll(
       resourceGroupName,
       factoryName,
@@ -81,7 +81,7 @@ export class CredentialOperationsImpl implements CredentialOperations {
     factoryName: string,
     options?: CredentialOperationsListByFactoryOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<ManagedIdentityCredentialResource[]> {
+  ): AsyncIterableIterator<CredentialResource[]> {
     let result: CredentialOperationsListByFactoryResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
@@ -113,7 +113,7 @@ export class CredentialOperationsImpl implements CredentialOperations {
     resourceGroupName: string,
     factoryName: string,
     options?: CredentialOperationsListByFactoryOptionalParams,
-  ): AsyncIterableIterator<ManagedIdentityCredentialResource> {
+  ): AsyncIterableIterator<CredentialResource> {
     for await (const page of this.listByFactoryPagingPage(
       resourceGroupName,
       factoryName,
@@ -152,7 +152,7 @@ export class CredentialOperationsImpl implements CredentialOperations {
     resourceGroupName: string,
     factoryName: string,
     credentialName: string,
-    credential: ManagedIdentityCredentialResource,
+    credential: CredentialResource,
     options?: CredentialOperationsCreateOrUpdateOptionalParams,
   ): Promise<CredentialOperationsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
@@ -247,7 +247,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedIdentityCredentialResource,
+      bodyMapper: Mappers.CredentialResource,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -275,7 +275,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedIdentityCredentialResource,
+      bodyMapper: Mappers.CredentialResource,
     },
     304: {},
     default: {

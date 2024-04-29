@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
 import { assertEnvironmentVariable, env, Recorder } from "@azure-tools/test-recorder";
-import { getYieldedValue } from "@azure/test-utils";
+import { assert, getYieldedValue } from "@azure-tools/test-utils";
 
 import {
   KeyVaultAccessControlClient,
@@ -47,7 +46,7 @@ describe("KeyVaultAccessControlClient", () => {
 
     it("can list role definitions", async function () {
       const expectedType = "Microsoft.Authorization/roleDefinitions";
-      let receivedRoles: string[] = [];
+      const receivedRoles: string[] = [];
 
       for await (const roleDefinition of client.listRoleDefinitions(globalScope)) {
         // Each role definition will have the shape of:
@@ -192,7 +191,7 @@ describe("KeyVaultAccessControlClient", () => {
   describe("role assignments", async function () {
     it("can list role assignments", async function () {
       const expectedType = "Microsoft.Authorization/roleAssignments";
-      let receivedRoles: string[] = [];
+      const receivedRoles: string[] = [];
 
       for await (const roleAssignment of client.listRoleAssignments(globalScope)) {
         // Each role assignment will have the shape of:
@@ -229,7 +228,7 @@ describe("KeyVaultAccessControlClient", () => {
         assert.fail(`Unable to find role definition with name ${roleName}`);
       }
 
-      let assignment = await client.createRoleAssignment(
+      const assignment = await client.createRoleAssignment(
         globalScope,
         assignmentName,
         roleDefinition.id,

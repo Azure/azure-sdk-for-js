@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes an existing Confidential Ledger.
  *
  * @summary Deletes an existing Confidential Ledger.
- * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-01-26-preview/examples/ConfidentialLedger_Delete.json
+ * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-06-28-preview/examples/ConfidentialLedger_Delete.json
  */
 async function confidentialLedgerDelete() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function confidentialLedgerDelete() {
   const client = new ConfidentialLedgerClient(credential, subscriptionId);
   const result = await client.ledger.beginDeleteAndWait(
     resourceGroupName,
-    ledgerName
+    ledgerName,
   );
   console.log(result);
 }

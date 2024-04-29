@@ -1,8 +1,8 @@
 {
-  "commit": "583e15ceb4cf23dc23b2300bd352f16d781e69ac",
+  "commit": "791ef5476e10bb15ab9ad46e2c2d8835ac24ac24",
   "readme": "specification/healthcareapis/resource-manager/readme.md",
-  "autorest_command": "autorest --version=3.9.7 --typescript --modelerfour.lenient-model-deduplication --azure-arm --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=D:\\Git\\azure-sdk-for-js ..\\azure-rest-api-specs\\specification\\healthcareapis\\resource-manager\\readme.md --use=@autorest/typescript@6.0.12 --generate-sample=true",
+  "autorest_command": "autorest --version=3.9.7 --typescript --modelerfour.lenient-model-deduplication --azure-arm --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=D:\\Git\\azure-sdk-for-js ..\\azure-rest-api-specs\\specification\\healthcareapis\\resource-manager\\readme.md --use=@autorest/typescript@6.0.20 --generate-sample=true",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs.git",
-  "release_tool": "@azure-tools/js-sdk-release-tools@2.7.4",
-  "use": "@autorest/typescript@6.0.12"
+  "release_tool": "@azure-tools/js-sdk-release-tools@2.7.5",
+  "use": "@autorest/typescript@6.0.20"
 }
