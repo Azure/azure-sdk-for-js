@@ -9,6 +9,11 @@
     "src/test.ts",
     "tests/test.ts",
     "service-bus/package.json",
-    "invalid/package.json"
+    "invalid/package.json",
+    "serviceBus/package.json",
+    "service-bus-rest/package.json",
+    "service-bus/not_package.json",
+    "service-bus/api-extractor.json",
+    "test.js"
   ]
 }

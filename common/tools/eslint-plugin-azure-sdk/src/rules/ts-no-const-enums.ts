@@ -25,7 +25,7 @@ export default createRule({
     return {
       // check Enum to make sure it doesn't have a const keyword
       TSEnumDeclaration: (node): void => {
-        if (node.const !== undefined) {
+        if (node.const) {
           context.report({
             node: node,
             messageId: "noConstEnum",

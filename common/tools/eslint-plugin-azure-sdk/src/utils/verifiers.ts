@@ -25,11 +25,11 @@ export const VerifierMessages = {
   outerMostNotExist: "{{outer}} does not exist at the outermost level",
   notMemberOf: "{{inner}} is not a member of {{outer}}",
   notALiteral: "{{expression}} is not set to a literal (string | boolean | null | number | RegExp)",
-  actualNotExpected: "{{expression}} is set to ${actual} when it should be set to ${expected}",
+  actualNotExpected: "{{expression}} is set to {{actual}} when it should be set to {{expected}}",
   notArray: "{{outer}} is not set to an array",
   arrayContainsNonLiteral:
     "{{array}} contains non-literal (string | boolean | null | number | RegExp) elements",
-  notContain: "{{outer}} does not contain ${expected}",
+  notContain: "{{outer}} does not contain {{expected}}",
 } as const;
 
 export type VerifierMessageIds = keyof typeof VerifierMessages;

@@ -12,14 +12,21 @@ RuleTester.it = vitest.it;
 RuleTester.itOnly = vitest.it.only;
 RuleTester.describe = vitest.describe;
 
-export function createRuleTester() {
+export interface CreateRuleTesterOptions {
+  settings?: Record<string, unknown>;
+  testTsConfig?: boolean;
+}
+
+export function createRuleTester(options: CreateRuleTesterOptions = {}) {
+  const project = options.testTsConfig ? "./tsconfig-alt.json" : "./tsconfig.json";
   const ruleTester = new RuleTester({
     parser: require.resolve("@typescript-eslint/parser"),
     parserOptions: {
       tsconfigRootDir: path.join(__dirname, "./fixture"),
-      project: "./tsconfig.json",
+      project,
       extraFileExtensions: [".json"],
     },
+    settings: options.settings ?? {},
   });
   return ruleTester;
 }
