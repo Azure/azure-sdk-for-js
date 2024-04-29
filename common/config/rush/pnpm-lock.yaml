@@ -12899,7 +12899,7 @@ packages:
     dev: false
 
   file:projects/arm-confidentialledger.tgz:
-    resolution: {integrity: sha512-ulL29e/tOurFMRIGmyRCtYYzY4o6fYrQXTVtHVdluUF6S+rDWGHSxksBzb+ftaXT6aVXCnvMWOPnrKdys/VYxQ==, tarball: file:projects/arm-confidentialledger.tgz}
+    resolution: {integrity: sha512-PxPlIFyWJfww6m8WDQSiJb1g8FQrGOqqFgj06zGEKXlXJPpOxY9x0kvfFk0ZLV4t2XKf2VTdjhZTZjfjx9xSwg==, tarball: file:projects/arm-confidentialledger.tgz}
     name: '@rush-temp/arm-confidentialledger'
     version: 0.0.0
     dependencies:
@@ -12919,9 +12919,9 @@ packages:
       mkdirp: 2.1.6
       mocha: 10.4.0
       rimraf: 5.0.5
-      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
+      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
       tslib: 2.6.2
-      typescript: 5.3.3
+      typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - '@swc/core'
@@ -14634,7 +14634,7 @@ packages:
     dev: false
 
   file:projects/arm-hybridcompute.tgz:
-    resolution: {integrity: sha512-bLwppKU56gEXZeoDZKfZtw2tgKp81xQH1V7uUQTeHuPsYaAwiAyrWjIB8KPSDUC/YJPdygF7rrQlk3j24d7A8Q==, tarball: file:projects/arm-hybridcompute.tgz}
+    resolution: {integrity: sha512-ZfqlB0Yw4fWwm9BUOA5rrdHuumwmYzx4yROMTBAizwlUJFsVVLr4p6S6A4f4GIiFxbSRmo4IsWSdRvkJxv2jsQ==, tarball: file:projects/arm-hybridcompute.tgz}
     name: '@rush-temp/arm-hybridcompute'
     version: 0.0.0
     dependencies:
@@ -14653,9 +14653,9 @@ packages:
       mkdirp: 2.1.6
       mocha: 10.4.0
       rimraf: 5.0.5
-      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
+      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
       tslib: 2.6.2
-      typescript: 5.3.3
+      typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - '@swc/core'
@@ -20235,7 +20235,7 @@ packages:
     dev: false
 
   file:projects/eventgrid-namespaces.tgz:
-    resolution: {integrity: sha512-hYpotYvdpHr4LhZ1U6lDTONpdsnU+RNcIFom4tSGCiNWZmkcNL3UjziBlrC0ACnlXZo4XvGU8cZNxfaX2tAaXA==, tarball: file:projects/eventgrid-namespaces.tgz}
+    resolution: {integrity: sha512-A6gojPEuuV0hMY/VThrmK6iAMB62Z9nPCNGcJrb+hj14kDdAKw96mMBHbQVqxJuuWDj6KwdqWusSZIsDPZw2DA==, tarball: file:projects/eventgrid-namespaces.tgz}
     name: '@rush-temp/eventgrid-namespaces'
     version: 0.0.0
     dependencies:
@@ -20269,9 +20269,9 @@ packages:
       rimraf: 5.0.5
       sinon: 17.0.1
       source-map-support: 0.5.21
-      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
+      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
       tslib: 2.6.2
-      typescript: 5.3.3
+      typescript: 5.4.5
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
