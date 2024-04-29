@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets information about a server.
  *
  * @summary Gets information about a server.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/preview/2022-09-30-preview/examples/ServerGet.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/ServerGet.json
  */
 async function getAServer() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function getAServer() {
  * This sample demonstrates how to Gets information about a server.
  *
  * @summary Gets information about a server.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/preview/2022-09-30-preview/examples/ServerGetWithVnet.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/ServerGetWithVnet.json
  */
 async function getAServerWithVnet() {
   const subscriptionId =

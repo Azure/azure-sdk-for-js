@@ -14,7 +14,7 @@ import { MySQLManagementFlexibleServerClient } from "../mySQLManagementFlexibleS
 import {
   NameAvailabilityRequest,
   CheckNameAvailabilityExecuteOptionalParams,
-  CheckNameAvailabilityExecuteResponse
+  CheckNameAvailabilityExecuteResponse,
 } from "../models";
 
 /** Class containing CheckNameAvailability operations. */
@@ -38,11 +38,11 @@ export class CheckNameAvailabilityImpl implements CheckNameAvailability {
   execute(
     locationName: string,
     nameAvailabilityRequest: NameAvailabilityRequest,
-    options?: CheckNameAvailabilityExecuteOptionalParams
+    options?: CheckNameAvailabilityExecuteOptionalParams,
   ): Promise<CheckNameAvailabilityExecuteResponse> {
     return this.client.sendOperationRequest(
       { locationName, nameAvailabilityRequest, options },
-      executeOperationSpec
+      executeOperationSpec,
     );
   }
 }
@@ -50,25 +50,24 @@ export class CheckNameAvailabilityImpl implements CheckNameAvailability {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const executeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DBforMySQL/locations/{locationName}/checkNameAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DBforMySQL/locations/{locationName}/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.NameAvailability
+      bodyMapper: Mappers.NameAvailability,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.nameAvailabilityRequest,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.locationName
+    Parameters.locationName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

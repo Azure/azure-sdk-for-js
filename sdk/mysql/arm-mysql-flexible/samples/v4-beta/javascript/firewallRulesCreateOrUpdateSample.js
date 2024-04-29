@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates a new firewall rule or updates an existing firewall rule.
  *
  * @summary Creates a new firewall rule or updates an existing firewall rule.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Firewall/preview/2021-12-01-preview/examples/FirewallRuleCreate.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Firewall/preview/2023-06-01-preview/examples/FirewallRuleCreate.json
  */
 async function createAFirewallRule() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function createAFirewallRule() {
     resourceGroupName,
     serverName,
     firewallRuleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets information about a server firewall rule.
  *
  * @summary Gets information about a server firewall rule.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Firewall/preview/2021-12-01-preview/examples/FirewallRuleGet.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Firewall/preview/2023-06-01-preview/examples/FirewallRuleGet.json
  */
 async function getAFirewallRule() {
   const subscriptionId =
@@ -30,12 +30,12 @@ async function getAFirewallRule() {
   const credential = new DefaultAzureCredential();
   const client = new MySQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.firewallRules.get(
     resourceGroupName,
     serverName,
-    firewallRuleName
+    firewallRuleName,
   );
   console.log(result);
 }

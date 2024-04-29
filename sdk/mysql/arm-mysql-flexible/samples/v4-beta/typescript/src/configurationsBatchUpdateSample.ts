@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ConfigurationListForBatchUpdate,
-  MySQLManagementFlexibleServerClient
+  MySQLManagementFlexibleServerClient,
 } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update a list of configurations in a given server.
  *
  * @summary Update a list of configurations in a given server.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Configurations/preview/2021-12-01-preview/examples/ConfigurationsBatchUpdate.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Configurations/preview/2023-06-01-preview/examples/ConfigurationsBatchUpdate.json
  */
 async function configurationList() {
   const subscriptionId =
@@ -33,18 +33,18 @@ async function configurationList() {
     resetAllToDefault: "False",
     value: [
       { name: "event_scheduler", value: "OFF" },
-      { name: "div_precision_increment", value: "8" }
-    ]
+      { name: "div_precision_increment", value: "8" },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new MySQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.configurations.beginBatchUpdateAndWait(
     resourceGroupName,
     serverName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

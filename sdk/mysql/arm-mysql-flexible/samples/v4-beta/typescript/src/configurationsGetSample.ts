@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets information about a configuration of server.
  *
  * @summary Gets information about a configuration of server.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Configurations/preview/2021-12-01-preview/examples/ConfigurationGet.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Configurations/preview/2023-06-01-preview/examples/ConfigurationGet.json
  */
 async function getAConfiguration() {
   const subscriptionId =
@@ -30,12 +30,12 @@ async function getAConfiguration() {
   const credential = new DefaultAzureCredential();
   const client = new MySQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.configurations.get(
     resourceGroupName,
     serverName,
-    configurationName
+    configurationName,
   );
   console.log(result);
 }

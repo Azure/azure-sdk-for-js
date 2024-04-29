@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes an Azure AD Administrator.
  *
  * @summary Deletes an Azure AD Administrator.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/AAD/preview/2021-12-01-preview/examples/AzureADAdministratorDelete.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/AAD/preview/2023-06-01-preview/examples/AzureADAdministratorDelete.json
  */
 async function deleteAnAzureAdAdministrator() {
   const subscriptionId =
@@ -30,12 +30,12 @@ async function deleteAnAzureAdAdministrator() {
   const credential = new DefaultAzureCredential();
   const client = new MySQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.azureADAdministrators.beginDeleteAndWait(
     resourceGroupName,
     serverName,
-    administratorName
+    administratorName,
   );
   console.log(result);
 }

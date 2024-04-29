@@ -18,13 +18,14 @@ import {
   LocationBasedCapabilitiesListNextOptionalParams,
   LocationBasedCapabilitiesListOptionalParams,
   LocationBasedCapabilitiesListResponse,
-  LocationBasedCapabilitiesListNextResponse
+  LocationBasedCapabilitiesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing LocationBasedCapabilities operations. */
 export class LocationBasedCapabilitiesImpl
-  implements LocationBasedCapabilities {
+  implements LocationBasedCapabilities
+{
   private readonly client: MySQLManagementFlexibleServerClient;
 
   /**
@@ -42,7 +43,7 @@ export class LocationBasedCapabilitiesImpl
    */
   public list(
     locationName: string,
-    options?: LocationBasedCapabilitiesListOptionalParams
+    options?: LocationBasedCapabilitiesListOptionalParams,
   ): PagedAsyncIterableIterator<CapabilityProperties> {
     const iter = this.listPagingAll(locationName, options);
     return {
@@ -57,14 +58,14 @@ export class LocationBasedCapabilitiesImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(locationName, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     locationName: string,
     options?: LocationBasedCapabilitiesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CapabilityProperties[]> {
     let result: LocationBasedCapabilitiesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -86,7 +87,7 @@ export class LocationBasedCapabilitiesImpl
 
   private async *listPagingAll(
     locationName: string,
-    options?: LocationBasedCapabilitiesListOptionalParams
+    options?: LocationBasedCapabilitiesListOptionalParams,
   ): AsyncIterableIterator<CapabilityProperties> {
     for await (const page of this.listPagingPage(locationName, options)) {
       yield* page;
@@ -100,11 +101,11 @@ export class LocationBasedCapabilitiesImpl
    */
   private _list(
     locationName: string,
-    options?: LocationBasedCapabilitiesListOptionalParams
+    options?: LocationBasedCapabilitiesListOptionalParams,
   ): Promise<LocationBasedCapabilitiesListResponse> {
     return this.client.sendOperationRequest(
       { locationName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -117,11 +118,11 @@ export class LocationBasedCapabilitiesImpl
   private _listNext(
     locationName: string,
     nextLink: string,
-    options?: LocationBasedCapabilitiesListNextOptionalParams
+    options?: LocationBasedCapabilitiesListNextOptionalParams,
   ): Promise<LocationBasedCapabilitiesListNextResponse> {
     return this.client.sendOperationRequest(
       { locationName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -129,43 +130,42 @@ export class LocationBasedCapabilitiesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DBforMySQL/locations/{locationName}/capabilities",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DBforMySQL/locations/{locationName}/capabilities",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CapabilitiesListResult
+      bodyMapper: Mappers.CapabilitiesListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.locationName
+    Parameters.locationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CapabilitiesListResult
+      bodyMapper: Mappers.CapabilitiesListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.locationName
+    Parameters.locationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

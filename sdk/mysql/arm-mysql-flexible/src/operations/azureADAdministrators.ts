@@ -16,7 +16,7 @@ import { MySQLManagementFlexibleServerClient } from "../mySQLManagementFlexibleS
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -30,7 +30,7 @@ import {
   AzureADAdministratorsDeleteOptionalParams,
   AzureADAdministratorsGetOptionalParams,
   AzureADAdministratorsGetResponse,
-  AzureADAdministratorsListByServerNextResponse
+  AzureADAdministratorsListByServerNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -55,12 +55,12 @@ export class AzureADAdministratorsImpl implements AzureADAdministrators {
   public listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: AzureADAdministratorsListByServerOptionalParams
+    options?: AzureADAdministratorsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<AzureADAdministrator> {
     const iter = this.listByServerPagingAll(
       resourceGroupName,
       serverName,
-      options
+      options,
     );
     return {
       next() {
@@ -77,9 +77,9 @@ export class AzureADAdministratorsImpl implements AzureADAdministrators {
           resourceGroupName,
           serverName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -87,7 +87,7 @@ export class AzureADAdministratorsImpl implements AzureADAdministrators {
     resourceGroupName: string,
     serverName: string,
     options?: AzureADAdministratorsListByServerOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AzureADAdministrator[]> {
     let result: AzureADAdministratorsListByServerResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,7 +103,7 @@ export class AzureADAdministratorsImpl implements AzureADAdministrators {
         resourceGroupName,
         serverName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -115,12 +115,12 @@ export class AzureADAdministratorsImpl implements AzureADAdministrators {
   private async *listByServerPagingAll(
     resourceGroupName: string,
     serverName: string,
-    options?: AzureADAdministratorsListByServerOptionalParams
+    options?: AzureADAdministratorsListByServerOptionalParams,
   ): AsyncIterableIterator<AzureADAdministrator> {
     for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       serverName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -139,7 +139,7 @@ export class AzureADAdministratorsImpl implements AzureADAdministrators {
     serverName: string,
     administratorName: AdministratorName,
     parameters: AzureADAdministrator,
-    options?: AzureADAdministratorsCreateOrUpdateOptionalParams
+    options?: AzureADAdministratorsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AzureADAdministratorsCreateOrUpdateResponse>,
@@ -148,21 +148,20 @@ export class AzureADAdministratorsImpl implements AzureADAdministrators {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AzureADAdministratorsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -171,8 +170,8 @@ export class AzureADAdministratorsImpl implements AzureADAdministrators {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -180,8 +179,8 @@ export class AzureADAdministratorsImpl implements AzureADAdministrators {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -192,16 +191,16 @@ export class AzureADAdministratorsImpl implements AzureADAdministrators {
         serverName,
         administratorName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       AzureADAdministratorsCreateOrUpdateResponse,
       OperationState<AzureADAdministratorsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -220,14 +219,14 @@ export class AzureADAdministratorsImpl implements AzureADAdministrators {
     serverName: string,
     administratorName: AdministratorName,
     parameters: AzureADAdministrator,
-    options?: AzureADAdministratorsCreateOrUpdateOptionalParams
+    options?: AzureADAdministratorsCreateOrUpdateOptionalParams,
   ): Promise<AzureADAdministratorsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serverName,
       administratorName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -243,25 +242,24 @@ export class AzureADAdministratorsImpl implements AzureADAdministrators {
     resourceGroupName: string,
     serverName: string,
     administratorName: AdministratorName,
-    options?: AzureADAdministratorsDeleteOptionalParams
+    options?: AzureADAdministratorsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -270,8 +268,8 @@ export class AzureADAdministratorsImpl implements AzureADAdministrators {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -279,20 +277,20 @@ export class AzureADAdministratorsImpl implements AzureADAdministrators {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serverName, administratorName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -309,13 +307,13 @@ export class AzureADAdministratorsImpl implements AzureADAdministrators {
     resourceGroupName: string,
     serverName: string,
     administratorName: AdministratorName,
-    options?: AzureADAdministratorsDeleteOptionalParams
+    options?: AzureADAdministratorsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serverName,
       administratorName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -331,11 +329,11 @@ export class AzureADAdministratorsImpl implements AzureADAdministrators {
     resourceGroupName: string,
     serverName: string,
     administratorName: AdministratorName,
-    options?: AzureADAdministratorsGetOptionalParams
+    options?: AzureADAdministratorsGetOptionalParams,
   ): Promise<AzureADAdministratorsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, administratorName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -348,11 +346,11 @@ export class AzureADAdministratorsImpl implements AzureADAdministrators {
   private _listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: AzureADAdministratorsListByServerOptionalParams
+    options?: AzureADAdministratorsListByServerOptionalParams,
   ): Promise<AzureADAdministratorsListByServerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, options },
-      listByServerOperationSpec
+      listByServerOperationSpec,
     );
   }
 
@@ -367,11 +365,11 @@ export class AzureADAdministratorsImpl implements AzureADAdministrators {
     resourceGroupName: string,
     serverName: string,
     nextLink: string,
-    options?: AzureADAdministratorsListByServerNextOptionalParams
+    options?: AzureADAdministratorsListByServerNextOptionalParams,
   ): Promise<AzureADAdministratorsListByServerNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, nextLink, options },
-      listByServerNextOperationSpec
+      listByServerNextOperationSpec,
     );
   }
 }
@@ -379,25 +377,24 @@ export class AzureADAdministratorsImpl implements AzureADAdministrators {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/administrators/{administratorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/administrators/{administratorName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureADAdministrator
+      bodyMapper: Mappers.AzureADAdministrator,
     },
     201: {
-      bodyMapper: Mappers.AzureADAdministrator
+      bodyMapper: Mappers.AzureADAdministrator,
     },
     202: {
-      bodyMapper: Mappers.AzureADAdministrator
+      bodyMapper: Mappers.AzureADAdministrator,
     },
     204: {
-      bodyMapper: Mappers.AzureADAdministrator
+      bodyMapper: Mappers.AzureADAdministrator,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
@@ -406,15 +403,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.administratorName
+    Parameters.administratorName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/administrators/{administratorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/administrators/{administratorName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -422,8 +418,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -431,22 +427,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.administratorName
+    Parameters.administratorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/administrators/{administratorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/administrators/{administratorName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureADAdministrator
+      bodyMapper: Mappers.AzureADAdministrator,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -454,51 +449,50 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.administratorName
+    Parameters.administratorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/administrators",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/administrators",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AdministratorListResult
+      bodyMapper: Mappers.AdministratorListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServerNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AdministratorListResult
+      bodyMapper: Mappers.AdministratorListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

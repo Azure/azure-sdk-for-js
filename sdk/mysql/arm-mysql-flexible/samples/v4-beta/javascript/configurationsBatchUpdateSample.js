@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update a list of configurations in a given server.
  *
  * @summary Update a list of configurations in a given server.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Configurations/preview/2021-12-01-preview/examples/ConfigurationsBatchUpdate.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Configurations/preview/2023-06-01-preview/examples/ConfigurationsBatchUpdate.json
  */
 async function configurationList() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function configurationList() {
   const result = await client.configurations.beginBatchUpdateAndWait(
     resourceGroupName,
     serverName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

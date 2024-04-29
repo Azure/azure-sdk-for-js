@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   NameAvailabilityRequest,
-  MySQLManagementFlexibleServerClient
+  MySQLManagementFlexibleServerClient,
 } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Check the availability of name for server
  *
  * @summary Check the availability of name for server
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/ServiceOperations/preview/2021-12-01-preview/examples/CheckNameAvailability.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/ServiceOperations/stable/2023-12-30/examples/CheckNameAvailability.json
  */
 async function checkNameAvailability() {
   const subscriptionId =
@@ -30,16 +30,16 @@ async function checkNameAvailability() {
   const locationName = "SouthEastAsia";
   const nameAvailabilityRequest: NameAvailabilityRequest = {
     name: "name1",
-    type: "Microsoft.DBforMySQL/flexibleServers"
+    type: "Microsoft.DBforMySQL/flexibleServers",
   };
   const credential = new DefaultAzureCredential();
   const client = new MySQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.checkNameAvailability.execute(
     locationName,
-    nameAvailabilityRequest
+    nameAvailabilityRequest,
   );
   console.log(result);
 }

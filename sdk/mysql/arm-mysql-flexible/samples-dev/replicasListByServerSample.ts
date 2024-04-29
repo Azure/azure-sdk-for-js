@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all the replicas for a given server.
  *
  * @summary List all the replicas for a given server.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/preview/2022-09-30-preview/examples/ReplicasListByServer.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/ReplicasListByServer.json
  */
 async function listReplicasForAServer() {
   const subscriptionId =
@@ -29,12 +29,12 @@ async function listReplicasForAServer() {
   const credential = new DefaultAzureCredential();
   const client = new MySQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const resArray = new Array();
   for await (let item of client.replicas.listByServer(
     resourceGroupName,
-    serverName
+    serverName,
   )) {
     resArray.push(item);
   }

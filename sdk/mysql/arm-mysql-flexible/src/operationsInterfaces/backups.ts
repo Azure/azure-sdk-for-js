@@ -13,7 +13,7 @@ import {
   BackupsPutOptionalParams,
   BackupsPutResponse,
   BackupsGetOptionalParams,
-  BackupsGetResponse
+  BackupsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface Backups {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: BackupsListByServerOptionalParams
+    options?: BackupsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ServerBackup>;
   /**
    * Create backup for a given server with specified backup name.
@@ -41,7 +41,7 @@ export interface Backups {
     resourceGroupName: string,
     serverName: string,
     backupName: string,
-    options?: BackupsPutOptionalParams
+    options?: BackupsPutOptionalParams,
   ): Promise<BackupsPutResponse>;
   /**
    * List all the backups for a given server.
@@ -54,6 +54,6 @@ export interface Backups {
     resourceGroupName: string,
     serverName: string,
     backupName: string,
-    options?: BackupsGetOptionalParams
+    options?: BackupsGetOptionalParams,
   ): Promise<BackupsGetResponse>;
 }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Validates if backup can be performed for given server.
  *
  * @summary Validates if backup can be performed for given server.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Backups/preview/2022-09-30-preview/examples/ValidateBackup.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Backups/preview/2023-10-01-preview/examples/ValidateBackup.json
  */
 async function validateBackup() {
   const subscriptionId =

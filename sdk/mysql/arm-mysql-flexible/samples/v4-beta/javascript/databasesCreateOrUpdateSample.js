@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Databases/preview/2021-12-01-preview/examples/DatabaseCreate.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Databases/preview/2023-06-01-preview/examples/DatabaseCreate.json
  */
 async function createADatabase() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function createADatabase() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

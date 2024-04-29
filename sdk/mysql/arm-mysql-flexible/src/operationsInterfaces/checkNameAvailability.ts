@@ -9,7 +9,7 @@
 import {
   NameAvailabilityRequest,
   CheckNameAvailabilityExecuteOptionalParams,
-  CheckNameAvailabilityExecuteResponse
+  CheckNameAvailabilityExecuteResponse,
 } from "../models";
 
 /** Interface representing a CheckNameAvailability. */
@@ -23,6 +23,6 @@ export interface CheckNameAvailability {
   execute(
     locationName: string,
     nameAvailabilityRequest: NameAvailabilityRequest,
-    options?: CheckNameAvailabilityExecuteOptionalParams
+    options?: CheckNameAvailabilityExecuteOptionalParams,
   ): Promise<CheckNameAvailabilityExecuteResponse>;
 }

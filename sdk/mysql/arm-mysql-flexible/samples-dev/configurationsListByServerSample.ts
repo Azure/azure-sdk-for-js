@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ConfigurationsListByServerOptionalParams,
-  MySQLManagementFlexibleServerClient
+  MySQLManagementFlexibleServerClient,
 } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to List all the configurations in a given server.
  *
  * @summary List all the configurations in a given server.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Configurations/preview/2021-12-01-preview/examples/ConfigurationsListByServer.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Configurations/preview/2023-06-01-preview/examples/ConfigurationsListByServer.json
  */
 async function listAllConfigurationsForAServer() {
   const subscriptionId =
@@ -35,13 +35,13 @@ async function listAllConfigurationsForAServer() {
   const credential = new DefaultAzureCredential();
   const client = new MySQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const resArray = new Array();
   for await (let item of client.configurations.listByServer(
     resourceGroupName,
     serverName,
-    options
+    options,
   )) {
     resArray.push(item);
   }

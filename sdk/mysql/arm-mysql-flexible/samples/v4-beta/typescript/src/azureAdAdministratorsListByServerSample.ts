@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all the AAD administrators in a given server.
  *
  * @summary List all the AAD administrators in a given server.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/AAD/preview/2021-12-01-preview/examples/AzureADAdministratorsListByServer.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/AAD/preview/2023-06-01-preview/examples/AzureADAdministratorsListByServer.json
  */
 async function listAzureAdAdministratorsInAServer() {
   const subscriptionId =
@@ -29,12 +29,12 @@ async function listAzureAdAdministratorsInAServer() {
   const credential = new DefaultAzureCredential();
   const client = new MySQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const resArray = new Array();
   for await (let item of client.azureADAdministrators.listByServer(
     resourceGroupName,
-    serverName
+    serverName,
   )) {
     resArray.push(item);
   }

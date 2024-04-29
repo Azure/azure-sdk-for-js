@@ -13,58 +13,90 @@ import {
   AzureADAdministratorsImpl,
   BackupsImpl,
   BackupAndExportImpl,
+  LongRunningBackupImpl,
+  LongRunningBackupsImpl,
   ConfigurationsImpl,
   DatabasesImpl,
   FirewallRulesImpl,
   ServersImpl,
   ReplicasImpl,
+  ServersMigrationImpl,
+  AdvancedThreatProtectionSettingsImpl,
   LogFilesImpl,
   LocationBasedCapabilitiesImpl,
+  LocationBasedCapabilitySetImpl,
   CheckVirtualNetworkSubnetUsageImpl,
   CheckNameAvailabilityImpl,
   CheckNameAvailabilityWithoutLocationImpl,
+  OperationResultsImpl,
+  OperationProgressImpl,
   GetPrivateDnsZoneSuffixImpl,
-  OperationsImpl
+  OperationsImpl,
+  MaintenancesImpl,
 } from "./operations";
 import {
   AzureADAdministrators,
   Backups,
   BackupAndExport,
+  LongRunningBackup,
+  LongRunningBackups,
   Configurations,
   Databases,
   FirewallRules,
   Servers,
   Replicas,
+  ServersMigration,
+  AdvancedThreatProtectionSettings,
   LogFiles,
   LocationBasedCapabilities,
+  LocationBasedCapabilitySet,
   CheckVirtualNetworkSubnetUsage,
   CheckNameAvailability,
   CheckNameAvailabilityWithoutLocation,
+  OperationResults,
+  OperationProgress,
   GetPrivateDnsZoneSuffix,
-  Operations
+  Operations,
+  Maintenances,
 } from "./operationsInterfaces";
 import { MySQLManagementFlexibleServerClientOptionalParams } from "./models";
 
 export class MySQLManagementFlexibleServerClient extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the MySQLManagementFlexibleServerClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: MySQLManagementFlexibleServerClientOptionalParams
+    options?: MySQLManagementFlexibleServerClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: MySQLManagementFlexibleServerClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?:
+      | MySQLManagementFlexibleServerClientOptionalParams
+      | string,
+    options?: MySQLManagementFlexibleServerClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -73,7 +105,7 @@ export class MySQLManagementFlexibleServerClient extends coreClient.ServiceClien
     }
     const defaults: MySQLManagementFlexibleServerClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
     const packageDetails = `azsdk-js-arm-mysql-flexible/4.0.0-beta.2`;
@@ -86,20 +118,21 @@ export class MySQLManagementFlexibleServerClient extends coreClient.ServiceClien
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -109,7 +142,7 @@ export class MySQLManagementFlexibleServerClient extends coreClient.ServiceClien
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -119,9 +152,9 @@ export class MySQLManagementFlexibleServerClient extends coreClient.ServiceClien
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -132,37 +165,52 @@ export class MySQLManagementFlexibleServerClient extends coreClient.ServiceClien
     this.azureADAdministrators = new AzureADAdministratorsImpl(this);
     this.backups = new BackupsImpl(this);
     this.backupAndExport = new BackupAndExportImpl(this);
+    this.longRunningBackup = new LongRunningBackupImpl(this);
+    this.longRunningBackups = new LongRunningBackupsImpl(this);
     this.configurations = new ConfigurationsImpl(this);
     this.databases = new DatabasesImpl(this);
     this.firewallRules = new FirewallRulesImpl(this);
     this.servers = new ServersImpl(this);
     this.replicas = new ReplicasImpl(this);
+    this.serversMigration = new ServersMigrationImpl(this);
+    this.advancedThreatProtectionSettings =
+      new AdvancedThreatProtectionSettingsImpl(this);
     this.logFiles = new LogFilesImpl(this);
     this.locationBasedCapabilities = new LocationBasedCapabilitiesImpl(this);
-    this.checkVirtualNetworkSubnetUsage = new CheckVirtualNetworkSubnetUsageImpl(
-      this
-    );
+    this.locationBasedCapabilitySet = new LocationBasedCapabilitySetImpl(this);
+    this.checkVirtualNetworkSubnetUsage =
+      new CheckVirtualNetworkSubnetUsageImpl(this);
     this.checkNameAvailability = new CheckNameAvailabilityImpl(this);
-    this.checkNameAvailabilityWithoutLocation = new CheckNameAvailabilityWithoutLocationImpl(
-      this
-    );
+    this.checkNameAvailabilityWithoutLocation =
+      new CheckNameAvailabilityWithoutLocationImpl(this);
+    this.operationResults = new OperationResultsImpl(this);
+    this.operationProgress = new OperationProgressImpl(this);
     this.getPrivateDnsZoneSuffix = new GetPrivateDnsZoneSuffixImpl(this);
     this.operations = new OperationsImpl(this);
+    this.maintenances = new MaintenancesImpl(this);
   }
 
   azureADAdministrators: AzureADAdministrators;
   backups: Backups;
   backupAndExport: BackupAndExport;
+  longRunningBackup: LongRunningBackup;
+  longRunningBackups: LongRunningBackups;
   configurations: Configurations;
   databases: Databases;
   firewallRules: FirewallRules;
   servers: Servers;
   replicas: Replicas;
+  serversMigration: ServersMigration;
+  advancedThreatProtectionSettings: AdvancedThreatProtectionSettings;
   logFiles: LogFiles;
   locationBasedCapabilities: LocationBasedCapabilities;
+  locationBasedCapabilitySet: LocationBasedCapabilitySet;
   checkVirtualNetworkSubnetUsage: CheckVirtualNetworkSubnetUsage;
   checkNameAvailability: CheckNameAvailability;
   checkNameAvailabilityWithoutLocation: CheckNameAvailabilityWithoutLocation;
+  operationResults: OperationResults;
+  operationProgress: OperationProgress;
   getPrivateDnsZoneSuffix: GetPrivateDnsZoneSuffix;
   operations: Operations;
+  maintenances: Maintenances;
 }

@@ -18,7 +18,7 @@ import {
   LogFilesListByServerNextOptionalParams,
   LogFilesListByServerOptionalParams,
   LogFilesListByServerResponse,
-  LogFilesListByServerNextResponse
+  LogFilesListByServerNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,12 +43,12 @@ export class LogFilesImpl implements LogFiles {
   public listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: LogFilesListByServerOptionalParams
+    options?: LogFilesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<LogFile> {
     const iter = this.listByServerPagingAll(
       resourceGroupName,
       serverName,
-      options
+      options,
     );
     return {
       next() {
@@ -65,9 +65,9 @@ export class LogFilesImpl implements LogFiles {
           resourceGroupName,
           serverName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -75,7 +75,7 @@ export class LogFilesImpl implements LogFiles {
     resourceGroupName: string,
     serverName: string,
     options?: LogFilesListByServerOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<LogFile[]> {
     let result: LogFilesListByServerResponse;
     let continuationToken = settings?.continuationToken;
@@ -91,7 +91,7 @@ export class LogFilesImpl implements LogFiles {
         resourceGroupName,
         serverName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -103,12 +103,12 @@ export class LogFilesImpl implements LogFiles {
   private async *listByServerPagingAll(
     resourceGroupName: string,
     serverName: string,
-    options?: LogFilesListByServerOptionalParams
+    options?: LogFilesListByServerOptionalParams,
   ): AsyncIterableIterator<LogFile> {
     for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       serverName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -123,11 +123,11 @@ export class LogFilesImpl implements LogFiles {
   private _listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: LogFilesListByServerOptionalParams
+    options?: LogFilesListByServerOptionalParams,
   ): Promise<LogFilesListByServerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, options },
-      listByServerOperationSpec
+      listByServerOperationSpec,
     );
   }
 
@@ -142,11 +142,11 @@ export class LogFilesImpl implements LogFiles {
     resourceGroupName: string,
     serverName: string,
     nextLink: string,
-    options?: LogFilesListByServerNextOptionalParams
+    options?: LogFilesListByServerNextOptionalParams,
   ): Promise<LogFilesListByServerNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, nextLink, options },
-      listByServerNextOperationSpec
+      listByServerNextOperationSpec,
     );
   }
 }
@@ -154,45 +154,44 @@ export class LogFilesImpl implements LogFiles {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/logFiles",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/logFiles",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LogFileListResult
+      bodyMapper: Mappers.LogFileListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServerNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LogFileListResult
+      bodyMapper: Mappers.LogFileListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

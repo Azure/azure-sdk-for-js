@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates an existing Azure Active Directory administrator.
  *
  * @summary Creates or updates an existing Azure Active Directory administrator.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/AAD/preview/2021-12-01-preview/examples/AzureADAdministratorCreate.json
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/AAD/preview/2023-06-01-preview/examples/AzureADAdministratorCreate.json
  */
 async function createAnAzureAdAdministrator() {
   const subscriptionId =
@@ -38,7 +38,7 @@ async function createAnAzureAdAdministrator() {
     resourceGroupName,
     serverName,
     administratorName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -22,7 +22,7 @@ import {
   BackupsPutResponse,
   BackupsGetOptionalParams,
   BackupsGetResponse,
-  BackupsListByServerNextResponse
+  BackupsListByServerNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -47,12 +47,12 @@ export class BackupsImpl implements Backups {
   public listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: BackupsListByServerOptionalParams
+    options?: BackupsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ServerBackup> {
     const iter = this.listByServerPagingAll(
       resourceGroupName,
       serverName,
-      options
+      options,
     );
     return {
       next() {
@@ -69,9 +69,9 @@ export class BackupsImpl implements Backups {
           resourceGroupName,
           serverName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -79,7 +79,7 @@ export class BackupsImpl implements Backups {
     resourceGroupName: string,
     serverName: string,
     options?: BackupsListByServerOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ServerBackup[]> {
     let result: BackupsListByServerResponse;
     let continuationToken = settings?.continuationToken;
@@ -95,7 +95,7 @@ export class BackupsImpl implements Backups {
         resourceGroupName,
         serverName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -107,12 +107,12 @@ export class BackupsImpl implements Backups {
   private async *listByServerPagingAll(
     resourceGroupName: string,
     serverName: string,
-    options?: BackupsListByServerOptionalParams
+    options?: BackupsListByServerOptionalParams,
   ): AsyncIterableIterator<ServerBackup> {
     for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       serverName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -129,11 +129,11 @@ export class BackupsImpl implements Backups {
     resourceGroupName: string,
     serverName: string,
     backupName: string,
-    options?: BackupsPutOptionalParams
+    options?: BackupsPutOptionalParams,
   ): Promise<BackupsPutResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, backupName, options },
-      putOperationSpec
+      putOperationSpec,
     );
   }
 
@@ -148,11 +148,11 @@ export class BackupsImpl implements Backups {
     resourceGroupName: string,
     serverName: string,
     backupName: string,
-    options?: BackupsGetOptionalParams
+    options?: BackupsGetOptionalParams,
   ): Promise<BackupsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, backupName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -165,11 +165,11 @@ export class BackupsImpl implements Backups {
   private _listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: BackupsListByServerOptionalParams
+    options?: BackupsListByServerOptionalParams,
   ): Promise<BackupsListByServerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, options },
-      listByServerOperationSpec
+      listByServerOperationSpec,
     );
   }
 
@@ -184,11 +184,11 @@ export class BackupsImpl implements Backups {
     resourceGroupName: string,
     serverName: string,
     nextLink: string,
-    options?: BackupsListByServerNextOptionalParams
+    options?: BackupsListByServerNextOptionalParams,
   ): Promise<BackupsListByServerNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, nextLink, options },
-      listByServerNextOperationSpec
+      listByServerNextOperationSpec,
     );
   }
 }
@@ -196,16 +196,15 @@ export class BackupsImpl implements Backups {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const putOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/backups/{backupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/backups/{backupName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerBackup
+      bodyMapper: Mappers.ServerBackup,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -213,22 +212,21 @@ const putOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.backupName
+    Parameters.backupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/backups/{backupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/backups/{backupName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerBackup
+      bodyMapper: Mappers.ServerBackup,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -236,51 +234,50 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.backupName
+    Parameters.backupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/backups",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/backups",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerBackupListResult
+      bodyMapper: Mappers.ServerBackupListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServerNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerBackupListResult
+      bodyMapper: Mappers.ServerBackupListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

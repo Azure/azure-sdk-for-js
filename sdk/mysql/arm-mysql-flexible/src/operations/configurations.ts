@@ -16,7 +16,7 @@ import { MySQLManagementFlexibleServerClient } from "../mySQLManagementFlexibleS
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -33,7 +33,7 @@ import {
   ConfigurationListForBatchUpdate,
   ConfigurationsBatchUpdateOptionalParams,
   ConfigurationsBatchUpdateResponse,
-  ConfigurationsListByServerNextResponse
+  ConfigurationsListByServerNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -58,12 +58,12 @@ export class ConfigurationsImpl implements Configurations {
   public listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ConfigurationsListByServerOptionalParams
+    options?: ConfigurationsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<Configuration> {
     const iter = this.listByServerPagingAll(
       resourceGroupName,
       serverName,
-      options
+      options,
     );
     return {
       next() {
@@ -80,9 +80,9 @@ export class ConfigurationsImpl implements Configurations {
           resourceGroupName,
           serverName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -90,7 +90,7 @@ export class ConfigurationsImpl implements Configurations {
     resourceGroupName: string,
     serverName: string,
     options?: ConfigurationsListByServerOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Configuration[]> {
     let result: ConfigurationsListByServerResponse;
     let continuationToken = settings?.continuationToken;
@@ -106,7 +106,7 @@ export class ConfigurationsImpl implements Configurations {
         resourceGroupName,
         serverName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -118,12 +118,12 @@ export class ConfigurationsImpl implements Configurations {
   private async *listByServerPagingAll(
     resourceGroupName: string,
     serverName: string,
-    options?: ConfigurationsListByServerOptionalParams
+    options?: ConfigurationsListByServerOptionalParams,
   ): AsyncIterableIterator<Configuration> {
     for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       serverName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -142,7 +142,7 @@ export class ConfigurationsImpl implements Configurations {
     serverName: string,
     configurationName: string,
     parameters: Configuration,
-    options?: ConfigurationsCreateOrUpdateOptionalParams
+    options?: ConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigurationsCreateOrUpdateResponse>,
@@ -151,21 +151,20 @@ export class ConfigurationsImpl implements Configurations {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ConfigurationsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -174,8 +173,8 @@ export class ConfigurationsImpl implements Configurations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -183,8 +182,8 @@ export class ConfigurationsImpl implements Configurations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -195,16 +194,16 @@ export class ConfigurationsImpl implements Configurations {
         serverName,
         configurationName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ConfigurationsCreateOrUpdateResponse,
       OperationState<ConfigurationsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -223,14 +222,14 @@ export class ConfigurationsImpl implements Configurations {
     serverName: string,
     configurationName: string,
     parameters: Configuration,
-    options?: ConfigurationsCreateOrUpdateOptionalParams
+    options?: ConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<ConfigurationsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serverName,
       configurationName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -248,7 +247,7 @@ export class ConfigurationsImpl implements Configurations {
     serverName: string,
     configurationName: string,
     parameters: Configuration,
-    options?: ConfigurationsUpdateOptionalParams
+    options?: ConfigurationsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigurationsUpdateResponse>,
@@ -257,21 +256,20 @@ export class ConfigurationsImpl implements Configurations {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ConfigurationsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -280,8 +278,8 @@ export class ConfigurationsImpl implements Configurations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -289,8 +287,8 @@ export class ConfigurationsImpl implements Configurations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -301,16 +299,16 @@ export class ConfigurationsImpl implements Configurations {
         serverName,
         configurationName,
         parameters,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       ConfigurationsUpdateResponse,
       OperationState<ConfigurationsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -329,14 +327,14 @@ export class ConfigurationsImpl implements Configurations {
     serverName: string,
     configurationName: string,
     parameters: Configuration,
-    options?: ConfigurationsUpdateOptionalParams
+    options?: ConfigurationsUpdateOptionalParams,
   ): Promise<ConfigurationsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       serverName,
       configurationName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -352,11 +350,11 @@ export class ConfigurationsImpl implements Configurations {
     resourceGroupName: string,
     serverName: string,
     configurationName: string,
-    options?: ConfigurationsGetOptionalParams
+    options?: ConfigurationsGetOptionalParams,
   ): Promise<ConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, configurationName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -371,7 +369,7 @@ export class ConfigurationsImpl implements Configurations {
     resourceGroupName: string,
     serverName: string,
     parameters: ConfigurationListForBatchUpdate,
-    options?: ConfigurationsBatchUpdateOptionalParams
+    options?: ConfigurationsBatchUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigurationsBatchUpdateResponse>,
@@ -380,21 +378,20 @@ export class ConfigurationsImpl implements Configurations {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ConfigurationsBatchUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -403,8 +400,8 @@ export class ConfigurationsImpl implements Configurations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -412,15 +409,15 @@ export class ConfigurationsImpl implements Configurations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serverName, parameters, options },
-      spec: batchUpdateOperationSpec
+      spec: batchUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ConfigurationsBatchUpdateResponse,
@@ -428,7 +425,7 @@ export class ConfigurationsImpl implements Configurations {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -445,13 +442,13 @@ export class ConfigurationsImpl implements Configurations {
     resourceGroupName: string,
     serverName: string,
     parameters: ConfigurationListForBatchUpdate,
-    options?: ConfigurationsBatchUpdateOptionalParams
+    options?: ConfigurationsBatchUpdateOptionalParams,
   ): Promise<ConfigurationsBatchUpdateResponse> {
     const poller = await this.beginBatchUpdate(
       resourceGroupName,
       serverName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -465,11 +462,11 @@ export class ConfigurationsImpl implements Configurations {
   private _listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ConfigurationsListByServerOptionalParams
+    options?: ConfigurationsListByServerOptionalParams,
   ): Promise<ConfigurationsListByServerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, options },
-      listByServerOperationSpec
+      listByServerOperationSpec,
     );
   }
 
@@ -484,11 +481,11 @@ export class ConfigurationsImpl implements Configurations {
     resourceGroupName: string,
     serverName: string,
     nextLink: string,
-    options?: ConfigurationsListByServerNextOptionalParams
+    options?: ConfigurationsListByServerNextOptionalParams,
   ): Promise<ConfigurationsListByServerNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, nextLink, options },
-      listByServerNextOperationSpec
+      listByServerNextOperationSpec,
     );
   }
 }
@@ -496,116 +493,24 @@ export class ConfigurationsImpl implements Configurations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/configurations/{configurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/configurations/{configurationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Configuration
+      bodyMapper: Mappers.Configuration,
     },
     201: {
-      bodyMapper: Mappers.Configuration
+      bodyMapper: Mappers.Configuration,
     },
     202: {
-      bodyMapper: Mappers.Configuration
+      bodyMapper: Mappers.Configuration,
     },
     204: {
-      bodyMapper: Mappers.Configuration
+      bodyMapper: Mappers.Configuration,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.parameters2,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.configurationName
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/configurations/{configurationName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Configuration
+      bodyMapper: Mappers.ErrorResponse,
     },
-    201: {
-      bodyMapper: Mappers.Configuration
-    },
-    202: {
-      bodyMapper: Mappers.Configuration
-    },
-    204: {
-      bodyMapper: Mappers.Configuration
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.parameters2,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.configurationName
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/configurations/{configurationName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Configuration
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.configurationName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const batchUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/updateConfigurations",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ConfigurationListResult
-    },
-    201: {
-      bodyMapper: Mappers.ConfigurationListResult
-    },
-    202: {
-      bodyMapper: Mappers.ConfigurationListResult
-    },
-    204: {
-      bodyMapper: Mappers.ConfigurationListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
@@ -613,58 +518,145 @@ const batchUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
+    Parameters.configurationName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/configurations",
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/configurations/{configurationName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Configuration,
+    },
+    201: {
+      bodyMapper: Mappers.Configuration,
+    },
+    202: {
+      bodyMapper: Mappers.Configuration,
+    },
+    204: {
+      bodyMapper: Mappers.Configuration,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters3,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.configurationName,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/configurations/{configurationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationListResult
+      bodyMapper: Mappers.Configuration,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.configurationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const batchUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/updateConfigurations",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ConfigurationListResult,
+    },
+    201: {
+      bodyMapper: Mappers.ConfigurationListResult,
+    },
+    202: {
+      bodyMapper: Mappers.ConfigurationListResult,
+    },
+    204: {
+      bodyMapper: Mappers.ConfigurationListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters4,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const listByServerOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/configurations",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ConfigurationListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.tags,
     Parameters.keyword,
     Parameters.page,
-    Parameters.pageSize
+    Parameters.pageSize,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServerNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationListResult
+      bodyMapper: Mappers.ConfigurationListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
