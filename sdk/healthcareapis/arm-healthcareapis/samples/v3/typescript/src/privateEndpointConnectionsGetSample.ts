@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified private endpoint connection associated with the service.
  *
  * @summary Gets the specified private endpoint connection associated with the service.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/legacy/ServiceGetPrivateEndpointConnection.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/legacy/ServiceGetPrivateEndpointConnection.json
  */
 async function privateEndpointConnectionGetConnection() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function privateEndpointConnectionGetConnection() {
   const result = await client.privateEndpointConnections.get(
     resourceGroupName,
     resourceName,
-    privateEndpointConnectionName
+    privateEndpointConnectionName,
   );
   console.log(result);
 }

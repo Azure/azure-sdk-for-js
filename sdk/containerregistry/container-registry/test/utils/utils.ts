@@ -9,7 +9,8 @@ import {
   ContainerRegistryClient,
   KnownContainerRegistryAudience,
 } from "../../src";
-import { createXhrHttpClient, isNode } from "@azure/test-utils";
+import { createXhrHttpClient } from "@azure-tools/test-utils";
+import { isNodeLike } from "@azure/core-util";
 
 // When the recorder observes the values of these environment variables in any
 // recorded HTTP request or response, it will replace them with the values they
@@ -98,7 +99,7 @@ export function createRegistryClient(
   const authorityHost = getAuthority(endpoint);
   const audience = getAudience(authorityHost);
   const tokenCredentialOptions = authorityHost ? { authorityHost } : undefined;
-  const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
+  const httpClient = isNodeLike || isLiveMode() ? undefined : createXhrHttpClient();
   const clientOptions = {
     audience,
     serviceVersion: serviceVersion as ContainerRegistryServiceVersions,

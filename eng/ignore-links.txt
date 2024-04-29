@@ -20,3 +20,6 @@ https://docs.microsoft.com/javascript/api/@azure-rest/purview-datamap?view=azure
 https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-datamap-rest/samples
 https://docs.microsoft.com/javascript/api/@azure/arm-migrationdiscoverysap?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-storageactions?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-guestconfiguration?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-deviceregistry?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-standbypool?view=azure-node-preview

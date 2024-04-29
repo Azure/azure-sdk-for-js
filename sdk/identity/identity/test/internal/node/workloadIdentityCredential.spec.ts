@@ -14,7 +14,7 @@ import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup
 
 import { AuthenticationResult } from "@azure/msal-node";
 import { Context } from "mocha";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { env } from "@azure-tools/test-recorder";
 import path from "path";
 import sinon from "sinon";

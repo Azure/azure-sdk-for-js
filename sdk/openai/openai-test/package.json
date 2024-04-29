@@ -39,7 +39,7 @@
   "devDependencies": {
     "openai": "latest",
     "@azure-tools/test-recorder": "^3.0.0",
-    "@azure/test-utils": "^1.0.0",
+    "@azure-tools/test-utils": "^1.0.0",
     "@azure/core-rest-pipeline": "^1.13.0",
     "@azure/core-util": "^1.4.0",
     "@azure/core-auth": "^1.4.0",

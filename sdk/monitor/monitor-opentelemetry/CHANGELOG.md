@@ -17,6 +17,7 @@
 ### Features Added
 
 - Add support for Trace based sampling for logs.
+- Add support for Winston log instrumentation.
 
 ### Bugs Fixed
 

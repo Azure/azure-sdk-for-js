@@ -30,7 +30,7 @@
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript ./swagger/README.md",
     "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "dev-tool run test:node-js-input --no-test-proxy=true",
+    "integration-test:node": "dev-tool run test:node-js-input --no-test-proxy",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js",
@@ -39,7 +39,7 @@
     "test:node": "npm run clean && tsc -p . && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "dev-tool run test:node-tsx-ts --no-test-proxy=true",
+    "unit-test:node": "dev-tool run test:node-tsx-ts --no-test-proxy",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [

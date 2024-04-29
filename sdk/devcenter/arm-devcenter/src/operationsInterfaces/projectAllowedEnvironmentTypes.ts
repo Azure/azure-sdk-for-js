@@ -11,7 +11,7 @@ import {
   AllowedEnvironmentType,
   ProjectAllowedEnvironmentTypesListOptionalParams,
   ProjectAllowedEnvironmentTypesGetOptionalParams,
-  ProjectAllowedEnvironmentTypesGetResponse
+  ProjectAllowedEnvironmentTypesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface ProjectAllowedEnvironmentTypes {
   list(
     resourceGroupName: string,
     projectName: string,
-    options?: ProjectAllowedEnvironmentTypesListOptionalParams
+    options?: ProjectAllowedEnvironmentTypesListOptionalParams,
   ): PagedAsyncIterableIterator<AllowedEnvironmentType>;
   /**
    * Gets an allowed environment type.
@@ -39,6 +39,6 @@ export interface ProjectAllowedEnvironmentTypes {
     resourceGroupName: string,
     projectName: string,
     environmentTypeName: string,
-    options?: ProjectAllowedEnvironmentTypesGetOptionalParams
+    options?: ProjectAllowedEnvironmentTypesGetOptionalParams,
   ): Promise<ProjectAllowedEnvironmentTypesGetResponse>;
 }
