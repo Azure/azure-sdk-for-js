@@ -14,11 +14,15 @@ import * as Mappers from "./models/mappers";
 import { KeyVaultClientContext } from "./keyVaultClientContext";
 import {
   KeyVaultClientOptionalParams,
-  ApiVersion75,
+  ApiVersion76Preview1,
   FullBackupOptionalParams,
   FullBackupResponse,
+  PreFullBackupOptionalParams,
+  PreFullBackupResponse,
   FullBackupStatusOptionalParams,
   FullBackupStatusResponse,
+  PreFullRestoreOperationOptionalParams,
+  PreFullRestoreOperationResponse,
   FullRestoreOperationOptionalParams,
   FullRestoreOperationResponse,
   RestoreStatusOptionalParams,
@@ -40,7 +44,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
    * @param options The parameter options
    */
   constructor(
-    apiVersion: ApiVersion75,
+    apiVersion: ApiVersion76Preview1,
     options?: KeyVaultClientOptionalParams
   ) {
     super(apiVersion, options);
@@ -64,6 +68,21 @@ export class KeyVaultClient extends KeyVaultClientContext {
   }
 
   /**
+   * Pre-backup operation for checking whether the customer can perform a full backup operation.
+   * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
+   * @param options The options parameters.
+   */
+  preFullBackup(
+    vaultBaseUrl: string,
+    options?: PreFullBackupOptionalParams
+  ): Promise<PreFullBackupResponse> {
+    return this.sendOperationRequest(
+      { vaultBaseUrl, options },
+      preFullBackupOperationSpec
+    );
+  }
+
+  /**
    * Returns the status of full backup operation
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param jobId The id returned as part of the backup request
@@ -77,6 +96,21 @@ export class KeyVaultClient extends KeyVaultClientContext {
     return this.sendOperationRequest(
       { vaultBaseUrl, jobId, options },
       fullBackupStatusOperationSpec
+    );
+  }
+
+  /**
+   * Pre-restore operation for checking whether the customer can perform a full restore operation.
+   * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
+   * @param options The options parameters.
+   */
+  preFullRestoreOperation(
+    vaultBaseUrl: string,
+    options?: PreFullRestoreOperationOptionalParams
+  ): Promise<PreFullRestoreOperationResponse> {
+    return this.sendOperationRequest(
+      { vaultBaseUrl, options },
+      preFullRestoreOperationOperationSpec
     );
   }
 
@@ -207,6 +241,25 @@ const fullBackupOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
+const preFullBackupOperationSpec: coreClient.OperationSpec = {
+  path: "/prebackup",
+  httpMethod: "POST",
+  responses: {
+    202: {
+      bodyMapper: Mappers.FullBackupOperation,
+      headersMapper: Mappers.KeyVaultClientPreFullBackupHeaders
+    },
+    default: {
+      bodyMapper: Mappers.KeyVaultError
+    }
+  },
+  requestBody: Parameters.preBackupOperationParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.vaultBaseUrl],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const fullBackupStatusOperationSpec: coreClient.OperationSpec = {
   path: "/backup/{jobId}/pending",
   httpMethod: "GET",
@@ -221,6 +274,25 @@ const fullBackupStatusOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.jobId],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const preFullRestoreOperationOperationSpec: coreClient.OperationSpec = {
+  path: "/prerestore",
+  httpMethod: "PUT",
+  responses: {
+    202: {
+      bodyMapper: Mappers.RestoreOperation,
+      headersMapper: Mappers.KeyVaultClientPreFullRestoreOperationHeaders
+    },
+    default: {
+      bodyMapper: Mappers.KeyVaultError
+    }
+  },
+  requestBody: Parameters.preRestoreOperationParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.vaultBaseUrl],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const fullRestoreOperationOperationSpec: coreClient.OperationSpec = {

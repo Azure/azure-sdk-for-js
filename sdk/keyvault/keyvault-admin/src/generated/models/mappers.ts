@@ -483,10 +483,38 @@ export const FullBackupOperation: coreClient.CompositeMapper = {
   }
 };
 
-export const RestoreOperationParameters: coreClient.CompositeMapper = {
+export const PreBackupOperationParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "RestoreOperationParameters",
+    className: "PreBackupOperationParameters",
+    modelProperties: {
+      storageResourceUri: {
+        serializedName: "storageResourceUri",
+        type: {
+          name: "String"
+        }
+      },
+      token: {
+        serializedName: "token",
+        type: {
+          name: "String"
+        }
+      },
+      useManagedIdentity: {
+        defaultValue: false,
+        serializedName: "useManagedIdentity",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const PreRestoreOperationParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PreRestoreOperationParameters",
     modelProperties: {
       sasTokenParameters: {
         serializedName: "sasTokenParameters",
@@ -497,7 +525,6 @@ export const RestoreOperationParameters: coreClient.CompositeMapper = {
       },
       folderToRestore: {
         serializedName: "folderToRestore",
-        required: true,
         type: {
           name: "String"
         }
@@ -547,6 +574,29 @@ export const RestoreOperation: coreClient.CompositeMapper = {
         nullable: true,
         type: {
           name: "UnixTime"
+        }
+      }
+    }
+  }
+};
+
+export const RestoreOperationParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestoreOperationParameters",
+    modelProperties: {
+      sasTokenParameters: {
+        serializedName: "sasTokenParameters",
+        type: {
+          name: "Composite",
+          className: "SASTokenParameter"
+        }
+      },
+      folderToRestore: {
+        serializedName: "folderToRestore",
+        required: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -724,6 +774,48 @@ export const KeyVaultClientFullBackupHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyVaultClientFullBackupHeaders",
+    modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const KeyVaultClientPreFullBackupHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KeyVaultClientPreFullBackupHeaders",
+    modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const KeyVaultClientPreFullRestoreOperationHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KeyVaultClientPreFullRestoreOperationHeaders",
     modelProperties: {
       retryAfter: {
         serializedName: "retry-after",

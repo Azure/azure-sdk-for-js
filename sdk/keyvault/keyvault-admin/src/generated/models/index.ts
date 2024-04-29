@@ -185,10 +185,19 @@ export interface FullBackupOperation {
   azureStorageBlobContainerUri?: string;
 }
 
-export interface RestoreOperationParameters {
-  sasTokenParameters: SASTokenParameter;
+export interface PreBackupOperationParameters {
+  /** Azure Blob storage container Uri */
+  storageResourceUri?: string;
+  /** The SAS token pointing to an Azure Blob storage container */
+  token?: string;
+  /** Indicates which authentication method should be used. If set to true, Managed HSM will use the configured user-assigned managed identity to authenticate with Azure Storage. Otherwise, a SAS token has to be specified. */
+  useManagedIdentity?: boolean;
+}
+
+export interface PreRestoreOperationParameters {
+  sasTokenParameters?: SASTokenParameter;
   /** The Folder name of the blob where the previous successful full backup was stored */
-  folderToRestore: string;
+  folderToRestore?: string;
 }
 
 /** Restore operation */
@@ -205,6 +214,12 @@ export interface RestoreOperation {
   startTime?: Date;
   /** The end time of the restore operation */
   endTime?: Date;
+}
+
+export interface RestoreOperationParameters {
+  sasTokenParameters: SASTokenParameter;
+  /** The Folder name of the blob where the previous successful full backup was stored */
+  folderToRestore: string;
 }
 
 export interface SelectiveKeyRestoreOperationParameters {
@@ -273,6 +288,22 @@ export interface KeyVaultClientFullBackupHeaders {
   azureAsyncOperation?: string;
 }
 
+/** Defines headers for KeyVaultClient_preFullBackup operation. */
+export interface KeyVaultClientPreFullBackupHeaders {
+  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
+  retryAfter?: number;
+  /** The URI to poll for completion status. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for KeyVaultClient_preFullRestoreOperation operation. */
+export interface KeyVaultClientPreFullRestoreOperationHeaders {
+  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
+  retryAfter?: number;
+  /** The URI to poll for completion status. */
+  azureAsyncOperation?: string;
+}
+
 /** Defines headers for KeyVaultClient_fullRestoreOperation operation. */
 export interface KeyVaultClientFullRestoreOperationHeaders {
   /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
@@ -289,20 +320,20 @@ export interface KeyVaultClientSelectiveKeyRestoreOperationHeaders {
   azureAsyncOperation?: string;
 }
 
-/** Known values of {@link ApiVersion75} that the service accepts. */
-export enum KnownApiVersion75 {
-  /** Api Version '7.5' */
-  Seven5 = "7.5"
+/** Known values of {@link ApiVersion76Preview1} that the service accepts. */
+export enum KnownApiVersion76Preview1 {
+  /** Api Version '7.6-preview.1' */
+  Seven6Preview1 = "7.6-preview.1"
 }
 
 /**
- * Defines values for ApiVersion75. \
- * {@link KnownApiVersion75} can be used interchangeably with ApiVersion75,
+ * Defines values for ApiVersion76Preview1. \
+ * {@link KnownApiVersion76Preview1} can be used interchangeably with ApiVersion76Preview1,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **7.5**: Api Version '7.5'
+ * **7.6-preview.1**: Api Version '7.6-preview.1'
  */
-export type ApiVersion75 = string;
+export type ApiVersion76Preview1 = string;
 
 /** Known values of {@link RoleType} that the service accepts. */
 export enum KnownRoleType {
@@ -569,11 +600,33 @@ export type FullBackupResponse = KeyVaultClientFullBackupHeaders &
   FullBackupOperation;
 
 /** Optional parameters. */
+export interface PreFullBackupOptionalParams
+  extends coreClient.OperationOptions {
+  /** Optional parameters to validate prior to performing a full backup operation. */
+  preBackupOperationParameters?: PreBackupOperationParameters;
+}
+
+/** Contains response data for the preFullBackup operation. */
+export type PreFullBackupResponse = KeyVaultClientPreFullBackupHeaders &
+  FullBackupOperation;
+
+/** Optional parameters. */
 export interface FullBackupStatusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the fullBackupStatus operation. */
 export type FullBackupStatusResponse = FullBackupOperation;
+
+/** Optional parameters. */
+export interface PreFullRestoreOperationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Optional pre restore parameters to validate prior to performing a full restore operation. */
+  preRestoreOperationParameters?: PreRestoreOperationParameters;
+}
+
+/** Contains response data for the preFullRestoreOperation operation. */
+export type PreFullRestoreOperationResponse = KeyVaultClientPreFullRestoreOperationHeaders &
+  RestoreOperation;
 
 /** Optional parameters. */
 export interface FullRestoreOperationOptionalParams

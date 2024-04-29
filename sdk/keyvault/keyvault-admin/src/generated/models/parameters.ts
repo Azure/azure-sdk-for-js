@@ -15,6 +15,8 @@ import {
   RoleDefinitionCreateParameters as RoleDefinitionCreateParametersMapper,
   RoleAssignmentCreateParameters as RoleAssignmentCreateParametersMapper,
   SASTokenParameter as SASTokenParameterMapper,
+  PreBackupOperationParameters as PreBackupOperationParametersMapper,
+  PreRestoreOperationParameters as PreRestoreOperationParametersMapper,
   RestoreOperationParameters as RestoreOperationParametersMapper,
   SelectiveKeyRestoreOperationParameters as SelectiveKeyRestoreOperationParametersMapper,
   UpdateSettingRequest as UpdateSettingRequestMapper
@@ -138,6 +140,11 @@ export const azureStorageBlobContainerUri: OperationParameter = {
   mapper: SASTokenParameterMapper
 };
 
+export const preBackupOperationParameters: OperationParameter = {
+  parameterPath: ["options", "preBackupOperationParameters"],
+  mapper: PreBackupOperationParametersMapper
+};
+
 export const jobId: OperationURLParameter = {
   parameterPath: "jobId",
   mapper: {
@@ -147,6 +154,11 @@ export const jobId: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const preRestoreOperationParameters: OperationParameter = {
+  parameterPath: ["options", "preRestoreOperationParameters"],
+  mapper: PreRestoreOperationParametersMapper
 };
 
 export const restoreBlobDetails: OperationParameter = {
