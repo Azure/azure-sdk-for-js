@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   EventSubscription,
-  EventGridManagementClient
+  EventGridManagementClient,
 } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Asynchronously creates a new event subscription or updates an existing event subscription.
  *
  * @summary Asynchronously creates a new event subscription or updates an existing event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/DomainEventSubscriptions_CreateOrUpdate.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/DomainEventSubscriptions_CreateOrUpdate.json
  */
 async function domainEventSubscriptionsCreateOrUpdate() {
   const subscriptionId =
@@ -34,22 +34,23 @@ async function domainEventSubscriptionsCreateOrUpdate() {
   const eventSubscriptionInfo: EventSubscription = {
     destination: {
       endpointType: "WebHook",
-      endpointUrl: "https://requestb.in/15ksip71"
+      endpointUrl: "https://requestb.in/15ksip71",
     },
     filter: {
       isSubjectCaseSensitive: false,
       subjectBeginsWith: "ExamplePrefix",
-      subjectEndsWith: "ExampleSuffix"
-    }
+      subjectEndsWith: "ExampleSuffix",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
-  const result = await client.domainEventSubscriptions.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    domainName,
-    eventSubscriptionName,
-    eventSubscriptionInfo
-  );
+  const result =
+    await client.domainEventSubscriptions.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      domainName,
+      eventSubscriptionName,
+      eventSubscriptionInfo,
+    );
   console.log(result);
 }
 
