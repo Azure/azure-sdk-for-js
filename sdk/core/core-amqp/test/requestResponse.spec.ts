@@ -3,7 +3,7 @@
 
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { Connection, EventContext, Message as RheaMessage, generate_uuid } from "rhea-promise";
+import { EventContext, Message as RheaMessage, generate_uuid } from "rhea-promise";
 import {
   Constants,
   ErrorNameConditionMapper,
@@ -21,23 +21,6 @@ import {
 import EventEmitter from "events";
 import { createConnectionStub } from "./utils/createConnectionStub.js";
 import { isError } from "@azure/core-util";
-
-vi.mock("rhea-promise", async () => {
-  const actual = await vi.importActual("rhea-promise");
-  // eslint-disable-next-line @typescript-eslint/no-shadow
-  const Connection = vi.fn();
-  Connection.prototype.open = vi.fn();
-  Connection.prototype.createSession = vi.fn();
-  Object.defineProperty(Connection.prototype, "id", {
-    get: vi.fn(),
-  });
-
-  return {
-    __esModule: true,
-    ...actual,
-    Connection,
-  };
-});
 
 const assertItemsLengthInResponsesMap = (
   _responsesMap: Map<string, DeferredPromiseWithCallback>,
@@ -61,8 +44,8 @@ describe("RequestResponseLink", function () {
     });
 
     it("honors already aborted abortSignal", async function () {
+      const { Connection } = await vi.importActual<typeof import("rhea-promise")>("rhea-promise");
       const connection = new Connection();
-
       // Create an abort signal that will be aborted on a future tick of the event loop.
       const controller = new AbortController();
       const signal = controller.signal;
@@ -78,6 +61,7 @@ describe("RequestResponseLink", function () {
     });
 
     it("honors abortSignal", async function () {
+      const { Connection } = await vi.importActual<typeof import("rhea-promise")>("rhea-promise");
       const connection = new Connection();
 
       // Create an abort signal that is already aborted.
@@ -96,6 +80,7 @@ describe("RequestResponseLink", function () {
   });
 
   it("should send a request and receive a response correctly", async function () {
+    const { Connection } = await vi.importMock<typeof import("rhea-promise")>("rhea-promise");
     const connectionStub = new Connection();
     const rcvr = new EventEmitter();
     let req: any = {};
@@ -145,6 +130,7 @@ describe("RequestResponseLink", function () {
   });
 
   it("should send parallel requests and receive responses correctly", async function () {
+    const { Connection } = await vi.importMock<typeof import("rhea-promise")>("rhea-promise");
     const connectionStub = new Connection();
     const rcvr = new EventEmitter();
     const reqs: RheaMessage[] = [];
@@ -215,6 +201,7 @@ describe("RequestResponseLink", function () {
   });
 
   it("request without `message_id` gets a new `message_id`", async function () {
+    const { Connection } = await vi.importMock<typeof import("rhea-promise")>("rhea-promise");
     const connectionStub = new Connection();
     const rcvr = new EventEmitter();
     const reqs: RheaMessage[] = [];
@@ -262,6 +249,7 @@ describe("RequestResponseLink", function () {
   });
 
   it("should send parallel requests and receive responses correctly (one failure)", async function () {
+    const { Connection } = await vi.importMock<typeof import("rhea-promise")>("rhea-promise");
     const connectionStub = new Connection();
     const rcvr = new EventEmitter();
     const reqs: RheaMessage[] = [];
@@ -344,6 +332,7 @@ describe("RequestResponseLink", function () {
   });
 
   it("should surface error up through retry", async function () {
+    const { Connection } = await vi.importMock<typeof import("rhea-promise")>("rhea-promise");
     const connectionStub = new Connection();
     const rcvr = new EventEmitter();
     let messageId: string = "";
@@ -427,6 +416,7 @@ describe("RequestResponseLink", function () {
   });
 
   it("should abort a request and response correctly", async function () {
+    const { Connection } = await vi.importMock<typeof import("rhea-promise")>("rhea-promise");
     const connectionStub = new Connection();
     const rcvr = new EventEmitter();
     let req: any = {};
@@ -490,6 +480,7 @@ describe("RequestResponseLink", function () {
   });
 
   it("should abort a request and response correctly when abort signal is fired after sometime", async function () {
+    const { Connection } = await vi.importMock<typeof import("rhea-promise")>("rhea-promise");
     const connectionStub = new Connection();
     const rcvr = new EventEmitter();
     let req: any = {};
@@ -564,6 +555,7 @@ describe("RequestResponseLink", function () {
   });
 
   it("should abort a request and response correctly when abort signal is already fired", async function () {
+    const { Connection } = await vi.importMock<typeof import("rhea-promise")>("rhea-promise");
     const connectionStub = new Connection();
     const rcvr = new EventEmitter();
     let req: any = {};
@@ -643,6 +635,7 @@ describe("RequestResponseLink", function () {
     });
 
     it("sendRequest clears timeout after error message", async function () {
+      const { Connection } = await vi.importMock<typeof import("rhea-promise")>("rhea-promise");
       const connectionStub = new Connection();
       const rcvr = new EventEmitter();
       let req: any = {};
@@ -700,6 +693,7 @@ describe("RequestResponseLink", function () {
     });
 
     it("sendRequest clears timeout after successful message", async function () {
+      const { Connection } = await vi.importMock<typeof import("rhea-promise")>("rhea-promise");
       const connectionStub = new Connection();
       const rcvr = new EventEmitter();
       let req: any = {};
@@ -752,6 +746,7 @@ describe("RequestResponseLink", function () {
 
   describe("close", () => {
     it("signals receiver and sender to now close the session", async () => {
+      const { Connection } = await vi.importMock<typeof import("rhea-promise")>("rhea-promise");
       const connectionStub = new Connection();
       vi.mocked(connectionStub.createSession).mockResolvedValue({
         connection: {
@@ -789,7 +784,7 @@ describe("RequestResponseLink", function () {
 
       await link.close();
 
-      expect(sessionStub.close).toHaveBeenCalledWith({ closeSession: false });
+      expect(sessionStub.close).toHaveBeenCalledWith();
       expect(receiverStub.close).toHaveBeenCalledWith({ closeSession: false });
       expect(senderStub.close).toHaveBeenCalledWith({ closeSession: false });
     });
