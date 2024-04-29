@@ -103,10 +103,8 @@ export interface AssistantThread {
 
 // @public
 export interface AssistantThreadCreationOptions {
-    messages?: {
-        role: string;
-        content: string;
-    }[];
+    // Warning: (ae-forgotten-export) The symbol "ThreadInitializationMessage" needs to be exported by the entry point index.d.ts
+    messages?: ThreadInitializationMessage[];
     metadata?: Record<string, string>;
 }
 
