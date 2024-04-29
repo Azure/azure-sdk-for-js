@@ -7,6 +7,7 @@ import { getRealAndFakePairs } from "./utils/connectionStringHelpers.js";
 import { createRecordingRequest } from "./utils/createRecordingRequest.js";
 import { paths } from "./utils/paths.js";
 import {
+  BodyKeySanitizer,
   ConnectionStringSanitizer,
   ContinuationSanitizer,
   FindReplaceSanitizer,
@@ -30,29 +31,34 @@ type AddSanitizer<T> = (
   sanitizer: T,
 ) => Promise<void>;
 
+type BatchSanitizerRequestBodySingular = {
+  Name: string;
+  Body: Record<string, unknown> | undefined;
+};
+
 /**
  * Given an AddSanitizer<T> function, create an AddSanitizer function that operates on an array of T, adding
  * each sanitizer in the array individually.
  */
 const pluralize =
   <T>(singular: AddSanitizer<T>): AddSanitizer<T[]> =>
-  async (httpClient, url, recordingId, sanitizers) => {
-    for (const sanitizer of sanitizers) {
-      await singular(httpClient, url, recordingId, sanitizer);
-    }
-  };
+    async (httpClient, url, recordingId, sanitizers) => {
+      for (const sanitizer of sanitizers) {
+        await singular(httpClient, url, recordingId, sanitizer);
+      }
+    };
 
 /**
  * Makes an AddSanitizer<unknown> function that passes the sanitizer content directly to the test proxy request body.
  */
 const makeAddSanitizer =
   (sanitizerName: ProxyToolSanitizers): AddSanitizer<Record<string, unknown>> =>
-  async (httpClient, url, recordingId, sanitizer) => {
-    await addSanitizer(httpClient, url, recordingId, {
-      sanitizer: sanitizerName,
-      body: sanitizer,
-    });
-  };
+    async (httpClient, url, recordingId, sanitizer) => {
+      await addSanitizer(httpClient, url, recordingId, {
+        sanitizer: sanitizerName,
+        body: sanitizer,
+      });
+    };
 
 /**
  * Makes an AddSanitizer<boolean> function that adds the sanitizer if the value is set to true,
@@ -60,14 +66,14 @@ const makeAddSanitizer =
  */
 const makeAddBodilessSanitizer =
   (sanitizerName: ProxyToolSanitizers): AddSanitizer<boolean> =>
-  async (httpClient, url, recordingId, enable) => {
-    if (enable) {
-      await addSanitizer(httpClient, url, recordingId, {
-        sanitizer: sanitizerName,
-        body: undefined,
-      });
-    }
-  };
+    async (httpClient, url, recordingId, enable) => {
+      if (enable) {
+        await addSanitizer(httpClient, url, recordingId, {
+          sanitizer: sanitizerName,
+          body: undefined,
+        });
+      }
+    };
 
 /**
  * Makes an AddSanitizer function for a FindReplaceSanitizer, for example a bodySanitizer.
@@ -79,26 +85,27 @@ const makeAddFindReplaceSanitizer =
     regexSanitizerName: ProxyToolSanitizers,
     stringSanitizerName: ProxyToolSanitizers,
   ): AddSanitizer<FindReplaceSanitizer> =>
-  async (httpClient, url, recordingId, sanitizer): Promise<void> => {
-    if (isStringSanitizer(sanitizer)) {
-      await addSanitizer(httpClient, url, recordingId, {
-        sanitizer: stringSanitizerName,
-        body: {
-          target: sanitizer.target,
-          value: sanitizer.value,
-        },
-      });
-    } else {
-      await addSanitizer(httpClient, url, recordingId, {
-        sanitizer: regexSanitizerName,
-        body: {
-          regex: sanitizer.target,
-          value: sanitizer.value,
-          groupForReplace: sanitizer.groupForReplace,
-        },
-      });
-    }
-  };
+    async (httpClient, url, recordingId, sanitizer): Promise<void> => {
+      if (isStringSanitizer(sanitizer)) {
+        await addSanitizer(httpClient, url, recordingId, {
+          sanitizer: stringSanitizerName,
+          body: {
+            target: sanitizer.target,
+            value: sanitizer.value,
+          },
+        });
+      } else {
+        await addSanitizer(httpClient, url, recordingId, {
+          sanitizer: regexSanitizerName,
+          body: {
+            regex: sanitizer.target,
+            value: sanitizer.value,
+            groupForReplace: sanitizer.groupForReplace,
+          },
+        });
+      }
+    };
+
 
 /**
  *  Internally,
@@ -220,6 +227,40 @@ const addSanitizersActions: {
   resetSanitizer: makeAddBodilessSanitizer("Reset"),
 };
 
+function addSanitizersBodiesForBatch(key: keyof SanitizerOptions, options: SanitizerOptions): BatchSanitizerRequestBodySingular[] {
+  switch (key) {
+    case "generalSanitizers":
+      return makeFindReplaceSanitizerBodiesForBatch("GeneralRegexSanitizer", "GeneralStringSanitizer", options[key]);
+    case "bodySanitizers":
+      return makeFindReplaceSanitizerBodiesForBatch("BodyRegexSanitizer", "BodyStringSanitizer", options[key]);
+    case "headerSanitizers":
+      return makeHeaderSanitizerBodiesForBatch(options[key]);
+    case "uriSanitizers":
+      return makeFindReplaceSanitizerBodiesForBatch("UriRegexSanitizer", "UriStringSanitizer", options[key]);
+    case "connectionStringSanitizers":
+      return makeConnectionStringSanitizerBodiesForBatch(options[key]);
+    case "bodyKeySanitizers":
+      return makeAddBodyKeySanitizerBodiesForBatch(options[key]);
+    case "continuationSanitizers":
+      return makeAddContinuationSanitizerBodiesForBatch(options[key]);
+    case "removeHeaderSanitizer":
+      return options[key] ? [{
+        Name: "RemoveHeaderSanitizer",
+        Body: {
+          headersForRemoval: options[key].headersForRemoval.toString(),
+        },
+      }] : [];
+    case "oAuthResponseSanitizer":
+      return [{ Name: "OAuthResponseSanitizer", Body: undefined }];
+    case "uriSubscriptionIdSanitizer":
+      return [{ Name: "UriSubscriptionIdSanitizer", Body: options[key] }];
+    case "resetSanitizer":
+      return [{ Name: "Reset", Body: undefined }];
+    default:
+      return []
+  }
+};
+
 export async function addSanitizers(
   httpClient: HttpClient,
   url: string,
@@ -238,6 +279,36 @@ export async function addSanitizers(
   );
 }
 
+export async function addSanitizers2(
+  httpClient: HttpClient,
+  url: string,
+  recordingId: string | undefined,
+  options: SanitizerOptions,
+): Promise<void> {
+  const sanitizerBodies: BatchSanitizerRequestBodySingular[] = [];
+
+  Object.entries(options).map(([key]) => {
+    const sanitizerReqBodies = addSanitizersBodiesForBatch(key as keyof SanitizerOptions, options);
+    sanitizerBodies.push(...sanitizerReqBodies)
+  });
+
+  const uri = `${url}${paths.admin}${paths.addSanitizers}`;
+  const req = createRecordingRequest(uri, undefined, recordingId);
+
+  req.headers.set("Content-Type", "application/json");
+  req.body = JSON.stringify(sanitizerBodies);
+
+  logger.info("[addSanitizer] Adding sanitizer", options);
+  const rsp = await httpClient.sendRequest({
+    ...req,
+    allowInsecureConnection: true,
+  });
+  if (rsp.status !== 200) {
+    logger.error("[addSanitizers] addSanitizers request failed", rsp);
+    throw new RecorderError("addSanitizers request failed.");
+  }
+}
+
 /**
  * Atomic method to add a simple sanitizer.
  */
@@ -250,9 +321,8 @@ async function addSanitizer(
     body: Record<string, unknown> | undefined;
   },
 ): Promise<void> {
-  const uri = `${url}${paths.admin}${
-    options.sanitizer !== "Reset" ? paths.addSanitizer : paths.reset
-  }`;
+  const uri = `${url}${paths.admin}${options.sanitizer !== "Reset" ? paths.addSanitizer : paths.reset
+    }`;
   const req = createRecordingRequest(uri, undefined, recordingId);
   if (options.sanitizer !== "Reset") {
     req.headers.set("x-abstraction-identifier", options.sanitizer);
@@ -298,4 +368,144 @@ export async function transformsInfo(
   } else {
     throw new RecorderError("Bad state, recordingId is not defined when called transformsInfo().");
   }
+}
+
+
+// Batch sanitizer body makers
+
+/**
+ * Makes an AddSanitizer function for a FindReplaceSanitizer, for example a bodySanitizer.
+ * Depending on the input FindReplaceSanitizer options, either adds a sanitizer named `regexSanitizerName`
+ * or `stringSanitizerName`.
+ */
+function makeFindReplaceSanitizerBodiesForBatch(
+  regexSanitizerName: ProxyToolSanitizers,
+  stringSanitizerName: ProxyToolSanitizers,
+  sanitizers: FindReplaceSanitizer[] | undefined,
+): BatchSanitizerRequestBodySingular[] {
+  const bodies: BatchSanitizerRequestBodySingular[] = [];
+  if (!sanitizers) return bodies;
+  for (const sanitizer of sanitizers) {
+    if (isStringSanitizer(sanitizer)) {
+      bodies.push({
+        Name: stringSanitizerName,
+        Body: {
+          target: sanitizer.target,
+          value: sanitizer.value,
+        },
+      });
+    } else {
+      bodies.push({
+        Name: regexSanitizerName,
+        Body: {
+          regex: sanitizer.target,
+          value: sanitizer.value,
+          groupForReplace: sanitizer.groupForReplace,
+        },
+      });
+    };
+  }
+  return bodies;
+}
+
+/**
+ * Adds a HeaderRegexSanitizer or HeaderStringSanitizer.
+ *
+ * HeaderSanitizer is a special case of FindReplaceSanitizer where a header name ('key') must be provided.
+ * Additionally, the 'target' option is not required. If target is unspecified, the header's value will always
+ * be replaced.
+ */
+function makeHeaderSanitizerBodiesForBatch(
+  sanitizers: HeaderSanitizer[] | undefined,
+): BatchSanitizerRequestBodySingular[] {
+  const bodies: BatchSanitizerRequestBodySingular[] = [];
+  if (!sanitizers) return bodies;
+  for (const sanitizer of sanitizers) {
+    if (sanitizer.regex || !sanitizer.target) {
+      bodies.push({
+        Name: "HeaderRegexSanitizer",
+        Body: {
+          key: sanitizer.key,
+          value: sanitizer.value,
+          regex: sanitizer.target,
+          groupForReplace: sanitizer.groupForReplace,
+        },
+      });
+    } else {
+      bodies.push({
+        Name: "HeaderStringSanitizer",
+        Body: {
+          key: sanitizer.key,
+          target: sanitizer.target,
+          value: sanitizer.value,
+        },
+      });
+    }
+  }
+  return bodies;
+};
+
+
+/**
+ *  Internally,
+ * - connection strings are parsed and
+ * - each part of the connection string is mapped with its corresponding fake value
+ * - GeneralStringSanitizer is applied for each of the parts with the real and fake values that are parsed
+ */
+function makeConnectionStringSanitizerBodiesForBatch(
+  sanitizers: ConnectionStringSanitizer[] | undefined,
+): BatchSanitizerRequestBodySingular[] {
+  if (!sanitizers) return [];
+  const bodies: BatchSanitizerRequestBodySingular[] = [];
+  for (const sanitizer of sanitizers) {
+    if (!sanitizer.actualConnString) {
+      throw new RecorderError(
+        `Attempted to add an invalid sanitizer - ${JSON.stringify({
+          actualConnString: sanitizer.actualConnString,
+          fakeConnString: sanitizer.fakeConnString,
+        })}`,
+      );
+    }
+    // extract connection string parts and match call
+    const pairsMatched = getRealAndFakePairs(sanitizer.actualConnString, sanitizer.fakeConnString);
+    bodies.push(...makeFindReplaceSanitizerBodiesForBatch("GeneralRegexSanitizer", "GeneralStringSanitizer",
+      Object.entries(pairsMatched).map(([key, value]) => {
+        return { value, target: key };
+      })));
+  }
+  return bodies;
+};
+
+
+/**
+ * Makes an AddSanitizer<unknown> function that passes the sanitizer content directly to the test proxy request body.
+ */
+function makeAddBodyKeySanitizerBodiesForBatch(sanitizers: BodyKeySanitizer[] | undefined): BatchSanitizerRequestBodySingular[] {
+  if (!sanitizers) return [];
+  const bodies: BatchSanitizerRequestBodySingular[] = [];
+  for (const sanitizer of sanitizers) {
+    bodies.push({
+      Name: "BodyKeySanitizer",
+      Body: sanitizer,
+    });
+  }
+  return bodies;
+}
+
+/**
+ * Makes an AddSanitizer<unknown> function that passes the sanitizer content directly to the test proxy request body.
+ */
+function makeAddContinuationSanitizerBodiesForBatch(sanitizers: ContinuationSanitizer[] | undefined): BatchSanitizerRequestBodySingular[] {
+  if (!sanitizers) return [];
+  const bodies: BatchSanitizerRequestBodySingular[] = [];
+  for (const sanitizer of sanitizers) {
+    bodies.push({
+      Name: "ContinuationSanitizer",
+      Body: {
+        ...sanitizer,
+        resetAfterFirst: sanitizer.resetAfterFirst.toString(),
+      },
+    });
+  }
+  return bodies;
 }
