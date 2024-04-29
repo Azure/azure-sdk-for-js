@@ -42,7 +42,8 @@ export type SearchIndexerSkillUnion =
   | DocumentExtractionSkill
   | WebApiSkill
   | AzureMachineLearningSkill
-  | AzureOpenAIEmbeddingSkill;
+  | AzureOpenAIEmbeddingSkill
+  | VisionVectorizeSkill;
 export type CognitiveServicesAccountUnion =
   | CognitiveServicesAccount
   | DefaultCognitiveServicesAccount
@@ -113,7 +114,9 @@ export type VectorSearchAlgorithmConfigurationUnion =
 export type VectorSearchVectorizerUnion =
   | VectorSearchVectorizer
   | AzureOpenAIVectorizer
-  | CustomVectorizer;
+  | CustomVectorizer
+  | AIServicesVisionVectorizer
+  | AMLVectorizer;
 export type BaseVectorSearchCompressionConfigurationUnion =
   | BaseVectorSearchCompressionConfiguration
   | ScalarQuantizationCompressionConfiguration;
@@ -642,7 +645,8 @@ export interface SearchIndexerSkill {
     | "#Microsoft.Skills.Util.DocumentExtractionSkill"
     | "#Microsoft.Skills.Custom.WebApiSkill"
     | "#Microsoft.Skills.Custom.AmlSkill"
-    | "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill";
+    | "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill"
+    | "#Microsoft.Skills.Vision.VectorizeSkill";
   /** The name of the skill which uniquely identifies it within the skillset. A skill with no name defined will be given a default name of its 1-based index in the skills array, prefixed with the character '#'. */
   name?: string;
   /** The description of the skill which describes the inputs, outputs, and usage of the skill. */
@@ -862,6 +866,8 @@ export interface SearchField {
   vectorSearchDimensions?: number;
   /** The name of the vector search profile that specifies the algorithm and vectorizer to use when searching the vector field. */
   vectorSearchProfileName?: string;
+  /** The encoding format to interpret the field contents. */
+  vectorEncodingFormat?: VectorEncodingFormat;
   /** A list of the names of synonym maps to associate with this field. This option can be used only with searchable fields. Currently only one synonym map per field is supported. Assigning a synonym map to a field ensures that query terms targeting that field are expanded at query-time using the rules in the synonym map. This attribute can be changed on existing fields. Must be null or an empty collection for complex fields. */
   synonymMaps?: string[];
   /** A list of sub-fields if this is a field of type Edm.ComplexType or Collection(Edm.ComplexType). Must be null or empty for simple fields. */
@@ -1073,7 +1079,7 @@ export interface VectorSearchAlgorithmConfiguration {
 /** Specifies the vectorization method to be used during query time. */
 export interface VectorSearchVectorizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "azureOpenAI" | "customWebApi";
+  kind: "azureOpenAI" | "customWebApi" | "aiServicesVision" | "aml";
   /** The name to associate with this particular vectorization method. */
   name: string;
 }
@@ -1231,6 +1237,8 @@ export interface ServiceLimits {
   maxComplexCollectionFieldsPerIndex?: number;
   /** The maximum number of objects in complex collections allowed per document. */
   maxComplexObjectsInCollectionsPerDocument?: number;
+  /** The maximum amount of storage in bytes allowed per index. */
+  maxStoragePerIndex?: number;
 }
 
 /** Contains the parameters specific to the HNSW algorithm. */
@@ -1267,6 +1275,8 @@ export interface AzureOpenAIParameters {
   apiKey?: string;
   /** The user-assigned managed identity used for outbound connections. */
   authIdentity?: SearchIndexerDataIdentityUnion;
+  /** The name of the embedding model that is deployed at the provided deploymentId path. */
+  modelName?: AzureOpenAIModelName;
 }
 
 /** Specifies the properties for connecting to a user-defined vectorizer. */
@@ -1283,6 +1293,34 @@ export interface CustomWebApiParameters {
   authResourceId?: string;
   /** The user-assigned managed identity used for outbound connections. If an authResourceId is provided and it's not specified, the system-assigned managed identity is used. On updates to the indexer, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
   authIdentity?: SearchIndexerDataIdentityUnion;
+}
+
+/** Specifies the AI Services Vision parameters for vectorizing a query image or text. */
+export interface AIServicesVisionParameters {
+  /** The version of the model to use when calling the AI Services Vision service. It will default to the latest available when not specified. */
+  modelVersion: string | null;
+  /** The resource URI of the AI Services resource. */
+  resourceUri: string;
+  /** API key of the designated AI Services resource. */
+  apiKey?: string;
+  /** The user-assigned managed identity used for outbound connections. If an authResourceId is provided and it's not specified, the system-assigned managed identity is used. On updates to the index, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
+  authIdentity?: SearchIndexerDataIdentityUnion;
+}
+
+/** Specifies the properties for connecting to an AML vectorizer. */
+export interface AMLParameters {
+  /** (Required for no authentication or key authentication) The scoring URI of the AML service to which the JSON payload will be sent. Only the https URI scheme is allowed. */
+  scoringUri: string | null;
+  /** (Required for key authentication) The key for the AML service. */
+  authenticationKey?: string;
+  /** (Required for token authentication). The Azure Resource Manager resource ID of the AML service. It should be in the format subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.MachineLearningServices/workspaces/{workspace-name}/services/{service_name}. */
+  resourceId?: string;
+  /** (Optional) When specified, indicates the timeout for the http client making the API call. */
+  timeout?: string;
+  /** (Optional for token authentication). The region the AML service is deployed in. */
+  region?: string;
+  /** The name of the embedding model from the Azure AI Studio Catalog that is deployed at the provided endpoint. */
+  modelName?: AIStudioModelCatalogName;
 }
 
 /** Provides parameter values to a distance scoring function. */
@@ -1660,17 +1698,21 @@ export interface AzureMachineLearningSkill extends SearchIndexerSkill {
 }
 
 /** Allows you to generate a vector embedding for a given text input using the Azure OpenAI resource. */
-export interface AzureOpenAIEmbeddingSkill extends SearchIndexerSkill {
+export interface AzureOpenAIEmbeddingSkill
+  extends SearchIndexerSkill,
+    AzureOpenAIParameters {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill";
-  /** The resource URI for your Azure OpenAI resource. */
-  resourceUri?: string;
-  /** ID of your Azure OpenAI model deployment on the designated resource. */
-  deploymentId?: string;
-  /** API key for the designated Azure OpenAI resource. */
-  apiKey?: string;
-  /** The user-assigned managed identity used for outbound connections. */
-  authIdentity?: SearchIndexerDataIdentityUnion;
+  /** The number of dimensions the resulting output embeddings should have. Only supported in text-embedding-3 and later models. */
+  dimensions?: number;
+}
+
+/** Allows you to generate a vector embedding for a given image or text input using the Azure AI Services Vision Vectorize API. */
+export interface VisionVectorizeSkill extends SearchIndexerSkill {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "#Microsoft.Skills.Vision.VectorizeSkill";
+  /** The version of the model to use when calling the AI Services Vision service. It will default to the latest available when not specified. */
+  modelVersion: string | null;
 }
 
 /** An empty object that represents the default Azure AI service resource for a skillset. */
@@ -2258,6 +2300,22 @@ export interface CustomVectorizer extends VectorSearchVectorizer {
   customWebApiParameters?: CustomWebApiParameters;
 }
 
+/** Specifies the AI Services Vision parameters for vectorizing a query image or text. */
+export interface AIServicesVisionVectorizer extends VectorSearchVectorizer {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "aiServicesVision";
+  /** Contains the parameters specific to AI Services Vision embedding vectorization. */
+  aIServicesVisionParameters?: AIServicesVisionParameters;
+}
+
+/** Specifies an Azure Machine Learning endpoint deployed via the Azure AI Studio Model Catalog for generating the vector embedding of a query string. */
+export interface AMLVectorizer extends VectorSearchVectorizer {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "aml";
+  /** Specifies the properties of the AML vectorizer. */
+  aMLParameters?: AMLParameters;
+}
+
 /** Contains configuration options specific to the scalar quantization compression method used during indexing and querying. */
 export interface ScalarQuantizationCompressionConfiguration
   extends BaseVectorSearchCompressionConfiguration {
@@ -2275,20 +2333,20 @@ export interface SearchIndexerKnowledgeStoreObjectProjectionSelector
 export interface SearchIndexerKnowledgeStoreFileProjectionSelector
   extends SearchIndexerKnowledgeStoreBlobProjectionSelector {}
 
-/** Known values of {@link ApiVersion20240301Preview} that the service accepts. */
-export enum KnownApiVersion20240301Preview {
-  /** Api Version '2024-03-01-Preview' */
-  TwoThousandTwentyFour0301Preview = "2024-03-01-Preview",
+/** Known values of {@link ApiVersion20240501Preview} that the service accepts. */
+export enum KnownApiVersion20240501Preview {
+  /** Api Version '2024-05-01-preview' */
+  TwoThousandTwentyFour0501Preview = "2024-05-01-preview",
 }
 
 /**
- * Defines values for ApiVersion20240301Preview. \
- * {@link KnownApiVersion20240301Preview} can be used interchangeably with ApiVersion20240301Preview,
+ * Defines values for ApiVersion20240501Preview. \
+ * {@link KnownApiVersion20240501Preview} can be used interchangeably with ApiVersion20240501Preview,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2024-03-01-Preview**: Api Version '2024-03-01-Preview'
+ * **2024-05-01-preview**: Api Version '2024-05-01-preview'
  */
-export type ApiVersion20240301Preview = string;
+export type ApiVersion20240501Preview = string;
 
 /** Known values of {@link SearchIndexerDataSourceType} that the service accepts. */
 export enum KnownSearchIndexerDataSourceType {
@@ -2304,6 +2362,8 @@ export enum KnownSearchIndexerDataSourceType {
   MySql = "mysql",
   /** Indicates an ADLS Gen2 datasource. */
   AdlsGen2 = "adlsgen2",
+  /** Indicates a Microsoft Fabric OneLake datasource. */
+  OneLake = "onelake",
 }
 
 /**
@@ -2316,7 +2376,8 @@ export enum KnownSearchIndexerDataSourceType {
  * **azureblob**: Indicates an Azure Blob datasource. \
  * **azuretable**: Indicates an Azure Table datasource. \
  * **mysql**: Indicates a MySql datasource. \
- * **adlsgen2**: Indicates an ADLS Gen2 datasource.
+ * **adlsgen2**: Indicates an ADLS Gen2 datasource. \
+ * **onelake**: Indicates a Microsoft Fabric OneLake datasource.
  */
 export type SearchIndexerDataSourceType = string;
 
@@ -2505,6 +2566,8 @@ export enum KnownSearchFieldDataType {
   Int16 = "Edm.Int16",
   /** Indicates that a field contains a 8-bit signed integer. This is only valid when used with Collection(Edm.SByte). */
   SByte = "Edm.SByte",
+  /** Indicates that a field contains a 8-bit unsigned integer. This is only valid when used with Collection(Edm.Byte). */
+  Byte = "Edm.Byte",
 }
 
 /**
@@ -2523,7 +2586,8 @@ export enum KnownSearchFieldDataType {
  * **Edm.Single**: Indicates that a field contains a single-precision floating point number. This is only valid when used with Collection(Edm.Single). \
  * **Edm.Half**: Indicates that a field contains a half-precision floating point number. This is only valid when used with Collection(Edm.Half). \
  * **Edm.Int16**: Indicates that a field contains a 16-bit signed integer. This is only valid when used with Collection(Edm.Int16). \
- * **Edm.SByte**: Indicates that a field contains a 8-bit signed integer. This is only valid when used with Collection(Edm.SByte).
+ * **Edm.SByte**: Indicates that a field contains a 8-bit signed integer. This is only valid when used with Collection(Edm.SByte). \
+ * **Edm.Byte**: Indicates that a field contains a 8-bit unsigned integer. This is only valid when used with Collection(Edm.Byte).
  */
 export type SearchFieldDataType = string;
 
@@ -2845,6 +2909,21 @@ export enum KnownLexicalNormalizerName {
  */
 export type LexicalNormalizerName = string;
 
+/** Known values of {@link VectorEncodingFormat} that the service accepts. */
+export enum KnownVectorEncodingFormat {
+  /** Encoding format representing bits packed into a wider data type. */
+  PackedBit = "packedBit",
+}
+
+/**
+ * Defines values for VectorEncodingFormat. \
+ * {@link KnownVectorEncodingFormat} can be used interchangeably with VectorEncodingFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **packedBit**: Encoding format representing bits packed into a wider data type.
+ */
+export type VectorEncodingFormat = string;
+
 /** Known values of {@link VectorSearchAlgorithmKind} that the service accepts. */
 export enum KnownVectorSearchAlgorithmKind {
   /** HNSW (Hierarchical Navigable Small World), a type of approximate nearest neighbors algorithm. */
@@ -2869,6 +2948,10 @@ export enum KnownVectorSearchVectorizerKind {
   AzureOpenAI = "azureOpenAI",
   /** Generate embeddings using a custom web endpoint at query time. */
   CustomWebApi = "customWebApi",
+  /** Generate embeddings for an image or text input at query time using the Azure AI Services Vision Vectorize API. */
+  AIServicesVision = "aiServicesVision",
+  /** Generate embeddings using an Azure Machine Learning endpoint deployed via the Azure AI Studio Model Catalog at query time. */
+  AML = "aml",
 }
 
 /**
@@ -2877,7 +2960,9 @@ export enum KnownVectorSearchVectorizerKind {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **azureOpenAI**: Generate embeddings using an Azure OpenAI resource at query time. \
- * **customWebApi**: Generate embeddings using a custom web endpoint at query time.
+ * **customWebApi**: Generate embeddings using a custom web endpoint at query time. \
+ * **aiServicesVision**: Generate embeddings for an image or text input at query time using the Azure AI Services Vision Vectorize API. \
+ * **aml**: Generate embeddings using an Azure Machine Learning endpoint deployed via the Azure AI Studio Model Catalog at query time.
  */
 export type VectorSearchVectorizerKind = string;
 
@@ -3027,12 +3112,14 @@ export type CharFilterName = string;
 
 /** Known values of {@link VectorSearchAlgorithmMetric} that the service accepts. */
 export enum KnownVectorSearchAlgorithmMetric {
-  /** Cosine */
+  /** Measures the angle between vectors to quantify their similarity, disregarding magnitude. The smaller the angle, the closer the similarity. */
   Cosine = "cosine",
-  /** Euclidean */
+  /** Computes the straight-line distance between vectors in a multi-dimensional space. The smaller the distance, the closer the similarity. */
   Euclidean = "euclidean",
-  /** DotProduct */
+  /** Calculates the sum of element-wise products to gauge alignment and magnitude similarity. The larger and more positive, the closer the similarity. */
   DotProduct = "dotProduct",
+  /** Only applicable to bit-packed binary data types. Determines dissimilarity by counting differing positions in binary vectors. The fewer differences, the closer the similarity. */
+  Hamming = "hamming",
 }
 
 /**
@@ -3040,9 +3127,10 @@ export enum KnownVectorSearchAlgorithmMetric {
  * {@link KnownVectorSearchAlgorithmMetric} can be used interchangeably with VectorSearchAlgorithmMetric,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **cosine** \
- * **euclidean** \
- * **dotProduct**
+ * **cosine**: Measures the angle between vectors to quantify their similarity, disregarding magnitude. The smaller the angle, the closer the similarity. \
+ * **euclidean**: Computes the straight-line distance between vectors in a multi-dimensional space. The smaller the distance, the closer the similarity. \
+ * **dotProduct**: Calculates the sum of element-wise products to gauge alignment and magnitude similarity. The larger and more positive, the closer the similarity. \
+ * **hamming**: Only applicable to bit-packed binary data types. Determines dissimilarity by counting differing positions in binary vectors. The fewer differences, the closer the similarity.
  */
 export type VectorSearchAlgorithmMetric = string;
 
@@ -3060,6 +3148,60 @@ export enum KnownVectorSearchCompressionTargetDataType {
  * **int8**
  */
 export type VectorSearchCompressionTargetDataType = string;
+
+/** Known values of {@link AzureOpenAIModelName} that the service accepts. */
+export enum KnownAzureOpenAIModelName {
+  /** TextEmbeddingAda002 */
+  TextEmbeddingAda002 = "text-embedding-ada-002",
+  /** TextEmbedding3Large */
+  TextEmbedding3Large = "text-embedding-3-large",
+  /** TextEmbedding3Small */
+  TextEmbedding3Small = "text-embedding-3-small",
+  /** Experimental */
+  Experimental = "experimental",
+}
+
+/**
+ * Defines values for AzureOpenAIModelName. \
+ * {@link KnownAzureOpenAIModelName} can be used interchangeably with AzureOpenAIModelName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **text-embedding-ada-002** \
+ * **text-embedding-3-large** \
+ * **text-embedding-3-small** \
+ * **experimental**
+ */
+export type AzureOpenAIModelName = string;
+
+/** Known values of {@link AIStudioModelCatalogName} that the service accepts. */
+export enum KnownAIStudioModelCatalogName {
+  /** OpenAIClipImageTextEmbeddingsVitBasePatch32 */
+  OpenAIClipImageTextEmbeddingsVitBasePatch32 = "OpenAI-CLIP-Image-Text-Embeddings-vit-base-patch32",
+  /** OpenAIClipImageTextEmbeddingsViTLargePatch14336 */
+  OpenAIClipImageTextEmbeddingsViTLargePatch14336 = "OpenAI-CLIP-Image-Text-Embeddings-ViT-Large-Patch14-336",
+  /** FacebookDinoV2ImageEmbeddingsViTBase */
+  FacebookDinoV2ImageEmbeddingsViTBase = "Facebook-DinoV2-Image-Embeddings-ViT-Base",
+  /** FacebookDinoV2ImageEmbeddingsViTGiant */
+  FacebookDinoV2ImageEmbeddingsViTGiant = "Facebook-DinoV2-Image-Embeddings-ViT-Giant",
+  /** CohereEmbedV3English */
+  CohereEmbedV3English = "Cohere-embed-v3-english",
+  /** CohereEmbedV3Multilingual */
+  CohereEmbedV3Multilingual = "Cohere-embed-v3-multilingual",
+}
+
+/**
+ * Defines values for AIStudioModelCatalogName. \
+ * {@link KnownAIStudioModelCatalogName} can be used interchangeably with AIStudioModelCatalogName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **OpenAI-CLIP-Image-Text-Embeddings-vit-base-patch32** \
+ * **OpenAI-CLIP-Image-Text-Embeddings-ViT-Large-Patch14-336** \
+ * **Facebook-DinoV2-Image-Embeddings-ViT-Base** \
+ * **Facebook-DinoV2-Image-Embeddings-ViT-Giant** \
+ * **Cohere-embed-v3-english** \
+ * **Cohere-embed-v3-multilingual**
+ */
+export type AIStudioModelCatalogName = string;
 
 /** Known values of {@link KeyPhraseExtractionSkillLanguage} that the service accepts. */
 export enum KnownKeyPhraseExtractionSkillLanguage {

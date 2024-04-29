@@ -15,7 +15,7 @@ import {
 import { DocumentsImpl } from "./operations";
 import { Documents } from "./operationsInterfaces";
 import {
-  ApiVersion20240301Preview,
+  ApiVersion20240501Preview,
   SearchClientOptionalParams,
 } from "./models";
 
@@ -23,7 +23,7 @@ import {
 export class SearchClient extends coreHttpCompat.ExtendedServiceClient {
   endpoint: string;
   indexName: string;
-  apiVersion: ApiVersion20240301Preview;
+  apiVersion: ApiVersion20240501Preview;
 
   /**
    * Initializes a new instance of the SearchClient class.
@@ -35,7 +35,7 @@ export class SearchClient extends coreHttpCompat.ExtendedServiceClient {
   constructor(
     endpoint: string,
     indexName: string,
-    apiVersion: ApiVersion20240301Preview,
+    apiVersion: ApiVersion20240501Preview,
     options?: SearchClientOptionalParams,
   ) {
     if (endpoint === undefined) {

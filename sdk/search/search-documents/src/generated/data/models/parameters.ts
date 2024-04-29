@@ -209,59 +209,6 @@ export const scoringProfile: OperationQueryParameter = {
   },
 };
 
-export const semanticQuery: OperationQueryParameter = {
-  parameterPath: ["options", "searchOptions", "semanticQuery"],
-  mapper: {
-    serializedName: "semanticQuery",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const semanticConfiguration: OperationQueryParameter = {
-  parameterPath: ["options", "searchOptions", "semanticConfiguration"],
-  mapper: {
-    serializedName: "semanticConfiguration",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const semanticErrorHandling: OperationQueryParameter = {
-  parameterPath: ["options", "searchOptions", "semanticErrorHandling"],
-  mapper: {
-    serializedName: "semanticErrorHandling",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const semanticMaxWaitInMilliseconds: OperationQueryParameter = {
-  parameterPath: ["options", "searchOptions", "semanticMaxWaitInMilliseconds"],
-  mapper: {
-    constraints: {
-      InclusiveMinimum: 700,
-    },
-    serializedName: "semanticMaxWaitInMilliseconds",
-    type: {
-      name: "Number",
-    },
-  },
-};
-
-export const debug: OperationQueryParameter = {
-  parameterPath: ["options", "searchOptions", "debug"],
-  mapper: {
-    serializedName: "debug",
-    type: {
-      name: "String",
-    },
-  },
-};
-
 export const searchFields: OperationQueryParameter = {
   parameterPath: ["options", "searchOptions", "searchFields"],
   mapper: {
@@ -276,36 +223,6 @@ export const searchFields: OperationQueryParameter = {
     },
   },
   collectionFormat: "CSV",
-};
-
-export const queryLanguage: OperationQueryParameter = {
-  parameterPath: ["options", "searchOptions", "queryLanguage"],
-  mapper: {
-    serializedName: "queryLanguage",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const speller: OperationQueryParameter = {
-  parameterPath: ["options", "searchOptions", "speller"],
-  mapper: {
-    serializedName: "speller",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const answers: OperationQueryParameter = {
-  parameterPath: ["options", "searchOptions", "answers"],
-  mapper: {
-    serializedName: "answers",
-    type: {
-      name: "String",
-    },
-  },
 };
 
 export const searchMode: OperationQueryParameter = {
@@ -376,10 +293,93 @@ export const top: OperationQueryParameter = {
   },
 };
 
+export const semanticConfiguration: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "semanticConfiguration"],
+  mapper: {
+    serializedName: "semanticConfiguration",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const semanticErrorHandling: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "semanticErrorHandling"],
+  mapper: {
+    serializedName: "semanticErrorHandling",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const semanticMaxWaitInMilliseconds: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "semanticMaxWaitInMilliseconds"],
+  mapper: {
+    constraints: {
+      InclusiveMinimum: 700,
+    },
+    serializedName: "semanticMaxWaitInMilliseconds",
+    type: {
+      name: "Number",
+    },
+  },
+};
+
+export const answers: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "answers"],
+  mapper: {
+    serializedName: "answers",
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const captions: OperationQueryParameter = {
   parameterPath: ["options", "searchOptions", "captions"],
   mapper: {
     serializedName: "captions",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const semanticQuery: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "semanticQuery"],
+  mapper: {
+    serializedName: "semanticQuery",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const debug: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "debug"],
+  mapper: {
+    serializedName: "debug",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const queryLanguage: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "queryLanguage"],
+  mapper: {
+    serializedName: "queryLanguage",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const speller: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "speller"],
+  mapper: {
+    serializedName: "speller",
     type: {
       name: "String",
     },

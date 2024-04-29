@@ -99,6 +99,7 @@ type ExpectSearchFieldDataType = Exclude<
   | "Edm.Half"
   | "Edm.Int16"
   | "Edm.SByte"
+  | "Edm.Byte"
 >;
 type ExpectSearchIndexerDataSourceType = `${KnownSearchIndexerDataSourceType}`;
 type ExpectSemanticErrorMode = `${KnownSemanticErrorMode}`;
