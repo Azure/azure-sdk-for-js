@@ -2184,6 +2184,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-guestconfiguration",
+      "projectFolder": "sdk/guestconfiguration/arm-guestconfiguration",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-deviceregistry",
       "projectFolder": "sdk/deviceregistry/arm-deviceregistry",
       "versionPolicyName": "management"

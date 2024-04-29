@@ -1,22 +1,17 @@
 # Release History
 
-## 1.2.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 1.2.1 (2024-04-25)
+## 1.2.2 (2024-04-29)
 
 ### Bugs Fixed
 
 - Fixed FirebaseV1 Notification to use the correct `data` and create the wrapper `message`.
   - [#29404](https://github.com/Azure/azure-sdk-for-js/issues/29404)
   - [#29371](https://github.com/Azure/azure-sdk-for-js/issues/29371)
+
+## 1.2.1 (2024-04-25)
+
+### Bugs Fixed
+
 - Fixed Firebase query for `listRegistrationsByChannel` to use the correct `channel` query parameter.
   - [#29372](https://github.com/Azure/azure-sdk-for-js/issues/29372)
 

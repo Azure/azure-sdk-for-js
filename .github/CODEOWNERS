@@ -496,6 +496,9 @@
 /sdk/frontdoor/arm-frontdoor/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/guestconfiguration/arm-guestconfiguration/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/hanaonazure/arm-hanaonazure/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
