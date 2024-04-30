@@ -194,7 +194,7 @@ describe("logUtils.ts", () => {
         [SemanticAttributes.MESSAGE_TYPE]: "test message type",
       };
       const expectedMeasurements = {
-        "testMeasurement": 1
+        testMeasurement: 1,
       };
       const expectedBaseData: Partial<MessageData> = {
         message: `testMessage`,
