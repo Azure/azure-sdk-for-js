@@ -8,7 +8,7 @@ parameters:
 
 steps:
   - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
-  - ${{if eq(parameters.Registry, 'https://registry.npmjs.org/')}}:
+  - ${{ if eq(parameters.Registry, 'https://registry.npmjs.org/') }}:
       - task: EsrpRelease@6
         inputs:
           displayName: 'Publish ${{parameters.Artifact.name}} to ESRP'
@@ -22,16 +22,18 @@ steps:
           MainPublisher: 'ESRPRELPACMANTEST'
           DomainTenantId: '72f988bf-86f1-41af-91ab-2d7cd011db47'
           ProductStateField: ${{parameters.Tag}}
+      - pwsh: Write-Host "##vso[task.setvariable variable=additionalTag${{parameters.AdditionalTag}}]"
 
-      - ${{if ne(parameters.AdditionalTag, '')}}:
-        - task: PowerShell@2
-          displayName: Add Additional Tag
-          inputs:
-            targetType: filePath
-            filePath: eng/tools/publish-to-npm.ps1
-            arguments: -addTag $true -pathToArtifacts ${{parameters.PathToArtifacts}} -accessLevel "public" -tag "${{parameters.AdditionalTag}}" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)
-            pwsh: true
-          condition: succeeded()
+      - ${{ if ne(variables['additionalTag'], '') }}:
+          - pwsh: Write-host "additional tag '${{parameters.AdditionalTag}}'"
+          - task: PowerShell@2
+            displayName: Add Additional Tag
+            inputs:
+              targetType: filePath
+              filePath: eng/tools/publish-to-npm.ps1
+              arguments: -addTag $true -pathToArtifacts ${{parameters.PathToArtifacts}} -accessLevel "public" -tag "${{parameters.AdditionalTag}}" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)
+              pwsh: true
+            condition: succeeded()
 
   - ${{ else }}:
       - task: PowerShell@2
