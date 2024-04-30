@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { Context } from "mocha";
 import {
   ChatCompletionsFunctionToolCall,

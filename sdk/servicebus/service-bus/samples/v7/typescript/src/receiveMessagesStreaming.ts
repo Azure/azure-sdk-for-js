@@ -5,7 +5,7 @@
  * This sample demonstrates how the receive() function can be used to receive Service Bus messages
  * in a stream.
  *
- * Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
+ * Setup: Please run "sendMessages" sample before running this to populate the queue/topic
  *
  * @summary Demonstrates how to receive Service Bus messages in a stream
  */

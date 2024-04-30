@@ -22,7 +22,7 @@ import {
   ServicesDeleteOptionalParams,
   CheckNameAvailabilityParameters,
   ServicesCheckNameAvailabilityOptionalParams,
-  ServicesCheckNameAvailabilityResponse
+  ServicesCheckNameAvailabilityResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface Services {
    * @param options The options parameters.
    */
   list(
-    options?: ServicesListOptionalParams
+    options?: ServicesListOptionalParams,
   ): PagedAsyncIterableIterator<ServicesDescription>;
   /**
    * Get all the service instances in a resource group.
@@ -42,7 +42,7 @@ export interface Services {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ServicesListByResourceGroupOptionalParams
+    options?: ServicesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ServicesDescription>;
   /**
    * Get the metadata of a service instance.
@@ -53,7 +53,7 @@ export interface Services {
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: ServicesGetOptionalParams
+    options?: ServicesGetOptionalParams,
   ): Promise<ServicesGetResponse>;
   /**
    * Create or update the metadata of a service instance.
@@ -66,7 +66,7 @@ export interface Services {
     resourceGroupName: string,
     resourceName: string,
     serviceDescription: ServicesDescription,
-    options?: ServicesCreateOrUpdateOptionalParams
+    options?: ServicesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ServicesCreateOrUpdateResponse>,
@@ -84,7 +84,7 @@ export interface Services {
     resourceGroupName: string,
     resourceName: string,
     serviceDescription: ServicesDescription,
-    options?: ServicesCreateOrUpdateOptionalParams
+    options?: ServicesCreateOrUpdateOptionalParams,
   ): Promise<ServicesCreateOrUpdateResponse>;
   /**
    * Update the metadata of a service instance.
@@ -97,7 +97,7 @@ export interface Services {
     resourceGroupName: string,
     resourceName: string,
     servicePatchDescription: ServicesPatchDescription,
-    options?: ServicesUpdateOptionalParams
+    options?: ServicesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ServicesUpdateResponse>,
@@ -115,7 +115,7 @@ export interface Services {
     resourceGroupName: string,
     resourceName: string,
     servicePatchDescription: ServicesPatchDescription,
-    options?: ServicesUpdateOptionalParams
+    options?: ServicesUpdateOptionalParams,
   ): Promise<ServicesUpdateResponse>;
   /**
    * Delete a service instance.
@@ -126,7 +126,7 @@ export interface Services {
   beginDelete(
     resourceGroupName: string,
     resourceName: string,
-    options?: ServicesDeleteOptionalParams
+    options?: ServicesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a service instance.
@@ -137,7 +137,7 @@ export interface Services {
   beginDeleteAndWait(
     resourceGroupName: string,
     resourceName: string,
-    options?: ServicesDeleteOptionalParams
+    options?: ServicesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Check if a service instance name is available.
@@ -147,6 +147,6 @@ export interface Services {
    */
   checkNameAvailability(
     checkNameAvailabilityInputs: CheckNameAvailabilityParameters,
-    options?: ServicesCheckNameAvailabilityOptionalParams
+    options?: ServicesCheckNameAvailabilityOptionalParams,
   ): Promise<ServicesCheckNameAvailabilityResponse>;
 }

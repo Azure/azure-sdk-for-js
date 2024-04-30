@@ -1,16 +1,26 @@
 # Release History
 
-## 4.1.1 (Unreleased)
+## 4.3.0-beta.1 (Unreleased)
+
+### Features Added
+
+- Introducing a new credential `AzurePipelinesServiceConnectionCredential` for supporting workload identity in federation in ADO Pipelines with service connections.
+
+### Breaking Changes
+
+### Bug Fixes
+
+### Other Changes
+
+## 4.2.0 (2024-04-30)
 
 ### Features Added
 
 - Adds support for `getBearerTokenProvider` that returns a callback function to get a token for a given scope. This is useful for scenarios where an explicit Entra token is needed without having to worry about the token refreshing details.
 
-### Breaking Changes
-
-### Bugs Fixed
-
 ### Other Changes
+
+- `ClientSecretCredential`, `ClientCertificateCredential`, and `ClientAssertionCredential` migrated to use MSALClient internally instead of MSALNode flow. This is an internal refactoring and should not result in any behavioral changes. [#28873](https://github.com/Azure/azure-sdk-for-js/pull/28873)
 
 ## 4.1.0 (2024-04-09)
 

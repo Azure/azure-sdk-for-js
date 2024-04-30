@@ -8,7 +8,7 @@ import {
   EventHubProducerClient,
   MessagingError,
 } from "../../src";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { createMockServer } from "./utils/mockService";

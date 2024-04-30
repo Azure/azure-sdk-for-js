@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update a topic space with the specified parameters.
  *
  * @summary Create or update a topic space with the specified parameters.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/TopicSpaces_CreateOrUpdate.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/TopicSpaces_CreateOrUpdate.json
  */
 async function topicSpacesCreateOrUpdate() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function topicSpacesCreateOrUpdate() {
     resourceGroupName,
     namespaceName,
     topicSpaceName,
-    topicSpaceInfo
+    topicSpaceInfo,
   );
   console.log(result);
 }

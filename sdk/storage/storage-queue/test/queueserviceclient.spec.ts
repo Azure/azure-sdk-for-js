@@ -10,7 +10,7 @@ import {
   uriSanitizers,
 } from "./utils";
 import { delay, Recorder } from "@azure-tools/test-recorder";
-import { getYieldedValue } from "@azure/test-utils";
+import { getYieldedValue } from "@azure-tools/test-utils";
 import { configureStorageClient, getUniqueName, recorderEnvSetup } from "./utils/index.browser";
 import { Context } from "mocha";
 

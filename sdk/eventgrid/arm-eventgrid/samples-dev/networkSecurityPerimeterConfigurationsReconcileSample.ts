@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Reconcile a specific network security perimeter configuration for a given network security perimeter association with a topic or domain.
  *
  * @summary Reconcile a specific network security perimeter configuration for a given network security perimeter association with a topic or domain.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/NetworkSecurityPerimeterConfigurations_Reconcile.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/NetworkSecurityPerimeterConfigurations_Reconcile.json
  */
 async function networkSecurityPerimeterConfigurationsReconcile() {
   const subscriptionId =
@@ -32,13 +32,14 @@ async function networkSecurityPerimeterConfigurationsReconcile() {
   const associationName = "someAssociation";
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
-  const result = await client.networkSecurityPerimeterConfigurations.beginReconcileAndWait(
-    resourceGroupName,
-    resourceType,
-    resourceName,
-    perimeterGuid,
-    associationName
-  );
+  const result =
+    await client.networkSecurityPerimeterConfigurations.beginReconcileAndWait(
+      resourceGroupName,
+      resourceType,
+      resourceName,
+      perimeterGuid,
+      associationName,
+    );
   console.log(result);
 }
 

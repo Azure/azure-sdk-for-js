@@ -15,7 +15,7 @@ import {
   CaCertificatesGetResponse,
   CaCertificatesCreateOrUpdateOptionalParams,
   CaCertificatesCreateOrUpdateResponse,
-  CaCertificatesDeleteOptionalParams
+  CaCertificatesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface CaCertificates {
   listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    options?: CaCertificatesListByNamespaceOptionalParams
+    options?: CaCertificatesListByNamespaceOptionalParams,
   ): PagedAsyncIterableIterator<CaCertificate>;
   /**
    * Get properties of a CA certificate.
@@ -43,7 +43,7 @@ export interface CaCertificates {
     resourceGroupName: string,
     namespaceName: string,
     caCertificateName: string,
-    options?: CaCertificatesGetOptionalParams
+    options?: CaCertificatesGetOptionalParams,
   ): Promise<CaCertificatesGetResponse>;
   /**
    * Create or update a CA certificate with the specified parameters.
@@ -58,7 +58,7 @@ export interface CaCertificates {
     namespaceName: string,
     caCertificateName: string,
     caCertificateInfo: CaCertificate,
-    options?: CaCertificatesCreateOrUpdateOptionalParams
+    options?: CaCertificatesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CaCertificatesCreateOrUpdateResponse>,
@@ -78,7 +78,7 @@ export interface CaCertificates {
     namespaceName: string,
     caCertificateName: string,
     caCertificateInfo: CaCertificate,
-    options?: CaCertificatesCreateOrUpdateOptionalParams
+    options?: CaCertificatesCreateOrUpdateOptionalParams,
   ): Promise<CaCertificatesCreateOrUpdateResponse>;
   /**
    * Delete an existing CA certificate.
@@ -91,7 +91,7 @@ export interface CaCertificates {
     resourceGroupName: string,
     namespaceName: string,
     caCertificateName: string,
-    options?: CaCertificatesDeleteOptionalParams
+    options?: CaCertificatesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete an existing CA certificate.
@@ -104,6 +104,6 @@ export interface CaCertificates {
     resourceGroupName: string,
     namespaceName: string,
     caCertificateName: string,
-    options?: CaCertificatesDeleteOptionalParams
+    options?: CaCertificatesDeleteOptionalParams,
   ): Promise<void>;
 }

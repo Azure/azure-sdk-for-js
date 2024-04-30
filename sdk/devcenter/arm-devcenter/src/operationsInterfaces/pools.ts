@@ -19,7 +19,9 @@ import {
   PoolsUpdateOptionalParams,
   PoolsUpdateResponse,
   PoolsDeleteOptionalParams,
-  PoolsRunHealthChecksOptionalParams
+  PoolsDeleteResponse,
+  PoolsRunHealthChecksOptionalParams,
+  PoolsRunHealthChecksResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +36,7 @@ export interface Pools {
   listByProject(
     resourceGroupName: string,
     projectName: string,
-    options?: PoolsListByProjectOptionalParams
+    options?: PoolsListByProjectOptionalParams,
   ): PagedAsyncIterableIterator<Pool>;
   /**
    * Gets a machine pool
@@ -47,7 +49,7 @@ export interface Pools {
     resourceGroupName: string,
     projectName: string,
     poolName: string,
-    options?: PoolsGetOptionalParams
+    options?: PoolsGetOptionalParams,
   ): Promise<PoolsGetResponse>;
   /**
    * Creates or updates a machine pool
@@ -62,7 +64,7 @@ export interface Pools {
     projectName: string,
     poolName: string,
     body: Pool,
-    options?: PoolsCreateOrUpdateOptionalParams
+    options?: PoolsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PoolsCreateOrUpdateResponse>,
@@ -82,7 +84,7 @@ export interface Pools {
     projectName: string,
     poolName: string,
     body: Pool,
-    options?: PoolsCreateOrUpdateOptionalParams
+    options?: PoolsCreateOrUpdateOptionalParams,
   ): Promise<PoolsCreateOrUpdateResponse>;
   /**
    * Partially updates a machine pool
@@ -97,7 +99,7 @@ export interface Pools {
     projectName: string,
     poolName: string,
     body: PoolUpdate,
-    options?: PoolsUpdateOptionalParams
+    options?: PoolsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<PoolsUpdateResponse>, PoolsUpdateResponse>
   >;
@@ -114,7 +116,7 @@ export interface Pools {
     projectName: string,
     poolName: string,
     body: PoolUpdate,
-    options?: PoolsUpdateOptionalParams
+    options?: PoolsUpdateOptionalParams,
   ): Promise<PoolsUpdateResponse>;
   /**
    * Deletes a machine pool
@@ -127,8 +129,10 @@ export interface Pools {
     resourceGroupName: string,
     projectName: string,
     poolName: string,
-    options?: PoolsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    options?: PoolsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<PoolsDeleteResponse>, PoolsDeleteResponse>
+  >;
   /**
    * Deletes a machine pool
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -140,8 +144,8 @@ export interface Pools {
     resourceGroupName: string,
     projectName: string,
     poolName: string,
-    options?: PoolsDeleteOptionalParams
-  ): Promise<void>;
+    options?: PoolsDeleteOptionalParams,
+  ): Promise<PoolsDeleteResponse>;
   /**
    * Triggers a refresh of the pool status.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -153,8 +157,13 @@ export interface Pools {
     resourceGroupName: string,
     projectName: string,
     poolName: string,
-    options?: PoolsRunHealthChecksOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    options?: PoolsRunHealthChecksOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PoolsRunHealthChecksResponse>,
+      PoolsRunHealthChecksResponse
+    >
+  >;
   /**
    * Triggers a refresh of the pool status.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -166,6 +175,6 @@ export interface Pools {
     resourceGroupName: string,
     projectName: string,
     poolName: string,
-    options?: PoolsRunHealthChecksOptionalParams
-  ): Promise<void>;
+    options?: PoolsRunHealthChecksOptionalParams,
+  ): Promise<PoolsRunHealthChecksResponse>;
 }

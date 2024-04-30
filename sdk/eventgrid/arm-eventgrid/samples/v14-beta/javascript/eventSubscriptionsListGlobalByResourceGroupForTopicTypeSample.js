@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List all global event subscriptions under a resource group for a specific topic type.
  *
  * @summary List all global event subscriptions under a resource group for a specific topic type.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/EventSubscriptions_ListGlobalByResourceGroupForTopicType.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_ListGlobalByResourceGroupForTopicType.json
  */
 async function eventSubscriptionsListGlobalByResourceGroupForTopicType() {
   const subscriptionId =

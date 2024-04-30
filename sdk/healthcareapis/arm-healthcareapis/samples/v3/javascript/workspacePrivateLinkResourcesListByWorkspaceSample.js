@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the private link resources that need to be created for a workspace.
  *
  * @summary Gets the private link resources that need to be created for a workspace.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/privatelink/PrivateLinkResourcesListByWorkspace.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/privatelink/PrivateLinkResourcesListByWorkspace.json
  */
 async function workspacePrivateLinkResourcesListGroupIds() {
   const subscriptionId = process.env["HEALTHCAREAPIS_SUBSCRIPTION_ID"] || "subid";

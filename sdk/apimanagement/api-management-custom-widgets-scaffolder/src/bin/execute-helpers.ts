@@ -6,9 +6,8 @@ import {
   Validate,
   ValidateFnc,
   fieldIdToName,
-} from "./execute-configs";
-
-import { Configs } from "../scaffolding";
+} from "./execute-configs.js";
+import { Configs } from "../scaffolding.js";
 import { hideBin } from "yargs/helpers";
 import yargsParser from "yargs-parser";
 
