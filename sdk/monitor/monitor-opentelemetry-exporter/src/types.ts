@@ -1,14 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  AvailabilityData,
-  ContextTagKeys,
-  MessageData,
-  PageViewData,
-  TelemetryEventData,
-  TelemetryExceptionData,
-} from "./generated";
+import { ContextTagKeys } from "./generated";
 
 /**
  * Azure Monitor envelope tags.
@@ -43,16 +36,6 @@ export type Measurements = { [key: string]: number };
  * @internal
  */
 export type SenderResult = { statusCode: number | undefined; result: string };
-/**
- * Legacy ApplicationInsights baseData types
- * @internal
- */
-export type LegacyBaseData =
-  | AvailabilityData
-  | TelemetryExceptionData
-  | MessageData
-  | PageViewData
-  | TelemetryEventData;
 
 /**
  * Exporter persistent storage.

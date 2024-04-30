@@ -20,7 +20,7 @@ import {
   SEMATTRS_EXCEPTION_STACKTRACE,
   SEMATTRS_EXCEPTION_TYPE,
 } from "@opentelemetry/semantic-conventions";
-import { LegacyBaseData, Measurements, Properties, Tags } from "../types";
+import { Measurements, Properties, Tags } from "../types";
 import { diag } from "@opentelemetry/api";
 import {
   ApplicationInsightsAvailabilityBaseType,
@@ -183,8 +183,8 @@ function getLegacyApplicationInsightsName(log: ReadableLogRecord): string {
 
 function getLegacyApplicationInsightsMeasurements(log: ReadableLogRecord): Measurements {
   let measurements: Measurements = {};
-  if ((log.body as LegacyBaseData)?.measurements) {
-    measurements = { ...(log.body as LegacyBaseData).measurements };
+  if ((log.body as MonitorDomain)?.measurements) {
+    measurements = { ...(log.body as MonitorDomain).measurements };
   }
   return measurements;
 }
