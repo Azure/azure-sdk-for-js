@@ -60,8 +60,8 @@ function addSanitizersBodiesForBatch(
   key: keyof SanitizerOptions,
   options: SanitizerOptions,
 ): SanitizerRequestBody[] {
-  if (key === "generalSanitizers") makeFindReplaceSanitizerBodiesForBatch(options[key], "GeneralRegexSanitizer", "GeneralStringSanitizer")
-  if (key === "bodySanitizers") makeFindReplaceSanitizerBodiesForBatch(options[key], "BodyRegexSanitizer", "BodyStringSanitizer");
+  if (key === "generalSanitizers") return makeFindReplaceSanitizerBodiesForBatch(options[key], "GeneralRegexSanitizer", "GeneralStringSanitizer")
+  if (key === "bodySanitizers") return makeFindReplaceSanitizerBodiesForBatch(options[key], "BodyRegexSanitizer", "BodyStringSanitizer");
   if (key === "headerSanitizers") return makeHeaderSanitizerBodiesForBatch(options[key]);
   if (key === "uriSanitizers") return makeFindReplaceSanitizerBodiesForBatch(options[key], "UriRegexSanitizer", "UriStringSanitizer");
   if (key === "connectionStringSanitizers") return makeConnectionStringSanitizerBodiesForBatch(options[key]);
