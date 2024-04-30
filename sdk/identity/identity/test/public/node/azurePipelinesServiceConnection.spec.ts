@@ -2,12 +2,11 @@
 // Licensed under the MIT license.
 
 import { AzurePipelinesServiceConnectionCredential } from "../../../src";
-import { env, isLiveMode } from "@azure-tools/test-recorder";
+import { isLiveMode } from "@azure-tools/test-recorder";
 import { assert } from "@azure-tools/test-utils";
-
 describe("AzurePipelinesServiceConnectionCredential", function () {
   const scope = "https://vault.azure.net/.default";
-  const tenantId = env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!;
+  const tenantId = "72f988bf-86f1-41af-91ab-2d7cd011db47";
   // const clientId = env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!;
 
   it("authenticates with a valid service connection", async function () {
