@@ -98,8 +98,8 @@ stages:
                                 Artifact: ${{artifact}}
                                 Registry: ${{parameters.Registry}}
                                 PathToArtifacts: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
-                                Tag: "$(Tag)"
-                                AdditionalTag: "$(AdditionalTag)"
+                                Tag: $(Tag)
+                                AdditionalTag: $(AdditionalTag)
                             - pwsh: >
                                 write-host "$(Package.Archive)"
 
