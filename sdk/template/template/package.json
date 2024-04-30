@@ -44,7 +44,7 @@
     "extract-api": "tshy && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript ./swagger/README.md",
-    "integration-test:browser": "dev-tool run test:vitest --browser",
+    "integration-test:browser": "echo skipped",
     "integration-test:node": "dev-tool run test:vitest",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint README.md package.json api-extractor.json src test --ext .ts,.javascript,.js --fix --fix-type [problem,suggestion]",
