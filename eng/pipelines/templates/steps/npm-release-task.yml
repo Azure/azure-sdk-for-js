@@ -25,7 +25,6 @@ steps:
       - pwsh: Write-Host "##vso[task.setvariable variable=additionalTag${{parameters.AdditionalTag}}]"
 
       - ${{ if ne(variables['additionalTag'], '') }}:
-          - pwsh: Write-host "additional tag '${{parameters.AdditionalTag}}'"
           - task: PowerShell@2
             displayName: Add Additional Tag
             inputs:

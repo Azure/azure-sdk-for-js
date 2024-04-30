@@ -83,7 +83,7 @@ stages:
                                 write-host "$(Package.Archive)"
                                 $result = eng/scripts/get-npm-tags.ps1 -packageArtifact $(Package.Archive) -workingDirectory $(System.DefaultWorkingDirectory)/temp
                                 write-host "Tag: $($result.Tag)"
-                                write-host "Additional tag: '$($result.AdditionalTag)'"
+                                write-host "Additional tag: $($result.AdditionalTag)"
                                 echo "##vso[task.setvariable variable=Tag]$($result.Tag)"
                                 echo "##vso[task.setvariable variable=AdditionalTag]$($result.AdditionalTag)"
                               condition: and(succeeded(), ne(variables['Skip.AutoAddTag'], 'true'))
@@ -98,8 +98,8 @@ stages:
                                 Artifact: ${{artifact}}
                                 Registry: ${{parameters.Registry}}
                                 PathToArtifacts: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
-                                Tag: $(Tag)
-                                AdditionalTag: $(AdditionalTag)
+                                Tag: "$(Tag)"
+                                AdditionalTag: "$(AdditionalTag)"
                             - pwsh: >
                                 write-host "$(Package.Archive)"
 
