@@ -47,9 +47,7 @@ export default createRule({
           context.report({
             node: targetNode,
             messageId: "noCopyrightHeader",
-            fix: (fixer) => {
-              return fixer.insertTextBefore(targetNode, expectedComments);
-            },
+            fix: (fixer) => fixer.insertTextBefore(targetNode, expectedComments),
           });
         }
       },
