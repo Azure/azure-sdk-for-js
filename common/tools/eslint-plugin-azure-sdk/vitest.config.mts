@@ -10,10 +10,10 @@ export default mergeConfig(
   defineConfig({
     test: {
       include: ["tests/**/*.ts"],
-      exclude: ["tests/ruleTester.ts"],
+      exclude: ["tests/ruleTester.ts", "tests/fixture/**"],
       coverage: {
         include: ["src/**/*.ts"],
-        exclude: ["vitest*.config.ts"],
+        exclude: ["vitest*.config.ts", "tests/fixture/**"],
       },
     },
   })
