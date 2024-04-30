@@ -69,6 +69,7 @@ describe("New session token", function () {
     });
     assert.equal(responseToken, token);
     assert.equal(responseToken, rqContext?.headers["x-ms-session-token"]);
+    await container.database.delete();
   });
 });
 

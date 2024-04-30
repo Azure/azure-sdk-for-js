@@ -232,6 +232,9 @@ describe("test bulk operations", async function () {
           class: "2010",
         });
       });
+      after(async () => {
+        await container.database.delete();
+      });
       it("deletes operation with default partition", async function () {
         const operation: OperationInput = {
           operationType: BulkOperationType.Delete,
@@ -948,6 +951,9 @@ describe("test bulk operations", async function () {
         });
         createItemId = addEntropy("createItem");
         upsertItemId = addEntropy("upsertItem");
+      });
+      after(async () => {
+        await container.database.delete();
       });
       it("creates an item with nested object partition key", async function () {
         const operations: OperationInput[] = [
