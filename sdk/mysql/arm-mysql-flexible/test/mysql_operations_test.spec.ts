@@ -70,7 +70,7 @@ describe("mysql test", () => {
       resourcename,
       {
         administratorLogin: "cloudsa",
-        administratorLoginPassword: "your_password",
+        administratorLoginPassword: "********", //use "your_password" when run the test and then use "********" to replace it here and in recordings
         availabilityZone: "1",
         backup: {
           backupIntervalHours: 24,
