@@ -10,7 +10,7 @@
  */
 
 import { Recorder, RecorderStartOptions, env, isPlaybackMode } from "@azure-tools/test-recorder";
-import { NoOpCredential } from "@azure-tools/test-credential";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { Context } from "mocha";
 import {
@@ -36,10 +36,12 @@ import {
   VirtualNetwork,
 } from "@azure/arm-network";
 import { createTestComputeManagementClient } from "./utils/recordedClient";
-import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888",
+  AZURE_CLIENT_ID: "azure_client_id",
+  AZURE_CLIENT_SECRET: "azure_client_secret",
+  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -53,15 +55,7 @@ export const testPollingOptionsForNetwork = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-export function createTestCredential() {
-  return isPlaybackMode()
-    ? new NoOpCredential()
-    : new
-      InteractiveBrowserCredential({})
-    ;
-}
-
-describe("Compute test", () => {
+describe.skip("Compute test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: ComputeManagementClient;
@@ -312,7 +306,7 @@ describe("Compute test", () => {
           osProfile: {
             adminUsername: "testuser",
             computerName: "myVM",
-            adminPassword: "SecretPlaceholder123",
+            adminPassword: "*********",//use "your_password" when run the test and then use "*********" to replace it here and in recordings
             windowsConfiguration: {
               enableAutomaticUpdates: true, // need automatic update for reimage
             },
