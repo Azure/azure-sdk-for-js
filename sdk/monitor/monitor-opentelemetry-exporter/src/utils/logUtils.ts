@@ -20,7 +20,7 @@ import {
   SEMATTRS_EXCEPTION_STACKTRACE,
   SEMATTRS_EXCEPTION_TYPE,
 } from "@opentelemetry/semantic-conventions";
-import { Measurements, Properties, Tags } from "../types";
+import { LegacyBaseData, Measurements, Properties, Tags } from "../types";
 import { diag } from "@opentelemetry/api";
 import {
   ApplicationInsightsAvailabilityBaseType,
@@ -45,7 +45,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
   const sampleRate = 100;
   const instrumentationKey = ikey;
   const tags = createTagsFromLog(log);
-  const [properties, measurements] = createPropertiesFromLog(log);
+  let [properties, measurements] = createPropertiesFromLog(log);
   let name: string;
   let baseType: string;
   let baseData: MonitorDomain;
@@ -85,6 +85,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
     baseType = String(log.attributes[ApplicationInsightsBaseType]);
     name = getLegacyApplicationInsightsName(log);
     baseData = getLegacyApplicationInsightsBaseData(log);
+    measurements = getLegacyApplicationInsightsMeasurements(log);
     if (!baseData) {
       // Failed to parse log
       return;
@@ -120,7 +121,7 @@ function createTagsFromLog(log: ReadableLogRecord): Tags {
 }
 
 function createPropertiesFromLog(log: ReadableLogRecord): [Properties, Measurements] {
-  let measurements: Measurements = {};
+  const measurements: Measurements = {};
   const properties: { [propertyName: string]: string } = {};
   if (log.attributes) {
     for (const key of Object.keys(log.attributes)) {
@@ -136,9 +137,6 @@ function createPropertiesFromLog(log: ReadableLogRecord): [Properties, Measureme
         properties[key] = log.attributes[key] as string;
       }
     }
-  }
-  if ((log.body as any)?.measurements) {
-    measurements = { ...(log.body as any).measurements };
   }
   return [properties, measurements];
 }
@@ -181,6 +179,14 @@ function getLegacyApplicationInsightsName(log: ReadableLogRecord): string {
       break;
   }
   return name;
+}
+
+function getLegacyApplicationInsightsMeasurements(log: ReadableLogRecord): Measurements {
+  let measurements: Measurements = {};
+  if ((log.body as LegacyBaseData)?.measurements) {
+    measurements = { ...(log.body as LegacyBaseData).measurements };
+  }
+  return measurements;
 }
 
 function getLegacyApplicationInsightsBaseData(log: ReadableLogRecord): MonitorDomain {
