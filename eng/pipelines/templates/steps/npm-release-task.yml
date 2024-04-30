@@ -24,6 +24,7 @@ steps:
           ProductStateField: ${{parameters.Tag}}
 
       - ${{ if ne(parameters.AdditionalTag, '') }}:
+          pwsh: Write-host "additional tag '${{parameters.AdditionalTag}}'"
           - task: PowerShell@2
             displayName: Add Additional Tag
             inputs:
