@@ -3,7 +3,7 @@
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import OpenAI from "openai";
 import { ClientOptions } from "openai";
-import { EnvironmentVariableNamesForEmbedding, EnvironmentVariableNamesForCompletions, EnvironmentVariableNamesForDalle, EnvironmentVariableNamesForWhisper } from "./envVars.js";
+import { EnvironmentVariableNamesForEmbedding, EnvironmentVariableNamesForCompletions, EnvironmentVariableNamesForDalle, EnvironmentVariableNamesForWhisper } from "./envVars";
 
 type DeploymentType = "dalle" | "whisper" | "completions" | "embedding";
 const environmentVariableNamesForResourceType = {

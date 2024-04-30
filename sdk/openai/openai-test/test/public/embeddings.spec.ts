@@ -3,8 +3,8 @@
 
 import { assert, matrix } from "@azure-tools/test-utils";
 import { Context } from "mocha";
-import { createClient } from "../utils/createClient.js";
-import { AuthMethod } from "../utils/types.js";
+import { createClient } from "../utils/createClient";
+import { AuthMethod } from "../utils/types";
 import OpenAI from "openai";
 
 describe("Embeddings", function () {
