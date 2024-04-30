@@ -61,7 +61,7 @@ type SanitizerRequestBody = {
  */
 function addSanitizersBodiesForBatch(
   options: SanitizerOptions,
-  key: keyof SanitizerOptions
+  key: keyof SanitizerOptions,
 ): SanitizerRequestBody[] {
   if (key === "generalSanitizers") {
     return makeFindReplaceSanitizerBodiesForBatch(
@@ -95,13 +95,13 @@ function addSanitizersBodiesForBatch(
   if (key === "removeHeaderSanitizer") {
     return options[key]
       ? [
-        {
-          Name: "RemoveHeaderSanitizer",
-          Body: {
-            headersForRemoval: options[key]?.headersForRemoval.toString(),
+          {
+            Name: "RemoveHeaderSanitizer",
+            Body: {
+              headersForRemoval: options[key]?.headersForRemoval.toString(),
+            },
           },
-        },
-      ]
+        ]
       : [];
   }
   if (key === "oAuthResponseSanitizer") {
