@@ -120,7 +120,7 @@ function createTagsFromLog(log: ReadableLogRecord): Tags {
 }
 
 function createPropertiesFromLog(log: ReadableLogRecord): [Properties, Measurements] {
-  const measurements: Measurements = {};
+  let measurements: Measurements = {};
   const properties: { [propertyName: string]: string } = {};
   if (log.attributes) {
     for (const key of Object.keys(log.attributes)) {
@@ -136,6 +136,9 @@ function createPropertiesFromLog(log: ReadableLogRecord): [Properties, Measureme
         properties[key] = log.attributes[key] as string;
       }
     }
+  }
+  if ((log.body as any)?.measurements) {
+    measurements = { ...(log.body as any).measurements };
   }
   return [properties, measurements];
 }
