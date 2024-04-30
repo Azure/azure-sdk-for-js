@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all event subscriptions that have been created for a specific domain topic.
  *
  * @summary List all event subscriptions that have been created for a specific domain topic.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/EventSubscriptions_ListByDomainTopic.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_ListByDomainTopic.json
  */
 async function eventSubscriptionsListByDomainTopic() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function eventSubscriptionsListByDomainTopic() {
   for await (let item of client.eventSubscriptions.listByDomainTopic(
     resourceGroupName,
     domainName,
-    topicName
+    topicName,
   )) {
     resArray.push(item);
   }
