@@ -2252,7 +2252,7 @@
         },
         "companyInformation": {
           "name": "Contoso",
-          "url": "REDACTED",
+          "url": "https://contoso.com",
           "address": "1 Contoso Way Redmond, WA 98052",
           "contactInformation": {
             "name": "Alex",
@@ -2368,7 +2368,7 @@
         },
         "companyInformation": {
           "name": "Contoso",
-          "url": "REDACTED",
+          "url": "https://contoso.com",
           "address": "1 Contoso Way Redmond, WA 98052",
           "contactInformation": {
             "name": "Alex",
@@ -2489,7 +2489,7 @@
         },
         "companyInformation": {
           "name": "Contoso",
-          "url": "REDACTED",
+          "url": "https://contoso.com",
           "address": "1 Contoso Way Redmond, WA 98052",
           "contactInformation": {
             "name": "Alex",
@@ -4596,7 +4596,7 @@
             },
             "companyInformation": {
               "name": "Contoso",
-              "url": "REDACTED",
+              "url": "https://contoso.com",
               "address": "1 Contoso Way Redmond, WA 98052",
               "contactInformation": {
                 "name": "Alex",
@@ -4703,7 +4703,7 @@
             },
             "companyInformation": {
               "name": "Contoso",
-              "url": "REDACTED",
+              "url": "https://contoso.com",
               "address": "1 Contoso Way Redmond, WA 98052",
               "contactInformation": {
                 "name": "Alex",
@@ -6855,7 +6855,7 @@
             },
             "companyInformation": {
               "name": "Contoso",
-              "url": "REDACTED",
+              "url": "https://contoso.com",
               "address": "1 Contoso Way Redmond, WA 98052",
               "contactInformation": {
                 "name": "Alex",
@@ -7005,7 +7005,7 @@
             },
             "companyInformation": {
               "name": "Contoso",
-              "url": "REDACTED",
+              "url": "https://contoso.com",
               "address": "1 Contoso Way Redmond, WA 98052",
               "contactInformation": {
                 "name": "Alex",
