@@ -309,6 +309,7 @@ describe("SearchIndexClient", function (this: Suite) {
         azureOpenAIParameters: {
           deploymentId: env.AZURE_OPENAI_DEPLOYMENT_NAME,
           resourceUri: env.AZURE_OPENAI_ENDPOINT,
+          modelName: "text-embedding-ada-002",
         },
       };
       const profile: VectorSearchProfile = {
