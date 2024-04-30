@@ -1,26 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { defineConfig } from "vitest/config";
+import vitestConfig from "../../../vitest.shared.config.ts";
+import { defineConfig, mergeConfig } from "vitest/config";
+import { resolve } from "node:path";
 
-export default defineConfig({
-  test: {
-    reporters: ["basic", "junit"],
-    outputFile: {
-      junit: "test-results.xml",
+export default mergeConfig(
+  vitestConfig,
+  defineConfig({
+    test: {
+      include: ["tests/**/*.ts"],
+      exclude: ["tests/ruleTester.ts"],
+      coverage: {
+        include: ["src/**/*.ts"],
+        exclude: ["vitest*.config.ts"],
+      },
     },
-    fakeTimers: {
-      toFake: ["setTimeout", "Date"],
-    },
-    watch: false,
-    include: ["tests/**/*.ts"],
-    exclude: ["tests/ruleTester.ts"],
-    coverage: {
-      include: ["src/**/*.ts"],
-      exclude: ["vitest*.config.ts"],
-      provider: "istanbul",
-      reporter: ["text", "json", "html"],
-      reportsDirectory: "coverage",
-    },
-  },
-});
+  })
+);

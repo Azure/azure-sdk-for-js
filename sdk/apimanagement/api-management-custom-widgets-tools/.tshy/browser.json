@@ -5,11 +5,8 @@
     "../src/**/*.mts",
     "../src/**/*.tsx"
   ],
-  "exclude": [
-    ".././src/node/deploy-browser.mts",
-    ".././src/node/readdir-browser.mts"
-  ],
+  "exclude": [],
   "compilerOptions": {
-    "outDir": "../.tshy-build/esm"
+    "outDir": "../.tshy-build/browser"
   }
 }

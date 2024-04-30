@@ -15,20 +15,17 @@ export default defineConfig({
       headless: true,
       name: "chromium",
       provider: "playwright",
-      providerOptions: {
-        launch: {
-          args: ["--disable-web-security"],
-        },
-      },
     },
     fakeTimers: {
-      toFake: ["setTimeout"],
+      toFake: ["setTimeout", "Date"],
     },
     watch: false,
+    include: ["dist-test/browser/**/*.spec.js"],
     coverage: {
       enable: true,
       include: ["dist-test/browser/**/*.js"],
       exclude: [
+        "dist-test/browser/test/**/*.js",
         "dist-test/browser/**/*./*-browser.mjs",
         "dist-test/browser/**/*./*-react-native.mjs",
       ],

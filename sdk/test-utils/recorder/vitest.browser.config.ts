@@ -34,13 +34,14 @@ export default defineConfig({
     watch: false,
     include: ["dist-test/browser/**/*.spec.js"],
     coverage: {
+      enable: true,
       include: ["dist-test/browser/**/*.js"],
       exclude: [
         "dist-test/browser/**/*./*-browser.mjs",
         "dist-test/browser/**/*./*-react-native.mjs",
       ],
       provider: "istanbul",
-      reporter: ["text", "json", "html"],
+      reporter: ["text", "html", "cobertura"],
       reportsDirectory: "coverage-browser",
     },
   },

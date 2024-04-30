@@ -31,7 +31,7 @@ export default defineConfig({
       },
     },
     fakeTimers: {
-      toFake: ["setTimeout"],
+      toFake: ["setTimeout", "Date"],
     },
     watch: false,
     coverage: {
