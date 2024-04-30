@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a migration.
  *
  * @summary Deletes a migration.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/Migrations_Delete.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/Migrations_Delete.json
  */
 async function migrationsDelete() {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -32,7 +32,7 @@ async function migrationsDelete() {
     subscriptionId,
     resourceGroupName,
     targetDbServerName,
-    migrationName
+    migrationName,
   );
   console.log(result);
 }

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   PartnerNamespace,
-  EventGridManagementClient
+  EventGridManagementClient,
 } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Asynchronously creates a new partner namespace with the specified parameters.
  *
  * @summary Asynchronously creates a new partner namespace with the specified parameters.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/PartnerNamespaces_CreateOrUpdate.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/PartnerNamespaces_CreateOrUpdate.json
  */
 async function partnerNamespacesCreateOrUpdate() {
   const subscriptionId =
@@ -34,14 +34,14 @@ async function partnerNamespacesCreateOrUpdate() {
     location: "westus",
     partnerRegistrationFullyQualifiedId:
       "/subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/partnerRegistrations/ContosoCorpAccount1",
-    tags: { tag1: "value1", tag2: "value2" }
+    tags: { tag1: "value1", tag2: "value2" },
   };
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
   const result = await client.partnerNamespaces.beginCreateOrUpdateAndWait(
     resourceGroupName,
     partnerNamespaceName,
-    partnerNamespaceInfo
+    partnerNamespaceInfo,
   );
   console.log(result);
 }

@@ -970,6 +970,24 @@ export interface EmbeddingsOptions {
   dimensions?: number;
 }
 
+/** A response containing error details. */
+export interface ErrorResponse {
+  /** The error object. */
+  error: OpenAIErrorModel;
+}
+
+/** The error object. */
+export interface OpenAIErrorModel {
+  /** A human-readable representation of the error. */
+  message: string;
+  /** The parameters of the error. */
+  param: string | null;
+  /** Type of the error. */
+  type: string | null;
+  /** The error code. */
+  code: string | null;
+}
+
 /** An abstract representation of a chat message as provided in a request. */
 export type ChatRequestMessage =
   | ChatRequestMessageParent

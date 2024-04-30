@@ -15,7 +15,7 @@ import {
   ClientsGetResponse,
   ClientsCreateOrUpdateOptionalParams,
   ClientsCreateOrUpdateResponse,
-  ClientsDeleteOptionalParams
+  ClientsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface Clients {
   listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    options?: ClientsListByNamespaceOptionalParams
+    options?: ClientsListByNamespaceOptionalParams,
   ): PagedAsyncIterableIterator<Client>;
   /**
    * Get properties of a client.
@@ -43,7 +43,7 @@ export interface Clients {
     resourceGroupName: string,
     namespaceName: string,
     clientName: string,
-    options?: ClientsGetOptionalParams
+    options?: ClientsGetOptionalParams,
   ): Promise<ClientsGetResponse>;
   /**
    * Create or update a client with the specified parameters.
@@ -58,7 +58,7 @@ export interface Clients {
     namespaceName: string,
     clientName: string,
     clientInfo: Client,
-    options?: ClientsCreateOrUpdateOptionalParams
+    options?: ClientsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ClientsCreateOrUpdateResponse>,
@@ -78,7 +78,7 @@ export interface Clients {
     namespaceName: string,
     clientName: string,
     clientInfo: Client,
-    options?: ClientsCreateOrUpdateOptionalParams
+    options?: ClientsCreateOrUpdateOptionalParams,
   ): Promise<ClientsCreateOrUpdateResponse>;
   /**
    * Delete an existing client.
@@ -91,7 +91,7 @@ export interface Clients {
     resourceGroupName: string,
     namespaceName: string,
     clientName: string,
-    options?: ClientsDeleteOptionalParams
+    options?: ClientsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete an existing client.
@@ -104,6 +104,6 @@ export interface Clients {
     resourceGroupName: string,
     namespaceName: string,
     clientName: string,
-    options?: ClientsDeleteOptionalParams
+    options?: ClientsDeleteOptionalParams,
   ): Promise<void>;
 }

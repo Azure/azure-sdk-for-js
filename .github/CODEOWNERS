@@ -103,10 +103,6 @@
 # ServiceLabel: %Communication - Phone Numbers
 /sdk/communication/communication-phone-numbers/ @miguhern @whisper6284 @RoyHerrod @danielav7
 
-# PRLabel: %Communication - Network Traversal
-# ServiceLabel: %Communication - Network Traversal
-/sdk/communication/communication-network-traversal/ @ajpeacock0 @nathpete-msft
-
 # PRLabel: %Communication - Rooms
 # ServiceLabel: %Communication - Rooms
 /sdk/communication/communication-rooms/ @anujissarMS @minnieliu @paolamvhz @shwali-msft @allchiang-msft
@@ -456,6 +452,10 @@
 
 # PRLabel: %Mgmt
 /sdk/devspaces/arm-devspaces/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/deviceregistry/arm-deviceregistry/ @qiaozha @MaryGao
+
 # PRLabel: %Mgmt
 /sdk/defendereasm/arm-defendereasm/ @qiaozha @MaryGao
 
@@ -494,6 +494,9 @@
 
 # PRLabel: %Mgmt
 /sdk/frontdoor/arm-frontdoor/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/guestconfiguration/arm-guestconfiguration/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/hanaonazure/arm-hanaonazure/ @qiaozha @MaryGao
@@ -746,6 +749,9 @@
 
 # PRLabel: %Mgmt
 /sdk/search/arm-search/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/standbypool/arm-standbypool/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/springappdiscovery/arm-springappdiscovery/ @qiaozha @MaryGao

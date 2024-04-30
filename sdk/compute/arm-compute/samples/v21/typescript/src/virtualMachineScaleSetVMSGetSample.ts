@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a virtual machine from a VM scale set.
  *
  * @summary Gets a virtual machine from a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Get_WithUserData.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Get_WithUserData.json
  */
 async function getVMScaleSetVMWithUserData() {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function getVMScaleSetVMWithUserData() {
  * This sample demonstrates how to Gets a virtual machine from a VM scale set.
  *
  * @summary Gets a virtual machine from a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Get_WithVMSizeProperties.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Get_WithVMSizeProperties.json
  */
 async function getVMScaleSetVMWithVMSizeProperties() {
   const subscriptionId =

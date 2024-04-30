@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   IotConnectorPatchResource,
-  HealthcareApisManagementClient
+  HealthcareApisManagementClient,
 } from "@azure/arm-healthcareapis";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Patch an IoT Connector.
  *
  * @summary Patch an IoT Connector.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/iotconnectors/iotconnector_Patch.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/iotconnectors/iotconnector_Patch.json
  */
 async function patchAnIoTConnector() {
   const subscriptionId =
@@ -35,8 +35,8 @@ async function patchAnIoTConnector() {
     tags: {
       additionalProp1: "string",
       additionalProp2: "string",
-      additionalProp3: "string"
-    }
+      additionalProp3: "string",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new HealthcareApisManagementClient(credential, subscriptionId);
@@ -44,7 +44,7 @@ async function patchAnIoTConnector() {
     resourceGroupName,
     iotConnectorName,
     workspaceName,
-    iotConnectorPatchResource
+    iotConnectorPatchResource,
   );
   console.log(result);
 }

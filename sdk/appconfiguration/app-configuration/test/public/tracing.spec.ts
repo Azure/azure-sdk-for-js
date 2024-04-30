@@ -5,7 +5,7 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { createAppConfigurationClientForTests, startRecorder } from "./utils/testHelpers";
 import { AppConfigurationClient } from "../../src/appConfigurationClient";
 import { Context } from "mocha";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 
 describe("supports tracing", () => {
   let client: AppConfigurationClient;

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete a dedicated host.
  *
  * @summary Delete a dedicated host.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/dedicatedHostExamples/DedicatedHost_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/dedicatedHostExamples/DedicatedHost_Delete_MaximumSet_Gen.json
  */
 async function dedicatedHostDeleteMaximumSetGen() {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function dedicatedHostDeleteMaximumSetGen() {
  * This sample demonstrates how to Delete a dedicated host.
  *
  * @summary Delete a dedicated host.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/dedicatedHostExamples/DedicatedHost_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/dedicatedHostExamples/DedicatedHost_Delete_MinimumSet_Gen.json
  */
 async function dedicatedHostDeleteMinimumSetGen() {
   const subscriptionId =

@@ -17,7 +17,7 @@ import {
   ExtensionMetadataListOptionalParams,
   ExtensionMetadataListResponse,
   ExtensionMetadataGetOptionalParams,
-  ExtensionMetadataGetResponse
+  ExtensionMetadataGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,13 +44,13 @@ export class ExtensionMetadataImpl implements ExtensionMetadata {
     location: string,
     publisher: string,
     extensionType: string,
-    options?: ExtensionMetadataListOptionalParams
+    options?: ExtensionMetadataListOptionalParams,
   ): PagedAsyncIterableIterator<ExtensionValue> {
     const iter = this.listPagingAll(
       location,
       publisher,
       extensionType,
-      options
+      options,
     );
     return {
       next() {
@@ -68,9 +68,9 @@ export class ExtensionMetadataImpl implements ExtensionMetadata {
           publisher,
           extensionType,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -79,7 +79,7 @@ export class ExtensionMetadataImpl implements ExtensionMetadata {
     publisher: string,
     extensionType: string,
     options?: ExtensionMetadataListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<ExtensionValue[]> {
     let result: ExtensionMetadataListResponse;
     result = await this._list(location, publisher, extensionType, options);
@@ -90,13 +90,13 @@ export class ExtensionMetadataImpl implements ExtensionMetadata {
     location: string,
     publisher: string,
     extensionType: string,
-    options?: ExtensionMetadataListOptionalParams
+    options?: ExtensionMetadataListOptionalParams,
   ): AsyncIterableIterator<ExtensionValue> {
     for await (const page of this.listPagingPage(
       location,
       publisher,
       extensionType,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -115,11 +115,11 @@ export class ExtensionMetadataImpl implements ExtensionMetadata {
     publisher: string,
     extensionType: string,
     version: string,
-    options?: ExtensionMetadataGetOptionalParams
+    options?: ExtensionMetadataGetOptionalParams,
   ): Promise<ExtensionMetadataGetResponse> {
     return this.client.sendOperationRequest(
       { location, publisher, extensionType, version, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -134,11 +134,11 @@ export class ExtensionMetadataImpl implements ExtensionMetadata {
     location: string,
     publisher: string,
     extensionType: string,
-    options?: ExtensionMetadataListOptionalParams
+    options?: ExtensionMetadataListOptionalParams,
   ): Promise<ExtensionMetadataListResponse> {
     return this.client.sendOperationRequest(
       { location, publisher, extensionType, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -146,16 +146,15 @@ export class ExtensionMetadataImpl implements ExtensionMetadata {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridCompute/locations/{location}/publishers/{publisher}/extensionTypes/{extensionType}/versions/{version}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.HybridCompute/locations/{location}/publishers/{publisher}/extensionTypes/{extensionType}/versions/{version}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExtensionValue
+      bodyMapper: Mappers.ExtensionValue,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -164,22 +163,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.location,
     Parameters.publisher,
     Parameters.extensionType,
-    Parameters.version
+    Parameters.version,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridCompute/locations/{location}/publishers/{publisher}/extensionTypes/{extensionType}/versions",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.HybridCompute/locations/{location}/publishers/{publisher}/extensionTypes/{extensionType}/versions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExtensionValueListResult
+      bodyMapper: Mappers.ExtensionValueListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -187,8 +185,8 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.location,
     Parameters.publisher,
-    Parameters.extensionType
+    Parameters.extensionType,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
