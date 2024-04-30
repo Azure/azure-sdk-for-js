@@ -2088,7 +2088,7 @@
         },
         "companyInformation": {
           "name": "Contoso",
-          "url": "https://contoso.com",
+          "url": "REDACTED",
           "address": "1 Contoso Way Redmond, WA 98052",
           "contactInformation": {
             "name": "Alex",
@@ -2209,7 +2209,7 @@
         },
         "companyInformation": {
           "name": "Contoso",
-          "url": "https://contoso.com",
+          "url": "REDACTED",
           "address": "1 Contoso Way Redmond, WA 98052",
           "contactInformation": {
             "name": "Alex",
@@ -2354,7 +2354,7 @@
         },
         "companyInformation": {
           "name": "Contoso",
-          "url": "https://contoso.com",
+          "url": "REDACTED",
           "address": "1 Contoso Way Redmond, WA 98052",
           "contactInformation": {
             "name": "Alex",
@@ -2508,7 +2508,7 @@
         },
         "companyInformation": {
           "name": "Contoso",
-          "url": "https://contoso.com",
+          "url": "REDACTED",
           "address": "1 Contoso Way Redmond, WA 98052",
           "contactInformation": {
             "name": "Alex",
@@ -2653,7 +2653,7 @@
         },
         "companyInformation": {
           "name": "Contoso",
-          "url": "https://contoso.com",
+          "url": "REDACTED",
           "address": "1 Contoso Way Redmond, WA 98052",
           "contactInformation": {
             "name": "Alex",
