@@ -2,7 +2,7 @@
   "name": "@azure-rest/communication-messages",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.0.1",
+  "version": "1.1.0-beta.1",
   "description": "Azure client library for Azure Communication Messages services",
   "keywords": [
     "node",
