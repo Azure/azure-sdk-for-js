@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0 (2024-05-01)
+## 1.0.0 (2024-05-07)
 ### Other Changes
  - First GA release
  - Added examples for all inferences
