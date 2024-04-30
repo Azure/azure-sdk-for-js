@@ -15,7 +15,7 @@ import { EventGridManagementClient } from "../eventGridManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -26,13 +26,14 @@ import {
   NetworkSecurityPerimeterConfigurationsGetOptionalParams,
   NetworkSecurityPerimeterConfigurationsGetResponse,
   NetworkSecurityPerimeterConfigurationsReconcileOptionalParams,
-  NetworkSecurityPerimeterConfigurationsReconcileResponse
+  NetworkSecurityPerimeterConfigurationsReconcileResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing NetworkSecurityPerimeterConfigurations operations. */
 export class NetworkSecurityPerimeterConfigurationsImpl
-  implements NetworkSecurityPerimeterConfigurations {
+  implements NetworkSecurityPerimeterConfigurations
+{
   private readonly client: EventGridManagementClient;
 
   /**
@@ -54,13 +55,13 @@ export class NetworkSecurityPerimeterConfigurationsImpl
     resourceGroupName: string,
     resourceType: NetworkSecurityPerimeterResourceType,
     resourceName: string,
-    options?: NetworkSecurityPerimeterConfigurationsListOptionalParams
+    options?: NetworkSecurityPerimeterConfigurationsListOptionalParams,
   ): PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration> {
     const iter = this.listPagingAll(
       resourceGroupName,
       resourceType,
       resourceName,
-      options
+      options,
     );
     return {
       next() {
@@ -78,9 +79,9 @@ export class NetworkSecurityPerimeterConfigurationsImpl
           resourceType,
           resourceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -89,14 +90,14 @@ export class NetworkSecurityPerimeterConfigurationsImpl
     resourceType: NetworkSecurityPerimeterResourceType,
     resourceName: string,
     options?: NetworkSecurityPerimeterConfigurationsListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<NetworkSecurityPerimeterConfiguration[]> {
     let result: NetworkSecurityPerimeterConfigurationsListResponse;
     result = await this._list(
       resourceGroupName,
       resourceType,
       resourceName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -105,13 +106,13 @@ export class NetworkSecurityPerimeterConfigurationsImpl
     resourceGroupName: string,
     resourceType: NetworkSecurityPerimeterResourceType,
     resourceName: string,
-    options?: NetworkSecurityPerimeterConfigurationsListOptionalParams
+    options?: NetworkSecurityPerimeterConfigurationsListOptionalParams,
   ): AsyncIterableIterator<NetworkSecurityPerimeterConfiguration> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       resourceType,
       resourceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -133,7 +134,7 @@ export class NetworkSecurityPerimeterConfigurationsImpl
     resourceName: string,
     perimeterGuid: string,
     associationName: string,
-    options?: NetworkSecurityPerimeterConfigurationsGetOptionalParams
+    options?: NetworkSecurityPerimeterConfigurationsGetOptionalParams,
   ): Promise<NetworkSecurityPerimeterConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -142,9 +143,9 @@ export class NetworkSecurityPerimeterConfigurationsImpl
         resourceName,
         perimeterGuid,
         associationName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -165,7 +166,7 @@ export class NetworkSecurityPerimeterConfigurationsImpl
     resourceName: string,
     perimeterGuid: string,
     associationName: string,
-    options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams
+    options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkSecurityPerimeterConfigurationsReconcileResponse>,
@@ -174,21 +175,20 @@ export class NetworkSecurityPerimeterConfigurationsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkSecurityPerimeterConfigurationsReconcileResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -197,8 +197,8 @@ export class NetworkSecurityPerimeterConfigurationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -206,8 +206,8 @@ export class NetworkSecurityPerimeterConfigurationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -219,9 +219,9 @@ export class NetworkSecurityPerimeterConfigurationsImpl
         resourceName,
         perimeterGuid,
         associationName,
-        options
+        options,
       },
-      spec: reconcileOperationSpec
+      spec: reconcileOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkSecurityPerimeterConfigurationsReconcileResponse,
@@ -229,7 +229,7 @@ export class NetworkSecurityPerimeterConfigurationsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -252,7 +252,7 @@ export class NetworkSecurityPerimeterConfigurationsImpl
     resourceName: string,
     perimeterGuid: string,
     associationName: string,
-    options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams
+    options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams,
   ): Promise<NetworkSecurityPerimeterConfigurationsReconcileResponse> {
     const poller = await this.beginReconcile(
       resourceGroupName,
@@ -260,7 +260,7 @@ export class NetworkSecurityPerimeterConfigurationsImpl
       resourceName,
       perimeterGuid,
       associationName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -276,11 +276,11 @@ export class NetworkSecurityPerimeterConfigurationsImpl
     resourceGroupName: string,
     resourceType: NetworkSecurityPerimeterResourceType,
     resourceName: string,
-    options?: NetworkSecurityPerimeterConfigurationsListOptionalParams
+    options?: NetworkSecurityPerimeterConfigurationsListOptionalParams,
   ): Promise<NetworkSecurityPerimeterConfigurationsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceType, resourceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -288,16 +288,15 @@ export class NetworkSecurityPerimeterConfigurationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/{resourceType}/{resourceName}/networkSecurityPerimeterConfigurations/{perimeterGuid}.{associationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/{resourceType}/{resourceName}/networkSecurityPerimeterConfigurations/{perimeterGuid}.{associationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkSecurityPerimeterConfiguration
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfiguration,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -307,31 +306,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceType,
     Parameters.resourceName1,
     Parameters.perimeterGuid,
-    Parameters.associationName
+    Parameters.associationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const reconcileOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/{resourceType}/{resourceName}/networkSecurityPerimeterConfigurations/{perimeterGuid}.{associationName}/reconcile",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/{resourceType}/{resourceName}/networkSecurityPerimeterConfigurations/{perimeterGuid}.{associationName}/reconcile",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkSecurityPerimeterConfiguration
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfiguration,
     },
     201: {
-      bodyMapper: Mappers.NetworkSecurityPerimeterConfiguration
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfiguration,
     },
     202: {
-      bodyMapper: Mappers.NetworkSecurityPerimeterConfiguration
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfiguration,
     },
     204: {
-      bodyMapper: Mappers.NetworkSecurityPerimeterConfiguration
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfiguration,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -341,22 +339,21 @@ const reconcileOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceType,
     Parameters.resourceName1,
     Parameters.perimeterGuid,
-    Parameters.associationName
+    Parameters.associationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/{resourceType}/{resourceName}/networkSecurityPerimeterConfigurations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/{resourceType}/{resourceName}/networkSecurityPerimeterConfigurations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkSecurityPerimeterConfigurationList
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfigurationList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -364,8 +361,8 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceType,
-    Parameters.resourceName1
+    Parameters.resourceName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

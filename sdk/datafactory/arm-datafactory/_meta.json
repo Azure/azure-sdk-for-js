@@ -1,8 +1,8 @@
 {
-  "commit": "4792bce7667477529991457890b4a6b670e70508",
+  "commit": "106483d9f698ac3b6c0d481ab0c5fab14152e21f",
   "readme": "specification/datafactory/resource-manager/readme.md",
-  "autorest_command": "autorest --version=3.9.7 --typescript --modelerfour.lenient-model-deduplication --azure-arm --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=D:\\Git\\azure-sdk-for-js ..\\azure-rest-api-specs\\specification\\datafactory\\resource-manager\\readme.md --use=@autorest/typescript@6.0.13 --generate-sample=true",
+  "autorest_command": "autorest --version=3.9.7 --typescript --modelerfour.lenient-model-deduplication --azure-arm --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=D:\\Git\\azure-sdk-for-js ..\\azure-rest-api-specs\\specification\\datafactory\\resource-manager\\readme.md --use=@autorest/typescript@6.0.20 --generate-sample=true",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs.git",
-  "release_tool": "@azure-tools/js-sdk-release-tools@2.7.4",
-  "use": "@autorest/typescript@6.0.13"
+  "release_tool": "@azure-tools/js-sdk-release-tools@2.7.5",
+  "use": "@autorest/typescript@6.0.20"
 }

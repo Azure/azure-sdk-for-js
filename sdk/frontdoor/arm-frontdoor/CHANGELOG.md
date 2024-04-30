@@ -1,6 +1,6 @@
 # Release History
 
-## 5.2.1 (Unreleased)
+## 5.3.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,30 @@
 
 ### Other Changes
 
+## 5.3.0 (2024-04-15)
+    
+**Features**
+
+  - Added Interface GroupByVariable
+  - Added Interface WebApplicationFirewallScrubbingRules
+  - Added Type Alias ScrubbingRuleEntryMatchOperator
+  - Added Type Alias ScrubbingRuleEntryMatchVariable
+  - Added Type Alias ScrubbingRuleEntryState
+  - Added Type Alias VariableName
+  - Added Type Alias WebApplicationFirewallScrubbingState
+  - Interface CustomRule has a new optional parameter groupBy
+  - Interface PolicySettings has a new optional parameter javascriptChallengeExpirationInMinutes
+  - Interface PolicySettings has a new optional parameter scrubbingRules
+  - Interface PolicySettings has a new optional parameter state
+  - Added Enum KnownScrubbingRuleEntryMatchOperator
+  - Added Enum KnownScrubbingRuleEntryMatchVariable
+  - Added Enum KnownScrubbingRuleEntryState
+  - Added Enum KnownVariableName
+  - Added Enum KnownWebApplicationFirewallScrubbingState
+  - Enum KnownActionType has a new value JSChallenge
+  - Class FrontDoorManagementClient has a new signature
+    
+    
 ## 5.2.0 (2023-05-09)
     
 **Features**

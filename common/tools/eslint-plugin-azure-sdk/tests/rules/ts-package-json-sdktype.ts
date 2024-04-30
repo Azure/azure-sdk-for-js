@@ -6,7 +6,7 @@
  * @author Ben Zhang
  */
 
-import { RuleTester } from "eslint";
+import { RuleTester } from "../ruleTester";
 import rule from "../../src/rules/ts-package-json-sdktype";
 
 //------------------------------------------------------------------------------
@@ -109,8 +109,8 @@ const examplePackageGood = `{
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^2.0.1",
     "@azure/mock-hub": "^1.0.0",
-    "@azure/test-utils": "^1.0.0",
-    "@azure/test-utils-perf": "^1.0.0",
+    "@azure-tools/test-utils": "^1.0.0",
+    "@azure-tools/test-perf": "^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-inject": "^4.0.0",
@@ -162,7 +162,7 @@ const examplePackageGood = `{
     "rollup-plugin-terser": "^5.1.1",
     "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
-    "typescript": "~5.3.3",
+    "typescript": "~5.4.5",
     "ws": "^7.1.1",
     "typedoc": "0.15.2"
   }
@@ -263,8 +263,8 @@ const examplePackageBad = `{
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^2.0.1",
     "@azure/mock-hub": "^1.0.0",
-    "@azure/test-utils": "^1.0.0",
-    "@azure/test-utils-perf": "^1.0.0",
+    "@azure-tools/test-utils": "^1.0.0",
+    "@azure-tools/test-perf": "^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-inject": "^4.0.0",
@@ -316,7 +316,7 @@ const examplePackageBad = `{
     "rollup-plugin-terser": "^5.1.1",
     "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
-    "typescript": "~5.3.3",
+    "typescript": "~5.4.5",
     "ws": "^7.1.1",
     "typedoc": "0.15.2"
   }

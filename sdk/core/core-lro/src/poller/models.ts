@@ -12,6 +12,10 @@ export interface OperationConfig {
   operationLocation?: string;
   /** The resource location */
   resourceLocation?: string;
+  /** The initial request Url  */
+  initialRequestUrl?: string;
+  /** The request method */
+  requestMethod?: string;
   /** metadata about the operation */
   metadata?: Record<string, string>;
 }
@@ -38,7 +42,7 @@ export interface Operation<TResponse, TOptions> {
 /**
  * Type of a restorable long-running operation.
  */
-export type RestorableOperationState<T> = T & {
+export type RestorableOperationState<TResult, T extends OperationState<TResult>> = T & {
   /** The operation configuration */
   config: OperationConfig;
 };
@@ -58,7 +62,7 @@ export interface CreatePollerOptions<TResponse, TResult, TState> {
   /**
    * A function to process the result of the LRO.
    */
-  processResult?: (result: TResponse, state: TState) => TResult;
+  processResult?: (result: TResponse, state: TState) => Promise<TResult>;
   /**
    * A function to process the state of the LRO.
    */
@@ -85,7 +89,11 @@ export interface InnerError {
 /**
  * Options for `buildCreatePoller`.
  */
-export interface BuildCreatePollerOptions<TResponse, TState> {
+export interface BuildCreatePollerOptions<
+  TResponse,
+  TResult,
+  TState extends OperationState<TResult>,
+> {
   /**
    * Gets the status of the operation from the response received when the
    * operation was initialized. Note that the operation could be already in
@@ -93,7 +101,7 @@ export interface BuildCreatePollerOptions<TResponse, TState> {
    */
   getStatusFromInitialResponse: (inputs: {
     response: TResponse;
-    state: RestorableOperationState<TState>;
+    state: RestorableOperationState<TResult, TState>;
     operationLocation?: string;
   }) => OperationStatus;
   /**
@@ -102,7 +110,7 @@ export interface BuildCreatePollerOptions<TResponse, TState> {
    */
   getStatusFromPollResponse: (
     response: TResponse,
-    state: RestorableOperationState<TState>,
+    state: RestorableOperationState<TResult, TState>,
   ) => OperationStatus;
   /**
    * Determines if the input error is an operation error.
@@ -113,14 +121,14 @@ export interface BuildCreatePollerOptions<TResponse, TState> {
    */
   getOperationLocation?: (
     response: TResponse,
-    state: RestorableOperationState<TState>,
+    state: RestorableOperationState<TResult, TState>,
   ) => string | undefined;
   /**
    * Gets the resource location from a response.
    */
   getResourceLocation: (
     response: TResponse,
-    state: RestorableOperationState<TState>,
+    state: RestorableOperationState<TResult, TState>,
   ) => string | undefined;
   /**
    * Gets from the response the time interval the service suggests the client to
@@ -171,14 +179,30 @@ export interface OperationState<TResult> {
 export type CancelOnProgress = () => void;
 
 /**
- * A simple poller interface.
+ * A poller for an operation.
  */
-export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+export interface PollerLike<TState extends OperationState<TResult>, TResult>
+  extends Promise<TResult> {
+  /**
+   * Is true if the poller has finished polling.
+   */
+  readonly isDone: boolean;
+  /**
+   * The state of the operation.
+   * It can be undefined if the poller has not been submitted yet.
+   */
+  readonly operationState: TState | undefined;
+  /**
+   * The result value of the operation, regardless of the state of the poller.
+   * It can be undefined or an incomplete form of the final TResult value
+   * depending on the implementation.
+   */
+  readonly result: TResult | undefined;
   /**
    * Returns a promise that will resolve once a single polling request finishes.
    * It does this by calling the update method of the Poller's operation.
    */
-  poll(options?: { abortSignal?: AbortSignalLike }): Promise<void>;
+  poll(options?: { abortSignal?: AbortSignalLike }): Promise<TState>;
   /**
    * Returns a promise that will resolve once the underlying operation is completed.
    */
@@ -190,55 +214,15 @@ export interface SimplePollerLike<TState extends OperationState<TResult>, TResul
    * It returns a method that can be used to stop receiving updates on the given callback function.
    */
   onProgress(callback: (state: TState) => void): CancelOnProgress;
-  /**
-   * Returns true if the poller has finished polling.
-   */
-  isDone(): boolean;
-  /**
-   * Stops the poller. After this, no manual or automated requests can be sent.
-   */
-  stopPolling(): void;
-  /**
-   * Returns true if the poller is stopped.
-   */
-  isStopped(): boolean;
-  /**
-   * Returns the state of the operation.
-   */
-  getOperationState(): TState;
-  /**
-   * Returns the result value of the operation,
-   * regardless of the state of the poller.
-   * It can return undefined or an incomplete form of the final TResult value
-   * depending on the implementation.
-   */
-  getResult(): TResult | undefined;
-  /**
-   * Returns a serialized version of the poller's operation
-   * by invoking the operation's toString method.
-   */
-  toString(): string;
-}
 
-/**
- * A state proxy that allows poller implementation to abstract away the operation
- * state. This is useful to implement `lroEngine` and `createPoller` in a modular
- * way.
- */
-export interface StateProxy<TState, TResult> {
-  initState: (config: OperationConfig) => RestorableOperationState<TState>;
+  /**
+   * Returns a promise that could be used for serialized version of the poller's operation
+   * by invoking the operation's serialize method.
+   */
+  serialize(): Promise<string>;
 
-  setRunning: (state: TState) => void;
-  setCanceled: (state: TState) => void;
-  setResult: (state: TState, result: TResult) => void;
-  setError: (state: TState, error: Error) => void;
-  setFailed: (state: TState) => void;
-  setSucceeded: (state: TState) => void;
-
-  isRunning: (state: TState) => boolean;
-  isCanceled: (state: TState) => boolean;
-  getResult: (state: TState) => TResult | undefined;
-  getError: (state: TState) => Error | undefined;
-  isFailed: (state: TState) => boolean;
-  isSucceeded: (state: TState) => boolean;
+  /**
+   * Returns a promise that could be used to check if the poller has been submitted.
+   */
+  submitted(): Promise<void>;
 }

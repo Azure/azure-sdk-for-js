@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VirtualMachineImagesListOptionalParams,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of all virtual machine image versions for the specified location, publisher, offer, and SKU.
  *
  * @summary Gets a list of all virtual machine image versions for the specified location, publisher, offer, and SKU.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineImageExamples/VirtualMachineImage_List_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineImageExamples/VirtualMachineImage_List_MaximumSet_Gen.json
  */
 async function virtualMachineImageListMaximumSetGen() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function virtualMachineImageListMaximumSetGen() {
   const options: VirtualMachineImagesListOptionalParams = {
     expand,
     top,
-    orderby
+    orderby,
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -45,7 +45,7 @@ async function virtualMachineImageListMaximumSetGen() {
     publisherName,
     offer,
     skus,
-    options
+    options,
   );
   console.log(result);
 }
@@ -54,7 +54,7 @@ async function virtualMachineImageListMaximumSetGen() {
  * This sample demonstrates how to Gets a list of all virtual machine image versions for the specified location, publisher, offer, and SKU.
  *
  * @summary Gets a list of all virtual machine image versions for the specified location, publisher, offer, and SKU.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineImageExamples/VirtualMachineImage_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineImageExamples/VirtualMachineImage_List_MinimumSet_Gen.json
  */
 async function virtualMachineImageListMinimumSetGen() {
   const subscriptionId =
@@ -69,7 +69,7 @@ async function virtualMachineImageListMinimumSetGen() {
     location,
     publisherName,
     offer,
-    skus
+    skus,
   );
   console.log(result);
 }

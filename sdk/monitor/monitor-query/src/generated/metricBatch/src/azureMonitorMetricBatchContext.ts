@@ -8,14 +8,14 @@
 
 import * as coreClient from "@azure/core-client";
 import {
-  ApiVersion20230501Preview,
+  ApiVersion20240201,
   AzureMonitorMetricBatchOptionalParams
 } from "./models";
 
 /** @internal */
 export class AzureMonitorMetricBatchContext extends coreClient.ServiceClient {
   endpoint: string;
-  apiVersion: ApiVersion20230501Preview;
+  apiVersion: ApiVersion20240201;
 
   /**
    * Initializes a new instance of the AzureMonitorMetricBatchContext class.
@@ -27,7 +27,7 @@ export class AzureMonitorMetricBatchContext extends coreClient.ServiceClient {
    */
   constructor(
     endpoint: string,
-    apiVersion: ApiVersion20230501Preview,
+    apiVersion: ApiVersion20240201,
     options?: AzureMonitorMetricBatchOptionalParams
   ) {
     if (endpoint === undefined) {
@@ -45,7 +45,7 @@ export class AzureMonitorMetricBatchContext extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-monitor-metric-batch/1.2.0-beta.3`;
+    const packageDetails = `azsdk-js-monitor-metric-batch/1.2.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

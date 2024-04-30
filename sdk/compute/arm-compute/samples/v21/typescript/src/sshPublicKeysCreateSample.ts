@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   SshPublicKeyResource,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a new SSH public key resource.
  *
  * @summary Creates a new SSH public key resource.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/sshPublicKeyExamples/SshPublicKey_Create.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/sshPublicKeyExamples/SshPublicKey_Create.json
  */
 async function createANewSshPublicKeyResource() {
   const subscriptionId =
@@ -31,14 +31,14 @@ async function createANewSshPublicKeyResource() {
   const sshPublicKeyName = "mySshPublicKeyName";
   const parameters: SshPublicKeyResource = {
     location: "westus",
-    publicKey: "{ssh-rsa public key}"
+    publicKey: "{ssh-rsa public key}",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.sshPublicKeys.create(
     resourceGroupName,
     sshPublicKeyName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

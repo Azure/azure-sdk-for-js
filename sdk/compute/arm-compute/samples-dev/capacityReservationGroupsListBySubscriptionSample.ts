@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CapacityReservationGroupsListBySubscriptionOptionalParams,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,20 +21,44 @@ dotenv.config();
  * This sample demonstrates how to Lists all of the capacity reservation groups in the subscription. Use the nextLink property in the response to get the next page of capacity reservation groups.
  *
  * @summary Lists all of the capacity reservation groups in the subscription. Use the nextLink property in the response to get the next page of capacity reservation groups.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/capacityReservationExamples/CapacityReservationGroup_ListBySubscription.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/capacityReservationExamples/CapacityReservationGroup_ListBySubscription.json
  */
 async function listCapacityReservationGroupsInSubscription() {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const expand = "virtualMachines/$ref";
   const options: CapacityReservationGroupsListBySubscriptionOptionalParams = {
-    expand
+    expand,
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.capacityReservationGroups.listBySubscription(
-    options
+    options,
+  )) {
+    resArray.push(item);
+  }
+  console.log(resArray);
+}
+
+/**
+ * This sample demonstrates how to Lists all of the capacity reservation groups in the subscription. Use the nextLink property in the response to get the next page of capacity reservation groups.
+ *
+ * @summary Lists all of the capacity reservation groups in the subscription. Use the nextLink property in the response to get the next page of capacity reservation groups.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/capacityReservationExamples/CapacityReservationGroup_ListBySubscriptionWithResourceIdsQuery.json
+ */
+async function listCapacityReservationGroupsWithResourceIdsOnlyInSubscription() {
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceIdsOnly = "All";
+  const options: CapacityReservationGroupsListBySubscriptionOptionalParams = {
+    resourceIdsOnly,
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (let item of client.capacityReservationGroups.listBySubscription(
+    options,
   )) {
     resArray.push(item);
   }
@@ -43,6 +67,7 @@ async function listCapacityReservationGroupsInSubscription() {
 
 async function main() {
   listCapacityReservationGroupsInSubscription();
+  listCapacityReservationGroupsWithResourceIdsOnlyInSubscription();
 }
 
 main().catch(console.error);

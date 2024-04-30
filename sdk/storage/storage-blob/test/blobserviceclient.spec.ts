@@ -16,7 +16,7 @@ import {
   uriSanitizers,
 } from "./utils";
 import { delay, Recorder, isLiveMode } from "@azure-tools/test-recorder";
-import { getYieldedValue } from "@azure/test-utils";
+import { getYieldedValue } from "@azure-tools/test-utils";
 import { Tags } from "../src/models";
 import { Context } from "mocha";
 

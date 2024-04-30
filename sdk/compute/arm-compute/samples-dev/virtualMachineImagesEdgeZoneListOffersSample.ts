@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of virtual machine image offers for the specified location, edge zone and publisher.
  *
  * @summary Gets a list of virtual machine image offers for the specified location, edge zone and publisher.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListOffers_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListOffers_MaximumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneListOffersMaximumSetGen() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function virtualMachineImagesEdgeZoneListOffersMaximumSetGen() {
   const result = await client.virtualMachineImagesEdgeZone.listOffers(
     location,
     edgeZone,
-    publisherName
+    publisherName,
   );
   console.log(result);
 }
@@ -40,7 +40,7 @@ async function virtualMachineImagesEdgeZoneListOffersMaximumSetGen() {
  * This sample demonstrates how to Gets a list of virtual machine image offers for the specified location, edge zone and publisher.
  *
  * @summary Gets a list of virtual machine image offers for the specified location, edge zone and publisher.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListOffers_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListOffers_MinimumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneListOffersMinimumSetGen() {
   const subscriptionId =
@@ -53,7 +53,7 @@ async function virtualMachineImagesEdgeZoneListOffersMinimumSetGen() {
   const result = await client.virtualMachineImagesEdgeZone.listOffers(
     location,
     edgeZone,
-    publisherName
+    publisherName,
   );
   console.log(result);
 }

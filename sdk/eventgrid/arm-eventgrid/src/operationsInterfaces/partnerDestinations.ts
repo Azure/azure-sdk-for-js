@@ -21,7 +21,7 @@ import {
   PartnerDestinationsUpdateOptionalParams,
   PartnerDestinationsUpdateResponse,
   PartnerDestinationsActivateOptionalParams,
-  PartnerDestinationsActivateResponse
+  PartnerDestinationsActivateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface PartnerDestinations {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: PartnerDestinationsListBySubscriptionOptionalParams
+    options?: PartnerDestinationsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<PartnerDestination>;
   /**
    * List all the partner destinations under a resource group.
@@ -41,7 +41,7 @@ export interface PartnerDestinations {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: PartnerDestinationsListByResourceGroupOptionalParams
+    options?: PartnerDestinationsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<PartnerDestination>;
   /**
    * Get properties of a partner destination.
@@ -52,7 +52,7 @@ export interface PartnerDestinations {
   get(
     resourceGroupName: string,
     partnerDestinationName: string,
-    options?: PartnerDestinationsGetOptionalParams
+    options?: PartnerDestinationsGetOptionalParams,
   ): Promise<PartnerDestinationsGetResponse>;
   /**
    * Asynchronously creates a new partner destination with the specified parameters.
@@ -65,7 +65,7 @@ export interface PartnerDestinations {
     resourceGroupName: string,
     partnerDestinationName: string,
     partnerDestination: PartnerDestination,
-    options?: PartnerDestinationsCreateOrUpdateOptionalParams
+    options?: PartnerDestinationsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PartnerDestinationsCreateOrUpdateResponse>,
@@ -83,7 +83,7 @@ export interface PartnerDestinations {
     resourceGroupName: string,
     partnerDestinationName: string,
     partnerDestination: PartnerDestination,
-    options?: PartnerDestinationsCreateOrUpdateOptionalParams
+    options?: PartnerDestinationsCreateOrUpdateOptionalParams,
   ): Promise<PartnerDestinationsCreateOrUpdateResponse>;
   /**
    * Delete existing partner destination.
@@ -94,7 +94,7 @@ export interface PartnerDestinations {
   beginDelete(
     resourceGroupName: string,
     partnerDestinationName: string,
-    options?: PartnerDestinationsDeleteOptionalParams
+    options?: PartnerDestinationsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete existing partner destination.
@@ -105,7 +105,7 @@ export interface PartnerDestinations {
   beginDeleteAndWait(
     resourceGroupName: string,
     partnerDestinationName: string,
-    options?: PartnerDestinationsDeleteOptionalParams
+    options?: PartnerDestinationsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Asynchronously updates a partner destination with the specified parameters.
@@ -118,7 +118,7 @@ export interface PartnerDestinations {
     resourceGroupName: string,
     partnerDestinationName: string,
     partnerDestinationUpdateParameters: PartnerDestinationUpdateParameters,
-    options?: PartnerDestinationsUpdateOptionalParams
+    options?: PartnerDestinationsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PartnerDestinationsUpdateResponse>,
@@ -136,7 +136,7 @@ export interface PartnerDestinations {
     resourceGroupName: string,
     partnerDestinationName: string,
     partnerDestinationUpdateParameters: PartnerDestinationUpdateParameters,
-    options?: PartnerDestinationsUpdateOptionalParams
+    options?: PartnerDestinationsUpdateOptionalParams,
   ): Promise<PartnerDestinationsUpdateResponse>;
   /**
    * Activate a newly created partner destination.
@@ -147,6 +147,6 @@ export interface PartnerDestinations {
   activate(
     resourceGroupName: string,
     partnerDestinationName: string,
-    options?: PartnerDestinationsActivateOptionalParams
+    options?: PartnerDestinationsActivateOptionalParams,
   ): Promise<PartnerDestinationsActivateResponse>;
 }

@@ -21,7 +21,7 @@ import {
   PartitionContext,
   EventHubProducerClient,
 } from "@azure/event-hubs";
-import { getEnvVar } from "@azure/test-utils-perf";
+import { getEnvVar } from "@azure-tools/test-perf";
 import moment from "moment";
 import { delay } from "@azure/core-amqp";
 

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the full endpoint URL for an event subscription for domain.
  *
  * @summary Get the full endpoint URL for an event subscription for domain.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/DomainEventSubscriptions_GetFullUrl.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/DomainEventSubscriptions_GetFullUrl.json
  */
 async function domainEventSubscriptionsGetFullUrl() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function domainEventSubscriptionsGetFullUrl() {
   const result = await client.domainEventSubscriptions.getFullUrl(
     resourceGroupName,
     domainName,
-    eventSubscriptionName
+    eventSubscriptionName,
   );
   console.log(result);
 }

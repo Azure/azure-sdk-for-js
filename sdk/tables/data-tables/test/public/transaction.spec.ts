@@ -2,15 +2,13 @@
 // Licensed under the MIT license.
 
 import * as sinon from "sinon";
-
 import { Recorder, isPlaybackMode, isLiveMode } from "@azure-tools/test-recorder";
 import { TableClient, TableTransaction, TransactionAction, odata } from "../../src";
-
 import { Context } from "mocha";
 import { Uuid } from "../../src/utils/uuid";
 import { assert } from "chai";
 import { createTableClient } from "./utils/recordedClient";
-import { isNode } from "@azure/test-utils";
+import { isNodeLike } from "@azure/core-util";
 
 const partitionKey = "batchTest";
 const testEntities = [
@@ -19,7 +17,7 @@ const testEntities = [
   { partitionKey, rowKey: "3", name: "third" },
 ];
 
-const suffix = isNode ? "node" : "browser";
+const suffix = isNodeLike ? "node" : "browser";
 
 describe("concurrent batch operations", function () {
   const concurrentTableName = `concurrentBatchTableTest${suffix}`;

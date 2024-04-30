@@ -20,12 +20,13 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [bringYourOwnData.js][bringyourowndata]                                             | chat completions with your own data.                                         |
 | [chatCompletions.js][chatcompletions]                                               | get chat completions.                                                        |
 | [completions.js][completions]                                                       | get completions.                                                             |
-| [functions.js][functions]                                                           | get chat completions with functions.                                         |
 | [getEmbeddings.js][getembeddings]                                                   | generates embedding vectors from a prompt using Azure OpenAI Get Embeddings. |
 | [getImages.js][getimages]                                                           | generates images from prompts using Azure OpenAI Batch Image Generation.     |
 | [streamChatCompletions.js][streamchatcompletions]                                   | list chat completions.                                                       |
 | [streamChatCompletionsWithContentFilter.js][streamchatcompletionswithcontentfilter] | get completions.                                                             |
 | [streamCompletions.js][streamcompletions]                                           | list completions.                                                            |
+| [toolCall.js][toolcall]                                                             | get chat completions with functions.                                         |
+| [parseOpenAIError.js][parseopenaierror]                                             | parse OpenAI error.                                                          |
 | [openAi.js][openai]                                                                 | get completions using the OpenAI API.                                        |
 
 ## Prerequisites
@@ -61,7 +62,7 @@ node audioTranscription.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ENDPOINT="<endpoint>" AZURE_API_KEY="<azure api key>" node audioTranscription.js
+npx cross-env ENDPOINT="<endpoint>" AZURE_API_KEY="<azure api key>" AUDIO_FILE_PATH="<audio file path>" node audioTranscription.js
 ```
 
 ## Next Steps
@@ -73,12 +74,13 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [bringyourowndata]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/bringYourOwnData.js
 [chatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/chatCompletions.js
 [completions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/completions.js
-[functions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/functions.js
 [getembeddings]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/getEmbeddings.js
 [getimages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/getImages.js
 [streamchatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/streamChatCompletions.js
 [streamchatcompletionswithcontentfilter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/streamChatCompletionsWithContentFilter.js
 [streamcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/streamCompletions.js
+[toolcall]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/toolCall.js
+[parseopenaierror]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/parseOpenAIError.js
 [openai]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/openAi.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/openai
 [freesub]: https://azure.microsoft.com/free/

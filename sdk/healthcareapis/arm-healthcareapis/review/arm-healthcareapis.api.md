@@ -35,12 +35,14 @@ export type CreatedByType = string;
 export interface DicomService extends TaggedResource, ServiceManagedIdentity {
     authenticationConfiguration?: DicomServiceAuthenticationConfiguration;
     corsConfiguration?: CorsConfiguration;
+    enableDataPartitions?: boolean;
     encryption?: Encryption;
     readonly eventState?: ServiceEventState;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
     readonly serviceUrl?: string;
+    storageConfiguration?: StorageConfiguration;
     readonly systemData?: SystemData;
 }
 
@@ -194,6 +196,7 @@ export interface FhirServiceAcrConfiguration {
 export interface FhirServiceAuthenticationConfiguration {
     audience?: string;
     authority?: string;
+    smartIdentityProviders?: SmartIdentityProviderConfiguration[];
     smartProxyEnabled?: boolean;
 }
 
@@ -589,6 +592,11 @@ export enum KnownServiceManagedIdentityType {
     SystemAssigned = "SystemAssigned",
     SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownSmartDataActions {
+    Read = "Read"
 }
 
 // @public
@@ -1082,6 +1090,28 @@ export interface ServicesUpdateOptionalParams extends coreClient.OperationOption
 
 // @public
 export type ServicesUpdateResponse = ServicesDescription;
+
+// @public
+export type SmartDataActions = string;
+
+// @public
+export interface SmartIdentityProviderApplication {
+    allowedDataActions?: SmartDataActions[];
+    audience?: string;
+    clientId?: string;
+}
+
+// @public
+export interface SmartIdentityProviderConfiguration {
+    applications?: SmartIdentityProviderApplication[];
+    authority?: string;
+}
+
+// @public
+export interface StorageConfiguration {
+    fileSystemName?: string;
+    storageResourceId?: string;
+}
 
 // @public
 export interface SystemData {

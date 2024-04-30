@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to delete the extension.
  *
  * @summary The operation to delete the extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_Delete_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetExtensionDeleteMaximumSetGen() {
   const subscriptionId =
@@ -29,11 +29,12 @@ async function virtualMachineScaleSetExtensionDeleteMaximumSetGen() {
   const vmssExtensionName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSetExtensions.beginDeleteAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    vmssExtensionName
-  );
+  const result =
+    await client.virtualMachineScaleSetExtensions.beginDeleteAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      vmssExtensionName,
+    );
   console.log(result);
 }
 
@@ -41,7 +42,7 @@ async function virtualMachineScaleSetExtensionDeleteMaximumSetGen() {
  * This sample demonstrates how to The operation to delete the extension.
  *
  * @summary The operation to delete the extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_Delete_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetExtensionDeleteMinimumSetGen() {
   const subscriptionId =
@@ -52,11 +53,12 @@ async function virtualMachineScaleSetExtensionDeleteMinimumSetGen() {
   const vmssExtensionName = "aaaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSetExtensions.beginDeleteAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    vmssExtensionName
-  );
+  const result =
+    await client.virtualMachineScaleSetExtensions.beginDeleteAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      vmssExtensionName,
+    );
   console.log(result);
 }
 

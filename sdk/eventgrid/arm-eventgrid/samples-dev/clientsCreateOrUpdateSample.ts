@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update a client with the specified parameters.
  *
  * @summary Create or update a client with the specified parameters.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/Clients_CreateOrUpdate.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/Clients_CreateOrUpdate.json
  */
 async function clientsCreateOrUpdate() {
   const subscriptionId =
@@ -32,9 +32,9 @@ async function clientsCreateOrUpdate() {
     description: "This is a test client",
     attributes: { deviceTypes: ["Fan", "Light", "AC"], floor: 3, room: "345" },
     clientCertificateAuthentication: {
-      validationScheme: "SubjectMatchesAuthenticationName"
+      validationScheme: "SubjectMatchesAuthenticationName",
     },
-    state: "Enabled"
+    state: "Enabled",
   };
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
@@ -42,7 +42,7 @@ async function clientsCreateOrUpdate() {
     resourceGroupName,
     namespaceName,
     clientName,
-    clientInfo
+    clientInfo,
   );
   console.log(result);
 }

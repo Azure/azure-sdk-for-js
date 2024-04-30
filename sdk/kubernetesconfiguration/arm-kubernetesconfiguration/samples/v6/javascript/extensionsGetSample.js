@@ -32,7 +32,7 @@ async function getExtension() {
     clusterRp,
     clusterResourceName,
     clusterName,
-    extensionName
+    extensionName,
   );
   console.log(result);
 }
@@ -57,7 +57,7 @@ async function getExtensionWithPlan() {
     clusterRp,
     clusterResourceName,
     clusterName,
-    extensionName
+    extensionName,
   );
   console.log(result);
 }

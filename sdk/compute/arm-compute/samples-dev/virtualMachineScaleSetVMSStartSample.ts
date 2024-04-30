@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Starts a virtual machine in a VM scale set.
  *
  * @summary Starts a virtual machine in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Start_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Start_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetVMStartMaximumSetGen() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function virtualMachineScaleSetVMStartMaximumSetGen() {
   const result = await client.virtualMachineScaleSetVMs.beginStartAndWait(
     resourceGroupName,
     vmScaleSetName,
-    instanceId
+    instanceId,
   );
   console.log(result);
 }
@@ -41,7 +41,7 @@ async function virtualMachineScaleSetVMStartMaximumSetGen() {
  * This sample demonstrates how to Starts a virtual machine in a VM scale set.
  *
  * @summary Starts a virtual machine in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Start_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Start_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetVMStartMinimumSetGen() {
   const subscriptionId =
@@ -55,7 +55,7 @@ async function virtualMachineScaleSetVMStartMinimumSetGen() {
   const result = await client.virtualMachineScaleSetVMs.beginStartAndWait(
     resourceGroupName,
     vmScaleSetName,
-    instanceId
+    instanceId,
   );
   console.log(result);
 }

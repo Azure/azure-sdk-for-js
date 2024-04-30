@@ -14,12 +14,13 @@ import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagemen
 import {
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityWithLocationExecuteOptionalParams,
-  CheckNameAvailabilityWithLocationExecuteResponse
+  CheckNameAvailabilityWithLocationExecuteResponse,
 } from "../models";
 
 /** Class containing CheckNameAvailabilityWithLocation operations. */
 export class CheckNameAvailabilityWithLocationImpl
-  implements CheckNameAvailabilityWithLocation {
+  implements CheckNameAvailabilityWithLocation
+{
   private readonly client: PostgreSQLManagementFlexibleServerClient;
 
   /**
@@ -39,11 +40,11 @@ export class CheckNameAvailabilityWithLocationImpl
   execute(
     locationName: string,
     nameAvailabilityRequest: CheckNameAvailabilityRequest,
-    options?: CheckNameAvailabilityWithLocationExecuteOptionalParams
+    options?: CheckNameAvailabilityWithLocationExecuteOptionalParams,
   ): Promise<CheckNameAvailabilityWithLocationExecuteResponse> {
     return this.client.sendOperationRequest(
       { locationName, nameAvailabilityRequest, options },
-      executeOperationSpec
+      executeOperationSpec,
     );
   }
 }
@@ -51,25 +52,24 @@ export class CheckNameAvailabilityWithLocationImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const executeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DBforPostgreSQL/locations/{locationName}/checkNameAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DBforPostgreSQL/locations/{locationName}/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.NameAvailability
+      bodyMapper: Mappers.NameAvailability,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.nameAvailabilityRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.locationName
+    Parameters.locationName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

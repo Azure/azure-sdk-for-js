@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete a dedicated host group.
  *
  * @summary Delete a dedicated host group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/dedicatedHostExamples/DedicatedHostGroup_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/dedicatedHostExamples/DedicatedHostGroup_Delete_MaximumSet_Gen.json
  */
 async function dedicatedHostGroupDeleteMaximumSetGen() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function dedicatedHostGroupDeleteMaximumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.dedicatedHostGroups.delete(
     resourceGroupName,
-    hostGroupName
+    hostGroupName,
   );
   console.log(result);
 }
@@ -39,7 +39,7 @@ async function dedicatedHostGroupDeleteMaximumSetGen() {
  * This sample demonstrates how to Delete a dedicated host group.
  *
  * @summary Delete a dedicated host group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/dedicatedHostExamples/DedicatedHostGroup_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/dedicatedHostExamples/DedicatedHostGroup_Delete_MinimumSet_Gen.json
  */
 async function dedicatedHostGroupDeleteMinimumSetGen() {
   const subscriptionId =
@@ -51,7 +51,7 @@ async function dedicatedHostGroupDeleteMinimumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.dedicatedHostGroups.delete(
     resourceGroupName,
-    hostGroupName
+    hostGroupName,
   );
   console.log(result);
 }

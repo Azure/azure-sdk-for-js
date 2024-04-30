@@ -4,11 +4,12 @@
 // Chai is the Azure SDK Team's preferred assertion library, and it is included
 // as part of our template project.
 // For convenience, we export an instance of Chai that comes pre-loaded with often-used plugins.
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
+import { describe, it } from "vitest";
 
 // Import the internal function to be tested using the normal relative import
 // syntax.
-import { quoteETag } from "../../src/util";
+import { quoteETag } from "../../src/util.js";
 
 // Unit tests SHOULD appear inside of a `describe` block.  The hierarchical
 // oranization of tests within `describe` blocks will be reflected in our

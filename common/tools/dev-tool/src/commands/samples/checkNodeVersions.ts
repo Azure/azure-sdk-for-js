@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import fs from "fs-extra";
-import path from "path";
-import pr from "child_process";
-import os from "os";
-import { URL } from "url";
+import path from "node:path";
+import pr from "node:child_process";
+import os from "node:os";
+import { URL } from "node:url";
 
 import { createPrinter } from "../../util/printer";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
@@ -140,7 +140,7 @@ function createDockerContextDirectory(
     try {
       new URL(s);
       return true;
-    } catch (err: any) {
+    } catch (err: unknown) {
       return false;
     }
   };

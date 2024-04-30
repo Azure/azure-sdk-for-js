@@ -38,6 +38,24 @@ export interface PolicySettings {
   customBlockResponseBody?: string;
   /** Describes if policy managed rules will inspect the request body content. */
   requestBodyCheck?: PolicyRequestBodyCheck;
+  /** Defines the JavaScript challenge cookie validity lifetime in minutes. This setting is only applicable to Premium_AzureFrontDoor. Value must be an integer between 5 and 1440 with the default value being 30. */
+  javascriptChallengeExpirationInMinutes?: number;
+  /** State of the log scrubbing config. Default value is Enabled. */
+  state?: WebApplicationFirewallScrubbingState;
+  /** List of log scrubbing rules applied to the Web Application Firewall logs. */
+  scrubbingRules?: WebApplicationFirewallScrubbingRules[];
+}
+
+/** Defines the contents of the log scrubbing rules. */
+export interface WebApplicationFirewallScrubbingRules {
+  /** The variable to be scrubbed from the logs. */
+  matchVariable: ScrubbingRuleEntryMatchVariable;
+  /** When matchVariable is a collection, operate on the selector to specify which elements in the collection this rule applies to. */
+  selectorMatchOperator: ScrubbingRuleEntryMatchOperator;
+  /** When matchVariable is a collection, operator used to specify which elements in the collection this rule applies to. */
+  selector?: string;
+  /** Defines the state of a log scrubbing rule. Default value is enabled. */
+  state?: ScrubbingRuleEntryState;
 }
 
 /** Defines contents of custom rules */
@@ -60,10 +78,18 @@ export interface CustomRule {
   rateLimitDurationInMinutes?: number;
   /** Number of allowed requests per client within the time window. */
   rateLimitThreshold?: number;
+  /** Describes the list of variables to group the rate limit requests */
+  groupBy?: GroupByVariable[];
   /** List of match conditions. */
   matchConditions: MatchCondition[];
   /** Describes what action to be applied when rule matches. */
   action: ActionType;
+}
+
+/** Describes the variables available to group the rate limit requests */
+export interface GroupByVariable {
+  /** Describes the supported variable for group by */
+  variableName: VariableName;
 }
 
 /** Define a match condition. */
@@ -1335,7 +1361,7 @@ export enum KnownPolicyEnabledState {
   /** Disabled */
   Disabled = "Disabled",
   /** Enabled */
-  Enabled = "Enabled"
+  Enabled = "Enabled",
 }
 
 /**
@@ -1353,7 +1379,7 @@ export enum KnownPolicyMode {
   /** Prevention */
   Prevention = "Prevention",
   /** Detection */
-  Detection = "Detection"
+  Detection = "Detection",
 }
 
 /**
@@ -1371,7 +1397,7 @@ export enum KnownPolicyRequestBodyCheck {
   /** Disabled */
   Disabled = "Disabled",
   /** Enabled */
-  Enabled = "Enabled"
+  Enabled = "Enabled",
 }
 
 /**
@@ -1384,12 +1410,99 @@ export enum KnownPolicyRequestBodyCheck {
  */
 export type PolicyRequestBodyCheck = string;
 
+/** Known values of {@link WebApplicationFirewallScrubbingState} that the service accepts. */
+export enum KnownWebApplicationFirewallScrubbingState {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for WebApplicationFirewallScrubbingState. \
+ * {@link KnownWebApplicationFirewallScrubbingState} can be used interchangeably with WebApplicationFirewallScrubbingState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type WebApplicationFirewallScrubbingState = string;
+
+/** Known values of {@link ScrubbingRuleEntryMatchVariable} that the service accepts. */
+export enum KnownScrubbingRuleEntryMatchVariable {
+  /** RequestIPAddress */
+  RequestIPAddress = "RequestIPAddress",
+  /** RequestUri */
+  RequestUri = "RequestUri",
+  /** QueryStringArgNames */
+  QueryStringArgNames = "QueryStringArgNames",
+  /** RequestHeaderNames */
+  RequestHeaderNames = "RequestHeaderNames",
+  /** RequestCookieNames */
+  RequestCookieNames = "RequestCookieNames",
+  /** RequestBodyPostArgNames */
+  RequestBodyPostArgNames = "RequestBodyPostArgNames",
+  /** RequestBodyJsonArgNames */
+  RequestBodyJsonArgNames = "RequestBodyJsonArgNames",
+}
+
+/**
+ * Defines values for ScrubbingRuleEntryMatchVariable. \
+ * {@link KnownScrubbingRuleEntryMatchVariable} can be used interchangeably with ScrubbingRuleEntryMatchVariable,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **RequestIPAddress** \
+ * **RequestUri** \
+ * **QueryStringArgNames** \
+ * **RequestHeaderNames** \
+ * **RequestCookieNames** \
+ * **RequestBodyPostArgNames** \
+ * **RequestBodyJsonArgNames**
+ */
+export type ScrubbingRuleEntryMatchVariable = string;
+
+/** Known values of {@link ScrubbingRuleEntryMatchOperator} that the service accepts. */
+export enum KnownScrubbingRuleEntryMatchOperator {
+  /** EqualsAny */
+  EqualsAny = "EqualsAny",
+  /** Equals */
+  Equals = "Equals",
+}
+
+/**
+ * Defines values for ScrubbingRuleEntryMatchOperator. \
+ * {@link KnownScrubbingRuleEntryMatchOperator} can be used interchangeably with ScrubbingRuleEntryMatchOperator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **EqualsAny** \
+ * **Equals**
+ */
+export type ScrubbingRuleEntryMatchOperator = string;
+
+/** Known values of {@link ScrubbingRuleEntryState} that the service accepts. */
+export enum KnownScrubbingRuleEntryState {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for ScrubbingRuleEntryState. \
+ * {@link KnownScrubbingRuleEntryState} can be used interchangeably with ScrubbingRuleEntryState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type ScrubbingRuleEntryState = string;
+
 /** Known values of {@link CustomRuleEnabledState} that the service accepts. */
 export enum KnownCustomRuleEnabledState {
   /** Disabled */
   Disabled = "Disabled",
   /** Enabled */
-  Enabled = "Enabled"
+  Enabled = "Enabled",
 }
 
 /**
@@ -1407,7 +1520,7 @@ export enum KnownRuleType {
   /** MatchRule */
   MatchRule = "MatchRule",
   /** RateLimitRule */
-  RateLimitRule = "RateLimitRule"
+  RateLimitRule = "RateLimitRule",
 }
 
 /**
@@ -1419,6 +1532,27 @@ export enum KnownRuleType {
  * **RateLimitRule**
  */
 export type RuleType = string;
+
+/** Known values of {@link VariableName} that the service accepts. */
+export enum KnownVariableName {
+  /** SocketAddr */
+  SocketAddr = "SocketAddr",
+  /** GeoLocation */
+  GeoLocation = "GeoLocation",
+  /** None */
+  None = "None",
+}
+
+/**
+ * Defines values for VariableName. \
+ * {@link KnownVariableName} can be used interchangeably with VariableName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SocketAddr** \
+ * **GeoLocation** \
+ * **None**
+ */
+export type VariableName = string;
 
 /** Known values of {@link MatchVariable} that the service accepts. */
 export enum KnownMatchVariable {
@@ -1439,7 +1573,7 @@ export enum KnownMatchVariable {
   /** Cookies */
   Cookies = "Cookies",
   /** SocketAddr */
-  SocketAddr = "SocketAddr"
+  SocketAddr = "SocketAddr",
 }
 
 /**
@@ -1484,7 +1618,7 @@ export enum KnownOperator {
   /** EndsWith */
   EndsWith = "EndsWith",
   /** RegEx */
-  RegEx = "RegEx"
+  RegEx = "RegEx",
 }
 
 /**
@@ -1520,7 +1654,7 @@ export enum KnownTransformType {
   /** UrlEncode */
   UrlEncode = "UrlEncode",
   /** RemoveNulls */
-  RemoveNulls = "RemoveNulls"
+  RemoveNulls = "RemoveNulls",
 }
 
 /**
@@ -1548,7 +1682,9 @@ export enum KnownActionType {
   /** Redirect */
   Redirect = "Redirect",
   /** AnomalyScoring */
-  AnomalyScoring = "AnomalyScoring"
+  AnomalyScoring = "AnomalyScoring",
+  /** JSChallenge */
+  JSChallenge = "JSChallenge",
 }
 
 /**
@@ -1560,7 +1696,8 @@ export enum KnownActionType {
  * **Block** \
  * **Log** \
  * **Redirect** \
- * **AnomalyScoring**
+ * **AnomalyScoring** \
+ * **JSChallenge**
  */
 export type ActionType = string;
 
@@ -1571,7 +1708,7 @@ export enum KnownManagedRuleSetActionType {
   /** Log */
   Log = "Log",
   /** Redirect */
-  Redirect = "Redirect"
+  Redirect = "Redirect",
 }
 
 /**
@@ -1596,7 +1733,7 @@ export enum KnownManagedRuleExclusionMatchVariable {
   /** RequestBodyPostArgNames */
   RequestBodyPostArgNames = "RequestBodyPostArgNames",
   /** RequestBodyJsonArgNames */
-  RequestBodyJsonArgNames = "RequestBodyJsonArgNames"
+  RequestBodyJsonArgNames = "RequestBodyJsonArgNames",
 }
 
 /**
@@ -1623,7 +1760,7 @@ export enum KnownManagedRuleExclusionSelectorMatchOperator {
   /** EndsWith */
   EndsWith = "EndsWith",
   /** EqualsAny */
-  EqualsAny = "EqualsAny"
+  EqualsAny = "EqualsAny",
 }
 
 /**
@@ -1644,7 +1781,7 @@ export enum KnownManagedRuleEnabledState {
   /** Disabled */
   Disabled = "Disabled",
   /** Enabled */
-  Enabled = "Enabled"
+  Enabled = "Enabled",
 }
 
 /**
@@ -1670,7 +1807,7 @@ export enum KnownPolicyResourceState {
   /** Disabled */
   Disabled = "Disabled",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -1694,7 +1831,7 @@ export enum KnownSkuName {
   /** StandardAzureFrontDoor */
   StandardAzureFrontDoor = "Standard_AzureFrontDoor",
   /** PremiumAzureFrontDoor */
-  PremiumAzureFrontDoor = "Premium_AzureFrontDoor"
+  PremiumAzureFrontDoor = "Premium_AzureFrontDoor",
 }
 
 /**
@@ -1713,7 +1850,7 @@ export enum KnownAvailability {
   /** Available */
   Available = "Available",
   /** Unavailable */
-  Unavailable = "Unavailable"
+  Unavailable = "Unavailable",
 }
 
 /**
@@ -1743,7 +1880,7 @@ export enum KnownFrontDoorResourceState {
   /** Migrating */
   Migrating = "Migrating",
   /** Migrated */
-  Migrated = "Migrated"
+  Migrated = "Migrated",
 }
 
 /**
@@ -1769,7 +1906,7 @@ export enum KnownHeaderActionType {
   /** Delete */
   Delete = "Delete",
   /** Overwrite */
-  Overwrite = "Overwrite"
+  Overwrite = "Overwrite",
 }
 
 /**
@@ -1808,7 +1945,7 @@ export enum KnownRulesEngineMatchVariable {
   /** RequestBody */
   RequestBody = "RequestBody",
   /** RequestScheme */
-  RequestScheme = "RequestScheme"
+  RequestScheme = "RequestScheme",
 }
 
 /**
@@ -1854,7 +1991,7 @@ export enum KnownRulesEngineOperator {
   /** BeginsWith */
   BeginsWith = "BeginsWith",
   /** EndsWith */
-  EndsWith = "EndsWith"
+  EndsWith = "EndsWith",
 }
 
 /**
@@ -1889,7 +2026,7 @@ export enum KnownTransform {
   /** UrlEncode */
   UrlEncode = "UrlEncode",
   /** RemoveNulls */
-  RemoveNulls = "RemoveNulls"
+  RemoveNulls = "RemoveNulls",
 }
 
 /**
@@ -1911,7 +2048,7 @@ export enum KnownMatchProcessingBehavior {
   /** Continue */
   Continue = "Continue",
   /** Stop */
-  Stop = "Stop"
+  Stop = "Stop",
 }
 
 /**
@@ -1929,7 +2066,7 @@ export enum KnownFrontDoorProtocol {
   /** Http */
   Http = "Http",
   /** Https */
-  Https = "Https"
+  Https = "Https",
 }
 
 /**
@@ -1947,7 +2084,7 @@ export enum KnownRoutingRuleEnabledState {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -1965,7 +2102,7 @@ export enum KnownFrontDoorHealthProbeMethod {
   /** GET */
   GET = "GET",
   /** Head */
-  Head = "HEAD"
+  Head = "HEAD",
 }
 
 /**
@@ -1983,7 +2120,7 @@ export enum KnownHealthProbeEnabled {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -2007,7 +2144,7 @@ export enum KnownPrivateEndpointStatus {
   /** Disconnected */
   Disconnected = "Disconnected",
   /** Timeout */
-  Timeout = "Timeout"
+  Timeout = "Timeout",
 }
 
 /**
@@ -2028,7 +2165,7 @@ export enum KnownBackendEnabledState {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -2052,7 +2189,7 @@ export enum KnownCustomHttpsProvisioningState {
   /** Disabled */
   Disabled = "Disabled",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -2089,7 +2226,7 @@ export enum KnownCustomHttpsProvisioningSubstate {
   /** DeletingCertificate */
   DeletingCertificate = "DeletingCertificate",
   /** CertificateDeleted */
-  CertificateDeleted = "CertificateDeleted"
+  CertificateDeleted = "CertificateDeleted",
 }
 
 /**
@@ -2115,7 +2252,7 @@ export enum KnownFrontDoorCertificateSource {
   /** AzureKeyVault */
   AzureKeyVault = "AzureKeyVault",
   /** FrontDoor */
-  FrontDoor = "FrontDoor"
+  FrontDoor = "FrontDoor",
 }
 
 /**
@@ -2131,7 +2268,7 @@ export type FrontDoorCertificateSource = string;
 /** Known values of {@link FrontDoorTlsProtocolType} that the service accepts. */
 export enum KnownFrontDoorTlsProtocolType {
   /** ServerNameIndication */
-  ServerNameIndication = "ServerNameIndication"
+  ServerNameIndication = "ServerNameIndication",
 }
 
 /**
@@ -2148,7 +2285,7 @@ export enum KnownMinimumTLSVersion {
   /** One0 */
   One0 = "1.0",
   /** One2 */
-  One2 = "1.2"
+  One2 = "1.2",
 }
 
 /**
@@ -2164,7 +2301,7 @@ export type MinimumTLSVersion = string;
 /** Known values of {@link FrontDoorCertificateType} that the service accepts. */
 export enum KnownFrontDoorCertificateType {
   /** Dedicated */
-  Dedicated = "Dedicated"
+  Dedicated = "Dedicated",
 }
 
 /**
@@ -2181,7 +2318,7 @@ export enum KnownSessionAffinityEnabledState {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -2199,7 +2336,7 @@ export enum KnownEnforceCertificateNameCheckEnabledState {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -2217,7 +2354,7 @@ export enum KnownFrontDoorEnabledState {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -2243,7 +2380,7 @@ export enum KnownNetworkExperimentResourceState {
   /** Disabled */
   Disabled = "Disabled",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -2265,7 +2402,7 @@ export enum KnownState {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -2287,7 +2424,7 @@ export enum KnownEndpointType {
   /** CDN */
   CDN = "CDN",
   /** ATM */
-  ATM = "ATM"
+  ATM = "ATM",
 }
 
 /**
@@ -2309,7 +2446,7 @@ export enum KnownLatencyScorecardAggregationInterval {
   /** Weekly */
   Weekly = "Weekly",
   /** Monthly */
-  Monthly = "Monthly"
+  Monthly = "Monthly",
 }
 
 /**
@@ -2328,7 +2465,7 @@ export enum KnownTimeseriesAggregationInterval {
   /** Hourly */
   Hourly = "Hourly",
   /** Daily */
-  Daily = "Daily"
+  Daily = "Daily",
 }
 
 /**
@@ -2350,7 +2487,7 @@ export enum KnownTimeseriesType {
   /** LatencyP75 */
   LatencyP75 = "LatencyP75",
   /** LatencyP95 */
-  LatencyP95 = "LatencyP95"
+  LatencyP95 = "LatencyP95",
 }
 
 /**
@@ -2370,7 +2507,7 @@ export enum KnownAggregationInterval {
   /** Hourly */
   Hourly = "Hourly",
   /** Daily */
-  Daily = "Daily"
+  Daily = "Daily",
 }
 
 /**
@@ -2390,7 +2527,7 @@ export enum KnownNetworkOperationStatus {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -2411,7 +2548,7 @@ export enum KnownFrontDoorForwardingProtocol {
   /** HttpsOnly */
   HttpsOnly = "HttpsOnly",
   /** MatchRequest */
-  MatchRequest = "MatchRequest"
+  MatchRequest = "MatchRequest",
 }
 
 /**
@@ -2434,7 +2571,7 @@ export enum KnownFrontDoorQuery {
   /** StripOnly */
   StripOnly = "StripOnly",
   /** StripAllExcept */
-  StripAllExcept = "StripAllExcept"
+  StripAllExcept = "StripAllExcept",
 }
 
 /**
@@ -2454,7 +2591,7 @@ export enum KnownDynamicCompressionEnabled {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -2476,7 +2613,7 @@ export enum KnownFrontDoorRedirectType {
   /** TemporaryRedirect */
   TemporaryRedirect = "TemporaryRedirect",
   /** PermanentRedirect */
-  PermanentRedirect = "PermanentRedirect"
+  PermanentRedirect = "PermanentRedirect",
 }
 
 /**
@@ -2498,7 +2635,7 @@ export enum KnownFrontDoorRedirectProtocol {
   /** HttpsOnly */
   HttpsOnly = "HttpsOnly",
   /** MatchRequest */
-  MatchRequest = "MatchRequest"
+  MatchRequest = "MatchRequest",
 }
 
 /**
@@ -2528,7 +2665,8 @@ export interface PoliciesListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type PoliciesListBySubscriptionResponse = WebApplicationFirewallPolicyList;
+export type PoliciesListBySubscriptionResponse =
+  WebApplicationFirewallPolicyList;
 
 /** Optional parameters. */
 export interface PoliciesGetOptionalParams
@@ -2582,7 +2720,8 @@ export interface PoliciesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type PoliciesListBySubscriptionNextResponse = WebApplicationFirewallPolicyList;
+export type PoliciesListBySubscriptionNextResponse =
+  WebApplicationFirewallPolicyList;
 
 /** Optional parameters. */
 export interface ManagedRuleSetsListOptionalParams
@@ -2603,14 +2742,16 @@ export interface FrontDoorNameAvailabilityCheckOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the check operation. */
-export type FrontDoorNameAvailabilityCheckResponse = CheckNameAvailabilityOutput;
+export type FrontDoorNameAvailabilityCheckResponse =
+  CheckNameAvailabilityOutput;
 
 /** Optional parameters. */
 export interface FrontDoorNameAvailabilityWithSubscriptionCheckOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the check operation. */
-export type FrontDoorNameAvailabilityWithSubscriptionCheckResponse = CheckNameAvailabilityOutput;
+export type FrontDoorNameAvailabilityWithSubscriptionCheckResponse =
+  CheckNameAvailabilityOutput;
 
 /** Optional parameters. */
 export interface FrontDoorsListOptionalParams
@@ -2680,7 +2821,8 @@ export interface FrontendEndpointsListByFrontDoorOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFrontDoor operation. */
-export type FrontendEndpointsListByFrontDoorResponse = FrontendEndpointsListResult;
+export type FrontendEndpointsListByFrontDoorResponse =
+  FrontendEndpointsListResult;
 
 /** Optional parameters. */
 export interface FrontendEndpointsGetOptionalParams
@@ -2712,7 +2854,8 @@ export interface FrontendEndpointsListByFrontDoorNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFrontDoorNext operation. */
-export type FrontendEndpointsListByFrontDoorNextResponse = FrontendEndpointsListResult;
+export type FrontendEndpointsListByFrontDoorNextResponse =
+  FrontendEndpointsListResult;
 
 /** Optional parameters. */
 export interface EndpointsPurgeContentOptionalParams
@@ -2831,7 +2974,8 @@ export interface NetworkExperimentProfilesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type NetworkExperimentProfilesListByResourceGroupNextResponse = ProfileList;
+export type NetworkExperimentProfilesListByResourceGroupNextResponse =
+  ProfileList;
 
 /** Optional parameters. */
 export interface PreconfiguredEndpointsListOptionalParams

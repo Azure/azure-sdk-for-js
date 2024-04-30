@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to create the restore point. Updating properties of an existing restore point is not allowed
  *
  * @summary The operation to create the restore point. Updating properties of an existing restore point is not allowed
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/restorePointExamples/RestorePoint_Copy_BetweenRegions.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/restorePointExamples/RestorePoint_Copy_BetweenRegions.json
  */
 async function copyARestorePointToADifferentRegion() {
   const subscriptionId =
@@ -29,9 +29,8 @@ async function copyARestorePointToADifferentRegion() {
   const restorePointName = "rpName";
   const parameters: RestorePoint = {
     sourceRestorePoint: {
-      id:
-        "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/sourceRpcName/restorePoints/sourceRpName"
-    }
+      id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/sourceRpcName/restorePoints/sourceRpName",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -39,7 +38,7 @@ async function copyARestorePointToADifferentRegion() {
     resourceGroupName,
     restorePointCollectionName,
     restorePointName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -48,7 +47,7 @@ async function copyARestorePointToADifferentRegion() {
  * This sample demonstrates how to The operation to create the restore point. Updating properties of an existing restore point is not allowed
  *
  * @summary The operation to create the restore point. Updating properties of an existing restore point is not allowed
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/restorePointExamples/RestorePoint_Create.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/restorePointExamples/RestorePoint_Create.json
  */
 async function createARestorePoint() {
   const subscriptionId =
@@ -60,10 +59,9 @@ async function createARestorePoint() {
   const parameters: RestorePoint = {
     excludeDisks: [
       {
-        id:
-          "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/disk123"
-      }
-    ]
+        id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/disk123",
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -71,7 +69,7 @@ async function createARestorePoint() {
     resourceGroupName,
     restorePointCollectionName,
     restorePointName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

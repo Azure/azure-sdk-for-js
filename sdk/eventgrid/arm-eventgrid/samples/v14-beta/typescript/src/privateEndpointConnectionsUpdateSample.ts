@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   PrivateEndpointConnection,
-  EventGridManagementClient
+  EventGridManagementClient,
 } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update a specific private endpoint connection under a topic, domain or partner namespace.
  *
  * @summary Update a specific private endpoint connection under a topic, domain or partner namespace.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/PrivateEndpointConnections_Update.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/PrivateEndpointConnections_Update.json
  */
 async function privateEndpointConnectionsUpdate() {
   const subscriptionId =
@@ -37,8 +37,8 @@ async function privateEndpointConnectionsUpdate() {
     privateLinkServiceConnectionState: {
       description: "approving connection",
       actionsRequired: "None",
-      status: "Approved"
-    }
+      status: "Approved",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
@@ -47,7 +47,7 @@ async function privateEndpointConnectionsUpdate() {
     parentType,
     parentName,
     privateEndpointConnectionName,
-    privateEndpointConnection
+    privateEndpointConnection,
   );
   console.log(result);
 }

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VirtualMachineScaleSetExtension,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to create or update an extension.
  *
  * @summary The operation to create or update an extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetExtensionCreateOrUpdateMaximumSetGen() {
   const subscriptionId =
@@ -41,16 +41,17 @@ async function virtualMachineScaleSetExtensionCreateOrUpdateMaximumSetGen() {
     publisher: "{extension-Publisher}",
     settings: {},
     suppressFailures: true,
-    typeHandlerVersion: "{handler-version}"
+    typeHandlerVersion: "{handler-version}",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSetExtensions.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    vmssExtensionName,
-    extensionParameters
-  );
+  const result =
+    await client.virtualMachineScaleSetExtensions.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      vmssExtensionName,
+      extensionParameters,
+    );
   console.log(result);
 }
 
@@ -58,7 +59,7 @@ async function virtualMachineScaleSetExtensionCreateOrUpdateMaximumSetGen() {
  * This sample demonstrates how to The operation to create or update an extension.
  *
  * @summary The operation to create or update an extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_CreateOrUpdate_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetExtensionCreateOrUpdateMinimumSetGen() {
   const subscriptionId =
@@ -70,12 +71,13 @@ async function virtualMachineScaleSetExtensionCreateOrUpdateMinimumSetGen() {
   const extensionParameters: VirtualMachineScaleSetExtension = {};
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSetExtensions.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    vmssExtensionName,
-    extensionParameters
-  );
+  const result =
+    await client.virtualMachineScaleSetExtensions.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      vmssExtensionName,
+      extensionParameters,
+    );
   console.log(result);
 }
 

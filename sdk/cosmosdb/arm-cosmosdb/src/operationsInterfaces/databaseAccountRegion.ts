@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   Metric,
-  DatabaseAccountRegionListMetricsOptionalParams
+  DatabaseAccountRegionListMetricsOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,6 +30,6 @@ export interface DatabaseAccountRegion {
     accountName: string,
     region: string,
     filter: string,
-    options?: DatabaseAccountRegionListMetricsOptionalParams
+    options?: DatabaseAccountRegionListMetricsOptionalParams,
   ): PagedAsyncIterableIterator<Metric>;
 }

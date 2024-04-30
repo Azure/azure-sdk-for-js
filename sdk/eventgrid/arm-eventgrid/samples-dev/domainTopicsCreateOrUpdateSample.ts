@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Asynchronously creates or updates a new domain topic with the specified parameters.
  *
  * @summary Asynchronously creates or updates a new domain topic with the specified parameters.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/DomainTopics_CreateOrUpdate.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/DomainTopics_CreateOrUpdate.json
  */
 async function domainTopicsCreateOrUpdate() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function domainTopicsCreateOrUpdate() {
   const result = await client.domainTopics.beginCreateOrUpdateAndWait(
     resourceGroupName,
     domainName,
-    domainTopicName
+    domainTopicName,
   );
   console.log(result);
 }

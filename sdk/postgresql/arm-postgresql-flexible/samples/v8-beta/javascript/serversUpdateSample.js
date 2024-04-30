@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
  *
  * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/PromoteReplicaAsForcedStandaloneServer.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/PromoteReplicaAsForcedStandaloneServer.json
  */
 async function promoteAReplicaServerAsAStandaloneServerAsForcedIEItWillPromoteAReplicaServerImmediatelyWithoutWaitingForPrimaryAndReplicaToBeInSync() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function promoteAReplicaServerAsAStandaloneServerAsForcedIEItWillPromoteAR
  * This sample demonstrates how to Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
  *
  * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/PromoteReplicaAsPlannedStandaloneServer.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/PromoteReplicaAsPlannedStandaloneServer.json
  */
 async function promoteAReplicaServerAsAStandaloneServerAsPlannedIEItWillWaitForReplicationToComplete() {
   const subscriptionId =
@@ -56,7 +56,7 @@ async function promoteAReplicaServerAsAStandaloneServerAsPlannedIEItWillWaitForR
  * This sample demonstrates how to Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
  *
  * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/ServerUpdate.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerUpdate.json
  */
 async function serverUpdate() {
   const subscriptionId =
@@ -80,7 +80,7 @@ async function serverUpdate() {
  * This sample demonstrates how to Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
  *
  * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/ServerUpdateWithAadAuthEnabled.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerUpdateWithAadAuthEnabled.json
  */
 async function serverUpdateWithAadAuthEnabled() {
   const subscriptionId =
@@ -109,7 +109,7 @@ async function serverUpdateWithAadAuthEnabled() {
  * This sample demonstrates how to Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
  *
  * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/ServerUpdateWithCustomerMaintenanceWindow.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerUpdateWithCustomerMaintenanceWindow.json
  */
 async function serverUpdateWithCustomerMaintenanceWindow() {
   const subscriptionId =
@@ -135,7 +135,7 @@ async function serverUpdateWithCustomerMaintenanceWindow() {
  * This sample demonstrates how to Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
  *
  * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/ServerUpdateWithDataEncryptionEnabled.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerUpdateWithDataEncryptionEnabled.json
  */
 async function serverUpdateWithDataEncryptionEnabled() {
   const subscriptionId =
@@ -178,7 +178,7 @@ async function serverUpdateWithDataEncryptionEnabled() {
  * This sample demonstrates how to Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
  *
  * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/ServerUpdateWithMajorVersionUpgrade.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerUpdateWithMajorVersionUpgrade.json
  */
 async function serverUpdateWithMajorVersionUpgrade() {
   const subscriptionId =
@@ -196,7 +196,7 @@ async function serverUpdateWithMajorVersionUpgrade() {
  * This sample demonstrates how to Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
  *
  * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/PromoteReplicaAsForcedSwitchover.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/PromoteReplicaAsForcedSwitchover.json
  */
 async function switchOverAReplicaServerAsForcedIEItWillReplicaAsPrimaryAndOriginalPrimaryAsReplicaImmediatelyWithoutWaitingForPrimaryAndReplicaToBeInSync() {
   const subscriptionId =
@@ -216,7 +216,7 @@ async function switchOverAReplicaServerAsForcedIEItWillReplicaAsPrimaryAndOrigin
  * This sample demonstrates how to Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
  *
  * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/PromoteReplicaAsPlannedSwitchover.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/PromoteReplicaAsPlannedSwitchover.json
  */
 async function switchOverAReplicaServerAsPlannedIEItWillWaitForReplicationToCompleteBeforePromotingReplicaAsPrimaryAndOriginalPrimaryAsReplica() {
   const subscriptionId =

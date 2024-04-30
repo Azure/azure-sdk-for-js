@@ -11,18 +11,18 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
   LedgerImpl,
-  ManagedCCFOperationsImpl
+  ManagedCCFOperationsImpl,
 } from "./operations";
 import {
   Operations,
   Ledger,
-  ManagedCCFOperations
+  ManagedCCFOperations,
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -30,7 +30,7 @@ import {
   ConfidentialLedgerClientOptionalParams,
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityOptionalParams,
-  CheckNameAvailabilityOperationResponse
+  CheckNameAvailabilityOperationResponse,
 } from "./models";
 
 export class ConfidentialLedgerClient extends coreClient.ServiceClient {
@@ -47,7 +47,7 @@ export class ConfidentialLedgerClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: ConfidentialLedgerClientOptionalParams
+    options?: ConfidentialLedgerClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -62,10 +62,10 @@ export class ConfidentialLedgerClient extends coreClient.ServiceClient {
     }
     const defaults: ConfidentialLedgerClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-confidentialledger/1.3.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-confidentialledger/1.3.0-beta.3`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -75,20 +75,21 @@ export class ConfidentialLedgerClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -98,7 +99,7 @@ export class ConfidentialLedgerClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -108,9 +109,9 @@ export class ConfidentialLedgerClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -118,7 +119,7 @@ export class ConfidentialLedgerClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-01-26-preview";
+    this.apiVersion = options.apiVersion || "2023-06-28-preview";
     this.operations = new OperationsImpl(this);
     this.ledger = new LedgerImpl(this);
     this.managedCCFOperations = new ManagedCCFOperationsImpl(this);
@@ -134,7 +135,7 @@ export class ConfidentialLedgerClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -148,7 +149,7 @@ export class ConfidentialLedgerClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -160,11 +161,11 @@ export class ConfidentialLedgerClient extends coreClient.ServiceClient {
    */
   checkNameAvailability(
     nameAvailabilityRequest: CheckNameAvailabilityRequest,
-    options?: CheckNameAvailabilityOptionalParams
+    options?: CheckNameAvailabilityOptionalParams,
   ): Promise<CheckNameAvailabilityOperationResponse> {
     return this.sendOperationRequest(
       { nameAvailabilityRequest, options },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
     );
   }
 
@@ -176,21 +177,20 @@ export class ConfidentialLedgerClient extends coreClient.ServiceClient {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ConfidentialLedger/checkNameAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ConfidentialLedger/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameAvailabilityResponse
+      bodyMapper: Mappers.CheckNameAvailabilityResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.nameAvailabilityRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

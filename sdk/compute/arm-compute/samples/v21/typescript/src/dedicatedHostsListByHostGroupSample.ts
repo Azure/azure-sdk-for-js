@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all of the dedicated hosts in the specified dedicated host group. Use the nextLink property in the response to get the next page of dedicated hosts.
  *
  * @summary Lists all of the dedicated hosts in the specified dedicated host group. Use the nextLink property in the response to get the next page of dedicated hosts.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/dedicatedHostExamples/DedicatedHost_ListByHostGroup_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/dedicatedHostExamples/DedicatedHost_ListByHostGroup_MaximumSet_Gen.json
  */
 async function dedicatedHostListByHostGroupMaximumSetGen() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function dedicatedHostListByHostGroupMaximumSetGen() {
   const resArray = new Array();
   for await (let item of client.dedicatedHosts.listByHostGroup(
     resourceGroupName,
-    hostGroupName
+    hostGroupName,
   )) {
     resArray.push(item);
   }
@@ -42,7 +42,7 @@ async function dedicatedHostListByHostGroupMaximumSetGen() {
  * This sample demonstrates how to Lists all of the dedicated hosts in the specified dedicated host group. Use the nextLink property in the response to get the next page of dedicated hosts.
  *
  * @summary Lists all of the dedicated hosts in the specified dedicated host group. Use the nextLink property in the response to get the next page of dedicated hosts.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/dedicatedHostExamples/DedicatedHost_ListByHostGroup_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/dedicatedHostExamples/DedicatedHost_ListByHostGroup_MinimumSet_Gen.json
  */
 async function dedicatedHostListByHostGroupMinimumSetGen() {
   const subscriptionId =
@@ -55,7 +55,7 @@ async function dedicatedHostListByHostGroupMinimumSetGen() {
   const resArray = new Array();
   for await (let item of client.dedicatedHosts.listByHostGroup(
     resourceGroupName,
-    hostGroupName
+    hostGroupName,
   )) {
     resArray.push(item);
   }

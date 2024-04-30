@@ -6,7 +6,7 @@ import {
   createTestSerializer,
   registerTestSchema,
 } from "./utils/mockedSerializer";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { createContentType, encoder, testGroup, testSchema, testValue } from "./utils/dummies";
 import { Context } from "mocha";
 import { MessageContent } from "../../src";
@@ -111,7 +111,8 @@ describe("JsonSerializer", async function () {
     assert.deepStrictEqual(deserializedValue, value);
   });
 
-  it("cache size growth is bounded", async function (this: Context) {
+  /** TODO: unskip when we can access internal cache */
+  it.skip("cache size growth is bounded", async function (this: Context) {
     /**
      * This test is very expensive to run in live because it registers too many
      * schemas but the standard-tier resource allows for up to 25 schemas only

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a private endpoint connection.
  *
  * @summary Deletes a private endpoint connection.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/legacy/ServiceDeletePrivateEndpointConnection.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/legacy/ServiceDeletePrivateEndpointConnection.json
  */
 async function privateEndpointConnectionsDelete() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function privateEndpointConnectionsDelete() {
   const result = await client.privateEndpointConnections.beginDeleteAndWait(
     resourceGroupName,
     resourceName,
-    privateEndpointConnectionName
+    privateEndpointConnectionName,
   );
   console.log(result);
 }
