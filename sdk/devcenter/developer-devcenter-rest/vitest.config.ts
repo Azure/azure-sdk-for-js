@@ -7,7 +7,7 @@ export default defineConfig({
   test: {
     reporters: ["basic", "junit"],
     outputFile: {
-      junit: "test-results.browser.xml",
+      junit: "test-results.xml",
     },
     fakeTimers: {
       toFake: ["setTimeout", "Date"],
@@ -15,6 +15,9 @@ export default defineConfig({
     watch: false,
     include: ["test/**/*.spec.ts"],
     exclude: ["test/**/browser/*.spec.ts"],
+    testTimeout: 12000000,
+    hookTimeout: 12000000,
+    teardownTimeout: 1200000,
     coverage: {
       include: ["src/**/*.ts"],
       exclude: [

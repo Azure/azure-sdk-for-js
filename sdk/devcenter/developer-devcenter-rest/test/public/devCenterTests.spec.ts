@@ -2,23 +2,22 @@
 // Licensed under the MIT license.
 
 import { env, Recorder } from "@azure-tools/test-recorder";
-import { expect } from "chai";
-import { createRecordedClient, createRecorder } from "./utils/recordedClient";
-import { Context } from "mocha";
+import { createRecordedClient, createRecorder } from "./utils/recordedClient.js";
+import { describe, it, beforeEach, afterEach, expect } from "vitest";
 import {
   AzureDeveloperDevCenterClient,
   ProjectOutput,
   isUnexpected,
   paginate,
-} from "../../src/index";
+} from "../../src/index.js";
 
-describe("DevCenter Project Operations Tests", () => {
+describe("DevCenter Project Operations Tests", function () {
   let recorder: Recorder;
   let client: AzureDeveloperDevCenterClient;
   let endpoint: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async function (context) {
+    recorder = await createRecorder(context);
     endpoint = env["ENDPOINT"] || "";
 
     client = createRecordedClient(recorder, endpoint, {
