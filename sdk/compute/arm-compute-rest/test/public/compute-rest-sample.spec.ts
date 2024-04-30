@@ -55,7 +55,7 @@ export const testPollingOptionsForNetwork = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe.skip("Compute test", () => {
+describe("Compute test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: ComputeManagementClient;
