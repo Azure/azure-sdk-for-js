@@ -13,11 +13,12 @@ import {
   delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { createTestCredential } from "@azure-tools/test-credential";
+import { NoOpCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { ComputeManagementClient } from "../src/computeManagementClient";
 import { NetworkManagementClient, VirtualNetwork, Subnet, NetworkInterface } from "@azure/arm-network";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -34,7 +35,15 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe.skip("Compute test", () => {
+export function createTestCredential() {
+  return isPlaybackMode()
+    ? new NoOpCredential()
+    : new
+      DefaultAzureCredential()
+    ;
+}
+
+describe("Compute test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: ComputeManagementClient;
