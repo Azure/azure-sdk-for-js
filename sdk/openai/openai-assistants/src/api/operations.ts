@@ -1107,12 +1107,11 @@ export function _createThreadAndRunSend(
       thread: !body.thread
         ? undefined
         : {
-            messages: body.thread?.["messages"]?.map((p) =>
-              ({
-                role: p["role"],
-                content: p["content"],
-                file_ids: p["fileIds"]
-              })),
+            messages: body.thread?.["messages"]?.map((p) => ({
+              role: p["role"],
+              content: p["content"],
+              file_ids: p["fileIds"],
+            })),
             metadata: body.thread?.["metadata"],
           },
       model: body["model"],
