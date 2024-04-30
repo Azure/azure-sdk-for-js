@@ -1,7 +1,7 @@
 {
   "name": "@azure-samples/communication-messages-js",
   "private": true,
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "Azure client library for Azure Communication Messages Services client library samples for JavaScript",
   "engines": {
     "node": ">=18.0.0"
