@@ -16,8 +16,6 @@ export default defineConfig({
     include: ["test/**/*.spec.ts"],
     exclude: ["test/**/browser/*.spec.ts"],
     testTimeout: 12000000,
-    hookTimeout: 12000000,
-    teardownTimeout: 1200000,
     coverage: {
       include: ["src/**/*.ts"],
       exclude: [
