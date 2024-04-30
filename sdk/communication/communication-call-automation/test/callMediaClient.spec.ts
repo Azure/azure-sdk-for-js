@@ -607,7 +607,7 @@ describe("Call Media Client Live Tests", function () {
 
   // TODO revisit LIVE Test as we yet to deploy new api changes
 
-  it("Creates a call, start media streaming, and hangs up.", async function () {
+  it.skip("Creates a call, start media streaming, and hangs up.", async function () {
     testName = this.test?.fullTitle()
       ? this.test?.fullTitle().replace(/ /g, "_")
       : "create_call_start_media_streaming_and_hang_up";
@@ -683,7 +683,7 @@ describe("Call Media Client Live Tests", function () {
     assert.isDefined(callDisconnectedEvent);
   }).timeout(60000);
 
-  it("Answers a call, start media streaming, and hangs up", async function () {
+  it.skip("Answers a call, start media streaming, and hangs up", async function () {
     testName = this.test?.fullTitle()
       ? this.test?.fullTitle().replace(/ /g, "_")
       : "answer_call_start_media_streaming_and_hang_up";
