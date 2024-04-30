@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete existing domain.
  *
  * @summary Delete existing domain.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/Domains_Delete.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/Domains_Delete.json
  */
 async function domainsDelete() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function domainsDelete() {
   const client = new EventGridManagementClient(credential, subscriptionId);
   const result = await client.domains.beginDeleteAndWait(
     resourceGroupName,
-    domainName
+    domainName,
   );
   console.log(result);
 }

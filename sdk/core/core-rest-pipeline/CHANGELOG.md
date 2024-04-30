@@ -1,16 +1,10 @@
 # Release History
 
-## 1.16.0 (Unreleased)
+## 1.16.0 (2024-05-02)
 
 ### Features Added
 
 - The FormData global is now a supported request body type in Node in addition to the browser.
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 1.15.2 (2024-04-09)
 

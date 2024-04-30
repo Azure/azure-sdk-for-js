@@ -50,7 +50,7 @@
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "unit-test:node": "cross-env VITE_CJS_IGNORE_WARNING=true vitest",
+    "unit-test:node": "vitest",
     "unit-test:browser": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "test": "npm run clean && npm run build:test && npm run unit-test"

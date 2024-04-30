@@ -645,5 +645,5 @@ const testAttributes: any = {
   "service.name": "unknown_service:node",
   "telemetry.sdk.language": "nodejs",
   "telemetry.sdk.name": "opentelemetry",
-  "telemetry.sdk.version": "1.23.0",
+  "telemetry.sdk.version": "1.24.0",
 };

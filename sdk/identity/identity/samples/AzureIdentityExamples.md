@@ -119,11 +119,12 @@ To learn more, read [Application and service principal objects in Microsoft Entr
 
 If your application is hosted in Azure, you can make use of [Managed Identity](https://learn.microsoft.com/entra/identity/managed-identities-azure-resources/overview) for hassle free authentication in your production environments.
 
-| Credential with example                                                       | Usage                                                                                                                                                                                                                                                                                                                                                                        |
-| ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [WorkloadIdentityCredential](#authenticating-in-azure-with-workload-identity) | Authenticate in Azure Kubernetes environment with [Microsoft Entra Workload ID](https://learn.microsoft.com/entra/workload-id/workload-identities-overview), which [integrates with the Kubernetes native capabilities](https://learn.microsoft.com/azure/aks/workload-identity-overview) to federate with any external identity providers.                                  |
-| [ManagedIdentityCredential](#authenticating-in-azure-with-managed-identity)   | Authenticate in a virtual machine, App Service, Functions app, Cloud Shell, or AKS environment on Azure, with system-assigned managed identity, user-assigned managed identity, or app registration (when working with AKS pod identity).                                                                                                                                    |
-| [DefaultAzureCredential](#authenticating-with-defaultazurecredential)         | Tries `EnvironmentCredential`, `ManagedIdentityCredential`, `AzureCliCredential`, `AzurePowerShellCredential`, and other credentials sequentially until one of them succeeds. Use this to have your application authenticate using developer tools, service principals or managed identity based on what is available in the current environment without changing your code. |
+| Credential with example                                                                                   | Usage                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [WorkloadIdentityCredential](#authenticating-in-azure-with-workload-identity)                             | Authenticate in Azure Kubernetes environment with [Microsoft Entra Workload ID](https://learn.microsoft.com/entra/workload-id/workload-identities-overview), which [integrates with the Kubernetes native capabilities](https://learn.microsoft.com/azure/aks/workload-identity-overview) to federate with any external identity providers.                                                                                                                  |
+| [AzurePipelinesServiceConnectionsCredential](#authenticating-in-azure-pipelines-with-service-connections) | Authenticate in Azure Devops environment with [Microsoft Entra Workload ID](https://learn.microsoft.com/entra/workload-id/workload-identities-overview), which [uses Azure Resource Manager service connections](https://learn.microsoft.com/azure/devops/pipelines/library/connect-to-azure?view=azure-devops#create-an-azure-resource-manager-service-connection-that-uses-workload-identity-federation) to federate with any external identity providers. |
+| [ManagedIdentityCredential](#authenticating-in-azure-with-managed-identity)                               | Authenticate in a virtual machine, App Service, Functions app, Cloud Shell, or AKS environment on Azure, with system-assigned managed identity, user-assigned managed identity, or app registration (when working with AKS pod identity).                                                                                                                                                                                                                    |
+| [DefaultAzureCredential](#authenticating-with-defaultazurecredential)                                     | Tries `EnvironmentCredential`, `ManagedIdentityCredential`, `AzureCliCredential`, `AzurePowerShellCredential`, and other credentials sequentially until one of them succeeds. Use this to have your application authenticate using developer tools, service principals or managed identity based on what is available in the current environment without changing your code.                                                                                 |
 
 ### Examples
 
@@ -617,19 +618,20 @@ function withUserManagedIdentityCredential() {
 
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] using the `AzurePipelinesServiceConnectionCredential` in an Azure Pipelines environment with service connections.
 
-````ts
+```ts
 /**
  * Authenticate with AzurePipelinesServiceConnection identity.
  */
 function withAzurePipelinesServiceConnectionCredential() {
-  const clientId = "<YOUR_CLIENT_ID>"
-  const tenantId = "<YOUR_TENANT_ID>"
-  const serviceConnectionId = "<YOUR_SERVICE_CONNECTION_ID>"
+  const clientId = "<YOUR_CLIENT_ID>";
+  const tenantId = "<YOUR_TENANT_ID>";
+  const serviceConnectionId = "<YOUR_SERVICE_CONNECTION_ID>";
   const credential = new AzurePipelinesServiceConnection(tenantId, clientId, serviceConnectionId);
 
   const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
 }
 ```
+
 This credential is NOT part of `DefaultAzureCredential`.
 
 ## Chaining credentials
@@ -644,7 +646,7 @@ function withChainedTokenCredential() {
   );
   const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
 }
-````
+```
 
 ## Authenticating With Azure Stack using Azure Identity
 
