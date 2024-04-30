@@ -16,7 +16,7 @@ import { EventGridManagementClient } from "../eventGridManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,7 +29,7 @@ import {
   CaCertificatesCreateOrUpdateOptionalParams,
   CaCertificatesCreateOrUpdateResponse,
   CaCertificatesDeleteOptionalParams,
-  CaCertificatesListByNamespaceNextResponse
+  CaCertificatesListByNamespaceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,12 +54,12 @@ export class CaCertificatesImpl implements CaCertificates {
   public listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    options?: CaCertificatesListByNamespaceOptionalParams
+    options?: CaCertificatesListByNamespaceOptionalParams,
   ): PagedAsyncIterableIterator<CaCertificate> {
     const iter = this.listByNamespacePagingAll(
       resourceGroupName,
       namespaceName,
-      options
+      options,
     );
     return {
       next() {
@@ -76,9 +76,9 @@ export class CaCertificatesImpl implements CaCertificates {
           resourceGroupName,
           namespaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -86,7 +86,7 @@ export class CaCertificatesImpl implements CaCertificates {
     resourceGroupName: string,
     namespaceName: string,
     options?: CaCertificatesListByNamespaceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CaCertificate[]> {
     let result: CaCertificatesListByNamespaceResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +94,7 @@ export class CaCertificatesImpl implements CaCertificates {
       result = await this._listByNamespace(
         resourceGroupName,
         namespaceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -106,7 +106,7 @@ export class CaCertificatesImpl implements CaCertificates {
         resourceGroupName,
         namespaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -118,12 +118,12 @@ export class CaCertificatesImpl implements CaCertificates {
   private async *listByNamespacePagingAll(
     resourceGroupName: string,
     namespaceName: string,
-    options?: CaCertificatesListByNamespaceOptionalParams
+    options?: CaCertificatesListByNamespaceOptionalParams,
   ): AsyncIterableIterator<CaCertificate> {
     for await (const page of this.listByNamespacePagingPage(
       resourceGroupName,
       namespaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -140,11 +140,11 @@ export class CaCertificatesImpl implements CaCertificates {
     resourceGroupName: string,
     namespaceName: string,
     caCertificateName: string,
-    options?: CaCertificatesGetOptionalParams
+    options?: CaCertificatesGetOptionalParams,
   ): Promise<CaCertificatesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, caCertificateName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -161,7 +161,7 @@ export class CaCertificatesImpl implements CaCertificates {
     namespaceName: string,
     caCertificateName: string,
     caCertificateInfo: CaCertificate,
-    options?: CaCertificatesCreateOrUpdateOptionalParams
+    options?: CaCertificatesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CaCertificatesCreateOrUpdateResponse>,
@@ -170,21 +170,20 @@ export class CaCertificatesImpl implements CaCertificates {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CaCertificatesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -193,8 +192,8 @@ export class CaCertificatesImpl implements CaCertificates {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -202,8 +201,8 @@ export class CaCertificatesImpl implements CaCertificates {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -214,9 +213,9 @@ export class CaCertificatesImpl implements CaCertificates {
         namespaceName,
         caCertificateName,
         caCertificateInfo,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       CaCertificatesCreateOrUpdateResponse,
@@ -224,7 +223,7 @@ export class CaCertificatesImpl implements CaCertificates {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -243,14 +242,14 @@ export class CaCertificatesImpl implements CaCertificates {
     namespaceName: string,
     caCertificateName: string,
     caCertificateInfo: CaCertificate,
-    options?: CaCertificatesCreateOrUpdateOptionalParams
+    options?: CaCertificatesCreateOrUpdateOptionalParams,
   ): Promise<CaCertificatesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       namespaceName,
       caCertificateName,
       caCertificateInfo,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -266,25 +265,24 @@ export class CaCertificatesImpl implements CaCertificates {
     resourceGroupName: string,
     namespaceName: string,
     caCertificateName: string,
-    options?: CaCertificatesDeleteOptionalParams
+    options?: CaCertificatesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -293,8 +291,8 @@ export class CaCertificatesImpl implements CaCertificates {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -302,20 +300,20 @@ export class CaCertificatesImpl implements CaCertificates {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, namespaceName, caCertificateName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -332,13 +330,13 @@ export class CaCertificatesImpl implements CaCertificates {
     resourceGroupName: string,
     namespaceName: string,
     caCertificateName: string,
-    options?: CaCertificatesDeleteOptionalParams
+    options?: CaCertificatesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       namespaceName,
       caCertificateName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -352,11 +350,11 @@ export class CaCertificatesImpl implements CaCertificates {
   private _listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    options?: CaCertificatesListByNamespaceOptionalParams
+    options?: CaCertificatesListByNamespaceOptionalParams,
   ): Promise<CaCertificatesListByNamespaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, options },
-      listByNamespaceOperationSpec
+      listByNamespaceOperationSpec,
     );
   }
 
@@ -371,11 +369,11 @@ export class CaCertificatesImpl implements CaCertificates {
     resourceGroupName: string,
     namespaceName: string,
     nextLink: string,
-    options?: CaCertificatesListByNamespaceNextOptionalParams
+    options?: CaCertificatesListByNamespaceNextOptionalParams,
   ): Promise<CaCertificatesListByNamespaceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, nextLink, options },
-      listByNamespaceNextOperationSpec
+      listByNamespaceNextOperationSpec,
     );
   }
 }
@@ -383,16 +381,15 @@ export class CaCertificatesImpl implements CaCertificates {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/namespaces/{namespaceName}/caCertificates/{caCertificateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/namespaces/{namespaceName}/caCertificates/{caCertificateName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CaCertificate
+      bodyMapper: Mappers.CaCertificate,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -400,31 +397,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.caCertificateName
+    Parameters.caCertificateName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/namespaces/{namespaceName}/caCertificates/{caCertificateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/namespaces/{namespaceName}/caCertificates/{caCertificateName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.CaCertificate
+      bodyMapper: Mappers.CaCertificate,
     },
     201: {
-      bodyMapper: Mappers.CaCertificate
+      bodyMapper: Mappers.CaCertificate,
     },
     202: {
-      bodyMapper: Mappers.CaCertificate
+      bodyMapper: Mappers.CaCertificate,
     },
     204: {
-      bodyMapper: Mappers.CaCertificate
+      bodyMapper: Mappers.CaCertificate,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.caCertificateInfo,
   queryParameters: [Parameters.apiVersion],
@@ -433,15 +429,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.caCertificateName
+    Parameters.caCertificateName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/namespaces/{namespaceName}/caCertificates/{caCertificateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/namespaces/{namespaceName}/caCertificates/{caCertificateName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -449,8 +444,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -458,51 +453,50 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.caCertificateName
+    Parameters.caCertificateName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByNamespaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/namespaces/{namespaceName}/caCertificates",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/namespaces/{namespaceName}/caCertificates",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CaCertificatesListResult
+      bodyMapper: Mappers.CaCertificatesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName
+    Parameters.namespaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByNamespaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CaCertificatesListResult
+      bodyMapper: Mappers.CaCertificatesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   NamespaceUpdateParameters,
-  EventGridManagementClient
+  EventGridManagementClient,
 } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Asynchronously updates a namespace with the specified parameters.
  *
  * @summary Asynchronously updates a namespace with the specified parameters.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/Namespaces_Update.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/Namespaces_Update.json
  */
 async function namespacesUpdate() {
   const subscriptionId =
@@ -31,14 +31,14 @@ async function namespacesUpdate() {
     process.env["EVENTGRID_RESOURCE_GROUP"] || "examplerg";
   const namespaceName = "exampleNamespaceName1";
   const namespaceUpdateParameters: NamespaceUpdateParameters = {
-    tags: { tag1: "value1Updated" }
+    tags: { tag1: "value1Updated" },
   };
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
   const result = await client.namespaces.beginUpdateAndWait(
     resourceGroupName,
     namespaceName,
-    namespaceUpdateParameters
+    namespaceUpdateParameters,
   );
   console.log(result);
 }
