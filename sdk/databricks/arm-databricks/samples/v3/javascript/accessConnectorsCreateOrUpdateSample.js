@@ -28,7 +28,7 @@ async function createAnAzureDatabricksAccessConnectorWithSystemAssignedIdentity(
   const result = await client.accessConnectors.beginCreateOrUpdateAndWait(
     resourceGroupName,
     connectorName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -49,7 +49,7 @@ async function createAnAzureDatabricksAccessConnectorWithUserAssignedIdentity() 
   const result = await client.accessConnectors.beginCreateOrUpdateAndWait(
     resourceGroupName,
     connectorName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

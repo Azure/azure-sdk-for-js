@@ -32,7 +32,7 @@ async function getCloudServiceRole() {
   const result = await client.cloudServiceRoles.get(
     roleName,
     resourceGroupName,
-    cloudServiceName
+    cloudServiceName,
   );
   console.log(result);
 }

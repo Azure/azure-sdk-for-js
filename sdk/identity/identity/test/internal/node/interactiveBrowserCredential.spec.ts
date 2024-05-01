@@ -4,14 +4,14 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/no-namespace */
 
-import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
-import { Recorder, env } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
 import {
   InteractiveBrowserCredential,
   InteractiveBrowserCredentialNodeOptions,
 } from "../../../src";
+import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
+import { Recorder, env } from "@azure-tools/test-recorder";
 
+import { Context } from "mocha";
 import Sinon from "sinon";
 import { assert } from "chai";
 import http from "http";

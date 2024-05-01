@@ -34,7 +34,7 @@ async function startSqlVirtualMachineTroubleshootingOperation() {
   const result = await client.sqlVirtualMachineTroubleshoot.beginTroubleshootAndWait(
     resourceGroupName,
     sqlVirtualMachineName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

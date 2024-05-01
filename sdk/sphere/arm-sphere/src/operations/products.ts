@@ -16,7 +16,7 @@ import { AzureSphereManagementClient } from "../azureSphereManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -39,7 +39,7 @@ import {
   ProductsCountDevicesOptionalParams,
   ProductsCountDevicesResponse,
   ProductsListByCatalogNextResponse,
-  ProductsGenerateDefaultDeviceGroupsNextResponse
+  ProductsGenerateDefaultDeviceGroupsNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -64,12 +64,12 @@ export class ProductsImpl implements Products {
   public listByCatalog(
     resourceGroupName: string,
     catalogName: string,
-    options?: ProductsListByCatalogOptionalParams
+    options?: ProductsListByCatalogOptionalParams,
   ): PagedAsyncIterableIterator<Product> {
     const iter = this.listByCatalogPagingAll(
       resourceGroupName,
       catalogName,
-      options
+      options,
     );
     return {
       next() {
@@ -86,9 +86,9 @@ export class ProductsImpl implements Products {
           resourceGroupName,
           catalogName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -96,7 +96,7 @@ export class ProductsImpl implements Products {
     resourceGroupName: string,
     catalogName: string,
     options?: ProductsListByCatalogOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Product[]> {
     let result: ProductsListByCatalogResponse;
     let continuationToken = settings?.continuationToken;
@@ -104,7 +104,7 @@ export class ProductsImpl implements Products {
       result = await this._listByCatalog(
         resourceGroupName,
         catalogName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -116,7 +116,7 @@ export class ProductsImpl implements Products {
         resourceGroupName,
         catalogName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -128,12 +128,12 @@ export class ProductsImpl implements Products {
   private async *listByCatalogPagingAll(
     resourceGroupName: string,
     catalogName: string,
-    options?: ProductsListByCatalogOptionalParams
+    options?: ProductsListByCatalogOptionalParams,
   ): AsyncIterableIterator<Product> {
     for await (const page of this.listByCatalogPagingPage(
       resourceGroupName,
       catalogName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -151,13 +151,13 @@ export class ProductsImpl implements Products {
     resourceGroupName: string,
     catalogName: string,
     productName: string,
-    options?: ProductsGenerateDefaultDeviceGroupsOptionalParams
+    options?: ProductsGenerateDefaultDeviceGroupsOptionalParams,
   ): PagedAsyncIterableIterator<DeviceGroup> {
     const iter = this.generateDefaultDeviceGroupsPagingAll(
       resourceGroupName,
       catalogName,
       productName,
-      options
+      options,
     );
     return {
       next() {
@@ -175,9 +175,9 @@ export class ProductsImpl implements Products {
           catalogName,
           productName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -186,7 +186,7 @@ export class ProductsImpl implements Products {
     catalogName: string,
     productName: string,
     options?: ProductsGenerateDefaultDeviceGroupsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DeviceGroup[]> {
     let result: ProductsGenerateDefaultDeviceGroupsResponse;
     let continuationToken = settings?.continuationToken;
@@ -195,7 +195,7 @@ export class ProductsImpl implements Products {
         resourceGroupName,
         catalogName,
         productName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -208,7 +208,7 @@ export class ProductsImpl implements Products {
         catalogName,
         productName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -221,13 +221,13 @@ export class ProductsImpl implements Products {
     resourceGroupName: string,
     catalogName: string,
     productName: string,
-    options?: ProductsGenerateDefaultDeviceGroupsOptionalParams
+    options?: ProductsGenerateDefaultDeviceGroupsOptionalParams,
   ): AsyncIterableIterator<DeviceGroup> {
     for await (const page of this.generateDefaultDeviceGroupsPagingPage(
       resourceGroupName,
       catalogName,
       productName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -242,11 +242,11 @@ export class ProductsImpl implements Products {
   private _listByCatalog(
     resourceGroupName: string,
     catalogName: string,
-    options?: ProductsListByCatalogOptionalParams
+    options?: ProductsListByCatalogOptionalParams,
   ): Promise<ProductsListByCatalogResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, catalogName, options },
-      listByCatalogOperationSpec
+      listByCatalogOperationSpec,
     );
   }
 
@@ -262,11 +262,11 @@ export class ProductsImpl implements Products {
     resourceGroupName: string,
     catalogName: string,
     productName: string,
-    options?: ProductsGetOptionalParams
+    options?: ProductsGetOptionalParams,
   ): Promise<ProductsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, catalogName, productName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -284,7 +284,7 @@ export class ProductsImpl implements Products {
     catalogName: string,
     productName: string,
     resource: Product,
-    options?: ProductsCreateOrUpdateOptionalParams
+    options?: ProductsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProductsCreateOrUpdateResponse>,
@@ -293,21 +293,20 @@ export class ProductsImpl implements Products {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ProductsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -316,8 +315,8 @@ export class ProductsImpl implements Products {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -325,15 +324,15 @@ export class ProductsImpl implements Products {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, catalogName, productName, resource, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ProductsCreateOrUpdateResponse,
@@ -341,7 +340,7 @@ export class ProductsImpl implements Products {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -361,14 +360,14 @@ export class ProductsImpl implements Products {
     catalogName: string,
     productName: string,
     resource: Product,
-    options?: ProductsCreateOrUpdateOptionalParams
+    options?: ProductsCreateOrUpdateOptionalParams,
   ): Promise<ProductsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       catalogName,
       productName,
       resource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -387,7 +386,7 @@ export class ProductsImpl implements Products {
     catalogName: string,
     productName: string,
     properties: ProductUpdate,
-    options?: ProductsUpdateOptionalParams
+    options?: ProductsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProductsUpdateResponse>,
@@ -396,21 +395,20 @@ export class ProductsImpl implements Products {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ProductsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -419,8 +417,8 @@ export class ProductsImpl implements Products {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -428,8 +426,8 @@ export class ProductsImpl implements Products {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -440,9 +438,9 @@ export class ProductsImpl implements Products {
         catalogName,
         productName,
         properties,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       ProductsUpdateResponse,
@@ -450,7 +448,7 @@ export class ProductsImpl implements Products {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -470,14 +468,14 @@ export class ProductsImpl implements Products {
     catalogName: string,
     productName: string,
     properties: ProductUpdate,
-    options?: ProductsUpdateOptionalParams
+    options?: ProductsUpdateOptionalParams,
   ): Promise<ProductsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       catalogName,
       productName,
       properties,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -494,25 +492,24 @@ export class ProductsImpl implements Products {
     resourceGroupName: string,
     catalogName: string,
     productName: string,
-    options?: ProductsDeleteOptionalParams
+    options?: ProductsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -521,8 +518,8 @@ export class ProductsImpl implements Products {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -530,20 +527,20 @@ export class ProductsImpl implements Products {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, catalogName, productName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -561,13 +558,13 @@ export class ProductsImpl implements Products {
     resourceGroupName: string,
     catalogName: string,
     productName: string,
-    options?: ProductsDeleteOptionalParams
+    options?: ProductsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       catalogName,
       productName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -584,11 +581,11 @@ export class ProductsImpl implements Products {
     resourceGroupName: string,
     catalogName: string,
     productName: string,
-    options?: ProductsCountDevicesOptionalParams
+    options?: ProductsCountDevicesOptionalParams,
   ): Promise<ProductsCountDevicesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, catalogName, productName, options },
-      countDevicesOperationSpec
+      countDevicesOperationSpec,
     );
   }
 
@@ -604,11 +601,11 @@ export class ProductsImpl implements Products {
     resourceGroupName: string,
     catalogName: string,
     productName: string,
-    options?: ProductsGenerateDefaultDeviceGroupsOptionalParams
+    options?: ProductsGenerateDefaultDeviceGroupsOptionalParams,
   ): Promise<ProductsGenerateDefaultDeviceGroupsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, catalogName, productName, options },
-      generateDefaultDeviceGroupsOperationSpec
+      generateDefaultDeviceGroupsOperationSpec,
     );
   }
 
@@ -623,11 +620,11 @@ export class ProductsImpl implements Products {
     resourceGroupName: string,
     catalogName: string,
     nextLink: string,
-    options?: ProductsListByCatalogNextOptionalParams
+    options?: ProductsListByCatalogNextOptionalParams,
   ): Promise<ProductsListByCatalogNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, catalogName, nextLink, options },
-      listByCatalogNextOperationSpec
+      listByCatalogNextOperationSpec,
     );
   }
 
@@ -645,11 +642,11 @@ export class ProductsImpl implements Products {
     catalogName: string,
     productName: string,
     nextLink: string,
-    options?: ProductsGenerateDefaultDeviceGroupsNextOptionalParams
+    options?: ProductsGenerateDefaultDeviceGroupsNextOptionalParams,
   ): Promise<ProductsGenerateDefaultDeviceGroupsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, catalogName, productName, nextLink, options },
-      generateDefaultDeviceGroupsNextOperationSpec
+      generateDefaultDeviceGroupsNextOperationSpec,
     );
   }
 }
@@ -657,38 +654,15 @@ export class ProductsImpl implements Products {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByCatalogOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/products",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/products",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProductListResult
+      bodyMapper: Mappers.ProductListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.catalogName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/products/{productName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Product
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -696,31 +670,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.catalogName,
-    Parameters.productName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/products/{productName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Product,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.catalogName,
+    Parameters.productName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/products/{productName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/products/{productName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Product
+      bodyMapper: Mappers.Product,
     },
     201: {
-      bodyMapper: Mappers.Product
+      bodyMapper: Mappers.Product,
     },
     202: {
-      bodyMapper: Mappers.Product
+      bodyMapper: Mappers.Product,
     },
     204: {
-      bodyMapper: Mappers.Product
+      bodyMapper: Mappers.Product,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.resource2,
   queryParameters: [Parameters.apiVersion],
@@ -729,32 +723,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.catalogName,
-    Parameters.productName
+    Parameters.productName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/products/{productName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/products/{productName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Product
+      bodyMapper: Mappers.Product,
     },
     201: {
-      bodyMapper: Mappers.Product
+      bodyMapper: Mappers.Product,
     },
     202: {
-      bodyMapper: Mappers.Product
+      bodyMapper: Mappers.Product,
     },
     204: {
-      bodyMapper: Mappers.Product
+      bodyMapper: Mappers.Product,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.properties1,
   queryParameters: [Parameters.apiVersion],
@@ -763,15 +756,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.catalogName,
-    Parameters.productName
+    Parameters.productName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/products/{productName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/products/{productName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -779,8 +771,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -788,22 +780,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.catalogName,
-    Parameters.productName
+    Parameters.productName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const countDevicesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/products/{productName}/countDevices",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/products/{productName}/countDevices",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CountDeviceResponse
+      bodyMapper: Mappers.CountDevicesResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -811,22 +802,21 @@ const countDevicesOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.catalogName,
-    Parameters.productName
+    Parameters.productName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const generateDefaultDeviceGroupsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/products/{productName}/generateDefaultDeviceGroups",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/products/{productName}/generateDefaultDeviceGroups",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DeviceGroupListResult
+      bodyMapper: Mappers.DeviceGroupListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -834,42 +824,21 @@ const generateDefaultDeviceGroupsOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.catalogName,
-    Parameters.productName
+    Parameters.productName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByCatalogNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProductListResult
+      bodyMapper: Mappers.ProductListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.catalogName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const generateDefaultDeviceGroupsNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeviceGroupListResult
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   urlParameters: [
     Parameters.$host,
@@ -877,8 +846,29 @@ const generateDefaultDeviceGroupsNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.catalogName,
-    Parameters.productName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const generateDefaultDeviceGroupsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeviceGroupListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.catalogName,
+    Parameters.productName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

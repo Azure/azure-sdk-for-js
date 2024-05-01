@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a static member.
  *
  * @summary Creates or updates a static member.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkManagerStaticMemberPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkManagerStaticMemberPut.json
  */
 async function staticMemberPut() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function staticMemberPut() {
   const staticMemberName = "testStaticMember";
   const parameters: StaticMember = {
     resourceId:
-      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroup/rg1/providers/Microsoft.Network/virtualnetworks/vnet1"
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroup/rg1/providers/Microsoft.Network/virtualnetworks/vnet1",
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -39,7 +39,7 @@ async function staticMemberPut() {
     networkManagerName,
     networkGroupName,
     staticMemberName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

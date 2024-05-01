@@ -162,8 +162,9 @@ export type UnplannedFailoverProviderSpecificInputUnion =
   | InMageRcmUnplannedFailoverInput
   | InMageUnplannedFailoverInput;
 export type UpdateApplianceForReplicationProtectedItemProviderSpecificInputUnion =
-  | UpdateApplianceForReplicationProtectedItemProviderSpecificInput
-  | InMageRcmUpdateApplianceForReplicationProtectedItemInput;
+
+    | UpdateApplianceForReplicationProtectedItemProviderSpecificInput
+    | InMageRcmUpdateApplianceForReplicationProtectedItemInput;
 export type ProtectionContainerMappingProviderSpecificDetailsUnion =
   | ProtectionContainerMappingProviderSpecificDetails
   | A2AProtectionContainerMappingDetails
@@ -673,6 +674,55 @@ export interface RenewCertificateInput {
 export interface RenewCertificateInputProperties {
   /** Renew certificate type. */
   renewCertificateType?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
 }
 
 /** List of logical networks. */
@@ -7425,6 +7475,8 @@ export interface A2AEnableProtectionInput
   recoveryVirtualMachineScaleSetId?: string;
   /** The recovery capacity reservation group Id. */
   recoveryCapacityReservationGroupId?: string;
+  /** A value indicating whether the auto protection is enabled. */
+  autoProtectionOfDataDisk?: AutoProtectionOfDataDisk;
 }
 
 /** HyperVReplicaAzure specific enable protection input. */
@@ -9131,6 +9183,11 @@ export interface HyperVReplicaBluePolicyInput extends HyperVReplicaPolicyInput {
   replicationFrequencyInSeconds?: number;
 }
 
+/** Defines headers for ReplicationFabrics_removeInfra operation. */
+export interface ReplicationFabricsRemoveInfraHeaders {
+  location?: string;
+}
+
 /** Defines headers for ReplicationProtectedItems_updateMobilityService operation. */
 export interface ReplicationProtectedItemsUpdateMobilityServiceHeaders {
   location?: string;
@@ -9141,7 +9198,7 @@ export enum KnownHealthErrorCustomerResolvability {
   /** Allowed */
   Allowed = "Allowed",
   /** NotAllowed */
-  NotAllowed = "NotAllowed"
+  NotAllowed = "NotAllowed",
 }
 
 /**
@@ -9189,7 +9246,7 @@ export enum KnownMigrationState {
   /** MigrationCompletedWithInformation */
   MigrationCompletedWithInformation = "MigrationCompletedWithInformation",
   /** MigrationPartiallySucceeded */
-  MigrationPartiallySucceeded = "MigrationPartiallySucceeded"
+  MigrationPartiallySucceeded = "MigrationPartiallySucceeded",
 }
 
 /**
@@ -9232,7 +9289,7 @@ export enum KnownTestMigrationState {
   /** TestMigrationCompletedWithInformation */
   TestMigrationCompletedWithInformation = "TestMigrationCompletedWithInformation",
   /** TestMigrationPartiallySucceeded */
-  TestMigrationPartiallySucceeded = "TestMigrationPartiallySucceeded"
+  TestMigrationPartiallySucceeded = "TestMigrationPartiallySucceeded",
 }
 
 /**
@@ -9259,7 +9316,7 @@ export enum KnownProtectionHealth {
   /** Warning */
   Warning = "Warning",
   /** Critical */
-  Critical = "Critical"
+  Critical = "Critical",
 }
 
 /**
@@ -9289,7 +9346,7 @@ export enum KnownMigrationItemOperation {
   /** PauseReplication */
   PauseReplication = "PauseReplication",
   /** ResumeReplication */
-  ResumeReplication = "ResumeReplication"
+  ResumeReplication = "ResumeReplication",
 }
 
 /**
@@ -9314,7 +9371,7 @@ export enum KnownMigrationRecoveryPointType {
   /** ApplicationConsistent */
   ApplicationConsistent = "ApplicationConsistent",
   /** CrashConsistent */
-  CrashConsistent = "CrashConsistent"
+  CrashConsistent = "CrashConsistent",
 }
 
 /**
@@ -9335,7 +9392,7 @@ export enum KnownLicenseType {
   /** NoLicenseType */
   NoLicenseType = "NoLicenseType",
   /** WindowsServer */
-  WindowsServer = "WindowsServer"
+  WindowsServer = "WindowsServer",
 }
 
 /**
@@ -9354,7 +9411,7 @@ export enum KnownDisableProtectionReason {
   /** NotSpecified */
   NotSpecified = "NotSpecified",
   /** MigrationComplete */
-  MigrationComplete = "MigrationComplete"
+  MigrationComplete = "MigrationComplete",
 }
 
 /**
@@ -9378,7 +9435,7 @@ export enum KnownAgentVersionStatus {
   /** UpdateRequired */
   UpdateRequired = "UpdateRequired",
   /** SecurityUpdateRequired */
-  SecurityUpdateRequired = "SecurityUpdateRequired"
+  SecurityUpdateRequired = "SecurityUpdateRequired",
 }
 
 /**
@@ -9401,7 +9458,7 @@ export enum KnownExportJobOutputSerializationType {
   /** Xml */
   Xml = "Xml",
   /** Excel */
-  Excel = "Excel"
+  Excel = "Excel",
 }
 
 /**
@@ -9422,7 +9479,7 @@ export enum KnownRecoveryPlanGroupType {
   /** Boot */
   Boot = "Boot",
   /** Failover */
-  Failover = "Failover"
+  Failover = "Failover",
 }
 
 /**
@@ -9465,7 +9522,7 @@ export enum KnownReplicationProtectedItemOperation {
   /** SwitchProtection */
   SwitchProtection = "SwitchProtection",
   /** CompleteMigration */
-  CompleteMigration = "CompleteMigration"
+  CompleteMigration = "CompleteMigration",
 }
 
 /**
@@ -9495,7 +9552,7 @@ export enum KnownPossibleOperationsDirections {
   /** PrimaryToRecovery */
   PrimaryToRecovery = "PrimaryToRecovery",
   /** RecoveryToPrimary */
-  RecoveryToPrimary = "RecoveryToPrimary"
+  RecoveryToPrimary = "RecoveryToPrimary",
 }
 
 /**
@@ -9515,7 +9572,7 @@ export enum KnownFailoverDeploymentModel {
   /** Classic */
   Classic = "Classic",
   /** ResourceManager */
-  ResourceManager = "ResourceManager"
+  ResourceManager = "ResourceManager",
 }
 
 /**
@@ -9534,7 +9591,7 @@ export enum KnownSourceSiteOperations {
   /** Required */
   Required = "Required",
   /** NotRequired */
-  NotRequired = "NotRequired"
+  NotRequired = "NotRequired",
 }
 
 /**
@@ -9570,7 +9627,7 @@ export enum KnownHealthErrorCategory {
   /** AgentAutoUpdateRunAsAccountExpiry */
   AgentAutoUpdateRunAsAccountExpiry = "AgentAutoUpdateRunAsAccountExpiry",
   /** AgentAutoUpdateRunAsAccountExpired */
-  AgentAutoUpdateRunAsAccountExpired = "AgentAutoUpdateRunAsAccountExpired"
+  AgentAutoUpdateRunAsAccountExpired = "AgentAutoUpdateRunAsAccountExpired",
 }
 
 /**
@@ -9601,7 +9658,7 @@ export enum KnownSeverity {
   /** Error */
   Error = "Error",
   /** Info */
-  Info = "Info"
+  Info = "Info",
 }
 
 /**
@@ -9621,7 +9678,7 @@ export enum KnownAgentAutoUpdateStatus {
   /** Disabled */
   Disabled = "Disabled",
   /** Enabled */
-  Enabled = "Enabled"
+  Enabled = "Enabled",
 }
 
 /**
@@ -9639,7 +9696,7 @@ export enum KnownAutomationAccountAuthenticationType {
   /** RunAsAccount */
   RunAsAccount = "RunAsAccount",
   /** SystemAssignedIdentity */
-  SystemAssignedIdentity = "SystemAssignedIdentity"
+  SystemAssignedIdentity = "SystemAssignedIdentity",
 }
 
 /**
@@ -9659,7 +9716,7 @@ export enum KnownA2ARecoveryAvailabilityType {
   /** AvailabilitySet */
   AvailabilitySet = "AvailabilitySet",
   /** AvailabilityZone */
-  AvailabilityZone = "AvailabilityZone"
+  AvailabilityZone = "AvailabilityZone",
 }
 
 /**
@@ -9678,7 +9735,7 @@ export enum KnownAutoProtectionOfDataDisk {
   /** Disabled */
   Disabled = "Disabled",
   /** Enabled */
-  Enabled = "Enabled"
+  Enabled = "Enabled",
 }
 
 /**
@@ -9694,7 +9751,7 @@ export type AutoProtectionOfDataDisk = string;
 /** Known values of {@link ExtendedLocationType} that the service accepts. */
 export enum KnownExtendedLocationType {
   /** EdgeZone */
-  EdgeZone = "EdgeZone"
+  EdgeZone = "EdgeZone",
 }
 
 /**
@@ -9711,7 +9768,7 @@ export enum KnownSetMultiVmSyncStatus {
   /** Enable */
   Enable = "Enable",
   /** Disable */
-  Disable = "Disable"
+  Disable = "Disable",
 }
 
 /**
@@ -9729,7 +9786,7 @@ export enum KnownRecoveryPointSyncType {
   /** MultiVmSyncRecoveryPoint */
   MultiVmSyncRecoveryPoint = "MultiVmSyncRecoveryPoint",
   /** PerVmRecoveryPoint */
-  PerVmRecoveryPoint = "PerVmRecoveryPoint"
+  PerVmRecoveryPoint = "PerVmRecoveryPoint",
 }
 
 /**
@@ -9747,7 +9804,7 @@ export enum KnownMultiVmGroupCreateOption {
   /** AutoCreated */
   AutoCreated = "AutoCreated",
   /** UserSpecified */
-  UserSpecified = "UserSpecified"
+  UserSpecified = "UserSpecified",
 }
 
 /**
@@ -9767,7 +9824,7 @@ export enum KnownVmEncryptionType {
   /** OnePassEncrypted */
   OnePassEncrypted = "OnePassEncrypted",
   /** TwoPassEncrypted */
-  TwoPassEncrypted = "TwoPassEncrypted"
+  TwoPassEncrypted = "TwoPassEncrypted",
 }
 
 /**
@@ -9786,7 +9843,7 @@ export enum KnownChurnOptionSelected {
   /** Normal */
   Normal = "Normal",
   /** High */
-  High = "High"
+  High = "High",
 }
 
 /**
@@ -9806,7 +9863,7 @@ export enum KnownDiskAccountType {
   /** PremiumLRS */
   PremiumLRS = "Premium_LRS",
   /** StandardSSDLRS */
-  StandardSSDLRS = "StandardSSD_LRS"
+  StandardSSDLRS = "StandardSSD_LRS",
 }
 
 /**
@@ -9829,7 +9886,7 @@ export enum KnownSqlServerLicenseType {
   /** Payg */
   Payg = "PAYG",
   /** Ahub */
-  Ahub = "AHUB"
+  Ahub = "AHUB",
 }
 
 /**
@@ -9851,7 +9908,7 @@ export enum KnownPresenceStatus {
   /** Present */
   Present = "Present",
   /** NotPresent */
-  NotPresent = "NotPresent"
+  NotPresent = "NotPresent",
 }
 
 /**
@@ -9874,7 +9931,7 @@ export enum KnownRcmComponentStatus {
   /** Critical */
   Critical = "Critical",
   /** Unknown */
-  Unknown = "Unknown"
+  Unknown = "Unknown",
 }
 
 /**
@@ -9918,7 +9975,7 @@ export enum KnownAgentUpgradeBlockedReason {
   /** InvalidDriverVersion */
   InvalidDriverVersion = "InvalidDriverVersion",
   /** Unknown */
-  Unknown = "Unknown"
+  Unknown = "Unknown",
 }
 
 /**
@@ -9948,7 +10005,7 @@ export enum KnownInMageRcmFailbackRecoveryPointType {
   /** ApplicationConsistent */
   ApplicationConsistent = "ApplicationConsistent",
   /** CrashConsistent */
-  CrashConsistent = "CrashConsistent"
+  CrashConsistent = "CrashConsistent",
 }
 
 /**
@@ -9972,7 +10029,7 @@ export enum KnownDiskReplicationProgressHealth {
   /** NoProgress */
   NoProgress = "NoProgress",
   /** Queued */
-  Queued = "Queued"
+  Queued = "Queued",
 }
 
 /**
@@ -9997,7 +10054,7 @@ export enum KnownVmReplicationProgressHealth {
   /** SlowProgress */
   SlowProgress = "SlowProgress",
   /** NoProgress */
-  NoProgress = "NoProgress"
+  NoProgress = "NoProgress",
 }
 
 /**
@@ -10019,7 +10076,7 @@ export enum KnownResyncState {
   /** PreparedForResynchronization */
   PreparedForResynchronization = "PreparedForResynchronization",
   /** StartedResynchronization */
-  StartedResynchronization = "StartedResynchronization"
+  StartedResynchronization = "StartedResynchronization",
 }
 
 /**
@@ -10042,7 +10099,7 @@ export enum KnownPlannedFailoverStatus {
   /** Cancelled */
   Cancelled = "Cancelled",
   /** Unknown */
-  Unknown = "Unknown"
+  Unknown = "Unknown",
 }
 
 /**
@@ -10062,7 +10119,7 @@ export enum KnownEthernetAddressType {
   /** Dynamic */
   Dynamic = "Dynamic",
   /** Static */
-  Static = "Static"
+  Static = "Static",
 }
 
 /**
@@ -10084,7 +10141,7 @@ export enum KnownMobilityAgentUpgradeState {
   /** Completed */
   Completed = "Completed",
   /** Commit */
-  Commit = "Commit"
+  Commit = "Commit",
 }
 
 /**
@@ -10106,7 +10163,7 @@ export enum KnownRecoveryPointType {
   /** LatestTag */
   LatestTag = "LatestTag",
   /** Custom */
-  Custom = "Custom"
+  Custom = "Custom",
 }
 
 /**
@@ -10129,7 +10186,7 @@ export enum KnownA2ARpRecoveryPointType {
   /** LatestCrashConsistent */
   LatestCrashConsistent = "LatestCrashConsistent",
   /** LatestProcessed */
-  LatestProcessed = "LatestProcessed"
+  LatestProcessed = "LatestProcessed",
 }
 
 /**
@@ -10149,7 +10206,7 @@ export enum KnownMultiVmSyncPointOption {
   /** UseMultiVmSyncRecoveryPoint */
   UseMultiVmSyncRecoveryPoint = "UseMultiVmSyncRecoveryPoint",
   /** UsePerVmRecoveryPoint */
-  UsePerVmRecoveryPoint = "UsePerVmRecoveryPoint"
+  UsePerVmRecoveryPoint = "UsePerVmRecoveryPoint",
 }
 
 /**
@@ -10167,7 +10224,7 @@ export enum KnownRecoveryPlanActionLocation {
   /** Primary */
   Primary = "Primary",
   /** Recovery */
-  Recovery = "Recovery"
+  Recovery = "Recovery",
 }
 
 /**
@@ -10185,7 +10242,7 @@ export enum KnownDataSyncStatus {
   /** ForDownTime */
   ForDownTime = "ForDownTime",
   /** ForSynchronization */
-  ForSynchronization = "ForSynchronization"
+  ForSynchronization = "ForSynchronization",
 }
 
 /**
@@ -10203,7 +10260,7 @@ export enum KnownAlternateLocationRecoveryOption {
   /** CreateVmIfNotFound */
   CreateVmIfNotFound = "CreateVmIfNotFound",
   /** NoAction */
-  NoAction = "NoAction"
+  NoAction = "NoAction",
 }
 
 /**
@@ -10223,7 +10280,7 @@ export enum KnownHyperVReplicaAzureRpRecoveryPointType {
   /** LatestApplicationConsistent */
   LatestApplicationConsistent = "LatestApplicationConsistent",
   /** LatestProcessed */
-  LatestProcessed = "LatestProcessed"
+  LatestProcessed = "LatestProcessed",
 }
 
 /**
@@ -10246,7 +10303,7 @@ export enum KnownInMageV2RpRecoveryPointType {
   /** LatestCrashConsistent */
   LatestCrashConsistent = "LatestCrashConsistent",
   /** LatestProcessed */
-  LatestProcessed = "LatestProcessed"
+  LatestProcessed = "LatestProcessed",
 }
 
 /**
@@ -10268,7 +10325,7 @@ export enum KnownRpInMageRecoveryPointType {
   /** LatestTag */
   LatestTag = "LatestTag",
   /** Custom */
-  Custom = "Custom"
+  Custom = "Custom",
 }
 
 /**
@@ -10291,7 +10348,7 @@ export enum KnownRecoveryPlanPointType {
   /** LatestCrashConsistent */
   LatestCrashConsistent = "LatestCrashConsistent",
   /** LatestProcessed */
-  LatestProcessed = "LatestProcessed"
+  LatestProcessed = "LatestProcessed",
 }
 
 /**
@@ -10313,7 +10370,7 @@ export enum KnownSecurityType {
   /** TrustedLaunch */
   TrustedLaunch = "TrustedLaunch",
   /** ConfidentialVM */
-  ConfidentialVM = "ConfidentialVM"
+  ConfidentialVM = "ConfidentialVM",
 }
 
 /**
@@ -10391,14 +10448,16 @@ export interface ReplicationEligibilityResultsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ReplicationEligibilityResultsListResponse = ReplicationEligibilityResultsCollection;
+export type ReplicationEligibilityResultsListResponse =
+  ReplicationEligibilityResultsCollection;
 
 /** Optional parameters. */
 export interface ReplicationEligibilityResultsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ReplicationEligibilityResultsGetResponse = ReplicationEligibilityResults;
+export type ReplicationEligibilityResultsGetResponse =
+  ReplicationEligibilityResults;
 
 /** Optional parameters. */
 export interface ReplicationEventsListOptionalParams
@@ -10517,6 +10576,19 @@ export interface ReplicationFabricsRenewCertificateOptionalParams
 export type ReplicationFabricsRenewCertificateResponse = Fabric;
 
 /** Optional parameters. */
+export interface ReplicationFabricsRemoveInfraOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the removeInfra operation. */
+export type ReplicationFabricsRemoveInfraResponse =
+  ReplicationFabricsRemoveInfraHeaders;
+
+/** Optional parameters. */
 export interface ReplicationFabricsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -10528,7 +10600,8 @@ export interface ReplicationLogicalNetworksListByReplicationFabricsOptionalParam
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReplicationFabrics operation. */
-export type ReplicationLogicalNetworksListByReplicationFabricsResponse = LogicalNetworkCollection;
+export type ReplicationLogicalNetworksListByReplicationFabricsResponse =
+  LogicalNetworkCollection;
 
 /** Optional parameters. */
 export interface ReplicationLogicalNetworksGetOptionalParams
@@ -10542,14 +10615,16 @@ export interface ReplicationLogicalNetworksListByReplicationFabricsNextOptionalP
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReplicationFabricsNext operation. */
-export type ReplicationLogicalNetworksListByReplicationFabricsNextResponse = LogicalNetworkCollection;
+export type ReplicationLogicalNetworksListByReplicationFabricsNextResponse =
+  LogicalNetworkCollection;
 
 /** Optional parameters. */
 export interface ReplicationNetworksListByReplicationFabricsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReplicationFabrics operation. */
-export type ReplicationNetworksListByReplicationFabricsResponse = NetworkCollection;
+export type ReplicationNetworksListByReplicationFabricsResponse =
+  NetworkCollection;
 
 /** Optional parameters. */
 export interface ReplicationNetworksGetOptionalParams
@@ -10570,7 +10645,8 @@ export interface ReplicationNetworksListByReplicationFabricsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReplicationFabricsNext operation. */
-export type ReplicationNetworksListByReplicationFabricsNextResponse = NetworkCollection;
+export type ReplicationNetworksListByReplicationFabricsNextResponse =
+  NetworkCollection;
 
 /** Optional parameters. */
 export interface ReplicationNetworksListNextOptionalParams
@@ -10584,7 +10660,8 @@ export interface ReplicationNetworkMappingsListByReplicationNetworksOptionalPara
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReplicationNetworks operation. */
-export type ReplicationNetworkMappingsListByReplicationNetworksResponse = NetworkMappingCollection;
+export type ReplicationNetworkMappingsListByReplicationNetworksResponse =
+  NetworkMappingCollection;
 
 /** Optional parameters. */
 export interface ReplicationNetworkMappingsGetOptionalParams
@@ -10638,21 +10715,24 @@ export interface ReplicationNetworkMappingsListByReplicationNetworksNextOptional
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReplicationNetworksNext operation. */
-export type ReplicationNetworkMappingsListByReplicationNetworksNextResponse = NetworkMappingCollection;
+export type ReplicationNetworkMappingsListByReplicationNetworksNextResponse =
+  NetworkMappingCollection;
 
 /** Optional parameters. */
 export interface ReplicationNetworkMappingsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ReplicationNetworkMappingsListNextResponse = NetworkMappingCollection;
+export type ReplicationNetworkMappingsListNextResponse =
+  NetworkMappingCollection;
 
 /** Optional parameters. */
 export interface ReplicationProtectionContainersListByReplicationFabricsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReplicationFabrics operation. */
-export type ReplicationProtectionContainersListByReplicationFabricsResponse = ProtectionContainerCollection;
+export type ReplicationProtectionContainersListByReplicationFabricsResponse =
+  ProtectionContainerCollection;
 
 /** Optional parameters. */
 export interface ReplicationProtectionContainersGetOptionalParams
@@ -10683,7 +10763,8 @@ export interface ReplicationProtectionContainersDiscoverProtectableItemOptionalP
 }
 
 /** Contains response data for the discoverProtectableItem operation. */
-export type ReplicationProtectionContainersDiscoverProtectableItemResponse = ProtectionContainer;
+export type ReplicationProtectionContainersDiscoverProtectableItemResponse =
+  ProtectionContainer;
 
 /** Optional parameters. */
 export interface ReplicationProtectionContainersDeleteOptionalParams
@@ -10704,28 +10785,32 @@ export interface ReplicationProtectionContainersSwitchProtectionOptionalParams
 }
 
 /** Contains response data for the switchProtection operation. */
-export type ReplicationProtectionContainersSwitchProtectionResponse = ProtectionContainer;
+export type ReplicationProtectionContainersSwitchProtectionResponse =
+  ProtectionContainer;
 
 /** Optional parameters. */
 export interface ReplicationProtectionContainersListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ReplicationProtectionContainersListResponse = ProtectionContainerCollection;
+export type ReplicationProtectionContainersListResponse =
+  ProtectionContainerCollection;
 
 /** Optional parameters. */
 export interface ReplicationProtectionContainersListByReplicationFabricsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReplicationFabricsNext operation. */
-export type ReplicationProtectionContainersListByReplicationFabricsNextResponse = ProtectionContainerCollection;
+export type ReplicationProtectionContainersListByReplicationFabricsNextResponse =
+  ProtectionContainerCollection;
 
 /** Optional parameters. */
 export interface ReplicationProtectionContainersListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ReplicationProtectionContainersListNextResponse = ProtectionContainerCollection;
+export type ReplicationProtectionContainersListNextResponse =
+  ProtectionContainerCollection;
 
 /** Optional parameters. */
 export interface ReplicationMigrationItemsListByReplicationProtectionContainersOptionalParams
@@ -10739,7 +10824,8 @@ export interface ReplicationMigrationItemsListByReplicationProtectionContainersO
 }
 
 /** Contains response data for the listByReplicationProtectionContainers operation. */
-export type ReplicationMigrationItemsListByReplicationProtectionContainersResponse = MigrationItemCollection;
+export type ReplicationMigrationItemsListByReplicationProtectionContainersResponse =
+  MigrationItemCollection;
 
 /** Optional parameters. */
 export interface ReplicationMigrationItemsGetOptionalParams
@@ -10874,7 +10960,8 @@ export interface ReplicationMigrationItemsListByReplicationProtectionContainersN
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReplicationProtectionContainersNext operation. */
-export type ReplicationMigrationItemsListByReplicationProtectionContainersNextResponse = MigrationItemCollection;
+export type ReplicationMigrationItemsListByReplicationProtectionContainersNextResponse =
+  MigrationItemCollection;
 
 /** Optional parameters. */
 export interface ReplicationMigrationItemsListNextOptionalParams
@@ -10888,7 +10975,8 @@ export interface MigrationRecoveryPointsListByReplicationMigrationItemsOptionalP
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReplicationMigrationItems operation. */
-export type MigrationRecoveryPointsListByReplicationMigrationItemsResponse = MigrationRecoveryPointCollection;
+export type MigrationRecoveryPointsListByReplicationMigrationItemsResponse =
+  MigrationRecoveryPointCollection;
 
 /** Optional parameters. */
 export interface MigrationRecoveryPointsGetOptionalParams
@@ -10902,7 +10990,8 @@ export interface MigrationRecoveryPointsListByReplicationMigrationItemsNextOptio
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReplicationMigrationItemsNext operation. */
-export type MigrationRecoveryPointsListByReplicationMigrationItemsNextResponse = MigrationRecoveryPointCollection;
+export type MigrationRecoveryPointsListByReplicationMigrationItemsNextResponse =
+  MigrationRecoveryPointCollection;
 
 /** Optional parameters. */
 export interface ReplicationProtectableItemsListByReplicationProtectionContainersOptionalParams
@@ -10916,7 +11005,8 @@ export interface ReplicationProtectableItemsListByReplicationProtectionContainer
 }
 
 /** Contains response data for the listByReplicationProtectionContainers operation. */
-export type ReplicationProtectableItemsListByReplicationProtectionContainersResponse = ProtectableItemCollection;
+export type ReplicationProtectableItemsListByReplicationProtectionContainersResponse =
+  ProtectableItemCollection;
 
 /** Optional parameters. */
 export interface ReplicationProtectableItemsGetOptionalParams
@@ -10930,14 +11020,16 @@ export interface ReplicationProtectableItemsListByReplicationProtectionContainer
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReplicationProtectionContainersNext operation. */
-export type ReplicationProtectableItemsListByReplicationProtectionContainersNextResponse = ProtectableItemCollection;
+export type ReplicationProtectableItemsListByReplicationProtectionContainersNextResponse =
+  ProtectableItemCollection;
 
 /** Optional parameters. */
 export interface ReplicationProtectedItemsListByReplicationProtectionContainersOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReplicationProtectionContainers operation. */
-export type ReplicationProtectedItemsListByReplicationProtectionContainersResponse = ReplicationProtectedItemCollection;
+export type ReplicationProtectedItemsListByReplicationProtectionContainersResponse =
+  ReplicationProtectedItemCollection;
 
 /** Optional parameters. */
 export interface ReplicationProtectedItemsGetOptionalParams
@@ -10989,7 +11081,8 @@ export interface ReplicationProtectedItemsAddDisksOptionalParams
 }
 
 /** Contains response data for the addDisks operation. */
-export type ReplicationProtectedItemsAddDisksResponse = ReplicationProtectedItem;
+export type ReplicationProtectedItemsAddDisksResponse =
+  ReplicationProtectedItem;
 
 /** Optional parameters. */
 export interface ReplicationProtectedItemsApplyRecoveryPointOptionalParams
@@ -11001,7 +11094,8 @@ export interface ReplicationProtectedItemsApplyRecoveryPointOptionalParams
 }
 
 /** Contains response data for the applyRecoveryPoint operation. */
-export type ReplicationProtectedItemsApplyRecoveryPointResponse = ReplicationProtectedItem;
+export type ReplicationProtectedItemsApplyRecoveryPointResponse =
+  ReplicationProtectedItem;
 
 /** Optional parameters. */
 export interface ReplicationProtectedItemsFailoverCancelOptionalParams
@@ -11013,7 +11107,8 @@ export interface ReplicationProtectedItemsFailoverCancelOptionalParams
 }
 
 /** Contains response data for the failoverCancel operation. */
-export type ReplicationProtectedItemsFailoverCancelResponse = ReplicationProtectedItem;
+export type ReplicationProtectedItemsFailoverCancelResponse =
+  ReplicationProtectedItem;
 
 /** Optional parameters. */
 export interface ReplicationProtectedItemsFailoverCommitOptionalParams
@@ -11025,7 +11120,8 @@ export interface ReplicationProtectedItemsFailoverCommitOptionalParams
 }
 
 /** Contains response data for the failoverCommit operation. */
-export type ReplicationProtectedItemsFailoverCommitResponse = ReplicationProtectedItem;
+export type ReplicationProtectedItemsFailoverCommitResponse =
+  ReplicationProtectedItem;
 
 /** Optional parameters. */
 export interface ReplicationProtectedItemsPlannedFailoverOptionalParams
@@ -11037,7 +11133,8 @@ export interface ReplicationProtectedItemsPlannedFailoverOptionalParams
 }
 
 /** Contains response data for the plannedFailover operation. */
-export type ReplicationProtectedItemsPlannedFailoverResponse = ReplicationProtectedItem;
+export type ReplicationProtectedItemsPlannedFailoverResponse =
+  ReplicationProtectedItem;
 
 /** Optional parameters. */
 export interface ReplicationProtectedItemsDeleteOptionalParams
@@ -11058,7 +11155,8 @@ export interface ReplicationProtectedItemsRemoveDisksOptionalParams
 }
 
 /** Contains response data for the removeDisks operation. */
-export type ReplicationProtectedItemsRemoveDisksResponse = ReplicationProtectedItem;
+export type ReplicationProtectedItemsRemoveDisksResponse =
+  ReplicationProtectedItem;
 
 /** Optional parameters. */
 export interface ReplicationProtectedItemsRepairReplicationOptionalParams
@@ -11070,7 +11168,8 @@ export interface ReplicationProtectedItemsRepairReplicationOptionalParams
 }
 
 /** Contains response data for the repairReplication operation. */
-export type ReplicationProtectedItemsRepairReplicationResponse = ReplicationProtectedItem;
+export type ReplicationProtectedItemsRepairReplicationResponse =
+  ReplicationProtectedItem;
 
 /** Optional parameters. */
 export interface ReplicationProtectedItemsReprotectOptionalParams
@@ -11082,7 +11181,8 @@ export interface ReplicationProtectedItemsReprotectOptionalParams
 }
 
 /** Contains response data for the reprotect operation. */
-export type ReplicationProtectedItemsReprotectResponse = ReplicationProtectedItem;
+export type ReplicationProtectedItemsReprotectResponse =
+  ReplicationProtectedItem;
 
 /** Optional parameters. */
 export interface ReplicationProtectedItemsResolveHealthErrorsOptionalParams
@@ -11094,7 +11194,8 @@ export interface ReplicationProtectedItemsResolveHealthErrorsOptionalParams
 }
 
 /** Contains response data for the resolveHealthErrors operation. */
-export type ReplicationProtectedItemsResolveHealthErrorsResponse = ReplicationProtectedItem;
+export type ReplicationProtectedItemsResolveHealthErrorsResponse =
+  ReplicationProtectedItem;
 
 /** Optional parameters. */
 export interface ReplicationProtectedItemsSwitchProviderOptionalParams
@@ -11106,7 +11207,8 @@ export interface ReplicationProtectedItemsSwitchProviderOptionalParams
 }
 
 /** Contains response data for the switchProvider operation. */
-export type ReplicationProtectedItemsSwitchProviderResponse = ReplicationProtectedItem;
+export type ReplicationProtectedItemsSwitchProviderResponse =
+  ReplicationProtectedItem;
 
 /** Optional parameters. */
 export interface ReplicationProtectedItemsTestFailoverOptionalParams
@@ -11118,7 +11220,8 @@ export interface ReplicationProtectedItemsTestFailoverOptionalParams
 }
 
 /** Contains response data for the testFailover operation. */
-export type ReplicationProtectedItemsTestFailoverResponse = ReplicationProtectedItem;
+export type ReplicationProtectedItemsTestFailoverResponse =
+  ReplicationProtectedItem;
 
 /** Optional parameters. */
 export interface ReplicationProtectedItemsTestFailoverCleanupOptionalParams
@@ -11130,7 +11233,8 @@ export interface ReplicationProtectedItemsTestFailoverCleanupOptionalParams
 }
 
 /** Contains response data for the testFailoverCleanup operation. */
-export type ReplicationProtectedItemsTestFailoverCleanupResponse = ReplicationProtectedItem;
+export type ReplicationProtectedItemsTestFailoverCleanupResponse =
+  ReplicationProtectedItem;
 
 /** Optional parameters. */
 export interface ReplicationProtectedItemsUnplannedFailoverOptionalParams
@@ -11142,7 +11246,8 @@ export interface ReplicationProtectedItemsUnplannedFailoverOptionalParams
 }
 
 /** Contains response data for the unplannedFailover operation. */
-export type ReplicationProtectedItemsUnplannedFailoverResponse = ReplicationProtectedItem;
+export type ReplicationProtectedItemsUnplannedFailoverResponse =
+  ReplicationProtectedItem;
 
 /** Optional parameters. */
 export interface ReplicationProtectedItemsUpdateApplianceOptionalParams
@@ -11154,7 +11259,8 @@ export interface ReplicationProtectedItemsUpdateApplianceOptionalParams
 }
 
 /** Contains response data for the updateAppliance operation. */
-export type ReplicationProtectedItemsUpdateApplianceResponse = ReplicationProtectedItem;
+export type ReplicationProtectedItemsUpdateApplianceResponse =
+  ReplicationProtectedItem;
 
 /** Optional parameters. */
 export interface ReplicationProtectedItemsUpdateMobilityServiceOptionalParams
@@ -11166,7 +11272,8 @@ export interface ReplicationProtectedItemsUpdateMobilityServiceOptionalParams
 }
 
 /** Contains response data for the updateMobilityService operation. */
-export type ReplicationProtectedItemsUpdateMobilityServiceResponse = ReplicationProtectedItem;
+export type ReplicationProtectedItemsUpdateMobilityServiceResponse =
+  ReplicationProtectedItem;
 
 /** Optional parameters. */
 export interface ReplicationProtectedItemsListOptionalParams
@@ -11178,28 +11285,32 @@ export interface ReplicationProtectedItemsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type ReplicationProtectedItemsListResponse = ReplicationProtectedItemCollection;
+export type ReplicationProtectedItemsListResponse =
+  ReplicationProtectedItemCollection;
 
 /** Optional parameters. */
 export interface ReplicationProtectedItemsListByReplicationProtectionContainersNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReplicationProtectionContainersNext operation. */
-export type ReplicationProtectedItemsListByReplicationProtectionContainersNextResponse = ReplicationProtectedItemCollection;
+export type ReplicationProtectedItemsListByReplicationProtectionContainersNextResponse =
+  ReplicationProtectedItemCollection;
 
 /** Optional parameters. */
 export interface ReplicationProtectedItemsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ReplicationProtectedItemsListNextResponse = ReplicationProtectedItemCollection;
+export type ReplicationProtectedItemsListNextResponse =
+  ReplicationProtectedItemCollection;
 
 /** Optional parameters. */
 export interface RecoveryPointsListByReplicationProtectedItemsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReplicationProtectedItems operation. */
-export type RecoveryPointsListByReplicationProtectedItemsResponse = RecoveryPointCollection;
+export type RecoveryPointsListByReplicationProtectedItemsResponse =
+  RecoveryPointCollection;
 
 /** Optional parameters. */
 export interface RecoveryPointsGetOptionalParams
@@ -11213,35 +11324,40 @@ export interface RecoveryPointsListByReplicationProtectedItemsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReplicationProtectedItemsNext operation. */
-export type RecoveryPointsListByReplicationProtectedItemsNextResponse = RecoveryPointCollection;
+export type RecoveryPointsListByReplicationProtectedItemsNextResponse =
+  RecoveryPointCollection;
 
 /** Optional parameters. */
 export interface TargetComputeSizesListByReplicationProtectedItemsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReplicationProtectedItems operation. */
-export type TargetComputeSizesListByReplicationProtectedItemsResponse = TargetComputeSizeCollection;
+export type TargetComputeSizesListByReplicationProtectedItemsResponse =
+  TargetComputeSizeCollection;
 
 /** Optional parameters. */
 export interface TargetComputeSizesListByReplicationProtectedItemsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReplicationProtectedItemsNext operation. */
-export type TargetComputeSizesListByReplicationProtectedItemsNextResponse = TargetComputeSizeCollection;
+export type TargetComputeSizesListByReplicationProtectedItemsNextResponse =
+  TargetComputeSizeCollection;
 
 /** Optional parameters. */
 export interface ReplicationProtectionContainerMappingsListByReplicationProtectionContainersOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReplicationProtectionContainers operation. */
-export type ReplicationProtectionContainerMappingsListByReplicationProtectionContainersResponse = ProtectionContainerMappingCollection;
+export type ReplicationProtectionContainerMappingsListByReplicationProtectionContainersResponse =
+  ProtectionContainerMappingCollection;
 
 /** Optional parameters. */
 export interface ReplicationProtectionContainerMappingsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ReplicationProtectionContainerMappingsGetResponse = ProtectionContainerMapping;
+export type ReplicationProtectionContainerMappingsGetResponse =
+  ProtectionContainerMapping;
 
 /** Optional parameters. */
 export interface ReplicationProtectionContainerMappingsCreateOptionalParams
@@ -11253,7 +11369,8 @@ export interface ReplicationProtectionContainerMappingsCreateOptionalParams
 }
 
 /** Contains response data for the create operation. */
-export type ReplicationProtectionContainerMappingsCreateResponse = ProtectionContainerMapping;
+export type ReplicationProtectionContainerMappingsCreateResponse =
+  ProtectionContainerMapping;
 
 /** Optional parameters. */
 export interface ReplicationProtectionContainerMappingsPurgeOptionalParams
@@ -11274,7 +11391,8 @@ export interface ReplicationProtectionContainerMappingsUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type ReplicationProtectionContainerMappingsUpdateResponse = ProtectionContainerMapping;
+export type ReplicationProtectionContainerMappingsUpdateResponse =
+  ProtectionContainerMapping;
 
 /** Optional parameters. */
 export interface ReplicationProtectionContainerMappingsDeleteOptionalParams
@@ -11290,35 +11408,40 @@ export interface ReplicationProtectionContainerMappingsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ReplicationProtectionContainerMappingsListResponse = ProtectionContainerMappingCollection;
+export type ReplicationProtectionContainerMappingsListResponse =
+  ProtectionContainerMappingCollection;
 
 /** Optional parameters. */
 export interface ReplicationProtectionContainerMappingsListByReplicationProtectionContainersNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReplicationProtectionContainersNext operation. */
-export type ReplicationProtectionContainerMappingsListByReplicationProtectionContainersNextResponse = ProtectionContainerMappingCollection;
+export type ReplicationProtectionContainerMappingsListByReplicationProtectionContainersNextResponse =
+  ProtectionContainerMappingCollection;
 
 /** Optional parameters. */
 export interface ReplicationProtectionContainerMappingsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ReplicationProtectionContainerMappingsListNextResponse = ProtectionContainerMappingCollection;
+export type ReplicationProtectionContainerMappingsListNextResponse =
+  ProtectionContainerMappingCollection;
 
 /** Optional parameters. */
 export interface ReplicationRecoveryServicesProvidersListByReplicationFabricsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReplicationFabrics operation. */
-export type ReplicationRecoveryServicesProvidersListByReplicationFabricsResponse = RecoveryServicesProviderCollection;
+export type ReplicationRecoveryServicesProvidersListByReplicationFabricsResponse =
+  RecoveryServicesProviderCollection;
 
 /** Optional parameters. */
 export interface ReplicationRecoveryServicesProvidersGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ReplicationRecoveryServicesProvidersGetResponse = RecoveryServicesProvider;
+export type ReplicationRecoveryServicesProvidersGetResponse =
+  RecoveryServicesProvider;
 
 /** Optional parameters. */
 export interface ReplicationRecoveryServicesProvidersCreateOptionalParams
@@ -11330,7 +11453,8 @@ export interface ReplicationRecoveryServicesProvidersCreateOptionalParams
 }
 
 /** Contains response data for the create operation. */
-export type ReplicationRecoveryServicesProvidersCreateResponse = RecoveryServicesProvider;
+export type ReplicationRecoveryServicesProvidersCreateResponse =
+  RecoveryServicesProvider;
 
 /** Optional parameters. */
 export interface ReplicationRecoveryServicesProvidersPurgeOptionalParams
@@ -11351,7 +11475,8 @@ export interface ReplicationRecoveryServicesProvidersRefreshProviderOptionalPara
 }
 
 /** Contains response data for the refreshProvider operation. */
-export type ReplicationRecoveryServicesProvidersRefreshProviderResponse = RecoveryServicesProvider;
+export type ReplicationRecoveryServicesProvidersRefreshProviderResponse =
+  RecoveryServicesProvider;
 
 /** Optional parameters. */
 export interface ReplicationRecoveryServicesProvidersDeleteOptionalParams
@@ -11367,70 +11492,80 @@ export interface ReplicationRecoveryServicesProvidersListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ReplicationRecoveryServicesProvidersListResponse = RecoveryServicesProviderCollection;
+export type ReplicationRecoveryServicesProvidersListResponse =
+  RecoveryServicesProviderCollection;
 
 /** Optional parameters. */
 export interface ReplicationRecoveryServicesProvidersListByReplicationFabricsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReplicationFabricsNext operation. */
-export type ReplicationRecoveryServicesProvidersListByReplicationFabricsNextResponse = RecoveryServicesProviderCollection;
+export type ReplicationRecoveryServicesProvidersListByReplicationFabricsNextResponse =
+  RecoveryServicesProviderCollection;
 
 /** Optional parameters. */
 export interface ReplicationRecoveryServicesProvidersListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ReplicationRecoveryServicesProvidersListNextResponse = RecoveryServicesProviderCollection;
+export type ReplicationRecoveryServicesProvidersListNextResponse =
+  RecoveryServicesProviderCollection;
 
 /** Optional parameters. */
 export interface ReplicationStorageClassificationsListByReplicationFabricsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReplicationFabrics operation. */
-export type ReplicationStorageClassificationsListByReplicationFabricsResponse = StorageClassificationCollection;
+export type ReplicationStorageClassificationsListByReplicationFabricsResponse =
+  StorageClassificationCollection;
 
 /** Optional parameters. */
 export interface ReplicationStorageClassificationsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ReplicationStorageClassificationsGetResponse = StorageClassification;
+export type ReplicationStorageClassificationsGetResponse =
+  StorageClassification;
 
 /** Optional parameters. */
 export interface ReplicationStorageClassificationsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ReplicationStorageClassificationsListResponse = StorageClassificationCollection;
+export type ReplicationStorageClassificationsListResponse =
+  StorageClassificationCollection;
 
 /** Optional parameters. */
 export interface ReplicationStorageClassificationsListByReplicationFabricsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReplicationFabricsNext operation. */
-export type ReplicationStorageClassificationsListByReplicationFabricsNextResponse = StorageClassificationCollection;
+export type ReplicationStorageClassificationsListByReplicationFabricsNextResponse =
+  StorageClassificationCollection;
 
 /** Optional parameters. */
 export interface ReplicationStorageClassificationsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ReplicationStorageClassificationsListNextResponse = StorageClassificationCollection;
+export type ReplicationStorageClassificationsListNextResponse =
+  StorageClassificationCollection;
 
 /** Optional parameters. */
 export interface ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReplicationStorageClassifications operation. */
-export type ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsResponse = StorageClassificationMappingCollection;
+export type ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsResponse =
+  StorageClassificationMappingCollection;
 
 /** Optional parameters. */
 export interface ReplicationStorageClassificationMappingsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ReplicationStorageClassificationMappingsGetResponse = StorageClassificationMapping;
+export type ReplicationStorageClassificationMappingsGetResponse =
+  StorageClassificationMapping;
 
 /** Optional parameters. */
 export interface ReplicationStorageClassificationMappingsCreateOptionalParams
@@ -11442,7 +11577,8 @@ export interface ReplicationStorageClassificationMappingsCreateOptionalParams
 }
 
 /** Contains response data for the create operation. */
-export type ReplicationStorageClassificationMappingsCreateResponse = StorageClassificationMapping;
+export type ReplicationStorageClassificationMappingsCreateResponse =
+  StorageClassificationMapping;
 
 /** Optional parameters. */
 export interface ReplicationStorageClassificationMappingsDeleteOptionalParams
@@ -11458,28 +11594,32 @@ export interface ReplicationStorageClassificationMappingsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ReplicationStorageClassificationMappingsListResponse = StorageClassificationMappingCollection;
+export type ReplicationStorageClassificationMappingsListResponse =
+  StorageClassificationMappingCollection;
 
 /** Optional parameters. */
 export interface ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReplicationStorageClassificationsNext operation. */
-export type ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsNextResponse = StorageClassificationMappingCollection;
+export type ReplicationStorageClassificationMappingsListByReplicationStorageClassificationsNextResponse =
+  StorageClassificationMappingCollection;
 
 /** Optional parameters. */
 export interface ReplicationStorageClassificationMappingsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ReplicationStorageClassificationMappingsListNextResponse = StorageClassificationMappingCollection;
+export type ReplicationStorageClassificationMappingsListNextResponse =
+  StorageClassificationMappingCollection;
 
 /** Optional parameters. */
 export interface ReplicationvCentersListByReplicationFabricsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReplicationFabrics operation. */
-export type ReplicationvCentersListByReplicationFabricsResponse = VCenterCollection;
+export type ReplicationvCentersListByReplicationFabricsResponse =
+  VCenterCollection;
 
 /** Optional parameters. */
 export interface ReplicationvCentersGetOptionalParams
@@ -11533,7 +11673,8 @@ export interface ReplicationvCentersListByReplicationFabricsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReplicationFabricsNext operation. */
-export type ReplicationvCentersListByReplicationFabricsNextResponse = VCenterCollection;
+export type ReplicationvCentersListByReplicationFabricsNextResponse =
+  VCenterCollection;
 
 /** Optional parameters. */
 export interface ReplicationvCentersListNextOptionalParams
@@ -11678,28 +11819,32 @@ export interface ReplicationProtectionIntentsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type ReplicationProtectionIntentsListResponse = ReplicationProtectionIntentCollection;
+export type ReplicationProtectionIntentsListResponse =
+  ReplicationProtectionIntentCollection;
 
 /** Optional parameters. */
 export interface ReplicationProtectionIntentsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ReplicationProtectionIntentsGetResponse = ReplicationProtectionIntent;
+export type ReplicationProtectionIntentsGetResponse =
+  ReplicationProtectionIntent;
 
 /** Optional parameters. */
 export interface ReplicationProtectionIntentsCreateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
-export type ReplicationProtectionIntentsCreateResponse = ReplicationProtectionIntent;
+export type ReplicationProtectionIntentsCreateResponse =
+  ReplicationProtectionIntent;
 
 /** Optional parameters. */
 export interface ReplicationProtectionIntentsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ReplicationProtectionIntentsListNextResponse = ReplicationProtectionIntentCollection;
+export type ReplicationProtectionIntentsListNextResponse =
+  ReplicationProtectionIntentCollection;
 
 /** Optional parameters. */
 export interface ReplicationRecoveryPlansListOptionalParams

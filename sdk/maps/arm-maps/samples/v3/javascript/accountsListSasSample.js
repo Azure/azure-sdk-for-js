@@ -44,7 +44,7 @@ async function listAccountSas() {
   const result = await client.accounts.listSas(
     resourceGroupName,
     accountName,
-    mapsAccountSasParameters
+    mapsAccountSasParameters,
   );
   console.log(result);
 }

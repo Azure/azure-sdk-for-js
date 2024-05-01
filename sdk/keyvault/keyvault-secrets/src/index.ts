@@ -8,7 +8,6 @@ import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 
 import { logger } from "./log";
 
-import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import {
@@ -19,7 +18,7 @@ import {
   SecretBundle,
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
-import { createKeyVaultChallengeCallbacks } from "../../keyvault-common/src";
+import { createKeyVaultChallengeCallbacks } from "@azure/keyvault-common";
 
 import { DeleteSecretPoller } from "./lro/delete/poller";
 import { RecoverDeletedSecretPoller } from "./lro/recover/poller";

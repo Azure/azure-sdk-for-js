@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import { MonitoringDataPoint as MonitoringDataPointMapper } from "../models/mappers";
 
@@ -20,14 +20,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const monitoringDataPoint: OperationParameter = {
   parameterPath: ["options", "monitoringDataPoint"],
-  mapper: MonitoringDataPointMapper
+  mapper: MonitoringDataPointMapper,
 };
 
 export const accept: OperationParameter = {
@@ -37,21 +37,32 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const host: OperationURLParameter = {
-  parameterPath: "host",
+export const endpoint: OperationURLParameter = {
+  parameterPath: "endpoint",
   mapper: {
-    serializedName: "Host",
+    serializedName: "endpoint",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+};
+
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2024-04-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const ikey: OperationQueryParameter = {
@@ -60,89 +71,79 @@ export const ikey: OperationQueryParameter = {
     serializedName: "ikey",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const apikey: OperationQueryParameter = {
-  parameterPath: ["options", "apikey"],
-  mapper: {
-    serializedName: "apikey",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const xMsQpsTransmissionTime: OperationParameter = {
-  parameterPath: ["options", "xMsQpsTransmissionTime"],
+export const transmissionTime: OperationParameter = {
+  parameterPath: ["options", "transmissionTime"],
   mapper: {
     serializedName: "x-ms-qps-transmission-time",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
-export const xMsQpsMachineName: OperationParameter = {
-  parameterPath: ["options", "xMsQpsMachineName"],
+export const machineName: OperationParameter = {
+  parameterPath: ["options", "machineName"],
   mapper: {
     serializedName: "x-ms-qps-machine-name",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const xMsQpsInstanceName: OperationParameter = {
-  parameterPath: ["options", "xMsQpsInstanceName"],
+export const instanceName: OperationParameter = {
+  parameterPath: ["options", "instanceName"],
   mapper: {
     serializedName: "x-ms-qps-instance-name",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const xMsQpsStreamId: OperationParameter = {
-  parameterPath: ["options", "xMsQpsStreamId"],
+export const streamId: OperationParameter = {
+  parameterPath: ["options", "streamId"],
   mapper: {
     serializedName: "x-ms-qps-stream-id",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const xMsQpsRoleName: OperationParameter = {
-  parameterPath: ["options", "xMsQpsRoleName"],
+export const roleName: OperationParameter = {
+  parameterPath: ["options", "roleName"],
   mapper: {
     serializedName: "x-ms-qps-role-name",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const xMsQpsInvariantVersion: OperationParameter = {
-  parameterPath: ["options", "xMsQpsInvariantVersion"],
+export const invariantVersion: OperationParameter = {
+  parameterPath: ["options", "invariantVersion"],
   mapper: {
     serializedName: "x-ms-qps-invariant-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const xMsQpsConfigurationEtag: OperationParameter = {
-  parameterPath: ["options", "xMsQpsConfigurationEtag"],
+export const configurationEtag: OperationParameter = {
+  parameterPath: ["options", "configurationEtag"],
   mapper: {
     serializedName: "x-ms-qps-configuration-etag",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const monitoringDataPoints: OperationParameter = {
@@ -154,9 +155,9 @@ export const monitoringDataPoints: OperationParameter = {
       element: {
         type: {
           name: "Composite",
-          className: "MonitoringDataPoint"
-        }
-      }
-    }
-  }
+          className: "MonitoringDataPoint",
+        },
+      },
+    },
+  },
 };

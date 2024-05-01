@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   SwitchProviderInput,
-  SiteRecoveryManagementClient
+  SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Operation to initiate a switch provider of the replication protected item.
  *
  * @summary Operation to initiate a switch provider of the replication protected item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectedItems_SwitchProvider.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectedItems_SwitchProvider.json
  */
 async function executeSwitchProvider() {
   const subscriptionId =
@@ -42,21 +42,22 @@ async function executeSwitchProvider() {
         targetFabricID:
           "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud2",
         targetVaultID:
-          "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault2"
+          "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault2",
       },
-      targetInstanceType: "InMageRcm"
-    }
+      targetInstanceType: "InMageRcm",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
-  const result = await client.replicationProtectedItems.beginSwitchProviderAndWait(
-    resourceName,
-    resourceGroupName,
-    fabricName,
-    protectionContainerName,
-    replicatedProtectedItemName,
-    switchProviderInput
-  );
+  const result =
+    await client.replicationProtectedItems.beginSwitchProviderAndWait(
+      resourceName,
+      resourceGroupName,
+      fabricName,
+      protectionContainerName,
+      replicatedProtectedItemName,
+      switchProviderInput,
+    );
   console.log(result);
 }
 

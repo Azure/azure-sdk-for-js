@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Validates the custom domain mapping to ensure it maps to the correct CDN endpoint in DNS.
  *
  * @summary Validates the custom domain mapping to ensure it maps to the correct CDN endpoint in DNS.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/Endpoints_ValidateCustomDomain.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Endpoints_ValidateCustomDomain.json
  */
 async function endpointsValidateCustomDomain() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";

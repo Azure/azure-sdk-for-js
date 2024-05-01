@@ -14,7 +14,7 @@ import {
   StaticMembersGetResponse,
   StaticMembersCreateOrUpdateOptionalParams,
   StaticMembersCreateOrUpdateResponse,
-  StaticMembersDeleteOptionalParams
+  StaticMembersDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface StaticMembers {
     resourceGroupName: string,
     networkManagerName: string,
     networkGroupName: string,
-    options?: StaticMembersListOptionalParams
+    options?: StaticMembersListOptionalParams,
   ): PagedAsyncIterableIterator<StaticMember>;
   /**
    * Gets the specified static member.
@@ -46,7 +46,7 @@ export interface StaticMembers {
     networkManagerName: string,
     networkGroupName: string,
     staticMemberName: string,
-    options?: StaticMembersGetOptionalParams
+    options?: StaticMembersGetOptionalParams,
   ): Promise<StaticMembersGetResponse>;
   /**
    * Creates or updates a static member.
@@ -63,7 +63,7 @@ export interface StaticMembers {
     networkGroupName: string,
     staticMemberName: string,
     parameters: StaticMember,
-    options?: StaticMembersCreateOrUpdateOptionalParams
+    options?: StaticMembersCreateOrUpdateOptionalParams,
   ): Promise<StaticMembersCreateOrUpdateResponse>;
   /**
    * Deletes a static member.
@@ -78,6 +78,6 @@ export interface StaticMembers {
     networkManagerName: string,
     networkGroupName: string,
     staticMemberName: string,
-    options?: StaticMembersDeleteOptionalParams
+    options?: StaticMembersDeleteOptionalParams,
   ): Promise<void>;
 }

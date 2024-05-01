@@ -34,7 +34,7 @@ async function environmentsCreate() {
   const result = await client.environments.beginCreateOrUpdateAndWait(
     resourceGroupName,
     environmentName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

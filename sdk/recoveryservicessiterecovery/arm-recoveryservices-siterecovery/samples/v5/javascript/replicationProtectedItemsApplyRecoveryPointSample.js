@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to change the recovery point of a failed over replication protected item.
  *
  * @summary The operation to change the recovery point of a failed over replication protected item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectedItems_ApplyRecoveryPoint.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectedItems_ApplyRecoveryPoint.json
  */
 async function changeOrApplyRecoveryPoint() {
   const subscriptionId =
@@ -43,7 +43,7 @@ async function changeOrApplyRecoveryPoint() {
     fabricName,
     protectionContainerName,
     replicatedProtectedItemName,
-    applyRecoveryPointInput
+    applyRecoveryPointInput,
   );
   console.log(result);
 }

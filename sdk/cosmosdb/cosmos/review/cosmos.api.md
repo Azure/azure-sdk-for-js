@@ -8,7 +8,6 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { AbortError } from '@azure/abort-controller';
-import { AbortSignal as AbortSignal_2 } from 'node-abort-controller';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
@@ -206,7 +205,7 @@ export class ClientContext {
     getClientConfig(): ClientConfigDiagnostic;
     getDatabaseAccount(diagnosticNode: DiagnosticNodeInternal, options?: RequestOptions): Promise<Response_2<DatabaseAccount>>;
     // (undocumented)
-    getQueryPlan(path: string, resourceType: ResourceType, resourceId: string, query: SqlQuerySpec | string, options: FeedOptions, diagnosticNode: DiagnosticNodeInternal): Promise<Response_2<PartitionedQueryExecutionInfo>>;
+    getQueryPlan(path: string, resourceType: ResourceType, resourceId: string, query: SqlQuerySpec | string, options: FeedOptions, diagnosticNode: DiagnosticNodeInternal, correlatedActivityId?: string): Promise<Response_2<PartitionedQueryExecutionInfo>>;
     // (undocumented)
     getReadEndpoint(diagnosticNode: DiagnosticNodeInternal): Promise<string>;
     // (undocumented)
@@ -232,7 +231,7 @@ export class ClientContext {
         diagnosticNode: DiagnosticNodeInternal;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
-    queryFeed<T>({ path, resourceType, resourceId, resultFn, query, options, diagnosticNode, partitionKeyRangeId, partitionKey, startEpk, endEpk, }: {
+    queryFeed<T>({ path, resourceType, resourceId, resultFn, query, options, diagnosticNode, partitionKeyRangeId, partitionKey, startEpk, endEpk, correlatedActivityId, }: {
         path: string;
         resourceType: ResourceType;
         resourceId: string;
@@ -246,6 +245,7 @@ export class ClientContext {
         partitionKey?: PartitionKey;
         startEpk?: string | undefined;
         endEpk?: string | undefined;
+        correlatedActivityId?: string;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
     queryPartitionKeyRanges(collectionLink: string, query?: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<PartitionKeyRange>;
@@ -305,6 +305,15 @@ export type ClientSideRequestStatistics = {
     totalRequestPayloadLengthInBytes: number;
     totalResponsePayloadLengthInBytes: number;
 };
+
+// @public (undocumented)
+export interface ComputedProperty {
+    // (undocumented)
+    [key: string]: any;
+    name: string;
+    // (undocumented)
+    query: string;
+}
 
 // @public
 export class Conflict {
@@ -447,6 +456,7 @@ export const Constants: {
         PageSize: string;
         ItemCount: string;
         ActivityId: string;
+        CorrelatedActivityId: string;
         PreTriggerInclude: string;
         PreTriggerExclude: string;
         PostTriggerInclude: string;
@@ -504,6 +514,7 @@ export const Constants: {
         IsBatchAtomic: string;
         BatchContinueOnError: string;
         DedicatedGatewayPerRequestCacheStaleness: string;
+        DedicatedGatewayPerRequestBypassCache: string;
         ForceRefresh: string;
         PriorityLevel: string;
     };
@@ -591,6 +602,7 @@ export class Container {
 
 // @public (undocumented)
 export interface ContainerDefinition {
+    computedProperties?: ComputedProperty[];
     conflictResolutionPolicy?: ConflictResolutionPolicy;
     defaultTtl?: number;
     geospatialConfig?: {
@@ -600,6 +612,7 @@ export interface ContainerDefinition {
     indexingPolicy?: IndexingPolicy;
     partitionKey?: PartitionKeyDefinition;
     uniqueKeyPolicy?: UniqueKeyPolicy;
+    vectorEmbeddingPolicy?: VectorEmbeddingPolicy;
 }
 
 // Warning: (ae-forgotten-export) The symbol "VerboseOmit" needs to be exported by the entry point index.d.ts
@@ -915,21 +928,21 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
 // @public (undocumented)
 export enum DiagnosticNodeType {
     // (undocumented)
-    BACKGROUND_REFRESH_THREAD = "BACKGROUND_REFRESH_THREAD",
+    BACKGROUND_REFRESH_THREAD = "BACKGROUND_REFRESH_THREAD",// Top most node representing client operations.
     // (undocumented)
-    BATCH_REQUEST = "BATCH_REQUEST",
+    BATCH_REQUEST = "BATCH_REQUEST",// Node representing a metadata request.
     // (undocumented)
-    CLIENT_REQUEST_NODE = "CLIENT_REQUEST_NODE",
+    CLIENT_REQUEST_NODE = "CLIENT_REQUEST_NODE",// Node representing REST call to backend services.
     // (undocumented)
-    DEFAULT_QUERY_NODE = "DEFAULT_QUERY_NODE",
+    DEFAULT_QUERY_NODE = "DEFAULT_QUERY_NODE",// Node representing batch request.
     // (undocumented)
-    HTTP_REQUEST = "HTTP_REQUEST",
+    HTTP_REQUEST = "HTTP_REQUEST",// Node representing parallel query execution.
     // (undocumented)
-    METADATA_REQUEST_NODE = "METADATA_REQUEST_NODE",
+    METADATA_REQUEST_NODE = "METADATA_REQUEST_NODE",// Node representing default query execution.
     // (undocumented)
-    PARALLEL_QUERY_NODE = "PARALLEL_QUERY_NODE",
+    PARALLEL_QUERY_NODE = "PARALLEL_QUERY_NODE",// Node representing query repair.
     // (undocumented)
-    QUERY_REPAIR_NODE = "QUERY_REPAIR_NODE",
+    QUERY_REPAIR_NODE = "QUERY_REPAIR_NODE",// Node representing background refresh.
     // (undocumented)
     REQUEST_ATTEMPTS = "REQUEST_ATTEMPTS"
 }
@@ -1146,6 +1159,8 @@ export interface IndexingPolicy {
     indexingMode?: keyof typeof IndexingMode;
     // (undocumented)
     spatialIndexes?: SpatialIndex[];
+    // (undocumented)
+    vectorIndexes?: VectorIndex[];
 }
 
 // @public
@@ -2127,7 +2142,8 @@ export function setAuthorizationTokenHeaderUsingMasterKey(verb: HTTPMethod, reso
 
 // @public
 export interface SharedOptions {
-    abortSignal?: AbortSignal_2;
+    abortSignal?: AbortSignal;
+    bypassIntegratedCache?: boolean;
     initialHeaders?: CosmosHeaders;
     maxIntegratedCacheStalenessInMs?: number;
     priorityLevel?: PriorityLevel;
@@ -2501,6 +2517,28 @@ export class Users {
     query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
     readAll(options?: FeedOptions): QueryIterator<UserDefinition & Resource>;
     upsert(body: UserDefinition, options?: RequestOptions): Promise<UserResponse>;
+}
+
+// @public (undocumented)
+export interface VectorEmbedding {
+    dataType: "float16" | "float32" | "uint8" | "int8";
+    dimensions: number;
+    distanceFunction: "euclidean" | "cosine" | "dotproduct";
+    path: string;
+}
+
+// @public (undocumented)
+export interface VectorEmbeddingPolicy {
+    // (undocumented)
+    vectorEmbeddings: VectorEmbedding[];
+}
+
+// @public (undocumented)
+export interface VectorIndex {
+    // (undocumented)
+    path: string;
+    // (undocumented)
+    type: "flat" | "diskANN" | "quantizedFlat";
 }
 
 // (No @packageDocumentation comment for this package)

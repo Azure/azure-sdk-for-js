@@ -143,7 +143,7 @@ export interface BlobSASSignatureValues {
  *     containerName, // Required
  *     permissions: ContainerSASPermissions.parse("racwdl"), // Required
  *     startsOn: new Date(), // Optional
- *     expiresOn: new Date(new Date().valueOf() + 86400), // Required. Date type
+ *     expiresOn: new Date(new Date().valueOf() + 86400 * 1000), // Required. Date type
  *     ipRange: { start: "0.0.0.0", end: "255.255.255.255" }, // Optional
  *     protocol: SASProtocol.HttpsAndHttp, // Optional
  *     version: "2016-05-31" // Optional
@@ -161,7 +161,7 @@ export interface BlobSASSignatureValues {
  * await containerClient.setAccessPolicy(undefined, [
  *   {
  *     accessPolicy: {
- *       expiresOn: new Date(new Date().valueOf() + 86400), // Date type
+ *       expiresOn: new Date(new Date().valueOf() + 86400 * 1000), // Date type
  *       permissions: ContainerSASPermissions.parse("racwdl").toString(),
  *       startsOn: new Date() // Date type
  *     },
@@ -187,7 +187,7 @@ export interface BlobSASSignatureValues {
  *     blobName, // Required
  *     permissions: BlobSASPermissions.parse("racwd"), // Required
  *     startsOn: new Date(), // Optional
- *     expiresOn: new Date(new Date().valueOf() + 86400), // Required. Date type
+ *     expiresOn: new Date(new Date().valueOf() + 86400 * 1000), // Required. Date type
  *     cacheControl: "cache-control-override", // Optional
  *     contentDisposition: "content-disposition-override", // Optional
  *     contentEncoding: "content-encoding-override", // Optional

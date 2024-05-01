@@ -14,7 +14,7 @@ import {
   ContainerAppsRevisionsGetRevisionResponse,
   ContainerAppsRevisionsActivateRevisionOptionalParams,
   ContainerAppsRevisionsDeactivateRevisionOptionalParams,
-  ContainerAppsRevisionsRestartRevisionOptionalParams
+  ContainerAppsRevisionsRestartRevisionOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface ContainerAppsRevisions {
   listRevisions(
     resourceGroupName: string,
     containerAppName: string,
-    options?: ContainerAppsRevisionsListRevisionsOptionalParams
+    options?: ContainerAppsRevisionsListRevisionsOptionalParams,
   ): PagedAsyncIterableIterator<Revision>;
   /**
    * Get a revision of a Container App.
@@ -42,7 +42,7 @@ export interface ContainerAppsRevisions {
     resourceGroupName: string,
     containerAppName: string,
     revisionName: string,
-    options?: ContainerAppsRevisionsGetRevisionOptionalParams
+    options?: ContainerAppsRevisionsGetRevisionOptionalParams,
   ): Promise<ContainerAppsRevisionsGetRevisionResponse>;
   /**
    * Activates a revision for a Container App
@@ -55,7 +55,7 @@ export interface ContainerAppsRevisions {
     resourceGroupName: string,
     containerAppName: string,
     revisionName: string,
-    options?: ContainerAppsRevisionsActivateRevisionOptionalParams
+    options?: ContainerAppsRevisionsActivateRevisionOptionalParams,
   ): Promise<void>;
   /**
    * Deactivates a revision for a Container App
@@ -68,7 +68,7 @@ export interface ContainerAppsRevisions {
     resourceGroupName: string,
     containerAppName: string,
     revisionName: string,
-    options?: ContainerAppsRevisionsDeactivateRevisionOptionalParams
+    options?: ContainerAppsRevisionsDeactivateRevisionOptionalParams,
   ): Promise<void>;
   /**
    * Restarts a revision for a Container App
@@ -81,6 +81,6 @@ export interface ContainerAppsRevisions {
     resourceGroupName: string,
     containerAppName: string,
     revisionName: string,
-    options?: ContainerAppsRevisionsRestartRevisionOptionalParams
+    options?: ContainerAppsRevisionsRestartRevisionOptionalParams,
   ): Promise<void>;
 }

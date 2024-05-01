@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   AutoscaleSettingResourcePatch,
-  MonitorClient
+  MonitorClient,
 } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -37,11 +37,11 @@ async function patchAnAutoscaleSetting() {
         email: {
           customEmails: ["gu@ms.com", "ge@ns.net"],
           sendToSubscriptionAdministrator: true,
-          sendToSubscriptionCoAdministrators: true
+          sendToSubscriptionCoAdministrators: true,
         },
         operation: "Scale",
-        webhooks: [{ properties: {}, serviceUri: "http://myservice.com" }]
-      }
+        webhooks: [{ properties: {}, serviceUri: "http://myservice.com" }],
+      },
     ],
     predictiveAutoscalePolicy: { scaleMode: "Enabled" },
     profiles: [
@@ -51,7 +51,7 @@ async function patchAnAutoscaleSetting() {
         fixedDate: {
           end: new Date("2015-03-05T14:30:00Z"),
           start: new Date("2015-03-05T14:00:00Z"),
-          timeZone: "UTC"
+          timeZone: "UTC",
         },
         rules: [
           {
@@ -65,14 +65,14 @@ async function patchAnAutoscaleSetting() {
               threshold: 10,
               timeAggregation: "Average",
               timeGrain: "PT1M",
-              timeWindow: "PT5M"
+              timeWindow: "PT5M",
             },
             scaleAction: {
               type: "ChangeCount",
               cooldown: "PT5M",
               direction: "Increase",
-              value: "1"
-            }
+              value: "1",
+            },
           },
           {
             metricTrigger: {
@@ -85,23 +85,23 @@ async function patchAnAutoscaleSetting() {
               threshold: 15,
               timeAggregation: "Average",
               timeGrain: "PT2M",
-              timeWindow: "PT5M"
+              timeWindow: "PT5M",
             },
             scaleAction: {
               type: "ChangeCount",
               cooldown: "PT6M",
               direction: "Decrease",
-              value: "2"
-            }
-          }
-        ]
+              value: "2",
+            },
+          },
+        ],
       },
       {
         name: "saludos",
         capacity: { default: "1", maximum: "10", minimum: "1" },
         recurrence: {
           frequency: "Week",
-          schedule: { days: ["1"], hours: [5], minutes: [15], timeZone: "UTC" }
+          schedule: { days: ["1"], hours: [5], minutes: [15], timeZone: "UTC" },
         },
         rules: [
           {
@@ -115,14 +115,14 @@ async function patchAnAutoscaleSetting() {
               threshold: 10,
               timeAggregation: "Average",
               timeGrain: "PT1M",
-              timeWindow: "PT5M"
+              timeWindow: "PT5M",
             },
             scaleAction: {
               type: "ChangeCount",
               cooldown: "PT5M",
               direction: "Increase",
-              value: "1"
-            }
+              value: "1",
+            },
           },
           {
             metricTrigger: {
@@ -135,28 +135,28 @@ async function patchAnAutoscaleSetting() {
               threshold: 15,
               timeAggregation: "Average",
               timeGrain: "PT2M",
-              timeWindow: "PT5M"
+              timeWindow: "PT5M",
             },
             scaleAction: {
               type: "ChangeCount",
               cooldown: "PT6M",
               direction: "Decrease",
-              value: "2"
-            }
-          }
-        ]
-      }
+              value: "2",
+            },
+          },
+        ],
+      },
     ],
     tags: { key1: "value1" },
     targetResourceUri:
-      "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc"
+      "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc",
   };
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.autoscaleSettings.update(
     resourceGroupName,
     autoscaleSettingName,
-    autoscaleSettingResource
+    autoscaleSettingResource,
   );
   console.log(result);
 }

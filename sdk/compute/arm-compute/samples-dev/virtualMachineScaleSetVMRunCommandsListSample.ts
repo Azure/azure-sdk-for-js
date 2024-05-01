@@ -33,7 +33,7 @@ async function listRunCommandsInVmssInstance() {
   for await (let item of client.virtualMachineScaleSetVMRunCommands.list(
     resourceGroupName,
     vmScaleSetName,
-    instanceId
+    instanceId,
   )) {
     resArray.push(item);
   }

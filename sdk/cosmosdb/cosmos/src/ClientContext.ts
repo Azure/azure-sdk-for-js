@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { v4 } from "uuid";
-const uuid = v4;
+
 import {
   Pipeline,
   bearerTokenAuthenticationPolicy,
@@ -45,6 +44,7 @@ import {
 } from "./diagnostics/DiagnosticWriter";
 import { DefaultDiagnosticFormatter, DiagnosticFormatter } from "./diagnostics/DiagnosticFormatter";
 import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
+import { randomUUID } from "@azure/core-util";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
 
@@ -159,6 +159,7 @@ export class ClientContext {
     partitionKey,
     startEpk,
     endEpk,
+    correlatedActivityId,
   }: {
     path: string;
     resourceType: ResourceType;
@@ -171,6 +172,7 @@ export class ClientContext {
     partitionKey?: PartitionKey;
     startEpk?: string | undefined;
     endEpk?: string | undefined;
+    correlatedActivityId?: string;
   }): Promise<Response<T & Resource>> {
     // Query operations will use ReadEndpoint even though it uses
     // GET(for queryFeed) and POST(for regular query operations)
@@ -191,7 +193,7 @@ export class ClientContext {
       operationType: OperationType.Query,
       resourceType,
     });
-    const requestId = uuid();
+    const requestId = randomUUID();
     if (query !== undefined) {
       request.method = HTTPMethod.post;
     }
@@ -209,6 +211,9 @@ export class ClientContext {
     }
 
     if (query !== undefined) {
+      if (correlatedActivityId !== undefined) {
+        request.headers[HttpHeaders.CorrelatedActivityId] = correlatedActivityId;
+      }
       request.headers[HttpHeaders.IsQuery] = "true";
       request.headers[HttpHeaders.ContentType] = QueryJsonContentType;
       if (typeof query === "string") {
@@ -237,6 +242,7 @@ export class ClientContext {
     query: SqlQuerySpec | string,
     options: FeedOptions = {},
     diagnosticNode: DiagnosticNodeInternal,
+    correlatedActivityId?: string,
   ): Promise<Response<PartitionedQueryExecutionInfo>> {
     const request: RequestContext = {
       ...this.getContextDerivedPropsForRequestCreation(),
@@ -258,6 +264,9 @@ export class ClientContext {
       request.operationType,
     );
     request.headers = await this.buildHeaders(request);
+    if (correlatedActivityId !== undefined) {
+      request.headers[HttpHeaders.CorrelatedActivityId] = correlatedActivityId;
+    }
     request.headers[HttpHeaders.IsQueryPlan] = "True";
     request.headers[HttpHeaders.QueryVersion] = "1.4";
     request.headers[HttpHeaders.SupportedQueryFeatures] =

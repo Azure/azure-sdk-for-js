@@ -20,7 +20,7 @@ import {
   SnapshotPoliciesUpdateResponse,
   SnapshotPoliciesDeleteOptionalParams,
   SnapshotPoliciesListVolumesOptionalParams,
-  SnapshotPoliciesListVolumesResponse
+  SnapshotPoliciesListVolumesResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface SnapshotPolicies {
   list(
     resourceGroupName: string,
     accountName: string,
-    options?: SnapshotPoliciesListOptionalParams
+    options?: SnapshotPoliciesListOptionalParams,
   ): PagedAsyncIterableIterator<SnapshotPolicy>;
   /**
    * Get a snapshot Policy
@@ -48,7 +48,7 @@ export interface SnapshotPolicies {
     resourceGroupName: string,
     accountName: string,
     snapshotPolicyName: string,
-    options?: SnapshotPoliciesGetOptionalParams
+    options?: SnapshotPoliciesGetOptionalParams,
   ): Promise<SnapshotPoliciesGetResponse>;
   /**
    * Create a snapshot policy
@@ -63,7 +63,7 @@ export interface SnapshotPolicies {
     accountName: string,
     snapshotPolicyName: string,
     body: SnapshotPolicy,
-    options?: SnapshotPoliciesCreateOptionalParams
+    options?: SnapshotPoliciesCreateOptionalParams,
   ): Promise<SnapshotPoliciesCreateResponse>;
   /**
    * Patch a snapshot policy
@@ -78,7 +78,7 @@ export interface SnapshotPolicies {
     accountName: string,
     snapshotPolicyName: string,
     body: SnapshotPolicyPatch,
-    options?: SnapshotPoliciesUpdateOptionalParams
+    options?: SnapshotPoliciesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SnapshotPoliciesUpdateResponse>,
@@ -98,7 +98,7 @@ export interface SnapshotPolicies {
     accountName: string,
     snapshotPolicyName: string,
     body: SnapshotPolicyPatch,
-    options?: SnapshotPoliciesUpdateOptionalParams
+    options?: SnapshotPoliciesUpdateOptionalParams,
   ): Promise<SnapshotPoliciesUpdateResponse>;
   /**
    * Delete snapshot policy
@@ -111,7 +111,7 @@ export interface SnapshotPolicies {
     resourceGroupName: string,
     accountName: string,
     snapshotPolicyName: string,
-    options?: SnapshotPoliciesDeleteOptionalParams
+    options?: SnapshotPoliciesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete snapshot policy
@@ -124,7 +124,7 @@ export interface SnapshotPolicies {
     resourceGroupName: string,
     accountName: string,
     snapshotPolicyName: string,
-    options?: SnapshotPoliciesDeleteOptionalParams
+    options?: SnapshotPoliciesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get volumes associated with snapshot policy
@@ -137,6 +137,6 @@ export interface SnapshotPolicies {
     resourceGroupName: string,
     accountName: string,
     snapshotPolicyName: string,
-    options?: SnapshotPoliciesListVolumesOptionalParams
+    options?: SnapshotPoliciesListVolumesOptionalParams,
   ): Promise<SnapshotPoliciesListVolumesResponse>;
 }

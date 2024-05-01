@@ -26,14 +26,14 @@ async function privateLinkScopeUpdateTagsOnly() {
     process.env["MONITOR_RESOURCE_GROUP"] || "my-resource-group";
   const scopeName = "my-privatelinkscope";
   const privateLinkScopeTags: TagsResource = {
-    tags: { tag1: "Value1", tag2: "Value2" }
+    tags: { tag1: "Value1", tag2: "Value2" },
   };
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.privateLinkScopes.updateTags(
     resourceGroupName,
     scopeName,
-    privateLinkScopeTags
+    privateLinkScopeTags,
   );
   console.log(result);
 }

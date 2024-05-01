@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the list of ASR replication protection intent objects in the vault.
  *
  * @summary Gets the list of ASR replication protection intent objects in the vault.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectionIntents_List.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectionIntents_List.json
  */
 async function getsTheListOfReplicationProtectionIntentObjects() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function getsTheListOfReplicationProtectionIntentObjects() {
   const resArray = new Array();
   for await (let item of client.replicationProtectionIntents.list(
     resourceName,
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

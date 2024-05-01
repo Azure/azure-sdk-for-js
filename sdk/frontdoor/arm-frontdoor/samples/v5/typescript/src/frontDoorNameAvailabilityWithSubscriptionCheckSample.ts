@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CheckNameAvailabilityInput,
-  FrontDoorManagementClient
+  FrontDoorManagementClient,
 } from "@azure/arm-frontdoor";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -27,12 +27,12 @@ async function checkNameAvailabilityWithSubscription() {
   const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
   const checkFrontDoorNameAvailabilityInput: CheckNameAvailabilityInput = {
     name: "sampleName",
-    type: "Microsoft.Network/frontDoors/frontendEndpoints"
+    type: "Microsoft.Network/frontDoors/frontendEndpoints",
   };
   const credential = new DefaultAzureCredential();
   const client = new FrontDoorManagementClient(credential, subscriptionId);
   const result = await client.frontDoorNameAvailabilityWithSubscription.check(
-    checkFrontDoorNameAvailabilityInput
+    checkFrontDoorNameAvailabilityInput,
   );
   console.log(result);
 }

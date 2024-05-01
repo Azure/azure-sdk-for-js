@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Returns all of the private link service ids that can be linked to a Private Endpoint with auto approved in this subscription in this region.
  *
  * @summary Returns all of the private link service ids that can be linked to a Private Endpoint with auto approved in this subscription in this region.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/AutoApprovedPrivateLinkServicesResourceGroupGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/AutoApprovedPrivateLinkServicesResourceGroupGet.json
  */
 async function getListOfPrivateLinkServiceIdThatCanBeLinkedToAPrivateEndPointWithAutoApproved() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";

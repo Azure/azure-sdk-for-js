@@ -37,7 +37,7 @@ async function putCommitmentPlan() {
     resourceGroupName,
     accountName,
     commitmentPlanName,
-    commitmentPlan
+    commitmentPlan,
   );
   console.log(result);
 }

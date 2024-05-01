@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets an existing AzureFrontDoor domain with the specified domain name under the specified subscription, resource group and profile.
  *
  * @summary Gets an existing AzureFrontDoor domain with the specified domain name under the specified subscription, resource group and profile.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/AFDCustomDomains_Get.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/AFDCustomDomains_Get.json
  */
 async function afdCustomDomainsGet() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function afdCustomDomainsGet() {
   const result = await client.afdCustomDomains.get(
     resourceGroupName,
     profileName,
-    customDomainName
+    customDomainName,
   );
   console.log(result);
 }

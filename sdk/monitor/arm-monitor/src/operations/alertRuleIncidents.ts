@@ -17,7 +17,7 @@ import {
   AlertRuleIncidentsListByAlertRuleOptionalParams,
   AlertRuleIncidentsListByAlertRuleResponse,
   AlertRuleIncidentsGetOptionalParams,
-  AlertRuleIncidentsGetResponse
+  AlertRuleIncidentsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -42,12 +42,12 @@ export class AlertRuleIncidentsImpl implements AlertRuleIncidents {
   public listByAlertRule(
     resourceGroupName: string,
     ruleName: string,
-    options?: AlertRuleIncidentsListByAlertRuleOptionalParams
+    options?: AlertRuleIncidentsListByAlertRuleOptionalParams,
   ): PagedAsyncIterableIterator<Incident> {
     const iter = this.listByAlertRulePagingAll(
       resourceGroupName,
       ruleName,
-      options
+      options,
     );
     return {
       next() {
@@ -64,9 +64,9 @@ export class AlertRuleIncidentsImpl implements AlertRuleIncidents {
           resourceGroupName,
           ruleName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -74,7 +74,7 @@ export class AlertRuleIncidentsImpl implements AlertRuleIncidents {
     resourceGroupName: string,
     ruleName: string,
     options?: AlertRuleIncidentsListByAlertRuleOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<Incident[]> {
     let result: AlertRuleIncidentsListByAlertRuleResponse;
     result = await this._listByAlertRule(resourceGroupName, ruleName, options);
@@ -84,12 +84,12 @@ export class AlertRuleIncidentsImpl implements AlertRuleIncidents {
   private async *listByAlertRulePagingAll(
     resourceGroupName: string,
     ruleName: string,
-    options?: AlertRuleIncidentsListByAlertRuleOptionalParams
+    options?: AlertRuleIncidentsListByAlertRuleOptionalParams,
   ): AsyncIterableIterator<Incident> {
     for await (const page of this.listByAlertRulePagingPage(
       resourceGroupName,
       ruleName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -106,11 +106,11 @@ export class AlertRuleIncidentsImpl implements AlertRuleIncidents {
     resourceGroupName: string,
     ruleName: string,
     incidentName: string,
-    options?: AlertRuleIncidentsGetOptionalParams
+    options?: AlertRuleIncidentsGetOptionalParams,
   ): Promise<AlertRuleIncidentsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, ruleName, incidentName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -123,11 +123,11 @@ export class AlertRuleIncidentsImpl implements AlertRuleIncidents {
   private _listByAlertRule(
     resourceGroupName: string,
     ruleName: string,
-    options?: AlertRuleIncidentsListByAlertRuleOptionalParams
+    options?: AlertRuleIncidentsListByAlertRuleOptionalParams,
   ): Promise<AlertRuleIncidentsListByAlertRuleResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, ruleName, options },
-      listByAlertRuleOperationSpec
+      listByAlertRuleOperationSpec,
     );
   }
 }
@@ -135,44 +135,42 @@ export class AlertRuleIncidentsImpl implements AlertRuleIncidents {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/microsoft.insights/alertrules/{ruleName}/incidents/{incidentName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/microsoft.insights/alertrules/{ruleName}/incidents/{incidentName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Incident
+      bodyMapper: Mappers.Incident,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.ruleName,
-    Parameters.incidentName
+    Parameters.incidentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByAlertRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/microsoft.insights/alertrules/{ruleName}/incidents",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/microsoft.insights/alertrules/{ruleName}/incidents",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IncidentListResult
-    }
+      bodyMapper: Mappers.IncidentListResult,
+    },
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.ruleName
+    Parameters.resourceGroupName,
+    Parameters.ruleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

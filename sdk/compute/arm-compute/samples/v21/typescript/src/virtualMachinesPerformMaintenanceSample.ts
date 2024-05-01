@@ -30,7 +30,7 @@ async function virtualMachinePerformMaintenanceMaximumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginPerformMaintenanceAndWait(
     resourceGroupName,
-    vmName
+    vmName,
   );
   console.log(result);
 }
@@ -51,7 +51,7 @@ async function virtualMachinePerformMaintenanceMinimumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginPerformMaintenanceAndWait(
     resourceGroupName,
-    vmName
+    vmName,
   );
   console.log(result);
 }

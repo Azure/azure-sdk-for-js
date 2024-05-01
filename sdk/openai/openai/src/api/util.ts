@@ -1,14 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
- *
- * Any changes you make here may be lost.
- *
- * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
- */
-
 type CamelCase<S extends string> = S extends `${infer P1}_${infer P2}`
   ? `${Lowercase<P1>}${Capitalize<CamelCase<P2>>}`
   : Lowercase<S>;
@@ -16,14 +8,14 @@ type SnakeCase<S extends string> = S extends `${infer T}${infer U}`
   ? `${T extends Capitalize<T> ? "_" : ""}${Lowercase<T>}${SnakeCase<U>}`
   : S;
 
-type MapCamelCaseKeysOverCollections<T> = T extends Array<infer X>
-  ? Array<MapCamelCaseKeysOverCollections<X>>
-  : CamelCaseKeys<T>;
-type MapSnakeCaseKeysOverCollections<T> = T extends Array<infer X>
-  ? Array<MapSnakeCaseKeysOverCollections<X>>
-  : // : T extends (infer X | infer Y)
-    // ? MapSnakeCaseKeysOverCollections<X> | MapSnakeCaseKeysOverCollections<Y>
-    SnakeCaseKeys<T>;
+type MapCamelCaseKeysOverCollections<T> =
+  T extends Array<infer X> ? Array<MapCamelCaseKeysOverCollections<X>> : CamelCaseKeys<T>;
+type MapSnakeCaseKeysOverCollections<T> =
+  T extends Array<infer X>
+    ? Array<MapSnakeCaseKeysOverCollections<X>>
+    : // : T extends (infer X | infer Y)
+      // ? MapSnakeCaseKeysOverCollections<X> | MapSnakeCaseKeysOverCollections<Y>
+      SnakeCaseKeys<T>;
 type CamelCaseKeys<T> = {
   [K in keyof T as CamelCase<K & string>]: MapCamelCaseKeysOverCollections<T[K]>;
 };
