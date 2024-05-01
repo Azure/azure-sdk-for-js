@@ -75,29 +75,38 @@ function makeBatchSanitizerBody(sanitizers: SanitizerOptions): SanitizerRequestB
   } = sanitizers;
 
   return (<SanitizerRequestBody[]>[]).concat(
-    getSanitizerBodies(generalSanitizers, makeFindReplaceSanitizerBody("GeneralRegexSanitizer", "GeneralStringSanitizer")),
-    getSanitizerBodies(bodySanitizers,
-      makeFindReplaceSanitizerBody("BodyRegexSanitizer", "BodyStringSanitizer")),
+    getSanitizerBodies(
+      generalSanitizers,
+      makeFindReplaceSanitizerBody("GeneralRegexSanitizer", "GeneralStringSanitizer"),
+    ),
+    getSanitizerBodies(
+      bodySanitizers,
+      makeFindReplaceSanitizerBody("BodyRegexSanitizer", "BodyStringSanitizer"),
+    ),
     getSanitizerBodies(headerSanitizers, makeHeaderSanitizerBody),
-    getSanitizerBodies(uriSanitizers,
-      makeFindReplaceSanitizerBody("UriRegexSanitizer", "UriStringSanitizer")),
+    getSanitizerBodies(
+      uriSanitizers,
+      makeFindReplaceSanitizerBody("UriRegexSanitizer", "UriStringSanitizer"),
+    ),
     getSanitizerBodies(connectionStringSanitizers, makeConnectionStringSanitizerBody),
     getSanitizerBodies(bodyKeySanitizers, makeBodyKeySanitizerBody),
     getSanitizerBodies(continuationSanitizers, makeContinuationSanitizerBody),
-    (removeHeaderSanitizer
+    removeHeaderSanitizer
       ? [
-        {
-          Name: "RemoveHeaderSanitizer",
-          Body: {
-            headersForRemoval: removeHeaderSanitizer.headersForRemoval.toString(),
+          {
+            Name: "RemoveHeaderSanitizer",
+            Body: {
+              headersForRemoval: removeHeaderSanitizer.headersForRemoval.toString(),
+            },
           },
-        },
-      ]
-      : []),
-    (oAuthResponseSanitizer ? [{ Name: "OAuthResponseSanitizer", Body: undefined }] : []),
-    [{ Name: "UriSubscriptionIdSanitizer", Body: uriSubscriptionIdSanitizer }],
-    (resetSanitizer ? [{ Name: "Reset", Body: undefined }] : []),
-  )
+        ]
+      : [],
+    oAuthResponseSanitizer ? [{ Name: "OAuthResponseSanitizer", Body: undefined }] : [],
+    uriSubscriptionIdSanitizer
+      ? [{ Name: "UriSubscriptionIdSanitizer", Body: uriSubscriptionIdSanitizer }]
+      : [],
+    resetSanitizer ? [{ Name: "Reset", Body: undefined }] : [],
+  );
 }
 
 /**
@@ -139,12 +148,7 @@ function getSanitizerBodies<T>(
   sanitizers: T[] | undefined,
   func: (sanitizer: T) => SanitizerRequestBody,
 ): SanitizerRequestBody[] {
-  const bodies: SanitizerRequestBody[] = [];
-  if (!sanitizers) return bodies;
-  for (const sanitizer of sanitizers) {
-    bodies.push(func(sanitizer));
-  }
-  return bodies;
+  return sanitizers?.map(func) ?? [];
 }
 
 /**
