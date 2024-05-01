@@ -40,23 +40,16 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       this.pageSize = PipelinedQueryExecutionContext.DEFAULT_PAGE_SIZE;
     }
 
+    // Pick between Nonstreaming and streaming endpoints
+    const nonStreamingOrderBy = partitionedQueryExecutionInfo.queryInfo.hasNonStreamingOrderBy;
+
     // Pick between parallel vs order by execution context
     const sortOrders = partitionedQueryExecutionInfo.queryInfo.orderBy;
-    if (Array.isArray(sortOrders) && sortOrders.length > 0) {
-      // Need to wrap orderby execution context in endpoint component, since the data is nested as a \
-      //      "payload" property.
-      this.endpoint = new OrderByEndpointComponent(
-        new OrderByQueryExecutionContext(
-          this.clientContext,
-          this.collectionLink,
-          this.query,
-          this.options,
-          this.partitionedQueryExecutionInfo,
-          correlatedActivityId,
-        ),
-      );
-    } else {
-      this.endpoint = new ParallelQueryExecutionContext(
+
+    if (nonStreamingOrderBy) {
+      //TODO: if non order by, throw error.
+      const distinctType = partitionedQueryExecutionInfo.queryInfo.distinctType;
+      const context: ExecutionContext = new ParallelQueryExecutionContext(
         this.clientContext,
         this.collectionLink,
         this.query,
@@ -64,44 +57,76 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         this.partitionedQueryExecutionInfo,
         correlatedActivityId,
       );
-    }
-    if (
-      Object.keys(partitionedQueryExecutionInfo.queryInfo.groupByAliasToAggregateType).length > 0 ||
-      partitionedQueryExecutionInfo.queryInfo.aggregates.length > 0 ||
-      partitionedQueryExecutionInfo.queryInfo.groupByExpressions.length > 0
-    ) {
-      if (partitionedQueryExecutionInfo.queryInfo.hasSelectValue) {
-        this.endpoint = new GroupByValueEndpointComponent(
-          this.endpoint,
-          partitionedQueryExecutionInfo.queryInfo,
+
+      if(distinctType == "None") {
+        // this.endpoint = new NonStreamingOrderByEndpointComponent();
+      }
+      else {
+        // this.endpoint = new NonStreamingOrderByDistinctEndpointComponent(context, partitionedQueryExecutionInfo.queryInfo);
+      }
+    } else {
+      if (Array.isArray(sortOrders) && sortOrders.length > 0) {
+        // Need to wrap orderby execution context in endpoint component, since the data is nested as a \
+        //      "payload" property.
+        this.endpoint = new OrderByEndpointComponent(
+          new OrderByQueryExecutionContext(
+            this.clientContext,
+            this.collectionLink,
+            this.query,
+            this.options,
+            this.partitionedQueryExecutionInfo,
+            correlatedActivityId,
+          ),
         );
       } else {
-        this.endpoint = new GroupByEndpointComponent(
-          this.endpoint,
-          partitionedQueryExecutionInfo.queryInfo,
+        this.endpoint = new ParallelQueryExecutionContext(
+          this.clientContext,
+          this.collectionLink,
+          this.query,
+          this.options,
+          this.partitionedQueryExecutionInfo,
+          correlatedActivityId,
         );
       }
-    }
-    // If top then add that to the pipeline. TOP N is effectively OFFSET 0 LIMIT N
-    const top = partitionedQueryExecutionInfo.queryInfo.top;
-    if (typeof top === "number") {
-      this.endpoint = new OffsetLimitEndpointComponent(this.endpoint, 0, top);
-    }
+      if (
+        Object.keys(partitionedQueryExecutionInfo.queryInfo.groupByAliasToAggregateType).length >
+          0 ||
+        partitionedQueryExecutionInfo.queryInfo.aggregates.length > 0 ||
+        partitionedQueryExecutionInfo.queryInfo.groupByExpressions.length > 0
+      ) {
+        if (partitionedQueryExecutionInfo.queryInfo.hasSelectValue) {
+          this.endpoint = new GroupByValueEndpointComponent(
+            this.endpoint,
+            partitionedQueryExecutionInfo.queryInfo,
+          );
+        } else {
+          this.endpoint = new GroupByEndpointComponent(
+            this.endpoint,
+            partitionedQueryExecutionInfo.queryInfo,
+          );
+        }
+      }
+      // If top then add that to the pipeline. TOP N is effectively OFFSET 0 LIMIT N
+      const top = partitionedQueryExecutionInfo.queryInfo.top;
+      if (typeof top === "number") {
+        this.endpoint = new OffsetLimitEndpointComponent(this.endpoint, 0, top);
+      }
 
-    // If offset+limit then add that to the pipeline
-    const limit = partitionedQueryExecutionInfo.queryInfo.limit;
-    const offset = partitionedQueryExecutionInfo.queryInfo.offset;
-    if (typeof limit === "number" && typeof offset === "number") {
-      this.endpoint = new OffsetLimitEndpointComponent(this.endpoint, offset, limit);
-    }
+      // If offset+limit then add that to the pipeline
+      const limit = partitionedQueryExecutionInfo.queryInfo.limit;
+      const offset = partitionedQueryExecutionInfo.queryInfo.offset;
+      if (typeof limit === "number" && typeof offset === "number") {
+        this.endpoint = new OffsetLimitEndpointComponent(this.endpoint, offset, limit);
+      }
 
-    // If distinct then add that to the pipeline
-    const distinctType = partitionedQueryExecutionInfo.queryInfo.distinctType;
-    if (distinctType === "Ordered") {
-      this.endpoint = new OrderedDistinctEndpointComponent(this.endpoint);
-    }
-    if (distinctType === "Unordered") {
-      this.endpoint = new UnorderedDistinctEndpointComponent(this.endpoint);
+      // If distinct then add that to the pipeline
+      const distinctType = partitionedQueryExecutionInfo.queryInfo.distinctType;
+      if (distinctType === "Ordered") {
+        this.endpoint = new OrderedDistinctEndpointComponent(this.endpoint);
+      }
+      if (distinctType === "Unordered") {
+        this.endpoint = new UnorderedDistinctEndpointComponent(this.endpoint);
+      }
     }
   }
 
