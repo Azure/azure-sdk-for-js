@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import { HttpClient } from "@azure/core-rest-pipeline";
-import { logger } from "./log.js";
-import { getRealAndFakePairs } from "./utils/connectionStringHelpers.js";
-import { createRecordingRequest } from "./utils/createRecordingRequest.js";
-import { paths } from "./utils/paths.js";
+import { logger } from "./log";
+import { getRealAndFakePairs } from "./utils/connectionStringHelpers";
+import { createRecordingRequest } from "./utils/createRecordingRequest";
+import { paths } from "./utils/paths";
 import {
   BodyKeySanitizer,
   ConnectionStringSanitizer,
@@ -17,7 +17,7 @@ import {
   ProxyToolSanitizers,
   RecorderError,
   SanitizerOptions,
-} from "./utils/utils.js";
+} from "./utils/utils";
 
 /**
  * Returns the html document of all the available transforms in the proxy-tool
