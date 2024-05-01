@@ -4,7 +4,6 @@
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { AuthenticationError, CredentialUnavailableError } from "../errors";
 import { credentialLogger, formatError, formatSuccess, processEnvVars } from "../util/logging";
-
 import { ClientCertificateCredential } from "./clientCertificateCredential";
 import { ClientSecretCredential } from "./clientSecretCredential";
 import { EnvironmentCredentialOptions } from "./environmentCredentialOptions";

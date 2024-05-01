@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert, expect, vi } from "vitest";
-import { redirectPolicy } from "../src/policies/redirectPolicy.js";
+import { assert, describe, expect, it, vi } from "vitest";
+import { redirectPolicy } from "../src/policies/redirectPolicy";
+
 import {
   type PipelineResponse,
   type SendRequest,
   createHttpHeaders,
   createPipelineRequest,
-} from "../src/index.js";
+} from "../src";
 
 describe("RedirectPolicy", () => {
   it("should not follow redirect if no location header", async () => {

@@ -13,27 +13,27 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Deletes an Azure Monitor Workspace
+ * This sample demonstrates how to Delete a workspace
  *
- * @summary Deletes an Azure Monitor Workspace
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Monitor/stable/2023-04-03/examples/AzureMonitorWorkspacesDelete.json
+ * @summary Delete a workspace
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Monitor/preview/2021-06-03-preview/examples/AzureMonitorWorkspacesDelete.json
  */
-async function deleteAnAzureMonitorWorkspace() {
+async function deleteWorkspace() {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "703362b3-f278-4e4b-9179-c76eaf41ffc2";
   const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "myResourceGroup";
   const azureMonitorWorkspaceName = "myAzureMonitorWorkspace";
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
-  const result = await client.azureMonitorWorkspaces.beginDeleteAndWait(
+  const result = await client.azureMonitorWorkspaces.delete(
     resourceGroupName,
-    azureMonitorWorkspaceName,
+    azureMonitorWorkspaceName
   );
   console.log(result);
 }
 
 async function main() {
-  deleteAnAzureMonitorWorkspace();
+  deleteWorkspace();
 }
 
 main().catch(console.error);

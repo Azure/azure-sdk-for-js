@@ -1,20 +1,13 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
+    "outDir": "./dist-esm",
+    "declarationDir": "./types/latest",
     "paths": {
-      "@azure/core-rest-pipeline": ["./src/index.ts"]
+      "@azure/core-rest-pipeline": ["./src/index"]
     },
     "lib": ["dom", "dom.iterable"],
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "rootDir": "."
+    "verbatimModuleSyntax": true
   },
-  "exclude": ["./samples/**/*.ts"],
-  "include": [
-    "./src/**/*.ts",
-    "./src/**/*.mts",
-    "./src/**/*.cts",
-    "./test/**/*.ts",
-    "./samples-dev/**/*.ts"
-  ]
+  "include": ["src/**/*.ts", "samples-dev/**/*.ts"]
 }

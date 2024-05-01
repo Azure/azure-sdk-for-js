@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AvroSerializerTest } from "./avroSerializerTest.spec";
-import { PerfOptionDictionary } from "@azure-tools/test-perf";
+import { PerfOptionDictionary } from "@azure/test-utils-perf";
 
 interface SerializePerfTestOptions {
   "items-count": number;

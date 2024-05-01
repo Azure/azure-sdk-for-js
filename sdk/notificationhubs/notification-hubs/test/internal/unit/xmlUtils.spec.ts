@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert } from "vitest";
+import { assert } from "@azure/test-utils";
 import { parseXMLError } from "../../../src/utils/xmlUtils.js";
 
 const NOTIFICATION_XML_ERROR = `

@@ -23,14 +23,13 @@ import {
   CreateProtectionIntentInput,
   ReplicationProtectionIntentsCreateOptionalParams,
   ReplicationProtectionIntentsCreateResponse,
-  ReplicationProtectionIntentsListNextResponse,
+  ReplicationProtectionIntentsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ReplicationProtectionIntents operations. */
 export class ReplicationProtectionIntentsImpl
-  implements ReplicationProtectionIntents
-{
+  implements ReplicationProtectionIntents {
   private readonly client: SiteRecoveryManagementClient;
 
   /**
@@ -51,7 +50,7 @@ export class ReplicationProtectionIntentsImpl
   public list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationProtectionIntentsListOptionalParams,
+    options?: ReplicationProtectionIntentsListOptionalParams
   ): PagedAsyncIterableIterator<ReplicationProtectionIntent> {
     const iter = this.listPagingAll(resourceName, resourceGroupName, options);
     return {
@@ -69,9 +68,9 @@ export class ReplicationProtectionIntentsImpl
           resourceName,
           resourceGroupName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -79,7 +78,7 @@ export class ReplicationProtectionIntentsImpl
     resourceName: string,
     resourceGroupName: string,
     options?: ReplicationProtectionIntentsListOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<ReplicationProtectionIntent[]> {
     let result: ReplicationProtectionIntentsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -95,7 +94,7 @@ export class ReplicationProtectionIntentsImpl
         resourceName,
         resourceGroupName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -107,12 +106,12 @@ export class ReplicationProtectionIntentsImpl
   private async *listPagingAll(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationProtectionIntentsListOptionalParams,
+    options?: ReplicationProtectionIntentsListOptionalParams
   ): AsyncIterableIterator<ReplicationProtectionIntent> {
     for await (const page of this.listPagingPage(
       resourceName,
       resourceGroupName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -128,11 +127,11 @@ export class ReplicationProtectionIntentsImpl
   private _list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationProtectionIntentsListOptionalParams,
+    options?: ReplicationProtectionIntentsListOptionalParams
   ): Promise<ReplicationProtectionIntentsListResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, options },
-      listOperationSpec,
+      listOperationSpec
     );
   }
 
@@ -148,11 +147,11 @@ export class ReplicationProtectionIntentsImpl
     resourceName: string,
     resourceGroupName: string,
     intentObjectName: string,
-    options?: ReplicationProtectionIntentsGetOptionalParams,
+    options?: ReplicationProtectionIntentsGetOptionalParams
   ): Promise<ReplicationProtectionIntentsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, intentObjectName, options },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -170,11 +169,11 @@ export class ReplicationProtectionIntentsImpl
     resourceGroupName: string,
     intentObjectName: string,
     input: CreateProtectionIntentInput,
-    options?: ReplicationProtectionIntentsCreateOptionalParams,
+    options?: ReplicationProtectionIntentsCreateOptionalParams
   ): Promise<ReplicationProtectionIntentsCreateResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, intentObjectName, input, options },
-      createOperationSpec,
+      createOperationSpec
     );
   }
 
@@ -190,11 +189,11 @@ export class ReplicationProtectionIntentsImpl
     resourceName: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: ReplicationProtectionIntentsListNextOptionalParams,
+    options?: ReplicationProtectionIntentsListNextOptionalParams
   ): Promise<ReplicationProtectionIntentsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, nextLink, options },
-      listNextOperationSpec,
+      listNextOperationSpec
     );
   }
 }
@@ -202,34 +201,36 @@ export class ReplicationProtectionIntentsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationProtectionIntents",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationProtectionIntents",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReplicationProtectionIntentCollection,
-    },
+      bodyMapper: Mappers.ReplicationProtectionIntentCollection
+    }
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.skipToken,
-    Parameters.takeToken,
+    Parameters.takeToken
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName,
+    Parameters.resourceName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationProtectionIntents/{intentObjectName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationProtectionIntents/{intentObjectName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReplicationProtectionIntent,
-    },
+      bodyMapper: Mappers.ReplicationProtectionIntent
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -237,18 +238,19 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
-    Parameters.intentObjectName,
+    Parameters.intentObjectName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationProtectionIntents/{intentObjectName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationProtectionIntents/{intentObjectName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ReplicationProtectionIntent,
-    },
+      bodyMapper: Mappers.ReplicationProtectionIntent
+    }
   },
   requestBody: Parameters.input9,
   queryParameters: [Parameters.apiVersion],
@@ -257,27 +259,27 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
-    Parameters.intentObjectName,
+    Parameters.intentObjectName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReplicationProtectionIntentCollection,
-    },
+      bodyMapper: Mappers.ReplicationProtectionIntentCollection
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceName,
+    Parameters.resourceName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

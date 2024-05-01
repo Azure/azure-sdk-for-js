@@ -855,7 +855,7 @@ describe("Highlevel", () => {
     await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
 
     try {
-      await blobClient.downloadToFile(".");
+      await blobClient.downloadToFile(__dirname);
       throw new Error("Test failure.");
     } catch (err: any) {
       assert.notEqual(err.message, "Test failure.");

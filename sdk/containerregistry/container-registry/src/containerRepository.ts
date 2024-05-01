@@ -4,6 +4,7 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { OperationOptions } from "@azure/core-client";
+import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 
 import { GeneratedClient, RepositoryWriteableProperties } from "./generated";

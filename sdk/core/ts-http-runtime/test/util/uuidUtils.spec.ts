@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert } from "vitest";
-import { randomUUID } from "../../src/util/uuidUtils.js";
+import { assert } from "chai";
+import { randomUUID } from "../../src/util/uuidUtils";
 
 describe("randomUUID", function () {
   it("should be a valid v4 UUID", function () {

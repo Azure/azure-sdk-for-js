@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
 import { isProxyToolActive, startTestProxy, TestProxy } from "./testProxyUtils";
 import concurrently, { Command as ConcurrentlyCommand } from "concurrently";
 import { createPrinter } from "./printer";

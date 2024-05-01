@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List information about private endpoint connections under a disk access resource
  *
  * @summary List information about private endpoint connections under a disk access resource
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskAccessExamples/DiskAccessPrivateEndpointConnection_ListByDiskAccess.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-04-02/examples/diskAccessExamples/DiskAccessPrivateEndpointConnection_ListByDiskAccess.json
  */
 async function getInformationAboutAPrivateEndpointConnectionUnderADiskAccessResource() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function getInformationAboutAPrivateEndpointConnectionUnderADiskAccessReso
   const resArray = new Array();
   for await (let item of client.diskAccesses.listPrivateEndpointConnections(
     resourceGroupName,
-    diskAccessName,
+    diskAccessName
   )) {
     resArray.push(item);
   }

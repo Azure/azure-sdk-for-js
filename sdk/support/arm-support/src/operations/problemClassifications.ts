@@ -16,11 +16,8 @@ import {
   ProblemClassification,
   ProblemClassificationsListOptionalParams,
   ProblemClassificationsListResponse,
-  ProblemClassificationsClassificationInput,
-  ProblemClassificationsClassifyProblemsOptionalParams,
-  ProblemClassificationsClassifyProblemsResponse,
   ProblemClassificationsGetOptionalParams,
-  ProblemClassificationsGetResponse,
+  ProblemClassificationsGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -46,7 +43,7 @@ export class ProblemClassificationsImpl implements ProblemClassifications {
    */
   public list(
     serviceName: string,
-    options?: ProblemClassificationsListOptionalParams,
+    options?: ProblemClassificationsListOptionalParams
   ): PagedAsyncIterableIterator<ProblemClassification> {
     const iter = this.listPagingAll(serviceName, options);
     return {
@@ -61,14 +58,14 @@ export class ProblemClassificationsImpl implements ProblemClassifications {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(serviceName, options, settings);
-      },
+      }
     };
   }
 
   private async *listPagingPage(
     serviceName: string,
     options?: ProblemClassificationsListOptionalParams,
-    _settings?: PageSettings,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ProblemClassification[]> {
     let result: ProblemClassificationsListResponse;
     result = await this._list(serviceName, options);
@@ -77,33 +74,11 @@ export class ProblemClassificationsImpl implements ProblemClassifications {
 
   private async *listPagingAll(
     serviceName: string,
-    options?: ProblemClassificationsListOptionalParams,
+    options?: ProblemClassificationsListOptionalParams
   ): AsyncIterableIterator<ProblemClassification> {
     for await (const page of this.listPagingPage(serviceName, options)) {
       yield* page;
     }
-  }
-
-  /**
-   * Classify the right problem classifications (categories) available for a specific Azure service.
-   * @param problemServiceName Name of the Azure service for which the problem classifications need to be
-   *                           retrieved.
-   * @param problemClassificationsClassificationInput Input to check.
-   * @param options The options parameters.
-   */
-  classifyProblems(
-    problemServiceName: string,
-    problemClassificationsClassificationInput: ProblemClassificationsClassificationInput,
-    options?: ProblemClassificationsClassifyProblemsOptionalParams,
-  ): Promise<ProblemClassificationsClassifyProblemsResponse> {
-    return this.client.sendOperationRequest(
-      {
-        problemServiceName,
-        problemClassificationsClassificationInput,
-        options,
-      },
-      classifyProblemsOperationSpec,
-    );
   }
 
   /**
@@ -116,90 +91,69 @@ export class ProblemClassificationsImpl implements ProblemClassifications {
    */
   private _list(
     serviceName: string,
-    options?: ProblemClassificationsListOptionalParams,
+    options?: ProblemClassificationsListOptionalParams
   ): Promise<ProblemClassificationsListResponse> {
     return this.client.sendOperationRequest(
       { serviceName, options },
-      listOperationSpec,
+      listOperationSpec
     );
   }
 
   /**
    * Get problem classification details for a specific Azure service.
-   * @param serviceName Name of the Azure service for which the problem classifications need to be
-   *                    retrieved.
+   * @param serviceName Name of the Azure service available for support.
    * @param problemClassificationName Name of problem classification.
    * @param options The options parameters.
    */
   get(
     serviceName: string,
     problemClassificationName: string,
-    options?: ProblemClassificationsGetOptionalParams,
+    options?: ProblemClassificationsGetOptionalParams
   ): Promise<ProblemClassificationsGetResponse> {
     return this.client.sendOperationRequest(
       { serviceName, problemClassificationName, options },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const classifyProblemsOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Support/services/{problemServiceName}/classifyProblems",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ProblemClassificationsClassificationOutput,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.problemClassificationsClassificationInput,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.problemServiceName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.Support/services/{serviceName}/problemClassifications",
+  path:
+    "/providers/Microsoft.Support/services/{serviceName}/problemClassifications",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProblemClassificationsListResult,
+      bodyMapper: Mappers.ProblemClassificationsListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.serviceName],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.Support/services/{serviceName}/problemClassifications/{problemClassificationName}",
+  path:
+    "/providers/Microsoft.Support/services/{serviceName}/problemClassifications/{problemClassificationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProblemClassification,
+      bodyMapper: Mappers.ProblemClassification
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.serviceName,
-    Parameters.problemClassificationName,
+    Parameters.problemClassificationName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

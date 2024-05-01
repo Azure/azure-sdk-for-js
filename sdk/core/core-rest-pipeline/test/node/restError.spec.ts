@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert } from "vitest";
+import { assert, describe, it } from "vitest";
 import {
-  PipelineResponse,
+  type PipelineResponse,
   RestError,
   createHttpHeaders,
   createPipelineRequest,
-} from "../../src/index.js";
-import { inspect } from "node:util";
+} from "../../src";
+import { inspect } from "util";
 
 describe("RestError", function () {
   it("serializes properly in node", function () {

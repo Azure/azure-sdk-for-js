@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import type { HttpClient, PipelineRequest, PipelineResponse, SendRequest } from "./interfaces.js";
+import type { HttpClient, PipelineRequest, PipelineResponse, SendRequest } from "./interfaces";
 
 /**
  * Policies are executed in phases.

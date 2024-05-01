@@ -8,9 +8,9 @@ import {
   OperationStatus,
   RestorableOperationState,
   StateProxy,
-} from "./models.js";
-import { logger } from "../logger.js";
-import { terminalStates } from "./constants.js";
+} from "./models";
+import { logger } from "../logger";
+import { terminalStates } from "./constants";
 
 /**
  * Deserializes the state

@@ -29,12 +29,11 @@ async function updateCloudServiceToSpecifiedDomain() {
   const updateDomain = 1;
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.cloudServicesUpdateDomain.beginWalkUpdateDomainAndWait(
-      resourceGroupName,
-      cloudServiceName,
-      updateDomain,
-    );
+  const result = await client.cloudServicesUpdateDomain.beginWalkUpdateDomainAndWait(
+    resourceGroupName,
+    cloudServiceName,
+    updateDomain
+  );
   console.log(result);
 }
 

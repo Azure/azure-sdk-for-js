@@ -29,7 +29,6 @@ import {
   ApplicationAcceleratorsCreateOrUpdateOptionalParams,
   ApplicationAcceleratorsCreateOrUpdateResponse,
   ApplicationAcceleratorsDeleteOptionalParams,
-  ApplicationAcceleratorsDeleteResponse,
   ApplicationAcceleratorsListNextResponse
 } from "../models";
 
@@ -282,16 +281,11 @@ export class ApplicationAcceleratorsImpl implements ApplicationAccelerators {
     serviceName: string,
     applicationAcceleratorName: string,
     options?: ApplicationAcceleratorsDeleteOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ApplicationAcceleratorsDeleteResponse>,
-      ApplicationAcceleratorsDeleteResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ApplicationAcceleratorsDeleteResponse> => {
+    ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -337,10 +331,7 @@ export class ApplicationAcceleratorsImpl implements ApplicationAccelerators {
       },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<
-      ApplicationAcceleratorsDeleteResponse,
-      OperationState<ApplicationAcceleratorsDeleteResponse>
-    >(lro, {
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
@@ -361,7 +352,7 @@ export class ApplicationAcceleratorsImpl implements ApplicationAccelerators {
     serviceName: string,
     applicationAcceleratorName: string,
     options?: ApplicationAcceleratorsDeleteOptionalParams
-  ): Promise<ApplicationAcceleratorsDeleteResponse> {
+  ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serviceName,
@@ -478,18 +469,10 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationAccelerators/{applicationAcceleratorName}",
   httpMethod: "DELETE",
   responses: {
-    200: {
-      headersMapper: Mappers.ApplicationAcceleratorsDeleteHeaders
-    },
-    201: {
-      headersMapper: Mappers.ApplicationAcceleratorsDeleteHeaders
-    },
-    202: {
-      headersMapper: Mappers.ApplicationAcceleratorsDeleteHeaders
-    },
-    204: {
-      headersMapper: Mappers.ApplicationAcceleratorsDeleteHeaders
-    },
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

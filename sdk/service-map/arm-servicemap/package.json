@@ -27,12 +27,12 @@
   "types": "./types/arm-servicemap.d.ts",
   "devDependencies": {
     "@microsoft/api-extractor": "^7.31.1",
-    "mkdirp": "^3.0.1",
-    "typescript": "~5.4.5",
+    "mkdirp": "^1.0.4",
+    "typescript": "~5.2.0",
     "uglify-js": "^3.4.9",
-    "rimraf": "^5.0.5",
+    "rimraf": "^3.0.0",
     "dotenv": "^16.0.0",
-    "@azure/identity": "^4.0.1",
+    "@azure/identity": "^3.3.0",
     "@azure-tools/test-recorder": "^3.0.0",
     "@azure-tools/test-credential": "^1.0.0",
     "mocha": "^10.0.0",
@@ -41,8 +41,7 @@
     "cross-env": "^7.0.2",
     "@types/node": "^18.0.0",
     "@azure/dev-tool": "^1.0.0",
-    "ts-node": "^10.0.0",
-    "@types/mocha": "^10.0.0"
+    "ts-node": "^10.0.0"
   },
   "repository": {
     "type": "git",
@@ -76,7 +75,7 @@
     "extract-api": "api-extractor run --local",
     "lint": "echo skipped",
     "audit": "echo skipped",
-    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "clean": "rimraf dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "build:node": "echo skipped",
     "build:browser": "echo skipped",
     "build:test": "echo skipped",

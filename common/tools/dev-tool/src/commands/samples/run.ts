@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 
 import fs from "fs-extra";
-import path from "node:path";
+import path from "path";
+
 import { findMatchingFiles } from "../../util/findMatchingFiles";
 import { createPrinter } from "../../util/printer";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
@@ -37,7 +38,7 @@ async function runSingle(name: string, accumulatedErrors: Array<[string, string]
       const { main: sampleMain } = await import(name);
       await sampleMain();
     }
-  } catch (err: unknown) {
+  } catch (err: any) {
     const truncatedError: string = (err as Error).toString().split("\n")[0].slice(0, 100);
     accumulatedErrors.push([path.basename(name), truncatedError]);
     log.warn(`Error in ${name}:`);

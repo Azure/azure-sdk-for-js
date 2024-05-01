@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert } from "vitest";
+import { assert } from "@azure/test-utils";
 import { PipelinePolicy, createEmptyPipeline, createHttpHeaders } from "@azure/core-rest-pipeline";
 import {
   DictionaryMapper,
@@ -11,11 +11,11 @@ import {
   createSerializer,
   serializationPolicy,
 } from "@azure/core-client";
-import { ExtendedServiceClient, disableKeepAlivePolicyName } from "../src/index.js";
+import { ExtendedServiceClient, disableKeepAlivePolicyName } from "../src/index";
 import {
   pipelineContainsDisableKeepAlivePolicy,
   createDisableKeepAlivePolicy,
-} from "../src/policies/disableKeepAlivePolicy.js";
+} from "../src/policies/disableKeepAlivePolicy";
 
 describe("Extended Client", () => {
   it("should add the disable keep alive policy", () => {

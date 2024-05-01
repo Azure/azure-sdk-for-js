@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update an AML file system.
  *
  * @summary Create or update an AML file system.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-11-01-preview/examples/amlFilesystems_CreateOrUpdate.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2023-05-01/examples/amlFilesystems_CreateOrUpdate.json
  */
 async function amlFilesystemsCreateOrUpdate() {
   const subscriptionId =
@@ -60,12 +60,6 @@ async function amlFilesystemsCreateOrUpdate() {
     },
     location: "eastus",
     maintenanceWindow: { dayOfWeek: "Friday", timeOfDayUTC: "22:00" },
-    rootSquashSettings: {
-      mode: "All",
-      noSquashNidLists: "10.0.0.[5-6]@tcp;10.0.1.2@tcp",
-      squashGID: 99,
-      squashUID: 99
-    },
     sku: { name: "AMLFS-Durable-Premium-250" },
     storageCapacityTiB: 16,
     tags: { dept: "ContosoAds" },

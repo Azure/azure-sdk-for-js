@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 /**
  * This sample demonstrates how the listRegistrationsByTag() method can be used to list all registrations with
@@ -26,7 +26,7 @@ const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 const TOP = 100;
 const TAG = "likes_hockey";
 
-async function main(): Promise<void> {
+async function main() {
   const context = createClientContext(connectionString, hubName);
 
   // Unlimited

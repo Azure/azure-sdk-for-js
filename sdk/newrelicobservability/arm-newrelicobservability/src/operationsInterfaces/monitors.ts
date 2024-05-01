@@ -20,8 +20,6 @@ import {
   MonitorsListHostsOptionalParams,
   MonitoredResource,
   MonitorsListMonitoredResourcesOptionalParams,
-  LinkedResource,
-  MonitorsListLinkedResourcesOptionalParams,
   MonitorsGetOptionalParams,
   MonitorsGetResponse,
   MonitorsCreateOrUpdateOptionalParams,
@@ -40,7 +38,7 @@ import {
   MonitorsSwitchBillingOptionalParams,
   MonitorsSwitchBillingResponse,
   MonitorsVmHostPayloadOptionalParams,
-  MonitorsVmHostPayloadResponse,
+  MonitorsVmHostPayloadResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -51,7 +49,7 @@ export interface Monitors {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: MonitorsListBySubscriptionOptionalParams,
+    options?: MonitorsListBySubscriptionOptionalParams
   ): PagedAsyncIterableIterator<NewRelicMonitorResource>;
   /**
    * List NewRelicMonitorResource resources by resource group
@@ -60,7 +58,7 @@ export interface Monitors {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: MonitorsListByResourceGroupOptionalParams,
+    options?: MonitorsListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<NewRelicMonitorResource>;
   /**
    * List the app service resources currently being monitored by the NewRelic resource.
@@ -73,7 +71,7 @@ export interface Monitors {
     resourceGroupName: string,
     monitorName: string,
     request: AppServicesGetRequest,
-    options?: MonitorsListAppServicesOptionalParams,
+    options?: MonitorsListAppServicesOptionalParams
   ): PagedAsyncIterableIterator<AppServiceInfo>;
   /**
    * List the compute vm resources currently being monitored by the NewRelic resource.
@@ -86,7 +84,7 @@ export interface Monitors {
     resourceGroupName: string,
     monitorName: string,
     request: HostsGetRequest,
-    options?: MonitorsListHostsOptionalParams,
+    options?: MonitorsListHostsOptionalParams
   ): PagedAsyncIterableIterator<VMInfo>;
   /**
    * List the resources currently being monitored by the NewRelic monitor resource.
@@ -97,20 +95,8 @@ export interface Monitors {
   listMonitoredResources(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsListMonitoredResourcesOptionalParams,
+    options?: MonitorsListMonitoredResourcesOptionalParams
   ): PagedAsyncIterableIterator<MonitoredResource>;
-  /**
-   * List all Azure resources associated to the same NewRelic organization and account as the target
-   * resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Name of the Monitors resource
-   * @param options The options parameters.
-   */
-  listLinkedResources(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: MonitorsListLinkedResourcesOptionalParams,
-  ): PagedAsyncIterableIterator<LinkedResource>;
   /**
    * Get a NewRelicMonitorResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -120,7 +106,7 @@ export interface Monitors {
   get(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsGetOptionalParams,
+    options?: MonitorsGetOptionalParams
   ): Promise<MonitorsGetResponse>;
   /**
    * Create a NewRelicMonitorResource
@@ -133,7 +119,7 @@ export interface Monitors {
     resourceGroupName: string,
     monitorName: string,
     resource: NewRelicMonitorResource,
-    options?: MonitorsCreateOrUpdateOptionalParams,
+    options?: MonitorsCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<MonitorsCreateOrUpdateResponse>,
@@ -151,7 +137,7 @@ export interface Monitors {
     resourceGroupName: string,
     monitorName: string,
     resource: NewRelicMonitorResource,
-    options?: MonitorsCreateOrUpdateOptionalParams,
+    options?: MonitorsCreateOrUpdateOptionalParams
   ): Promise<MonitorsCreateOrUpdateResponse>;
   /**
    * Update a NewRelicMonitorResource
@@ -164,7 +150,7 @@ export interface Monitors {
     resourceGroupName: string,
     monitorName: string,
     properties: NewRelicMonitorResourceUpdate,
-    options?: MonitorsUpdateOptionalParams,
+    options?: MonitorsUpdateOptionalParams
   ): Promise<MonitorsUpdateResponse>;
   /**
    * Delete a NewRelicMonitorResource
@@ -177,7 +163,7 @@ export interface Monitors {
     resourceGroupName: string,
     userEmail: string,
     monitorName: string,
-    options?: MonitorsDeleteOptionalParams,
+    options?: MonitorsDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a NewRelicMonitorResource
@@ -190,7 +176,7 @@ export interface Monitors {
     resourceGroupName: string,
     userEmail: string,
     monitorName: string,
-    options?: MonitorsDeleteOptionalParams,
+    options?: MonitorsDeleteOptionalParams
   ): Promise<void>;
   /**
    * Get metric rules
@@ -203,7 +189,7 @@ export interface Monitors {
     resourceGroupName: string,
     monitorName: string,
     request: MetricsRequest,
-    options?: MonitorsGetMetricRulesOptionalParams,
+    options?: MonitorsGetMetricRulesOptionalParams
   ): Promise<MonitorsGetMetricRulesResponse>;
   /**
    * Get metric status
@@ -216,7 +202,7 @@ export interface Monitors {
     resourceGroupName: string,
     monitorName: string,
     request: MetricsStatusRequest,
-    options?: MonitorsGetMetricStatusOptionalParams,
+    options?: MonitorsGetMetricStatusOptionalParams
   ): Promise<MonitorsGetMetricStatusResponse>;
   /**
    * Switches the billing for NewRelic monitor resource.
@@ -229,7 +215,7 @@ export interface Monitors {
     resourceGroupName: string,
     monitorName: string,
     request: SwitchBillingRequest,
-    options?: MonitorsSwitchBillingOptionalParams,
+    options?: MonitorsSwitchBillingOptionalParams
   ): Promise<MonitorsSwitchBillingResponse>;
   /**
    * Returns the payload that needs to be passed in the request body for installing NewRelic agent on a
@@ -241,6 +227,6 @@ export interface Monitors {
   vmHostPayload(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsVmHostPayloadOptionalParams,
+    options?: MonitorsVmHostPayloadOptionalParams
   ): Promise<MonitorsVmHostPayloadResponse>;
 }

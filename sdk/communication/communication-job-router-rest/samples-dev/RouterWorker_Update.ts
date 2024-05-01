@@ -3,13 +3,12 @@
 /**
  * @summary router worker crud
  */
-import JobRouter, {
-  AzureCommunicationRoutingServiceClient
-} from "@azure-rest/communication-job-router";
+import JobRouter from "../src";
 import * as dotenv from "dotenv";
 dotenv.config();
-
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
+import { AzureCommunicationRoutingServiceClient } from "../src";
+
 
 // Update a router worker
 async function updateRouterWorker(): Promise<void> {

@@ -20,14 +20,13 @@ import {
   SharedGalleryImageVersionsListResponse,
   SharedGalleryImageVersionsGetOptionalParams,
   SharedGalleryImageVersionsGetResponse,
-  SharedGalleryImageVersionsListNextResponse,
+  SharedGalleryImageVersionsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SharedGalleryImageVersions operations. */
 export class SharedGalleryImageVersionsImpl
-  implements SharedGalleryImageVersions
-{
+  implements SharedGalleryImageVersions {
   private readonly client: ComputeManagementClient;
 
   /**
@@ -50,13 +49,13 @@ export class SharedGalleryImageVersionsImpl
     location: string,
     galleryUniqueName: string,
     galleryImageName: string,
-    options?: SharedGalleryImageVersionsListOptionalParams,
+    options?: SharedGalleryImageVersionsListOptionalParams
   ): PagedAsyncIterableIterator<SharedGalleryImageVersion> {
     const iter = this.listPagingAll(
       location,
       galleryUniqueName,
       galleryImageName,
-      options,
+      options
     );
     return {
       next() {
@@ -74,9 +73,9 @@ export class SharedGalleryImageVersionsImpl
           galleryUniqueName,
           galleryImageName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -85,7 +84,7 @@ export class SharedGalleryImageVersionsImpl
     galleryUniqueName: string,
     galleryImageName: string,
     options?: SharedGalleryImageVersionsListOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<SharedGalleryImageVersion[]> {
     let result: SharedGalleryImageVersionsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +93,7 @@ export class SharedGalleryImageVersionsImpl
         location,
         galleryUniqueName,
         galleryImageName,
-        options,
+        options
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -107,7 +106,7 @@ export class SharedGalleryImageVersionsImpl
         galleryUniqueName,
         galleryImageName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -120,13 +119,13 @@ export class SharedGalleryImageVersionsImpl
     location: string,
     galleryUniqueName: string,
     galleryImageName: string,
-    options?: SharedGalleryImageVersionsListOptionalParams,
+    options?: SharedGalleryImageVersionsListOptionalParams
   ): AsyncIterableIterator<SharedGalleryImageVersion> {
     for await (const page of this.listPagingPage(
       location,
       galleryUniqueName,
       galleryImageName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -144,11 +143,11 @@ export class SharedGalleryImageVersionsImpl
     location: string,
     galleryUniqueName: string,
     galleryImageName: string,
-    options?: SharedGalleryImageVersionsListOptionalParams,
+    options?: SharedGalleryImageVersionsListOptionalParams
   ): Promise<SharedGalleryImageVersionsListResponse> {
     return this.client.sendOperationRequest(
       { location, galleryUniqueName, galleryImageName, options },
-      listOperationSpec,
+      listOperationSpec
     );
   }
 
@@ -168,7 +167,7 @@ export class SharedGalleryImageVersionsImpl
     galleryUniqueName: string,
     galleryImageName: string,
     galleryImageVersionName: string,
-    options?: SharedGalleryImageVersionsGetOptionalParams,
+    options?: SharedGalleryImageVersionsGetOptionalParams
   ): Promise<SharedGalleryImageVersionsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -176,9 +175,9 @@ export class SharedGalleryImageVersionsImpl
         galleryUniqueName,
         galleryImageName,
         galleryImageVersionName,
-        options,
+        options
       },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -196,11 +195,11 @@ export class SharedGalleryImageVersionsImpl
     galleryUniqueName: string,
     galleryImageName: string,
     nextLink: string,
-    options?: SharedGalleryImageVersionsListNextOptionalParams,
+    options?: SharedGalleryImageVersionsListNextOptionalParams
   ): Promise<SharedGalleryImageVersionsListNextResponse> {
     return this.client.sendOperationRequest(
       { location, galleryUniqueName, galleryImageName, nextLink, options },
-      listNextOperationSpec,
+      listNextOperationSpec
     );
   }
 }
@@ -208,15 +207,16 @@ export class SharedGalleryImageVersionsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}/images/{galleryImageName}/versions",
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}/images/{galleryImageName}/versions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SharedGalleryImageVersionList,
+      bodyMapper: Mappers.SharedGalleryImageVersionList
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion3, Parameters.sharedTo],
   urlParameters: [
@@ -224,21 +224,22 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.location1,
     Parameters.galleryImageName,
-    Parameters.galleryUniqueName,
+    Parameters.galleryUniqueName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}/images/{galleryImageName}/versions/{galleryImageVersionName}",
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}/images/{galleryImageName}/versions/{galleryImageVersionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SharedGalleryImageVersion,
+      bodyMapper: Mappers.SharedGalleryImageVersion
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
@@ -247,21 +248,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.location1,
     Parameters.galleryImageName,
     Parameters.galleryImageVersionName,
-    Parameters.galleryUniqueName,
+    Parameters.galleryUniqueName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SharedGalleryImageVersionList,
+      bodyMapper: Mappers.SharedGalleryImageVersionList
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   urlParameters: [
     Parameters.$host,
@@ -269,8 +270,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.location1,
     Parameters.galleryImageName,
-    Parameters.galleryUniqueName,
+    Parameters.galleryUniqueName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

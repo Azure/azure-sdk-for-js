@@ -88,7 +88,7 @@ export interface SerializedMicrosoftTeamsAppIdentifier {
   /**
    * Id of the Microsoft Teams App.
    */
-  appId: string;
+  teamsAppId: string;
 
   /**
    * The cloud that the Microsoft Teams App belongs to. By default 'public' if missing.
@@ -174,7 +174,7 @@ export const serializeCommunicationIdentifier = (
       return {
         rawId: identifierKind.rawId ?? getIdentifierRawId(identifierKind),
         microsoftTeamsApp: {
-          appId: identifierKind.teamsAppId,
+          teamsAppId: identifierKind.teamsAppId,
           cloud: identifierKind.cloud ?? "public",
         },
       };
@@ -244,7 +244,7 @@ export const deserializeCommunicationIdentifier = (
   if (kind === "microsoftTeamsApp" && microsoftTeamsApp) {
     return {
       kind: "microsoftTeamsApp",
-      teamsAppId: assertNotNullOrUndefined({ microsoftTeamsApp }, "appId"),
+      teamsAppId: assertNotNullOrUndefined({ microsoftTeamsApp }, "teamsAppId"),
       cloud: assertNotNullOrUndefined({ microsoftTeamsApp }, "cloud"),
       rawId: assertNotNullOrUndefined({ microsoftTeamsApp: serializedIdentifier }, "rawId"),
     };

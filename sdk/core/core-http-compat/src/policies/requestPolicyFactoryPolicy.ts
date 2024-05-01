@@ -7,8 +7,8 @@ import {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { WebResourceLike, toPipelineRequest, toWebResourceLike } from "../util.js";
-import { CompatResponse, toCompatResponse, toPipelineResponse } from "../response.js";
+import { WebResourceLike, toPipelineRequest, toWebResourceLike } from "../util";
+import { CompatResponse, toCompatResponse, toPipelineResponse } from "../response";
 
 /**
  * A compatible interface for core-http request policies

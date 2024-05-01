@@ -15,7 +15,7 @@ import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller,
+  createHttpPoller
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -27,7 +27,7 @@ import {
   GraphResourceCreateUpdateParameters,
   GraphResourcesCreateUpdateGraphOptionalParams,
   GraphResourcesCreateUpdateGraphResponse,
-  GraphResourcesDeleteGraphResourceOptionalParams,
+  GraphResourcesDeleteGraphResourceOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,12 +52,12 @@ export class GraphResourcesImpl implements GraphResources {
   public listGraphs(
     resourceGroupName: string,
     accountName: string,
-    options?: GraphResourcesListGraphsOptionalParams,
+    options?: GraphResourcesListGraphsOptionalParams
   ): PagedAsyncIterableIterator<GraphResourceGetResults> {
     const iter = this.listGraphsPagingAll(
       resourceGroupName,
       accountName,
-      options,
+      options
     );
     return {
       next() {
@@ -74,9 +74,9 @@ export class GraphResourcesImpl implements GraphResources {
           resourceGroupName,
           accountName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -84,7 +84,7 @@ export class GraphResourcesImpl implements GraphResources {
     resourceGroupName: string,
     accountName: string,
     options?: GraphResourcesListGraphsOptionalParams,
-    _settings?: PageSettings,
+    _settings?: PageSettings
   ): AsyncIterableIterator<GraphResourceGetResults[]> {
     let result: GraphResourcesListGraphsResponse;
     result = await this._listGraphs(resourceGroupName, accountName, options);
@@ -94,12 +94,12 @@ export class GraphResourcesImpl implements GraphResources {
   private async *listGraphsPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: GraphResourcesListGraphsOptionalParams,
+    options?: GraphResourcesListGraphsOptionalParams
   ): AsyncIterableIterator<GraphResourceGetResults> {
     for await (const page of this.listGraphsPagingPage(
       resourceGroupName,
       accountName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -114,11 +114,11 @@ export class GraphResourcesImpl implements GraphResources {
   private _listGraphs(
     resourceGroupName: string,
     accountName: string,
-    options?: GraphResourcesListGraphsOptionalParams,
+    options?: GraphResourcesListGraphsOptionalParams
   ): Promise<GraphResourcesListGraphsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listGraphsOperationSpec,
+      listGraphsOperationSpec
     );
   }
 
@@ -133,11 +133,11 @@ export class GraphResourcesImpl implements GraphResources {
     resourceGroupName: string,
     accountName: string,
     graphName: string,
-    options?: GraphResourcesGetGraphOptionalParams,
+    options?: GraphResourcesGetGraphOptionalParams
   ): Promise<GraphResourcesGetGraphResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, graphName, options },
-      getGraphOperationSpec,
+      getGraphOperationSpec
     );
   }
 
@@ -154,7 +154,7 @@ export class GraphResourcesImpl implements GraphResources {
     accountName: string,
     graphName: string,
     createUpdateGraphParameters: GraphResourceCreateUpdateParameters,
-    options?: GraphResourcesCreateUpdateGraphOptionalParams,
+    options?: GraphResourcesCreateUpdateGraphOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<GraphResourcesCreateUpdateGraphResponse>,
@@ -163,20 +163,21 @@ export class GraphResourcesImpl implements GraphResources {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<GraphResourcesCreateUpdateGraphResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -185,8 +186,8 @@ export class GraphResourcesImpl implements GraphResources {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -194,8 +195,8 @@ export class GraphResourcesImpl implements GraphResources {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -206,16 +207,16 @@ export class GraphResourcesImpl implements GraphResources {
         accountName,
         graphName,
         createUpdateGraphParameters,
-        options,
+        options
       },
-      spec: createUpdateGraphOperationSpec,
+      spec: createUpdateGraphOperationSpec
     });
     const poller = await createHttpPoller<
       GraphResourcesCreateUpdateGraphResponse,
       OperationState<GraphResourcesCreateUpdateGraphResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -234,14 +235,14 @@ export class GraphResourcesImpl implements GraphResources {
     accountName: string,
     graphName: string,
     createUpdateGraphParameters: GraphResourceCreateUpdateParameters,
-    options?: GraphResourcesCreateUpdateGraphOptionalParams,
+    options?: GraphResourcesCreateUpdateGraphOptionalParams
   ): Promise<GraphResourcesCreateUpdateGraphResponse> {
     const poller = await this.beginCreateUpdateGraph(
       resourceGroupName,
       accountName,
       graphName,
       createUpdateGraphParameters,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -257,24 +258,25 @@ export class GraphResourcesImpl implements GraphResources {
     resourceGroupName: string,
     accountName: string,
     graphName: string,
-    options?: GraphResourcesDeleteGraphResourceOptionalParams,
+    options?: GraphResourcesDeleteGraphResourceOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -283,8 +285,8 @@ export class GraphResourcesImpl implements GraphResources {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -292,19 +294,19 @@ export class GraphResourcesImpl implements GraphResources {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, graphName, options },
-      spec: deleteGraphResourceOperationSpec,
+      spec: deleteGraphResourceOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -321,13 +323,13 @@ export class GraphResourcesImpl implements GraphResources {
     resourceGroupName: string,
     accountName: string,
     graphName: string,
-    options?: GraphResourcesDeleteGraphResourceOptionalParams,
+    options?: GraphResourcesDeleteGraphResourceOptionalParams
   ): Promise<void> {
     const poller = await this.beginDeleteGraphResource(
       resourceGroupName,
       accountName,
       graphName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -336,30 +338,32 @@ export class GraphResourcesImpl implements GraphResources {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listGraphsOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/graphs",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/graphs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GraphResourcesListResult,
-    },
+      bodyMapper: Mappers.GraphResourcesListResult
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName,
+    Parameters.accountName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getGraphOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/graphs/{graphName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/graphs/{graphName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GraphResourceGetResults,
-    },
+      bodyMapper: Mappers.GraphResourceGetResults
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -367,27 +371,28 @@ const getGraphOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.graphName,
+    Parameters.graphName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const createUpdateGraphOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/graphs/{graphName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/graphs/{graphName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.GraphResourceGetResults,
+      bodyMapper: Mappers.GraphResourceGetResults
     },
     201: {
-      bodyMapper: Mappers.GraphResourceGetResults,
+      bodyMapper: Mappers.GraphResourceGetResults
     },
     202: {
-      bodyMapper: Mappers.GraphResourceGetResults,
+      bodyMapper: Mappers.GraphResourceGetResults
     },
     204: {
-      bodyMapper: Mappers.GraphResourceGetResults,
-    },
+      bodyMapper: Mappers.GraphResourceGetResults
+    }
   },
   requestBody: Parameters.createUpdateGraphParameters,
   queryParameters: [Parameters.apiVersion],
@@ -396,14 +401,15 @@ const createUpdateGraphOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.graphName,
+    Parameters.graphName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const deleteGraphResourceOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/graphs/{graphName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/graphs/{graphName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {} },
   queryParameters: [Parameters.apiVersion],
@@ -412,7 +418,7 @@ const deleteGraphResourceOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.graphName,
+    Parameters.graphName
   ],
-  serializer,
+  serializer
 };

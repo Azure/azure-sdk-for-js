@@ -6,7 +6,7 @@ Azure API Center Resource Provider.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/apicenter/arm-apicenter) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-apicenter) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-apicenter) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-apicenter?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

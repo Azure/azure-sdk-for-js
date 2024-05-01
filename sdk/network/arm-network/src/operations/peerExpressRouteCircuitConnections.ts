@@ -20,14 +20,13 @@ import {
   PeerExpressRouteCircuitConnectionsListResponse,
   PeerExpressRouteCircuitConnectionsGetOptionalParams,
   PeerExpressRouteCircuitConnectionsGetResponse,
-  PeerExpressRouteCircuitConnectionsListNextResponse,
+  PeerExpressRouteCircuitConnectionsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PeerExpressRouteCircuitConnections operations. */
 export class PeerExpressRouteCircuitConnectionsImpl
-  implements PeerExpressRouteCircuitConnections
-{
+  implements PeerExpressRouteCircuitConnections {
   private readonly client: NetworkManagementClient;
 
   /**
@@ -50,13 +49,13 @@ export class PeerExpressRouteCircuitConnectionsImpl
     resourceGroupName: string,
     circuitName: string,
     peeringName: string,
-    options?: PeerExpressRouteCircuitConnectionsListOptionalParams,
+    options?: PeerExpressRouteCircuitConnectionsListOptionalParams
   ): PagedAsyncIterableIterator<PeerExpressRouteCircuitConnection> {
     const iter = this.listPagingAll(
       resourceGroupName,
       circuitName,
       peeringName,
-      options,
+      options
     );
     return {
       next() {
@@ -74,9 +73,9 @@ export class PeerExpressRouteCircuitConnectionsImpl
           circuitName,
           peeringName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -85,7 +84,7 @@ export class PeerExpressRouteCircuitConnectionsImpl
     circuitName: string,
     peeringName: string,
     options?: PeerExpressRouteCircuitConnectionsListOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<PeerExpressRouteCircuitConnection[]> {
     let result: PeerExpressRouteCircuitConnectionsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +93,7 @@ export class PeerExpressRouteCircuitConnectionsImpl
         resourceGroupName,
         circuitName,
         peeringName,
-        options,
+        options
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -107,7 +106,7 @@ export class PeerExpressRouteCircuitConnectionsImpl
         circuitName,
         peeringName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -120,13 +119,13 @@ export class PeerExpressRouteCircuitConnectionsImpl
     resourceGroupName: string,
     circuitName: string,
     peeringName: string,
-    options?: PeerExpressRouteCircuitConnectionsListOptionalParams,
+    options?: PeerExpressRouteCircuitConnectionsListOptionalParams
   ): AsyncIterableIterator<PeerExpressRouteCircuitConnection> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       circuitName,
       peeringName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -145,11 +144,11 @@ export class PeerExpressRouteCircuitConnectionsImpl
     circuitName: string,
     peeringName: string,
     connectionName: string,
-    options?: PeerExpressRouteCircuitConnectionsGetOptionalParams,
+    options?: PeerExpressRouteCircuitConnectionsGetOptionalParams
   ): Promise<PeerExpressRouteCircuitConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, circuitName, peeringName, connectionName, options },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -165,11 +164,11 @@ export class PeerExpressRouteCircuitConnectionsImpl
     resourceGroupName: string,
     circuitName: string,
     peeringName: string,
-    options?: PeerExpressRouteCircuitConnectionsListOptionalParams,
+    options?: PeerExpressRouteCircuitConnectionsListOptionalParams
   ): Promise<PeerExpressRouteCircuitConnectionsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, circuitName, peeringName, options },
-      listOperationSpec,
+      listOperationSpec
     );
   }
 
@@ -186,11 +185,11 @@ export class PeerExpressRouteCircuitConnectionsImpl
     circuitName: string,
     peeringName: string,
     nextLink: string,
-    options?: PeerExpressRouteCircuitConnectionsListNextOptionalParams,
+    options?: PeerExpressRouteCircuitConnectionsListNextOptionalParams
   ): Promise<PeerExpressRouteCircuitConnectionsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, circuitName, peeringName, nextLink, options },
-      listNextOperationSpec,
+      listNextOperationSpec
     );
   }
 }
@@ -198,15 +197,16 @@ export class PeerExpressRouteCircuitConnectionsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/peerConnections/{connectionName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/peerConnections/{connectionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PeerExpressRouteCircuitConnection,
+      bodyMapper: Mappers.PeerExpressRouteCircuitConnection
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -215,21 +215,22 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.connectionName,
     Parameters.circuitName,
-    Parameters.peeringName,
+    Parameters.peeringName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/peerConnections",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/peerConnections",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PeerExpressRouteCircuitConnectionListResult,
+      bodyMapper: Mappers.PeerExpressRouteCircuitConnectionListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -237,21 +238,21 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.circuitName,
-    Parameters.peeringName,
+    Parameters.peeringName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PeerExpressRouteCircuitConnectionListResult,
+      bodyMapper: Mappers.PeerExpressRouteCircuitConnectionListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   urlParameters: [
     Parameters.$host,
@@ -259,8 +260,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.circuitName,
-    Parameters.peeringName,
+    Parameters.peeringName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

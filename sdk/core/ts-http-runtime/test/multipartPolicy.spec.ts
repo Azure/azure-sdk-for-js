@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert, vi, expect } from "vitest";
-import { createHttpHeaders } from "../src/httpHeaders.js";
-import { PipelineRequest, PipelineResponse, SendRequest } from "../src/interfaces.js";
-import { createPipelineRequest } from "../src/pipelineRequest.js";
-import { multipartPolicy } from "../src/policies/multipartPolicy.js";
-import { PipelineRequestOptions } from "../src/pipelineRequest.js";
-import { stringToUint8Array } from "../src/util/bytesEncoding.js";
-import { assertBodyMatches } from "./util.js";
+import sinon from "sinon";
+import { createHttpHeaders } from "../src/httpHeaders";
+import { PipelineRequest, PipelineResponse, SendRequest } from "../src/interfaces";
+import { createPipelineRequest } from "../src/pipelineRequest";
+import { multipartPolicy } from "../src/policies/multipartPolicy";
+import { assert } from "chai";
+import { PipelineRequestOptions } from "../src/pipelineRequest";
+import { stringToUint8Array } from "../src/util/bytesEncoding";
+import { assertBodyMatches } from "./util";
 
 export async function performRequest(
   requestOptions: Omit<PipelineRequestOptions, "url" | "method">,
@@ -25,8 +26,8 @@ export async function performRequest(
     request,
     status: 200,
   };
-  const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
-  next.mockResolvedValue(successResponse);
+  const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+  next.resolves(successResponse);
 
   await policy.sendRequest(request, next);
   return request;
@@ -55,8 +56,8 @@ describe("multipartPolicy", function () {
       request,
       status: 200,
     };
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.mockResolvedValue(successResponse);
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.resolves(successResponse);
 
     await policy.sendRequest(request, next);
 
@@ -85,7 +86,7 @@ describe("multipartPolicy", function () {
     });
 
     it("throws when multipart request body present but content-type is not multipart", async function () {
-      await expect(
+      await assert.isRejected(
         performRequest({
           headers: createHttpHeaders({
             "content-type": "application/json",
@@ -94,13 +95,12 @@ describe("multipartPolicy", function () {
             parts: [],
           },
         }),
-      ).rejects.toThrow(
         /Got multipart request body, but content-type header was not multipart: application\/json/,
       );
     });
 
     it("throws when invalid boundary is set in content-type header", async function () {
-      await expect(
+      await assert.isRejected(
         performRequest({
           headers: createHttpHeaders({
             "content-type": "multipart/form-data; boundary=%%%%%%%",
@@ -109,18 +109,20 @@ describe("multipartPolicy", function () {
             parts: [],
           },
         }),
-      ).rejects.toThrow(/Multipart boundary "%%%%%%%" contains invalid characters/);
+        /Multipart boundary "%%%%%%%" contains invalid characters/,
+      );
     });
 
     it("throws when invalid boundary is set in body", async function () {
-      await expect(
+      await assert.isRejected(
         performRequest({
           multipartBody: {
             boundary: "%%%%%%%",
             parts: [],
           },
         }),
-      ).rejects.toThrow(/Multipart boundary "%%%%%%%" contains invalid characters/);
+        /Multipart boundary "%%%%%%%" contains invalid characters/,
+      );
     });
 
     it("generates boundary when none specified in existing header", async function () {

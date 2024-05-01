@@ -8,7 +8,6 @@ import { AzureLogger } from "@azure/logger";
 export interface SignalingClientOptions {
   environment?: string;
   resourceEndpoint?: string;
-  gatewayApiVersion?: string;
 }
 
 export const getSignalingClient = (
@@ -21,7 +20,6 @@ export const getSignalingClient = (
     return new CommunicationSignalingClient(credential, logger, {
       environment: options?.environment ?? undefined,
       resourceEndpoint: options?.resourceEndpoint ?? undefined,
-      gatewayApiVersion: options?.gatewayApiVersion ?? undefined,
     });
   }
 

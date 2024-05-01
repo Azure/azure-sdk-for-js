@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
+import { assert, describe, it, beforeEach, afterEach, vi } from "vitest";
+
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
   type AuthorizeRequestOnChallengeOptions,
@@ -11,8 +12,8 @@ import {
   createEmptyPipeline,
   createHttpHeaders,
   createPipelineRequest,
-} from "../../src/index.js";
-import { TextDecoder } from "node:util";
+} from "../../src";
+import { TextDecoder } from "util";
 
 export interface TestChallenge {
   scope: string;

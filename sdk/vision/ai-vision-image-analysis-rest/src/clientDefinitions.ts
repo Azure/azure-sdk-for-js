@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AnalyzeFromImageDataParameters, AnalyzeFromUrlParameters } from "./parameters";
+import { AnalyzeFromBufferParameters, AnalyzeFromUrlParameters } from "./parameters";
 import {
-  AnalyzeFromImageData200Response,
-  AnalyzeFromImageDataDefaultResponse,
+  AnalyzeFromBuffer200Response,
+  AnalyzeFromBufferDefaultResponse,
   AnalyzeFromUrl200Response,
   AnalyzeFromUrlDefaultResponse,
 } from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
-export interface AnalyzeFromImageData {
+export interface AnalyzeFromBuffer {
   /** Performs a single Image Analysis operation */
   post(
-    options: AnalyzeFromImageDataParameters,
-  ): StreamableMethod<AnalyzeFromImageData200Response | AnalyzeFromImageDataDefaultResponse>;
+    options: AnalyzeFromBufferParameters,
+  ): StreamableMethod<AnalyzeFromBuffer200Response | AnalyzeFromBufferDefaultResponse>;
   /** Performs a single Image Analysis operation */
   post(
     options: AnalyzeFromUrlParameters,
@@ -23,7 +23,7 @@ export interface AnalyzeFromImageData {
 
 export interface Routes {
   /** Resource for '/imageanalysis:analyze' has methods for the following verbs: post */
-  (path: "/imageanalysis:analyze"): AnalyzeFromImageData;
+  (path: "/imageanalysis:analyze"): AnalyzeFromBuffer;
 }
 
 export type ImageAnalysisClient = Client & {

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Licensed under the MIT Licence.
 
 /**
  * This sample demonstrates exceeding the max delivery count for a service bus queue so that

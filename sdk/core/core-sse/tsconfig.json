@@ -1,13 +1,14 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "paths": {
-      "@azure/core-sse": ["./src/index.ts"]
-    },
+    "outDir": "./dist-esm",
+    "declarationDir": "./types",
+    "paths": { "@azure/core-sse": ["./src/index.js"] },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "lib": ["esnext", "dom"],
     "rootDir": "."
   },
-  "include": ["./src/**/*.ts", "./src/**/*.mts", "./src/**/*.cts", "samples-dev/**/*.ts"]
+  "ts-node": { "esm": true },
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }

@@ -31,5 +31,3 @@ extends:
         safeName: azureresthealthinsightscancerprofiling
       - name: azure-rest-health-insights-clinicalmatching
         safeName: azureresthealthinsightsclinicalmatching
-      - name: azure-rest-health-insights-radiologyinsights
-        safeName: azureresthealthinsightsradiologyinsights

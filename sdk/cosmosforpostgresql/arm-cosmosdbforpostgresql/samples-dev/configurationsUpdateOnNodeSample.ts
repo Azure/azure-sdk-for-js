@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ServerConfiguration,
-  CosmosDBForPostgreSQL,
+  CosmosDBForPostgreSQL
 } from "@azure/arm-cosmosdbforpostgresql";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates configuration of worker nodes in a cluster
  *
  * @summary Updates configuration of worker nodes in a cluster
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ConfigurationUpdateNode.json
+ * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/ConfigurationUpdateNode.json
  */
 async function updateSingleConfigurationOfNodes() {
   const subscriptionId =
@@ -38,7 +38,7 @@ async function updateSingleConfigurationOfNodes() {
     resourceGroupName,
     clusterName,
     configurationName,
-    parameters,
+    parameters
   );
   console.log(result);
 }

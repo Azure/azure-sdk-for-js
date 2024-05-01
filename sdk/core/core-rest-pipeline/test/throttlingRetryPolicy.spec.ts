@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert, expect, vi, afterEach } from "vitest";
+import { describe, it, afterEach, assert, vi, expect } from "vitest";
+
 import {
   type PipelineResponse,
   type SendRequest,
   createHttpHeaders,
   createPipelineRequest,
   throttlingRetryPolicy,
-} from "../src/index.js";
-import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants.js";
+} from "../src";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
 
 describe("throttlingRetryPolicy", function () {
   afterEach(function () {
@@ -284,6 +285,7 @@ describe("throttlingRetryPolicy", function () {
     next.mockResolvedValueOnce(successResponse);
 
     await expect(policy.sendRequest(request, next)).rejects.toThrow("The operation was aborted.");
+
     expect(next).toHaveBeenCalledOnce();
   });
 });

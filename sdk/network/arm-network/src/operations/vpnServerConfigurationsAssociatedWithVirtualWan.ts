@@ -14,18 +14,17 @@ import { NetworkManagementClient } from "../networkManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller,
+  createHttpPoller
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
   VpnServerConfigurationsAssociatedWithVirtualWanListOptionalParams,
-  VpnServerConfigurationsAssociatedWithVirtualWanListResponse,
+  VpnServerConfigurationsAssociatedWithVirtualWanListResponse
 } from "../models";
 
 /** Class containing VpnServerConfigurationsAssociatedWithVirtualWan operations. */
 export class VpnServerConfigurationsAssociatedWithVirtualWanImpl
-  implements VpnServerConfigurationsAssociatedWithVirtualWan
-{
+  implements VpnServerConfigurationsAssociatedWithVirtualWan {
   private readonly client: NetworkManagementClient;
 
   /**
@@ -45,29 +44,32 @@ export class VpnServerConfigurationsAssociatedWithVirtualWanImpl
   async beginList(
     resourceGroupName: string,
     virtualWANName: string,
-    options?: VpnServerConfigurationsAssociatedWithVirtualWanListOptionalParams,
+    options?: VpnServerConfigurationsAssociatedWithVirtualWanListOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<VpnServerConfigurationsAssociatedWithVirtualWanListResponse>,
+      OperationState<
+        VpnServerConfigurationsAssociatedWithVirtualWanListResponse
+      >,
       VpnServerConfigurationsAssociatedWithVirtualWanListResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<VpnServerConfigurationsAssociatedWithVirtualWanListResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -76,8 +78,8 @@ export class VpnServerConfigurationsAssociatedWithVirtualWanImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -85,23 +87,25 @@ export class VpnServerConfigurationsAssociatedWithVirtualWanImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, virtualWANName, options },
-      spec: listOperationSpec,
+      spec: listOperationSpec
     });
     const poller = await createHttpPoller<
       VpnServerConfigurationsAssociatedWithVirtualWanListResponse,
-      OperationState<VpnServerConfigurationsAssociatedWithVirtualWanListResponse>
+      OperationState<
+        VpnServerConfigurationsAssociatedWithVirtualWanListResponse
+      >
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -116,12 +120,12 @@ export class VpnServerConfigurationsAssociatedWithVirtualWanImpl
   async beginListAndWait(
     resourceGroupName: string,
     virtualWANName: string,
-    options?: VpnServerConfigurationsAssociatedWithVirtualWanListOptionalParams,
+    options?: VpnServerConfigurationsAssociatedWithVirtualWanListOptionalParams
   ): Promise<VpnServerConfigurationsAssociatedWithVirtualWanListResponse> {
     const poller = await this.beginList(
       resourceGroupName,
       virtualWANName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -130,32 +134,33 @@ export class VpnServerConfigurationsAssociatedWithVirtualWanImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/vpnServerConfigurations",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/vpnServerConfigurations",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.VpnServerConfigurationsResponse,
+      bodyMapper: Mappers.VpnServerConfigurationsResponse
     },
     201: {
-      bodyMapper: Mappers.VpnServerConfigurationsResponse,
+      bodyMapper: Mappers.VpnServerConfigurationsResponse
     },
     202: {
-      bodyMapper: Mappers.VpnServerConfigurationsResponse,
+      bodyMapper: Mappers.VpnServerConfigurationsResponse
     },
     204: {
-      bodyMapper: Mappers.VpnServerConfigurationsResponse,
+      bodyMapper: Mappers.VpnServerConfigurationsResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.virtualWANName,
+    Parameters.virtualWANName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

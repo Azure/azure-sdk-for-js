@@ -8,11 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  NginxDeploymentUpdateParameters,
-  DeploymentsUpdateOptionalParams,
-  NginxManagementClient,
-} from "@azure/arm-nginx";
+import { NginxManagementClient } from "@azure/arm-nginx";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -22,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Update the NGINX deployment
  *
  * @summary Update the NGINX deployment
- * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-01-01-preview/examples/Deployments_Update.json
+ * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2023-04-01/examples/Deployments_Update.json
  */
 async function deploymentsUpdate() {
   const subscriptionId =
@@ -31,16 +27,11 @@ async function deploymentsUpdate() {
   const resourceGroupName =
     process.env["NGINX_RESOURCE_GROUP"] || "myResourceGroup";
   const deploymentName = "myDeployment";
-  const body: NginxDeploymentUpdateParameters = {
-    tags: { environment: "Dev" },
-  };
-  const options: DeploymentsUpdateOptionalParams = { body };
   const credential = new DefaultAzureCredential();
   const client = new NginxManagementClient(credential, subscriptionId);
   const result = await client.deployments.beginUpdateAndWait(
     resourceGroupName,
-    deploymentName,
-    options,
+    deploymentName
   );
   console.log(result);
 }

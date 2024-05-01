@@ -14,4 +14,3 @@ export * from "./privateLinkResources";
 export * from "./privateEndpointConnections";
 export * from "./sharedPrivateLinkResources";
 export * from "./usages";
-export * from "./networkSecurityPerimeterConfigurations";

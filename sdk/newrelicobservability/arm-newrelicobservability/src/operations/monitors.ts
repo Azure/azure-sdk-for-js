@@ -16,7 +16,7 @@ import { NewRelicObservability } from "../newRelicObservability";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller,
+  createHttpPoller
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -41,10 +41,6 @@ import {
   MonitorsListMonitoredResourcesNextOptionalParams,
   MonitorsListMonitoredResourcesOptionalParams,
   MonitorsListMonitoredResourcesResponse,
-  LinkedResource,
-  MonitorsListLinkedResourcesNextOptionalParams,
-  MonitorsListLinkedResourcesOptionalParams,
-  MonitorsListLinkedResourcesResponse,
   MonitorsGetOptionalParams,
   MonitorsGetResponse,
   MonitorsCreateOrUpdateOptionalParams,
@@ -68,8 +64,7 @@ import {
   MonitorsListByResourceGroupNextResponse,
   MonitorsListAppServicesNextResponse,
   MonitorsListHostsNextResponse,
-  MonitorsListMonitoredResourcesNextResponse,
-  MonitorsListLinkedResourcesNextResponse,
+  MonitorsListMonitoredResourcesNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -90,7 +85,7 @@ export class MonitorsImpl implements Monitors {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: MonitorsListBySubscriptionOptionalParams,
+    options?: MonitorsListBySubscriptionOptionalParams
   ): PagedAsyncIterableIterator<NewRelicMonitorResource> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -105,13 +100,13 @@ export class MonitorsImpl implements Monitors {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      },
+      }
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: MonitorsListBySubscriptionOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<NewRelicMonitorResource[]> {
     let result: MonitorsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -132,7 +127,7 @@ export class MonitorsImpl implements Monitors {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: MonitorsListBySubscriptionOptionalParams,
+    options?: MonitorsListBySubscriptionOptionalParams
   ): AsyncIterableIterator<NewRelicMonitorResource> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -146,7 +141,7 @@ export class MonitorsImpl implements Monitors {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: MonitorsListByResourceGroupOptionalParams,
+    options?: MonitorsListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<NewRelicMonitorResource> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -163,16 +158,16 @@ export class MonitorsImpl implements Monitors {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: MonitorsListByResourceGroupOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<NewRelicMonitorResource[]> {
     let result: MonitorsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -187,7 +182,7 @@ export class MonitorsImpl implements Monitors {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -198,11 +193,11 @@ export class MonitorsImpl implements Monitors {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: MonitorsListByResourceGroupOptionalParams,
+    options?: MonitorsListByResourceGroupOptionalParams
   ): AsyncIterableIterator<NewRelicMonitorResource> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -219,13 +214,13 @@ export class MonitorsImpl implements Monitors {
     resourceGroupName: string,
     monitorName: string,
     request: AppServicesGetRequest,
-    options?: MonitorsListAppServicesOptionalParams,
+    options?: MonitorsListAppServicesOptionalParams
   ): PagedAsyncIterableIterator<AppServiceInfo> {
     const iter = this.listAppServicesPagingAll(
       resourceGroupName,
       monitorName,
       request,
-      options,
+      options
     );
     return {
       next() {
@@ -243,9 +238,9 @@ export class MonitorsImpl implements Monitors {
           monitorName,
           request,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -254,7 +249,7 @@ export class MonitorsImpl implements Monitors {
     monitorName: string,
     request: AppServicesGetRequest,
     options?: MonitorsListAppServicesOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<AppServiceInfo[]> {
     let result: MonitorsListAppServicesResponse;
     let continuationToken = settings?.continuationToken;
@@ -263,7 +258,7 @@ export class MonitorsImpl implements Monitors {
         resourceGroupName,
         monitorName,
         request,
-        options,
+        options
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -276,7 +271,7 @@ export class MonitorsImpl implements Monitors {
         monitorName,
         request,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -289,13 +284,13 @@ export class MonitorsImpl implements Monitors {
     resourceGroupName: string,
     monitorName: string,
     request: AppServicesGetRequest,
-    options?: MonitorsListAppServicesOptionalParams,
+    options?: MonitorsListAppServicesOptionalParams
   ): AsyncIterableIterator<AppServiceInfo> {
     for await (const page of this.listAppServicesPagingPage(
       resourceGroupName,
       monitorName,
       request,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -312,13 +307,13 @@ export class MonitorsImpl implements Monitors {
     resourceGroupName: string,
     monitorName: string,
     request: HostsGetRequest,
-    options?: MonitorsListHostsOptionalParams,
+    options?: MonitorsListHostsOptionalParams
   ): PagedAsyncIterableIterator<VMInfo> {
     const iter = this.listHostsPagingAll(
       resourceGroupName,
       monitorName,
       request,
-      options,
+      options
     );
     return {
       next() {
@@ -336,9 +331,9 @@ export class MonitorsImpl implements Monitors {
           monitorName,
           request,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -347,7 +342,7 @@ export class MonitorsImpl implements Monitors {
     monitorName: string,
     request: HostsGetRequest,
     options?: MonitorsListHostsOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<VMInfo[]> {
     let result: MonitorsListHostsResponse;
     let continuationToken = settings?.continuationToken;
@@ -356,7 +351,7 @@ export class MonitorsImpl implements Monitors {
         resourceGroupName,
         monitorName,
         request,
-        options,
+        options
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -369,7 +364,7 @@ export class MonitorsImpl implements Monitors {
         monitorName,
         request,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -382,13 +377,13 @@ export class MonitorsImpl implements Monitors {
     resourceGroupName: string,
     monitorName: string,
     request: HostsGetRequest,
-    options?: MonitorsListHostsOptionalParams,
+    options?: MonitorsListHostsOptionalParams
   ): AsyncIterableIterator<VMInfo> {
     for await (const page of this.listHostsPagingPage(
       resourceGroupName,
       monitorName,
       request,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -403,12 +398,12 @@ export class MonitorsImpl implements Monitors {
   public listMonitoredResources(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsListMonitoredResourcesOptionalParams,
+    options?: MonitorsListMonitoredResourcesOptionalParams
   ): PagedAsyncIterableIterator<MonitoredResource> {
     const iter = this.listMonitoredResourcesPagingAll(
       resourceGroupName,
       monitorName,
-      options,
+      options
     );
     return {
       next() {
@@ -425,9 +420,9 @@ export class MonitorsImpl implements Monitors {
           resourceGroupName,
           monitorName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -435,7 +430,7 @@ export class MonitorsImpl implements Monitors {
     resourceGroupName: string,
     monitorName: string,
     options?: MonitorsListMonitoredResourcesOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<MonitoredResource[]> {
     let result: MonitorsListMonitoredResourcesResponse;
     let continuationToken = settings?.continuationToken;
@@ -443,7 +438,7 @@ export class MonitorsImpl implements Monitors {
       result = await this._listMonitoredResources(
         resourceGroupName,
         monitorName,
-        options,
+        options
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -455,7 +450,7 @@ export class MonitorsImpl implements Monitors {
         resourceGroupName,
         monitorName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -467,97 +462,12 @@ export class MonitorsImpl implements Monitors {
   private async *listMonitoredResourcesPagingAll(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsListMonitoredResourcesOptionalParams,
+    options?: MonitorsListMonitoredResourcesOptionalParams
   ): AsyncIterableIterator<MonitoredResource> {
     for await (const page of this.listMonitoredResourcesPagingPage(
       resourceGroupName,
       monitorName,
-      options,
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * List all Azure resources associated to the same NewRelic organization and account as the target
-   * resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Name of the Monitors resource
-   * @param options The options parameters.
-   */
-  public listLinkedResources(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: MonitorsListLinkedResourcesOptionalParams,
-  ): PagedAsyncIterableIterator<LinkedResource> {
-    const iter = this.listLinkedResourcesPagingAll(
-      resourceGroupName,
-      monitorName,
-      options,
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listLinkedResourcesPagingPage(
-          resourceGroupName,
-          monitorName,
-          options,
-          settings,
-        );
-      },
-    };
-  }
-
-  private async *listLinkedResourcesPagingPage(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: MonitorsListLinkedResourcesOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<LinkedResource[]> {
-    let result: MonitorsListLinkedResourcesResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listLinkedResources(
-        resourceGroupName,
-        monitorName,
-        options,
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listLinkedResourcesNext(
-        resourceGroupName,
-        monitorName,
-        continuationToken,
-        options,
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listLinkedResourcesPagingAll(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: MonitorsListLinkedResourcesOptionalParams,
-  ): AsyncIterableIterator<LinkedResource> {
-    for await (const page of this.listLinkedResourcesPagingPage(
-      resourceGroupName,
-      monitorName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -568,11 +478,11 @@ export class MonitorsImpl implements Monitors {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: MonitorsListBySubscriptionOptionalParams,
+    options?: MonitorsListBySubscriptionOptionalParams
   ): Promise<MonitorsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec,
+      listBySubscriptionOperationSpec
     );
   }
 
@@ -583,11 +493,11 @@ export class MonitorsImpl implements Monitors {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: MonitorsListByResourceGroupOptionalParams,
+    options?: MonitorsListByResourceGroupOptionalParams
   ): Promise<MonitorsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec,
+      listByResourceGroupOperationSpec
     );
   }
 
@@ -600,11 +510,11 @@ export class MonitorsImpl implements Monitors {
   get(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsGetOptionalParams,
+    options?: MonitorsGetOptionalParams
   ): Promise<MonitorsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -619,7 +529,7 @@ export class MonitorsImpl implements Monitors {
     resourceGroupName: string,
     monitorName: string,
     resource: NewRelicMonitorResource,
-    options?: MonitorsCreateOrUpdateOptionalParams,
+    options?: MonitorsCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<MonitorsCreateOrUpdateResponse>,
@@ -628,20 +538,21 @@ export class MonitorsImpl implements Monitors {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<MonitorsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -650,8 +561,8 @@ export class MonitorsImpl implements Monitors {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -659,15 +570,15 @@ export class MonitorsImpl implements Monitors {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, monitorName, resource, options },
-      spec: createOrUpdateOperationSpec,
+      spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
       MonitorsCreateOrUpdateResponse,
@@ -675,7 +586,7 @@ export class MonitorsImpl implements Monitors {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -692,13 +603,13 @@ export class MonitorsImpl implements Monitors {
     resourceGroupName: string,
     monitorName: string,
     resource: NewRelicMonitorResource,
-    options?: MonitorsCreateOrUpdateOptionalParams,
+    options?: MonitorsCreateOrUpdateOptionalParams
   ): Promise<MonitorsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       monitorName,
       resource,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -714,11 +625,11 @@ export class MonitorsImpl implements Monitors {
     resourceGroupName: string,
     monitorName: string,
     properties: NewRelicMonitorResourceUpdate,
-    options?: MonitorsUpdateOptionalParams,
+    options?: MonitorsUpdateOptionalParams
   ): Promise<MonitorsUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, properties, options },
-      updateOperationSpec,
+      updateOperationSpec
     );
   }
 
@@ -733,24 +644,25 @@ export class MonitorsImpl implements Monitors {
     resourceGroupName: string,
     userEmail: string,
     monitorName: string,
-    options?: MonitorsDeleteOptionalParams,
+    options?: MonitorsDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -759,8 +671,8 @@ export class MonitorsImpl implements Monitors {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -768,20 +680,20 @@ export class MonitorsImpl implements Monitors {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, userEmail, monitorName, options },
-      spec: deleteOperationSpec,
+      spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -798,13 +710,13 @@ export class MonitorsImpl implements Monitors {
     resourceGroupName: string,
     userEmail: string,
     monitorName: string,
-    options?: MonitorsDeleteOptionalParams,
+    options?: MonitorsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       userEmail,
       monitorName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -820,11 +732,11 @@ export class MonitorsImpl implements Monitors {
     resourceGroupName: string,
     monitorName: string,
     request: MetricsRequest,
-    options?: MonitorsGetMetricRulesOptionalParams,
+    options?: MonitorsGetMetricRulesOptionalParams
   ): Promise<MonitorsGetMetricRulesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, request, options },
-      getMetricRulesOperationSpec,
+      getMetricRulesOperationSpec
     );
   }
 
@@ -839,11 +751,11 @@ export class MonitorsImpl implements Monitors {
     resourceGroupName: string,
     monitorName: string,
     request: MetricsStatusRequest,
-    options?: MonitorsGetMetricStatusOptionalParams,
+    options?: MonitorsGetMetricStatusOptionalParams
   ): Promise<MonitorsGetMetricStatusResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, request, options },
-      getMetricStatusOperationSpec,
+      getMetricStatusOperationSpec
     );
   }
 
@@ -858,11 +770,11 @@ export class MonitorsImpl implements Monitors {
     resourceGroupName: string,
     monitorName: string,
     request: AppServicesGetRequest,
-    options?: MonitorsListAppServicesOptionalParams,
+    options?: MonitorsListAppServicesOptionalParams
   ): Promise<MonitorsListAppServicesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, request, options },
-      listAppServicesOperationSpec,
+      listAppServicesOperationSpec
     );
   }
 
@@ -877,11 +789,11 @@ export class MonitorsImpl implements Monitors {
     resourceGroupName: string,
     monitorName: string,
     request: SwitchBillingRequest,
-    options?: MonitorsSwitchBillingOptionalParams,
+    options?: MonitorsSwitchBillingOptionalParams
   ): Promise<MonitorsSwitchBillingResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, request, options },
-      switchBillingOperationSpec,
+      switchBillingOperationSpec
     );
   }
 
@@ -896,11 +808,11 @@ export class MonitorsImpl implements Monitors {
     resourceGroupName: string,
     monitorName: string,
     request: HostsGetRequest,
-    options?: MonitorsListHostsOptionalParams,
+    options?: MonitorsListHostsOptionalParams
   ): Promise<MonitorsListHostsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, request, options },
-      listHostsOperationSpec,
+      listHostsOperationSpec
     );
   }
 
@@ -913,29 +825,11 @@ export class MonitorsImpl implements Monitors {
   private _listMonitoredResources(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsListMonitoredResourcesOptionalParams,
+    options?: MonitorsListMonitoredResourcesOptionalParams
   ): Promise<MonitorsListMonitoredResourcesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
-      listMonitoredResourcesOperationSpec,
-    );
-  }
-
-  /**
-   * List all Azure resources associated to the same NewRelic organization and account as the target
-   * resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Name of the Monitors resource
-   * @param options The options parameters.
-   */
-  private _listLinkedResources(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: MonitorsListLinkedResourcesOptionalParams,
-  ): Promise<MonitorsListLinkedResourcesResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, monitorName, options },
-      listLinkedResourcesOperationSpec,
+      listMonitoredResourcesOperationSpec
     );
   }
 
@@ -949,11 +843,11 @@ export class MonitorsImpl implements Monitors {
   vmHostPayload(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsVmHostPayloadOptionalParams,
+    options?: MonitorsVmHostPayloadOptionalParams
   ): Promise<MonitorsVmHostPayloadResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
-      vmHostPayloadOperationSpec,
+      vmHostPayloadOperationSpec
     );
   }
 
@@ -964,11 +858,11 @@ export class MonitorsImpl implements Monitors {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: MonitorsListBySubscriptionNextOptionalParams,
+    options?: MonitorsListBySubscriptionNextOptionalParams
   ): Promise<MonitorsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec,
+      listBySubscriptionNextOperationSpec
     );
   }
 
@@ -981,11 +875,11 @@ export class MonitorsImpl implements Monitors {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: MonitorsListByResourceGroupNextOptionalParams,
+    options?: MonitorsListByResourceGroupNextOptionalParams
   ): Promise<MonitorsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec,
+      listByResourceGroupNextOperationSpec
     );
   }
 
@@ -1002,11 +896,11 @@ export class MonitorsImpl implements Monitors {
     monitorName: string,
     request: AppServicesGetRequest,
     nextLink: string,
-    options?: MonitorsListAppServicesNextOptionalParams,
+    options?: MonitorsListAppServicesNextOptionalParams
   ): Promise<MonitorsListAppServicesNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, request, nextLink, options },
-      listAppServicesNextOperationSpec,
+      listAppServicesNextOperationSpec
     );
   }
 
@@ -1023,11 +917,11 @@ export class MonitorsImpl implements Monitors {
     monitorName: string,
     request: HostsGetRequest,
     nextLink: string,
-    options?: MonitorsListHostsNextOptionalParams,
+    options?: MonitorsListHostsNextOptionalParams
   ): Promise<MonitorsListHostsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, request, nextLink, options },
-      listHostsNextOperationSpec,
+      listHostsNextOperationSpec
     );
   }
 
@@ -1042,30 +936,11 @@ export class MonitorsImpl implements Monitors {
     resourceGroupName: string,
     monitorName: string,
     nextLink: string,
-    options?: MonitorsListMonitoredResourcesNextOptionalParams,
+    options?: MonitorsListMonitoredResourcesNextOptionalParams
   ): Promise<MonitorsListMonitoredResourcesNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, nextLink, options },
-      listMonitoredResourcesNextOperationSpec,
-    );
-  }
-
-  /**
-   * ListLinkedResourcesNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Name of the Monitors resource
-   * @param nextLink The nextLink from the previous successful call to the ListLinkedResources method.
-   * @param options The options parameters.
-   */
-  private _listLinkedResourcesNext(
-    resourceGroupName: string,
-    monitorName: string,
-    nextLink: string,
-    options?: MonitorsListLinkedResourcesNextOptionalParams,
-  ): Promise<MonitorsListLinkedResourcesNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, monitorName, nextLink, options },
-      listLinkedResourcesNextOperationSpec,
+      listMonitoredResourcesNextOperationSpec
     );
   }
 }
@@ -1073,81 +948,85 @@ export class MonitorsImpl implements Monitors {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/NewRelic.Observability/monitors",
+  path:
+    "/subscriptions/{subscriptionId}/providers/NewRelic.Observability/monitors",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NewRelicMonitorResourceListResult,
+      bodyMapper: Mappers.NewRelicMonitorResourceListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NewRelicMonitorResourceListResult,
+      bodyMapper: Mappers.NewRelicMonitorResourceListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NewRelicMonitorResource,
+      bodyMapper: Mappers.NewRelicMonitorResource
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName,
+    Parameters.monitorName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.NewRelicMonitorResource,
+      bodyMapper: Mappers.NewRelicMonitorResource
     },
     201: {
-      bodyMapper: Mappers.NewRelicMonitorResource,
+      bodyMapper: Mappers.NewRelicMonitorResource
     },
     202: {
-      bodyMapper: Mappers.NewRelicMonitorResource,
+      bodyMapper: Mappers.NewRelicMonitorResource
     },
     204: {
-      bodyMapper: Mappers.NewRelicMonitorResource,
+      bodyMapper: Mappers.NewRelicMonitorResource
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: Parameters.resource,
   queryParameters: [Parameters.apiVersion],
@@ -1155,22 +1034,23 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName,
+    Parameters.monitorName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.NewRelicMonitorResource,
+      bodyMapper: Mappers.NewRelicMonitorResource
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: Parameters.properties,
   queryParameters: [Parameters.apiVersion],
@@ -1178,14 +1058,15 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName,
+    Parameters.monitorName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -1193,29 +1074,30 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion, Parameters.userEmail],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName,
+    Parameters.monitorName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getMetricRulesOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/getMetricRules",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/getMetricRules",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.MetricRules,
+      bodyMapper: Mappers.MetricRules
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: Parameters.request,
   queryParameters: [Parameters.apiVersion],
@@ -1223,22 +1105,23 @@ const getMetricRulesOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName,
+    Parameters.monitorName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const getMetricStatusOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/getMetricStatus",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/getMetricStatus",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.MetricsStatusResponse,
+      bodyMapper: Mappers.MetricsStatusResponse
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: Parameters.request1,
   queryParameters: [Parameters.apiVersion],
@@ -1246,22 +1129,23 @@ const getMetricStatusOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName,
+    Parameters.monitorName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const listAppServicesOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/listAppServices",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/listAppServices",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AppServicesListResponse,
+      bodyMapper: Mappers.AppServicesListResponse
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: Parameters.request2,
   queryParameters: [Parameters.apiVersion],
@@ -1269,26 +1153,27 @@ const listAppServicesOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName,
+    Parameters.monitorName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const switchBillingOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/switchBilling",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/switchBilling",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.NewRelicMonitorResource,
+      bodyMapper: Mappers.NewRelicMonitorResource
     },
     202: {
-      headersMapper: Mappers.MonitorsSwitchBillingHeaders,
+      headersMapper: Mappers.MonitorsSwitchBillingHeaders
     },
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: Parameters.request3,
   queryParameters: [Parameters.apiVersion],
@@ -1296,22 +1181,23 @@ const switchBillingOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName,
+    Parameters.monitorName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const listHostsOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/listHosts",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/listHosts",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.VMHostsListResponse,
+      bodyMapper: Mappers.VMHostsListResponse
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: Parameters.request4,
   queryParameters: [Parameters.apiVersion],
@@ -1319,197 +1205,157 @@ const listHostsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName,
+    Parameters.monitorName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const listMonitoredResourcesOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/monitoredResources",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/monitoredResources",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.MonitoredResourceListResponse,
+      bodyMapper: Mappers.MonitoredResourceListResponse
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName,
+    Parameters.monitorName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
-};
-const listLinkedResourcesOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/listLinkedResources",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.LinkedResourceListResponse,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.monitorName1,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const vmHostPayloadOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/vmHostPayloads",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/vmHostPayloads",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.VMExtensionPayload,
+      bodyMapper: Mappers.VMExtensionPayload
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName,
+    Parameters.monitorName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NewRelicMonitorResourceListResult,
+      bodyMapper: Mappers.NewRelicMonitorResourceListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NewRelicMonitorResourceListResult,
+      bodyMapper: Mappers.NewRelicMonitorResourceListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listAppServicesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AppServicesListResponse,
+      bodyMapper: Mappers.AppServicesListResponse
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName,
+    Parameters.monitorName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const listHostsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VMHostsListResponse,
+      bodyMapper: Mappers.VMHostsListResponse
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName,
+    Parameters.monitorName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const listMonitoredResourcesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MonitoredResourceListResponse,
+      bodyMapper: Mappers.MonitoredResourceListResponse
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName,
+    Parameters.monitorName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
-};
-const listLinkedResourcesNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.LinkedResourceListResponse,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.monitorName1,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

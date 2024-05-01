@@ -330,7 +330,6 @@ begin {
         "blazor-webassembly",
         "common-data-service",
         "customer-voice",
-        "dotnet-api",
         "dotnet-core",
         "dotnet-standard",
         "document-intelligence",

@@ -7,7 +7,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * @summary How to get the map tile and render on the **browser**.
+ * @summary How to get the map tile and render on the browser.
  */
 async function main() {
   /**
@@ -48,8 +48,6 @@ async function main() {
 
   /**
    * Create a blob to host the response stream, so we can feed the blob to an image object.
-   * This is an browser API, please make sure you're running this sample on the browser.
-   * If you're using Node.js, please refer to the `getMapTileInNode` sample.
    * Reference: https://developer.mozilla.org/en-US/docs/Web/API/Streams_API/Using_readable_streams#reading_the_stream
    */
   const reader = response.body.getReader();

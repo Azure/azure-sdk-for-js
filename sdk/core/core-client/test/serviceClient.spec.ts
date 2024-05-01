@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert } from "vitest";
 import {
   CompositeMapper,
   DictionaryMapper,
@@ -17,7 +16,7 @@ import {
   ServiceClient,
   createSerializer,
   serializationPolicy,
-} from "../src/index.js";
+} from "../src";
 import {
   HttpClient,
   PipelinePolicy,
@@ -31,11 +30,12 @@ import {
 import {
   getOperationArgumentValueFromParameter,
   getOperationRequestInfo,
-} from "../src/operationHelpers.js";
+} from "../src/operationHelpers";
 import { TokenCredential } from "@azure/core-auth";
-import { assertServiceClientResponse } from "./utils/serviceClient.js";
-import { deserializationPolicy } from "../src/deserializationPolicy.js";
-import { getCachedDefaultHttpClient } from "../src/httpClientCache.js";
+import { assert } from "chai";
+import { assertServiceClientResponse } from "./utils/serviceClient";
+import { deserializationPolicy } from "../src/deserializationPolicy";
+import { getCachedDefaultHttpClient } from "../src/httpClientCache";
 
 describe("ServiceClient", function () {
   describe("Auth scopes", () => {

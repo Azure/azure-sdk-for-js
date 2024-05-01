@@ -16,11 +16,10 @@ require("dotenv").config();
  * This sample demonstrates how to Get metric rules
  *
  * @summary Get metric rules
- * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/Monitors_GetMetricRules_MaximumSet_Gen.json
+ * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2022-07-01/examples/Monitors_GetMetricRules_MaximumSet_Gen.json
  */
 async function monitorsGetMetricRulesMaximumSetGen() {
-  const subscriptionId =
-    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const subscriptionId = process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "nqmcgifgaqlf";
   const resourceGroupName = process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgNewRelic";
   const monitorName = "fhcjxnxumkdlgpwanewtkdnyuz";
   const request = { userEmail: "ruxvg@xqkmdhrnoo.hlmbpm" };
@@ -34,11 +33,10 @@ async function monitorsGetMetricRulesMaximumSetGen() {
  * This sample demonstrates how to Get metric rules
  *
  * @summary Get metric rules
- * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/Monitors_GetMetricRules_MinimumSet_Gen.json
+ * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2022-07-01/examples/Monitors_GetMetricRules_MinimumSet_Gen.json
  */
 async function monitorsGetMetricRulesMinimumSetGen() {
-  const subscriptionId =
-    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const subscriptionId = process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "nqmcgifgaqlf";
   const resourceGroupName = process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgNewRelic";
   const monitorName = "fhcjxnxumkdlgpwanewtkdnyuz";
   const request = { userEmail: "ruxvg@xqkmdhrnoo.hlmbpm" };

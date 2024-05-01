@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 /**
  * This sample demonstrates how to clean up a Notification Hub by removing all registrations.
@@ -26,12 +26,12 @@ dotenv.config();
 const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<connection string>";
 const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 
-async function main(): Promise<void> {
+async function main() {
   const context = createClientContext(connectionString, hubName);
 
   // Unlimited
-  const allRegistrations = listRegistrations(context);
-  const page = 0;
+  let allRegistrations = listRegistrations(context);
+  let page = 0;
   for await (const pages of allRegistrations.byPage()) {
     console.log(`Page number ${page}`);
     for (const item of pages) {

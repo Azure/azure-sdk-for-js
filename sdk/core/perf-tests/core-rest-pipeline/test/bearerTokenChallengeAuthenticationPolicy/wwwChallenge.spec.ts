@@ -1,8 +1,5 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { PerfTest } from "@azure-tools/test-perf";
-import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { PerfTest } from "@azure/test-utils-perf";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
   AuthorizeRequestOnChallengeOptions,
   bearerTokenAuthenticationPolicy,
@@ -14,7 +11,7 @@ import {
   PipelineRequest,
   PipelineResponse,
 } from "@azure/core-rest-pipeline";
-import { TextDecoder } from "node:util";
+import { TextDecoder } from "util";
 
 export interface TestChallenge {
   scope: string;
@@ -53,7 +50,6 @@ export function decodeString(value: string): Uint8Array {
 //     [ { a: 'b', c: 'd' }, { d: 'e', f: 'g"' } ]
 // Important:
 //     Do not use this in production, as values might contain the strings we use to split things up.
-/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 function parseCAEChallenge(challenges: string): any[] {
   return challenges
     .split("Bearer ")
@@ -104,7 +100,7 @@ class MockRefreshAzureCredential implements TokenCredential {
   public authCount = 0;
   public scopesAndClaims: { scope: string | string[]; challengeClaims: string | undefined }[] = [];
 
-  constructor(public getTokenResponse: AccessToken) { }
+  constructor(public getTokenResponse: AccessToken) {}
 
   public getToken(
     scope: string | string[],
@@ -199,9 +195,6 @@ export class BearerTokenAuthenticationPolicyChallengeTest extends PerfTest {
 
   async run(): Promise<void> {
     const { pipeline, testHttpsClient, request } = BearerTokenAuthenticationPolicyChallengeTest;
-    if (!pipeline || !testHttpsClient || !request) {
-      throw new Error("Bad initialization for tests");
-    }
-    await pipeline.sendRequest(testHttpsClient, request);
+    await pipeline!.sendRequest(testHttpsClient!, request!);
   }
 }

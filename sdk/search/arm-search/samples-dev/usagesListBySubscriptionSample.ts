@@ -15,10 +15,10 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Get a list of all Azure AI Search quota usages across the subscription.
+ * This sample demonstrates how to Gets a list of all Search quota usages in the given subscription.
  *
- * @summary Get a list of all Azure AI Search quota usages across the subscription.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-03-01-preview/examples/GetQuotaUsagesList.json
+ * @summary Gets a list of all Search quota usages in the given subscription.
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/GetQuotaUsagesList.json
  */
 async function getQuotaUsagesList() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";

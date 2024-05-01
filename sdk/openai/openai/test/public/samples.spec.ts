@@ -7,7 +7,7 @@ import { Context } from "mocha";
 import {
   ChatCompletionsFunctionToolCall,
   ChatRequestAssistantMessage,
-  ChatRequestMessageUnion,
+  ChatRequestMessage,
   ChatRequestToolMessage,
   OpenAIClient,
 } from "../../src/index.js";
@@ -31,7 +31,7 @@ describe("README samples", () => {
     it("Generate Chatbot Response", async function () {
       const deploymentId = "gpt-35-turbo";
 
-      const messages: ChatRequestMessageUnion[] = [
+      const messages: ChatRequestMessage[] = [
         { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
         { role: "user", content: "Can you help me?" },
         { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" },
@@ -146,7 +146,7 @@ describe("README samples", () => {
       const choice = result.choices[0];
       const responseMessage = choice.message;
       if (responseMessage?.role === "assistant") {
-        const requestedToolCalls = responseMessage?.toolCalls as ChatCompletionsFunctionToolCall[];
+        const requestedToolCalls = responseMessage?.toolCalls;
         if (requestedToolCalls?.length) {
           const toolCallResolutionMessages = [
             ...messages,
@@ -188,7 +188,7 @@ describe("README samples", () => {
       const url =
         "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg";
       const deploymentName = "gpt-4-1106-preview";
-      const messages: ChatRequestMessageUnion[] = [
+      const messages: ChatRequestMessage[] = [
         {
           role: "user",
           content: [

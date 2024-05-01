@@ -7,7 +7,7 @@ import {
   RequestPolicyFactory,
   RequestPolicyOptionsLike,
   WebResourceLike,
-} from "../src/index.js";
+} from "../src/index";
 
 export interface MutateOptions {
   headersToSet?: { [name: string]: string };

@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 
 import fs from "fs-extra";
-import path from "node:path";
+import path from "path";
+
 import { resolveProject } from "../../util/resolveProject";
 import { createPrinter } from "../../util/printer";
 import { leafCommand, makeCommandInfo } from "../../framework/command";

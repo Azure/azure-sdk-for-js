@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { LongRunningOperation, LroResponse } from "../../src/index.js";
+import { LongRunningOperation, LroResponse } from "../../src";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PipelineRequest } from "@azure/core-rest-pipeline";
 

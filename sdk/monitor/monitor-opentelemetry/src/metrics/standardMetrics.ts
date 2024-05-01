@@ -18,10 +18,8 @@ import {
   getRequestDimensions,
   getTraceDimensions,
   isExceptionTelemetry,
-  isSyntheticLoad,
   isTraceTelemetry,
 } from "./utils";
-import { StandardMetricIds } from "./types";
 
 /**
  * Azure Monitor Standard Metrics
@@ -46,35 +44,35 @@ export class StandardMetrics {
    */
   constructor(config: InternalConfig, options?: { collectionInterval: number }) {
     this._config = config;
+    const meterProviderConfig: MeterProviderOptions = {
+      resource: this._config.resource,
+    };
+    this._meterProvider = new MeterProvider(meterProviderConfig);
     this._azureExporter = new AzureMonitorMetricExporter(this._config.azureMonitorExporterOptions);
     const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this._azureExporter as any,
       exportIntervalMillis: options?.collectionInterval || this._collectionInterval,
     };
     this._metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
-    const meterProviderConfig: MeterProviderOptions = {
-      resource: this._config.resource,
-      readers: [this._metricReader],
-    };
-    this._meterProvider = new MeterProvider(meterProviderConfig);
+    this._meterProvider.addMetricReader(this._metricReader);
     this._meter = this._meterProvider.getMeter("AzureMonitorStandardMetricsMeter");
     this._incomingRequestDurationHistogram = this._meter.createHistogram(
-      StandardMetricIds.REQUEST_DURATION,
+      "azureMonitor.http.requestDuration",
       {
         valueType: ValueType.DOUBLE,
       },
     );
     this._outgoingRequestDurationHistogram = this._meter.createHistogram(
-      StandardMetricIds.DEPENDENCIES_DURATION,
+      "azureMonitor.http.dependencyDuration",
       {
         valueType: ValueType.DOUBLE,
       },
     );
 
-    this._exceptionsCounter = this._meter.createCounter(StandardMetricIds.EXCEPTIONS_COUNT, {
+    this._exceptionsCounter = this._meter.createCounter("azureMonitor.exceptionCount", {
       valueType: ValueType.INT,
     });
-    this._tracesCounter = this._meter.createCounter(StandardMetricIds.TRACES_COUNT, {
+    this._tracesCounter = this._meter.createCounter("azureMonitor.traceCount", {
       valueType: ValueType.INT,
     });
   }
@@ -146,9 +144,6 @@ export class StandardMetrics {
    * @internal
    */
   public recordLog(logRecord: LogRecord): void {
-    if (isSyntheticLoad(logRecord)) {
-      logRecord.setAttribute("operation/synthetic", "True");
-    }
     if (isExceptionTelemetry(logRecord)) {
       logRecord.setAttribute("_MS.ProcessedByMetricExtractors", "(Name:'Exceptions', Ver:'1.1')");
       this._exceptionsCounter.add(1, getExceptionDimensions(logRecord.resource));

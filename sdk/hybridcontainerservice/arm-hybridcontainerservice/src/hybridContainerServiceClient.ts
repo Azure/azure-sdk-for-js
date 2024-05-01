@@ -106,7 +106,7 @@ export class HybridContainerServiceClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-hybridcontainerservice/1.0.1`;
+    const packageDetails = `azsdk-js-arm-hybridcontainerservice/1.0.0-beta.4`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -159,7 +159,7 @@ export class HybridContainerServiceClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-01-01";
+    this.apiVersion = options.apiVersion || "2023-11-15-preview";
     this.provisionedClusterInstances = new ProvisionedClusterInstancesImpl(
       this
     );
@@ -203,8 +203,8 @@ export class HybridContainerServiceClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Lists the supported kubernetes versions for the specified custom location
-   * @param customLocationResourceUri The fully qualified Azure Resource Manager identifier of the custom
+   * Gets the supported kubernetes versions from the underlying custom location
+   * @param customLocationResourceUri The fully qualified Azure Resource manager identifier of the custom
    *                                  location resource.
    * @param options The options parameters.
    */
@@ -219,9 +219,8 @@ export class HybridContainerServiceClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Puts the default kubernetes version resource type (one time operation, before listing the kubernetes
-   * versions)
-   * @param customLocationResourceUri The fully qualified Azure Resource Manager identifier of the custom
+   * Puts the kubernetes version resource type
+   * @param customLocationResourceUri The fully qualified Azure Resource manager identifier of the custom
    *                                  location resource.
    * @param kubernetesVersions Kubernetes Versions resource definition
    * @param options The options parameters.
@@ -293,9 +292,8 @@ export class HybridContainerServiceClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Puts the default kubernetes version resource type (one time operation, before listing the kubernetes
-   * versions)
-   * @param customLocationResourceUri The fully qualified Azure Resource Manager identifier of the custom
+   * Puts the kubernetes version resource type
+   * @param customLocationResourceUri The fully qualified Azure Resource manager identifier of the custom
    *                                  location resource.
    * @param kubernetesVersions Kubernetes Versions resource definition
    * @param options The options parameters.
@@ -314,8 +312,8 @@ export class HybridContainerServiceClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Delete the default kubernetes versions resource type
-   * @param customLocationResourceUri The fully qualified Azure Resource Manager identifier of the custom
+   * Delete the kubernetes versions resource type
+   * @param customLocationResourceUri The fully qualified Azure Resource manager identifier of the custom
    *                                  location resource.
    * @param options The options parameters.
    */
@@ -385,8 +383,8 @@ export class HybridContainerServiceClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Delete the default kubernetes versions resource type
-   * @param customLocationResourceUri The fully qualified Azure Resource Manager identifier of the custom
+   * Delete the kubernetes versions resource type
+   * @param customLocationResourceUri The fully qualified Azure Resource manager identifier of the custom
    *                                  location resource.
    * @param options The options parameters.
    */
@@ -402,8 +400,8 @@ export class HybridContainerServiceClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Lists the supported VM skus for the specified custom location
-   * @param customLocationResourceUri The fully qualified Azure Resource Manager identifier of the custom
+   * Gets the supported VM skus from the underlying custom location
+   * @param customLocationResourceUri The fully qualified Azure Resource manager identifier of the custom
    *                                  location resource.
    * @param options The options parameters.
    */
@@ -418,8 +416,8 @@ export class HybridContainerServiceClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Puts the default VM skus resource type (one time operation, before listing the VM skus)
-   * @param customLocationResourceUri The fully qualified Azure Resource Manager identifier of the custom
+   * Puts the VM SKUs resource type
+   * @param customLocationResourceUri The fully qualified Azure Resource manager identifier of the custom
    *                                  location resource.
    * @param skus VM SKUs resource definition
    * @param options The options parameters.
@@ -488,8 +486,8 @@ export class HybridContainerServiceClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Puts the default VM skus resource type (one time operation, before listing the VM skus)
-   * @param customLocationResourceUri The fully qualified Azure Resource Manager identifier of the custom
+   * Puts the VM SKUs resource type
+   * @param customLocationResourceUri The fully qualified Azure Resource manager identifier of the custom
    *                                  location resource.
    * @param skus VM SKUs resource definition
    * @param options The options parameters.
@@ -508,8 +506,8 @@ export class HybridContainerServiceClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Deletes the default VM skus resource type
-   * @param customLocationResourceUri The fully qualified Azure Resource Manager identifier of the custom
+   * Deletes the Vm Sku resource type
+   * @param customLocationResourceUri The fully qualified Azure Resource manager identifier of the custom
    *                                  location resource.
    * @param options The options parameters.
    */
@@ -576,8 +574,8 @@ export class HybridContainerServiceClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Deletes the default VM skus resource type
-   * @param customLocationResourceUri The fully qualified Azure Resource Manager identifier of the custom
+   * Deletes the Vm Sku resource type
+   * @param customLocationResourceUri The fully qualified Azure Resource manager identifier of the custom
    *                                  location resource.
    * @param options The options parameters.
    */

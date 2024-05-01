@@ -2370,12 +2370,6 @@ export enum KnownProfileResourceState {
 }
 
 // @public
-export enum KnownProfileScrubbingState {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
-}
-
-// @public
 export enum KnownProtocolType {
     IPBased = "IPBased",
     ServerNameIndication = "ServerNameIndication"
@@ -2519,24 +2513,6 @@ export enum KnownRuleQueryStringCachingBehavior {
     IgnoreSpecifiedQueryStrings = "IgnoreSpecifiedQueryStrings",
     IncludeSpecifiedQueryStrings = "IncludeSpecifiedQueryStrings",
     UseQueryString = "UseQueryString"
-}
-
-// @public
-export enum KnownScrubbingRuleEntryMatchOperator {
-    EqualsAny = "EqualsAny"
-}
-
-// @public
-export enum KnownScrubbingRuleEntryMatchVariable {
-    QueryStringArgNames = "QueryStringArgNames",
-    RequestIPAddress = "RequestIPAddress",
-    RequestUri = "RequestUri"
-}
-
-// @public
-export enum KnownScrubbingRuleEntryState {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
 }
 
 // @public
@@ -3506,7 +3482,6 @@ export interface Profile extends TrackedResource {
     readonly frontDoorId?: string;
     identity?: ManagedServiceIdentity;
     readonly kind?: string;
-    logScrubbing?: ProfileLogScrubbing;
     originResponseTimeoutSeconds?: number;
     readonly provisioningState?: ProfileProvisioningState;
     readonly resourceState?: ProfileResourceState;
@@ -3523,12 +3498,6 @@ export interface ProfileChangeSkuWafMapping {
 export interface ProfileListResult {
     nextLink?: string;
     readonly value?: Profile[];
-}
-
-// @public
-export interface ProfileLogScrubbing {
-    scrubbingRules?: ProfileScrubbingRules[];
-    state?: ProfileScrubbingState;
 }
 
 // @public
@@ -3588,17 +3557,6 @@ export interface ProfilesCreateOptionalParams extends coreClient.OperationOption
 
 // @public
 export type ProfilesCreateResponse = Profile;
-
-// @public
-export interface ProfileScrubbingRules {
-    matchVariable: ScrubbingRuleEntryMatchVariable;
-    selector?: string;
-    selectorMatchOperator: ScrubbingRuleEntryMatchOperator;
-    state?: ScrubbingRuleEntryState;
-}
-
-// @public
-export type ProfileScrubbingState = string;
 
 // @public
 export interface ProfilesDeleteHeaders {
@@ -3720,7 +3678,6 @@ export type ProfilesUpdateResponse = Profile;
 // @public
 export interface ProfileUpdateParameters {
     identity?: ManagedServiceIdentity;
-    logScrubbing?: ProfileLogScrubbing;
     originResponseTimeoutSeconds?: number;
     tags?: {
         [propertyName: string]: string;
@@ -4351,15 +4308,6 @@ export interface RuleUpdatePropertiesParameters {
     order?: number;
     readonly ruleSetName?: string;
 }
-
-// @public
-export type ScrubbingRuleEntryMatchOperator = string;
-
-// @public
-export type ScrubbingRuleEntryMatchVariable = string;
-
-// @public
-export type ScrubbingRuleEntryState = string;
 
 // @public
 export interface Secret extends ProxyResource {

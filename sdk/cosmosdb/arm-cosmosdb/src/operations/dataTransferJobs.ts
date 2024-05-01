@@ -29,9 +29,7 @@ import {
   DataTransferJobsResumeResponse,
   DataTransferJobsCancelOptionalParams,
   DataTransferJobsCancelResponse,
-  DataTransferJobsCompleteOptionalParams,
-  DataTransferJobsCompleteResponse,
-  DataTransferJobsListByDatabaseAccountNextResponse,
+  DataTransferJobsListByDatabaseAccountNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,12 +54,12 @@ export class DataTransferJobsImpl implements DataTransferJobs {
   public listByDatabaseAccount(
     resourceGroupName: string,
     accountName: string,
-    options?: DataTransferJobsListByDatabaseAccountOptionalParams,
+    options?: DataTransferJobsListByDatabaseAccountOptionalParams
   ): PagedAsyncIterableIterator<DataTransferJobGetResults> {
     const iter = this.listByDatabaseAccountPagingAll(
       resourceGroupName,
       accountName,
-      options,
+      options
     );
     return {
       next() {
@@ -78,9 +76,9 @@ export class DataTransferJobsImpl implements DataTransferJobs {
           resourceGroupName,
           accountName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -88,7 +86,7 @@ export class DataTransferJobsImpl implements DataTransferJobs {
     resourceGroupName: string,
     accountName: string,
     options?: DataTransferJobsListByDatabaseAccountOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<DataTransferJobGetResults[]> {
     let result: DataTransferJobsListByDatabaseAccountResponse;
     let continuationToken = settings?.continuationToken;
@@ -96,7 +94,7 @@ export class DataTransferJobsImpl implements DataTransferJobs {
       result = await this._listByDatabaseAccount(
         resourceGroupName,
         accountName,
-        options,
+        options
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -108,7 +106,7 @@ export class DataTransferJobsImpl implements DataTransferJobs {
         resourceGroupName,
         accountName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -120,12 +118,12 @@ export class DataTransferJobsImpl implements DataTransferJobs {
   private async *listByDatabaseAccountPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: DataTransferJobsListByDatabaseAccountOptionalParams,
+    options?: DataTransferJobsListByDatabaseAccountOptionalParams
   ): AsyncIterableIterator<DataTransferJobGetResults> {
     for await (const page of this.listByDatabaseAccountPagingPage(
       resourceGroupName,
       accountName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -144,11 +142,11 @@ export class DataTransferJobsImpl implements DataTransferJobs {
     accountName: string,
     jobName: string,
     jobCreateParameters: CreateJobRequest,
-    options?: DataTransferJobsCreateOptionalParams,
+    options?: DataTransferJobsCreateOptionalParams
   ): Promise<DataTransferJobsCreateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, jobName, jobCreateParameters, options },
-      createOperationSpec,
+      createOperationSpec
     );
   }
 
@@ -163,11 +161,11 @@ export class DataTransferJobsImpl implements DataTransferJobs {
     resourceGroupName: string,
     accountName: string,
     jobName: string,
-    options?: DataTransferJobsGetOptionalParams,
+    options?: DataTransferJobsGetOptionalParams
   ): Promise<DataTransferJobsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, jobName, options },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -182,11 +180,11 @@ export class DataTransferJobsImpl implements DataTransferJobs {
     resourceGroupName: string,
     accountName: string,
     jobName: string,
-    options?: DataTransferJobsPauseOptionalParams,
+    options?: DataTransferJobsPauseOptionalParams
   ): Promise<DataTransferJobsPauseResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, jobName, options },
-      pauseOperationSpec,
+      pauseOperationSpec
     );
   }
 
@@ -201,11 +199,11 @@ export class DataTransferJobsImpl implements DataTransferJobs {
     resourceGroupName: string,
     accountName: string,
     jobName: string,
-    options?: DataTransferJobsResumeOptionalParams,
+    options?: DataTransferJobsResumeOptionalParams
   ): Promise<DataTransferJobsResumeResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, jobName, options },
-      resumeOperationSpec,
+      resumeOperationSpec
     );
   }
 
@@ -220,30 +218,11 @@ export class DataTransferJobsImpl implements DataTransferJobs {
     resourceGroupName: string,
     accountName: string,
     jobName: string,
-    options?: DataTransferJobsCancelOptionalParams,
+    options?: DataTransferJobsCancelOptionalParams
   ): Promise<DataTransferJobsCancelResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, jobName, options },
-      cancelOperationSpec,
-    );
-  }
-
-  /**
-   * Completes a Data Transfer Online Job.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param jobName Name of the Data Transfer Job
-   * @param options The options parameters.
-   */
-  complete(
-    resourceGroupName: string,
-    accountName: string,
-    jobName: string,
-    options?: DataTransferJobsCompleteOptionalParams,
-  ): Promise<DataTransferJobsCompleteResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, jobName, options },
-      completeOperationSpec,
+      cancelOperationSpec
     );
   }
 
@@ -256,11 +235,11 @@ export class DataTransferJobsImpl implements DataTransferJobs {
   private _listByDatabaseAccount(
     resourceGroupName: string,
     accountName: string,
-    options?: DataTransferJobsListByDatabaseAccountOptionalParams,
+    options?: DataTransferJobsListByDatabaseAccountOptionalParams
   ): Promise<DataTransferJobsListByDatabaseAccountResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listByDatabaseAccountOperationSpec,
+      listByDatabaseAccountOperationSpec
     );
   }
 
@@ -275,11 +254,11 @@ export class DataTransferJobsImpl implements DataTransferJobs {
     resourceGroupName: string,
     accountName: string,
     nextLink: string,
-    options?: DataTransferJobsListByDatabaseAccountNextOptionalParams,
+    options?: DataTransferJobsListByDatabaseAccountNextOptionalParams
   ): Promise<DataTransferJobsListByDatabaseAccountNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, nextLink, options },
-      listByDatabaseAccountNextOperationSpec,
+      listByDatabaseAccountNextOperationSpec
     );
   }
 }
@@ -287,15 +266,16 @@ export class DataTransferJobsImpl implements DataTransferJobs {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/dataTransferJobs/{jobName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/dataTransferJobs/{jobName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DataTransferJobGetResults,
+      bodyMapper: Mappers.DataTransferJobGetResults
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   requestBody: Parameters.jobCreateParameters,
   queryParameters: [Parameters.apiVersion],
@@ -304,22 +284,23 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.jobName,
+    Parameters.jobName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/dataTransferJobs/{jobName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/dataTransferJobs/{jobName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataTransferJobGetResults,
+      bodyMapper: Mappers.DataTransferJobGetResults
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -327,21 +308,22 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.jobName,
+    Parameters.jobName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const pauseOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/dataTransferJobs/{jobName}/pause",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/dataTransferJobs/{jobName}/pause",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DataTransferJobGetResults,
+      bodyMapper: Mappers.DataTransferJobGetResults
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -349,21 +331,22 @@ const pauseOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.jobName,
+    Parameters.jobName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const resumeOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/dataTransferJobs/{jobName}/resume",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/dataTransferJobs/{jobName}/resume",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DataTransferJobGetResults,
+      bodyMapper: Mappers.DataTransferJobGetResults
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -371,21 +354,22 @@ const resumeOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.jobName,
+    Parameters.jobName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const cancelOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/dataTransferJobs/{jobName}/cancel",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/dataTransferJobs/{jobName}/cancel",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DataTransferJobGetResults,
+      bodyMapper: Mappers.DataTransferJobGetResults
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -393,72 +377,51 @@ const cancelOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.jobName,
+    Parameters.jobName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
-};
-const completeOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/dataTransferJobs/{jobName}/complete",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DataTransferJobGetResults,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.jobName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listByDatabaseAccountOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/dataTransferJobs",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/dataTransferJobs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataTransferJobFeedResults,
+      bodyMapper: Mappers.DataTransferJobFeedResults
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName,
+    Parameters.accountName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listByDatabaseAccountNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataTransferJobFeedResults,
+      bodyMapper: Mappers.DataTransferJobFeedResults
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.nextLink,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

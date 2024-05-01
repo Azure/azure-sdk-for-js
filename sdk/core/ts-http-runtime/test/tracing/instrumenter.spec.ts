@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Instrumenter, TracingSpan } from "../../src/tracing/interfaces.js";
+import { Instrumenter, TracingSpan } from "../../src/tracing/interfaces";
 import {
   createDefaultInstrumenter,
   createDefaultTracingSpan,
   getInstrumenter,
   useInstrumenter,
-} from "../../src/tracing/instrumenter.js";
-import { createTracingContext, knownContextKeys } from "../../src/tracing/tracingContext.js";
-import { describe, it, assert, beforeEach } from "vitest";
+} from "../../src/tracing/instrumenter";
+import { createTracingContext, knownContextKeys } from "../../src/tracing/tracingContext";
+import { assert } from "chai";
 
 describe("Instrumenter", () => {
   describe("NoOpInstrumenter", () => {

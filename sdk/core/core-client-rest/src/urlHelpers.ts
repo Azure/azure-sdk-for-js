@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RequestParameters } from "./common.js";
+import { RequestParameters } from "./common";
 
 /**
  * Builds the request url, filling in query and path parameters
- * @param endpoint - base url which can be a template url
- * @param routePath - path to append to the endpoint
+ * @param baseUrl - base url which can be a template url
+ * @param routePath - path to append to the baseUrl
  * @param pathParameters - values of the path parameters
  * @param options - request parameters including query parameters
  * @returns a full url with path and query parameters
  */
 export function buildRequestUrl(
-  endpoint: string,
+  baseUrl: string,
   routePath: string,
   pathParameters: string[],
   options: RequestParameters = {},
@@ -20,9 +20,9 @@ export function buildRequestUrl(
   if (routePath.startsWith("https://") || routePath.startsWith("http://")) {
     return routePath;
   }
-  endpoint = buildBaseUrl(endpoint, options);
+  baseUrl = buildBaseUrl(baseUrl, options);
   routePath = buildRoutePath(routePath, pathParameters, options);
-  const requestUrl = appendQueryParams(`${endpoint}/${routePath}`, options);
+  const requestUrl = appendQueryParams(`${baseUrl}/${routePath}`, options);
   const url = new URL(requestUrl);
 
   return (
@@ -71,9 +71,9 @@ function skipQueryParameterEncoding(url: URL) {
   return url;
 }
 
-export function buildBaseUrl(endpoint: string, options: RequestParameters): string {
+export function buildBaseUrl(baseUrl: string, options: RequestParameters): string {
   if (!options.pathParameters) {
-    return endpoint;
+    return baseUrl;
   }
   const pathParams = options.pathParameters;
   for (const [key, param] of Object.entries(pathParams)) {
@@ -87,9 +87,9 @@ export function buildBaseUrl(endpoint: string, options: RequestParameters): stri
     if (!options.skipUrlEncoding) {
       value = encodeURIComponent(param);
     }
-    endpoint = replaceAll(endpoint, `{${key}}`, value) ?? "";
+    baseUrl = replaceAll(baseUrl, `{${key}}`, value) ?? "";
   }
-  return endpoint;
+  return baseUrl;
 }
 
 function buildRoutePath(

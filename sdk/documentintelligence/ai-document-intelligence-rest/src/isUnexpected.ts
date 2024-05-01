@@ -5,19 +5,13 @@ import {
   ListOperations200Response,
   ListOperationsDefaultResponse,
   GetDocumentModelBuildOperation200Response,
-  GetDocumentModelComposeOperation200Response,
-  GetDocumentModelCopyToOperation200Response,
-  GetDocumentClassifierBuildOperation200Response,
-  GetOperation200Response,
   GetDocumentModelBuildOperationDefaultResponse,
   GetResourceInfo200Response,
   GetResourceInfoDefaultResponse,
   GetAnalyzeResult200Response,
   GetAnalyzeResultDefaultResponse,
   AnalyzeDocumentFromStream202Response,
-  AnalyzeDocument202Response,
   AnalyzeDocumentFromStreamLogicalResponse,
-  AnalyzeDocumentLogicalResponse,
   AnalyzeDocumentFromStreamDefaultResponse,
   GetModel200Response,
   GetModelDefaultResponse,
@@ -46,9 +40,7 @@ import {
   DeleteClassifier204Response,
   DeleteClassifierDefaultResponse,
   ClassifyDocumentFromStream202Response,
-  ClassifyDocument202Response,
   ClassifyDocumentFromStreamLogicalResponse,
-  ClassifyDocumentLogicalResponse,
   ClassifyDocumentFromStreamDefaultResponse,
   GetClassifyResult200Response,
   GetClassifyResultDefaultResponse,
@@ -87,10 +79,6 @@ export function isUnexpected(
 export function isUnexpected(
   response:
     | GetDocumentModelBuildOperation200Response
-    | GetDocumentModelComposeOperation200Response
-    | GetDocumentModelCopyToOperation200Response
-    | GetDocumentClassifierBuildOperation200Response
-    | GetOperation200Response
     | GetDocumentModelBuildOperationDefaultResponse,
 ): response is GetDocumentModelBuildOperationDefaultResponse;
 export function isUnexpected(
@@ -102,9 +90,7 @@ export function isUnexpected(
 export function isUnexpected(
   response:
     | AnalyzeDocumentFromStream202Response
-    | AnalyzeDocument202Response
     | AnalyzeDocumentFromStreamLogicalResponse
-    | AnalyzeDocumentLogicalResponse
     | AnalyzeDocumentFromStreamDefaultResponse,
 ): response is AnalyzeDocumentFromStreamDefaultResponse;
 export function isUnexpected(
@@ -146,9 +132,7 @@ export function isUnexpected(
 export function isUnexpected(
   response:
     | ClassifyDocumentFromStream202Response
-    | ClassifyDocument202Response
     | ClassifyDocumentFromStreamLogicalResponse
-    | ClassifyDocumentLogicalResponse
     | ClassifyDocumentFromStreamDefaultResponse,
 ): response is ClassifyDocumentFromStreamDefaultResponse;
 export function isUnexpected(
@@ -159,19 +143,13 @@ export function isUnexpected(
     | ListOperations200Response
     | ListOperationsDefaultResponse
     | GetDocumentModelBuildOperation200Response
-    | GetDocumentModelComposeOperation200Response
-    | GetDocumentModelCopyToOperation200Response
-    | GetDocumentClassifierBuildOperation200Response
-    | GetOperation200Response
     | GetDocumentModelBuildOperationDefaultResponse
     | GetResourceInfo200Response
     | GetResourceInfoDefaultResponse
     | GetAnalyzeResult200Response
     | GetAnalyzeResultDefaultResponse
     | AnalyzeDocumentFromStream202Response
-    | AnalyzeDocument202Response
     | AnalyzeDocumentFromStreamLogicalResponse
-    | AnalyzeDocumentLogicalResponse
     | AnalyzeDocumentFromStreamDefaultResponse
     | GetModel200Response
     | GetModelDefaultResponse
@@ -200,9 +178,7 @@ export function isUnexpected(
     | DeleteClassifier204Response
     | DeleteClassifierDefaultResponse
     | ClassifyDocumentFromStream202Response
-    | ClassifyDocument202Response
     | ClassifyDocumentFromStreamLogicalResponse
-    | ClassifyDocumentLogicalResponse
     | ClassifyDocumentFromStreamDefaultResponse
     | GetClassifyResult200Response
     | GetClassifyResultDefaultResponse,

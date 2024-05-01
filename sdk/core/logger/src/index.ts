@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import debug, { type Debugger } from "./debug.js";
-export type { Debugger } from "./debug.js";
+import debug, { Debugger } from "./debug";
+export { Debugger } from "./debug";
 
 const registeredLoggers = new Set<AzureDebugger>();
 const logLevelFromEnv =

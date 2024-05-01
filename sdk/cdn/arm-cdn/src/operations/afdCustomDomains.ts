@@ -16,7 +16,7 @@ import { CdnManagementClient } from "../cdnManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller,
+  createHttpPoller
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -33,7 +33,7 @@ import {
   AfdCustomDomainsUpdateResponse,
   AfdCustomDomainsDeleteOptionalParams,
   AfdCustomDomainsRefreshValidationTokenOptionalParams,
-  AfdCustomDomainsListByProfileNextResponse,
+  AfdCustomDomainsListByProfileNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,12 +59,12 @@ export class AfdCustomDomainsImpl implements AfdCustomDomains {
   public listByProfile(
     resourceGroupName: string,
     profileName: string,
-    options?: AfdCustomDomainsListByProfileOptionalParams,
+    options?: AfdCustomDomainsListByProfileOptionalParams
   ): PagedAsyncIterableIterator<AFDDomain> {
     const iter = this.listByProfilePagingAll(
       resourceGroupName,
       profileName,
-      options,
+      options
     );
     return {
       next() {
@@ -81,9 +81,9 @@ export class AfdCustomDomainsImpl implements AfdCustomDomains {
           resourceGroupName,
           profileName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -91,7 +91,7 @@ export class AfdCustomDomainsImpl implements AfdCustomDomains {
     resourceGroupName: string,
     profileName: string,
     options?: AfdCustomDomainsListByProfileOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<AFDDomain[]> {
     let result: AfdCustomDomainsListByProfileResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +99,7 @@ export class AfdCustomDomainsImpl implements AfdCustomDomains {
       result = await this._listByProfile(
         resourceGroupName,
         profileName,
-        options,
+        options
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -111,7 +111,7 @@ export class AfdCustomDomainsImpl implements AfdCustomDomains {
         resourceGroupName,
         profileName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -123,12 +123,12 @@ export class AfdCustomDomainsImpl implements AfdCustomDomains {
   private async *listByProfilePagingAll(
     resourceGroupName: string,
     profileName: string,
-    options?: AfdCustomDomainsListByProfileOptionalParams,
+    options?: AfdCustomDomainsListByProfileOptionalParams
   ): AsyncIterableIterator<AFDDomain> {
     for await (const page of this.listByProfilePagingPage(
       resourceGroupName,
       profileName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -144,11 +144,11 @@ export class AfdCustomDomainsImpl implements AfdCustomDomains {
   private _listByProfile(
     resourceGroupName: string,
     profileName: string,
-    options?: AfdCustomDomainsListByProfileOptionalParams,
+    options?: AfdCustomDomainsListByProfileOptionalParams
   ): Promise<AfdCustomDomainsListByProfileResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, options },
-      listByProfileOperationSpec,
+      listByProfileOperationSpec
     );
   }
 
@@ -165,11 +165,11 @@ export class AfdCustomDomainsImpl implements AfdCustomDomains {
     resourceGroupName: string,
     profileName: string,
     customDomainName: string,
-    options?: AfdCustomDomainsGetOptionalParams,
+    options?: AfdCustomDomainsGetOptionalParams
   ): Promise<AfdCustomDomainsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, customDomainName, options },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -187,7 +187,7 @@ export class AfdCustomDomainsImpl implements AfdCustomDomains {
     profileName: string,
     customDomainName: string,
     customDomain: AFDDomain,
-    options?: AfdCustomDomainsCreateOptionalParams,
+    options?: AfdCustomDomainsCreateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<AfdCustomDomainsCreateResponse>,
@@ -196,20 +196,21 @@ export class AfdCustomDomainsImpl implements AfdCustomDomains {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<AfdCustomDomainsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -218,8 +219,8 @@ export class AfdCustomDomainsImpl implements AfdCustomDomains {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -227,8 +228,8 @@ export class AfdCustomDomainsImpl implements AfdCustomDomains {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -239,9 +240,9 @@ export class AfdCustomDomainsImpl implements AfdCustomDomains {
         profileName,
         customDomainName,
         customDomain,
-        options,
+        options
       },
-      spec: createOperationSpec,
+      spec: createOperationSpec
     });
     const poller = await createHttpPoller<
       AfdCustomDomainsCreateResponse,
@@ -249,7 +250,7 @@ export class AfdCustomDomainsImpl implements AfdCustomDomains {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -269,14 +270,14 @@ export class AfdCustomDomainsImpl implements AfdCustomDomains {
     profileName: string,
     customDomainName: string,
     customDomain: AFDDomain,
-    options?: AfdCustomDomainsCreateOptionalParams,
+    options?: AfdCustomDomainsCreateOptionalParams
   ): Promise<AfdCustomDomainsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       profileName,
       customDomainName,
       customDomain,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -295,7 +296,7 @@ export class AfdCustomDomainsImpl implements AfdCustomDomains {
     profileName: string,
     customDomainName: string,
     customDomainUpdateProperties: AFDDomainUpdateParameters,
-    options?: AfdCustomDomainsUpdateOptionalParams,
+    options?: AfdCustomDomainsUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<AfdCustomDomainsUpdateResponse>,
@@ -304,20 +305,21 @@ export class AfdCustomDomainsImpl implements AfdCustomDomains {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<AfdCustomDomainsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -326,8 +328,8 @@ export class AfdCustomDomainsImpl implements AfdCustomDomains {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -335,8 +337,8 @@ export class AfdCustomDomainsImpl implements AfdCustomDomains {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -347,9 +349,9 @@ export class AfdCustomDomainsImpl implements AfdCustomDomains {
         profileName,
         customDomainName,
         customDomainUpdateProperties,
-        options,
+        options
       },
-      spec: updateOperationSpec,
+      spec: updateOperationSpec
     });
     const poller = await createHttpPoller<
       AfdCustomDomainsUpdateResponse,
@@ -357,7 +359,7 @@ export class AfdCustomDomainsImpl implements AfdCustomDomains {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -377,14 +379,14 @@ export class AfdCustomDomainsImpl implements AfdCustomDomains {
     profileName: string,
     customDomainName: string,
     customDomainUpdateProperties: AFDDomainUpdateParameters,
-    options?: AfdCustomDomainsUpdateOptionalParams,
+    options?: AfdCustomDomainsUpdateOptionalParams
   ): Promise<AfdCustomDomainsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       profileName,
       customDomainName,
       customDomainUpdateProperties,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -402,24 +404,25 @@ export class AfdCustomDomainsImpl implements AfdCustomDomains {
     resourceGroupName: string,
     profileName: string,
     customDomainName: string,
-    options?: AfdCustomDomainsDeleteOptionalParams,
+    options?: AfdCustomDomainsDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -428,8 +431,8 @@ export class AfdCustomDomainsImpl implements AfdCustomDomains {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -437,20 +440,20 @@ export class AfdCustomDomainsImpl implements AfdCustomDomains {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, profileName, customDomainName, options },
-      spec: deleteOperationSpec,
+      spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -469,13 +472,13 @@ export class AfdCustomDomainsImpl implements AfdCustomDomains {
     resourceGroupName: string,
     profileName: string,
     customDomainName: string,
-    options?: AfdCustomDomainsDeleteOptionalParams,
+    options?: AfdCustomDomainsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       profileName,
       customDomainName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -492,24 +495,25 @@ export class AfdCustomDomainsImpl implements AfdCustomDomains {
     resourceGroupName: string,
     profileName: string,
     customDomainName: string,
-    options?: AfdCustomDomainsRefreshValidationTokenOptionalParams,
+    options?: AfdCustomDomainsRefreshValidationTokenOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -518,8 +522,8 @@ export class AfdCustomDomainsImpl implements AfdCustomDomains {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -527,20 +531,20 @@ export class AfdCustomDomainsImpl implements AfdCustomDomains {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, profileName, customDomainName, options },
-      spec: refreshValidationTokenOperationSpec,
+      spec: refreshValidationTokenOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -558,13 +562,13 @@ export class AfdCustomDomainsImpl implements AfdCustomDomains {
     resourceGroupName: string,
     profileName: string,
     customDomainName: string,
-    options?: AfdCustomDomainsRefreshValidationTokenOptionalParams,
+    options?: AfdCustomDomainsRefreshValidationTokenOptionalParams
   ): Promise<void> {
     const poller = await this.beginRefreshValidationToken(
       resourceGroupName,
       profileName,
       customDomainName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -581,11 +585,11 @@ export class AfdCustomDomainsImpl implements AfdCustomDomains {
     resourceGroupName: string,
     profileName: string,
     nextLink: string,
-    options?: AfdCustomDomainsListByProfileNextOptionalParams,
+    options?: AfdCustomDomainsListByProfileNextOptionalParams
   ): Promise<AfdCustomDomainsListByProfileNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, nextLink, options },
-      listByProfileNextOperationSpec,
+      listByProfileNextOperationSpec
     );
   }
 }
@@ -593,36 +597,38 @@ export class AfdCustomDomainsImpl implements AfdCustomDomains {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByProfileOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/customDomains",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/customDomains",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AFDDomainListResult,
+      bodyMapper: Mappers.AFDDomainListResult
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
-    },
+      bodyMapper: Mappers.AfdErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName1
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/customDomains/{customDomainName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/customDomains/{customDomainName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AFDDomain,
+      bodyMapper: Mappers.AFDDomain
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
-    },
+      bodyMapper: Mappers.AfdErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -630,30 +636,31 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName1,
-    Parameters.customDomainName,
+    Parameters.customDomainName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/customDomains/{customDomainName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/customDomains/{customDomainName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AFDDomain,
+      bodyMapper: Mappers.AFDDomain
     },
     201: {
-      bodyMapper: Mappers.AFDDomain,
+      bodyMapper: Mappers.AFDDomain
     },
     202: {
-      bodyMapper: Mappers.AFDDomain,
+      bodyMapper: Mappers.AFDDomain
     },
     204: {
-      bodyMapper: Mappers.AFDDomain,
+      bodyMapper: Mappers.AFDDomain
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
-    },
+      bodyMapper: Mappers.AfdErrorResponse
+    }
   },
   requestBody: Parameters.customDomain,
   queryParameters: [Parameters.apiVersion],
@@ -662,31 +669,32 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName1,
-    Parameters.customDomainName,
+    Parameters.customDomainName
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/customDomains/{customDomainName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/customDomains/{customDomainName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.AFDDomain,
+      bodyMapper: Mappers.AFDDomain
     },
     201: {
-      bodyMapper: Mappers.AFDDomain,
+      bodyMapper: Mappers.AFDDomain
     },
     202: {
-      bodyMapper: Mappers.AFDDomain,
+      bodyMapper: Mappers.AFDDomain
     },
     204: {
-      bodyMapper: Mappers.AFDDomain,
+      bodyMapper: Mappers.AFDDomain
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
-    },
+      bodyMapper: Mappers.AfdErrorResponse
+    }
   },
   requestBody: Parameters.customDomainUpdateProperties,
   queryParameters: [Parameters.apiVersion],
@@ -695,14 +703,15 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName1,
-    Parameters.customDomainName,
+    Parameters.customDomainName
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/customDomains/{customDomainName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/customDomains/{customDomainName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -710,8 +719,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
-    },
+      bodyMapper: Mappers.AfdErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -719,13 +728,14 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName1,
-    Parameters.customDomainName,
+    Parameters.customDomainName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const refreshValidationTokenOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/customDomains/{customDomainName}/refreshValidationToken",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/customDomains/{customDomainName}/refreshValidationToken",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -733,8 +743,8 @@ const refreshValidationTokenOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
-    },
+      bodyMapper: Mappers.AfdErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -742,29 +752,29 @@ const refreshValidationTokenOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName1,
-    Parameters.customDomainName,
+    Parameters.customDomainName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listByProfileNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AFDDomainListResult,
+      bodyMapper: Mappers.AFDDomainListResult
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
-    },
+      bodyMapper: Mappers.AfdErrorResponse
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName1,
-    Parameters.nextLink,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

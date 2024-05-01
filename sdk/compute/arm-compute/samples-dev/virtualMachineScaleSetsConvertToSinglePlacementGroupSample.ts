@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VMScaleSetConvertToSinglePlacementGroupInput,
-  ComputeManagementClient,
+  ComputeManagementClient
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -30,16 +30,15 @@ async function virtualMachineScaleSetConvertToSinglePlacementGroupMaximumSetGen(
     process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const parameters: VMScaleSetConvertToSinglePlacementGroupInput = {
-    activePlacementGroupId: "aaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    activePlacementGroupId: "aaaaaaaaaaaaaaaaaaaaaaaaaaa"
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.convertToSinglePlacementGroup(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.convertToSinglePlacementGroup(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters
+  );
   console.log(result);
 }
 
@@ -58,12 +57,11 @@ async function virtualMachineScaleSetConvertToSinglePlacementGroupMinimumSetGen(
   const parameters: VMScaleSetConvertToSinglePlacementGroupInput = {};
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.convertToSinglePlacementGroup(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.convertToSinglePlacementGroup(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters
+  );
   console.log(result);
 }
 

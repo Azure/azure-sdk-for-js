@@ -488,9 +488,6 @@ export type ExperimentsUpdateResponse = Experiment;
 // @public
 export interface ExperimentUpdate {
     identity?: ResourceIdentity;
-    tags?: {
-        [propertyName: string]: string;
-    };
 }
 
 // @public

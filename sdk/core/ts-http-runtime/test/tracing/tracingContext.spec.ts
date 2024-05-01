@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert, beforeEach } from "vitest";
 import {
   TracingContextImpl,
   createTracingContext,
   knownContextKeys,
-} from "../../src/tracing/tracingContext.js";
-import { createDefaultTracingSpan } from "../../src/tracing/instrumenter.js";
+} from "../../src/tracing/tracingContext";
+import { assert } from "chai";
+import { createDefaultTracingSpan } from "../../src/tracing/instrumenter";
 
 describe("TracingContext", () => {
   describe("TracingContextImpl", () => {

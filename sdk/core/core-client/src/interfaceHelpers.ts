@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationParameter, OperationSpec } from "./interfaces.js";
-import { MapperTypeNames } from "./serializer.js";
+import { OperationParameter, OperationSpec } from "./interfaces";
+import { MapperTypeNames } from "./serializer";
 
 /**
  * Gets the list of status codes for streaming responses.

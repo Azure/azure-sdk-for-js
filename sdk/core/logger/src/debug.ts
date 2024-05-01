@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { log } from "./log.js";
+import { log } from "./log";
 
 /**
  * A simple mechanism for enabling logging.

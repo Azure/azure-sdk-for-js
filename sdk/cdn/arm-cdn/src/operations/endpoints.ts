@@ -16,7 +16,7 @@ import { CdnManagementClient } from "../cdnManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller,
+  createHttpPoller
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -48,7 +48,7 @@ import {
   EndpointsValidateCustomDomainOptionalParams,
   EndpointsValidateCustomDomainResponse,
   EndpointsListByProfileNextResponse,
-  EndpointsListResourceUsageNextResponse,
+  EndpointsListResourceUsageNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -73,12 +73,12 @@ export class EndpointsImpl implements Endpoints {
   public listByProfile(
     resourceGroupName: string,
     profileName: string,
-    options?: EndpointsListByProfileOptionalParams,
+    options?: EndpointsListByProfileOptionalParams
   ): PagedAsyncIterableIterator<Endpoint> {
     const iter = this.listByProfilePagingAll(
       resourceGroupName,
       profileName,
-      options,
+      options
     );
     return {
       next() {
@@ -95,9 +95,9 @@ export class EndpointsImpl implements Endpoints {
           resourceGroupName,
           profileName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -105,7 +105,7 @@ export class EndpointsImpl implements Endpoints {
     resourceGroupName: string,
     profileName: string,
     options?: EndpointsListByProfileOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<Endpoint[]> {
     let result: EndpointsListByProfileResponse;
     let continuationToken = settings?.continuationToken;
@@ -113,7 +113,7 @@ export class EndpointsImpl implements Endpoints {
       result = await this._listByProfile(
         resourceGroupName,
         profileName,
-        options,
+        options
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -125,7 +125,7 @@ export class EndpointsImpl implements Endpoints {
         resourceGroupName,
         profileName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -137,12 +137,12 @@ export class EndpointsImpl implements Endpoints {
   private async *listByProfilePagingAll(
     resourceGroupName: string,
     profileName: string,
-    options?: EndpointsListByProfileOptionalParams,
+    options?: EndpointsListByProfileOptionalParams
   ): AsyncIterableIterator<Endpoint> {
     for await (const page of this.listByProfilePagingPage(
       resourceGroupName,
       profileName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -159,13 +159,13 @@ export class EndpointsImpl implements Endpoints {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: EndpointsListResourceUsageOptionalParams,
+    options?: EndpointsListResourceUsageOptionalParams
   ): PagedAsyncIterableIterator<ResourceUsage> {
     const iter = this.listResourceUsagePagingAll(
       resourceGroupName,
       profileName,
       endpointName,
-      options,
+      options
     );
     return {
       next() {
@@ -183,9 +183,9 @@ export class EndpointsImpl implements Endpoints {
           profileName,
           endpointName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -194,7 +194,7 @@ export class EndpointsImpl implements Endpoints {
     profileName: string,
     endpointName: string,
     options?: EndpointsListResourceUsageOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<ResourceUsage[]> {
     let result: EndpointsListResourceUsageResponse;
     let continuationToken = settings?.continuationToken;
@@ -203,7 +203,7 @@ export class EndpointsImpl implements Endpoints {
         resourceGroupName,
         profileName,
         endpointName,
-        options,
+        options
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -216,7 +216,7 @@ export class EndpointsImpl implements Endpoints {
         profileName,
         endpointName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -229,13 +229,13 @@ export class EndpointsImpl implements Endpoints {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: EndpointsListResourceUsageOptionalParams,
+    options?: EndpointsListResourceUsageOptionalParams
   ): AsyncIterableIterator<ResourceUsage> {
     for await (const page of this.listResourceUsagePagingPage(
       resourceGroupName,
       profileName,
       endpointName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -250,11 +250,11 @@ export class EndpointsImpl implements Endpoints {
   private _listByProfile(
     resourceGroupName: string,
     profileName: string,
-    options?: EndpointsListByProfileOptionalParams,
+    options?: EndpointsListByProfileOptionalParams
   ): Promise<EndpointsListByProfileResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, options },
-      listByProfileOperationSpec,
+      listByProfileOperationSpec
     );
   }
 
@@ -270,11 +270,11 @@ export class EndpointsImpl implements Endpoints {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: EndpointsGetOptionalParams,
+    options?: EndpointsGetOptionalParams
   ): Promise<EndpointsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, endpointName, options },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -292,7 +292,7 @@ export class EndpointsImpl implements Endpoints {
     profileName: string,
     endpointName: string,
     endpoint: Endpoint,
-    options?: EndpointsCreateOptionalParams,
+    options?: EndpointsCreateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<EndpointsCreateResponse>,
@@ -301,20 +301,21 @@ export class EndpointsImpl implements Endpoints {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<EndpointsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -323,8 +324,8 @@ export class EndpointsImpl implements Endpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -332,22 +333,22 @@ export class EndpointsImpl implements Endpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, profileName, endpointName, endpoint, options },
-      spec: createOperationSpec,
+      spec: createOperationSpec
     });
     const poller = await createHttpPoller<
       EndpointsCreateResponse,
       OperationState<EndpointsCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -367,14 +368,14 @@ export class EndpointsImpl implements Endpoints {
     profileName: string,
     endpointName: string,
     endpoint: Endpoint,
-    options?: EndpointsCreateOptionalParams,
+    options?: EndpointsCreateOptionalParams
   ): Promise<EndpointsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       profileName,
       endpointName,
       endpoint,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -395,7 +396,7 @@ export class EndpointsImpl implements Endpoints {
     profileName: string,
     endpointName: string,
     endpointUpdateProperties: EndpointUpdateParameters,
-    options?: EndpointsUpdateOptionalParams,
+    options?: EndpointsUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<EndpointsUpdateResponse>,
@@ -404,20 +405,21 @@ export class EndpointsImpl implements Endpoints {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<EndpointsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -426,8 +428,8 @@ export class EndpointsImpl implements Endpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -435,8 +437,8 @@ export class EndpointsImpl implements Endpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -447,16 +449,16 @@ export class EndpointsImpl implements Endpoints {
         profileName,
         endpointName,
         endpointUpdateProperties,
-        options,
+        options
       },
-      spec: updateOperationSpec,
+      spec: updateOperationSpec
     });
     const poller = await createHttpPoller<
       EndpointsUpdateResponse,
       OperationState<EndpointsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -478,14 +480,14 @@ export class EndpointsImpl implements Endpoints {
     profileName: string,
     endpointName: string,
     endpointUpdateProperties: EndpointUpdateParameters,
-    options?: EndpointsUpdateOptionalParams,
+    options?: EndpointsUpdateOptionalParams
   ): Promise<EndpointsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       profileName,
       endpointName,
       endpointUpdateProperties,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -502,24 +504,25 @@ export class EndpointsImpl implements Endpoints {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: EndpointsDeleteOptionalParams,
+    options?: EndpointsDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -528,8 +531,8 @@ export class EndpointsImpl implements Endpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -537,19 +540,19 @@ export class EndpointsImpl implements Endpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, profileName, endpointName, options },
-      spec: deleteOperationSpec,
+      spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -567,13 +570,13 @@ export class EndpointsImpl implements Endpoints {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: EndpointsDeleteOptionalParams,
+    options?: EndpointsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       profileName,
       endpointName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -589,7 +592,7 @@ export class EndpointsImpl implements Endpoints {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: EndpointsStartOptionalParams,
+    options?: EndpointsStartOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<EndpointsStartResponse>,
@@ -598,20 +601,21 @@ export class EndpointsImpl implements Endpoints {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<EndpointsStartResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -620,8 +624,8 @@ export class EndpointsImpl implements Endpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -629,22 +633,22 @@ export class EndpointsImpl implements Endpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, profileName, endpointName, options },
-      spec: startOperationSpec,
+      spec: startOperationSpec
     });
     const poller = await createHttpPoller<
       EndpointsStartResponse,
       OperationState<EndpointsStartResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -661,13 +665,13 @@ export class EndpointsImpl implements Endpoints {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: EndpointsStartOptionalParams,
+    options?: EndpointsStartOptionalParams
   ): Promise<EndpointsStartResponse> {
     const poller = await this.beginStart(
       resourceGroupName,
       profileName,
       endpointName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -683,7 +687,7 @@ export class EndpointsImpl implements Endpoints {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: EndpointsStopOptionalParams,
+    options?: EndpointsStopOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<EndpointsStopResponse>,
@@ -692,20 +696,21 @@ export class EndpointsImpl implements Endpoints {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<EndpointsStopResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -714,8 +719,8 @@ export class EndpointsImpl implements Endpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -723,22 +728,22 @@ export class EndpointsImpl implements Endpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, profileName, endpointName, options },
-      spec: stopOperationSpec,
+      spec: stopOperationSpec
     });
     const poller = await createHttpPoller<
       EndpointsStopResponse,
       OperationState<EndpointsStopResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -755,13 +760,13 @@ export class EndpointsImpl implements Endpoints {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: EndpointsStopOptionalParams,
+    options?: EndpointsStopOptionalParams
   ): Promise<EndpointsStopResponse> {
     const poller = await this.beginStop(
       resourceGroupName,
       profileName,
       endpointName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -781,24 +786,25 @@ export class EndpointsImpl implements Endpoints {
     profileName: string,
     endpointName: string,
     contentFilePaths: PurgeParameters,
-    options?: EndpointsPurgeContentOptionalParams,
+    options?: EndpointsPurgeContentOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -807,8 +813,8 @@ export class EndpointsImpl implements Endpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -816,8 +822,8 @@ export class EndpointsImpl implements Endpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -828,13 +834,13 @@ export class EndpointsImpl implements Endpoints {
         profileName,
         endpointName,
         contentFilePaths,
-        options,
+        options
       },
-      spec: purgeContentOperationSpec,
+      spec: purgeContentOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -855,14 +861,14 @@ export class EndpointsImpl implements Endpoints {
     profileName: string,
     endpointName: string,
     contentFilePaths: PurgeParameters,
-    options?: EndpointsPurgeContentOptionalParams,
+    options?: EndpointsPurgeContentOptionalParams
   ): Promise<void> {
     const poller = await this.beginPurgeContent(
       resourceGroupName,
       profileName,
       endpointName,
       contentFilePaths,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -881,24 +887,25 @@ export class EndpointsImpl implements Endpoints {
     profileName: string,
     endpointName: string,
     contentFilePaths: LoadParameters,
-    options?: EndpointsLoadContentOptionalParams,
+    options?: EndpointsLoadContentOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -907,8 +914,8 @@ export class EndpointsImpl implements Endpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -916,8 +923,8 @@ export class EndpointsImpl implements Endpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -928,13 +935,13 @@ export class EndpointsImpl implements Endpoints {
         profileName,
         endpointName,
         contentFilePaths,
-        options,
+        options
       },
-      spec: loadContentOperationSpec,
+      spec: loadContentOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -954,14 +961,14 @@ export class EndpointsImpl implements Endpoints {
     profileName: string,
     endpointName: string,
     contentFilePaths: LoadParameters,
-    options?: EndpointsLoadContentOptionalParams,
+    options?: EndpointsLoadContentOptionalParams
   ): Promise<void> {
     const poller = await this.beginLoadContent(
       resourceGroupName,
       profileName,
       endpointName,
       contentFilePaths,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -979,7 +986,7 @@ export class EndpointsImpl implements Endpoints {
     profileName: string,
     endpointName: string,
     customDomainProperties: ValidateCustomDomainInput,
-    options?: EndpointsValidateCustomDomainOptionalParams,
+    options?: EndpointsValidateCustomDomainOptionalParams
   ): Promise<EndpointsValidateCustomDomainResponse> {
     return this.client.sendOperationRequest(
       {
@@ -987,9 +994,9 @@ export class EndpointsImpl implements Endpoints {
         profileName,
         endpointName,
         customDomainProperties,
-        options,
+        options
       },
-      validateCustomDomainOperationSpec,
+      validateCustomDomainOperationSpec
     );
   }
 
@@ -1004,11 +1011,11 @@ export class EndpointsImpl implements Endpoints {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: EndpointsListResourceUsageOptionalParams,
+    options?: EndpointsListResourceUsageOptionalParams
   ): Promise<EndpointsListResourceUsageResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, endpointName, options },
-      listResourceUsageOperationSpec,
+      listResourceUsageOperationSpec
     );
   }
 
@@ -1023,11 +1030,11 @@ export class EndpointsImpl implements Endpoints {
     resourceGroupName: string,
     profileName: string,
     nextLink: string,
-    options?: EndpointsListByProfileNextOptionalParams,
+    options?: EndpointsListByProfileNextOptionalParams
   ): Promise<EndpointsListByProfileNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, nextLink, options },
-      listByProfileNextOperationSpec,
+      listByProfileNextOperationSpec
     );
   }
 
@@ -1044,11 +1051,11 @@ export class EndpointsImpl implements Endpoints {
     profileName: string,
     endpointName: string,
     nextLink: string,
-    options?: EndpointsListResourceUsageNextOptionalParams,
+    options?: EndpointsListResourceUsageNextOptionalParams
   ): Promise<EndpointsListResourceUsageNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, endpointName, nextLink, options },
-      listResourceUsageNextOperationSpec,
+      listResourceUsageNextOperationSpec
     );
   }
 }
@@ -1056,36 +1063,38 @@ export class EndpointsImpl implements Endpoints {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByProfileOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EndpointListResult,
+      bodyMapper: Mappers.EndpointListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName1
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Endpoint,
+      bodyMapper: Mappers.Endpoint
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1093,30 +1102,31 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName1,
-    Parameters.endpointName,
+    Parameters.endpointName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Endpoint,
+      bodyMapper: Mappers.Endpoint
     },
     201: {
-      bodyMapper: Mappers.Endpoint,
+      bodyMapper: Mappers.Endpoint
     },
     202: {
-      bodyMapper: Mappers.Endpoint,
+      bodyMapper: Mappers.Endpoint
     },
     204: {
-      bodyMapper: Mappers.Endpoint,
+      bodyMapper: Mappers.Endpoint
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: Parameters.endpoint1,
   queryParameters: [Parameters.apiVersion],
@@ -1125,31 +1135,32 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName1,
-    Parameters.endpointName,
+    Parameters.endpointName
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Endpoint,
+      bodyMapper: Mappers.Endpoint
     },
     201: {
-      bodyMapper: Mappers.Endpoint,
+      bodyMapper: Mappers.Endpoint
     },
     202: {
-      bodyMapper: Mappers.Endpoint,
+      bodyMapper: Mappers.Endpoint
     },
     204: {
-      bodyMapper: Mappers.Endpoint,
+      bodyMapper: Mappers.Endpoint
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: Parameters.endpointUpdateProperties1,
   queryParameters: [Parameters.apiVersion],
@@ -1158,14 +1169,15 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName1,
-    Parameters.endpointName,
+    Parameters.endpointName
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -1173,8 +1185,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1182,30 +1194,31 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName1,
-    Parameters.endpointName,
+    Parameters.endpointName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const startOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/start",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/start",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.Endpoint,
+      bodyMapper: Mappers.Endpoint
     },
     201: {
-      bodyMapper: Mappers.Endpoint,
+      bodyMapper: Mappers.Endpoint
     },
     202: {
-      bodyMapper: Mappers.Endpoint,
+      bodyMapper: Mappers.Endpoint
     },
     204: {
-      bodyMapper: Mappers.Endpoint,
+      bodyMapper: Mappers.Endpoint
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1213,30 +1226,31 @@ const startOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName1,
-    Parameters.endpointName,
+    Parameters.endpointName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const stopOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/stop",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/stop",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.Endpoint,
+      bodyMapper: Mappers.Endpoint
     },
     201: {
-      bodyMapper: Mappers.Endpoint,
+      bodyMapper: Mappers.Endpoint
     },
     202: {
-      bodyMapper: Mappers.Endpoint,
+      bodyMapper: Mappers.Endpoint
     },
     204: {
-      bodyMapper: Mappers.Endpoint,
+      bodyMapper: Mappers.Endpoint
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1244,13 +1258,14 @@ const stopOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName1,
-    Parameters.endpointName,
+    Parameters.endpointName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const purgeContentOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/purge",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/purge",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1258,8 +1273,8 @@ const purgeContentOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: Parameters.contentFilePaths,
   queryParameters: [Parameters.apiVersion],
@@ -1268,14 +1283,15 @@ const purgeContentOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName1,
-    Parameters.endpointName,
+    Parameters.endpointName
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const loadContentOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/load",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/load",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1283,8 +1299,8 @@ const loadContentOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: Parameters.contentFilePaths1,
   queryParameters: [Parameters.apiVersion],
@@ -1293,22 +1309,23 @@ const loadContentOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName1,
-    Parameters.endpointName,
+    Parameters.endpointName
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const validateCustomDomainOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/validateCustomDomain",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/validateCustomDomain",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ValidateCustomDomainOutput,
+      bodyMapper: Mappers.ValidateCustomDomainOutput
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: Parameters.customDomainProperties,
   queryParameters: [Parameters.apiVersion],
@@ -1317,22 +1334,23 @@ const validateCustomDomainOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName1,
-    Parameters.endpointName,
+    Parameters.endpointName
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const listResourceUsageOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/checkResourceUsage",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/checkResourceUsage",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceUsageListResult,
+      bodyMapper: Mappers.ResourceUsageListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1340,42 +1358,42 @@ const listResourceUsageOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName1,
-    Parameters.endpointName,
+    Parameters.endpointName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listByProfileNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EndpointListResult,
+      bodyMapper: Mappers.EndpointListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName1,
-    Parameters.nextLink,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listResourceUsageNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceUsageListResult,
+      bodyMapper: Mappers.ResourceUsageListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   urlParameters: [
     Parameters.$host,
@@ -1383,8 +1401,8 @@ const listResourceUsageNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.profileName1,
     Parameters.nextLink,
-    Parameters.endpointName,
+    Parameters.endpointName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

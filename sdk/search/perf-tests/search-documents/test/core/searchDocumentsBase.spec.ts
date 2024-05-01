@@ -1,4 +1,4 @@
-import { PerfTest, getEnvVar } from "@azure-tools/test-perf";
+import { PerfTest, getEnvVar } from "@azure/test-utils-perf";
 import {
   SearchClient,
   AzureKeyCredential,

@@ -1,9 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert, expect, vi, afterEach } from "vitest";
-import { AbortSignalLike } from "../../src/abort-controller/AbortSignalLike.js";
-import { cancelablePromiseRace, createAbortablePromise } from "../../src/index.js";
+import * as sinon from "sinon";
+import { AbortSignalLike } from "../../src/abort-controller/AbortSignalLike";
+import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
+import { cancelablePromiseRace, createAbortablePromise } from "../../src";
+
+chai.use(chaiAsPromised);
+const { assert } = chai;
 
 describe("createAbortablePromise", function () {
   let token: ReturnType<typeof setTimeout>;
@@ -23,16 +28,16 @@ describe("createAbortablePromise", function () {
       },
     );
   afterEach(function () {
-    vi.useRealTimers();
+    sinon.restore();
   });
 
   it("should resolve if not aborted nor rejected", async function () {
-    const clock = vi.useFakeTimers();
+    const clock = sinon.useFakeTimers();
     const promise = createPromise();
-    await clock.advanceTimersToNextTimerAsync();
-    assert.strictEqual(clock.getTimerCount(), 0);
-    clock.useRealTimers();
-    await expect(promise).resolves.toBeUndefined();
+    const time = await clock.nextAsync();
+    clock.restore();
+    assert.strictEqual(time, delayTime);
+    await assert.isFulfilled(promise);
   });
 
   it("should reject when aborted", async function () {
@@ -43,7 +48,7 @@ describe("createAbortablePromise", function () {
       abortErrorMsg,
     });
     aborter.abort();
-    await expect(promise).rejects.toThrowError(abortErrorMsg);
+    await assert.isRejected(promise, abortErrorMsg);
   });
 });
 

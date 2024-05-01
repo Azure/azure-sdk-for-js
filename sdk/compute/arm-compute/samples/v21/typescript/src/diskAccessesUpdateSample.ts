@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates (patches) a disk access resource.
  *
  * @summary Updates (patches) a disk access resource.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskAccessExamples/DiskAccess_Update.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-04-02/examples/diskAccessExamples/DiskAccess_Update.json
  */
 async function updateADiskAccessResource() {
   const subscriptionId =
@@ -27,14 +27,14 @@ async function updateADiskAccessResource() {
     process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskAccessName = "myDiskAccess";
   const diskAccess: DiskAccessUpdate = {
-    tags: { department: "Development", project: "PrivateEndpoints" },
+    tags: { department: "Development", project: "PrivateEndpoints" }
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.diskAccesses.beginUpdateAndWait(
     resourceGroupName,
     diskAccessName,
-    diskAccess,
+    diskAccess
   );
   console.log(result);
 }

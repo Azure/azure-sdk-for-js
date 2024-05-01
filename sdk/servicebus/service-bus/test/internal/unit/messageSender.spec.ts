@@ -49,13 +49,7 @@ describe("MessageSender unit tests", () => {
       {
         name: "ServiceBusError",
         code: "GeneralError",
-        message: `Error 0: ServiceBusError: Link failed to initialize, cannot get max message size.
-
-Error 1: ServiceBusError: Link failed to initialize, cannot get max message size.
-
-Error 2: ServiceBusError: Link failed to initialize, cannot get max message size.
-
-Error 3: ServiceBusError: Link failed to initialize, cannot get max message size.`,
+        message: "Link failed to initialize, cannot get max message size.",
       },
     );
 
@@ -138,13 +132,8 @@ Error 3: ServiceBusError: Link failed to initialize, cannot get max message size
     await assertThrows(() => messageSender.send({ body: "message" }), {
       name: "ServiceBusError",
       code: "GeneralError",
-      message: `Error 0: ServiceBusError: SenderNotReadyError: [fakeSenderForSendRetry] Cannot send the message. Link is not ready.
-
-Error 1: ServiceBusError: SenderNotReadyError: [fakeSenderForSendRetry] Cannot send the message. Link is not ready.
-
-Error 2: ServiceBusError: SenderNotReadyError: [fakeSenderForSendRetry] Cannot send the message. Link is not ready.
-
-Error 3: ServiceBusError: SenderNotReadyError: [fakeSenderForSendRetry] Cannot send the message. Link is not ready.`,
+      message:
+        "SenderNotReadyError: [fakeSenderForSendRetry] Cannot send the message. Link is not ready.",
     });
 
     assert.equal(openCalled, retryOptions.maxRetries + 1);

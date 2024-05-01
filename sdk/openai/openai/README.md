@@ -7,7 +7,7 @@ non-Azure OpenAI inference endpoint, making it a great choice for even non-Azure
 Use the client library for Azure OpenAI to:
 
 * [Create a chat completion with ChatGPT][stream_chat_completion_sample]
-* [Create a vector embedding for text][get_embeddings_sample]
+* [Create a text embedding for comparisons][msdocs_openai_embedding]
 * [Use your own data with Azure OpenAI][byod_sample]
 * [Generate images][get_images_sample]
 * [Transcribe and Translate audio files][transcribe_audio_sample]
@@ -413,13 +413,10 @@ async function main(){
     azureExtensionOptions: {
       extensions: [
         {
-          type: "azure_search",
-          endpoint: "<Azure Search endpoint>",
-          indexName: "<Azure Search index name>",
-          authentication: {
-            type: "api_key",
-            key: "<Azure Search admin key>",
-          },
+          type: "AzureCognitiveSearch",
+          endpoint: "<Azure Cognitive Search endpoint>",
+          key: "<Azure Cognitive Search admin key>",
+          indexName: "<Azure Cognitive Search index name>",
         },
       ],
     },
@@ -511,7 +508,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 [byod_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/bringYourOwnData.js
 [get_images_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/getImages.js
 [transcribe_audio_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples-dev/audioTranscription.ts
-[get_embeddings_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples-dev/getEmbeddings.ts
+[msdocs_openai_embedding]: https://learn.microsoft.com/azure/cognitive-services/openai/concepts/understand-embeddings
 [azure_openai_completions_docs]: https://learn.microsoft.com/azure/cognitive-services/openai/how-to/completions
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity

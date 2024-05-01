@@ -15,10 +15,10 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Returns the list of query API keys for the given Azure AI Search service.
+ * This sample demonstrates how to Returns the list of query API keys for the given Azure Cognitive Search service.
  *
- * @summary Returns the list of query API keys for the given Azure AI Search service.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-03-01-preview/examples/SearchListQueryKeysBySearchService.json
+ * @summary Returns the list of query API keys for the given Azure Cognitive Search service.
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchListQueryKeysBySearchService.json
  */
 async function searchListQueryKeysBySearchService() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -29,7 +29,7 @@ async function searchListQueryKeysBySearchService() {
   const resArray = new Array();
   for await (let item of client.queryKeys.listBySearchService(
     resourceGroupName,
-    searchServiceName,
+    searchServiceName
   )) {
     resArray.push(item);
   }

@@ -47,7 +47,7 @@ export interface ChatAttachment {
 }
 
 // @public
-export type ChatAttachmentType = "image" | "file" | "unknown";
+export type ChatAttachmentType = "image" | "unknown";
 
 // @public
 export class ChatClient {

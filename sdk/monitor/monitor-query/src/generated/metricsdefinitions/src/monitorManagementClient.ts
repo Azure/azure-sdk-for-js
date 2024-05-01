@@ -11,7 +11,7 @@ import { MetricDefinitions } from "./operationsInterfaces";
 import { MonitorManagementClientContext } from "./monitorManagementClientContext";
 import {
   MonitorManagementClientOptionalParams,
-  ApiVersion20240201
+  ApiVersion201801
 } from "./models";
 
 /** @internal */
@@ -22,7 +22,7 @@ export class MonitorManagementClient extends MonitorManagementClientContext {
    * @param options The parameter options
    */
   constructor(
-    apiVersion: ApiVersion20240201,
+    apiVersion: ApiVersion201801,
     options?: MonitorManagementClientOptionalParams
   ) {
     super(apiVersion, options);

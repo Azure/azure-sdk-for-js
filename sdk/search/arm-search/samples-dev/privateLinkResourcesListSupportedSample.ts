@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of all supported private link resource types for the given service.
  *
  * @summary Gets a list of all supported private link resource types for the given service.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-03-01-preview/examples/ListSupportedPrivateLinkResources.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/ListSupportedPrivateLinkResources.json
  */
 async function listSupportedPrivateLinkResources() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -29,7 +29,7 @@ async function listSupportedPrivateLinkResources() {
   const resArray = new Array();
   for await (let item of client.privateLinkResources.listSupported(
     resourceGroupName,
-    searchServiceName,
+    searchServiceName
   )) {
     resArray.push(item);
   }

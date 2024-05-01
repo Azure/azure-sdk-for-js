@@ -6,9 +6,9 @@
  */
 
 import {
+  SearchIndexerClient,
   AzureKeyCredential,
   SearchIndexer,
-  SearchIndexerClient,
   SearchIndexerStatus,
 } from "@azure/search-documents";
 
@@ -20,9 +20,9 @@ const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
 const dataSourceName = process.env.DATA_SOURCE_NAME || "";
 const targetIndexName = process.env.TARGET_INDEX_NAME || "";
 
-const TEST_INDEXER_NAME = "example-indexer-sample-1";
+const indexerName = "example-indexer-sample-1";
 
-async function createIndexer(indexerName: string, client: SearchIndexerClient): Promise<void> {
+async function createIndexer(indexerName: string, client: SearchIndexerClient) {
   console.log(`Creating Indexer Operation`);
   const indexer: SearchIndexer = {
     name: indexerName,
@@ -34,10 +34,7 @@ async function createIndexer(indexerName: string, client: SearchIndexerClient): 
   await client.createIndexer(indexer);
 }
 
-async function getAndUpdateIndexer(
-  indexerName: string,
-  client: SearchIndexerClient,
-): Promise<void> {
+async function getAndUpdateIndexer(indexerName: string, client: SearchIndexerClient) {
   console.log(`Get And Update Indexer Operation`);
   const indexer: SearchIndexer = await client.getIndexer(indexerName);
   indexer.isDisabled = true;
@@ -46,7 +43,7 @@ async function getAndUpdateIndexer(
   await client.createOrUpdateIndexer(indexer);
 }
 
-async function getIndexerStatus(indexerName: string, client: SearchIndexerClient): Promise<void> {
+async function getIndexerStatus(indexerName: string, client: SearchIndexerClient) {
   console.log(`Get Indexer Status Operation`);
   const indexerStatus: SearchIndexerStatus = await client.getIndexerStatus(indexerName);
   console.log(`Status: ${indexerStatus.status}`);
@@ -59,7 +56,7 @@ async function getIndexerStatus(indexerName: string, client: SearchIndexerClient
   console.log(`MaxRunTime: ${indexerStatus.limits.maxRunTime}`);
 }
 
-async function listIndexers(client: SearchIndexerClient): Promise<void> {
+async function listIndexers(client: SearchIndexerClient) {
   console.log(`List Indexers Operation`);
   const listOfIndexers: Array<SearchIndexer> = await client.listIndexers();
 
@@ -85,22 +82,22 @@ async function listIndexers(client: SearchIndexerClient): Promise<void> {
   }
 }
 
-async function resetIndexer(indexerName: string, client: SearchIndexerClient): Promise<void> {
+async function resetIndexer(indexerName: string, client: SearchIndexerClient) {
   console.log(`Reset Indexer Operation`);
   await client.resetIndexer(indexerName);
 }
 
-async function deleteIndexer(indexerName: string, client: SearchIndexerClient): Promise<void> {
+async function deleteIndexer(indexerName: string, client: SearchIndexerClient) {
   console.log(`Deleting Indexer Operation`);
   await client.deleteIndexer(indexerName);
 }
 
-async function runIndexer(indexerName: string, client: SearchIndexerClient): Promise<void> {
+async function runIndexer(indexerName: string, client: SearchIndexerClient) {
   console.log(`Run Indexer Operation`);
   await client.runIndexer(indexerName);
 }
 
-async function main(): Promise<void> {
+async function main() {
   console.log(`Running Indexer Operations Sample....`);
   if (!endpoint || !apiKey || !dataSourceName || !targetIndexName) {
     console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
@@ -108,14 +105,14 @@ async function main(): Promise<void> {
   }
   const client = new SearchIndexerClient(endpoint, new AzureKeyCredential(apiKey));
   try {
-    await createIndexer(TEST_INDEXER_NAME, client);
-    await getAndUpdateIndexer(TEST_INDEXER_NAME, client);
-    await getIndexerStatus(TEST_INDEXER_NAME, client);
+    await createIndexer(indexerName, client);
+    await getAndUpdateIndexer(indexerName, client);
+    await getIndexerStatus(indexerName, client);
     await listIndexers(client);
-    await resetIndexer(TEST_INDEXER_NAME, client);
-    await runIndexer(TEST_INDEXER_NAME, client);
+    await resetIndexer(indexerName, client);
+    await runIndexer(indexerName, client);
   } finally {
-    await deleteIndexer(TEST_INDEXER_NAME, client);
+    await deleteIndexer(indexerName, client);
   }
 }
 

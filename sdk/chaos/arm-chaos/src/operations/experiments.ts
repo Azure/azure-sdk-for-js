@@ -16,7 +16,7 @@ import { ChaosManagementClient } from "../chaosManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller,
+  createHttpPoller
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -47,7 +47,7 @@ import {
   ExperimentsExecutionDetailsResponse,
   ExperimentsListAllNextResponse,
   ExperimentsListNextResponse,
-  ExperimentsListAllExecutionsNextResponse,
+  ExperimentsListAllExecutionsNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -68,7 +68,7 @@ export class ExperimentsImpl implements Experiments {
    * @param options The options parameters.
    */
   public listAll(
-    options?: ExperimentsListAllOptionalParams,
+    options?: ExperimentsListAllOptionalParams
   ): PagedAsyncIterableIterator<Experiment> {
     const iter = this.listAllPagingAll(options);
     return {
@@ -83,13 +83,13 @@ export class ExperimentsImpl implements Experiments {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listAllPagingPage(options, settings);
-      },
+      }
     };
   }
 
   private async *listAllPagingPage(
     options?: ExperimentsListAllOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<Experiment[]> {
     let result: ExperimentsListAllResponse;
     let continuationToken = settings?.continuationToken;
@@ -110,7 +110,7 @@ export class ExperimentsImpl implements Experiments {
   }
 
   private async *listAllPagingAll(
-    options?: ExperimentsListAllOptionalParams,
+    options?: ExperimentsListAllOptionalParams
   ): AsyncIterableIterator<Experiment> {
     for await (const page of this.listAllPagingPage(options)) {
       yield* page;
@@ -124,7 +124,7 @@ export class ExperimentsImpl implements Experiments {
    */
   public list(
     resourceGroupName: string,
-    options?: ExperimentsListOptionalParams,
+    options?: ExperimentsListOptionalParams
   ): PagedAsyncIterableIterator<Experiment> {
     const iter = this.listPagingAll(resourceGroupName, options);
     return {
@@ -139,14 +139,14 @@ export class ExperimentsImpl implements Experiments {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceGroupName, options, settings);
-      },
+      }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
     options?: ExperimentsListOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<Experiment[]> {
     let result: ExperimentsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -161,7 +161,7 @@ export class ExperimentsImpl implements Experiments {
       result = await this._listNext(
         resourceGroupName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -172,7 +172,7 @@ export class ExperimentsImpl implements Experiments {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    options?: ExperimentsListOptionalParams,
+    options?: ExperimentsListOptionalParams
   ): AsyncIterableIterator<Experiment> {
     for await (const page of this.listPagingPage(resourceGroupName, options)) {
       yield* page;
@@ -188,12 +188,12 @@ export class ExperimentsImpl implements Experiments {
   public listAllExecutions(
     resourceGroupName: string,
     experimentName: string,
-    options?: ExperimentsListAllExecutionsOptionalParams,
+    options?: ExperimentsListAllExecutionsOptionalParams
   ): PagedAsyncIterableIterator<ExperimentExecution> {
     const iter = this.listAllExecutionsPagingAll(
       resourceGroupName,
       experimentName,
-      options,
+      options
     );
     return {
       next() {
@@ -210,9 +210,9 @@ export class ExperimentsImpl implements Experiments {
           resourceGroupName,
           experimentName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -220,7 +220,7 @@ export class ExperimentsImpl implements Experiments {
     resourceGroupName: string,
     experimentName: string,
     options?: ExperimentsListAllExecutionsOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<ExperimentExecution[]> {
     let result: ExperimentsListAllExecutionsResponse;
     let continuationToken = settings?.continuationToken;
@@ -228,7 +228,7 @@ export class ExperimentsImpl implements Experiments {
       result = await this._listAllExecutions(
         resourceGroupName,
         experimentName,
-        options,
+        options
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -240,7 +240,7 @@ export class ExperimentsImpl implements Experiments {
         resourceGroupName,
         experimentName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -252,12 +252,12 @@ export class ExperimentsImpl implements Experiments {
   private async *listAllExecutionsPagingAll(
     resourceGroupName: string,
     experimentName: string,
-    options?: ExperimentsListAllExecutionsOptionalParams,
+    options?: ExperimentsListAllExecutionsOptionalParams
   ): AsyncIterableIterator<ExperimentExecution> {
     for await (const page of this.listAllExecutionsPagingPage(
       resourceGroupName,
       experimentName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -268,7 +268,7 @@ export class ExperimentsImpl implements Experiments {
    * @param options The options parameters.
    */
   private _listAll(
-    options?: ExperimentsListAllOptionalParams,
+    options?: ExperimentsListAllOptionalParams
   ): Promise<ExperimentsListAllResponse> {
     return this.client.sendOperationRequest({ options }, listAllOperationSpec);
   }
@@ -280,11 +280,11 @@ export class ExperimentsImpl implements Experiments {
    */
   private _list(
     resourceGroupName: string,
-    options?: ExperimentsListOptionalParams,
+    options?: ExperimentsListOptionalParams
   ): Promise<ExperimentsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listOperationSpec,
+      listOperationSpec
     );
   }
 
@@ -297,24 +297,25 @@ export class ExperimentsImpl implements Experiments {
   async beginDelete(
     resourceGroupName: string,
     experimentName: string,
-    options?: ExperimentsDeleteOptionalParams,
+    options?: ExperimentsDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -323,8 +324,8 @@ export class ExperimentsImpl implements Experiments {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -332,20 +333,20 @@ export class ExperimentsImpl implements Experiments {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, experimentName, options },
-      spec: deleteOperationSpec,
+      spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -360,12 +361,12 @@ export class ExperimentsImpl implements Experiments {
   async beginDeleteAndWait(
     resourceGroupName: string,
     experimentName: string,
-    options?: ExperimentsDeleteOptionalParams,
+    options?: ExperimentsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       experimentName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -379,11 +380,11 @@ export class ExperimentsImpl implements Experiments {
   get(
     resourceGroupName: string,
     experimentName: string,
-    options?: ExperimentsGetOptionalParams,
+    options?: ExperimentsGetOptionalParams
   ): Promise<ExperimentsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, experimentName, options },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -398,7 +399,7 @@ export class ExperimentsImpl implements Experiments {
     resourceGroupName: string,
     experimentName: string,
     experiment: Experiment,
-    options?: ExperimentsCreateOrUpdateOptionalParams,
+    options?: ExperimentsCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<ExperimentsCreateOrUpdateResponse>,
@@ -407,20 +408,21 @@ export class ExperimentsImpl implements Experiments {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<ExperimentsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -429,8 +431,8 @@ export class ExperimentsImpl implements Experiments {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -438,15 +440,15 @@ export class ExperimentsImpl implements Experiments {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, experimentName, experiment, options },
-      spec: createOrUpdateOperationSpec,
+      spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
       ExperimentsCreateOrUpdateResponse,
@@ -454,7 +456,7 @@ export class ExperimentsImpl implements Experiments {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -471,13 +473,13 @@ export class ExperimentsImpl implements Experiments {
     resourceGroupName: string,
     experimentName: string,
     experiment: Experiment,
-    options?: ExperimentsCreateOrUpdateOptionalParams,
+    options?: ExperimentsCreateOrUpdateOptionalParams
   ): Promise<ExperimentsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       experimentName,
       experiment,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -493,7 +495,7 @@ export class ExperimentsImpl implements Experiments {
     resourceGroupName: string,
     experimentName: string,
     experiment: ExperimentUpdate,
-    options?: ExperimentsUpdateOptionalParams,
+    options?: ExperimentsUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<ExperimentsUpdateResponse>,
@@ -502,20 +504,21 @@ export class ExperimentsImpl implements Experiments {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<ExperimentsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -524,8 +527,8 @@ export class ExperimentsImpl implements Experiments {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -533,15 +536,15 @@ export class ExperimentsImpl implements Experiments {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, experimentName, experiment, options },
-      spec: updateOperationSpec,
+      spec: updateOperationSpec
     });
     const poller = await createHttpPoller<
       ExperimentsUpdateResponse,
@@ -549,7 +552,7 @@ export class ExperimentsImpl implements Experiments {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -566,13 +569,13 @@ export class ExperimentsImpl implements Experiments {
     resourceGroupName: string,
     experimentName: string,
     experiment: ExperimentUpdate,
-    options?: ExperimentsUpdateOptionalParams,
+    options?: ExperimentsUpdateOptionalParams
   ): Promise<ExperimentsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       experimentName,
       experiment,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -586,24 +589,25 @@ export class ExperimentsImpl implements Experiments {
   async beginCancel(
     resourceGroupName: string,
     experimentName: string,
-    options?: ExperimentsCancelOptionalParams,
+    options?: ExperimentsCancelOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -612,8 +616,8 @@ export class ExperimentsImpl implements Experiments {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -621,20 +625,20 @@ export class ExperimentsImpl implements Experiments {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, experimentName, options },
-      spec: cancelOperationSpec,
+      spec: cancelOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -649,12 +653,12 @@ export class ExperimentsImpl implements Experiments {
   async beginCancelAndWait(
     resourceGroupName: string,
     experimentName: string,
-    options?: ExperimentsCancelOptionalParams,
+    options?: ExperimentsCancelOptionalParams
   ): Promise<void> {
     const poller = await this.beginCancel(
       resourceGroupName,
       experimentName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -668,24 +672,25 @@ export class ExperimentsImpl implements Experiments {
   async beginStart(
     resourceGroupName: string,
     experimentName: string,
-    options?: ExperimentsStartOptionalParams,
+    options?: ExperimentsStartOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -694,8 +699,8 @@ export class ExperimentsImpl implements Experiments {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -703,20 +708,20 @@ export class ExperimentsImpl implements Experiments {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, experimentName, options },
-      spec: startOperationSpec,
+      spec: startOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -731,12 +736,12 @@ export class ExperimentsImpl implements Experiments {
   async beginStartAndWait(
     resourceGroupName: string,
     experimentName: string,
-    options?: ExperimentsStartOptionalParams,
+    options?: ExperimentsStartOptionalParams
   ): Promise<void> {
     const poller = await this.beginStart(
       resourceGroupName,
       experimentName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -750,11 +755,11 @@ export class ExperimentsImpl implements Experiments {
   private _listAllExecutions(
     resourceGroupName: string,
     experimentName: string,
-    options?: ExperimentsListAllExecutionsOptionalParams,
+    options?: ExperimentsListAllExecutionsOptionalParams
   ): Promise<ExperimentsListAllExecutionsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, experimentName, options },
-      listAllExecutionsOperationSpec,
+      listAllExecutionsOperationSpec
     );
   }
 
@@ -769,11 +774,11 @@ export class ExperimentsImpl implements Experiments {
     resourceGroupName: string,
     experimentName: string,
     executionId: string,
-    options?: ExperimentsGetExecutionOptionalParams,
+    options?: ExperimentsGetExecutionOptionalParams
   ): Promise<ExperimentsGetExecutionResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, experimentName, executionId, options },
-      getExecutionOperationSpec,
+      getExecutionOperationSpec
     );
   }
 
@@ -788,11 +793,11 @@ export class ExperimentsImpl implements Experiments {
     resourceGroupName: string,
     experimentName: string,
     executionId: string,
-    options?: ExperimentsExecutionDetailsOptionalParams,
+    options?: ExperimentsExecutionDetailsOptionalParams
   ): Promise<ExperimentsExecutionDetailsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, experimentName, executionId, options },
-      executionDetailsOperationSpec,
+      executionDetailsOperationSpec
     );
   }
 
@@ -803,11 +808,11 @@ export class ExperimentsImpl implements Experiments {
    */
   private _listAllNext(
     nextLink: string,
-    options?: ExperimentsListAllNextOptionalParams,
+    options?: ExperimentsListAllNextOptionalParams
   ): Promise<ExperimentsListAllNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listAllNextOperationSpec,
+      listAllNextOperationSpec
     );
   }
 
@@ -820,11 +825,11 @@ export class ExperimentsImpl implements Experiments {
   private _listNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: ExperimentsListNextOptionalParams,
+    options?: ExperimentsListNextOptionalParams
   ): Promise<ExperimentsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listNextOperationSpec,
+      listNextOperationSpec
     );
   }
 
@@ -839,11 +844,11 @@ export class ExperimentsImpl implements Experiments {
     resourceGroupName: string,
     experimentName: string,
     nextLink: string,
-    options?: ExperimentsListAllExecutionsNextOptionalParams,
+    options?: ExperimentsListAllExecutionsNextOptionalParams
   ): Promise<ExperimentsListAllExecutionsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, experimentName, nextLink, options },
-      listAllExecutionsNextOperationSpec,
+      listAllExecutionsNextOperationSpec
     );
   }
 }
@@ -855,47 +860,49 @@ const listAllOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExperimentListResult,
+      bodyMapper: Mappers.ExperimentListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.continuationToken,
-    Parameters.running,
+    Parameters.running
   ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExperimentListResult,
+      bodyMapper: Mappers.ExperimentListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.continuationToken,
-    Parameters.running,
+    Parameters.running
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -903,59 +910,61 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.experimentName,
+    Parameters.experimentName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Experiment,
+      bodyMapper: Mappers.Experiment
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.experimentName,
+    Parameters.experimentName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Experiment,
+      bodyMapper: Mappers.Experiment
     },
     201: {
-      bodyMapper: Mappers.Experiment,
+      bodyMapper: Mappers.Experiment
     },
     202: {
-      bodyMapper: Mappers.Experiment,
+      bodyMapper: Mappers.Experiment
     },
     204: {
-      bodyMapper: Mappers.Experiment,
+      bodyMapper: Mappers.Experiment
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: Parameters.experiment,
   queryParameters: [Parameters.apiVersion],
@@ -963,31 +972,32 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.experimentName,
+    Parameters.experimentName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Experiment,
+      bodyMapper: Mappers.Experiment
     },
     201: {
-      bodyMapper: Mappers.Experiment,
+      bodyMapper: Mappers.Experiment
     },
     202: {
-      bodyMapper: Mappers.Experiment,
+      bodyMapper: Mappers.Experiment
     },
     204: {
-      bodyMapper: Mappers.Experiment,
+      bodyMapper: Mappers.Experiment
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: Parameters.experiment1,
   queryParameters: [Parameters.apiVersion],
@@ -995,14 +1005,15 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.experimentName,
+    Parameters.experimentName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const cancelOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/cancel",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/cancel",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1010,21 +1021,22 @@ const cancelOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.experimentName,
+    Parameters.experimentName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const startOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/start",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/start",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1032,50 +1044,52 @@ const startOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.experimentName,
+    Parameters.experimentName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listAllExecutionsOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/executions",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/executions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExperimentExecutionListResult,
+      bodyMapper: Mappers.ExperimentExecutionListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.experimentName,
+    Parameters.experimentName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getExecutionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/executions/{executionId}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/executions/{executionId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExperimentExecution,
+      bodyMapper: Mappers.ExperimentExecution
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1083,21 +1097,22 @@ const getExecutionOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.experimentName,
-    Parameters.executionId,
+    Parameters.executionId
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const executionDetailsOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/executions/{executionId}/getExecutionDetails",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/executions/{executionId}/getExecutionDetails",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ExperimentExecutionDetails,
+      bodyMapper: Mappers.ExperimentExecutionDetails
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1105,68 +1120,68 @@ const executionDetailsOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.experimentName,
-    Parameters.executionId,
+    Parameters.executionId
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listAllNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExperimentListResult,
+      bodyMapper: Mappers.ExperimentListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExperimentListResult,
+      bodyMapper: Mappers.ExperimentListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listAllExecutionsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExperimentExecutionListResult,
+      bodyMapper: Mappers.ExperimentExecutionListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.experimentName,
+    Parameters.experimentName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

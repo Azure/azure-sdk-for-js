@@ -16,7 +16,7 @@ import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller,
+  createHttpPoller
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -37,7 +37,7 @@ import {
   ReplicationvCentersUpdateOptionalParams,
   ReplicationvCentersUpdateResponse,
   ReplicationvCentersListByReplicationFabricsNextResponse,
-  ReplicationvCentersListNextResponse,
+  ReplicationvCentersListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -65,13 +65,13 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
     resourceName: string,
     resourceGroupName: string,
     fabricName: string,
-    options?: ReplicationvCentersListByReplicationFabricsOptionalParams,
+    options?: ReplicationvCentersListByReplicationFabricsOptionalParams
   ): PagedAsyncIterableIterator<VCenter> {
     const iter = this.listByReplicationFabricsPagingAll(
       resourceName,
       resourceGroupName,
       fabricName,
-      options,
+      options
     );
     return {
       next() {
@@ -89,9 +89,9 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
           resourceGroupName,
           fabricName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -100,7 +100,7 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
     resourceGroupName: string,
     fabricName: string,
     options?: ReplicationvCentersListByReplicationFabricsOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<VCenter[]> {
     let result: ReplicationvCentersListByReplicationFabricsResponse;
     let continuationToken = settings?.continuationToken;
@@ -109,7 +109,7 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
         resourceName,
         resourceGroupName,
         fabricName,
-        options,
+        options
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -122,7 +122,7 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
         resourceGroupName,
         fabricName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -135,13 +135,13 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
     resourceName: string,
     resourceGroupName: string,
     fabricName: string,
-    options?: ReplicationvCentersListByReplicationFabricsOptionalParams,
+    options?: ReplicationvCentersListByReplicationFabricsOptionalParams
   ): AsyncIterableIterator<VCenter> {
     for await (const page of this.listByReplicationFabricsPagingPage(
       resourceName,
       resourceGroupName,
       fabricName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -157,7 +157,7 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
   public list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationvCentersListOptionalParams,
+    options?: ReplicationvCentersListOptionalParams
   ): PagedAsyncIterableIterator<VCenter> {
     const iter = this.listPagingAll(resourceName, resourceGroupName, options);
     return {
@@ -175,9 +175,9 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
           resourceName,
           resourceGroupName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -185,7 +185,7 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
     resourceName: string,
     resourceGroupName: string,
     options?: ReplicationvCentersListOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<VCenter[]> {
     let result: ReplicationvCentersListResponse;
     let continuationToken = settings?.continuationToken;
@@ -201,7 +201,7 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
         resourceName,
         resourceGroupName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -213,12 +213,12 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
   private async *listPagingAll(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationvCentersListOptionalParams,
+    options?: ReplicationvCentersListOptionalParams
   ): AsyncIterableIterator<VCenter> {
     for await (const page of this.listPagingPage(
       resourceName,
       resourceGroupName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -236,11 +236,11 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
     resourceName: string,
     resourceGroupName: string,
     fabricName: string,
-    options?: ReplicationvCentersListByReplicationFabricsOptionalParams,
+    options?: ReplicationvCentersListByReplicationFabricsOptionalParams
   ): Promise<ReplicationvCentersListByReplicationFabricsResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, fabricName, options },
-      listByReplicationFabricsOperationSpec,
+      listByReplicationFabricsOperationSpec
     );
   }
 
@@ -258,11 +258,11 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
     resourceGroupName: string,
     fabricName: string,
     vcenterName: string,
-    options?: ReplicationvCentersGetOptionalParams,
+    options?: ReplicationvCentersGetOptionalParams
   ): Promise<ReplicationvCentersGetResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, fabricName, vcenterName, options },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -282,7 +282,7 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
     fabricName: string,
     vcenterName: string,
     addVCenterRequest: AddVCenterRequest,
-    options?: ReplicationvCentersCreateOptionalParams,
+    options?: ReplicationvCentersCreateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationvCentersCreateResponse>,
@@ -291,20 +291,21 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<ReplicationvCentersCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -313,8 +314,8 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -322,8 +323,8 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -335,16 +336,16 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
         fabricName,
         vcenterName,
         addVCenterRequest,
-        options,
+        options
       },
-      spec: createOperationSpec,
+      spec: createOperationSpec
     });
     const poller = await createHttpPoller<
       ReplicationvCentersCreateResponse,
       OperationState<ReplicationvCentersCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -366,7 +367,7 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
     fabricName: string,
     vcenterName: string,
     addVCenterRequest: AddVCenterRequest,
-    options?: ReplicationvCentersCreateOptionalParams,
+    options?: ReplicationvCentersCreateOptionalParams
   ): Promise<ReplicationvCentersCreateResponse> {
     const poller = await this.beginCreate(
       resourceName,
@@ -374,7 +375,7 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
       fabricName,
       vcenterName,
       addVCenterRequest,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -393,24 +394,25 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
     resourceGroupName: string,
     fabricName: string,
     vcenterName: string,
-    options?: ReplicationvCentersDeleteOptionalParams,
+    options?: ReplicationvCentersDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -419,8 +421,8 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -428,8 +430,8 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -440,13 +442,13 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
         resourceGroupName,
         fabricName,
         vcenterName,
-        options,
+        options
       },
-      spec: deleteOperationSpec,
+      spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -466,14 +468,14 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
     resourceGroupName: string,
     fabricName: string,
     vcenterName: string,
-    options?: ReplicationvCentersDeleteOptionalParams,
+    options?: ReplicationvCentersDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceName,
       resourceGroupName,
       fabricName,
       vcenterName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -494,7 +496,7 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
     fabricName: string,
     vcenterName: string,
     updateVCenterRequest: UpdateVCenterRequest,
-    options?: ReplicationvCentersUpdateOptionalParams,
+    options?: ReplicationvCentersUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationvCentersUpdateResponse>,
@@ -503,20 +505,21 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<ReplicationvCentersUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -525,8 +528,8 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -534,8 +537,8 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -547,16 +550,16 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
         fabricName,
         vcenterName,
         updateVCenterRequest,
-        options,
+        options
       },
-      spec: updateOperationSpec,
+      spec: updateOperationSpec
     });
     const poller = await createHttpPoller<
       ReplicationvCentersUpdateResponse,
       OperationState<ReplicationvCentersUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -578,7 +581,7 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
     fabricName: string,
     vcenterName: string,
     updateVCenterRequest: UpdateVCenterRequest,
-    options?: ReplicationvCentersUpdateOptionalParams,
+    options?: ReplicationvCentersUpdateOptionalParams
   ): Promise<ReplicationvCentersUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceName,
@@ -586,7 +589,7 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
       fabricName,
       vcenterName,
       updateVCenterRequest,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -601,11 +604,11 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
   private _list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationvCentersListOptionalParams,
+    options?: ReplicationvCentersListOptionalParams
   ): Promise<ReplicationvCentersListResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, options },
-      listOperationSpec,
+      listOperationSpec
     );
   }
 
@@ -624,11 +627,11 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
     resourceGroupName: string,
     fabricName: string,
     nextLink: string,
-    options?: ReplicationvCentersListByReplicationFabricsNextOptionalParams,
+    options?: ReplicationvCentersListByReplicationFabricsNextOptionalParams
   ): Promise<ReplicationvCentersListByReplicationFabricsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, fabricName, nextLink, options },
-      listByReplicationFabricsNextOperationSpec,
+      listByReplicationFabricsNextOperationSpec
     );
   }
 
@@ -644,11 +647,11 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
     resourceName: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: ReplicationvCentersListNextOptionalParams,
+    options?: ReplicationvCentersListNextOptionalParams
   ): Promise<ReplicationvCentersListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, nextLink, options },
-      listNextOperationSpec,
+      listNextOperationSpec
     );
   }
 }
@@ -656,12 +659,13 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByReplicationFabricsOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationvCenters",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationvCenters",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VCenterCollection,
-    },
+      bodyMapper: Mappers.VCenterCollection
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -669,18 +673,19 @@ const listByReplicationFabricsOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
-    Parameters.fabricName,
+    Parameters.fabricName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationvCenters/{vcenterName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationvCenters/{vcenterName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VCenter,
-    },
+      bodyMapper: Mappers.VCenter
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -689,27 +694,28 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceName,
     Parameters.fabricName,
-    Parameters.vcenterName,
+    Parameters.vcenterName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationvCenters/{vcenterName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationvCenters/{vcenterName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.VCenter,
+      bodyMapper: Mappers.VCenter
     },
     201: {
-      bodyMapper: Mappers.VCenter,
+      bodyMapper: Mappers.VCenter
     },
     202: {
-      bodyMapper: Mappers.VCenter,
+      bodyMapper: Mappers.VCenter
     },
     204: {
-      bodyMapper: Mappers.VCenter,
-    },
+      bodyMapper: Mappers.VCenter
+    }
   },
   requestBody: Parameters.addVCenterRequest,
   queryParameters: [Parameters.apiVersion],
@@ -719,14 +725,15 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceName,
     Parameters.fabricName,
-    Parameters.vcenterName,
+    Parameters.vcenterName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationvCenters/{vcenterName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationvCenters/{vcenterName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {} },
   queryParameters: [Parameters.apiVersion],
@@ -736,26 +743,27 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceName,
     Parameters.fabricName,
-    Parameters.vcenterName,
+    Parameters.vcenterName
   ],
-  serializer,
+  serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationvCenters/{vcenterName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationvCenters/{vcenterName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.VCenter,
+      bodyMapper: Mappers.VCenter
     },
     201: {
-      bodyMapper: Mappers.VCenter,
+      bodyMapper: Mappers.VCenter
     },
     202: {
-      bodyMapper: Mappers.VCenter,
+      bodyMapper: Mappers.VCenter
     },
     204: {
-      bodyMapper: Mappers.VCenter,
-    },
+      bodyMapper: Mappers.VCenter
+    }
   },
   requestBody: Parameters.updateVCenterRequest,
   queryParameters: [Parameters.apiVersion],
@@ -765,37 +773,38 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceName,
     Parameters.fabricName,
-    Parameters.vcenterName,
+    Parameters.vcenterName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationvCenters",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationvCenters",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VCenterCollection,
-    },
+      bodyMapper: Mappers.VCenterCollection
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName,
+    Parameters.resourceName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listByReplicationFabricsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VCenterCollection,
-    },
+      bodyMapper: Mappers.VCenterCollection
+    }
   },
   urlParameters: [
     Parameters.$host,
@@ -803,26 +812,26 @@ const listByReplicationFabricsNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.resourceName,
-    Parameters.fabricName,
+    Parameters.fabricName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VCenterCollection,
-    },
+      bodyMapper: Mappers.VCenterCollection
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceName,
+    Parameters.resourceName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 /// <reference lib="esnext.asynciterable" />
+
 import { ClientContext } from "./ClientContext";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "./diagnostics/DiagnosticNodeInternal";
 import { getPathFromLink, ResourceType, StatusCodes, RUConsumedManager } from "./common";
@@ -25,7 +26,6 @@ import {
   withMetadataDiagnostics,
 } from "./utils/diagnostics";
 import { MetadataLookUpType } from "./CosmosDiagnostics";
-import { randomUUID } from "@azure/core-util";
 import { QueryOperationOptions } from "./request/OperationOptions";
 import { RUCapPerOperationExceededErrorCode } from "./request/RUCapPerOperationExceededError";
 
@@ -40,7 +40,6 @@ export class QueryIterator<T> {
   private queryExecutionContext: ExecutionContext;
   private queryPlanPromise: Promise<Response<PartitionedQueryExecutionInfo>>;
   private isInitialized: boolean;
-  private correlatedActivityId: string;
   /**
    * @hidden
    */
@@ -233,14 +232,12 @@ export class QueryIterator<T> {
    * Reset the QueryIterator to the beginning and clear all the resources inside it
    */
   public reset(): void {
-    this.correlatedActivityId = randomUUID();
     this.queryPlanPromise = undefined;
     this.fetchAllLastResHeaders = getInitialHeader();
     this.fetchAllTempResources = [];
     this.queryExecutionContext = new DefaultQueryExecutionContext(
       this.options,
       this.fetchFunctions,
-      this.correlatedActivityId,
     );
   }
 
@@ -325,7 +322,6 @@ export class QueryIterator<T> {
       this.query,
       this.options,
       queryPlan,
-      this.correlatedActivityId,
     );
   }
 
@@ -339,7 +335,6 @@ export class QueryIterator<T> {
           this.query,
           this.options,
           diagnosticNode,
-          this.correlatedActivityId,
         )
         .catch((error: any) => error); // Without this catch, node reports an unhandled rejection. So we stash the promise as resolved even if it errored.
     }

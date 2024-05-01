@@ -15,7 +15,7 @@ import { NetworkManagementClient } from "../networkManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller,
+  createHttpPoller
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -34,7 +34,7 @@ import {
   ConnectionMonitorsStopOptionalParams,
   ConnectionMonitorsStartOptionalParams,
   ConnectionMonitorsQueryOptionalParams,
-  ConnectionMonitorsQueryResponse,
+  ConnectionMonitorsQueryResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,12 +59,12 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
   public list(
     resourceGroupName: string,
     networkWatcherName: string,
-    options?: ConnectionMonitorsListOptionalParams,
+    options?: ConnectionMonitorsListOptionalParams
   ): PagedAsyncIterableIterator<ConnectionMonitorResult> {
     const iter = this.listPagingAll(
       resourceGroupName,
       networkWatcherName,
-      options,
+      options
     );
     return {
       next() {
@@ -81,9 +81,9 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
           resourceGroupName,
           networkWatcherName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -91,7 +91,7 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
     resourceGroupName: string,
     networkWatcherName: string,
     options?: ConnectionMonitorsListOptionalParams,
-    _settings?: PageSettings,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ConnectionMonitorResult[]> {
     let result: ConnectionMonitorsListResponse;
     result = await this._list(resourceGroupName, networkWatcherName, options);
@@ -101,12 +101,12 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
   private async *listPagingAll(
     resourceGroupName: string,
     networkWatcherName: string,
-    options?: ConnectionMonitorsListOptionalParams,
+    options?: ConnectionMonitorsListOptionalParams
   ): AsyncIterableIterator<ConnectionMonitorResult> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       networkWatcherName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -125,7 +125,7 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
     networkWatcherName: string,
     connectionMonitorName: string,
     parameters: ConnectionMonitor,
-    options?: ConnectionMonitorsCreateOrUpdateOptionalParams,
+    options?: ConnectionMonitorsCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<ConnectionMonitorsCreateOrUpdateResponse>,
@@ -134,20 +134,21 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<ConnectionMonitorsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -156,8 +157,8 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -165,8 +166,8 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -177,9 +178,9 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
         networkWatcherName,
         connectionMonitorName,
         parameters,
-        options,
+        options
       },
-      spec: createOrUpdateOperationSpec,
+      spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
       ConnectionMonitorsCreateOrUpdateResponse,
@@ -187,7 +188,7 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -206,14 +207,14 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
     networkWatcherName: string,
     connectionMonitorName: string,
     parameters: ConnectionMonitor,
-    options?: ConnectionMonitorsCreateOrUpdateOptionalParams,
+    options?: ConnectionMonitorsCreateOrUpdateOptionalParams
   ): Promise<ConnectionMonitorsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       networkWatcherName,
       connectionMonitorName,
       parameters,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -229,11 +230,11 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
     resourceGroupName: string,
     networkWatcherName: string,
     connectionMonitorName: string,
-    options?: ConnectionMonitorsGetOptionalParams,
+    options?: ConnectionMonitorsGetOptionalParams
   ): Promise<ConnectionMonitorsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkWatcherName, connectionMonitorName, options },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -248,24 +249,25 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
     resourceGroupName: string,
     networkWatcherName: string,
     connectionMonitorName: string,
-    options?: ConnectionMonitorsDeleteOptionalParams,
+    options?: ConnectionMonitorsDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -274,8 +276,8 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -283,8 +285,8 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -294,14 +296,14 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
         resourceGroupName,
         networkWatcherName,
         connectionMonitorName,
-        options,
+        options
       },
-      spec: deleteOperationSpec,
+      spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -318,13 +320,13 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
     resourceGroupName: string,
     networkWatcherName: string,
     connectionMonitorName: string,
-    options?: ConnectionMonitorsDeleteOptionalParams,
+    options?: ConnectionMonitorsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       networkWatcherName,
       connectionMonitorName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -342,7 +344,7 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
     networkWatcherName: string,
     connectionMonitorName: string,
     parameters: TagsObject,
-    options?: ConnectionMonitorsUpdateTagsOptionalParams,
+    options?: ConnectionMonitorsUpdateTagsOptionalParams
   ): Promise<ConnectionMonitorsUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       {
@@ -350,9 +352,9 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
         networkWatcherName,
         connectionMonitorName,
         parameters,
-        options,
+        options
       },
-      updateTagsOperationSpec,
+      updateTagsOperationSpec
     );
   }
 
@@ -367,24 +369,25 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
     resourceGroupName: string,
     networkWatcherName: string,
     connectionMonitorName: string,
-    options?: ConnectionMonitorsStopOptionalParams,
+    options?: ConnectionMonitorsStopOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -393,8 +396,8 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -402,8 +405,8 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -413,14 +416,14 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
         resourceGroupName,
         networkWatcherName,
         connectionMonitorName,
-        options,
+        options
       },
-      spec: stopOperationSpec,
+      spec: stopOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -437,13 +440,13 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
     resourceGroupName: string,
     networkWatcherName: string,
     connectionMonitorName: string,
-    options?: ConnectionMonitorsStopOptionalParams,
+    options?: ConnectionMonitorsStopOptionalParams
   ): Promise<void> {
     const poller = await this.beginStop(
       resourceGroupName,
       networkWatcherName,
       connectionMonitorName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -459,24 +462,25 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
     resourceGroupName: string,
     networkWatcherName: string,
     connectionMonitorName: string,
-    options?: ConnectionMonitorsStartOptionalParams,
+    options?: ConnectionMonitorsStartOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -485,8 +489,8 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -494,8 +498,8 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -505,14 +509,14 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
         resourceGroupName,
         networkWatcherName,
         connectionMonitorName,
-        options,
+        options
       },
-      spec: startOperationSpec,
+      spec: startOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -529,13 +533,13 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
     resourceGroupName: string,
     networkWatcherName: string,
     connectionMonitorName: string,
-    options?: ConnectionMonitorsStartOptionalParams,
+    options?: ConnectionMonitorsStartOptionalParams
   ): Promise<void> {
     const poller = await this.beginStart(
       resourceGroupName,
       networkWatcherName,
       connectionMonitorName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -551,7 +555,7 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
     resourceGroupName: string,
     networkWatcherName: string,
     connectionMonitorName: string,
-    options?: ConnectionMonitorsQueryOptionalParams,
+    options?: ConnectionMonitorsQueryOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<ConnectionMonitorsQueryResponse>,
@@ -560,20 +564,21 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<ConnectionMonitorsQueryResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -582,8 +587,8 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -591,8 +596,8 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -602,9 +607,9 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
         resourceGroupName,
         networkWatcherName,
         connectionMonitorName,
-        options,
+        options
       },
-      spec: queryOperationSpec,
+      spec: queryOperationSpec
     });
     const poller = await createHttpPoller<
       ConnectionMonitorsQueryResponse,
@@ -612,7 +617,7 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -629,13 +634,13 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
     resourceGroupName: string,
     networkWatcherName: string,
     connectionMonitorName: string,
-    options?: ConnectionMonitorsQueryOptionalParams,
+    options?: ConnectionMonitorsQueryOptionalParams
   ): Promise<ConnectionMonitorsQueryResponse> {
     const poller = await this.beginQuery(
       resourceGroupName,
       networkWatcherName,
       connectionMonitorName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -649,11 +654,11 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
   private _list(
     resourceGroupName: string,
     networkWatcherName: string,
-    options?: ConnectionMonitorsListOptionalParams,
+    options?: ConnectionMonitorsListOptionalParams
   ): Promise<ConnectionMonitorsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkWatcherName, options },
-      listOperationSpec,
+      listOperationSpec
     );
   }
 }
@@ -661,24 +666,25 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectionMonitorResult,
+      bodyMapper: Mappers.ConnectionMonitorResult
     },
     201: {
-      bodyMapper: Mappers.ConnectionMonitorResult,
+      bodyMapper: Mappers.ConnectionMonitorResult
     },
     202: {
-      bodyMapper: Mappers.ConnectionMonitorResult,
+      bodyMapper: Mappers.ConnectionMonitorResult
     },
     204: {
-      bodyMapper: Mappers.ConnectionMonitorResult,
+      bodyMapper: Mappers.ConnectionMonitorResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: Parameters.parameters59,
   queryParameters: [Parameters.apiVersion, Parameters.migrate],
@@ -687,22 +693,23 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkWatcherName,
-    Parameters.connectionMonitorName,
+    Parameters.connectionMonitorName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectionMonitorResult,
+      bodyMapper: Mappers.ConnectionMonitorResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -710,13 +717,14 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkWatcherName,
-    Parameters.connectionMonitorName,
+    Parameters.connectionMonitorName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -724,8 +732,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -733,21 +741,22 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkWatcherName,
-    Parameters.connectionMonitorName,
+    Parameters.connectionMonitorName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectionMonitorResult,
+      bodyMapper: Mappers.ConnectionMonitorResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -756,14 +765,15 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkWatcherName,
-    Parameters.connectionMonitorName,
+    Parameters.connectionMonitorName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const stopOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/stop",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/stop",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -771,8 +781,8 @@ const stopOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -780,13 +790,14 @@ const stopOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkWatcherName,
-    Parameters.connectionMonitorName,
+    Parameters.connectionMonitorName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const startOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/start",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/start",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -794,8 +805,8 @@ const startOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -803,30 +814,31 @@ const startOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkWatcherName,
-    Parameters.connectionMonitorName,
+    Parameters.connectionMonitorName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const queryOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/query",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/query",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectionMonitorQueryResult,
+      bodyMapper: Mappers.ConnectionMonitorQueryResult
     },
     201: {
-      bodyMapper: Mappers.ConnectionMonitorQueryResult,
+      bodyMapper: Mappers.ConnectionMonitorQueryResult
     },
     202: {
-      bodyMapper: Mappers.ConnectionMonitorQueryResult,
+      bodyMapper: Mappers.ConnectionMonitorQueryResult
     },
     204: {
-      bodyMapper: Mappers.ConnectionMonitorQueryResult,
+      bodyMapper: Mappers.ConnectionMonitorQueryResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -834,29 +846,30 @@ const queryOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkWatcherName,
-    Parameters.connectionMonitorName,
+    Parameters.connectionMonitorName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectionMonitorListResult,
+      bodyMapper: Mappers.ConnectionMonitorListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkWatcherName,
+    Parameters.networkWatcherName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

@@ -10,20 +10,20 @@
   },
   "dtsRollup": {
     "enabled": true,
-    "publicTrimmedFilePath": "./types/search-documents.d.ts",
-    "untrimmedFilePath": ""
+    "untrimmedFilePath": "",
+    "publicTrimmedFilePath": "./types/search-documents.d.ts"
   },
   "messages": {
+    "tsdocMessageReporting": {
+      "default": {
+        "logLevel": "none"
+      }
+    },
     "extractorMessageReporting": {
       "ae-missing-release-tag": {
         "logLevel": "none"
       },
       "ae-unresolved-link": {
-        "logLevel": "none"
-      }
-    },
-    "tsdocMessageReporting": {
-      "default": {
         "logLevel": "none"
       }
     }

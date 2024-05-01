@@ -10,8 +10,8 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [getCopyrightFromBoundingBox.js][getcopyrightfromboundingbox] | How to get the copyright of tiles in a given bounding box.     |
 | [getMapAttribution.js][getmapattribution]                     | How to get the copyright attribution of a certain tileset.     |
 | [getMapStaticImage.js][getmapstaticimage]                     | How to get the map static image with pins and paths specified. |
-| [getMapTileInBrowser.js][getmaptileinbrowser]                 | How to get the map tile and render on the **browser**.         |
-| [getMapTileInNode.js][getmaptileinnode]                       | How to get the map tile and store it as a file in **Node.js**. |
+| [getMapTileInBrowser.js][getmaptileinbrowser]                 | How to get the map tile and render on the browser.             |
+| [getMapTileInNode.js][getmaptileinnode]                       | How to get the map tile and store it as a file in Node.js.     |
 | [getMapTileset.js][getmaptileset]                             | How to get the metadata of a certain tileset.                  |
 
 ## Prerequisites
@@ -63,7 +63,9 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [getmaptileinbrowser]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-render-rest/samples/v1-beta/javascript/getMapTileInBrowser.js
 [getmaptileinnode]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-render-rest/samples/v1-beta/javascript/getMapTileInNode.js
 [getmaptileset]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-render-rest/samples/v1-beta/javascript/getMapTileset.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/maps-render
+
+<!-- [apiref]: https://docs.microsoft.com/javascript/api/@azure/maps-render -->
+
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azuremapsresource]: https://docs.microsoft.com/azure/azure-maps/how-to-create-template
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-render-rest/README.md

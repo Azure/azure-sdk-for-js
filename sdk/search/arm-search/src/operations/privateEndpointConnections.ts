@@ -24,14 +24,13 @@ import {
   PrivateEndpointConnectionsGetResponse,
   PrivateEndpointConnectionsDeleteOptionalParams,
   PrivateEndpointConnectionsDeleteResponse,
-  PrivateEndpointConnectionsListByServiceNextResponse,
+  PrivateEndpointConnectionsListByServiceNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PrivateEndpointConnections operations. */
 export class PrivateEndpointConnectionsImpl
-  implements PrivateEndpointConnections
-{
+  implements PrivateEndpointConnections {
   private readonly client: SearchManagementClient;
 
   /**
@@ -46,19 +45,19 @@ export class PrivateEndpointConnectionsImpl
    * Gets a list of all private endpoint connections in the given service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure AI Search service associated with the specified
-   *                          resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   *                          specified resource group.
    * @param options The options parameters.
    */
   public listByService(
     resourceGroupName: string,
     searchServiceName: string,
-    options?: PrivateEndpointConnectionsListByServiceOptionalParams,
+    options?: PrivateEndpointConnectionsListByServiceOptionalParams
   ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
     const iter = this.listByServicePagingAll(
       resourceGroupName,
       searchServiceName,
-      options,
+      options
     );
     return {
       next() {
@@ -75,9 +74,9 @@ export class PrivateEndpointConnectionsImpl
           resourceGroupName,
           searchServiceName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -85,7 +84,7 @@ export class PrivateEndpointConnectionsImpl
     resourceGroupName: string,
     searchServiceName: string,
     options?: PrivateEndpointConnectionsListByServiceOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<PrivateEndpointConnection[]> {
     let result: PrivateEndpointConnectionsListByServiceResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,7 +92,7 @@ export class PrivateEndpointConnectionsImpl
       result = await this._listByService(
         resourceGroupName,
         searchServiceName,
-        options,
+        options
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -105,7 +104,7 @@ export class PrivateEndpointConnectionsImpl
         resourceGroupName,
         searchServiceName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,25 +116,25 @@ export class PrivateEndpointConnectionsImpl
   private async *listByServicePagingAll(
     resourceGroupName: string,
     searchServiceName: string,
-    options?: PrivateEndpointConnectionsListByServiceOptionalParams,
+    options?: PrivateEndpointConnectionsListByServiceOptionalParams
   ): AsyncIterableIterator<PrivateEndpointConnection> {
     for await (const page of this.listByServicePagingPage(
       resourceGroupName,
       searchServiceName,
-      options,
+      options
     )) {
       yield* page;
     }
   }
 
   /**
-   * Updates a private endpoint connection to the search service in the given resource group.
+   * Updates a Private Endpoint connection to the search service in the given resource group.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure AI Search service associated with the specified
-   *                          resource group.
-   * @param privateEndpointConnectionName The name of the private endpoint connection to the Azure AI
-   *                                      Search service with the specified resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   *                          specified resource group.
+   * @param privateEndpointConnectionName The name of the private endpoint connection to the Azure
+   *                                      Cognitive Search service with the specified resource group.
    * @param privateEndpointConnection The definition of the private endpoint connection to update.
    * @param options The options parameters.
    */
@@ -144,7 +143,7 @@ export class PrivateEndpointConnectionsImpl
     searchServiceName: string,
     privateEndpointConnectionName: string,
     privateEndpointConnection: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsUpdateOptionalParams,
+    options?: PrivateEndpointConnectionsUpdateOptionalParams
   ): Promise<PrivateEndpointConnectionsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -152,9 +151,9 @@ export class PrivateEndpointConnectionsImpl
         searchServiceName,
         privateEndpointConnectionName,
         privateEndpointConnection,
-        options,
+        options
       },
-      updateOperationSpec,
+      updateOperationSpec
     );
   }
 
@@ -163,26 +162,26 @@ export class PrivateEndpointConnectionsImpl
    * group.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure AI Search service associated with the specified
-   *                          resource group.
-   * @param privateEndpointConnectionName The name of the private endpoint connection to the Azure AI
-   *                                      Search service with the specified resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   *                          specified resource group.
+   * @param privateEndpointConnectionName The name of the private endpoint connection to the Azure
+   *                                      Cognitive Search service with the specified resource group.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     searchServiceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams,
+    options?: PrivateEndpointConnectionsGetOptionalParams
   ): Promise<PrivateEndpointConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         searchServiceName,
         privateEndpointConnectionName,
-        options,
+        options
       },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -190,26 +189,26 @@ export class PrivateEndpointConnectionsImpl
    * Disconnects the private endpoint connection and deletes it from the search service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure AI Search service associated with the specified
-   *                          resource group.
-   * @param privateEndpointConnectionName The name of the private endpoint connection to the Azure AI
-   *                                      Search service with the specified resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   *                          specified resource group.
+   * @param privateEndpointConnectionName The name of the private endpoint connection to the Azure
+   *                                      Cognitive Search service with the specified resource group.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     searchServiceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams,
+    options?: PrivateEndpointConnectionsDeleteOptionalParams
   ): Promise<PrivateEndpointConnectionsDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         searchServiceName,
         privateEndpointConnectionName,
-        options,
+        options
       },
-      deleteOperationSpec,
+      deleteOperationSpec
     );
   }
 
@@ -217,18 +216,18 @@ export class PrivateEndpointConnectionsImpl
    * Gets a list of all private endpoint connections in the given service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure AI Search service associated with the specified
-   *                          resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   *                          specified resource group.
    * @param options The options parameters.
    */
   private _listByService(
     resourceGroupName: string,
     searchServiceName: string,
-    options?: PrivateEndpointConnectionsListByServiceOptionalParams,
+    options?: PrivateEndpointConnectionsListByServiceOptionalParams
   ): Promise<PrivateEndpointConnectionsListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, searchServiceName, options },
-      listByServiceOperationSpec,
+      listByServiceOperationSpec
     );
   }
 
@@ -236,8 +235,8 @@ export class PrivateEndpointConnectionsImpl
    * ListByServiceNext
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure AI Search service associated with the specified
-   *                          resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   *                          specified resource group.
    * @param nextLink The nextLink from the previous successful call to the ListByService method.
    * @param options The options parameters.
    */
@@ -245,11 +244,11 @@ export class PrivateEndpointConnectionsImpl
     resourceGroupName: string,
     searchServiceName: string,
     nextLink: string,
-    options?: PrivateEndpointConnectionsListByServiceNextOptionalParams,
+    options?: PrivateEndpointConnectionsListByServiceNextOptionalParams
   ): Promise<PrivateEndpointConnectionsListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, searchServiceName, nextLink, options },
-      listByServiceNextOperationSpec,
+      listByServiceNextOperationSpec
     );
   }
 }
@@ -257,15 +256,16 @@ export class PrivateEndpointConnectionsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection,
+      bodyMapper: Mappers.PrivateEndpointConnection
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   requestBody: Parameters.privateEndpointConnection,
   queryParameters: [Parameters.apiVersion],
@@ -274,26 +274,27 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.searchServiceName,
     Parameters.subscriptionId,
-    Parameters.privateEndpointConnectionName,
+    Parameters.privateEndpointConnectionName
   ],
   headerParameters: [
     Parameters.accept,
     Parameters.clientRequestId,
-    Parameters.contentType,
+    Parameters.contentType
   ],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection,
+      bodyMapper: Mappers.PrivateEndpointConnection
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -301,22 +302,23 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.searchServiceName,
     Parameters.subscriptionId,
-    Parameters.privateEndpointConnectionName,
+    Parameters.privateEndpointConnectionName
   ],
   headerParameters: [Parameters.accept, Parameters.clientRequestId],
-  serializer,
+  serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection,
+      bodyMapper: Mappers.PrivateEndpointConnection
     },
     404: {},
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -324,50 +326,51 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.searchServiceName,
     Parameters.subscriptionId,
-    Parameters.privateEndpointConnectionName,
+    Parameters.privateEndpointConnectionName
   ],
   headerParameters: [Parameters.accept, Parameters.clientRequestId],
-  serializer,
+  serializer
 };
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/privateEndpointConnections",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/privateEndpointConnections",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResult,
+      bodyMapper: Mappers.PrivateEndpointConnectionListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.searchServiceName,
-    Parameters.subscriptionId,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept, Parameters.clientRequestId],
-  serializer,
+  serializer
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResult,
+      bodyMapper: Mappers.PrivateEndpointConnectionListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.searchServiceName,
     Parameters.subscriptionId,
-    Parameters.nextLink,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept, Parameters.clientRequestId],
-  serializer,
+  serializer
 };

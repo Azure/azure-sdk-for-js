@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets information about a disk access resource.
  *
  * @summary Gets information about a disk access resource.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskAccessExamples/DiskAccess_Get_WithPrivateEndpoints.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-04-02/examples/diskAccessExamples/DiskAccess_Get_WithPrivateEndpoints.json
  */
 async function getInformationAboutADiskAccessResourceWithPrivateEndpoints() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function getInformationAboutADiskAccessResourceWithPrivateEndpoints() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.diskAccesses.get(
     resourceGroupName,
-    diskAccessName,
+    diskAccessName
   );
   console.log(result);
 }
@@ -39,7 +39,7 @@ async function getInformationAboutADiskAccessResourceWithPrivateEndpoints() {
  * This sample demonstrates how to Gets information about a disk access resource.
  *
  * @summary Gets information about a disk access resource.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskAccessExamples/DiskAccess_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-04-02/examples/diskAccessExamples/DiskAccess_Get.json
  */
 async function getInformationAboutADiskAccessResource() {
   const subscriptionId =
@@ -51,7 +51,7 @@ async function getInformationAboutADiskAccessResource() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.diskAccesses.get(
     resourceGroupName,
-    diskAccessName,
+    diskAccessName
   );
   console.log(result);
 }

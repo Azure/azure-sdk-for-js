@@ -23,14 +23,13 @@ import {
   MaintenanceConfigurationsCreateOrUpdateOptionalParams,
   MaintenanceConfigurationsCreateOrUpdateResponse,
   MaintenanceConfigurationsDeleteOptionalParams,
-  MaintenanceConfigurationsListByManagedClusterNextResponse,
+  MaintenanceConfigurationsListByManagedClusterNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing MaintenanceConfigurations operations. */
 export class MaintenanceConfigurationsImpl
-  implements MaintenanceConfigurations
-{
+  implements MaintenanceConfigurations {
   private readonly client: ContainerServiceClient;
 
   /**
@@ -50,12 +49,12 @@ export class MaintenanceConfigurationsImpl
   public listByManagedCluster(
     resourceGroupName: string,
     resourceName: string,
-    options?: MaintenanceConfigurationsListByManagedClusterOptionalParams,
+    options?: MaintenanceConfigurationsListByManagedClusterOptionalParams
   ): PagedAsyncIterableIterator<MaintenanceConfiguration> {
     const iter = this.listByManagedClusterPagingAll(
       resourceGroupName,
       resourceName,
-      options,
+      options
     );
     return {
       next() {
@@ -72,9 +71,9 @@ export class MaintenanceConfigurationsImpl
           resourceGroupName,
           resourceName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -82,7 +81,7 @@ export class MaintenanceConfigurationsImpl
     resourceGroupName: string,
     resourceName: string,
     options?: MaintenanceConfigurationsListByManagedClusterOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<MaintenanceConfiguration[]> {
     let result: MaintenanceConfigurationsListByManagedClusterResponse;
     let continuationToken = settings?.continuationToken;
@@ -90,7 +89,7 @@ export class MaintenanceConfigurationsImpl
       result = await this._listByManagedCluster(
         resourceGroupName,
         resourceName,
-        options,
+        options
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -102,7 +101,7 @@ export class MaintenanceConfigurationsImpl
         resourceGroupName,
         resourceName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -114,12 +113,12 @@ export class MaintenanceConfigurationsImpl
   private async *listByManagedClusterPagingAll(
     resourceGroupName: string,
     resourceName: string,
-    options?: MaintenanceConfigurationsListByManagedClusterOptionalParams,
+    options?: MaintenanceConfigurationsListByManagedClusterOptionalParams
   ): AsyncIterableIterator<MaintenanceConfiguration> {
     for await (const page of this.listByManagedClusterPagingPage(
       resourceGroupName,
       resourceName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -134,11 +133,11 @@ export class MaintenanceConfigurationsImpl
   private _listByManagedCluster(
     resourceGroupName: string,
     resourceName: string,
-    options?: MaintenanceConfigurationsListByManagedClusterOptionalParams,
+    options?: MaintenanceConfigurationsListByManagedClusterOptionalParams
   ): Promise<MaintenanceConfigurationsListByManagedClusterResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      listByManagedClusterOperationSpec,
+      listByManagedClusterOperationSpec
     );
   }
 
@@ -153,11 +152,11 @@ export class MaintenanceConfigurationsImpl
     resourceGroupName: string,
     resourceName: string,
     configName: string,
-    options?: MaintenanceConfigurationsGetOptionalParams,
+    options?: MaintenanceConfigurationsGetOptionalParams
   ): Promise<MaintenanceConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, configName, options },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -174,11 +173,11 @@ export class MaintenanceConfigurationsImpl
     resourceName: string,
     configName: string,
     parameters: MaintenanceConfiguration,
-    options?: MaintenanceConfigurationsCreateOrUpdateOptionalParams,
+    options?: MaintenanceConfigurationsCreateOrUpdateOptionalParams
   ): Promise<MaintenanceConfigurationsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, configName, parameters, options },
-      createOrUpdateOperationSpec,
+      createOrUpdateOperationSpec
     );
   }
 
@@ -193,11 +192,11 @@ export class MaintenanceConfigurationsImpl
     resourceGroupName: string,
     resourceName: string,
     configName: string,
-    options?: MaintenanceConfigurationsDeleteOptionalParams,
+    options?: MaintenanceConfigurationsDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, configName, options },
-      deleteOperationSpec,
+      deleteOperationSpec
     );
   }
 
@@ -212,11 +211,11 @@ export class MaintenanceConfigurationsImpl
     resourceGroupName: string,
     resourceName: string,
     nextLink: string,
-    options?: MaintenanceConfigurationsListByManagedClusterNextOptionalParams,
+    options?: MaintenanceConfigurationsListByManagedClusterNextOptionalParams
   ): Promise<MaintenanceConfigurationsListByManagedClusterNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, nextLink, options },
-      listByManagedClusterNextOperationSpec,
+      listByManagedClusterNextOperationSpec
     );
   }
 }
@@ -224,36 +223,38 @@ export class MaintenanceConfigurationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByManagedClusterOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MaintenanceConfigurationListResult,
+      bodyMapper: Mappers.MaintenanceConfigurationListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName,
+    Parameters.resourceName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations/{configName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations/{configName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MaintenanceConfiguration,
+      bodyMapper: Mappers.MaintenanceConfiguration
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -261,24 +262,25 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.configName,
+    Parameters.configName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations/{configName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations/{configName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.MaintenanceConfiguration,
+      bodyMapper: Mappers.MaintenanceConfiguration
     },
     201: {
-      bodyMapper: Mappers.MaintenanceConfiguration,
+      bodyMapper: Mappers.MaintenanceConfiguration
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
@@ -287,21 +289,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.configName,
+    Parameters.configName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations/{configName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations/{configName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -309,29 +312,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.configName,
+    Parameters.configName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listByManagedClusterNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MaintenanceConfigurationListResult,
+      bodyMapper: Mappers.MaintenanceConfigurationListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.nextLink,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

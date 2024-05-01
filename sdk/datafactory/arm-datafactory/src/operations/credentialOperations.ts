@@ -23,7 +23,7 @@ import {
   CredentialOperationsGetOptionalParams,
   CredentialOperationsGetResponse,
   CredentialOperationsDeleteOptionalParams,
-  CredentialOperationsListByFactoryNextResponse,
+  CredentialOperationsListByFactoryNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,12 +48,12 @@ export class CredentialOperationsImpl implements CredentialOperations {
   public listByFactory(
     resourceGroupName: string,
     factoryName: string,
-    options?: CredentialOperationsListByFactoryOptionalParams,
+    options?: CredentialOperationsListByFactoryOptionalParams
   ): PagedAsyncIterableIterator<ManagedIdentityCredentialResource> {
     const iter = this.listByFactoryPagingAll(
       resourceGroupName,
       factoryName,
-      options,
+      options
     );
     return {
       next() {
@@ -70,9 +70,9 @@ export class CredentialOperationsImpl implements CredentialOperations {
           resourceGroupName,
           factoryName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -80,7 +80,7 @@ export class CredentialOperationsImpl implements CredentialOperations {
     resourceGroupName: string,
     factoryName: string,
     options?: CredentialOperationsListByFactoryOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<ManagedIdentityCredentialResource[]> {
     let result: CredentialOperationsListByFactoryResponse;
     let continuationToken = settings?.continuationToken;
@@ -88,7 +88,7 @@ export class CredentialOperationsImpl implements CredentialOperations {
       result = await this._listByFactory(
         resourceGroupName,
         factoryName,
-        options,
+        options
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -100,7 +100,7 @@ export class CredentialOperationsImpl implements CredentialOperations {
         resourceGroupName,
         factoryName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -112,12 +112,12 @@ export class CredentialOperationsImpl implements CredentialOperations {
   private async *listByFactoryPagingAll(
     resourceGroupName: string,
     factoryName: string,
-    options?: CredentialOperationsListByFactoryOptionalParams,
+    options?: CredentialOperationsListByFactoryOptionalParams
   ): AsyncIterableIterator<ManagedIdentityCredentialResource> {
     for await (const page of this.listByFactoryPagingPage(
       resourceGroupName,
       factoryName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -132,11 +132,11 @@ export class CredentialOperationsImpl implements CredentialOperations {
   private _listByFactory(
     resourceGroupName: string,
     factoryName: string,
-    options?: CredentialOperationsListByFactoryOptionalParams,
+    options?: CredentialOperationsListByFactoryOptionalParams
   ): Promise<CredentialOperationsListByFactoryResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, options },
-      listByFactoryOperationSpec,
+      listByFactoryOperationSpec
     );
   }
 
@@ -153,11 +153,11 @@ export class CredentialOperationsImpl implements CredentialOperations {
     factoryName: string,
     credentialName: string,
     credential: ManagedIdentityCredentialResource,
-    options?: CredentialOperationsCreateOrUpdateOptionalParams,
+    options?: CredentialOperationsCreateOrUpdateOptionalParams
   ): Promise<CredentialOperationsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, credentialName, credential, options },
-      createOrUpdateOperationSpec,
+      createOrUpdateOperationSpec
     );
   }
 
@@ -172,11 +172,11 @@ export class CredentialOperationsImpl implements CredentialOperations {
     resourceGroupName: string,
     factoryName: string,
     credentialName: string,
-    options?: CredentialOperationsGetOptionalParams,
+    options?: CredentialOperationsGetOptionalParams
   ): Promise<CredentialOperationsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, credentialName, options },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -191,11 +191,11 @@ export class CredentialOperationsImpl implements CredentialOperations {
     resourceGroupName: string,
     factoryName: string,
     credentialName: string,
-    options?: CredentialOperationsDeleteOptionalParams,
+    options?: CredentialOperationsDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, credentialName, options },
-      deleteOperationSpec,
+      deleteOperationSpec
     );
   }
 
@@ -210,11 +210,11 @@ export class CredentialOperationsImpl implements CredentialOperations {
     resourceGroupName: string,
     factoryName: string,
     nextLink: string,
-    options?: CredentialOperationsListByFactoryNextOptionalParams,
+    options?: CredentialOperationsListByFactoryNextOptionalParams
   ): Promise<CredentialOperationsListByFactoryNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, nextLink, options },
-      listByFactoryNextOperationSpec,
+      listByFactoryNextOperationSpec
     );
   }
 }
@@ -222,36 +222,38 @@ export class CredentialOperationsImpl implements CredentialOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByFactoryOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/credentials",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/credentials",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CredentialListResponse,
+      bodyMapper: Mappers.CredentialListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.factoryName,
+    Parameters.factoryName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/credentials/{credentialName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/credentials/{credentialName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedIdentityCredentialResource,
+      bodyMapper: Mappers.ManagedIdentityCredentialResource
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   requestBody: Parameters.credential,
   queryParameters: [Parameters.apiVersion],
@@ -260,27 +262,28 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.credentialName,
+    Parameters.credentialName
   ],
   headerParameters: [
     Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch,
+    Parameters.ifMatch
   ],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/credentials/{credentialName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/credentials/{credentialName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedIdentityCredentialResource,
+      bodyMapper: Mappers.ManagedIdentityCredentialResource
     },
     304: {},
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -288,20 +291,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.credentialName,
+    Parameters.credentialName
   ],
   headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
-  serializer,
+  serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/credentials/{credentialName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/credentials/{credentialName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -309,29 +313,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.credentialName,
+    Parameters.credentialName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listByFactoryNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CredentialListResponse,
+      bodyMapper: Mappers.CredentialListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.factoryName,
+    Parameters.factoryName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

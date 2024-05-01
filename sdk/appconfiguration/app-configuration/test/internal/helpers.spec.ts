@@ -12,7 +12,6 @@ import {
 } from "../../src";
 import {
   checkAndFormatIfAndIfNoneMatch,
-  extractAfterTokenFromLinkHeader,
   extractAfterTokenFromNextLink,
   formatFieldsForSelect,
   formatFiltersAndSelect,
@@ -132,13 +131,6 @@ describe("helper methods", () => {
     it("token is extracted and properly unescaped", () => {
       const token = extractAfterTokenFromNextLink("/kv?key=someKey&api-version=1.0&after=bGlah%3D");
       assert.equal("bGlah=", token);
-    });
-
-    it("extractAfterTokenFromLinkHeader", () => {
-      const link = '</kv?api-version=2023-10-01&key=listResults714&after=bGlzdE4>; rel="next"';
-      const expectedLink = "bGlzdE4";
-
-      assert.equal(expectedLink, extractAfterTokenFromLinkHeader(link));
     });
   });
 

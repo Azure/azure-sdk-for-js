@@ -6,10 +6,9 @@ import {
   assertDivergentBehavior,
   assertError,
   createDoubleHeaders,
-} from "./utils/utils.js";
-import { describe, it, assert } from "vitest";
-import { createRunLroWith, createTestPoller } from "./utils/router.js";
-import { matrix } from "./matrix.js";
+} from "./utils/utils";
+import { assert, matrix } from "@azure/test-utils";
+import { createRunLroWith, createTestPoller } from "./utils/router";
 
 matrix(
   [

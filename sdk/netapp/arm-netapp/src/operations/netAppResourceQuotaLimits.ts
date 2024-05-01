@@ -17,14 +17,13 @@ import {
   NetAppResourceQuotaLimitsListOptionalParams,
   NetAppResourceQuotaLimitsListResponse,
   NetAppResourceQuotaLimitsGetOptionalParams,
-  NetAppResourceQuotaLimitsGetResponse,
+  NetAppResourceQuotaLimitsGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing NetAppResourceQuotaLimits operations. */
 export class NetAppResourceQuotaLimitsImpl
-  implements NetAppResourceQuotaLimits
-{
+  implements NetAppResourceQuotaLimits {
   private readonly client: NetAppManagementClient;
 
   /**
@@ -42,7 +41,7 @@ export class NetAppResourceQuotaLimitsImpl
    */
   public list(
     location: string,
-    options?: NetAppResourceQuotaLimitsListOptionalParams,
+    options?: NetAppResourceQuotaLimitsListOptionalParams
   ): PagedAsyncIterableIterator<SubscriptionQuotaItem> {
     const iter = this.listPagingAll(location, options);
     return {
@@ -57,14 +56,14 @@ export class NetAppResourceQuotaLimitsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(location, options, settings);
-      },
+      }
     };
   }
 
   private async *listPagingPage(
     location: string,
     options?: NetAppResourceQuotaLimitsListOptionalParams,
-    _settings?: PageSettings,
+    _settings?: PageSettings
   ): AsyncIterableIterator<SubscriptionQuotaItem[]> {
     let result: NetAppResourceQuotaLimitsListResponse;
     result = await this._list(location, options);
@@ -73,7 +72,7 @@ export class NetAppResourceQuotaLimitsImpl
 
   private async *listPagingAll(
     location: string,
-    options?: NetAppResourceQuotaLimitsListOptionalParams,
+    options?: NetAppResourceQuotaLimitsListOptionalParams
   ): AsyncIterableIterator<SubscriptionQuotaItem> {
     for await (const page of this.listPagingPage(location, options)) {
       yield* page;
@@ -87,11 +86,11 @@ export class NetAppResourceQuotaLimitsImpl
    */
   private _list(
     location: string,
-    options?: NetAppResourceQuotaLimitsListOptionalParams,
+    options?: NetAppResourceQuotaLimitsListOptionalParams
   ): Promise<NetAppResourceQuotaLimitsListResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listOperationSpec,
+      listOperationSpec
     );
   }
 
@@ -104,11 +103,11 @@ export class NetAppResourceQuotaLimitsImpl
   get(
     location: string,
     quotaLimitName: string,
-    options?: NetAppResourceQuotaLimitsGetOptionalParams,
+    options?: NetAppResourceQuotaLimitsGetOptionalParams
   ): Promise<NetAppResourceQuotaLimitsGetResponse> {
     return this.client.sendOperationRequest(
       { location, quotaLimitName, options },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 }
@@ -116,43 +115,41 @@ export class NetAppResourceQuotaLimitsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/quotaLimits",
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/quotaLimits",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SubscriptionQuotaItemList,
+      bodyMapper: Mappers.SubscriptionQuotaItemList
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+    default: {}
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location,
+    Parameters.location
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/quotaLimits/{quotaLimitName}",
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/quotaLimits/{quotaLimitName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SubscriptionQuotaItem,
+      bodyMapper: Mappers.SubscriptionQuotaItem
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+    default: {}
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location,
-    Parameters.quotaLimitName,
+    Parameters.quotaLimitName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

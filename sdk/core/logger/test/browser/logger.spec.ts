@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as Logger from "../../src/index.js";
-import { describe, it, expect, afterEach, vi } from "vitest";
+import * as Logger from "../../src";
+import * as sinon from "sinon";
+import { assert } from "chai";
 
 const testLogger = Logger.createClientLogger("test");
 
@@ -13,31 +14,34 @@ describe("AzureLogger (browser)", function () {
 
   afterEach(() => {
     Logger.setLogLevel(undefined);
-    vi.restoreAllMocks();
+    sinon.restore();
   });
 
   it("logs to the correct console function", () => {
     Logger.setLogLevel("verbose");
 
-    const debugStub = vi.spyOn(console, "debug");
+    const debugStub = sinon.stub(console, "debug");
     testLogger.verbose("verbose");
-    expect(debugStub).toHaveBeenCalledTimes(1);
-    expect(debugStub).toHaveBeenCalledWith(expectedTestMessage("azure:test:verbose", "verbose"));
-    debugStub.mockRestore();
+    assert.isTrue(debugStub.calledOnce, "console.debug called");
+    assert.strictEqual(
+      debugStub.firstCall.args[0],
+      expectedTestMessage("azure:test:verbose", "verbose"),
+    );
+    debugStub.restore();
 
-    const infoStub = vi.spyOn(console, "info");
+    const infoStub = sinon.stub(console, "info");
     testLogger.info("info");
-    expect(infoStub).toHaveBeenCalledWith(expectedTestMessage("azure:test:info", "info"));
-    infoStub.mockRestore();
+    assert.isTrue(infoStub.calledOnceWith(expectedTestMessage("azure:test:info", "info")));
+    infoStub.restore();
 
-    const warningStub = vi.spyOn(console, "warn");
+    const warningStub = sinon.stub(console, "warn");
     testLogger.warning("warning");
-    expect(warningStub).toHaveBeenCalledWith(expectedTestMessage("azure:test:warning", "warning"));
-    warningStub.mockRestore();
+    assert.isTrue(warningStub.calledOnceWith(expectedTestMessage("azure:test:warning", "warning")));
+    warningStub.restore();
 
-    const errorStub = vi.spyOn(console, "error");
+    const errorStub = sinon.stub(console, "error");
     testLogger.error("error");
-    expect(errorStub).toHaveBeenCalledWith(expectedTestMessage("azure:test:error", "error"));
-    errorStub.mockRestore();
+    assert.isTrue(errorStub.calledOnceWith(expectedTestMessage("azure:test:error", "error")));
+    errorStub.restore();
   });
 });

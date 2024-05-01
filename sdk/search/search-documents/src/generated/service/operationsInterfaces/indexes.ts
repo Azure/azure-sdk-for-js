@@ -21,7 +21,7 @@ import {
   IndexesGetStatisticsResponse,
   AnalyzeRequest,
   IndexesAnalyzeOptionalParams,
-  IndexesAnalyzeResponse,
+  IndexesAnalyzeResponse
 } from "../models";
 
 /** Interface representing a Indexes. */
@@ -33,7 +33,7 @@ export interface Indexes {
    */
   create(
     index: SearchIndex,
-    options?: IndexesCreateOptionalParams,
+    options?: IndexesCreateOptionalParams
   ): Promise<IndexesCreateResponse>;
   /**
    * Lists all indexes available for a search service.
@@ -49,7 +49,7 @@ export interface Indexes {
   createOrUpdate(
     indexName: string,
     index: SearchIndex,
-    options?: IndexesCreateOrUpdateOptionalParams,
+    options?: IndexesCreateOrUpdateOptionalParams
   ): Promise<IndexesCreateOrUpdateResponse>;
   /**
    * Deletes a search index and all the documents it contains. This operation is permanent, with no
@@ -60,7 +60,7 @@ export interface Indexes {
    */
   delete(
     indexName: string,
-    options?: IndexesDeleteOptionalParams,
+    options?: IndexesDeleteOptionalParams
   ): Promise<void>;
   /**
    * Retrieves an index definition.
@@ -69,7 +69,7 @@ export interface Indexes {
    */
   get(
     indexName: string,
-    options?: IndexesGetOptionalParams,
+    options?: IndexesGetOptionalParams
   ): Promise<IndexesGetResponse>;
   /**
    * Returns statistics for the given index, including a document count and storage usage.
@@ -78,7 +78,7 @@ export interface Indexes {
    */
   getStatistics(
     indexName: string,
-    options?: IndexesGetStatisticsOptionalParams,
+    options?: IndexesGetStatisticsOptionalParams
   ): Promise<IndexesGetStatisticsResponse>;
   /**
    * Shows how an analyzer breaks text into tokens.
@@ -89,6 +89,6 @@ export interface Indexes {
   analyze(
     indexName: string,
     request: AnalyzeRequest,
-    options?: IndexesAnalyzeOptionalParams,
+    options?: IndexesAnalyzeOptionalParams
   ): Promise<IndexesAnalyzeResponse>;
 }

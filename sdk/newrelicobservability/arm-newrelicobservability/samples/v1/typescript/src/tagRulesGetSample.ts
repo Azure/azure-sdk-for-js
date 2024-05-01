@@ -18,12 +18,11 @@ dotenv.config();
  * This sample demonstrates how to Get a TagRule
  *
  * @summary Get a TagRule
- * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/TagRules_Get_MaximumSet_Gen.json
+ * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2022-07-01/examples/TagRules_Get_MaximumSet_Gen.json
  */
 async function tagRulesGetMaximumSetGen() {
   const subscriptionId =
-    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "ddqonpqwjr";
   const resourceGroupName =
     process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgopenapi";
   const monitorName = "ipxmlcbonyxtolzejcjshkmlron";
@@ -33,7 +32,7 @@ async function tagRulesGetMaximumSetGen() {
   const result = await client.tagRules.get(
     resourceGroupName,
     monitorName,
-    ruleSetName,
+    ruleSetName
   );
   console.log(result);
 }
@@ -42,12 +41,11 @@ async function tagRulesGetMaximumSetGen() {
  * This sample demonstrates how to Get a TagRule
  *
  * @summary Get a TagRule
- * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/TagRules_Get_MinimumSet_Gen.json
+ * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2022-07-01/examples/TagRules_Get_MinimumSet_Gen.json
  */
 async function tagRulesGetMinimumSetGen() {
   const subscriptionId =
-    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "ddqonpqwjr";
   const resourceGroupName =
     process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgopenapi";
   const monitorName = "ipxmlcbonyxtolzejcjshkmlron";
@@ -57,7 +55,7 @@ async function tagRulesGetMinimumSetGen() {
   const result = await client.tagRules.get(
     resourceGroupName,
     monitorName,
-    ruleSetName,
+    ruleSetName
   );
   console.log(result);
 }

@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 /**
  * This sample demonstrates how the updateRegistration() method can be used to update a device registration using
@@ -31,7 +31,7 @@ const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 // Define an existing Registration ID.
 const registrationId = process.env.REGISTRATION_ID || "<registrationId>";
 
-async function main(): Promise<void> {
+async function main() {
   const context = createClientContext(connectionString, hubName);
 
   const registration = await getRegistration(context, registrationId);

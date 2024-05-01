@@ -79,15 +79,7 @@ describe("Retries - ManagementClient", () => {
       await func();
     } catch (error: any) {
       errorThrown = true;
-      should.equal(
-        error.message,
-        `Error 0: ServiceBusError: Hello there, I'm an error
-
-Error 1: ServiceBusError: Hello there, I'm an error
-
-Error 2: ServiceBusError: Hello there, I'm an error`,
-        "Unexpected error thrown",
-      );
+      should.equal(error.message, "Hello there, I'm an error", "Unexpected error thrown");
       should.equal(
         numberOfTimesManagementClientInvoked,
         defaultMaxRetries + 1,
@@ -241,25 +233,14 @@ describe("Retries - MessageSender", () => {
     (sender as ServiceBusSenderImpl)["_sender"]["open"] = fakeFunction;
   }
 
-  async function mockInitAndVerifyRetries(
-    func: () => Promise<void>,
-    expectedErrorType: string = "MessagingError",
-  ): Promise<void> {
+  async function mockInitAndVerifyRetries(func: () => Promise<void>): Promise<void> {
     mockInitToThrowError();
     let errorThrown = false;
     try {
       await func();
     } catch (error: any) {
       errorThrown = true;
-      should.equal(
-        error.message,
-        `Error 0: ${expectedErrorType}: Hello there, I'm an error
-
-Error 1: ${expectedErrorType}: Hello there, I'm an error
-
-Error 2: ${expectedErrorType}: Hello there, I'm an error`,
-        "Unexpected error thrown",
-      );
+      should.equal(error.message, "Hello there, I'm an error", "Unexpected error thrown");
       should.equal(numberOfTimesInitInvoked, defaultMaxRetries + 1, "Unexpected number of retries");
     }
     should.equal(errorThrown, true, "Error was not thrown");
@@ -277,7 +258,7 @@ Error 2: ${expectedErrorType}: Hello there, I'm an error`,
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     await mockInitAndVerifyRetries(async () => {
       await sender.sendMessages(TestMessage.getSample());
-    }, "ServiceBusError");
+    });
   });
 
   it("Unpartitioned Queue: createBatch", async function (): Promise<void> {
@@ -302,7 +283,7 @@ Error 2: ${expectedErrorType}: Hello there, I'm an error`,
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     await mockInitAndVerifyRetries(async () => {
       await sender.sendMessages(TestMessage.getSample());
-    }, "ServiceBusError");
+    });
   });
 
   it("Unpartitioned Queue with Sessions: createBatch", async function (): Promise<void> {
@@ -389,15 +370,7 @@ describe("Retries - Receive methods", () => {
       await func();
     } catch (error: any) {
       errorThrown = true;
-      should.equal(
-        error.message,
-        `Error 0: MessagingError: Hello there, I'm an error
-
-Error 1: MessagingError: Hello there, I'm an error
-
-Error 2: MessagingError: Hello there, I'm an error`,
-        "Unexpected error thrown",
-      );
+      should.equal(error.message, "Hello there, I'm an error", "Unexpected error thrown");
       should.equal(numberOfTimesTried, defaultMaxRetries + 1, "Unexpected number of retries");
     }
     should.equal(errorThrown, true, "Error was not thrown");

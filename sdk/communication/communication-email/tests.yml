@@ -6,8 +6,8 @@ parameters:
     type: boolean
     default: false
 
-extends:
-    template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+stages:
+  - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
       PackageName: "@azure/communication-email"
       ServiceDirectory: communication

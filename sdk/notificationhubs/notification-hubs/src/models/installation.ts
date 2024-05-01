@@ -137,28 +137,6 @@ export function createFcmLegacyInstallation(
 }
 
 /**
- * Represents an Firebase V1 Cloud Messaging based installation.
- */
-export interface FcmV1Installation extends DeviceTokenInstallation {
-  /**
-   * The platform for the installation.
-   */
-  platform: "fcmv1";
-}
-
-/**
- * Creates an Firebase V1 Cloud Messaging based installation.
- * @param installation - A partial installation used to create the Firebase V1 Cloud Messaging installation.
- * @returns The newly created Firebase V1 Cloud Messaging installation.
- */
-export function createFcmV1Installation(installation: DeviceTokenInstallation): FcmV1Installation {
-  return {
-    ...installation,
-    platform: "fcmv1",
-  };
-}
-
-/**
  * Represents a Xiaomi based installation.
  */
 export interface XiaomiInstallation extends DeviceTokenInstallation {
@@ -269,7 +247,6 @@ export type Installation =
   | BaiduInstallation
   | BrowserInstallation
   | FcmLegacyInstallation
-  | FcmV1Installation
   | XiaomiInstallation
   | WindowsInstallation;
 

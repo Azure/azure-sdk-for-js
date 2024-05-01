@@ -1,18 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import type * as http from "http";
-import type * as https from "https";
-import { HttpsProxyAgent } from "https-proxy-agent";
-import { HttpProxyAgent } from "http-proxy-agent";
-import type {
-  PipelineRequest,
-  PipelineResponse,
-  ProxySettings,
-  SendRequest,
-} from "../interfaces.js";
-import type { PipelinePolicy } from "../pipeline.js";
-import { logger } from "../log.js";
+import * as http from "http";
+import * as https from "https";
+import { HttpsProxyAgent, HttpsProxyAgentOptions } from "https-proxy-agent";
+import { HttpProxyAgent, HttpProxyAgentOptions } from "http-proxy-agent";
+import { PipelineRequest, PipelineResponse, ProxySettings, SendRequest } from "../interfaces";
+import { PipelinePolicy } from "../pipeline";
+import { logger } from "../log";
 
 const HTTPS_PROXY = "HTTPS_PROXY";
 const HTTP_PROXY = "HTTP_PROXY";
@@ -112,7 +107,6 @@ export function loadNoProxy(): string[] {
  * If no argument is given, it attempts to parse a proxy URL from the environment
  * variables `HTTPS_PROXY` or `HTTP_PROXY`.
  * @param proxyUrl - The url of the proxy to use. May contain authentication information.
- * @deprecated - Internally this method is no longer necessary when setting proxy information.
  */
 export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined {
   if (!proxyUrl) {
@@ -133,40 +127,42 @@ export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | unde
 }
 
 /**
- * This method attempts to parse a proxy URL from the environment
- * variables `HTTPS_PROXY` or `HTTP_PROXY`.
+ * @internal
  */
-function getDefaultProxySettingsInternal(): URL | undefined {
-  const envProxy = loadEnvironmentProxyValue();
-  return envProxy ? new URL(envProxy) : undefined;
-}
-
-function getUrlFromProxySettings(settings: ProxySettings): URL {
+export function getProxyAgentOptions(
+  proxySettings: ProxySettings,
+  { headers, tlsSettings }: PipelineRequest,
+): HttpProxyAgentOptions {
   let parsedProxyUrl: URL;
   try {
-    parsedProxyUrl = new URL(settings.host);
+    parsedProxyUrl = new URL(proxySettings.host);
   } catch (_error) {
     throw new Error(
-      `Expecting a valid host string in proxy settings, but found "${settings.host}".`,
+      `Expecting a valid host string in proxy settings, but found "${proxySettings.host}".`,
     );
   }
 
-  parsedProxyUrl.port = String(settings.port);
-  if (settings.username) {
-    parsedProxyUrl.username = settings.username;
-  }
-  if (settings.password) {
-    parsedProxyUrl.password = settings.password;
+  if (tlsSettings) {
+    logger.warning(
+      "TLS settings are not supported in combination with custom Proxy, certificates provided to the client will be ignored.",
+    );
   }
 
-  return parsedProxyUrl;
+  const proxyAgentOptions: HttpsProxyAgentOptions = {
+    hostname: parsedProxyUrl.hostname,
+    port: proxySettings.port,
+    protocol: parsedProxyUrl.protocol,
+    headers: headers.toJSON(),
+  };
+  if (proxySettings.username && proxySettings.password) {
+    proxyAgentOptions.auth = `${proxySettings.username}:${proxySettings.password}`;
+  } else if (proxySettings.username) {
+    proxyAgentOptions.auth = `${proxySettings.username}`;
+  }
+  return proxyAgentOptions;
 }
 
-function setProxyAgentOnRequest(
-  request: PipelineRequest,
-  cachedAgents: CachedAgents,
-  proxyUrl: URL,
-): void {
+function setProxyAgentOnRequest(request: PipelineRequest, cachedAgents: CachedAgents): void {
   // Custom Agent should take precedence so if one is present
   // we should skip to avoid overwriting it.
   if (request.agent) {
@@ -177,24 +173,21 @@ function setProxyAgentOnRequest(
 
   const isInsecure = url.protocol !== "https:";
 
-  if (request.tlsSettings) {
-    logger.warning(
-      "TLS settings are not supported in combination with custom Proxy, certificates provided to the client will be ignored.",
-    );
-  }
-
-  const headers = request.headers.toJSON();
-
-  if (isInsecure) {
-    if (!cachedAgents.httpProxyAgent) {
-      cachedAgents.httpProxyAgent = new HttpProxyAgent(proxyUrl, { headers });
+  const proxySettings = request.proxySettings;
+  if (proxySettings) {
+    if (isInsecure) {
+      if (!cachedAgents.httpProxyAgent) {
+        const proxyAgentOptions = getProxyAgentOptions(proxySettings, request);
+        cachedAgents.httpProxyAgent = new HttpProxyAgent(proxyAgentOptions);
+      }
+      request.agent = cachedAgents.httpProxyAgent;
+    } else {
+      if (!cachedAgents.httpsProxyAgent) {
+        const proxyAgentOptions = getProxyAgentOptions(proxySettings, request);
+        cachedAgents.httpsProxyAgent = new HttpsProxyAgent(proxyAgentOptions);
+      }
+      request.agent = cachedAgents.httpsProxyAgent;
     }
-    request.agent = cachedAgents.httpProxyAgent;
-  } else {
-    if (!cachedAgents.httpsProxyAgent) {
-      cachedAgents.httpsProxyAgent = new HttpsProxyAgent(proxyUrl, { headers });
-    }
-    request.agent = cachedAgents.httpsProxyAgent;
   }
 }
 
@@ -211,7 +204,7 @@ interface CachedAgents {
  * @param options - additional settings, for example, custom NO_PROXY patterns
  */
 export function proxyPolicy(
-  proxySettings?: ProxySettings,
+  proxySettings = getDefaultProxySettings(),
   options?: {
     /** a list of patterns to override those loaded from NO_PROXY environment variable. */
     customNoProxyList?: string[];
@@ -221,10 +214,6 @@ export function proxyPolicy(
     globalNoProxyList.push(...loadNoProxy());
   }
 
-  const defaultProxy = proxySettings
-    ? getUrlFromProxySettings(proxySettings)
-    : getDefaultProxySettingsInternal();
-
   const cachedAgents: CachedAgents = {};
 
   return {
@@ -232,20 +221,17 @@ export function proxyPolicy(
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       if (
         !request.proxySettings &&
-        defaultProxy &&
         !isBypassed(
           request.url,
           options?.customNoProxyList ?? globalNoProxyList,
           options?.customNoProxyList ? undefined : globalBypassedMap,
         )
       ) {
-        setProxyAgentOnRequest(request, cachedAgents, defaultProxy);
-      } else if (request.proxySettings) {
-        setProxyAgentOnRequest(
-          request,
-          cachedAgents,
-          getUrlFromProxySettings(request.proxySettings),
-        );
+        request.proxySettings = proxySettings;
+      }
+
+      if (request.proxySettings) {
+        setProxyAgentOnRequest(request, cachedAgents);
       }
       return next(request);
     },

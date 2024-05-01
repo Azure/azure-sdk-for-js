@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
-import { getClient } from "../../src/client/getClient.js";
+import { assert } from "chai";
+import { getClient } from "../../src/client/getClient";
+import sinon from "sinon";
 
 function createResponse(statusCode: number, body = ""): Response {
   const stream = new ReadableStream({
@@ -28,20 +29,18 @@ function createResponse(statusCode: number, body = ""): Response {
 const mockBaseUrl = "https://example.org";
 
 describe("[Browser] Streams", () => {
+  let fetchMock: sinon.SinonStub;
   beforeEach(() => {
-    vi.stubGlobal("fetch", vi.fn());
+    fetchMock = sinon.stub(self, "fetch");
   });
 
   afterEach(() => {
-    vi.clearAllMocks();
-    vi.unstubAllGlobals();
+    sinon.restore();
   });
 
   it("should get a JSON body response as a stream", async () => {
     const responseText = "An appropriate response.";
-
-    const fetchMock = vi.mocked(fetch);
-    fetchMock.mockResolvedValue(createResponse(200, responseText));
+    fetchMock.returns(createResponse(200, responseText));
 
     const client = getClient(mockBaseUrl);
     const result = await client.pathUnchecked("/foo").get().asBrowserStream();
@@ -49,26 +48,24 @@ describe("[Browser] Streams", () => {
     // Read the first chunk
     const chunk = await reader.read();
     assert.equal(chunk.done, false);
-    expect(fetchMock).toHaveBeenCalledOnce();
+    assert.isTrue(fetchMock.calledOnce);
   });
 
   it("should get a JSON body response", async () => {
     const responseText = "An appropriate response.";
 
-    const fetchMock = vi.mocked(fetch);
     const client = getClient(mockBaseUrl);
-    fetchMock.mockResolvedValue(createResponse(200, responseText));
+    fetchMock.returns(createResponse(200, responseText));
 
     const result = await client.pathUnchecked("/foo").get();
 
     assert.deepEqual(result.body, responseText);
-    expect(fetchMock).toHaveBeenCalledOnce();
+    assert.isTrue(fetchMock.calledOnce);
   });
 
   it("should be able to handle errors on normal response", async () => {
-    const fetchMock = vi.mocked(fetch);
     const client = getClient(mockBaseUrl);
-    fetchMock.mockRejectedValue(new Error("ExpectedException"));
+    fetchMock.throwsException(new Error("ExpectedException"));
     try {
       await client.pathUnchecked("/foo").get();
     } catch (e: any) {
@@ -77,9 +74,8 @@ describe("[Browser] Streams", () => {
   });
 
   it("should be able to handle errors on streamed response", async () => {
-    const fetchMock = vi.mocked(fetch);
     const client = getClient(mockBaseUrl);
-    fetchMock.mockRejectedValue(new Error("ExpectedException"));
+    fetchMock.throwsException(new Error("ExpectedException"));
     try {
       await client.pathUnchecked("/foo").get().asNodeStream();
     } catch (e: any) {

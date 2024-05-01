@@ -1,21 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { MSI, MSIConfiguration, MSIToken } from "./models";
+import { delay, isError } from "@azure/core-util";
+import { GetTokenOptions } from "@azure/core-auth";
 import {
   PipelineRequestOptions,
   PipelineResponse,
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { delay, isError } from "@azure/core-util";
-import { imdsApiVersion, imdsEndpointPath, imdsHost } from "./constants";
-
-import { AuthenticationError } from "../../errors";
-import { GetTokenOptions } from "@azure/core-auth";
 import { credentialLogger } from "../../util/logging";
-import { mapScopesToResource } from "./utils";
+import { AuthenticationError } from "../../errors";
 import { tracingClient } from "../../util/tracing";
+import { imdsApiVersion, imdsEndpointPath, imdsHost } from "./constants";
+import { MSI, MSIConfiguration, MSIToken } from "./models";
+import { mapScopesToResource } from "./utils";
 
 const msiName = "ManagedIdentityCredential - IMDS";
 const logger = credentialLogger(msiName);
@@ -77,6 +76,13 @@ function prepareRequestOptions(
   };
 }
 
+// 800ms -> 1600ms -> 3200ms
+export const imdsMsiRetryConfig = {
+  maxRetries: 3,
+  startDelayInMs: 800,
+  intervalIncrement: 2,
+};
+
 /**
  * Defines how to determine whether the Azure IMDS MSI is available, and also how to retrieve a token from the Azure IMDS MSI.
  */
@@ -136,13 +142,17 @@ export const imdsMsi: MSI = {
           if (isError(err)) {
             logger.verbose(`${msiName}: Caught error ${err.name}: ${err.message}`);
           }
-          // This is a special case for Docker Desktop which responds with a 403 with a message that contains "A socket operation was attempted to an unreachable network" or "A socket operation was attempted to an unreachable host"
+          // This is a special case for Docker Desktop which responds with a 403 with a message that contains "A socket operation was attempted to an unreachable network"
           // rather than just timing out, as expected.
           logger.info(`${msiName}: The Azure IMDS endpoint is unavailable`);
           return false;
         }
         if (response.status === 403) {
-          if (response.bodyAsText?.includes("unreachable")) {
+          if (
+            response.bodyAsText?.includes(
+              "A socket operation was attempted to an unreachable network",
+            )
+          ) {
             logger.info(`${msiName}: The Azure IMDS endpoint is unavailable`);
             logger.info(`${msiName}: ${response.bodyAsText}`);
             return false;
@@ -168,8 +178,8 @@ export const imdsMsi: MSI = {
       logger.info(`${msiName}: Using the default Azure IMDS endpoint ${imdsHost}.`);
     }
 
-    let nextDelayInMs = configuration.retryConfig.startDelayInMs;
-    for (let retries = 0; retries < configuration.retryConfig.maxRetries; retries++) {
+    let nextDelayInMs = imdsMsiRetryConfig.startDelayInMs;
+    for (let retries = 0; retries < imdsMsiRetryConfig.maxRetries; retries++) {
       try {
         const request = createPipelineRequest({
           abortSignal: getTokenOptions.abortSignal,
@@ -182,7 +192,7 @@ export const imdsMsi: MSI = {
       } catch (error: any) {
         if (error.statusCode === 404) {
           await delay(nextDelayInMs);
-          nextDelayInMs *= configuration.retryConfig.intervalIncrement;
+          nextDelayInMs *= imdsMsiRetryConfig.intervalIncrement;
           continue;
         }
         throw error;
@@ -191,7 +201,7 @@ export const imdsMsi: MSI = {
 
     throw new AuthenticationError(
       404,
-      `${msiName}: Failed to retrieve IMDS token after ${configuration.retryConfig.maxRetries} retries.`,
+      `${msiName}: Failed to retrieve IMDS token after ${imdsMsiRetryConfig.maxRetries} retries.`,
     );
   },
 };

@@ -15,7 +15,7 @@ import { NetAppManagementClient } from "../netAppManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller,
+  createHttpPoller
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -27,7 +27,7 @@ import {
   VolumeGroupDetails,
   VolumeGroupsCreateOptionalParams,
   VolumeGroupsCreateResponse,
-  VolumeGroupsDeleteOptionalParams,
+  VolumeGroupsDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,12 +52,12 @@ export class VolumeGroupsImpl implements VolumeGroups {
   public listByNetAppAccount(
     resourceGroupName: string,
     accountName: string,
-    options?: VolumeGroupsListByNetAppAccountOptionalParams,
+    options?: VolumeGroupsListByNetAppAccountOptionalParams
   ): PagedAsyncIterableIterator<VolumeGroup> {
     const iter = this.listByNetAppAccountPagingAll(
       resourceGroupName,
       accountName,
-      options,
+      options
     );
     return {
       next() {
@@ -74,9 +74,9 @@ export class VolumeGroupsImpl implements VolumeGroups {
           resourceGroupName,
           accountName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -84,13 +84,13 @@ export class VolumeGroupsImpl implements VolumeGroups {
     resourceGroupName: string,
     accountName: string,
     options?: VolumeGroupsListByNetAppAccountOptionalParams,
-    _settings?: PageSettings,
+    _settings?: PageSettings
   ): AsyncIterableIterator<VolumeGroup[]> {
     let result: VolumeGroupsListByNetAppAccountResponse;
     result = await this._listByNetAppAccount(
       resourceGroupName,
       accountName,
-      options,
+      options
     );
     yield result.value || [];
   }
@@ -98,12 +98,12 @@ export class VolumeGroupsImpl implements VolumeGroups {
   private async *listByNetAppAccountPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: VolumeGroupsListByNetAppAccountOptionalParams,
+    options?: VolumeGroupsListByNetAppAccountOptionalParams
   ): AsyncIterableIterator<VolumeGroup> {
     for await (const page of this.listByNetAppAccountPagingPage(
       resourceGroupName,
       accountName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -118,11 +118,11 @@ export class VolumeGroupsImpl implements VolumeGroups {
   private _listByNetAppAccount(
     resourceGroupName: string,
     accountName: string,
-    options?: VolumeGroupsListByNetAppAccountOptionalParams,
+    options?: VolumeGroupsListByNetAppAccountOptionalParams
   ): Promise<VolumeGroupsListByNetAppAccountResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listByNetAppAccountOperationSpec,
+      listByNetAppAccountOperationSpec
     );
   }
 
@@ -137,11 +137,11 @@ export class VolumeGroupsImpl implements VolumeGroups {
     resourceGroupName: string,
     accountName: string,
     volumeGroupName: string,
-    options?: VolumeGroupsGetOptionalParams,
+    options?: VolumeGroupsGetOptionalParams
   ): Promise<VolumeGroupsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, volumeGroupName, options },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -158,7 +158,7 @@ export class VolumeGroupsImpl implements VolumeGroups {
     accountName: string,
     volumeGroupName: string,
     body: VolumeGroupDetails,
-    options?: VolumeGroupsCreateOptionalParams,
+    options?: VolumeGroupsCreateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<VolumeGroupsCreateResponse>,
@@ -167,20 +167,21 @@ export class VolumeGroupsImpl implements VolumeGroups {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<VolumeGroupsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -189,8 +190,8 @@ export class VolumeGroupsImpl implements VolumeGroups {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -198,22 +199,22 @@ export class VolumeGroupsImpl implements VolumeGroups {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, volumeGroupName, body, options },
-      spec: createOperationSpec,
+      spec: createOperationSpec
     });
     const poller = await createHttpPoller<
       VolumeGroupsCreateResponse,
       OperationState<VolumeGroupsCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -232,14 +233,14 @@ export class VolumeGroupsImpl implements VolumeGroups {
     accountName: string,
     volumeGroupName: string,
     body: VolumeGroupDetails,
-    options?: VolumeGroupsCreateOptionalParams,
+    options?: VolumeGroupsCreateOptionalParams
   ): Promise<VolumeGroupsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       accountName,
       volumeGroupName,
       body,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -255,24 +256,25 @@ export class VolumeGroupsImpl implements VolumeGroups {
     resourceGroupName: string,
     accountName: string,
     volumeGroupName: string,
-    options?: VolumeGroupsDeleteOptionalParams,
+    options?: VolumeGroupsDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -281,8 +283,8 @@ export class VolumeGroupsImpl implements VolumeGroups {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -290,19 +292,19 @@ export class VolumeGroupsImpl implements VolumeGroups {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, volumeGroupName, options },
-      spec: deleteOperationSpec,
+      spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -319,13 +321,13 @@ export class VolumeGroupsImpl implements VolumeGroups {
     resourceGroupName: string,
     accountName: string,
     volumeGroupName: string,
-    options?: VolumeGroupsDeleteOptionalParams,
+    options?: VolumeGroupsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       accountName,
       volumeGroupName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -334,36 +336,34 @@ export class VolumeGroupsImpl implements VolumeGroups {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByNetAppAccountOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/volumeGroups",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/volumeGroups",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VolumeGroupList,
+      bodyMapper: Mappers.VolumeGroupList
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+    default: {}
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName,
+    Parameters.accountName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/volumeGroups/{volumeGroupName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/volumeGroups/{volumeGroupName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VolumeGroupDetails,
+      bodyMapper: Mappers.VolumeGroupDetails
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+    default: {}
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -371,64 +371,55 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.volumeGroupName,
+    Parameters.volumeGroupName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/volumeGroups/{volumeGroupName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/volumeGroups/{volumeGroupName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.VolumeGroupDetails,
+      bodyMapper: Mappers.VolumeGroupDetails
     },
     201: {
-      bodyMapper: Mappers.VolumeGroupDetails,
+      bodyMapper: Mappers.VolumeGroupDetails
     },
     202: {
-      bodyMapper: Mappers.VolumeGroupDetails,
+      bodyMapper: Mappers.VolumeGroupDetails
     },
     204: {
-      bodyMapper: Mappers.VolumeGroupDetails,
+      bodyMapper: Mappers.VolumeGroupDetails
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+    default: {}
   },
-  requestBody: Parameters.body28,
+  requestBody: Parameters.body31,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.volumeGroupName,
+    Parameters.volumeGroupName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/volumeGroups/{volumeGroupName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/volumeGroups/{volumeGroupName}",
   httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.volumeGroupName,
+    Parameters.volumeGroupName
   ],
-  headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

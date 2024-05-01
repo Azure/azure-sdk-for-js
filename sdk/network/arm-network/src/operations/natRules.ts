@@ -16,7 +16,7 @@ import { NetworkManagementClient } from "../networkManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller,
+  createHttpPoller
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,7 +29,7 @@ import {
   NatRulesCreateOrUpdateOptionalParams,
   NatRulesCreateOrUpdateResponse,
   NatRulesDeleteOptionalParams,
-  NatRulesListByVpnGatewayNextResponse,
+  NatRulesListByVpnGatewayNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,12 +54,12 @@ export class NatRulesImpl implements NatRules {
   public listByVpnGateway(
     resourceGroupName: string,
     gatewayName: string,
-    options?: NatRulesListByVpnGatewayOptionalParams,
+    options?: NatRulesListByVpnGatewayOptionalParams
   ): PagedAsyncIterableIterator<VpnGatewayNatRule> {
     const iter = this.listByVpnGatewayPagingAll(
       resourceGroupName,
       gatewayName,
-      options,
+      options
     );
     return {
       next() {
@@ -76,9 +76,9 @@ export class NatRulesImpl implements NatRules {
           resourceGroupName,
           gatewayName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -86,7 +86,7 @@ export class NatRulesImpl implements NatRules {
     resourceGroupName: string,
     gatewayName: string,
     options?: NatRulesListByVpnGatewayOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<VpnGatewayNatRule[]> {
     let result: NatRulesListByVpnGatewayResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +94,7 @@ export class NatRulesImpl implements NatRules {
       result = await this._listByVpnGateway(
         resourceGroupName,
         gatewayName,
-        options,
+        options
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -106,7 +106,7 @@ export class NatRulesImpl implements NatRules {
         resourceGroupName,
         gatewayName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -118,12 +118,12 @@ export class NatRulesImpl implements NatRules {
   private async *listByVpnGatewayPagingAll(
     resourceGroupName: string,
     gatewayName: string,
-    options?: NatRulesListByVpnGatewayOptionalParams,
+    options?: NatRulesListByVpnGatewayOptionalParams
   ): AsyncIterableIterator<VpnGatewayNatRule> {
     for await (const page of this.listByVpnGatewayPagingPage(
       resourceGroupName,
       gatewayName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -140,11 +140,11 @@ export class NatRulesImpl implements NatRules {
     resourceGroupName: string,
     gatewayName: string,
     natRuleName: string,
-    options?: NatRulesGetOptionalParams,
+    options?: NatRulesGetOptionalParams
   ): Promise<NatRulesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, gatewayName, natRuleName, options },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -162,7 +162,7 @@ export class NatRulesImpl implements NatRules {
     gatewayName: string,
     natRuleName: string,
     natRuleParameters: VpnGatewayNatRule,
-    options?: NatRulesCreateOrUpdateOptionalParams,
+    options?: NatRulesCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<NatRulesCreateOrUpdateResponse>,
@@ -171,20 +171,21 @@ export class NatRulesImpl implements NatRules {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<NatRulesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -193,8 +194,8 @@ export class NatRulesImpl implements NatRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -202,8 +203,8 @@ export class NatRulesImpl implements NatRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -214,9 +215,9 @@ export class NatRulesImpl implements NatRules {
         gatewayName,
         natRuleName,
         natRuleParameters,
-        options,
+        options
       },
-      spec: createOrUpdateOperationSpec,
+      spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
       NatRulesCreateOrUpdateResponse,
@@ -224,7 +225,7 @@ export class NatRulesImpl implements NatRules {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -244,14 +245,14 @@ export class NatRulesImpl implements NatRules {
     gatewayName: string,
     natRuleName: string,
     natRuleParameters: VpnGatewayNatRule,
-    options?: NatRulesCreateOrUpdateOptionalParams,
+    options?: NatRulesCreateOrUpdateOptionalParams
   ): Promise<NatRulesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       gatewayName,
       natRuleName,
       natRuleParameters,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -267,24 +268,25 @@ export class NatRulesImpl implements NatRules {
     resourceGroupName: string,
     gatewayName: string,
     natRuleName: string,
-    options?: NatRulesDeleteOptionalParams,
+    options?: NatRulesDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -293,8 +295,8 @@ export class NatRulesImpl implements NatRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -302,20 +304,20 @@ export class NatRulesImpl implements NatRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, gatewayName, natRuleName, options },
-      spec: deleteOperationSpec,
+      spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -332,13 +334,13 @@ export class NatRulesImpl implements NatRules {
     resourceGroupName: string,
     gatewayName: string,
     natRuleName: string,
-    options?: NatRulesDeleteOptionalParams,
+    options?: NatRulesDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       gatewayName,
       natRuleName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -352,11 +354,11 @@ export class NatRulesImpl implements NatRules {
   private _listByVpnGateway(
     resourceGroupName: string,
     gatewayName: string,
-    options?: NatRulesListByVpnGatewayOptionalParams,
+    options?: NatRulesListByVpnGatewayOptionalParams
   ): Promise<NatRulesListByVpnGatewayResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, gatewayName, options },
-      listByVpnGatewayOperationSpec,
+      listByVpnGatewayOperationSpec
     );
   }
 
@@ -371,11 +373,11 @@ export class NatRulesImpl implements NatRules {
     resourceGroupName: string,
     gatewayName: string,
     nextLink: string,
-    options?: NatRulesListByVpnGatewayNextOptionalParams,
+    options?: NatRulesListByVpnGatewayNextOptionalParams
   ): Promise<NatRulesListByVpnGatewayNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, gatewayName, nextLink, options },
-      listByVpnGatewayNextOperationSpec,
+      listByVpnGatewayNextOperationSpec
     );
   }
 }
@@ -383,15 +385,16 @@ export class NatRulesImpl implements NatRules {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/natRules/{natRuleName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/natRules/{natRuleName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VpnGatewayNatRule,
+      bodyMapper: Mappers.VpnGatewayNatRule
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -399,30 +402,31 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.natRuleName,
-    Parameters.gatewayName,
+    Parameters.gatewayName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/natRules/{natRuleName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/natRules/{natRuleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.VpnGatewayNatRule,
+      bodyMapper: Mappers.VpnGatewayNatRule
     },
     201: {
-      bodyMapper: Mappers.VpnGatewayNatRule,
+      bodyMapper: Mappers.VpnGatewayNatRule
     },
     202: {
-      bodyMapper: Mappers.VpnGatewayNatRule,
+      bodyMapper: Mappers.VpnGatewayNatRule
     },
     204: {
-      bodyMapper: Mappers.VpnGatewayNatRule,
+      bodyMapper: Mappers.VpnGatewayNatRule
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   requestBody: Parameters.natRuleParameters1,
   queryParameters: [Parameters.apiVersion],
@@ -431,14 +435,15 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.natRuleName,
-    Parameters.gatewayName,
+    Parameters.gatewayName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/natRules/{natRuleName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/natRules/{natRuleName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -446,8 +451,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -455,50 +460,51 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.natRuleName,
-    Parameters.gatewayName,
+    Parameters.gatewayName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listByVpnGatewayOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/natRules",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/natRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListVpnGatewayNatRulesResult,
+      bodyMapper: Mappers.ListVpnGatewayNatRulesResult
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.gatewayName,
+    Parameters.gatewayName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listByVpnGatewayNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListVpnGatewayNatRulesResult,
+      bodyMapper: Mappers.ListVpnGatewayNatRulesResult
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.gatewayName,
+    Parameters.gatewayName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

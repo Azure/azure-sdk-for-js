@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { diag } from "@opentelemetry/api";
 import * as fs from "fs";
 import * as path from "path";
 import { promisify } from "util";
@@ -16,24 +15,20 @@ const mkdirAsync = promisify(fs.mkdir);
  * @internal
  */
 export const getShallowDirectorySize = async (directory: string): Promise<number> => {
+  // Get the directory listing
+  const files = await readdirAsync(directory);
+
   let totalSize = 0;
-  try {
-    // Get the directory listing
-    const files = await readdirAsync(directory);
 
-    // Query all file sizes
-    for (const file of files) {
-      const fileStats = await statAsync(path.join(directory, file));
-      if (fileStats.isFile()) {
-        totalSize += fileStats.size;
-      }
+  // Query all file sizes
+  for (const file of files) {
+    const fileStats = await statAsync(path.join(directory, file));
+    if (fileStats.isFile()) {
+      totalSize += fileStats.size;
     }
-
-    return totalSize;
-  } catch (err) {
-    diag.error(`Error getting directory size: ${err}`);
-    return 0;
   }
+
+  return totalSize;
 };
 
 /**

@@ -1,9 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export function polyfillStream<T>(stream: ReadableStream<T>): ReadableStream<T> & AsyncIterable<T> {
+/**
+ * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
+ *
+ * Any changes you make here may be lost.
+ *
+ * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
+ */
+
+export function polyfillStream<T>(
+  stream: ReadableStream<T>,
+  dispose: () => PromiseLike<void>,
+): ReadableStream<T> & AsyncIterable<T> & AsyncDisposable {
   makeAsyncIterable<T>(stream);
+  makeAsyncDisposable(stream, dispose);
   return stream;
+}
+
+function makeAsyncDisposable<T>(
+  webStream: any,
+  dispose: () => PromiseLike<void>,
+): asserts webStream is ReadableStream<T> & AsyncDisposable {
+  (Symbol.asyncDispose as any) ??= Symbol("Symbol.asyncDispose");
+  if (!webStream[Symbol.asyncDispose]) {
+    webStream[Symbol.asyncDispose] = () => dispose();
+  }
 }
 
 function makeAsyncIterable<T>(

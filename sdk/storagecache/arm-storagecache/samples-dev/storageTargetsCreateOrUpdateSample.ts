@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update a Storage Target. This operation is allowed at any time, but if the cache is down or unhealthy, the actual creation/modification of the Storage Target may be delayed until the cache is healthy again.
  *
  * @summary Create or update a Storage Target. This operation is allowed at any time, but if the cache is down or unhealthy, the actual creation/modification of the Storage Target may be delayed until the cache is healthy again.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-11-01-preview/examples/StorageTargets_CreateOrUpdate.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2023-05-01/examples/StorageTargets_CreateOrUpdate.json
  */
 async function storageTargetsCreateOrUpdate() {
   const subscriptionId =
@@ -68,7 +68,7 @@ async function storageTargetsCreateOrUpdate() {
  * This sample demonstrates how to Create or update a Storage Target. This operation is allowed at any time, but if the cache is down or unhealthy, the actual creation/modification of the Storage Target may be delayed until the cache is healthy again.
  *
  * @summary Create or update a Storage Target. This operation is allowed at any time, but if the cache is down or unhealthy, the actual creation/modification of the Storage Target may be delayed until the cache is healthy again.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-11-01-preview/examples/StorageTargets_CreateOrUpdate_BlobNfs.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2023-05-01/examples/StorageTargets_CreateOrUpdate_BlobNfs.json
  */
 async function storageTargetsCreateOrUpdateBlobNfs() {
   const subscriptionId =
@@ -104,7 +104,7 @@ async function storageTargetsCreateOrUpdateBlobNfs() {
  * This sample demonstrates how to Create or update a Storage Target. This operation is allowed at any time, but if the cache is down or unhealthy, the actual creation/modification of the Storage Target may be delayed until the cache is healthy again.
  *
  * @summary Create or update a Storage Target. This operation is allowed at any time, but if the cache is down or unhealthy, the actual creation/modification of the Storage Target may be delayed until the cache is healthy again.
- * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/preview/2023-11-01-preview/examples/StorageTargets_CreateOrUpdate_NoJunctions.json
+ * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2023-05-01/examples/StorageTargets_CreateOrUpdate_NoJunctions.json
  */
 async function storageTargetsCreateOrUpdateNoJunctions() {
   const subscriptionId =

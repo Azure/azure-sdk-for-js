@@ -25,12 +25,24 @@ export interface AddonStatusProfile {
 }
 
 // @public
-export interface AgentPool extends ProxyResource {
+export interface AgentPool {
+    availabilityZones?: string[];
+    count?: number;
     extendedLocation?: ExtendedLocation;
-    properties?: AgentPoolProperties;
+    readonly id?: string;
+    location?: string;
+    readonly name?: string;
+    nodeImageVersion?: string;
+    osSKU?: Ossku;
+    osType?: OsType;
+    readonly provisioningState?: ResourceProvisioningState;
+    status?: AgentPoolProvisioningStatusStatus;
+    readonly systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
+    readonly type?: string;
+    vmSize?: string;
 }
 
 // @public
@@ -65,13 +77,6 @@ export interface AgentPoolGetOptionalParams extends coreClient.OperationOptions 
 export type AgentPoolGetResponse = AgentPool;
 
 // @public
-export interface AgentPoolListByProvisionedClusterNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AgentPoolListByProvisionedClusterNextResponse = AgentPoolListResult;
-
-// @public
 export interface AgentPoolListByProvisionedClusterOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -97,25 +102,28 @@ export interface AgentPoolOperations {
     beginCreateOrUpdateAndWait(connectedClusterResourceUri: string, agentPoolName: string, agentPool: AgentPool, options?: AgentPoolCreateOrUpdateOptionalParams): Promise<AgentPoolCreateOrUpdateResponse>;
     beginDelete(connectedClusterResourceUri: string, agentPoolName: string, options?: AgentPoolDeleteOptionalParams): Promise<SimplePollerLike<OperationState<AgentPoolDeleteResponse>, AgentPoolDeleteResponse>>;
     beginDeleteAndWait(connectedClusterResourceUri: string, agentPoolName: string, options?: AgentPoolDeleteOptionalParams): Promise<AgentPoolDeleteResponse>;
+    beginUpdate(connectedClusterResourceUri: string, agentPoolName: string, agentPool: AgentPoolPatch, options?: AgentPoolUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AgentPoolUpdateResponse>, AgentPoolUpdateResponse>>;
+    beginUpdateAndWait(connectedClusterResourceUri: string, agentPoolName: string, agentPool: AgentPoolPatch, options?: AgentPoolUpdateOptionalParams): Promise<AgentPoolUpdateResponse>;
     get(connectedClusterResourceUri: string, agentPoolName: string, options?: AgentPoolGetOptionalParams): Promise<AgentPoolGetResponse>;
-    listByProvisionedCluster(connectedClusterResourceUri: string, options?: AgentPoolListByProvisionedClusterOptionalParams): PagedAsyncIterableIterator<AgentPool>;
+    listByProvisionedCluster(connectedClusterResourceUri: string, options?: AgentPoolListByProvisionedClusterOptionalParams): Promise<AgentPoolListByProvisionedClusterResponse>;
+}
+
+// @public
+export interface AgentPoolPatch {
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
 export interface AgentPoolProfile {
-    enableAutoScaling?: boolean;
-    maxCount?: number;
-    maxPods?: number;
-    minCount?: number;
-    nodeLabels?: {
-        [propertyName: string]: string;
-    };
-    nodeTaints?: string[];
+    availabilityZones?: string[];
+    nodeImageVersion?: string;
     osSKU?: Ossku;
     osType?: OsType;
 }
 
-// @public
+// @public (undocumented)
 export interface AgentPoolProperties extends AgentPoolProfile, AgentPoolUpdateProfile, AgentPoolProvisioningStatus {
 }
 
@@ -126,19 +134,51 @@ export interface AgentPoolProvisioningStatus {
 }
 
 // @public
+export interface AgentPoolProvisioningStatusOperationStatus {
+    // (undocumented)
+    error?: AgentPoolProvisioningStatusOperationStatusError;
+    // (undocumented)
+    operationId?: string;
+    // (undocumented)
+    status?: string;
+}
+
+// @public (undocumented)
+export interface AgentPoolProvisioningStatusOperationStatusError {
+    // (undocumented)
+    code?: string;
+    // (undocumented)
+    message?: string;
+}
+
+// @public
 export interface AgentPoolProvisioningStatusStatus {
-    readonly currentState?: ResourceProvisioningState;
     errorMessage?: string;
+    operationStatus?: AgentPoolProvisioningStatusOperationStatus;
     // (undocumented)
     readyReplicas?: AgentPoolUpdateProfile[];
 }
 
 // @public
+export interface AgentPoolUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface AgentPoolUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface AgentPoolUpdateProfile {
     count?: number;
-    readonly kubernetesVersion?: string;
     vmSize?: string;
 }
+
+// @public
+export type AgentPoolUpdateResponse = AgentPool;
 
 // @public
 export type AzureHybridBenefit = string;
@@ -154,20 +194,18 @@ export interface CloudProviderProfileInfraNetworkProfile {
 }
 
 // @public
-export interface ClusterVMAccessProfile {
-    authorizedIPRanges?: string;
+export interface ControlPlaneEndpointProfile {
+    controlPlaneEndpoint?: ControlPlaneEndpointProfileControlPlaneEndpoint;
 }
 
 // @public
-export interface ControlPlaneProfile {
-    controlPlaneEndpoint?: ControlPlaneProfileControlPlaneEndpoint;
-    count?: number;
-    vmSize?: string;
-}
-
-// @public
-export interface ControlPlaneProfileControlPlaneEndpoint {
+export interface ControlPlaneEndpointProfileControlPlaneEndpoint {
     hostIP?: string;
+    port?: number;
+}
+
+// @public
+export interface ControlPlaneProfile extends NamedAgentPoolProfile, ControlPlaneEndpointProfile, LinuxProfile {
 }
 
 // @public
@@ -216,9 +254,6 @@ export interface ErrorDetail {
 export interface ErrorResponse {
     error?: ErrorDetail;
 }
-
-// @public
-export type Expander = string;
 
 // @public
 export interface ExtendedLocation {
@@ -303,7 +338,9 @@ export interface HybridContainerServiceClientOptionalParams extends coreClient.S
 
 // @public
 export interface HybridIdentityMetadata extends ProxyResource {
-    properties: HybridIdentityMetadataProperties;
+    readonly provisioningState?: ResourceProvisioningState;
+    publicKey?: string;
+    resourceUid?: string;
 }
 
 // @public
@@ -358,13 +395,6 @@ export interface HybridIdentityMetadataOperations {
 }
 
 // @public
-export interface HybridIdentityMetadataProperties {
-    readonly provisioningState?: ResourceProvisioningState;
-    publicKey?: string;
-    resourceUid?: string;
-}
-
-// @public
 export interface HybridIdentityMetadataPutOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -404,21 +434,14 @@ export enum KnownCreatedByType {
 }
 
 // @public
-export enum KnownExpander {
-    LeastWaste = "least-waste",
-    MostPods = "most-pods",
-    Priority = "priority",
-    Random = "random"
-}
-
-// @public
 export enum KnownExtendedLocationTypes {
     CustomLocation = "CustomLocation"
 }
 
 // @public
 export enum KnownNetworkPolicy {
-    Calico = "calico"
+    Calico = "calico",
+    Flannel = "flannel"
 }
 
 // @public
@@ -445,10 +468,10 @@ export enum KnownOsType {
 export enum KnownProvisioningState {
     Accepted = "Accepted",
     Canceled = "Canceled",
-    Creating = "Creating",
+    Created = "Created",
     Deleting = "Deleting",
     Failed = "Failed",
-    Pending = "Pending",
+    InProgress = "InProgress",
     Succeeded = "Succeeded",
     Updating = "Updating"
 }
@@ -457,10 +480,11 @@ export enum KnownProvisioningState {
 export enum KnownResourceProvisioningState {
     Accepted = "Accepted",
     Canceled = "Canceled",
+    Created = "Created",
     Creating = "Creating",
     Deleting = "Deleting",
     Failed = "Failed",
-    Pending = "Pending",
+    InProgress = "InProgress",
     Succeeded = "Succeeded",
     Updating = "Updating",
     Upgrading = "Upgrading"
@@ -470,6 +494,12 @@ export enum KnownResourceProvisioningState {
 export interface KubernetesPatchVersions {
     readiness?: KubernetesVersionReadiness[];
     upgrades?: string[];
+}
+
+// @public
+export interface KubernetesVersionCapabilities {
+    // (undocumented)
+    supportPlan?: string[];
 }
 
 // @public
@@ -494,6 +524,7 @@ export interface KubernetesVersionProfileProperties {
 
 // @public
 export interface KubernetesVersionProperties {
+    readonly capabilities?: KubernetesVersionCapabilities;
     readonly isPreview?: boolean;
     readonly patchVersions?: {
         [propertyName: string]: KubernetesPatchVersions;
@@ -617,6 +648,7 @@ export interface OperationListResult {
 
 // @public
 export interface Operations {
+    // (undocumented)
     list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 }
 
@@ -644,15 +676,9 @@ export type Ossku = string;
 export type OsType = string;
 
 // @public
-export interface ProvisionedCluster extends ProxyResource {
-    extendedLocation?: ExtendedLocation;
-    properties?: ProvisionedClusterProperties;
-}
-
-// @public
 export interface ProvisionedClusterInstances {
-    beginCreateOrUpdate(connectedClusterResourceUri: string, provisionedClusterInstance: ProvisionedCluster, options?: ProvisionedClusterInstancesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ProvisionedClusterInstancesCreateOrUpdateResponse>, ProvisionedClusterInstancesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(connectedClusterResourceUri: string, provisionedClusterInstance: ProvisionedCluster, options?: ProvisionedClusterInstancesCreateOrUpdateOptionalParams): Promise<ProvisionedClusterInstancesCreateOrUpdateResponse>;
+    beginCreateOrUpdate(connectedClusterResourceUri: string, provisionedClusterInstance: ProvisionedClusters, options?: ProvisionedClusterInstancesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ProvisionedClusterInstancesCreateOrUpdateResponse>, ProvisionedClusterInstancesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(connectedClusterResourceUri: string, provisionedClusterInstance: ProvisionedClusters, options?: ProvisionedClusterInstancesCreateOrUpdateOptionalParams): Promise<ProvisionedClusterInstancesCreateOrUpdateResponse>;
     beginDelete(connectedClusterResourceUri: string, options?: ProvisionedClusterInstancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ProvisionedClusterInstancesDeleteResponse>, ProvisionedClusterInstancesDeleteResponse>>;
     beginDeleteAndWait(connectedClusterResourceUri: string, options?: ProvisionedClusterInstancesDeleteOptionalParams): Promise<ProvisionedClusterInstancesDeleteResponse>;
     beginListAdminKubeconfig(connectedClusterResourceUri: string, options?: ProvisionedClusterInstancesListAdminKubeconfigOptionalParams): Promise<SimplePollerLike<OperationState<ProvisionedClusterInstancesListAdminKubeconfigResponse>, ProvisionedClusterInstancesListAdminKubeconfigResponse>>;
@@ -661,7 +687,7 @@ export interface ProvisionedClusterInstances {
     beginListUserKubeconfigAndWait(connectedClusterResourceUri: string, options?: ProvisionedClusterInstancesListUserKubeconfigOptionalParams): Promise<ProvisionedClusterInstancesListUserKubeconfigResponse>;
     get(connectedClusterResourceUri: string, options?: ProvisionedClusterInstancesGetOptionalParams): Promise<ProvisionedClusterInstancesGetResponse>;
     getUpgradeProfile(connectedClusterResourceUri: string, options?: ProvisionedClusterInstancesGetUpgradeProfileOptionalParams): Promise<ProvisionedClusterInstancesGetUpgradeProfileResponse>;
-    list(connectedClusterResourceUri: string, options?: ProvisionedClusterInstancesListOptionalParams): PagedAsyncIterableIterator<ProvisionedCluster>;
+    list(connectedClusterResourceUri: string, options?: ProvisionedClusterInstancesListOptionalParams): PagedAsyncIterableIterator<ProvisionedClusters>;
 }
 
 // @public
@@ -671,7 +697,7 @@ export interface ProvisionedClusterInstancesCreateOrUpdateOptionalParams extends
 }
 
 // @public
-export type ProvisionedClusterInstancesCreateOrUpdateResponse = ProvisionedCluster;
+export type ProvisionedClusterInstancesCreateOrUpdateResponse = ProvisionedClusters;
 
 // @public
 export interface ProvisionedClusterInstancesDeleteHeaders {
@@ -693,7 +719,7 @@ export interface ProvisionedClusterInstancesGetOptionalParams extends coreClient
 }
 
 // @public
-export type ProvisionedClusterInstancesGetResponse = ProvisionedCluster;
+export type ProvisionedClusterInstancesGetResponse = ProvisionedClusters;
 
 // @public
 export interface ProvisionedClusterInstancesGetUpgradeProfileOptionalParams extends coreClient.OperationOptions {
@@ -722,14 +748,14 @@ export interface ProvisionedClusterInstancesListNextOptionalParams extends coreC
 }
 
 // @public
-export type ProvisionedClusterInstancesListNextResponse = ProvisionedClusterListResult;
+export type ProvisionedClusterInstancesListNextResponse = ProvisionedClustersListResult;
 
 // @public
 export interface ProvisionedClusterInstancesListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ProvisionedClusterInstancesListResponse = ProvisionedClusterListResult;
+export type ProvisionedClusterInstancesListResponse = ProvisionedClustersListResult;
 
 // @public
 export interface ProvisionedClusterInstancesListUserKubeconfigHeaders {
@@ -752,16 +778,9 @@ export interface ProvisionedClusterLicenseProfile {
 }
 
 // @public
-export interface ProvisionedClusterListResult {
-    // (undocumented)
-    nextLink?: string;
-    // (undocumented)
-    value?: ProvisionedCluster[];
-}
-
-// @public
 export interface ProvisionedClusterPoolUpgradeProfile {
     readonly kubernetesVersion?: string;
+    readonly name?: string;
     readonly osType?: OsType;
     upgrades?: ProvisionedClusterPoolUpgradeProfileProperties[];
 }
@@ -775,9 +794,7 @@ export interface ProvisionedClusterPoolUpgradeProfileProperties {
 // @public
 export interface ProvisionedClusterProperties {
     agentPoolProfiles?: NamedAgentPoolProfile[];
-    autoScalerProfile?: ProvisionedClusterPropertiesAutoScalerProfile;
     cloudProviderProfile?: CloudProviderProfile;
-    clusterVMAccessProfile?: ClusterVMAccessProfile;
     controlPlane?: ControlPlaneProfile;
     kubernetesVersion?: string;
     licenseProfile?: ProvisionedClusterLicenseProfile;
@@ -785,44 +802,50 @@ export interface ProvisionedClusterProperties {
     networkProfile?: NetworkProfile;
     readonly provisioningState?: ResourceProvisioningState;
     readonly status?: ProvisionedClusterPropertiesStatus;
-    storageProfile?: StorageProfile;
-}
-
-// @public
-export interface ProvisionedClusterPropertiesAutoScalerProfile {
-    balanceSimilarNodeGroups?: string;
-    expander?: Expander;
-    maxEmptyBulkDelete?: string;
-    maxGracefulTerminationSec?: string;
-    maxNodeProvisionTime?: string;
-    maxTotalUnreadyPercentage?: string;
-    newPodScaleUpDelay?: string;
-    okTotalUnreadyCount?: string;
-    scaleDownDelayAfterAdd?: string;
-    scaleDownDelayAfterDelete?: string;
-    scaleDownDelayAfterFailure?: string;
-    scaleDownUnneededTime?: string;
-    scaleDownUnreadyTime?: string;
-    scaleDownUtilizationThreshold?: string;
-    scanInterval?: string;
-    skipNodesWithLocalStorage?: string;
-    skipNodesWithSystemPods?: string;
 }
 
 // @public
 export interface ProvisionedClusterPropertiesStatus {
     controlPlaneStatus?: AddonStatusProfile[];
-    readonly currentState?: ResourceProvisioningState;
     errorMessage?: string;
+    operationStatus?: ProvisionedClusterPropertiesStatusOperationStatus;
+}
+
+// @public
+export interface ProvisionedClusterPropertiesStatusOperationStatus {
+    // (undocumented)
+    error?: ProvisionedClusterPropertiesStatusOperationStatusError;
+    // (undocumented)
+    operationId?: string;
+    // (undocumented)
+    status?: string;
+}
+
+// @public (undocumented)
+export interface ProvisionedClusterPropertiesStatusOperationStatusError {
+    // (undocumented)
+    code?: string;
+    // (undocumented)
+    message?: string;
+}
+
+// @public
+export interface ProvisionedClusters extends ProxyResource {
+    extendedLocation?: ExtendedLocation;
+    properties?: ProvisionedClusterProperties;
+}
+
+// @public
+export interface ProvisionedClustersListResult {
+    // (undocumented)
+    nextLink?: string;
+    // (undocumented)
+    value?: ProvisionedClusters[];
 }
 
 // @public
 export interface ProvisionedClusterUpgradeProfile extends ProxyResource {
-    properties: ProvisionedClusterUpgradeProfileProperties;
-}
-
-// @public
-export interface ProvisionedClusterUpgradeProfileProperties {
+    agentPoolProfiles: ProvisionedClusterPoolUpgradeProfile[];
     controlPlaneProfile: ProvisionedClusterPoolUpgradeProfile;
     readonly provisioningState?: ResourceProvisioningState;
 }
@@ -864,22 +887,6 @@ export interface Resource {
 export type ResourceProvisioningState = string;
 
 // @public
-export interface StorageProfile {
-    nfsCsiDriver?: StorageProfileNfsCSIDriver;
-    smbCsiDriver?: StorageProfileSmbCSIDriver;
-}
-
-// @public
-export interface StorageProfileNfsCSIDriver {
-    enabled?: boolean;
-}
-
-// @public
-export interface StorageProfileSmbCSIDriver {
-    enabled?: boolean;
-}
-
-// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -899,18 +906,20 @@ export interface TrackedResource extends Resource {
 
 // @public
 export interface VirtualNetwork extends TrackedResource {
+    // (undocumented)
     extendedLocation?: VirtualNetworkExtendedLocation;
     properties?: VirtualNetworkProperties;
 }
 
-// @public
+// @public (undocumented)
 export interface VirtualNetworkExtendedLocation {
     name?: string;
-    type?: ExtendedLocationTypes;
+    type?: string;
 }
 
 // @public
 export interface VirtualNetworkProperties {
+    dhcpServers?: string[];
     dnsServers?: string[];
     gateway?: string;
     // (undocumented)
@@ -926,6 +935,7 @@ export interface VirtualNetworkProperties {
 // @public (undocumented)
 export interface VirtualNetworkPropertiesInfraVnetProfile {
     hci?: VirtualNetworkPropertiesInfraVnetProfileHci;
+    vmware?: VirtualNetworkPropertiesInfraVnetProfileVmware;
 }
 
 // @public
@@ -936,20 +946,31 @@ export interface VirtualNetworkPropertiesInfraVnetProfileHci {
 }
 
 // @public
+export interface VirtualNetworkPropertiesInfraVnetProfileVmware {
+    segmentName?: string;
+}
+
+// @public
 export interface VirtualNetworkPropertiesStatus {
     operationStatus?: VirtualNetworkPropertiesStatusOperationStatus;
 }
 
 // @public
 export interface VirtualNetworkPropertiesStatusOperationStatus {
+    // (undocumented)
     error?: VirtualNetworkPropertiesStatusOperationStatusError;
+    // (undocumented)
     operationId?: string;
+    phase?: string;
+    // (undocumented)
     status?: string;
 }
 
-// @public
+// @public (undocumented)
 export interface VirtualNetworkPropertiesStatusOperationStatusError {
+    // (undocumented)
     code?: string;
+    // (undocumented)
     message?: string;
 }
 
@@ -1030,7 +1051,7 @@ export interface VirtualNetworksListBySubscriptionOptionalParams extends coreCli
 // @public
 export type VirtualNetworksListBySubscriptionResponse = VirtualNetworksListResult;
 
-// @public
+// @public (undocumented)
 export interface VirtualNetworksListResult {
     // (undocumented)
     nextLink?: string;
@@ -1051,6 +1072,12 @@ export interface VirtualNetworksRetrieveOptionalParams extends coreClient.Operat
 
 // @public
 export type VirtualNetworksRetrieveResponse = VirtualNetwork;
+
+// @public
+export interface VirtualNetworksUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface VirtualNetworksUpdateOptionalParams extends coreClient.OperationOptions {

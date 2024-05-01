@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { AzureKeyCredential } from "./azureKeyCredential.js";
-export { KeyCredential, isKeyCredential } from "./keyCredential.js";
+export { AzureKeyCredential } from "./azureKeyCredential";
+export { KeyCredential, isKeyCredential } from "./keyCredential";
 export {
   AzureNamedKeyCredential,
   NamedKeyCredential,
   isNamedKeyCredential,
-} from "./azureNamedKeyCredential.js";
-export { AzureSASCredential, SASCredential, isSASCredential } from "./azureSASCredential.js";
+} from "./azureNamedKeyCredential";
+export { AzureSASCredential, SASCredential, isSASCredential } from "./azureSASCredential";
 
 export {
   TokenCredential,
   GetTokenOptions,
   AccessToken,
   isTokenCredential,
-} from "./tokenCredential.js";
+} from "./tokenCredential";
 
-export { TracingContext } from "./tracing.js";
+export { TracingContext } from "./tracing";

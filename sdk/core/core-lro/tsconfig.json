@@ -1,13 +1,9 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "paths": {
-      "@azure/core-lro": ["./src/index.ts"]
-    },
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "rootDir": "."
+    "outDir": "./dist-esm",
+    "declarationDir": "./types"
   },
-  "exclude": ["./samples/**/*.ts"],
-  "include": ["./src/**/*.ts", "./src/**/*.mts", "./src/**/*.cts", "./test/**/*.ts"]
+  "exclude": ["node_modules", "./samples/**/*.ts"],
+  "include": ["./src/**/*.ts", "./test/**/*.ts"]
 }

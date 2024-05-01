@@ -7,7 +7,7 @@ import {
   createPipelineRequest,
   PipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { BaseHttpTest } from "./baseHttpTest.js";
+import { BaseHttpTest } from "./baseHttpTest";
 
 export class CoreRestPipelineTest extends BaseHttpTest {
   client: HttpClient;

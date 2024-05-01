@@ -19,10 +19,12 @@ require("dotenv").config();
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2018-11-27-preview/examples/getOnboardingStatusVMScaleSet.json
  */
 async function getStatusForAVMScaleSetThatIsActivelyReportingData() {
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceUri =
     "subscriptions/3d51de47-8d1c-4d24-b42f-bcae075dfa87/resourceGroups/my-service-cluster/providers/Microsoft.Compute/virtualMachineScaleSets/scale-set-01";
   const credential = new DefaultAzureCredential();
-  const client = new MonitorClient(credential);
+  const client = new MonitorClient(credential, subscriptionId);
   const result = await client.vMInsights.getOnboardingStatus(resourceUri);
   console.log(result);
 }
@@ -34,10 +36,12 @@ async function getStatusForAVMScaleSetThatIsActivelyReportingData() {
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2018-11-27-preview/examples/getOnboardingStatusSingleVMUnknown.json
  */
 async function getStatusForAVMThatHasNotYetReportedData() {
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceUri =
     "subscriptions/3d51de47-8d1c-4d24-b42f-bcae075dfa87/resourceGroups/vm-resource-group/providers/Microsoft.Compute/virtualMachines/ubuntu-vm";
   const credential = new DefaultAzureCredential();
-  const client = new MonitorClient(credential);
+  const client = new MonitorClient(credential, subscriptionId);
   const result = await client.vMInsights.getOnboardingStatus(resourceUri);
   console.log(result);
 }
@@ -49,10 +53,12 @@ async function getStatusForAVMThatHasNotYetReportedData() {
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2018-11-27-preview/examples/getOnboardingStatusSingleVM.json
  */
 async function getStatusForAVMThatIsActivelyReportingData() {
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceUri =
     "subscriptions/3d51de47-8d1c-4d24-b42f-bcae075dfa87/resourceGroups/vm-resource-group/providers/Microsoft.Compute/virtualMachines/ubuntu-vm";
   const credential = new DefaultAzureCredential();
-  const client = new MonitorClient(credential);
+  const client = new MonitorClient(credential, subscriptionId);
   const result = await client.vMInsights.getOnboardingStatus(resourceUri);
   console.log(result);
 }
@@ -64,10 +70,12 @@ async function getStatusForAVMThatIsActivelyReportingData() {
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2018-11-27-preview/examples/getOnboardingStatusResourceGroup.json
  */
 async function getStatusForAResourceGroupThatHasAtLeastOneVMThatIsActivelyReportingData() {
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceUri =
     "subscriptions/3d51de47-8d1c-4d24-b42f-bcae075dfa87/resourceGroups/resource-group-with-vms";
   const credential = new DefaultAzureCredential();
-  const client = new MonitorClient(credential);
+  const client = new MonitorClient(credential, subscriptionId);
   const result = await client.vMInsights.getOnboardingStatus(resourceUri);
   console.log(result);
 }
@@ -79,9 +87,11 @@ async function getStatusForAResourceGroupThatHasAtLeastOneVMThatIsActivelyReport
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2018-11-27-preview/examples/getOnboardingStatusSubscription.json
  */
 async function getStatusForASubscriptionThatHasAtLeastOneVMThatIsActivelyReportingData() {
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceUri = "subscriptions/3d51de47-8d1c-4d24-b42f-bcae075dfa87";
   const credential = new DefaultAzureCredential();
-  const client = new MonitorClient(credential);
+  const client = new MonitorClient(credential, subscriptionId);
   const result = await client.vMInsights.getOnboardingStatus(resourceUri);
   console.log(result);
 }

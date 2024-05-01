@@ -21,12 +21,20 @@ import {
   ActionGroupsUpdateOptionalParams,
   ActionGroupsUpdateResponse,
   NotificationRequestBody,
+  ActionGroupsPostTestNotificationsOptionalParams,
+  ActionGroupsPostTestNotificationsResponse,
+  ActionGroupsCreateNotificationsAtResourceGroupLevelOptionalParams,
+  ActionGroupsCreateNotificationsAtResourceGroupLevelResponse,
   ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams,
   ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse,
+  ActionGroupsGetTestNotificationsOptionalParams,
+  ActionGroupsGetTestNotificationsResponse,
+  ActionGroupsGetTestNotificationsAtResourceGroupLevelOptionalParams,
+  ActionGroupsGetTestNotificationsAtResourceGroupLevelResponse,
   ActionGroupsGetTestNotificationsAtActionGroupResourceLevelOptionalParams,
   ActionGroupsGetTestNotificationsAtActionGroupResourceLevelResponse,
   EnableRequest,
-  ActionGroupsEnableReceiverOptionalParams,
+  ActionGroupsEnableReceiverOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -37,7 +45,7 @@ export interface ActionGroups {
    * @param options The options parameters.
    */
   listBySubscriptionId(
-    options?: ActionGroupsListBySubscriptionIdOptionalParams,
+    options?: ActionGroupsListBySubscriptionIdOptionalParams
   ): PagedAsyncIterableIterator<ActionGroupResource>;
   /**
    * Get a list of all action groups in a resource group.
@@ -46,7 +54,7 @@ export interface ActionGroups {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ActionGroupsListByResourceGroupOptionalParams,
+    options?: ActionGroupsListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<ActionGroupResource>;
   /**
    * Create a new action group or update an existing one.
@@ -59,7 +67,7 @@ export interface ActionGroups {
     resourceGroupName: string,
     actionGroupName: string,
     actionGroup: ActionGroupResource,
-    options?: ActionGroupsCreateOrUpdateOptionalParams,
+    options?: ActionGroupsCreateOrUpdateOptionalParams
   ): Promise<ActionGroupsCreateOrUpdateResponse>;
   /**
    * Get an action group.
@@ -70,7 +78,7 @@ export interface ActionGroups {
   get(
     resourceGroupName: string,
     actionGroupName: string,
-    options?: ActionGroupsGetOptionalParams,
+    options?: ActionGroupsGetOptionalParams
   ): Promise<ActionGroupsGetResponse>;
   /**
    * Delete an action group.
@@ -81,7 +89,7 @@ export interface ActionGroups {
   delete(
     resourceGroupName: string,
     actionGroupName: string,
-    options?: ActionGroupsDeleteOptionalParams,
+    options?: ActionGroupsDeleteOptionalParams
   ): Promise<void>;
   /**
    * Updates an existing action group's tags. To update other fields use the CreateOrUpdate method.
@@ -94,8 +102,60 @@ export interface ActionGroups {
     resourceGroupName: string,
     actionGroupName: string,
     actionGroupPatch: ActionGroupPatchBody,
-    options?: ActionGroupsUpdateOptionalParams,
+    options?: ActionGroupsUpdateOptionalParams
   ): Promise<ActionGroupsUpdateResponse>;
+  /**
+   * Send test notifications to a set of provided receivers
+   * @param notificationRequest The notification request body which includes the contact details
+   * @param options The options parameters.
+   */
+  beginPostTestNotifications(
+    notificationRequest: NotificationRequestBody,
+    options?: ActionGroupsPostTestNotificationsOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ActionGroupsPostTestNotificationsResponse>,
+      ActionGroupsPostTestNotificationsResponse
+    >
+  >;
+  /**
+   * Send test notifications to a set of provided receivers
+   * @param notificationRequest The notification request body which includes the contact details
+   * @param options The options parameters.
+   */
+  beginPostTestNotificationsAndWait(
+    notificationRequest: NotificationRequestBody,
+    options?: ActionGroupsPostTestNotificationsOptionalParams
+  ): Promise<ActionGroupsPostTestNotificationsResponse>;
+  /**
+   * Send test notifications to a set of provided receivers
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param notificationRequest The notification request body which includes the contact details
+   * @param options The options parameters.
+   */
+  beginCreateNotificationsAtResourceGroupLevel(
+    resourceGroupName: string,
+    notificationRequest: NotificationRequestBody,
+    options?: ActionGroupsCreateNotificationsAtResourceGroupLevelOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<
+        ActionGroupsCreateNotificationsAtResourceGroupLevelResponse
+      >,
+      ActionGroupsCreateNotificationsAtResourceGroupLevelResponse
+    >
+  >;
+  /**
+   * Send test notifications to a set of provided receivers
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param notificationRequest The notification request body which includes the contact details
+   * @param options The options parameters.
+   */
+  beginCreateNotificationsAtResourceGroupLevelAndWait(
+    resourceGroupName: string,
+    notificationRequest: NotificationRequestBody,
+    options?: ActionGroupsCreateNotificationsAtResourceGroupLevelOptionalParams
+  ): Promise<ActionGroupsCreateNotificationsAtResourceGroupLevelResponse>;
   /**
    * Send test notifications to a set of provided receivers
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -107,10 +167,12 @@ export interface ActionGroups {
     resourceGroupName: string,
     actionGroupName: string,
     notificationRequest: NotificationRequestBody,
-    options?: ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams,
+    options?: ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams
   ): Promise<
     SimplePollerLike<
-      OperationState<ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse>,
+      OperationState<
+        ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse
+      >,
       ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse
     >
   >;
@@ -125,8 +187,28 @@ export interface ActionGroups {
     resourceGroupName: string,
     actionGroupName: string,
     notificationRequest: NotificationRequestBody,
-    options?: ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams,
+    options?: ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams
   ): Promise<ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse>;
+  /**
+   * Get the test notifications by the notification id
+   * @param notificationId The notification id
+   * @param options The options parameters.
+   */
+  getTestNotifications(
+    notificationId: string,
+    options?: ActionGroupsGetTestNotificationsOptionalParams
+  ): Promise<ActionGroupsGetTestNotificationsResponse>;
+  /**
+   * Get the test notifications by the notification id
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param notificationId The notification id
+   * @param options The options parameters.
+   */
+  getTestNotificationsAtResourceGroupLevel(
+    resourceGroupName: string,
+    notificationId: string,
+    options?: ActionGroupsGetTestNotificationsAtResourceGroupLevelOptionalParams
+  ): Promise<ActionGroupsGetTestNotificationsAtResourceGroupLevelResponse>;
   /**
    * Get the test notifications by the notification id
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -138,8 +220,10 @@ export interface ActionGroups {
     resourceGroupName: string,
     actionGroupName: string,
     notificationId: string,
-    options?: ActionGroupsGetTestNotificationsAtActionGroupResourceLevelOptionalParams,
-  ): Promise<ActionGroupsGetTestNotificationsAtActionGroupResourceLevelResponse>;
+    options?: ActionGroupsGetTestNotificationsAtActionGroupResourceLevelOptionalParams
+  ): Promise<
+    ActionGroupsGetTestNotificationsAtActionGroupResourceLevelResponse
+  >;
   /**
    * Enable a receiver in an action group. This changes the receiver's status from Disabled to Enabled.
    * This operation is only supported for Email or SMS receivers.
@@ -152,6 +236,6 @@ export interface ActionGroups {
     resourceGroupName: string,
     actionGroupName: string,
     enableRequest: EnableRequest,
-    options?: ActionGroupsEnableReceiverOptionalParams,
+    options?: ActionGroupsEnableReceiverOptionalParams
   ): Promise<void>;
 }

@@ -6,7 +6,6 @@ import Long from "long";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { StandardAbortMessage } from "@azure/core-amqp";
 import {
   ServiceBusReceivedMessage,
   delay,
@@ -30,7 +29,6 @@ import sinon from "sinon";
 import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver";
 
 let unexpectedError: Error | undefined;
-const abortMsgRegex = new RegExp(StandardAbortMessage);
 
 async function processError(args: ProcessErrorArgs): Promise<void> {
   unexpectedError = args.error;
@@ -269,7 +267,7 @@ describe("session tests", () => {
         await receiver.getSessionState({ abortSignal: controller.signal });
         throw new Error(`Test failure`);
       } catch (err: any) {
-        err.message.should.match(abortMsgRegex);
+        err.message.should.equal("The operation was aborted.");
         err.name.should.equal("AbortError");
       }
     });
@@ -282,7 +280,7 @@ describe("session tests", () => {
         await receiver.setSessionState("why", { abortSignal: controller.signal });
         throw new Error(`Test failure`);
       } catch (err: any) {
-        err.message.should.match(abortMsgRegex);
+        err.message.should.equal("The operation was aborted.");
         err.name.should.equal("AbortError");
       }
     });
@@ -295,7 +293,7 @@ describe("session tests", () => {
         await receiver.renewSessionLock({ abortSignal: controller.signal });
         throw new Error(`Test failure`);
       } catch (err: any) {
-        err.message.should.match(abortMsgRegex);
+        err.message.should.equal("The operation was aborted.");
         err.name.should.equal("AbortError");
       }
     });
@@ -308,7 +306,7 @@ describe("session tests", () => {
         await receiver.receiveDeferredMessages([Long.ZERO], { abortSignal: controller.signal });
         throw new Error(`Test failure`);
       } catch (err: any) {
-        err.message.should.match(abortMsgRegex);
+        err.message.should.equal("The operation was aborted.");
         err.name.should.equal("AbortError");
       }
     });

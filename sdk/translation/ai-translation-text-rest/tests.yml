@@ -6,10 +6,12 @@ parameters:
 
 trigger: none
 
-extends:
-    template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+stages:
+  - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
       PackageName: "@azure-rest/ai-translation-text"
       ServiceDirectory: translation
       Location: "${{ parameters.Location }}"
+      CloudConfig:
+        Public:
       SupportedClouds: 'Public'

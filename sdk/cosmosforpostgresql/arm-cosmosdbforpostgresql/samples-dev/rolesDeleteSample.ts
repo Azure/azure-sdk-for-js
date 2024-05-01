@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a cluster role.
  *
  * @summary Deletes a cluster role.
- * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/RoleDelete.json
+ * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-11-08/examples/RoleDelete.json
  */
 async function roleDelete() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function roleDelete() {
   const result = await client.roles.beginDeleteAndWait(
     resourceGroupName,
     clusterName,
-    roleName,
+    roleName
   );
   console.log(result);
 }

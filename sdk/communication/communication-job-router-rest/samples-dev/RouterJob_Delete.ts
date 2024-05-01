@@ -3,13 +3,16 @@
 /**
  * @summary router job crud
  */
-import JobRouter, {
-  AzureCommunicationRoutingServiceClient
-} from "@azure-rest/communication-job-router";
-import * as dotenv from "dotenv";
+import { AzureCommunicationRoutingServiceClient } from "../src"
+import JobRouter from "../src"; import * as dotenv from "dotenv";
 dotenv.config();
-
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
+
+
+
+
+
+
 
 // Delete router job
 async function deleteRouterJob(): Promise<void> {

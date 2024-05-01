@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import type { HttpClient } from "./interfaces.js";
-import { createNodeHttpClient } from "./nodeHttpClient.js";
+import type { HttpClient } from "./interfaces";
+import { createNodeHttpClient } from "./nodeHttpClient";
 
 /**
  * Create the correct HttpClient for the current environment.

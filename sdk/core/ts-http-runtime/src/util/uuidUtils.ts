@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { randomUUID as v4RandomUUID } from "node:crypto";
-import { generateUUID } from "./uuidUtils.common.js";
+import { randomUUID as v4RandomUUID } from "crypto";
+import { generateUUID } from "./uuidUtils.native";
 
 interface Crypto {
   randomUUID(): string;

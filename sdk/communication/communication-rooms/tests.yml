@@ -1,7 +1,7 @@
 trigger: none
 
-extends:
-    template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+stages:
+  - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
       PackageName: "@azure/communication-rooms"
       ServiceDirectory: communication
@@ -17,6 +17,13 @@ extends:
           SubscriptionConfigurations:
             - $(sub-config-communication-ppe-test-resources-common)
             - $(sub-config-communication-ppe-test-resources-js)
-      Clouds: Public,PPE
+        Int:
+          SubscriptionConfigurations:
+            - $(sub-config-communication-int-test-resources-common)
+            - $(sub-config-communication-int-test-resources-js)
+            - $(communication-livetest-rooms-int)
+          MatrixFilters:
+            - TestType=^(?!browser).*
+      Clouds: Public,Int
       TestResourceDirectories:
         - communication/test-resources/

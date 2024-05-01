@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List the NGINX configuration of given NGINX deployment.
  *
  * @summary List the NGINX configuration of given NGINX deployment.
- * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-01-01-preview/examples/Configurations_List.json
+ * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2023-04-01/examples/Configurations_List.json
  */
 async function configurationsList() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function configurationsList() {
   const resArray = new Array();
   for await (let item of client.configurations.list(
     resourceGroupName,
-    deploymentName,
+    deploymentName
   )) {
     resArray.push(item);
   }

@@ -16,7 +16,7 @@ import { DataFactoryManagementClient } from "../dataFactoryManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller,
+  createHttpPoller
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -55,7 +55,7 @@ import {
   CreateLinkedIntegrationRuntimeRequest,
   IntegrationRuntimesCreateLinkedIntegrationRuntimeOptionalParams,
   IntegrationRuntimesCreateLinkedIntegrationRuntimeResponse,
-  IntegrationRuntimesListByFactoryNextResponse,
+  IntegrationRuntimesListByFactoryNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -80,12 +80,12 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
   public listByFactory(
     resourceGroupName: string,
     factoryName: string,
-    options?: IntegrationRuntimesListByFactoryOptionalParams,
+    options?: IntegrationRuntimesListByFactoryOptionalParams
   ): PagedAsyncIterableIterator<IntegrationRuntimeResource> {
     const iter = this.listByFactoryPagingAll(
       resourceGroupName,
       factoryName,
-      options,
+      options
     );
     return {
       next() {
@@ -102,9 +102,9 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
           resourceGroupName,
           factoryName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -112,7 +112,7 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     resourceGroupName: string,
     factoryName: string,
     options?: IntegrationRuntimesListByFactoryOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<IntegrationRuntimeResource[]> {
     let result: IntegrationRuntimesListByFactoryResponse;
     let continuationToken = settings?.continuationToken;
@@ -120,7 +120,7 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
       result = await this._listByFactory(
         resourceGroupName,
         factoryName,
-        options,
+        options
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -132,7 +132,7 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
         resourceGroupName,
         factoryName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -144,12 +144,12 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
   private async *listByFactoryPagingAll(
     resourceGroupName: string,
     factoryName: string,
-    options?: IntegrationRuntimesListByFactoryOptionalParams,
+    options?: IntegrationRuntimesListByFactoryOptionalParams
   ): AsyncIterableIterator<IntegrationRuntimeResource> {
     for await (const page of this.listByFactoryPagingPage(
       resourceGroupName,
       factoryName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -164,11 +164,11 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
   private _listByFactory(
     resourceGroupName: string,
     factoryName: string,
-    options?: IntegrationRuntimesListByFactoryOptionalParams,
+    options?: IntegrationRuntimesListByFactoryOptionalParams
   ): Promise<IntegrationRuntimesListByFactoryResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, options },
-      listByFactoryOperationSpec,
+      listByFactoryOperationSpec
     );
   }
 
@@ -185,7 +185,7 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     factoryName: string,
     integrationRuntimeName: string,
     integrationRuntime: IntegrationRuntimeResource,
-    options?: IntegrationRuntimesCreateOrUpdateOptionalParams,
+    options?: IntegrationRuntimesCreateOrUpdateOptionalParams
   ): Promise<IntegrationRuntimesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -193,9 +193,9 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
         factoryName,
         integrationRuntimeName,
         integrationRuntime,
-        options,
+        options
       },
-      createOrUpdateOperationSpec,
+      createOrUpdateOperationSpec
     );
   }
 
@@ -210,11 +210,11 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     resourceGroupName: string,
     factoryName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesGetOptionalParams,
+    options?: IntegrationRuntimesGetOptionalParams
   ): Promise<IntegrationRuntimesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, integrationRuntimeName, options },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -231,7 +231,7 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     factoryName: string,
     integrationRuntimeName: string,
     updateIntegrationRuntimeRequest: UpdateIntegrationRuntimeRequest,
-    options?: IntegrationRuntimesUpdateOptionalParams,
+    options?: IntegrationRuntimesUpdateOptionalParams
   ): Promise<IntegrationRuntimesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -239,9 +239,9 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
         factoryName,
         integrationRuntimeName,
         updateIntegrationRuntimeRequest,
-        options,
+        options
       },
-      updateOperationSpec,
+      updateOperationSpec
     );
   }
 
@@ -256,11 +256,11 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     resourceGroupName: string,
     factoryName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesDeleteOptionalParams,
+    options?: IntegrationRuntimesDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, integrationRuntimeName, options },
-      deleteOperationSpec,
+      deleteOperationSpec
     );
   }
 
@@ -275,11 +275,11 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     resourceGroupName: string,
     factoryName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesGetStatusOptionalParams,
+    options?: IntegrationRuntimesGetStatusOptionalParams
   ): Promise<IntegrationRuntimesGetStatusResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, integrationRuntimeName, options },
-      getStatusOperationSpec,
+      getStatusOperationSpec
     );
   }
 
@@ -294,11 +294,13 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     resourceGroupName: string,
     factoryName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesListOutboundNetworkDependenciesEndpointsOptionalParams,
-  ): Promise<IntegrationRuntimesListOutboundNetworkDependenciesEndpointsResponse> {
+    options?: IntegrationRuntimesListOutboundNetworkDependenciesEndpointsOptionalParams
+  ): Promise<
+    IntegrationRuntimesListOutboundNetworkDependenciesEndpointsResponse
+  > {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, integrationRuntimeName, options },
-      listOutboundNetworkDependenciesEndpointsOperationSpec,
+      listOutboundNetworkDependenciesEndpointsOperationSpec
     );
   }
 
@@ -314,11 +316,11 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     resourceGroupName: string,
     factoryName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesGetConnectionInfoOptionalParams,
+    options?: IntegrationRuntimesGetConnectionInfoOptionalParams
   ): Promise<IntegrationRuntimesGetConnectionInfoResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, integrationRuntimeName, options },
-      getConnectionInfoOperationSpec,
+      getConnectionInfoOperationSpec
     );
   }
 
@@ -336,7 +338,7 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     factoryName: string,
     integrationRuntimeName: string,
     regenerateKeyParameters: IntegrationRuntimeRegenerateKeyParameters,
-    options?: IntegrationRuntimesRegenerateAuthKeyOptionalParams,
+    options?: IntegrationRuntimesRegenerateAuthKeyOptionalParams
   ): Promise<IntegrationRuntimesRegenerateAuthKeyResponse> {
     return this.client.sendOperationRequest(
       {
@@ -344,9 +346,9 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
         factoryName,
         integrationRuntimeName,
         regenerateKeyParameters,
-        options,
+        options
       },
-      regenerateAuthKeyOperationSpec,
+      regenerateAuthKeyOperationSpec
     );
   }
 
@@ -361,11 +363,11 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     resourceGroupName: string,
     factoryName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesListAuthKeysOptionalParams,
+    options?: IntegrationRuntimesListAuthKeysOptionalParams
   ): Promise<IntegrationRuntimesListAuthKeysResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, integrationRuntimeName, options },
-      listAuthKeysOperationSpec,
+      listAuthKeysOperationSpec
     );
   }
 
@@ -380,7 +382,7 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     resourceGroupName: string,
     factoryName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesStartOptionalParams,
+    options?: IntegrationRuntimesStartOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<IntegrationRuntimesStartResponse>,
@@ -389,20 +391,21 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<IntegrationRuntimesStartResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -411,8 +414,8 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -420,22 +423,22 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, factoryName, integrationRuntimeName, options },
-      spec: startOperationSpec,
+      spec: startOperationSpec
     });
     const poller = await createHttpPoller<
       IntegrationRuntimesStartResponse,
       OperationState<IntegrationRuntimesStartResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -452,13 +455,13 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     resourceGroupName: string,
     factoryName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesStartOptionalParams,
+    options?: IntegrationRuntimesStartOptionalParams
   ): Promise<IntegrationRuntimesStartResponse> {
     const poller = await this.beginStart(
       resourceGroupName,
       factoryName,
       integrationRuntimeName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -474,24 +477,25 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     resourceGroupName: string,
     factoryName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesStopOptionalParams,
+    options?: IntegrationRuntimesStopOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -500,8 +504,8 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -509,19 +513,19 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, factoryName, integrationRuntimeName, options },
-      spec: stopOperationSpec,
+      spec: stopOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -538,13 +542,13 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     resourceGroupName: string,
     factoryName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesStopOptionalParams,
+    options?: IntegrationRuntimesStopOptionalParams
   ): Promise<void> {
     const poller = await this.beginStop(
       resourceGroupName,
       factoryName,
       integrationRuntimeName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -563,11 +567,11 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     resourceGroupName: string,
     factoryName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesSyncCredentialsOptionalParams,
+    options?: IntegrationRuntimesSyncCredentialsOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, integrationRuntimeName, options },
-      syncCredentialsOperationSpec,
+      syncCredentialsOperationSpec
     );
   }
 
@@ -583,11 +587,11 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     resourceGroupName: string,
     factoryName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesGetMonitoringDataOptionalParams,
+    options?: IntegrationRuntimesGetMonitoringDataOptionalParams
   ): Promise<IntegrationRuntimesGetMonitoringDataResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, integrationRuntimeName, options },
-      getMonitoringDataOperationSpec,
+      getMonitoringDataOperationSpec
     );
   }
 
@@ -602,11 +606,11 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     resourceGroupName: string,
     factoryName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesUpgradeOptionalParams,
+    options?: IntegrationRuntimesUpgradeOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, integrationRuntimeName, options },
-      upgradeOperationSpec,
+      upgradeOperationSpec
     );
   }
 
@@ -624,7 +628,7 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     factoryName: string,
     integrationRuntimeName: string,
     linkedIntegrationRuntimeRequest: LinkedIntegrationRuntimeRequest,
-    options?: IntegrationRuntimesRemoveLinksOptionalParams,
+    options?: IntegrationRuntimesRemoveLinksOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -632,9 +636,9 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
         factoryName,
         integrationRuntimeName,
         linkedIntegrationRuntimeRequest,
-        options,
+        options
       },
-      removeLinksOperationSpec,
+      removeLinksOperationSpec
     );
   }
 
@@ -651,7 +655,7 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     factoryName: string,
     integrationRuntimeName: string,
     createLinkedIntegrationRuntimeRequest: CreateLinkedIntegrationRuntimeRequest,
-    options?: IntegrationRuntimesCreateLinkedIntegrationRuntimeOptionalParams,
+    options?: IntegrationRuntimesCreateLinkedIntegrationRuntimeOptionalParams
   ): Promise<IntegrationRuntimesCreateLinkedIntegrationRuntimeResponse> {
     return this.client.sendOperationRequest(
       {
@@ -659,9 +663,9 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
         factoryName,
         integrationRuntimeName,
         createLinkedIntegrationRuntimeRequest,
-        options,
+        options
       },
-      createLinkedIntegrationRuntimeOperationSpec,
+      createLinkedIntegrationRuntimeOperationSpec
     );
   }
 
@@ -676,11 +680,11 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     resourceGroupName: string,
     factoryName: string,
     nextLink: string,
-    options?: IntegrationRuntimesListByFactoryNextOptionalParams,
+    options?: IntegrationRuntimesListByFactoryNextOptionalParams
   ): Promise<IntegrationRuntimesListByFactoryNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, nextLink, options },
-      listByFactoryNextOperationSpec,
+      listByFactoryNextOperationSpec
     );
   }
 }
@@ -688,36 +692,38 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByFactoryOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationRuntimeListResponse,
+      bodyMapper: Mappers.IntegrationRuntimeListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.factoryName,
+    Parameters.factoryName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationRuntimeResource,
+      bodyMapper: Mappers.IntegrationRuntimeResource
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   requestBody: Parameters.integrationRuntime,
   queryParameters: [Parameters.apiVersion],
@@ -726,27 +732,28 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.integrationRuntimeName,
+    Parameters.integrationRuntimeName
   ],
   headerParameters: [
     Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch,
+    Parameters.ifMatch
   ],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationRuntimeResource,
+      bodyMapper: Mappers.IntegrationRuntimeResource
     },
     304: {},
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -754,21 +761,22 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.integrationRuntimeName,
+    Parameters.integrationRuntimeName
   ],
   headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
-  serializer,
+  serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationRuntimeResource,
+      bodyMapper: Mappers.IntegrationRuntimeResource
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   requestBody: Parameters.updateIntegrationRuntimeRequest,
   queryParameters: [Parameters.apiVersion],
@@ -777,21 +785,22 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.integrationRuntimeName,
+    Parameters.integrationRuntimeName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -799,21 +808,22 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.integrationRuntimeName,
+    Parameters.integrationRuntimeName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getStatusOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/getStatus",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/getStatus",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationRuntimeStatusResponse,
+      bodyMapper: Mappers.IntegrationRuntimeStatusResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -821,45 +831,23 @@ const getStatusOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.integrationRuntimeName,
+    Parameters.integrationRuntimeName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
-const listOutboundNetworkDependenciesEndpointsOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/outboundNetworkDependenciesEndpoints",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper:
-          Mappers.IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
-    },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.factoryName,
-      Parameters.integrationRuntimeName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const getConnectionInfoOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/getConnectionInfo",
-  httpMethod: "POST",
+const listOutboundNetworkDependenciesEndpointsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/outboundNetworkDependenciesEndpoints",
+  httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationRuntimeConnectionInfo,
+      bodyMapper:
+        Mappers.IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -867,21 +855,45 @@ const getConnectionInfoOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.integrationRuntimeName,
+    Parameters.integrationRuntimeName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
+};
+const getConnectionInfoOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/getConnectionInfo",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.IntegrationRuntimeConnectionInfo
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.factoryName,
+    Parameters.integrationRuntimeName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
 };
 const regenerateAuthKeyOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/regenerateAuthKey",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/regenerateAuthKey",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationRuntimeAuthKeys,
+      bodyMapper: Mappers.IntegrationRuntimeAuthKeys
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   requestBody: Parameters.regenerateKeyParameters,
   queryParameters: [Parameters.apiVersion],
@@ -890,22 +902,23 @@ const regenerateAuthKeyOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.integrationRuntimeName,
+    Parameters.integrationRuntimeName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const listAuthKeysOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/listAuthKeys",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/listAuthKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationRuntimeAuthKeys,
+      bodyMapper: Mappers.IntegrationRuntimeAuthKeys
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -913,30 +926,31 @@ const listAuthKeysOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.integrationRuntimeName,
+    Parameters.integrationRuntimeName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const startOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/start",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/start",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationRuntimeStatusResponse,
+      bodyMapper: Mappers.IntegrationRuntimeStatusResponse
     },
     201: {
-      bodyMapper: Mappers.IntegrationRuntimeStatusResponse,
+      bodyMapper: Mappers.IntegrationRuntimeStatusResponse
     },
     202: {
-      bodyMapper: Mappers.IntegrationRuntimeStatusResponse,
+      bodyMapper: Mappers.IntegrationRuntimeStatusResponse
     },
     204: {
-      bodyMapper: Mappers.IntegrationRuntimeStatusResponse,
+      bodyMapper: Mappers.IntegrationRuntimeStatusResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -944,13 +958,14 @@ const startOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.integrationRuntimeName,
+    Parameters.integrationRuntimeName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const stopOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/stop",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/stop",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -958,8 +973,8 @@ const stopOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -967,19 +982,20 @@ const stopOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.integrationRuntimeName,
+    Parameters.integrationRuntimeName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const syncCredentialsOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/syncCredentials",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/syncCredentials",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -987,21 +1003,22 @@ const syncCredentialsOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.integrationRuntimeName,
+    Parameters.integrationRuntimeName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getMonitoringDataOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/monitoringData",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/monitoringData",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationRuntimeMonitoringData,
+      bodyMapper: Mappers.IntegrationRuntimeMonitoringData
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1009,19 +1026,20 @@ const getMonitoringDataOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.integrationRuntimeName,
+    Parameters.integrationRuntimeName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const upgradeOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/upgrade",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/upgrade",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1029,19 +1047,20 @@ const upgradeOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.integrationRuntimeName,
+    Parameters.integrationRuntimeName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const removeLinksOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/removeLinks",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/removeLinks",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   requestBody: Parameters.linkedIntegrationRuntimeRequest,
   queryParameters: [Parameters.apiVersion],
@@ -1050,22 +1069,23 @@ const removeLinksOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.integrationRuntimeName,
+    Parameters.integrationRuntimeName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const createLinkedIntegrationRuntimeOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/linkedIntegrationRuntime",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/linkedIntegrationRuntime",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationRuntimeStatusResponse,
+      bodyMapper: Mappers.IntegrationRuntimeStatusResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   requestBody: Parameters.createLinkedIntegrationRuntimeRequest,
   queryParameters: [Parameters.apiVersion],
@@ -1074,30 +1094,30 @@ const createLinkedIntegrationRuntimeOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.integrationRuntimeName,
+    Parameters.integrationRuntimeName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const listByFactoryNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationRuntimeListResponse,
+      bodyMapper: Mappers.IntegrationRuntimeListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.factoryName,
+    Parameters.factoryName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

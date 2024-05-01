@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import type { BodyPart, HttpHeaders, PipelineRequest } from "../interfaces.js";
-import { PipelinePolicy } from "../pipeline.js";
-import { stringToUint8Array } from "../util/bytesEncoding.js";
-import { isBlob } from "../util/typeGuards.js";
-import { randomUUID } from "../util/uuidUtils.js";
-import { concat } from "../util/concat.js";
+import { BodyPart, HttpHeaders, PipelineRequest, RequestBodyType } from "../interfaces";
+import { PipelinePolicy } from "../pipeline";
+import { stringToUint8Array } from "../util/bytesEncoding";
+import { toStream, concatenateStreams } from "../util/stream";
+import { isBlob } from "../util/typeGuards";
+import { randomUUID } from "../util/uuidUtils";
 
 function generateBoundary(): string {
   return `----AzSDKFormBoundary${randomUUID()}`;
@@ -61,11 +61,7 @@ function getTotalLength(
   return total;
 }
 
-async function buildRequestBody(
-  request: PipelineRequest,
-  parts: BodyPart[],
-  boundary: string,
-): Promise<void> {
+function buildRequestBody(request: PipelineRequest, parts: BodyPart[], boundary: string): void {
   const sources = [
     stringToUint8Array(`--${boundary}`, "utf-8"),
     ...parts.flatMap((part) => [
@@ -83,7 +79,10 @@ async function buildRequestBody(
     request.headers.set("Content-Length", contentLength);
   }
 
-  request.body = await concat(sources);
+  request.body = (() =>
+    concatenateStreams(
+      sources.map((source) => (typeof source === "function" ? source() : source)).map(toStream),
+    )) as RequestBodyType;
 }
 
 /**
@@ -112,7 +111,7 @@ function assertValidBoundary(boundary: string): void {
 export function multipartPolicy(): PipelinePolicy {
   return {
     name: multipartPolicyName,
-    async sendRequest(request, next) {
+    sendRequest(request, next) {
       if (!request.multipartBody) {
         return next(request);
       }
@@ -145,7 +144,7 @@ export function multipartPolicy(): PipelinePolicy {
         boundary = generateBoundary();
       }
       request.headers.set("Content-Type", `${contentType}; boundary=${boundary}`);
-      await buildRequestBody(request, request.multipartBody.parts, boundary);
+      buildRequestBody(request, request.multipartBody.parts, boundary);
 
       request.multipartBody = undefined;
 

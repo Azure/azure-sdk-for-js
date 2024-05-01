@@ -13,14 +13,11 @@ import {
   TelemetryExceptionData,
   TelemetryExceptionDetails,
 } from "../generated";
-import { createTagsFromResource, hrTimeToDate } from "./common";
+import { createTagsFromResource } from "./common";
 import { ReadableLogRecord } from "@opentelemetry/sdk-logs";
-import {
-  SEMATTRS_EXCEPTION_MESSAGE,
-  SEMATTRS_EXCEPTION_STACKTRACE,
-  SEMATTRS_EXCEPTION_TYPE,
-} from "@opentelemetry/semantic-conventions";
+import { SemanticAttributes } from "@opentelemetry/semantic-conventions";
 import { Measurements, Properties, Tags } from "../types";
+import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { diag } from "@opentelemetry/api";
 import {
   ApplicationInsightsAvailabilityBaseType,
@@ -41,7 +38,7 @@ import {
  * @internal
  */
 export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | undefined {
-  const time = hrTimeToDate(log.hrTime);
+  const time = log.hrTime ? new Date(hrTimeToMilliseconds(log.hrTime)) : new Date();
   const sampleRate = 100;
   const instrumentationKey = ikey;
   const tags = createTagsFromLog(log);
@@ -52,10 +49,10 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
 
   if (!log.attributes[ApplicationInsightsBaseType]) {
     // Get Exception attributes if available
-    const exceptionType = log.attributes[SEMATTRS_EXCEPTION_TYPE];
+    const exceptionType = log.attributes[SemanticAttributes.EXCEPTION_TYPE];
     if (exceptionType) {
-      const exceptionMessage = log.attributes[SEMATTRS_EXCEPTION_MESSAGE];
-      const exceptionStacktrace = log.attributes[SEMATTRS_EXCEPTION_STACKTRACE];
+      const exceptionMessage = log.attributes[SemanticAttributes.EXCEPTION_MESSAGE];
+      const exceptionStacktrace = log.attributes[SemanticAttributes.EXCEPTION_STACKTRACE];
       name = ApplicationInsightsExceptionName;
       baseType = ApplicationInsightsExceptionBaseType;
       const exceptionDetails: TelemetryExceptionDetails = {
@@ -128,9 +125,9 @@ function createPropertiesFromLog(log: ReadableLogRecord): [Properties, Measureme
       if (
         !(
           key.startsWith("_MS.") ||
-          key === SEMATTRS_EXCEPTION_TYPE ||
-          key === SEMATTRS_EXCEPTION_MESSAGE ||
-          key === SEMATTRS_EXCEPTION_STACKTRACE
+          key === SemanticAttributes.EXCEPTION_TYPE ||
+          key === SemanticAttributes.EXCEPTION_MESSAGE ||
+          key === SemanticAttributes.EXCEPTION_STACKTRACE
         )
       ) {
         properties[key] = log.attributes[key] as string;
@@ -188,19 +185,19 @@ function getLegacyApplicationInsightsBaseData(log: ReadableLogRecord): MonitorDo
     try {
       switch (log.attributes[ApplicationInsightsBaseType]) {
         case ApplicationInsightsAvailabilityBaseType:
-          baseData = log.body as AvailabilityData;
+          baseData = JSON.parse(log.body) as AvailabilityData;
           break;
         case ApplicationInsightsExceptionBaseType:
-          baseData = log.body as TelemetryExceptionData;
+          baseData = JSON.parse(log.body) as TelemetryExceptionData;
           break;
         case ApplicationInsightsMessageBaseType:
-          baseData = log.body as MessageData;
+          baseData = JSON.parse(log.body) as MessageData;
           break;
         case ApplicationInsightsPageViewBaseType:
-          baseData = log.body as PageViewData;
+          baseData = JSON.parse(log.body) as PageViewData;
           break;
         case ApplicationInsightsEventBaseType:
-          baseData = log.body as TelemetryEventData;
+          baseData = JSON.parse(log.body) as TelemetryEventData;
           break;
       }
       if (typeof baseData?.message === "object") {

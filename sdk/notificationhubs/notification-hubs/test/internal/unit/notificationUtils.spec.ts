@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert } from "vitest";
+import { assert } from "@azure/test-utils";
 import { createAppleNotification } from "../../../src/models/notification.js";
 import { createMultipartDirectNotification } from "../../../src/utils/notificationUtils.js";
 

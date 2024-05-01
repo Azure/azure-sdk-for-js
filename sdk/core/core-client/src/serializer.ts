@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as base64 from "./base64.js";
+import * as base64 from "./base64";
 import {
   BaseMapper,
   CompositeMapper,
@@ -16,8 +16,8 @@ import {
   SerializerOptions,
   XML_ATTRKEY,
   XML_CHARKEY,
-} from "./interfaces.js";
-import { isDuration, isValidUuid } from "./utils.js";
+} from "./interfaces";
+import { isDuration, isValidUuid } from "./utils";
 
 class SerializerImpl implements Serializer {
   constructor(

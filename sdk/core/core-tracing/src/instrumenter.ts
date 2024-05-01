@@ -1,15 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  Instrumenter,
-  InstrumenterSpanOptions,
-  TracingContext,
-  TracingSpan,
-} from "./interfaces.js";
-
-import { createTracingContext } from "./tracingContext.js";
-import { state } from "./state.js";
+import { Instrumenter, InstrumenterSpanOptions, TracingContext, TracingSpan } from "./interfaces";
+import { createTracingContext } from "./tracingContext";
 
 export function createDefaultTracingSpan(): TracingSpan {
   return {
@@ -59,13 +52,16 @@ export function createDefaultInstrumenter(): Instrumenter {
   };
 }
 
+/** @internal */
+let instrumenterImplementation: Instrumenter | undefined;
+
 /**
  * Extends the Azure SDK with support for a given instrumenter implementation.
  *
  * @param instrumenter - The instrumenter implementation to use.
  */
 export function useInstrumenter(instrumenter: Instrumenter): void {
-  state.instrumenterImplementation = instrumenter;
+  instrumenterImplementation = instrumenter;
 }
 
 /**
@@ -74,8 +70,8 @@ export function useInstrumenter(instrumenter: Instrumenter): void {
  * @returns The currently set instrumenter
  */
 export function getInstrumenter(): Instrumenter {
-  if (!state.instrumenterImplementation) {
-    state.instrumenterImplementation = createDefaultInstrumenter();
+  if (!instrumenterImplementation) {
+    instrumenterImplementation = createDefaultInstrumenter();
   }
-  return state.instrumenterImplementation;
+  return instrumenterImplementation;
 }

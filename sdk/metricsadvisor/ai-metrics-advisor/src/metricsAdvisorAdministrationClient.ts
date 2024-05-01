@@ -10,6 +10,7 @@ import {
 import { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import "@azure/core-paging";
 import { logger } from "./logger";
 import {
   MetricsAdvisorKeyCredential,

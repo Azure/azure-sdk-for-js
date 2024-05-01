@@ -234,8 +234,6 @@ export interface ChaosTargetFilter {
 export interface ExperimentUpdate {
   /** The identity of the experiment resource. */
   identity?: ResourceIdentity;
-  /** The tags of the experiment resource. */
-  tags?: { [propertyName: string]: string };
 }
 
 /** Model that represents a list of Experiment executions and a link for pagination. */
@@ -859,7 +857,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key",
+  Key = "Key"
 }
 
 /**
@@ -887,7 +885,7 @@ export enum KnownProvisioningState {
   /** Updating */
   Updating = "Updating",
   /** Deleting */
-  Deleting = "Deleting",
+  Deleting = "Deleting"
 }
 
 /**
@@ -909,7 +907,7 @@ export enum KnownSelectorType {
   /** List */
   List = "List",
   /** Query */
-  Query = "Query",
+  Query = "Query"
 }
 
 /**
@@ -925,7 +923,7 @@ export type SelectorType = string;
 /** Known values of {@link FilterType} that the service accepts. */
 export enum KnownFilterType {
   /** Simple */
-  Simple = "Simple",
+  Simple = "Simple"
 }
 
 /**
@@ -944,7 +942,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system",
+  UserSystem = "user,system"
 }
 
 /**
@@ -961,7 +959,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal",
+  Internal = "Internal"
 }
 
 /**
@@ -976,7 +974,7 @@ export type ActionType = string;
 /** Known values of {@link TargetReferenceType} that the service accepts. */
 export enum KnownTargetReferenceType {
   /** ChaosTarget */
-  ChaosTarget = "ChaosTarget",
+  ChaosTarget = "ChaosTarget"
 }
 
 /**
@@ -1136,8 +1134,7 @@ export interface ExperimentsListAllExecutionsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAllExecutions operation. */
-export type ExperimentsListAllExecutionsResponse =
-  ExperimentExecutionListResult;
+export type ExperimentsListAllExecutionsResponse = ExperimentExecutionListResult;
 
 /** Optional parameters. */
 export interface ExperimentsGetExecutionOptionalParams
@@ -1172,8 +1169,7 @@ export interface ExperimentsListAllExecutionsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAllExecutionsNext operation. */
-export type ExperimentsListAllExecutionsNextResponse =
-  ExperimentExecutionListResult;
+export type ExperimentsListAllExecutionsNextResponse = ExperimentExecutionListResult;
 
 /** Optional parameters. */
 export interface OperationStatusesGetOptionalParams

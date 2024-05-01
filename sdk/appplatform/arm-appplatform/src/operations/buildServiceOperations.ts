@@ -41,7 +41,6 @@ import {
   BuildServiceCreateOrUpdateBuildOptionalParams,
   BuildServiceCreateOrUpdateBuildResponse,
   BuildServiceDeleteBuildOptionalParams,
-  BuildServiceDeleteBuildResponse,
   BuildServiceGetBuildResultOptionalParams,
   BuildServiceGetBuildResultResponse,
   BuildServiceGetBuildResultLogOptionalParams,
@@ -591,16 +590,11 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
     buildServiceName: string,
     buildName: string,
     options?: BuildServiceDeleteBuildOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<BuildServiceDeleteBuildResponse>,
-      BuildServiceDeleteBuildResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<BuildServiceDeleteBuildResponse> => {
+    ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -647,10 +641,7 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
       },
       spec: deleteBuildOperationSpec
     });
-    const poller = await createHttpPoller<
-      BuildServiceDeleteBuildResponse,
-      OperationState<BuildServiceDeleteBuildResponse>
-    >(lro, {
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location"
@@ -674,7 +665,7 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
     buildServiceName: string,
     buildName: string,
     options?: BuildServiceDeleteBuildOptionalParams
-  ): Promise<BuildServiceDeleteBuildResponse> {
+  ): Promise<void> {
     const poller = await this.beginDeleteBuild(
       resourceGroupName,
       serviceName,
@@ -1115,18 +1106,10 @@ const deleteBuildOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builds/{buildName}",
   httpMethod: "DELETE",
   responses: {
-    200: {
-      headersMapper: Mappers.BuildServiceDeleteBuildHeaders
-    },
-    201: {
-      headersMapper: Mappers.BuildServiceDeleteBuildHeaders
-    },
-    202: {
-      headersMapper: Mappers.BuildServiceDeleteBuildHeaders
-    },
-    204: {
-      headersMapper: Mappers.BuildServiceDeleteBuildHeaders
-    },
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert } from "vitest";
-import * as MediaMappers from "./testMappers2.js";
+import * as MediaMappers from "./testMappers2";
 import {
   CompositeMapper,
   DictionaryMapper,
@@ -10,8 +9,9 @@ import {
   Mapper,
   SequenceMapper,
   createSerializer,
-} from "../src/index.js";
-import { Mappers } from "./testMappers1.js";
+} from "../src";
+import { Mappers } from "./testMappers1";
+import { assert } from "chai";
 
 const Serializer = createSerializer(Mappers);
 const valid_uuid = "ceaafd1e-f936-429f-bbfc-82ee75dddc33";

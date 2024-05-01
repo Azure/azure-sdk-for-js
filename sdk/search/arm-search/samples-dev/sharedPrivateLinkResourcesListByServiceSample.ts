@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of all shared private link resources managed by the given service.
  *
  * @summary Gets a list of all shared private link resources managed by the given service.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-03-01-preview/examples/ListSharedPrivateLinkResourcesByService.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/ListSharedPrivateLinkResourcesByService.json
  */
 async function listSharedPrivateLinkResourcesByService() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -29,7 +29,7 @@ async function listSharedPrivateLinkResourcesByService() {
   const resArray = new Array();
   for await (let item of client.sharedPrivateLinkResources.listByService(
     resourceGroupName,
-    searchServiceName,
+    searchServiceName
   )) {
     resArray.push(item);
   }

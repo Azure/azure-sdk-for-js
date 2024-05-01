@@ -16,7 +16,7 @@ import { NetworkManagementClient } from "../networkManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller,
+  createHttpPoller
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,7 +29,7 @@ import {
   RoutingIntentGetOptionalParams,
   RoutingIntentGetResponse,
   RoutingIntentDeleteOptionalParams,
-  RoutingIntentListNextResponse,
+  RoutingIntentListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,7 +54,7 @@ export class RoutingIntentOperationsImpl implements RoutingIntentOperations {
   public list(
     resourceGroupName: string,
     virtualHubName: string,
-    options?: RoutingIntentListOptionalParams,
+    options?: RoutingIntentListOptionalParams
   ): PagedAsyncIterableIterator<RoutingIntent> {
     const iter = this.listPagingAll(resourceGroupName, virtualHubName, options);
     return {
@@ -72,9 +72,9 @@ export class RoutingIntentOperationsImpl implements RoutingIntentOperations {
           resourceGroupName,
           virtualHubName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -82,7 +82,7 @@ export class RoutingIntentOperationsImpl implements RoutingIntentOperations {
     resourceGroupName: string,
     virtualHubName: string,
     options?: RoutingIntentListOptionalParams,
-    settings?: PageSettings,
+    settings?: PageSettings
   ): AsyncIterableIterator<RoutingIntent[]> {
     let result: RoutingIntentListResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +98,7 @@ export class RoutingIntentOperationsImpl implements RoutingIntentOperations {
         resourceGroupName,
         virtualHubName,
         continuationToken,
-        options,
+        options
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -110,12 +110,12 @@ export class RoutingIntentOperationsImpl implements RoutingIntentOperations {
   private async *listPagingAll(
     resourceGroupName: string,
     virtualHubName: string,
-    options?: RoutingIntentListOptionalParams,
+    options?: RoutingIntentListOptionalParams
   ): AsyncIterableIterator<RoutingIntent> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       virtualHubName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -134,7 +134,7 @@ export class RoutingIntentOperationsImpl implements RoutingIntentOperations {
     virtualHubName: string,
     routingIntentName: string,
     routingIntentParameters: RoutingIntent,
-    options?: RoutingIntentCreateOrUpdateOptionalParams,
+    options?: RoutingIntentCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<RoutingIntentCreateOrUpdateResponse>,
@@ -143,20 +143,21 @@ export class RoutingIntentOperationsImpl implements RoutingIntentOperations {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<RoutingIntentCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -165,8 +166,8 @@ export class RoutingIntentOperationsImpl implements RoutingIntentOperations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -174,8 +175,8 @@ export class RoutingIntentOperationsImpl implements RoutingIntentOperations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -186,9 +187,9 @@ export class RoutingIntentOperationsImpl implements RoutingIntentOperations {
         virtualHubName,
         routingIntentName,
         routingIntentParameters,
-        options,
+        options
       },
-      spec: createOrUpdateOperationSpec,
+      spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
       RoutingIntentCreateOrUpdateResponse,
@@ -196,7 +197,7 @@ export class RoutingIntentOperationsImpl implements RoutingIntentOperations {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -215,14 +216,14 @@ export class RoutingIntentOperationsImpl implements RoutingIntentOperations {
     virtualHubName: string,
     routingIntentName: string,
     routingIntentParameters: RoutingIntent,
-    options?: RoutingIntentCreateOrUpdateOptionalParams,
+    options?: RoutingIntentCreateOrUpdateOptionalParams
   ): Promise<RoutingIntentCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       virtualHubName,
       routingIntentName,
       routingIntentParameters,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -238,11 +239,11 @@ export class RoutingIntentOperationsImpl implements RoutingIntentOperations {
     resourceGroupName: string,
     virtualHubName: string,
     routingIntentName: string,
-    options?: RoutingIntentGetOptionalParams,
+    options?: RoutingIntentGetOptionalParams
   ): Promise<RoutingIntentGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, virtualHubName, routingIntentName, options },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -257,24 +258,25 @@ export class RoutingIntentOperationsImpl implements RoutingIntentOperations {
     resourceGroupName: string,
     virtualHubName: string,
     routingIntentName: string,
-    options?: RoutingIntentDeleteOptionalParams,
+    options?: RoutingIntentDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -283,8 +285,8 @@ export class RoutingIntentOperationsImpl implements RoutingIntentOperations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -292,20 +294,20 @@ export class RoutingIntentOperationsImpl implements RoutingIntentOperations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, virtualHubName, routingIntentName, options },
-      spec: deleteOperationSpec,
+      spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -322,13 +324,13 @@ export class RoutingIntentOperationsImpl implements RoutingIntentOperations {
     resourceGroupName: string,
     virtualHubName: string,
     routingIntentName: string,
-    options?: RoutingIntentDeleteOptionalParams,
+    options?: RoutingIntentDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       virtualHubName,
       routingIntentName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -342,11 +344,11 @@ export class RoutingIntentOperationsImpl implements RoutingIntentOperations {
   private _list(
     resourceGroupName: string,
     virtualHubName: string,
-    options?: RoutingIntentListOptionalParams,
+    options?: RoutingIntentListOptionalParams
   ): Promise<RoutingIntentListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, virtualHubName, options },
-      listOperationSpec,
+      listOperationSpec
     );
   }
 
@@ -361,11 +363,11 @@ export class RoutingIntentOperationsImpl implements RoutingIntentOperations {
     resourceGroupName: string,
     virtualHubName: string,
     nextLink: string,
-    options?: RoutingIntentListNextOptionalParams,
+    options?: RoutingIntentListNextOptionalParams
   ): Promise<RoutingIntentListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, virtualHubName, nextLink, options },
-      listNextOperationSpec,
+      listNextOperationSpec
     );
   }
 }
@@ -373,24 +375,25 @@ export class RoutingIntentOperationsImpl implements RoutingIntentOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routingIntent/{routingIntentName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routingIntent/{routingIntentName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.RoutingIntent,
+      bodyMapper: Mappers.RoutingIntent
     },
     201: {
-      bodyMapper: Mappers.RoutingIntent,
+      bodyMapper: Mappers.RoutingIntent
     },
     202: {
-      bodyMapper: Mappers.RoutingIntent,
+      bodyMapper: Mappers.RoutingIntent
     },
     204: {
-      bodyMapper: Mappers.RoutingIntent,
+      bodyMapper: Mappers.RoutingIntent
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   requestBody: Parameters.routingIntentParameters,
   queryParameters: [Parameters.apiVersion],
@@ -399,22 +402,23 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.virtualHubName,
-    Parameters.routingIntentName,
+    Parameters.routingIntentName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routingIntent/{routingIntentName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routingIntent/{routingIntentName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoutingIntent,
+      bodyMapper: Mappers.RoutingIntent
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -422,13 +426,14 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.virtualHubName,
-    Parameters.routingIntentName,
+    Parameters.routingIntentName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routingIntent/{routingIntentName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routingIntent/{routingIntentName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -436,8 +441,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -445,50 +450,51 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.virtualHubName,
-    Parameters.routingIntentName,
+    Parameters.routingIntentName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routingIntent",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routingIntent",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListRoutingIntentResult,
+      bodyMapper: Mappers.ListRoutingIntentResult
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.virtualHubName,
+    Parameters.virtualHubName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListRoutingIntentResult,
+      bodyMapper: Mappers.ListRoutingIntentResult
     },
     default: {
-      bodyMapper: Mappers.CloudError,
-    },
+      bodyMapper: Mappers.CloudError
+    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.virtualHubName,
+    Parameters.virtualHubName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

@@ -1,0 +1,57 @@
+{
+  "name": "@azure/cognitiveservices-computervision",
+  "author": "Microsoft Corporation",
+  "description": "ComputerVisionClient Library with typescript type definitions for node.js and browser.",
+  "version": "8.2.0",
+  "dependencies": {
+    "@azure/ms-rest-js": "^2.0.4",
+    "tslib": "^1.10.0"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "license": "MIT",
+  "main": "./dist/cognitiveservices-computervision.js",
+  "module": "./esm/computerVisionClient.js",
+  "types": "./esm/computerVisionClient.d.ts",
+  "devDependencies": {
+    "typescript": "^3.5.3",
+    "rollup": "^1.18.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "uglify-js": "^3.6.0"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitiveservices/cognitiveservices-computervision",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Azure/azure-sdk-for-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.js.map",
+    "dist/**/*.d.ts",
+    "dist/**/*.d.ts.map",
+    "esm/**/*.js",
+    "esm/**/*.js.map",
+    "esm/**/*.d.ts",
+    "esm/**/*.d.ts.map",
+    "src/**/*.ts",
+    "README.md",
+    "rollup.config.js",
+    "tsconfig.json"
+  ],
+  "scripts": {
+    "build": "tsc && rollup -c rollup.config.js && npm run minify",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/cognitiveservices-computervision.js.map'\" -o ./dist/cognitiveservices-computervision.min.js ./dist/cognitiveservices-computervision.js",
+    "prepack": "npm install && npm run build"
+  },
+  "sideEffects": false,
+  "autoPublish": true
+}

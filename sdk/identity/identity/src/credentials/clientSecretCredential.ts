@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { MsalClient, createMsalClient } from "../msal/nodeFlows/msalClient";
 import {
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
-
 import { ClientSecretCredentialOptions } from "./clientSecretCredentialOptions";
+import { MsalClientSecret } from "../msal/nodeFlows/msalClientSecret";
+import { MsalFlow } from "../msal/flows";
 import { credentialLogger } from "../util/logging";
 import { ensureScopes } from "../util/scopeUtils";
 import { tracingClient } from "../util/tracing";
@@ -20,14 +20,13 @@ const logger = credentialLogger("ClientSecretCredential");
  * that was generated for an App Registration. More information on how
  * to configure a client secret can be found here:
  *
- * https://learn.microsoft.com/entra/identity-platform/quickstart-configure-app-access-web-apis#add-credentials-to-your-web-application
+ * https://learn.microsoft.com/azure/active-directory/develop/quickstart-configure-app-access-web-apis#add-credentials-to-your-web-application
  *
  */
 export class ClientSecretCredential implements TokenCredential {
   private tenantId: string;
   private additionallyAllowedTenantIds: string[];
-  private msalClient: MsalClient;
-  private clientSecret: string;
+  private msalFlow: MsalFlow;
 
   /**
    * Creates an instance of the ClientSecretCredential with the details
@@ -51,15 +50,17 @@ export class ClientSecretCredential implements TokenCredential {
       );
     }
 
-    this.clientSecret = clientSecret;
     this.tenantId = tenantId;
     this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
       options?.additionallyAllowedTenants,
     );
 
-    this.msalClient = createMsalClient(clientId, tenantId, {
+    this.msalFlow = new MsalClientSecret({
       ...options,
       logger,
+      clientId,
+      tenantId,
+      clientSecret,
       tokenCredentialOptions: options,
     });
   }
@@ -85,7 +86,7 @@ export class ClientSecretCredential implements TokenCredential {
         );
 
         const arrayScopes = ensureScopes(scopes);
-        return this.msalClient.getTokenByClientSecret(arrayScopes, this.clientSecret, newOptions);
+        return this.msalFlow.getToken(arrayScopes, newOptions);
       },
     );
   }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the NGINX configuration of given NGINX deployment
  *
  * @summary Get the NGINX configuration of given NGINX deployment
- * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-01-01-preview/examples/Configurations_Get.json
+ * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2023-04-01/examples/Configurations_Get.json
  */
 async function configurationsGet() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function configurationsGet() {
   const result = await client.configurations.get(
     resourceGroupName,
     deploymentName,
-    configurationName,
+    configurationName
   );
   console.log(result);
 }

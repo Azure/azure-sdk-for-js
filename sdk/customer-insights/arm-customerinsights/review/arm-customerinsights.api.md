@@ -407,7 +407,7 @@ export type EntityType = "None" | "Profile" | "Interaction" | "Relationship";
 export interface EntityTypeDefinition extends MetadataDefinitionBase {
     apiEntitySetName?: string;
     entityType?: EntityTypes;
-    fields?: PropertyDefinition_2[];
+    fields?: PropertyDefinition[];
     instancesCount?: number;
     readonly lastChangedUtc?: Date;
     readonly provisioningState?: ProvisioningStates;
@@ -576,7 +576,7 @@ export interface InteractionResourceFormat extends ProxyResource {
         [propertyName: string]: string;
     };
     entityType?: EntityTypes;
-    fields?: PropertyDefinition_2[];
+    fields?: PropertyDefinition[];
     readonly idPropertiesDefaultDataSourceId?: number;
     idPropertyNames?: string[];
     instancesCount?: number;
@@ -1227,7 +1227,7 @@ export interface ProfileResourceFormat extends ProxyResource {
         [propertyName: string]: string;
     };
     entityType?: EntityTypes;
-    fields?: PropertyDefinition_2[];
+    fields?: PropertyDefinition[];
     instancesCount?: number;
     largeImage?: string;
     readonly lastChangedUtc?: Date;
@@ -1310,7 +1310,7 @@ export interface ProfileTypeDefinition extends EntityTypeDefinition {
 }
 
 // @public
-interface PropertyDefinition_2 {
+export interface PropertyDefinition {
     arrayValueSeparator?: string;
     readonly dataSourcePrecedenceRules?: DataSourcePrecedence[];
     enumValidValues?: ProfileEnumValidValuesFormat[];
@@ -1328,7 +1328,6 @@ interface PropertyDefinition_2 {
     propertyId?: string;
     schemaItemPropLink?: string;
 }
-export { PropertyDefinition_2 as PropertyDefinition }
 
 // @public
 export type ProvisioningStates = string;
@@ -1434,7 +1433,7 @@ export interface RelationshipResourceFormat extends ProxyResource {
         [propertyName: string]: string;
     };
     expiryDateTimeUtc?: Date;
-    fields?: PropertyDefinition_2[];
+    fields?: PropertyDefinition[];
     lookupMappings?: RelationshipTypeMapping[];
     profileType?: string;
     readonly provisioningState?: ProvisioningStates;

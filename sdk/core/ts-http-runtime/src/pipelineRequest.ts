@@ -10,11 +10,11 @@ import {
   ProxySettings,
   RequestBodyType,
   TransferProgressEvent,
-} from "./interfaces.js";
-import { createHttpHeaders } from "./httpHeaders.js";
-import { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
-import { randomUUID } from "./util/uuidUtils.js";
-import { OperationTracingOptions } from "./tracing/interfaces.js";
+} from "./interfaces";
+import { createHttpHeaders } from "./httpHeaders";
+import { AbortSignalLike } from "./abort-controller/AbortSignalLike";
+import { randomUUID } from "./util/uuidUtils";
+import { OperationTracingOptions } from "./tracing/interfaces";
 
 /**
  * Settings to initialize a request.

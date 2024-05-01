@@ -3,6 +3,7 @@
 
 import { CosmosDiagnosticContext } from "./CosmosDiagnosticsContext";
 import { RequestContext } from "../request";
+import { v4 } from "uuid";
 import {
   DiagnosticNode,
   MetadataLookUpType,
@@ -16,7 +17,6 @@ import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
 import { HttpHeaders, PipelineResponse } from "@azure/core-rest-pipeline";
 import { Constants, OperationType, ResourceType, prepareURL } from "../common";
 import { allowTracing } from "./diagnosticLevelComparator";
-import { randomUUID } from "@azure/core-util";
 
 /**
  * @hidden
@@ -46,7 +46,7 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
     startTimeUTCInMs: number = getCurrentTimestampInMs(),
     ctx: CosmosDiagnosticContext = new CosmosDiagnosticContext(),
   ) {
-    this.id = randomUUID();
+    this.id = v4();
     this.nodeType = type;
     this.startTimeUTCInMs = startTimeUTCInMs;
     this.data = data;

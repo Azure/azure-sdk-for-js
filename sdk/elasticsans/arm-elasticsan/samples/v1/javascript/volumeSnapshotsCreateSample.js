@@ -25,11 +25,9 @@ async function volumeSnapshotsCreateMaximumSetGen() {
   const volumeGroupName = "volumegroupname";
   const snapshotName = "snapshotname";
   const parameters = {
-    properties: {
-      creationData: {
-        sourceId:
-          "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}",
-      },
+    creationData: {
+      sourceId:
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}",
     },
   };
   const credential = new DefaultAzureCredential();
@@ -39,7 +37,7 @@ async function volumeSnapshotsCreateMaximumSetGen() {
     elasticSanName,
     volumeGroupName,
     snapshotName,
-    parameters,
+    parameters
   );
   console.log(result);
 }
@@ -57,11 +55,9 @@ async function volumeSnapshotsCreateMinimumSetGen() {
   const volumeGroupName = "volumegroupname";
   const snapshotName = "snapshotname";
   const parameters = {
-    properties: {
-      creationData: {
-        sourceId:
-          "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}",
-      },
+    creationData: {
+      sourceId:
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}",
     },
   };
   const credential = new DefaultAzureCredential();
@@ -71,7 +67,7 @@ async function volumeSnapshotsCreateMinimumSetGen() {
     elasticSanName,
     volumeGroupName,
     snapshotName,
-    parameters,
+    parameters
   );
   console.log(result);
 }

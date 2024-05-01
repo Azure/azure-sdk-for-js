@@ -6,7 +6,8 @@
  * @author Arpan Laha
  */
 
-import { describe, it, assert } from "vitest";
+import { describe, it } from "mocha";
+import { assert } from "chai";
 import plugin from "../src";
 
 /**

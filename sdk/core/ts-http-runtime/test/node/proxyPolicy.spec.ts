@@ -1,33 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as process from "node:process";
-import { describe, it, assert, vi, afterEach } from "vitest";
+import { assert } from "chai";
+import * as sinon from "sinon";
 import {
-  type ProxySettings,
-  type SendRequest,
+  ProxySettings,
+  SendRequest,
   createPipelineRequest,
   getDefaultProxySettings,
   proxyPolicy,
-  Agent,
-  PipelineRequest,
-} from "../../src/index.js";
-import { globalNoProxyList, loadNoProxy } from "../../src/policies/proxyPolicy.js";
-
-interface ProxyAgent extends Agent {
-  proxy: URL;
-}
-
-function getProxyUrlForRequest(request: PipelineRequest): URL {
-  const proxyAgent = request.agent as ProxyAgent;
-  if (!proxyAgent) {
-    throw new Error(`Expected request for ${request.url} to have agent set`);
-  }
-  if (proxyAgent.proxy) {
-    return proxyAgent.proxy;
-  }
-  throw new Error(`Expected agent ${proxyAgent} to have a proxy property`);
-}
+} from "../../src";
+import {
+  getProxyAgentOptions,
+  globalNoProxyList,
+  loadNoProxy,
+} from "../../src/policies/proxyPolicy";
 
 describe("proxyPolicy (node)", function () {
   it("Sets proxy settings on the request", function () {
@@ -41,15 +28,12 @@ describe("proxyPolicy (node)", function () {
       url: "https://bing.com",
     });
 
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
 
     policy.sendRequest(request, next);
 
-    assert.deepStrictEqual(next.mock.calls, [[request]], "next called with request");
-    assert.strictEqual(
-      getProxyUrlForRequest(request).toString(),
-      "https://proxy.example.com:8080/",
-    );
+    assert.isTrue(next.calledOnceWith(request), "next called with request");
+    assert.strictEqual(request.proxySettings, proxySettings);
   });
 
   it("Doesn't override existing request proxy settings", function () {
@@ -69,15 +53,12 @@ describe("proxyPolicy (node)", function () {
       proxySettings: requestProxySettings,
     });
 
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
 
     policy.sendRequest(request, next);
 
-    assert.deepStrictEqual(next.mock.calls, [[request]], "next called with request");
-    assert.strictEqual(
-      getProxyUrlForRequest(request).toString(),
-      "https://proxy2.example.com:8080/",
-    );
+    assert.isTrue(next.calledOnceWith(request), "next called with request");
+    assert.strictEqual(request.proxySettings, requestProxySettings);
   });
 
   it("Doesn't assign proxy settings to request when NO_PROXY contains a match of host name", function () {
@@ -97,54 +78,41 @@ describe("proxyPolicy (node)", function () {
         url: "https://proxytest.com",
       });
 
-      const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+      const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
 
       policy.sendRequest(request, next);
 
-      assert.deepStrictEqual(next.mock.calls, [[request]], "next called with request");
-      assert.isUndefined(request.proxySettings);
-      assert.isUndefined(request.agent);
+      assert.isTrue(next.calledOnceWith(request), "next called with request");
+      assert.strictEqual(request.proxySettings, undefined);
 
       request.url = "https://www.proxytest.com";
       policy.sendRequest(request, next);
-      assert.isUndefined(request.proxySettings);
-      assert.isUndefined(request.agent);
+      assert.strictEqual(request.proxySettings, undefined);
 
       request.url = "http://test.proxytest.com";
       policy.sendRequest(request, next);
-      assert.isUndefined(request.proxySettings);
-      assert.isUndefined(request.agent);
+      assert.strictEqual(request.proxySettings, undefined);
 
       request.url = "http://test.proxytest.com/path1";
       policy.sendRequest(request, next);
-      assert.isUndefined(request.proxySettings);
-      assert.isUndefined(request.agent);
+      assert.strictEqual(request.proxySettings, undefined);
 
       request.url = "http://test.proxytest.com/path2";
       policy.sendRequest(request, next);
-      assert.isUndefined(request.proxySettings);
-      assert.isUndefined(request.agent);
+      assert.strictEqual(request.proxySettings, undefined);
 
       request.url = "http://abcproxytest.com";
       policy.sendRequest(request, next);
-      assert.strictEqual(
-        getProxyUrlForRequest(request).toString(),
-        "https://proxy.example.com:8080/",
-      );
+      assert.strictEqual(request.proxySettings, proxySettings);
 
       request.proxySettings = undefined;
-      request.agent = undefined;
       request.url = "http://test.com";
       policy.sendRequest(request, next);
-      assert.isUndefined(request.proxySettings);
-      assert.isUndefined(request.agent);
+      assert.strictEqual(request.proxySettings, undefined);
 
       request.url = "http://www.test.com";
       policy.sendRequest(request, next);
-      assert.strictEqual(
-        getProxyUrlForRequest(request).toString(),
-        "https://proxy.example.com:8080/",
-      );
+      assert.strictEqual(request.proxySettings, proxySettings);
     } finally {
       process.env["NO_PROXY"] = saved;
       globalNoProxyList.splice(0, globalNoProxyList.length);
@@ -165,63 +133,72 @@ describe("proxyPolicy (node)", function () {
       };
 
       const policy1 = proxyPolicy(proxySettings, { customNoProxyList: ["test.com"] });
-      const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+      const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
 
       const request = createPipelineRequest({
         url: "https://proxytest.om",
       });
       policy1.sendRequest(request, next);
-      assert.deepStrictEqual(next.mock.calls, [[request]], "next called with request");
-      assert.strictEqual(
-        getProxyUrlForRequest(request).toString(),
-        "https://proxy.example.com:8080/",
-      );
+      assert.isTrue(next.calledOnceWith(request), "next called with request");
+      assert.strictEqual(request.proxySettings, proxySettings);
 
       request.url = "https://test.com";
       request.proxySettings = undefined;
-      request.agent = undefined;
       policy1.sendRequest(request, next);
-      assert.isUndefined(request.proxySettings);
-      assert.isUndefined(request.agent);
+      assert.strictEqual(request.proxySettings, undefined);
 
       request.url = "http://another.com";
       request.proxySettings = undefined;
       policy1.sendRequest(request, next);
-      assert.strictEqual(
-        getProxyUrlForRequest(request).toString(),
-        "https://proxy.example.com:8080/",
-      );
+      assert.strictEqual(request.proxySettings, proxySettings);
 
       const policy2 = proxyPolicy(proxySettings, { customNoProxyList: ["proxytest.com"] });
       request.url = "http://test.com";
       request.proxySettings = undefined;
-      request.agent = undefined;
       policy2.sendRequest(request, next);
-      assert.strictEqual(
-        getProxyUrlForRequest(request).toString(),
-        "https://proxy.example.com:8080/",
-      );
+      assert.strictEqual(request.proxySettings, proxySettings);
 
       request.url = "http://proxytest.com";
       request.proxySettings = undefined;
-      request.agent = undefined;
       policy2.sendRequest(request, next);
-      assert.isUndefined(request.proxySettings);
-      assert.isUndefined(request.agent);
+      assert.strictEqual(request.proxySettings, undefined);
 
       request.url = "http://fourth.com";
       request.proxySettings = undefined;
-      request.agent = undefined;
       policy2.sendRequest(request, next);
-      assert.strictEqual(
-        getProxyUrlForRequest(request).toString(),
-        "https://proxy.example.com:8080/",
-      );
+      assert.strictEqual(request.proxySettings, proxySettings);
     } finally {
       process.env["NO_PROXY"] = saved;
       globalNoProxyList.splice(0, globalNoProxyList.length);
       globalNoProxyList.push(...loadNoProxy());
     }
+  });
+
+  it("getProxyAgentOptions from proxy settings having both username and password", function () {
+    const proxySettings: ProxySettings = {
+      host: "https://proxy.example.com",
+      port: 8080,
+      username: "user",
+      password: "pass",
+    };
+    const options = getProxyAgentOptions(
+      proxySettings,
+      createPipelineRequest({ url: "https://example.org" }),
+    );
+    assert.strictEqual(options.auth, "user:pass");
+  });
+
+  it("getProxyAgentOptions from proxy settings having username but no password", function () {
+    const proxySettings: ProxySettings = {
+      host: "https://proxy.example.com",
+      port: 8080,
+      username: "user",
+    };
+    const options = getProxyAgentOptions(
+      proxySettings,
+      createPipelineRequest({ url: "https://example.org" }),
+    );
+    assert.strictEqual(options.auth, "user");
   });
 
   describe("getDefaultProxySettings", function () {

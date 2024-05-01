@@ -3,21 +3,19 @@
 /**
  * @summary Quick start workflow for creating queue, job and worker, routing/matching job with worker
  */
-import JobRouter, {
-  RouterWorkerOutput,
-  AzureCommunicationRoutingServiceClient,
-  AcceptJobOfferResultOutput,
-  RouterJobOutput
-} from "@azure-rest/communication-job-router";
+import JobRouter, { RouterWorkerOutput } from "../src";
 import * as dotenv from "dotenv";
 dotenv.config();
-
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
+import { AzureCommunicationRoutingServiceClient } from "../src";
+import { AcceptJobOfferResultOutput, RouterJobOutput } from "../src";
+
 
 async function quickStart(): Promise<void> {
   // Create the Router Client
   const routerClient: AzureCommunicationRoutingServiceClient =
     JobRouter(connectionString);
+
 
   // Create a Distribution Policy
   const distributionPolicyId = "distribution-policy-123";

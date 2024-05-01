@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   TagsObject,
-  ContainerServiceClient,
+  ContainerServiceClient
 } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates tags on a managed cluster.
  *
  * @summary Updates tags on a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/ManagedClustersUpdateTags.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/examples/ManagedClustersUpdateTags.json
  */
 async function updateManagedClusterTags() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function updateManagedClusterTags() {
   const result = await client.managedClusters.beginUpdateTagsAndWait(
     resourceGroupName,
     resourceName,
-    parameters,
+    parameters
   );
   console.log(result);
 }

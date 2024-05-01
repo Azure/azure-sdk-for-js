@@ -1710,11 +1710,7 @@ const listForClusterOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.version,
-    Parameters.expand
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.version],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -5,17 +5,14 @@ import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
 import { createReceiver, PartitionReceiver } from "../../src/partitionReceiver";
 import { EventHubSender } from "../../src/eventHubSender";
-import chai, { assert } from "chai";
+import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { createConnectionContext } from "../../src/connectionContext";
 import { createMockServer } from "../public/utils/mockService";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
-import { StandardAbortMessage } from "@azure/core-amqp";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
-
-const abortMsgRegex = new RegExp(StandardAbortMessage);
 
 testWithServiceTypes((serviceVersion) => {
   const env = getEnvVars();
@@ -116,7 +113,7 @@ testWithServiceTypes((serviceVersion) => {
             throw new Error(TEST_FAILURE);
           } catch (err: any) {
             should.equal(err.name, "AbortError");
-            assert.match(err.message, abortMsgRegex);
+            should.equal(err.message, "The operation was aborted.");
           }
         });
 
@@ -129,7 +126,7 @@ testWithServiceTypes((serviceVersion) => {
             throw new Error(TEST_FAILURE);
           } catch (err: any) {
             should.equal(err.name, "AbortError");
-            assert.match(err.message, abortMsgRegex);
+            should.equal(err.message, "The operation was aborted.");
           }
         });
       }
@@ -153,7 +150,7 @@ testWithServiceTypes((serviceVersion) => {
             throw new Error(TEST_FAILURE);
           } catch (err: any) {
             should.equal(err.name, "AbortError");
-            assert.match(err.message, abortMsgRegex);
+            should.equal(err.message, "The operation was aborted.");
           }
         });
 
@@ -164,7 +161,7 @@ testWithServiceTypes((serviceVersion) => {
             throw new Error(TEST_FAILURE);
           } catch (err: any) {
             should.equal(err.name, "AbortError");
-            assert.match(err.message, abortMsgRegex);
+            should.equal(err.message, "The operation was aborted.");
           }
         });
 
@@ -175,7 +172,7 @@ testWithServiceTypes((serviceVersion) => {
             throw new Error(TEST_FAILURE);
           } catch (err: any) {
             should.equal(err.name, "AbortError");
-            assert.match(err.message, abortMsgRegex);
+            should.equal(err.message, "The operation was aborted.");
           }
         });
       }

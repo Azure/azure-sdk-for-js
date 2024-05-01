@@ -14,11 +14,11 @@ export interface Hotel {
   hotelId?: string;
   hotelName?: string | null;
   description?: string | null;
-  descriptionVectorEn?: number[];
-  descriptionVectorFr?: number[];
+  descriptionVectorEn?: number[] | null;
+  descriptionVectorFr?: number[] | null;
   descriptionFr?: string | null;
   category?: string | null;
-  tags?: string[];
+  tags?: string[] | null;
   parkingIncluded?: boolean | null;
   smokingAllowed?: boolean | null;
   lastRenovationDate?: Date | null;
@@ -40,5 +40,5 @@ export interface Hotel {
     sleepsCount?: number | null;
     smokingAllowed?: boolean | null;
     tags?: string[] | null;
-  }>;
+  }> | null;
 }

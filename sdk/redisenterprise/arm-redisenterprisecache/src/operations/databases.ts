@@ -578,7 +578,7 @@ export class DatabasesImpl implements Databases {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the search service with the given name in the given resource group.
  *
  * @summary Gets the search service with the given name in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-03-01-preview/examples/SearchGetService.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchGetService.json
  */
 async function searchGetService() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function searchGetService() {
   const client = new SearchManagementClient(credential, subscriptionId);
   const result = await client.services.get(
     resourceGroupName,
-    searchServiceName,
+    searchServiceName
   );
   console.log(result);
 }

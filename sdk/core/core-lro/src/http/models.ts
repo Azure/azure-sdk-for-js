@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { LroError } from "../poller/models.js";
+import { LroError } from "../poller/models";
 
 // TODO: rename to ResourceLocationConfig
 /**

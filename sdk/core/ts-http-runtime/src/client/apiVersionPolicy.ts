@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelinePolicy } from "../pipeline.js";
-import { ClientOptions } from "./common.js";
+import { PipelinePolicy } from "../pipeline";
+import { ClientOptions } from "./common";
 
 export const apiVersionPolicyName = "ApiVersionPolicy";
 

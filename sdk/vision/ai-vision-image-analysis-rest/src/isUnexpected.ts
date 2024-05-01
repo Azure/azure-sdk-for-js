@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import {
-  AnalyzeFromImageData200Response,
+  AnalyzeFromBuffer200Response,
   AnalyzeFromUrl200Response,
-  AnalyzeFromImageDataDefaultResponse,
+  AnalyzeFromBufferDefaultResponse,
 } from "./responses";
 
 const responseMap: Record<string, string[]> = {
@@ -13,16 +13,16 @@ const responseMap: Record<string, string[]> = {
 
 export function isUnexpected(
   response:
-    | AnalyzeFromImageData200Response
+    | AnalyzeFromBuffer200Response
     | AnalyzeFromUrl200Response
-    | AnalyzeFromImageDataDefaultResponse,
-): response is AnalyzeFromImageDataDefaultResponse;
+    | AnalyzeFromBufferDefaultResponse,
+): response is AnalyzeFromBufferDefaultResponse;
 export function isUnexpected(
   response:
-    | AnalyzeFromImageData200Response
+    | AnalyzeFromBuffer200Response
     | AnalyzeFromUrl200Response
-    | AnalyzeFromImageDataDefaultResponse,
-): response is AnalyzeFromImageDataDefaultResponse {
+    | AnalyzeFromBufferDefaultResponse,
+): response is AnalyzeFromBufferDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;

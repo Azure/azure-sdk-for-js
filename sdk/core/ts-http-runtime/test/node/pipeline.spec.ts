@@ -1,31 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert, vi, afterEach } from "vitest";
-import { proxyPolicy, proxyPolicyName } from "../../src/policies/proxyPolicy.js";
-import { tlsPolicy, tlsPolicyName } from "../../src/policies/tlsPolicy.js";
-import { HttpClient } from "../../src/interfaces.js";
+import http from "https";
+import https from "https";
+
+import { proxyPolicy, proxyPolicyName } from "../../src/policies/proxyPolicy";
+import { tlsPolicy, tlsPolicyName } from "../../src/policies/tlsPolicy";
+
+import { HttpClient } from "../../src/interfaces";
 import { HttpsProxyAgent } from "https-proxy-agent";
-import { createEmptyPipeline } from "../../src/pipeline.js";
-import { createHttpHeaders } from "../../src/httpHeaders.js";
-import { createNodeHttpClient } from "../../src/nodeHttpClient.js";
-import { createPipelineFromOptions } from "../../src/createPipelineFromOptions.js";
-
-vi.mock("https", async () => {
-  const actual = await vi.importActual("https");
-  return {
-    ...actual,
-    request: vi.fn(),
-  };
-});
-
-import type { Agent } from "node:http";
-import * as https from "node:https";
+import { assert } from "chai";
+import { createEmptyPipeline } from "../../src/pipeline";
+import { createHttpHeaders } from "../../src/httpHeaders";
+import { createNodeHttpClient } from "../../src/nodeHttpClient";
+import { createPipelineFromOptions } from "../../src/createPipelineFromOptions";
+import sinon from "sinon";
 
 describe("HttpsPipeline", function () {
   describe("Agent creation", function () {
     afterEach(() => {
-      vi.clearAllMocks();
+      sinon.restore();
+      sinon.reset();
     });
 
     it("should create a proxy agent", async function () {
@@ -86,7 +81,7 @@ describe("HttpsPipeline", function () {
       const pipeline = createEmptyPipeline();
       const fakePfx = "fakecert";
       const httpClient: HttpClient = createNodeHttpClient();
-      vi.mocked(https.request).mockImplementation((request: any) => {
+      sinon.stub(https, "request").callsFake((request: any) => {
         assert.equal(request.agent.options.pfx, fakePfx);
         throw new Error("ok");
       });
@@ -111,7 +106,7 @@ describe("HttpsPipeline", function () {
       const pipeline = createEmptyPipeline();
       const fakePfx = "fakecert";
       const httpClient: HttpClient = createNodeHttpClient();
-      vi.mocked(https.request).mockImplementation((request: any) => {
+      sinon.stub(https, "request").callsFake((request: any) => {
         assert.equal(request.agent.options.pfx, "requestPfx");
         throw new Error("ok");
       });
@@ -137,7 +132,7 @@ describe("HttpsPipeline", function () {
       const pipeline = createEmptyPipeline();
       const fakePfx = "fakecert";
       const httpClient: HttpClient = createNodeHttpClient();
-      vi.mocked(https.request).mockImplementation((request: any) => {
+      sinon.stub(https, "request").callsFake((request: any) => {
         assert.equal(request.agent.options.pfx, fakePfx);
         throw new Error("ok");
       });
@@ -163,8 +158,8 @@ describe("HttpsPipeline", function () {
       const pipeline = createEmptyPipeline();
       const fakePfx = "fakecert";
       const httpClient: HttpClient = createNodeHttpClient();
-      let cachedAgent: Agent;
-      vi.mocked(https.request).mockImplementation((request: any) => {
+      let cachedAgent: http.Agent;
+      sinon.stub(https, "request").callsFake((request: any) => {
         assert.equal(request.agent.options.pfx, fakePfx);
         if (cachedAgent) {
           // Should cache Agent
@@ -209,8 +204,8 @@ describe("HttpsPipeline", function () {
       const newFakePfx = "newFakeCert";
 
       const httpClient: HttpClient = createNodeHttpClient();
-      let cachedAgent: Agent;
-      vi.mocked(https.request).mockImplementation((request: any) => {
+      let cachedAgent: http.Agent;
+      sinon.stub(https, "request").callsFake((request: any) => {
         if (cachedAgent) {
           assert.equal(request.agent.options.pfx, newFakePfx);
           // Should cache Agent

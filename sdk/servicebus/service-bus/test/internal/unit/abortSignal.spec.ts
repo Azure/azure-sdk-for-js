@@ -26,8 +26,6 @@ import { MessageSession } from "../../../src/session/messageSession";
 import { ProcessErrorArgs } from "../../../src";
 import { ReceiveMode } from "../../../src/models";
 
-const abortMsgRegex = new RegExp(StandardAbortMessage);
-
 describe("AbortSignal", () => {
   const defaultOptions = {
     lockRenewer: undefined,
@@ -110,7 +108,7 @@ describe("AbortSignal", () => {
         });
         assert.fail("AbortError should be thrown when the signal is already in an aborted state");
       } catch (err: any) {
-        assert.match(err.message, abortMsgRegex);
+        assert.equal(err.message, StandardAbortMessage);
 
         // we aborted in the sync part of the abort check so these event listeners are never set up
         assert.isFalse(abortSignal.addWasCalled);
@@ -216,7 +214,7 @@ describe("AbortSignal", () => {
         await sender.open(undefined, abortSignal);
         assert.fail("Should have thrown an AbortError");
       } catch (err: any) {
-        assert.match(err.message, abortMsgRegex);
+        assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
     });
@@ -236,7 +234,7 @@ describe("AbortSignal", () => {
         await sender.open(undefined, abortSignal);
         assert.fail("Should have thrown an AbortError");
       } catch (err: any) {
-        assert.match(err.message, abortMsgRegex);
+        assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
     });
@@ -265,7 +263,7 @@ describe("AbortSignal", () => {
         await sender.createBatch({ abortSignal: taggedAbortSignal });
         assert.fail("Should have thrown an AbortError");
       } catch (err: any) {
-        assert.match(err.message, abortMsgRegex);
+        assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
     });
@@ -294,7 +292,7 @@ describe("AbortSignal", () => {
         await sender.createBatch({ abortSignal: taggedAbortSignal });
         assert.fail("Should have thrown an AbortError");
       } catch (err: any) {
-        assert.match(err.message, abortMsgRegex);
+        assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
     });
@@ -462,7 +460,7 @@ describe("AbortSignal", () => {
           );
         });
 
-        assert.match(receivedErrors[0].message, abortMsgRegex);
+        assert.equal(receivedErrors[0].message, "The operation was aborted.");
         assert.equal(receivedErrors[0].name, "AbortError");
       } finally {
         await receiver.close();

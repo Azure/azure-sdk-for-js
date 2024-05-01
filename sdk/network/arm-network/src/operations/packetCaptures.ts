@@ -15,7 +15,7 @@ import { NetworkManagementClient } from "../networkManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller,
+  createHttpPoller
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -30,7 +30,7 @@ import {
   PacketCapturesDeleteOptionalParams,
   PacketCapturesStopOptionalParams,
   PacketCapturesGetStatusOptionalParams,
-  PacketCapturesGetStatusResponse,
+  PacketCapturesGetStatusResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -55,12 +55,12 @@ export class PacketCapturesImpl implements PacketCaptures {
   public list(
     resourceGroupName: string,
     networkWatcherName: string,
-    options?: PacketCapturesListOptionalParams,
+    options?: PacketCapturesListOptionalParams
   ): PagedAsyncIterableIterator<PacketCaptureResult> {
     const iter = this.listPagingAll(
       resourceGroupName,
       networkWatcherName,
-      options,
+      options
     );
     return {
       next() {
@@ -77,9 +77,9 @@ export class PacketCapturesImpl implements PacketCaptures {
           resourceGroupName,
           networkWatcherName,
           options,
-          settings,
+          settings
         );
-      },
+      }
     };
   }
 
@@ -87,7 +87,7 @@ export class PacketCapturesImpl implements PacketCaptures {
     resourceGroupName: string,
     networkWatcherName: string,
     options?: PacketCapturesListOptionalParams,
-    _settings?: PageSettings,
+    _settings?: PageSettings
   ): AsyncIterableIterator<PacketCaptureResult[]> {
     let result: PacketCapturesListResponse;
     result = await this._list(resourceGroupName, networkWatcherName, options);
@@ -97,12 +97,12 @@ export class PacketCapturesImpl implements PacketCaptures {
   private async *listPagingAll(
     resourceGroupName: string,
     networkWatcherName: string,
-    options?: PacketCapturesListOptionalParams,
+    options?: PacketCapturesListOptionalParams
   ): AsyncIterableIterator<PacketCaptureResult> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       networkWatcherName,
-      options,
+      options
     )) {
       yield* page;
     }
@@ -121,7 +121,7 @@ export class PacketCapturesImpl implements PacketCaptures {
     networkWatcherName: string,
     packetCaptureName: string,
     parameters: PacketCapture,
-    options?: PacketCapturesCreateOptionalParams,
+    options?: PacketCapturesCreateOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<PacketCapturesCreateResponse>,
@@ -130,20 +130,21 @@ export class PacketCapturesImpl implements PacketCaptures {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<PacketCapturesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -152,8 +153,8 @@ export class PacketCapturesImpl implements PacketCaptures {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -161,8 +162,8 @@ export class PacketCapturesImpl implements PacketCaptures {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -173,9 +174,9 @@ export class PacketCapturesImpl implements PacketCaptures {
         networkWatcherName,
         packetCaptureName,
         parameters,
-        options,
+        options
       },
-      spec: createOperationSpec,
+      spec: createOperationSpec
     });
     const poller = await createHttpPoller<
       PacketCapturesCreateResponse,
@@ -183,7 +184,7 @@ export class PacketCapturesImpl implements PacketCaptures {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -202,14 +203,14 @@ export class PacketCapturesImpl implements PacketCaptures {
     networkWatcherName: string,
     packetCaptureName: string,
     parameters: PacketCapture,
-    options?: PacketCapturesCreateOptionalParams,
+    options?: PacketCapturesCreateOptionalParams
   ): Promise<PacketCapturesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       networkWatcherName,
       packetCaptureName,
       parameters,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -225,11 +226,11 @@ export class PacketCapturesImpl implements PacketCaptures {
     resourceGroupName: string,
     networkWatcherName: string,
     packetCaptureName: string,
-    options?: PacketCapturesGetOptionalParams,
+    options?: PacketCapturesGetOptionalParams
   ): Promise<PacketCapturesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkWatcherName, packetCaptureName, options },
-      getOperationSpec,
+      getOperationSpec
     );
   }
 
@@ -244,24 +245,25 @@ export class PacketCapturesImpl implements PacketCaptures {
     resourceGroupName: string,
     networkWatcherName: string,
     packetCaptureName: string,
-    options?: PacketCapturesDeleteOptionalParams,
+    options?: PacketCapturesDeleteOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -270,8 +272,8 @@ export class PacketCapturesImpl implements PacketCaptures {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -279,8 +281,8 @@ export class PacketCapturesImpl implements PacketCaptures {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -290,14 +292,14 @@ export class PacketCapturesImpl implements PacketCaptures {
         resourceGroupName,
         networkWatcherName,
         packetCaptureName,
-        options,
+        options
       },
-      spec: deleteOperationSpec,
+      spec: deleteOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -314,13 +316,13 @@ export class PacketCapturesImpl implements PacketCaptures {
     resourceGroupName: string,
     networkWatcherName: string,
     packetCaptureName: string,
-    options?: PacketCapturesDeleteOptionalParams,
+    options?: PacketCapturesDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       networkWatcherName,
       packetCaptureName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -336,24 +338,25 @@ export class PacketCapturesImpl implements PacketCaptures {
     resourceGroupName: string,
     networkWatcherName: string,
     packetCaptureName: string,
-    options?: PacketCapturesStopOptionalParams,
+    options?: PacketCapturesStopOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -362,8 +365,8 @@ export class PacketCapturesImpl implements PacketCaptures {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -371,8 +374,8 @@ export class PacketCapturesImpl implements PacketCaptures {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -382,14 +385,14 @@ export class PacketCapturesImpl implements PacketCaptures {
         resourceGroupName,
         networkWatcherName,
         packetCaptureName,
-        options,
+        options
       },
-      spec: stopOperationSpec,
+      spec: stopOperationSpec
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -406,13 +409,13 @@ export class PacketCapturesImpl implements PacketCaptures {
     resourceGroupName: string,
     networkWatcherName: string,
     packetCaptureName: string,
-    options?: PacketCapturesStopOptionalParams,
+    options?: PacketCapturesStopOptionalParams
   ): Promise<void> {
     const poller = await this.beginStop(
       resourceGroupName,
       networkWatcherName,
       packetCaptureName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -428,7 +431,7 @@ export class PacketCapturesImpl implements PacketCaptures {
     resourceGroupName: string,
     networkWatcherName: string,
     packetCaptureName: string,
-    options?: PacketCapturesGetStatusOptionalParams,
+    options?: PacketCapturesGetStatusOptionalParams
   ): Promise<
     SimplePollerLike<
       OperationState<PacketCapturesGetStatusResponse>,
@@ -437,20 +440,21 @@ export class PacketCapturesImpl implements PacketCaptures {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ): Promise<PacketCapturesGetStatusResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
+      spec: coreClient.OperationSpec
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
+        flatResponse: unknown
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -459,8 +463,8 @@ export class PacketCapturesImpl implements PacketCaptures {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback,
-        },
+          onResponse: callback
+        }
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -468,8 +472,8 @@ export class PacketCapturesImpl implements PacketCaptures {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
+          headers: currentRawResponse!.headers.toJSON()
+        }
       };
     };
 
@@ -479,9 +483,9 @@ export class PacketCapturesImpl implements PacketCaptures {
         resourceGroupName,
         networkWatcherName,
         packetCaptureName,
-        options,
+        options
       },
-      spec: getStatusOperationSpec,
+      spec: getStatusOperationSpec
     });
     const poller = await createHttpPoller<
       PacketCapturesGetStatusResponse,
@@ -489,7 +493,7 @@ export class PacketCapturesImpl implements PacketCaptures {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -506,13 +510,13 @@ export class PacketCapturesImpl implements PacketCaptures {
     resourceGroupName: string,
     networkWatcherName: string,
     packetCaptureName: string,
-    options?: PacketCapturesGetStatusOptionalParams,
+    options?: PacketCapturesGetStatusOptionalParams
   ): Promise<PacketCapturesGetStatusResponse> {
     const poller = await this.beginGetStatus(
       resourceGroupName,
       networkWatcherName,
       packetCaptureName,
-      options,
+      options
     );
     return poller.pollUntilDone();
   }
@@ -526,11 +530,11 @@ export class PacketCapturesImpl implements PacketCaptures {
   private _list(
     resourceGroupName: string,
     networkWatcherName: string,
-    options?: PacketCapturesListOptionalParams,
+    options?: PacketCapturesListOptionalParams
   ): Promise<PacketCapturesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkWatcherName, options },
-      listOperationSpec,
+      listOperationSpec
     );
   }
 }
@@ -538,24 +542,25 @@ export class PacketCapturesImpl implements PacketCaptures {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PacketCaptureResult,
+      bodyMapper: Mappers.PacketCaptureResult
     },
     201: {
-      bodyMapper: Mappers.PacketCaptureResult,
+      bodyMapper: Mappers.PacketCaptureResult
     },
     202: {
-      bodyMapper: Mappers.PacketCaptureResult,
+      bodyMapper: Mappers.PacketCaptureResult
     },
     204: {
-      bodyMapper: Mappers.PacketCaptureResult,
+      bodyMapper: Mappers.PacketCaptureResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: Parameters.parameters58,
   queryParameters: [Parameters.apiVersion],
@@ -564,22 +569,23 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkWatcherName,
-    Parameters.packetCaptureName,
+    Parameters.packetCaptureName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
+  serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PacketCaptureResult,
+      bodyMapper: Mappers.PacketCaptureResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -587,13 +593,14 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkWatcherName,
-    Parameters.packetCaptureName,
+    Parameters.packetCaptureName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -601,8 +608,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -610,13 +617,14 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkWatcherName,
-    Parameters.packetCaptureName,
+    Parameters.packetCaptureName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const stopOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}/stop",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}/stop",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -624,8 +632,8 @@ const stopOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -633,30 +641,31 @@ const stopOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkWatcherName,
-    Parameters.packetCaptureName,
+    Parameters.packetCaptureName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const getStatusOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}/queryStatus",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}/queryStatus",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.PacketCaptureQueryStatusResult,
+      bodyMapper: Mappers.PacketCaptureQueryStatusResult
     },
     201: {
-      bodyMapper: Mappers.PacketCaptureQueryStatusResult,
+      bodyMapper: Mappers.PacketCaptureQueryStatusResult
     },
     202: {
-      bodyMapper: Mappers.PacketCaptureQueryStatusResult,
+      bodyMapper: Mappers.PacketCaptureQueryStatusResult
     },
     204: {
-      bodyMapper: Mappers.PacketCaptureQueryStatusResult,
+      bodyMapper: Mappers.PacketCaptureQueryStatusResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -664,29 +673,30 @@ const getStatusOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkWatcherName,
-    Parameters.packetCaptureName,
+    Parameters.packetCaptureName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures",
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PacketCaptureListResult,
+      bodyMapper: Mappers.PacketCaptureListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkWatcherName,
+    Parameters.networkWatcherName
   ],
   headerParameters: [Parameters.accept],
-  serializer,
+  serializer
 };

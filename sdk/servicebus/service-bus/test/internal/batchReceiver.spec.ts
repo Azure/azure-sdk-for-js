@@ -31,7 +31,6 @@ import { testLogger } from "./utils/misc";
 const should = chai.should();
 chai.use(chaiAsPromised);
 const assert = chai.assert;
-const expect = chai.expect;
 
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
 const withSessionTestClientType = getRandomTestClientTypeWithSessions();
@@ -795,7 +794,7 @@ describe("Batching Receiver", () => {
           });
           throw new Error(`Test failure`);
         } catch (err: any) {
-          expect(err.message).includes(StandardAbortMessage);
+          err.message.should.equal(StandardAbortMessage);
         }
       },
     );
@@ -812,7 +811,7 @@ describe("Batching Receiver", () => {
           });
           throw new Error(`Test failure`);
         } catch (err: any) {
-          expect(err.message).includes(StandardAbortMessage);
+          err.message.should.equal(StandardAbortMessage);
         }
       },
     );
@@ -974,8 +973,10 @@ describe("Batching Receiver", () => {
           await receiver.receiveMessages(10);
           throw new Error(testFailureMessage);
         } catch (err: any) {
-          assert.ok(err.name === "Error");
-          assert.ok(err.message.match(/Test: fake connection failure/));
+          assert.deepNestedInclude(err, {
+            name: "Error",
+            message: "Test: fake connection failure",
+          });
         }
 
         await onDetachedCalledPromise;
@@ -1246,8 +1247,10 @@ describe("Batching Receiver", () => {
           await sessionReceiver.receiveMessages(10);
           throw new Error(testFailureMessage);
         } catch (err: any) {
-          assert.equal(err?.name, "Error");
-          expect(err?.message).includes("Test: fake connection failure");
+          assert.deepNestedInclude(err, {
+            name: "Error",
+            message: "Test: fake connection failure",
+          });
         }
 
         await drainRequestedPromise;

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a disk encryption set
  *
  * @summary Creates or updates a disk encryption set
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Create_WithKeyVaultFromADifferentSubscription.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-04-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Create_WithKeyVaultFromADifferentSubscription.json
  */
 async function createADiskEncryptionSetWithKeyVaultFromADifferentSubscription() {
   const subscriptionId =
@@ -28,18 +28,18 @@ async function createADiskEncryptionSetWithKeyVaultFromADifferentSubscription() 
   const diskEncryptionSetName = "myDiskEncryptionSet";
   const diskEncryptionSet: DiskEncryptionSet = {
     activeKey: {
-      keyUrl: "https://myvaultdifferentsub.vault-int.azure-int.net/keys/{key}",
+      keyUrl: "https://myvaultdifferentsub.vault-int.azure-int.net/keys/{key}"
     },
     encryptionType: "EncryptionAtRestWithCustomerKey",
     identity: { type: "SystemAssigned" },
-    location: "West US",
+    location: "West US"
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.diskEncryptionSets.beginCreateOrUpdateAndWait(
     resourceGroupName,
     diskEncryptionSetName,
-    diskEncryptionSet,
+    diskEncryptionSet
   );
   console.log(result);
 }
@@ -48,7 +48,7 @@ async function createADiskEncryptionSetWithKeyVaultFromADifferentSubscription() 
  * This sample demonstrates how to Creates or updates a disk encryption set
  *
  * @summary Creates or updates a disk encryption set
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Create_WithKeyVaultFromADifferentTenant.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-04-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Create_WithKeyVaultFromADifferentTenant.json
  */
 async function createADiskEncryptionSetWithKeyVaultFromADifferentTenant() {
   const subscriptionId =
@@ -59,25 +59,24 @@ async function createADiskEncryptionSetWithKeyVaultFromADifferentTenant() {
   const diskEncryptionSet: DiskEncryptionSet = {
     activeKey: {
       keyUrl:
-        "https://myvaultdifferenttenant.vault-int.azure-int.net/keys/{key}",
+        "https://myvaultdifferenttenant.vault-int.azure-int.net/keys/{key}"
     },
     encryptionType: "EncryptionAtRestWithCustomerKey",
     federatedClientId: "00000000-0000-0000-0000-000000000000",
     identity: {
       type: "UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/MicrosoftManagedIdentity/userAssignedIdentities/{identityName}":
-          {},
-      },
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/MicrosoftManagedIdentity/userAssignedIdentities/{identityName}": {}
+      }
     },
-    location: "West US",
+    location: "West US"
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.diskEncryptionSets.beginCreateOrUpdateAndWait(
     resourceGroupName,
     diskEncryptionSetName,
-    diskEncryptionSet,
+    diskEncryptionSet
   );
   console.log(result);
 }
@@ -86,7 +85,7 @@ async function createADiskEncryptionSetWithKeyVaultFromADifferentTenant() {
  * This sample demonstrates how to Creates or updates a disk encryption set
  *
  * @summary Creates or updates a disk encryption set
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Create.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-04-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Create.json
  */
 async function createADiskEncryptionSet() {
   const subscriptionId =
@@ -98,19 +97,20 @@ async function createADiskEncryptionSet() {
     activeKey: {
       keyUrl: "https://myvmvault.vault-int.azure-int.net/keys/{key}",
       sourceVault: {
-        id: "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/myVMVault",
-      },
+        id:
+          "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/myVMVault"
+      }
     },
     encryptionType: "EncryptionAtRestWithCustomerKey",
     identity: { type: "SystemAssigned" },
-    location: "West US",
+    location: "West US"
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.diskEncryptionSets.beginCreateOrUpdateAndWait(
     resourceGroupName,
     diskEncryptionSetName,
-    diskEncryptionSet,
+    diskEncryptionSet
   );
   console.log(result);
 }

@@ -1,9 +1,6 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { describe, it, assert, beforeEach } from "vitest";
 import { Project, SourceFile, TypeAliasDeclaration } from "ts-morph";
 import { augmentTypeAliases } from "../../src/util/customization/aliases";
+import { expect } from "chai";
 
 describe("Customization", () => {
   let project: Project;
@@ -28,7 +25,7 @@ describe("Customization", () => {
 
       augmentTypeAliases(originalAliases, customAliases, originalFile);
 
-      assert.isDefined(originalFile.getTypeAlias("CustomAlias"));
+      expect(originalFile.getTypeAlias("CustomAlias")).not.to.be.undefined;
     });
 
     it("should replace existing aliases with custom aliases", () => {
@@ -46,8 +43,7 @@ describe("Customization", () => {
 
       augmentTypeAliases(originalAliases, customAliases, originalFile);
 
-      assert.equal(
-        originalFile.getTypeAlias("OriginalAlias")?.getText(),
+      expect(originalFile.getTypeAlias("OriginalAlias")?.getText()).to.equal(
         "type OriginalAlias = number;",
       );
     });

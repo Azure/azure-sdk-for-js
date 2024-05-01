@@ -1998,7 +1998,6 @@ export interface BastionHost extends Resource {
     scaleUnits?: number;
     sku?: Sku;
     virtualNetwork?: SubResource;
-    zones?: string[];
 }
 
 // @public
@@ -7418,9 +7417,7 @@ export enum KnownVirtualNetworkPeeringState {
 // @public
 export enum KnownVirtualNetworkPrivateEndpointNetworkPolicies {
     Disabled = "Disabled",
-    Enabled = "Enabled",
-    NetworkSecurityGroupEnabled = "NetworkSecurityGroupEnabled",
-    RouteTableEnabled = "RouteTableEnabled"
+    Enabled = "Enabled"
 }
 
 // @public

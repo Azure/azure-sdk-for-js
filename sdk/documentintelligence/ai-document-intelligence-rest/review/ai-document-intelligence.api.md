@@ -16,7 +16,6 @@ import { Paged } from '@azure/core-paging';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PathUncheckedResponse } from '@azure-rest/core-client';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
-import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
 import { SimplePollerLike } from '@azure/core-lro';
 import { StreamableMethod } from '@azure-rest/core-client';
@@ -44,7 +43,6 @@ export interface AddressValueOutput {
 export interface AnalyzeDocument202Headers {
     // (undocumented)
     "operation-location": string;
-    "retry-after"?: number;
 }
 
 // @public
@@ -78,7 +76,6 @@ export interface AnalyzeDocumentFromStream {
 export interface AnalyzeDocumentFromStream202Headers {
     // (undocumented)
     "operation-location": string;
-    "retry-after"?: number;
 }
 
 // @public
@@ -271,7 +268,6 @@ export interface BuildClassifier {
 export interface BuildClassifier202Headers {
     // (undocumented)
     "operation-location": string;
-    "retry-after"?: number;
 }
 
 // @public
@@ -306,7 +302,6 @@ export type BuildClassifierParameters = BuildClassifierBodyParam & RequestParame
 
 // @public
 export interface BuildDocumentClassifierRequest {
-    baseClassifierId?: string;
     classifierId: string;
     description?: string;
     docTypes: Record<string, ClassifierDocumentTypeDetails>;
@@ -331,7 +326,6 @@ export interface BuildModel {
 export interface BuildModel202Headers {
     // (undocumented)
     "operation-location": string;
-    "retry-after"?: number;
 }
 
 // @public
@@ -382,7 +376,6 @@ export interface ClassifierDocumentTypeDetailsOutput {
 export interface ClassifyDocument202Headers {
     // (undocumented)
     "operation-location": string;
-    "retry-after"?: number;
 }
 
 // @public
@@ -416,7 +409,6 @@ export interface ClassifyDocumentFromStream {
 export interface ClassifyDocumentFromStream202Headers {
     // (undocumented)
     "operation-location": string;
-    "retry-after"?: number;
 }
 
 // @public
@@ -499,10 +491,6 @@ export interface ClassifyDocumentRequest {
 }
 
 // @public
-export interface ClientRequestIdHeaderOutput {
-}
-
-// @public
 export interface ComponentDocumentModelDetails {
     modelId: string;
 }
@@ -524,7 +512,6 @@ export interface ComposeModel {
 export interface ComposeModel202Headers {
     // (undocumented)
     "operation-location": string;
-    "retry-after"?: number;
 }
 
 // @public
@@ -586,7 +573,6 @@ export interface CopyModelTo {
 export interface CopyModelTo202Headers {
     // (undocumented)
     "operation-location": string;
-    "retry-after"?: number;
 }
 
 // @public
@@ -636,15 +622,8 @@ export interface CustomDocumentModelsDetailsOutput {
     limit: number;
 }
 
-// @public (undocumented)
-export interface DeleteClassifier204Headers {
-    "x-ms-client-request-id"?: string;
-}
-
 // @public
 export interface DeleteClassifier204Response extends HttpResponse {
-    // (undocumented)
-    headers: RawHttpHeaders & DeleteClassifier204Headers;
     // (undocumented)
     status: "204";
 }
@@ -658,28 +637,10 @@ export interface DeleteClassifierDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface DeleteClassifierHeaderParam {
-    // (undocumented)
-    headers?: RawHttpHeadersInput & DeleteClassifierHeaders;
-}
-
-// @public (undocumented)
-export interface DeleteClassifierHeaders {
-    "x-ms-client-request-id"?: string;
-}
-
-// @public (undocumented)
-export type DeleteClassifierParameters = DeleteClassifierHeaderParam & RequestParameters;
-
-// @public (undocumented)
-export interface DeleteModel204Headers {
-    "x-ms-client-request-id"?: string;
-}
+export type DeleteClassifierParameters = RequestParameters;
 
 // @public
 export interface DeleteModel204Response extends HttpResponse {
-    // (undocumented)
-    headers: RawHttpHeaders & DeleteModel204Headers;
     // (undocumented)
     status: "204";
 }
@@ -693,18 +654,7 @@ export interface DeleteModelDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface DeleteModelHeaderParam {
-    // (undocumented)
-    headers?: RawHttpHeadersInput & DeleteModelHeaders;
-}
-
-// @public (undocumented)
-export interface DeleteModelHeaders {
-    "x-ms-client-request-id"?: string;
-}
-
-// @public (undocumented)
-export type DeleteModelParameters = DeleteModelHeaderParam & RequestParameters;
+export type DeleteModelParameters = RequestParameters;
 
 // @public
 export interface DocumentBarcodeOutput {
@@ -732,13 +682,11 @@ export interface DocumentClassifierBuildOperationDetailsOutput extends Operation
 // @public
 export interface DocumentClassifierDetailsOutput {
     apiVersion: string;
-    baseClassifierId?: string;
     classifierId: string;
     createdDateTime: string;
     description?: string;
     docTypes: Record<string, ClassifierDocumentTypeDetailsOutput>;
     expirationDateTime?: string;
-    warnings?: Array<WarningOutput>;
 }
 
 // @public
@@ -758,7 +706,6 @@ export interface DocumentFieldOutput {
     valueNumber?: number;
     valueObject?: Record<string, DocumentFieldOutput>;
     valuePhoneNumber?: string;
-    valueSelectionGroup?: string[];
     valueSelectionMark?: string;
     valueSignature?: string;
     valueString?: string;
@@ -878,7 +825,6 @@ export interface DocumentModelDetailsOutput {
     expirationDateTime?: string;
     modelId: string;
     tags?: Record<string, string>;
-    warnings?: Array<WarningOutput>;
 }
 
 // @public
@@ -1032,17 +978,10 @@ export interface GetClassifier {
     get(options?: GetClassifierParameters): StreamableMethod<GetClassifier200Response | GetClassifierDefaultResponse>;
 }
 
-// @public (undocumented)
-export interface GetClassifier200Headers {
-    "x-ms-client-request-id"?: string;
-}
-
 // @public
 export interface GetClassifier200Response extends HttpResponse {
     // (undocumented)
     body: DocumentClassifierDetailsOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & GetClassifier200Headers;
     // (undocumented)
     status: "200";
 }
@@ -1056,18 +995,7 @@ export interface GetClassifierDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface GetClassifierHeaderParam {
-    // (undocumented)
-    headers?: RawHttpHeadersInput & GetClassifierHeaders;
-}
-
-// @public (undocumented)
-export interface GetClassifierHeaders {
-    "x-ms-client-request-id"?: string;
-}
-
-// @public (undocumented)
-export type GetClassifierParameters = GetClassifierHeaderParam & RequestParameters;
+export type GetClassifierParameters = RequestParameters;
 
 // @public (undocumented)
 export interface GetClassifyResult {
@@ -1093,17 +1021,10 @@ export interface GetClassifyResultDefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type GetClassifyResultParameters = RequestParameters;
 
-// @public (undocumented)
-export interface GetDocumentClassifierBuildOperation200Headers {
-    "x-ms-client-request-id"?: string;
-}
-
 // @public
 export interface GetDocumentClassifierBuildOperation200Response extends HttpResponse {
     // (undocumented)
     body: DocumentClassifierBuildOperationDetailsOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & GetDocumentClassifierBuildOperation200Headers;
     // (undocumented)
     status: "200";
 }
@@ -1117,18 +1038,7 @@ export interface GetDocumentClassifierBuildOperationDefaultResponse extends Http
 }
 
 // @public (undocumented)
-export interface GetDocumentClassifierBuildOperationHeaderParam {
-    // (undocumented)
-    headers?: RawHttpHeadersInput & GetDocumentClassifierBuildOperationHeaders;
-}
-
-// @public (undocumented)
-export interface GetDocumentClassifierBuildOperationHeaders {
-    "x-ms-client-request-id"?: string;
-}
-
-// @public (undocumented)
-export type GetDocumentClassifierBuildOperationParameters = GetDocumentClassifierBuildOperationHeaderParam & RequestParameters;
+export type GetDocumentClassifierBuildOperationParameters = RequestParameters;
 
 // @public (undocumented)
 export interface GetDocumentModelBuildOperation {
@@ -1139,17 +1049,10 @@ export interface GetDocumentModelBuildOperation {
     get(options?: GetOperationParameters): StreamableMethod<GetOperation200Response | GetOperationDefaultResponse>;
 }
 
-// @public (undocumented)
-export interface GetDocumentModelBuildOperation200Headers {
-    "x-ms-client-request-id"?: string;
-}
-
 // @public
 export interface GetDocumentModelBuildOperation200Response extends HttpResponse {
     // (undocumented)
     body: DocumentModelBuildOperationDetailsOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & GetDocumentModelBuildOperation200Headers;
     // (undocumented)
     status: "200";
 }
@@ -1163,30 +1066,12 @@ export interface GetDocumentModelBuildOperationDefaultResponse extends HttpRespo
 }
 
 // @public (undocumented)
-export interface GetDocumentModelBuildOperationHeaderParam {
-    // (undocumented)
-    headers?: RawHttpHeadersInput & GetDocumentModelBuildOperationHeaders;
-}
-
-// @public (undocumented)
-export interface GetDocumentModelBuildOperationHeaders {
-    "x-ms-client-request-id"?: string;
-}
-
-// @public (undocumented)
-export type GetDocumentModelBuildOperationParameters = GetDocumentModelBuildOperationHeaderParam & RequestParameters;
-
-// @public (undocumented)
-export interface GetDocumentModelComposeOperation200Headers {
-    "x-ms-client-request-id"?: string;
-}
+export type GetDocumentModelBuildOperationParameters = RequestParameters;
 
 // @public
 export interface GetDocumentModelComposeOperation200Response extends HttpResponse {
     // (undocumented)
     body: DocumentModelComposeOperationDetailsOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & GetDocumentModelComposeOperation200Headers;
     // (undocumented)
     status: "200";
 }
@@ -1200,30 +1085,12 @@ export interface GetDocumentModelComposeOperationDefaultResponse extends HttpRes
 }
 
 // @public (undocumented)
-export interface GetDocumentModelComposeOperationHeaderParam {
-    // (undocumented)
-    headers?: RawHttpHeadersInput & GetDocumentModelComposeOperationHeaders;
-}
-
-// @public (undocumented)
-export interface GetDocumentModelComposeOperationHeaders {
-    "x-ms-client-request-id"?: string;
-}
-
-// @public (undocumented)
-export type GetDocumentModelComposeOperationParameters = GetDocumentModelComposeOperationHeaderParam & RequestParameters;
-
-// @public (undocumented)
-export interface GetDocumentModelCopyToOperation200Headers {
-    "x-ms-client-request-id"?: string;
-}
+export type GetDocumentModelComposeOperationParameters = RequestParameters;
 
 // @public
 export interface GetDocumentModelCopyToOperation200Response extends HttpResponse {
     // (undocumented)
     body: DocumentModelCopyToOperationDetailsOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & GetDocumentModelCopyToOperation200Headers;
     // (undocumented)
     status: "200";
 }
@@ -1237,18 +1104,7 @@ export interface GetDocumentModelCopyToOperationDefaultResponse extends HttpResp
 }
 
 // @public (undocumented)
-export interface GetDocumentModelCopyToOperationHeaderParam {
-    // (undocumented)
-    headers?: RawHttpHeadersInput & GetDocumentModelCopyToOperationHeaders;
-}
-
-// @public (undocumented)
-export interface GetDocumentModelCopyToOperationHeaders {
-    "x-ms-client-request-id"?: string;
-}
-
-// @public (undocumented)
-export type GetDocumentModelCopyToOperationParameters = GetDocumentModelCopyToOperationHeaderParam & RequestParameters;
+export type GetDocumentModelCopyToOperationParameters = RequestParameters;
 
 // @public
 export function getLongRunningPoller<TResult extends BuildModelLogicalResponse | BuildModelDefaultResponse>(client: Client, initialResponse: BuildModel202Response | BuildModelDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
@@ -1274,17 +1130,10 @@ export interface GetModel {
     get(options?: GetModelParameters): StreamableMethod<GetModel200Response | GetModelDefaultResponse>;
 }
 
-// @public (undocumented)
-export interface GetModel200Headers {
-    "x-ms-client-request-id"?: string;
-}
-
 // @public
 export interface GetModel200Response extends HttpResponse {
     // (undocumented)
     body: DocumentModelDetailsOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & GetModel200Headers;
     // (undocumented)
     status: "200";
 }
@@ -1298,30 +1147,12 @@ export interface GetModelDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface GetModelHeaderParam {
-    // (undocumented)
-    headers?: RawHttpHeadersInput & GetModelHeaders;
-}
-
-// @public (undocumented)
-export interface GetModelHeaders {
-    "x-ms-client-request-id"?: string;
-}
-
-// @public (undocumented)
-export type GetModelParameters = GetModelHeaderParam & RequestParameters;
-
-// @public (undocumented)
-export interface GetOperation200Headers {
-    "x-ms-client-request-id"?: string;
-}
+export type GetModelParameters = RequestParameters;
 
 // @public
 export interface GetOperation200Response extends HttpResponse {
     // (undocumented)
     body: OperationDetailsOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & GetOperation200Headers;
     // (undocumented)
     status: "200";
 }
@@ -1335,18 +1166,7 @@ export interface GetOperationDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface GetOperationHeaderParam {
-    // (undocumented)
-    headers?: RawHttpHeadersInput & GetOperationHeaders;
-}
-
-// @public (undocumented)
-export interface GetOperationHeaders {
-    "x-ms-client-request-id"?: string;
-}
-
-// @public (undocumented)
-export type GetOperationParameters = GetOperationHeaderParam & RequestParameters;
+export type GetOperationParameters = RequestParameters;
 
 // @public
 export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise<{
@@ -1389,7 +1209,7 @@ export interface InnerErrorOutput {
 export function isUnexpected(response: ListOperations200Response | ListOperationsDefaultResponse): response is ListOperationsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GetDocumentModelBuildOperation200Response | GetDocumentModelComposeOperation200Response | GetDocumentModelCopyToOperation200Response | GetDocumentClassifierBuildOperation200Response | GetOperation200Response | GetDocumentModelBuildOperationDefaultResponse): response is GetDocumentModelBuildOperationDefaultResponse;
+export function isUnexpected(response: GetDocumentModelBuildOperation200Response | GetDocumentModelBuildOperationDefaultResponse): response is GetDocumentModelBuildOperationDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: GetResourceInfo200Response | GetResourceInfoDefaultResponse): response is GetResourceInfoDefaultResponse;
@@ -1398,7 +1218,7 @@ export function isUnexpected(response: GetResourceInfo200Response | GetResourceI
 export function isUnexpected(response: GetAnalyzeResult200Response | GetAnalyzeResultDefaultResponse): response is GetAnalyzeResultDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: AnalyzeDocumentFromStream202Response | AnalyzeDocument202Response | AnalyzeDocumentFromStreamLogicalResponse | AnalyzeDocumentLogicalResponse | AnalyzeDocumentFromStreamDefaultResponse): response is AnalyzeDocumentFromStreamDefaultResponse;
+export function isUnexpected(response: AnalyzeDocumentFromStream202Response | AnalyzeDocumentFromStreamLogicalResponse | AnalyzeDocumentFromStreamDefaultResponse): response is AnalyzeDocumentFromStreamDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: GetModel200Response | GetModelDefaultResponse): response is GetModelDefaultResponse;
@@ -1434,7 +1254,7 @@ export function isUnexpected(response: GetClassifier200Response | GetClassifierD
 export function isUnexpected(response: DeleteClassifier204Response | DeleteClassifierDefaultResponse): response is DeleteClassifierDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ClassifyDocumentFromStream202Response | ClassifyDocument202Response | ClassifyDocumentFromStreamLogicalResponse | ClassifyDocumentLogicalResponse | ClassifyDocumentFromStreamDefaultResponse): response is ClassifyDocumentFromStreamDefaultResponse;
+export function isUnexpected(response: ClassifyDocumentFromStream202Response | ClassifyDocumentFromStreamLogicalResponse | ClassifyDocumentFromStreamDefaultResponse): response is ClassifyDocumentFromStreamDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: GetClassifyResult200Response | GetClassifyResultDefaultResponse): response is GetClassifyResultDefaultResponse;
@@ -1444,17 +1264,10 @@ export interface ListClassifiers {
     get(options?: ListClassifiersParameters): StreamableMethod<ListClassifiers200Response | ListClassifiersDefaultResponse>;
 }
 
-// @public (undocumented)
-export interface ListClassifiers200Headers {
-    "x-ms-client-request-id"?: string;
-}
-
 // @public
 export interface ListClassifiers200Response extends HttpResponse {
     // (undocumented)
     body: PagedDocumentClassifierDetailsOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & ListClassifiers200Headers;
     // (undocumented)
     status: "200";
 }
@@ -1468,35 +1281,17 @@ export interface ListClassifiersDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface ListClassifiersHeaderParam {
-    // (undocumented)
-    headers?: RawHttpHeadersInput & ListClassifiersHeaders;
-}
-
-// @public (undocumented)
-export interface ListClassifiersHeaders {
-    "x-ms-client-request-id"?: string;
-}
-
-// @public (undocumented)
-export type ListClassifiersParameters = ListClassifiersHeaderParam & RequestParameters;
+export type ListClassifiersParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ListModels {
     get(options?: ListModelsParameters): StreamableMethod<ListModels200Response | ListModelsDefaultResponse>;
 }
 
-// @public (undocumented)
-export interface ListModels200Headers {
-    "x-ms-client-request-id"?: string;
-}
-
 // @public
 export interface ListModels200Response extends HttpResponse {
     // (undocumented)
     body: PagedDocumentModelDetailsOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & ListModels200Headers;
     // (undocumented)
     status: "200";
 }
@@ -1510,35 +1305,17 @@ export interface ListModelsDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface ListModelsHeaderParam {
-    // (undocumented)
-    headers?: RawHttpHeadersInput & ListModelsHeaders;
-}
-
-// @public (undocumented)
-export interface ListModelsHeaders {
-    "x-ms-client-request-id"?: string;
-}
-
-// @public (undocumented)
-export type ListModelsParameters = ListModelsHeaderParam & RequestParameters;
+export type ListModelsParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ListOperations {
     get(options?: ListOperationsParameters): StreamableMethod<ListOperations200Response | ListOperationsDefaultResponse>;
 }
 
-// @public (undocumented)
-export interface ListOperations200Headers {
-    "x-ms-client-request-id"?: string;
-}
-
 // @public
 export interface ListOperations200Response extends HttpResponse {
     // (undocumented)
     body: PagedOperationDetailsOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & ListOperations200Headers;
     // (undocumented)
     status: "200";
 }
@@ -1552,21 +1329,10 @@ export interface ListOperationsDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface ListOperationsHeaderParam {
-    // (undocumented)
-    headers?: RawHttpHeadersInput & ListOperationsHeaders;
-}
-
-// @public (undocumented)
-export interface ListOperationsHeaders {
-    "x-ms-client-request-id"?: string;
-}
-
-// @public (undocumented)
-export type ListOperationsParameters = ListOperationsHeaderParam & RequestParameters;
+export type ListOperationsParameters = RequestParameters;
 
 // @public
-export type OperationDetailsOutput = OperationDetailsOutputParent | DocumentModelBuildOperationDetailsOutput | DocumentModelComposeOperationDetailsOutput | DocumentModelCopyToOperationDetailsOutput | DocumentClassifierBuildOperationDetailsOutput;
+export type OperationDetailsOutput = DocumentModelBuildOperationDetailsOutput | DocumentModelComposeOperationDetailsOutput | DocumentModelCopyToOperationDetailsOutput | DocumentClassifierBuildOperationDetailsOutput;
 
 // @public
 export interface OperationDetailsOutputParent {
@@ -1638,13 +1404,6 @@ export interface Routes {
     (path: "/documentClassifiers/{classifierId}", classifierId: string): GetClassifier;
     (path: "/documentClassifiers/{classifierId}:analyze", classifierId: string): ClassifyDocumentFromStream;
     (path: "/documentClassifiers/{classifierId}/analyzeResults/{resultId}", classifierId: string, resultId: string): GetClassifyResult;
-}
-
-// @public
-export interface WarningOutput {
-    code: string;
-    message: string;
-    target?: string;
 }
 
 // (No @packageDocumentation comment for this package)
