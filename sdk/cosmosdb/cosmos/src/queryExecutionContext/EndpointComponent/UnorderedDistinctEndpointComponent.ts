@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { Response } from "../../request";
+import { QueryOperationOptions, Response } from "../../request";
 import { ExecutionContext } from "../ExecutionContext";
 import { hashObject } from "../../utils/hashObject";
 import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import { RUCapPerOperationExceededErrorCode } from "../../request/RUCapPerOperationExceededError";
+import { RUConsumedManager } from "../../common";
 
 /** @hidden */
 export class UnorderedDistinctEndpointComponent implements ExecutionContext {
@@ -12,16 +14,31 @@ export class UnorderedDistinctEndpointComponent implements ExecutionContext {
     this.hashedResults = new Set();
   }
 
-  public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
-    const { headers, result } = await this.executionContext.nextItem(diagnosticNode);
-    if (result) {
-      const hashedResult = await hashObject(result);
-      if (this.hashedResults.has(hashedResult)) {
-        return { result: undefined, headers };
+  public async nextItem(
+    diagnosticNode: DiagnosticNodeInternal,
+    operationOptions?: QueryOperationOptions,
+    ruConsumedManager?: RUConsumedManager,
+  ): Promise<Response<any>> {
+    try {
+      const { headers, result } = await this.executionContext.nextItem(
+        diagnosticNode,
+        operationOptions,
+        ruConsumedManager,
+      );
+      if (result) {
+        const hashedResult = await hashObject(result);
+        if (this.hashedResults.has(hashedResult)) {
+          return { result: undefined, headers };
+        }
+        this.hashedResults.add(hashedResult);
       }
-      this.hashedResults.add(hashedResult);
+      return { result, headers };
+    } catch (err) {
+      if (err.code === RUCapPerOperationExceededErrorCode) {
+        err.fetchedResults = undefined;
+      }
+      throw err;
     }
-    return { result, headers };
   }
 
   public hasMoreResults(): boolean {

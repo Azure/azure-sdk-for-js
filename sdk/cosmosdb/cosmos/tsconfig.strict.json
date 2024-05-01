@@ -143,6 +143,9 @@
     "src/utils/hashing",
     "src/client/SasToken/SasTokenProperties.ts",
     "src/client/SasToken/PermissionScopeValues.ts",
+    "src/request/RUCapPerOperationExceededError.ts",
+    "src/request/OperationOptions.ts",
+    "sdk/cosmosdb/cosmos/src/documents/VectorEmbeddingPolicy.ts",
     "test/public/common/TestHelpers.ts",
     "test/internal/session.spec.ts",
     "test/internal/unit/auth.spec.ts",
@@ -207,7 +210,8 @@
     "test/public/integration/sslVerification.spec.ts",
     "test/public/integration/timeout.spec.ts",
     "test/public/integration/aggregates/groupBy.spec.ts",
-    "test/public/functional/computedProperties.spec.ts",
-    "test/public/integration/client.retry.spec.ts"
+    "test/public/integration/client.retry.spec.ts",
+    "test/public/functional/vectorEmbeddingPolicy.spec.ts",
+    "test/public/functional/computedProperties.spec.ts"
   ]
 }
