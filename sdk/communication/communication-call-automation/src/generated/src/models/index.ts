@@ -729,73 +729,6 @@ export interface RecordingStateResponse {
   recordingType?: RecordingType;
 }
 
-/** AnswerFailed event */
-export interface AnswerFailed {
-  /**
-   * Used by customers when calling mid-call actions to correlate the request to the response event.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operationContext?: string;
-  /**
-   * Contains the resulting SIP code, sub-code and message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resultInformation?: RestResultInformation;
-  /**
-   * Call connection ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly callConnectionId?: string;
-  /**
-   * Server call ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serverCallId?: string;
-  /**
-   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly correlationId?: string;
-}
-
-export interface RestResultInformation {
-  /** Code of the current result. This can be helpful to Call Automation team to troubleshoot the issue if this result was unexpected. */
-  code?: number;
-  /** Subcode of the current result. This can be helpful to Call Automation team to troubleshoot the issue if this result was unexpected. */
-  subCode?: number;
-  /** Detail message that describes the current result. */
-  message?: string;
-}
-
-/** The CreateCallFailed event */
-export interface CreateCallFailed {
-  /**
-   * Used by customers when calling mid-call actions to correlate the request to the response event.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operationContext?: string;
-  /**
-   * Contains the resulting SIP code, sub-code and message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resultInformation?: RestResultInformation;
-  /**
-   * Call connection ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly callConnectionId?: string;
-  /**
-   * Server call ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serverCallId?: string;
-  /**
-   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly correlationId?: string;
-}
-
 export interface CollectTonesResult {
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly tones?: Tone[];
@@ -855,6 +788,15 @@ export interface DialogCompleted {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly correlationId?: string;
+}
+
+export interface RestResultInformation {
+  /** Code of the current result. This can be helpful to Call Automation team to troubleshoot the issue if this result was unexpected. */
+  code?: number;
+  /** Subcode of the current result. This can be helpful to Call Automation team to troubleshoot the issue if this result was unexpected. */
+  subCode?: number;
+  /** Detail message that describes the current result. */
+  message?: string;
 }
 
 export interface DialogFailed {
@@ -1191,32 +1133,10 @@ export interface TranscriptionUpdate {
   transcriptionStatusDetails?: TranscriptionStatusDetails;
 }
 
-export interface HoldFailed {
-  /**
-   * Used by customers when calling mid-call actions to correlate the request to the response event.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operationContext?: string;
-  /**
-   * Contains the resulting SIP code, sub-code and message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resultInformation?: RestResultInformation;
-  /**
-   * Call connection ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly callConnectionId?: string;
-  /**
-   * Server call ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serverCallId?: string;
-  /**
-   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly correlationId?: string;
+export interface MediaStreamingUpdate {
+  contentType?: string;
+  mediaStreamingStatus?: MediaStreamingStatus;
+  mediaStreamingStatusDetails?: MediaStreamingStatusDetails;
 }
 
 /** The participant successfully added event. */
@@ -2199,6 +2119,105 @@ export interface RestHoldFailed {
   readonly correlationId?: string;
 }
 
+export interface RestMediaStreamingStarted {
+  /**
+   * Used by customers when calling mid-call actions to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code, sub-code and message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: RestResultInformation;
+  /**
+   * Defines the result for audio streaming update with the current status and the details about the status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly mediaStreamingUpdate?: MediaStreamingUpdate;
+  /**
+   * Call connection ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callConnectionId?: string;
+  /**
+   * Server call ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverCallId?: string;
+  /**
+   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly correlationId?: string;
+}
+
+export interface RestMediaStreamingStopped {
+  /**
+   * Used by customers when calling mid-call actions to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code, sub-code and message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: RestResultInformation;
+  /**
+   * Defines the result for audio streaming update with the current status and the details about the status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly mediaStreamingUpdate?: MediaStreamingUpdate;
+  /**
+   * Call connection ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callConnectionId?: string;
+  /**
+   * Server call ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverCallId?: string;
+  /**
+   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly correlationId?: string;
+}
+
+export interface RestMediaStreamingFailed {
+  /**
+   * Used by customers when calling mid-call actions to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code, sub-code and message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: RestResultInformation;
+  /**
+   * Defines the result for audio streaming update with the current status and the details about the status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly mediaStreamingUpdate?: MediaStreamingUpdate;
+  /**
+   * Call connection ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callConnectionId?: string;
+  /**
+   * Server call ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverCallId?: string;
+  /**
+   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly correlationId?: string;
+}
+
 /** Azure Open AI Dialog */
 export interface AzureOpenAIDialog extends BaseDialog {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -2745,6 +2764,87 @@ export enum KnownTranscriptionStatusDetails {
  * **transcriptionLocaleUpdated**
  */
 export type TranscriptionStatusDetails = string;
+
+/** Known values of {@link MediaStreamingStatus} that the service accepts. */
+export enum KnownMediaStreamingStatus {
+  /** MediaStreamingStarted */
+  MediaStreamingStarted = "mediaStreamingStarted",
+  /** MediaStreamingFailed */
+  MediaStreamingFailed = "mediaStreamingFailed",
+  /** MediaStreamingStopped */
+  MediaStreamingStopped = "mediaStreamingStopped",
+  /** UnspecifiedError */
+  UnspecifiedError = "unspecifiedError",
+}
+
+/**
+ * Defines values for MediaStreamingStatus. \
+ * {@link KnownMediaStreamingStatus} can be used interchangeably with MediaStreamingStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **mediaStreamingStarted** \
+ * **mediaStreamingFailed** \
+ * **mediaStreamingStopped** \
+ * **unspecifiedError**
+ */
+export type MediaStreamingStatus = string;
+
+/** Known values of {@link MediaStreamingStatusDetails} that the service accepts. */
+export enum KnownMediaStreamingStatusDetails {
+  /** SubscriptionStarted */
+  SubscriptionStarted = "subscriptionStarted",
+  /** StreamConnectionReestablished */
+  StreamConnectionReestablished = "streamConnectionReestablished",
+  /** StreamConnectionUnsuccessful */
+  StreamConnectionUnsuccessful = "streamConnectionUnsuccessful",
+  /** StreamUrlMissing */
+  StreamUrlMissing = "streamUrlMissing",
+  /** ServiceShutdown */
+  ServiceShutdown = "serviceShutdown",
+  /** StreamConnectionInterrupted */
+  StreamConnectionInterrupted = "streamConnectionInterrupted",
+  /** SpeechServicesConnectionError */
+  SpeechServicesConnectionError = "speechServicesConnectionError",
+  /** SubscriptionStopped */
+  SubscriptionStopped = "subscriptionStopped",
+  /** UnspecifiedError */
+  UnspecifiedError = "unspecifiedError",
+  /** AuthenticationFailure */
+  AuthenticationFailure = "authenticationFailure",
+  /** BadRequest */
+  BadRequest = "badRequest",
+  /** TooManyRequests */
+  TooManyRequests = "tooManyRequests",
+  /** Forbidden */
+  Forbidden = "forbidden",
+  /** ServiceTimeout */
+  ServiceTimeout = "serviceTimeout",
+  /** InitialWebSocketConnectionFailed */
+  InitialWebSocketConnectionFailed = "initialWebSocketConnectionFailed",
+}
+
+/**
+ * Defines values for MediaStreamingStatusDetails. \
+ * {@link KnownMediaStreamingStatusDetails} can be used interchangeably with MediaStreamingStatusDetails,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **subscriptionStarted** \
+ * **streamConnectionReestablished** \
+ * **streamConnectionUnsuccessful** \
+ * **streamUrlMissing** \
+ * **serviceShutdown** \
+ * **streamConnectionInterrupted** \
+ * **speechServicesConnectionError** \
+ * **subscriptionStopped** \
+ * **unspecifiedError** \
+ * **authenticationFailure** \
+ * **badRequest** \
+ * **tooManyRequests** \
+ * **forbidden** \
+ * **serviceTimeout** \
+ * **initialWebSocketConnectionFailed**
+ */
+export type MediaStreamingStatusDetails = string;
 
 /** Known values of {@link RecognitionType} that the service accepts. */
 export enum KnownRecognitionType {

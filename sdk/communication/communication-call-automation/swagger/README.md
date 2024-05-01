@@ -13,7 +13,7 @@ license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 tag: package-2023-10-03-preview
 require:
-  - https://github.com/Azure/azure-rest-api-specs/blob/2f0c2b15ba41419aec1a739307b50e03178e0d4d/specification/communication/data-plane/CallAutomation/readme.md
+  - https://github.com/Azure/azure-rest-api-specs/blob/ebedc156cf07929f3f72e71e5323ecdfa402267d/specification/communication/data-plane/CallAutomation/readme.md
 package-version: 1.2.0-beta.1
 model-date-time-as-string: false
 optional-response-headers: true
@@ -164,4 +164,13 @@ directive:
   - rename-model:
       from: HoldFailed
       to: RestHoldFailed
+  - rename-model:
+      from: MediaStreamingStarted
+      to: RestMediaStreamingStarted
+  - rename-model:
+      from: MediaStreamingStopped
+      to: RestMediaStreamingStopped
+  - rename-model:
+      from: MediaStreamingFailed
+      to: RestMediaStreamingFailed
 ```
