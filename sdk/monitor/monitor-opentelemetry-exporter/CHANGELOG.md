@@ -1,5 +1,11 @@
 # Release History
 
+## Unreleased ()
+
+### Features Added
+
+- Capture and export measurements when creating log records from the Application Insights 3.X SDK.
+
 ## 1.0.0-beta.22 (2024-04-16)
 
 ### Features Added
