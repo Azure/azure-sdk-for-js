@@ -23,6 +23,7 @@ steps:
           DomainTenantId: '72f988bf-86f1-41af-91ab-2d7cd011db47'
           ProductStateField: ${{parameters.Tag}}
       - pwsh: Write-Host "##vso[task.setvariable variable=additionalTag${{parameters.AdditionalTag}}]"
+        displayName: Set Additional Tag Variable
 
       - ${{ if ne(variables['additionalTag'], '') }}:
           - task: PowerShell@2
