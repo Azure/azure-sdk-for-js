@@ -293,7 +293,7 @@ export interface ChannelsListResult {
   nextLink?: string;
 }
 
-/** Full endpoint url of an event subscription */
+/** Full endpoint URL of an event subscription */
 export interface EventSubscriptionFullUrl {
   /** The URL that represents the endpoint of the destination of an event subscription. */
   endpointUrl?: string;
@@ -523,14 +523,14 @@ export interface DeadLetterWithResourceIdentity {
   identity?: EventSubscriptionIdentity;
   /**
    * Information about the destination where events have to be delivered for the event subscription.
-   * Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire the authentication tokens being used during delivery / dead-lettering.
+   * Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire the authentication tokens being used during dead-lettering.
    */
   deadLetterDestination?: DeadLetterDestinationUnion;
 }
 
 /** The identity information with the event subscription. */
 export interface EventSubscriptionIdentity {
-  /** The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove any identity. */
+  /** The type of managed identity used. Can be either 'SystemAssigned' or 'UserAssigned'. */
   type?: EventSubscriptionIdentityType;
   /** The user identity associated with the resource. */
   userAssignedIdentity?: string;
@@ -567,14 +567,19 @@ export interface PushInfo {
   eventTimeToLive?: string;
   /**
    * The dead letter destination of the event subscription. Any event that cannot be delivered to its' destination is sent to the dead letter destination.
-   * Uses the managed identity setup on the parent resource (namely, namespace) to acquire the authentication tokens being used during delivery / dead-lettering.
+   * Uses the managed identity setup on the parent resource (namely, namespace) to acquire the authentication tokens being used during dead-lettering.
    */
   deadLetterDestinationWithResourceIdentity?: DeadLetterWithResourceIdentity;
   /**
    * Information about the destination where events have to be delivered for the event subscription.
-   * Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire the authentication tokens being used during delivery / dead-lettering.
+   * Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire the authentication tokens being used during delivery.
    */
   deliveryWithResourceIdentity?: DeliveryWithResourceIdentity;
+  /**
+   * Information about the destination where events have to be delivered for the event subscription.
+   * Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery.
+   */
+  destination?: EventSubscriptionDestinationUnion;
 }
 
 /** Information about the delivery for an event subscription with resource identity. */
@@ -583,7 +588,7 @@ export interface DeliveryWithResourceIdentity {
   identity?: EventSubscriptionIdentity;
   /**
    * Information about the destination where events have to be delivered for the event subscription.
-   * Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery / dead-lettering.
+   * Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire the authentication tokens being used during delivery.
    */
   destination?: EventSubscriptionDestinationUnion;
 }
@@ -651,6 +656,8 @@ export interface SubscriptionUpdateParameters {
   eventDeliverySchema?: DeliverySchema;
   /** Information about the filter for the event subscription. */
   filtersConfiguration?: FiltersConfiguration;
+  /** Expiration time of the event subscription. */
+  expirationTimeUtc?: Date;
 }
 
 /** Result of the List event subscriptions operation. */
@@ -771,6 +778,39 @@ export interface TopicsConfiguration {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly hostname?: string;
+  /** List of custom domain configurations for the namespace. */
+  customDomains?: CustomDomainConfiguration[];
+}
+
+/** A custom domain configuration that allows users to publish to their own domain name. */
+export interface CustomDomainConfiguration {
+  /** Fully Qualified Domain Name (FQDN) for the custom domain. */
+  fullyQualifiedDomainName: string;
+  /** Validation state for the custom domain. This is a read only property and is initially set to 'Pending' and will be updated to 'Approved' by Event Grid only after ownership of the domain name has been successfully validated. */
+  validationState?: CustomDomainValidationState;
+  /** Identity info for accessing the certificate for the custom domain. This identity info must match an identity that has been set on the namespace. */
+  identity?: CustomDomainIdentity;
+  /**
+   * The URL for the certificate that is used for publishing to the custom domain. We currently support certificates stored in Azure Key Vault only. While certificate URL can be either
+   * versioned URL of the following format https://{key-vault-name}.vault.azure.net/certificates/{certificate-name}/{version-id}, or unversioned URL of the following format (e.g.,
+   * https://contosovault.vault.azure.net/certificates/contosocert, we support unversioned certificate URL only (e.g., https://contosovault.vault.azure.net/certificates/contosocert)
+   */
+  certificateUrl?: string;
+  /**
+   * Expected DNS TXT record name. Event Grid will check for a TXT record with this name in the DNS record set of the custom domain name to prove ownership over the domain.
+   * The values under this TXT record must contain the expected TXT record value.
+   */
+  expectedTxtRecordName?: string;
+  /** Expected DNS TXT record value. Event Grid will check for a TXT record with this value in the DNS record set of the custom domain name to prove ownership over the domain. */
+  expectedTxtRecordValue?: string;
+}
+
+/** The identity information for retrieving the certificate for the custom domain. */
+export interface CustomDomainIdentity {
+  /** The type of managed identity used. Can be either 'SystemAssigned' or 'UserAssigned'. */
+  type?: CustomDomainIdentityType;
+  /** The user identity associated with the resource. */
+  userAssignedIdentity?: string;
 }
 
 /** Properties of the Topic Spaces Configuration. */
@@ -804,6 +844,8 @@ export interface TopicSpacesConfiguration {
   maximumClientSessionsPerAuthenticationName?: number;
   /** Routing identity info for topic spaces configuration. */
   routingIdentityInfo?: RoutingIdentityInfo;
+  /** List of custom domain configurations for the namespace. */
+  customDomains?: CustomDomainConfiguration[];
 }
 
 export interface RoutingEnrichments {
@@ -830,10 +872,37 @@ export interface DynamicRoutingEnrichment {
 export interface ClientAuthenticationSettings {
   /** Alternative authentication name sources related to client authentication settings for namespace resource. */
   alternativeAuthenticationNameSources?: AlternativeAuthenticationNameSource[];
+  /** Custom JWT authentication settings for namespace resource. */
+  customJwtAuthentication?: CustomJwtAuthenticationSettings;
+}
+
+/** Custom JWT authentication settings for namespace resource. */
+export interface CustomJwtAuthenticationSettings {
+  /** Expected JWT token issuer. */
+  tokenIssuer?: string;
+  /** Information about the certificate that is used for token validation. We currently support maximum 2 certificates. */
+  issuerCertificates?: IssuerCertificateInfo[];
+}
+
+/** Information about the certificate that is used for token validation. */
+export interface IssuerCertificateInfo {
+  /** Keyvault certificate URL in https://keyvaultname.vault.azure.net/certificates/certificateName/certificateVersion format. */
+  certificateUrl: string;
+  /** The identity that will be used to access the certificate. */
+  identity?: CustomJwtAuthenticationManagedIdentity;
+}
+
+/** The identity information for retrieving the certificate for custom JWT authentication. */
+export interface CustomJwtAuthenticationManagedIdentity {
+  /** The type of managed identity used. Can be either 'SystemAssigned' or 'UserAssigned'. */
+  type: CustomJwtAuthenticationManagedIdentityType;
+  /** The user identity associated with the resource. */
+  userAssignedIdentity?: string;
 }
 
 /** Routing identity info for topic spaces configuration. */
 export interface RoutingIdentityInfo {
+  /** Routing identity type for topic spaces configuration. */
   type?: RoutingIdentityType;
   userAssignedIdentity?: string;
 }
@@ -860,6 +929,8 @@ export interface NamespaceUpdateParameters {
   sku?: NamespaceSku;
   /** Topic spaces configuration properties that can be updated. */
   topicSpacesConfiguration?: UpdateTopicSpacesConfigurationInfo;
+  /** Topics configuration properties that can be updated. */
+  topicsConfiguration?: UpdateTopicsConfigurationInfo;
   /**
    * This determines if traffic is allowed over public network. By default it is enabled.
    * You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.PubSub.NamespaceUpdateParameterProperties.InboundIpRules" />
@@ -891,6 +962,14 @@ export interface UpdateTopicSpacesConfigurationInfo {
   maximumClientSessionsPerAuthenticationName?: number;
   /** Routing identity info for topic spaces configuration. */
   routingIdentityInfo?: RoutingIdentityInfo;
+  /** Custom domain info for topic spaces configuration. */
+  customDomains?: CustomDomainConfiguration[];
+}
+
+/** Properties of the topics configuration info of a namespace. */
+export interface UpdateTopicsConfigurationInfo {
+  /** Custom domain info for topics configuration. */
+  customDomains?: CustomDomainConfiguration[];
 }
 
 /** Result of the List Namespaces operation. */
@@ -1163,7 +1242,7 @@ export interface NetworkSecurityPerimeterProfileAccessRule {
   /** Address prefixes. */
   addressPrefixes?: string[];
   /** List of subscriptions. */
-  subscriptions?: string[];
+  subscriptions?: NetworkSecurityPerimeterSubscription[];
   /** Network security perimeters. */
   networkSecurityPerimeters?: NetworkSecurityPerimeterInfo[];
   /** Fully qualified domain names. */
@@ -1172,6 +1251,12 @@ export interface NetworkSecurityPerimeterProfileAccessRule {
   emailAddresses?: string[];
   /** List of phone numbers. */
   phoneNumbers?: string[];
+}
+
+/** Network security perimeter subscription inbound access rule. */
+export interface NetworkSecurityPerimeterSubscription {
+  /** Subscription id. */
+  id?: string;
 }
 
 /** Network security perimeter configuration List. */
@@ -1321,6 +1406,20 @@ export interface VerifiedPartnersListResult {
   value?: VerifiedPartner[];
   /** A link for the next page of verified partners if any. */
   nextLink?: string;
+}
+
+/** Namespace custom domain ownership validation result. */
+export interface CustomDomainOwnershipValidationResult {
+  /** List of custom domain configurations for the namespace under topics configuration. */
+  customDomainsForTopicsConfiguration?: CustomDomainConfiguration[];
+  /** List of custom domain configurations for the namespace under topic spaces configuration. */
+  customDomainsForTopicSpacesConfiguration?: CustomDomainConfiguration[];
+}
+
+/** Full endpoint URL of an event subscription */
+export interface SubscriptionFullUrl {
+  /** The URL that represents the endpoint of the destination of an event subscription. */
+  endpointUrl?: string;
 }
 
 /** Partner client authentication */
@@ -1502,6 +1601,8 @@ export interface Subscription extends Resource {
   eventDeliverySchema?: DeliverySchema;
   /** Information about the filter for the event subscription. */
   filtersConfiguration?: FiltersConfiguration;
+  /** Expiration time of the event subscription. */
+  expirationTimeUtc?: Date;
 }
 
 /** Event Subscription. */
@@ -2267,7 +2368,10 @@ export interface Domain extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  /**
+   * List of private endpoint connections.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
   /**
    * Provisioning state of the Event Grid Domain Resource.
@@ -2339,6 +2443,7 @@ export interface Namespace extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
+  /** List of private endpoint connections. */
   privateEndpointConnections?: PrivateEndpointConnection[];
   /**
    * Provisioning state of the namespace resource.
@@ -2404,7 +2509,10 @@ export interface PartnerNamespace extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  /**
+   * List of private endpoint connections.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
   /**
    * Provisioning state of the partner namespace.
@@ -2534,7 +2642,10 @@ export interface Topic extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  /**
+   * List of private endpoint connections.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
   /**
    * Provisioning state of the topic.
@@ -2660,6 +2771,11 @@ export interface NamespacesRegenerateKeyHeaders {
   location?: string;
 }
 
+/** Defines headers for Namespaces_validateCustomDomainOwnership operation. */
+export interface NamespacesValidateCustomDomainOwnershipHeaders {
+  location?: string;
+}
+
 /** Defines headers for NamespaceTopics_delete operation. */
 export interface NamespaceTopicsDeleteHeaders {
   location?: string;
@@ -2760,7 +2876,7 @@ export enum KnownCaCertificateProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Deleted */
-  Deleted = "Deleted"
+  Deleted = "Deleted",
 }
 
 /**
@@ -2787,7 +2903,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -2807,7 +2923,7 @@ export enum KnownChannelType {
   /** PartnerTopic */
   PartnerTopic = "PartnerTopic",
   /** PartnerDestination */
-  PartnerDestination = "PartnerDestination"
+  PartnerDestination = "PartnerDestination",
 }
 
 /**
@@ -2823,7 +2939,7 @@ export type ChannelType = string;
 /** Known values of {@link EventDefinitionKind} that the service accepts. */
 export enum KnownEventDefinitionKind {
   /** Inline */
-  Inline = "Inline"
+  Inline = "Inline",
 }
 
 /**
@@ -2838,7 +2954,7 @@ export type EventDefinitionKind = string;
 /** Known values of {@link PartnerEndpointType} that the service accepts. */
 export enum KnownPartnerEndpointType {
   /** WebHook */
-  WebHook = "WebHook"
+  WebHook = "WebHook",
 }
 
 /**
@@ -2867,7 +2983,7 @@ export enum KnownChannelProvisioningState {
   /** IdleDueToMirroredPartnerTopicDeletion */
   IdleDueToMirroredPartnerTopicDeletion = "IdleDueToMirroredPartnerTopicDeletion",
   /** IdleDueToMirroredPartnerDestinationDeletion */
-  IdleDueToMirroredPartnerDestinationDeletion = "IdleDueToMirroredPartnerDestinationDeletion"
+  IdleDueToMirroredPartnerDestinationDeletion = "IdleDueToMirroredPartnerDestinationDeletion",
 }
 
 /**
@@ -2891,7 +3007,7 @@ export enum KnownReadinessState {
   /** NeverActivated */
   NeverActivated = "NeverActivated",
   /** Activated */
-  Activated = "Activated"
+  Activated = "Activated",
 }
 
 /**
@@ -2919,7 +3035,7 @@ export enum KnownClientGroupProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Deleted */
-  Deleted = "Deleted"
+  Deleted = "Deleted",
 }
 
 /**
@@ -2950,7 +3066,7 @@ export enum KnownClientCertificateValidationScheme {
   /** EmailMatchesAuthenticationName */
   EmailMatchesAuthenticationName = "EmailMatchesAuthenticationName",
   /** ThumbprintMatch */
-  ThumbprintMatch = "ThumbprintMatch"
+  ThumbprintMatch = "ThumbprintMatch",
 }
 
 /**
@@ -2972,7 +3088,7 @@ export enum KnownClientState {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -3000,7 +3116,7 @@ export enum KnownClientProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Deleted */
-  Deleted = "Deleted"
+  Deleted = "Deleted",
 }
 
 /**
@@ -3027,7 +3143,7 @@ export enum KnownPersistedConnectionStatus {
   /** Rejected */
   Rejected = "Rejected",
   /** Disconnected */
-  Disconnected = "Disconnected"
+  Disconnected = "Disconnected",
 }
 
 /**
@@ -3055,7 +3171,7 @@ export enum KnownResourceProvisioningState {
   /** Canceled */
   Canceled = "Canceled",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -3085,7 +3201,7 @@ export enum KnownDomainProvisioningState {
   /** Canceled */
   Canceled = "Canceled",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -3109,7 +3225,7 @@ export enum KnownTlsVersion {
   /** One1 */
   One1 = "1.1",
   /** One2 */
-  One2 = "1.2"
+  One2 = "1.2",
 }
 
 /**
@@ -3130,7 +3246,7 @@ export enum KnownInputSchema {
   /** CustomEventSchema */
   CustomEventSchema = "CustomEventSchema",
   /** CloudEventSchemaV10 */
-  CloudEventSchemaV10 = "CloudEventSchemaV1_0"
+  CloudEventSchemaV10 = "CloudEventSchemaV1_0",
 }
 
 /**
@@ -3147,7 +3263,7 @@ export type InputSchema = string;
 /** Known values of {@link InputSchemaMappingType} that the service accepts. */
 export enum KnownInputSchemaMappingType {
   /** Json */
-  Json = "Json"
+  Json = "Json",
 }
 
 /**
@@ -3166,7 +3282,7 @@ export enum KnownPublicNetworkAccess {
   /** Disabled */
   Disabled = "Disabled",
   /** SecuredByPerimeter */
-  SecuredByPerimeter = "SecuredByPerimeter"
+  SecuredByPerimeter = "SecuredByPerimeter",
 }
 
 /**
@@ -3183,7 +3299,7 @@ export type PublicNetworkAccess = string;
 /** Known values of {@link IpActionType} that the service accepts. */
 export enum KnownIpActionType {
   /** Allow */
-  Allow = "Allow"
+  Allow = "Allow",
 }
 
 /**
@@ -3200,7 +3316,7 @@ export enum KnownDataResidencyBoundary {
   /** WithinGeopair */
   WithinGeopair = "WithinGeopair",
   /** WithinRegion */
-  WithinRegion = "WithinRegion"
+  WithinRegion = "WithinRegion",
 }
 
 /**
@@ -3218,7 +3334,7 @@ export enum KnownSku {
   /** Basic */
   Basic = "Basic",
   /** Premium */
-  Premium = "Premium"
+  Premium = "Premium",
 }
 
 /**
@@ -3240,7 +3356,7 @@ export enum KnownIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned"
+  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
 }
 
 /**
@@ -3268,7 +3384,7 @@ export enum KnownDomainTopicProvisioningState {
   /** Canceled */
   Canceled = "Canceled",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -3290,7 +3406,7 @@ export enum KnownDeliveryAttributeMappingType {
   /** Static */
   Static = "Static",
   /** Dynamic */
-  Dynamic = "Dynamic"
+  Dynamic = "Dynamic",
 }
 
 /**
@@ -3326,7 +3442,7 @@ export enum KnownSubscriptionProvisioningState {
   /** CreateFailed */
   CreateFailed = "CreateFailed",
   /** UpdatedFailed */
-  UpdatedFailed = "UpdatedFailed"
+  UpdatedFailed = "UpdatedFailed",
 }
 
 /**
@@ -3353,7 +3469,7 @@ export enum KnownDeliveryMode {
   /** Queue */
   Queue = "Queue",
   /** Push */
-  Push = "Push"
+  Push = "Push",
 }
 
 /**
@@ -3371,7 +3487,7 @@ export enum KnownEventSubscriptionIdentityType {
   /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
   /** UserAssigned */
-  UserAssigned = "UserAssigned"
+  UserAssigned = "UserAssigned",
 }
 
 /**
@@ -3387,7 +3503,7 @@ export type EventSubscriptionIdentityType = string;
 /** Known values of {@link DeadLetterEndPointType} that the service accepts. */
 export enum KnownDeadLetterEndPointType {
   /** StorageBlob */
-  StorageBlob = "StorageBlob"
+  StorageBlob = "StorageBlob",
 }
 
 /**
@@ -3420,7 +3536,7 @@ export enum KnownEndpointType {
   /** MonitorAlert */
   MonitorAlert = "MonitorAlert",
   /** NamespaceTopic */
-  NamespaceTopic = "NamespaceTopic"
+  NamespaceTopic = "NamespaceTopic",
 }
 
 /**
@@ -3444,7 +3560,7 @@ export type EndpointType = string;
 /** Known values of {@link DeliverySchema} that the service accepts. */
 export enum KnownDeliverySchema {
   /** CloudEventSchemaV10 */
-  CloudEventSchemaV10 = "CloudEventSchemaV1_0"
+  CloudEventSchemaV10 = "CloudEventSchemaV1_0",
 }
 
 /**
@@ -3495,7 +3611,7 @@ export enum KnownFilterOperatorType {
   /** IsNullOrUndefined */
   IsNullOrUndefined = "IsNullOrUndefined",
   /** IsNotNull */
-  IsNotNull = "IsNotNull"
+  IsNotNull = "IsNotNull",
 }
 
 /**
@@ -3540,7 +3656,7 @@ export enum KnownEventSubscriptionProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** AwaitingManualAction */
-  AwaitingManualAction = "AwaitingManualAction"
+  AwaitingManualAction = "AwaitingManualAction",
 }
 
 /**
@@ -3597,7 +3713,7 @@ export enum KnownAdvancedFilterOperatorType {
   /** IsNullOrUndefined */
   IsNullOrUndefined = "IsNullOrUndefined",
   /** IsNotNull */
-  IsNotNull = "IsNotNull"
+  IsNotNull = "IsNotNull",
 }
 
 /**
@@ -3634,7 +3750,7 @@ export enum KnownEventDeliverySchema {
   /** CustomInputSchema */
   CustomInputSchema = "CustomInputSchema",
   /** CloudEventSchemaV10 */
-  CloudEventSchemaV10 = "CloudEventSchemaV1_0"
+  CloudEventSchemaV10 = "CloudEventSchemaV1_0",
 }
 
 /**
@@ -3669,7 +3785,7 @@ export enum KnownNamespaceProvisioningState {
   /** CreateFailed */
   CreateFailed = "CreateFailed",
   /** UpdatedFailed */
-  UpdatedFailed = "UpdatedFailed"
+  UpdatedFailed = "UpdatedFailed",
 }
 
 /**
@@ -3690,12 +3806,51 @@ export enum KnownNamespaceProvisioningState {
  */
 export type NamespaceProvisioningState = string;
 
+/** Known values of {@link CustomDomainValidationState} that the service accepts. */
+export enum KnownCustomDomainValidationState {
+  /** Pending */
+  Pending = "Pending",
+  /** Approved */
+  Approved = "Approved",
+  /** ErrorRetrievingDnsRecord */
+  ErrorRetrievingDnsRecord = "ErrorRetrievingDnsRecord",
+}
+
+/**
+ * Defines values for CustomDomainValidationState. \
+ * {@link KnownCustomDomainValidationState} can be used interchangeably with CustomDomainValidationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pending** \
+ * **Approved** \
+ * **ErrorRetrievingDnsRecord**
+ */
+export type CustomDomainValidationState = string;
+
+/** Known values of {@link CustomDomainIdentityType} that the service accepts. */
+export enum KnownCustomDomainIdentityType {
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+}
+
+/**
+ * Defines values for CustomDomainIdentityType. \
+ * {@link KnownCustomDomainIdentityType} can be used interchangeably with CustomDomainIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SystemAssigned** \
+ * **UserAssigned**
+ */
+export type CustomDomainIdentityType = string;
+
 /** Known values of {@link TopicSpacesConfigurationState} that the service accepts. */
 export enum KnownTopicSpacesConfigurationState {
   /** Disabled */
   Disabled = "Disabled",
   /** Enabled */
-  Enabled = "Enabled"
+  Enabled = "Enabled",
 }
 
 /**
@@ -3711,7 +3866,7 @@ export type TopicSpacesConfigurationState = string;
 /** Known values of {@link StaticRoutingEnrichmentType} that the service accepts. */
 export enum KnownStaticRoutingEnrichmentType {
   /** String */
-  String = "String"
+  String = "String",
 }
 
 /**
@@ -3734,7 +3889,7 @@ export enum KnownAlternativeAuthenticationNameSource {
   /** ClientCertificateIp */
   ClientCertificateIp = "ClientCertificateIp",
   /** ClientCertificateEmail */
-  ClientCertificateEmail = "ClientCertificateEmail"
+  ClientCertificateEmail = "ClientCertificateEmail",
 }
 
 /**
@@ -3750,6 +3905,24 @@ export enum KnownAlternativeAuthenticationNameSource {
  */
 export type AlternativeAuthenticationNameSource = string;
 
+/** Known values of {@link CustomJwtAuthenticationManagedIdentityType} that the service accepts. */
+export enum KnownCustomJwtAuthenticationManagedIdentityType {
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+}
+
+/**
+ * Defines values for CustomJwtAuthenticationManagedIdentityType. \
+ * {@link KnownCustomJwtAuthenticationManagedIdentityType} can be used interchangeably with CustomJwtAuthenticationManagedIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SystemAssigned** \
+ * **UserAssigned**
+ */
+export type CustomJwtAuthenticationManagedIdentityType = string;
+
 /** Known values of {@link RoutingIdentityType} that the service accepts. */
 export enum KnownRoutingIdentityType {
   /** None */
@@ -3757,7 +3930,7 @@ export enum KnownRoutingIdentityType {
   /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
   /** UserAssigned */
-  UserAssigned = "UserAssigned"
+  UserAssigned = "UserAssigned",
 }
 
 /**
@@ -3774,7 +3947,7 @@ export type RoutingIdentityType = string;
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
   /** Standard */
-  Standard = "Standard"
+  Standard = "Standard",
 }
 
 /**
@@ -3807,7 +3980,7 @@ export enum KnownNamespaceTopicProvisioningState {
   /** CreateFailed */
   CreateFailed = "CreateFailed",
   /** UpdatedFailed */
-  UpdatedFailed = "UpdatedFailed"
+  UpdatedFailed = "UpdatedFailed",
 }
 
 /**
@@ -3831,7 +4004,7 @@ export type NamespaceTopicProvisioningState = string;
 /** Known values of {@link PublisherType} that the service accepts. */
 export enum KnownPublisherType {
   /** Custom */
-  Custom = "Custom"
+  Custom = "Custom",
 }
 
 /**
@@ -3846,7 +4019,7 @@ export type PublisherType = string;
 /** Known values of {@link EventInputSchema} that the service accepts. */
 export enum KnownEventInputSchema {
   /** CloudEventSchemaV10 */
-  CloudEventSchemaV10 = "CloudEventSchemaV1_0"
+  CloudEventSchemaV10 = "CloudEventSchemaV1_0",
 }
 
 /**
@@ -3871,7 +4044,7 @@ export enum KnownPartnerConfigurationProvisioningState {
   /** Canceled */
   Canceled = "Canceled",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -3903,7 +4076,7 @@ export enum KnownPartnerDestinationProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** IdleDueToMirroredChannelResourceDeletion */
-  IdleDueToMirroredChannelResourceDeletion = "IdleDueToMirroredChannelResourceDeletion"
+  IdleDueToMirroredChannelResourceDeletion = "IdleDueToMirroredChannelResourceDeletion",
 }
 
 /**
@@ -3926,7 +4099,7 @@ export enum KnownPartnerDestinationActivationState {
   /** NeverActivated */
   NeverActivated = "NeverActivated",
   /** Activated */
-  Activated = "Activated"
+  Activated = "Activated",
 }
 
 /**
@@ -3952,7 +4125,7 @@ export enum KnownPartnerNamespaceProvisioningState {
   /** Canceled */
   Canceled = "Canceled",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -3974,7 +4147,7 @@ export enum KnownPartnerTopicRoutingMode {
   /** SourceEventAttribute */
   SourceEventAttribute = "SourceEventAttribute",
   /** ChannelNameHeader */
-  ChannelNameHeader = "ChannelNameHeader"
+  ChannelNameHeader = "ChannelNameHeader",
 }
 
 /**
@@ -4000,7 +4173,7 @@ export enum KnownPartnerRegistrationProvisioningState {
   /** Canceled */
   Canceled = "Canceled",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -4032,7 +4205,7 @@ export enum KnownPartnerTopicProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** IdleDueToMirroredChannelResourceDeletion */
-  IdleDueToMirroredChannelResourceDeletion = "IdleDueToMirroredChannelResourceDeletion"
+  IdleDueToMirroredChannelResourceDeletion = "IdleDueToMirroredChannelResourceDeletion",
 }
 
 /**
@@ -4057,7 +4230,7 @@ export enum KnownPartnerTopicActivationState {
   /** Activated */
   Activated = "Activated",
   /** Deactivated */
-  Deactivated = "Deactivated"
+  Deactivated = "Deactivated",
 }
 
 /**
@@ -4076,7 +4249,7 @@ export enum KnownNetworkSecurityPerimeterResourceType {
   /** Topics */
   Topics = "topics",
   /** Domains */
-  Domains = "domains"
+  Domains = "domains",
 }
 
 /**
@@ -4106,7 +4279,7 @@ export enum KnownNetworkSecurityPerimeterConfigProvisioningState {
   /** Deleted */
   Deleted = "Deleted",
   /** Accepted */
-  Accepted = "Accepted"
+  Accepted = "Accepted",
 }
 
 /**
@@ -4134,7 +4307,7 @@ export enum KnownNetworkSecurityPerimeterConfigurationIssueType {
   /** ConfigurationPropagationFailure */
   ConfigurationPropagationFailure = "ConfigurationPropagationFailure",
   /** Other */
-  Other = "Other"
+  Other = "Other",
 }
 
 /**
@@ -4154,7 +4327,7 @@ export enum KnownNetworkSecurityPerimeterConfigurationIssueSeverity {
   /** Warning */
   Warning = "Warning",
   /** Error */
-  Error = "Error"
+  Error = "Error",
 }
 
 /**
@@ -4174,7 +4347,7 @@ export enum KnownNetworkSecurityPerimeterAssociationAccessMode {
   /** Enforced */
   Enforced = "Enforced",
   /** Audit */
-  Audit = "Audit"
+  Audit = "Audit",
 }
 
 /**
@@ -4193,7 +4366,7 @@ export enum KnownNetworkSecurityPerimeterProfileAccessRuleDirection {
   /** Inbound */
   Inbound = "Inbound",
   /** Outbound */
-  Outbound = "Outbound"
+  Outbound = "Outbound",
 }
 
 /**
@@ -4211,7 +4384,7 @@ export enum KnownPermissionType {
   /** Publisher */
   Publisher = "Publisher",
   /** Subscriber */
-  Subscriber = "Subscriber"
+  Subscriber = "Subscriber",
 }
 
 /**
@@ -4239,7 +4412,7 @@ export enum KnownPermissionBindingProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Deleted */
-  Deleted = "Deleted"
+  Deleted = "Deleted",
 }
 
 /**
@@ -4266,7 +4439,7 @@ export enum KnownPrivateEndpointConnectionsParentType {
   /** PartnerNamespaces */
   PartnerNamespaces = "partnerNamespaces",
   /** Namespaces */
-  Namespaces = "namespaces"
+  Namespaces = "namespaces",
 }
 
 /**
@@ -4294,7 +4467,7 @@ export enum KnownTopicProvisioningState {
   /** Canceled */
   Canceled = "Canceled",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -4316,7 +4489,7 @@ export enum KnownResourceKind {
   /** Azure */
   Azure = "Azure",
   /** AzureArc */
-  AzureArc = "AzureArc"
+  AzureArc = "AzureArc",
 }
 
 /**
@@ -4344,7 +4517,7 @@ export enum KnownTopicSpaceProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Deleted */
-  Deleted = "Deleted"
+  Deleted = "Deleted",
 }
 
 /**
@@ -4367,7 +4540,7 @@ export enum KnownResourceRegionType {
   /** RegionalResource */
   RegionalResource = "RegionalResource",
   /** GlobalResource */
-  GlobalResource = "GlobalResource"
+  GlobalResource = "GlobalResource",
 }
 
 /**
@@ -4393,7 +4566,7 @@ export enum KnownTopicTypeProvisioningState {
   /** Canceled */
   Canceled = "Canceled",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -4419,7 +4592,7 @@ export enum KnownTopicTypeSourceScope {
   /** AzureSubscription */
   AzureSubscription = "AzureSubscription",
   /** ManagementGroup */
-  ManagementGroup = "ManagementGroup"
+  ManagementGroup = "ManagementGroup",
 }
 
 /**
@@ -4447,7 +4620,7 @@ export enum KnownVerifiedPartnerProvisioningState {
   /** Canceled */
   Canceled = "Canceled",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -4467,7 +4640,7 @@ export type VerifiedPartnerProvisioningState = string;
 /** Known values of {@link PartnerClientAuthenticationType} that the service accepts. */
 export enum KnownPartnerClientAuthenticationType {
   /** AzureAD */
-  AzureAD = "AzureAD"
+  AzureAD = "AzureAD",
 }
 
 /**
@@ -4490,7 +4663,7 @@ export enum KnownMonitorAlertSeverity {
   /** Sev3 */
   Sev3 = "Sev3",
   /** Sev4 */
-  Sev4 = "Sev4"
+  Sev4 = "Sev4",
 }
 
 /**
@@ -4551,7 +4724,8 @@ export interface CaCertificatesListByNamespaceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNamespaceNext operation. */
-export type CaCertificatesListByNamespaceNextResponse = CaCertificatesListResult;
+export type CaCertificatesListByNamespaceNextResponse =
+  CaCertificatesListResult;
 
 /** Optional parameters. */
 export interface ChannelsGetOptionalParams
@@ -4839,7 +5013,8 @@ export interface DomainTopicEventSubscriptionsGetDeliveryAttributesOptionalParam
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDeliveryAttributes operation. */
-export type DomainTopicEventSubscriptionsGetDeliveryAttributesResponse = DeliveryAttributeListResult;
+export type DomainTopicEventSubscriptionsGetDeliveryAttributesResponse =
+  DeliveryAttributeListResult;
 
 /** Optional parameters. */
 export interface DomainTopicEventSubscriptionsGetOptionalParams
@@ -4858,7 +5033,8 @@ export interface DomainTopicEventSubscriptionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type DomainTopicEventSubscriptionsCreateOrUpdateResponse = EventSubscription;
+export type DomainTopicEventSubscriptionsCreateOrUpdateResponse =
+  EventSubscription;
 
 /** Optional parameters. */
 export interface DomainTopicEventSubscriptionsDeleteOptionalParams
@@ -4886,7 +5062,8 @@ export interface DomainTopicEventSubscriptionsGetFullUrlOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getFullUrl operation. */
-export type DomainTopicEventSubscriptionsGetFullUrlResponse = EventSubscriptionFullUrl;
+export type DomainTopicEventSubscriptionsGetFullUrlResponse =
+  EventSubscriptionFullUrl;
 
 /** Optional parameters. */
 export interface DomainTopicEventSubscriptionsListOptionalParams
@@ -4898,21 +5075,24 @@ export interface DomainTopicEventSubscriptionsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type DomainTopicEventSubscriptionsListResponse = EventSubscriptionsListResult;
+export type DomainTopicEventSubscriptionsListResponse =
+  EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface DomainTopicEventSubscriptionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type DomainTopicEventSubscriptionsListNextResponse = EventSubscriptionsListResult;
+export type DomainTopicEventSubscriptionsListNextResponse =
+  EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface TopicEventSubscriptionsGetDeliveryAttributesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDeliveryAttributes operation. */
-export type TopicEventSubscriptionsGetDeliveryAttributesResponse = DeliveryAttributeListResult;
+export type TopicEventSubscriptionsGetDeliveryAttributesResponse =
+  DeliveryAttributeListResult;
 
 /** Optional parameters. */
 export interface TopicEventSubscriptionsGetOptionalParams
@@ -4959,7 +5139,8 @@ export interface TopicEventSubscriptionsGetFullUrlOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getFullUrl operation. */
-export type TopicEventSubscriptionsGetFullUrlResponse = EventSubscriptionFullUrl;
+export type TopicEventSubscriptionsGetFullUrlResponse =
+  EventSubscriptionFullUrl;
 
 /** Optional parameters. */
 export interface TopicEventSubscriptionsListOptionalParams
@@ -4978,14 +5159,16 @@ export interface TopicEventSubscriptionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type TopicEventSubscriptionsListNextResponse = EventSubscriptionsListResult;
+export type TopicEventSubscriptionsListNextResponse =
+  EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface DomainEventSubscriptionsGetDeliveryAttributesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDeliveryAttributes operation. */
-export type DomainEventSubscriptionsGetDeliveryAttributesResponse = DeliveryAttributeListResult;
+export type DomainEventSubscriptionsGetDeliveryAttributesResponse =
+  DeliveryAttributeListResult;
 
 /** Optional parameters. */
 export interface DomainEventSubscriptionsGetOptionalParams
@@ -5032,7 +5215,8 @@ export interface DomainEventSubscriptionsGetFullUrlOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getFullUrl operation. */
-export type DomainEventSubscriptionsGetFullUrlResponse = EventSubscriptionFullUrl;
+export type DomainEventSubscriptionsGetFullUrlResponse =
+  EventSubscriptionFullUrl;
 
 /** Optional parameters. */
 export interface DomainEventSubscriptionsListOptionalParams
@@ -5051,14 +5235,16 @@ export interface DomainEventSubscriptionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type DomainEventSubscriptionsListNextResponse = EventSubscriptionsListResult;
+export type DomainEventSubscriptionsListNextResponse =
+  EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface EventSubscriptionsGetDeliveryAttributesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDeliveryAttributes operation. */
-export type EventSubscriptionsGetDeliveryAttributesResponse = DeliveryAttributeListResult;
+export type EventSubscriptionsGetDeliveryAttributesResponse =
+  DeliveryAttributeListResult;
 
 /** Optional parameters. */
 export interface EventSubscriptionsGetOptionalParams
@@ -5117,7 +5303,8 @@ export interface EventSubscriptionsListGlobalBySubscriptionOptionalParams
 }
 
 /** Contains response data for the listGlobalBySubscription operation. */
-export type EventSubscriptionsListGlobalBySubscriptionResponse = EventSubscriptionsListResult;
+export type EventSubscriptionsListGlobalBySubscriptionResponse =
+  EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface EventSubscriptionsListGlobalBySubscriptionForTopicTypeOptionalParams
@@ -5129,7 +5316,8 @@ export interface EventSubscriptionsListGlobalBySubscriptionForTopicTypeOptionalP
 }
 
 /** Contains response data for the listGlobalBySubscriptionForTopicType operation. */
-export type EventSubscriptionsListGlobalBySubscriptionForTopicTypeResponse = EventSubscriptionsListResult;
+export type EventSubscriptionsListGlobalBySubscriptionForTopicTypeResponse =
+  EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface EventSubscriptionsListGlobalByResourceGroupOptionalParams
@@ -5141,7 +5329,8 @@ export interface EventSubscriptionsListGlobalByResourceGroupOptionalParams
 }
 
 /** Contains response data for the listGlobalByResourceGroup operation. */
-export type EventSubscriptionsListGlobalByResourceGroupResponse = EventSubscriptionsListResult;
+export type EventSubscriptionsListGlobalByResourceGroupResponse =
+  EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface EventSubscriptionsListGlobalByResourceGroupForTopicTypeOptionalParams
@@ -5153,7 +5342,8 @@ export interface EventSubscriptionsListGlobalByResourceGroupForTopicTypeOptional
 }
 
 /** Contains response data for the listGlobalByResourceGroupForTopicType operation. */
-export type EventSubscriptionsListGlobalByResourceGroupForTopicTypeResponse = EventSubscriptionsListResult;
+export type EventSubscriptionsListGlobalByResourceGroupForTopicTypeResponse =
+  EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface EventSubscriptionsListRegionalBySubscriptionOptionalParams
@@ -5165,7 +5355,8 @@ export interface EventSubscriptionsListRegionalBySubscriptionOptionalParams
 }
 
 /** Contains response data for the listRegionalBySubscription operation. */
-export type EventSubscriptionsListRegionalBySubscriptionResponse = EventSubscriptionsListResult;
+export type EventSubscriptionsListRegionalBySubscriptionResponse =
+  EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface EventSubscriptionsListRegionalByResourceGroupOptionalParams
@@ -5177,7 +5368,8 @@ export interface EventSubscriptionsListRegionalByResourceGroupOptionalParams
 }
 
 /** Contains response data for the listRegionalByResourceGroup operation. */
-export type EventSubscriptionsListRegionalByResourceGroupResponse = EventSubscriptionsListResult;
+export type EventSubscriptionsListRegionalByResourceGroupResponse =
+  EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface EventSubscriptionsListRegionalBySubscriptionForTopicTypeOptionalParams
@@ -5189,7 +5381,8 @@ export interface EventSubscriptionsListRegionalBySubscriptionForTopicTypeOptiona
 }
 
 /** Contains response data for the listRegionalBySubscriptionForTopicType operation. */
-export type EventSubscriptionsListRegionalBySubscriptionForTopicTypeResponse = EventSubscriptionsListResult;
+export type EventSubscriptionsListRegionalBySubscriptionForTopicTypeResponse =
+  EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface EventSubscriptionsListRegionalByResourceGroupForTopicTypeOptionalParams
@@ -5201,7 +5394,8 @@ export interface EventSubscriptionsListRegionalByResourceGroupForTopicTypeOption
 }
 
 /** Contains response data for the listRegionalByResourceGroupForTopicType operation. */
-export type EventSubscriptionsListRegionalByResourceGroupForTopicTypeResponse = EventSubscriptionsListResult;
+export type EventSubscriptionsListRegionalByResourceGroupForTopicTypeResponse =
+  EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface EventSubscriptionsListByResourceOptionalParams
@@ -5213,7 +5407,8 @@ export interface EventSubscriptionsListByResourceOptionalParams
 }
 
 /** Contains response data for the listByResource operation. */
-export type EventSubscriptionsListByResourceResponse = EventSubscriptionsListResult;
+export type EventSubscriptionsListByResourceResponse =
+  EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface EventSubscriptionsListByDomainTopicOptionalParams
@@ -5225,84 +5420,96 @@ export interface EventSubscriptionsListByDomainTopicOptionalParams
 }
 
 /** Contains response data for the listByDomainTopic operation. */
-export type EventSubscriptionsListByDomainTopicResponse = EventSubscriptionsListResult;
+export type EventSubscriptionsListByDomainTopicResponse =
+  EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface EventSubscriptionsListGlobalBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listGlobalBySubscriptionNext operation. */
-export type EventSubscriptionsListGlobalBySubscriptionNextResponse = EventSubscriptionsListResult;
+export type EventSubscriptionsListGlobalBySubscriptionNextResponse =
+  EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface EventSubscriptionsListGlobalBySubscriptionForTopicTypeNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listGlobalBySubscriptionForTopicTypeNext operation. */
-export type EventSubscriptionsListGlobalBySubscriptionForTopicTypeNextResponse = EventSubscriptionsListResult;
+export type EventSubscriptionsListGlobalBySubscriptionForTopicTypeNextResponse =
+  EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface EventSubscriptionsListGlobalByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listGlobalByResourceGroupNext operation. */
-export type EventSubscriptionsListGlobalByResourceGroupNextResponse = EventSubscriptionsListResult;
+export type EventSubscriptionsListGlobalByResourceGroupNextResponse =
+  EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface EventSubscriptionsListGlobalByResourceGroupForTopicTypeNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listGlobalByResourceGroupForTopicTypeNext operation. */
-export type EventSubscriptionsListGlobalByResourceGroupForTopicTypeNextResponse = EventSubscriptionsListResult;
+export type EventSubscriptionsListGlobalByResourceGroupForTopicTypeNextResponse =
+  EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface EventSubscriptionsListRegionalBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listRegionalBySubscriptionNext operation. */
-export type EventSubscriptionsListRegionalBySubscriptionNextResponse = EventSubscriptionsListResult;
+export type EventSubscriptionsListRegionalBySubscriptionNextResponse =
+  EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface EventSubscriptionsListRegionalByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listRegionalByResourceGroupNext operation. */
-export type EventSubscriptionsListRegionalByResourceGroupNextResponse = EventSubscriptionsListResult;
+export type EventSubscriptionsListRegionalByResourceGroupNextResponse =
+  EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface EventSubscriptionsListRegionalBySubscriptionForTopicTypeNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listRegionalBySubscriptionForTopicTypeNext operation. */
-export type EventSubscriptionsListRegionalBySubscriptionForTopicTypeNextResponse = EventSubscriptionsListResult;
+export type EventSubscriptionsListRegionalBySubscriptionForTopicTypeNextResponse =
+  EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface EventSubscriptionsListRegionalByResourceGroupForTopicTypeNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listRegionalByResourceGroupForTopicTypeNext operation. */
-export type EventSubscriptionsListRegionalByResourceGroupForTopicTypeNextResponse = EventSubscriptionsListResult;
+export type EventSubscriptionsListRegionalByResourceGroupForTopicTypeNextResponse =
+  EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface EventSubscriptionsListByResourceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceNext operation. */
-export type EventSubscriptionsListByResourceNextResponse = EventSubscriptionsListResult;
+export type EventSubscriptionsListByResourceNextResponse =
+  EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface EventSubscriptionsListByDomainTopicNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDomainTopicNext operation. */
-export type EventSubscriptionsListByDomainTopicNextResponse = EventSubscriptionsListResult;
+export type EventSubscriptionsListByDomainTopicNextResponse =
+  EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface SystemTopicEventSubscriptionsGetDeliveryAttributesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDeliveryAttributes operation. */
-export type SystemTopicEventSubscriptionsGetDeliveryAttributesResponse = DeliveryAttributeListResult;
+export type SystemTopicEventSubscriptionsGetDeliveryAttributesResponse =
+  DeliveryAttributeListResult;
 
 /** Optional parameters. */
 export interface SystemTopicEventSubscriptionsGetOptionalParams
@@ -5321,7 +5528,8 @@ export interface SystemTopicEventSubscriptionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type SystemTopicEventSubscriptionsCreateOrUpdateResponse = EventSubscription;
+export type SystemTopicEventSubscriptionsCreateOrUpdateResponse =
+  EventSubscription;
 
 /** Optional parameters. */
 export interface SystemTopicEventSubscriptionsDeleteOptionalParams
@@ -5349,7 +5557,8 @@ export interface SystemTopicEventSubscriptionsGetFullUrlOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getFullUrl operation. */
-export type SystemTopicEventSubscriptionsGetFullUrlResponse = EventSubscriptionFullUrl;
+export type SystemTopicEventSubscriptionsGetFullUrlResponse =
+  EventSubscriptionFullUrl;
 
 /** Optional parameters. */
 export interface SystemTopicEventSubscriptionsListBySystemTopicOptionalParams
@@ -5361,14 +5570,16 @@ export interface SystemTopicEventSubscriptionsListBySystemTopicOptionalParams
 }
 
 /** Contains response data for the listBySystemTopic operation. */
-export type SystemTopicEventSubscriptionsListBySystemTopicResponse = EventSubscriptionsListResult;
+export type SystemTopicEventSubscriptionsListBySystemTopicResponse =
+  EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface SystemTopicEventSubscriptionsListBySystemTopicNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySystemTopicNext operation. */
-export type SystemTopicEventSubscriptionsListBySystemTopicNextResponse = EventSubscriptionsListResult;
+export type SystemTopicEventSubscriptionsListBySystemTopicNextResponse =
+  EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface NamespaceTopicEventSubscriptionsGetOptionalParams
@@ -5387,7 +5598,8 @@ export interface NamespaceTopicEventSubscriptionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type NamespaceTopicEventSubscriptionsCreateOrUpdateResponse = Subscription;
+export type NamespaceTopicEventSubscriptionsCreateOrUpdateResponse =
+  Subscription;
 
 /** Optional parameters. */
 export interface NamespaceTopicEventSubscriptionsDeleteOptionalParams
@@ -5420,21 +5632,32 @@ export interface NamespaceTopicEventSubscriptionsListByNamespaceTopicOptionalPar
 }
 
 /** Contains response data for the listByNamespaceTopic operation. */
-export type NamespaceTopicEventSubscriptionsListByNamespaceTopicResponse = SubscriptionsListResult;
+export type NamespaceTopicEventSubscriptionsListByNamespaceTopicResponse =
+  SubscriptionsListResult;
 
 /** Optional parameters. */
 export interface NamespaceTopicEventSubscriptionsGetDeliveryAttributesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDeliveryAttributes operation. */
-export type NamespaceTopicEventSubscriptionsGetDeliveryAttributesResponse = DeliveryAttributeListResult;
+export type NamespaceTopicEventSubscriptionsGetDeliveryAttributesResponse =
+  DeliveryAttributeListResult;
+
+/** Optional parameters. */
+export interface NamespaceTopicEventSubscriptionsGetFullUrlOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getFullUrl operation. */
+export type NamespaceTopicEventSubscriptionsGetFullUrlResponse =
+  SubscriptionFullUrl;
 
 /** Optional parameters. */
 export interface NamespaceTopicEventSubscriptionsListByNamespaceTopicNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNamespaceTopicNext operation. */
-export type NamespaceTopicEventSubscriptionsListByNamespaceTopicNextResponse = SubscriptionsListResult;
+export type NamespaceTopicEventSubscriptionsListByNamespaceTopicNextResponse =
+  SubscriptionsListResult;
 
 /** Optional parameters. */
 export interface PartnerTopicEventSubscriptionsGetOptionalParams
@@ -5453,7 +5676,8 @@ export interface PartnerTopicEventSubscriptionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type PartnerTopicEventSubscriptionsCreateOrUpdateResponse = EventSubscription;
+export type PartnerTopicEventSubscriptionsCreateOrUpdateResponse =
+  EventSubscription;
 
 /** Optional parameters. */
 export interface PartnerTopicEventSubscriptionsDeleteOptionalParams
@@ -5481,7 +5705,8 @@ export interface PartnerTopicEventSubscriptionsGetFullUrlOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getFullUrl operation. */
-export type PartnerTopicEventSubscriptionsGetFullUrlResponse = EventSubscriptionFullUrl;
+export type PartnerTopicEventSubscriptionsGetFullUrlResponse =
+  EventSubscriptionFullUrl;
 
 /** Optional parameters. */
 export interface PartnerTopicEventSubscriptionsListByPartnerTopicOptionalParams
@@ -5493,21 +5718,24 @@ export interface PartnerTopicEventSubscriptionsListByPartnerTopicOptionalParams
 }
 
 /** Contains response data for the listByPartnerTopic operation. */
-export type PartnerTopicEventSubscriptionsListByPartnerTopicResponse = EventSubscriptionsListResult;
+export type PartnerTopicEventSubscriptionsListByPartnerTopicResponse =
+  EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface PartnerTopicEventSubscriptionsGetDeliveryAttributesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDeliveryAttributes operation. */
-export type PartnerTopicEventSubscriptionsGetDeliveryAttributesResponse = DeliveryAttributeListResult;
+export type PartnerTopicEventSubscriptionsGetDeliveryAttributesResponse =
+  DeliveryAttributeListResult;
 
 /** Optional parameters. */
 export interface PartnerTopicEventSubscriptionsListByPartnerTopicNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPartnerTopicNext operation. */
-export type PartnerTopicEventSubscriptionsListByPartnerTopicNextResponse = EventSubscriptionsListResult;
+export type PartnerTopicEventSubscriptionsListByPartnerTopicNextResponse =
+  EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface NamespacesGetOptionalParams
@@ -5591,6 +5819,19 @@ export interface NamespacesRegenerateKeyOptionalParams
 
 /** Contains response data for the regenerateKey operation. */
 export type NamespacesRegenerateKeyResponse = NamespaceSharedAccessKeys;
+
+/** Optional parameters. */
+export interface NamespacesValidateCustomDomainOwnershipOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the validateCustomDomainOwnership operation. */
+export type NamespacesValidateCustomDomainOwnershipResponse =
+  CustomDomainOwnershipValidationResult;
 
 /** Optional parameters. */
 export interface NamespacesListBySubscriptionNextOptionalParams
@@ -5682,7 +5923,8 @@ export interface NamespaceTopicsListByNamespaceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNamespaceNext operation. */
-export type NamespaceTopicsListByNamespaceNextResponse = NamespaceTopicsListResult;
+export type NamespaceTopicsListByNamespaceNextResponse =
+  NamespaceTopicsListResult;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -5736,7 +5978,8 @@ export interface PartnerConfigurationsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type PartnerConfigurationsListByResourceGroupResponse = PartnerConfigurationsListResult;
+export type PartnerConfigurationsListByResourceGroupResponse =
+  PartnerConfigurationsListResult;
 
 /** Optional parameters. */
 export interface PartnerConfigurationsListBySubscriptionOptionalParams
@@ -5748,28 +5991,32 @@ export interface PartnerConfigurationsListBySubscriptionOptionalParams
 }
 
 /** Contains response data for the listBySubscription operation. */
-export type PartnerConfigurationsListBySubscriptionResponse = PartnerConfigurationsListResult;
+export type PartnerConfigurationsListBySubscriptionResponse =
+  PartnerConfigurationsListResult;
 
 /** Optional parameters. */
 export interface PartnerConfigurationsAuthorizePartnerOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the authorizePartner operation. */
-export type PartnerConfigurationsAuthorizePartnerResponse = PartnerConfiguration;
+export type PartnerConfigurationsAuthorizePartnerResponse =
+  PartnerConfiguration;
 
 /** Optional parameters. */
 export interface PartnerConfigurationsUnauthorizePartnerOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the unauthorizePartner operation. */
-export type PartnerConfigurationsUnauthorizePartnerResponse = PartnerConfiguration;
+export type PartnerConfigurationsUnauthorizePartnerResponse =
+  PartnerConfiguration;
 
 /** Optional parameters. */
 export interface PartnerConfigurationsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type PartnerConfigurationsListBySubscriptionNextResponse = PartnerConfigurationsListResult;
+export type PartnerConfigurationsListBySubscriptionNextResponse =
+  PartnerConfigurationsListResult;
 
 /** Optional parameters. */
 export interface PartnerDestinationsGetOptionalParams
@@ -5821,7 +6068,8 @@ export interface PartnerDestinationsListBySubscriptionOptionalParams
 }
 
 /** Contains response data for the listBySubscription operation. */
-export type PartnerDestinationsListBySubscriptionResponse = PartnerDestinationsListResult;
+export type PartnerDestinationsListBySubscriptionResponse =
+  PartnerDestinationsListResult;
 
 /** Optional parameters. */
 export interface PartnerDestinationsListByResourceGroupOptionalParams
@@ -5833,7 +6081,8 @@ export interface PartnerDestinationsListByResourceGroupOptionalParams
 }
 
 /** Contains response data for the listByResourceGroup operation. */
-export type PartnerDestinationsListByResourceGroupResponse = PartnerDestinationsListResult;
+export type PartnerDestinationsListByResourceGroupResponse =
+  PartnerDestinationsListResult;
 
 /** Optional parameters. */
 export interface PartnerDestinationsActivateOptionalParams
@@ -5847,14 +6096,16 @@ export interface PartnerDestinationsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type PartnerDestinationsListBySubscriptionNextResponse = PartnerDestinationsListResult;
+export type PartnerDestinationsListBySubscriptionNextResponse =
+  PartnerDestinationsListResult;
 
 /** Optional parameters. */
 export interface PartnerDestinationsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type PartnerDestinationsListByResourceGroupNextResponse = PartnerDestinationsListResult;
+export type PartnerDestinationsListByResourceGroupNextResponse =
+  PartnerDestinationsListResult;
 
 /** Optional parameters. */
 export interface PartnerNamespacesGetOptionalParams
@@ -5903,7 +6154,8 @@ export interface PartnerNamespacesListBySubscriptionOptionalParams
 }
 
 /** Contains response data for the listBySubscription operation. */
-export type PartnerNamespacesListBySubscriptionResponse = PartnerNamespacesListResult;
+export type PartnerNamespacesListBySubscriptionResponse =
+  PartnerNamespacesListResult;
 
 /** Optional parameters. */
 export interface PartnerNamespacesListByResourceGroupOptionalParams
@@ -5915,35 +6167,40 @@ export interface PartnerNamespacesListByResourceGroupOptionalParams
 }
 
 /** Contains response data for the listByResourceGroup operation. */
-export type PartnerNamespacesListByResourceGroupResponse = PartnerNamespacesListResult;
+export type PartnerNamespacesListByResourceGroupResponse =
+  PartnerNamespacesListResult;
 
 /** Optional parameters. */
 export interface PartnerNamespacesListSharedAccessKeysOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSharedAccessKeys operation. */
-export type PartnerNamespacesListSharedAccessKeysResponse = PartnerNamespaceSharedAccessKeys;
+export type PartnerNamespacesListSharedAccessKeysResponse =
+  PartnerNamespaceSharedAccessKeys;
 
 /** Optional parameters. */
 export interface PartnerNamespacesRegenerateKeyOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the regenerateKey operation. */
-export type PartnerNamespacesRegenerateKeyResponse = PartnerNamespaceSharedAccessKeys;
+export type PartnerNamespacesRegenerateKeyResponse =
+  PartnerNamespaceSharedAccessKeys;
 
 /** Optional parameters. */
 export interface PartnerNamespacesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type PartnerNamespacesListBySubscriptionNextResponse = PartnerNamespacesListResult;
+export type PartnerNamespacesListBySubscriptionNextResponse =
+  PartnerNamespacesListResult;
 
 /** Optional parameters. */
 export interface PartnerNamespacesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type PartnerNamespacesListByResourceGroupNextResponse = PartnerNamespacesListResult;
+export type PartnerNamespacesListByResourceGroupNextResponse =
+  PartnerNamespacesListResult;
 
 /** Optional parameters. */
 export interface PartnerRegistrationsGetOptionalParams
@@ -5992,7 +6249,8 @@ export interface PartnerRegistrationsListBySubscriptionOptionalParams
 }
 
 /** Contains response data for the listBySubscription operation. */
-export type PartnerRegistrationsListBySubscriptionResponse = PartnerRegistrationsListResult;
+export type PartnerRegistrationsListBySubscriptionResponse =
+  PartnerRegistrationsListResult;
 
 /** Optional parameters. */
 export interface PartnerRegistrationsListByResourceGroupOptionalParams
@@ -6004,21 +6262,24 @@ export interface PartnerRegistrationsListByResourceGroupOptionalParams
 }
 
 /** Contains response data for the listByResourceGroup operation. */
-export type PartnerRegistrationsListByResourceGroupResponse = PartnerRegistrationsListResult;
+export type PartnerRegistrationsListByResourceGroupResponse =
+  PartnerRegistrationsListResult;
 
 /** Optional parameters. */
 export interface PartnerRegistrationsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type PartnerRegistrationsListBySubscriptionNextResponse = PartnerRegistrationsListResult;
+export type PartnerRegistrationsListBySubscriptionNextResponse =
+  PartnerRegistrationsListResult;
 
 /** Optional parameters. */
 export interface PartnerRegistrationsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type PartnerRegistrationsListByResourceGroupNextResponse = PartnerRegistrationsListResult;
+export type PartnerRegistrationsListByResourceGroupNextResponse =
+  PartnerRegistrationsListResult;
 
 /** Optional parameters. */
 export interface PartnerTopicsGetOptionalParams
@@ -6093,21 +6354,24 @@ export interface PartnerTopicsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type PartnerTopicsListBySubscriptionNextResponse = PartnerTopicsListResult;
+export type PartnerTopicsListBySubscriptionNextResponse =
+  PartnerTopicsListResult;
 
 /** Optional parameters. */
 export interface PartnerTopicsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type PartnerTopicsListByResourceGroupNextResponse = PartnerTopicsListResult;
+export type PartnerTopicsListByResourceGroupNextResponse =
+  PartnerTopicsListResult;
 
 /** Optional parameters. */
 export interface NetworkSecurityPerimeterConfigurationsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type NetworkSecurityPerimeterConfigurationsGetResponse = NetworkSecurityPerimeterConfiguration;
+export type NetworkSecurityPerimeterConfigurationsGetResponse =
+  NetworkSecurityPerimeterConfiguration;
 
 /** Optional parameters. */
 export interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams
@@ -6119,14 +6383,16 @@ export interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams
 }
 
 /** Contains response data for the reconcile operation. */
-export type NetworkSecurityPerimeterConfigurationsReconcileResponse = NetworkSecurityPerimeterConfiguration;
+export type NetworkSecurityPerimeterConfigurationsReconcileResponse =
+  NetworkSecurityPerimeterConfiguration;
 
 /** Optional parameters. */
 export interface NetworkSecurityPerimeterConfigurationsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type NetworkSecurityPerimeterConfigurationsListResponse = NetworkSecurityPerimeterConfigurationList;
+export type NetworkSecurityPerimeterConfigurationsListResponse =
+  NetworkSecurityPerimeterConfigurationList;
 
 /** Optional parameters. */
 export interface PermissionBindingsGetOptionalParams
@@ -6166,14 +6432,16 @@ export interface PermissionBindingsListByNamespaceOptionalParams
 }
 
 /** Contains response data for the listByNamespace operation. */
-export type PermissionBindingsListByNamespaceResponse = PermissionBindingsListResult;
+export type PermissionBindingsListByNamespaceResponse =
+  PermissionBindingsListResult;
 
 /** Optional parameters. */
 export interface PermissionBindingsListByNamespaceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNamespaceNext operation. */
-export type PermissionBindingsListByNamespaceNextResponse = PermissionBindingsListResult;
+export type PermissionBindingsListByNamespaceNextResponse =
+  PermissionBindingsListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsGetOptionalParams
@@ -6192,7 +6460,8 @@ export interface PrivateEndpointConnectionsUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type PrivateEndpointConnectionsUpdateResponse = PrivateEndpointConnection;
+export type PrivateEndpointConnectionsUpdateResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
@@ -6204,7 +6473,8 @@ export interface PrivateEndpointConnectionsDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type PrivateEndpointConnectionsDeleteResponse = PrivateEndpointConnectionsDeleteHeaders;
+export type PrivateEndpointConnectionsDeleteResponse =
+  PrivateEndpointConnectionsDeleteHeaders;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListByResourceOptionalParams
@@ -6216,14 +6486,16 @@ export interface PrivateEndpointConnectionsListByResourceOptionalParams
 }
 
 /** Contains response data for the listByResource operation. */
-export type PrivateEndpointConnectionsListByResourceResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListByResourceResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListByResourceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceNext operation. */
-export type PrivateEndpointConnectionsListByResourceNextResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListByResourceNextResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesGetOptionalParams
@@ -6242,14 +6514,16 @@ export interface PrivateLinkResourcesListByResourceOptionalParams
 }
 
 /** Contains response data for the listByResource operation. */
-export type PrivateLinkResourcesListByResourceResponse = PrivateLinkResourcesListResult;
+export type PrivateLinkResourcesListByResourceResponse =
+  PrivateLinkResourcesListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesListByResourceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceNext operation. */
-export type PrivateLinkResourcesListByResourceNextResponse = PrivateLinkResourcesListResult;
+export type PrivateLinkResourcesListByResourceNextResponse =
+  PrivateLinkResourcesListResult;
 
 /** Optional parameters. */
 export interface SystemTopicsGetOptionalParams
@@ -6327,7 +6601,8 @@ export interface SystemTopicsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type SystemTopicsListByResourceGroupNextResponse = SystemTopicsListResult;
+export type SystemTopicsListByResourceGroupNextResponse =
+  SystemTopicsListResult;
 
 /** Optional parameters. */
 export interface TopicsGetOptionalParams extends coreClient.OperationOptions {}

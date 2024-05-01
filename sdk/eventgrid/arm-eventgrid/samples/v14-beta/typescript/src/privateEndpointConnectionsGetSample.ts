@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a specific private endpoint connection under a topic, domain, or partner namespace or namespace.
  *
  * @summary Get a specific private endpoint connection under a topic, domain, or partner namespace or namespace.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/PrivateEndpointConnections_Get.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/PrivateEndpointConnections_Get.json
  */
 async function privateEndpointConnectionsGet() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function privateEndpointConnectionsGet() {
     resourceGroupName,
     parentType,
     parentName,
-    privateEndpointConnectionName
+    privateEndpointConnectionName,
   );
   console.log(result);
 }

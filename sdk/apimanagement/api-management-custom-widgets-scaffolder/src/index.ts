@@ -11,11 +11,11 @@ export {
   TECHNOLOGIES,
   displayNameToName,
   widgetFolderName,
-} from "./scaffolding";
-export { generateProject } from "./generateProject";
+} from "./scaffolding.js";
+export { generateProject } from "./generateProject.js";
 export type {
   WidgetConfig as CustomWidgetCommonConfig,
   ServiceInformation as DeploymentConfig,
   Options,
   ScaffoldTech,
-} from "./scaffolding";
+} from "./scaffolding.js";

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   DomainUpdateParameters,
-  EventGridManagementClient
+  EventGridManagementClient,
 } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Asynchronously updates a domain with the specified parameters.
  *
  * @summary Asynchronously updates a domain with the specified parameters.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/Domains_Update.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/Domains_Update.json
  */
 async function domainsUpdate() {
   const subscriptionId =
@@ -33,17 +33,17 @@ async function domainsUpdate() {
   const domainUpdateParameters: DomainUpdateParameters = {
     inboundIpRules: [
       { action: "Allow", ipMask: "12.18.30.15" },
-      { action: "Allow", ipMask: "12.18.176.1" }
+      { action: "Allow", ipMask: "12.18.176.1" },
     ],
     publicNetworkAccess: "Enabled",
-    tags: { tag1: "value1", tag2: "value2" }
+    tags: { tag1: "value1", tag2: "value2" },
   };
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
   const result = await client.domains.beginUpdateAndWait(
     resourceGroupName,
     domainName,
-    domainUpdateParameters
+    domainUpdateParameters,
   );
   console.log(result);
 }

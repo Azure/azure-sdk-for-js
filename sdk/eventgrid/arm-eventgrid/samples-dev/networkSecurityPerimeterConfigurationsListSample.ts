@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get all network security perimeter configurations associated with a topic or domain.
  *
  * @summary Get all network security perimeter configurations associated with a topic or domain.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/NetworkSecurityPerimeterConfigurations_List.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/NetworkSecurityPerimeterConfigurations_List.json
  */
 async function networkSecurityPerimeterConfigurationsList() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function networkSecurityPerimeterConfigurationsList() {
   for await (let item of client.networkSecurityPerimeterConfigurations.list(
     resourceGroupName,
     resourceType,
-    resourceName
+    resourceName,
   )) {
     resArray.push(item);
   }
