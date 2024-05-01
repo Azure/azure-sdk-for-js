@@ -58,10 +58,9 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         correlatedActivityId,
       );
 
-      if(distinctType == "None") {
+      if (distinctType == "None") {
         // this.endpoint = new NonStreamingOrderByEndpointComponent();
-      }
-      else {
+      } else {
         // this.endpoint = new NonStreamingOrderByDistinctEndpointComponent(context, partitionedQueryExecutionInfo.queryInfo);
       }
     } else {
