@@ -34,8 +34,8 @@ export class EncryptionProcessor {
     if (!body) {
       throw new Error("Input body is null or undefined.");
     }
-
     const encryptionSettings = await this.getEncryptionSetting();
+    if (!encryptionSettings) return body;
     for (const pathToEncrypt of encryptionSettings.pathsToEncrypt) {
       const propertyName = pathToEncrypt.slice(1);
       if (!Object.prototype.hasOwnProperty.call(body, propertyName)) {
@@ -46,7 +46,6 @@ export class EncryptionProcessor {
       if (!settingForProperty) {
         throw new Error("Invalid Encryption Setting for the Property: " + propertyName);
       }
-
       body[propertyName as keyof T] = await this.encryptToken(
         body[propertyName],
         settingForProperty,
@@ -57,7 +56,9 @@ export class EncryptionProcessor {
   }
 
   async encryptProperty(path: string, value: any): Promise<any> {
+    path = EncryptionProcessor.extractPath(path);
     const encryptionSettings = await this.getEncryptionSetting();
+    if (!encryptionSettings) return value;
     const settingForProperty = encryptionSettings.getEncryptionSettingForProperty(path);
     if (!settingForProperty) {
       return value;
@@ -71,9 +72,10 @@ export class EncryptionProcessor {
     partitionKeyList: PartitionKeyInternal,
   ): Promise<PartitionKeyInternal> {
     const encryptionSettings = await this.getEncryptionSetting();
+    if (!encryptionSettings) return partitionKeyList;
     const partitionKeyPaths = encryptionSettings.partitionKeyPaths;
     for (let i = 0; i < partitionKeyPaths.length; i++) {
-      const partitionKeyPath = EncryptionProcessor.extractPartitionKeyPath(partitionKeyPaths[i]);
+      const partitionKeyPath = EncryptionProcessor.extractPath(partitionKeyPaths[i]);
       if (encryptionSettings.pathsToEncrypt.includes(partitionKeyPath)) {
         const settingForProperty =
           encryptionSettings.getEncryptionSettingForProperty(partitionKeyPath);
@@ -97,6 +99,7 @@ export class EncryptionProcessor {
 
   async getEncryptedId(id: string): Promise<string> {
     const encryptionSettings = await this.getEncryptionSetting();
+    if (!encryptionSettings) return id;
     const settingForProperty = encryptionSettings.getEncryptionSettingForProperty("/id");
 
     if (!settingForProperty) return id;
@@ -104,15 +107,35 @@ export class EncryptionProcessor {
     return id;
   }
 
-  static extractPartitionKeyPath(path: string): string {
+  static extractPath(path: string): string {
     const secondSlashIndex = path.indexOf("/", path.indexOf("/") + 1);
     return secondSlashIndex === -1 ? path : path.substring(0, secondSlashIndex);
+  }
+
+  async encryptQueryParameter(
+    path: string,
+    value: any,
+    isValueId: boolean,
+    type?: TypeMarker,
+  ): Promise<string> {
+    if (value === null) {
+      return value;
+    }
+    path = EncryptionProcessor.extractPath(path);
+    const encryptionSettings = await this.getEncryptionSetting();
+    if (!encryptionSettings) return value;
+    const settingForProperty = encryptionSettings.getEncryptionSettingForProperty(path);
+    if (!settingForProperty) {
+      return value;
+    }
+    return this.encryptToken(value, settingForProperty, isValueId, type);
   }
 
   private async encryptToken(
     valueToEncrypt: any,
     propertySetting: EncryptionSettingForProperty,
     isValueId: boolean,
+    type?: TypeMarker,
   ): Promise<any> {
     if (typeof valueToEncrypt === "object" && valueToEncrypt !== null) {
       for (const key in valueToEncrypt) {
@@ -121,90 +144,43 @@ export class EncryptionProcessor {
             valueToEncrypt[key],
             propertySetting,
             isValueId,
+            type,
           );
         }
       }
-    } else if (Array.isArray(valueToEncrypt)) {
+    } else if (Array.isArray(type)) {
       for (let i = 0; i < valueToEncrypt.length; i++) {
-        valueToEncrypt[i] = await this.encryptToken(valueToEncrypt[i], propertySetting, isValueId);
+        valueToEncrypt[i] = await this.encryptToken(
+          valueToEncrypt[i],
+          propertySetting,
+          isValueId,
+          type,
+        );
       }
     } else {
       valueToEncrypt = await this.serializeAndEncryptValue(
         valueToEncrypt,
         propertySetting,
         isValueId,
+        type,
       );
     }
     return valueToEncrypt;
-  }
-
-  async serializeAndEncryptQueryParameter(
-    path: string,
-    value: any,
-    typeMarker: TypeMarker,
-    isValueId: boolean,
-  ): Promise<string> {
-    if (value === null) {
-      return value;
-    }
-    const encryptionSettings = await this.getEncryptionSetting();
-    const settingForProperty = encryptionSettings.getEncryptionSettingForProperty(path);
-    if (!settingForProperty) {
-      return value;
-    }
-    let serializer: Serializer;
-    switch (typeMarker) {
-      case TypeMarker.Boolean:
-        serializer = BooleanSerializer.getInstance();
-        break;
-      case TypeMarker.String:
-        serializer = StringSerializer.getInstance();
-        break;
-      case TypeMarker.Double:
-        serializer = FloatSerializer.getInstance();
-        break;
-      case TypeMarker.Long:
-        serializer = NumberSerializer.getInstance();
-        break;
-      default:
-        throw new Error("Invalid or Unsupported data type passed.");
-    }
-    const plainText = serializer.serialize(value);
-    const encryptionAlgorithm = await this.buildEncryptionAlgorithm(settingForProperty);
-    const cipherText = encryptionAlgorithm.encrypt(plainText);
-    if (isValueId) {
-      if (typeof value !== "string") {
-        throw new Error("The id should be of string type.");
-      }
-    }
-
-    const cipherTextWithTypeMarker = Buffer.alloc(cipherText.length + 1);
-    cipherTextWithTypeMarker[0] = typeMarker;
-    cipherText.forEach((val, index) => {
-      cipherTextWithTypeMarker[index + 1] = val;
-    });
-
-    let encryptedValue = Buffer.from(cipherTextWithTypeMarker).toString("base64");
-    if (isValueId) {
-      encryptedValue = encryptedValue.replace(/\//g, "_").replace(/\+/g, "-");
-    }
-    return encryptedValue;
   }
 
   private async serializeAndEncryptValue(
     valueToEncrypt: any,
     propertySetting: EncryptionSettingForProperty,
     isValueId: boolean,
+    type?: TypeMarker,
   ): Promise<string> {
     if (valueToEncrypt === null) {
       return valueToEncrypt;
     }
-    const [typeMarker, serializer] = EncryptionProcessor.createSerializer(valueToEncrypt);
+    const [typeMarker, serializer] = EncryptionProcessor.createSerializer(valueToEncrypt, type);
     const plainText = serializer.serialize(valueToEncrypt);
-
     const encryptionAlgorithm = await this.buildEncryptionAlgorithm(propertySetting);
     const cipherText = encryptionAlgorithm.encrypt(plainText);
-
     if (isValueId) {
       if (typeof valueToEncrypt !== "string") {
         throw new Error("The id should be of string type.");
@@ -225,21 +201,41 @@ export class EncryptionProcessor {
   }
 
   private static createSerializer(
-    propertyValue: boolean | string | number,
+    propertyValue: boolean | string | number | Date,
+    type?: TypeMarker,
   ): [TypeMarker, Serializer] {
-    switch (typeof propertyValue) {
-      case "boolean":
-        return [TypeMarker.Boolean, BooleanSerializer.getInstance()];
-      case "string":
+    if (type) {
+      if (type === TypeMarker.Long) {
+        return [TypeMarker.Long, NumberSerializer.getInstance()];
+      } else if (type === TypeMarker.Double) {
+        return [TypeMarker.Double, FloatSerializer.getInstance()];
+      } else if (type === TypeMarker.String) {
         return [TypeMarker.String, StringSerializer.getInstance()];
-      case "number":
-        if (!Number.isInteger(propertyValue)) {
-          return [TypeMarker.Double, FloatSerializer.getInstance()];
-        } else {
-          return [TypeMarker.Long, NumberSerializer.getInstance()];
-        }
-      default:
+      } else if (type === TypeMarker.Boolean) {
+        return [TypeMarker.Boolean, BooleanSerializer.getInstance()];
+      } else {
         throw new Error("Invalid or Unsupported data type passed.");
+      }
+    } else {
+      switch (typeof propertyValue) {
+        case "boolean":
+          return [TypeMarker.Boolean, BooleanSerializer.getInstance()];
+        case "string":
+          return [TypeMarker.String, StringSerializer.getInstance()];
+        case "object":
+          if (propertyValue.constructor === Date) {
+            return [TypeMarker.String, StringSerializer.getInstance()];
+          }
+          throw new Error("Invalid or Unsupported data type passed.");
+        case "number":
+          if (!Number.isInteger(propertyValue)) {
+            return [TypeMarker.Double, FloatSerializer.getInstance()];
+          } else {
+            return [TypeMarker.Long, NumberSerializer.getInstance()];
+          }
+        default:
+          throw new Error("Invalid or Unsupported data type passed.");
+      }
     }
   }
 
@@ -248,6 +244,7 @@ export class EncryptionProcessor {
       return body;
     }
     const encryptionSettings = await this.getEncryptionSetting();
+    if (!encryptionSettings) return body;
     for (const pathToEncrypt of encryptionSettings.pathsToEncrypt) {
       const propertyName = pathToEncrypt.slice(1);
       if (!Object.prototype.hasOwnProperty.call(body, propertyName)) {
@@ -297,14 +294,13 @@ export class EncryptionProcessor {
   }
 
   private async deserializeAndDecryptValue(
-    valueToDecrypt: any,
+    valueToDecrypt: string,
     propertySetting: EncryptionSettingForProperty,
     isValueId: boolean,
   ): Promise<any> {
     if (isValueId) {
       valueToDecrypt = valueToDecrypt.replace(/_/g, "/").replace(/-/g, "+");
     }
-
     const cipherTextWithTypeMarker = Buffer.from(valueToDecrypt, "base64");
     if (cipherTextWithTypeMarker === null) {
       return null;

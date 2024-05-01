@@ -35,6 +35,7 @@ export class ProtectedDataEncryptionKey extends DataEncryptionKey {
   ): Promise<ProtectedDataEncryptionKey> {
     let rawKey: Buffer;
     let encryptedKey: Buffer;
+
     if (encryptedValue) {
       rawKey = await keyEncryptionKey.unwrapEncryptionKey(encryptedValue);
       encryptedKey = encryptedValue;

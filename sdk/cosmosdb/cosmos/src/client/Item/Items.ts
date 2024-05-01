@@ -202,11 +202,11 @@ export class Items {
       parameters: [],
     };
     for (const parameter of encryptionParameters) {
-      const value = await this.container.encryptionProcessor.serializeAndEncryptQueryParameter(
+      const value = await this.container.encryptionProcessor.encryptQueryParameter(
         parameter.path,
         parameter.value,
-        parameter.type,
         parameter.path === "/id",
+        parameter.type,
       );
       sqlQuerySpec.parameters.push({ name: parameter.name, value: value });
     }
@@ -389,21 +389,17 @@ export class Items {
         this.container,
       );
       let partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
-
       if (this.clientContext.enableEncryption) {
         body = copyObject(body);
         body = await this.container.encryptionProcessor.encrypt(body);
         partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
       }
-
       const err = {};
       if (!isItemResourceValid(body, err)) {
         throw err;
       }
-
       const path = getPathFromLink(this.container.url, ResourceType.item);
       const id = getIdFromLink(this.container.url);
-
       const response = await this.clientContext.create<T>({
         body,
         path,
@@ -413,7 +409,6 @@ export class Items {
         options,
         partitionKey,
       });
-
       if (this.clientContext.enableEncryption) {
         response.result = await this.container.encryptionProcessor.decrypt(response.result);
         partitionKey = extractPartitionKeys(response.result, partitionKeyDefinition);

@@ -1070,11 +1070,17 @@ export class EncryptionKeyWrapMetadata {
 export class EncryptionQueryBuilder {
     constructor(query: string);
     // (undocumented)
+    addArrayParameter(name: string, value: JSONArray, path: string): void;
+    // (undocumented)
     addBooleanParameter(name: string, value: boolean, path: string): void;
+    // (undocumented)
+    addDateParameter(name: string, value: Date, path: string): void;
     // (undocumented)
     addFloatParameter(name: string, value: number, path: string): void;
     // (undocumented)
     addIntegerParameter(name: string, value: number, path: string): void;
+    // (undocumented)
+    addObjectParameter(name: string, value: JSONObject, path: string): void;
     // (undocumented)
     addStringParameter(name: string, value: string, path: string): void;
 }
@@ -1378,7 +1384,7 @@ export interface JSONObject {
 }
 
 // @public (undocumented)
-export type JSONValue = boolean | number | string | null | JSONArray | JSONObject;
+export type JSONValue = boolean | number | string | null | JSONArray | JSONObject | Date;
 
 // @public (undocumented)
 export enum KeyEncryptionKeyAlgorithm {

@@ -27,6 +27,7 @@ export class EncryptionSettings {
   ): EncryptionSettings {
     const encryptionSettings = new EncryptionSettings(id, partitionKeyPaths);
     // TODO: basic checks on clientEncryptionPolicy
+    if (!clientEncryptionPolicy) return null;
     encryptionSettings.validatePolicyFormatVersion(clientEncryptionPolicy, partitionKeyPaths);
 
     for (const includedPath of clientEncryptionPolicy.includedPaths) {

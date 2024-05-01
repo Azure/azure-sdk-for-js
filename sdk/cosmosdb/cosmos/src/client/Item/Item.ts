@@ -87,7 +87,6 @@ export class Item {
         );
         this.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
       }
-
       let path = getPathFromLink(this.url);
       let id = getIdFromLink(this.url);
 
@@ -312,7 +311,6 @@ export class Item {
         path = getPathFromLink(url);
         id = getIdFromLink(url);
       }
-
       const response = await this.clientContext.patch<T>({
         body,
         path,
@@ -322,7 +320,6 @@ export class Item {
         partitionKey: this.partitionKey,
         diagnosticNode,
       });
-
       if (this.clientContext.enableEncryption) {
         response.result = await this.container.encryptionProcessor.decrypt(response.result);
       }

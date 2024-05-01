@@ -391,6 +391,7 @@ export class Container {
       await withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
         const readResponse = await this.readInternal(diagnosticNode);
         const clientEncryptionPolicy = readResponse.resource.clientEncryptionPolicy;
+        if (!clientEncryptionPolicy) return;
         const partitionKeyPaths = readResponse.resource.partitionKey.paths;
         const key = this.database.id + "/" + this.id;
 

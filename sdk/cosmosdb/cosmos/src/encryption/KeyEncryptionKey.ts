@@ -44,7 +44,7 @@ export class KeyEncryptionKey {
   }
 
   public async wrapEncryptionKey(plainTextEncryptionKey: Buffer): Promise<Buffer> {
-    return await this.keyStoreProvider.wrapKey(
+    return this.keyStoreProvider.wrapKey(
       this.path,
       this.encryptionAlgorithm,
       plainTextEncryptionKey,
@@ -52,7 +52,7 @@ export class KeyEncryptionKey {
   }
 
   public async unwrapEncryptionKey(wrappedEncryptionKey: Buffer): Promise<Buffer> {
-    return await this.keyStoreProvider.unwrapKey(
+    return this.keyStoreProvider.unwrapKey(
       this.path,
       this.encryptionAlgorithm,
       wrappedEncryptionKey,
