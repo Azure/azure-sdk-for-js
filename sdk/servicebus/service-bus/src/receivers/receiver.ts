@@ -7,6 +7,8 @@ import {
   MessageHandlers,
   ReceiveMessagesOptions,
   SubscribeOptions,
+  DeleteMessagesOptions,
+  PurgeMessagesOptions,
 } from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { ServiceBusReceivedMessage } from "../serviceBusMessage";
@@ -52,6 +54,12 @@ import { TracingSpanLink } from "@azure/core-tracing";
  * @internal
  */
 export const defaultMaxTimeAfterFirstMessageForBatchingMs = 1000;
+
+/**
+ * The maximum number of messages to delete in a single batch.  This cap is established and enforced by the service.
+ * @internal
+ */
+export const MaxDeleteMessageCount = 4000;
 
 /**
  * A receiver that does not handle sessions.
@@ -139,6 +147,25 @@ export interface ServiceBusReceiver {
     maxMessageCount: number,
     options?: PeekMessagesOptions,
   ): Promise<ServiceBusReceivedMessage[]>;
+
+  /**
+   * Delete messages. If no option is specified, all messages will be deleted.
+   *
+   * @param options - Options to configure the operation.
+   * @returns number of messages that have been deleted.
+   */
+  deleteMessages(options: DeleteMessagesOptions): Promise<number>;
+
+  /**
+   * Attempts to purge all messages from an entity.  Locked messages are not eligible for removal and
+   * will remain in the entity.
+   *
+   * @param options - Options that allow to specify the cutoff time for deletion. Only messages that were enqueued
+   *                  before this time will be deleted.  If not specified, current time will be used.
+   * @returns number of messages deleted.
+   */
+  purgeMessages(options?: PurgeMessagesOptions): Promise<number>;
+
   /**
    * Path of the entity for which the receiver has been created.
    */
@@ -452,6 +479,56 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       abortSignal: options?.abortSignal,
     };
     return retry<ServiceBusReceivedMessage[]>(config);
+  }
+
+  async deleteMessages(options: DeleteMessagesOptions): Promise<number> {
+    this._throwIfReceiverOrConnectionClosed();
+
+    const deleteMessagesOperationPromise = (): Promise<number> => {
+      return this._context
+        .getManagementClient(this.entityPath)
+        .deleteMessages(options.maxMessageCount, options?.beforeEnqueueTime, undefined, {
+          ...options,
+          associatedLinkName: this._getAssociatedReceiverName(),
+          requestName: "deleteMessages",
+          timeoutInMs: this._retryOptions.timeoutInMs,
+        });
+    };
+    const config: RetryConfig<number> = {
+      operation: deleteMessagesOperationPromise,
+      connectionId: this._context.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: this._retryOptions,
+      abortSignal: options?.abortSignal,
+    };
+    return retry<number>(config);
+  }
+
+  async purgeMessages(options?: PurgeMessagesOptions): Promise<number> {
+    let deletedCount = await this.deleteMessages({
+      maxMessageCount: MaxDeleteMessageCount,
+      beforeEnqueueTime: options?.beforeEnqueueTime,
+    });
+    logger.verbose(
+      `${this.logPrefix} receiver '${this.identifier}' deleted ${deletedCount} messages.`,
+    );
+    if (deletedCount === MaxDeleteMessageCount) {
+      let batchCount = MaxDeleteMessageCount;
+      while (batchCount === MaxDeleteMessageCount) {
+        batchCount = await this.deleteMessages({
+          maxMessageCount: MaxDeleteMessageCount,
+          beforeEnqueueTime: options?.beforeEnqueueTime,
+        });
+        logger.verbose(
+          `${this.logPrefix} receiver '${this.identifier}' deleted ${batchCount} messages.`,
+        );
+        deletedCount += batchCount;
+      }
+    }
+    logger.verbose(
+      `${this.logPrefix} receiver '${this.identifier}' purged ${deletedCount} messages.`,
+    );
+    return deletedCount;
   }
 
   // ManagementClient methods # Begin

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the full endpoint URL for an event subscription of a system topic.
  *
  * @summary Get the full endpoint URL for an event subscription of a system topic.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/SystemTopicEventSubscriptions_GetFullUrl.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/SystemTopicEventSubscriptions_GetFullUrl.json
  */
 async function systemTopicEventSubscriptionsGetFullUrl() {
   const subscriptionId =

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Asynchronously creates a new system topic with the specified parameters.
  *
  * @summary Asynchronously creates a new system topic with the specified parameters.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/SystemTopics_CreateOrUpdate.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/SystemTopics_CreateOrUpdate.json
  */
 async function systemTopicsCreateOrUpdate() {
   const subscriptionId =
@@ -32,14 +32,14 @@ async function systemTopicsCreateOrUpdate() {
     source:
       "/subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/azureeventgridrunnerrgcentraluseuap/providers/microsoft.storage/storageaccounts/pubstgrunnerb71cd29e",
     tags: { tag1: "value1", tag2: "value2" },
-    topicType: "microsoft.storage.storageaccounts"
+    topicType: "microsoft.storage.storageaccounts",
   };
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential, subscriptionId);
   const result = await client.systemTopics.beginCreateOrUpdateAndWait(
     resourceGroupName,
     systemTopicName,
-    systemTopicInfo
+    systemTopicInfo,
   );
   console.log(result);
 }

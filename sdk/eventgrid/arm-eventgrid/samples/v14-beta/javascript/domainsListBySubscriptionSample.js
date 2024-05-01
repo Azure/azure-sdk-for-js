@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List all the domains under an Azure subscription.
  *
  * @summary List all the domains under an Azure subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/Domains_ListBySubscription.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/Domains_ListBySubscription.json
  */
 async function domainsListBySubscription() {
   const subscriptionId =

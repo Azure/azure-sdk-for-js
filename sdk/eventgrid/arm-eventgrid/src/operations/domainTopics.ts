@@ -16,7 +16,7 @@ import { EventGridManagementClient } from "../eventGridManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,7 +29,7 @@ import {
   DomainTopicsCreateOrUpdateOptionalParams,
   DomainTopicsCreateOrUpdateResponse,
   DomainTopicsDeleteOptionalParams,
-  DomainTopicsListByDomainNextResponse
+  DomainTopicsListByDomainNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,12 +54,12 @@ export class DomainTopicsImpl implements DomainTopics {
   public listByDomain(
     resourceGroupName: string,
     domainName: string,
-    options?: DomainTopicsListByDomainOptionalParams
+    options?: DomainTopicsListByDomainOptionalParams,
   ): PagedAsyncIterableIterator<DomainTopic> {
     const iter = this.listByDomainPagingAll(
       resourceGroupName,
       domainName,
-      options
+      options,
     );
     return {
       next() {
@@ -76,9 +76,9 @@ export class DomainTopicsImpl implements DomainTopics {
           resourceGroupName,
           domainName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -86,7 +86,7 @@ export class DomainTopicsImpl implements DomainTopics {
     resourceGroupName: string,
     domainName: string,
     options?: DomainTopicsListByDomainOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DomainTopic[]> {
     let result: DomainTopicsListByDomainResponse;
     let continuationToken = settings?.continuationToken;
@@ -102,7 +102,7 @@ export class DomainTopicsImpl implements DomainTopics {
         resourceGroupName,
         domainName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -114,12 +114,12 @@ export class DomainTopicsImpl implements DomainTopics {
   private async *listByDomainPagingAll(
     resourceGroupName: string,
     domainName: string,
-    options?: DomainTopicsListByDomainOptionalParams
+    options?: DomainTopicsListByDomainOptionalParams,
   ): AsyncIterableIterator<DomainTopic> {
     for await (const page of this.listByDomainPagingPage(
       resourceGroupName,
       domainName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -136,11 +136,11 @@ export class DomainTopicsImpl implements DomainTopics {
     resourceGroupName: string,
     domainName: string,
     domainTopicName: string,
-    options?: DomainTopicsGetOptionalParams
+    options?: DomainTopicsGetOptionalParams,
   ): Promise<DomainTopicsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, domainName, domainTopicName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -155,7 +155,7 @@ export class DomainTopicsImpl implements DomainTopics {
     resourceGroupName: string,
     domainName: string,
     domainTopicName: string,
-    options?: DomainTopicsCreateOrUpdateOptionalParams
+    options?: DomainTopicsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DomainTopicsCreateOrUpdateResponse>,
@@ -164,21 +164,20 @@ export class DomainTopicsImpl implements DomainTopics {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DomainTopicsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -187,8 +186,8 @@ export class DomainTopicsImpl implements DomainTopics {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -196,22 +195,22 @@ export class DomainTopicsImpl implements DomainTopics {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, domainName, domainTopicName, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       DomainTopicsCreateOrUpdateResponse,
       OperationState<DomainTopicsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -228,13 +227,13 @@ export class DomainTopicsImpl implements DomainTopics {
     resourceGroupName: string,
     domainName: string,
     domainTopicName: string,
-    options?: DomainTopicsCreateOrUpdateOptionalParams
+    options?: DomainTopicsCreateOrUpdateOptionalParams,
   ): Promise<DomainTopicsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       domainName,
       domainTopicName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -250,25 +249,24 @@ export class DomainTopicsImpl implements DomainTopics {
     resourceGroupName: string,
     domainName: string,
     domainTopicName: string,
-    options?: DomainTopicsDeleteOptionalParams
+    options?: DomainTopicsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -277,8 +275,8 @@ export class DomainTopicsImpl implements DomainTopics {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -286,19 +284,19 @@ export class DomainTopicsImpl implements DomainTopics {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, domainName, domainTopicName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -315,13 +313,13 @@ export class DomainTopicsImpl implements DomainTopics {
     resourceGroupName: string,
     domainName: string,
     domainTopicName: string,
-    options?: DomainTopicsDeleteOptionalParams
+    options?: DomainTopicsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       domainName,
       domainTopicName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -335,11 +333,11 @@ export class DomainTopicsImpl implements DomainTopics {
   private _listByDomain(
     resourceGroupName: string,
     domainName: string,
-    options?: DomainTopicsListByDomainOptionalParams
+    options?: DomainTopicsListByDomainOptionalParams,
   ): Promise<DomainTopicsListByDomainResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, domainName, options },
-      listByDomainOperationSpec
+      listByDomainOperationSpec,
     );
   }
 
@@ -354,11 +352,11 @@ export class DomainTopicsImpl implements DomainTopics {
     resourceGroupName: string,
     domainName: string,
     nextLink: string,
-    options?: DomainTopicsListByDomainNextOptionalParams
+    options?: DomainTopicsListByDomainNextOptionalParams,
   ): Promise<DomainTopicsListByDomainNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, domainName, nextLink, options },
-      listByDomainNextOperationSpec
+      listByDomainNextOperationSpec,
     );
   }
 }
@@ -366,14 +364,13 @@ export class DomainTopicsImpl implements DomainTopics {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}/topics/{domainTopicName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}/topics/{domainTopicName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DomainTopic
+      bodyMapper: Mappers.DomainTopic,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -381,29 +378,28 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.domainName,
-    Parameters.domainTopicName
+    Parameters.domainTopicName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}/topics/{domainTopicName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}/topics/{domainTopicName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DomainTopic
+      bodyMapper: Mappers.DomainTopic,
     },
     201: {
-      bodyMapper: Mappers.DomainTopic
+      bodyMapper: Mappers.DomainTopic,
     },
     202: {
-      bodyMapper: Mappers.DomainTopic
+      bodyMapper: Mappers.DomainTopic,
     },
     204: {
-      bodyMapper: Mappers.DomainTopic
+      bodyMapper: Mappers.DomainTopic,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -411,14 +407,13 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.domainName,
-    Parameters.domainTopicName
+    Parameters.domainTopicName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}/topics/{domainTopicName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}/topics/{domainTopicName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion],
@@ -427,46 +422,45 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.domainName,
-    Parameters.domainTopicName
+    Parameters.domainTopicName,
   ],
-  serializer
+  serializer,
 };
 const listByDomainOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}/topics",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}/topics",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DomainTopicsListResult
+      bodyMapper: Mappers.DomainTopicsListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.domainName
+    Parameters.domainName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByDomainNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DomainTopicsListResult
+      bodyMapper: Mappers.DomainTopicsListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.domainName
+    Parameters.domainName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

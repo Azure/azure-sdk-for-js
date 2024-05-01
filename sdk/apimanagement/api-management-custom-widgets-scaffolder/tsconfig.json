@@ -1,9 +1,17 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "outDir": "./dist-esm",
-    "declarationDir": "./types"
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext"
   },
   "exclude": ["./src/templates/**"],
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.cts",
+    "src/**/*.mts",
+    "test/**/*.ts",
+    "test/**/*.cts",
+    "test/**/*.mts",
+    "samples-dev/**/*.ts"
+  ]
 }
