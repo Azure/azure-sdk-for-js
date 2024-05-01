@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a server's Advanced Threat Protection settings.
  *
  * @summary Get a server's Advanced Threat Protection settings.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/ServerThreatProtectionSettingsGet.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/ServerThreatProtectionSettingsGet.json
  */
 async function getAServerThreatProtectionSettings() {
   const subscriptionId =
@@ -31,12 +31,12 @@ async function getAServerThreatProtectionSettings() {
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.serverThreatProtectionSettings.get(
     resourceGroupName,
     serverName,
-    threatProtectionName
+    threatProtectionName,
   );
   console.log(result);
 }

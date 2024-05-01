@@ -3,35 +3,38 @@
 
 /**
  * @file Rule to require client method option parameter type names to be suffixed with Options and prefixed with the class name if it is a class constructor and prefixed with the method name otherwise.
- * @author Arpan Laha
+ *
  */
 
-import { ClassDeclaration, Identifier, MethodDefinition } from "estree";
-import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
-import { getPublicMethods, getRuleMetaData } from "../utils";
-import { Rule } from "eslint";
+import { TSESTree } from "@typescript-eslint/utils";
+import { getPublicMethods, createRule } from "../utils";
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-export = {
-  meta: getRuleMetaData(
-    "ts-naming-options",
-    "require client method option parameter type names to be suffixed with Options and prefixed with the method name",
-  ),
-  create: (context: Rule.RuleContext): Rule.RuleListener => {
-    const parserServices = context.sourceCode.parserServices as ParserServices;
-    if (parserServices.program === undefined) {
-      return {};
-    }
+export default createRule({
+  name: "ts-naming-options",
+  meta: {
+    type: "suggestion",
+    docs: {
+      description:
+        "require client method option parameter type names to be suffixed with Options and prefixed with the method name",
+      recommended: "recommended",
+    },
+    messages: {
+      UnprefixedParameter: "options parameter type is not prefixed with the {{prefixKind}} name",
+    },
+    schema: [],
+    fixable: "code",
+  },
+  defaultOptions: [],
+  create(context) {
     return {
-      // callback functions
-
       // call on Client classes
-      "ClassDeclaration[id.name=/Client$/]": (node: ClassDeclaration): void => {
-        getPublicMethods(node).forEach((method: MethodDefinition): void => {
-          const methodIdentifier = method.key as Identifier;
+      "ClassDeclaration[id.name=/Client$/]": (node: TSESTree.ClassDeclaration): void => {
+        for (const method of getPublicMethods(node)) {
+          const methodIdentifier = method.key as TSESTree.Identifier;
           const TSFunction = method.value as TSESTree.FunctionExpression;
           const optionsRegex =
             // the null check will always succeed because we apply this only for
@@ -40,7 +43,7 @@ export = {
               ? new RegExp(`${node.id.name}Options`, "i")
               : new RegExp(`${methodIdentifier.name}Options`, "i");
           // look for parameters with types suffixed with Options
-          TSFunction.params.forEach((param: TSESTree.Parameter): void => {
+          for (const param of TSFunction.params) {
             // checks to validate parameter
             if (param.type === "Identifier" && param.typeAnnotation !== undefined) {
               const typeAnnotation = param.typeAnnotation.typeAnnotation;
@@ -55,15 +58,18 @@ export = {
                     const prefixKind = method.kind === "constructor" ? "class" : "method";
                     context.report({
                       node: param,
-                      message: `options parameter type is not prefixed with the ${prefixKind} name`,
+                      messageId: "UnprefixedParameter",
+                      data: {
+                        prefixKind,
+                      },
                     });
                   }
                 }
               }
             }
-          });
-        });
+          }
+        }
       },
-    } as Rule.RuleListener;
+    };
   },
-};
+});

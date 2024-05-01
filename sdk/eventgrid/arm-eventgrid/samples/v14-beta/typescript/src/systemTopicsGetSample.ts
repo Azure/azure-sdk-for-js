@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get properties of a system topic.
  *
  * @summary Get properties of a system topic.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/SystemTopics_Get.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/SystemTopics_Get.json
  */
 async function systemTopicsGet() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function systemTopicsGet() {
   const client = new EventGridManagementClient(credential, subscriptionId);
   const result = await client.systemTopics.get(
     resourceGroupName,
-    systemTopicName
+    systemTopicName,
   );
   console.log(result);
 }

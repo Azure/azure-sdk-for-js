@@ -7,13 +7,13 @@ import { ConnectionString } from "../../src/utils/internalModels";
 import { Context } from "mocha";
 import { assert } from "chai";
 import { extractConnectionStringParts } from "../../src/utils/connectionString";
-import { isNode } from "@azure/test-utils";
+import { isNodeLike } from "@azure/core-util";
 
 describe("Utility Helpers", function () {
   describe("extractConnectionStringParts", function () {
     describe("Account Connection String", function () {
       beforeEach(function (this: Context) {
-        if (!isNode) {
+        if (!isNodeLike) {
           // Account connection string is not supported for Browsers
           this.skip();
         }

@@ -2,6 +2,10 @@
 
 ## 1.0.0-beta.13 (Unreleased)
 
+### Features Added
+
+- Create a new `OpenAIError` model to represent the error model returned.
+
 ### Bugs Fixed
 
 - Fix a bug where `ChatCompletions` did not expose the `model` property.

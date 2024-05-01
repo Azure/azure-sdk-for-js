@@ -21,7 +21,7 @@ import {
 } from "../src";
 import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
-import { getYieldedValue } from "@azure/test-utils";
+import { getYieldedValue } from "@azure-tools/test-utils";
 
 describe("PageBlobClient", () => {
   let blobServiceClient: BlobServiceClient;

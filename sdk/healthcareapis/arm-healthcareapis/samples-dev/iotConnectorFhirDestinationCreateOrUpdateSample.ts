@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   IotFhirDestination,
-  HealthcareApisManagementClient
+  HealthcareApisManagementClient,
 } from "@azure/arm-healthcareapis";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates an IoT Connector FHIR destination resource with the specified parameters.
  *
  * @summary Creates or updates an IoT Connector FHIR destination resource with the specified parameters.
- * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2023-11-01/examples/iotconnectors/iotconnector_fhirdestination_Create.json
+ * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/iotconnectors/iotconnector_fhirdestination_Create.json
  */
 async function createOrUpdateAnIotConnectorFhirDestination() {
   const subscriptionId =
@@ -41,8 +41,8 @@ async function createOrUpdateAnIotConnectorFhirDestination() {
                 {
                   code: "8867-4",
                   display: "Heart rate",
-                  system: "http://loinc.org"
-                }
+                  system: "http://loinc.org",
+                },
               ],
               periodInterval: 60,
               typeName: "heartrate",
@@ -50,29 +50,30 @@ async function createOrUpdateAnIotConnectorFhirDestination() {
                 defaultPeriod: 5000,
                 unit: "count/min",
                 valueName: "hr",
-                valueType: "SampledData"
-              }
+                valueType: "SampledData",
+              },
             },
-            templateType: "CodeValueFhir"
-          }
+            templateType: "CodeValueFhir",
+          },
         ],
-        templateType: "CollectionFhirTemplate"
-      }
+        templateType: "CollectionFhirTemplate",
+      },
     },
     fhirServiceResourceId:
       "subscriptions/11111111-2222-3333-4444-555566667777/resourceGroups/myrg/providers/Microsoft.HealthcareApis/workspaces/myworkspace/fhirservices/myfhirservice",
     location: "westus",
-    resourceIdentityResolutionType: "Create"
+    resourceIdentityResolutionType: "Create",
   };
   const credential = new DefaultAzureCredential();
   const client = new HealthcareApisManagementClient(credential, subscriptionId);
-  const result = await client.iotConnectorFhirDestination.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    workspaceName,
-    iotConnectorName,
-    fhirDestinationName,
-    iotFhirDestination
-  );
+  const result =
+    await client.iotConnectorFhirDestination.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      workspaceName,
+      iotConnectorName,
+      fhirDestinationName,
+      iotFhirDestination,
+    );
   console.log(result);
 }
 

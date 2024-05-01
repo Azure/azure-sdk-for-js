@@ -40,6 +40,7 @@ import {
   AssistantDeletionStatus,
   AssistantFileDeletionStatus,
   AssistantThread,
+  AssistantThreadCreationOptions,
   CreateAndRunThreadOptions,
   CreateRunOptions,
   FileDeletionStatus,
@@ -79,7 +80,6 @@ import {
   UpdateThreadOptions,
 } from "../models/options.js";
 import {
-  AssistantThreadCreationOptions,
   CancelRun200Response,
   AssistantsContext as Client,
   CreateAssistant200Response,
@@ -122,7 +122,7 @@ import { camelCaseKeys, unixToDate } from "./util.js";
 export function _createAssistantSend(
   context: Client,
   body: AssistantCreationOptions,
-  options: CreateAssistantOptions = { requestOptions: {} }
+  options: CreateAssistantOptions = { requestOptions: {} },
 ): StreamableMethod<CreateAssistant200Response> {
   return context.path("/assistants").post({
     ...operationOptionsToRequestParameters(options),
@@ -139,7 +139,7 @@ export function _createAssistantSend(
 }
 
 export async function _createAssistantDeserialize(
-  result: CreateAssistant200Response
+  result: CreateAssistant200Response,
 ): Promise<Assistant> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -162,7 +162,7 @@ export async function _createAssistantDeserialize(
 export async function createAssistant(
   context: Client,
   body: AssistantCreationOptions,
-  options: CreateAssistantOptions = { requestOptions: {} }
+  options: CreateAssistantOptions = { requestOptions: {} },
 ): Promise<Assistant> {
   const result = await _createAssistantSend(context, body, options);
   return _createAssistantDeserialize(result);
@@ -170,7 +170,7 @@ export async function createAssistant(
 
 export function _listAssistantsSend(
   context: Client,
-  options: ListAssistantsOptions = { requestOptions: {} }
+  options: ListAssistantsOptions = { requestOptions: {} },
 ): StreamableMethod<ListAssistants200Response> {
   return context.path("/assistants").get({
     ...operationOptionsToRequestParameters(options),
@@ -186,7 +186,7 @@ export function _listAssistantsSend(
 export function _getAssistantSend(
   context: Client,
   assistantId: string,
-  options: GetAssistantOptions = { requestOptions: {} }
+  options: GetAssistantOptions = { requestOptions: {} },
 ): StreamableMethod<GetAssistant200Response> {
   return context
     .path("/assistants/{assistantId}", assistantId)
@@ -194,7 +194,7 @@ export function _getAssistantSend(
 }
 
 export async function _getAssistantDeserialize(
-  result: GetAssistant200Response
+  result: GetAssistant200Response,
 ): Promise<Assistant> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -217,7 +217,7 @@ export async function _getAssistantDeserialize(
 export async function getAssistant(
   context: Client,
   assistantId: string,
-  options: GetAssistantOptions = { requestOptions: {} }
+  options: GetAssistantOptions = { requestOptions: {} },
 ): Promise<Assistant> {
   const result = await _getAssistantSend(context, assistantId, options);
   return _getAssistantDeserialize(result);
@@ -227,7 +227,7 @@ export function _updateAssistantSend(
   context: Client,
   assistantId: string,
   body: UpdateAssistantOptions,
-  options: UpdateAssistantRequestOptions = { requestOptions: {} }
+  options: UpdateAssistantRequestOptions = { requestOptions: {} },
 ): StreamableMethod<UpdateAssistant200Response> {
   return context.path("/assistants/{assistantId}", assistantId).post({
     ...operationOptionsToRequestParameters(options),
@@ -244,7 +244,7 @@ export function _updateAssistantSend(
 }
 
 export async function _updateAssistantDeserialize(
-  result: UpdateAssistant200Response
+  result: UpdateAssistant200Response,
 ): Promise<Assistant> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -268,7 +268,7 @@ export async function updateAssistant(
   context: Client,
   assistantId: string,
   body: UpdateAssistantOptions,
-  options: UpdateAssistantRequestOptions = { requestOptions: {} }
+  options: UpdateAssistantRequestOptions = { requestOptions: {} },
 ): Promise<Assistant> {
   const result = await _updateAssistantSend(context, assistantId, body, options);
   return _updateAssistantDeserialize(result);
@@ -277,7 +277,7 @@ export async function updateAssistant(
 export function _deleteAssistantSend(
   context: Client,
   assistantId: string,
-  options: DeleteAssistantOptions = { requestOptions: {} }
+  options: DeleteAssistantOptions = { requestOptions: {} },
 ): StreamableMethod<DeleteAssistant200Response> {
   return context
     .path("/assistants/{assistantId}", assistantId)
@@ -285,7 +285,7 @@ export function _deleteAssistantSend(
 }
 
 export async function _deleteAssistantDeserialize(
-  result: DeleteAssistant200Response
+  result: DeleteAssistant200Response,
 ): Promise<AssistantDeletionStatus> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -301,7 +301,7 @@ export async function _deleteAssistantDeserialize(
 export async function deleteAssistant(
   context: Client,
   assistantId: string,
-  options: DeleteAssistantOptions = { requestOptions: {} }
+  options: DeleteAssistantOptions = { requestOptions: {} },
 ): Promise<AssistantDeletionStatus> {
   const result = await _deleteAssistantSend(context, assistantId, options);
   return _deleteAssistantDeserialize(result);
@@ -311,7 +311,7 @@ export function _createAssistantFileSend(
   context: Client,
   assistantId: string,
   fileId: string,
-  options: CreateAssistantFileOptions = { requestOptions: {} }
+  options: CreateAssistantFileOptions = { requestOptions: {} },
 ): StreamableMethod<CreateAssistantFile200Response> {
   return context.path("/assistants/{assistantId}/files", assistantId).post({
     ...operationOptionsToRequestParameters(options),
@@ -320,7 +320,7 @@ export function _createAssistantFileSend(
 }
 
 export async function _createAssistantFileDeserialize(
-  result: CreateAssistantFile200Response
+  result: CreateAssistantFile200Response,
 ): Promise<AssistantFile> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -338,7 +338,7 @@ export async function createAssistantFile(
   context: Client,
   assistantId: string,
   fileId: string,
-  options: CreateAssistantFileOptions = { requestOptions: {} }
+  options: CreateAssistantFileOptions = { requestOptions: {} },
 ): Promise<AssistantFile> {
   const result = await _createAssistantFileSend(context, assistantId, fileId, options);
   return _createAssistantFileDeserialize(result);
@@ -347,7 +347,7 @@ export async function createAssistantFile(
 export function _listAssistantFilesSend(
   context: Client,
   assistantId: string,
-  options: ListAssistantFilesOptions = { requestOptions: {} }
+  options: ListAssistantFilesOptions = { requestOptions: {} },
 ): StreamableMethod<ListAssistantFiles200Response> {
   return context.path("/assistants/{assistantId}/files", assistantId).get({
     ...operationOptionsToRequestParameters(options),
@@ -364,7 +364,7 @@ export function _getAssistantFileSend(
   context: Client,
   assistantId: string,
   fileId: string,
-  options: GetAssistantFileOptions = { requestOptions: {} }
+  options: GetAssistantFileOptions = { requestOptions: {} },
 ): StreamableMethod<GetAssistantFile200Response> {
   return context
     .path("/assistants/{assistantId}/files/{fileId}", assistantId, fileId)
@@ -372,7 +372,7 @@ export function _getAssistantFileSend(
 }
 
 export async function _getAssistantFileDeserialize(
-  result: GetAssistantFile200Response
+  result: GetAssistantFile200Response,
 ): Promise<AssistantFile> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -390,7 +390,7 @@ export async function getAssistantFile(
   context: Client,
   assistantId: string,
   fileId: string,
-  options: GetAssistantFileOptions = { requestOptions: {} }
+  options: GetAssistantFileOptions = { requestOptions: {} },
 ): Promise<AssistantFile> {
   const result = await _getAssistantFileSend(context, assistantId, fileId, options);
   return _getAssistantFileDeserialize(result);
@@ -400,7 +400,7 @@ export function _deleteAssistantFileSend(
   context: Client,
   assistantId: string,
   fileId: string,
-  options: DeleteAssistantFileOptions = { requestOptions: {} }
+  options: DeleteAssistantFileOptions = { requestOptions: {} },
 ): StreamableMethod<DeleteAssistantFile200Response> {
   return context
     .path("/assistants/{assistantId}/files/{fileId}", assistantId, fileId)
@@ -408,7 +408,7 @@ export function _deleteAssistantFileSend(
 }
 
 export async function _deleteAssistantFileDeserialize(
-  result: DeleteAssistantFile200Response
+  result: DeleteAssistantFile200Response,
 ): Promise<AssistantFileDeletionStatus> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -428,14 +428,14 @@ export async function deleteAssistantFile(
   context: Client,
   assistantId: string,
   fileId: string,
-  options: DeleteAssistantFileOptions = { requestOptions: {} }
+  options: DeleteAssistantFileOptions = { requestOptions: {} },
 ): Promise<AssistantFileDeletionStatus> {
   const result = await _deleteAssistantFileSend(context, assistantId, fileId, options);
   return _deleteAssistantFileDeserialize(result);
 }
 
 export async function _createThreadDeserialize(
-  result: CreateThread200Response
+  result: CreateThread200Response,
 ): Promise<AssistantThread> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -452,7 +452,7 @@ export async function _createThreadDeserialize(
 export async function createThread(
   context: Client,
   body: AssistantThreadCreationOptions,
-  options: CreateThreadOptions = { requestOptions: {} }
+  options: CreateThreadOptions = { requestOptions: {} },
 ): Promise<AssistantThread> {
   const result = await _createThreadSend(context, body, options);
   return _createThreadDeserialize(result);
@@ -461,7 +461,7 @@ export async function createThread(
 export function _getThreadSend(
   context: Client,
   threadId: string,
-  options: GetThreadOptions = { requestOptions: {} }
+  options: GetThreadOptions = { requestOptions: {} },
 ): StreamableMethod<GetThread200Response> {
   return context
     .path("/threads/{threadId}", threadId)
@@ -469,7 +469,7 @@ export function _getThreadSend(
 }
 
 export async function _getThreadDeserialize(
-  result: GetThread200Response
+  result: GetThread200Response,
 ): Promise<AssistantThread> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -486,7 +486,7 @@ export async function _getThreadDeserialize(
 export async function getThread(
   context: Client,
   threadId: string,
-  options: GetThreadOptions = { requestOptions: {} }
+  options: GetThreadOptions = { requestOptions: {} },
 ): Promise<AssistantThread> {
   const result = await _getThreadSend(context, threadId, options);
   return _getThreadDeserialize(result);
@@ -495,7 +495,7 @@ export async function getThread(
 export function _updateThreadSend(
   context: Client,
   threadId: string,
-  options: UpdateThreadOptions = { requestOptions: {} }
+  options: UpdateThreadOptions = { requestOptions: {} },
 ): StreamableMethod<UpdateThread200Response> {
   return context.path("/threads/{threadId}", threadId).post({
     ...operationOptionsToRequestParameters(options),
@@ -504,7 +504,7 @@ export function _updateThreadSend(
 }
 
 export async function _updateThreadDeserialize(
-  result: UpdateThread200Response
+  result: UpdateThread200Response,
 ): Promise<AssistantThread> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -521,7 +521,7 @@ export async function _updateThreadDeserialize(
 export async function updateThread(
   context: Client,
   threadId: string,
-  options: UpdateThreadOptions = { requestOptions: {} }
+  options: UpdateThreadOptions = { requestOptions: {} },
 ): Promise<AssistantThread> {
   const result = await _updateThreadSend(context, threadId, options);
   return _updateThreadDeserialize(result);
@@ -530,7 +530,7 @@ export async function updateThread(
 export function _deleteThreadSend(
   context: Client,
   threadId: string,
-  options: DeleteThreadOptions = { requestOptions: {} }
+  options: DeleteThreadOptions = { requestOptions: {} },
 ): StreamableMethod<DeleteThread200Response> {
   return context
     .path("/threads/{threadId}", threadId)
@@ -538,7 +538,7 @@ export function _deleteThreadSend(
 }
 
 export async function _deleteThreadDeserialize(
-  result: DeleteThread200Response
+  result: DeleteThread200Response,
 ): Promise<ThreadDeletionStatus> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -554,7 +554,7 @@ export async function _deleteThreadDeserialize(
 export async function deleteThread(
   context: Client,
   threadId: string,
-  options: DeleteThreadOptions = { requestOptions: {} }
+  options: DeleteThreadOptions = { requestOptions: {} },
 ): Promise<ThreadDeletionStatus> {
   const result = await _deleteThreadSend(context, threadId, options);
   return _deleteThreadDeserialize(result);
@@ -565,7 +565,7 @@ export function _createMessageSend(
   threadId: string,
   role: MessageRole,
   content: string,
-  options: CreateMessageOptions = { requestOptions: {} }
+  options: CreateMessageOptions = { requestOptions: {} },
 ): StreamableMethod<CreateMessage200Response> {
   return context.path("/threads/{threadId}/messages", threadId).post({
     ...operationOptionsToRequestParameters(options),
@@ -584,7 +584,7 @@ export async function createMessage(
   threadId: string,
   role: MessageRole,
   content: string,
-  options: CreateMessageOptions = { requestOptions: {} }
+  options: CreateMessageOptions = { requestOptions: {} },
 ): Promise<ThreadMessage> {
   const result = await _createMessageSend(context, threadId, role, content, options);
   return _createMessageDeserialize(result);
@@ -593,7 +593,7 @@ export async function createMessage(
 export function _listMessagesSend(
   context: Client,
   threadId: string,
-  options: ListMessagesOptions = { requestOptions: {} }
+  options: ListMessagesOptions = { requestOptions: {} },
 ): StreamableMethod<ListMessages200Response> {
   return context.path("/threads/{threadId}/messages", threadId).get({
     ...operationOptionsToRequestParameters(options),
@@ -610,7 +610,7 @@ export function _updateMessageSend(
   context: Client,
   threadId: string,
   messageId: string,
-  options: UpdateMessageOptions = { requestOptions: {} }
+  options: UpdateMessageOptions = { requestOptions: {} },
 ): StreamableMethod<UpdateMessage200Response> {
   return context.path("/threads/{threadId}/messages/{messageId}", threadId, messageId).post({
     ...operationOptionsToRequestParameters(options),
@@ -623,7 +623,7 @@ export async function updateMessage(
   context: Client,
   threadId: string,
   messageId: string,
-  options: UpdateMessageOptions = { requestOptions: {} }
+  options: UpdateMessageOptions = { requestOptions: {} },
 ): Promise<ThreadMessage> {
   const result = await _updateMessageSend(context, threadId, messageId, options);
   return _updateMessageDeserialize(result);
@@ -633,7 +633,7 @@ export function _listMessageFilesSend(
   context: Client,
   threadId: string,
   messageId: string,
-  options: ListMessageFilesOptions = { requestOptions: {} }
+  options: ListMessageFilesOptions = { requestOptions: {} },
 ): StreamableMethod<ListMessageFiles200Response> {
   return context.path("/threads/{threadId}/messages/{messageId}/files", threadId, messageId).get({
     ...operationOptionsToRequestParameters(options),
@@ -651,7 +651,7 @@ export function _getMessageFileSend(
   threadId: string,
   messageId: string,
   fileId: string,
-  options: GetMessageFileOptions = { requestOptions: {} }
+  options: GetMessageFileOptions = { requestOptions: {} },
 ): StreamableMethod<GetMessageFile200Response> {
   return context
     .path("/threads/{threadId}/messages/{messageId}/files/{fileId}", threadId, messageId, fileId)
@@ -659,7 +659,7 @@ export function _getMessageFileSend(
 }
 
 export async function _getMessageFileDeserialize(
-  result: GetMessageFile200Response
+  result: GetMessageFile200Response,
 ): Promise<MessageFile> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -678,7 +678,7 @@ export async function getMessageFile(
   threadId: string,
   messageId: string,
   fileId: string,
-  options: GetMessageFileOptions = { requestOptions: {} }
+  options: GetMessageFileOptions = { requestOptions: {} },
 ): Promise<MessageFile> {
   const result = await _getMessageFileSend(context, threadId, messageId, fileId, options);
   return _getMessageFileDeserialize(result);
@@ -688,7 +688,7 @@ export function _createRunSend(
   context: Client,
   threadId: string,
   createRunOptions: CreateRunOptions,
-  options: CreateRunRequestOptions = { requestOptions: {} }
+  options: CreateRunRequestOptions = { requestOptions: {} },
 ): StreamableMethod<CreateRun200Response> {
   return context.path("/threads/{threadId}/runs", threadId).post({
     ...operationOptionsToRequestParameters(options),
@@ -708,7 +708,7 @@ export async function createRun(
   context: Client,
   threadId: string,
   createRunOptions: CreateRunOptions,
-  options: CreateRunRequestOptions = { requestOptions: {} }
+  options: CreateRunRequestOptions = { requestOptions: {} },
 ): Promise<ThreadRun> {
   const result = await _createRunSend(context, threadId, createRunOptions, options);
   return _createRunDeserialize(result);
@@ -717,7 +717,7 @@ export async function createRun(
 export function _listRunsSend(
   context: Client,
   threadId: string,
-  options: ListRunsOptions = { requestOptions: {} }
+  options: ListRunsOptions = { requestOptions: {} },
 ): StreamableMethod<ListRuns200Response> {
   return context.path("/threads/{threadId}/runs", threadId).get({
     ...operationOptionsToRequestParameters(options),
@@ -734,7 +734,7 @@ export function _getRunSend(
   context: Client,
   threadId: string,
   runId: string,
-  options: GetRunOptions = { requestOptions: {} }
+  options: GetRunOptions = { requestOptions: {} },
 ): StreamableMethod<GetRun200Response> {
   return context
     .path("/threads/{threadId}/runs/{runId}", threadId, runId)
@@ -746,7 +746,7 @@ export async function getRun(
   context: Client,
   threadId: string,
   runId: string,
-  options: GetRunOptions = { requestOptions: {} }
+  options: GetRunOptions = { requestOptions: {} },
 ): Promise<ThreadRun> {
   const result = await _getRunSend(context, threadId, runId, options);
   return _getRunDeserialize(result);
@@ -756,7 +756,7 @@ export function _updateRunSend(
   context: Client,
   threadId: string,
   runId: string,
-  options: UpdateRunOptions = { requestOptions: {} }
+  options: UpdateRunOptions = { requestOptions: {} },
 ): StreamableMethod<UpdateRun200Response> {
   return context.path("/threads/{threadId}/runs/{runId}", threadId, runId).post({
     ...operationOptionsToRequestParameters(options),
@@ -800,7 +800,7 @@ export async function updateRun(
   context: Client,
   threadId: string,
   runId: string,
-  options: UpdateRunOptions = { requestOptions: {} }
+  options: UpdateRunOptions = { requestOptions: {} },
 ): Promise<ThreadRun> {
   const result = await _updateRunSend(context, threadId, runId, options);
   return _updateRunDeserialize(result);
@@ -811,7 +811,7 @@ export function _submitToolOutputsToRunSend(
   threadId: string,
   runId: string,
   toolOutputs: ToolOutput[],
-  options: SubmitToolOutputsToRunOptions = { requestOptions: {} }
+  options: SubmitToolOutputsToRunOptions = { requestOptions: {} },
 ): StreamableMethod<SubmitToolOutputsToRun200Response> {
   return context
     .path("/threads/{threadId}/runs/{runId}/submit_tool_outputs", threadId, runId)
@@ -832,7 +832,7 @@ export async function submitToolOutputsToRun(
   threadId: string,
   runId: string,
   toolOutputs: ToolOutput[],
-  options: SubmitToolOutputsToRunOptions = { requestOptions: {} }
+  options: SubmitToolOutputsToRunOptions = { requestOptions: {} },
 ): Promise<ThreadRun> {
   const result = await _submitToolOutputsToRunSend(context, threadId, runId, toolOutputs, options);
   return _submitToolOutputsToRunDeserialize(result);
@@ -842,7 +842,7 @@ export function _cancelRunSend(
   context: Client,
   threadId: string,
   runId: string,
-  options: CancelRunOptions = { requestOptions: {} }
+  options: CancelRunOptions = { requestOptions: {} },
 ): StreamableMethod<CancelRun200Response> {
   return context
     .path("/threads/{threadId}/runs/{runId}/cancel", threadId, runId)
@@ -854,7 +854,7 @@ export async function cancelRun(
   context: Client,
   threadId: string,
   runId: string,
-  options: CancelRunOptions = { requestOptions: {} }
+  options: CancelRunOptions = { requestOptions: {} },
 ): Promise<ThreadRun> {
   const result = await _cancelRunSend(context, threadId, runId, options);
   return _cancelRunDeserialize(result);
@@ -864,7 +864,7 @@ export async function cancelRun(
 export async function createThreadAndRun(
   context: Client,
   body: CreateAndRunThreadOptions,
-  options: CreateThreadAndRunOptions = { requestOptions: {} }
+  options: CreateThreadAndRunOptions = { requestOptions: {} },
 ): Promise<ThreadRun> {
   const result = await _createThreadAndRunSend(context, body, options);
   return _createThreadAndRunDeserialize(result);
@@ -875,7 +875,7 @@ export function _getRunStepSend(
   threadId: string,
   runId: string,
   stepId: string,
-  options: GetRunStepOptions = { requestOptions: {} }
+  options: GetRunStepOptions = { requestOptions: {} },
 ): StreamableMethod<GetRunStep200Response> {
   return context
     .path("/threads/{threadId}/runs/{runId}/steps/{stepId}", threadId, runId, stepId)
@@ -888,7 +888,7 @@ export async function getRunStep(
   threadId: string,
   runId: string,
   stepId: string,
-  options: GetRunStepOptions = { requestOptions: {} }
+  options: GetRunStepOptions = { requestOptions: {} },
 ): Promise<RunStep> {
   const result = await _getRunStepSend(context, threadId, runId, stepId, options);
   return _getRunStepDeserialize(result);
@@ -898,7 +898,7 @@ export function _listRunStepsSend(
   context: Client,
   threadId: string,
   runId: string,
-  options: ListRunStepsOptions = { requestOptions: {} }
+  options: ListRunStepsOptions = { requestOptions: {} },
 ): StreamableMethod<ListRunSteps200Response> {
   return context.path("/threads/{threadId}/runs/{runId}/steps", threadId, runId).get({
     ...operationOptionsToRequestParameters(options),
@@ -913,7 +913,7 @@ export function _listRunStepsSend(
 
 export function _listFilesSend(
   context: Client,
-  options: ListFilesOptions = { requestOptions: {} }
+  options: ListFilesOptions = { requestOptions: {} },
 ): StreamableMethod<ListFiles200Response> {
   return context.path("/files").get({
     ...operationOptionsToRequestParameters(options),
@@ -922,7 +922,7 @@ export function _listFilesSend(
 }
 
 export async function _listFilesDeserialize(
-  result: ListFiles200Response
+  result: ListFiles200Response,
 ): Promise<FileListResponse> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -942,7 +942,7 @@ export async function _listFilesDeserialize(
 /** Gets a list of previously uploaded files. */
 export async function listFiles(
   context: Client,
-  options: ListFilesOptions = { requestOptions: {} }
+  options: ListFilesOptions = { requestOptions: {} },
 ): Promise<FileListResponse> {
   const result = await _listFilesSend(context, options);
   return _listFilesDeserialize(result);
@@ -953,7 +953,7 @@ export async function uploadFile(
   context: Client,
   file: Uint8Array,
   purpose: FilePurpose,
-  options: UploadFileOptions = { requestOptions: {} }
+  options: UploadFileOptions = { requestOptions: {} },
 ): Promise<InputFile> {
   const result = await _uploadFileSend(context, file, purpose, options);
   return _uploadFileDeserialize(result);
@@ -962,7 +962,7 @@ export async function uploadFile(
 export function _deleteFileSend(
   context: Client,
   fileId: string,
-  options: DeleteFileOptions = { requestOptions: {} }
+  options: DeleteFileOptions = { requestOptions: {} },
 ): StreamableMethod<DeleteFile200Response> {
   return context
     .path("/files/{fileId}", fileId)
@@ -970,7 +970,7 @@ export function _deleteFileSend(
 }
 
 export async function _deleteFileDeserialize(
-  result: DeleteFile200Response
+  result: DeleteFile200Response,
 ): Promise<FileDeletionStatus> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -986,7 +986,7 @@ export async function _deleteFileDeserialize(
 export async function deleteFile(
   context: Client,
   fileId: string,
-  options: DeleteFileOptions = { requestOptions: {} }
+  options: DeleteFileOptions = { requestOptions: {} },
 ): Promise<FileDeletionStatus> {
   const result = await _deleteFileSend(context, fileId, options);
   return _deleteFileDeserialize(result);
@@ -995,7 +995,7 @@ export async function deleteFile(
 export function _getFileSend(
   context: Client,
   fileId: string,
-  options: GetFileOptions = { requestOptions: {} }
+  options: GetFileOptions = { requestOptions: {} },
 ): StreamableMethod<GetFile200Response> {
   return context
     .path("/files/{fileId}", fileId)
@@ -1006,7 +1006,7 @@ export function _getFileSend(
 export async function getFile(
   context: Client,
   fileId: string,
-  options: GetFileOptions = { requestOptions: {} }
+  options: GetFileOptions = { requestOptions: {} },
 ): Promise<InputFile> {
   const result = await _getFileSend(context, fileId, options);
   return _getFileDeserialize(result);
@@ -1038,7 +1038,7 @@ export async function _createRunDeserialize(result: CreateRun200Response): Promi
             ? undefined
             : {
                 toolCalls: required_action?.submit_tool_outputs?.tool_calls?.map(
-                  parseRequiredToolCallOutput
+                  parseRequiredToolCallOutput,
                 ),
               },
         },
@@ -1058,7 +1058,7 @@ export async function _createRunDeserialize(result: CreateRun200Response): Promi
 }
 
 export async function _listRunsDeserialize(
-  result: ListRuns200Response
+  result: ListRuns200Response,
 ): Promise<ListResponseOf<ThreadRun>> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -1087,7 +1087,7 @@ export async function _listRunsDeserialize(
           completedAt: p["completed_at"] === null ? null : unixToDate(Number(p["completed_at"])),
           cancelledAt: p["cancelled_at"] === null ? null : unixToDate(Number(p["cancelled_at"])),
           failedAt: p["failed_at"] === null ? null : unixToDate(Number(p["failed_at"])),
-        } as ThreadRun)
+        }) as ThreadRun,
     ),
     firstId: result.body["first_id"],
     lastId: result.body["last_id"],
@@ -1098,7 +1098,7 @@ export async function _listRunsDeserialize(
 export function _createThreadAndRunSend(
   context: Client,
   body: CreateAndRunThreadOptions,
-  options: CreateThreadAndRunOptions = { requestOptions: {} }
+  options: CreateThreadAndRunOptions = { requestOptions: {} },
 ): StreamableMethod<CreateThreadAndRun200Response> {
   return context.path("/threads/runs").post({
     ...operationOptionsToRequestParameters(options),
@@ -1107,12 +1107,11 @@ export function _createThreadAndRunSend(
       thread: !body.thread
         ? undefined
         : {
-            messages: !body.thread?.["messages"]
-              ? body.thread?.["messages"]
-              : body.thread?.["messages"].map((p) => ({
-                  role: p["role"],
-                  content: p["content"],
-                })),
+            messages: body.thread?.["messages"]?.map((p) => ({
+              role: p["role"],
+              content: p["content"],
+              file_ids: p["fileIds"],
+            })),
             metadata: body.thread?.["metadata"],
           },
       model: body["model"],
@@ -1127,7 +1126,7 @@ export function _createThreadAndRunSend(
 export async function listRuns(
   context: Client,
   threadId: string,
-  options: ListRunsOptions = { requestOptions: {} }
+  options: ListRunsOptions = { requestOptions: {} },
 ): Promise<ListResponseOf<ThreadRun>> {
   const result = await _listRunsSend(context, threadId, options);
   return _listRunsDeserialize(result);
@@ -1151,7 +1150,7 @@ export async function _getRunDeserialize(result: GetRun200Response): Promise<Thr
             ? undefined
             : {
                 toolCalls: result.body.required_action?.submit_tool_outputs?.tool_calls?.map(
-                  parseRequiredToolCallOutput
+                  parseRequiredToolCallOutput,
                 ),
               },
         },
@@ -1181,7 +1180,7 @@ export async function _getRunDeserialize(result: GetRun200Response): Promise<Thr
 }
 
 export async function _submitToolOutputsToRunDeserialize(
-  result: SubmitToolOutputsToRun200Response
+  result: SubmitToolOutputsToRun200Response,
 ): Promise<ThreadRun> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -1200,7 +1199,7 @@ export async function _submitToolOutputsToRunDeserialize(
             ? undefined
             : {
                 toolCalls: result.body.required_action?.submit_tool_outputs?.tool_calls?.map(
-                  parseRequiredToolCallOutput
+                  parseRequiredToolCallOutput,
                 ),
               },
         },
@@ -1230,7 +1229,7 @@ export async function _submitToolOutputsToRunDeserialize(
 }
 
 export async function _createThreadAndRunDeserialize(
-  result: CreateThreadAndRun200Response
+  result: CreateThreadAndRun200Response,
 ): Promise<ThreadRun> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -1249,7 +1248,7 @@ export async function _createThreadAndRunDeserialize(
             ? undefined
             : {
                 toolCalls: result.body.required_action?.submit_tool_outputs?.tool_calls?.map(
-                  parseRequiredToolCallOutput
+                  parseRequiredToolCallOutput,
                 ),
               },
         },
@@ -1296,7 +1295,7 @@ export async function _cancelRunDeserialize(result: CancelRun200Response): Promi
             ? undefined
             : {
                 toolCalls: result.body.required_action?.submit_tool_outputs?.tool_calls?.map(
-                  parseRequiredToolCallOutput
+                  parseRequiredToolCallOutput,
                 ),
               },
         },
@@ -1328,7 +1327,7 @@ export async function _cancelRunDeserialize(result: CancelRun200Response): Promi
 export async function listMessages(
   context: Client,
   threadId: string,
-  options: ListMessagesOptions = { requestOptions: {} }
+  options: ListMessagesOptions = { requestOptions: {} },
 ): Promise<ListResponseOf<ThreadMessage>> {
   const result = await _listMessagesSend(context, threadId, options);
   return _listMessagesDeserialize(result);
@@ -1338,7 +1337,7 @@ export function _getMessageSend(
   context: Client,
   threadId: string,
   messageId: string,
-  options: GetMessageOptions = { requestOptions: {} }
+  options: GetMessageOptions = { requestOptions: {} },
 ): StreamableMethod<GetMessage200Response> {
   return context
     .path("/threads/{threadId}/messages/{messageId}", threadId, messageId)
@@ -1350,14 +1349,14 @@ export async function getMessage(
   context: Client,
   threadId: string,
   messageId: string,
-  options: GetMessageOptions = { requestOptions: {} }
+  options: GetMessageOptions = { requestOptions: {} },
 ): Promise<ThreadMessage> {
   const result = await _getMessageSend(context, threadId, messageId, options);
   return _getMessageDeserialize(result);
 }
 
 export async function _listMessageFilesDeserialize(
-  result: ListMessageFiles200Response
+  result: ListMessageFiles200Response,
 ): Promise<ListResponseOf<MessageFile>> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -1380,14 +1379,14 @@ export async function listMessageFiles(
   context: Client,
   threadId: string,
   messageId: string,
-  options: ListMessageFilesOptions = { requestOptions: {} }
+  options: ListMessageFilesOptions = { requestOptions: {} },
 ): Promise<ListResponseOf<MessageFile>> {
   const result = await _listMessageFilesSend(context, threadId, messageId, options);
   return _listMessageFilesDeserialize(result);
 }
 
 export async function _createMessageDeserialize(
-  result: CreateMessage200Response
+  result: CreateMessage200Response,
 ): Promise<ThreadMessage> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -1407,7 +1406,7 @@ export async function _createMessageDeserialize(
 }
 
 export async function _listMessagesDeserialize(
-  result: ListMessages200Response
+  result: ListMessages200Response,
 ): Promise<ListResponseOf<ThreadMessage>> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -1431,7 +1430,7 @@ export async function _listMessagesDeserialize(
 }
 
 export async function _getMessageDeserialize(
-  result: GetMessage200Response
+  result: GetMessage200Response,
 ): Promise<ThreadMessage> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -1450,7 +1449,7 @@ export async function _getMessageDeserialize(
 }
 
 export async function _updateMessageDeserialize(
-  result: UpdateMessage200Response
+  result: UpdateMessage200Response,
 ): Promise<ThreadMessage> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -1469,7 +1468,7 @@ export async function _updateMessageDeserialize(
 }
 
 export async function _listRunStepsDeserialize(
-  result: ListRunSteps200Response
+  result: ListRunSteps200Response,
 ): Promise<ListResponseOf<RunStep>> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -1521,14 +1520,14 @@ export async function listRunSteps(
   context: Client,
   threadId: string,
   runId: string,
-  options: ListRunStepsOptions = { requestOptions: {} }
+  options: ListRunStepsOptions = { requestOptions: {} },
 ): Promise<ListResponseOf<RunStep>> {
   const result = await _listRunStepsSend(context, threadId, runId, options);
   return _listRunStepsDeserialize(result);
 }
 
 export async function _listAssistantsDeserialize(
-  result: ListAssistants200Response
+  result: ListAssistants200Response,
 ): Promise<ListResponseOf<Assistant>> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -1555,14 +1554,14 @@ export async function _listAssistantsDeserialize(
 /** Returns a list of assistants. */
 export async function listAssistants(
   context: Client,
-  options: ListAssistantsOptions = { requestOptions: {} }
+  options: ListAssistantsOptions = { requestOptions: {} },
 ): Promise<ListResponseOf<Assistant>> {
   const result = await _listAssistantsSend(context, options);
   return _listAssistantsDeserialize(result);
 }
 
 export async function _listAssistantFilesDeserialize(
-  result: ListAssistantFiles200Response
+  result: ListAssistantFiles200Response,
 ): Promise<ListResponseOf<AssistantFile>> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -1584,7 +1583,7 @@ export async function _listAssistantFilesDeserialize(
 export async function listAssistantFiles(
   context: Client,
   assistantId: string,
-  options: ListAssistantFilesOptions = { requestOptions: {} }
+  options: ListAssistantFilesOptions = { requestOptions: {} },
 ): Promise<ListResponseOf<AssistantFile>> {
   const result = await _listAssistantFilesSend(context, assistantId, options);
   return _listAssistantFilesDeserialize(result);
@@ -1593,7 +1592,7 @@ export async function listAssistantFiles(
 export function _createThreadSend(
   context: Client,
   body: AssistantThreadCreationOptions,
-  options: CreateThreadOptions = { requestOptions: {} }
+  options: CreateThreadOptions = { requestOptions: {} },
 ): StreamableMethod<CreateThread200Response> {
   return context.path("/threads").post({
     ...operationOptionsToRequestParameters(options),
@@ -1601,6 +1600,7 @@ export function _createThreadSend(
       messages: (body["messages"] ?? []).map((p) => ({
         role: p["role"],
         content: p["content"],
+        file_ids: p["fileIds"],
       })),
       metadata: body["metadata"],
     },
@@ -1611,7 +1611,7 @@ export function _uploadFileSend(
   context: Client,
   file: Uint8Array,
   purpose: FilePurpose,
-  options: UploadFileOptions = { requestOptions: {} }
+  options: UploadFileOptions = { requestOptions: {} },
 ): StreamableMethod<UploadFile200Response> {
   return context.path("/files").post({
     ...operationOptionsToRequestParameters(options),

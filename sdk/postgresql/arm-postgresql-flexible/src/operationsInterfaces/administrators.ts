@@ -16,7 +16,7 @@ import {
   AdministratorsCreateResponse,
   AdministratorsDeleteOptionalParams,
   AdministratorsGetOptionalParams,
-  AdministratorsGetResponse
+  AdministratorsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface Administrators {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: AdministratorsListByServerOptionalParams
+    options?: AdministratorsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ActiveDirectoryAdministrator>;
   /**
    * Creates a new server.
@@ -46,7 +46,7 @@ export interface Administrators {
     serverName: string,
     objectId: string,
     parameters: ActiveDirectoryAdministratorAdd,
-    options?: AdministratorsCreateOptionalParams
+    options?: AdministratorsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AdministratorsCreateResponse>,
@@ -66,7 +66,7 @@ export interface Administrators {
     serverName: string,
     objectId: string,
     parameters: ActiveDirectoryAdministratorAdd,
-    options?: AdministratorsCreateOptionalParams
+    options?: AdministratorsCreateOptionalParams,
   ): Promise<AdministratorsCreateResponse>;
   /**
    * Deletes an Active Directory Administrator associated with the server.
@@ -79,7 +79,7 @@ export interface Administrators {
     resourceGroupName: string,
     serverName: string,
     objectId: string,
-    options?: AdministratorsDeleteOptionalParams
+    options?: AdministratorsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an Active Directory Administrator associated with the server.
@@ -92,7 +92,7 @@ export interface Administrators {
     resourceGroupName: string,
     serverName: string,
     objectId: string,
-    options?: AdministratorsDeleteOptionalParams
+    options?: AdministratorsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets information about a server.
@@ -105,6 +105,6 @@ export interface Administrators {
     resourceGroupName: string,
     serverName: string,
     objectId: string,
-    options?: AdministratorsGetOptionalParams
+    options?: AdministratorsGetOptionalParams,
   ): Promise<AdministratorsGetResponse>;
 }

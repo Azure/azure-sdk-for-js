@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes an existing Managed CCF.
  *
  * @summary Deletes an existing Managed CCF.
- * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-01-26-preview/examples/ManagedCCF_Delete.json
+ * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-06-28-preview/examples/ManagedCCF_Delete.json
  */
 async function confidentialLedgerDelete() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function confidentialLedgerDelete() {
   const client = new ConfidentialLedgerClient(credential, subscriptionId);
   const result = await client.managedCCFOperations.beginDeleteAndWait(
     resourceGroupName,
-    appName
+    appName,
   );
   console.log(result);
 }

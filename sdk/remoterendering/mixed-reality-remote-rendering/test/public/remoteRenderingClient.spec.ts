@@ -263,8 +263,10 @@ describe("RemoteRendering functional tests", () => {
     } catch (e: any) {
       assert.isTrue(e.code === "InputContainerError");
       // Message: "Could not find the asset file in the storage account. Please make sure all paths and names are correct and the file is uploaded to storage."
-      assert.exists(e.message)
-      assert.isTrue(e.message.toLowerCase().includes("could not find the asset file in the storage account"));
+      assert.exists(e.message);
+      assert.isTrue(
+        e.message.toLowerCase().includes("could not find the asset file in the storage account"),
+      );
     }
   });
 
@@ -310,7 +312,7 @@ describe("RemoteRendering functional tests", () => {
     // would carry the earlier maxLeastTimeInMinutes value.
     assert.isTrue(
       readyRenderingSession.maxLeaseTimeInMinutes === 4 ||
-      readyRenderingSession.maxLeaseTimeInMinutes === 5,
+        readyRenderingSession.maxLeaseTimeInMinutes === 5,
     );
 
     assert.equal(readyRenderingSession.status, "Ready");
