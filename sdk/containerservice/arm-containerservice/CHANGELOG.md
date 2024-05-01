@@ -26,7 +26,7 @@
 
   - Interface IstioEgressGateway no longer has parameter nodeSelector
     
-    
+
 ## 20.0.0-beta.1 (2024-04-12)
     
 **Features**
