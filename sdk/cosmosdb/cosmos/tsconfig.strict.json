@@ -144,6 +144,8 @@
     "src/client/SasToken/SasTokenProperties.ts",
     "src/client/SasToken/PermissionScopeValues.ts",
     "sdk/cosmosdb/cosmos/src/documents/VectorEmbeddingPolicy.ts",
+    "src/request/RUCapPerOperationExceededError.ts",
+    "src/request/OperationOptions.ts",
     "test/public/common/TestHelpers.ts",
     "test/internal/session.spec.ts",
     "test/internal/unit/auth.spec.ts",

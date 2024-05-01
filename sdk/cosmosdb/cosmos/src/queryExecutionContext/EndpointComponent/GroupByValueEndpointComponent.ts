@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { Response } from "../../request";
+import { QueryOperationOptions, Response } from "../../request";
 import { ExecutionContext } from "../ExecutionContext";
 import { CosmosHeaders } from "../CosmosHeaders";
 import { AggregateType, QueryInfo } from "../../request/ErrorResponse";
@@ -9,6 +9,8 @@ import { Aggregator, createAggregator } from "../Aggregators";
 import { getInitialHeader, mergeHeaders } from "../headerUtils";
 import { emptyGroup, extractAggregateResult } from "./emptyGroup";
 import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import { RUCapPerOperationExceededErrorCode } from "../../request/RUCapPerOperationExceededError";
+import { RUConsumedManager } from "../../common";
 
 interface GroupByResponse {
   result: GroupByResult;
@@ -35,7 +37,11 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
     this.aggregateType = this.queryInfo.aggregates[0];
   }
 
-  public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+  public async nextItem(
+    diagnosticNode: DiagnosticNodeInternal,
+    operationOptions?: QueryOperationOptions,
+    ruConsumedManager?: RUConsumedManager,
+  ): Promise<Response<any>> {
     // Start returning results if we have processed a full results set
     if (this.aggregateResultArray.length > 0) {
       return {
@@ -52,43 +58,51 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
     }
 
     const aggregateHeaders = getInitialHeader();
+    try {
+      while (this.executionContext.hasMoreResults()) {
+        // Grab the next result
+        const { result, headers } = (await this.executionContext.nextItem(
+          diagnosticNode,
+          operationOptions,
+          ruConsumedManager,
+        )) as GroupByResponse;
+        mergeHeaders(aggregateHeaders, headers);
 
-    while (this.executionContext.hasMoreResults()) {
-      // Grab the next result
-      const { result, headers } = (await this.executionContext.nextItem(
-        diagnosticNode,
-      )) as GroupByResponse;
-      mergeHeaders(aggregateHeaders, headers);
-
-      // If it exists, process it via aggregators
-      if (result) {
-        let grouping: string = emptyGroup;
-        let payload: any = result;
-        if (result.groupByItems) {
-          // If the query contains a GROUP BY clause, it will have a payload property and groupByItems
-          payload = result.payload;
-          grouping = await hashObject(result.groupByItems);
-        }
-
-        const aggregator = this.aggregators.get(grouping);
-        if (!aggregator) {
-          // This is the first time we have seen a grouping so create a new aggregator
-          this.aggregators.set(grouping, createAggregator(this.aggregateType));
-        }
-
-        if (this.aggregateType) {
-          const aggregateResult = extractAggregateResult(payload[0]);
-          // if aggregate result is null, we need to short circuit aggregation and return undefined
-          if (aggregateResult === null) {
-            this.completed = true;
+        // If it exists, process it via aggregators
+        if (result) {
+          let grouping: string = emptyGroup;
+          let payload: any = result;
+          if (result.groupByItems) {
+            // If the query contains a GROUP BY clause, it will have a payload property and groupByItems
+            payload = result.payload;
+            grouping = await hashObject(result.groupByItems);
           }
-          this.aggregators.get(grouping).aggregate(aggregateResult);
-        } else {
-          // Queries with no aggregates pass the payload directly to the aggregator
-          // Example: SELECT VALUE c.team FROM c GROUP BY c.team
-          this.aggregators.get(grouping).aggregate(payload);
+
+          const aggregator = this.aggregators.get(grouping);
+          if (!aggregator) {
+            // This is the first time we have seen a grouping so create a new aggregator
+            this.aggregators.set(grouping, createAggregator(this.aggregateType));
+          }
+
+          if (this.aggregateType) {
+            const aggregateResult = extractAggregateResult(payload[0]);
+            // if aggregate result is null, we need to short circuit aggregation and return undefined
+            if (aggregateResult === null) {
+              this.completed = true;
+            }
+            this.aggregators.get(grouping).aggregate(aggregateResult);
+          } else {
+            // Queries with no aggregates pass the payload directly to the aggregator
+            // Example: SELECT VALUE c.team FROM c GROUP BY c.team
+            this.aggregators.get(grouping).aggregate(payload);
+          }
         }
       }
+    } catch (err: any) {
+      if (err.code === RUCapPerOperationExceededErrorCode) {
+        err.fetchedResults = undefined;
+      }
+      throw err;
     }
 
     // We bail early since we got an undefined result back `[{}]`

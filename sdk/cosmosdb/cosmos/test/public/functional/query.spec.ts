@@ -63,7 +63,8 @@ describe("Queries", function (this: Suite) {
     this.timeout(process.env.MOCHA_TIMEOUT || 30000);
     let resources: { container: Container; doc1: any; doc2: any; doc3: any };
 
-    before(async function () {
+    beforeEach(async function () {
+      await removeAllDatabases();
       const container = await getTestContainer("Validate QueryIterator Functionality", client);
       const { resource: doc1 } = await container.items.create({ id: "doc1", prop1: "value1" });
       const { resource: doc2 } = await container.items.create({ id: "doc2", prop1: "value2" });
@@ -107,6 +108,61 @@ describe("Queries", function (this: Suite) {
         counter++;
       }
       assert(counter === 2, "iterator should have run 3 times");
+    });
+
+    describe("asyncIterator with Query RU cap specified", function (this: Suite) {
+      const offset = 0.5;
+      let queryIterator: any;
+      let calculated_ru_threshold: number;
+
+      beforeEach(async function () {
+        queryIterator = resources.container.items.readAll({ maxItemCount: 2 });
+        calculated_ru_threshold = 0;
+        for await (const { requestCharge } of queryIterator.getAsyncIterator()) {
+          calculated_ru_threshold += requestCharge;
+        }
+      });
+
+      afterEach(async function () {
+        calculated_ru_threshold = 0;
+        queryIterator = undefined;
+      });
+
+      it("RU cap not breached", async function () {
+        // Initialize a counter to track the number of iterations
+        let counter = 0;
+        // Iterate over the query results using async iterator with ruCapPerOperation intentionally set high
+        for await (const { resources: _ } of queryIterator.getAsyncIterator({
+          ruCapPerOperation: calculated_ru_threshold + offset,
+        })) {
+          counter++;
+        }
+        assert(counter === 2, "iterator should have run 3 times");
+        // Ensure that the iterator has run successfully without throwing the specified error
+        assert(true, "Iterator ran successfully without OPERATION_RU_LIMIT_EXCEEDED error");
+      });
+
+      it("RU Cap breached", async function () {
+        queryIterator = resources.container.items.readAll({ maxItemCount: 2 });
+        // Initialize a counter to track the number of iterations
+        let counter = 0;
+        try {
+          // Iterate over the query results using async iterator with ruCapPerOperation intentionally set low
+          for await (const { resources: _ } of queryIterator.getAsyncIterator({
+            ruCapPerOperation: calculated_ru_threshold - offset,
+          })) {
+            counter++;
+          }
+        } catch (err) {
+          // Ensure that the error thrown is OPERATION_RU_LIMIT_EXCEEDED
+          assert.ok(
+            err.code === "OPERATION_RU_LIMIT_EXCEEDED",
+            "Error code should be OPERATION_RU_LIMIT_EXCEEDED",
+          );
+        }
+        // Ensure that the iterator did not run
+        assert.equal(counter, 1);
+      });
     });
 
     it("executeNext", async function () {
