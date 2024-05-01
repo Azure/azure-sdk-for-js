@@ -13,12 +13,13 @@ import * as Parameters from "../models/parameters";
 import { NetworkManagementClient } from "../networkManagementClient";
 import {
   ExpressRouteProviderPortsLocationListOptionalParams,
-  ExpressRouteProviderPortsLocationListResponse
+  ExpressRouteProviderPortsLocationListResponse,
 } from "../models";
 
 /** Class containing ExpressRouteProviderPortsLocation operations. */
 export class ExpressRouteProviderPortsLocationImpl
-  implements ExpressRouteProviderPortsLocation {
+  implements ExpressRouteProviderPortsLocation
+{
   private readonly client: NetworkManagementClient;
 
   /**
@@ -34,7 +35,7 @@ export class ExpressRouteProviderPortsLocationImpl
    * @param options The options parameters.
    */
   list(
-    options?: ExpressRouteProviderPortsLocationListOptionalParams
+    options?: ExpressRouteProviderPortsLocationListOptionalParams,
   ): Promise<ExpressRouteProviderPortsLocationListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -43,19 +44,18 @@ export class ExpressRouteProviderPortsLocationImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteProviderPorts",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteProviderPorts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExpressRouteProviderPortListResult
+      bodyMapper: Mappers.ExpressRouteProviderPortListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

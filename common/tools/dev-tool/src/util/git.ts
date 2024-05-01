@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { spawn } from "child_process";
-import { tmpdir } from "os";
-
-import path from "path";
+import { spawn } from "node:child_process";
+import { tmpdir } from "node:os";
+import path from "node:path";
 
 /**
  * Uses the git command line to ask whether a path has any tracked, unstaged changes (if they would appear in a git

@@ -32,6 +32,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     private query: string | SqlQuerySpec,
     private options: FeedOptions,
     private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
+    correlatedActivityId: string,
   ) {
     this.endpoint = null;
     this.pageSize = options["maxItemCount"];
@@ -51,6 +52,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           this.query,
           this.options,
           this.partitionedQueryExecutionInfo,
+          correlatedActivityId,
         ),
       );
     } else {
@@ -60,6 +62,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         this.query,
         this.options,
         this.partitionedQueryExecutionInfo,
+        correlatedActivityId,
       );
     }
     if (

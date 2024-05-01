@@ -1,14 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
- *
- * Any changes you make here may be lost.
- *
- * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
- */
-
 import { StreamableMethod } from "@azure-rest/core-client";
 import { getStream } from "./getSSEs.js";
 import { wrapError } from "./util.js";
@@ -25,8 +17,7 @@ export async function getOaiSSEs<TEvent, O extends Record<string, any>>(
   const jsonParser = new TransformStream<EventMessage, TEvent>({
     transform: async (chunk, controller) => {
       if (chunk.data === "[DONE]") {
-        controller.terminate();
-        return eventStream[Symbol.asyncDispose]();
+        return;
       }
       controller.enqueue(
         toEvent(
@@ -39,5 +30,5 @@ export async function getOaiSSEs<TEvent, O extends Record<string, any>>(
     },
   });
   /** TODO: remove these polyfills once all supported runtimes support them */
-  return polyfillStream(eventStream.pipeThrough(jsonParser), () => eventStream.cancel());
+  return polyfillStream(eventStream.pipeThrough(jsonParser));
 }

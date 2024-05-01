@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   AccessInviteUserAccountModel,
-  ConfluentManagementClient
+  ConfluentManagementClient,
 } from "@azure/arm-confluent";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Invite user to the organization
  *
  * @summary Invite user to the organization
- * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2023-08-22/examples/Access_InviteUser.json
+ * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Access_InviteUser.json
  */
 async function accessInviteUser() {
   const subscriptionId =
@@ -33,15 +33,15 @@ async function accessInviteUser() {
   const body: AccessInviteUserAccountModel = {
     invitedUserDetails: {
       authType: "AUTH_TYPE_SSO",
-      invitedEmail: "user2@onmicrosoft.com"
-    }
+      invitedEmail: "user2@onmicrosoft.com",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ConfluentManagementClient(credential, subscriptionId);
   const result = await client.access.inviteUser(
     resourceGroupName,
     organizationName,
-    body
+    body,
   );
   console.log(result);
 }

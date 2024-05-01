@@ -11,6 +11,7 @@ export interface IndexingPolicy {
   /** An array of {@link IncludedPath} represents the paths to be excluded for indexing. */
   excludedPaths?: IndexedPath[];
   spatialIndexes?: SpatialIndex[];
+  vectorIndexes?: VectorIndex[];
 }
 
 /* The target data type of a spatial path */
@@ -47,4 +48,9 @@ export interface Index {
   kind: keyof typeof IndexKind;
   dataType: keyof typeof DataType;
   precision?: number;
+}
+
+export interface VectorIndex {
+  path: string;
+  type: "flat" | "diskANN" | "quantizedFlat";
 }

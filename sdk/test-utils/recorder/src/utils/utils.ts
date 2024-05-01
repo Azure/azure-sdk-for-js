@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { env } from "./env";
+
+import { env } from "./env.js";
+
 /**
  * A custom error type for failed pipeline requests.
  */
@@ -25,7 +27,7 @@ export class RecordingStateManager {
   /**
    * validateState
    */
-  private validateState(nextState: RecordingState) {
+  private validateState(nextState: RecordingState): void {
     if (nextState === "started") {
       if (this.state === "started") {
         throw new RecorderError("Already started, should not have called start again.");
@@ -131,7 +133,7 @@ export function isStringSanitizer(sanitizer: FindReplaceSanitizer): sanitizer is
  *
  * If the body is NOT a JSON object, this sanitizer will NOT be applied.
  */
-type BodyKeySanitizer = {
+export type BodyKeySanitizer = {
   regex?: string;
 
   value?: string;
@@ -332,15 +334,15 @@ export const once = <T>(make: () => T): (() => T) => {
   return () => (value = value ?? make());
 };
 
-export function isRecordMode() {
+export function isRecordMode(): boolean {
   return env.TEST_MODE?.toLowerCase() === "record";
 }
 
-export function isLiveMode() {
+export function isLiveMode(): boolean {
   return env.TEST_MODE?.toLowerCase() === "live";
 }
 
-export function isPlaybackMode() {
+export function isPlaybackMode(): boolean {
   return !isRecordMode() && !isLiveMode();
 }
 
@@ -352,7 +354,7 @@ export function isPlaybackMode() {
  * Suppose `variables` is { ACCOUNT_NAME: "my_account_name", ACCOUNT_KEY: "fake_secret" },
  * `setEnvironmentVariables` loads the ACCOUNT_NAME and ACCOUNT_KEY in the environment accordingly.
  */
-export function setEnvironmentVariables(variables: { [key: string]: string }) {
+export function setEnvironmentVariables(variables: { [key: string]: string }): void {
   for (const [key, value] of Object.entries(variables)) {
     env[key] = value;
   }

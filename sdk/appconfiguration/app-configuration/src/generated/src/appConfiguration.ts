@@ -11,12 +11,12 @@ import * as coreHttpCompat from "@azure/core-http-compat";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "./lroImpl";
 import * as Parameters from "./models/parameters";
@@ -77,7 +77,7 @@ import {
   GetLabelsNextOptionalParams,
   GetLabelsNextResponse,
   GetRevisionsNextOptionalParams,
-  GetRevisionsNextResponse
+  GetRevisionsNextResponse,
 } from "./models";
 
 /** @internal */
@@ -95,7 +95,7 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
   constructor(
     endpoint: string,
     apiVersion: ApiVersion20231001,
-    options?: AppConfigurationOptionalParams
+    options?: AppConfigurationOptionalParams,
   ) {
     if (endpoint === undefined) {
       throw new Error("'endpoint' cannot be null");
@@ -109,10 +109,10 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
       options = {};
     }
     const defaults: AppConfigurationOptionalParams = {
-      requestContentType: "application/json; charset=utf-8"
+      requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-app-configuration/1.5.0`;
+    const packageDetails = `azsdk-js-app-configuration/1.6.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -122,9 +122,9 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      endpoint: options.endpoint ?? options.baseUri ?? "{endpoint}"
+      endpoint: options.endpoint ?? options.baseUri ?? "{endpoint}",
     };
     super(optionsWithDefaults);
     // Parameter assignments
@@ -142,7 +142,7 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -156,7 +156,7 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -182,7 +182,7 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
    * @param options The options parameters.
    */
   getKeyValues(
-    options?: GetKeyValuesOptionalParams
+    options?: GetKeyValuesOptionalParams,
   ): Promise<GetKeyValuesResponse> {
     return this.sendOperationRequest({ options }, getKeyValuesOperationSpec);
   }
@@ -192,7 +192,7 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
    * @param options The options parameters.
    */
   checkKeyValues(
-    options?: CheckKeyValuesOptionalParams
+    options?: CheckKeyValuesOptionalParams,
   ): Promise<CheckKeyValuesResponse> {
     return this.sendOperationRequest({ options }, checkKeyValuesOperationSpec);
   }
@@ -204,11 +204,11 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
    */
   getKeyValue(
     key: string,
-    options?: GetKeyValueOptionalParams
+    options?: GetKeyValueOptionalParams,
   ): Promise<GetKeyValueResponse> {
     return this.sendOperationRequest(
       { key, options },
-      getKeyValueOperationSpec
+      getKeyValueOperationSpec,
     );
   }
 
@@ -219,11 +219,11 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
    */
   putKeyValue(
     key: string,
-    options?: PutKeyValueOptionalParams
+    options?: PutKeyValueOptionalParams,
   ): Promise<PutKeyValueResponse> {
     return this.sendOperationRequest(
       { key, options },
-      putKeyValueOperationSpec
+      putKeyValueOperationSpec,
     );
   }
 
@@ -234,11 +234,11 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
    */
   deleteKeyValue(
     key: string,
-    options?: DeleteKeyValueOptionalParams
+    options?: DeleteKeyValueOptionalParams,
   ): Promise<DeleteKeyValueResponse> {
     return this.sendOperationRequest(
       { key, options },
-      deleteKeyValueOperationSpec
+      deleteKeyValueOperationSpec,
     );
   }
 
@@ -249,11 +249,11 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
    */
   checkKeyValue(
     key: string,
-    options?: CheckKeyValueOptionalParams
+    options?: CheckKeyValueOptionalParams,
   ): Promise<CheckKeyValueResponse> {
     return this.sendOperationRequest(
       { key, options },
-      checkKeyValueOperationSpec
+      checkKeyValueOperationSpec,
     );
   }
 
@@ -262,7 +262,7 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
    * @param options The options parameters.
    */
   getSnapshots(
-    options?: GetSnapshotsOptionalParams
+    options?: GetSnapshotsOptionalParams,
   ): Promise<GetSnapshotsResponse> {
     return this.sendOperationRequest({ options }, getSnapshotsOperationSpec);
   }
@@ -272,7 +272,7 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
    * @param options The options parameters.
    */
   checkSnapshots(
-    options?: CheckSnapshotsOptionalParams
+    options?: CheckSnapshotsOptionalParams,
   ): Promise<CheckSnapshotsResponse> {
     return this.sendOperationRequest({ options }, checkSnapshotsOperationSpec);
   }
@@ -284,11 +284,11 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
    */
   getSnapshot(
     name: string,
-    options?: GetSnapshotOptionalParams
+    options?: GetSnapshotOptionalParams,
   ): Promise<GetSnapshotResponse> {
     return this.sendOperationRequest(
       { name, options },
-      getSnapshotOperationSpec
+      getSnapshotOperationSpec,
     );
   }
 
@@ -301,7 +301,7 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
   async beginCreateSnapshot(
     name: string,
     entity: ConfigurationSnapshot,
-    options?: CreateSnapshotOptionalParams
+    options?: CreateSnapshotOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CreateSnapshotResponse>,
@@ -310,21 +310,20 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CreateSnapshotResponse> => {
       return this.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -333,8 +332,8 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -342,22 +341,22 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { name, entity, options },
-      spec: createSnapshotOperationSpec
+      spec: createSnapshotOperationSpec,
     });
     const poller = await createHttpPoller<
       CreateSnapshotResponse,
       OperationState<CreateSnapshotResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -372,7 +371,7 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
   async beginCreateSnapshotAndWait(
     name: string,
     entity: ConfigurationSnapshot,
-    options?: CreateSnapshotOptionalParams
+    options?: CreateSnapshotOptionalParams,
   ): Promise<CreateSnapshotResponse> {
     const poller = await this.beginCreateSnapshot(name, entity, options);
     return poller.pollUntilDone();
@@ -387,11 +386,11 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
   updateSnapshot(
     name: string,
     entity: SnapshotUpdateParameters,
-    options?: UpdateSnapshotOptionalParams
+    options?: UpdateSnapshotOptionalParams,
   ): Promise<UpdateSnapshotResponse> {
     return this.sendOperationRequest(
       { name, entity, options },
-      updateSnapshotOperationSpec
+      updateSnapshotOperationSpec,
     );
   }
 
@@ -402,11 +401,11 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
    */
   checkSnapshot(
     name: string,
-    options?: CheckSnapshotOptionalParams
+    options?: CheckSnapshotOptionalParams,
   ): Promise<CheckSnapshotResponse> {
     return this.sendOperationRequest(
       { name, options },
-      checkSnapshotOperationSpec
+      checkSnapshotOperationSpec,
     );
   }
 
@@ -423,7 +422,7 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
    * @param options The options parameters.
    */
   checkLabels(
-    options?: CheckLabelsOptionalParams
+    options?: CheckLabelsOptionalParams,
   ): Promise<CheckLabelsResponse> {
     return this.sendOperationRequest({ options }, checkLabelsOperationSpec);
   }
@@ -435,7 +434,7 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
    */
   putLock(
     key: string,
-    options?: PutLockOptionalParams
+    options?: PutLockOptionalParams,
   ): Promise<PutLockResponse> {
     return this.sendOperationRequest({ key, options }, putLockOperationSpec);
   }
@@ -447,7 +446,7 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
    */
   deleteLock(
     key: string,
-    options?: DeleteLockOptionalParams
+    options?: DeleteLockOptionalParams,
   ): Promise<DeleteLockResponse> {
     return this.sendOperationRequest({ key, options }, deleteLockOperationSpec);
   }
@@ -457,7 +456,7 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
    * @param options The options parameters.
    */
   getRevisions(
-    options?: GetRevisionsOptionalParams
+    options?: GetRevisionsOptionalParams,
   ): Promise<GetRevisionsResponse> {
     return this.sendOperationRequest({ options }, getRevisionsOperationSpec);
   }
@@ -467,7 +466,7 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
    * @param options The options parameters.
    */
   checkRevisions(
-    options?: CheckRevisionsOptionalParams
+    options?: CheckRevisionsOptionalParams,
   ): Promise<CheckRevisionsResponse> {
     return this.sendOperationRequest({ options }, checkRevisionsOperationSpec);
   }
@@ -479,11 +478,11 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
    */
   getOperationDetails(
     snapshot: string,
-    options?: GetOperationDetailsOptionalParams
+    options?: GetOperationDetailsOptionalParams,
   ): Promise<GetOperationDetailsResponse> {
     return this.sendOperationRequest(
       { snapshot, options },
-      getOperationDetailsOperationSpec
+      getOperationDetailsOperationSpec,
     );
   }
 
@@ -494,11 +493,11 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
    */
   getKeysNext(
     nextLink: string,
-    options?: GetKeysNextOptionalParams
+    options?: GetKeysNextOptionalParams,
   ): Promise<GetKeysNextResponse> {
     return this.sendOperationRequest(
       { nextLink, options },
-      getKeysNextOperationSpec
+      getKeysNextOperationSpec,
     );
   }
 
@@ -509,11 +508,11 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
    */
   getKeyValuesNext(
     nextLink: string,
-    options?: GetKeyValuesNextOptionalParams
+    options?: GetKeyValuesNextOptionalParams,
   ): Promise<GetKeyValuesNextResponse> {
     return this.sendOperationRequest(
       { nextLink, options },
-      getKeyValuesNextOperationSpec
+      getKeyValuesNextOperationSpec,
     );
   }
 
@@ -524,11 +523,11 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
    */
   getSnapshotsNext(
     nextLink: string,
-    options?: GetSnapshotsNextOptionalParams
+    options?: GetSnapshotsNextOptionalParams,
   ): Promise<GetSnapshotsNextResponse> {
     return this.sendOperationRequest(
       { nextLink, options },
-      getSnapshotsNextOperationSpec
+      getSnapshotsNextOperationSpec,
     );
   }
 
@@ -539,11 +538,11 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
    */
   getLabelsNext(
     nextLink: string,
-    options?: GetLabelsNextOptionalParams
+    options?: GetLabelsNextOptionalParams,
   ): Promise<GetLabelsNextResponse> {
     return this.sendOperationRequest(
       { nextLink, options },
-      getLabelsNextOperationSpec
+      getLabelsNextOperationSpec,
     );
   }
 
@@ -554,11 +553,11 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
    */
   getRevisionsNext(
     nextLink: string,
-    options?: GetRevisionsNextOptionalParams
+    options?: GetRevisionsNextOptionalParams,
   ): Promise<GetRevisionsNextResponse> {
     return this.sendOperationRequest(
       { nextLink, options },
-      getRevisionsNextOperationSpec
+      getRevisionsNextOperationSpec,
     );
   }
 }
@@ -571,34 +570,34 @@ const getKeysOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.KeyListResult,
-      headersMapper: Mappers.AppConfigurationGetKeysHeaders
+      headersMapper: Mappers.AppConfigurationGetKeysHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.name, Parameters.apiVersion, Parameters.after],
   urlParameters: [Parameters.endpoint],
   headerParameters: [
     Parameters.accept,
     Parameters.syncToken,
-    Parameters.acceptDatetime
+    Parameters.acceptDatetime,
   ],
-  serializer
+  serializer,
 };
 const checkKeysOperationSpec: coreClient.OperationSpec = {
   path: "/keys",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.AppConfigurationCheckKeysHeaders
+      headersMapper: Mappers.AppConfigurationCheckKeysHeaders,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.name, Parameters.apiVersion, Parameters.after],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.syncToken, Parameters.acceptDatetime],
-  serializer
+  serializer,
 };
 const getKeyValuesOperationSpec: coreClient.OperationSpec = {
   path: "/kv",
@@ -606,11 +605,11 @@ const getKeyValuesOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.KeyValueListResult,
-      headersMapper: Mappers.AppConfigurationGetKeyValuesHeaders
+      headersMapper: Mappers.AppConfigurationGetKeyValuesHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
@@ -618,7 +617,7 @@ const getKeyValuesOperationSpec: coreClient.OperationSpec = {
     Parameters.key,
     Parameters.label,
     Parameters.select,
-    Parameters.snapshot
+    Parameters.snapshot,
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [
@@ -626,18 +625,18 @@ const getKeyValuesOperationSpec: coreClient.OperationSpec = {
     Parameters.acceptDatetime,
     Parameters.accept1,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
   ],
-  serializer
+  serializer,
 };
 const checkKeyValuesOperationSpec: coreClient.OperationSpec = {
   path: "/kv",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.AppConfigurationCheckKeyValuesHeaders
+      headersMapper: Mappers.AppConfigurationCheckKeyValuesHeaders,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [
     Parameters.apiVersion,
@@ -645,16 +644,16 @@ const checkKeyValuesOperationSpec: coreClient.OperationSpec = {
     Parameters.key,
     Parameters.label,
     Parameters.select,
-    Parameters.snapshot
+    Parameters.snapshot,
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [
     Parameters.syncToken,
     Parameters.acceptDatetime,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
   ],
-  serializer
+  serializer,
 };
 const getKeyValueOperationSpec: coreClient.OperationSpec = {
   path: "/kv/{key}",
@@ -662,14 +661,14 @@ const getKeyValueOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.KeyValue,
-      headersMapper: Mappers.AppConfigurationGetKeyValueHeaders
+      headersMapper: Mappers.AppConfigurationGetKeyValueHeaders,
     },
     304: {
-      headersMapper: Mappers.AppConfigurationGetKeyValueHeaders
+      headersMapper: Mappers.AppConfigurationGetKeyValueHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.label, Parameters.select],
   urlParameters: [Parameters.endpoint, Parameters.key1],
@@ -678,9 +677,9 @@ const getKeyValueOperationSpec: coreClient.OperationSpec = {
     Parameters.acceptDatetime,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
-    Parameters.accept2
+    Parameters.accept2,
   ],
-  serializer
+  serializer,
 };
 const putKeyValueOperationSpec: coreClient.OperationSpec = {
   path: "/kv/{key}",
@@ -688,11 +687,11 @@ const putKeyValueOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.KeyValue,
-      headersMapper: Mappers.AppConfigurationPutKeyValueHeaders
+      headersMapper: Mappers.AppConfigurationPutKeyValueHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   requestBody: Parameters.entity,
   queryParameters: [Parameters.apiVersion, Parameters.label],
@@ -702,10 +701,10 @@ const putKeyValueOperationSpec: coreClient.OperationSpec = {
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
     Parameters.accept2,
-    Parameters.contentType
+    Parameters.contentType,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteKeyValueOperationSpec: coreClient.OperationSpec = {
   path: "/kv/{key}",
@@ -713,35 +712,35 @@ const deleteKeyValueOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.KeyValue,
-      headersMapper: Mappers.AppConfigurationDeleteKeyValueHeaders
+      headersMapper: Mappers.AppConfigurationDeleteKeyValueHeaders,
     },
     204: {
-      headersMapper: Mappers.AppConfigurationDeleteKeyValueHeaders
+      headersMapper: Mappers.AppConfigurationDeleteKeyValueHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.label],
   urlParameters: [Parameters.endpoint, Parameters.key1],
   headerParameters: [
     Parameters.syncToken,
     Parameters.ifMatch,
-    Parameters.accept2
+    Parameters.accept2,
   ],
-  serializer
+  serializer,
 };
 const checkKeyValueOperationSpec: coreClient.OperationSpec = {
   path: "/kv/{key}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.AppConfigurationCheckKeyValueHeaders
+      headersMapper: Mappers.AppConfigurationCheckKeyValueHeaders,
     },
     304: {
-      headersMapper: Mappers.AppConfigurationCheckKeyValueHeaders
+      headersMapper: Mappers.AppConfigurationCheckKeyValueHeaders,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion, Parameters.label, Parameters.select],
   urlParameters: [Parameters.endpoint, Parameters.key1],
@@ -749,9 +748,9 @@ const checkKeyValueOperationSpec: coreClient.OperationSpec = {
     Parameters.syncToken,
     Parameters.acceptDatetime,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
   ],
-  serializer
+  serializer,
 };
 const getSnapshotsOperationSpec: coreClient.OperationSpec = {
   path: "/snapshots",
@@ -759,36 +758,36 @@ const getSnapshotsOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.SnapshotListResult,
-      headersMapper: Mappers.AppConfigurationGetSnapshotsHeaders
+      headersMapper: Mappers.AppConfigurationGetSnapshotsHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [
     Parameters.name,
     Parameters.apiVersion,
     Parameters.after,
     Parameters.select1,
-    Parameters.status
+    Parameters.status,
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.syncToken, Parameters.accept3],
-  serializer
+  serializer,
 };
 const checkSnapshotsOperationSpec: coreClient.OperationSpec = {
   path: "/snapshots",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.AppConfigurationCheckSnapshotsHeaders
+      headersMapper: Mappers.AppConfigurationCheckSnapshotsHeaders,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion, Parameters.after],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.syncToken],
-  serializer
+  serializer,
 };
 const getSnapshotOperationSpec: coreClient.OperationSpec = {
   path: "/snapshots/{name}",
@@ -796,11 +795,11 @@ const getSnapshotOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ConfigurationSnapshot,
-      headersMapper: Mappers.AppConfigurationGetSnapshotHeaders
+      headersMapper: Mappers.AppConfigurationGetSnapshotHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.select1],
   urlParameters: [Parameters.endpoint, Parameters.name1],
@@ -808,9 +807,9 @@ const getSnapshotOperationSpec: coreClient.OperationSpec = {
     Parameters.syncToken,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
-    Parameters.accept4
+    Parameters.accept4,
   ],
-  serializer
+  serializer,
 };
 const createSnapshotOperationSpec: coreClient.OperationSpec = {
   path: "/snapshots/{name}",
@@ -818,23 +817,23 @@ const createSnapshotOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ConfigurationSnapshot,
-      headersMapper: Mappers.AppConfigurationCreateSnapshotHeaders
+      headersMapper: Mappers.AppConfigurationCreateSnapshotHeaders,
     },
     201: {
       bodyMapper: Mappers.ConfigurationSnapshot,
-      headersMapper: Mappers.AppConfigurationCreateSnapshotHeaders
+      headersMapper: Mappers.AppConfigurationCreateSnapshotHeaders,
     },
     202: {
       bodyMapper: Mappers.ConfigurationSnapshot,
-      headersMapper: Mappers.AppConfigurationCreateSnapshotHeaders
+      headersMapper: Mappers.AppConfigurationCreateSnapshotHeaders,
     },
     204: {
       bodyMapper: Mappers.ConfigurationSnapshot,
-      headersMapper: Mappers.AppConfigurationCreateSnapshotHeaders
+      headersMapper: Mappers.AppConfigurationCreateSnapshotHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   requestBody: Parameters.entity1,
   queryParameters: [Parameters.apiVersion],
@@ -842,10 +841,10 @@ const createSnapshotOperationSpec: coreClient.OperationSpec = {
   headerParameters: [
     Parameters.syncToken,
     Parameters.accept4,
-    Parameters.contentType1
+    Parameters.contentType1,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateSnapshotOperationSpec: coreClient.OperationSpec = {
   path: "/snapshots/{name}",
@@ -853,11 +852,11 @@ const updateSnapshotOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ConfigurationSnapshot,
-      headersMapper: Mappers.AppConfigurationUpdateSnapshotHeaders
+      headersMapper: Mappers.AppConfigurationUpdateSnapshotHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   requestBody: Parameters.entity2,
   queryParameters: [Parameters.apiVersion],
@@ -867,28 +866,28 @@ const updateSnapshotOperationSpec: coreClient.OperationSpec = {
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
     Parameters.accept4,
-    Parameters.contentType2
+    Parameters.contentType2,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const checkSnapshotOperationSpec: coreClient.OperationSpec = {
   path: "/snapshots/{name}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.AppConfigurationCheckSnapshotHeaders
+      headersMapper: Mappers.AppConfigurationCheckSnapshotHeaders,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.name1],
   headerParameters: [
     Parameters.syncToken,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
   ],
-  serializer
+  serializer,
 };
 const getLabelsOperationSpec: coreClient.OperationSpec = {
   path: "/labels",
@@ -896,44 +895,44 @@ const getLabelsOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.LabelListResult,
-      headersMapper: Mappers.AppConfigurationGetLabelsHeaders
+      headersMapper: Mappers.AppConfigurationGetLabelsHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [
     Parameters.name,
     Parameters.apiVersion,
     Parameters.after,
-    Parameters.select2
+    Parameters.select2,
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [
     Parameters.syncToken,
     Parameters.acceptDatetime,
-    Parameters.accept5
+    Parameters.accept5,
   ],
-  serializer
+  serializer,
 };
 const checkLabelsOperationSpec: coreClient.OperationSpec = {
   path: "/labels",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.AppConfigurationCheckLabelsHeaders
+      headersMapper: Mappers.AppConfigurationCheckLabelsHeaders,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [
     Parameters.name,
     Parameters.apiVersion,
     Parameters.after,
-    Parameters.select2
+    Parameters.select2,
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.syncToken, Parameters.acceptDatetime],
-  serializer
+  serializer,
 };
 const putLockOperationSpec: coreClient.OperationSpec = {
   path: "/locks/{key}",
@@ -941,11 +940,11 @@ const putLockOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.KeyValue,
-      headersMapper: Mappers.AppConfigurationPutLockHeaders
+      headersMapper: Mappers.AppConfigurationPutLockHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.label],
   urlParameters: [Parameters.endpoint, Parameters.key1],
@@ -953,9 +952,9 @@ const putLockOperationSpec: coreClient.OperationSpec = {
     Parameters.syncToken,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
-    Parameters.accept2
+    Parameters.accept2,
   ],
-  serializer
+  serializer,
 };
 const deleteLockOperationSpec: coreClient.OperationSpec = {
   path: "/locks/{key}",
@@ -963,11 +962,11 @@ const deleteLockOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.KeyValue,
-      headersMapper: Mappers.AppConfigurationDeleteLockHeaders
+      headersMapper: Mappers.AppConfigurationDeleteLockHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.label],
   urlParameters: [Parameters.endpoint, Parameters.key1],
@@ -975,9 +974,9 @@ const deleteLockOperationSpec: coreClient.OperationSpec = {
     Parameters.syncToken,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
-    Parameters.accept2
+    Parameters.accept2,
   ],
-  serializer
+  serializer,
 };
 const getRevisionsOperationSpec: coreClient.OperationSpec = {
   path: "/revisions",
@@ -985,62 +984,62 @@ const getRevisionsOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.KeyValueListResult,
-      headersMapper: Mappers.AppConfigurationGetRevisionsHeaders
+      headersMapper: Mappers.AppConfigurationGetRevisionsHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.after,
     Parameters.key,
     Parameters.label,
-    Parameters.select
+    Parameters.select,
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [
     Parameters.syncToken,
     Parameters.acceptDatetime,
-    Parameters.accept1
+    Parameters.accept1,
   ],
-  serializer
+  serializer,
 };
 const checkRevisionsOperationSpec: coreClient.OperationSpec = {
   path: "/revisions",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.AppConfigurationCheckRevisionsHeaders
+      headersMapper: Mappers.AppConfigurationCheckRevisionsHeaders,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.after,
     Parameters.key,
     Parameters.label,
-    Parameters.select
+    Parameters.select,
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.syncToken, Parameters.acceptDatetime],
-  serializer
+  serializer,
 };
 const getOperationDetailsOperationSpec: coreClient.OperationSpec = {
   path: "/operations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationDetails
+      bodyMapper: Mappers.OperationDetails,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.snapshot1],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept6],
-  serializer
+  serializer,
 };
 const getKeysNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
@@ -1048,19 +1047,19 @@ const getKeysNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.KeyListResult,
-      headersMapper: Mappers.AppConfigurationGetKeysNextHeaders
+      headersMapper: Mappers.AppConfigurationGetKeysNextHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [
     Parameters.accept,
     Parameters.syncToken,
-    Parameters.acceptDatetime
+    Parameters.acceptDatetime,
   ],
-  serializer
+  serializer,
 };
 const getKeyValuesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
@@ -1068,11 +1067,11 @@ const getKeyValuesNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.KeyValueListResult,
-      headersMapper: Mappers.AppConfigurationGetKeyValuesNextHeaders
+      headersMapper: Mappers.AppConfigurationGetKeyValuesNextHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [
@@ -1080,9 +1079,9 @@ const getKeyValuesNextOperationSpec: coreClient.OperationSpec = {
     Parameters.acceptDatetime,
     Parameters.accept1,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
   ],
-  serializer
+  serializer,
 };
 const getSnapshotsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
@@ -1090,15 +1089,15 @@ const getSnapshotsNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.SnapshotListResult,
-      headersMapper: Mappers.AppConfigurationGetSnapshotsNextHeaders
+      headersMapper: Mappers.AppConfigurationGetSnapshotsNextHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.syncToken, Parameters.accept3],
-  serializer
+  serializer,
 };
 const getLabelsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
@@ -1106,19 +1105,19 @@ const getLabelsNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.LabelListResult,
-      headersMapper: Mappers.AppConfigurationGetLabelsNextHeaders
+      headersMapper: Mappers.AppConfigurationGetLabelsNextHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [
     Parameters.syncToken,
     Parameters.acceptDatetime,
-    Parameters.accept5
+    Parameters.accept5,
   ],
-  serializer
+  serializer,
 };
 const getRevisionsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
@@ -1126,17 +1125,17 @@ const getRevisionsNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.KeyValueListResult,
-      headersMapper: Mappers.AppConfigurationGetRevisionsNextHeaders
+      headersMapper: Mappers.AppConfigurationGetRevisionsNextHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [
     Parameters.syncToken,
     Parameters.acceptDatetime,
-    Parameters.accept1
+    Parameters.accept1,
   ],
-  serializer
+  serializer,
 };

@@ -46,3 +46,7 @@ export * from "./restorableGremlinResources";
 export * from "./restorableTables";
 export * from "./restorableTableResources";
 export * from "./service";
+export * from "./throughputPools";
+export * from "./throughputPool";
+export * from "./throughputPoolAccounts";
+export * from "./throughputPoolAccount";

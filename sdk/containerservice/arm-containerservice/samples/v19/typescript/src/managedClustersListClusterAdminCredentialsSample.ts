@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the admin credentials of a managed cluster.
  *
  * @summary Lists the admin credentials of a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/examples/ManagedClustersListClusterAdminCredentials.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-01-01/examples/ManagedClustersListClusterAdminCredentials.json
  */
 async function getManagedCluster() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function getManagedCluster() {
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.managedClusters.listClusterAdminCredentials(
     resourceGroupName,
-    resourceName
+    resourceName,
   );
   console.log(result);
 }

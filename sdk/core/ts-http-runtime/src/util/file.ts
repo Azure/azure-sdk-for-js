@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { toWebStream } from "./stream";
+import { isNodeLike } from "./checkEnvironment.js";
+import { isNodeReadableStream } from "./typeGuards.js";
 
 /**
  * Options passed into createFile specifying metadata about the file.
@@ -50,6 +51,50 @@ const unimplementedMethods = {
 };
 
 /**
+ * Private symbol used as key on objects created using createFile containing the
+ * original source of the file object.
+ *
+ * This is used in Node to access the original Node stream without using Blob#stream, which
+ * returns a web stream. This is done to avoid a couple of bugs to do with Blob#stream and
+ * Readable#to/fromWeb in Node versions we support:
+ * - https://github.com/nodejs/node/issues/42694 (fixed in Node 18.14)
+ * - https://github.com/nodejs/node/issues/48916 (fixed in Node 20.6)
+ *
+ * Once these versions are no longer supported, we may be able to stop doing this.
+ *
+ * @internal
+ */
+const rawContent: unique symbol = Symbol("rawContent");
+
+/**
+ * Type signature of a blob-like object with a raw content property.
+ */
+interface RawContent {
+  [rawContent](): Uint8Array | NodeJS.ReadableStream | ReadableStream<Uint8Array>;
+}
+
+function hasRawContent(x: unknown): x is RawContent {
+  return typeof (x as RawContent)[rawContent] === "function";
+}
+
+/**
+ * Extract the raw content from a given blob-like object. If the input was created using createFile
+ * or createFileFromStream, the exact content passed into createFile/createFileFromStream will be used.
+ * For true instances of Blob and File, returns the blob's content as a Web ReadableStream<Uint8Array>.
+ *
+ * @internal
+ */
+export function getRawContent(
+  blob: Blob,
+): NodeJS.ReadableStream | ReadableStream<Uint8Array> | Uint8Array {
+  if (hasRawContent(blob)) {
+    return blob[rawContent]();
+  } else {
+    return blob.stream();
+  }
+}
+
+/**
  * Create an object that implements the File interface. This object is intended to be
  * passed into RequestBodyType.formData, and is not guaranteed to work as expected in
  * other situations.
@@ -78,8 +123,18 @@ export function createFileFromStream(
     webkitRelativePath: options.webkitRelativePath ?? "",
     size: options.size ?? -1,
     name,
-    stream: () => toWebStream(stream()),
-  };
+    stream: () => {
+      const s = stream();
+      if (isNodeReadableStream(s)) {
+        throw new Error(
+          "Not supported: a Node stream was provided as input to createFileFromStream.",
+        );
+      }
+
+      return s;
+    },
+    [rawContent]: stream,
+  } as File & RawContent;
 }
 
 /**
@@ -98,14 +153,19 @@ export function createFile(
   name: string,
   options: CreateFileOptions = {},
 ): File {
-  return {
-    ...unimplementedMethods,
-    type: options.type ?? "",
-    lastModified: options.lastModified ?? new Date().getTime(),
-    webkitRelativePath: options.webkitRelativePath ?? "",
-    size: content.byteLength,
-    name,
-    arrayBuffer: async () => content.buffer,
-    stream: () => new Blob([content]).stream(),
-  };
+  if (isNodeLike) {
+    return {
+      ...unimplementedMethods,
+      type: options.type ?? "",
+      lastModified: options.lastModified ?? new Date().getTime(),
+      webkitRelativePath: options.webkitRelativePath ?? "",
+      size: content.byteLength,
+      name,
+      arrayBuffer: async () => content.buffer,
+      stream: () => new Blob([content]).stream(),
+      [rawContent]: () => content,
+    } as File & RawContent;
+  } else {
+    return new File([content], name, options);
+  }
 }

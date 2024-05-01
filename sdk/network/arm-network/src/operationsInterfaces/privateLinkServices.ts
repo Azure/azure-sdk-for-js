@@ -31,7 +31,7 @@ import {
   PrivateLinkServicesCheckPrivateLinkServiceVisibilityOptionalParams,
   PrivateLinkServicesCheckPrivateLinkServiceVisibilityResponse,
   PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupOptionalParams,
-  PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupResponse
+  PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,14 +44,14 @@ export interface PrivateLinkServices {
    */
   list(
     resourceGroupName: string,
-    options?: PrivateLinkServicesListOptionalParams
+    options?: PrivateLinkServicesListOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkService>;
   /**
    * Gets all private link service in a subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: PrivateLinkServicesListBySubscriptionOptionalParams
+    options?: PrivateLinkServicesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkService>;
   /**
    * Gets all private end point connections for a specific private link service.
@@ -62,7 +62,7 @@ export interface PrivateLinkServices {
   listPrivateEndpointConnections(
     resourceGroupName: string,
     serviceName: string,
-    options?: PrivateLinkServicesListPrivateEndpointConnectionsOptionalParams
+    options?: PrivateLinkServicesListPrivateEndpointConnectionsOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /**
    * Returns all of the private link service ids that can be linked to a Private Endpoint with auto
@@ -72,7 +72,7 @@ export interface PrivateLinkServices {
    */
   listAutoApprovedPrivateLinkServices(
     location: string,
-    options?: PrivateLinkServicesListAutoApprovedPrivateLinkServicesOptionalParams
+    options?: PrivateLinkServicesListAutoApprovedPrivateLinkServicesOptionalParams,
   ): PagedAsyncIterableIterator<AutoApprovedPrivateLinkService>;
   /**
    * Returns all of the private link service ids that can be linked to a Private Endpoint with auto
@@ -84,7 +84,7 @@ export interface PrivateLinkServices {
   listAutoApprovedPrivateLinkServicesByResourceGroup(
     location: string,
     resourceGroupName: string,
-    options?: PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupOptionalParams
+    options?: PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AutoApprovedPrivateLinkService>;
   /**
    * Deletes the specified private link service.
@@ -95,7 +95,7 @@ export interface PrivateLinkServices {
   beginDelete(
     resourceGroupName: string,
     serviceName: string,
-    options?: PrivateLinkServicesDeleteOptionalParams
+    options?: PrivateLinkServicesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified private link service.
@@ -106,7 +106,7 @@ export interface PrivateLinkServices {
   beginDeleteAndWait(
     resourceGroupName: string,
     serviceName: string,
-    options?: PrivateLinkServicesDeleteOptionalParams
+    options?: PrivateLinkServicesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the specified private link service by resource group.
@@ -117,7 +117,7 @@ export interface PrivateLinkServices {
   get(
     resourceGroupName: string,
     serviceName: string,
-    options?: PrivateLinkServicesGetOptionalParams
+    options?: PrivateLinkServicesGetOptionalParams,
   ): Promise<PrivateLinkServicesGetResponse>;
   /**
    * Creates or updates an private link service in the specified resource group.
@@ -130,7 +130,7 @@ export interface PrivateLinkServices {
     resourceGroupName: string,
     serviceName: string,
     parameters: PrivateLinkService,
-    options?: PrivateLinkServicesCreateOrUpdateOptionalParams
+    options?: PrivateLinkServicesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PrivateLinkServicesCreateOrUpdateResponse>,
@@ -148,7 +148,7 @@ export interface PrivateLinkServices {
     resourceGroupName: string,
     serviceName: string,
     parameters: PrivateLinkService,
-    options?: PrivateLinkServicesCreateOrUpdateOptionalParams
+    options?: PrivateLinkServicesCreateOrUpdateOptionalParams,
   ): Promise<PrivateLinkServicesCreateOrUpdateResponse>;
   /**
    * Get the specific private end point connection by specific private link service in the resource
@@ -162,7 +162,7 @@ export interface PrivateLinkServices {
     resourceGroupName: string,
     serviceName: string,
     peConnectionName: string,
-    options?: PrivateLinkServicesGetPrivateEndpointConnectionOptionalParams
+    options?: PrivateLinkServicesGetPrivateEndpointConnectionOptionalParams,
   ): Promise<PrivateLinkServicesGetPrivateEndpointConnectionResponse>;
   /**
    * Approve or reject private end point connection for a private link service in a subscription.
@@ -177,7 +177,7 @@ export interface PrivateLinkServices {
     serviceName: string,
     peConnectionName: string,
     parameters: PrivateEndpointConnection,
-    options?: PrivateLinkServicesUpdatePrivateEndpointConnectionOptionalParams
+    options?: PrivateLinkServicesUpdatePrivateEndpointConnectionOptionalParams,
   ): Promise<PrivateLinkServicesUpdatePrivateEndpointConnectionResponse>;
   /**
    * Delete private end point connection for a private link service in a subscription.
@@ -190,7 +190,7 @@ export interface PrivateLinkServices {
     resourceGroupName: string,
     serviceName: string,
     peConnectionName: string,
-    options?: PrivateLinkServicesDeletePrivateEndpointConnectionOptionalParams
+    options?: PrivateLinkServicesDeletePrivateEndpointConnectionOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete private end point connection for a private link service in a subscription.
@@ -203,7 +203,7 @@ export interface PrivateLinkServices {
     resourceGroupName: string,
     serviceName: string,
     peConnectionName: string,
-    options?: PrivateLinkServicesDeletePrivateEndpointConnectionOptionalParams
+    options?: PrivateLinkServicesDeletePrivateEndpointConnectionOptionalParams,
   ): Promise<void>;
   /**
    * Checks whether the subscription is visible to private link service.
@@ -214,12 +214,10 @@ export interface PrivateLinkServices {
   beginCheckPrivateLinkServiceVisibility(
     location: string,
     parameters: CheckPrivateLinkServiceVisibilityRequest,
-    options?: PrivateLinkServicesCheckPrivateLinkServiceVisibilityOptionalParams
+    options?: PrivateLinkServicesCheckPrivateLinkServiceVisibilityOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        PrivateLinkServicesCheckPrivateLinkServiceVisibilityResponse
-      >,
+      OperationState<PrivateLinkServicesCheckPrivateLinkServiceVisibilityResponse>,
       PrivateLinkServicesCheckPrivateLinkServiceVisibilityResponse
     >
   >;
@@ -232,7 +230,7 @@ export interface PrivateLinkServices {
   beginCheckPrivateLinkServiceVisibilityAndWait(
     location: string,
     parameters: CheckPrivateLinkServiceVisibilityRequest,
-    options?: PrivateLinkServicesCheckPrivateLinkServiceVisibilityOptionalParams
+    options?: PrivateLinkServicesCheckPrivateLinkServiceVisibilityOptionalParams,
   ): Promise<PrivateLinkServicesCheckPrivateLinkServiceVisibilityResponse>;
   /**
    * Checks whether the subscription is visible to private link service in the specified resource group.
@@ -245,12 +243,10 @@ export interface PrivateLinkServices {
     location: string,
     resourceGroupName: string,
     parameters: CheckPrivateLinkServiceVisibilityRequest,
-    options?: PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupOptionalParams
+    options?: PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupResponse
-      >,
+      OperationState<PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupResponse>,
       PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupResponse
     >
   >;
@@ -265,8 +261,6 @@ export interface PrivateLinkServices {
     location: string,
     resourceGroupName: string,
     parameters: CheckPrivateLinkServiceVisibilityRequest,
-    options?: PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupOptionalParams
-  ): Promise<
-    PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupResponse
-  >;
+    options?: PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupOptionalParams,
+  ): Promise<PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupResponse>;
 }

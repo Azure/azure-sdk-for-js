@@ -1,6 +1,6 @@
 # Release History
 
-## 1.6.2 (Unreleased)
+## 1.9.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,38 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.9.0 (2024-04-09)
+
+### Features Added
+
+- Add new `isNodeLike` and `isNodeRuntime` helpers. [PR #29086](https://github.com/Azure/azure-sdk-for-js/pull/29086/files)
+  - `isNodeLike` can be used to test if the current environment is compatible with Node.
+  - `isNodeRuntime` can be used to test if the current environment is strictly Node.js.
+  - Deprecated the existing `isNode` helper. Use `isNodeLike` instead.
+
+### Other Changes
+
+- Revert TypeScript output target to ES2017.
+
+## 1.8.1 (2024-03-20)
+
+### Other Changes
+
+- Add top-level `browser` field to `package.json` as fallback for legacy bundlers that do not support the `exports` field.
+
+## 1.8.0 (2024-03-12)
+
+### Other Changes
+
+- Migrated the codebase to ESM. This change is internal and should not affect customers.
+- Migrated unit tests to vitest.
+
+## 1.7.0 (2024-02-01)
+
+### Other Changes
+
+- Upgrade dependency `@azure/abort-controller` version to `^2.0.0`.
 
 ## 1.6.1 (2023-11-07)
 
@@ -21,7 +53,7 @@
 ### Features Added
 
 - Add support for hex encoding to `uint8ArrayToString` and `stringToUint8Array`
-- Fix bug when `uint8ArrayToString` with Base64 encoding would not decode binary data 
+- Fix bug when `uint8ArrayToString` with Base64 encoding would not decode binary data
   containing bytes which are not valid ISO/IEC 8859-1 (latin1) characters.
 
 ### Bugs Fixed

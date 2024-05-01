@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   UpdateMigrationItemInput,
-  SiteRecoveryManagementClient
+  SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to update the recovery settings of an ASR migration item.
  *
  * @summary The operation to update the recovery settings of an ASR migration item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationMigrationItems_Update.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationMigrationItems_Update.json
  */
 async function updatesMigrationItem() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function updatesMigrationItem() {
   const protectionContainerName = "vmwareContainer1";
   const migrationItemName = "virtualmachine1";
   const input: UpdateMigrationItemInput = {
-    properties: { providerSpecificDetails: { instanceType: "VMwareCbt" } }
+    properties: { providerSpecificDetails: { instanceType: "VMwareCbt" } },
   };
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
@@ -45,7 +45,7 @@ async function updatesMigrationItem() {
     fabricName,
     protectionContainerName,
     migrationItemName,
-    input
+    input,
   );
   console.log(result);
 }

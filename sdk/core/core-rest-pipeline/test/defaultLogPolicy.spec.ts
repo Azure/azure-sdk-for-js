@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
-import type { PipelinePolicy } from "../src/pipeline";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants.js";
+import type { PipelinePolicy } from "../src/pipeline.js";
 import { assert, describe, it, vi } from "vitest";
-import { createHttpHeaders } from "../src/httpHeaders";
-import { createPipelineFromOptions } from "../src/createPipelineFromOptions";
-import { createPipelineRequest } from "../src/pipelineRequest";
-import { isNode } from "@azure/core-util";
+import { createHttpHeaders } from "../src/httpHeaders.js";
+import { createPipelineFromOptions } from "../src/createPipelineFromOptions.js";
+import { createPipelineRequest } from "../src/pipelineRequest.js";
+import { isNodeLike } from "@azure/core-util";
 
 describe("defaultLogPolicy", function () {
   it("should be invoked on every retry", async function () {
@@ -30,7 +30,7 @@ describe("defaultLogPolicy", function () {
 
     const orderedPolicies = pipeline.getOrderedPolicies();
 
-    const expectedOrderedPolicies = isNode ? ["proxyPolicy", "decompressResponsePolicy"] : [];
+    const expectedOrderedPolicies = isNodeLike ? ["proxyPolicy", "decompressResponsePolicy"] : [];
     expectedOrderedPolicies.push(
       "formDataPolicy",
       "userAgentPolicy",
@@ -39,7 +39,7 @@ describe("defaultLogPolicy", function () {
       "defaultRetryPolicy",
       "tracingPolicy",
     );
-    if (isNode) {
+    if (isNodeLike) {
       expectedOrderedPolicies.push("redirectPolicy");
     }
     expectedOrderedPolicies.push("testSignPolicy", "logPolicy");

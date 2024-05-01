@@ -9,68 +9,25 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
+  FunctionModel as FunctionModelMapper,
+  FunctionRetrieveDefaultDefinitionParameters as FunctionRetrieveDefaultDefinitionParametersMapper,
+  Input as InputMapper,
+  Output as OutputMapper,
   StreamingJob as StreamingJobMapper,
   StartStreamingJobParameters as StartStreamingJobParametersMapper,
   ScaleStreamingJobParameters as ScaleStreamingJobParametersMapper,
-  Input as InputMapper,
-  Output as OutputMapper,
+  TestQuery as TestQueryMapper,
+  CompileQuery as CompileQueryMapper,
+  SampleInput as SampleInputMapper,
+  TestInput as TestInputMapper,
+  TestOutput as TestOutputMapper,
   Transformation as TransformationMapper,
-  FunctionModel as FunctionModelMapper,
-  FunctionRetrieveDefaultDefinitionParameters as FunctionRetrieveDefaultDefinitionParametersMapper,
   Cluster as ClusterMapper,
-  PrivateEndpoint as PrivateEndpointMapper
+  PrivateEndpoint as PrivateEndpointMapper,
 } from "../models/mappers";
-
-export const accept: OperationParameter = {
-  parameterPath: "accept",
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Accept",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const $host: OperationURLParameter = {
-  parameterPath: "$host",
-  mapper: {
-    serializedName: "$host",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2020-03-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
@@ -79,14 +36,38 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const streamingJob: OperationParameter = {
-  parameterPath: "streamingJob",
-  mapper: StreamingJobMapper
+export const functionParam: OperationParameter = {
+  parameterPath: "functionParam",
+  mapper: FunctionModelMapper,
+};
+
+export const accept: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const $host: OperationURLParameter = {
+  parameterPath: "$host",
+  mapper: {
+    serializedName: "$host",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
 };
 
 export const ifMatch: OperationParameter = {
@@ -94,9 +75,9 @@ export const ifMatch: OperationParameter = {
   mapper: {
     serializedName: "If-Match",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const ifNoneMatch: OperationParameter = {
@@ -104,23 +85,35 @@ export const ifNoneMatch: OperationParameter = {
   mapper: {
     serializedName: "If-None-Match",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2021-10-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -129,14 +122,14 @@ export const resourceGroupName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const jobName: OperationURLParameter = {
@@ -145,102 +138,9 @@ export const jobName: OperationURLParameter = {
     serializedName: "jobName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const expand: OperationQueryParameter = {
-  parameterPath: ["options", "expand"],
-  mapper: {
-    serializedName: "$expand",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const startJobParameters: OperationParameter = {
-  parameterPath: ["options", "startJobParameters"],
-  mapper: StartStreamingJobParametersMapper
-};
-
-export const scaleJobParameters: OperationParameter = {
-  parameterPath: ["options", "scaleJobParameters"],
-  mapper: ScaleStreamingJobParametersMapper
-};
-
-export const input: OperationParameter = {
-  parameterPath: "input",
-  mapper: InputMapper
-};
-
-export const inputName: OperationURLParameter = {
-  parameterPath: "inputName",
-  mapper: {
-    serializedName: "inputName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const select: OperationQueryParameter = {
-  parameterPath: ["options", "select"],
-  mapper: {
-    serializedName: "$select",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const input1: OperationParameter = {
-  parameterPath: ["options", "input"],
-  mapper: InputMapper
-};
-
-export const output: OperationParameter = {
-  parameterPath: "output",
-  mapper: OutputMapper
-};
-
-export const outputName: OperationURLParameter = {
-  parameterPath: "outputName",
-  mapper: {
-    serializedName: "outputName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const output1: OperationParameter = {
-  parameterPath: ["options", "output"],
-  mapper: OutputMapper
-};
-
-export const transformation: OperationParameter = {
-  parameterPath: "transformation",
-  mapper: TransformationMapper
-};
-
-export const transformationName: OperationURLParameter = {
-  parameterPath: "transformationName",
-  mapper: {
-    serializedName: "transformationName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const functionParam: OperationParameter = {
-  parameterPath: "functionParam",
-  mapper: FunctionModelMapper
+      name: "String",
+    },
+  },
 };
 
 export const functionName: OperationURLParameter = {
@@ -249,19 +149,108 @@ export const functionName: OperationURLParameter = {
     serializedName: "functionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const select: OperationQueryParameter = {
+  parameterPath: ["options", "select"],
+  mapper: {
+    serializedName: "$select",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const functionParam1: OperationParameter = {
   parameterPath: ["options", "function"],
-  mapper: FunctionModelMapper
+  mapper: FunctionModelMapper,
 };
 
 export const functionRetrieveDefaultDefinitionParameters: OperationParameter = {
   parameterPath: ["options", "functionRetrieveDefaultDefinitionParameters"],
-  mapper: FunctionRetrieveDefaultDefinitionParametersMapper
+  mapper: FunctionRetrieveDefaultDefinitionParametersMapper,
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
+};
+
+export const input: OperationParameter = {
+  parameterPath: "input",
+  mapper: InputMapper,
+};
+
+export const inputName: OperationURLParameter = {
+  parameterPath: "inputName",
+  mapper: {
+    serializedName: "inputName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const input1: OperationParameter = {
+  parameterPath: ["options", "input"],
+  mapper: InputMapper,
+};
+
+export const output: OperationParameter = {
+  parameterPath: "output",
+  mapper: OutputMapper,
+};
+
+export const outputName: OperationURLParameter = {
+  parameterPath: "outputName",
+  mapper: {
+    serializedName: "outputName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const output1: OperationParameter = {
+  parameterPath: ["options", "output"],
+  mapper: OutputMapper,
+};
+
+export const streamingJob: OperationParameter = {
+  parameterPath: "streamingJob",
+  mapper: StreamingJobMapper,
+};
+
+export const expand: OperationQueryParameter = {
+  parameterPath: ["options", "expand"],
+  mapper: {
+    serializedName: "$expand",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const startJobParameters: OperationParameter = {
+  parameterPath: ["options", "startJobParameters"],
+  mapper: StartStreamingJobParametersMapper,
+};
+
+export const scaleJobParameters: OperationParameter = {
+  parameterPath: ["options", "scaleJobParameters"],
+  mapper: ScaleStreamingJobParametersMapper,
 };
 
 export const location: OperationURLParameter = {
@@ -270,14 +259,55 @@ export const location: OperationURLParameter = {
     serializedName: "location",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const testQuery: OperationParameter = {
+  parameterPath: "testQuery",
+  mapper: TestQueryMapper,
+};
+
+export const compileQuery: OperationParameter = {
+  parameterPath: "compileQuery",
+  mapper: CompileQueryMapper,
+};
+
+export const sampleInput: OperationParameter = {
+  parameterPath: "sampleInput",
+  mapper: SampleInputMapper,
+};
+
+export const testInput: OperationParameter = {
+  parameterPath: "testInput",
+  mapper: TestInputMapper,
+};
+
+export const testOutput: OperationParameter = {
+  parameterPath: "testOutput",
+  mapper: TestOutputMapper,
+};
+
+export const transformation: OperationParameter = {
+  parameterPath: "transformation",
+  mapper: TransformationMapper,
+};
+
+export const transformationName: OperationURLParameter = {
+  parameterPath: "transformationName",
+  mapper: {
+    serializedName: "transformationName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const cluster: OperationParameter = {
   parameterPath: "cluster",
-  mapper: ClusterMapper
+  mapper: ClusterMapper,
 };
 
 export const clusterName: OperationURLParameter = {
@@ -286,14 +316,26 @@ export const clusterName: OperationURLParameter = {
     serializedName: "clusterName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const apiVersion1: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2020-03-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const privateEndpoint: OperationParameter = {
   parameterPath: "privateEndpoint",
-  mapper: PrivateEndpointMapper
+  mapper: PrivateEndpointMapper,
 };
 
 export const privateEndpointName: OperationURLParameter = {
@@ -302,7 +344,7 @@ export const privateEndpointName: OperationURLParameter = {
     serializedName: "privateEndpointName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };

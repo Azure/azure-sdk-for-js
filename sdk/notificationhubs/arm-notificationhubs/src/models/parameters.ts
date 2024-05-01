@@ -9,65 +9,18 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   CheckAvailabilityParameters as CheckAvailabilityParametersMapper,
-  NamespaceCreateOrUpdateParameters as NamespaceCreateOrUpdateParametersMapper,
+  NotificationHubResource as NotificationHubResourceMapper,
+  NotificationHubPatchParameters as NotificationHubPatchParametersMapper,
+  SharedAccessAuthorizationRuleResource as SharedAccessAuthorizationRuleResourceMapper,
+  PolicyKeyResource as PolicyKeyResourceMapper,
+  NamespaceResource as NamespaceResourceMapper,
   NamespacePatchParameters as NamespacePatchParametersMapper,
-  SharedAccessAuthorizationRuleCreateOrUpdateParameters as SharedAccessAuthorizationRuleCreateOrUpdateParametersMapper,
-  PolicykeyResource as PolicykeyResourceMapper,
-  NotificationHubCreateOrUpdateParameters as NotificationHubCreateOrUpdateParametersMapper,
-  NotificationHubPatchParameters as NotificationHubPatchParametersMapper
+  PrivateEndpointConnectionResource as PrivateEndpointConnectionResourceMapper,
 } from "../models/mappers";
-
-export const accept: OperationParameter = {
-  parameterPath: "accept",
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Accept",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const $host: OperationURLParameter = {
-  parameterPath: "$host",
-  mapper: {
-    serializedName: "$host",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2017-04-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
@@ -76,14 +29,38 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: CheckAvailabilityParametersMapper
+  mapper: CheckAvailabilityParametersMapper,
+};
+
+export const accept: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const $host: OperationURLParameter = {
+  parameterPath: "$host",
+  mapper: {
+    serializedName: "$host",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -92,92 +69,180 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters1: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: NamespaceCreateOrUpdateParametersMapper
+      name: "Uuid",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+    },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const namespaceName: OperationURLParameter = {
   parameterPath: "namespaceName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z][a-zA-Z0-9-]*$"),
+      MaxLength: 50,
+      MinLength: 1,
+    },
     serializedName: "namespaceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const parameters2: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: NamespacePatchParametersMapper
-};
-
-export const parameters3: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: SharedAccessAuthorizationRuleCreateOrUpdateParametersMapper
-};
-
-export const authorizationRuleName: OperationURLParameter = {
-  parameterPath: "authorizationRuleName",
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
   mapper: {
-    serializedName: "authorizationRuleName",
-    required: true,
+    defaultValue: "2023-10-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters4: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: PolicykeyResourceMapper
-};
-
-export const parameters5: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: NotificationHubCreateOrUpdateParametersMapper
+      name: "String",
+    },
+  },
 };
 
 export const notificationHubName: OperationURLParameter = {
   parameterPath: "notificationHubName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z][a-zA-Z0-9-./_]*$"),
+      MaxLength: 265,
+      MinLength: 1,
+    },
     serializedName: "notificationHubName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const parameters1: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: NotificationHubResourceMapper,
+};
+
+export const parameters2: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: NotificationHubPatchParametersMapper,
+};
+
+export const skipToken: OperationQueryParameter = {
+  parameterPath: ["options", "skipToken"],
+  mapper: {
+    serializedName: "$skipToken",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const top: OperationQueryParameter = {
+  parameterPath: ["options", "top"],
+  mapper: {
+    defaultValue: 100,
+    serializedName: "$top",
+    type: {
+      name: "Number",
+    },
+  },
+};
+
+export const parameters3: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: SharedAccessAuthorizationRuleResourceMapper,
+};
+
+export const authorizationRuleName: OperationURLParameter = {
+  parameterPath: "authorizationRuleName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9!()*-._]+$"),
+      MaxLength: 256,
+      MinLength: 1,
+    },
+    serializedName: "authorizationRuleName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters4: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: PolicyKeyResourceMapper,
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
+};
+
+export const parameters5: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: NamespaceResourceMapper,
 };
 
 export const parameters6: OperationParameter = {
-  parameterPath: ["options", "parameters"],
-  mapper: NotificationHubPatchParametersMapper
+  parameterPath: "parameters",
+  mapper: NamespacePatchParametersMapper,
 };
 
 export const parameters7: OperationParameter = {
-  parameterPath: ["options", "parameters"],
+  parameterPath: "parameters",
+  mapper: PrivateEndpointConnectionResourceMapper,
+};
+
+export const privateEndpointConnectionName: OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
   mapper: {
-    serializedName: "parameters",
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z][a-zA-Z0-9-]*\\.[a-fA-F0-9\\-]+$"),
+      MaxLength: 87,
+      MinLength: 1,
+    },
+    serializedName: "privateEndpointConnectionName",
+    required: true,
     type: {
-      name: "Dictionary",
-      value: { type: { name: "any" } }
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const subResourceName: OperationURLParameter = {
+  parameterPath: "subResourceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^namespace$"),
+    },
+    serializedName: "subResourceName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };

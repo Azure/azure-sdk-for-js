@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   NewRelicMonitorResourceUpdate,
-  NewRelicObservability
+  NewRelicObservability,
 } from "@azure/arm-newrelicobservability";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,11 +21,12 @@ dotenv.config();
  * This sample demonstrates how to Update a NewRelicMonitorResource
  *
  * @summary Update a NewRelicMonitorResource
- * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2022-07-01/examples/Monitors_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/Monitors_Update_MaximumSet_Gen.json
  */
 async function monitorsUpdateMaximumSetGen() {
   const subscriptionId =
-    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "hfmjmpyqgezxkp";
+    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
     process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgNewRelic";
   const monitorName = "cdlymktqw";
@@ -36,23 +37,23 @@ async function monitorsUpdateMaximumSetGen() {
       accountInfo: {
         accountId: "xhqmg",
         ingestionKey: "wltnimmhqt",
-        region: "ljcf"
+        region: "ljcf",
       },
       organizationInfo: { organizationId: "k" },
       singleSignOnProperties: {
         enterpriseAppId: "kwiwfz",
         provisioningState: "Accepted",
         singleSignOnState: "Initial",
-        singleSignOnUrl: "kvseueuljsxmfwpqctz"
+        singleSignOnUrl: "kvseueuljsxmfwpqctz",
       },
-      userId: "vcscxlncofcuduadesd"
+      userId: "vcscxlncofcuduadesd",
     },
     orgCreationSource: "LIFTR",
     planData: {
       billingCycle: "YEARLY",
       effectiveDate: new Date("2022-12-05T14:11:37.786Z"),
       planDetails: "tbbiaga",
-      usageType: "PAYG"
+      usageType: "PAYG",
     },
     tags: { key164: "jqakdrrmmyzytqu" },
     userInfo: {
@@ -60,15 +61,15 @@ async function monitorsUpdateMaximumSetGen() {
       emailAddress: "%6%@4-g.N1.3F-kI1.Ue-.lJso",
       firstName: "vdftzcggirefejajwahhwhyibutramdaotvnuf",
       lastName: "bcsztgqovdlmzfkjdrngidwzqsevagexzzilnlc",
-      phoneNumber: "krf"
-    }
+      phoneNumber: "krf",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new NewRelicObservability(credential, subscriptionId);
   const result = await client.monitors.update(
     resourceGroupName,
     monitorName,
-    properties
+    properties,
   );
   console.log(result);
 }

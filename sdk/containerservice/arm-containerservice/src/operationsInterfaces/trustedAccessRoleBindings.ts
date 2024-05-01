@@ -16,7 +16,7 @@ import {
   TrustedAccessRoleBindingsCreateOrUpdateOptionalParams,
   TrustedAccessRoleBindingsCreateOrUpdateResponse,
   TrustedAccessRoleBindingsDeleteOptionalParams,
-  TrustedAccessRoleBindingsDeleteResponse
+  TrustedAccessRoleBindingsDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface TrustedAccessRoleBindings {
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: TrustedAccessRoleBindingsListOptionalParams
+    options?: TrustedAccessRoleBindingsListOptionalParams,
   ): PagedAsyncIterableIterator<TrustedAccessRoleBinding>;
   /**
    * Get a trusted access role binding.
@@ -44,7 +44,7 @@ export interface TrustedAccessRoleBindings {
     resourceGroupName: string,
     resourceName: string,
     trustedAccessRoleBindingName: string,
-    options?: TrustedAccessRoleBindingsGetOptionalParams
+    options?: TrustedAccessRoleBindingsGetOptionalParams,
   ): Promise<TrustedAccessRoleBindingsGetResponse>;
   /**
    * Create or update a trusted access role binding
@@ -59,7 +59,7 @@ export interface TrustedAccessRoleBindings {
     resourceName: string,
     trustedAccessRoleBindingName: string,
     trustedAccessRoleBinding: TrustedAccessRoleBinding,
-    options?: TrustedAccessRoleBindingsCreateOrUpdateOptionalParams
+    options?: TrustedAccessRoleBindingsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TrustedAccessRoleBindingsCreateOrUpdateResponse>,
@@ -79,7 +79,7 @@ export interface TrustedAccessRoleBindings {
     resourceName: string,
     trustedAccessRoleBindingName: string,
     trustedAccessRoleBinding: TrustedAccessRoleBinding,
-    options?: TrustedAccessRoleBindingsCreateOrUpdateOptionalParams
+    options?: TrustedAccessRoleBindingsCreateOrUpdateOptionalParams,
   ): Promise<TrustedAccessRoleBindingsCreateOrUpdateResponse>;
   /**
    * Delete a trusted access role binding.
@@ -92,7 +92,7 @@ export interface TrustedAccessRoleBindings {
     resourceGroupName: string,
     resourceName: string,
     trustedAccessRoleBindingName: string,
-    options?: TrustedAccessRoleBindingsDeleteOptionalParams
+    options?: TrustedAccessRoleBindingsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TrustedAccessRoleBindingsDeleteResponse>,
@@ -110,6 +110,6 @@ export interface TrustedAccessRoleBindings {
     resourceGroupName: string,
     resourceName: string,
     trustedAccessRoleBindingName: string,
-    options?: TrustedAccessRoleBindingsDeleteOptionalParams
+    options?: TrustedAccessRoleBindingsDeleteOptionalParams,
   ): Promise<TrustedAccessRoleBindingsDeleteResponse>;
 }

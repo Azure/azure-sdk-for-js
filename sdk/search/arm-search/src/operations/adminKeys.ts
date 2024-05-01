@@ -16,7 +16,7 @@ import {
   AdminKeysGetResponse,
   AdminKeyKind,
   AdminKeysRegenerateOptionalParams,
-  AdminKeysRegenerateResponse
+  AdminKeysRegenerateResponse,
 } from "../models";
 
 /** Class containing AdminKeys operations. */
@@ -32,21 +32,21 @@ export class AdminKeysImpl implements AdminKeys {
   }
 
   /**
-   * Gets the primary and secondary admin API keys for the specified Azure Cognitive Search service.
+   * Gets the primary and secondary admin API keys for the specified Azure AI Search service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     searchServiceName: string,
-    options?: AdminKeysGetOptionalParams
+    options?: AdminKeysGetOptionalParams,
   ): Promise<AdminKeysGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, searchServiceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -55,8 +55,8 @@ export class AdminKeysImpl implements AdminKeys {
    * time.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
    * @param keyKind Specifies which key to regenerate. Valid values include 'primary' and 'secondary'.
    * @param options The options parameters.
    */
@@ -64,11 +64,11 @@ export class AdminKeysImpl implements AdminKeys {
     resourceGroupName: string,
     searchServiceName: string,
     keyKind: AdminKeyKind,
-    options?: AdminKeysRegenerateOptionalParams
+    options?: AdminKeysRegenerateOptionalParams,
   ): Promise<AdminKeysRegenerateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, searchServiceName, keyKind, options },
-      regenerateOperationSpec
+      regenerateOperationSpec,
     );
   }
 }
@@ -76,38 +76,15 @@ export class AdminKeysImpl implements AdminKeys {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/listAdminKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/listAdminKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AdminKeyResult
+      bodyMapper: Mappers.AdminKeyResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.searchServiceName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept, Parameters.clientRequestId],
-  serializer
-};
-const regenerateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/regenerateAdminKey/{keyKind}",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AdminKeyResult
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -115,8 +92,29 @@ const regenerateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.searchServiceName,
     Parameters.subscriptionId,
-    Parameters.keyKind
   ],
   headerParameters: [Parameters.accept, Parameters.clientRequestId],
-  serializer
+  serializer,
+};
+const regenerateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/regenerateAdminKey/{keyKind}",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AdminKeyResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.searchServiceName,
+    Parameters.subscriptionId,
+    Parameters.keyKind,
+  ],
+  headerParameters: [Parameters.accept, Parameters.clientRequestId],
+  serializer,
 };

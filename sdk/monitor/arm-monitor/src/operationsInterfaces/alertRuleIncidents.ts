@@ -11,7 +11,7 @@ import {
   Incident,
   AlertRuleIncidentsListByAlertRuleOptionalParams,
   AlertRuleIncidentsGetOptionalParams,
-  AlertRuleIncidentsGetResponse
+  AlertRuleIncidentsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface AlertRuleIncidents {
   listByAlertRule(
     resourceGroupName: string,
     ruleName: string,
-    options?: AlertRuleIncidentsListByAlertRuleOptionalParams
+    options?: AlertRuleIncidentsListByAlertRuleOptionalParams,
   ): PagedAsyncIterableIterator<Incident>;
   /**
    * Gets an incident associated to an alert rule
@@ -39,6 +39,6 @@ export interface AlertRuleIncidents {
     resourceGroupName: string,
     ruleName: string,
     incidentName: string,
-    options?: AlertRuleIncidentsGetOptionalParams
+    options?: AlertRuleIncidentsGetOptionalParams,
   ): Promise<AlertRuleIncidentsGetResponse>;
 }

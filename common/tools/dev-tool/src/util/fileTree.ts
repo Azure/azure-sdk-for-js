@@ -2,9 +2,8 @@
 // Licensed under the MIT license.
 
 import fs from "fs-extra";
-import os from "os";
-import path from "path";
-
+import os from "node:os";
+import path from "node:path";
 import { createPrinter } from "./printer";
 import * as git from "./git";
 

@@ -9,8 +9,9 @@
 ## 4.0.1-beta.1 (2024-01-17)
   
 ### Features Added
+- Added Correlated Activity Id feature in JS SDK for better troubleshooting of queries. The correlated activity id is added in the request header for all types of queries on Items.
+- Added support for Vector embedding and Vector Indexes.
 - We have implemented support for Request Unit (RU) caps in Query operations. Clients can now seamlessly integrate RU caps into their fetch functions by specifying the desired cap within the operation options. If the specified RU cap is surpassed during the operation, clients will promptly receive an error notification, providing enhanced control and transparency over resource consumption.
-  
 
 ### Breaking Changes
 

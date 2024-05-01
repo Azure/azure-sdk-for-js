@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the details of an Azure Site Recovery fabric.
  *
  * @summary Gets the details of an Azure Site Recovery fabric.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationFabrics_Get.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationFabrics_Get.json
  */
 async function getsTheDetailsOfAnAsrFabric() {
   const subscriptionId =

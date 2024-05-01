@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   AvailableDelegation,
-  AvailableResourceGroupDelegationsListOptionalParams
+  AvailableResourceGroupDelegationsListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,6 +24,6 @@ export interface AvailableResourceGroupDelegations {
   list(
     location: string,
     resourceGroupName: string,
-    options?: AvailableResourceGroupDelegationsListOptionalParams
+    options?: AvailableResourceGroupDelegationsListOptionalParams,
   ): PagedAsyncIterableIterator<AvailableDelegation>;
 }

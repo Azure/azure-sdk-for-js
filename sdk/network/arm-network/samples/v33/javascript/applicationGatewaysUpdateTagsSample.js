@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates the specified application gateway tags.
  *
  * @summary Updates the specified application gateway tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/ApplicationGatewayUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/ApplicationGatewayUpdateTags.json
  */
 async function updateApplicationGatewayTags() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
